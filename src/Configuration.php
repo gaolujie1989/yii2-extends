@@ -6,6 +6,7 @@
 namespace lujie\configuration;
 
 
+use lujie\configuration\loaders\ArrayLoader;
 use lujie\configuration\loaders\ConfigLoaderInterface;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -31,7 +32,9 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @var ConfigLoaderInterface
      */
-    public $configLoader;
+    public $configLoader = [
+        'class' => ArrayLoader::class,
+    ];
 
     /**
      * @var array

@@ -179,16 +179,6 @@ class Configuration extends Component implements BootstrapInterface
 
     /**
      * @param null $configType
-     * @return string
-     * @inheritdoc
-     */
-    protected function getCacheKey($configType = null): string
-    {
-        return __CLASS__ . ($configType ?: 'ALL');
-    }
-
-    /**
-     * @param null $configType
      * @return array
      * @inheritdoc
      */
@@ -198,8 +188,9 @@ class Configuration extends Component implements BootstrapInterface
             return $this->sortConfig($this->filterConfig($this->configLoader->loadConfig($configType)));
         };
         if ($this->cache) {
+            $cacheKey =  __METHOD__ . ($configType ?: 'ALL');
             $dependency = new TagDependency(['tags' => $this->cacheTag]);
-            $this->cache->getOrSet($this->getCacheKey($configType), $callable, 0, $dependency);
+            $this->cache->getOrSet($cacheKey, $callable, 0, $dependency);
         } else {
             return call_user_func($callable);
         }

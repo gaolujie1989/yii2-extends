@@ -5,9 +5,8 @@
 
 namespace lujie\arhistory\models;
 
-use lujie\core\behaviors\ArrayAttribute;
+
 use lujie\core\db\ActiveRecord;
-use Yii;
 
 /**
  * This is the model class for table "{{%history}}".
@@ -17,7 +16,7 @@ use Yii;
  * @property string $table_name
  * @property integer $row_id
  * @property integer $custom_id
- * @property string $custom_data
+ * @property array $custom_data
  * @property integer $created_at
  * @property integer $created_by
  *
@@ -46,9 +45,10 @@ class History extends ActiveRecord
         return [
             static::SCENARIO_DEFAULT => [
                 [['custom_id'], 'default', 'value' => 0],
-                [['event', 'table_name', 'row_id', 'custom_data'], 'required'],
+                [['event', 'table_name', 'row_id'], 'required'],
                 [['event', 'row_id'], 'integer'],
                 [['table_name'], 'string', 'max' => 50],
+                [['custom_data'], 'safe']
             ],
             static::SCENARIO_SEARCH => [
                 [['custom_id', 'row_id'], 'safe'],
@@ -71,20 +71,6 @@ class History extends ActiveRecord
             'created_at' => 'Created At',
             'created_by' => 'Created By',
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), [
-            'json' => [
-                'class' => ArrayAttribute::class,
-                'attributes' => 'custom_data',
-                'stringValidator' => ['max' => '1023'],
-            ]
-        ]);
     }
 
     /**

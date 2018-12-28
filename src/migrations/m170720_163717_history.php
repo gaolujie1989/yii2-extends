@@ -21,7 +21,7 @@ class m170720_163717_history extends Migration
             'table_name' => $this->string(50)->notNull(),
             'row_id' => $this->integer()->notNull(),
             'custom_id' => $this->integer()->notNull()->defaultValue(0),
-            'custom_data' => $this->string(1023)->notNull()->defaultValue(''),
+            'custom_data' => $this->json(),
 
             'created_at' => $this->integer(11)->notNull(),
             'created_by' => $this->integer(11)->notNull(),

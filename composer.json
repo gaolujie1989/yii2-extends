@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-arhistory",
+  "description": "Active Record Change History",
+  "keywords": ["yii2", "ActiveRecord", "history"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-arhistory/issues",
+    "source": "https://gitee.com/code4dream/yii2-arhistory"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\arhistory\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-scheduling",
+  "description": "Yii2 scheduling",
+  "keywords": ["yii2", "scheduling"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-scheduling/issues",
+    "source": "https://gitee.com/code4dream/yii2-scheduling"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\scheduling\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

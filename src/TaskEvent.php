@@ -13,7 +13,7 @@ use yii\base\Event;
  *
  * @property Scheduler $sender
  *
- * @package wesb\scheduling\components
+ * @package lujie\scheduling\components
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class TaskEvent extends Event

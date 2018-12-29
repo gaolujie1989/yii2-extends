@@ -18,7 +18,7 @@ use yii\queue\Queue;
 
 /**
  * Class Scheduler
- * @package wesb\scheduling\components
+ * @package lujie\scheduling\components
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class Scheduler extends Component

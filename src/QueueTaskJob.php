@@ -16,7 +16,7 @@ use yii\queue\RetryableJobInterface;
 
 /**
  * Class QueueTaskJob
- * @package wesb\scheduling\components
+ * @package lujie\scheduling\components
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class QueueTaskJob extends BaseObject implements JobInterface, RetryableJobInterface, ErrorRetryJobInterface

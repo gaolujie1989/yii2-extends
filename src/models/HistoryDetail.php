@@ -6,7 +6,7 @@
 namespace lujie\arhistory\models;
 
 
-use lujie\core\db\ActiveRecord;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%history_detail}}".
@@ -17,7 +17,7 @@ use lujie\core\db\ActiveRecord;
  * @property string $old_value
  * @property string $new_value
  */
-class HistoryDetail extends ActiveRecord
+class HistoryDetail extends \lujie\core\db\ActiveRecord
 {
     const HISTORY_CLASS = History::class;
 
@@ -29,7 +29,7 @@ class HistoryDetail extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%article_history_detail}}';
+        return '{{%history_detail}}';
     }
 
     /**
@@ -103,7 +103,7 @@ class HistoryDetail extends ActiveRecord
         $query = static::find()->alias('d')->innerJoinWith(['history h'])
             ->andWhere([
                 'h.table_name' => $model::tableName(),
-                'h.row_id' => $model->getId(),
+                'h.row_id' => $model->getPrimaryKey(),
                 'd.field_name' => $fieldName,
             ])->orderBy(['h.created_at' => SORT_DESC]);
         return $query;
@@ -122,7 +122,7 @@ class HistoryDetail extends ActiveRecord
         if ($model) {
             $lastCreatedAtQuery->andWhere([
                 'table_name' => $model::tableName(),
-                'row_id' => $model->getId(),
+                'row_id' => $model->getPrimaryKey(),
             ]);
         }
 
@@ -138,7 +138,7 @@ class HistoryDetail extends ActiveRecord
         if ($model) {
             $query->andWhere([
                 'h.table_name' => $model::tableName(),
-                'h.row_id' => $model->getId(),
+                'h.row_id' => $model->getPrimaryKey(),
             ]);
         }
 

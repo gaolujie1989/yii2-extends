@@ -6,8 +6,6 @@
 namespace lujie\arhistory\models;
 
 
-use lujie\core\db\ActiveRecord;
-
 /**
  * This is the model class for table "{{%history}}".
  *
@@ -23,7 +21,7 @@ use lujie\core\db\ActiveRecord;
  * @package lujie\core\db
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class History extends ActiveRecord
+class History extends \lujie\core\db\ActiveRecord
 {
     const DETAIL_CLASS = HistoryDetail::class;
 
@@ -84,16 +82,6 @@ class History extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function fields()
-    {
-        return array_merge(parent::fields(), [
-            'created_at' => 'created_at'
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function extraFields()
     {
         return array_merge(parent::extraFields(), [
@@ -107,6 +95,7 @@ class History extends ActiveRecord
     public function searchQuery($query)
     {
         $query->andFilterWhere([
+            'table_name' => $this->table_name,
             'custom_id' => $this->custom_id,
             'row_id' => $this->row_id,
         ]);

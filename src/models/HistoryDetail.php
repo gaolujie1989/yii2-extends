@@ -19,7 +19,7 @@ use yii\db\ActiveRecord;
  */
 class HistoryDetail extends \lujie\core\db\ActiveRecord
 {
-    const HISTORY_CLASS = History::class;
+    const HISTORY_CLASS = DeletedData::class;
 
     public $tableName;
     public $rowId;
@@ -74,12 +74,12 @@ class HistoryDetail extends \lujie\core\db\ActiveRecord
     }
 
     /**
-     * @param \yii\db\ActiveQuery $query
+     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface
      * @inheritdoc
      */
-    public function searchQuery($query)
+    public function query()
     {
-        $query->andFilterWhere([
+        $query = static::find()->andFilterWhere([
             'history_id' => $this->history_id,
             'field_name' => $this->field_name,
         ]);
@@ -90,6 +90,7 @@ class HistoryDetail extends \lujie\core\db\ActiveRecord
                     'row_id' => $this->rowId,
                 ]);
         }
+        return $query;
     }
 
     /**
@@ -97,7 +98,7 @@ class HistoryDetail extends \lujie\core\db\ActiveRecord
      * @param null $limit
      * @inheritdoc
      */
-    public static function searchHistoryVersions(ActiveRecord $model, $fieldName)
+    public static function queryHistoryVersions(ActiveRecord $model, $fieldName)
     {
         /** @var \yii\db\ActiveQuery $query */
         $query = static::find()->alias('d')->innerJoinWith(['history h'])
@@ -114,7 +115,7 @@ class HistoryDetail extends \lujie\core\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      * @inheritdoc
      */
-    public static function searchLastVersion(ActiveRecord $model = null)
+    public static function queryLastVersion(ActiveRecord $model = null)
     {
         $lastCreatedAtQuery = static::find()->innerJoinWith(['history'])
             ->select(['table_name', 'row_id', 'field_name', 'MAX(created_at) AS max_created_at'])

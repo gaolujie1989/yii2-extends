@@ -90,16 +90,15 @@ class History extends \lujie\core\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface
      * @inheritdoc
      */
-    public function searchQuery($query)
+    public function query()
     {
-        $query->andFilterWhere([
+        return static::find()->andFilterWhere([
             'table_name' => $this->table_name,
             'custom_id' => $this->custom_id,
             'row_id' => $this->row_id,
         ]);
-
-        parent::searchQuery($query);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "name": "lujie/yii2-backupdelete",
+  "description": "Backup after delete",
+  "keywords": ["yii2", "backup", "delete"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-backupdelete/issues",
+    "source": "https://gitee.com/code4dream/yii2-backupdelete"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

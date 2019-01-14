@@ -190,7 +190,7 @@ class Configuration extends Component implements BootstrapInterface
         if ($this->cache) {
             $cacheKey =  __METHOD__ . ($configType ?: 'ALL');
             $dependency = new TagDependency(['tags' => $this->cacheTag]);
-            $this->cache->getOrSet($cacheKey, $callable, 0, $dependency);
+            return $this->cache->getOrSet($cacheKey, $callable, 0, $dependency);
         } else {
             return call_user_func($callable);
         }

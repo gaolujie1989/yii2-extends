@@ -64,7 +64,7 @@ abstract class FileLoader extends BaseObject implements ConfigLoaderInterface
         $configFiles = [];
         foreach ($this->codePools as $codePool) {
             $codePool = Yii::getAlias($codePool);
-            $files = glob("$codePool/*/{$this->configFolder}/{$fileName}.{$this->fileSuffix}");
+            $files = glob("$codePool/*/{$this->configFolder}/{$fileName}{$this->fileSuffix}");
             $configFiles = array_merge($configFiles, $files);
         }
         array_unique($configFiles);

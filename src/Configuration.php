@@ -185,7 +185,8 @@ class Configuration extends Component implements BootstrapInterface
     protected function getConfig($configType = null): array
     {
         $callable = function () use ($configType) {
-            return $this->sortConfig($this->filterConfig($this->configLoader->loadConfig($configType)));
+            $config = $this->sortConfig($this->filterConfig($this->configLoader->loadConfig($configType)));
+            return $configType ? $config[$configType] : $config;
         };
         if ($this->cache) {
             $cacheKey =  __METHOD__ . ($configType ?: 'ALL');

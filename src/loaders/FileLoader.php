@@ -50,8 +50,7 @@ abstract class FileLoader extends BaseObject implements ConfigLoaderInterface
     public function loadConfig($configType = null) : array
     {
         $fileName = ($configType && $this->configTypeFiles[$configType]) ? $this->configTypeFiles[$configType] : '*';
-        $configData = $this->getConfigData($fileName);
-        return $configType ? ($configData[$configType] ?? []) : $configData;
+        return $this->getConfigData($fileName);
     }
 
     /**

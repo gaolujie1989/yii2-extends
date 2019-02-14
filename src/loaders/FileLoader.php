@@ -39,6 +39,7 @@ abstract class FileLoader extends BaseObject implements ConfigLoaderInterface
     protected $configTypeFiles = [
         Configuration::CONFIG_TYPE_CLASS => 'classes',
         Configuration::CONFIG_TYPE_COMPONENT => 'components',
+        Configuration::CONFIG_TYPE_EVENT => 'events',
         Configuration::CONFIG_TYPE_MAIN => 'main',
     ];
 
@@ -49,7 +50,7 @@ abstract class FileLoader extends BaseObject implements ConfigLoaderInterface
      */
     public function loadConfig($configType = null) : array
     {
-        $fileName = ($configType && $this->configTypeFiles[$configType]) ? $this->configTypeFiles[$configType] : '*';
+        $fileName = ($configType && isset($this->configTypeFiles[$configType])) ? $this->configTypeFiles[$configType] : '*';
         return $this->getConfigData($fileName);
     }
 

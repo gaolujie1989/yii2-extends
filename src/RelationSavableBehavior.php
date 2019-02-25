@@ -249,6 +249,10 @@ class RelationSavableBehavior extends Behavior
 
     /**
      * @return bool
+     * @throws Exception
+     * @throws \yii\base\NotSupportedException
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
      */
     public function saveRelations()
     {

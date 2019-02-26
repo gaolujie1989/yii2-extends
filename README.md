@@ -1,4 +1,4 @@
-# yii2-actionlog
+# yii2-arhistory
 
 #### Introduction
-Log user actions
+ActiveRecord history

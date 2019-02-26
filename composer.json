@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-arversion",
+  "description": "Active Record Version Snapshoot",
+  "keywords": ["yii2", "ActiveRecord", "Snapshoot"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-arversion/issues",
+    "source": "https://gitee.com/code4dream/yii2-arversion"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\arhistory\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

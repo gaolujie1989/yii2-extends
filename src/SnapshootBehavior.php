@@ -7,6 +7,7 @@ namespace lujie\arsnapshoot;
 
 
 use yii\base\Behavior;
+use yii\base\ModelEvent;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 
@@ -20,6 +21,8 @@ use yii\db\Connection;
  */
 class SnapshootBehavior extends Behavior
 {
+    const EVENT_BEFORE_CREATE_SNAPSHOOT = 'beforeCreateSnapshoot';
+
     /**
      * @var BaseActiveRecord
      */
@@ -50,12 +53,18 @@ class SnapshootBehavior extends Behavior
     }
 
     /**
-     * @return BaseActiveRecord
+     * @return BaseActiveRecord|null
      * @throws \Throwable
      * @inheritdoc
      */
     public function createSnapshoot()
     {
+        $event = new ModelEvent();
+        $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $event);
+        if (!$event->isValid) {
+            return null;
+        }
+
 //        $currentSnapshoot = null;
 //        if ($this->snapshootIdAttribute && $this->owner->getAttribute($this->snapshootIdAttribute)) {
 //            $currentSnapshoot = $this->snapshootModelClass::findOne($this->owner->getAttribute($this->snapshootIdAttribute));

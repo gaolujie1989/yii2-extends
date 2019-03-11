@@ -51,17 +51,6 @@ class SnapshootBehavior extends Behavior
     public $createSnapshootOnDelete = true;
 
     /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        if (empty($this->snapshootModelClass)) {
-            $this->snapshootModelClass = get_class($this->owner) . 'Snapshoot';
-        }
-    }
-
-    /**
      * @return array
      * @inheritdoc
      */
@@ -84,6 +73,10 @@ class SnapshootBehavior extends Behavior
      */
     public function createSnapshoot()
     {
+        if (empty($this->snapshootModelClass)) {
+            $this->snapshootModelClass = get_class($this->owner) . 'Snapshoot';
+        }
+
         $event = new ModelEvent();
         $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $event);
         if (!$event->isValid) {

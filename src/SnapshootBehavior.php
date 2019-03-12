@@ -96,21 +96,11 @@ class SnapshootBehavior extends Behavior
             }
         }
 
-        $callable = function () {
-            /** @var BaseActiveRecord $snapshoot */
-            $snapshoot = new $this->snapshootModelClass();
-            $snapshoot->setAttributes($this->owner->getOldAttributes());
-            $snapshoot->save(false);
-            $this->owner->setAttribute($this->snapshootIdAttribute, $snapshoot->getPrimaryKey());
-            $this->owner->save(false);
-            return $snapshoot;
-        };
-        $db = $this->snapshootModelClass::getDb();
-        if ($db instanceof Connection) {
-            $snapshoot = $db->transaction($callable);
-        } else {
-            $snapshoot = call_user_func($callable);
-        }
+        /** @var BaseActiveRecord $snapshoot */
+        $snapshoot = new $this->snapshootModelClass();
+        $snapshoot->setAttributes($this->owner->getOldAttributes());
+        $snapshoot->save(false);
+        $this->owner->setAttribute($this->snapshootIdAttribute, $snapshoot->getPrimaryKey());
 
         $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, new Event());
         return $snapshoot;

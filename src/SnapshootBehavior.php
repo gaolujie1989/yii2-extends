@@ -11,6 +11,7 @@ use yii\base\Event;
 use yii\base\ModelEvent;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
+use yii\db\Exception;
 
 /**
  * Class VersionBehavior
@@ -58,16 +59,16 @@ class SnapshootBehavior extends Behavior
     {
         $events = parent::events();
         if ($this->createSnapshootOnUpdate) {
-            $events[BaseActiveRecord::EVENT_BEFORE_UPDATE] = [$this, 'createSnapshoot'];
+            $events[BaseActiveRecord::EVENT_AFTER_INSERT] = [$this, 'createSnapshoot'];
         }
         if ($this->createSnapshootOnDelete) {
-            $events[BaseActiveRecord::EVENT_BEFORE_DELETE] = [$this, 'createSnapshoot'];
+            $events[BaseActiveRecord::EVENT_AFTER_UPDATE] = [$this, 'createSnapshoot'];
         }
         return $events;
     }
 
     /**
-     * @return BaseActiveRecord|null
+     * @return bool|BaseActiveRecord|null
      * @throws \Throwable
      * @inheritdoc
      */
@@ -98,11 +99,25 @@ class SnapshootBehavior extends Behavior
 
         /** @var BaseActiveRecord $snapshoot */
         $snapshoot = new $this->snapshootModelClass();
-        $snapshoot->setAttributes($this->owner->getOldAttributes());
-        $snapshoot->save(false);
-        $this->owner->setAttribute($this->snapshootIdAttribute, $snapshoot->getPrimaryKey());
+        $snapshoot->setAttributes($this->owner->getAttributes());
+        $callable = function () use ($snapshoot) {
+            if ($snapshoot->save(false)) {
+                if ($this->owner->updateAttributes([$this->snapshootIdAttribute => $snapshoot->getPrimaryKey()])) {
+                    return true;
+                }
+                throw new Exception('Update snapshootID failed.');
+            }
+            return false;
+        };
+
+        $db = $this->snapshootModelClass::getDb();
+        if ($db instanceof Connection) {
+            $result = $db->transaction($callable);
+        } else {
+            $result = call_user_func($callable);
+        }
 
         $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, new Event());
-        return $snapshoot;
+        return $result ? $snapshoot : false;
     }
 }

@@ -2,4 +2,5 @@
 
 #### Introduction
 Yii2 statemachine
-Yii2 state machine
+For status validation, status scenario auto set, status magic method logic
+Log status transition

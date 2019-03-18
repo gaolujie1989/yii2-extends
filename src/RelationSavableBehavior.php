@@ -38,6 +38,12 @@ class RelationSavableBehavior extends Behavior
      * @var array [relationName => indexKey]
      */
     public $indexKeys = [];
+
+    /**
+     * @var array [relationName => scenariosMap]
+     */
+    public $scenarioMaps = [];
+
     /**
      * @var array [relationName => deleteMode]
      */
@@ -47,6 +53,9 @@ class RelationSavableBehavior extends Behavior
      */
     public $saveModes = [];
 
+    /**
+     * @var callable
+     */
     public $relationFilter;
 
     /**
@@ -153,7 +162,9 @@ class RelationSavableBehavior extends Behavior
                     $model = new $relation->modelClass();
                 }
 
-                $model->setScenario($owner->getScenario());
+                if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
+                    $model->setScenario($this->scenarioMaps[$name][$owner->getScenario()]);
+                }
                 if (!($value instanceof BaseActiveRecord)) {
                     $model->load($value, '');
                 }
@@ -181,7 +192,9 @@ class RelationSavableBehavior extends Behavior
                     if (empty($model)) {
                         $model = new $relation->modelClass();
                     }
-                    $model->setScenario($owner->getScenario());
+                    if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
+                        $model->setScenario($this->scenarioMaps[$name][$owner->getScenario()]);
+                    }
                     $model->load($data, '');
                 }
                 //just to access the validation
@@ -190,7 +203,9 @@ class RelationSavableBehavior extends Behavior
                         $model->$fk = 0;
                     }
                 }
-                $model->setScenario($owner->getScenario());
+                if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
+                    $model->setScenario($this->scenarioMaps[$name][$owner->getScenario()]);
+                }
                 $this->savedRelations[$name] = $model;
             }
         }

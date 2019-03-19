@@ -62,8 +62,12 @@ class StateMachineBehavior extends Behavior
 
     /**
      * [
-     *      'method1' => ['oldStatus', 'newStatus'],
+     *      'method1' => [
+     *          'oldStatus1' => 'newStatus1',
+     *          'oldStatus2' => 'newStatus2',
+     *      ],
      * ]
+     * set new status by current status
      * @var array
      */
     public $statusMethods = [];
@@ -192,17 +196,18 @@ class StateMachineBehavior extends Behavior
     public function __call($name, $params)
     {
         if (isset($this->statusMethods[$name])) {
-            [$oldStatus, $newStatus] = $this->statusMethods[$name];
             $currentStatus = $this->owner->getAttribute($this->statusAttribute);
-            if ($oldStatus !== $currentStatus) {
+            if (isset($this->statusMethods[$name][$currentStatus])) {
+                $newStatus = $this->statusMethods[$name][$currentStatus];
+                $this->owner->setAttribute($this->statusAttribute, $newStatus);
+                if (isset($params[0]) && is_array($params[0])) {
+                    $this->owner->setAttributes($params[0]);
+                }
+                return $this->owner->save();
+            } else {
                 $this->owner->addError($this->statusAttribute, $this->statusInvalidMessage);
                 return false;
             }
-            $this->owner->setAttribute($this->statusAttribute, $newStatus);
-            if (isset($params[0]) && is_array($params[0])) {
-                $this->owner->setAttributes($params[0]);
-            }
-            $this->owner->save();
         }
         parent::__call($name, $params);
     }

@@ -21,6 +21,4 @@ class StatusEvent extends ModelEvent
     public $oldStatus;
 
     public $newStatus;
-
-    public $isValid;
 }

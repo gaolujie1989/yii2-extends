@@ -51,6 +51,7 @@ class StatusTransitionBehavior extends Behavior
         $statusTransition->setAttributes([
             'oldStatus' => $event->oldStatus,
             'newStatus' => $event->newStatus,
+            'statusModel' => $event->sender,
         ]);
         $statusTransition->save();
     }

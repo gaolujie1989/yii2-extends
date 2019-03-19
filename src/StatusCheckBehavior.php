@@ -29,12 +29,24 @@ class StatusCheckBehavior extends Behavior
 
     /**
      * [
-     *      'method1' => ['status1', 'status2']
-     *      'method3' => ['status3']
+     *      'property1' => ['status1', 'status2']
+     *      'property2' => ['status3']
      * ]
      * @var array
      */
-    public $statusCheckMethods = [];
+    public $statusCheckProperty = [];
+
+    /**
+     * Override canSetProperty method to be able to detect the timestamp attributes
+     * @inheritdoc
+     */
+    public function canGetProperty($name, $checkVars = true)
+    {
+        if (isset($this->statusCheckProperty[$name])) {
+            return true;
+        }
+        return parent::canGetProperty($name, $checkVars);
+    }
 
     /**
      * @param string $name
@@ -43,10 +55,21 @@ class StatusCheckBehavior extends Behavior
      */
     public function hasMethod($name)
     {
-        if (isset($this->statusCheckMethods[$name])) {
-            return true;
+        if (substr($name, 0, 3) === 'get') {
+            $property = lcfirst(substr($name, 3));
+            if (isset($this->statusCheckMethods[$property])) {
+                return true;
+            }
         }
         return parent::hasMethod($name);
+    }
+
+    public function __get($name)
+    {
+        if (isset($this->statusCheckProperty[$name])) {
+            return in_array($this->owner->getAttribute($this->statusAttribute), $this->statusCheckProperty[$name]);
+        }
+        return parent::__get($name);
     }
 
     /**
@@ -57,8 +80,11 @@ class StatusCheckBehavior extends Behavior
      */
     public function __call($name, $params)
     {
-        if (isset($this->statusCheckMethods[$name])) {
-            return in_array($this->owner->getAttribute($this->statusAttribute), $this->statusCheckMethods[$name]);
+        if (substr($name, 0, 3) === 'get') {
+            $property = lcfirst(substr($name, 3));
+            if (isset($this->statusCheckMethods[$property])) {
+                return in_array($this->owner->getAttribute($this->statusAttribute), $this->statusCheckProperty[$property]);
+            }
         }
         parent::__call($name, $params);
     }

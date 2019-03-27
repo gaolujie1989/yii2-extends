@@ -15,7 +15,7 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\setting\\": "src" }
+    "psr-4": { "lujie\\statemachine\\": "src" }
   },
   "repositories": [
     {

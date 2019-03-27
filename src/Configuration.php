@@ -49,7 +49,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @var string
      */
-    public $cacheTag = 'configuration';
+    public $cacheTag = 'config';
 
     /**
      * @throws \yii\base\InvalidConfigException

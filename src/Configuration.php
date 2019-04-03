@@ -52,6 +52,11 @@ class Configuration extends Component implements BootstrapInterface
     public $cacheTag = 'config';
 
     /**
+     * @var string
+     */
+    public $cacheKeyPrefix = 'lujie:config:';
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -189,7 +194,7 @@ class Configuration extends Component implements BootstrapInterface
             return $configType ? ($config[$configType] ?? []) : $config;
         };
         if ($this->cache) {
-            $cacheKey =  __METHOD__ . ($configType ?: 'ALL');
+            $cacheKey =  $this->cacheKeyPrefix . ($configType ?: '');
             $dependency = new TagDependency(['tags' => $this->cacheTag]);
             return $this->cache->getOrSet($cacheKey, $callable, 0, $dependency);
         } else {

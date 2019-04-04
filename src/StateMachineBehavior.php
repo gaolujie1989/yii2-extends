@@ -154,6 +154,7 @@ class StateMachineBehavior extends Behavior
         $statusEvent->oldStatus = $event->changedAttributes[$this->statusAttribute];
         $statusEvent->newStatus = $this->owner->getAttribute($this->statusAttribute);
         $this->owner->trigger(self::EVENT_AFTER_CHANGE_STATUS, $statusEvent);
+        $this->initStatusScenario();
     }
 
 

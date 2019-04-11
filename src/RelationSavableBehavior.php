@@ -198,9 +198,9 @@ class RelationSavableBehavior extends Behavior
                     $model->load($data, '');
                 }
                 //just to access the validation
-                foreach ($relation->link as $fk => $pk) {
-                    if (!$model->$fk) {
-                        $model->$fk = 0;
+                foreach ($relation->link as $pk => $fk) {
+                    if (!$model->$pk && !in_array($pk, $model::primaryKey())) {
+                        $model->$pk = 0;
                     }
                 }
                 if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
@@ -288,15 +288,22 @@ class RelationSavableBehavior extends Behavior
             } else {
                 /** @var BaseActiveRecord $models */
                 foreach ($relation->link as $pk => $fk) {
-                    $models->$pk = $owner->$fk;
+                    if ($owner->$fk && !in_array($pk, $models::primaryKey())) {
+                        $models->$pk = $owner->$fk;
+                    }
                 }
                 if (!$models->save(false)) {
                     $owner->addError($name, $models->getErrors() ?: 'Unknown Error');
                 }
                 foreach ($relation->link as $pk => $fk) {
-                    $owner->$fk = $models->$pk;
+                    if (!in_array($pk, $owner::primaryKey())) {
+                        $owner->$fk = $models->$pk;
+                    }
                 }
-                $owner->updateAttributes($models->getAttributes(array_keys($relation->link)));
+                $changedAttributes = $owner->getDirtyAttributes();
+                if ($changedAttributes) {
+                    $owner->updateAttributes($changedAttributes);
+                }
             }
         }
 

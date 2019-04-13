@@ -136,7 +136,9 @@ class RelationSavableBehavior extends Behavior
         $relation = $owner->getRelation($name);
         /** @var BaseActiveRecord $model */
         $model = new $relation->modelClass();
-        if (!$indexKey) {
+        if ($indexKey) {
+            $data = ArrayHelper::index($data, $indexKey);
+        } else {
             //@TODO need to consider multi primary key
             $primaryKeys = $model->primaryKey();
             $indexKey = $primaryKeys[0];

@@ -15,7 +15,7 @@ use yii\httpclient\Client;
  * @package lujie\remote\user
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class RemoteClient extends BaseObject
+class RemoteUserClient extends BaseObject
 {
     /**
      * @var Client

@@ -33,8 +33,8 @@ class RemoteUser implements IdentityInterface
      */
     protected static function getUserData($token, $type = null)
     {
-        /** @var RemoteClient $client */
-        $client = Instance::ensure('userRemoteClient', RemoteClient::class);
+        /** @var RemoteUserClient $client */
+        $client = Instance::ensure('userRemoteClient', RemoteUserClient::class);
         $client->getUserByAccessToken($token, $type);
     }
 
@@ -42,7 +42,7 @@ class RemoteUser implements IdentityInterface
      * @return CacheInterface
      * @inheritdoc
      */
-    protected static function getCache()
+    public static function getCache()
     {
         return Yii::$app->getCache();
     }
@@ -52,12 +52,12 @@ class RemoteUser implements IdentityInterface
      * @return string
      * @inheritdoc
      */
-    protected static function getCacheKey($key)
+    public static function getCacheKey($key)
     {
         return static::CACHE_KEY_PREFIX . $key;
     }
 
-    /**
+        /**
      * @param int|string $id
      * @return RemoteUser|IdentityInterface|null
      * @inheritdoc

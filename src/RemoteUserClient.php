@@ -24,7 +24,9 @@ class RemoteUserClient extends BaseObject
 
     public $baseUrl;
 
-    public $tokenUserUrl = 'user/{token}';
+    public $tokenUserUrl = 'user/info';
+
+    public $tokenHeader = 'Access-Token';
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -46,7 +48,11 @@ class RemoteUserClient extends BaseObject
     public function getUserByAccessToken($token, $type = null)
     {
         $tokenUserUrl = strtr($this->tokenUserUrl, ['{token}' => $token, '{type}' => $type]);
-        $response = $this->client->get($tokenUserUrl)->send();
+        $request = $this->client->get($tokenUserUrl);
+        if ($this->tokenHeader) {
+            $request->addHeaders([$this->tokenHeader => $token]);
+        }
+        $response = $request->send();
         return $response->getData();
     }
 }

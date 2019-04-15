@@ -53,6 +53,9 @@ class RemoteUserClient extends BaseObject
             $request->addHeaders([$this->tokenHeader => $token]);
         }
         $response = $request->send();
-        return $response->getData();
+        if ($response->getIsOk()) {
+            return $response->getData();
+        }
+        return null;
     }
 }

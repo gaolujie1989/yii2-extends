@@ -27,6 +27,7 @@ class RemoteUser implements IdentityInterface
     /**
      * @param $token
      * @param null $type
+     * @return array|mixed
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
@@ -35,7 +36,7 @@ class RemoteUser implements IdentityInterface
     {
         /** @var RemoteUserClient $client */
         $client = Instance::ensure('remoteUserClient', RemoteUserClient::class);
-        $client->getUserByAccessToken($token, $type);
+        return $client->getUserByAccessToken($token, $type);
     }
 
     /**
@@ -90,7 +91,7 @@ class RemoteUser implements IdentityInterface
             return $userData;
         }, static::CACHE_DURATION, new TagDependency(['tags' => static::CACHE_TAG]));
 
-        return $remoteUser;
+        return $remoteUser->data ? $remoteUser : null;
     }
 
     /**

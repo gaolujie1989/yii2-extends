@@ -28,6 +28,8 @@ class RemoteUserClient extends BaseObject
 
     public $tokenHeader = 'Access-Token';
 
+    public $dateKey = 'date';
+
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -54,7 +56,8 @@ class RemoteUserClient extends BaseObject
         }
         $response = $request->send();
         if ($response->getIsOk()) {
-            return $response->getData();
+            $data = $response->getData();
+            return $this->dateKey ? $data[$this->dateKey] ?? [] : $data;
         }
         return null;
     }

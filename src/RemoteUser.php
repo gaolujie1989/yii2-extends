@@ -34,7 +34,7 @@ class RemoteUser implements IdentityInterface
     protected static function getUserData($token, $type = null)
     {
         /** @var RemoteUserClient $client */
-        $client = Instance::ensure('userRemoteClient', RemoteUserClient::class);
+        $client = Instance::ensure('remoteUserClient', RemoteUserClient::class);
         $client->getUserByAccessToken($token, $type);
     }
 

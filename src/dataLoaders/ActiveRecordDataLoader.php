@@ -29,7 +29,7 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var array
      */
-    public $condition;
+    public $condition = [];
 
     /**
      * @param int|string $key

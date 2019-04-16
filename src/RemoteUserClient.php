@@ -24,9 +24,9 @@ class RemoteUserClient extends BaseObject
 
     public $baseUrl;
 
-    public $tokenUserUrl = 'user/info';
+    public $tokenUserUrl = 'users/info?access-token={token}';
 
-    public $tokenHeader = 'Access-Token';
+    public $tokenHeader;
 
     public $dateKey = 'date';
 

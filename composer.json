@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-data-loader",
+  "description": "External Data Loader",
+  "keywords": ["yii2", "data loader"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-data-loader/issues",
+    "source": "https://gitee.com/code4dream/yii2-data-loader"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\data\\loader\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

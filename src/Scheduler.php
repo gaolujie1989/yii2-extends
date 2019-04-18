@@ -9,6 +9,7 @@ use lujie\core\helpers\ComponentHelper;
 use lujie\data\loader\DataLoaderInterface;
 use Yii;
 use yii\base\Component;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -34,7 +35,7 @@ class Scheduler extends Component
 
     public $mutex = 'mutex';
 
-    public $mutexPrefix = '';
+    public $mutexPrefix = 'scheduler:';
 
     /**
      * @var DataLoaderInterface
@@ -74,6 +75,9 @@ class Scheduler extends Component
     public function getTask($taskCode) : TaskInterface
     {
         $task = $this->taskLoader->loadByKey($taskCode);
+        if (empty($task)) {
+            throw new InvalidArgumentException("Task code {$taskCode} not found.");
+        }
         if (!($task instanceof TaskInterface)) {
             $task = new CronTask(['data' => ArrayHelper::toArray($task)]);
         }

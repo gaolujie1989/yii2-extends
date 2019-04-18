@@ -25,6 +25,21 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
      */
     public $data = [];
 
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        if (empty($this->data['taskCode'])) {
+            throw new InvalidConfigException('Task code must be set');
+        }
+        if (empty($this->data['expression'])) {
+            throw new InvalidConfigException('Task cron express must be set');
+        }
+    }
+
     #region TaskInterface
 
     public function getTaskCode()

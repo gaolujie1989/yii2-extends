@@ -8,6 +8,7 @@ namespace lujie\scheduling;
 
 use yii\console\Controller;
 use yii\di\Instance;
+use yii\helpers\VarDumper;
 
 /**
  * Class SchedulerCommand
@@ -19,7 +20,7 @@ class SchedulerCommand extends Controller
     /**
      * @var Scheduler
      */
-    public $scheduler;
+    public $scheduler = 'scheduler';
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -31,5 +32,33 @@ class SchedulerCommand extends Controller
         $this->scheduler = Instance::ensure($this->scheduler, Scheduler::class);
     }
 
+    /**
+     * @return mixed|void
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function actionRun()
+    {
+        $this->scheduler->run();
+    }
 
+    /**
+     * @param $taskCode
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function actionExecute($taskCode)
+    {
+        $task = $this->scheduler->getTask($taskCode);
+        $this->scheduler->executeTask($task);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actionTasks()
+    {
+        $tasks = $this->scheduler->getTasks();
+        VarDumper::dump($tasks);
+    }
 }

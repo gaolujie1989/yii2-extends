@@ -5,7 +5,7 @@
 
 namespace lujie\scheduling;
 
-
+use Yii;
 use yii\console\Controller;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
@@ -30,6 +30,28 @@ class SchedulerCommand extends Controller
     {
         parent::init();
         $this->scheduler = Instance::ensure($this->scheduler, Scheduler::class);
+    }
+
+    /**
+     * @return mixed|void
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function actionRunAways()
+    {
+        while (true) {
+            if (strval(date('s')) < 5) {
+                try {
+                    $this->scheduler->run();
+                } catch (\Throwable $e) {
+                    Yii::error($e, __METHOD__);
+                } finally {
+                    sleep(5);
+                }
+            } else {
+                sleep(1);
+            }
+        }
     }
 
     /**

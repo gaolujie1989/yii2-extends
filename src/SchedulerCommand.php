@@ -37,7 +37,7 @@ class SchedulerCommand extends Controller
      * @throws \Throwable
      * @inheritdoc
      */
-    public function actionRunAways()
+    public function actionRunAlways()
     {
         while (true) {
             if (strval(date('s')) < 5) {

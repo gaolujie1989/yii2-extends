@@ -11,6 +11,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
 
@@ -59,7 +60,7 @@ class Scheduler extends Component
         $tasks = $this->taskLoader->loadAll();
         foreach ($tasks as $key => $task) {
             if (!($task instanceof TaskInterface)) {
-                $tasks[$key] = new CronTask(['data' => $task]);
+                $tasks[$key] = new CronTask(['data' => ArrayHelper::toArray($task)]);
             }
         }
         return $tasks;
@@ -74,7 +75,7 @@ class Scheduler extends Component
     {
         $task = $this->taskLoader->loadByKey($taskCode);
         if (!($task instanceof TaskInterface)) {
-            $task = new CronTask(['data' => $task]);
+            $task = new CronTask(['data' => ArrayHelper::toArray($task)]);
         }
         return $task;
     }

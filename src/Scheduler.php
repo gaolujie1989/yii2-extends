@@ -5,10 +5,8 @@
 
 namespace lujie\scheduling;
 
-
-use Jenner\SimpleFork\FixedPool;
-use Jenner\SimpleFork\Process;
-use Workerman\Connection\AsyncTcpConnection;
+use lujie\core\helpers\ComponentHelper;
+use lujie\data\loader\DataLoaderInterface;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -28,11 +26,29 @@ class Scheduler extends Component
     const EVENT_AFTER_ERROR = 'afterError';
     const EVENT_AFTER_SKIP = 'afterSkip';
 
-    protected $tasks;
-
+    /**
+     * @var string
+     */
     public $queue = 'queue';
 
     public $mutex = 'mutex';
+
+    public $mutexPrefix = '';
+
+    /**
+     * @var DataLoaderInterface
+     */
+    public $taskLoader;
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->taskLoader = Instance::ensure($this->taskLoader, DataLoaderInterface::class);
+    }
 
     /**
      * @return TaskInterface[]
@@ -40,7 +56,13 @@ class Scheduler extends Component
      */
     public function getTasks()
     {
-        return $this->tasks;
+        $tasks = $this->taskLoader->loadAll();
+        foreach ($tasks as $key => $task) {
+            if (!($task instanceof TaskInterface)) {
+                $tasks[$key] = new CronTask(['data' => $task]);
+            }
+        }
+        return $tasks;
     }
 
     /**
@@ -48,28 +70,40 @@ class Scheduler extends Component
      * @return TaskInterface
      * @inheritdoc
      */
-    public function getTask($taskCode)
+    public function getTask($taskCode) : TaskInterface
     {
-        $tasks = $this->getTasks();
-        return $tasks[$taskCode];
+        $task = $this->taskLoader->loadByKey($taskCode);
+        if (!($task instanceof TaskInterface)) {
+            $task = new CronTask(['data' => $task]);
+        }
+        return $task;
     }
 
     /**
+     * @return TaskInterface[]
+     * @inheritdoc
+     */
+    public function getDueTasks()
+    {
+        $dueTasks = [];
+        foreach ($this->getTasks() as $task) {
+            if ($task->isDue()) {
+                $dueTasks[] = $task;
+            }
+        }
+        return $dueTasks;
+    }
+
+    /**
+     * @throws \Throwable
      * @inheritdoc
      */
     public function run()
     {
-        /** @var TaskInterface[] $dueTasks */
-        $dueTasks = array_filter($this->getTasks(), function ($task) {
-            /** @var TaskInterface $task */
-            return $task->isDue();
-        });
-
-        $pool = new FixedPool(20);
+        $dueTasks = $this->getDueTasks();
         foreach ($dueTasks as $task) {
-            $this->handleTask($task, $pool);
+            $this->handleTask($task);
         }
-        $pool->wait(true, 1000000);
     }
 
     /**
@@ -78,44 +112,39 @@ class Scheduler extends Component
      * @throws \Throwable
      * @inheritdoc
      */
-    public function handleTask(TaskInterface $task, $pool = null)
+    public function handleTask(TaskInterface $task)
     {
-        $pool = $pool ?: new FixedPool(20);
-        if ($task instanceof QueueTaskInterface && $task->shouldQueue()) {
-            /** @var Queue $queue */
-            $queue = Instance::ensure($task->getQueue() ?: $this->queue);
-            $job = new QueueTaskJob([
-                'scheduler' => $this->getName(),
-                'taskCode' => $task->getTaskCode(),
-            ]);
-            if ($task->getTtr()) {
-                $job->ttr = $task->getTtr();
-            }
-            if ($task->getAttempts()) {
-                $job->attempts = $task->getAttempts();
-            }
-            $queue->push($job);
-            Yii::info("Push task {$task->getTaskCode()} to queue", __METHOD__);
-        } else if ($task instanceof AsyncTaskInterface && $task->shouldAsync()) { //only for workerman
-            $taskConnection = new AsyncTcpConnection($task->getAsyncAddress());
-            $data = [[$this, 'executeTask'], [$task]];
-            $taskConnection->send(serialize($data));
-            $taskConnection->onMessage = function ($conn) {
-                $conn->close();
-            };
-            $taskConnection->connect();
-            Yii::info("Send async task {$task->getTaskCode()}", __METHOD__);
-        } else if ($task instanceof ForkTaskInterface && $task->shouldFork() && strpos(PHP_SAPI, 'cli') !== false) {
-            $processName = 'Scheduler execute ' . $task->getTaskCode();
-            $process = new Process(function () use ($task) {
-                $this->executeTask($task);
-            }, $processName);
-            $pool->execute($process);
-            Yii::info("Fork to execute task {$task->getTaskCode()}", __METHOD__);
+        if ($task instanceof QueuedTaskInterface && $task->shouldQueued()) {
+            $this->handleQueuedTask($task);
         } else {
             $this->executeTask($task);
-            Yii::info("Execute task {$task->getTaskCode()}", __METHOD__);
         }
+    }
+
+    /**
+     * @param TaskInterface|QueuedTaskInterface $task
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    private function handleQueuedTask(QueuedTaskInterface $task)
+    {
+        /** @var Queue $queue */
+        $queue = Instance::ensure($task->getQueue() ?: $this->queue);
+        $job = new QueuedTaskJob([
+            'scheduler' => ComponentHelper::getName($this),
+            'taskCode' => $task->getTaskCode(),
+        ]);
+        if ($task->getTtr()) {
+            $job->ttr = $task->getTtr();
+        }
+        if ($task->getAttempts()) {
+            $job->attempts = $task->getAttempts();
+        }
+        $jobId = $queue->push($job);
+
+        $queueName = ComponentHelper::getName($queue);
+        Yii::info("Push task {$task->getTaskCode()} to {$queueName}", __METHOD__);
+        return $jobId;
     }
 
     /**
@@ -127,7 +156,8 @@ class Scheduler extends Component
     {
         $event = new TaskEvent(['task' => $task]);
         $taskCode = $task->getTaskCode();
-        $mutexName = __METHOD__ . $taskCode;
+        $mutexName = ($this->mutexPrefix ?: ComponentHelper::getName($this)) . $taskCode;
+
         if ($task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping()) {
             /** @var Mutex $mutex */
             $mutex = Instance::ensure($task->getMutex() ?: $this->mutex);
@@ -138,19 +168,22 @@ class Scheduler extends Component
             }
         }
 
-        $this->trigger(self::EVENT_BEFORE_EXEC, $event);
-        if ($event->executed) {
-            Yii::info("Task {$taskCode} executed in events, skip.", __METHOD__);
-            $this->trigger(self::EVENT_AFTER_SKIP, $event);
-            return;
-        }
-
         try {
+            $this->trigger(self::EVENT_BEFORE_EXEC, $event);
+            if ($event->executed) {
+                Yii::info("Task {$taskCode} executed in events, skip.", __METHOD__);
+                $this->trigger(self::EVENT_AFTER_SKIP, $event);
+                return;
+            }
+
             $task->execute();
             Yii::info("Task {$taskCode} executed success.", __METHOD__);
+
+            $this->trigger(self::EVENT_AFTER_EXEC, $event);
         } catch (\Throwable $e) {
             Yii::info("Task {$taskCode} executed failed.", __METHOD__);
             Yii::error($e, __METHOD__);
+
             $errorEvent = new TaskErrorEvent(['task' => $task, 'error' => $e]);
             $this->trigger(self::EVENT_AFTER_ERROR, $errorEvent);
 
@@ -160,21 +193,5 @@ class Scheduler extends Component
                 $mutex->release($mutexName);
             }
         }
-        $this->trigger(self::EVENT_AFTER_EXEC, $event);
-    }
-
-    /**
-     * @return int|string
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function getName()
-    {
-        foreach (Yii::$app->getComponents(false) as $id => $component) {
-            if ($component === $this) {
-                return $id;
-            }
-        }
-        throw new InvalidConfigException('Scheduler must be an application component.');
     }
 }

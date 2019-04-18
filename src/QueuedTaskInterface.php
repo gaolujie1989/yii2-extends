@@ -8,13 +8,13 @@ namespace lujie\scheduling;
 
 use yii\queue\Queue;
 
-interface QueueTaskInterface
+interface QueuedTaskInterface
 {
     /**
      * @return bool
      * @inheritdoc
      */
-    public function shouldQueue();
+    public function shouldQueued();
 
     /**
      * @return Queue

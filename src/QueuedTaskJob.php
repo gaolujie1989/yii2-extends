@@ -5,8 +5,6 @@
 
 namespace lujie\scheduling;
 
-
-use lujie\core\queue\retry\ErrorRetryJobInterface;
 use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
@@ -19,7 +17,7 @@ use yii\queue\RetryableJobInterface;
  * @package lujie\scheduling\components
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class QueueTaskJob extends BaseObject implements JobInterface, RetryableJobInterface, ErrorRetryJobInterface
+class QueuedTaskJob extends BaseObject implements JobInterface, RetryableJobInterface
 {
     /**
      * @var Scheduler
@@ -35,18 +33,21 @@ class QueueTaskJob extends BaseObject implements JobInterface, RetryableJobInter
 
     public $attempts = 3;
 
-    public $attemptDelay = 5;
-
+    /**
+     * @param Queue $queue
+     * @throws \Throwable
+     * @inheritdoc
+     */
     public function execute($queue)
     {
         try {
             $this->scheduler = Instance::ensure($this->scheduler);
             $task = $this->scheduler->getTask($this->taskCode);
             $this->scheduler->executeTask($task);
-            Yii::info("Queue task job {$this->taskCode} execute success.", __METHOD__);
+            Yii::info("Queued task job {$this->taskCode} executed success.", __METHOD__);
         } catch (\Throwable $e) {
-            Yii::info("Queue task job {$this->taskCode} execute failed.", __METHOD__);
-            Yii::error(strval($e), __METHOD__);
+            Yii::info("Queued task {$this->taskCode} executed failed. message: {$e->getMessage()}", __METHOD__);
+            Yii::error($e, __METHOD__);
             throw $e;
         }
     }
@@ -59,10 +60,5 @@ class QueueTaskJob extends BaseObject implements JobInterface, RetryableJobInter
     public function canRetry($attempt, $error)
     {
         return $attempt < $this->attempts;
-    }
-
-    public function getAttemptDelay($attempt)
-    {
-        return $this->attemptDelay * $attempt;
     }
 }

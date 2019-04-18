@@ -51,7 +51,7 @@ class ModelInstanceLoader extends BaseObject implements DataLoaderInterface
     public function loadByKey($key)
     {
         $item = $this->dataLoader->loadByKey($key);
-        return Yii::createObject(array_merge($this->modelConfig, $item));
+        return $item ? Yii::createObject(array_merge($this->modelConfig, $item)) : null;
     }
 
     /**

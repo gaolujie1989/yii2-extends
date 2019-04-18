@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\configuration\dataLoaders;
+namespace lujie\data\loader;
 
 use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class ArrayLoader
- * @package lujie\configuration\dataLoaders
+ * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ArrayDataLoader extends BaseObject implements DataLoaderInterface

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\configuration\dataLoaders;
+namespace lujie\data\loader;
 
 
 class PhpArrayFileParser

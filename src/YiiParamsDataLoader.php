@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\configuration\dataLoaders;
+namespace lujie\data\loader;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class YiiParamsDataLoader
- * @package lujie\configuration\dataLoaders
+ * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class YiiParamsDataLoader extends ArrayDataLoader implements DataLoaderInterface

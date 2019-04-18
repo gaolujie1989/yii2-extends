@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\configuration\dataLoaders;
+namespace lujie\data\loader;
 
 use Yii;
 use yii\base\BaseObject;
@@ -12,7 +12,7 @@ use yii\di\Instance;
 
 /**
  * Class ModelInstanceLoader
- * @package lujie\configuration\dataLoaders
+ * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ModelInstanceLoader extends BaseObject implements DataLoaderInterface

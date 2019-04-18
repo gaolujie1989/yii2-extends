@@ -43,6 +43,12 @@ class SchedulerCommand extends Controller
             if (strval(date('s')) < 5) {
                 try {
                     $this->scheduler->run();
+
+                    $memoryUsage = memory_get_peak_usage(true) / 1024 / 1024; //MB
+                    $this->stdout("Memory usage {$memoryUsage} MB\n");
+                    if ($memoryUsage > 100) {
+                        break;
+                    }
                 } catch (\Throwable $e) {
                     Yii::error($e, __METHOD__);
                 } finally {

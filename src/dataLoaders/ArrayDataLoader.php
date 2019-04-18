@@ -5,8 +5,8 @@
 
 namespace lujie\configuration\dataLoaders;
 
-
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ArrayLoader
@@ -24,7 +24,7 @@ class ArrayDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function loadByKey($key)
     {
-        return $this->data[$key] ?? null;
+        return ArrayHelper::getValue($this->data, $key);
     }
 
     /**

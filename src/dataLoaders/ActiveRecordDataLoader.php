@@ -32,24 +32,33 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
     public $condition = [];
 
     /**
+     * @var bool
+     */
+    public $returnAsArray = false;
+
+    /**
      * @param int|string $key
      * @return array|BaseActiveRecord|null
      * @inheritdoc
      */
     public function loadByKey($key)
     {
-        return $this->modelClass::find()->andFilterWhere($this->condition)
+        return $this->modelClass::find()
+            ->andFilterWhere($this->condition)
             ->andWhere([$this->uniqueKey => $key])
+            ->asArray($this->returnAsArray)
             ->one();
     }
 
     /**
-     * @return array
+     * @return array|BaseActiveRecord[]
      * @inheritdoc
      */
     public function loadAll()
     {
-        return $this->modelClass::find()->andFilterWhere($this->condition)
+        return $this->modelClass::find()
+            ->andFilterWhere($this->condition)
+            ->asArray($this->returnAsArray)
             ->all();
     }
 }

@@ -47,6 +47,17 @@ class SchedulerCommand extends Controller
      * @throws \Throwable
      * @inheritdoc
      */
+    public function actionHandle($taskCode)
+    {
+        $task = $this->scheduler->getTask($taskCode);
+        $this->scheduler->handleTask($task);
+    }
+
+    /**
+     * @param $taskCode
+     * @throws \Throwable
+     * @inheritdoc
+     */
     public function actionExecute($taskCode)
     {
         $task = $this->scheduler->getTask($taskCode);

@@ -1,7 +1,7 @@
 {
   "name": "lujie/yii2-configuration",
   "description": "External configuration loader",
-  "keywords": ["yii2", "configuration", "config"],
+  "keywords": ["yii2", "configuration", "config", "loader"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {

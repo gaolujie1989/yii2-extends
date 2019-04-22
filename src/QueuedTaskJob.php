@@ -29,7 +29,7 @@ class QueuedTaskJob extends BaseObject implements JobInterface, RetryableJobInte
      */
     public $taskCode;
 
-    public $ttr = 300;
+    public $ttr = 3600;
 
     public $attempts = 3;
 

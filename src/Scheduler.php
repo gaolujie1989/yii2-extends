@@ -81,7 +81,7 @@ class Scheduler extends Component
         }
         if (!($task instanceof TaskInterface)) {
             $taskData = array_merge(ArrayHelper::toArray($task), ['taskCode' => $taskCode]);
-            $tasks[$taskCode] = new CronTask(['data' => $taskData]);
+            $task = new CronTask(['data' => $taskData]);
         }
         return $task;
     }

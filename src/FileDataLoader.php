@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileDataDataLoader extends ArrayDataLoader implements DataLoaderInterface
+class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
 {
     /**
      * @var array

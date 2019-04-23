@@ -46,7 +46,7 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
      */
     public function updateCount($workerPid, $success = true)
     {
-        $worker = $this->workerClass::findOne(['worker_pic' => $workerPid, 'finished_at' => 0]);
+        $worker = $this->workerClass::findOne(['pid' => $workerPid, 'finished_at' => 0]);
         if ($worker) {
             $countAttribute = $success ? 'success_count' : 'failed_count';
             $worker->updateCounters([$countAttribute => 1]);

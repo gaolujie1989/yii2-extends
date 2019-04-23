@@ -6,7 +6,7 @@
 namespace lujie\data\loader;
 
 
-class PhpArrayFileParser
+class PhpArrayFileParser implements FileParserInterface
 {
     /**
      * @param string $file

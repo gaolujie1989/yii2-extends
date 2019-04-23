@@ -9,6 +9,7 @@ namespace lujie\data\loader;
 use yii\base\BaseObject;
 use yii\db\Connection;
 use yii\db\Query;
+use yii\di\Instance;
 
 /**
  * Class DbDataLoader
@@ -20,7 +21,7 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var Connection
      */
-    public $db;
+    public $db = 'db';
 
     /**
      * @var string
@@ -38,6 +39,16 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     public $condition = [];
 
     /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->db = Instance::ensure($this->db, Connection::class);
+    }
+
+    /**
      * @param int|string $key
      * @return array|bool|null
      * @inheritdoc
@@ -46,7 +57,7 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     {
         return (new Query())->from($this->table)->andFilterWhere($this->condition)
             ->andWhere([$this->uniqueKey => $key])
-            ->one();
+            ->one($this->db);
     }
 
     /**
@@ -56,6 +67,6 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     public function loadAll()
     {
         return (new Query())->from($this->table)->andFilterWhere($this->condition)
-            ->all();
+            ->all($this->db);
     }
 }

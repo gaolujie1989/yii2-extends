@@ -151,8 +151,9 @@ abstract class BaseJobMonitorBehavior extends Behavior
     {
         /** @var BaseWorkerMonitorBehavior $workerMonitor */
         $workerMonitor = $event->sender->getBehavior($this->workerMonitor);
-        if ($workerMonitor) {
-            $workerMonitor->updateCount($isSuccess);
+        $workerPid = $event->sender->getWorkerPid();
+        if ($workerMonitor && $workerPid) {
+            $workerMonitor->updateCount($workerPid, $isSuccess);
         }
     }
 

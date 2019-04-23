@@ -44,11 +44,12 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
      * @param bool $success
      * @inheritdoc
      */
-    public function updateCount($success = true)
+    public function updateCount($workerPid, $success = true)
     {
-        if ($this->worker) {
+        $worker = $this->workerClass::findOne(['worker_pic' => $workerPid, 'finished_at' => 0]);
+        if ($worker) {
             $countAttribute = $success ? 'success_count' : 'failed_count';
-            $this->worker->updateCounters([$countAttribute => 1]);
+            $worker->updateCounters([$countAttribute => 1]);
         }
     }
 

@@ -88,5 +88,5 @@ abstract class BaseWorkerMonitorBehavior extends Behavior
 
     abstract protected function saveWorkerRecord($data);
 
-    abstract public function updateCount($success = true);
+    abstract public function updateCount($workerPid, $success = true);
 }

@@ -14,7 +14,6 @@ use Yii;
  * @property int $ttr
  * @property int $delay
  * @property int $pushed_at
- * @property int $last_exec_id
  * @property int $last_exec_at
  * @property int $last_exec_status
  */
@@ -36,7 +35,7 @@ class QueueJob extends \lujie\core\db\ActiveRecord
     public function rules()
     {
         return [
-            [['job_id', 'ttr', 'delay', 'pushed_at', 'last_exec_id', 'last_exec_at', 'last_exec_status'], 'integer'],
+            [['job_id', 'ttr', 'delay', 'pushed_at', 'last_exec_at', 'last_exec_status'], 'integer'],
             [['job'], 'string'],
             [['queue'], 'string', 'max' => 50],
         ];
@@ -55,7 +54,6 @@ class QueueJob extends \lujie\core\db\ActiveRecord
             'ttr' => Yii::t('lujie/queuing', 'Ttr'),
             'delay' => Yii::t('lujie/queuing', 'Delay'),
             'pushed_at' => Yii::t('lujie/queuing', 'Pushed At'),
-            'last_exec_id' => Yii::t('lujie/queuing', 'Last Exec ID'),
             'last_exec_at' => Yii::t('lujie/queuing', 'Last Exec At'),
             'last_exec_status' => Yii::t('lujie/queuing', 'Last Exec Status'),
         ];

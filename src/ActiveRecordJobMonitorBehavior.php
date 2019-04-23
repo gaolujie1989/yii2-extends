@@ -38,8 +38,9 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
      */
     protected function saveJobRecord($data)
     {
+        $condition = ['queue' => $data['queue'], 'job_id' => $data['job_id']];
         /** @var QueueJob $job */
-        $job = Yii::createObject($this->jobClass);
+        $job = $this->jobClass::findOne($condition) ?: Yii::createObject($this->jobClass);
         $job->setAttributes($data);
         $job->save(false);
     }
@@ -60,5 +61,25 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
         if (isset($data['finished_at'])) {
             $this->jobExec = null;
         }
+    }
+
+    /**
+     * @param $condition
+     * @return mixed|void
+     * @inheritdoc
+     */
+    protected function deleteJob($condition)
+    {
+        $this->jobClass::deleteAll($condition);
+    }
+
+    /**
+     * @param $condition
+     * @return mixed|void
+     * @inheritdoc
+     */
+    protected function deleteJobExec($condition)
+    {
+        $this->jobExecClass::deleteAll($condition);
     }
 }

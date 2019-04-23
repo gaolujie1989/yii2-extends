@@ -20,6 +20,26 @@ use yii\queue\Queue;
  */
 abstract class BaseJobMonitorBehavior extends Behavior
 {
+    const EXEC_STATUS_RUNNING = 1;
+    const EXEC_STATUS_SUCCESS = 10;
+    const EXEC_STATUS_FAILED = 11;
+
+    /**
+     * @var int the probability (parts per million) that clean the expired exec records
+     * when log success record. Defaults to 10, meaning 0.1% chance.
+     * This number should be between 0 and 10000. A value 0 means no clean will be performed at all.
+     */
+    public $cleanProbability = 10;
+
+    /**
+     * @var array
+     */
+    public $timeToClean = [
+        self::EXEC_STATUS_RUNNING => '-7 days',
+        self::EXEC_STATUS_SUCCESS => '-3 day',
+        self::EXEC_STATUS_FAILED => '-7 days',
+    ];
+
     public $workerMonitor = 'workerMonitor';
 
     /**
@@ -52,41 +72,69 @@ abstract class BaseJobMonitorBehavior extends Behavior
 
     public function beforeExec(ExecEvent $event)
     {
+        $now = time();
         $data = [
             'job_id' => $event->id,
             'worker_pid' => $event->sender->getWorkerPid(),
             'attempt' => $event->attempt,
-            'started_at' => time(),
+            'started_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
+            'status' => self::EXEC_STATUS_RUNNING,
         ];
         $this->saveJobExecRecord($data);
+
+        $jobData = [
+            'job_id' => $event->id,
+            'queue' => ComponentHelper::getName($event->sender),
+            'last_exec_at' => $now,
+            'last_exec_status' => self::EXEC_STATUS_RUNNING,
+        ];
+        $this->saveJobRecord($jobData);
     }
 
     public function afterExec(ExecEvent $event)
     {
+        $now = time();
         $data = [
             'job_id' => $event->id,
             'worker_pid' => $event->sender->getWorkerPid(),
             'attempt' => $event->attempt,
-            'finished_at' => time(),
+            'finished_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
+            'status' => self::EXEC_STATUS_SUCCESS,
         ];
         $this->saveJobExecRecord($data);
+        $jobData = [
+            'job_id' => $event->id,
+            'queue' => ComponentHelper::getName($event->sender),
+            'last_exec_at' => $now,
+            'last_exec_status' => self::EXEC_STATUS_SUCCESS,
+        ];
+        $this->saveJobRecord($jobData);
         $this->updateWorkerExecCount($event, true);
     }
 
     public function afterError(ErrorEvent $event)
     {
+        $now = time();
         $data = [
             'job_id' => $event->id,
             'worker_pid' => $event->sender->getWorkerPid(),
             'attempt' => $event->attempt,
-            'finished_at' => time(),
+            'finished_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
             'error' => $event->error->getMessage() . "\n" . $event->error->getTraceAsString(),
             'retry' => $event->retry,
+            'status' => self::EXEC_STATUS_FAILED,
         ];
         $this->saveJobExecRecord($data);
+        $jobData = [
+            'job_id' => $event->id,
+            'queue' => ComponentHelper::getName($event->sender),
+            'last_exec_at' => $now,
+            'last_exec_status' => self::EXEC_STATUS_FAILED,
+        ];
+        $this->saveJobRecord($jobData);
         $this->updateWorkerExecCount($event, false);
     }
 
@@ -107,4 +155,37 @@ abstract class BaseJobMonitorBehavior extends Behavior
             $workerMonitor->updateCount($isSuccess);
         }
     }
+
+
+    /**
+     * @param bool $force
+     * @inheritdoc
+     */
+    public function cleanJobAndExec($force = false)
+    {
+        if ($force || mt_rand(0, 10000) < $this->cleanProbability) {
+            $jobCondition = ['OR'];
+            $execCondition = ['OR'];
+            foreach ($this->timeToClean as $status => $expire) {
+                $jobCondition[] = ['AND', ['status' => $status], ['<', 'pushed_at', strtotime($expire)]];
+                $execCondition[] = ['AND', ['status' => $status], ['<', 'started_at', strtotime($expire)]];
+            }
+            $this->deleteJob($jobCondition);
+            $this->deleteJobExec($jobCondition);
+        }
+    }
+
+    /**
+     * @param $condition
+     * @return mixed
+     * @inheritdoc
+     */
+    abstract protected function deleteJob($condition);
+
+    /**
+     * @param $condition
+     * @return mixed
+     * @inheritdoc
+     */
+    abstract protected function deleteJobExec($condition);
 }

@@ -13,5 +13,8 @@ namespace lujie\scheduling;
  */
 class TaskErrorEvent extends TaskEvent
 {
+    /**
+     * @var \Exception
+     */
     public $error;
 }

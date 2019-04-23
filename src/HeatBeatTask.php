@@ -27,10 +27,18 @@ class HeatBeatTask extends BaseObject
      */
     public $cacheKey = 'HeatBeat';
 
+    /**
+     * @var int
+     */
+    public $sleep = 0;
+
     public function execute()
     {
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
         $value = 'HeatBeatTask:' . date('Y-m-d H:i:s');
         $this->cache->set($this->cacheKey, $value, 3600);
+        if ($this->sleep) {
+            sleep($this->sleep);
+        }
     }
 }

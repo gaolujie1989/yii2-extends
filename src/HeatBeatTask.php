@@ -32,6 +32,10 @@ class HeatBeatTask extends BaseObject
      */
     public $sleep = 0;
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
     public function execute()
     {
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);

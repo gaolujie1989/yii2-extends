@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-queuing-monitor",
+  "description": "Yii2 queuing monitor",
+  "keywords": ["yii2", "queuing", "monitor"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-queuing-monitor/issues",
+    "source": "https://gitee.com/code4dream/yii2-queuing-monitor"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\queuing\\monitor": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

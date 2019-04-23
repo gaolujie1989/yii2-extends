@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\queuing\models;
+namespace lujie\queuing\monitor\models;
 
 use Yii;
 
@@ -15,8 +15,6 @@ use Yii;
  * @property int $pinged_at
  * @property int $success_count
  * @property int $failed_count
- *
- * @property QueueJobExec $lastQueueJobExec
  */
 class QueueWorker extends \lujie\core\db\ActiveRecord
 {

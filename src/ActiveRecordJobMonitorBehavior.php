@@ -5,8 +5,8 @@
 
 namespace lujie\queuing\monitor;
 
-use lujie\queuing\models\QueueJob;
-use lujie\queuing\models\QueueJobExec;
+use lujie\queuing\monitor\models\QueueJob;
+use lujie\queuing\monitor\models\QueueJobExec;
 use Yii;
 
 /**
@@ -19,12 +19,12 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
     /**
      * @var QueueJob
      */
-    public $jobClass;
+    public $jobClass = QueueJob::class;
 
     /**
      * @var QueueJobExec
      */
-    public $jobExecClass;
+    public $jobExecClass = QueueJobExec::class;
 
     /**
      * @var QueueJobExec

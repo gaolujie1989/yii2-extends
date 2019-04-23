@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\queuing\models;
+namespace lujie\queuing\monitor\models;
 
 use Yii;
 

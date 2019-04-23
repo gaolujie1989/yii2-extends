@@ -5,7 +5,7 @@
 
 namespace lujie\queuing\monitor;
 
-use lujie\queuing\models\QueueWorker;
+use lujie\queuing\monitor\models\QueueWorker;
 use Yii;
 use yii\queue\cli\WorkerEvent;
 
@@ -19,7 +19,7 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
     /**
      * @var QueueWorker
      */
-    public $workerClass;
+    public $workerClass = QueueWorker::class;
 
     /**
      * @var QueueWorker

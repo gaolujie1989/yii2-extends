@@ -12,6 +12,7 @@ use yii\base\Arrayable;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
+use yii\helpers\VarDumper;
 use yii\mutex\Mutex;
 
 /**
@@ -171,6 +172,7 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
             'taskCode',
             'taskDescription',
             'expression',
+            'callback',
             'timezone',
             'isWithoutOverlapping',
             'mutex',
@@ -192,6 +194,9 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
         $fields = $fields ?: $this->fields();
         foreach ($fields as $field) {
             $toArray[$field] = $this->data[$field] ?? null;
+            if ($field === 'callback' && $toArray[$field]) {
+                $toArray[$field] = VarDumper::export($toArray[$field]);
+            }
         }
         return $toArray;
     }

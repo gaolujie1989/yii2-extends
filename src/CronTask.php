@@ -8,6 +8,7 @@ namespace lujie\scheduling;
 use Carbon\Carbon;
 use Cron\CronExpression;
 use Yii;
+use yii\base\Arrayable;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -18,7 +19,7 @@ use yii\mutex\Mutex;
  * @package lujie\scheduling
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTaskInterface, QueuedTaskInterface
+class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTaskInterface, QueuedTaskInterface, Arrayable
 {
     /**
      * @var array
@@ -162,4 +163,36 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
     }
 
     #endregion
+
+
+    public function fields()
+    {
+        return [
+            'taskCode',
+            'taskDescription',
+            'expression',
+            'timezone',
+            'isWithoutOverlapping',
+            'mutex',
+            'shouldQueued',
+            'queue',
+            'ttr',
+            'attempts',
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [];
+    }
+
+    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    {
+        $toArray = [];
+        $fields = $fields ?: $this->fields();
+        foreach ($fields as $field) {
+            $toArray[$field] = $this->data[$field] ?? null;
+        }
+        return $toArray;
+    }
 }

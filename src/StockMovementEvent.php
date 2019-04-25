@@ -19,22 +19,37 @@ use yii\db\BaseActiveRecord;
 class StockMovementEvent extends ModelEvent
 {
     /**
-     * @var BaseActiveRecord
+     * @var BaseActiveRecord|array
      */
     public $stock;
 
     /**
-     * @var BaseActiveRecord
+     * @var BaseActiveRecord|array
      */
     public $stockMovement;
 
+    /**
+     * @var int
+     */
     public $itemId;
 
+    /**
+     * @var int
+     */
     public $locationId;
 
+    /**
+     * @var int
+     */
     public $qty;
 
+    /**
+     * @var int
+     */
     public $reason;
 
+    /**
+     * @var array
+     */
     public $extraData;
 }

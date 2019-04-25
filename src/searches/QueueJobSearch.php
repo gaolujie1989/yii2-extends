@@ -1,0 +1,79 @@
+<?php
+/**
+ * @copyright Copyright (c) 2019
+ */
+
+namespace lujie\queuing\monitor\searches;
+
+use lujie\queuing\monitor\models\QueueJob;
+use yii\di\Instance;
+use yii\helpers\VarDumper;
+use yii\queue\Queue;
+
+/**
+ * Class QueueJobSearch
+ * @package lujie\queuing\monitor\searches
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class QueueJobSearch extends QueueJob
+{
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['queue', 'job_id', 'last_exec_status'], 'safe'],
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface
+     * @inheritdoc
+     */
+    public function query()
+    {
+        $query = static::find()->andFilterWhere([
+            'queue' => $this->queue,
+            'job_id' => $this->job_id,
+            'last_exec_status' => $this->last_exec_status,
+        ]);
+        return $query;
+    }
+
+    /**
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function getJobInfo()
+    {
+        /** @var Queue $queue */
+        $queue = Instance::ensure($this->queue);
+        $job = $queue->serializer->unserialize($this->job);
+        return VarDumper::export($job);
+    }
+
+    /**
+     * @return mixed
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['job']);
+        return $fields;
+    }
+
+    /**
+     * @return array|false
+     * @inheritdoc
+     */
+    public function extraFields()
+    {
+        return array_merge(parent::extraFields(), [
+            'jobInfo' => 'jobInfo'
+        ]);
+    }
+}

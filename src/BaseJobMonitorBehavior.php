@@ -73,8 +73,10 @@ abstract class BaseJobMonitorBehavior extends Behavior
     public function beforeExec(ExecEvent $event)
     {
         $now = time();
+        $queueName = ComponentHelper::getName($event->sender);
         $data = [
             'job_id' => $event->id,
+            'queue' => $queueName,
             'worker_pid' => $event->sender->getWorkerPid(),
             'attempt' => $event->attempt,
             'started_at' => $now,
@@ -85,7 +87,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
 
         $jobData = [
             'job_id' => $event->id,
-            'queue' => ComponentHelper::getName($event->sender),
+            'queue' => $queueName,
             'last_exec_at' => $now,
             'last_exec_status' => self::EXEC_STATUS_RUNNING,
         ];
@@ -95,8 +97,10 @@ abstract class BaseJobMonitorBehavior extends Behavior
     public function afterExec(ExecEvent $event)
     {
         $now = time();
+        $queueName = ComponentHelper::getName($event->sender);
         $data = [
             'job_id' => $event->id,
+            'queue' => $queueName,
             'worker_pid' => $event->sender->getWorkerPid(),
             'attempt' => $event->attempt,
             'finished_at' => $now,
@@ -106,7 +110,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->saveJobExecRecord($data);
         $jobData = [
             'job_id' => $event->id,
-            'queue' => ComponentHelper::getName($event->sender),
+            'queue' => $queueName,
             'last_exec_at' => $now,
             'last_exec_status' => self::EXEC_STATUS_SUCCESS,
         ];
@@ -117,8 +121,10 @@ abstract class BaseJobMonitorBehavior extends Behavior
     public function afterError(ErrorEvent $event)
     {
         $now = time();
+        $queueName = ComponentHelper::getName($event->sender);
         $data = [
             'job_id' => $event->id,
+            'queue' => $queueName,
             'worker_pid' => $event->sender->getWorkerPid(),
             'attempt' => $event->attempt,
             'finished_at' => $now,
@@ -130,7 +136,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->saveJobExecRecord($data);
         $jobData = [
             'job_id' => $event->id,
-            'queue' => ComponentHelper::getName($event->sender),
+            'queue' => $queueName,
             'last_exec_at' => $now,
             'last_exec_status' => self::EXEC_STATUS_FAILED,
         ];

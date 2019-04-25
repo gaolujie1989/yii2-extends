@@ -52,7 +52,7 @@ class QueueJobSearch extends QueueJob
         /** @var Queue $queue */
         $queue = Instance::ensure($this->queue);
         $job = $queue->serializer->unserialize($this->job);
-        return VarDumper::export($job);
+        return VarDumper::dumpAsString($job);
     }
 
     /**

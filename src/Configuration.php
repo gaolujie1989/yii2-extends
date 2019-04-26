@@ -194,7 +194,8 @@ class Configuration extends Component implements BootstrapInterface
             return $configType ? ($config[$configType] ?? []) : $config;
         };
         if ($this->cache) {
-            $cacheKey =  $this->cacheKeyPrefix . ($configType ?: '');
+            $scope = Yii::$app->params['scope'] ?? Yii::$app->id;
+            $cacheKey =  $this->cacheKeyPrefix . $scope . ($configType ?: '');
             $dependency = new TagDependency(['tags' => $this->cacheTag]);
             return $this->cache->getOrSet($cacheKey, $callable, 0, $dependency);
         } else {

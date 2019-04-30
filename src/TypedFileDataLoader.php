@@ -15,7 +15,7 @@ class TypedFileDataLoader extends FileDataLoader
     /**
      * @var string
      */
-    public $typedFilePathTemplate = '{filePool}/*/config/{type}.php';
+    public $typedFilePathTemplate = '{filePool}/{type}.php';
 
     /**
      * @param int|string $key

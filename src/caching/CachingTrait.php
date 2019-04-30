@@ -21,12 +21,12 @@ trait CachingTrait
     /**
      * @var CacheInterface
      */
-    public $cache;
+    public $cache = 'cache';
 
     /**
      * @var int
      */
-    public $cacheDuration;
+    public $cacheDuration = 3600;
 
     /**
      * @var Dependency

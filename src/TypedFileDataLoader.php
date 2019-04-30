@@ -5,6 +5,8 @@
 
 namespace lujie\data\loader;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * Class TypedFileDataLoader
  * @package lujie\data\loader
@@ -18,6 +20,11 @@ class TypedFileDataLoader extends FileDataLoader
     public $typedFilePathTemplate = '{filePool}/{type}.php';
 
     /**
+     * @var bool
+     */
+    public $allType = '*';
+
+    /**
      * @param int|string $key
      * @return array|mixed|null
      * @inheritdoc
@@ -26,9 +33,9 @@ class TypedFileDataLoader extends FileDataLoader
     {
         if (empty($this->data[$key])) {
             $this->filePathTemplate = strtr($this->typedFilePathTemplate, ['{type}' => $key]);
-            $this->data[$key] = $this->loadFilesData();
+            $this->data = ArrayHelper::merge($this->data, $this->loadFilesData());
         }
-        return $this->data[$key];
+        return ArrayHelper::getValue($this->data, $key);
     }
 
     /**
@@ -37,6 +44,24 @@ class TypedFileDataLoader extends FileDataLoader
      */
     public function all()
     {
-        return $this->get('*');
+        $this->filePathTemplate = strtr($this->typedFilePathTemplate, ['{type}' => $this->allType]);
+        $this->data = ArrayHelper::merge($this->data, $this->loadFilesData());
+        return $this->data;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function loadFilesData()
+    {
+        $loadedFiles = $this->findFiles();
+        $data = [];
+        foreach ($loadedFiles as $loadedFile) {
+            $fileName = pathinfo($loadedFile, PATHINFO_FILENAME);
+            $fileData[$fileName] = $this->fileParser->parseFile($loadedFile);
+            $data = ArrayHelper::merge($data, $fileData);
+        }
+        return $data;
     }
 }

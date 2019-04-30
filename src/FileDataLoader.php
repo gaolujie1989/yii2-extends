@@ -93,8 +93,8 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
         $loadedFiles = $this->findFiles();
         $data = [];
         foreach ($loadedFiles as $loadedFile) {
-            $data = $this->fileParser->parseFile($loadedFile);
-            $data = ArrayHelper::merge($data, $data);
+            $fileData = $this->fileParser->parseFile($loadedFile);
+            $data = ArrayHelper::merge($data, $fileData);
         }
         return $data;
     }

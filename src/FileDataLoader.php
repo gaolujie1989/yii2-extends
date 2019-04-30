@@ -30,7 +30,7 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
     /**
      * @var FileParserInterface
      */
-    public $fileParser;
+    public $fileParser = PhpArrayFileParser::class;
 
     /**
      * @throws \yii\base\InvalidConfigException

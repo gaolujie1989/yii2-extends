@@ -8,6 +8,11 @@ namespace lujie\configuration;
 
 use lujie\configuration\loaders\ArrayLoader;
 use lujie\configuration\loaders\ConfigLoaderInterface;
+use lujie\data\loader\DataLoaderInterface;
+use lujie\data\loader\FileDataLoader;
+use lujie\data\loader\PhpArrayFileParser;
+use lujie\data\loader\TypedFileDataLoader;
+use lujie\extend\caching\CachingTrait;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -24,37 +29,36 @@ use yii\helpers\ArrayHelper;
  */
 class Configuration extends Component implements BootstrapInterface
 {
+    use CachingTrait;
+
     const CONFIG_TYPE_CLASS = 'classes';
     const CONFIG_TYPE_COMPONENT = 'components';
-    const CONFIG_TYPE_MAIN = 'main';
     const CONFIG_TYPE_EVENT = 'events';
+    const CONFIG_TYPE_MAIN = 'main';
 
     /**
-     * @var ConfigLoaderInterface
+     * @var DataLoaderInterface
      */
     public $configLoader = [
-        'class' => ArrayLoader::class,
+        'class' => TypedFileDataLoader::class,
+        'filePools' => ['@common/modules'],
+        'filePathTemplate' => '{filePool}/*/config/{type}.php',
     ];
 
     /**
      * @var array
      */
-    public $sortConfig = ['menus' => [], 'permissions' => [['groups', 'permissions']]];
+    public $sortConfig = ['permissions' => [['groups', 'permissions']]];
 
     /**
-     * @var Cache
+     * @var string[]
      */
-    public $cache = 'cache';
-
-    /**
-     * @var string
-     */
-    public $cacheTag = 'config';
+    public $configScopes = ['console', 'backend', 'frontend'];
 
     /**
      * @var string
      */
-    public $cacheKeyPrefix = 'lujie:config:';
+    public $currentScope;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -63,10 +67,10 @@ class Configuration extends Component implements BootstrapInterface
     public function init()
     {
         parent::init();
-        $this->configLoader = Instance::ensure($this->configLoader);
-        if ($this->cache) {
-            $this->cache = Instance::ensure($this->cache);
-        }
+        $this->configLoader = Instance::ensure($this->configLoader, DataLoaderInterface::class);
+        $this->currentScope = Yii::$app->params['scope'] ?? Yii::$app->id;
+        $this->cacheKeyPrefix = ($this->cacheKeyPrefix ?: 'config:') . $this->currentScope . ':';
+        $this->initCache();
     }
 
     /**
@@ -153,7 +157,7 @@ class Configuration extends Component implements BootstrapInterface
      */
     public function loadConfig($app)
     {
-        if ($config = $this->getConfig()) {
+        if ($config = $this->getAllConfig()) {
             foreach ($config as $key => $value) {
                 if (isset($app->params[$key])) {
                     $app->params[$key] = ArrayHelper::merge($app->params[$key], $value);
@@ -179,52 +183,57 @@ class Configuration extends Component implements BootstrapInterface
 
     #endregion
 
-
     #region load and filter and sort config
 
     /**
-     * @param null $configType
+     * @param string $configType
      * @return array
      * @inheritdoc
      */
-    protected function getConfig($configType = null): array
+    protected function getConfig(string $configType) : array
     {
-        $callable = function () use ($configType) {
-            $config = $this->sortConfig($this->filterConfig($this->configLoader->loadConfig($configType)));
-            return $configType ? ($config[$configType] ?? []) : $config;
-        };
-        if ($this->cache) {
-            $scope = Yii::$app->params['scope'] ?? Yii::$app->id;
-            $cacheKey =  $this->cacheKeyPrefix . $scope . ($configType ?: '');
-            $dependency = new TagDependency(['tags' => $this->cacheTag]);
-            return $this->cache->getOrSet($cacheKey, $callable, 0, $dependency);
-        } else {
-            return call_user_func($callable);
-        }
+        $key = $configType;
+        return $this->getOrSet($key, function() use ($configType) {
+            $config = $this->configLoader->get($configType);
+            $config = $this->filterConfig($configType, $config);
+            return $this->sortConfig($configType, $config);
+        });
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function getAllConfig() : array
+    {
+        $key = 'all';
+        return $this->getOrSet($key, function() {
+            $all = $this->configLoader->all();
+            foreach ($all as $configType => $config) {
+                $config = $this->filterConfig($configType, $config);
+                $all[$configType] = $this->sortConfig($configType, $config);
+            }
+            return $all;
+        });
+    }
+
+    /**
+     * @param string $key
      * @param array $config
      * @return array
      * @inheritdoc
      */
-    protected function filterConfig(array $config): array
+    protected function filterConfig(string $key, array $config): array
     {
-        $scope = Yii::$app->params['scope'] ?? Yii::$app->id;
-        foreach ($config as $key => $value) {
-            //overwrite scope config to global config
-            if (isset($value[$scope])) {
-                $value = ArrayHelper::merge($value, $value[$scope]);
-            }
-            //filter, remove frontend/backend config
-            $value = array_filter($value, function ($k) {
-                return substr($k, -3) !== 'end';
-            }, ARRAY_FILTER_USE_KEY);
-            //overwrite by yii params config
-            if (isset(Yii::$app->params[$key])) {
-                $value = ArrayHelper::merge($value, Yii::$app->params[$key]);
-            }
-            $config[$key] = $value;
+        $scope = $this->currentScope;
+        if (isset($config[$scope])) {
+            $config = ArrayHelper::merge($config, $config[$scope]);
+        }
+        foreach ($this->configScopes as $scope) {
+            unset($config[$scope]);
+        }
+        if (isset(Yii::$app->params[$key])) {
+            $config = ArrayHelper::merge($config, Yii::$app->params[$key]);
         }
         return $config;
     }
@@ -234,16 +243,12 @@ class Configuration extends Component implements BootstrapInterface
      * @return mixed
      * @inheritdoc
      */
-    protected function sortConfig(array $config): array
+    protected function sortConfig(string $key, array $config): array
     {
-        //sort config
-        foreach ($this->sortConfig as $key => $sortKeys) {
-            if (isset($config[$key])) {
-                array_unshift($sortKeys, $config[$key]);
-                $config[$key] = call_user_func_array([$this, 'sortByKey'], $sortKeys);
-            }
+        if (empty($this->sortConfig[$key])) {
+            return $config;
         }
-        return $config;
+        return static::sortByKey($config, $this->sortConfig[$key]);
     }
 
     /**

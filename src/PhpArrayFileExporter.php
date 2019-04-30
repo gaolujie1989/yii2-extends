@@ -5,9 +5,13 @@
 
 namespace lujie\data\loader;
 
-
 use yii\helpers\VarDumper;
 
+/**
+ * Class PhpArrayFileExporter
+ * @package lujie\data\loader
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class PhpArrayFileExporter implements FileExporterInterface
 {
     /**

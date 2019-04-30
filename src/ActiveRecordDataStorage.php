@@ -6,8 +6,6 @@
 namespace lujie\data\loader;
 
 use Yii;
-use yii\base\BaseObject;
-use yii\db\BaseActiveRecord;
 
 /**
  * Class ActiveRecordDataStorage
@@ -23,12 +21,22 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
 
     /**
      * @param $key
-     * @return mixed|void
+     * @return bool|false|int|mixed
+     * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     public function delete($key)
     {
-        // TODO: Implement delete() method.
+        $returnAsArray = $this->returnAsArray;
+        $this->returnAsArray = false;
+
+        if ($model = $this->get($key)) {
+            $this->returnAsArray = $returnAsArray;
+            return $model->delete();
+        }
+        $this->returnAsArray = $returnAsArray;
+        return false;
     }
 
 
@@ -40,22 +48,11 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
      */
     public function set($key, $data)
     {
-        if ($this->uniqueKey && isset($data[$this->uniqueKey])) {
-            /** @var BaseActiveRecord $model */
-            $model = $this->modelClass::find()
-                ->andFilterWhere($this->condition)
-                ->andWhere([$this->uniqueKey => $data[$this->uniqueKey]])
-                ->one();
-        } else {
-            $primaryKey = reset($this->modelClass::primaryKey());
-            if (isset($data[$primaryKey])) {
-                /** @var BaseActiveRecord $model */
-                $model = $this->modelClass::find()
-                    ->andFilterWhere($this->condition)
-                    ->andWhere([$primaryKey => $data[$primaryKey]])
-                    ->one();
-            }
-        }
+        $returnAsArray = $this->returnAsArray;
+        $this->returnAsArray = false;
+
+        $model = $key ? $this->get($key) : null;
+        $this->returnAsArray = $returnAsArray;
         if (empty($model)) {
             $model = Yii::createObject($this->modelClass);
         }

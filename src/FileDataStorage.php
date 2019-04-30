@@ -22,11 +22,6 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
     public $file = '@runtime/data.php';
 
     /**
-     * @var string
-     */
-    public $uniqueKey = 'id';
-
-    /**
      * @var FileExporterInterface
      */
     public $dataExporter;
@@ -48,14 +43,47 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
     }
 
     /**
+     * @param int|string $key
+     * @return array|null
+     * @inheritdoc
+     */
+    public function get($key)
+    {
+        $fileData = $this->dataParser->parseFile($this->file);
+        return $fileData[$key];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function all()
+    {
+        $fileData = $this->dataParser->parseFile($this->file);
+        return $fileData;
+    }
+
+    /**
      * @param $data
      * @return mixed|void
      * @inheritdoc
      */
-    public function set($data)
+    public function set($key, $data)
     {
         $fileData = $this->dataParser->parseFile($this->file);
-        $fileData[$data[$this->uniqueKey]] = $data;
+        $fileData[$key] = $data;
+        $this->dataExporter->exportToFile($this->file, $fileData);
+    }
+
+    /**
+     * @param $key
+     * @return mixed|void
+     * @inheritdoc
+     */
+    public function delete($key)
+    {
+        $fileData = $this->dataParser->parseFile($this->file);
+        unset($fileData[$key]);
         $this->dataExporter->exportToFile($this->file, $fileData);
     }
 }

@@ -5,65 +5,44 @@
 
 namespace lujie\data\loader;
 
-
-use yii\base\BaseObject;
-use yii\db\Connection;
 use yii\db\Query;
-use yii\di\Instance;
 
-class DbDataStorage extends BaseObject implements DataStorageInterface
+/**
+ * Class DbDataStorage
+ * @package lujie\data\loader
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class DbDataStorage extends DbDataLoader implements DataStorageInterface
 {
     /**
-     * @var Connection
-     */
-    public $db = 'db';
-
-    /**
-     * @var string
-     */
-    public $table;
-
-    /**
-     * @var string|int
-     */
-    public $uniqueKey;
-
-    /**
-     * @var array
-     */
-    public $condition = [];
-
-    /**
-     * @throws \yii\base\InvalidConfigException
+     * @param $key
+     * @return int|mixed
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function init()
+    public function delete($key)
     {
-        parent::init();
-        $this->db = Instance::ensure($this->db, Connection::class);
+        $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
+        return $this->db->createCommand()
+            ->delete($this->table, $condition)
+            ->execute();
     }
 
+
     /**
+     * @param $key
      * @param $data
      * @return int|mixed
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function set($data)
+    public function set($key, $data)
     {
-        $exists = false;
-        $condition = [];
-        $query = (new Query())->from($this->table)->andFilterWhere($this->condition);
-        if ($this->uniqueKey && isset($data[$this->uniqueKey])) {
-            $condition = [$this->uniqueKey => $data[$this->uniqueKey]];
-            $exists = $query->andWhere($condition)->exists();
-        } else {
-            $primaryKey = reset($this->db->getTableSchema($this->table)->primaryKey);
-            if ($primaryKey && isset($data[$primaryKey])) {
-                $condition = [$primaryKey => $data[$primaryKey]];
-                $exists = $query->andWhere($condition)->exists();
-            }
-        }
+        $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
+        $exists = (new Query())->from($this->table)
+            ->andFilterWhere($condition)
+            ->exists($this->db);
+
         if ($exists) {
             return $this->db->createCommand()->insert($this->table, $data)->execute();
         } else {

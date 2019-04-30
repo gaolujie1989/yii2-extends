@@ -1,0 +1,117 @@
+<?php
+/**
+ * @copyright Copyright (c) 2019
+ */
+
+namespace lujie\extend\rest;
+
+use lujie\extend\helpers\ClassHelper;
+use Yii;
+use yii\db\ActiveRecordInterface;
+use yii\web\NotFoundHttpException;
+
+/**
+ * Class ActiveController
+ * @package lujie\extend\rest
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class ActiveController extends \yii\rest\ActiveController
+{
+    public $idSeparator = ';';
+
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+        $actions['index']['prepareDataProvider'] = [
+            Yii::createObject(['class' => IndexDataProviderPreparer::class]),
+            'prepare'
+        ];
+        if ($formClass = ClassHelper::getFormClass($this->modelClass)) {
+            $actions['create']['modelClass'] = $formClass;
+            $actions['update']['modelClass'] = $formClass;
+            $actions['delete']['modelClass'] = $formClass;
+        }
+        return $actions;
+    }
+
+    /**
+     * @param $id
+     * @return ActiveRecordInterface
+     * @throws NotFoundHttpException
+     * @inheritdoc
+     */
+    public function findModel($id)
+    {
+        /* @var $modelClass ActiveRecordInterface */
+        $modelClass = $this->modelClass;
+        $keys = $modelClass::primaryKey();
+        if (count($keys) > 1) {
+            $values = explode(',', $id);
+            if (count($keys) === count($values)) {
+                $model = $modelClass::findOne(array_combine($keys, $values));
+            }
+        } elseif ($id !== null) {
+            $model = $modelClass::findOne($id);
+        }
+
+        if (isset($model)) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException("Model not found: $id");
+    }
+
+    /**
+     * @param $ids
+     * @return ActiveRecordInterface[]
+     * @inheritdoc
+     */
+    public function findModels($ids)
+    {
+        /* @var $modelClass ActiveRecordInterface */
+        $modelClass = $this->modelClass;
+        return $modelClass::findAll($this->getIdsCondition($ids));
+    }
+
+    /**
+     * @param $ids
+     * @return array|bool
+     * @inheritdoc
+     */
+    protected function getIdsCondition($ids)
+    {
+        if (empty($ids)) {
+            return false;
+        }
+
+        if (is_string($ids) && $ids) {
+            $ids = explode($this->idSeparator, $ids);
+        }
+
+        /* @var $modelClass ActiveRecordInterface */
+        $modelClass = $this->modelClass;
+        $pkColumns = $modelClass::primaryKey();
+        if (count($pkColumns) > 1) {
+            $condition = [];
+            foreach ($ids as $values) {
+                $values = explode(',', $values);
+                if (count($pkColumns) === count($values)) {
+                    $condition[] = array_combine($pkColumns, $values);
+                }
+            }
+            if ($condition) {
+                array_unshift($condition, 'OR');
+                return $condition;
+            }
+        } elseif ($ids !== null) {
+            return [$pkColumns[0] => $ids];
+        }
+
+        return false;
+    }
+}

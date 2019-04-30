@@ -43,12 +43,25 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
     }
 
     /**
+     * @param int|string $key
+     * @return array|mixed|null
+     * @inheritdoc
+     */
+    public function get($key)
+    {
+        if (empty($this->data)) {
+            $this->data = $this->loadFilesData();
+        }
+        return parent::get($key);
+    }
+
+    /**
      * @return array|void
      * @inheritdoc
      */
     public function all()
     {
-        if (!$this->data) {
+        if (empty($this->data)) {
             $this->data = $this->loadFilesData();
         }
         return $this->data;

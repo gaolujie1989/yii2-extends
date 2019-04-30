@@ -48,9 +48,9 @@ class ModelInstanceLoader extends BaseObject implements DataLoaderInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function loadByKey($key)
+    public function get($key)
     {
-        $item = $this->dataLoader->loadByKey($key);
+        $item = $this->dataLoader->get($key);
         return $item ? Yii::createObject(array_merge($this->modelConfig, $item)) : null;
     }
 
@@ -59,9 +59,9 @@ class ModelInstanceLoader extends BaseObject implements DataLoaderInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function loadAll()
+    public function all()
     {
-        $all = $this->dataLoader->loadAll();
+        $all = $this->dataLoader->all();
         foreach ($all as $key => $item) {
             $all[$key] = Yii::createObject(array_merge($this->modelConfig, $item));
         }

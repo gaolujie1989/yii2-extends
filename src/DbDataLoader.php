@@ -53,7 +53,7 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
      * @return array|bool|null
      * @inheritdoc
      */
-    public function loadByKey($key)
+    public function get($key)
     {
         return (new Query())->from($this->table)->andFilterWhere($this->condition)
             ->andWhere([$this->uniqueKey => $key])
@@ -64,7 +64,7 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    public function loadAll()
+    public function all()
     {
         return (new Query())->from($this->table)->andFilterWhere($this->condition)
             ->all($this->db);

@@ -41,7 +41,7 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
      * @return array|BaseActiveRecord|null
      * @inheritdoc
      */
-    public function loadByKey($key)
+    public function get($key)
     {
         return $this->modelClass::find()
             ->andFilterWhere($this->condition)
@@ -54,7 +54,7 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
      * @return array|BaseActiveRecord[]
      * @inheritdoc
      */
-    public function loadAll()
+    public function all()
     {
         return $this->modelClass::find()
             ->andFilterWhere($this->condition)

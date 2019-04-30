@@ -46,7 +46,7 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
      * @return array|void
      * @inheritdoc
      */
-    public function loadAll()
+    public function all()
     {
         if (!$this->data) {
             $loadedFiles = $this->loadFiles();

@@ -13,11 +13,11 @@ interface DataLoaderInterface
      * @return array|null
      * @inheritdoc
      */
-    public function loadByKey($key);
+    public function get($key);
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function loadAll();
+    public function all();
 }

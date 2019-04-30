@@ -22,7 +22,7 @@ class ArrayDataLoader extends BaseObject implements DataLoaderInterface
      * @return array|mixed|null
      * @inheritdoc
      */
-    public function loadByKey($key)
+    public function get($key)
     {
         return ArrayHelper::getValue($this->data, $key);
     }
@@ -31,7 +31,7 @@ class ArrayDataLoader extends BaseObject implements DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    public function loadAll()
+    public function all()
     {
         return $this->data;
     }

@@ -1,6 +1,6 @@
-# yii2-dataloader
+# yii2-data-storage
 
 #### Introduction
-Yii2 DataLoader,
-for decoupling components, can load data by config externally
+Yii2 DataStorage,
+for decoupling components, can save data by config externally
 

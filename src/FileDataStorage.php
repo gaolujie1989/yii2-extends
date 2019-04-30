@@ -52,7 +52,7 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
      * @return mixed|void
      * @inheritdoc
      */
-    public function save($data)
+    public function set($data)
     {
         $fileData = $this->dataParser->parseFile($this->file);
         $fileData[$data[$this->uniqueKey]] = $data;

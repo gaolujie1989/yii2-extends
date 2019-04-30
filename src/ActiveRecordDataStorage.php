@@ -14,27 +14,23 @@ use yii\db\BaseActiveRecord;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecordDataStorage extends BaseObject implements DataStorageInterface
+class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStorageInterface
 {
-    /**
-     * @var BaseActiveRecord
-     */
-    public $modelClass;
-
-    /**
-     * @var string|int
-     */
-    public $uniqueKey;
-
     /**
      * @var bool
      */
     public $runValidation = false;
 
     /**
-     * @var array
+     * @param $key
+     * @return mixed|void
+     * @inheritdoc
      */
-    public $condition = [];
+    public function delete($key)
+    {
+        // TODO: Implement delete() method.
+    }
+
 
     /**
      * @param $data
@@ -42,7 +38,7 @@ class ActiveRecordDataStorage extends BaseObject implements DataStorageInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function save($data)
+    public function set($key, $data)
     {
         if ($this->uniqueKey && isset($data[$this->uniqueKey])) {
             /** @var BaseActiveRecord $model */

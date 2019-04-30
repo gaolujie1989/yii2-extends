@@ -6,12 +6,19 @@
 namespace lujie\data\loader;
 
 
-interface DataStorageInterface
+interface DataStorageInterface extends DataLoaderInterface
 {
     /**
      * @param $data
      * @return mixed
      * @inheritdoc
      */
-    public function save($data);
+    public function set($key, $value);
+
+    /**
+     * @param $key
+     * @return mixed
+     * @inheritdoc
+     */
+    public function delete($key);
 }

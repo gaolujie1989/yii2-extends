@@ -49,7 +49,7 @@ class DbDataStorage extends BaseObject implements DataStorageInterface
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function save($data)
+    public function set($data)
     {
         $exists = false;
         $condition = [];

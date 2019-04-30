@@ -37,6 +37,17 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
     public $returnAsArray = false;
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        if (empty($this->uniqueKey)) {
+            $this->uniqueKey = reset($this->modelClass::primaryKey());
+        }
+    }
+
+    /**
      * @param int|string $key
      * @return array|BaseActiveRecord|null
      * @inheritdoc

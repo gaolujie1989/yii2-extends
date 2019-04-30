@@ -6,6 +6,7 @@
 namespace lujie\data\loader;
 
 
+use function PHPSTORM_META\registerArgumentsSet;
 use yii\base\BaseObject;
 use yii\db\Connection;
 use yii\db\Query;
@@ -46,6 +47,9 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     {
         parent::init();
         $this->db = Instance::ensure($this->db, Connection::class);
+        if (empty($this->uniqueKey)) {
+            $this->uniqueKey = reset($this->db->getTableSchema($this->table)->primaryKey);
+        }
     }
 
     /**

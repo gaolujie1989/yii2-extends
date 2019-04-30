@@ -20,7 +20,7 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
     /**
      * @var array
      */
-    public $filePools = ['@modules', '@common/modules'];
+    public $filePools = [];
 
     /**
      * @var string

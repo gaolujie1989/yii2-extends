@@ -49,11 +49,7 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
     public function all()
     {
         if (!$this->data) {
-            $loadedFiles = $this->loadFiles();
-            foreach ($loadedFiles as $loadedFile) {
-                $data = $this->fileParser->parseFile($loadedFile);
-                $this->data = ArrayHelper::merge($this->data, $data);
-            }
+            $this->data = $this->loadFilesData();
         }
         return $this->data;
     }
@@ -62,7 +58,7 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    protected function loadFiles()
+    protected function findFiles()
     {
         $loadedFiles = [];
         foreach ($this->filePools as $filePool) {
@@ -73,5 +69,20 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
         }
         array_unique($loadedFiles);
         return $loadedFiles;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function loadFilesData()
+    {
+        $loadedFiles = $this->findFiles();
+        $data = [];
+        foreach ($loadedFiles as $loadedFile) {
+            $data = $this->fileParser->parseFile($loadedFile);
+            $data = ArrayHelper::merge($data, $data);
+        }
+        return $data;
     }
 }

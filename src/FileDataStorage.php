@@ -24,12 +24,12 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
     /**
      * @var FileExporterInterface
      */
-    public $dataExporter;
+    public $dataExporter = PhpArrayFileExporter::class;
 
     /**
      * @var FileParserInterface
      */
-    public $dataParser;
+    public $dataParser = PhpArrayFileParser::class;
 
     /**
      * @throws \yii\base\InvalidConfigException

@@ -22,17 +22,23 @@ class CsvHelper
      * @return array
      * @inheritdoc
      */
-    public static function readCsv($file, $firstLineIsHeader = true, $length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
+    public static function readCsv($file, $firstLineIsHeader = true, $length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\', $flag = true)
     {
         $data = [];
-        if (($handle = fopen($file, "r")) !== FALSE) {
-            while (($row = fgetcsv($handle, $length, $delimiter, $enclosure, $escape)) !== FALSE) {
-                $data[] = $row;
-                if (count($data) > 5) {
-                    print_r($data);break;
+        if ($flag) {
+            $rows = file($file);
+            $count = count($rows);
+            $delimiters = array_fill(0, $count, $delimiter);
+            $enclosures = array_fill(0, $count, $enclosure);
+            $escapes = array_fill(0, $count, $escape);
+            $data = array_map('str_getcsv', $rows, $delimiters, $enclosures, $escapes);
+        } else {
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($row = fgetcsv($handle, $length, $delimiter, $enclosure, $escape)) !== FALSE) {
+                    $data[] = $row;
                 }
+                fclose($handle);
             }
-            fclose($handle);
         }
         if ($firstLineIsHeader) {
             array_walk($data, function (&$a) use ($data) {

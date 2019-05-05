@@ -4,11 +4,11 @@
  */
 
 return [
-    'lujie/yii2-upload-import' => [
-        'name' => 'lujie/yii2-upload-import',
+    'lujie/yii2-upload' => [
+        'name' => 'lujie/yii2-upload',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/uploadImport' => __DIR__ . '/src',
+            '@lujie/upload' => __DIR__ . '/src',
         ]
     ],
 ];

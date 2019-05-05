@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-alias-property",
+  "description": "Yii2 alias property behavior",
+  "keywords": ["yii2", "alias property behavior"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-alias-property/issues",
+    "source": "https://gitee.com/code4dream/yii2-alias-property"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\alias\\behaviors\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

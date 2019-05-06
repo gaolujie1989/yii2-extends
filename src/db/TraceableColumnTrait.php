@@ -35,8 +35,13 @@ trait TraceableColumnTrait
      */
     public function createDefaultTableIndexes()
     {
+        $columns = $this->getDefaultTableColumns();
         /** @var Migration|TraceableColumnTrait $this */
-        return $this->createIndex('idx_updated_at', $this->tableName, 'updated_at');
+        if (isset($columns['updated_at'])) {
+            $this->createIndex('idx_updated_at', $this->tableName, 'updated_at');
+        } else if (isset($columns['created_at'])) {
+            $this->createIndex('idx_created_at', $this->tableName, 'created_at');
+        }
     }
 
     /**

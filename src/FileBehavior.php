@@ -21,11 +21,11 @@ class FileBehavior extends Behavior
 {
     use FileTrait;
 
-    public $attribute;
+    public $attribute = 'file';
 
-    public $path;
+    public $path = '@uploads';
 
-    public $url;
+    public $url = 'staticUrl';
 
     public $unlinkOnUpdate = false;
 

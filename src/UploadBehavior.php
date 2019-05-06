@@ -21,7 +21,7 @@ class UploadBehavior extends Behavior
 {
     use FileTrait;
 
-    public $attribute;
+    public $attribute = 'file';
 
     public $scenarios = [];
 
@@ -167,7 +167,8 @@ class UploadBehavior extends Behavior
     protected function generateFileName($suffix)
     {
         $pairs = [
-            '{datetime}' => date('YmdHis'),
+            '{date}' => date('ymd'),
+            '{datetime}' => date('ymdHis'),
             '{rand}' => rand(1000, 9999),
             '{ext}' => $suffix
         ];

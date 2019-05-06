@@ -59,6 +59,10 @@ trait FileTrait
                 unlink($file->tempName);
             }
         } else {
+            $fileDir = pathinfo($filePath, PATHINFO_DIRNAME);
+            if (!file_exists($fileDir)) {
+                mkdir($fileDir, 0777, true);
+            }
             $result = $file->saveAs($filePath, $deleteTempFile);
         }
         return $result;
@@ -80,6 +84,10 @@ trait FileTrait
                 unlink($file);
             }
         } else {
+            $fileDir = pathinfo($filePath, PATHINFO_DIRNAME);
+            if (!file_exists($fileDir)) {
+                mkdir($fileDir, 0777, true);
+            }
             $result = $deleteFile ? rename($file, $filePath) : copy($file, $filePath);
         }
         return $result;

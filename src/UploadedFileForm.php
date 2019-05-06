@@ -72,13 +72,4 @@ class UploadedFileForm extends UploadedFile
             ],
         ];
     }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields()
-    {
-        return ['file'];
-    }
 }

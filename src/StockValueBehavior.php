@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\stocking;
+namespace lujie\stock;
 
 
 use yii\base\Behavior;
@@ -11,7 +11,7 @@ use yii\base\InvalidArgumentException;
 
 /**
  * Class StockValueBehavior
- * @package lujie\stocking
+ * @package lujie\stock
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StockValueBehavior extends Behavior

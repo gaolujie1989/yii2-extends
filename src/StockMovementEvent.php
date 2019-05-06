@@ -6,7 +6,7 @@
  * Time: 14:51
  */
 
-namespace lujie\stocking;
+namespace lujie\stock;
 
 
 use yii\base\ModelEvent;
@@ -14,7 +14,7 @@ use yii\db\BaseActiveRecord;
 
 /**
  * Class StockMovementEvent
- * @package lujie\stocking
+ * @package lujie\stock
  */
 class StockMovementEvent extends ModelEvent
 {

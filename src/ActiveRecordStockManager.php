@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\stocking;
+namespace lujie\stock;
 
 
 use yii\base\Component;
@@ -15,7 +15,7 @@ use yii\db\Query;
 
 /**
  * Class ActiveRecordStockManager
- * @package lujie\stocking
+ * @package lujie\stock
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ActiveRecordStockManager extends BaseStockManager

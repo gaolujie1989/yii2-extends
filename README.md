@@ -1,4 +1,4 @@
-# yii2-arsnapshoot
+# yii2-stock-manager
 
 #### Introduction
-ActiveRecord snapshoot
+stock-manager

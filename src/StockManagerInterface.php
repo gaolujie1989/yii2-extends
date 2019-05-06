@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\stocking;
+namespace lujie\stock;
 
 
 interface StockManagerInterface

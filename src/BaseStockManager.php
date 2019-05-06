@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\stocking;
+namespace lujie\stock;
 
 use yii\base\Component;
 use yii\console\Exception;
@@ -11,7 +11,7 @@ use yii\db\BaseActiveRecord;
 
 /**
  * Class BaseStockManager
- * @package lujie\stocking
+ * @package lujie\stock
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 abstract class BaseStockManager extends Component implements StockManagerInterface

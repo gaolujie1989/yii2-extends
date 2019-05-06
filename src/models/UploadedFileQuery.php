@@ -9,6 +9,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method UploadedFileQuery modelType($modelType)
  * @method UploadedFileQuery modelId($modelId)
+ * @method UploadedFileQuery file($file)
  *
  * @see UploadedFile
  */
@@ -26,6 +27,7 @@ class UploadedFileQuery extends \yii\db\ActiveQuery
                 'queryFields' => [
                     'modelType' => ['model_type'],
                     'modelId' => ['model_id'],
+                    'file' => ['file'],
                 ]
             ]
         ]);

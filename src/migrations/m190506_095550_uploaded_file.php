@@ -24,5 +24,6 @@ class m190506_095550_uploaded_file extends Migration
         ]);
 
         $this->createIndex('idx_model_type_model_id', $this->tableName, ['model_type', 'model_id']);
+        $this->createIndex('idx_file', $this->tableName, ['file']);
     }
 }

@@ -19,6 +19,10 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $ext
  * @property int $size
+ *
+ * @method string getFileUrl()
+ * @method string getFilePath()
+ * @method string getFileContent()
  */
 class UploadedFile extends ActiveRecord
 {

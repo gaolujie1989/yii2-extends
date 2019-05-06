@@ -48,6 +48,7 @@ trait FileTrait
      * @param UploadedFile $file
      * @param bool $deleteTempFile
      * @return bool
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function saveUploadedFile($fileName, UploadedFile $file, $deleteTempFile = true)
@@ -61,7 +62,7 @@ trait FileTrait
         } else {
             $fileDir = pathinfo($filePath, PATHINFO_DIRNAME);
             if (!file_exists($fileDir)) {
-                mkdir($fileDir, 0777, true);
+                FileHelper::createDirectory($this->path, 0777);
             }
             $result = $file->saveAs($filePath, $deleteTempFile);
         }
@@ -73,6 +74,7 @@ trait FileTrait
      * @param $file
      * @param bool $deleteFile
      * @return bool
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function saveFile($fileName, $file, $deleteFile = false)
@@ -86,7 +88,7 @@ trait FileTrait
         } else {
             $fileDir = pathinfo($filePath, PATHINFO_DIRNAME);
             if (!file_exists($fileDir)) {
-                mkdir($fileDir, 0777, true);
+                FileHelper::createDirectory($this->path, 0777);
             }
             $result = $deleteFile ? rename($file, $filePath) : copy($file, $filePath);
         }

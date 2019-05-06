@@ -194,7 +194,7 @@ class Configuration extends Component implements BootstrapInterface
     {
         $key = $configType;
         return $this->getOrSet($key, function() use ($configType) {
-            $config = $this->configLoader->get($configType);
+            $config = $this->configLoader->get($configType) ?: [];
             $config = $this->filterConfig($configType, $config);
             return $this->sortConfig($configType, $config);
         });

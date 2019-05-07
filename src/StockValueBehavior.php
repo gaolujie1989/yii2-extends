@@ -37,7 +37,7 @@ class StockValueBehavior extends Behavior
     {
         /** @var ActiveRecordStockManager $stockManager */
         $stockManager = $event->sender;
-        $movedQty = $event->stockMovement->getAttribute($stockManager->qtyAttribute);
+        $movedQty = $event->stockMovement->getAttribute($stockManager->movedQtyAttribute);
         $moveReason = $event->stockMovement->getAttribute($stockManager->reasonAttribute);
         if ($moveReason != StockConst::MOVEMENT_REASON_INBOUND) {
             return;
@@ -50,7 +50,7 @@ class StockValueBehavior extends Behavior
         $stock = $event->stock;
         $movedStockValue = $event->extraData[$this->stockValueAttribute];
         $oldStockValue = $stock->getAttribute($this->stockValueAttribute);
-        $newStockQty = $stock->getAttribute($stockManager->qtyAttribute);
+        $newStockQty = $stock->getAttribute($stockManager->stockQtyAttribute);
         $oldStockQty = $newStockQty - $movedQty;
 
         $newStockValue = round((($oldStockValue * $oldStockQty) + ($movedStockValue * $movedQty)) / $newStockQty, 2);

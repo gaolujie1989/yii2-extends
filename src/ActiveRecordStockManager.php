@@ -23,11 +23,11 @@ class ActiveRecordStockManager extends BaseStockManager
     /**
      * @var BaseActiveRecord
      */
-    public $stockModelClass;
+    public $stockClass;
     /**
      * @var BaseActiveRecord
      */
-    public $stockMovementModelClass;
+    public $stockMovementClass;
 
     /**
      * @param $itemId
@@ -44,7 +44,7 @@ class ActiveRecordStockManager extends BaseStockManager
         $callable = function() use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
             parent::transfer($itemId, $fromLocationId, $toLocationId, $qty, $extraData);
         };
-        $db = $this->stockMovementModelClass::getDb();
+        $db = $this->stockMovementClass::getDb();
         if ($db instanceof Connection) {
             return $db->transaction($callable);
         } else {
@@ -62,7 +62,7 @@ class ActiveRecordStockManager extends BaseStockManager
     {
         $stock = $this->getStock($itemId, $locationId);
         /** @var Query $query */
-        $query = $this->stockMovementModelClass::find()
+        $query = $this->stockMovementClass::find()
             ->andWhere([
                 $this->itemIdAttribute => $itemId,
                 $this->locationIdAttribute => $locationId,
@@ -85,7 +85,7 @@ class ActiveRecordStockManager extends BaseStockManager
             $this->locationIdAttribute => $locationId,
         ];
         /** @var BaseActiveRecord $stock */
-        return $this->stockModelClass::findOne($condition) ?: new $this->stockModelClass($condition);
+        return $this->stockClass::findOne($condition) ?: new $this->stockClass($condition);
     }
 
     /**
@@ -103,7 +103,7 @@ class ActiveRecordStockManager extends BaseStockManager
         $callable = function () use ($itemId, $locationId, $qty, $reason, $extraData) {
             parent::moveStock($itemId, $locationId, $qty, $reason, $extraData);
         };
-        $db = $this->stockMovementModelClass::getDb();
+        $db = $this->stockMovementClass::getDb();
         if ($db instanceof Connection) {
             return $db->transaction($callable);
         } else {
@@ -123,7 +123,7 @@ class ActiveRecordStockManager extends BaseStockManager
     protected function createStockMovement($itemId, $locationId, int $qty, $reason, $extraData = [])
     {
         /** @var BaseActiveRecord $stockMovement */
-        $stockMovement = new $this->stockMovementModelClass();
+        $stockMovement = new $this->stockMovementClass();
         $stockMovement->setAttributes([
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,

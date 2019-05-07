@@ -16,11 +16,13 @@ use yii\base\InvalidValueException;
  */
 class UnitAliasBehavior extends AliasPropertyBehavior
 {
-    const UNIT_MM = 'mm';
-    const UNIT_CM = 'cm';
-    const UNIT_M = 'm';
-    const UNIT_G = 'g';
-    const UNIT_KG = 'kg';
+    const UNIT_SIZE_MM = 'mm';
+    const UNIT_SIZE_CM = 'cm';
+    const UNIT_SIZE_M = 'm';
+    const UNIT_WEIGHT_G = 'g';
+    const UNIT_WIGHT_KG = 'kg';
+    const UNIT_MONEY_YUAN = 'yuan';
+    const UNIT_MONEY_CENT = 'cent';
 
     /**
      * @var array
@@ -34,7 +36,11 @@ class UnitAliasBehavior extends AliasPropertyBehavior
         'mm2m' => 0.001,
         'm2cm' => 100,
         'cm2m' => 0.01,
+        'yuan2cent' => 100,
+        'cent2yuan' => 0.01,
     ];
+
+    private static $onlyIntUnits = ['mm', 'g', 'cent'];
 
     /**
      * @var string
@@ -114,6 +120,10 @@ class UnitAliasBehavior extends AliasPropertyBehavior
             return $value;
         }
         $key = $from . '2' . $to;
-        return $value * (static::$unitConvertRates[$key] ?? 1);
+        $convertedValue = $value * (static::$unitConvertRates[$key] ?? 1);
+        if (in_array($to, static::$onlyIntUnits)) {
+            $convertedValue = round($convertedValue);
+        }
+        return $convertedValue;
     }
 }

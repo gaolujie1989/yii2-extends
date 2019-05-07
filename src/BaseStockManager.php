@@ -21,7 +21,8 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
 
     public $itemIdAttribute = 'item_id';
     public $locationIdAttribute = 'location_id';
-    public $qtyAttribute = 'qty';
+    public $stockQtyAttribute = 'stock_qty';
+    public $movedQtyAttribute = 'moved_qty';
     public $reasonAttribute = 'reason';
 
     /**
@@ -89,7 +90,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     public function correct($itemId, $locationId, int $qty, $extraData = [])
     {
         $stock = $this->getStock($itemId, $locationId);
-        $stockQty = $stock->getAttribute($this->qtyAttribute) ?: 0;
+        $stockQty = $stock->getAttribute($this->stockQtyAttribute) ?: 0;
         $moveQty = $qty - $stockQty;
         $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $extraData);
     }
@@ -124,7 +125,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     {
         $stock = $this->getStock($itemId, $locationId);
         if ($qty < 0) {
-            $stockQty = $stock->getAttribute($this->qtyAttribute) ?: 0;
+            $stockQty = $stock->getAttribute($this->stockQtyAttribute) ?: 0;
             if ($stockQty + $qty < 0) {
                 throw new Exception("No enough stocks of {$itemId} in {$locationId}");
             }
@@ -147,10 +148,10 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $extraData);
         if ($createdMovement) {
             if ($stock->getIsNewRecord()) {
-                $stock->setAttributes([$this->qtyAttribute => $qty]);
+                $stock->setAttributes([$this->stockQtyAttribute => $qty]);
                 $result = $stock->save(false);
             } else {
-                $result = $stock->updateCounters([$this->qtyAttribute => $qty]);
+                $result = $stock->updateCounters([$this->stockQtyAttribute => $qty]);
             }
         }
 

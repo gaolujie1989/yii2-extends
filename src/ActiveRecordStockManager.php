@@ -67,8 +67,8 @@ class ActiveRecordStockManager extends BaseStockManager
                 $this->itemIdAttribute => $itemId,
                 $this->locationIdAttribute => $locationId,
             ]);
-        $stockQty = $query->sum($this->qtyAttribute);
-        $stock->setAttribute($this->qtyAttribute, $stockQty);
+        $stockQty = $query->sum($this->movedQtyAttribute);
+        $stock->setAttribute($this->stockQtyAttribute, $stockQty);
         return $stock->save(false);
     }
 
@@ -127,7 +127,7 @@ class ActiveRecordStockManager extends BaseStockManager
         $stockMovement->setAttributes([
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,
-            $this->qtyAttribute => $qty,
+            $this->movedQtyAttribute => $qty,
             $this->reasonAttribute => $reason,
         ]);
         $stockMovement->setAttributes($extraData);

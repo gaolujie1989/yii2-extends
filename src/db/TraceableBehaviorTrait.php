@@ -11,6 +11,12 @@ use yii\db\BaseActiveRecord;
 
 /**
  * Trait TraceableBehaviorTrait
+ *
+ * @property int $created_at
+ * @property int $created_by
+ * @property int $updated_at
+ * @property int $updated_by
+ *
  * @package lujie\extend\db
  */
 trait TraceableBehaviorTrait

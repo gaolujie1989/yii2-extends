@@ -4,11 +4,11 @@
  */
 
 return [
-    'lujie/yii2-batch' => [
-        'name' => 'lujie/yii2-batch',
+    'lujie/yii2-field-query' => [
+        'name' => 'lujie/yii2-field-query',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/batch' => __DIR__ . '/src',
+            '@lujie/db/fieldQuery/behaviors' => __DIR__ . '/src',
         ]
     ],
 ];

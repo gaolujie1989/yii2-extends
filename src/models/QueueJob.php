@@ -2,7 +2,9 @@
 
 namespace lujie\queuing\monitor\models;
 
+use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%queue_job}}".
@@ -17,8 +19,10 @@ use Yii;
  * @property int $last_exec_at
  * @property int $last_exec_status
  */
-class QueueJob extends \lujie\core\db\ActiveRecord
+class QueueJob extends ActiveRecord
 {
+    use TraceableBehaviorTrait;
+
     public $status;
 
     /**

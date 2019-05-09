@@ -160,7 +160,7 @@ class Configuration extends Component implements BootstrapInterface
         if ($config = $this->getAllConfig()) {
             foreach ($config as $key => $value) {
                 if (isset($app->params[$key])) {
-                    $app->params[$key] = ArrayHelper::merge($app->params[$key], $value);
+                    $app->params[$key] = ArrayHelper::merge($value, $app->params[$key]);
                 } else {
                     $app->params[$key] = $value;
                 }

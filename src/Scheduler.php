@@ -5,7 +5,7 @@
 
 namespace lujie\scheduling;
 
-use lujie\core\helpers\ComponentHelper;
+use lujie\extend\helpers\ComponentHelper;
 use lujie\data\loader\DataLoaderInterface;
 use Yii;
 use yii\base\Component;

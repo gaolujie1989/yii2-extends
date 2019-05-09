@@ -1,7 +1,13 @@
 <?php
 
-class m181219_143822_queue_job extends \lujie\core\db\Migration
+use lujie\extend\db\DropTableTrait;
+use lujie\extend\db\TraceableColumnTrait;
+use yii\db\Migration;
+
+class m181219_143822_queue_job extends Migration
 {
+    use DropTableTrait, TraceableColumnTrait;
+
     public $tableName = '{{%queue_job}}';
 
     public function safeUp()

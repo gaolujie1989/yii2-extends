@@ -8,7 +8,7 @@ return [
         'name' => 'lujie/yii2-data-storage',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/data-storage' => __DIR__ . '/src',
+            '@lujie/data/storage' => __DIR__ . '/src',
         ]
     ],
 ];

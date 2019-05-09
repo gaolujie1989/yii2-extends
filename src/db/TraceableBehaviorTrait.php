@@ -5,9 +5,11 @@
 
 namespace lujie\extend\db;
 
+use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
+use yii\web\User;
 
 /**
  * Trait TraceableBehaviorTrait
@@ -47,7 +49,7 @@ trait TraceableBehaviorTrait
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => $this->hasAttribute('created_by') ? 'created_by' : false,
                 'updatedByAttribute' => $this->hasAttribute('updated_by') ? 'updated_by' : false,
-                'defaultValue' => 0,
+                'value' => [$this, 'getActionBy'],
             ],
         ];
         $behaviors = array_filter($behaviors, function($behavior) {
@@ -57,5 +59,12 @@ trait TraceableBehaviorTrait
             }, ARRAY_FILTER_USE_BOTH);
         });
         return $behaviors;
+    }
+
+    public function getActionBy()
+    {
+        /** @var User $user */
+        $user = Yii::$app->get('user', false);
+        return $user ? ($user->getIsGuest() ? 0 : $user->getId()) : 0;
     }
 }

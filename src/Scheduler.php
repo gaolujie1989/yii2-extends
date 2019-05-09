@@ -58,7 +58,7 @@ class Scheduler extends Component
      */
     public function getTasks()
     {
-        $tasks = $this->taskLoader->loadAll();
+        $tasks = $this->taskLoader->all();
         foreach ($tasks as $taskCode => $task) {
             if (!($task instanceof TaskInterface)) {
                 $taskData = array_merge(ArrayHelper::toArray($task), ['taskCode' => $taskCode]);
@@ -75,7 +75,7 @@ class Scheduler extends Component
      */
     public function getTask($taskCode) : TaskInterface
     {
-        $task = $this->taskLoader->loadByKey($taskCode);
+        $task = $this->taskLoader->get($taskCode);
         if (empty($task)) {
             throw new InvalidArgumentException("Task code {$taskCode} not found.");
         }

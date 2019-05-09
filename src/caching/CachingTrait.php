@@ -59,7 +59,9 @@ trait CachingTrait
      */
     public function initCache()
     {
-        $this->cache = Instance::ensure($this->cache, CacheInterface::class);
+        if ($this->cache) {
+            $this->cache = Instance::ensure($this->cache, CacheInterface::class);
+        }
         if (empty($this->cacheKeyPrefix)) {
             throw new InvalidConfigException('Cache key prefix must be set.');
         }
@@ -83,6 +85,10 @@ trait CachingTrait
      */
     public function getOrSet($key, $callable)
     {
-        return $this->cache->getOrSet($key, $callable, $this->cacheDuration, $this->cacheDependency);
+        if ($this->cache) {
+            return $this->cache->getOrSet($key, $callable, $this->cacheDuration, $this->cacheDependency);
+        } else {
+            return call_user_func($callable);
+        }
     }
 }

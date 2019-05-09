@@ -38,26 +38,23 @@ trait TraceableBehaviorTrait
      */
     public function traceableBehaviors()
     {
+        $behaviors = [];
         /** @var BaseActiveRecord $this */
-        $behaviors = [
-            'timestamp' => [
+        if ($this->hasAttribute('created_at') || $this->hasAttribute('updated_at')) {
+            $behaviors['timestamp'] = [
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => $this->hasAttribute('created_at') ? 'created_at' : false,
                 'updatedAtAttribute' => $this->hasAttribute('updated_at') ? 'updated_at' : false,
-            ],
-            'blameable' => [
+            ];
+        }
+        if ($this->hasAttribute('created_by') || $this->hasAttribute('updated_by')) {
+            $behaviors['blameable'] = [
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => $this->hasAttribute('created_by') ? 'created_by' : false,
                 'updatedByAttribute' => $this->hasAttribute('updated_by') ? 'updated_by' : false,
                 'value' => [$this, 'getActionBy'],
-            ],
-        ];
-        $behaviors = array_filter($behaviors, function($behavior) {
-            //return available attributes, if not empty, enable behavior
-            return array_filter($behavior, function($k, $v){
-                return strpos($k, 'Attribute') !== 0 && $v;
-            }, ARRAY_FILTER_USE_BOTH);
-        });
+            ];
+        }
         return $behaviors;
     }
 

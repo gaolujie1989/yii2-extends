@@ -6,7 +6,7 @@
 namespace lujie\queuing\monitor;
 
 
-use lujie\core\helpers\ComponentHelper;
+use lujie\extend\helpers\ComponentHelper;
 use yii\base\Behavior;
 use yii\queue\ErrorEvent;
 use yii\queue\ExecEvent;

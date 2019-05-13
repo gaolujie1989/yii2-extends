@@ -86,6 +86,7 @@ trait CachingTrait
     public function getOrSet($key, $callable)
     {
         if ($this->cache) {
+            $key = $this->cacheKeyPrefix . $key;
             return $this->cache->getOrSet($key, $callable, $this->cacheDuration, $this->cacheDependency);
         } else {
             return call_user_func($callable);

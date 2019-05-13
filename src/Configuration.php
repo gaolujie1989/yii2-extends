@@ -42,7 +42,7 @@ class Configuration extends Component implements BootstrapInterface
     public $configLoader = [
         'class' => TypedFileDataLoader::class,
         'filePools' => ['@common/modules'],
-        'filePathTemplate' => '{filePool}/*/config/{type}.php',
+        'typedFilePathTemplate' => '{filePool}/*/config/{type}.php',
     ];
 
     /**

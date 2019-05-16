@@ -116,6 +116,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
         ];
         $this->saveJobRecord($jobData);
         $this->updateWorkerExecCount($event, true);
+        $this->cleanJobAndExec();
     }
 
     public function afterError(ErrorEvent $event)

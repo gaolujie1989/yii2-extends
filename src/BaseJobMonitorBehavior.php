@@ -175,7 +175,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             $jobCondition = ['OR'];
             $execCondition = ['OR'];
             foreach ($this->timeToClean as $status => $expire) {
-                $jobCondition[] = ['AND', ['status' => $status], ['<', 'pushed_at', strtotime($expire)]];
+                $jobCondition[] = ['AND', ['last_exec_status' => $status], ['<', 'last_exec_at', strtotime($expire)]];
                 $execCondition[] = ['AND', ['status' => $status], ['<', 'started_at', strtotime($expire)]];
             }
             $this->deleteJob($jobCondition);

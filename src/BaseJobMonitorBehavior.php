@@ -179,7 +179,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
                 $execCondition[] = ['AND', ['status' => $status], ['<', 'started_at', strtotime($expire)]];
             }
             $this->deleteJob($jobCondition);
-            $this->deleteJobExec($jobCondition);
+            $this->deleteJobExec($execCondition);
         }
     }
 

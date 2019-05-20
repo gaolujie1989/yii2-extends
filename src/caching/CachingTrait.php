@@ -36,7 +36,7 @@ trait CachingTrait
     /**
      * @var string
      */
-    public $cacheKeyPrefix;
+    public $cacheKeyPrefix = '';
 
     /**
      * @var string[]
@@ -47,7 +47,7 @@ trait CachingTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->initCache();
@@ -57,13 +57,10 @@ trait CachingTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function initCache()
+    public function initCache(): void
     {
         if ($this->cache) {
             $this->cache = Instance::ensure($this->cache, CacheInterface::class);
-        }
-        if (empty($this->cacheKeyPrefix)) {
-            throw new InvalidConfigException('Cache key prefix must be set.');
         }
         if ($this->cacheTags) {
             $tagDependency = new TagDependency(['tags' => (array)$this->cacheTags]);
@@ -88,8 +85,7 @@ trait CachingTrait
         if ($this->cache) {
             $key = $this->cacheKeyPrefix . $key;
             return $this->cache->getOrSet($key, $callable, $this->cacheDuration, $this->cacheDependency);
-        } else {
-            return call_user_func($callable);
         }
+        return $callable();
     }
 }

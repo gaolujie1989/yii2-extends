@@ -2,14 +2,14 @@
 
 namespace tests\unit;
 
-use lujie\data\loader\ArrayDataLoader;
+use lujie\data\loader\FileDataLoader;
 
 /**
- * Class ArrayDataLoaderTest
+ * Class PhpArrayFileDataLoaderTest
  * @package tests\unit
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ArrayDataLoaderTest extends \Codeception\Test\Unit
+class PhpArrayFileDataLoaderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -27,14 +27,9 @@ class ArrayDataLoaderTest extends \Codeception\Test\Unit
     // tests
     public function testMe(): void
     {
-        $data = [
-            'aaa' => 'aaa',
-            'bbb' => [
-                'ddd' => 'ddd'
-            ],
-        ];
-        $dataLoader = new ArrayDataLoader([
-            'data' => $data
+        $data = require __DIR__ . '/data.php';
+        $dataLoader = new FileDataLoader([
+            'filePools' => [__DIR__],
         ]);
 
         $this->assertEquals($data, $dataLoader->all());

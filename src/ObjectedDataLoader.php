@@ -78,7 +78,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    private function createObject(?array $data): object
+    private function createObject(?array $data): ?object
     {
         if ($data === null) {
             return null;

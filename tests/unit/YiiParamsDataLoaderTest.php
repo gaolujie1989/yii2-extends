@@ -2,14 +2,15 @@
 
 namespace tests\unit;
 
-use lujie\data\loader\ArrayDataLoader;
+use lujie\data\loader\YiiParamsDataLoader;
+use Yii;
 
 /**
- * Class ArrayDataLoaderTest
+ * Class YiiParamsDataLoaderTest
  * @package tests\unit
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ArrayDataLoaderTest extends \Codeception\Test\Unit
+class YiiParamsDataLoaderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -33,8 +34,10 @@ class ArrayDataLoaderTest extends \Codeception\Test\Unit
                 'ddd' => 'ddd'
             ],
         ];
-        $dataLoader = new ArrayDataLoader([
-            'data' => $data
+        $paramKey = 'xyz.xxx123';
+        Yii::$app->params['xyz']['xxx123'] = $data;
+        $dataLoader = new YiiParamsDataLoader([
+            'paramKey' => $paramKey,
         ]);
 
         $this->assertEquals($data, $dataLoader->all());

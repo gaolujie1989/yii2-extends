@@ -5,9 +5,8 @@
 
 namespace lujie\data\loader;
 
-
-use function PHPSTORM_META\registerArgumentsSet;
 use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\di\Instance;
@@ -40,15 +39,32 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     public $condition = [];
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init()
     {
         parent::init();
         $this->db = Instance::ensure($this->db, Connection::class);
+        $this->initUniqueKey();
         if (empty($this->uniqueKey)) {
-            $this->uniqueKey = reset($this->db->getTableSchema($this->table)->primaryKey);
+            throw new InvalidConfigException('UniqueKey can not be empty');
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    private function initUniqueKey(): void
+    {
+        if (empty($this->uniqueKey)) {
+            $tableSchema = $this->db->getTableSchema($this->table);
+            if ($tableSchema) {
+                $primaryKey = $tableSchema->primaryKey;
+                if ($primaryKey) {
+                    $this->uniqueKey = reset($primaryKey);
+                }
+            }
         }
     }
 

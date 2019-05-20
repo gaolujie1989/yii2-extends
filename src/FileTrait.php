@@ -26,12 +26,14 @@ trait FileTrait
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function initFsAndPath()
+    public function initFsAndPath(): void
     {
         if ($this->fs) {
             $this->fs = Instance::ensure($this->fs);
-            $pos = strpos($this->path, '/');
-            $this->path = $pos !== false ? substr($this->path, $pos + 1) : '';
+            if (strpos($this->path, '@') !== false) {
+                $pos = strpos($this->path, '/');
+                $this->path = $pos !== false ? substr($this->path, $pos + 1) : '';
+            }
         } else {
             $this->path = Yii::getAlias($this->path);
             if (!file_exists($this->path)) {
@@ -51,11 +53,11 @@ trait FileTrait
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function saveUploadedFile($fileName, UploadedFile $file, $deleteTempFile = true)
+    public function saveUploadedFile($fileName, UploadedFile $file, $deleteTempFile = true): bool
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {
-            $result = $this->fs->writeStream($filePath, fopen($file->tempName, 'r'));
+            $result = $this->fs->writeStream($filePath, fopen($file->tempName, 'rb'));
             if ($deleteTempFile) {
                 unlink($file->tempName);
             }
@@ -77,11 +79,11 @@ trait FileTrait
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function saveFile($fileName, $file, $deleteFile = false)
+    public function saveFile($fileName, $file, $deleteFile = false): bool
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {
-            $result = $this->fs->writeStream($filePath, fopen($file, 'r'));
+            $result = $this->fs->writeStream($filePath, fopen($file, 'rb'));
             if ($deleteFile) {
                 unlink($file);
             }
@@ -100,17 +102,15 @@ trait FileTrait
      * @return bool
      * @inheritdoc
      */
-    public function deleteFile($fileName)
+    public function deleteFile($fileName): bool
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {
             if ($this->fs->has($filePath)) {
                 return $this->fs->delete($filePath);
             }
-        } else {
-            if (file_exists($filePath)) {
-                return unlink($filePath);
-            }
+        } else if (file_exists($filePath)) {
+            return unlink($filePath);
         }
         return false;
     }
@@ -127,10 +127,8 @@ trait FileTrait
             if ($this->fs->has($filePath)) {
                 return $this->fs->read($filePath);
             }
-        } else {
-            if (file_exists($filePath)) {
-                return file_get_contents($filePath);
-            }
+        } else if (file_exists($filePath)) {
+            return file_get_contents($filePath);
         }
         return false;
     }

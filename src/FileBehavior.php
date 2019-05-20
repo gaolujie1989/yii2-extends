@@ -69,7 +69,7 @@ class FileBehavior extends Behavior
      * @param AfterSaveEvent $event
      * @inheritdoc
      */
-    public function afterUpdate(AfterSaveEvent $event)
+    public function afterUpdate(AfterSaveEvent $event): void
     {
         if ($this->unlinkOnUpdate && isset($event->changedAttributes[$this->attribute])) {
             $oldFileName = $event->changedAttributes[$this->attribute];
@@ -80,7 +80,7 @@ class FileBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function afterDelete()
+    public function afterDelete(): void
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
@@ -97,7 +97,7 @@ class FileBehavior extends Behavior
      * @return string
      * @inheritdoc
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         $value = $this->owner->{$this->attribute};
         return $this->url . $value;
@@ -107,7 +107,7 @@ class FileBehavior extends Behavior
      * @return string
      * @inheritdoc
      */
-    public function getPath()
+    public function getPath(): string
     {
         $value = $this->owner->{$this->attribute};
         return $this->path . $value;
@@ -129,7 +129,7 @@ class FileBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function canGetProperty($name, $checkVars = true)
+    public function canGetProperty($name, $checkVars = true): bool
     {
         $canGetProperty = parent::canGetProperty($name, $checkVars);
         if ($canGetProperty) {
@@ -147,7 +147,7 @@ class FileBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    protected function isUploadFileAttribute($name)
+    protected function isUploadFileAttribute($name): bool
     {
         foreach ($this->suffixes as $suffix) {
             if (ucfirst(substr($name, -strlen($suffix))) == $suffix) {

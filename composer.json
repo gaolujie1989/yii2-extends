@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\upload\\": "src" }
+    "psr-4": {
+      "lujie\\upload\\": "src",
+      "lujie\\upload\\tests\\": "tests"
+    }
   },
   "require": {
     "creocoder/yii2-flysystem": "~0.9.3"

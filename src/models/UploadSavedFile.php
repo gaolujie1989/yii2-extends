@@ -48,7 +48,6 @@ class UploadSavedFile extends ActiveRecord
         return [
             [['file'], 'required'],
             [['model_id', 'position', 'size'], 'integer'],
-            [['owner'], 'string', 'max' => 20],
             [['name', 'file'], 'string', 'max' => 255],
             [['ext'], 'string', 'max' => 10],
         ];

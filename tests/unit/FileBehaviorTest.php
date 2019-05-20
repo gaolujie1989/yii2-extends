@@ -56,7 +56,7 @@ class FileBehaviorTest extends \Codeception\Test\Unit
                 'unlinkOnDelete' => true,
             ]
         ]);
-        $file->save();
+        $this->assertTrue($file->save());
 
         $this->assertEquals($staticUrl . 'savedUploadedFile.bin', $file->getUrl());
         $this->assertEquals($savedFile, $file->getPath());

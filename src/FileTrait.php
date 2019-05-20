@@ -55,13 +55,14 @@ trait FileTrait
      */
     public function saveUploadedFile(string $fileName, UploadedFile $file, bool $deleteTempFile = true): bool
     {
-        $filePath = $this->path . $fileName;
+        if ($file->error !== UPLOAD_ERR_OK || !is_uploaded_file($file->tempName)) {
+            return false;
+        }
+
         if ($this->fs) {
-            $result = $this->fs->writeStream($filePath, fopen($file->tempName, 'rb'));
-            if ($deleteTempFile) {
-                unlink($file->tempName);
-            }
+            $result = $this->saveFile($fileName, $file->tempName, $deleteTempFile);
         } else {
+            $filePath = $this->path . $fileName;
             $fileDir = pathinfo($filePath, PATHINFO_DIRNAME);
             if (!file_exists($fileDir)) {
                 FileHelper::createDirectory($this->path, 0777);

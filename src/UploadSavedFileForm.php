@@ -15,12 +15,6 @@ use yii\base\InvalidConfigException;
  */
 class UploadSavedFileForm extends UploadSavedFile
 {
-    /**
-     * not use /tmp, file may be clean by system
-     * @var string
-     */
-    public $path = '@uploads';
-
     public $inputName = 'file';
 
     public $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -51,7 +45,6 @@ class UploadSavedFileForm extends UploadSavedFile
                 'class' => UploadBehavior::class,
                 'attribute' => 'file',
                 'inputName' => $this->inputName,
-                'path' => $this->path,
                 'fs' => 'filesystem',
                 'newNameTemplate' => "{$modelType}/{date}/{$modelType}_{datetime}_{rand}.{ext}"
             ],

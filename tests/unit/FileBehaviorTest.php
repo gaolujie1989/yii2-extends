@@ -16,7 +16,7 @@ class FileBehaviorTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
-        $this->initSavedFile();
+        $this->initTestFiles();
     }
 
     protected function _after()
@@ -24,7 +24,7 @@ class FileBehaviorTest extends \Codeception\Test\Unit
     }
 
     // tests
-    protected function initSavedFile(): void
+    protected function initTestFiles(): void
     {
         $testFile = __DIR__ . '/fixtures/testUploadedFile.bin';
         $savedFile = __DIR__ . '/fixtures/savedUploadedFile.bin';

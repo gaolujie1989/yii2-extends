@@ -34,6 +34,9 @@ class PhpArrayFileDataStorageTest extends \Codeception\Test\Unit
             ],
         ];
         $file = __DIR__ . '/fixtures/data.php';
+        if (file_exists($file)) {
+            unlink($file);
+        }
         $dataLoader = new FileDataStorage([
             'file' => $file,
         ]);
@@ -42,7 +45,13 @@ class PhpArrayFileDataStorageTest extends \Codeception\Test\Unit
         $dataLoader->set('bbb.ddd', 'ddd');
         $this->assertEquals('aaa', $dataLoader->get('aaa'));
         $this->assertEquals('ddd', $dataLoader->get('bbb.ddd'));
+        $this->assertEquals(null, $dataLoader->get('ccc'));
         $this->assertFileExists($file);
         $this->assertEquals($data, require $file);
+
+        $dataLoader->delete('aaa');
+        $this->assertEquals(null, $dataLoader->get('aaa'));
+        $dataLoader->delete('bbb.ddd');
+        $this->assertEquals(null, $dataLoader->get('bbb.ddd'));
     }
 }

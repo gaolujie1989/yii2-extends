@@ -41,7 +41,7 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
 
     /**
      * @param int|string $key
-     * @return array|void|null
+     * @return mixed|void|null
      * @inheritdoc
      */
     public function get($key)
@@ -52,7 +52,7 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
         });
     }
 
-    public function all()
+    public function all(): ?array
     {
         $cacheKey = $this->cacheKeyPrefix . $this->cacheAllKey;
         $this->getOrSet($cacheKey, function() {

@@ -56,10 +56,10 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
     }
 
     /**
-     * @return array|void
+     * @return array|null
      * @inheritdoc
      */
-    public function all()
+    public function all(): ?array
     {
         if (empty($this->data)) {
             $this->data = $this->loadFilesData();
@@ -71,15 +71,16 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    protected function findFiles()
+    protected function findFiles(): ?array
     {
         $loadedFiles = [];
         foreach ($this->filePools as $filePool) {
             $filePool = Yii::getAlias($filePool);
             $filePath = strtr($this->filePathTemplate, ['{filePool}' => $filePool]);
             $files = glob($filePath);
-            $loadedFiles = array_merge($loadedFiles, $files);
+            $loadedFiles[] = $files;
         }
+        $loadedFiles = array_merge(...$loadedFiles);
         array_unique($loadedFiles);
         return $loadedFiles;
     }
@@ -88,14 +89,15 @@ class FileDataLoader extends ArrayDataLoader implements DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    protected function loadFilesData()
+    protected function loadFilesData(): array
     {
         $loadedFiles = $this->findFiles();
-        $data = [];
+        $data = [[], []];
         foreach ($loadedFiles as $loadedFile) {
             $fileData = $this->fileParser->parseFile($loadedFile);
-            $data = ArrayHelper::merge($data, $fileData);
+            $data[] = $fileData;
         }
+        $data = ArrayHelper::merge(...$data);
         return $data;
     }
 }

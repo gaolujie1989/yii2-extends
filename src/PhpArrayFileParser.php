@@ -10,7 +10,7 @@ class PhpArrayFileParser implements FileParserInterface
 {
     /**
      * @param string $file
-     * @return mixed
+     * @return array
      * @inheritdoc
      */
     public function parseFile(string $file) : array

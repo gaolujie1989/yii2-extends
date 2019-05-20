@@ -66,10 +66,10 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     }
 
     /**
-     * @return array
+     * @return array|null
      * @inheritdoc
      */
-    public function all()
+    public function all(): ?array
     {
         return (new Query())->from($this->table)
             ->andFilterWhere($this->condition)

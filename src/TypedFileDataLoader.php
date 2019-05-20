@@ -42,7 +42,7 @@ class TypedFileDataLoader extends FileDataLoader
      * @return array|mixed|void|null
      * @inheritdoc
      */
-    public function all()
+    public function all(): ?array
     {
         $this->filePathTemplate = strtr($this->typedFilePathTemplate, ['{type}' => $this->allType]);
         $this->data = ArrayHelper::merge($this->data, $this->loadFilesData());
@@ -53,15 +53,16 @@ class TypedFileDataLoader extends FileDataLoader
      * @return array
      * @inheritdoc
      */
-    protected function loadFilesData()
+    protected function loadFilesData(): array
     {
         $loadedFiles = $this->findFiles();
-        $data = [];
+        $data = [[], []];
         foreach ($loadedFiles as $loadedFile) {
             $fileName = pathinfo($loadedFile, PATHINFO_FILENAME);
             $fileData[$fileName] = $this->fileParser->parseFile($loadedFile);
-            $data = ArrayHelper::merge($data, $fileData);
+            $data[] = $fileData;
         }
+        ArrayHelper::merge(...$data);
         return $data;
     }
 }

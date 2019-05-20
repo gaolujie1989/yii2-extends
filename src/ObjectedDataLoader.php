@@ -34,7 +34,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
     public $objectClass;
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init()
@@ -48,7 +48,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
 
     /**
      * @param int|string $key
-     * @return array|object|null
+     * @return mixed|object|null
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -59,11 +59,11 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
     }
 
     /**
-     * @return array
+     * @return array|null
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function all()
+    public function all(): ?array
     {
         $all = $this->dataLoader->all();
         foreach ($all as $key => $item) {

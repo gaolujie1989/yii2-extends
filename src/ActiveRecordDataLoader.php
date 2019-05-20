@@ -43,7 +43,8 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
     {
         parent::init();
         if (empty($this->uniqueKey)) {
-            $this->uniqueKey = reset($this->modelClass::primaryKey());
+            $primaryKey = $this->modelClass::primaryKey();
+            $this->uniqueKey = reset($primaryKey);
         }
     }
 
@@ -65,7 +66,7 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
      * @return array|BaseActiveRecord[]
      * @inheritdoc
      */
-    public function all()
+    public function all(): ?array
     {
         return $this->modelClass::find()
             ->andFilterWhere($this->condition)

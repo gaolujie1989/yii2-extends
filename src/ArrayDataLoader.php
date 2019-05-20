@@ -31,7 +31,7 @@ class ArrayDataLoader extends BaseObject implements DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    public function all()
+    public function all(): ?array
     {
         return $this->data;
     }

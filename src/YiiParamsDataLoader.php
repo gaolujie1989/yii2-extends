@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class YiiParamsDataLoader extends ArrayDataLoader implements DataLoaderInterface
+class YiiParamsDataLoader extends ArrayDataLoader
 {
     /**
      * @var string

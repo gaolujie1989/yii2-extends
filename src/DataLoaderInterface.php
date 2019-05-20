@@ -10,7 +10,7 @@ interface DataLoaderInterface
 {
     /**
      * @param string|int $key
-     * @return array|null
+     * @return mixed|null
      * @inheritdoc
      */
     public function get($key);
@@ -19,5 +19,5 @@ interface DataLoaderInterface
      * @return array
      * @inheritdoc
      */
-    public function all();
+    public function all(): ?array;
 }

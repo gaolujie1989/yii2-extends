@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit;
+namespace lujie\data\storage\tests\unit;
 
 use lujie\data\storage\FileDataStorage;
 
@@ -45,13 +45,13 @@ class PhpArrayFileDataStorageTest extends \Codeception\Test\Unit
         $dataLoader->set('bbb.ddd', 'ddd');
         $this->assertEquals('aaa', $dataLoader->get('aaa'));
         $this->assertEquals('ddd', $dataLoader->get('bbb.ddd'));
-        $this->assertEquals(null, $dataLoader->get('ccc'));
+        $this->assertNull($dataLoader->get('ccc'));
         $this->assertFileExists($file);
         $this->assertEquals($data, require $file);
 
         $dataLoader->delete('aaa');
-        $this->assertEquals(null, $dataLoader->get('aaa'));
+        $this->assertNull($dataLoader->get('aaa'));
         $dataLoader->delete('bbb.ddd');
-        $this->assertEquals(null, $dataLoader->get('bbb.ddd'));
+        $this->assertNull($dataLoader->get('bbb.ddd'));
     }
 }

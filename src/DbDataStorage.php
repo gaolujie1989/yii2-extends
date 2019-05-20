@@ -5,6 +5,7 @@
 
 namespace lujie\data\storage;
 
+use lujie\data\loader\DbDataLoader;
 use yii\db\Query;
 
 /**
@@ -14,21 +15,6 @@ use yii\db\Query;
  */
 class DbDataStorage extends DbDataLoader implements DataStorageInterface
 {
-    /**
-     * @param $key
-     * @return int|mixed
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function delete($key)
-    {
-        $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
-        return $this->db->createCommand()
-            ->delete($this->table, $condition)
-            ->execute();
-    }
-
-
     /**
      * @param $key
      * @param $data
@@ -44,9 +30,22 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
             ->exists($this->db);
 
         if ($exists) {
-            return $this->db->createCommand()->insert($this->table, $data)->execute();
-        } else {
             return $this->db->createCommand()->update($this->table, $data, $condition)->execute();
         }
+        return $this->db->createCommand()->insert($this->table, $data)->execute();
+    }
+
+    /**
+     * @param $key
+     * @return int|mixed
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function delete($key)
+    {
+        $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
+        return $this->db->createCommand()
+            ->delete($this->table, $condition)
+            ->execute();
     }
 }

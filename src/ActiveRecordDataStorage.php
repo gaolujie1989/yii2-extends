@@ -5,14 +5,16 @@
 
 namespace lujie\data\storage;
 
+use lujie\data\loader\ActiveRecordDataLoader;
 use Yii;
+use yii\db\BaseActiveRecord;
 
 /**
  * Class ActiveRecordDataStorage
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStorageInterface
+class ActiveRecordDataStorage extends ActiveRecordDataLoader
 {
     /**
      * @var bool
@@ -21,42 +23,48 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
 
     /**
      * @param $key
-     * @return bool|false|int|mixed
+     * @return BaseActiveRecord
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    private function getModel($key): BaseActiveRecord
+    {
+        /** @var BaseActiveRecord $model */
+        $model = $this->modelClass::find()
+            ->andFilterWhere($this->condition)
+            ->andWhere([$this->uniqueKey => $key])
+            ->one() ?: Yii::createObject($this->modelClass);
+        return $model;
+    }
+
+    /**
+     * @param $key
+     * @param $data
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function set($key, $data)
+    {
+        $model = $this->getModel($key);
+        $model->setAttributes($data);
+        return $model->save($this->runValidation);
+    }
+
+    /**
+     * @param $key
+     * @return bool|false|int
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     public function delete($key)
     {
-        $returnAsArray = $this->returnAsArray;
-        $this->returnAsArray = false;
-
-        if ($model = $this->get($key)) {
-            $this->returnAsArray = $returnAsArray;
+        $model = $this->getModel($key);
+        if (!$model->getIsNewRecord()) {
             return $model->delete();
         }
-        $this->returnAsArray = $returnAsArray;
-        return false;
-    }
-
-
-    /**
-     * @param $data
-     * @return bool|mixed
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function set($key, $data)
-    {
-        $returnAsArray = $this->returnAsArray;
-        $this->returnAsArray = false;
-
-        $model = $key ? $this->get($key) : null;
-        $this->returnAsArray = $returnAsArray;
-        if (empty($model)) {
-            $model = Yii::createObject($this->modelClass);
-        }
-        $model->setAttributes($data);
-        return $model->save($this->runValidation);
+        return 0;
     }
 }

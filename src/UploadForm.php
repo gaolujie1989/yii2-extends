@@ -32,7 +32,7 @@ class UploadForm extends Model
      * @return array
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
             'upload' => [
@@ -50,7 +50,7 @@ class UploadForm extends Model
      * @return array
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['file'], 'required'],
@@ -65,7 +65,7 @@ class UploadForm extends Model
      * @return array
      * @inheritdoc
      */
-    public function fields()
+    public function fields(): array
     {
         return ['file'];
     }
@@ -75,7 +75,7 @@ class UploadForm extends Model
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function saveUploadedFile()
+    public function saveUploadedFile(): bool
     {
         if (!$this->validate()) {
             return false;

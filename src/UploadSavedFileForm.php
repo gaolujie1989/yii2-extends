@@ -5,7 +5,7 @@
 
 namespace lujie\upload;
 
-use lujie\upload\modes\UploadedFile;
+use lujie\upload\models\UploadSavedFile;
 use yii\base\InvalidConfigException;
 
 /**
@@ -13,7 +13,7 @@ use yii\base\InvalidConfigException;
  * @package lujie\uploadImport\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UploadedFileForm extends UploadedFile
+class UploadSavedFileForm extends UploadSavedFile
 {
     /**
      * not use /tmp, file may be clean by system
@@ -43,7 +43,7 @@ class UploadedFileForm extends UploadedFile
      * @return array
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         $modelType = strtolower($this->model_type);
         return array_merge(parent::behaviors(), [
@@ -62,7 +62,7 @@ class UploadedFileForm extends UploadedFile
      * @return array
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['file'], 'required'],

@@ -15,6 +15,16 @@ class FileTraitTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
+        $this->initTempFileAndRemoveSavedFile();
+    }
+
+    protected function _after()
+    {
+    }
+
+    // tests
+    protected function initTempFileAndRemoveSavedFile(): void
+    {
         $testFile = __DIR__ . '/fixtures/testUploadedFile.bin';
         $tempFile = __DIR__ . '/fixtures/tempUploadedFile.bin';
         $saveFile = __DIR__ . '/fixtures/saveUploadedFile.bin';
@@ -32,11 +42,6 @@ class FileTraitTest extends \Codeception\Test\Unit
         }
     }
 
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testLocalFile(): void
     {
         $localFile = new FsFile([
@@ -61,8 +66,8 @@ class FileTraitTest extends \Codeception\Test\Unit
         $this->assertFileNotExists($tempFile);
         $this->assertFileEquals($testFile, $saveFile);
     }
-
     // tests
+
     public function testFsFile(): void
     {
         /** @var Filesystem $fs */

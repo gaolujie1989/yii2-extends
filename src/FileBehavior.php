@@ -43,7 +43,7 @@ class FileBehavior extends Behavior
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->initFsAndPath();
@@ -57,7 +57,7 @@ class FileBehavior extends Behavior
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             BaseActiveRecord::EVENT_AFTER_UPDATE => 'afterUpdate',
@@ -117,90 +117,10 @@ class FileBehavior extends Behavior
      * @return bool|false|string
      * @inheritdoc
      */
-    public function getContent()
+    public function getContent(): string
     {
         $value = $this->owner->{$this->attribute};
         return $this->loadFile($value);
-    }
-
-    /**
-     * @param string $name
-     * @param bool $checkVars
-     * @return bool
-     * @inheritdoc
-     */
-    public function canGetProperty($name, $checkVars = true): bool
-    {
-        $canGetProperty = parent::canGetProperty($name, $checkVars);
-        if ($canGetProperty) {
-            return true;
-        }
-
-        if ($this->isUploadFileAttribute($name)) {
-            return true;
-        }
-        return $canGetProperty;
-    }
-
-    /**
-     * @param $name
-     * @return bool
-     * @inheritdoc
-     */
-    protected function isUploadFileAttribute($name): bool
-    {
-        foreach ($this->suffixes as $suffix) {
-            if (ucfirst(substr($name, -strlen($suffix))) == $suffix) {
-                $attribute = substr($name, 0, strlen($name) - strlen($suffix));
-                return $attribute == $this->attribute;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $name
-     * @return mixed
-     * @throws \yii\base\UnknownPropertyException
-     * @inheritdoc
-     */
-    public function __get($name)
-    {
-        foreach ($this->suffixes as $suffix) {
-            if (substr($name, -strlen($suffix)) == $suffix) {
-                $attribute = substr($name, 0, strlen($name) - strlen($suffix));
-                if ($attribute == $this->attribute) {
-                    $getter = 'get' . $suffix;
-                    return $this->$getter();
-                }
-            }
-        }
-
-        return parent::__get($name);
-    }
-
-    /**
-     * @param string $name
-     * @param array $params
-     * @return mixed
-     * @inheritdoc
-     */
-    public function __call($name, $params)
-    {
-        if (strpos($name, 'get') === 0) {
-            foreach ($this->suffixes as $suffix) {
-                if (substr($name, -strlen($suffix)) == $suffix) {
-                    $attribute = lcfirst(substr($name, 3, strlen($name) - strlen($suffix) - 3));
-                    if ($attribute == $this->attribute) {
-                        $getter = 'get' . $suffix;
-                        return $this->$getter();
-                    }
-                }
-            }
-        }
-
-        return parent::__call($name, $params);
     }
 
     #endregion

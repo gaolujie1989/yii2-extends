@@ -1,25 +1,25 @@
 <?php
 
-namespace lujie\upload\modes;
+namespace lujie\upload\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 
 /**
  * This is the ActiveQuery class for [[UploadedFile]].
  *
- * @method UploadedFileQuery modelType($modelType)
- * @method UploadedFileQuery modelId($modelId)
- * @method UploadedFileQuery file($file)
+ * @method UploadSavedFileQuery modelType($modelType)
+ * @method UploadSavedFileQuery modelId($modelId)
+ * @method UploadSavedFileQuery file($file)
  *
- * @see UploadedFile
+ * @see UploadSavedFile
  */
-class UploadedFileQuery extends \yii\db\ActiveQuery
+class UploadSavedFileQuery extends \yii\db\ActiveQuery
 {
     /**
      * @return array
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): void
     {
         return array_merge(parent::behaviors(), [
             'fieldQuery' => [

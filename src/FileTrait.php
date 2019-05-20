@@ -53,7 +53,7 @@ trait FileTrait
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function saveUploadedFile($fileName, UploadedFile $file, $deleteTempFile = true): bool
+    public function saveUploadedFile(string $fileName, UploadedFile $file, bool $deleteTempFile = true): bool
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {
@@ -79,7 +79,7 @@ trait FileTrait
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function saveFile($fileName, $file, $deleteFile = false): bool
+    public function saveFile(string $fileName, string $file, bool $deleteFile = false): bool
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {
@@ -102,7 +102,7 @@ trait FileTrait
      * @return bool
      * @inheritdoc
      */
-    public function deleteFile($fileName): bool
+    public function deleteFile(string $fileName): bool
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {
@@ -120,7 +120,7 @@ trait FileTrait
      * @return bool|false|string
      * @inheritdoc
      */
-    public function loadFile($fileName)
+    public function loadFile(string $fileName)
     {
         $filePath = $this->path . $fileName;
         if ($this->fs) {

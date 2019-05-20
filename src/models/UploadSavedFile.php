@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\upload\modes;
+namespace lujie\upload\models;
 
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\upload\FileBehavior;
@@ -20,26 +20,30 @@ use yii\db\ActiveRecord;
  * @property string $ext
  * @property int $size
  *
- * @method string getFileUrl()
- * @method string getFilePath()
- * @method string getFileContent()
+ * @property string $url
+ * @property string $path
+ * @property string $content
+ *
+ * @method string getUrl()
+ * @method string getPath()
+ * @method string getContent()
  */
-class UploadedFile extends ActiveRecord
+class UploadSavedFile extends ActiveRecord
 {
     use TraceableBehaviorTrait;
 
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
-        return '{{%uploaded_file}}';
+        return '{{%upload_saved_file}}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['file'], 'required'],
@@ -53,7 +57,7 @@ class UploadedFile extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'uploaded_file_id' => Yii::t('lujie/upload', 'Uploaded File ID'),
@@ -68,19 +72,19 @@ class UploadedFile extends ActiveRecord
     }
 
     /**
-     * @return UploadedFileQuery|ActiveQuery
+     * @return UploadSavedFileQuery|ActiveQuery
      * @inheritdoc
      */
-    public static function find()
+    public static function find(): UploadSavedFileQuery
     {
-        return new UploadedFileQuery(get_called_class());
+        return new UploadSavedFileQuery(static::class);
     }
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),

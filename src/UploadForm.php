@@ -6,6 +6,7 @@
 namespace lujie\upload;
 
 use yii\base\Model;
+use yii\base\ModelEvent;
 
 /**
  * Class UploadForm
@@ -84,7 +85,7 @@ class UploadForm extends Model
         /** @var UploadBehavior $behavior */
         $behavior = $this->getBehavior('upload');
         //call behavior save uploaded file
-        $behavior->beforeSave();
+        $behavior->beforeSave(new ModelEvent());
         return true;
     }
 }

@@ -8,6 +8,7 @@ namespace lujie\upload;
 use creocoder\flysystem\Filesystem;
 use yii\base\Behavior;
 use yii\base\Model;
+use yii\base\ModelEvent;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\web\UploadedFile;
@@ -53,7 +54,7 @@ class UploadBehavior extends Behavior
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->initFsAndPath();
@@ -63,7 +64,7 @@ class UploadBehavior extends Behavior
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         $events = [
             Model::EVENT_BEFORE_VALIDATE => 'beforeValidate',
@@ -79,7 +80,7 @@ class UploadBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function beforeValidate()
+    public function beforeValidate(): void
     {
         /** @var Model $model */
         $model = $this->owner;
@@ -90,12 +91,10 @@ class UploadBehavior extends Behavior
         $file = $model->{$this->attribute};
         if ($file instanceof UploadedFile) {
             $this->_uploadedFile = $file;
+        } else if ($this->inputName) {
+            $this->_uploadedFile = UploadedFile::getInstanceByName($this->inputName);
         } else {
-            if ($this->inputName) {
-                $this->_uploadedFile = UploadedFile::getInstanceByName($this->inputName);
-            } else {
-                $this->_uploadedFile = UploadedFile::getInstance($model, $this->attribute);
-            }
+            $this->_uploadedFile = UploadedFile::getInstance($model, $this->attribute);
         }
         if ($this->_uploadedFile instanceof UploadedFile) {
             $model->{$this->attribute} = $this->_uploadedFile;
@@ -103,9 +102,12 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * @param ModelEvent $event
+     * @throws \yii\base\Exception
+     * @throws \Exception
      * @inheritdoc
      */
-    public function beforeSave()
+    public function beforeSave(ModelEvent $event): void
     {
         /** @var Model $model */
         $model = $this->owner;
@@ -115,8 +117,12 @@ class UploadBehavior extends Behavior
 
         if ($this->_uploadedFile instanceof UploadedFile) {
             $fileName = $this->getFileName($this->_uploadedFile);
-            $this->saveUploadedFile($fileName, $this->_uploadedFile, $this->deleteTempFile);
-            $model->{$this->attribute} = $fileName;
+            if ($this->saveUploadedFile($fileName, $this->_uploadedFile, $this->deleteTempFile)) {
+                $model->{$this->attribute} = $fileName;
+            } else {
+                $event->isValid = false;
+                $model->addError($this->attribute, 'Save uploaded file failed.');
+            }
         }
     }
 
@@ -124,12 +130,11 @@ class UploadBehavior extends Behavior
      * @param AfterSaveEvent $event
      * @inheritdoc
      */
-    public function afterUpdate(AfterSaveEvent $event)
+    public function afterUpdate(AfterSaveEvent $event): void
     {
-        if ($this->deleteOnUpdate && isset($event->changedAttributes[$this->attribute])) {
-            if ($oldFileName = $event->changedAttributes[$this->attribute]) {
-                $this->deleteFile($oldFileName);
-            }
+        if ($this->deleteOnUpdate && isset($event->changedAttributes[$this->attribute])
+            && $oldFileName = $event->changedAttributes[$this->attribute]) {
+            $this->deleteFile($oldFileName);
         }
     }
 
@@ -140,36 +145,37 @@ class UploadBehavior extends Behavior
      */
     protected function isInScenarios(Model $model): bool
     {
-        return empty($this->scenarios) || in_array($model->getScenario(), $this->scenarios);
+        return empty($this->scenarios) || in_array($model->getScenario(), $this->scenarios, true);
     }
 
     /**
      * @param UploadedFile $file
-     * @return mixed|string
+     * @return string
+     * @throws \Exception
      * @inheritdoc
      */
-    protected function getFileName(UploadedFile $file)
+    protected function getFileName(UploadedFile $file): string
     {
         if ($this->generateNewName) {
             return is_callable($this->generateNewName)
                 ? call_user_func($this->generateNewName, $file)
                 : $this->generateFileName($file->extension);
-        } else {
-            return $file->name;
         }
+        return $file->name;
     }
 
     /**
      * @param $suffix
      * @return string
+     * @throws \Exception
      * @inheritdoc
      */
-    protected function generateFileName($suffix)
+    protected function generateFileName($suffix): string
     {
         $pairs = [
             '{date}' => date('ymd'),
             '{datetime}' => date('ymdHis'),
-            '{rand}' => rand(1000, 9999),
+            '{rand}' => random_int(1000, 9999),
             '{ext}' => $suffix
         ];
         return strtr($this->newNameTemplate, $pairs);

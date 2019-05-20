@@ -36,7 +36,7 @@ class UploadedFileViewAction extends Action
      * @throws \yii\web\RangeNotSatisfiableHttpException
      * @inheritdoc
      */
-    public function run($file)
+    public function run($file): void
     {
         /** @var UploadSavedFile $uploadedFile */
         $uploadedFile = $this->modelClass::find()->file($file)->one();
@@ -47,12 +47,12 @@ class UploadedFileViewAction extends Action
         if ($this->tmp) {
             $tmpFilePath = $this->tmp . $uploadedFile->file;
             if (!file_exists($tmpFilePath)) {
-                file_put_contents($tmpFilePath, $uploadedFile->getFileContent());
+                file_put_contents($tmpFilePath, $uploadedFile->getContent());
             }
             Yii::$app->getResponse()->xSendFile($tmpFilePath, $uploadedFile->name);
         } else {
             Yii::$app->getResponse()->sendContentAsFile(
-                $uploadedFile->getFileContent(),
+                $uploadedFile->getContent(),
                 $uploadedFile->name,
                 ['mimeType' => FileHelper::getMimeTypeByExtension($uploadedFile->file)]
             );

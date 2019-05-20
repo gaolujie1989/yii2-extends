@@ -62,7 +62,7 @@ class TypedFileDataLoader extends FileDataLoader
             $fileData[$fileName] = $this->fileParser->parseFile($loadedFile);
             $data[] = $fileData;
         }
-        ArrayHelper::merge(...$data);
+        $data = ArrayHelper::merge(...$data);
         return $data;
     }
 }

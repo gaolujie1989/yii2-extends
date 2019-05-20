@@ -27,9 +27,10 @@ class PhpArrayFileDataLoaderTest extends \Codeception\Test\Unit
     // tests
     public function testMe(): void
     {
-        $data = require __DIR__ . '/data.php';
+        $data = require __DIR__ . '/fixtures/data.php';
         $dataLoader = new FileDataLoader([
             'filePools' => [__DIR__],
+            'filePathTemplate' => '{filePool}/fixtures/data.php'
         ]);
 
         $this->assertEquals($data, $dataLoader->all());

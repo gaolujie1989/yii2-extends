@@ -7,7 +7,9 @@ use lujie\upload\FileBehavior;
 use lujie\upload\UploadBehavior;
 use lujie\upload\UploadForm;
 use lujie\upload\UploadSavedFileForm;
+use Yii;
 use yii\di\Instance;
+use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 
 class UploadBehaviorTest extends \Codeception\Test\Unit
@@ -25,6 +27,11 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
 
     protected function _after()
     {
+        FileHelper::removeDirectory(Yii::getAlias('@uploads/tests'));
+        $files = glob(__DIR__ . '/fixtures/tmp*');
+        foreach ($files as $file) {
+            unlink($file);
+        }
     }
 
     protected function initPostFiles(): void

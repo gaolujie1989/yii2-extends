@@ -131,6 +131,6 @@ trait FileTrait
         } else if (file_exists($filePath)) {
             return file_get_contents($filePath);
         }
-        return false;
+        return null;
     }
 }

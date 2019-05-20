@@ -4,15 +4,11 @@ namespace lujie\upload\tests\unit;
 
 use creocoder\flysystem\Filesystem;
 use lujie\upload\FileBehavior;
-use lujie\upload\models\UploadSavedFile;
-use lujie\upload\tests\unit\fixtures\FsFile;
 use lujie\upload\UploadBehavior;
 use lujie\upload\UploadForm;
 use lujie\upload\UploadSavedFileForm;
-use Yii;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
-use yii\web\UploadedFile;
 
 class UploadBehaviorTest extends \Codeception\Test\Unit
 {

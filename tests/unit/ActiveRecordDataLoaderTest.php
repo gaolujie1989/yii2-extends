@@ -2,14 +2,16 @@
 
 namespace tests\unit;
 
+use lujie\data\loader\ActiveRecordDataLoader;
 use lujie\data\loader\DbDataLoader;
+use tests\unit\fixtures\Migration;
 
 /**
- * Class DbDataLoaderTest
+ * Class ActiveRecordDataLoaderTest
  * @package tests\unit
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DbDataLoaderTest extends \Codeception\Test\Unit
+class ActiveRecordDataLoaderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -28,8 +30,9 @@ class DbDataLoaderTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $baseMigrationVersion = 'm000000_000000_base';
-        $dataLoader = new DbDataLoader([
-            'table' => '{{%migration}}'
+        $dataLoader = new ActiveRecordDataLoader([
+            'modelClass' => Migration::class,
+            'returnAsArray' => true,
         ]);
 
         $version = $dataLoader->get($baseMigrationVersion);
@@ -43,5 +46,9 @@ class DbDataLoaderTest extends \Codeception\Test\Unit
 
         $dataLoader->condition = ['version' => $baseMigrationVersion];
         $this->assertCount(1, $dataLoader->all());
+
+        $dataLoader->returnAsArray = false;
+        $version = $dataLoader->get($baseMigrationVersion);
+        $this->assertInstanceOf(Migration::class, $version);
     }
 }

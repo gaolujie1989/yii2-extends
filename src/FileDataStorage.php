@@ -3,18 +3,21 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\loader;
+namespace lujie\data\storage;
 
-
-use yii\base\BaseObject;
+use lujie\data\loader\ArrayDataLoader;
+use lujie\data\loader\FileParserInterface;
+use lujie\data\loader\PhpArrayFileParser;
+use Yii;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class FileDataStorage
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileDataStorage extends BaseObject implements DataStorageInterface
+class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
 {
     /**
      * @var string
@@ -40,27 +43,10 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
         parent::init();
         $this->dataExporter = Instance::ensure($this->dataExporter);
         $this->dataParser = Instance::ensure($this->dataParser);
-    }
-
-    /**
-     * @param int|string $key
-     * @return array|null
-     * @inheritdoc
-     */
-    public function get($key)
-    {
-        $fileData = $this->dataParser->parseFile($this->file);
-        return $fileData[$key];
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function all()
-    {
-        $fileData = $this->dataParser->parseFile($this->file);
-        return $fileData;
+        $this->file = Yii::getAlias($this->file);
+        if (file_exists($this->file)) {
+            $this->data = $this->dataParser->parseFile($this->file);
+        }
     }
 
     /**
@@ -70,9 +56,8 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
      */
     public function set($key, $data)
     {
-        $fileData = $this->dataParser->parseFile($this->file);
-        $fileData[$key] = $data;
-        $this->dataExporter->exportToFile($this->file, $fileData);
+        ArrayHelper::setValue($this->data, $key, $data);
+        $this->dataExporter->exportToFile($this->file, $this->data);
     }
 
     /**
@@ -82,8 +67,6 @@ class FileDataStorage extends BaseObject implements DataStorageInterface
      */
     public function delete($key)
     {
-        $fileData = $this->dataParser->parseFile($this->file);
-        unset($fileData[$key]);
-        $this->dataExporter->exportToFile($this->file, $fileData);
+        $this->set($key, null);
     }
 }

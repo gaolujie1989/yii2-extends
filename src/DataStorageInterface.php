@@ -3,9 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\loader;
+namespace lujie\data\storage;
 
+use lujie\data\loader\DataLoaderInterface;
 
+/**
+ * Interface DataStorageInterface
+ * @package lujie\data\storage
+ */
 interface DataStorageInterface extends DataLoaderInterface
 {
     /**

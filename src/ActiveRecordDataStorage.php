@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\loader;
+namespace lujie\data\storage;
 
 use Yii;
 

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\loader;
+namespace lujie\data\storage;
 
 use yii\helpers\VarDumper;
 
@@ -19,8 +19,8 @@ class PhpArrayFileExporter implements FileExporterInterface
      * @param array $data
      * @inheritdoc
      */
-    public function exportToFile(string $file, array $data)
+    public function exportToFile(string $file, array $data): void
     {
-        file_put_contents($file, "<?php\n\n" . VarDumper::export($data));
+        file_put_contents($file, "<?php\n\nreturn " . VarDumper::export($data) . ';');
     }
 }

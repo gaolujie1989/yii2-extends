@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit;
+namespace lujie\data\loader\tests\unit;
 
 use lujie\data\loader\ArrayDataLoader;
 
@@ -40,6 +40,6 @@ class ArrayDataLoaderTest extends \Codeception\Test\Unit
         $this->assertEquals($data, $dataLoader->all());
         $this->assertEquals($data['aaa'], $dataLoader->get('aaa'));
         $this->assertEquals($data['bbb']['ddd'], $dataLoader->get('bbb.ddd'));
-        $this->assertEquals(null, $dataLoader->get('ccc'));
+        $this->assertNull($dataLoader->get('ccc'));
     }
 }

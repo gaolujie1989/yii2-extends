@@ -1,10 +1,9 @@
 <?php
 
-namespace tests\unit;
+namespace lujie\data\loader\tests\unit;
 
 use lujie\data\loader\ActiveRecordDataLoader;
-use lujie\data\loader\DbDataLoader;
-use tests\unit\fixtures\Migration;
+use lujie\data\loader\tests\unit\fixtures\Migration;
 
 /**
  * Class ActiveRecordDataLoaderTest
@@ -38,7 +37,7 @@ class ActiveRecordDataLoaderTest extends \Codeception\Test\Unit
         $version = $dataLoader->get($baseMigrationVersion);
         $this->assertInternalType('array', $version);
         $this->assertEquals($baseMigrationVersion, $version['version']);
-        $this->assertEquals(null, $dataLoader->get('ccc'));
+        $this->assertEmpty($dataLoader->get('ccc'));
 
         $all = $dataLoader->all();
         $count = count($all);

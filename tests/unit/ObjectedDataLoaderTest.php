@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit;
+namespace lujie\data\loader\tests\unit;
 
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\loader\ObjectedDataLoader;
@@ -42,6 +42,6 @@ class ObjectedDataLoaderTest extends \Codeception\Test\Unit
         $this->assertCount(2, $dataLoader->all());
         $this->assertEquals(new DataObject(['value' => 'aaa']), $dataLoader->get('aaa'));
         $this->assertEquals(new DataObject(['value' => ['ddd' => 'ddd']]), $dataLoader->get('bbb'));
-        $this->assertEquals(null, $dataLoader->get('ccc'));
+        $this->assertNull($dataLoader->get('ccc'));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit;
+namespace lujie\data\loader\tests\unit;
 
 use lujie\data\loader\TypedFileDataLoader;
 
@@ -44,7 +44,7 @@ class PhpArrayTypedFileDataLoaderTest extends \Codeception\Test\Unit
 
         $this->assertEquals($permissions, $dataLoader->get('permission'));
         $this->assertEquals($tasks, $dataLoader->get('task'));
-        $this->assertEquals(null, $dataLoader->get('ccc'));
+        $this->assertNull($dataLoader->get('ccc'));
         $this->assertEquals($all, $dataLoader->all());
     }
 }

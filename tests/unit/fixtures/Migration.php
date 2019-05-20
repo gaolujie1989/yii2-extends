@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace tests\unit\fixtures;
+namespace lujie\data\loader\tests\unit\fixtures;
 
 use yii\db\ActiveRecord;
 

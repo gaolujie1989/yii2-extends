@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace tests\unit;
+namespace lujie\data\loader\tests\unit;
 
 use yii\base\BaseObject;
 

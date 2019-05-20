@@ -38,23 +38,23 @@ class UploadedFileViewAction extends Action
      */
     public function run($file): void
     {
-        /** @var UploadSavedFile $uploadedFile */
-        $uploadedFile = $this->modelClass::find()->file($file)->one();
-        if (!$uploadedFile) {
+        /** @var UploadSavedFile $savedFile */
+        $savedFile = $this->modelClass::find()->file($file)->one();
+        if (!$savedFile) {
             throw new NotFoundHttpException('File not found.');
         }
 
         if ($this->tmp) {
-            $tmpFilePath = $this->tmp . $uploadedFile->file;
+            $tmpFilePath = $this->tmp . $savedFile->file;
             if (!file_exists($tmpFilePath)) {
-                file_put_contents($tmpFilePath, $uploadedFile->getContent());
+                file_put_contents($tmpFilePath, $savedFile->getContent());
             }
-            Yii::$app->getResponse()->xSendFile($tmpFilePath, $uploadedFile->name);
+            Yii::$app->getResponse()->xSendFile($tmpFilePath, $savedFile->name);
         } else {
             Yii::$app->getResponse()->sendContentAsFile(
-                $uploadedFile->getContent(),
-                $uploadedFile->name,
-                ['mimeType' => FileHelper::getMimeTypeByExtension($uploadedFile->file)]
+                $savedFile->getContent(),
+                $savedFile->name,
+                ['mimeType' => FileHelper::getMimeTypeByExtension($savedFile->file)]
             );
         }
     }

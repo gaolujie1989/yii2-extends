@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\data\\storage\\": "src" }
+    "psr-4": {
+      "lujie\\data\\storage\\": "src",
+      "lujie\\data\\storage\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

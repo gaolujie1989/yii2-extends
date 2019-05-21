@@ -22,7 +22,8 @@ class CsvHelper
      * @return array
      * @inheritdoc
      */
-    public static function readCsv($file, $firstLineIsHeader = true, $length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\', $flag = true)
+    public static function readCsv($file, $firstLineIsHeader = true, $length = 0,
+                                   $delimiter = ',', $enclosure = '"', $escape = '\\', $flag = true): array
     {
         $data = [];
         if ($flag) {
@@ -33,7 +34,7 @@ class CsvHelper
             $escapes = array_fill(0, $count, $escape);
             $data = array_map('str_getcsv', $rows, $delimiters, $enclosures, $escapes);
         } else {
-            if (($handle = fopen($file, "r")) !== FALSE) {
+            if (($handle = fopen($file, 'rb')) !== FALSE) {
                 while (($row = fgetcsv($handle, $length, $delimiter, $enclosure, $escape)) !== FALSE) {
                     $data[] = $row;
                 }
@@ -41,7 +42,7 @@ class CsvHelper
             }
         }
         if ($firstLineIsHeader) {
-            array_walk($data, function (&$a) use ($data) {
+            array_walk($data, static function (&$a) use ($data) {
                 $a = array_combine($data[0], $a);
             });
             array_shift($data);
@@ -57,12 +58,13 @@ class CsvHelper
      * @param string $escape
      * @inheritdoc
      */
-    public static function writeCsv($file, $data, $keyAsHeader = true, $delimiter = ",", $enclosure = '"', $escape = "\\")
+    public static function writeCsv($file, $data, $keyAsHeader = true,
+                                    $delimiter = ',', $enclosure = '"', $escape = '\\'): void
     {
         if (file_exists($file)) {
             unlink($file);
         }
-        $fp = fopen($file, 'w');
+        $fp = fopen($file, 'wb');
         if ($keyAsHeader) {
             array_unshift($data, array_keys($data[0]));
         }

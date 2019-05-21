@@ -25,7 +25,7 @@ class ExcelHelper
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @inheritdoc
      */
-    public static function readExcel($file, $firstLineIsHeader = true, $multiSheet = false)
+    public static function readExcel($file, $firstLineIsHeader = true, $multiSheet = false): array
     {
         $spreadsheet = IOFactory::load($file);
         if ($multiSheet) {
@@ -33,7 +33,7 @@ class ExcelHelper
             foreach ($spreadsheet->getAllSheets() as $sheet) {
                 $sheetData = $sheet->toArray();
                 if ($firstLineIsHeader) {
-                    array_walk($sheetData, function (&$a) use ($sheetData) {
+                    array_walk($sheetData, static function (&$a) use ($sheetData) {
                         $a = array_combine($sheetData[0], $a);
                     });
                     array_shift($sheetData);
@@ -41,16 +41,16 @@ class ExcelHelper
                 $data[$sheet->getTitle()] = $sheetData;
             }
             return $data;
-        } else {
-            $data = $spreadsheet->getActiveSheet()->toArray();
-            if ($firstLineIsHeader) {
-                array_walk($data, function (&$a) use ($data) {
-                    $a = array_combine($data[0], $a);
-                });
-                array_shift($data);
-            }
-            return $data;
         }
+
+        $data = $spreadsheet->getActiveSheet()->toArray();
+        if ($firstLineIsHeader) {
+            array_walk($data, static function (&$a) use ($data) {
+                $a = array_combine($data[0], $a);
+            });
+            array_shift($data);
+        }
+        return $data;
     }
 
     /**
@@ -63,7 +63,7 @@ class ExcelHelper
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @inheritdoc
      */
-    public static function writeExcel($file, $data, $keyAsHeader = true, $multiSheet = false)
+    public static function writeExcel($file, $data, $keyAsHeader = true, $multiSheet = false): void
     {
         $spreadsheet = new Spreadsheet();
         if ($multiSheet) {
@@ -98,7 +98,7 @@ class ExcelHelper
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
-    private static function writeData2Sheet(Worksheet $sheet, $data, $withImage = false)
+    private static function writeData2Sheet(Worksheet $sheet, $data, $withImage = false): void
     {
         if ($withImage) {
             $rowIndex = 1;

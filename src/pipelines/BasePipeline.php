@@ -53,5 +53,4 @@ abstract class BasePipeline extends BaseObject implements PipelineInterface
     {
         return $this->errors;
     }
-
 }

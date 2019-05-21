@@ -8,7 +8,7 @@ namespace lujie\import;
 
 use lujie\data\exchange\pipeline\PipelineInterface;
 use lujie\data\exchange\parsers\CsvParser;
-use lujie\data\exchange\parsers\ExcelParser;
+use lujie\data\exchange\parsers\ExcelExporter;
 use lujie\data\exchange\parsers\ParserInterface;
 use lujie\data\exchange\transformers\TransformerInterface;
 use Yii;
@@ -47,7 +47,7 @@ class ImportForm extends Model
     /**
      * @var ParserInterface[]}callable[] the custom file data parser
      */
-    public $parsers = ExcelParser::class;
+    public $parsers = ExcelExporter::class;
 
     /**
      * @var TransformerInterface|callable the custom data transformer

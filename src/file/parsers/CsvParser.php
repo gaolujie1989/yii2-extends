@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\exchange\parsers;
+namespace lujie\data\exchange\file\parsers;
 
+use lujie\data\exchange\file\FileParserInterface;
 use lujie\extend\helpers\CsvHelper;
 
 /**
@@ -12,7 +13,7 @@ use lujie\extend\helpers\CsvHelper;
  * @package lujie\data\exchange\parsers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CsvParser implements ParserInterface
+class CsvParser implements FileParserInterface
 {
     public $firstLineIsHeader = true;
 
@@ -21,7 +22,7 @@ class CsvParser implements ParserInterface
      * @return array
      * @inheritdoc
      */
-    public function parse(string $file): array
+    public function parseFile(string $file): array
     {
         return CsvHelper::readCsv($file, $this->firstLineIsHeader);
     }

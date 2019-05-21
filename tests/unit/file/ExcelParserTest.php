@@ -1,10 +1,10 @@
 <?php
 
-namespace lujie\data\exchange\tests\unit;
+namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\parsers\CsvParser;
+use lujie\data\exchange\file\parsers\ExcelParser;
 
-class CsvParserTest extends \Codeception\Test\Unit
+class ExcelParserTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -20,11 +20,14 @@ class CsvParserTest extends \Codeception\Test\Unit
     }
 
     /**
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @inheritdoc
      */
     public function testMe(): void
     {
-        $parser = new CsvParser();
+        $file = __DIR__ . '/../fixtures/test.xlsx';
+        $parser = new ExcelParser();
 
         $dataWithNoHeader = [
             ['columnA', 'columnB'],
@@ -33,7 +36,7 @@ class CsvParserTest extends \Codeception\Test\Unit
             ['AAA3', 'BBB3'],
         ];
         $parser->firstLineIsHeader = false;
-        $data = $parser->parse(__DIR__ . '/fixtures/test.csv');
+        $data = $parser->parseFile($file);
         $this->assertEquals($dataWithNoHeader, $data);
 
         $dataWithHeader = [
@@ -42,7 +45,7 @@ class CsvParserTest extends \Codeception\Test\Unit
             ['columnA' => 'AAA3', 'columnB' => 'BBB3'],
         ];
         $parser->firstLineIsHeader = true;
-        $data = $parser->parse(__DIR__ . '/fixtures/test.csv');
+        $data = $parser->parseFile($file);
         $this->assertEquals($dataWithHeader, $data);
     }
 }

@@ -3,18 +3,21 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\exchange\parsers;
+namespace lujie\data\exchange\file\parsers;
 
+use lujie\data\exchange\file\FileParserInterface;
 use lujie\extend\helpers\ExcelHelper;
 
 /**
- * Class ExcelParser
+ * Class ExcelExporter
  * @package lujie\data\exchange\parsers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ExcelParser implements ParserInterface
+class ExcelParser implements FileParserInterface
 {
     public $firstLineIsHeader = true;
+
+    public $multiSheet = false;
 
     /**
      * @param string $file
@@ -23,8 +26,8 @@ class ExcelParser implements ParserInterface
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @inheritdoc
      */
-    public function parse(string $file): array
+    public function parseFile(string $file): array
     {
-        return ExcelHelper::readExcel($file, $this->firstLineIsHeader);
+        return ExcelHelper::readExcel($file, $this->firstLineIsHeader, $this->multiSheet);
     }
 }

@@ -33,7 +33,7 @@ class DbDataLoaderTest extends \Codeception\Test\Unit
         ]);
 
         $version = $dataLoader->get($baseMigrationVersion);
-        $this->assertInternalType('array', $version);
+        $this->assertIsArray('array', $version);
         $this->assertEquals($baseMigrationVersion, $version['version']);
         $this->assertEmpty($dataLoader->get('ccc'));
 

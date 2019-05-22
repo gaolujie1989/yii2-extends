@@ -25,13 +25,18 @@ class ActiveRecordSource extends QuerySource
     public $modelClass;
 
     /**
+     * @var bool
+     */
+    public $asArray = true;
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
         if (empty($this->query)) {
-            $this->query = $this->modelClass::find();
+            $this->query = $this->modelClass::find()->asArray($this->asArray);
         }
         parent::init();
     }

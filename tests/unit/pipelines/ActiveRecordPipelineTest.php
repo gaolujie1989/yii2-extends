@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange\tests\unit\pipelines;
 
-use lujie\data\exchange\pipelines\ActiveRecordDbPipeline;
+use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\tests\unit\fixtures\Migration;
 use yii\db\Connection;
 use yii\db\Query;
@@ -48,16 +48,16 @@ class ActiveRecordPipelineTest extends \Codeception\Test\Unit
         $query = Migration::find()->andWhere($condition)->asArray();
         $this->assertEquals(0, $query->count());
 
-        $importer = new ActiveRecordDbPipeline([
+        $importer = new ActiveRecordPipeline([
             'modelClass' => Migration::class,
             'indexKeys' => ['version'],
             'runValidation' => true,
         ]);
         $this->assertTrue($importer->process($data));
         $effectedRowCounts = [
-            ActiveRecordDbPipeline::AFFECTED_CREATED => 2,
-            ActiveRecordDbPipeline::AFFECTED_UPDATED => 0,
-            ActiveRecordDbPipeline::AFFECTED_SKIPPED => 0,
+            ActiveRecordPipeline::AFFECTED_CREATED => 2,
+            ActiveRecordPipeline::AFFECTED_UPDATED => 0,
+            ActiveRecordPipeline::AFFECTED_SKIPPED => 0,
         ];
         $this->assertEquals($effectedRowCounts, $importer->getAffectedRowCounts());
         $this->assertEmpty($importer->getErrors());
@@ -72,9 +72,9 @@ class ActiveRecordPipelineTest extends \Codeception\Test\Unit
         ];
         $this->assertTrue($importer->process($data));
         $effectedRowCounts = [
-            ActiveRecordDbPipeline::AFFECTED_CREATED => 1,
-            ActiveRecordDbPipeline::AFFECTED_UPDATED => 1,
-            ActiveRecordDbPipeline::AFFECTED_SKIPPED => 1,
+            ActiveRecordPipeline::AFFECTED_CREATED => 1,
+            ActiveRecordPipeline::AFFECTED_UPDATED => 1,
+            ActiveRecordPipeline::AFFECTED_SKIPPED => 1,
         ];
         $this->assertEquals($effectedRowCounts, $importer->getAffectedRowCounts());
         $this->assertEmpty($importer->getErrors());
@@ -103,7 +103,7 @@ class ActiveRecordPipelineTest extends \Codeception\Test\Unit
         $query = Migration::find()->andWhere($condition)->asArray();
         $this->assertEquals(0, $query->count());
 
-        $importer = new ActiveRecordDbPipeline([
+        $importer = new ActiveRecordPipeline([
             'modelClass' => Migration::class,
             'indexKeys' => ['version'],
             'runValidation' => true,

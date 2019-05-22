@@ -14,7 +14,7 @@ use yii\db\Connection;
  * @package lujie\data\exchange\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecordDbPipeline extends BaseDbPipeline
+class ActiveRecordPipeline extends BaseDbPipeline
 {
     /**
      * @var BaseActiveRecord

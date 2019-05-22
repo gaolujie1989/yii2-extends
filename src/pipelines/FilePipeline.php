@@ -49,6 +49,7 @@ class FilePipeline extends BaseObject implements PipelineInterface
         $dir = pathinfo($file, PATHINFO_DIRNAME);
         FileHelper::createDirectory($dir);
         $this->fileExporter->exportToFile($file, $data);
+        return true;
     }
 
     /**

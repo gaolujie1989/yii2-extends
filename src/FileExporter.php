@@ -34,6 +34,6 @@ class FileExporter extends Exchanger
     public function exportToFile(SourceInterface $source, string $file): bool
     {
         $this->pipeline->filePathTemplate = $file;
-        $this->exchange($source);
+        return $this->exchange($source);
     }
 }

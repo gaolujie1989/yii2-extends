@@ -56,6 +56,7 @@ class Exchanger extends BaseObject implements ExchangerInterface
         if (empty($data)) {
             return false;
         }
+
         return $this->pipeline->process($data);
     }
 }

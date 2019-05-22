@@ -65,7 +65,7 @@ class DbPipeline extends BaseDbPipeline
                 }
             }
         } else {
-            $insertRows[] = array_values($data);
+            $insertRows = array_values($data);
         }
 
         $callable = function () use ($insertRows, $updateRows) {

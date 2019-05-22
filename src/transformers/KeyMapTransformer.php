@@ -31,10 +31,10 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|void
+     * @return array|null
      * @inheritdoc
      */
-    public function transform(array $data)
+    public function transform(array $data): array
     {
         return array_map(function($values) {
             foreach ($this->keyMap as $from => $to) {

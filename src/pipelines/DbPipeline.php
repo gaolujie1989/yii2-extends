@@ -14,7 +14,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DbPipeline extends BasePipeline
+class DbPipeline extends BaseDbPipeline
 {
     /**
      * @var Connection

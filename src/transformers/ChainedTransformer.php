@@ -23,11 +23,11 @@ class ChainedTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|void
+     * @return array|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function transform(array $data)
+    public function transform(array $data): array
     {
         foreach ($this->transformers as $transformer) {
             if (is_callable($transformer)) {
@@ -35,6 +35,9 @@ class ChainedTransformer extends BaseObject implements TransformerInterface
             } else {
                 $transformer = Instance::ensure($transformer, TransformerInterface::class);
                 $data = $transformer->transform($data);
+            }
+            if (empty($data)) {
+                return [];
             }
         }
         return $data;

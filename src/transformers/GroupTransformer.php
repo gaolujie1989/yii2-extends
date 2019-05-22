@@ -28,7 +28,7 @@ class GroupTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array
+     * @return array|null
      * @throws InvalidConfigException
      * @inheritdoc
      */

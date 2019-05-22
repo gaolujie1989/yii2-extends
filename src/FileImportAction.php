@@ -15,7 +15,7 @@ use yii\web\ServerErrorHttpException;
  * @package lujie\data\exchange\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ImportAction extends Action
+class FileImportAction extends Action
 {
     /**
      * @var string the scenario to be assigned to the new model before it is validated and saved.
@@ -28,20 +28,20 @@ class ImportAction extends Action
     public $importModel;
 
     /**
-     * @return ImportForm
+     * @return FileImportForm
      * @throws ServerErrorHttpException
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public function run(): ImportForm
+    public function run(): FileImportForm
     {
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }
 
-        /** @var ImportForm $model */
+        /** @var FileImportForm $model */
         $model = Yii::createObject($this->importModel);
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($model->import() === false && !$model->hasErrors()) {

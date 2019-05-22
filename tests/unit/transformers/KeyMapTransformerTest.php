@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\data\exchange\tests\unit;
+namespace lujie\data\exchange\tests\unit\transformers;
 
 use lujie\data\exchange\transformers\KeyMapTransformer;
 

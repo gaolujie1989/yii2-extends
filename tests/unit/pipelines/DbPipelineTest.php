@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\exchange\tests\unit;
+namespace lujie\data\exchange\tests\unit\pipelines;
 
 use lujie\data\exchange\pipelines\DbPipeline;
 use yii\db\Connection;

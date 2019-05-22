@@ -12,7 +12,7 @@ use yii\base\BaseObject;
  * @package lujie\data\exchange\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BasePipeline extends BaseObject implements PipelineInterface
+abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
 {
     /**
      * @var array

@@ -26,10 +26,10 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|void
+     * @return array|null
      * @inheritdoc
      */
-    public function transform(array $data)
+    public function transform(array $data): array
     {
         $preValues = [];
         $flipOnlyKeys = array_flip($this->onlyKeys);

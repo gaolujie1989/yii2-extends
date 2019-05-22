@@ -9,8 +9,8 @@ interface TransformerInterface
 {
     /**
      * @param array $data
-     * @return array
+     * @return array|null
      * @inheritdoc
      */
-    public function transform(array $data);
+    public function transform(array $data): array;
 }

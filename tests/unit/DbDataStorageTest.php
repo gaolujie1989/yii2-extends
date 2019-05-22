@@ -40,7 +40,7 @@ class DbDataStorageTest extends \Codeception\Test\Unit
 
         $this->assertEquals(1, $dataStorage->set($testMigrationVersion, $data));
         $version = $dataStorage->get($testMigrationVersion);
-        $this->assertInternalType('array', $version);
+        $this->assertIsArray($version);
         $this->assertEquals($testMigrationVersion, $version['version']);
 
         $this->assertEquals(1, $dataStorage->delete($testMigrationVersion));

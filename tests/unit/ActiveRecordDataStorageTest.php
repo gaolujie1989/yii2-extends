@@ -40,7 +40,7 @@ class ActiveRecordDataStorageTest extends \Codeception\Test\Unit
 
         $this->assertTrue($dataStorage->set($testMigrationVersion, $data));
         $version = $dataStorage->get($testMigrationVersion);
-        $this->assertInternalType('array', $version);
+        $this->assertIsArray($version);
         $this->assertEquals($testMigrationVersion, $version['version']);
 
         $dataStorage->returnAsArray = false;

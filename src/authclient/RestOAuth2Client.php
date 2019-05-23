@@ -105,11 +105,11 @@ abstract class RestOAuth2Client extends OAuth2
     }
 
     /**
-     * @param $method
-     * @return null|string
+     * @param string $method
+     * @return string|null
      * @inheritdoc
      */
-    public function getResourceByMethod($method): ?string
+    public function getResourceByMethod(string $method): ?string
     {
         foreach ($this->actions as $action => $v) {
             if (strpos($method, $action) === 0) {
@@ -121,11 +121,11 @@ abstract class RestOAuth2Client extends OAuth2
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return array
      * @inheritdoc
      */
-    public function getPathParams($path): array
+    public function getPathParams(string $path): array
     {
         if (preg_match_all('/{([^{}\s]+)}/', $path, $matches)) {
             return $matches[1];
@@ -134,11 +134,12 @@ abstract class RestOAuth2Client extends OAuth2
     }
 
     /**
-     * @param $path
-     * @param $params
+     * @param string $path
+     * @param array $params
+     * @return string
      * @inheritdoc
      */
-    public function getRealPath($path, $params)
+    public function getRealPath(string $path, array $params): string
     {
         $pathParams = $this->getPathParams($path);
         if ($pathParams && $params) {
@@ -173,13 +174,13 @@ abstract class RestOAuth2Client extends OAuth2
     }
 
     /**
-     * @param $name
-     * @param $data
+     * @param string $name
+     * @param array $data
      * @return array
      * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function callApiMethod($name, $data): array
+    public function callApiMethod(string $name, array $data): array
     {
         if (isset($this->apiMethods[$name])) {
             [$method, $url] = $this->apiMethods[$name];
@@ -192,12 +193,22 @@ abstract class RestOAuth2Client extends OAuth2
     }
 
     /**
-     * @param $resource
-     * @param $data
+     * @param string $resource
+     * @param int $batchSize
+     * @param array $condition
      * @return \Iterator
      * @inheritdoc
      */
-    abstract public function each($resource, $data): \Iterator;
+    abstract public function each(string $resource, int $batchSize, array $condition = []): \Iterator;
+
+    /**
+     * @param string $resource
+     * @param int $batchSize
+     * @param array $condition
+     * @return \Iterator
+     * @inheritdoc
+     */
+    abstract public function batch(string $resource, int $batchSize, array $condition = []): \Iterator;
 
     /**
      * @return string
@@ -215,10 +226,10 @@ abstract class RestOAuth2Client extends OAuth2
                 if ($action === 'list') {
                     if (empty($pathParams)) {
                         $apiMethods[] = " * @method array {$method}(\$data = [])";
-                        $apiMethods[] = " * @method \Generator each{$resource}(\$data = [])";
+                        $apiMethods[] = " * @method \Generator each{$resource}(\$batchSize, \$condition = [])";
                     } else {
                         $apiMethods[] = " * @method array {$method}(\$data)";
-                        $apiMethods[] = " * @method \Generator each{$resource}(\$data)";
+                        $apiMethods[] = " * @method \Generator each{$resource}(\$batchSize, \$condition = [])";
                     }
                 } else {
                     $apiMethods[] = " * @method array {$method}(\$data)";

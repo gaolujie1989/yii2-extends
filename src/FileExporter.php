@@ -17,7 +17,7 @@ use yii\base\InvalidConfigException;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileExporter extends DataDataExchanger
+class FileExporter extends DataExchanger
 {
     /**
      * @throws \yii\base\InvalidConfigException

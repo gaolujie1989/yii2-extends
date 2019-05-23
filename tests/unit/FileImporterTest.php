@@ -6,7 +6,7 @@
 namespace lujie\data\exchange\tests\unit;
 
 
-use lujie\data\exchange\DataDataExchanger;
+use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\file\exporters\CsvExporter;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipeline;

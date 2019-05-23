@@ -89,7 +89,6 @@ class ExcelHelper
             unlink($file);
         }
         $writer->save($file);
-        return $file;
     }
 
     /**

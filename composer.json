@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-data-center",
+  "description": "Yii2 data center",
+  "keywords": ["yii2", "data center"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-data-center/issues",
+    "source": "https://gitee.com/code4dream/yii2-data-center"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\data\\center\\": "src",
+      "lujie\\data\\center\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

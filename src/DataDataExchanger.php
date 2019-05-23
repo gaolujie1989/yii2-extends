@@ -17,7 +17,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Exchanger extends BaseObject implements ExchangerInterface
+class DataDataExchanger extends BaseObject implements DataExchangerInterface
 {
     /**
      * @var TransformerInterface

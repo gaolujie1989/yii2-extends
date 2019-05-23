@@ -11,7 +11,7 @@ use lujie\data\exchange\sources\SourceInterface;
  * Interface ExchangerInterface
  * @package lujie\data\exchange
  */
-interface ExchangerInterface
+interface DataExchangerInterface
 {
     /**
      * @param SourceInterface $source

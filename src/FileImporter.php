@@ -17,7 +17,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileImporter extends Exchanger
+class FileImporter extends DataDataExchanger
 {
     /**
      * @var FileParserInterface

@@ -1,0 +1,226 @@
+<?php
+/**
+ * @copyright Copyright (c) 2019
+ */
+
+namespace lujie\sharding\db;
+
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
+use yii\db\Connection;
+use yii\di\Instance;
+
+/**
+ * Class ShardingRecordTrait
+ * @package lujie\sharding
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class ShardingActiveRecord extends ActiveRecord
+{
+    protected const SHARDING_RULE_MAP = 'map';
+    protected const SHARDING_RULE_HASH = 'hash';
+
+    /**
+     * support multi key, for extend custom shardinging
+     * @var array
+     */
+    protected static $tableShardingKeys = [
+        'type' => [self::SHARDING_RULE_MAP, 'map' => [], 'default' => 'common'],
+        'id' => [self::SHARDING_RULE_HASH, 'count' => 4],
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $dbShardingKeys = [
+        'account_id' => [self::SHARDING_RULE_HASH, 'count' => 4],
+    ];
+
+    /**
+     * @var string
+     */
+    private static $shardingTableSuffix = '';
+
+    /**
+     * @var string
+     */
+    private static $shardingDbSuffix = '';
+
+    #region sharding table/db name rule
+
+    /**
+     * @return string
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected static function getShardingSuffix($shardingKeys, array $values): string
+    {
+        $tableParts = [''];
+        foreach ($shardingKeys as $shardingKey => $config) {
+            $value = $values[$shardingKey];
+            if (empty($value)) {
+                throw new InvalidConfigException('Value of sharding key can not be empty');
+            }
+            $rule = array_shift($config);
+            if ($rule === self::SHARDING_RULE_MAP) {
+                $tableParts[] = $config['map'][$value] ?? $config['default'];
+            } else if ($rule === self::SHARDING_RULE_HASH) {
+                $tableParts[] = $value % $config['count'];
+            } else {
+                throw new InvalidConfigException('Invalid sharding rule');
+            }
+        }
+        return implode('_', $tableParts);
+    }
+
+    /**
+     * @param $values
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function setShardingTableSuffix($values): void
+    {
+        static::$shardingTableSuffix = static::getShardingSuffix(static::$tableShardingKeys, $values);
+    }
+
+    /**
+     * @param $values
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function setShardingDbSuffix($values): void
+    {
+        static::$shardingDbSuffix = static::getShardingSuffix(static::$dbShardingKeys, $values);
+    }
+
+    #endregion
+
+    #region overwrite, set shardingTableDbSuffix before op db
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public static function tableName(): string
+    {
+        return 'table' . static::$shardingTableSuffix;
+    }
+
+    /**
+     * @return Connection|object
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function getDb(): Connection
+    {
+        $dbName = 'db' . static::$shardingDbSuffix;
+        return Instance::ensure($dbName, Connection::class);
+    }
+
+    /**
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function beforeValidate(): bool
+    {
+        static::setShardingTableSuffix($this);
+        static::setShardingDbSuffix($this);
+        return parent::beforeValidate();
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function beforeSave($insert): bool
+    {
+        static::setShardingTableSuffix($this);
+        static::setShardingDbSuffix($this);
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function beforeDelete(): bool
+    {
+        static::setShardingTableSuffix($this);
+        static::setShardingDbSuffix($this);
+        return parent::beforeDelete();
+    }
+
+    /**
+     * @param array $attributes
+     * @return int
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function updateAttributes($attributes): int
+    {
+        static::setShardingTableSuffix($this);
+        static::setShardingDbSuffix($this);
+        return parent::updateAttributes($attributes);
+    }
+
+    /**
+     * @param array $counters
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function updateCounters($counters): bool
+    {
+        static::setShardingTableSuffix($this);
+        static::setShardingDbSuffix($this);
+        return parent::updateCounters($counters);
+    }
+
+    /**
+     * @param array $attributes
+     * @param string $condition
+     * @param array $params
+     * @return int
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function updateAll($attributes, $condition = '', $params = []): int
+    {
+        static::setShardingTableSuffix($condition);
+        static::setShardingDbSuffix($condition);
+        return parent::updateAll($attributes, $condition, $params);
+    }
+
+    /**
+     * @param array $counters
+     * @param string $condition
+     * @param array $params
+     * @return int
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function updateAllCounters($counters, $condition = '', $params = []): int
+    {
+        static::setShardingTableSuffix($condition);
+        static::setShardingDbSuffix($condition);
+        return parent::updateAllCounters($counters, $condition, $params);
+    }
+
+    /**
+     * @return ShardingActiveQuery|object|ActiveQuery
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function find(): ShardingActiveQuery
+    {
+        return Yii::createObject(ShardingActiveQuery::class, [static::class]);
+    }
+
+    #endregion
+}

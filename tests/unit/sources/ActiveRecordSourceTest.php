@@ -46,7 +46,7 @@ class ActiveRecordSourceTest extends \Codeception\Test\Unit
 
         $all = $dbSource->all();
         $this->assertCount(1, $all);
-        $this->assertInternalType('array', $all[0]);
+        $this->assertIsArray($all[0]);
         $this->assertEquals($baseMigrationVersion, $all[0]['version']);
 
         $dbSource = new ActiveRecordSource([

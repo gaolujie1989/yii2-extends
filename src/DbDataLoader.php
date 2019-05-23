@@ -16,7 +16,7 @@ use yii\di\Instance;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DbDataLoader extends BaseObject implements DataLoaderInterface
+class DbDataLoader extends QueryDataLoader
 {
     /**
      * @var Connection
@@ -29,27 +29,17 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
     public $table;
 
     /**
-     * @var string|int
-     */
-    public $uniqueKey;
-
-    /**
-     * @var array
-     */
-    public $condition = [];
-
-    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
-        parent::init();
-        $this->db = Instance::ensure($this->db, Connection::class);
+        $this->db = Instance::ensure($this->db);
         $this->initUniqueKey();
-        if (empty($this->uniqueKey)) {
-            throw new InvalidConfigException('UniqueKey can not be empty');
+        if (empty($this->query)) {
+            $this->query = (new Query())->from($this->table);
         }
+        parent::init();
     }
 
     /**
@@ -66,29 +56,5 @@ class DbDataLoader extends BaseObject implements DataLoaderInterface
                 }
             }
         }
-    }
-
-    /**
-     * @param int|string $key
-     * @return array|bool|null
-     * @inheritdoc
-     */
-    public function get($key)
-    {
-        return (new Query())->from($this->table)
-            ->andFilterWhere($this->condition)
-            ->andWhere([$this->uniqueKey => $key])
-            ->one($this->db);
-    }
-
-    /**
-     * @return array|null
-     * @inheritdoc
-     */
-    public function all(): ?array
-    {
-        return (new Query())->from($this->table)
-            ->andFilterWhere($this->condition)
-            ->all($this->db);
     }
 }

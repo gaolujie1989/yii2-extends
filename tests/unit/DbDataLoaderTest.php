@@ -41,7 +41,10 @@ class DbDataLoaderTest extends \Codeception\Test\Unit
         $count = count($all);
         $this->assertTrue($count >= 1);
 
-        $dataLoader->condition = ['version' => $baseMigrationVersion];
+        $dataLoader = new DbDataLoader([
+            'table' => '{{%migration}}',
+            'condition' => ['version' => $baseMigrationVersion],
+        ]);
         $this->assertCount(1, $dataLoader->all());
     }
 }

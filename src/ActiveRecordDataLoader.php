@@ -5,8 +5,6 @@
 
 namespace lujie\data\loader;
 
-
-use yii\base\BaseObject;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -14,7 +12,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
+class ActiveRecordDataLoader extends QueryDataLoader
 {
     /**
      * @var BaseActiveRecord
@@ -22,55 +20,24 @@ class ActiveRecordDataLoader extends BaseObject implements DataLoaderInterface
     public $modelClass;
 
     /**
-     * @var string|int
-     */
-    public $uniqueKey;
-
-    /**
-     * @var array
-     */
-    public $condition = [];
-
-    /**
      * @var bool
      */
     public $returnAsArray = false;
 
     /**
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
-        parent::init();
         if (empty($this->uniqueKey)) {
             $primaryKey = $this->modelClass::primaryKey();
             $this->uniqueKey = reset($primaryKey);
         }
-    }
-
-    /**
-     * @param int|string $key
-     * @return array|BaseActiveRecord|null
-     * @inheritdoc
-     */
-    public function get($key)
-    {
-        return $this->modelClass::find()
-            ->andFilterWhere($this->condition)
-            ->andWhere([$this->uniqueKey => $key])
-            ->asArray($this->returnAsArray)
-            ->one();
-    }
-
-    /**
-     * @return array|BaseActiveRecord[]
-     * @inheritdoc
-     */
-    public function all(): ?array
-    {
-        return $this->modelClass::find()
-            ->andFilterWhere($this->condition)
-            ->asArray($this->returnAsArray)
-            ->all();
+        if (empty($this->query)) {
+            $this->query = $this->modelClass::find()->asArray($this->returnAsArray);
+        }
+        $this->db = $this->modelClass::getDb();
+        parent::init();
     }
 }

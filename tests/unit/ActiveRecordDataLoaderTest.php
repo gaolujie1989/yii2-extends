@@ -43,10 +43,17 @@ class ActiveRecordDataLoaderTest extends \Codeception\Test\Unit
         $count = count($all);
         $this->assertTrue($count >= 1);
 
-        $dataLoader->condition = ['version' => $baseMigrationVersion];
+        $dataLoader = new ActiveRecordDataLoader([
+            'modelClass' => Migration::class,
+            'returnAsArray' => true,
+            'condition' => ['version' => $baseMigrationVersion],
+        ]);
         $this->assertCount(1, $dataLoader->all());
 
-        $dataLoader->returnAsArray = false;
+        $dataLoader = new ActiveRecordDataLoader([
+            'modelClass' => Migration::class,
+            'returnAsArray' => false,
+        ]);
         $version = $dataLoader->get($baseMigrationVersion);
         $this->assertInstanceOf(Migration::class, $version);
     }

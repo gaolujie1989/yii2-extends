@@ -49,9 +49,9 @@ class PhpArrayFileDataStorageTest extends \Codeception\Test\Unit
         $this->assertFileExists($file);
         $this->assertEquals($data, require $file);
 
-        $dataLoader->delete('aaa');
+        $dataLoader->remove('aaa');
         $this->assertNull($dataLoader->get('aaa'));
-        $dataLoader->delete('bbb.ddd');
+        $dataLoader->remove('bbb.ddd');
         $this->assertNull($dataLoader->get('bbb.ddd'));
     }
 }

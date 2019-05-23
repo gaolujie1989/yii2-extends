@@ -41,7 +41,7 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function delete($key)
+    public function remove($key)
     {
         $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
         return $this->db->createCommand()

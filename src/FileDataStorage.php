@@ -65,7 +65,7 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
      * @return mixed|void
      * @inheritdoc
      */
-    public function delete($key)
+    public function remove($key)
     {
         $this->set($key, null);
     }

@@ -36,14 +36,14 @@ class DbDataStorageTest extends \Codeception\Test\Unit
             'table' => '{{%migration}}'
         ]);
 
-        $this->assertEquals(0, $dataStorage->delete($testMigrationVersion));
+        $this->assertEquals(0, $dataStorage->remove($testMigrationVersion));
 
         $this->assertEquals(1, $dataStorage->set($testMigrationVersion, $data));
         $version = $dataStorage->get($testMigrationVersion);
         $this->assertIsArray($version);
         $this->assertEquals($testMigrationVersion, $version['version']);
 
-        $this->assertEquals(1, $dataStorage->delete($testMigrationVersion));
+        $this->assertEquals(1, $dataStorage->remove($testMigrationVersion));
         $this->assertEmpty($dataStorage->get($testMigrationVersion));
     }
 }

@@ -16,7 +16,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BaseIncrementSource extends BaseObject implements BatchSourceInterface
+class IncrementSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
      * @var BatchSourceInterface|ConditionSourceInterface
@@ -40,9 +40,14 @@ abstract class BaseIncrementSource extends BaseObject implements BatchSourceInte
     private $incrementCondition = [];
 
     /**
-     * @var
+     * @var array
      */
     private $lastRow;
+
+    /**
+     * @var callable
+     */
+    public $incrementConditionGenerator;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -56,6 +61,9 @@ abstract class BaseIncrementSource extends BaseObject implements BatchSourceInte
         if (empty($this->sourceKey)) {
             throw new InvalidConfigException('The "sourceKey" property must be set');
         }
+        if (!is_callable($this->incrementConditionGenerator)) {
+            throw new InvalidConfigException('The "incrementConditionGenerator" property must be callable');
+        }
         $this->incrementCondition = $this->dataStorage->get($this->sourceKey);
     }
 
@@ -63,17 +71,21 @@ abstract class BaseIncrementSource extends BaseObject implements BatchSourceInte
      * @param array $row
      * @inheritdoc
      */
-    public function ack()
+    public function ackReceived()
     {
         $this->incrementCondition = $this->generateCondition($this->lastRow);
         $this->dataStorage->set($this->sourceKey, $this->incrementCondition);
     }
 
     /**
+     * @param $data
      * @return array
      * @inheritdoc
      */
-    abstract protected function generateCondition($data): array;
+    protected function generateCondition($data): array
+    {
+        return call_user_func($this->incrementConditionGenerator, [$data, $this]);
+    }
 
     /**
      * @param int $batchSize
@@ -115,5 +127,14 @@ abstract class BaseIncrementSource extends BaseObject implements BatchSourceInte
         $all = $this->source->all();
         $this->lastRow = end($all);
         return $all;
+    }
+
+    /**
+     * @param $condition
+     * @inheritdoc
+     */
+    public function setCondition($condition): void
+    {
+        $this->source->setCondition($condition);
     }
 }

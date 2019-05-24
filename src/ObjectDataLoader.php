@@ -21,7 +21,7 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var DataLoaderInterface
      */
-    public $sourceLoader;
+    public $dataLoader;
 
     /**
      * @var string
@@ -40,7 +40,7 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
     public function init()
     {
         parent::init();
-        $this->sourceLoader = Instance::ensure($this->sourceLoader, DataLoaderInterface::class);
+        $this->dataLoader = Instance::ensure($this->dataLoader, DataLoaderInterface::class);
         if (empty($this->objectClass)) {
             throw new InvalidConfigException('Object class must be set');
         }
@@ -54,7 +54,7 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function get($key)
     {
-        $data = $this->sourceLoader->get($key);
+        $data = $this->dataLoader->get($key);
         return $this->createObject($data);
     }
 
@@ -65,7 +65,7 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function all(): ?array
     {
-        $all = $this->sourceLoader->all();
+        $all = $this->dataLoader->all();
         foreach ($all as $key => $item) {
             $all[$key] = $this->createObject($item);
         }

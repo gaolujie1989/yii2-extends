@@ -10,7 +10,7 @@ use lujie\data\loader\ObjectDataLoader;
  * @package tests\unit
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ObjectedDataLoaderTest extends \Codeception\Test\Unit
+class ObjectDataLoaderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester

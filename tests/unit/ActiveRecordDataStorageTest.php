@@ -36,7 +36,7 @@ class ActiveRecordDataStorageTest extends \Codeception\Test\Unit
             'returnAsArray' => true,
         ]);
 
-        $this->assertEquals(0, $dataStorage->delete($testMigrationVersion));
+        $this->assertEquals(0, $dataStorage->remove($testMigrationVersion));
 
         $this->assertTrue($dataStorage->set($testMigrationVersion, $data));
         $version = $dataStorage->get($testMigrationVersion);
@@ -47,7 +47,7 @@ class ActiveRecordDataStorageTest extends \Codeception\Test\Unit
         $version = $dataStorage->get($testMigrationVersion);
         $this->assertInstanceOf(Migration::class, $version);
 
-        $this->assertEquals(1, $dataStorage->delete($testMigrationVersion));
+        $this->assertEquals(1, $dataStorage->remove($testMigrationVersion));
         $this->assertEmpty($dataStorage->get($testMigrationVersion));
     }
 }

@@ -14,7 +14,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecordDataStorage extends ActiveRecordDataLoader
+class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStorageInterface
 {
     /**
      * @var bool
@@ -44,7 +44,7 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function set($key, $data)
+    public function set($key, $data): bool
     {
         $model = $this->getModel($key);
         $model->setAttributes($data);
@@ -59,7 +59,7 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader
      * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
-    public function delete($key)
+    public function remove($key)
     {
         $model = $this->getModel($key);
         if (!$model->getIsNewRecord()) {

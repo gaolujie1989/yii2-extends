@@ -60,7 +60,7 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
     public function get($key)
     {
         $data = $this->dataLoader->get($key);
-        return $this->createObject($data);
+        return $data ? $this->createObject($data) : null;
     }
 
     /**
@@ -72,22 +72,19 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
     {
         $all = $this->dataLoader->all();
         foreach ($all as $key => $item) {
-            $all[$key] = $this->createObject($item);
+            $all[$key] = $item ? $this->createObject($item) : null;
         }
         return $all;
     }
 
     /**
-     * @param array|null $data
+     * @param array $data
      * @return object
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function createObject(?array $data): ?object
+    protected function createObject(array $data): object
     {
-        if ($data === null) {
-            return null;
-        }
         if ($this->dataConfig) {
             $objectData = [];
             foreach ($this->dataConfig as $key => $path) {
@@ -95,9 +92,9 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
                     $objectData[$key] = $value;
                 }
             }
-            $object = ArrayHelper::toArray($objectData, $this->objectConfig);
+            $object = ArrayHelper::merge($this->objectConfig, $objectData);
         } else {
-            $object = ArrayHelper::toArray($data, $this->objectConfig);
+            $object = ArrayHelper::merge($this->objectConfig, $data);
         }
         if (empty($object['class'])) {
             $object['class'] = $this->objectClass;

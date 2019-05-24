@@ -68,7 +68,7 @@ class ThirdPartSourceLoader extends ObjectDataLoader
         if (empty($data[$this->clientKey])) {
             throw new InvalidConfigException('Invalid source config');
         }
-        $data['client'] = $this->clientLoader->get($data[$this->clientKey]);
+        $data[$this->clientKey] = $this->clientLoader->get($data[$this->clientKey]);
         $this->initConfig($data);
         return parent::createObject($data);
     }

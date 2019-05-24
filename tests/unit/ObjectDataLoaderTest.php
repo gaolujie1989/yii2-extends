@@ -43,5 +43,23 @@ class ObjectDataLoaderTest extends \Codeception\Test\Unit
         $this->assertEquals(new DataObject(['value' => 'aaa']), $dataLoader->get('aaa'));
         $this->assertEquals(new DataObject(['value' => ['ddd' => 'ddd']]), $dataLoader->get('bbb'));
         $this->assertNull($dataLoader->get('ccc'));
+
+        $data = [
+            'aaa' => ['xxx' => 'aaa'],
+            'bbb' => ['xxx' => ['ddd' => 'ddd']],
+        ];
+        $dataLoader = new ObjectDataLoader([
+            'dataLoader' => new ArrayDataLoader([
+                'data' => $data
+            ]),
+            'objectClass' => DataObject::class,
+            'dataConfig' => [
+                'value' => 'xxx',
+            ]
+        ]);
+
+        $this->assertCount(2, $dataLoader->all());
+        $this->assertEquals(new DataObject(['value' => 'aaa']), $dataLoader->get('aaa'));
+        $this->assertEquals(new DataObject(['value' => ['ddd' => 'ddd']]), $dataLoader->get('bbb'));
     }
 }

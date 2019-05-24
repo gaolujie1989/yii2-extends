@@ -34,6 +34,11 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
     public $objectConfig = [];
 
     /**
+     * @var
+     */
+    public $dataConfig = [];
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -83,7 +88,17 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
         if ($data === null) {
             return null;
         }
-        $object = ArrayHelper::toArray($data, $this->objectConfig);
+        if ($this->dataConfig) {
+            $objectData = [];
+            foreach ($this->dataConfig as $key => $path) {
+                if ($value = ArrayHelper::getValue($data, $path)) {
+                    $objectData[$key] = $value;
+                }
+            }
+            $object = ArrayHelper::toArray($objectData, $this->objectConfig);
+        } else {
+            $object = ArrayHelper::toArray($data, $this->objectConfig);
+        }
         if (empty($object['class'])) {
             $object['class'] = $this->objectClass;
         }

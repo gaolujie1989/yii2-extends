@@ -3,7 +3,7 @@
 namespace lujie\data\loader\tests\unit;
 
 use lujie\data\loader\ArrayDataLoader;
-use lujie\data\loader\ObjectedDataLoader;
+use lujie\data\loader\ObjectDataLoader;
 
 /**
  * Class ObjectedDataLoaderTest
@@ -32,7 +32,7 @@ class ObjectedDataLoaderTest extends \Codeception\Test\Unit
             'aaa' => ['value' => 'aaa'],
             'bbb' => ['value' => ['ddd' => 'ddd']],
         ];
-        $dataLoader = new ObjectedDataLoader([
+        $dataLoader = new ObjectDataLoader([
             'dataLoader' => new ArrayDataLoader([
                 'data' => $data
             ]),

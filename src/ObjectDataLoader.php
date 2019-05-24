@@ -16,22 +16,22 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
+class ObjectDataLoader extends BaseObject implements DataLoaderInterface
 {
     /**
      * @var DataLoaderInterface
      */
-    public $dataLoader;
-
-    /**
-     * @var array
-     */
-    public $objectConfig = [];
+    public $sourceLoader;
 
     /**
      * @var string
      */
     public $objectClass;
+
+    /**
+     * @var array
+     */
+    public $objectConfig = [];
 
     /**
      * @throws InvalidConfigException
@@ -40,7 +40,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
     public function init()
     {
         parent::init();
-        $this->dataLoader = Instance::ensure($this->dataLoader, DataLoaderInterface::class);
+        $this->sourceLoader = Instance::ensure($this->sourceLoader, DataLoaderInterface::class);
         if (empty($this->objectClass)) {
             throw new InvalidConfigException('Object class must be set');
         }
@@ -54,7 +54,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function get($key)
     {
-        $data = $this->dataLoader->get($key);
+        $data = $this->sourceLoader->get($key);
         return $this->createObject($data);
     }
 
@@ -65,7 +65,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function all(): ?array
     {
-        $all = $this->dataLoader->all();
+        $all = $this->sourceLoader->all();
         foreach ($all as $key => $item) {
             $all[$key] = $this->createObject($item);
         }
@@ -78,7 +78,7 @@ class ObjectedDataLoader extends BaseObject implements DataLoaderInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    private function createObject(?array $data): ?object
+    protected function createObject(?array $data): ?object
     {
         if ($data === null) {
             return null;

@@ -2,6 +2,7 @@
 
 namespace lujie\data\center\models;
 
+use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;
 
 /**
@@ -16,13 +17,11 @@ use Yii;
  * @property array $options
  * @property int $status
  * @property int $owner_id
- * @property int $created_at
- * @property int $created_by
- * @property int $updated_at
- * @property int $updated_by
  */
 class DataAccount extends \yii\db\ActiveRecord
 {
+    use TraceableBehaviorTrait;
+
     /**
      * {@inheritdoc}
      */

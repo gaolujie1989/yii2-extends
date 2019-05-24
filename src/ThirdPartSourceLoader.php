@@ -5,66 +5,93 @@
 
 namespace lujie\data\center;
 
-use lujie\data\center\models\DataSource;
-use lujie\data\exchange\sources\RestApiSource;
-use lujie\data\loader\ActiveRecordDataLoader;
-use lujie\data\loader\DataLoaderInterface;
-use lujie\data\loader\ObjectedDataLoader;
-use yii\base\InvalidArgumentException;
+use lujie\data\exchange\sources\RestSource;
+use lujie\data\loader\ObjectDataLoader;
+use yii\base\InvalidConfigException;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class ThirdPartSourceLoader
  * @package lujie\data\center
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ThirdPartSourceLoader extends ObjectedDataLoader
+class ThirdPartSourceLoader extends ObjectDataLoader
 {
-    public $thirdPartClientConfig = [
-        'plentymarkets' => [
-            'class' => 'lujie\plentymarkets\PlentymarketsRestClient',
-            'username' => 'username',
-            'password' => 'password',
-        ],
-    ];
-
-    public $thirdPartClientKey = 'type';
-
     /**
-     * @var DataLoaderInterface
+     * @var ThirdPartClientLoader
      */
-    public $dataLoader = [
-        'class' => ActiveRecordDataLoader::class,
-        'modelClass' => DataSource::class,
-        'returnAsArray' => false,
+    public $clientLoader = [
+        'class' => ThirdPartClientLoader::class
     ];
 
-    public $objectClass = RestApiSource::class;
+    /**
+     * [
+     *      'xxxType' => ['class' => 'xxxClass', 'xxx' => 'xxx']
+     * ]
+     * @var array
+     */
+    public $sources = [];
 
     /**
-     * @param array|null $data
-     * @return object|null|RestApiSource
+     * @var string
+     */
+    public $clientKey = 'client';
+
+    /**
+     * @var string
+     */
+    public $sourceKey = 'source';
+
+    /**
+     * @var string
+     */
+    public $objectClass = RestSource::class;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function createObject(?array $data): ?object
+    public function init(): void
     {
-        if ($data === null) {
-            return null;
+        $this->clientLoader = Instance::ensure($this->clientLoader, ThirdPartClientLoader::class);
+        parent::init();
+    }
+
+    /**
+     * @param $data
+     * @return object
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function createObject(array $data): object
+    {
+        if (empty($data[$this->clientKey])) {
+            throw new InvalidConfigException('Invalid source config');
         }
-        if (empty($this->thirdPartClientConfig[$data[$this->thirdPartClientKey]])) {
-            throw new InvalidArgumentException('Invalid source');
-        }
-        $clientConfig = $this->thirdPartClientConfig[$data[$this->thirdPartClientKey]];
-        foreach ($clientConfig as $property => $item) {
-            if ($property !== 'class') {
-                $clientConfig[$property] = ArrayHelper::getValue($data, $item);
-            }
+        $data['client'] = $this->clientLoader->get($data[$this->clientKey]);
+        $this->initConfig($data);
+        return parent::createObject($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function initConfig(array $data): void
+    {
+        if (empty($data[$this->sourceKey]) || empty($this->sources[$data[$this->sourceKey]])) {
+            throw new InvalidConfigException('Invalid source config');
         }
 
-        $sourceConfig['restClient'] = $clientConfig;
-        $sourceConfig['resource'] = $data['resource'];
-        return Instance::ensure($sourceConfig, RestApiSource::class);
+        $source = $this->sources[$data[$this->sourceKey]];
+        if (is_array($source)) {
+            $this->objectClass = $source['class'];
+            unset($source['class']);
+            $this->dataConfig = $source;
+        } else {
+            $this->objectClass = $source;
+        }
     }
 }

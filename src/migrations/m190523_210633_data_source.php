@@ -20,7 +20,8 @@ class m190523_210633_data_source extends Migration
         $this->createTable($this->tableName, [
             'data_source_id' => $this->primaryKey(),
             'data_account_id' => $this->integer()->notNull()->defaultValue(0),
-            'name' => $this->string()->notNull()->defaultValue(''),
+            'name' => $this->string(100)->notNull()->defaultValue(''),
+            'type' => $this->string(50)->notNull()->defaultValue(''),
             'options' => $this->json(),
             'additional_info' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),

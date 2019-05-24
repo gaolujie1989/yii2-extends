@@ -7,14 +7,11 @@ namespace lujie\data\center;
 
 
 use lujie\data\exchange\DataExchanger;
-use lujie\data\exchange\pipelines\ActiveRecordPipeline;
-use lujie\data\exchange\sources\BaseIncrementSource;
 use lujie\data\exchange\sources\BatchSourceInterface;
 use lujie\data\exchange\sources\ConditionSourceInterface;
-use lujie\data\exchange\sources\SourceInterface;
+use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\loader\ObjectedDataLoader;
-use lujie\data\center\models\DataRecord;
+use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\di\Instance;
 
@@ -23,17 +20,21 @@ use yii\di\Instance;
  * @package lujie\data\center
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DataCenter extends DataExchanger
+class DataCenter extends BaseObject
 {
-    public $pipeline = [
-        'class' => ActiveRecordPipeline::class,
-        'modelClass' => DataRecord::class,
+    /**
+     * @var ThirdPartSourceLoader
+     */
+    public $sourceLoader = [
+        'class' => ThirdPartSourceLoader::class,
     ];
 
     /**
-     * @var ObjectedDataLoader
+     * @var DataLoaderInterface
      */
-    public $sourceLoader;
+    public $exchangerLoader = [
+
+    ];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -43,6 +44,7 @@ class DataCenter extends DataExchanger
     {
         parent::init();
         $this->sourceLoader = Instance::ensure($this->sourceLoader, DataLoaderInterface::class);
+        $this->exchangerLoader = Instance::ensure($this->exchangerLoader, DataLoaderInterface::class);
     }
 
     /**
@@ -59,9 +61,11 @@ class DataCenter extends DataExchanger
             throw new InvalidArgumentException('Invalid source');
         }
 
+        /** @var DataExchanger $exchanger */
+        $exchanger = $this->exchangerLoader->get($sourceId);
         $source->setCondition($condition);
         foreach ($source->batch() as $items) {
-            if (!$this->exchange($items)) {
+            if (!$exchanger->exchange($items)) {
                 return false;
             }
         }
@@ -77,12 +81,14 @@ class DataCenter extends DataExchanger
     public function pullIncrements($sourceId): bool
     {
         $source = $this->sourceLoader->get($sourceId);
-        if (!($source instanceof BaseIncrementSource)) {
+        if (!($source instanceof IncrementSource)) {
             throw new InvalidArgumentException('Invalid source');
         }
 
+        /** @var DataExchanger $exchanger */
+        $exchanger = $this->exchangerLoader->get($sourceId);
         foreach ($source->batch() as $items) {
-            if (!$this->exchange($items)) {
+            if (!$exchanger->exchange($items)) {
                 return false;
             }
             $source->ackReceived();

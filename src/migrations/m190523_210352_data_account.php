@@ -19,7 +19,7 @@ class m190523_210352_data_account extends Migration
     {
         $this->createTable($this->tableName, [
             'data_account_id' => $this->primaryKey(),
-            'name' => $this->string(100)->notNull()->unique(),
+            'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'url' => $this->string()->notNull()->defaultValue(''),
             'username' => $this->string()->notNull()->defaultValue(''),

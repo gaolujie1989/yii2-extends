@@ -27,7 +27,7 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    private function getModel($key): BaseActiveRecord
+    protected function getModel($key): BaseActiveRecord
     {
         /** @var BaseActiveRecord $model */
         $model = $this->modelClass::find()

@@ -8,7 +8,6 @@ namespace lujie\plentymarkets;
 use lujie\extend\authclient\RestOAuth2Client;
 use Yii;
 use yii\authclient\OAuthToken;
-use yii\caching\ExpressionDependency;
 use yii\helpers\Inflector;
 
 /**
@@ -261,6 +260,7 @@ class PlentymarketsRestClient extends RestOAuth2Client
      */
     public function batch(string $resource, array $condition = [],  int $batchSize = 100): \Iterator
     {
+        $condition['pageSize'] = $batchSize;
         $listMethod = 'list' . Inflector::pluralize($resource);
         if ($this->reverse) {
             $responseData = $this->callApiMethod($listMethod, $condition);

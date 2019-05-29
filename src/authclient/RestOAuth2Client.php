@@ -194,21 +194,27 @@ abstract class RestOAuth2Client extends OAuth2
 
     /**
      * @param string $resource
-     * @param int $batchSize
      * @param array $condition
+     * @param int $batchSize
      * @return \Iterator
      * @inheritdoc
      */
-    abstract public function each(string $resource, int $batchSize, array $condition = []): \Iterator;
+    abstract public function batch(string $resource, array $condition = [], int $batchSize = 100): \Iterator;
 
     /**
      * @param string $resource
-     * @param int $batchSize
      * @param array $condition
+     * @param int $batchSize
      * @return \Iterator
      * @inheritdoc
      */
-    abstract public function batch(string $resource, int $batchSize, array $condition = []): \Iterator;
+    public function each(string $resource, array $condition = [], int $batchSize = 100): \Iterator
+    {
+        $iterator = $this->batch($resource, $condition, $batchSize);
+        foreach ($iterator as $items) {
+            yield from $items;
+        }
+    }
 
     /**
      * @return string

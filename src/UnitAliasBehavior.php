@@ -20,7 +20,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     const UNIT_SIZE_CM = 'cm';
     const UNIT_SIZE_M = 'm';
     const UNIT_WEIGHT_G = 'g';
-    const UNIT_WIGHT_KG = 'kg';
+    const UNIT_WEIGHT_KG = 'kg';
     const UNIT_MONEY_YUAN = 'yuan';
     const UNIT_MONEY_CENT = 'cent';
 

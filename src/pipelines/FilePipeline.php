@@ -5,7 +5,9 @@
 
 namespace lujie\data\exchange\pipelines;
 
+use creocoder\flysystem\Filesystem;
 use lujie\data\exchange\file\FileExporterInterface;
+use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\helpers\FileHelper;
@@ -28,6 +30,21 @@ class FilePipeline extends BaseObject implements PipelineInterface
     public $filePathTemplate = '/tmp/exports/{date}/tmp_{datetime}.bin';
 
     /**
+     * @var Filesystem
+     */
+    public $fs;
+
+    /**
+     * @var
+     */
+    public $localPath = '/tmp/';
+
+    /**
+     * @var string
+     */
+    private $filePath = '';
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -35,6 +52,10 @@ class FilePipeline extends BaseObject implements PipelineInterface
     {
         parent::init();
         $this->fileExporter = Instance::ensure($this->fileExporter, FileExporterInterface::class);
+        $this->localPath = Yii::getAlias($this->localPath);
+        if ($this->fs) {
+            $this->fs = Instance::ensure($this->fs);
+        }
     }
 
     /**
@@ -45,10 +66,15 @@ class FilePipeline extends BaseObject implements PipelineInterface
      */
     public function process(array $data): bool
     {
-        $file = $this->getFilePath();
-        $dir = pathinfo($file, PATHINFO_DIRNAME);
-        FileHelper::createDirectory($dir);
-        $this->fileExporter->exportToFile($file, $data);
+        $this->filePath = $this->generateFilePath();
+        $localPath = $this->localPath . $this->filePath;
+        $localDir = pathinfo($localPath, PATHINFO_DIRNAME);
+        FileHelper::createDirectory($localDir);
+        $this->fileExporter->exportToFile($localPath, $data);
+        if ($this->fs) {
+            $this->fs->write($this->filePath, file_get_contents($localPath));
+            unlink($localPath);
+        }
         return true;
     }
 
@@ -57,12 +83,21 @@ class FilePipeline extends BaseObject implements PipelineInterface
      * @throws \Exception
      * @inheritdoc
      */
-    public function getFilePath(): string
+    protected function generateFilePath(): string
     {
         return strtr($this->filePathTemplate, [
             '{date}' => date('ymd'),
             '{datetime}' => date('ymdHis'),
             '{rand}' => random_int(1000, 9999)
         ]);
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getFilePath(): string
+    {
+        return $this->filePath;
     }
 }

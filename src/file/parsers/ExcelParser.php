@@ -7,13 +7,14 @@ namespace lujie\data\exchange\file\parsers;
 
 use lujie\data\exchange\file\FileParserInterface;
 use lujie\extend\helpers\ExcelHelper;
+use yii\base\BaseObject;
 
 /**
  * Class ExcelExporter
  * @package lujie\data\exchange\parsers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ExcelParser implements FileParserInterface
+class ExcelParser extends BaseObject implements FileParserInterface
 {
     public $firstLineIsHeader = true;
 

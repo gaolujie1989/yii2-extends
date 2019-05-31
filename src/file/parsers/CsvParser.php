@@ -7,13 +7,14 @@ namespace lujie\data\exchange\file\parsers;
 
 use lujie\data\exchange\file\FileParserInterface;
 use lujie\extend\helpers\CsvHelper;
+use yii\base\BaseObject;
 
 /**
  * Class CsvParser
  * @package lujie\data\exchange\parsers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CsvParser implements FileParserInterface
+class CsvParser extends BaseObject implements FileParserInterface
 {
     public $firstLineIsHeader = true;
 

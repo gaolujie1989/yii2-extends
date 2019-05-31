@@ -32,6 +32,23 @@ class ActiveRecordPipeline extends BaseDbPipeline
     public $runValidation = false;
 
     /**
+     * [
+     *     'lineNum' => 'line num xxx has error xxx',
+     * ]
+     * @var array
+     */
+    protected $errors = [];
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
      * @param array $data
      * @return bool
      * @throws \Throwable

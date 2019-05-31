@@ -28,13 +28,7 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
         self::AFFECTED_SKIPPED => 0
     ];
 
-    /**
-     * [
-     *     'lineNum' => 'line num xxx has error xxx',
-     * ]
-     * @var array
-     */
-    protected $errors = [];
+
 
     /**
      * @return array
@@ -43,14 +37,5 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     public function getAffectedRowCounts(): array
     {
         return $this->affectedRowCounts;
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

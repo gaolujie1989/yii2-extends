@@ -7,13 +7,14 @@ namespace lujie\data\exchange\file\exporters;
 
 use lujie\data\exchange\file\FileExporterInterface;
 use lujie\extend\helpers\ExcelHelper;
+use yii\base\BaseObject;
 
 /**
  * Class ExcelExporter
  * @package lujie\data\exchange\parsers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ExcelExporter implements FileExporterInterface
+class ExcelExporter extends BaseObject implements FileExporterInterface
 {
     public $keyAsHeader = true;
 

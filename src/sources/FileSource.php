@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\sources;
 
+use creocoder\flysystem\Filesystem;
 use lujie\data\exchange\file\FileParserInterface;
 use yii\base\BaseObject;
 use yii\di\Instance;
@@ -27,6 +28,16 @@ class FileSource extends BaseObject implements SourceInterface
     public $file = '/tmp/imports/tmp_import.bin';
 
     /**
+     * @var Filesystem
+     */
+    public $fs;
+
+    /**
+     * @var
+     */
+    public $localPath = '/tmp/';
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -34,6 +45,9 @@ class FileSource extends BaseObject implements SourceInterface
     {
         parent::init();
         $this->fileParser = Instance::ensure($this->fileParser, FileParserInterface::class);
+        if ($this->fs) {
+            $this->fs = Instance::ensure($this->fs);
+        }
     }
 
     /**
@@ -42,6 +56,12 @@ class FileSource extends BaseObject implements SourceInterface
      */
     public function all(): array
     {
-        return $this->fileParser->parseFile($this->file);
+        $localPath = $this->localPath . $this->file;
+        if ($this->fs) {
+            file_put_contents($localPath, $this->fs->read($this->file));
+        }
+        $data = $this->fileParser->parseFile($localPath);
+        unlink($localPath);
+        return $data;
     }
 }

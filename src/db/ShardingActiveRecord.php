@@ -20,6 +20,7 @@ use yii\di\Instance;
 class ShardingActiveRecord extends ActiveRecord
 {
     protected const SHARDING_RULE_MAP = 'map';
+    protected const SHARDING_RULE_RANGE = 'range';
     protected const SHARDING_RULE_HASH = 'hash';
 
     /**
@@ -27,8 +28,20 @@ class ShardingActiveRecord extends ActiveRecord
      * @var array
      */
     protected static $tableShardingKeys = [
-        'type' => [self::SHARDING_RULE_MAP, 'map' => [], 'default' => 'common'],
-        'id' => [self::SHARDING_RULE_HASH, 'count' => 4],
+        'type' => [
+            self::SHARDING_RULE_MAP,
+            'map' => [],
+            'default' => 'common'
+        ],
+        'update_at' => [
+            self::SHARDING_RULE_RANGE,
+            'range' => ['2019' => ['2019-01-01'], ['2020-01-01']],
+            'default' => 'common'
+        ],
+        'id' => [
+            self::SHARDING_RULE_HASH,
+            'count' => 4
+        ],
     ];
 
     /**

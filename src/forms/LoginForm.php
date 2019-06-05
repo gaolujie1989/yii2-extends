@@ -3,15 +3,15 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\user\center\forms;
+namespace lujie\user\forms;
 
-use lujie\user\center\models\User;
+use lujie\user\models\User;
 use Yii;
 use yii\base\Model;
 
 /**
  * Class LoginForm
- * @package lujie\user\center\forms
+ * @package lujie\user\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class LoginForm extends Model

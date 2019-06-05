@@ -1,10 +1,10 @@
 <?php
 
-namespace lujie\user\center\models;
+namespace lujie\user\models;
 
 /**
  * Class UserSearch
- * @package lujie\user\center\models
+ * @package lujie\user\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class UserSearch extends User

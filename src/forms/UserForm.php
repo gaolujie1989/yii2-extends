@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\user\center\forms;
+namespace lujie\user\forms;
 
-use lujie\user\center\models\User;
+use lujie\user\models\User;
 
 /**
  * Class UserForm
- * @package lujie\user\center\forms
+ * @package lujie\user\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class UserForm extends User

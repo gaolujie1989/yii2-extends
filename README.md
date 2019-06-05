@@ -1,5 +1,5 @@
-# yii2-user-center
+# yii2-user
 
 #### Introduction
-User center
+User
 

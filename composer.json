@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-user-center",
-  "description": "User center",
-  "keywords": ["yii2", "User center"],
+  "name": "lujie/yii2-user",
+  "description": "User",
+  "keywords": ["yii2", "User"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-user-center/issues",
-    "source": "https://gitee.com/code4dream/yii2-user-center"
+    "issues": "https://gitee.com/code4dream/yii2-user/issues",
+    "source": "https://gitee.com/code4dream/yii2-user"
   },
   "authors": [
     {
@@ -15,7 +15,7 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\user\\center\\": "src" }
+    "psr-4": { "lujie\\user\\": "src" }
   },
   "repositories": [
     {

@@ -54,25 +54,24 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @return string
      * @inheritdoc
      */
-    public static function getCacheKey($key)
+    public static function getCacheKey($key): string
     {
         return static::CACHE_KEY_PREFIX . $key;
     }
 
-        /**
+    /**
      * @param int|string $id
-     * @return RemoteUser|IdentityInterface|null
+     * @return RemoteUser|null
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public static function findIdentity($id): ?RemoteUser
     {
         $cache = static::getCache();
-        if ($token = $cache->get(static::getCacheKey($id))) {
-            if ($userData = $cache->get(static::getCacheKey($token))) {
-                $remoteUser = new RemoteUser();
-                $remoteUser->data = $userData;
-                return $remoteUser;
-            }
+        $token = $cache->get(static::getCacheKey($id));
+        if ($token && $userData = $cache->get(static::getCacheKey($token))) {
+            $remoteUser = new self();
+            $remoteUser->data = $userData;
+            return $remoteUser;
         }
         return null;
     }
@@ -83,16 +82,15 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @return RemoteUser|IdentityInterface
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type = null): ?RemoteUser
     {
-        $remoteUser = new RemoteUser();
-        $remoteUser->data = static::getCache()->getOrSet(static::getCacheKey($token), function () use ($token, $type) {
+        $data = static::getCache()->getOrSet(static::getCacheKey($token), static function () use ($token, $type) {
             $userData = static::getUserData($token, $type);
             static::getCache()->set(static::getCacheKey($userData['id']), $token);
             return $userData;
         }, static::CACHE_DURATION, new TagDependency(['tags' => static::CACHE_TAG]));
 
-        return $remoteUser->data ? $remoteUser : null;
+        return $data ? new self(['data' => $data]) : null;
     }
 
     /**
@@ -108,7 +106,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @return string|null
      * @inheritdoc
      */
-    public function getAuthKey()
+    public function getAuthKey(): ?string
     {
         return $this->data['authKey'] ?? null;
     }
@@ -118,7 +116,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @return bool
      * @inheritdoc
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return $this->getAuthKey() === $authKey;
     }

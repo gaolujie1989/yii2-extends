@@ -6,6 +6,7 @@
 namespace lujie\remote\user;
 
 use Yii;
+use yii\base\BaseObject;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;
@@ -16,23 +17,23 @@ use yii\web\IdentityInterface;
  * @package lujie\remote\user
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class RemoteUser implements IdentityInterface
+class RemoteUser extends BaseObject implements IdentityInterface
 {
     public $data;
 
-    const CACHE_DURATION = 86400;
-    const CACHE_TAG = 'RemoteUser';
-    const CACHE_KEY_PREFIX = 'RemoteUser:';
+    public const CACHE_DURATION = 86400;
+    public const CACHE_TAG = 'RemoteUser';
+    public const CACHE_KEY_PREFIX = 'RemoteUser:';
 
     /**
-     * @param $token
-     * @param null $type
-     * @return array|mixed
+     * @param string $token
+     * @param string|null $type
+     * @return array|null
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    protected static function getUserData($token, $type = null)
+    protected static function getUserData(string $token, string $type = null): ?array
     {
         /** @var RemoteUserClient $client */
         $client = Instance::ensure('remoteUserClient', RemoteUserClient::class);
@@ -43,7 +44,7 @@ class RemoteUser implements IdentityInterface
      * @return CacheInterface
      * @inheritdoc
      */
-    public static function getCache()
+    public static function getCache(): CacheInterface
     {
         return Yii::$app->getCache();
     }

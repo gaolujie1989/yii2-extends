@@ -20,7 +20,7 @@ class RemoteUserClient extends BaseObject
     /**
      * @var Client
      */
-    public $client = [];
+    public $client;
 
     public $baseUrl;
 
@@ -34,7 +34,7 @@ class RemoteUserClient extends BaseObject
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->client = Instance::ensure($this->client, Client::class);
@@ -44,10 +44,11 @@ class RemoteUserClient extends BaseObject
     /**
      * @param $token
      * @param null $type
+     * @return array|null
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function getUserByAccessToken($token, $type = null)
+    public function getUserByAccessToken(string $token, string $type = null): ?array
     {
         $tokenUserUrl = strtr($this->tokenUserUrl, ['{token}' => $token, '{type}' => $type]);
         $request = $this->client->get($tokenUserUrl);
@@ -57,7 +58,7 @@ class RemoteUserClient extends BaseObject
         $response = $request->send();
         if ($response->getIsOk()) {
             $data = $response->getData();
-            return $this->dateKey ? $data[$this->dateKey] ?? [] : $data;
+            return $this->dateKey ? ($data[$this->dateKey] ?? []) : $data;
         }
         return null;
     }

@@ -22,10 +22,9 @@ class RemoteUser extends BaseObject implements IdentityInterface
     public $data;
 
     protected const CACHE_DURATION = 86400;
-    protected const CACHE_TAG = 'RemoteUser';
-    protected const CACHE_KEY_PREFIX = 'RemoteUser:';
-    protected const CACHE_KEY_TYPE_TOKEN = 'Token:';
-    protected const CACHE_KEY_TYPE_USER_DATA = 'UserData:';
+    protected const CACHE_TAGS = ['RemoteUser', 'user'];
+    protected const CACHE_TOKEN_KEY_PREFIX = 'RemoteUserToken:';
+    protected const CACHE_USER_DATA_KEY_PREFIX = 'RemoteUserData:';
 
     /**
      * @param string $token
@@ -56,9 +55,19 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @return string
      * @inheritdoc
      */
-    public static function getCacheKey($key, string $type = ''): string
+    public static function getTokenCacheKey($key): string
     {
-        return static::CACHE_KEY_PREFIX . $type . $key;
+        return static::CACHE_TOKEN_KEY_PREFIX . $key;
+    }
+
+    /**
+     * @param $key
+     * @return string
+     * @inheritdoc
+     */
+    public static function getUserDataCacheKey($key): string
+    {
+        return static::CACHE_USER_DATA_KEY_PREFIX . $key;
     }
 
     /**
@@ -69,8 +78,8 @@ class RemoteUser extends BaseObject implements IdentityInterface
     public static function findIdentity($id): ?RemoteUser
     {
         $cache = static::getCache();
-        $token = $cache->get(static::getCacheKey($id, static::CACHE_KEY_TYPE_TOKEN));
-        if ($token && $userData = $cache->get(static::getCacheKey($token, static::CACHE_KEY_TYPE_USER_DATA))) {
+        $token = $cache->get(static::getTokenCacheKey($id));
+        if ($token && $userData = $cache->get(static::getUserDataCacheKey($token))) {
             $remoteUser = new self();
             $remoteUser->data = $userData;
             return $remoteUser;
@@ -86,13 +95,14 @@ class RemoteUser extends BaseObject implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null): ?RemoteUser
     {
-        $data = static::getCache()->getOrSet(static::getCacheKey($token, static::CACHE_KEY_TYPE_USER_DATA), static function () use ($token, $type) {
+        $dependency = new TagDependency(['tags' => static::CACHE_TAGS]);
+        $data = static::getCache()->getOrSet(static::getUserDataCacheKey($token), static function () use ($token, $type, $dependency) {
             $userData = static::getUserData($token, $type);
             if ($userData && isset($userData['id'])) {
-                static::getCache()->set(static::getCacheKey($userData['id'], static::CACHE_KEY_TYPE_TOKEN), $token);
+                static::getCache()->set(static::getTokenCacheKey($userData['id']), $token, static::CACHE_DURATION, $dependency);
             }
             return $userData;
-        }, static::CACHE_DURATION, new TagDependency(['tags' => static::CACHE_TAG]));
+        }, static::CACHE_DURATION, $dependency);
 
         return $data ? new self(['data' => $data]) : null;
     }

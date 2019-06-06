@@ -4,11 +4,11 @@
  */
 
 return [
-    'lujie/yii2-relationsave' => [
-        'name' => 'lujie/yii2-relationsave',
+    'lujie/yii2-relation' => [
+        'name' => 'lujie/yii2-relation',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/relationsave' => __DIR__ . '/src',
+            '@lujie/relation' => __DIR__ . '/src',
         ]
     ],
 ];

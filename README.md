@@ -1,5 +1,5 @@
-# yii2-relationsave
+# yii2-relation
 
 #### Introduction
-Yii2 relationsave for ActiveRecord
+Yii2 relation save/delete for ActiveRecord
 

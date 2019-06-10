@@ -30,10 +30,10 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty($name)
     {
         $value = parent::getAliasProperty($name);
-        if (substr($name, strlen($this->timestampSuffix)) == $this->timestampSuffix) {
+        if (strpos($name, $this->timestampSuffix) === 0) {
             return $this->getTimestamp($value);
         }
-        if (substr($name, strlen($this->datetimeSuffix)) == $this->datetimeSuffix) {
+        if (strpos($name, $this->datetimeSuffix) === 0) {
             return $this->getDatetime($value);
         }
         return $value;
@@ -42,19 +42,18 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     /**
      * @param $name
      * @param $value
-     * @return mixed
      * @throws \Exception
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value)
+    public function setAliasProperty($name, $value): void
     {
-        if (substr($name, strlen($this->timestampSuffix)) == $this->timestampSuffix) {
+        if (strpos($name, $this->timestampSuffix) === 0) {
             $value = $this->getTimestamp($value);
         }
-        if (substr($name, strlen($this->datetimeSuffix)) == $this->datetimeSuffix) {
+        if (strpos($name, $this->datetimeSuffix) === 0) {
             $value = $this->getDatetime($value);
         }
-        return parent::setAliasProperty($name, $value);
+        parent::setAliasProperty($name, $value);
     }
 
 
@@ -64,7 +63,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      * @throws \Exception
      * @inheritdoc
      */
-    public function getDatetime($time)
+    public function getDatetime($time): string
     {
         $dateTime = new \DateTime(date('Y-m-d H:i:s', $time));
         if ($this->timezone) {
@@ -79,7 +78,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      * @throws \Exception
      * @inheritdoc
      */
-    public function getTimestamp($date)
+    public function getTimestamp($date): int
     {
         $timezone = $this->timezone ? new \DateTimeZone($this->timezone) : null;
         $dateTime = new \DateTime($date, $timezone);

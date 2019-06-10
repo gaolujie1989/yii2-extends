@@ -33,7 +33,7 @@ class AliasPropertyBehavior extends Behavior
     public function __get($name)
     {
         if ($this->isAliasProperty($name)) {
-            $this->getAliasProperty($name);
+            return $this->getAliasProperty($name);
         } else {
             return parent::__get($name);
         }
@@ -45,7 +45,7 @@ class AliasPropertyBehavior extends Behavior
      * @throws \yii\base\UnknownPropertyException
      * @inheritdoc
      */
-    public function __set($name, $value)
+    public function __set($name, $value): void
     {
         if ($this->isAliasProperty($name)) {
             $this->setAliasProperty($name, $value);
@@ -60,7 +60,7 @@ class AliasPropertyBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function canSetProperty($name, $checkVars = true)
+    public function canSetProperty($name, $checkVars = true): bool
     {
         if ($this->isAliasProperty($name)) {
             return true;
@@ -74,7 +74,7 @@ class AliasPropertyBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function canGetProperty($name, $checkVars = true)
+    public function canGetProperty($name, $checkVars = true): bool
     {
         if ($this->isAliasProperty($name)) {
             return true;
@@ -85,35 +85,34 @@ class AliasPropertyBehavior extends Behavior
     #endregion
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      * @inheritdoc
      */
-    public function isAliasProperty($name)
+    public function isAliasProperty(string $name): bool
     {
         return isset($this->aliasProperties[$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed
      * @inheritdoc
      */
-    public function getAliasProperty($name)
+    public function getAliasProperty(string $name)
     {
         $property = $this->aliasProperties[$name];
         return $this->owner->$property;
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param $value
-     * @return mixed
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value)
+    public function setAliasProperty(string $name, $value): void
     {
         $property = $this->aliasProperties[$name];
-        return $this->owner->$property = $value;
+        $this->owner->$property = $value;
     }
 }

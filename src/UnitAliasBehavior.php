@@ -6,7 +6,7 @@
 namespace lujie\alias\behaviors;
 
 
-use yii\base\Behavior;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidValueException;
 
 /**
@@ -16,13 +16,13 @@ use yii\base\InvalidValueException;
  */
 class UnitAliasBehavior extends AliasPropertyBehavior
 {
-    const UNIT_SIZE_MM = 'mm';
-    const UNIT_SIZE_CM = 'cm';
-    const UNIT_SIZE_M = 'm';
-    const UNIT_WEIGHT_G = 'g';
-    const UNIT_WEIGHT_KG = 'kg';
-    const UNIT_MONEY_YUAN = 'yuan';
-    const UNIT_MONEY_CENT = 'cent';
+    public const UNIT_SIZE_MM = 'mm';
+    public const UNIT_SIZE_CM = 'cm';
+    public const UNIT_SIZE_M = 'm';
+    public const UNIT_WEIGHT_G = 'g';
+    public const UNIT_WEIGHT_KG = 'kg';
+    public const UNIT_MONEY_YUAN = 'yuan';
+    public const UNIT_MONEY_CENT = 'cent';
 
     /**
      * @var array
@@ -69,7 +69,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     /**
      * @inheritdoc
      */
-    public function initUnit()
+    public function initUnit(): void
     {
         if ($this->baseUnitAttribute) {
             $this->baseUnit = $this->owner->{$this->baseUnitAttribute};
@@ -97,14 +97,19 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     /**
      * @param $name
      * @param $value
-     * @return mixed
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value)
+    public function setAliasProperty($name, $value): void
     {
         $this->initUnit();
+        if (!is_numeric($value)) {
+            $value = strtr($value, [',' => '.']);
+            if (!is_numeric($value)) {
+                throw new InvalidArgumentException('Unit value must be a number');
+            }
+        }
         $value = $this->convert($value, $this->displayUnit, $this->baseUnit);
-        return parent::setAliasProperty($name, $value);
+        parent::setAliasProperty($name, $value);
     }
 
     /**
@@ -116,12 +121,12 @@ class UnitAliasBehavior extends AliasPropertyBehavior
      */
     public function convert($value, $from, $to)
     {
-        if ($from == $to) {
+        if ($from === $to) {
             return $value;
         }
         $key = $from . '2' . $to;
         $convertedValue = $value * (static::$unitConvertRates[$key] ?? 1);
-        if (in_array($to, static::$onlyIntUnits)) {
+        if (in_array($to, static::$onlyIntUnits, true)) {
             $convertedValue = round($convertedValue);
         }
         return $convertedValue;

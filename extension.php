@@ -8,8 +8,8 @@ return [
         'name' => 'lujie/yii2-relation',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/relation' => __DIR__ . '/src',
-            '@lujie/relation/tests' => __DIR__ . '/tests',
+            '@lujie/relation/behaviors' => __DIR__ . '/src',
+            '@lujie/relation/behaviors/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

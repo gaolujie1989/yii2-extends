@@ -1,9 +1,9 @@
 <?php
 
-namespace lujie\relation\tests\unit;
+namespace lujie\relation\behaviors\tests\unit;
 
-use lujie\relation\RelationDeletableBehavior;
-use lujie\relation\RelationSavableBehavior;
+use lujie\relation\behaviors\RelationDeletableBehavior;
+use lujie\relation\behaviors\RelationSavableBehavior;
 use lujie\relation\tests\unit\models\TestAddress;
 use lujie\relation\tests\unit\models\TestCustomer;
 use lujie\relation\tests\unit\models\TestOrder;

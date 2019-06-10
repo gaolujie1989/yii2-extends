@@ -22,5 +22,9 @@ class TestAliasComponent extends Component
 
     public $weight_g;
 
-    public $money_yuan;
+    public $length_m;
+
+    public $lengthBaseUnit = 'm';
+
+    public $lengthDisplayUnit = 'mm';
 }

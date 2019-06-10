@@ -2,7 +2,6 @@
 
 namespace lujie\alias\behaviors\tests\unit;
 
-use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\alias\behaviors\tests\unit\fixtures\TestAliasComponent;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 
@@ -42,5 +41,24 @@ class TimestampAliasBehaviorTest extends \Codeception\Test\Unit
         $jpDateTime = '2019-01-02 09:00:00';
         $testAliasComponent->created_time = $jpDateTime;
         $this->assertEquals(strtotime($datetime), $testAliasComponent->created_at);
+
+        $testAliasComponent = new TestAliasComponent([
+            'as timestamp' => [
+                'class' => TimestampAliasBehavior::class,
+                'timezone' => 'Asia/Tokyo',
+                'aliasProperties' => [
+                    'updated_at' => 'updated_time'
+                ]
+            ]
+        ]);
+        $datetime = '2019-01-01 08:00:00';
+        $jpDateTime = '2019-01-01 09:00:00';
+        $testAliasComponent->updated_time = $jpDateTime;
+        $this->assertEquals(strtotime($datetime), $testAliasComponent->updated_at);
+
+        $datetime = '2019-01-02 08:00:00';
+        $jpDateTime = '2019-01-02 09:00:00';
+        $testAliasComponent->updated_at = strtotime($datetime);
+        $this->assertEquals($jpDateTime, $testAliasComponent->updated_time);
     }
 }

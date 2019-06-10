@@ -6,14 +6,14 @@
  * Time: 22:57
  */
 
-namespace lujie\statemachine;
+namespace lujie\state\machine;
 
 
 use yii\base\ModelEvent;
 
 /**
  * Class StatusEvent
- * @package lujie\statemachine
+ * @package lujie\state\machine
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StatusEvent extends ModelEvent

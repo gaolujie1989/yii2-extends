@@ -4,11 +4,12 @@
  */
 
 return [
-    'lujie/yii2-statemachine' => [
-        'name' => 'lujie/yii2-statemachine',
+    'lujie/yii2-state-machine' => [
+        'name' => 'lujie/yii2-state-machine',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/statemachine' => __DIR__ . '/src',
+            '@lujie/state/machine' => __DIR__ . '/src',
+            '@lujie/state/machine/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

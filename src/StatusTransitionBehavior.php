@@ -6,7 +6,7 @@
  * Time: 18:05
  */
 
-namespace lujie\statemachine;
+namespace lujie\state\machine;
 
 
 use yii\base\Behavior;
@@ -19,7 +19,7 @@ use yii\db\BaseActiveRecord;
  *
  * @property BaseActiveRecord $owner
  *
- * @package lujie\statemachine
+ * @package lujie\state\machine
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StatusTransitionBehavior extends Behavior
@@ -33,7 +33,7 @@ class StatusTransitionBehavior extends Behavior
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             StateMachineBehavior::EVENT_AFTER_CHANGE_STATUS => 'logStatusHistory',
@@ -44,7 +44,7 @@ class StatusTransitionBehavior extends Behavior
      * @param StatusEvent $event
      * @inheritdoc
      */
-    public function logStatusHistory(StatusEvent $event)
+    public function logStatusHistory(StatusEvent $event): void
     {
         /** @var BaseActiveRecord $statusTransition */
         $statusTransition = new $this->statusTransitionClass;

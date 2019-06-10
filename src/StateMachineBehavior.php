@@ -6,10 +6,12 @@
  * Time: 18:05
  */
 
-namespace lujie\statemachine;
+namespace lujie\state\machine;
 
 
 use yii\base\Behavior;
+use yii\base\InvalidArgumentException;
+use yii\base\InvalidCallException;
 use yii\base\ModelEvent;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
@@ -19,14 +21,14 @@ use yii\db\BaseActiveRecord;
  *
  * @property BaseActiveRecord $owner
  *
- * @package lujie\statemachine
+ * @package lujie\state\machine
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StateMachineBehavior extends Behavior
 {
-    const EVENT_BEFORE_CHANGE_STATUS = 'beforeChangeStatus';
+    public const EVENT_BEFORE_CHANGE_STATUS = 'beforeChangeStatus';
 
-    const EVENT_AFTER_CHANGE_STATUS = 'afterChangeStatus';
+    public const EVENT_AFTER_CHANGE_STATUS = 'afterChangeStatus';
 
     /**
      * @var string
@@ -81,7 +83,7 @@ class StateMachineBehavior extends Behavior
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             BaseActiveRecord::EVENT_INIT => 'doAutoSetInitialStatus',
@@ -96,7 +98,7 @@ class StateMachineBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function doAutoSetInitialStatus()
+    public function doAutoSetInitialStatus(): void
     {
         $this->owner->setAttribute($this->statusAttribute, $this->initialStatus);
         $this->initStatusScenario();
@@ -105,7 +107,7 @@ class StateMachineBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function initStatusScenario()
+    public function initStatusScenario(): void
     {
         $status = $this->owner->getAttribute($this->statusAttribute);
         if (isset($this->statusScenarios[$status])) {
@@ -117,7 +119,7 @@ class StateMachineBehavior extends Behavior
      * @param ModelEvent $event
      * @inheritdoc
      */
-    public function beforeSave(ModelEvent $event)
+    public function beforeSave(ModelEvent $event): void
     {
         $oldStatus = $this->owner->getOldAttribute($this->statusAttribute) ?: $this->initialStatus;
         $newStatus = $this->owner->getAttribute($this->statusAttribute);
@@ -144,7 +146,7 @@ class StateMachineBehavior extends Behavior
      * @param AfterSaveEvent $event
      * @inheritdoc
      */
-    public function afterSave(AfterSaveEvent $event)
+    public function afterSave(AfterSaveEvent $event): void
     {
         if (!isset($event->changedAttributes[$this->statusAttribute])) {
             return;
@@ -161,18 +163,42 @@ class StateMachineBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function validateStatus()
+    public function validateStatus(): bool
     {
         $oldStatus = $this->owner->getOldAttribute($this->statusAttribute) ?: $this->initialStatus;
         $newStatus = $this->owner->getAttribute($this->statusAttribute);
 
         $transitionStatus = $this->statusTransitions[$oldStatus] ?? [];
-        if (in_array($newStatus, $transitionStatus)) {
+        if (in_array($newStatus, $transitionStatus, true)) {
             return true;
-        } else {
-            $this->owner->addError($this->statusAttribute, $this->statusInvalidMessage);
-            return false;
         }
+        $this->owner->addError($this->statusAttribute, $this->statusInvalidMessage);
+        return false;
+    }
+
+    /**
+     * @param $name
+     * @param array $data
+     * @return bool
+     * @inheritdoc
+     */
+    public function callStatusMethod($name, $data = []): bool
+    {
+        if (empty($this->statusMethods[$name])) {
+            throw new InvalidCallException('Invalid method name');
+        }
+
+        $currentStatus = $this->owner->getAttribute($this->statusAttribute);
+        if (empty($this->statusMethods[$name][$currentStatus])) {
+            throw new InvalidCallException('Current status can not support this method');
+        }
+
+        $newStatus = $this->statusMethods[$name][$currentStatus];
+        $this->owner->setAttribute($this->statusAttribute, $newStatus);
+        if ($data) {
+            $this->owner->setAttributes($data);
+        }
+        return $this->owner->save();
     }
 
     /**
@@ -180,7 +206,7 @@ class StateMachineBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function hasMethod($name)
+    public function hasMethod($name): bool
     {
         if (isset($this->statusMethods[$name])) {
             return true;
@@ -197,18 +223,7 @@ class StateMachineBehavior extends Behavior
     public function __call($name, $params)
     {
         if (isset($this->statusMethods[$name])) {
-            $currentStatus = $this->owner->getAttribute($this->statusAttribute);
-            if (isset($this->statusMethods[$name][$currentStatus])) {
-                $newStatus = $this->statusMethods[$name][$currentStatus];
-                $this->owner->setAttribute($this->statusAttribute, $newStatus);
-                if (isset($params[0]) && is_array($params[0])) {
-                    $this->owner->setAttributes($params[0]);
-                }
-                return $this->owner->save();
-            } else {
-                $this->owner->addError($this->statusAttribute, $this->statusInvalidMessage);
-                return false;
-            }
+            return $this->callStatusMethod($name, $params[0] ?? []);
         }
         parent::__call($name, $params);
     }

@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\relation\\": "src" }
+    "psr-4": {
+      "lujie\\relation\\": "src",
+      "lujie\\relation\\tests": "tests"
+    }
   },
   "repositories": [
     {

@@ -1,36 +1,40 @@
 <?php
 
-use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
-class m20190606_143824_order_item_customer_address extends Migration
+class m190606_143824_test_models extends Migration
 {
-    use TraceableColumnTrait;
-
     public function safeUp()
     {
         $this->createTable('test_order', [
-            'order_id' => $this->bigPrimaryKey()->unsigned(),
+            'test_order_id' => $this->bigPrimaryKey()->unsigned(),
             'order_no' => $this->string()->notNull()->defaultValue(''),
             'customer_email' => $this->string()->notNull()->defaultValue(''),
             'shipping_address_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
         ]);
 
         $this->createTable('test_order_item', [
-            'order_item_id' => $this->bigPrimaryKey()->unsigned(),
-            'order_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'test_order_item_id' => $this->bigPrimaryKey()->unsigned(),
+            'test_order_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'item_no' => $this->string()->notNull()->defaultValue(''),
             'ordered_qty' => $this->integer()->notNull()->defaultValue(0),
         ]);
 
         $this->createTable('test_customer', [
-            'customer_id' => $this->bigPrimaryKey()->unsigned(),
+            'test_customer_id' => $this->bigPrimaryKey()->unsigned(),
             'customer_email' => $this->string()->notNull()->defaultValue(''),
+            'username' => $this->string()->notNull()->defaultValue(''),
         ]);
 
         $this->createTable('test_address', [
-            'address_id' => $this->bigPrimaryKey()->unsigned(),
+            'test_address_id' => $this->bigPrimaryKey()->unsigned(),
             'street' => $this->string()->notNull()->defaultValue(''),
+        ]);
+
+        $this->createTable('test_order_payment', [
+            'test_order_payment_id' => $this->bigPrimaryKey()->unsigned(),
+            'test_order_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'transaction_no' => $this->string()->notNull()->defaultValue(''),
         ]);
     }
 }

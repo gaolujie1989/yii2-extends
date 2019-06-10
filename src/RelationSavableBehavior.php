@@ -5,11 +5,9 @@
 
 namespace lujie\relation;
 
-
 use lujie\extend\helpers\ClassHelper;
-use Yii;
 use yii\base\Behavior;
-use yii\base\InvalidArgumentException;
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
@@ -69,7 +67,7 @@ class RelationSavableBehavior extends Behavior
     protected $savedRelations = [];
 
     /**
-     * @var BaseActiveRecord[]
+     * @var BaseActiveRecord[]|BaseActiveRecord[][]
      */
     protected $deletedRelations = [];
 
@@ -104,6 +102,7 @@ class RelationSavableBehavior extends Behavior
     public function afterSave(): void
     {
         $this->saveRelations();
+        $this->deleteRelations();
     }
 
     /**
@@ -153,6 +152,8 @@ class RelationSavableBehavior extends Behavior
 
     /**
      * convert array data to models
+     * for not multi relations, should set link attribute first, then set relation data,
+     * because it will load one relation model first and check, then set with relation
      * @param string $name
      * @param $data
      * @throws InvalidConfigException
@@ -317,36 +318,63 @@ class RelationSavableBehavior extends Behavior
      */
     public function saveRelations(): void
     {
-        /** @var BaseActiveRecord $owner */
         $owner = $this->owner;
         foreach ($this->savedRelations as $name => $models) {
             $saveMode = $this->saveModes[$name] ?? static::SAVE_MODE_MODEL;
             if ($saveMode === static::SAVE_MODE_MODEL) {
                 $this->saveRelationByModel($name, $models);
             } else if ($saveMode === static::SAVE_MODE_LINK) {
+                $relation = $owner->getRelation($name);
                 if (!is_array($models)) {
                     $models = [$models];
                 }
                 foreach ($models as $model) {
+                    if (!$relation->multiple) {
+                        throw new InvalidCallException('SAVE_MODE_LINK not support for one relation');
+                    }
                     $owner->link($name, $model);
                 }
             } else {
                 throw new InvalidConfigException('Invalid save mode');
             }
         }
+        foreach ($this->savedRelations as $name => $models) {
+            $relation = $owner->getRelation($name);
+            // update lazily loaded related objects
+            if ($relation->multiple && $relation->indexBy !== null) {
+                $models = ArrayHelper::index($models, $relation->indexBy);
+            }
+            $owner->populateRelation($name, $models);
+        }
+        $this->savedRelations = [];
+    }
 
+    /**
+     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws \yii\base\NotSupportedException
+     * @inheritdoc
+     */
+    public function deleteRelations(): void
+    {
+        $owner = $this->owner;
         foreach ($this->deletedRelations as $name => $models) {
             $deleteMode = $this->deleteModes[$name] ?? static::DELETE_MODE_MODEL;
+            $relation = $owner->getRelation($name);
             if ($deleteMode === static::DELETE_MODE_MODEL) {
-                $relation = $owner->getRelation($name);
                 if ($relation->via !== null) {
                     throw new InvalidConfigException('DELETE_MODE_MODEL not support for relation has via');
                 }
                 foreach ($models as $model) {
-                    $model->delete();
+                    if (!$model->delete()) {
+                        $message = strtr('Delete relation {modelClass}: {modelId} failed.', [
+                            '{modelClass}' => ClassHelper::getClassShortName($model),
+                            '{modelId}' => $model->getPrimaryKey(),
+                        ]);
+                        throw new Exception($message, $model->getErrors());
+                    }
                 }
             } else if ($deleteMode === static::DELETE_MODE_SQL) {
-                $relation = $owner->getRelation($name);
                 /** @var BaseActiveRecord $modelClass */
                 $modelClass = $relation->modelClass;
                 $condition = ['AND'];
@@ -367,22 +395,13 @@ class RelationSavableBehavior extends Behavior
                 $modelClass::deleteAll($condition);
             } else if ($deleteMode === static::DELETE_MODE_UNLINK) {
                 foreach ($models as $model) {
-                    $model->unlink($name, $model, true);
+                    $delete = $relation->multiple;
+                    $owner->unlink($name, $model, $delete);
                 }
             } else {
                 throw new InvalidConfigException('Invalid delete mode');
             }
         }
-
-        foreach ($this->savedRelations as $name => $models) {
-            $relation = $owner->getRelation($name);
-            // update lazily loaded related objects
-            if ($relation->multiple && $relation->indexBy !== null) {
-                $models = ArrayHelper::index($models, $relation->indexBy);
-            }
-            $owner->populateRelation($name, $models);
-        }
-        $this->savedRelations = [];
         $this->deletedRelations = [];
     }
 

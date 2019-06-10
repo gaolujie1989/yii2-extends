@@ -7,6 +7,7 @@ use lujie\relation\tests\unit\models\TestAddress;
 use lujie\relation\tests\unit\models\TestCustomer;
 use lujie\relation\tests\unit\models\TestOrder;
 use lujie\relation\tests\unit\models\TestOrderItem;
+use lujie\relation\tests\unit\models\TestOrderPayment;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 
@@ -85,6 +86,27 @@ class RelationSavableBehaviorTest extends \Codeception\Test\Unit
         foreach ($saveModes as $saveMode) {
             foreach ($deleteModes as $deleteMode) {
                 $this->saveWithAddress($saveMode, $deleteMode);
+            }
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function testSaveWithPayments(): void
+    {
+        $saveModes = [
+            RelationSavableBehavior::SAVE_MODE_MODEL,
+//            RelationSavableBehavior::SAVE_MODE_LINK,
+        ];
+        $deleteModes = [
+            RelationSavableBehavior::DELETE_MODE_MODEL,
+//            RelationSavableBehavior::DELETE_MODE_SQL,
+//            RelationSavableBehavior::DELETE_MODE_UNLINK,
+        ];
+        foreach ($saveModes as $saveMode) {
+            foreach ($deleteModes as $deleteMode) {
+                $this->saveWithExistPaymentsUseExistsTemp($saveMode, $deleteMode);
             }
         }
     }
@@ -290,5 +312,51 @@ class RelationSavableBehaviorTest extends \Codeception\Test\Unit
         //origin one should be not deleted
         $query = TestAddress::find()->andWhere(['street' => 'street 222']);
         $this->assertTrue($query->exists());
+    }
+
+    public function saveWithExistPaymentsUseExistsTemp(
+        $saveMode = RelationSavableBehavior::SAVE_MODE_MODEL,
+        $deleteMode = RelationSavableBehavior::DELETE_MODE_MODEL
+    ): void
+    {
+        $orderData = [
+            'order_no' => 'TEST_WITH_EXIST_PAYMENTS',
+            'customer_email' => 'xxx111@test.dev',
+        ];
+        $paymentData = [
+            [
+                'transaction_no' => 'TTT111'
+            ],
+            [
+                'transaction_no' => 'TTT222',
+            ],
+        ];
+        $existPayments = [];
+        foreach ($paymentData as $paymentValues) {
+            $payment = new TestOrderPayment();
+            $payment->setAttributes($paymentValues);
+            $payment->save(false);
+            $existPayments[] = $payment;
+        }
+        $testOrder = new TestOrder([
+            'as relationSave' => [
+                'class' => RelationSavableBehavior::class,
+                'relations' => ['orderPayments'],
+                'indexKeys' => ['orderPayments' => 'transaction_no'],
+                'linkUnlinkRelations' => ['orderPayments'],
+                'saveModes' => ['orderPayments' => $saveMode],
+                'deleteModes' => ['orderPayments' => $deleteMode]
+            ]
+        ]);
+        $testOrder->load($orderData, '');
+        $testOrder->orderPayments = $paymentData;
+
+        $this->assertTrue($testOrder->save());
+        $testOrder->refresh();
+        $savedPayments = ArrayHelper::toArray($testOrder->orderPayments,
+            [TestOrderPayment::class => ['test_order_payment_id', 'transaction_no']]);
+        $existPayments = ArrayHelper::toArray($existPayments,
+            [TestOrderPayment::class => ['test_order_payment_id', 'transaction_no']]);
+        $this->assertEquals($existPayments, $savedPayments);
     }
 }

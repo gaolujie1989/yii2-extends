@@ -209,13 +209,12 @@ class RelationSavableBehavior extends Behavior
                 } else {
                     $model = new $relation->modelClass();
                 }
-
                 if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
                     $model->setScenario($this->scenarioMaps[$name][$owner->getScenario()]);
                 }
                 if (!($values instanceof BaseActiveRecord)) {
                     $model->setAttributes($values);
-                }
+                };
                 //just to access the validation
                 foreach ($relation->link as $fk => $pk) {
                     if (!$model->$fk) {

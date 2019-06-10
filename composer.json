@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\batch\\": "src" }
+    "psr-4": {
+      "lujie\\db\\fieldQuery\\behaviors\\": "src",
+      "lujie\\db\\fieldQuery\\behaviors\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

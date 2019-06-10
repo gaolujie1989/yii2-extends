@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\relation\tests\unit\models;
+namespace lujie\relation\behaviors\tests\unit\models;
 
 use Yii;
 

@@ -4,11 +4,11 @@ namespace lujie\relation\behaviors\tests\unit;
 
 use lujie\relation\behaviors\RelationDeletableBehavior;
 use lujie\relation\behaviors\RelationSavableBehavior;
-use lujie\relation\tests\unit\models\TestAddress;
-use lujie\relation\tests\unit\models\TestCustomer;
-use lujie\relation\tests\unit\models\TestOrder;
-use lujie\relation\tests\unit\models\TestOrderItem;
-use lujie\relation\tests\unit\models\TestOrderPayment;
+use lujie\relation\behaviors\tests\unit\models\TestAddress;
+use lujie\relation\behaviors\tests\unit\models\TestCustomer;
+use lujie\relation\behaviors\tests\unit\models\TestOrder;
+use lujie\relation\behaviors\tests\unit\models\TestOrderItem;
+use lujie\relation\behaviors\tests\unit\models\TestOrderPayment;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 

@@ -34,15 +34,22 @@ class StatusCheckBehavior extends Behavior
      * ]
      * @var array
      */
-    public $statusCheckProperty = [];
+    public $statusCheckProperties = [];
 
     /**
-     * Override canSetProperty method to be able to detect the timestamp attributes
+     * @var string
+     */
+    public $statusCheckMethodPrefix = 'get';
+
+    /**
+     * @param string $name
+     * @param bool $checkVars
+     * @return bool
      * @inheritdoc
      */
-    public function canGetProperty($name, $checkVars = true)
+    public function canGetProperty($name, $checkVars = true): bool
     {
-        if (isset($this->statusCheckProperty[$name])) {
+        if ($this->isStatusCheckProperty($name)) {
             return true;
         }
         return parent::canGetProperty($name, $checkVars);
@@ -53,21 +60,24 @@ class StatusCheckBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function hasMethod($name)
+    public function hasMethod($name): bool
     {
-        if (substr($name, 0, 3) === 'get') {
-            $property = lcfirst(substr($name, 3));
-            if (isset($this->statusCheckMethods[$property])) {
-                return true;
-            }
+        if ($this->isStatusCheckMethod($name)) {
+            return true;
         }
         return parent::hasMethod($name);
     }
 
+    /**
+     * @param string $name
+     * @return bool|mixed
+     * @throws \yii\base\UnknownPropertyException
+     * @inheritdoc
+     */
     public function __get($name)
     {
-        if (isset($this->statusCheckProperty[$name])) {
-            return in_array($this->owner->getAttribute($this->statusAttribute), $this->statusCheckProperty[$name]);
+        if ($this->isStatusCheckProperty($name)) {
+            return $this->isStatus($name);
         }
         return parent::__get($name);
     }
@@ -80,12 +90,47 @@ class StatusCheckBehavior extends Behavior
      */
     public function __call($name, $params)
     {
-        if (substr($name, 0, 3) === 'get') {
-            $property = lcfirst(substr($name, 3));
-            if (isset($this->statusCheckMethods[$property])) {
-                return in_array($this->owner->getAttribute($this->statusAttribute), $this->statusCheckProperty[$property]);
+        if ($this->isStatusCheckMethod($name)) {
+            $property = lcfirst(substr($name, strlen($this->statusCheckMethodPrefix)));
+            return $this->isStatus($property);
+        }
+        return parent::__call($name, $params);
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     * @inheritdoc
+     */
+    protected function isStatusCheckMethod($name): bool
+    {
+        if (strpos($name, $this->statusCheckMethodPrefix) === 0) {
+            $property = lcfirst(substr($name, strlen($this->statusCheckMethodPrefix)));
+            if (isset($this->statusCheckProperties[$property])) {
+                return true;
             }
         }
-        parent::__call($name, $params);
+        return false;
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     * @inheritdoc
+     */
+    protected function isStatusCheckProperty($name): bool
+    {
+        return isset($this->statusCheckProperties[$name]);
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     * @inheritdoc
+     */
+    protected function isStatus($name): bool
+    {
+        $attribute = $this->owner->getAttribute($this->statusAttribute);
+        return in_array($attribute, $this->statusCheckProperties[$name], true);
     }
 }

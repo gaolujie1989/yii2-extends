@@ -30,13 +30,18 @@ class StatusTransitionBehavior extends Behavior
     public $statusTransitionClass;
 
     /**
+     * @var bool
+     */
+    public $runValidation = false;
+
+    /**
      * @return array
      * @inheritdoc
      */
     public function events(): array
     {
         return [
-            StateMachineBehavior::EVENT_AFTER_CHANGE_STATUS => 'logStatusHistory',
+            StateMachineBehavior::EVENT_AFTER_CHANGE_STATUS => 'saveStatusTransition',
         ];
     }
 
@@ -44,7 +49,7 @@ class StatusTransitionBehavior extends Behavior
      * @param StatusEvent $event
      * @inheritdoc
      */
-    public function logStatusHistory(StatusEvent $event): void
+    public function saveStatusTransition(StatusEvent $event): void
     {
         /** @var BaseActiveRecord $statusTransition */
         $statusTransition = new $this->statusTransitionClass;
@@ -53,6 +58,6 @@ class StatusTransitionBehavior extends Behavior
             'newStatus' => $event->newStatus,
             'statusModel' => $event->sender,
         ]);
-        $statusTransition->save();
+        $statusTransition->save($this->runValidation);
     }
 }

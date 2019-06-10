@@ -17,7 +17,7 @@
   "autoload": {
     "psr-4": {
       "lujie\\relation\\behaviors\\": "src",
-      "lujie\\relation\\behaviors\\tests": "tests"
+      "lujie\\relation\\behaviors\\tests\\": "tests"
     }
   },
   "repositories": [

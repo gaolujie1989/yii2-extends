@@ -11,6 +11,7 @@ use yii\db\ActiveQuery;
  * @property string $order_no
  * @property string $customer_email
  * @property string $shipping_address_id
+ * @property string $status
  *
  * @property TestOrderItem[] $orderItems
  * @property TestOrderPayment[] $orderPayments
@@ -33,7 +34,7 @@ class TestOrder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shipping_address_id'], 'integer'],
+            [['shipping_address_id', 'status'], 'integer'],
             [['order_no', 'customer_email'], 'string', 'max' => 255],
             [['customer_email'], 'email'],
         ];
@@ -49,6 +50,7 @@ class TestOrder extends \yii\db\ActiveRecord
             'order_no' => 'Order No',
             'customer_email' => 'Customer Email',
             'shipping_address_id' => 'Shipping Address ID',
+            'status' => 'Status',
         ];
     }
 

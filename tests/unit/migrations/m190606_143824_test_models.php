@@ -11,6 +11,7 @@ class m190606_143824_test_models extends Migration
             'order_no' => $this->string()->notNull()->defaultValue(''),
             'customer_email' => $this->string()->notNull()->defaultValue(''),
             'shipping_address_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
         ]);
 
         $this->createTable('test_order_item', [

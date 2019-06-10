@@ -21,7 +21,7 @@ class AliasPropertyBehaviorTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testQueryFields(): void
+    public function testMe(): void
     {
         $testAliasComponent = new TestAliasComponent([
             'as alias' => [

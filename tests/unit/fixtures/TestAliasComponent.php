@@ -15,4 +15,12 @@ use yii\base\Component;
 class TestAliasComponent extends Component
 {
     public $propertyA;
+
+    public $created_at;
+
+    public $updated_time;
+
+    public $weight_g;
+
+    public $money_yuan;
 }

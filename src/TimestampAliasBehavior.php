@@ -6,6 +6,8 @@
 namespace lujie\alias\behaviors;
 
 
+use yii\helpers\StringHelper;
+
 /**
  * Class TimestampAliasBehavior
  * @package lujie\core\behaviors
@@ -30,10 +32,10 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty($name)
     {
         $value = parent::getAliasProperty($name);
-        if (strpos($name, $this->timestampSuffix) === 0) {
+        if (substr($name, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
             return $this->getTimestamp($value);
         }
-        if (strpos($name, $this->datetimeSuffix) === 0) {
+        if (substr($name, -strlen($this->datetimeSuffix)) === $this->datetimeSuffix) {
             return $this->getDatetime($value);
         }
         return $value;
@@ -47,13 +49,14 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty($name, $value): void
     {
-        if (strpos($name, $this->timestampSuffix) === 0) {
+        $property = $this->aliasProperties[$name];
+        if (substr($property, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
             $value = $this->getTimestamp($value);
         }
-        if (strpos($name, $this->datetimeSuffix) === 0) {
+        if (substr($property, -strlen($this->datetimeSuffix)) === $this->datetimeSuffix) {
             $value = $this->getDatetime($value);
         }
-        parent::setAliasProperty($name, $value);
+        $this->owner->$property = $value;
     }
 
 
@@ -65,6 +68,9 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      */
     public function getDatetime($time): string
     {
+        if (!is_numeric($time)) {
+            return $time;
+        }
         $dateTime = new \DateTime(date('Y-m-d H:i:s', $time));
         if ($this->timezone) {
             $dateTime->setTimezone(new \DateTimeZone($this->timezone));
@@ -80,6 +86,9 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      */
     public function getTimestamp($date): int
     {
+        if (is_int($date)) {
+            return $date;
+        }
         $timezone = $this->timezone ? new \DateTimeZone($this->timezone) : null;
         $dateTime = new \DateTime($date, $timezone);
         return $dateTime->getTimestamp();

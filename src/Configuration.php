@@ -5,20 +5,14 @@
 
 namespace lujie\configuration;
 
-
-use lujie\configuration\loaders\ArrayLoader;
-use lujie\configuration\loaders\ConfigLoaderInterface;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\loader\FileDataLoader;
-use lujie\data\loader\PhpArrayFileParser;
 use lujie\data\loader\TypedFileDataLoader;
 use lujie\extend\caching\CachingTrait;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
-use yii\caching\Cache;
-use yii\caching\TagDependency;
+use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
@@ -31,10 +25,11 @@ class Configuration extends Component implements BootstrapInterface
 {
     use CachingTrait;
 
-    const CONFIG_TYPE_CLASS = 'classes';
-    const CONFIG_TYPE_COMPONENT = 'components';
-    const CONFIG_TYPE_EVENT = 'events';
-    const CONFIG_TYPE_MAIN = 'main';
+    public const CONFIG_TYPE_CLASS = 'classes';
+    public const CONFIG_TYPE_COMPONENT = 'components';
+    public const CONFIG_TYPE_BOOTSTRAP = 'bootstraps';
+    public const CONFIG_TYPE_EVENT = 'events';
+    public const CONFIG_TYPE_MAIN = 'main';
 
     /**
      * @var DataLoaderInterface
@@ -64,26 +59,28 @@ class Configuration extends Component implements BootstrapInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->configLoader = Instance::ensure($this->configLoader, DataLoaderInterface::class);
-        $this->currentScope = Yii::$app->params['scope'] ?? Yii::$app->id;
+        $this->currentScope = $this->currentScope ?: (Yii::$app->params['scope'] ?? Yii::$app->id);
         $this->cacheKeyPrefix = ($this->cacheKeyPrefix ?: 'config:') . $this->currentScope . ':';
         $this->initCache();
     }
 
     /**
      * @param \yii\base\Application $app
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         $this->loadClassConfig();
         $this->loadComponentConfig($app);
         $this->loadMainConfig($app);
         $this->loadConfig($app);
         $this->registerEvents();
+        $this->runBootstraps();
     }
 
 
@@ -92,7 +89,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @inheritdoc
      */
-    public function loadClassConfig()
+    public function loadClassConfig(): void
     {
         if ($config = $this->getConfig(self::CONFIG_TYPE_CLASS)) {
             Yii::$container->setDefinitions($config);
@@ -102,7 +99,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @param \yii\base\Application $app
      */
-    public function loadComponentConfig($app)
+    public function loadComponentConfig($app): void
     {
         if ($config = $this->getConfig(self::CONFIG_TYPE_COMPONENT)) {
             $app->setComponents(ArrayHelper::merge(
@@ -118,12 +115,18 @@ class Configuration extends Component implements BootstrapInterface
      * @return array
      * @inheritdoc
      */
-    protected function generateDefaultI18NConfig($app)
+    protected function generateDefaultI18NConfig($app): array
     {
         $translationsConfig = [];
-        $modules = $app->getModules(false);
+        $modules = $app->getModules();
         foreach ($modules as $name => $module) {
-            $moduleClass = is_array($module) ? $module['class'] : $module;
+            if (is_object($module)) {
+                $moduleClass = get_class($module);
+            } else if (is_array($module)) {
+                $moduleClass = $module['class'];
+            } else {
+                $moduleClass = $module;
+            }
             $moduleNamespace = substr($moduleClass, 0, strrpos($moduleClass, '\\'));
             $moduleNamespace = trim($moduleNamespace, '\\');
             $modulePath = strtr($moduleNamespace, ['\\' => '/']);
@@ -143,7 +146,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @param \yii\base\Application $app
      */
-    public function loadMainConfig($app)
+    public function loadMainConfig($app): void
     {
         if ($config = $this->getConfig(self::CONFIG_TYPE_MAIN)) {
             foreach ($config as $key => $value) {
@@ -155,7 +158,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @param \yii\base\Application $app
      */
-    public function loadConfig($app)
+    public function loadConfig($app): void
     {
         if ($config = $this->getAllConfig()) {
             foreach ($config as $key => $value) {
@@ -171,12 +174,56 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @inheritdoc
      */
-    public function registerEvents()
+    public function registerEvents(): void
     {
         if ($config = $this->getConfig(self::CONFIG_TYPE_EVENT)) {
             foreach ($config as $event) {
-                $event = array_merge(['data' => null, 'append' => true], $event);
-                Event::on($event['class'], $event['name'], $event['handler'], $event['data'], $event['append']);
+                Event::on($event['class'], $event['name'], $event['handler'], $event['data'] ?? null, $event['append'] ?? true);
+            }
+        }
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function runBootstraps(): void
+    {
+        $app = Yii::$app;
+        if ($config = $this->getConfig(self::CONFIG_TYPE_BOOTSTRAP)) {
+            foreach ($config as $mixed) {
+                $component = null;
+                if ($mixed instanceof \Closure
+                    || (is_string($mixed) && function_exists($mixed))
+                    || (is_array($mixed) && is_callable($mixed))) {
+                    Yii::debug('Bootstrap with Closure', __METHOD__);
+                    if (!$component = $mixed($this)) {
+                        continue;
+                    }
+                } elseif (is_string($mixed)) {
+                    if ($app->has($mixed)) {
+                        $component = $app->get($mixed);
+                    } elseif ($app->hasModule($mixed)) {
+                        $component = $app->getModule($mixed);
+                    } elseif (function_exists($mixed)) {
+                        if (!$component = $mixed($this)) {
+                            continue;
+                        }
+                    } elseif (strpos($mixed, '\\') === false) {
+                        throw new InvalidConfigException("Unknown bootstrapping component ID: $mixed");
+                    }
+                }
+
+                if (!isset($component)) {
+                    $component = Yii::createObject($mixed);
+                }
+
+                if ($component instanceof BootstrapInterface) {
+                    Yii::debug('Bootstrap with ' . get_class($component) . '::bootstrap()', __METHOD__);
+                    $component->bootstrap($app);
+                } else {
+                    Yii::debug('Bootstrap with ' . get_class($component), __METHOD__);
+                }
             }
         }
     }
@@ -252,15 +299,16 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
-     * @param $array
-     * @param string $childKeys
+     * @param array $array
+     * @param array $childKeys
      * @param string $sortKey
-     * @return mixed
+     * @return array
+     * @inheritdoc
      */
-    public static function sortByKey($array, $childKeys = 'items', $sortKey = 'sort')
+    public static function sortByKey(array $array, $childKeys = ['items'], $sortKey = 'sort'): array
     {
-        uasort($array, function ($a, $b) use ($sortKey) {
-            if (empty($a[$sortKey]) || empty($b[$sortKey]) || $a[$sortKey] == $b[$sortKey]) {
+        uasort($array, static function ($a, $b) use ($sortKey) {
+            if (empty($a[$sortKey]) || empty($b[$sortKey]) || $a[$sortKey] === $b[$sortKey]) {
                 return 0;
             }
             return ($a[$sortKey] < $b[$sortKey]) ? -1 : 1;

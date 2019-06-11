@@ -56,6 +56,16 @@ class Configuration extends Component implements BootstrapInterface
     public $currentScope;
 
     /**
+     * @var string
+     */
+    public $cacheKeyPrefix = 'config:';
+
+    /**
+     * @var array
+     */
+    public $cacheTags = ['config'];
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -65,7 +75,6 @@ class Configuration extends Component implements BootstrapInterface
         $this->configLoader = Instance::ensure($this->configLoader, DataLoaderInterface::class);
         $this->currentScope = $this->currentScope ?: (Yii::$app->params['scope'] ?? Yii::$app->id);
         $this->cacheKeyPrefix = ($this->cacheKeyPrefix ?: 'config:') . $this->currentScope . ':';
-        $this->initCache();
     }
 
     /**

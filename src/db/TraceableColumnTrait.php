@@ -23,10 +23,10 @@ trait TraceableColumnTrait
     {
         /** @var Migration $this */
         return [
-            'created_at' => $this->integer()->notNull()->defaultValue(0),
-            'created_by' => $this->integer()->notNull()->defaultValue(0),
-            'updated_at' => $this->integer()->notNull()->defaultValue(0),
-            'updated_by' => $this->integer()->notNull()->defaultValue(0),
+            'created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'created_by' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'updated_by' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ];
     }
 

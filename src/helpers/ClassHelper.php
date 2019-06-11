@@ -20,7 +20,7 @@ class ClassHelper
      * @return mixed|null
      * @inheritdoc
      */
-    public static function getFormClass($modelClass)
+    public static function getFormClass($modelClass): ?string
     {
         $formClasses = [
             strtr($modelClass, ['models' => 'forms']) . 'Form',
@@ -39,7 +39,7 @@ class ClassHelper
      * @return mixed|null
      * @inheritdoc
      */
-    public static function getSearchClass($modelClass)
+    public static function getSearchClass($modelClass): ?string
     {
         $searchClasses = [
             strtr($modelClass, ['models' => 'searches']) . 'Search',
@@ -55,10 +55,10 @@ class ClassHelper
 
     /**
      * @param $modelOrClass
-     * @return string
+     * @return string|null
      * @inheritdoc
      */
-    public static function getBaseRecordClass($modelOrClass)
+    public static function getBaseRecordClass($modelOrClass): ?string
     {
         if (!is_subclass_of($modelOrClass, BaseActiveRecord::class)) {
             throw new InvalidArgumentException('Model or class not subclass of BaseActiveRecord');
@@ -66,8 +66,19 @@ class ClassHelper
         $parentClass = get_parent_class($modelOrClass);
         if (strpos($parentClass, 'ActiveRecord') !== false) {
             return is_object($modelOrClass) ? get_class($modelOrClass) : $modelOrClass;
-        } else {
-            return static::getBaseRecordClass($parentClass);
         }
+        return static::getBaseRecordClass($parentClass);
+    }
+
+    /**
+     * @param $modelOrClass
+     * @return mixed
+     * @inheritdoc
+     */
+    public static function getClassShortName($modelOrClass): string
+    {
+        $class = is_string($modelOrClass) ? $modelOrClass : get_class($modelOrClass);
+        $classParts = explode('\\', $class);
+        return end($classParts);
     }
 }

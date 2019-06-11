@@ -10,8 +10,8 @@ use yii\di\Instance;
 use yii\rbac\CheckAccessInterface;
 
 /**
- * Class StaticUserAccessChecker
- * @package wawi\auth\rbac
+ * Class ChainedAccessChecker
+ * @package lujie\auth\rbac
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ChainedAccessChecker extends BaseObject implements CheckAccessInterface

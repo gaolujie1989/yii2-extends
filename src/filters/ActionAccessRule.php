@@ -11,6 +11,37 @@ use yii\filters\AccessRule;
 
 /**
  * Class ActionAccessRule
+ *
+ * use with AccessControl, set as App behavior,
+ * for login allow guest user
+ * for update user info allow login user
+ * for other, check action access with access checker, config in user
+ * [
+ *  'as authAccessControl' => [
+ *      'class' => '\yii\filters\AccessControl',
+ *      'rules' => [
+ *          [
+ *              'class' => 'lujie\auth\filters\AccessRule',
+ *              'controllers' => ['user']
+ *              'action' => ['login', 'reset-password', 'send-reset-password-verify-code']
+ *              'roles' => ['?']
+ *              'allow' => true,
+ *          ],
+ *          [
+ *              'class' => 'lujie\auth\filters\AccessRule',
+ *              'controllers' => ['user']
+ *              'action' => ['logout', 'update', 'update-password']
+ *              'roles' => ['@']
+ *              'allow' => true,
+ *          ],
+ *          [
+ *              'class' => 'lujie\auth\filters\ActionAccessRule',
+ *              'allow' => true,
+ *          ],
+ *      ],
+ *  ]
+ * ]
+ *
  * @package lujie\auth\filters
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

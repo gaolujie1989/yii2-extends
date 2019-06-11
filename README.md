@@ -1,5 +1,7 @@
-# yii2-user-center
+# yii2-auth
 
 #### Introduction
-User center
+Yii auth, extend yii2 filters and access checker
+
+
 

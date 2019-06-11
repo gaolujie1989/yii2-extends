@@ -29,6 +29,11 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
     public $cacheAllKey = 'ALL-WslxexTOryUNyv4G';
 
     /**
+     * @var string
+     */
+    public $cacheKeyPrefix = 'dataLoader:';
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -41,7 +46,8 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
 
     /**
      * @param int|string $key
-     * @return mixed|void|null
+     * @return mixed|null
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function get($key)
@@ -52,6 +58,11 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
         });
     }
 
+    /**
+     * @return array|null
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
     public function all(): ?array
     {
         $cacheKey = $this->cacheKeyPrefix . $this->cacheAllKey;

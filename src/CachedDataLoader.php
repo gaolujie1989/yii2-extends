@@ -41,7 +41,6 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
     {
         parent::init();
         $this->dataLoader = Instance::ensure($this->dataLoader, DataLoaderInterface::class);
-        $this->initCache();
     }
 
     /**

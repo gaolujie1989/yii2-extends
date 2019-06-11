@@ -15,7 +15,6 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $auth_key
  * @property string $password_hash
- * @property string $password_reset_token
  * @property string $email
  * @property int $status
  */
@@ -63,7 +62,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'username' => Yii::t('lujie/user', 'Username'),
             'auth_key' => Yii::t('lujie/user', 'Auth Key'),
             'password_hash' => Yii::t('lujie/user', 'Password Hash'),
-            'password_reset_token' => Yii::t('lujie/user', 'Password Reset Token'),
             'email' => Yii::t('lujie/user', 'Email'),
             'status' => Yii::t('lujie/user', 'Status'),
         ];

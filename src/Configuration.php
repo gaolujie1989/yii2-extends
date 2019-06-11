@@ -9,6 +9,7 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\data\loader\TypedFileDataLoader;
 use lujie\extend\caching\CachingTrait;
 use Yii;
+use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
@@ -89,7 +90,7 @@ class Configuration extends Component implements BootstrapInterface
         $this->loadMainConfig($app);
         $this->loadConfig($app);
         $this->registerEvents();
-        $this->runBootstraps();
+        $this->runBootstraps($app);
     }
 
 
@@ -106,9 +107,11 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
-     * @param \yii\base\Application $app
+     * @param Application $app
+     * @throws InvalidConfigException
+     * @inheritdoc
      */
-    public function loadComponentConfig($app): void
+    public function loadComponentConfig(Application $app): void
     {
         if ($config = $this->getConfig(self::CONFIG_TYPE_COMPONENT)) {
             $app->setComponents(ArrayHelper::merge(
@@ -120,11 +123,11 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
-     * @param \yii\base\Application $app
+     * @param Application $app
      * @return array
      * @inheritdoc
      */
-    protected function generateDefaultI18NConfig($app): array
+    protected function generateDefaultI18NConfig(Application $app): array
     {
         $translationsConfig = [];
         $modules = $app->getModules();
@@ -153,9 +156,11 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
-     * @param \yii\base\Application $app
+     * @param Application $app
+     * @throws InvalidConfigException
+     * @inheritdoc
      */
-    public function loadMainConfig($app): void
+    public function loadMainConfig(Application $app): void
     {
         if ($config = $this->getConfig(self::CONFIG_TYPE_MAIN)) {
             foreach ($config as $key => $value) {
@@ -165,9 +170,11 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
-     * @param \yii\base\Application $app
+     * @param Application $app
+     * @throws InvalidConfigException
+     * @inheritdoc
      */
-    public function loadConfig($app): void
+    public function loadConfig(Application $app): void
     {
         if ($config = $this->getAllConfig()) {
             foreach ($config as $key => $value) {
@@ -181,6 +188,7 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function registerEvents(): void
@@ -193,12 +201,12 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
+     * @param Application $app
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function runBootstraps(): void
+    public function runBootstraps(Application $app): void
     {
-        $app = Yii::$app;
         if ($config = $this->getConfig(self::CONFIG_TYPE_BOOTSTRAP)) {
             foreach ($config as $mixed) {
                 $component = null;
@@ -244,6 +252,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @param string $configType
      * @return array
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function getConfig(string $configType) : array
@@ -258,6 +267,7 @@ class Configuration extends Component implements BootstrapInterface
 
     /**
      * @return array
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function getAllConfig() : array

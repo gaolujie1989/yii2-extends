@@ -21,8 +21,9 @@ class RemoteUser extends BaseObject implements IdentityInterface
 {
     public $data;
 
+    //for static function, so defined with const
     protected const CACHE_DURATION = 86400;
-    protected const CACHE_TAGS = ['RemoteUser', 'user'];
+    protected const CACHE_TAGS = ['RemoteUser', 'User'];
     protected const CACHE_TOKEN_KEY_PREFIX = 'RemoteUserToken:';
     protected const CACHE_USER_DATA_KEY_PREFIX = 'RemoteUserData:';
 

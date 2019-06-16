@@ -9,6 +9,7 @@ return [
         'version' => 'dev-master',
         'alias' => [
             '@lujie/flysystem' => __DIR__ . '/src',
+            '@lujie/flysystem/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

@@ -20,7 +20,10 @@
     "xxtime/flysystem-aliyun-oss": "~1.3.0"
   },
   "autoload": {
-    "psr-4": { "lujie\\flysystem\\": "src" }
+    "psr-4": {
+      "lujie\\flysystem\\": "src",
+      "lujie\\flysystem\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

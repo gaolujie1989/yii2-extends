@@ -24,7 +24,7 @@ class ActiveController extends \yii\rest\ActiveController
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actions()
+    public function actions(): array
     {
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = [
@@ -45,7 +45,7 @@ class ActiveController extends \yii\rest\ActiveController
      * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function findModel($id)
+    public function findModel($id): ActiveRecordInterface
     {
         /* @var $modelClass ActiveRecordInterface */
         $modelClass = $this->modelClass;
@@ -71,7 +71,7 @@ class ActiveController extends \yii\rest\ActiveController
      * @return ActiveRecordInterface[]
      * @inheritdoc
      */
-    public function findModels($ids)
+    public function findModels($ids): array
     {
         /* @var $modelClass ActiveRecordInterface */
         $modelClass = $this->modelClass;
@@ -80,13 +80,13 @@ class ActiveController extends \yii\rest\ActiveController
 
     /**
      * @param $ids
-     * @return array|bool
+     * @return array|null
      * @inheritdoc
      */
-    protected function getIdsCondition($ids)
+    protected function getIdsCondition($ids): ?array
     {
         if (empty($ids)) {
-            return false;
+            return null;
         }
 
         if (is_string($ids) && $ids) {
@@ -112,6 +112,6 @@ class ActiveController extends \yii\rest\ActiveController
             return [$pkColumns[0] => $ids];
         }
 
-        return false;
+        return null;
     }
 }

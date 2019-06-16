@@ -159,11 +159,9 @@ class FileImportForm extends Model
 
         $importer = $this->fileImporter;
         foreach ($this->files as $file) {
-            if ($importer->importFromFile($file)) {
-                $this->affectedRowCounts[$file] = $importer->getAffectedRowCounts();
-            } else {
-                $this->addError($this->fileAttribute, [$file => $importer->getErrors()]);
-            }
+            $filePath = $this->path . $file;
+            $importer->importFromFile($filePath);
+            $this->affectedRowCounts[$file] = $importer->getAffectedRowCounts();
         }
         return !$this->hasErrors();
     }

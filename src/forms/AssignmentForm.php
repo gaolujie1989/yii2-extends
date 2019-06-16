@@ -5,7 +5,7 @@
 
 namespace lujie\auth\forms;
 
-use yii\rbac\Assignment;
+use yii\helpers\ArrayHelper;
 use yii\rbac\Item;
 use yii\rbac\Permission;
 use yii\rbac\Role;
@@ -49,12 +49,25 @@ class AssignmentForm extends AuthForm
     {
         return [
             [['itemNames', 'userId'], 'required'],
-            [['userId'], 'string', 'max' => 64],
             [['userId'], 'validateUserIdExist'],
+            [['userId'], 'string', 'max' => 64],
             [['itemNames'], 'validateItemNamesExist'],
             [['itemNames'], 'validateUserIdItemNamesNotAssigned', 'on' => static::SCENARIO_ASSIGN],
             [['itemNames'], 'validateUserIdItemNamesAssigned', 'on' => static::SCENARIO_REVOKE],
         ];
+    }
+
+    /**
+     * @param $itemName
+     * @return Item|null|Permission|Role
+     * @inheritdoc
+     */
+    protected function getItem($itemName): ?Item
+    {
+        if (empty($this->_items[$itemName])) {
+            $this->_items[$itemName] = $this->authManager->getRole($itemName) ?: $this->authManager->getPermission($itemName);
+        }
+        return $this->_items[$itemName];
     }
 
     /**
@@ -64,6 +77,10 @@ class AssignmentForm extends AuthForm
     {
         if ($this->userClass && $this->userClass::findIdentity($this->userId) === null) {
             $this->addError('userId', 'User ID not exist');
+        }
+        //to avoid string validator error
+        if (is_int($this->userId)) {
+            $this->userId = (string) $this->userId;
         }
     }
 
@@ -84,19 +101,6 @@ class AssignmentForm extends AuthForm
             ]);
             $this->addError('itemNames', $message);
         }
-    }
-
-    /**
-     * @param $itemName
-     * @return Item|null|Permission|Role
-     * @inheritdoc
-     */
-    protected function getItem($itemName): ?Item
-    {
-        if (empty($this->_items[$itemName])) {
-            $this->_items[$itemName] = $this->authManager->getRole($itemName) ?: $this->authManager->getPermission($itemName);
-        }
-        return $this->_items[$itemName];
     }
 
     /**
@@ -125,6 +129,7 @@ class AssignmentForm extends AuthForm
      */
     public function assign(): bool
     {
+        $this->setScenario(static::SCENARIO_ASSIGN);
         if (!$this->validate()) {
             return false;
         }
@@ -160,10 +165,35 @@ class AssignmentForm extends AuthForm
      */
     public function revoke(): bool
     {
+        $this->setScenario(static::SCENARIO_REVOKE);
         if (!$this->validate()) {
             return false;
         }
         foreach ($this->itemNames as $itemName) {
+            $this->authManager->revoke($this->getItem($itemName), $this->userId);
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function save(): bool
+    {
+        $this->setScenario(static::SCENARIO_DEFAULT);
+        if (!$this->validate()) {
+            return false;
+        }
+        $assignments = $this->authManager->getAssignments($this->userId);
+        $assignedItemNames = ArrayHelper::getColumn($assignments, 'roleName');
+        $toAssignItemNames = array_diff($this->itemNames, $assignedItemNames);
+        $toRevokeItemNames = array_diff($assignedItemNames, $this->itemNames);
+        foreach ($toAssignItemNames as $itemName) {
+            $this->authManager->assign($this->getItem($itemName), $this->userId);
+        }
+        foreach ($toRevokeItemNames as $itemName) {
             $this->authManager->revoke($this->getItem($itemName), $this->userId);
         }
         return true;

@@ -20,6 +20,6 @@ class PermissionForm extends BaseItemForm
      */
     public function createItem(): Item
     {
-        $this->authManager->createPermission($this->name);
+        return $this->authManager->createPermission($this->name);
     }
 }

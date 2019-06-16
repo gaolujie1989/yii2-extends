@@ -16,9 +16,6 @@ use yii\rbac\Role;
  */
 abstract class BaseItemForm extends AuthForm
 {
-    public const SCENARIO_CREATE = 'CREATE';
-    public const SCENARIO_UPDATE = 'UPDATE';
-
     /**
      * @var string
      */
@@ -50,7 +47,9 @@ abstract class BaseItemForm extends AuthForm
             [['description'], 'string'],
             [['ruleName'], 'string', 'max' => 64],
             [['ruleName'], 'validateRuleNameExist'],
-            [['name'], 'validateNameNotExist'],
+            [['name'], 'validateNameNotExist', 'when' => function () {
+                return $this->_item === null;
+            }],
         ];
     }
 

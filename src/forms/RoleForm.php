@@ -20,6 +20,6 @@ class RoleForm extends BaseItemForm
      */
     public function createItem(): Item
     {
-        $this->authManager->createRole($this->name);
+        return $this->authManager->createRole($this->name);
     }
 }

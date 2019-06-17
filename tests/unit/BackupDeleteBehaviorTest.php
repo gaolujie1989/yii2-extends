@@ -2,9 +2,9 @@
 
 namespace lujie\relation\behaviors\tests\unit;
 
-use lujie\backup\delete\behaviors\BackupDeleteBehavior;
-use lujie\backup\delete\models\DeletedData;
-use lujie\backup\delete\models\DeletedDataQuery;
+use lujie\ar\backup\delete\behaviors\BackupDeleteBehavior;
+use lujie\ar\backup\delete\models\DeletedData;
+use lujie\ar\backup\delete\models\DeletedDataQuery;
 
 class BackupDeleteBehaviorTest extends \Codeception\Test\Unit
 {

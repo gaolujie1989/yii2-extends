@@ -16,8 +16,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "lujie\\backup\\delete\\": "src",
-      "lujie\\backup\\delete\\tests\\": "tests"
+      "lujie\\ar\\backup\\delete\\": "src",
+      "lujie\\ar\\backup\\delete\\tests\\": "tests"
     }
   },
   "repositories": [

@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\backup\delete\behaviors;
+namespace lujie\ar\backup\delete\behaviors;
 
-use lujie\backup\delete\models\DeletedData;
+use lujie\ar\backup\delete\models\DeletedData;
 use yii\base\Behavior;
 use yii\db\ActiveRecord as DbActiveRecord;
 use yii\db\BaseActiveRecord;

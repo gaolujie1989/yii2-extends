@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\backup\delete\models;
+namespace lujie\ar\backup\delete\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 use yii\db\ActiveQuery;

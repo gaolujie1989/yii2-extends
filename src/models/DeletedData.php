@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\backup\delete\models;
+namespace lujie\ar\backup\delete\models;
 
 use lujie\extend\db\TraceableBehaviorTrait;
 use yii\db\ActiveRecord;

@@ -8,8 +8,8 @@ return [
         'name' => 'lujie/yii2-backup-delete',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/backup/delete' => __DIR__ . '/src',
-            '@lujie/backup/delete/tests' => __DIR__ . '/tests',
+            '@lujie/ar/backup/delete' => __DIR__ . '/src',
+            '@lujie/ar/backup/delete/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

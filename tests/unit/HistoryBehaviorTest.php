@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\relation\behaviors\tests\unit;
+namespace lujie\ar\history\behaviors\tests\unit;
 
 use lujie\ar\history\behaviors\HistoryBehavior;
 use lujie\ar\history\models\History;

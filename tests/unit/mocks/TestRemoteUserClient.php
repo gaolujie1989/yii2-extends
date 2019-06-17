@@ -16,10 +16,9 @@ use lujie\remote\user\RemoteUserClient;
 class TestRemoteUserClient extends RemoteUserClient
 {
     /**
-     * @param $token
-     * @param null $type
+     * @param string $token
+     * @param string|null $type
      * @return array|null
-     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function getUserByAccessToken(string $token, string $type = null): ?array

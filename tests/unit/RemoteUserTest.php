@@ -33,6 +33,8 @@ class RemoteUserTest extends \Codeception\Test\Unit
         Yii::$app->set('remoteUserClient', [
             'class' => TestRemoteUserClient::class
         ]);
+        Yii::$app->cache->flush();
+
         $remoteUser = RemoteUser::findIdentity(123);
         $this->assertNull($remoteUser);
 

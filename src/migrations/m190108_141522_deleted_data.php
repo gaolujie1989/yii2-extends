@@ -31,7 +31,7 @@ class m190108_141522_deleted_data extends \yii\db\Migration
     {
         $this->createTable($this->tableName, [
             'id' => $this->bigPrimaryKey()->unsigned(),
-            'table_name' => $this->string()->notNull()->defaultValue(''),
+            'table_name' => $this->string(50)->notNull()->defaultValue(''),
             'row_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'row_data' => $this->json(),
         ]);

@@ -12,5 +12,5 @@ interface ForkTaskInterface
      * @return bool
      * @inheritdoc
      */
-    public function shouldFork();
+    public function shouldFork(): bool;
 }

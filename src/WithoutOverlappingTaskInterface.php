@@ -5,9 +5,12 @@
 
 namespace lujie\scheduling;
 
-
 use yii\mutex\Mutex;
 
+/**
+ * Interface WithoutOverlappingTaskInterface
+ * @package lujie\scheduling
+ */
 interface WithoutOverlappingTaskInterface
 {
 
@@ -15,17 +18,17 @@ interface WithoutOverlappingTaskInterface
      * @return bool
      * @inheritdoc
      */
-    public function isWithoutOverlapping();
+    public function isWithoutOverlapping(): bool;
 
     /**
      * @return int
      * @inheritdoc
      */
-    public function getExpiresAt();
+    public function getExpiresAt(): int;
 
     /**
-     * @return Mutex
+     * @return Mutex|null
      * @inheritdoc
      */
-    public function getMutex();
+    public function getMutex(): ?Mutex;
 }

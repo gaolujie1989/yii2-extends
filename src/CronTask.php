@@ -14,6 +14,7 @@ use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
 use yii\mutex\Mutex;
+use yii\queue\Queue;
 
 /**
  * Class Task
@@ -44,17 +45,29 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
 
     #region TaskInterface
 
-    public function getTaskCode()
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getTaskCode(): string
     {
         return $this->data['taskCode'];
     }
 
-    public function getTaskDescription()
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getTaskDescription(): string
     {
         return $this->data['taskDescription'] ?: '';
     }
 
-    public function isDue()
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function isDue(): bool
     {
         $date = Carbon::now();
         if ($this->getTimezone()) {
@@ -63,7 +76,11 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
         return CronExpression::factory($this->getExpression())->isDue($date->toDateTimeString());;
     }
 
-    public function getNextRunTime()
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getNextRunTime(): string
     {
         $date = Carbon::now();
         if ($this->getTimezone()) {
@@ -72,19 +89,27 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
         return CronExpression::factory($this->getExpression())->getNextRunDate($date->toDateTimeString());
     }
 
-    public function getExpression()
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getExpression(): string
     {
         return $this->data['expression'];
     }
 
-    public function getTimezone()
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getTimezone(): string
     {
         return $this->data['timezone'] ?? Yii::$app->timeZone;
     }
 
     /**
      * @return bool|mixed
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function execute()
@@ -98,12 +123,13 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
             $methods = ['run', 'execute', 'handle'];
             foreach ($methods as $method) {
                 if (method_exists($object, $method)) {
-                    return call_user_func([$object, $method]);
+                    return $object->{$method}();
                 }
             }
             throw new InvalidConfigException('Invalid callback method');
-        } elseif (is_callable($callback)) {
-            return call_user_func($callback);
+        }
+        if (is_callable($callback)) {
+            return $callback();
         }
         return false;
     }
@@ -112,61 +138,84 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
 
     #region WithoutOverlappingTaskInterface
 
-    public function isWithoutOverlapping()
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function isWithoutOverlapping(): bool
     {
         return $this->data['isWithoutOverlapping'] ?? false;
     }
 
-    public function getExpiresAt()
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getExpiresAt(): int
     {
         return $this->data['expiresAt'] ?? 0;
     }
 
     /**
-     * @return object|Mutex|null
-     * @throws \yii\base\InvalidConfigException
+     * @return Mutex|null|object
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getMutex()
+    public function getMutex(): ?Mutex
     {
         $mutex = $this->data['mutex'] ?? null;
-        return $mutex ? Instance::ensure($mutex) : null;
+        return $mutex ? Instance::ensure($mutex, Mutex::class) : null;
     }
 
     #endregion
 
     #region QueuedTaskInterface
 
-    public function shouldQueued()
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function shouldQueued(): bool
     {
         return $this->data['shouldQueued'] ?? false;
     }
 
     /**
-     * @return object|\yii\queue\Queue
-     * @throws \yii\base\InvalidConfigException
+     * @return Queue|null|object
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getQueue()
+    public function getQueue(): ?Queue
     {
         $queue = $this->data['queue'] ?? null;
-        return $queue ? Instance::ensure($queue) : null;
+        return $queue ? Instance::ensure($queue, Queue::class) : null;
     }
 
-    public function getTtr()
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getTtr(): int
     {
         return $this->data['ttr'] ?? 0;
     }
 
-    public function getAttempts()
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getAttempts(): int
     {
         return $this->data['attempts'] ?? 0;
     }
 
     #endregion
 
-
-    public function fields()
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
     {
         return [
             'taskCode',
@@ -183,12 +232,23 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
         ];
     }
 
-    public function extraFields()
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
     {
         return [];
     }
 
-    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    /**
+     * @param array $fields
+     * @param array $expand
+     * @param bool $recursive
+     * @return array
+     * @inheritdoc
+     */
+    public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
         $toArray = [];
         $fields = $fields ?: $this->fields();

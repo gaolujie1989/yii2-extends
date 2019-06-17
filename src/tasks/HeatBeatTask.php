@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\scheduling;
+namespace lujie\scheduling\tasks;
 
 
 use yii\base\BaseObject;
@@ -36,7 +36,7 @@ class HeatBeatTask extends BaseObject
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): void
     {
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
         $value = 'HeatBeatTask:' . date('Y-m-d H:i:s');

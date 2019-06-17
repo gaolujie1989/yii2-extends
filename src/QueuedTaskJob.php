@@ -29,8 +29,14 @@ class QueuedTaskJob extends BaseObject implements JobInterface, RetryableJobInte
      */
     public $taskCode;
 
+    /**
+     * @var int
+     */
     public $ttr = 3600;
 
+    /**
+     * @var int
+     */
     public $attempts = 3;
 
     /**
@@ -38,10 +44,10 @@ class QueuedTaskJob extends BaseObject implements JobInterface, RetryableJobInte
      * @throws \Throwable
      * @inheritdoc
      */
-    public function execute($queue)
+    public function execute($queue): void
     {
         try {
-            $this->scheduler = Instance::ensure($this->scheduler);
+            $this->scheduler = Instance::ensure($this->scheduler, Scheduler::class);
             $task = $this->scheduler->getTask($this->taskCode);
             $this->scheduler->executeTask($task);
             Yii::info("Queued task job {$this->taskCode} executed success.", __METHOD__);
@@ -52,12 +58,22 @@ class QueuedTaskJob extends BaseObject implements JobInterface, RetryableJobInte
         }
     }
 
-    public function getTtr()
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getTtr(): int
     {
         return $this->ttr;
     }
 
-    public function canRetry($attempt, $error)
+    /**
+     * @param int $attempt
+     * @param \Exception|\Throwable $error
+     * @return bool
+     * @inheritdoc
+     */
+    public function canRetry($attempt, $error): bool
     {
         return $attempt < $this->attempts;
     }

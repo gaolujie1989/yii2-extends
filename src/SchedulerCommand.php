@@ -5,6 +5,7 @@
 
 namespace lujie\scheduling;
 
+use function GuzzleHttp\Psr7\str;
 use Yii;
 use yii\console\Controller;
 use yii\di\Instance;
@@ -26,21 +27,20 @@ class SchedulerCommand extends Controller
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->scheduler = Instance::ensure($this->scheduler, Scheduler::class);
     }
 
     /**
-     * @return mixed|void
-     * @throws \Throwable
      * @inheritdoc
      */
-    public function actionRunAlways()
+    public function actionRunAlways(): void
     {
         while (true) {
-            if (strval(date('s')) < 5) {
+            $sec = (int)date('s');
+            if ($sec < 5) {
                 try {
                     $this->scheduler->run();
 
@@ -52,41 +52,41 @@ class SchedulerCommand extends Controller
                 } catch (\Throwable $e) {
                     Yii::error($e, __METHOD__);
                 } finally {
-                    sleep(5);
+                    $sec = (int)date('s');
+                    sleep(60 - $sec);
                 }
             } else {
-                sleep(1);
+                sleep(60 - $sec);
             }
         }
     }
 
     /**
-     * @return mixed|void
      * @throws \Throwable
      * @inheritdoc
      */
-    public function actionRun()
+    public function actionRun(): void
     {
         $this->scheduler->run();
     }
 
     /**
-     * @param $taskCode
+     * @param string $taskCode
      * @throws \Throwable
      * @inheritdoc
      */
-    public function actionHandle($taskCode)
+    public function actionHandle(string $taskCode): void
     {
         $task = $this->scheduler->getTask($taskCode);
         $this->scheduler->handleTask($task);
     }
 
     /**
-     * @param $taskCode
+     * @param string $taskCode
      * @throws \Throwable
      * @inheritdoc
      */
-    public function actionExecute($taskCode)
+    public function actionExecute(string $taskCode): void
     {
         $task = $this->scheduler->getTask($taskCode);
         $this->scheduler->executeTask($task);
@@ -95,7 +95,7 @@ class SchedulerCommand extends Controller
     /**
      * @inheritdoc
      */
-    public function actionTasks()
+    public function actionTasks(): void
     {
         $tasks = $this->scheduler->getTasks();
         VarDumper::dump($tasks);

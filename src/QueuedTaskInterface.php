@@ -5,32 +5,35 @@
 
 namespace lujie\scheduling;
 
-
 use yii\queue\Queue;
 
-interface QueuedTaskInterface
+/**
+ * Interface QueuedTaskInterface
+ * @package lujie\scheduling
+ */
+interface QueuedTaskInterface extends TaskInterface
 {
     /**
      * @return bool
      * @inheritdoc
      */
-    public function shouldQueued();
+    public function shouldQueued(): bool;
 
     /**
-     * @return Queue
+     * @return Queue|null
      * @inheritdoc
      */
-    public function getQueue();
+    public function getQueue(): ?Queue;
 
     /**
      * @return int
      * @inheritdoc
      */
-    public function getTtr();
+    public function getTtr(): int;
 
     /**
-     * @return mixed
+     * @return int
      * @inheritdoc
      */
-    public function getAttempts();
+    public function getAttempts(): int;
 }

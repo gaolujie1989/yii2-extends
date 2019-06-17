@@ -12,37 +12,37 @@ interface TaskInterface
      * @return string
      * @inheritdoc
      */
-    public function getTaskCode();
+    public function getTaskCode(): string;
 
     /**
      * @return string
      * @inheritdoc
      */
-    public function getTaskDescription();
+    public function getTaskDescription(): string;
 
     /**
      * @return bool
      * @inheritdoc
      */
-    public function isDue();
-
-    /**
-     * @return mixed
-     * @inheritdoc
-     */
-    public function getNextRunTime();
+    public function isDue(): bool;
 
     /**
      * @return string
      * @inheritdoc
      */
-    public function getExpression();
+    public function getNextRunTime(): string ;
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getExpression(): string;
 
     /**
      * @return \DateTimeZone|string
      * @inheritdoc
      */
-    public function getTimezone();
+    public function getTimezone(): string;
 
     /**
      * @return mixed

@@ -12,11 +12,11 @@ interface AsyncTaskInterface
      * @return bool
      * @inheritdoc
      */
-    public function shouldAsync();
+    public function shouldAsync(): bool;
 
     /**
      * @return string
      * @inheritdoc
      */
-    public function getAsyncAddress();
+    public function getAsyncAddress(): string;
 }

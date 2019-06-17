@@ -23,18 +23,24 @@ use yii\queue\Queue;
  */
 class Scheduler extends Component
 {
-    const EVENT_BEFORE_EXEC = 'beforeExec';
-    const EVENT_AFTER_EXEC = 'afterExec';
-    const EVENT_AFTER_ERROR = 'afterError';
-    const EVENT_AFTER_SKIP = 'afterSkip';
+    public const EVENT_BEFORE_EXEC = 'beforeExec';
+    public const EVENT_AFTER_EXEC = 'afterExec';
+    public const EVENT_AFTER_ERROR = 'afterError';
+    public const EVENT_AFTER_SKIP = 'afterSkip';
+
+    /**
+     * @var Queue
+     */
+    public $queue = 'queue';
+
+    /**
+     * @var Mutex
+     */
+    public $mutex = 'mutex';
 
     /**
      * @var string
      */
-    public $queue = 'queue';
-
-    public $mutex = 'mutex';
-
     public $mutexPrefix = 'scheduler:';
 
     /**
@@ -46,7 +52,7 @@ class Scheduler extends Component
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->taskLoader = Instance::ensure($this->taskLoader, DataLoaderInterface::class);
@@ -56,7 +62,7 @@ class Scheduler extends Component
      * @return TaskInterface[]
      * @inheritdoc
      */
-    public function getTasks()
+    public function getTasks(): array
     {
         $tasks = $this->taskLoader->all();
         foreach ($tasks as $taskCode => $task) {
@@ -90,7 +96,7 @@ class Scheduler extends Component
      * @return TaskInterface[]
      * @inheritdoc
      */
-    public function getDueTasks()
+    public function getDueTasks(): array
     {
         $dueTasks = [];
         foreach ($this->getTasks() as $task) {
@@ -105,7 +111,7 @@ class Scheduler extends Component
      * @throws \Throwable
      * @inheritdoc
      */
-    public function run()
+    public function run(): void
     {
         $dueTasks = $this->getDueTasks();
         foreach ($dueTasks as $task) {
@@ -119,7 +125,7 @@ class Scheduler extends Component
      * @throws \Throwable
      * @inheritdoc
      */
-    public function handleTask(TaskInterface $task)
+    public function handleTask(TaskInterface $task): void
     {
         if ($task instanceof QueuedTaskInterface && $task->shouldQueued()) {
             $this->handleQueuedTask($task);
@@ -129,11 +135,12 @@ class Scheduler extends Component
     }
 
     /**
-     * @param TaskInterface|QueuedTaskInterface $task
+     * @param QueuedTaskInterface $task
+     * @return string|null
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    private function handleQueuedTask(QueuedTaskInterface $task)
+    private function handleQueuedTask(QueuedTaskInterface $task): ?string
     {
         /** @var Queue $queue */
         $queue = Instance::ensure($task->getQueue() ?: $this->queue);
@@ -159,7 +166,7 @@ class Scheduler extends Component
      * @throws \Throwable
      * @inheritdoc
      */
-    public function executeTask(TaskInterface $task)
+    public function executeTask(TaskInterface $task): void
     {
         $event = new TaskEvent(['task' => $task]);
         $taskCode = $task->getTaskCode();
@@ -167,7 +174,7 @@ class Scheduler extends Component
 
         if ($task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping()) {
             /** @var Mutex $mutex */
-            $mutex = Instance::ensure($task->getMutex() ?: $this->mutex);
+            $mutex = Instance::ensure($task->getMutex() ?: $this->mutex, Mutex::class);
             if (!$mutex->acquire($mutexName, $task->getExpiresAt())) {
                 Yii::info("Task {$taskCode} is running in another scheduler, skip.", __METHOD__);
                 $this->trigger(self::EVENT_AFTER_SKIP, $event);
@@ -196,7 +203,7 @@ class Scheduler extends Component
 
             throw $e;
         } finally {
-            if ($task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping() && isset($mutex)) {
+            if (isset($mutex) && $task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping()) {
                 $mutex->release($mutexName);
             }
         }

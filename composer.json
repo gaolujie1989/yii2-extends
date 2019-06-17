@@ -19,7 +19,10 @@
     "mtdowling/cron-expression": "~1.2.1"
   },
   "autoload": {
-    "psr-4": { "lujie\\scheduling\\": "src" }
+    "psr-4": {
+      "lujie\\scheduling\\": "src",
+      "lujie\\scheduling\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

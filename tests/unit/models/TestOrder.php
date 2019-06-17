@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\relation\behaviors\tests\unit\models;
+namespace lujie\ar\relation\behaviors\tests\unit\models;
 
 use yii\db\ActiveQuery;
 

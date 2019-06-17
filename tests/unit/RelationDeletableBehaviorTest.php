@@ -1,14 +1,14 @@
 <?php
 
-namespace lujie\relation\behaviors\tests\unit;
+namespace lujie\ar\relation\behaviors\tests\unit;
 
-use lujie\relation\behaviors\RelationDeletableBehavior;
-use lujie\relation\behaviors\RelationSavableBehavior;
-use lujie\relation\behaviors\tests\unit\models\TestAddress;
-use lujie\relation\behaviors\tests\unit\models\TestCustomer;
-use lujie\relation\behaviors\tests\unit\models\TestOrder;
-use lujie\relation\behaviors\tests\unit\models\TestOrderItem;
-use lujie\relation\behaviors\tests\unit\models\TestOrderPayment;
+use lujie\ar\relation\behaviors\RelationDeletableBehavior;
+use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use lujie\ar\relation\behaviors\tests\unit\models\TestAddress;
+use lujie\ar\relation\behaviors\tests\unit\models\TestCustomer;
+use lujie\ar\relation\behaviors\tests\unit\models\TestOrder;
+use lujie\ar\relation\behaviors\tests\unit\models\TestOrderItem;
+use lujie\ar\relation\behaviors\tests\unit\models\TestOrderPayment;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 

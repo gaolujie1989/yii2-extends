@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\relation\behaviors;
+namespace lujie\ar\relation\behaviors;
 
 use lujie\extend\helpers\ClassHelper;
 use yii\base\Behavior;

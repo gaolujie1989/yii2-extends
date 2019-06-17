@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\arsnapshoot;
+namespace lujie\ar\snapshoot\behaviors;
 
 
 use yii\base\Behavior;
@@ -23,8 +23,8 @@ use yii\db\Exception;
  */
 class SnapshootBehavior extends Behavior
 {
-    const EVENT_BEFORE_CREATE_SNAPSHOOT = 'beforeCreateSnapshoot';
-    const EVENT_AFTER_CREATE_SNAPSHOOT = 'afterCreateSnapshoot';
+    public const EVENT_BEFORE_CREATE_SNAPSHOOT = 'beforeCreateSnapshoot';
+    public const EVENT_AFTER_CREATE_SNAPSHOOT = 'afterCreateSnapshoot';
 
     /**
      * @var BaseActiveRecord
@@ -34,7 +34,7 @@ class SnapshootBehavior extends Behavior
     /**
      * @var string
      */
-    public $snapshootIdAttribute = 'current_snapshoot_id';
+    public $snapshootIdAttribute = 'snapshoot_id';
 
     /**
      * @var string
@@ -42,64 +42,48 @@ class SnapshootBehavior extends Behavior
     public $timestampAttribute = 'updated_at';
 
     /**
-     * @var bool
-     */
-    public $createSnapshootOnUpdate = true;
-
-    /**
-     * @var bool
-     */
-    public $createSnapshootOnDelete = true;
-
-    /**
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
-        $events = parent::events();
-        if ($this->createSnapshootOnUpdate) {
-            $events[BaseActiveRecord::EVENT_AFTER_INSERT] = [$this, 'createSnapshoot'];
-        }
-        if ($this->createSnapshootOnDelete) {
-            $events[BaseActiveRecord::EVENT_AFTER_UPDATE] = [$this, 'createSnapshoot'];
-        }
-        return $events;
+        return [
+            BaseActiveRecord::EVENT_AFTER_INSERT => 'createModelSnapshoot',
+            BaseActiveRecord::EVENT_AFTER_UPDATE => 'createModelSnapshoot',
+        ];
     }
 
     /**
-     * @return bool|BaseActiveRecord|null
+     * @return BaseActiveRecord|null
      * @throws \Throwable
      * @inheritdoc
      */
-    public function createSnapshoot()
+    public function createModelSnapshoot(): ?BaseActiveRecord
     {
         if (empty($this->snapshootModelClass)) {
             $this->snapshootModelClass = get_class($this->owner) . 'Snapshoot';
         }
 
-        $event = new ModelEvent();
+        $event = new Event();
         $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $event);
-        if (!$event->isValid) {
+        if ($event->handled) {
             return null;
         }
 
         $currentSnapshoot = null;
         if ($this->snapshootIdAttribute && $this->timestampAttribute) {
-            $snapshootId = $this->owner->getOldAttribute($this->snapshootIdAttribute);
-            $ownerUpdatedAt = $this->owner->getOldAttribute($this->timestampAttribute);
-            if ($snapshootId && $ownerUpdatedAt
-                && $currentSnapshoot = $this->snapshootModelClass::findOne($snapshootId)) {
-                $snapshootUpdatedAt = $currentSnapshoot->getAttribute($this->timestampAttribute);
-                if ($snapshootUpdatedAt >= $ownerUpdatedAt) {
-                    return $currentSnapshoot;
-                }
+            $snapshootId = $this->owner->getAttribute($this->snapshootIdAttribute);
+            $currentSnapshoot = $snapshootId ? $this->snapshootModelClass::findOne($snapshootId) : null;
+            $snapshootUpdatedAt = $currentSnapshoot ? $currentSnapshoot->getAttribute($this->timestampAttribute) : 0;
+            $ownerUpdatedAt = $this->owner->getAttribute($this->timestampAttribute);
+            if ($snapshootUpdatedAt && $ownerUpdatedAt && $snapshootUpdatedAt >= $ownerUpdatedAt) {
+                return $currentSnapshoot;
             }
         }
 
         /** @var BaseActiveRecord $snapshoot */
         $snapshoot = new $this->snapshootModelClass();
-        $snapshoot->setAttributes($this->owner->getAttributes());
+        $snapshoot->setAttributes($this->owner->getAttributes(), false);
         $callable = function () use ($snapshoot) {
             if ($snapshoot->save(false)) {
                 if ($this->owner->updateAttributes([$this->snapshootIdAttribute => $snapshoot->getPrimaryKey()])) {
@@ -114,10 +98,10 @@ class SnapshootBehavior extends Behavior
         if ($db instanceof Connection) {
             $result = $db->transaction($callable);
         } else {
-            $result = call_user_func($callable);
+            $result = $callable();
         }
 
         $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, new Event());
-        return $result ? $snapshoot : false;
+        return $result ? $snapshoot : null;
     }
 }

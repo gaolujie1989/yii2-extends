@@ -1,4 +1,4 @@
-# yii2-arsnapshoot
+# yii2-ar-snapshoot
 
 #### Introduction
 ActiveRecord snapshoot

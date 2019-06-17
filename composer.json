@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-arsnapshoot",
+  "name": "lujie/yii2-ar-snapshoot",
   "description": "Active Record Version Snapshoot",
   "keywords": ["yii2", "ActiveRecord", "Snapshoot"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-arsnapshoot/issues",
-    "source": "https://gitee.com/code4dream/yii2-arsnapshoot"
+    "issues": "https://gitee.com/code4dream/yii2-ar-snapshoot/issues",
+    "source": "https://gitee.com/code4dream/yii2-ar-snapshoot"
   },
   "authors": [
     {
@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\arsnapshoot\\": "src" }
+    "psr-4": {
+      "lujie\\ar\\snapshoot\\behaviors\\": "src",
+      "lujie\\ar\\snapshoot\\behaviors\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

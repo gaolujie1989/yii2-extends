@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\relation\behaviors\tests\unit;
+namespace lujie\ar\backup\delete\behaviors\tests\unit;
 
 use lujie\ar\backup\delete\behaviors\BackupDeleteBehavior;
 use lujie\ar\backup\delete\models\DeletedData;

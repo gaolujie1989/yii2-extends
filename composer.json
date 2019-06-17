@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-backupdelete",
+  "name": "lujie/yii2-backup-delete",
   "description": "Backup after delete",
   "keywords": ["yii2", "backup", "delete"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-backupdelete/issues",
-    "source": "https://gitee.com/code4dream/yii2-backupdelete"
+    "issues": "https://gitee.com/code4dream/yii2-backup-delete/issues",
+    "source": "https://gitee.com/code4dream/yii2-backup-delete"
   },
   "authors": [
     {
@@ -14,6 +14,12 @@
       "email": "gao_lujie@live.cn"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\backup\\delete\\": "src",
+      "lujie\\backup\\delete\\tests\\": "tests"
+    }
+  },
   "repositories": [
     {
       "type": "composer",

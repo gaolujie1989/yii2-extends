@@ -6,12 +6,10 @@
  * Time: 18:05
  */
 
-namespace lujie\state\machine;
+namespace lujie\state\machine\behaviors;
 
-
+use lujie\state\machine\StatusEvent;
 use yii\base\Behavior;
-use yii\base\ModelEvent;
-use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
 /**

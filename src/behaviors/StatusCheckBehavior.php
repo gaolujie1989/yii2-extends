@@ -6,8 +6,7 @@
  * Time: 11:34
  */
 
-namespace lujie\state\machine;
-
+namespace lujie\state\machine\behaviors;
 
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;

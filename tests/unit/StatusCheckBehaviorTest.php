@@ -2,10 +2,8 @@
 
 namespace lujie\alias\behaviors\tests\unit;
 
-use lujie\state\machine\StateMachineBehavior;
-use lujie\state\machine\StatusCheckBehavior;
+use lujie\state\machine\behaviors\StatusCheckBehavior;
 use lujie\state\machine\tests\unit\fixtures\TestOrder;
-use yii\base\InvalidCallException;
 
 class StatusCheckBehaviorTest extends \Codeception\Test\Unit
 {

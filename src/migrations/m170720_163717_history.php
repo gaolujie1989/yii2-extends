@@ -1,26 +1,25 @@
 <?php
 
-class m170720_163717_history extends \lujie\core\db\Migration
+use lujie\extend\db\TraceableColumnTrait;
+use yii\db\Migration;
+
+class m170720_163717_history extends \yii\db\Migration
 {
+    use TraceableColumnTrait;
+
     protected $tableName = '{{%history}}';
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function getDefaultTableColumns()
+    public function getDefaultTableColumns(): array
     {
+        /** @var Migration $this */
         return [
-            'created_at' => $this->integer()->notNull()->defaultValue(0),
-            'created_by' => $this->integer()->notNull()->defaultValue(0),
+            'created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'created_by' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createDefaultTableIndexes()
-    {
     }
 
     /**
@@ -31,17 +30,13 @@ class m170720_163717_history extends \lujie\core\db\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'id' => $this->primaryKey(),
-            'event' => $this->integer()->notNull()->defaultValue(0),
-            'table_name' => $this->string(50)->notNull(),
-            'row_id' => $this->integer()->notNull(),
-            'custom_id' => $this->integer()->notNull()->defaultValue(0),
-            'custom_data' => $this->json(),
-
-            'created_at' => $this->integer(11)->notNull(),
-            'created_by' => $this->integer(11)->notNull(),
+            'id' => $this->bigPrimaryKey()->unsigned(),
+            'table_name' => $this->string(50)->notNull()->defaultValue(''),
+            'row_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'old_data' => $this->json(),
+            'new_data' => $this->json(),
         ]);
 
-        $this->createIndex('table_row_id', $this->tableName, ['table_name', 'row_id']);
+        $this->createIndex('idx_table_name_row_id', $this->tableName, ['table_name', 'row_id']);
     }
 }

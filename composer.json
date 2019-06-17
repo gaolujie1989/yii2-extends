@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-arhistory",
+  "name": "lujie/yii2-ar-history",
   "description": "Active Record Change History",
   "keywords": ["yii2", "ActiveRecord", "history"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-arhistory/issues",
-    "source": "https://gitee.com/code4dream/yii2-arhistory"
+    "issues": "https://gitee.com/code4dream/yii2-ar-history/issues",
+    "source": "https://gitee.com/code4dream/yii2-ar-history"
   },
   "authors": [
     {
@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\arhistory\\": "src" }
+    "psr-4": {
+      "lujie\\ar\\history\\": "src",
+      "lujie\\ar\\history\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

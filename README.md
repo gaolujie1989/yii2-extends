@@ -1,4 +1,4 @@
-# yii2-arhistory
+# yii2-ar-history
 
 #### Introduction
 ActiveRecord history

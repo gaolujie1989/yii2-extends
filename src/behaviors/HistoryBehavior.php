@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\ar\history;
+namespace lujie\ar\history\behaviors;
 
 
 use lujie\ar\history\models\History;
@@ -17,8 +17,6 @@ use yii\redis\ActiveRecord as RedisActiveRecord;
 
 /**
  * Class HistoryBehaviors
- *
- * only save update history detail, for delete, only log delete message
  *
  * @property BaseActiveRecord $owner
  *
@@ -39,7 +37,8 @@ class HistoryBehavior extends Behavior
     public function events(): array
     {
         return [
-            BaseActiveRecord::EVENT_AFTER_UPDATE => 'saveHistory'
+            BaseActiveRecord::EVENT_AFTER_INSERT => 'saveModelHistory',
+            BaseActiveRecord::EVENT_AFTER_UPDATE => 'saveModelHistory',
         ];
     }
 

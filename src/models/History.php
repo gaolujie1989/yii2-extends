@@ -61,4 +61,13 @@ class History extends ActiveRecord
             'new_data' => 'New Data',
         ];
     }
+
+    /**
+     * @return HistoryQuery
+     * @inheritdoc
+     */
+    public static function find(): HistoryQuery
+    {
+        return new HistoryQuery(static::class);
+    }
 }

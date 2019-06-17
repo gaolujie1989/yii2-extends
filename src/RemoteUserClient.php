@@ -20,7 +20,7 @@ class RemoteUserClient extends BaseObject
     /**
      * @var Client
      */
-    public $client;
+    public $client = Client::class;
 
     public $baseUrl;
 

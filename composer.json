@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\remote\\user\\": "src" }
+    "psr-4": {
+      "lujie\\remote\\user\\": "src",
+      "lujie\\remote\\user\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

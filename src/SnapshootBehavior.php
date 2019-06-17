@@ -9,6 +9,7 @@ namespace lujie\ar\snapshoot\behaviors;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\base\ModelEvent;
+use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Exception;
@@ -54,17 +55,17 @@ class SnapshootBehavior extends Behavior
     }
 
     /**
+     * @param AfterSaveEvent $event
      * @return BaseActiveRecord|null
      * @throws \Throwable
      * @inheritdoc
      */
-    public function createModelSnapshoot(): ?BaseActiveRecord
+    public function createModelSnapshoot(AfterSaveEvent $event): ?BaseActiveRecord
     {
         if (empty($this->snapshootModelClass)) {
             $this->snapshootModelClass = get_class($this->owner) . 'Snapshoot';
         }
 
-        $event = new Event();
         $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $event);
         if ($event->handled) {
             return null;
@@ -101,7 +102,7 @@ class SnapshootBehavior extends Behavior
             $result = $callable();
         }
 
-        $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, new Event());
+        $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, $event);
         return $result ? $snapshoot : null;
     }
 }

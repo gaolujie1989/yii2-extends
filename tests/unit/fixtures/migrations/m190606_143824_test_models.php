@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m190606_143824_test_models extends Migration
+class m190606_143824_test_relation_models extends Migration
 {
     public function safeUp()
     {

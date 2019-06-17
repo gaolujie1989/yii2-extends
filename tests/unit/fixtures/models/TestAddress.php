@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\ar\relation\behaviors\tests\unit\models;
+namespace lujie\ar\relation\behaviors\tests\unit\fixtures\models;
 
 use Yii;
 

@@ -41,15 +41,15 @@ class ConditionalSnapshootBehavior extends Behavior
     }
 
     /**
-     * @param AfterSaveEvent $event
+     * @param SnapshootEvent $event
      * @inheritdoc
      */
-    public function beforeCreateSnapshoot(AfterSaveEvent $event): void
+    public function beforeCreateSnapshoot(SnapshootEvent $event): void
     {
         if (array_key_exists($this->attribute, $event->changedAttributes)
             && in_array($this->owner->getAttribute($this->attribute), $this->snapshootOn, true)) {
             return;
         }
-        $event->handled = true;
+        $event->created = true;
     }
 }

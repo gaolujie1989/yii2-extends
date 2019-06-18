@@ -66,9 +66,11 @@ class SnapshootBehavior extends Behavior
             $this->snapshootModelClass = get_class($this->owner) . 'Snapshoot';
         }
 
-        $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $event);
-        if ($event->handled) {
-            return null;
+        $snapshootEvent = new SnapshootEvent();
+        $snapshootEvent->changedAttributes = $event->changedAttributes;
+        $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $snapshootEvent);
+        if ($snapshootEvent->created) {
+            return $snapshootEvent->snapshoot;
         }
 
         $currentSnapshoot = null;
@@ -102,6 +104,7 @@ class SnapshootBehavior extends Behavior
             $result = $callable();
         }
 
+        $snapshootEvent->snapshoot = $snapshoot;
         $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, $event);
         return $result ? $snapshoot : null;
     }

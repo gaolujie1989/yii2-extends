@@ -39,16 +39,15 @@ class CachedDataLoaderTest extends \Codeception\Test\Unit
                 'data' => $data
             ])
         ]);
+        $dataLoader->flush();
         $cache = $dataLoader->cache;
-        $cache->flush();
 
         $this->assertEquals($data, $dataLoader->all());
         $this->assertEquals($data['aaa'], $dataLoader->get('aaa'));
         $this->assertEquals($data['bbb']['ddd'], $dataLoader->get('bbb.ddd'));
         $this->assertNull($dataLoader->get('ccc'));
 
-        $all = $cache->get($dataLoader->cacheAllKey);
-        $this->assertEquals($data, $all);
+        $this->assertEquals($data, $cache->get($dataLoader->cacheKeyPrefix . $dataLoader->cacheAllKey));
         $this->assertEquals($data['aaa'], $cache->get($dataLoader->cacheKeyPrefix . 'aaa'));
         $this->assertEquals($data['bbb']['ddd'], $cache->get($dataLoader->cacheKeyPrefix . 'bbb.ddd'));
     }

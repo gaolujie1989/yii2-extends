@@ -31,7 +31,12 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var string
      */
-    public $cacheKeyPrefix = 'dataLoader:';
+    public $cacheKeyPrefix = 'DataLoader:';
+
+    /**
+     * @var array
+     */
+    public $cacheTags = ['DataLoader'];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -51,8 +56,7 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function get($key)
     {
-        $cacheKey = $this->cacheKeyPrefix . $key;
-        return $this->getOrSet($cacheKey, function() use ($key) {
+        return $this->getOrSet($key, function() use ($key) {
             return $this->dataLoader->get($key);
         });
     }
@@ -64,8 +68,7 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function all(): ?array
     {
-        $cacheKey = $this->cacheKeyPrefix . $this->cacheAllKey;
-        return $this->getOrSet($cacheKey, function() {
+        return $this->getOrSet($this->cacheAllKey, function() {
             return $this->dataLoader->all();
         });
     }

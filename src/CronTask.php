@@ -60,7 +60,7 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
      */
     public function getTaskDescription(): string
     {
-        return $this->data['taskDescription'] ?: '';
+        return $this->data['taskDescription'] ?? '';
     }
 
     /**
@@ -77,16 +77,17 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
     }
 
     /**
-     * @return string
+     * @return \DateTime
+     * @throws \Exception
      * @inheritdoc
      */
-    public function getNextRunTime(): string
+    public function getNextRunTime(): \DateTime
     {
-        $date = Carbon::now();
+        $dateTime = new \DateTime();
         if ($this->getTimezone()) {
-            $date->setTimezone($this->getTimezone());
+            $dateTime->setTimezone(new \DateTimeZone($this->getTimezone()));
         }
-        return CronExpression::factory($this->getExpression())->getNextRunDate($date->toDateTimeString());
+        return CronExpression::factory($this->getExpression())->getNextRunDate($dateTime);
     }
 
     /**
@@ -120,7 +121,7 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
         $callback = $this->data['callback'];
         if (is_array($callback) && isset($callback['class'])) {
             $object = Yii::createObject($callback);
-            $methods = ['run', 'execute', 'handle'];
+            $methods = ['execute', 'handle', 'run'];
             foreach ($methods as $method) {
                 if (method_exists($object, $method)) {
                     return $object->{$method}();

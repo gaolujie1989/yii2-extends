@@ -67,7 +67,7 @@ class Scheduler extends Component
         $tasks = $this->taskLoader->all();
         foreach ($tasks as $taskCode => $task) {
             if (!($task instanceof TaskInterface)) {
-                $taskData = array_merge(ArrayHelper::toArray($task), ['taskCode' => $taskCode]);
+                $taskData = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
                 $tasks[$taskCode] = new CronTask(['data' => $taskData]);
             }
         }
@@ -86,7 +86,7 @@ class Scheduler extends Component
             throw new InvalidArgumentException("Task code {$taskCode} not found.");
         }
         if (!($task instanceof TaskInterface)) {
-            $taskData = array_merge(ArrayHelper::toArray($task), ['taskCode' => $taskCode]);
+            $taskData = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
             $task = new CronTask(['data' => $taskData]);
         }
         return $task;

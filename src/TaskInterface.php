@@ -27,10 +27,10 @@ interface TaskInterface
     public function isDue(): bool;
 
     /**
-     * @return string
+     * @return \DateTime
      * @inheritdoc
      */
-    public function getNextRunTime(): string ;
+    public function getNextRunTime(): \DateTime;
 
     /**
      * @return string

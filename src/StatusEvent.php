@@ -9,15 +9,17 @@
 namespace lujie\state\machine;
 
 
-use yii\base\ModelEvent;
+use yii\base\Event;
 
 /**
  * Class StatusEvent
  * @package lujie\state\machine
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class StatusEvent extends ModelEvent
+class StatusEvent extends Event
 {
+    public $isValid;
+
     public $oldStatus;
 
     public $newStatus;

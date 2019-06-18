@@ -3,7 +3,7 @@
 namespace lujie\upload\models;
 
 use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\upload\FileBehavior;
+use lujie\upload\behaviors\FileBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

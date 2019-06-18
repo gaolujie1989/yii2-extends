@@ -3,7 +3,6 @@
 namespace lujie\upload\tests\unit;
 
 use creocoder\flysystem\Filesystem;
-use lujie\scheduling\WithoutOverlappingTaskInterface;
 use lujie\upload\tests\unit\fixtures\FsFile;
 use yii\di\Instance;
 use yii\web\UploadedFile;

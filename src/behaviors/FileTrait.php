@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\upload;
+namespace lujie\upload\behaviors;
 
 use creocoder\flysystem\Filesystem;
 use Yii;

@@ -3,10 +3,10 @@
 namespace lujie\upload\tests\unit;
 
 use creocoder\flysystem\Filesystem;
-use lujie\upload\FileBehavior;
-use lujie\upload\UploadBehavior;
-use lujie\upload\UploadForm;
-use lujie\upload\UploadSavedFileForm;
+use lujie\upload\behaviors\FileBehavior;
+use lujie\upload\behaviors\UploadBehavior;
+use lujie\upload\forms\UploadForm;
+use lujie\upload\forms\UploadSavedFileForm;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\FileHelper;

@@ -2,10 +2,9 @@
 
 namespace lujie\upload\tests\unit;
 
-use lujie\upload\FileBehavior;
+use lujie\upload\behaviors\FileBehavior;
 use lujie\upload\models\UploadSavedFile;
 use Yii;
-use yii\helpers\VarDumper;
 
 class FileBehaviorTest extends \Codeception\Test\Unit
 {

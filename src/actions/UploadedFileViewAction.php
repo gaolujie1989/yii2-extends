@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\upload;
+namespace lujie\upload\actions;
 
 use lujie\upload\models\UploadSavedFile;
 use Yii;

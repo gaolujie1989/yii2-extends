@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2018
  */
 
-namespace lujie\upload;
+namespace lujie\upload\actions;
 
+use lujie\upload\forms\UploadForm;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;

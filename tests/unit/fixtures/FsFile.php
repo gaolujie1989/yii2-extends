@@ -5,7 +5,7 @@
 
 namespace lujie\upload\tests\unit\fixtures;
 
-use lujie\upload\FileTrait;
+use lujie\upload\behaviors\FileTrait;
 use yii\base\BaseObject;
 
 /**

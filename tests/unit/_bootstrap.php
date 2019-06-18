@@ -1,7 +1,7 @@
 <?php
 // Here you can initialize variables that will be available to your tests
 
-namespace lujie\upload;
+namespace lujie\upload\behaviors;
 
 function is_uploaded_file()
 {

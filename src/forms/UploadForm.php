@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2018
  */
 
-namespace lujie\upload;
+namespace lujie\upload\forms;
 
+use lujie\upload\behaviors\UploadBehavior;
 use yii\base\Model;
 use yii\base\ModelEvent;
 

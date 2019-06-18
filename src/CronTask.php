@@ -43,6 +43,21 @@ class CronTask extends BaseObject implements TaskInterface, WithoutOverlappingTa
         }
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @inheritdoc
+     */
+    public function __set($name, $value)
+    {
+        $setter = 'set' . $name;
+        if (method_exists($this, $setter)) {
+            $this->$setter($value);
+        } else {
+            $this->data[$name] = $value;
+        }
+    }
+
     #region TaskInterface
 
     /**

@@ -28,4 +28,9 @@ class TaskEvent extends Event
      * @var TaskInterface
      */
     public $task;
+
+    /**
+     * @var \Exception
+     */
+    public $error;
 }

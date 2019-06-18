@@ -59,7 +59,8 @@ class Scheduler extends Component
     }
 
     /**
-     * @return TaskInterface[]
+     * @return array|TaskInterface[]
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function getTasks(): array
@@ -67,33 +68,41 @@ class Scheduler extends Component
         $tasks = $this->taskLoader->all();
         foreach ($tasks as $taskCode => $task) {
             if (!($task instanceof TaskInterface)) {
-                $taskData = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
-                $tasks[$taskCode] = new CronTask(['data' => $taskData]);
+                $taskConfig = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
+                if (empty($taskConfig['class'])) {
+                    $taskConfig['class'] = CronTask::class;
+                }
+                $tasks[$taskCode] = Instance::ensure($taskConfig, TaskInterface::class);
             }
         }
         return $tasks;
     }
 
     /**
-     * @param $taskCode
-     * @return TaskInterface
+     * @param string $taskCode
+     * @return TaskInterface|QueuedTaskInterface
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getTask($taskCode) : TaskInterface
+    public function getTask(string $taskCode) : TaskInterface
     {
         $task = $this->taskLoader->get($taskCode);
         if (empty($task)) {
             throw new InvalidArgumentException("Task code {$taskCode} not found.");
         }
         if (!($task instanceof TaskInterface)) {
-            $taskData = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
-            $task = new CronTask(['data' => $taskData]);
+            $taskConfig = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
+            if (empty($taskConfig['class'])) {
+                $taskConfig['class'] = CronTask::class;
+            }
+            $task = Instance::ensure($taskConfig, TaskInterface::class);
         }
         return $task;
     }
 
     /**
-     * @return TaskInterface[]
+     * @return array
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function getDueTasks(): array
@@ -121,17 +130,17 @@ class Scheduler extends Component
 
     /**
      * @param TaskInterface $task
-     * @param null $pool
+     * @return bool|string|null
+     * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
-    public function handleTask(TaskInterface $task): void
+    public function handleTask(TaskInterface $task)
     {
         if ($task instanceof QueuedTaskInterface && $task->shouldQueued()) {
-            $this->handleQueuedTask($task);
-        } else {
-            $this->executeTask($task);
+            return $this->handleQueuedTask($task);
         }
+        return $this->executeTask($task);
     }
 
     /**
@@ -163,10 +172,12 @@ class Scheduler extends Component
 
     /**
      * @param TaskInterface $task
+     * @return bool
+     * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
-    public function executeTask(TaskInterface $task): void
+    public function executeTask(TaskInterface $task): bool
     {
         $event = new TaskEvent(['task' => $task]);
         $taskCode = $task->getTaskCode();
@@ -178,7 +189,7 @@ class Scheduler extends Component
             if (!$mutex->acquire($mutexName, $task->getExpiresAt())) {
                 Yii::info("Task {$taskCode} is running in another scheduler, skip.", __METHOD__);
                 $this->trigger(self::EVENT_AFTER_SKIP, $event);
-                return;
+                return false;
             }
         }
 
@@ -187,19 +198,20 @@ class Scheduler extends Component
             if ($event->executed) {
                 Yii::info("Task {$taskCode} executed in events, skip.", __METHOD__);
                 $this->trigger(self::EVENT_AFTER_SKIP, $event);
-                return;
+                return false;
             }
 
             $task->execute();
             Yii::info("Task {$taskCode} executed success.", __METHOD__);
 
             $this->trigger(self::EVENT_AFTER_EXEC, $event);
+            return true;
         } catch (\Throwable $e) {
             Yii::info("Task {$taskCode} executed failed.", __METHOD__);
             Yii::error($e, __METHOD__);
 
-            $errorEvent = new TaskErrorEvent(['task' => $task, 'error' => $e]);
-            $this->trigger(self::EVENT_AFTER_ERROR, $errorEvent);
+            $event->error = $e;
+            $this->trigger(self::EVENT_AFTER_ERROR, $event);
 
             throw $e;
         } finally {

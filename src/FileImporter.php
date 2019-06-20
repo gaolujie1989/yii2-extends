@@ -8,6 +8,7 @@ namespace lujie\data\exchange;
 
 use lujie\data\exchange\file\FileParserInterface;
 use lujie\data\exchange\file\parsers\ExcelParser;
+use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\FileSource;
 use yii\di\Instance;
@@ -61,7 +62,7 @@ class FileImporter extends DataExchanger
      */
     public function getErrors(): array
     {
-        if ($this->pipeline instanceof DbPipelineInterface) {
+        if ($this->pipeline instanceof ActiveRecordPipeline) {
             return $this->pipeline->getErrors();
         }
         return [];

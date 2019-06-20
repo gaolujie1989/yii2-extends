@@ -47,12 +47,12 @@ class DbDataLoader extends QueryDataLoader
      */
     private function initUniqueKey(): void
     {
-        if (empty($this->uniqueKey)) {
+        if (empty($this->key)) {
             $tableSchema = $this->db->getTableSchema($this->table);
             if ($tableSchema) {
                 $primaryKey = $tableSchema->primaryKey;
                 if ($primaryKey) {
-                    $this->uniqueKey = reset($primaryKey);
+                    $this->key = reset($primaryKey);
                 }
             }
         }

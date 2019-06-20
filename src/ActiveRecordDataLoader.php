@@ -5,10 +5,14 @@
 
 namespace lujie\data\loader;
 
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
 /**
  * Class ActiveRecordLoader
+ *
+ * @property-write bool $returnAsArray;
+ *
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
@@ -22,7 +26,7 @@ class ActiveRecordDataLoader extends QueryDataLoader
     /**
      * @var bool
      */
-    public $returnAsArray = false;
+    private $returnAsArray = false;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -30,14 +34,26 @@ class ActiveRecordDataLoader extends QueryDataLoader
      */
     public function init(): void
     {
-        if (empty($this->uniqueKey)) {
+        if (empty($this->key)) {
             $primaryKey = $this->modelClass::primaryKey();
-            $this->uniqueKey = reset($primaryKey);
+            $this->key = reset($primaryKey);
         }
         if (empty($this->query)) {
             $this->query = $this->modelClass::find()->asArray($this->returnAsArray);
         }
         $this->db = $this->modelClass::getDb();
         parent::init();
+    }
+
+    /**
+     * @param $returnAsArray
+     * @inheritdoc
+     */
+    public function setReturnAsArray(bool $returnAsArray): void
+    {
+        $this->returnAsArray = $returnAsArray;
+        if ($this->query instanceof ActiveQueryInterface) {
+            $this->query->asArray($this->returnAsArray);
+        }
     }
 }

@@ -32,7 +32,7 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var string|int
      */
-    public $uniqueKey;
+    public $key;
 
     /**
      * @var array
@@ -46,13 +46,12 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     public function init(): void
     {
         parent::init();
-        if (empty($this->uniqueKey)) {
-            throw new InvalidConfigException('The "uniqueKey" property must be set.');
+        if (empty($this->key)) {
+            throw new InvalidConfigException('The "key" property must be set.');
         }
         if (!($this->query instanceof QueryInterface)) {
             throw new InvalidConfigException('The "query" property must be instanceof QueryInterface.');
         }
-        $this->query->andFilterWhere($this->condition);
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
         }
@@ -66,7 +65,7 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     public function get($key)
     {
         $query = clone $this->query;
-        return $query->andWhere([$this->uniqueKey => $key])->one($this->db);
+        return $query->andFilterWhere($this->condition)->andWhere([$this->key => $key])->one($this->db);
     }
 
     /**
@@ -75,6 +74,7 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function all(): ?array
     {
-        return $this->query->all($this->db);
+        $query = clone $this->query;
+        return $query->andFilterWhere($this->condition)->all($this->db);
     }
 }

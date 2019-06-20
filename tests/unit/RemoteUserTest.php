@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\auth\tests\unit;
+namespace lujie\remote\user\tests\unit;
 
 use lujie\remote\user\RemoteUser;
 use lujie\remote\user\tests\unit\mocks\TestRemoteUserClient;

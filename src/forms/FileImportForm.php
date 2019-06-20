@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\import;
+namespace lujie\import\forms;
 
 use lujie\data\exchange\FileImporter;
 use Yii;
@@ -149,6 +149,7 @@ class FileImportForm extends Model
 
     /**
      * @return bool
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function import(): bool

@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2018
  */
 
-namespace lujie\import;
+namespace lujie\import\actions;
 
+use lujie\import\forms\FileImportForm;
 use Yii;
 use yii\base\Model;
 use yii\rest\Action;

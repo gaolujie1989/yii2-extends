@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\alias\behaviors\tests\unit;
+namespace lujie\state\machine\tests\unit;
 
 use lujie\state\machine\behaviors\StatusCheckBehavior;
 use lujie\state\machine\tests\unit\fixtures\TestOrder;

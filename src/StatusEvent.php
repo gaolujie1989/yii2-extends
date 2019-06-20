@@ -18,7 +18,10 @@ use yii\base\Event;
  */
 class StatusEvent extends Event
 {
-    public $isValid;
+    /**
+     * @var bool
+     */
+    public $isValid = true;
 
     public $oldStatus;
 

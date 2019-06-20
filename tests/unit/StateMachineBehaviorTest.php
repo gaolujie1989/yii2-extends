@@ -1,10 +1,11 @@
 <?php
 
-namespace lujie\alias\behaviors\tests\unit;
+namespace lujie\state\machine\tests\unit;
 
 use lujie\state\machine\behaviors\StateMachineBehavior;
 use lujie\state\machine\tests\unit\fixtures\TestOrder;
 use yii\base\InvalidCallException;
+use yii\helpers\VarDumper;
 
 class StateMachineBehaviorTest extends \Codeception\Test\Unit
 {
@@ -22,43 +23,6 @@ class StateMachineBehaviorTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testMe(): void
-    {
-        $testOrder = $this->getTestOrder();
-        $this->assertEquals(TestOrder::STATUS_PENDING, $testOrder->status);
-        $this->assertEquals(TestOrder::SCENARIO_PENDING, $testOrder->getScenario());
-
-        $this->assertTrue($testOrder->cancel());
-        $testOrder->refresh();
-        $this->assertEquals(TestOrder::STATUS_CANCELLED, $testOrder->status);
-        $this->assertEquals(TestOrder::SCENARIO_FINISHED, $testOrder->getScenario());
-
-        try {
-            $testOrder->pay();
-            $this->assertTrue(false, 'Pay should throw exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(InvalidCallException::class, $e);
-        }
-
-        $testOrder = $this->getTestOrder();
-        $this->assertTrue($testOrder->pay());
-        $testOrder->refresh();
-        $this->assertEquals(TestOrder::STATUS_PAID, $testOrder->status);
-        $this->assertEquals(TestOrder::SCENARIO_PAID, $testOrder->getScenario());
-
-        $this->assertTrue($testOrder->ship(['shipping_address_id' => 123]));
-        $testOrder->refresh();
-        $this->assertEquals(123, $testOrder->shipping_address_id);
-        $this->assertEquals(TestOrder::STATUS_SHIPPED, $testOrder->status);
-        $this->assertEquals(TestOrder::SCENARIO_SHIPPED, $testOrder->getScenario());
-
-        $this->assertTrue($testOrder->refund(['shipping_address_id' => 456]));
-        $testOrder->refresh();
-        $this->assertEquals(123, $testOrder->shipping_address_id);
-        $this->assertEquals(TestOrder::STATUS_REFUNDED, $testOrder->status);
-        $this->assertEquals(TestOrder::SCENARIO_FINISHED, $testOrder->getScenario());
-    }
-
     /**
      * @return TestOrder
      * @inheritdoc
@@ -114,5 +78,42 @@ class StateMachineBehaviorTest extends \Codeception\Test\Unit
         ];
         $testOrder->save();
         return $testOrder;
+    }
+
+    public function testMe(): void
+    {
+        $testOrder = $this->getTestOrder();
+        $this->assertEquals(TestOrder::STATUS_PENDING, $testOrder->status);
+        $this->assertEquals(TestOrder::SCENARIO_PENDING, $testOrder->getScenario());
+
+        $this->assertTrue($testOrder->cancel());
+        $testOrder->refresh();
+        $this->assertEquals(TestOrder::STATUS_CANCELLED, $testOrder->status);
+        $this->assertEquals(TestOrder::SCENARIO_FINISHED, $testOrder->getScenario());
+
+        try {
+            $testOrder->pay();
+            $this->assertTrue(false, 'Pay should throw exception');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(InvalidCallException::class, $e);
+        }
+
+        $testOrder = $this->getTestOrder();
+        $this->assertTrue($testOrder->pay());
+        $testOrder->refresh();
+        $this->assertEquals(TestOrder::STATUS_PAID, $testOrder->status);
+        $this->assertEquals(TestOrder::SCENARIO_PAID, $testOrder->getScenario());
+
+        $this->assertTrue($testOrder->ship(['shipping_address_id' => 123]));
+        $testOrder->refresh();
+        $this->assertEquals(123, $testOrder->shipping_address_id);
+        $this->assertEquals(TestOrder::STATUS_SHIPPED, $testOrder->status);
+        $this->assertEquals(TestOrder::SCENARIO_SHIPPED, $testOrder->getScenario());
+
+        $this->assertTrue($testOrder->refund(['shipping_address_id' => 456]));
+        $testOrder->refresh();
+        $this->assertEquals(123, $testOrder->shipping_address_id);
+        $this->assertEquals(TestOrder::STATUS_REFUNDED, $testOrder->status);
+        $this->assertEquals(TestOrder::SCENARIO_FINISHED, $testOrder->getScenario());
     }
 }

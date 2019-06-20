@@ -35,14 +35,24 @@ class FilePipeline extends BaseObject implements PipelineInterface
     public $fs;
 
     /**
-     * @var
+     * @var string
      */
-    public $localPath = '/tmp/';
+    public $fsPath = 'exports';
+
+    /**
+     * @var string
+     */
+    public $localPath = '/tmp/exports';
 
     /**
      * @var string
      */
     private $filePath = '';
+
+    /**
+     * @var bool
+     */
+    public $unlinkTmp = true;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -52,9 +62,10 @@ class FilePipeline extends BaseObject implements PipelineInterface
     {
         parent::init();
         $this->fileExporter = Instance::ensure($this->fileExporter, FileExporterInterface::class);
-        $this->localPath = Yii::getAlias($this->localPath);
+        $this->localPath = rtrim(Yii::getAlias($this->localPath), "/ \t\n\r \v") . '/';
         if ($this->fs) {
-            $this->fs = Instance::ensure($this->fs);
+            $this->fs = Instance::ensure($this->fs, Filesystem::class);
+            $this->fsPath = rtrim($this->fsPath, "/ \t\n\r \v") . '/';
         }
     }
 
@@ -67,13 +78,16 @@ class FilePipeline extends BaseObject implements PipelineInterface
     public function process(array $data): bool
     {
         $this->filePath = $this->generateFilePath();
-        $localPath = $this->localPath . $this->filePath;
-        $localDir = pathinfo($localPath, PATHINFO_DIRNAME);
+        $localFilePath = $this->localPath . $this->filePath;
+        $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
         FileHelper::createDirectory($localDir);
-        $this->fileExporter->exportToFile($localPath, $data);
+        $this->fileExporter->exportToFile($localFilePath, $data);
         if ($this->fs) {
-            $this->fs->write($this->filePath, file_get_contents($localPath));
-            unlink($localPath);
+            $fsFilePath = $this->fsPath . $this->filePath;
+            $this->fs->write($fsFilePath, file_get_contents($localFilePath));
+            if ($this->unlinkTmp) {
+                unlink($localFilePath);
+            }
         }
         return true;
     }
@@ -98,6 +112,9 @@ class FilePipeline extends BaseObject implements PipelineInterface
      */
     public function getFilePath(): string
     {
-        return $this->filePath;
+        if ($this->fs) {
+            return $this->fsPath . $this->filePath;
+        }
+        return $this->localPath . $this->filePath;
     }
 }

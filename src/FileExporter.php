@@ -31,6 +31,12 @@ class FileExporter extends DataExchanger
         }
     }
 
+    /**
+     * @param SourceInterface $source
+     * @param string $file
+     * @return bool
+     * @inheritdoc
+     */
     public function exportToFile(SourceInterface $source, string $file): bool
     {
         $this->pipeline->filePathTemplate = $file;

@@ -20,31 +20,26 @@ use yii\di\Instance;
 class FileImporter extends DataExchanger
 {
     /**
-     * @var FileParserInterface
+     * @var array
      */
-    public $fileParser = ExcelParser::class;
-
-    /**
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        $this->fileParser = Instance::ensure($this->fileParser, FileParserInterface::class);
-    }
+    public $fileSource = [
+        'fileParser' => ExcelParser::class,
+    ];
 
     /**
      * @param string $file
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function importFromFile(string $file): bool
     {
-        $source = new FileSource([
-            'fileParser' => $this->fileParser,
-            'file' => $file,
-        ]);
+        if (is_array($this->fileSource) && empty($this->fileSource['class'])) {
+            $this->fileSource['class'] = FileSource::class;
+        }
+        /** @var FileSource $source */
+        $source = Instance::ensure($this->fileSource, FileSource::class);
+        $source->file = $file;
         return $this->exchange($source);
     }
 

@@ -7,8 +7,10 @@ namespace lujie\data\exchange\sources;
 
 use creocoder\flysystem\Filesystem;
 use lujie\data\exchange\file\FileParserInterface;
+use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
+use yii\helpers\FileHelper;
 
 /**
  * Class FileSource
@@ -25,7 +27,7 @@ class FileSource extends BaseObject implements SourceInterface
     /**
      * @var string
      */
-    public $file = '/tmp/imports/tmp_import.bin';
+    public $file = 'tmp_import.bin';
 
     /**
      * @var Filesystem
@@ -33,9 +35,19 @@ class FileSource extends BaseObject implements SourceInterface
     public $fs;
 
     /**
-     * @var
+     * @var string
      */
-    public $localPath = '/tmp/';
+    public $fsPath = 'imports';
+
+    /**
+     * @var string
+     */
+    public $localPath = '/tmp/imports';
+
+    /**
+     * @var bool
+     */
+    public $unlinkTmp = true;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -45,23 +57,31 @@ class FileSource extends BaseObject implements SourceInterface
     {
         parent::init();
         $this->fileParser = Instance::ensure($this->fileParser, FileParserInterface::class);
+        $this->localPath = rtrim(Yii::getAlias($this->localPath), "/ \t\n\r \v") . '/';
         if ($this->fs) {
-            $this->fs = Instance::ensure($this->fs);
+            $this->fs = Instance::ensure($this->fs, Filesystem::class);
+            $this->fsPath = rtrim($this->fsPath, "/ \t\n\r \v") . '/';
         }
     }
 
     /**
      * @return array
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function all(): array
     {
-        $localPath = $this->localPath . $this->file;
+        $localFilePath = $this->localPath . $this->file;
         if ($this->fs) {
-            file_put_contents($localPath, $this->fs->read($this->file));
+            $fsFilePath = $this->fsPath . $this->file;
+            $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
+            FileHelper::createDirectory($localDir);
+            file_put_contents($localFilePath, $this->fs->read($fsFilePath));
         }
-        $data = $this->fileParser->parseFile($localPath);
-        unlink($localPath);
+        $data = $this->fileParser->parseFile($localFilePath);
+        if ($this->unlinkTmp) {
+            unlink($localFilePath);
+        }
         return $data;
     }
 }

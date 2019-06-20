@@ -44,7 +44,6 @@ class DbPipeline extends BaseDbPipeline
      */
     public function process(array $data): bool
     {
-        $this->errors = [];
         $this->affectedRowCounts = [];
 
         $insertRows = [];

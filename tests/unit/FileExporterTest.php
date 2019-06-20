@@ -50,12 +50,11 @@ class FileExporterTest extends \Codeception\Test\Unit
                 'fileExporter' => CsvExporter::class,
             ]
         ]);
-        $file = __DIR__ . '/fixtures/export.csv';
-        if (file_exists($file)) {
-            unlink($file);
-        }
+        $file = 'export.csv';
         $csvParser = new CsvParser();
-        $exporter->exportToFile($dbSource, $file);
-        $this->assertEquals($dbSource->all(), $csvParser->parseFile($file));
+        $this->assertTrue($exporter->exportToFile($dbSource, $file));
+        $filePath = $exporter->pipeline->getFilePath();
+        $this->assertFileExists($filePath);
+        $this->assertEquals($dbSource->all(), $csvParser->parseFile($filePath));
     }
 }

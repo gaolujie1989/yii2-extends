@@ -20,10 +20,4 @@ interface DbPipelineInterface extends PipelineInterface
      * @inheritdoc
      */
     public function getAffectedRowCounts(): array;
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getErrors(): array;
 }

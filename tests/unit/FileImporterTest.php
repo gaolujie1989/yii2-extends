@@ -11,6 +11,7 @@ use lujie\data\exchange\file\exporters\CsvExporter;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\DbSource;
+use yii\helpers\FileHelper;
 
 class FileImporterTest extends \Codeception\Test\Unit
 {
@@ -42,12 +43,13 @@ class FileImporterTest extends \Codeception\Test\Unit
         $data = [
             ['version' => $testMigrationVersion, 'apply_time' => 222],
         ];
-        $file = __DIR__ . '/fixtures/import.csv';
-        if (file_exists($file)) {
-            unlink($file);
-        }
+
+        $file = 'import.csv';
+        $dir = '/tmp/imports/';
+        $filePath = $dir . $file;
         $csvExporter = new CsvExporter();
-        $csvExporter->exportToFile($file, $data);
+        FileHelper::createDirectory($dir);
+        $csvExporter->exportToFile($filePath, $data);
 
         $importer = new FileImporter([
             'pipeline' => [

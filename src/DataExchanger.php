@@ -53,10 +53,6 @@ class DataExchanger extends BaseObject implements DataExchangerInterface
         if ($this->transformer) {
             $data = $this->transformer->transform($data);
         }
-        if (empty($data)) {
-            return false;
-        }
-
         return $this->pipeline->process($data);
     }
 }

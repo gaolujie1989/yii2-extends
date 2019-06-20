@@ -63,7 +63,6 @@ class DbPipelineTest extends \Codeception\Test\Unit
             DbPipeline::AFFECTED_SKIPPED => 0,
         ];
         $this->assertEquals($effectedRowCounts, $importer->getAffectedRowCounts());
-        $this->assertEmpty($importer->getErrors());
         $all = $query->all();
         unset($data[0]['notExist']);
         $this->assertEquals($data, $all);
@@ -80,7 +79,6 @@ class DbPipelineTest extends \Codeception\Test\Unit
             DbPipeline::AFFECTED_SKIPPED => 1,
         ];
         $this->assertEquals($effectedRowCounts, $importer->getAffectedRowCounts());
-        $this->assertEmpty($importer->getErrors());
         $all = $query->all();
         $this->assertEquals($data, $all);
     }

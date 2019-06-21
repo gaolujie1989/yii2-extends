@@ -27,7 +27,7 @@ class QueueJobExec extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%queue_job_exec}}';
     }
@@ -35,7 +35,7 @@ class QueueJobExec extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['job_id', 'worker_pid', 'started_at', 'finished_at', 'memory_usage', 'attempt', 'status'], 'integer'],
@@ -47,7 +47,7 @@ class QueueJobExec extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'job_exec_id' => Yii::t('lujie/queuing', 'Job Exec ID'),

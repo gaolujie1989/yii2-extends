@@ -6,11 +6,13 @@
 namespace lujie\queuing\monitor\tests\unit;
 
 use lujie\queuing\monitor\behaviors\ActiveRecordJobMonitorBehavior;
+use lujie\queuing\monitor\behaviors\ActiveRecordWorkerMonitorBehavior;
 use lujie\queuing\monitor\behaviors\BaseJobMonitorBehavior;
 use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
 use lujie\queuing\monitor\tests\unit\mocks\TestJob;
 use Yii;
+use yii\di\Instance;
 use yii\queue\file\Queue;
 use yii\queue\serializers\JsonSerializer;
 
@@ -158,5 +160,18 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
         $queueJob = QueueJob::findOne(['job_id' => $jobId]);
         $this->assertEquals($queueJobExec->finished_at, $queueJob->last_exec_at);
         $this->assertEquals($queueJobExec->status, $queueJob->last_exec_status);
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function testCleanJobAndExec(): void
+    {
+        $queue = $this->getQueue();
+        /** @var ActiveRecordJobMonitorBehavior $behavior */
+        $behavior = $queue->getBehavior('jobMonitor');
+        $behavior->cleanJobAndExec(true);
     }
 }

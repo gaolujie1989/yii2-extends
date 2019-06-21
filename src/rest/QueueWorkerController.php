@@ -5,8 +5,7 @@
 
 namespace lujie\queuing\monitor\rest;
 
-
-use lujie\core\rest\ActiveController;
+use lujie\extend\rest\ActiveController;
 use lujie\queuing\monitor\models\QueueWorker;
 
 /**
@@ -23,7 +22,7 @@ class QueueWorkerController extends ActiveController
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actions()
+    public function actions(): array
     {
         $actions = parent::actions();
         return array_intersect_key($actions, array_flip(['index']));

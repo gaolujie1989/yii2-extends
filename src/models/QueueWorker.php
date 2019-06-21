@@ -25,7 +25,7 @@ class QueueWorker extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%queue_worker}}';
     }
@@ -33,7 +33,7 @@ class QueueWorker extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['pid', 'started_at', 'finished_at', 'pinged_at', 'success_count', 'failed_count'], 'integer'],
@@ -44,7 +44,7 @@ class QueueWorker extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'queue_worker_id' => Yii::t('lujie/queuing', 'Queue Worker ID'),

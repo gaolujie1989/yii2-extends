@@ -5,8 +5,7 @@
 
 namespace lujie\queuing\monitor\rest;
 
-
-use lujie\core\rest\ActiveController;
+use lujie\extend\rest\ActiveController;
 use lujie\queuing\monitor\models\QueueJob;
 use yii\di\Instance;
 use yii\queue\Queue;
@@ -25,7 +24,7 @@ class QueueJobController extends ActiveController
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actions()
+    public function actions(): array
     {
         $actions = parent::actions();
         return array_intersect_key($actions, array_flip(['index']));
@@ -38,7 +37,7 @@ class QueueJobController extends ActiveController
      * @throws \yii\web\NotFoundHttpException
      * @inheritdoc
      */
-    public function actionPush($id)
+    public function actionPush($id): array
     {
         /** @var QueueJob $queueJob */
         $queueJob = $this->findModel($id);

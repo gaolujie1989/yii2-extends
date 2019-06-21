@@ -6,6 +6,7 @@
 namespace lujie\queuing\monitor\searches;
 
 use lujie\queuing\monitor\models\QueueJob;
+use yii\db\ActiveQuery;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
 use yii\queue\Queue;
@@ -29,10 +30,10 @@ class QueueJobSearch extends QueueJob
     }
 
     /**
-     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface
+     * @return ActiveQuery
      * @inheritdoc
      */
-    public function query()
+    public function query(): ActiveQuery
     {
         $query = static::find()->andFilterWhere([
             'queue' => $this->queue,

@@ -6,6 +6,7 @@
 namespace lujie\queuing\monitor\searches;
 
 use lujie\queuing\monitor\models\QueueJobExec;
+use yii\db\ActiveQuery;
 
 /**
  * Class QueueJobExecSearch
@@ -18,7 +19,7 @@ class QueueJobExecSearch extends QueueJobExec
      * @return array
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['queue', 'job_id', 'worker_pid', 'status'], 'safe'],
@@ -26,10 +27,10 @@ class QueueJobExecSearch extends QueueJobExec
     }
 
     /**
-     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface
+     * @return ActiveQuery
      * @inheritdoc
      */
-    public function query()
+    public function query(): ActiveQuery
     {
         $query = static::find()->andFilterWhere([
             'queue' => $this->queue,

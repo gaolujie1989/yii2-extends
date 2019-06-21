@@ -195,11 +195,12 @@ abstract class BaseJobMonitorBehavior extends Behavior
     public function cleanJobAndExec($force = false): void
     {
         if ($force || random_int(0, 10000) < $this->cleanProbability) {
+            $queueName = ComponentHelper::getName($this->owner);
             $jobCondition = ['OR'];
             $execCondition = ['OR'];
             foreach ($this->timeToClean as $status => $expire) {
-                $jobCondition[] = ['AND', ['last_exec_status' => $status], ['<', 'last_exec_at', strtotime($expire)]];
-                $execCondition[] = ['AND', ['status' => $status], ['<', 'started_at', strtotime($expire)]];
+                $jobCondition[] = ['AND', ['queue' => $queueName], ['last_exec_status' => $status], ['<', 'last_exec_at', strtotime($expire)]];
+                $execCondition[] = ['AND', ['queue' => $queueName], ['status' => $status], ['<', 'started_at', strtotime($expire)]];
             }
             $this->deleteJob($jobCondition);
             $this->deleteJobExec($execCondition);

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\scheduling\monitor;
+namespace lujie\queuing\monitor\tasks;
 
 use lujie\queuing\monitor\behaviors\BaseJobMonitorBehavior;
 use yii\base\BaseObject;

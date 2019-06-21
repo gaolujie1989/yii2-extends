@@ -5,8 +5,8 @@
 
 namespace lujie\queuing\monitor\searches;
 
-
 use lujie\queuing\monitor\models\QueueWorker;
+use yii\db\ActiveQuery;
 
 /**
  * Class QueueWorkerSearch
@@ -21,7 +21,7 @@ class QueueWorkerSearch extends QueueWorker
      * @return array
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['queue', 'status'], 'safe'],
@@ -29,13 +29,13 @@ class QueueWorkerSearch extends QueueWorker
     }
 
     /**
-     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface
+     * @return ActiveQuery
      * @inheritdoc
      */
-    public function query()
+    public function query(): ActiveQuery
     {
         $query = static::find()->andFilterWhere(['queue' => $this->queue]);
-        if (strlen($this->status)) {
+        if ($this->status !== null && $this->status !== '') {
             $query->andWhere([$this->status ? '>' : '=', 'finished_at', 0]);
         }
         return $query;

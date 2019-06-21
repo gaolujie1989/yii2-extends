@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\auth\tests\unit;
+namespace lujie\scheduling\tests\unit;
 
 use lujie\data\loader\ArrayDataLoader;
 use lujie\scheduling\CronTask;

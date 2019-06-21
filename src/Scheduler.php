@@ -213,7 +213,7 @@ class Scheduler extends Component
             $event->error = $e;
             $this->trigger(self::EVENT_AFTER_ERROR, $event);
 
-            throw $e;
+            return false;
         } finally {
             if (isset($mutex) && $task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping()) {
                 $mutex->release($mutexName);

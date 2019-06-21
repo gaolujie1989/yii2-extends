@@ -201,7 +201,7 @@ class Scheduler extends Component
                 return false;
             }
 
-            $task->execute();
+            $event->task->execute();
             Yii::info("Task {$taskCode} executed success.", __METHOD__);
 
             $this->trigger(self::EVENT_AFTER_EXEC, $event);

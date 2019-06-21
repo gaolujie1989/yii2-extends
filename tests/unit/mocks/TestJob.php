@@ -21,6 +21,8 @@ class TestJob extends BaseObject implements JobInterface
 
     public $yValue = 'xxx';
 
+    public $sleep = 0;
+
     public $throwEx = false;
 
     /**
@@ -34,5 +36,8 @@ class TestJob extends BaseObject implements JobInterface
             throw new Exception('Error');
         }
         Yii::$app->params[$this->yKey] = $this->yValue;
+        if ($this->sleep) {
+            sleep($this->sleep);
+        }
     }
 }

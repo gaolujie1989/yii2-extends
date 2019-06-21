@@ -12,6 +12,7 @@ use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
 use lujie\queuing\monitor\tests\unit\mocks\TestJob;
 use Yii;
+use yii\console\Request;
 use yii\di\Instance;
 use yii\queue\file\Queue;
 use yii\queue\serializers\JsonSerializer;
@@ -60,7 +61,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function testAfterPush(): void
+    public function tes1tAfterPush(): void
     {
         $queue = $this->getQueue();
 
@@ -77,6 +78,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
                 'class' => TestJob::class,
                 'yKey' => 'xxx',
                 'yValue' => 'xxx',
+                'sleep' => 0,
                 'throwEx' => false,
             ]),
             'ttr' => 300,
@@ -94,7 +96,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function testExecJobSuccess(): void
+    public function tes1tExecJobSuccess(): void
     {
         $queue = $this->getQueue();
 
@@ -129,7 +131,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function testExecJobFail(): void
+    public function tes1tExecJobFail(): void
     {
         $queue = $this->getQueue();
 
@@ -154,6 +156,47 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
         ];
         $this->assertEquals($expected, $attributes);
         $this->assertTrue($queueJobExec->started_at >= $now);
+        $this->assertTrue($queueJobExec->finished_at >= $queueJobExec->started_at);
+        $this->assertNotEmpty($queueJobExec->error);
+
+        $queueJob = QueueJob::findOne(['job_id' => $jobId]);
+        $this->assertEquals($queueJobExec->finished_at, $queueJob->last_exec_at);
+        $this->assertEquals($queueJobExec->status, $queueJob->last_exec_status);
+    }
+
+    public function testExecTimeout(): void
+    {
+        /** @var Queue $queue */
+        $queue = Yii::$app->queue;
+        $queue->attachBehavior('jobMonitor', [
+            'class' => ActiveRecordJobMonitorBehavior::class
+        ]);
+        $queue->clear();
+
+        $now = time();
+        Yii::$app->params['xxx'] = null;
+        $job = new TestJob([
+            'sleep' => 5
+        ]);
+        $jobId = $queue->ttr(2)->push($job);
+        $queue->bootstrap(Yii::$app);
+        $_SERVER['SCRIPT_FILENAME'] = 'apps/yii_test';
+        Yii::$app->handleRequest(new Request(['params' => ['queue/run']]));
+
+        $count = QueueJobExec::find()->andWhere(['job_id' => $jobId])->count();
+        $this->assertEquals(1, $count);
+        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
+        $this->assertNotNull($queueJobExec);
+        $attributes = $queueJobExec->getAttributes(['queue', 'job_id', 'worker_pid', 'attempt', 'status']);
+        $expected = [
+            'queue' => 'queue',
+            'job_id' => $jobId,
+            'worker_pid' => getmypid(),
+            'attempt' => 1,
+            'status' => BaseJobMonitorBehavior::EXEC_STATUS_FAILED,
+        ];
+        $this->assertEquals($expected, $attributes);
+//        $this->assertTrue($queueJobExec->started_at >= $now);
         $this->assertTrue($queueJobExec->finished_at >= $queueJobExec->started_at);
         $this->assertNotEmpty($queueJobExec->error);
 

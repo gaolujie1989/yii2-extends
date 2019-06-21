@@ -24,7 +24,7 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
      */
     public function set($key, $data)
     {
-        $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
+        $condition = ['AND', $this->condition, [$this->key => $key]];
         $exists = (new Query())->from($this->table)
             ->andFilterWhere($condition)
             ->exists($this->db);
@@ -43,7 +43,7 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
      */
     public function remove($key)
     {
-        $condition = ['AND', $this->condition, [$this->uniqueKey => $key]];
+        $condition = ['AND', $this->condition, [$this->key => $key]];
         return $this->db->createCommand()
             ->delete($this->table, $condition)
             ->execute();

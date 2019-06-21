@@ -32,7 +32,7 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
         /** @var BaseActiveRecord $model */
         $model = $this->modelClass::find()
             ->andFilterWhere($this->condition)
-            ->andWhere([$this->uniqueKey => $key])
+            ->andWhere([$this->key => $key])
             ->one() ?: Yii::createObject($this->modelClass);
         return $model;
     }

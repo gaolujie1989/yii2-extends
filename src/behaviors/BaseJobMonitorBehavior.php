@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\queuing\monitor;
+namespace lujie\queuing\monitor\behaviors;
 
 
 use lujie\extend\helpers\ComponentHelper;
@@ -20,9 +20,10 @@ use yii\queue\Queue;
  */
 abstract class BaseJobMonitorBehavior extends Behavior
 {
-    const EXEC_STATUS_RUNNING = 1;
-    const EXEC_STATUS_SUCCESS = 10;
-    const EXEC_STATUS_FAILED = 11;
+    public const EXEC_STATUS_PENDING = 0;
+    public const EXEC_STATUS_RUNNING = 1;
+    public const EXEC_STATUS_SUCCESS = 10;
+    public const EXEC_STATUS_FAILED = 11;
 
     /**
      * @var int the probability (parts per million) that clean the expired exec records
@@ -40,13 +41,16 @@ abstract class BaseJobMonitorBehavior extends Behavior
         self::EXEC_STATUS_FAILED => '-7 days',
     ];
 
-    public $workerMonitor = 'workerMonitor';
+    /**
+     * @var string
+     */
+    public $workerMonitorBehavior = 'workerMonitor';
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             Queue::EVENT_AFTER_PUSH => 'afterPush',
@@ -56,7 +60,11 @@ abstract class BaseJobMonitorBehavior extends Behavior
         ];
     }
 
-    public function afterPush(PushEvent $event)
+    /**
+     * @param PushEvent $event
+     * @inheritdoc
+     */
+    public function afterPush(PushEvent $event): void
     {
         $data = [
             'job_id' => $event->id,
@@ -70,14 +78,18 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->saveJobRecord($data);
     }
 
-    public function beforeExec(ExecEvent $event)
+    /**
+     * @param ExecEvent $event
+     * @inheritdoc
+     */
+    public function beforeExec(ExecEvent $event): void
     {
         $now = time();
         $queueName = ComponentHelper::getName($event->sender);
         $data = [
             'job_id' => $event->id,
             'queue' => $queueName,
-            'worker_pid' => $event->sender->getWorkerPid(),
+            'worker_pid' => $event->sender->getWorkerPid() ?: 0,
             'attempt' => $event->attempt,
             'started_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
@@ -94,7 +106,12 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->saveJobRecord($jobData);
     }
 
-    public function afterExec(ExecEvent $event)
+    /**
+     * @param ExecEvent $event
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function afterExec(ExecEvent $event): void
     {
         $now = time();
         $queueName = ComponentHelper::getName($event->sender);
@@ -108,6 +125,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'status' => self::EXEC_STATUS_SUCCESS,
         ];
         $this->saveJobExecRecord($data);
+
         $jobData = [
             'job_id' => $event->id,
             'queue' => $queueName,
@@ -119,7 +137,11 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->cleanJobAndExec();
     }
 
-    public function afterError(ErrorEvent $event)
+    /**
+     * @param ErrorEvent $event
+     * @inheritdoc
+     */
+    public function afterError(ErrorEvent $event): void
     {
         $now = time();
         $queueName = ComponentHelper::getName($event->sender);
@@ -135,6 +157,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'status' => self::EXEC_STATUS_FAILED,
         ];
         $this->saveJobExecRecord($data);
+
         $jobData = [
             'job_id' => $event->id,
             'queue' => $queueName,
@@ -145,33 +168,33 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->updateWorkerExecCount($event, false);
     }
 
-    protected abstract function saveJobRecord($data);
+    abstract protected function saveJobRecord($data): void;
 
-    protected abstract function saveJobExecRecord($data);
+    abstract protected function saveJobExecRecord($data): void;
 
     /**
      * @param ExecEvent $event
-     * @param bool $isSuccess
+     * @param bool $success
      * @inheritdoc
      */
-    private function updateWorkerExecCount(ExecEvent $event, $isSuccess = true)
+    private function updateWorkerExecCount(ExecEvent $event, bool $success): void
     {
         /** @var BaseWorkerMonitorBehavior $workerMonitor */
-        $workerMonitor = $event->sender->getBehavior($this->workerMonitor);
+        $workerMonitor = $event->sender->getBehavior($this->workerMonitorBehavior);
         $workerPid = $event->sender->getWorkerPid();
         if ($workerMonitor && $workerPid) {
-            $workerMonitor->updateCount($workerPid, $isSuccess);
+            $workerMonitor->updateCount($workerPid, $success);
         }
     }
 
-
     /**
      * @param bool $force
+     * @throws \Exception
      * @inheritdoc
      */
-    public function cleanJobAndExec($force = false)
+    public function cleanJobAndExec($force = false): void
     {
-        if ($force || mt_rand(0, 10000) < $this->cleanProbability) {
+        if ($force || random_int(0, 10000) < $this->cleanProbability) {
             $jobCondition = ['OR'];
             $execCondition = ['OR'];
             foreach ($this->timeToClean as $status => $expire) {
@@ -188,12 +211,12 @@ abstract class BaseJobMonitorBehavior extends Behavior
      * @return mixed
      * @inheritdoc
      */
-    abstract protected function deleteJob($condition);
+    abstract protected function deleteJob($condition): void;
 
     /**
      * @param $condition
      * @return mixed
      * @inheritdoc
      */
-    abstract protected function deleteJobExec($condition);
+    abstract protected function deleteJobExec($condition): void;
 }

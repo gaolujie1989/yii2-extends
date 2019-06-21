@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\queuing\\monitor": "src" }
+    "psr-4": {
+      "lujie\\queuing\\monitor\\": "src",
+      "lujie\\queuing\\monitor\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

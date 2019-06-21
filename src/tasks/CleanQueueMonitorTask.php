@@ -5,7 +5,7 @@
 
 namespace lujie\scheduling\monitor;
 
-use lujie\queuing\monitor\BaseJobMonitorBehavior;
+use lujie\queuing\monitor\behaviors\BaseJobMonitorBehavior;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\queue\Queue;
@@ -27,7 +27,12 @@ class CleanQueueMonitorTask extends BaseObject
      */
     public $jobMonitorBehaviors = 'jobMonitor';
 
-    public function execute()
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function execute(): void
     {
         $this->queue = Instance::ensure($this->queue, Queue::class);
         $behavior = $this->queue->getBehavior($this->jobMonitorBehaviors);

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\queuing\monitor;
+namespace lujie\queuing\monitor\behaviors;
 
 
 use lujie\extend\helpers\ComponentHelper;
@@ -28,13 +28,16 @@ abstract class BaseWorkerMonitorBehavior extends Behavior
      */
     public $workerPingInterval = 15;
 
-    private $lastPingedAt;
+    /**
+     * @var int
+     */
+    private $lastPingedAt = 0;
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         $events = [
             CliQueue::EVENT_WORKER_START => 'workerStart',
@@ -50,7 +53,7 @@ abstract class BaseWorkerMonitorBehavior extends Behavior
      * @param WorkerEvent $event
      * @inheritdoc
      */
-    public function workerStart(WorkerEvent $event)
+    public function workerStart(WorkerEvent $event): void
     {
         $data = [
             'queue' => ComponentHelper::getName($event->sender),
@@ -64,14 +67,16 @@ abstract class BaseWorkerMonitorBehavior extends Behavior
      * @param WorkerEvent $event
      * @inheritdoc
      */
-    public function workerLoop(WorkerEvent $event)
+    public function workerLoop(WorkerEvent $event): void
     {
         $now = time();
         if ($now - $this->lastPingedAt < $this->workerPingInterval) {
             return;
         }
 
-        $data = ['pinged_at' => $now];
+        $data = [
+            'pinged_at' => $now
+        ];
         $this->saveWorkerRecord($data);
         $this->lastPingedAt = $now;
     }
@@ -80,13 +85,15 @@ abstract class BaseWorkerMonitorBehavior extends Behavior
      * @param WorkerEvent $event
      * @inheritdoc
      */
-    public function workerStop(WorkerEvent $event)
+    public function workerStop(WorkerEvent $event): void
     {
-        $data = ['finished_at' => time()];
+        $data = [
+            'finished_at' => time()
+        ];
         $this->saveWorkerRecord($data);
     }
 
-    abstract protected function saveWorkerRecord($data);
+    abstract protected function saveWorkerRecord(array $data): void;
 
-    abstract public function updateCount($workerPid, $success = true);
+    abstract public function updateCount(int $workerPid, bool $success): void;
 }

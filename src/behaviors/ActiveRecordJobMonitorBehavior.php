@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\queuing\monitor;
+namespace lujie\queuing\monitor\behaviors;
 
 use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
@@ -36,7 +36,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function saveJobRecord($data)
+    protected function saveJobRecord($data): void
     {
         $condition = ['queue' => $data['queue'], 'job_id' => $data['job_id']];
         /** @var QueueJob $job */
@@ -50,9 +50,9 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function saveJobExecRecord($data)
+    protected function saveJobExecRecord($data): void
     {
-        if (!$this->jobExec) {
+        if ($this->jobExec === null) {
             $this->jobExec = Yii::createObject($this->jobExecClass);
         }
         $this->jobExec->setAttributes($data);
@@ -68,7 +68,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
      * @return mixed|void
      * @inheritdoc
      */
-    protected function deleteJob($condition)
+    protected function deleteJob($condition): void
     {
         $this->jobClass::deleteAll($condition);
     }
@@ -78,7 +78,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
      * @return mixed|void
      * @inheritdoc
      */
-    protected function deleteJobExec($condition)
+    protected function deleteJobExec($condition): void
     {
         $this->jobExecClass::deleteAll($condition);
     }

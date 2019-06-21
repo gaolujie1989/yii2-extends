@@ -61,7 +61,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function tes1tAfterPush(): void
+    public function testAfterPush(): void
     {
         $queue = $this->getQueue();
 
@@ -96,7 +96,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function tes1tExecJobSuccess(): void
+    public function testExecJobSuccess(): void
     {
         $queue = $this->getQueue();
 
@@ -131,7 +131,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function tes1tExecJobFail(): void
+    public function testExecJobFail(): void
     {
         $queue = $this->getQueue();
 

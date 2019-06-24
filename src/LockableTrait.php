@@ -17,7 +17,7 @@ trait LockableTrait
     /**
      * @var bool
      */
-    public $shouldLock = false;
+    public $shouldLocked = false;
 
     /**
      * @var string
@@ -33,9 +33,9 @@ trait LockableTrait
      * @return bool
      * @inheritdoc
      */
-    public function shouldLock(): bool
+    public function shouldLocked(): bool
     {
-        return $this->shouldLock;
+        return $this->shouldLocked;
     }
 
     /**

@@ -14,7 +14,7 @@ interface LockableInterface
      * @return bool
      * @inheritdoc
      */
-    public function shouldLock(): bool;
+    public function shouldLocked(): bool;
 
     /**
      * @return Mutex|null

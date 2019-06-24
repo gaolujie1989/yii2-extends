@@ -16,7 +16,7 @@ use yii\queue\Queue;
  * @package lujie\execute
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ExecuteManager extends Component
+class Executor extends Component
 {
     public const EVENT_BEFORE_QUEUED = 'beforeQueued';
     public const EVENT_AFTER_QUEUED = 'afterQueued';
@@ -98,7 +98,7 @@ class ExecuteManager extends Component
         /** @var ExecutableJob $job */
         $job = Instance::ensure($jobConfig, ExecutableJob::class);
         $job->executable = $queueable;
-        $job->executeManager = ComponentHelper::getName($this);
+        $job->executor = ComponentHelper::getName($this);
 
         if ($queueable->getTtr()) {
             $job->ttr = $queueable->getTtr();
@@ -119,7 +119,7 @@ class ExecuteManager extends Component
     {
         $event = new ExecuteEvent(['executable' => $executable]);
 
-        if ($executable instanceof LockableInterface && $executable->shouldLock()) {
+        if ($executable instanceof LockableInterface && $executable->shouldLocked()) {
             $mutexName = $this->mutexNamePrefix . ($executable->getLockKey() ?: $executable->getId());
             /** @var Mutex $mutex */
             $mutex = Instance::ensure($executable->getMutex() ?: $this->mutex, Mutex::class);
@@ -147,7 +147,7 @@ class ExecuteManager extends Component
             return false;
         } finally {
             if (isset($mutex, $mutexName)
-                && $executable instanceof LockableInterface && $executable->shouldLock()) {
+                && $executable instanceof LockableInterface && $executable->shouldLocked()) {
                 $mutex->release($mutexName);
             }
         }

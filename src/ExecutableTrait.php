@@ -46,7 +46,6 @@ trait ExecutableTrait
         return $this->execUid;
     }
 
-
     /**
      * @return mixed
      * @throws NotSupportedException

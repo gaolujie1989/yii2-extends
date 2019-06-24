@@ -23,9 +23,9 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     public $executable;
 
     /**
-     * @var ExecuteManager
+     * @var Executor
      */
-    public $executeManager;
+    public $executor;
 
     /**
      * @var int
@@ -44,8 +44,8 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
      */
     public function execute($queue): void
     {
-        $this->executeManager = Instance::ensure($this->executeManager, ExecuteManager::class);
-        $this->executeManager->execute($this->executable);
+        $this->executor = Instance::ensure($this->executor, Executor::class);
+        $this->executor->execute($this->executable);
     }
 
     /**

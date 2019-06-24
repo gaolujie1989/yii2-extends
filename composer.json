@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-executing",
+  "description": "Yii2 executing",
+  "keywords": ["yii2", "executing"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-executing/issues",
+    "source": "https://gitee.com/code4dream/yii2-executing"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\executing\\": "src",
+      "lujie\\executing\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

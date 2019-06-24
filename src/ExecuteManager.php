@@ -33,9 +33,14 @@ class ExecuteManager extends Component
     public $mutex = 'mutex';
 
     /**
-     * @param $key
+     * @var array
+     */
+    public $queueableJobConfig = [];
+
+    /**
+     * @param ExecutableInterface $executable
      * @return bool|string|null
-     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function handle(ExecutableInterface $executable)
@@ -56,10 +61,15 @@ class ExecuteManager extends Component
     {
         /** @var Queue $queue */
         $queue = Instance::ensure($queueable->getQueue() ?: $this->queue);
-        $job = new ExecutableJob([
-            'executeManager' => ComponentHelper::getName($this),
-            'executable' => $queueable,
-        ]);
+        $jobConfig = $this->queueableJobConfig;
+        if (empty($jobConfig['class'])) {
+            $jobConfig['class'] = ExecutableJob::class;
+        }
+        /** @var ExecutableJob $job */
+        $job = Instance::ensure($jobConfig, ExecutableJob::class);
+        $job->executable = $queueable;
+        $job->executeManager = ComponentHelper::getName($this);
+
         if ($queueable->getTtr()) {
             $job->ttr = $queueable->getTtr();
         }

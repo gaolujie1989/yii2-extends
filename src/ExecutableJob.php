@@ -31,7 +31,7 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     /**
      * @var int
      */
-    public $attempts = 3;
+    public $attempts = 1;
 
     /**
      * @param \yii\queue\Queue $queue

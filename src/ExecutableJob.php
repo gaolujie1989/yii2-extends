@@ -39,7 +39,6 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
 
     /**
      * @param \yii\queue\Queue $queue
-     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

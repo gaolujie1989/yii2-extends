@@ -8,8 +8,8 @@ namespace lujie\executing;
 use yii\queue\Queue;
 
 /**
- * Interface Queued
- * @package lujie\execute
+ * Interface QueueableInterface
+ * @package lujie\executing
  */
 interface QueueableInterface
 {

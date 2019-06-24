@@ -14,6 +14,7 @@ use lujie\executing\QueueableInterface;
 use lujie\executing\QueueableTrait;
 use Yii;
 use yii\base\BaseObject;
+use yii\base\Exception;
 
 /**
  * Class TestExecutable
@@ -28,12 +29,18 @@ class TestExecutable extends BaseObject implements ExecutableInterface, Lockable
 
     public $yValue = 'xxx';
 
+    public $throwEx = false;
+
     /**
      * @return mixed|void
+     * @throws Exception
      * @inheritdoc
      */
     public function execute()
     {
+        if ($this->throwEx) {
+            throw new Exception('Error');
+        }
         Yii::$app->params[$this->yKey] = $this->yValue;
         //for testing lockable, if lockable, set shouldLock to false then mutex key will not release
         if ($this->shouldLocked) {

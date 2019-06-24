@@ -17,10 +17,10 @@ use yii\base\InvalidConfigException;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileExporter extends DataExchanger
+class FileExport extends DataExchange
 {
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
@@ -32,14 +32,14 @@ class FileExporter extends DataExchanger
     }
 
     /**
-     * @param SourceInterface $source
      * @param string $file
      * @return bool
+     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public function exportToFile(SourceInterface $source, string $file): bool
+    public function export(string $file): bool
     {
         $this->pipeline->filePathTemplate = $file;
-        return $this->exchange($source);
+        return $this->execute();
     }
 }

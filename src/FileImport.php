@@ -18,7 +18,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileImporter extends DataExchanger
+class FileImport extends DataExchange
 {
     /**
      * @var array
@@ -31,40 +31,17 @@ class FileImporter extends DataExchanger
      * @param string $file
      * @return bool
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public function importFromFile(string $file): bool
+    public function import(string $file): bool
     {
         if (is_array($this->fileSource) && empty($this->fileSource['class'])) {
             $this->fileSource['class'] = FileSource::class;
         }
         /** @var FileSource $source */
-        $source = Instance::ensure($this->fileSource, FileSource::class);
-        $source->file = $file;
-        return $this->exchange($source);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getAffectedRowCounts(): array
-    {
-        if ($this->pipeline instanceof DbPipelineInterface) {
-            return $this->pipeline->getAffectedRowCounts();
-        }
-        return [];
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getErrors(): array
-    {
-        if ($this->pipeline instanceof ActiveRecordPipeline) {
-            return $this->pipeline->getErrors();
-        }
-        return [];
+        $this->source = Instance::ensure($this->fileSource, FileSource::class);
+        $this->source->file = $file;
+        return $this->execute();
     }
 }

@@ -5,8 +5,6 @@
 
 namespace lujie\executing;
 
-
-use yii\queue\JobInterface;
 use yii\queue\Queue;
 
 /**

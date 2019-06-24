@@ -5,12 +5,16 @@
 
 namespace lujie\executing;
 
-
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\queue\JobInterface;
 use yii\queue\RetryableJobInterface;
 
+/**
+ * Class ExecutableJob
+ * @package lujie\executing
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInterface
 {
     /**

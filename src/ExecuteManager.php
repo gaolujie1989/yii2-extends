@@ -18,6 +18,9 @@ use yii\queue\Queue;
  */
 class ExecuteManager extends Component
 {
+    public const EVENT_BEFORE_QUEUED = 'beforeQueued';
+    public const EVENT_AFTER_QUEUED = 'afterQueued';
+
     public const EVENT_BEFORE_EXEC = 'beforeExec';
     public const EVENT_AFTER_EXEC = 'afterExec';
     public const EVENT_AFTER_SKIP = 'afterSkip';
@@ -31,6 +34,11 @@ class ExecuteManager extends Component
      * @var Mutex
      */
     public $mutex = 'mutex';
+
+    /**
+     * @var string
+     */
+    public $mutexNamePrefix = 'execute:';
 
     /**
      * @var array
@@ -61,6 +69,28 @@ class ExecuteManager extends Component
     {
         /** @var Queue $queue */
         $queue = Instance::ensure($queueable->getQueue() ?: $this->queue);
+        $job = $this->createQueueJob($queueable);
+
+        $event = new QueuedEvent(['job' => $job, 'queue' => $queue]);
+        $this->trigger(self::EVENT_BEFORE_QUEUED, $event);
+        if ($event->handled) {
+            return null;
+        }
+
+        $event->jobId = $queue->push($job);
+
+        $this->trigger(self::EVENT_AFTER_QUEUED, $event);
+        return (string) $event->jobId;
+    }
+
+    /**
+     * @param QueueableInterface $queueable
+     * @return ExecutableJob
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    private function createQueueJob(QueueableInterface $queueable): ExecutableJob
+    {
         $jobConfig = $this->queueableJobConfig;
         if (empty($jobConfig['class'])) {
             $jobConfig['class'] = ExecutableJob::class;
@@ -76,7 +106,7 @@ class ExecuteManager extends Component
         if ($queueable->getAttempts()) {
             $job->attempts = $queueable->getAttempts();
         }
-        return $queue->push($job);
+        return $job;
     }
 
     /**
@@ -90,7 +120,7 @@ class ExecuteManager extends Component
         $event = new ExecuteEvent(['executable' => $executable]);
 
         if ($executable instanceof LockableInterface && $executable->shouldLock()) {
-            $mutexName = $executable->getLockKey();
+            $mutexName = $this->mutexNamePrefix . ($executable->getLockKey() ?: $executable->getId());
             /** @var Mutex $mutex */
             $mutex = Instance::ensure($executable->getMutex() ?: $this->mutex, Mutex::class);
             if (!$mutex->acquire($mutexName, $executable->getTimeout())) {

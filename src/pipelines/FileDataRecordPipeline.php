@@ -8,9 +8,10 @@ namespace lujie\data\center\pipelines;
 
 use creocoder\flysystem\Filesystem;
 use lujie\data\center\models\DataRecord;
+use lujie\data\center\models\DataSource;
 use lujie\data\exchange\pipelines\PipelineInterface;
-use Yii;
 use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
 /**
@@ -18,18 +19,8 @@ use yii\di\Instance;
  * @package lujie\data\center\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileDataRecordPipeline extends BaseObject implements PipelineInterface
+class FileDataRecordPipeline extends DataRecordPipeline
 {
-    /**
-     * @var DataRecord
-     */
-    public $recordClass = DataRecord::class;
-
-    /**
-     * @var array
-     */
-    public $recordConfig = [];
-
     /**
      * @var Filesystem
      */
@@ -46,41 +37,46 @@ class FileDataRecordPipeline extends BaseObject implements PipelineInterface
     public $filePathSuffix = '.bin';
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
-        $this->fs = Instance::ensure($this->fs);
+        $this->fs = Instance::ensure($this->fs, Filesystem::class);
     }
 
     /**
      * @param array $data
      * @return bool
-     * @throws \yii\base\InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function process(array $data): bool
     {
-        $this->recordClass::find()
-            ->dataAccountId('')
-            ->dataType('')
-            ->dataId();
-
-        /** @var DataRecord $record */
-        $record = Yii::createObject($this->recordConfig);
+        $record = $this->createRecord($data);
         $record->setAttributes($data['record']);
-        if (!$record->save()) {
+        $this->recordClass::getDb()->transaction(function() use ($record, $data) {
+            if ($record->save(false)) {
+                $this->fs->write($this->getFilePath($record), $data['text']);
+                return true;
+            }
             return false;
-        }
-
-        $this->fs->write($this->getFilePath($record), $data['compressedText']);
+        });
     }
 
-    public function getFilePath(DataRecord $record)
+    /**
+     * @param DataRecord $record
+     * @return string
+     * @inheritdoc
+     */
+    public function getFilePath(DataRecord $record): string
     {
-        $file = implode('/', [$record->data_account_id, $record->data_type, $record->data_id]);
+        $file = implode('/', [
+            $record->data_account_id,
+            $record->data_type,
+            $record->data_id ?: $record->data_parent_id . '_' . $record->data_key
+        ]);
         return $this->filePathPrefix . $file . $this->filePathSuffix;
     }
 }

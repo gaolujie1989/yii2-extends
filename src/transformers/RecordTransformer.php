@@ -6,9 +6,14 @@
 namespace lujie\data\center\transformers;
 
 use lujie\data\exchange\transformers\TransformerInterface;
+use lujie\data\staging\compress\CompressorInterface;
+use lujie\data\staging\compress\GzDeflateCompressor;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\queue\serializers\JsonSerializer;
+use yii\queue\serializers\SerializerInterface;
 
 /**
  * Class RecordTransformer
@@ -36,14 +41,14 @@ class RecordTransformer extends BaseObject implements TransformerInterface
     ];
 
     /**
-     * @var string
+     * @var SerializerInterface
      */
-    public $serializer = 'serialize';
+    public $serializer = JsonSerializer::class;
 
     /**
-     * @var string
+     * @var CompressorInterface
      */
-    public $compressor = 'gzdeflate';
+    public $compressor = GzDeflateCompressor::class;
 
     /**
      * @throws InvalidConfigException
@@ -52,12 +57,8 @@ class RecordTransformer extends BaseObject implements TransformerInterface
     public function init(): void
     {
         parent::init();
-        if ($this->serializer && !is_callable($this->serializer)) {
-            throw new InvalidConfigException('The "serializer" property must be callable.');
-        }
-        if ($this->compressor && !is_callable($this->compressor)) {
-            throw new InvalidConfigException('The "compressor" property must be callable.');
-        }
+        $this->serializer = Instance::ensure($this->serializer, SerializerInterface::class);
+        $this->compressor = Instance::ensure($this->compressor, CompressorInterface::class);
     }
 
     /**
@@ -75,16 +76,9 @@ class RecordTransformer extends BaseObject implements TransformerInterface
             }
         }
 
-        $text = $data;
-        if ($this->serializer) {
-            $text = call_user_func($this->serializer, $data);
-        }
-        if ($this->compressor) {
-            $text = call_user_func($this->serializer, $text);
-        }
-
+        $text = $this->serializer->serialize($data);
+        $text = $this->compressor->compress($text);
         return [
-            'data' => $data,
             'text' => $text,
             'record' => $record,
         ];

@@ -18,7 +18,7 @@ class m190523_210352_data_account extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'data_account_id' => $this->primaryKey(),
+            'data_account_id' => $this->bigPrimaryKey()->unsigned(),
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'url' => $this->string()->notNull()->defaultValue(''),
@@ -26,7 +26,6 @@ class m190523_210352_data_account extends Migration
             'password' => $this->string()->notNull()->defaultValue(''),
             'options' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
-            'owner_id' => $this->integer()->notNull()->defaultValue(0),
         ]);
     }
 }

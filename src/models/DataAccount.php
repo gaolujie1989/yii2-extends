@@ -4,6 +4,7 @@ namespace lujie\data\center\models;
 
 use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%data_account}}".
@@ -16,7 +17,8 @@ use Yii;
  * @property string $password
  * @property array $options
  * @property int $status
- * @property int $owner_id
+ *
+ * @property DataSource[] $dataSources
  */
 class DataAccount extends \yii\db\ActiveRecord
 {
@@ -52,15 +54,23 @@ class DataAccount extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'data_account_id' => 'Data Account ID',
-            'name' => 'Name',
-            'type' => 'Type',
-            'url' => 'Url',
-            'username' => 'Username',
-            'password' => 'Password',
-            'options' => 'Options',
-            'status' => 'Status',
-            'owner_id' => 'Owner ID',
+            'data_account_id' => Yii::t('lujie/data', 'Data Account ID'),
+            'name' => Yii::t('lujie/data', 'Name'),
+            'type' => Yii::t('lujie/data', 'Type'),
+            'url' => Yii::t('lujie/data', 'Url'),
+            'username' => Yii::t('lujie/data', 'Username'),
+            'password' => Yii::t('lujie/data', 'Password'),
+            'options' => Yii::t('lujie/data', 'Options'),
+            'status' => Yii::t('lujie/data', 'Status'),
         ];
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getDataSources(): ActiveQuery
+    {
+        return $this->hasMany(DataSource::class, ['data_account_id' => 'data_account_id']);
     }
 }

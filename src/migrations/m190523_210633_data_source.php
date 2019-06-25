@@ -18,8 +18,8 @@ class m190523_210633_data_source extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'data_source_id' => $this->primaryKey(),
-            'data_account_id' => $this->integer()->notNull()->defaultValue(0),
+            'data_source_id' => $this->bigPrimaryKey()->unsigned(),
+            'data_account_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'options' => $this->json(),

@@ -3,6 +3,7 @@
 namespace lujie\data\center\models;
 
 use lujie\extend\db\TraceableBehaviorTrait;
+use Yii;
 use yii\db\ActiveQuery;
 
 /**
@@ -50,15 +51,15 @@ class DataRecord extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'data_record_id' => 'Data Record ID',
-            'data_account_id' => 'Data Account ID',
-            'data_type' => 'Data Type',
-            'data_id' => 'Data ID',
-            'data_key' => 'Data Key',
-            'data_parent_id' => 'Data Parent ID',
-            'data_additional' => 'Data Additional',
-            'data_created_at' => 'Data Created At',
-            'data_updated_at' => 'Data Updated At',
+            'data_record_id' => Yii::t('lujie/data', 'Data Record ID'),
+            'data_account_id' => Yii::t('lujie/data', 'Data Account ID'),
+            'data_type' => Yii::t('lujie/data', 'Data Type'),
+            'data_id' => Yii::t('lujie/data', 'Data ID'),
+            'data_key' => Yii::t('lujie/data', 'Data Key'),
+            'data_parent_id' => Yii::t('lujie/data', 'Data Parent ID'),
+            'data_additional' => Yii::t('lujie/data', 'Data Additional'),
+            'data_created_at' => Yii::t('lujie/data', 'Data Created At'),
+            'data_updated_at' => Yii::t('lujie/data', 'Data Updated At'),
         ];
     }
 

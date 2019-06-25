@@ -27,7 +27,7 @@ class CacheStateStorage extends Component implements StateStorageInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -41,9 +41,11 @@ class CacheStateStorage extends Component implements StateStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     * @param mixed $value
+     * @inheritdoc
      */
-    public function set($key, $value)
+    public function set($key, $value): void
     {
         if ($this->cache !== null) {
             $this->cache->set($key, $value);
@@ -51,7 +53,9 @@ class CacheStateStorage extends Component implements StateStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     * @return mixed|null
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -62,13 +66,15 @@ class CacheStateStorage extends Component implements StateStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     * @return bool
+     * @inheritdoc
      */
-    public function remove($key)
+    public function remove($key): bool
     {
         if ($this->cache !== null) {
-            $this->cache->delete($key);
+            return $this->cache->delete($key);
         }
-        return true;
+        return false;
     }
 }

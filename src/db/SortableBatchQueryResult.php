@@ -5,6 +5,7 @@
 
 namespace lujie\extend\db;
 
+use lujie\remote\user\tests\unit\mocks\TestRemoteUserClient;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 
@@ -28,7 +29,7 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->initSort();
@@ -37,10 +38,11 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
     /**
      * @inheritdoc
      */
-    public function initSort() : void
+    public function initSort(): void
     {
-        if ($this->query->orderBy) {
-            foreach ($this->query->orderBy as $column => $sort) {
+        $orderBy = $this->query->orderBy;
+        if ($orderBy) {
+            foreach ($orderBy as $column => $sort) {
                 $column = is_int($column) ? $sort : $column;
                 $sort = is_int($column) ? SORT_ASC : $sort;
                 $this->sortCondition = [$sort === SORT_ASC ? '>' : '<', $column, 0];
@@ -49,8 +51,10 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
         } else if ($this->query instanceof ActiveQuery) {
             /** @var BaseActiveRecord $modelClass */
             $modelClass = $this->query->modelClass;
-            $column = reset($modelClass::primaryKey());
-            if (empty($this->query->select) || in_array('*', $this->query->select) || in_array($column, $this->query->select)) {
+            $column = $modelClass::primaryKey()[0];
+            if (empty($this->query->select)
+                || in_array('*', $this->query->select, true)
+                || in_array($column, $this->query->select, true)) {
                 $this->sortCondition = ['>', $column, 0];
             }
         }
@@ -60,13 +64,12 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
      * @return array
      * @inheritdoc
      */
-    protected function fetchData()
+    protected function fetchData(): array
     {
         if ($this->sortCondition) {
             return $this->fetchSortData();
-        } else {
-            return parent::fetchData();
         }
+        return parent::fetchData();
     }
 
     /**
@@ -90,7 +93,7 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
     /**
      * @inheritdoc
      */
-    public function reset()
+    public function reset(): void
     {
         parent::reset();
         $this->lastSortValue = null;

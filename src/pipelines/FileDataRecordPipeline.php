@@ -29,7 +29,7 @@ class FileDataRecordPipeline extends DataRecordPipeline
     /**
      * @var string
      */
-    public $filePathPrefix = '';
+    public $filePathPrefix = 'record_data/';
 
     /**
      * @var string
@@ -44,6 +44,7 @@ class FileDataRecordPipeline extends DataRecordPipeline
     {
         parent::init();
         $this->fs = Instance::ensure($this->fs, Filesystem::class);
+        $this->filePathPrefix = trim($this->filePathPrefix, "/ \t\n\r\0\x0B") . '/';
     }
 
     /**
@@ -56,7 +57,7 @@ class FileDataRecordPipeline extends DataRecordPipeline
     {
         $record = $this->createRecord($data);
         $record->setAttributes($data['record']);
-        $this->recordClass::getDb()->transaction(function() use ($record, $data) {
+        return $this->recordClass::getDb()->transaction(function() use ($record, $data) {
             if ($record->save(false)) {
                 $this->fs->write($this->getFilePath($record), $data['text']);
                 return true;

@@ -22,7 +22,7 @@ class DataRecordData extends \yii\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%data_record}}';
+        return '{{%data_record_data}}';
     }
 
     /**
@@ -46,5 +46,15 @@ class DataRecordData extends \yii\db\ActiveRecord
             'data_record_id' => Yii::t('lujie/data', 'Data Record ID'),
             'data_text' => Yii::t('lujie/data', 'data_text'),
         ];
+    }
+
+    /**
+     * @param int $dataRecordId
+     * @return DataRecordData|null
+     * @inheritdoc
+     */
+    public static function findByDataRecordId(int $dataRecordId): ?self
+    {
+        return static::findOne(['data_record_id' => $dataRecordId]);
     }
 }

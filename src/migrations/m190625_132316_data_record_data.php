@@ -32,7 +32,7 @@ class m190625_132316_data_record_data extends Migration
     {
         $this->createTable($this->tableName, [
             'data_record_data_id' => $this->bigPrimaryKey()->unsigned(),
-            'data_record_id' => $this->bigPrimaryKey()->unsigned(),
+            'data_record_id' => $this->bigInteger()->unsigned(),
             'data_text' => $this->binary(),
         ]);
 

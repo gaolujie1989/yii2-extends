@@ -38,10 +38,10 @@ class ActiveRecordDataRecordPipeline extends DataRecordPipeline
         $record = $this->createRecord($data);
         $record->setAttributes($data['record']);
 
-        $this->recordClass::getDb()->transaction(function() use ($record, $data) {
+        return $this->recordClass::getDb()->transaction(function() use ($record, $data) {
             if ($record->save(false)) {
                 /** @var DataRecordData $recordData */
-                $recordData = $this->recordDataClass::findOne(['data_record_id' => $record->data_record_id])
+                $recordData = $this->recordDataClass::findByDataRecordId($record->data_record_id)
                     ?: new $this->recordDataClass();
                 $recordData->data_record_id = $record->data_record_id;
                 $recordData->data_text = $data['text'];

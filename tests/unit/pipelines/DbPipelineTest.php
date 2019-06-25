@@ -74,7 +74,7 @@ class DbPipelineTest extends \Codeception\Test\Unit
         ];
         $this->assertTrue($importer->process($data));
         $effectedRowCounts = [
-            DbPipeline::AFFECTED_CREATED => 1,
+            DbPipeline::AFFECTED_CREATED => 3,
             DbPipeline::AFFECTED_UPDATED => 1,
             DbPipeline::AFFECTED_SKIPPED => 1,
         ];

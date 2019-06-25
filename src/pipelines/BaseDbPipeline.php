@@ -28,8 +28,6 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
         self::AFFECTED_SKIPPED => 0
     ];
 
-
-
     /**
      * @return array
      * @inheritdoc

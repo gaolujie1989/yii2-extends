@@ -72,7 +72,7 @@ class ActiveRecordPipelineTest extends \Codeception\Test\Unit
         ];
         $this->assertTrue($importer->process($data));
         $effectedRowCounts = [
-            ActiveRecordPipeline::AFFECTED_CREATED => 1,
+            ActiveRecordPipeline::AFFECTED_CREATED => 3,
             ActiveRecordPipeline::AFFECTED_UPDATED => 1,
             ActiveRecordPipeline::AFFECTED_SKIPPED => 1,
         ];

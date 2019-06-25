@@ -57,7 +57,6 @@ class ActiveRecordPipeline extends BaseDbPipeline
     public function process(array $data): bool
     {
         $this->errors = [];
-        $this->affectedRowCounts = [];
 
         /** @var BaseActiveRecord[] $models */
         $models = [];
@@ -89,22 +88,16 @@ class ActiveRecordPipeline extends BaseDbPipeline
         }
 
         $callable = function () use ($models) {
-            $counts = [
-                self::AFFECTED_CREATED => 0,
-                self::AFFECTED_UPDATED => 0,
-                self::AFFECTED_SKIPPED => 0
-            ];
             foreach ($models as $model) {
                 $createOrUpdate = $model->getIsNewRecord() ? self::AFFECTED_CREATED : self::AFFECTED_UPDATED;
                 if (empty($model->getDirtyAttributes())) {
-                    $counts[self::AFFECTED_SKIPPED]++;
+                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 } else if ($model->save(false)) {
-                    $counts[$createOrUpdate]++;
+                    $this->affectedRowCounts[$createOrUpdate]++;
                 } else {
-                    $counts[self::AFFECTED_SKIPPED]++;
+                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 }
             }
-            $this->affectedRowCounts = $counts;
             return true;
         };
 

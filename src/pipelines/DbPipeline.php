@@ -44,8 +44,6 @@ class DbPipeline extends BaseDbPipeline
      */
     public function process(array $data): bool
     {
-        $this->affectedRowCounts = [];
-
         $insertRows = [];
         $updateRows = [];
         $columns = $this->db->getTableSchema($this->table)->columns;
@@ -68,28 +66,22 @@ class DbPipeline extends BaseDbPipeline
         }
 
         $callable = function () use ($insertRows, $updateRows) {
-            $counts = [
-                self::AFFECTED_CREATED => 0,
-                self::AFFECTED_UPDATED => 0,
-                self::AFFECTED_SKIPPED => 0
-            ];
             foreach ($insertRows as $values) {
                 $n = $this->db->createCommand()->insert($this->table, $values)->execute();
                 if ($n) {
-                    $counts[self::AFFECTED_CREATED] += $n;
+                    $this->affectedRowCounts[self::AFFECTED_CREATED] += $n;
                 } else {
-                    $counts[self::AFFECTED_SKIPPED]++;
+                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 }
             }
             foreach ($updateRows as [$values, $condition]) {
                 $n = $this->db->createCommand()->update($this->table, $values, $condition)->execute();
                 if ($n) {
-                    $counts[self::AFFECTED_UPDATED] += $n;
+                    $this->affectedRowCounts[self::AFFECTED_UPDATED] += $n;
                 } else {
-                    $counts[self::AFFECTED_SKIPPED]++;
+                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 }
             }
-            $this->affectedRowCounts = $counts;
             return true;
         };
         return $this->db->transaction($callable);

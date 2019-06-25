@@ -27,7 +27,7 @@ trait ExecutableTrait
     /**
      * @var callable
      */
-    public $callback;
+    public $executable;
 
     /**
      * @return int|string
@@ -57,24 +57,33 @@ trait ExecutableTrait
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): bool
     {
-        if ($this->callback) {
-            if (is_array($this->callback) && isset($this->callback['class'])) {
-                $callbackObject = Yii::createObject($this->callback);
+        $executable = $this->executable;
+        if ($executable) {
+            if (is_object($executable) && $executable instanceof ExecutableInterface) {
+                $executable->execute();
+                return true;
+            }
+            if (is_array($executable) && isset($executable['class'])) {
+                $callbackObject = Yii::createObject($executable);
                 if ($callbackObject instanceof ExecutableInterface) {
-                    return $callbackObject->execute();
+                    $callbackObject->execute();
+                    return false;
                 }
-            } else if (is_callable($this->callback)) {
-                return call_user_func($this->callback);
+            }
+            if (is_callable($executable)) {
+                $executable();
+                return true;
             }
         }
         $aliasMethods = ['handle', 'run'];
         foreach ($aliasMethods as $method) {
             if (method_exists($this, $method)) {
-                return $this->{$method}();
+                $this->{$method}();
+                return true;
             }
         }
-        throw new NotSupportedException('Object not implement the execute method');
+        return false;
     }
 }

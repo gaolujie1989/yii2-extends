@@ -16,7 +16,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class IncrementSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
+abstract class IncrementSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
      * @var BatchSourceInterface|ConditionSourceInterface
@@ -45,11 +45,6 @@ class IncrementSource extends BaseObject implements BatchSourceInterface, Condit
     private $lastRow;
 
     /**
-     * @var callable
-     */
-    public $incrementConditionGenerator;
-
-    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -60,9 +55,6 @@ class IncrementSource extends BaseObject implements BatchSourceInterface, Condit
         $this->dataStorage = Instance::ensure($this->dataStorage, DataStorageInterface::class);
         if (empty($this->sourceKey)) {
             throw new InvalidConfigException('The "sourceKey" property must be set');
-        }
-        if (!is_callable($this->incrementConditionGenerator)) {
-            throw new InvalidConfigException('The "incrementConditionGenerator" property must be callable');
         }
         $this->incrementCondition = $this->dataStorage->get($this->sourceKey);
     }
@@ -82,10 +74,7 @@ class IncrementSource extends BaseObject implements BatchSourceInterface, Condit
      * @return array
      * @inheritdoc
      */
-    protected function generateCondition($data): array
-    {
-        return call_user_func($this->incrementConditionGenerator, [$data, $this]);
-    }
+    abstract protected function generateCondition($data): array;
 
     /**
      * @param int $batchSize

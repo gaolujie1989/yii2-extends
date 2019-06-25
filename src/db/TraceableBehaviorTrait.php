@@ -27,7 +27,7 @@ trait TraceableBehaviorTrait
      * @return array
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return $this->traceableBehaviors();
     }
@@ -36,7 +36,7 @@ trait TraceableBehaviorTrait
      * @return array
      * @inheritdoc
      */
-    public function traceableBehaviors()
+    public function traceableBehaviors(): array
     {
         $behaviors = [];
         /** @var BaseActiveRecord $this */
@@ -58,10 +58,18 @@ trait TraceableBehaviorTrait
         return $behaviors;
     }
 
-    public function getActionBy()
+    /**
+     * @return int
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function getActionBy(): int
     {
         /** @var User $user */
         $user = Yii::$app->get('user', false);
-        return $user ? ($user->getIsGuest() ? 0 : $user->getId()) : 0;
+        if ($user === null || $user->getIsGuest()) {
+            return 0;
+        }
+        return $user->getId();
     }
 }

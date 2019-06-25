@@ -46,7 +46,7 @@ class IndexDataProviderPreparer
         if ($searchClass) {
             $searchModel = Yii::createObject($searchClass);
             if (method_exists($searchModel, $this->queryMethod)) {
-                $result = call_user_func([$searchModel, $this->queryMethod], $requestParams);
+                $result = $searchModel->{$this->queryMethod}($requestParams);
                 if ($result instanceof QueryInterface) {
                     return Yii::createObject([
                         'class' => ActiveDataProvider::class,
@@ -60,7 +60,7 @@ class IndexDataProviderPreparer
         /* @var $model BaseActiveRecord */
         $model = new $action->modelClass();
         if (method_exists($model, $this->queryMethod)) {
-            $result = call_user_func([$model, $this->queryMethod], $requestParams);
+            $result = $model->{$this->queryMethod}($requestParams);
             if ($result instanceof QueryInterface) {
                 return Yii::createObject([
                     'class' => ActiveDataProvider::class,

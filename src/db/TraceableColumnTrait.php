@@ -5,7 +5,7 @@
 
 namespace lujie\extend\db;
 
-use \yii\db\Migration;
+use yii\db\Migration;
 
 /**
  * @property string tableName
@@ -19,7 +19,7 @@ trait TraceableColumnTrait
      * @return array
      * @inheritdoc
      */
-    public function getDefaultTableColumns()
+    public function getDefaultTableColumns(): array
     {
         /** @var Migration $this */
         return [
@@ -33,7 +33,7 @@ trait TraceableColumnTrait
     /**
      * @inheritdoc
      */
-    public function createDefaultTableIndexes()
+    public function createDefaultTableIndexes(): void
     {
         $columns = $this->getDefaultTableColumns();
         /** @var Migration|TraceableColumnTrait $this */
@@ -50,7 +50,7 @@ trait TraceableColumnTrait
      * @param null $options
      * @inheritdoc
      */
-    public function createTable($table, $columns, $options = null)
+    public function createTable($table, $columns, $options = null): void
     {
         /** @var Migration|TraceableColumnTrait $this */
         if ($this->db->driverName === 'mysql' && $options === null) {

@@ -31,6 +31,11 @@ class Executor extends Component
     public $queue = 'queue';
 
     /**
+     * @var array
+     */
+    public $jobConfig = [];
+
+    /**
      * @var Mutex
      */
     public $mutex = 'mutex';
@@ -39,11 +44,6 @@ class Executor extends Component
      * @var string
      */
     public $mutexNamePrefix = 'execute:';
-
-    /**
-     * @var array
-     */
-    public $queueableJobConfig = [];
 
     /**
      * @param ExecutableInterface $executable
@@ -91,7 +91,7 @@ class Executor extends Component
      */
     private function createQueueJob(QueueableInterface $queueable): ExecutableJob
     {
-        $jobConfig = $this->queueableJobConfig;
+        $jobConfig = $this->jobConfig;
         if (empty($jobConfig['class'])) {
             $jobConfig['class'] = ExecutableJob::class;
         }

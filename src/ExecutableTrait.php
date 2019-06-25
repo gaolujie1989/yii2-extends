@@ -54,12 +54,20 @@ trait ExecutableTrait
     /**
      * @return mixed
      * @throws NotSupportedException
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function execute()
     {
-        if ($this->callback && is_callable($this->callback)) {
-            return call_user_func($this->callback);
+        if ($this->callback) {
+            if (is_array($this->callback) && isset($this->callback['class'])) {
+                $callbackObject = Yii::createObject($this->callback);
+                if ($callbackObject instanceof ExecutableInterface) {
+                    return $callbackObject->execute();
+                }
+            } else if (is_callable($this->callback)) {
+                return call_user_func($this->callback);
+            }
         }
         $aliasMethods = ['handle', 'run'];
         foreach ($aliasMethods as $method) {

@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\sources;
 
+
 use Iterator;
 use lujie\extend\authclient\RestOAuth2Client;
 use yii\base\BaseObject;
@@ -12,11 +13,11 @@ use yii\base\NotSupportedException;
 use yii\di\Instance;
 
 /**
- * Class RestApiSource
+ * Class ClientSource
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class RestSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
+class ClientSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
      * @var RestOAuth2Client
@@ -26,7 +27,7 @@ class RestSource extends BaseObject implements BatchSourceInterface, ConditionSo
     /**
      * @var string
      */
-    public $resource;
+    public $method;
 
     /**
      * @var array
@@ -40,7 +41,7 @@ class RestSource extends BaseObject implements BatchSourceInterface, ConditionSo
     public function init(): void
     {
         parent::init();
-        $this->client = Instance::ensure($this->client, RestOAuth2Client::class);
+        $this->client = Instance::ensure($this->client);
     }
 
     /**
@@ -50,7 +51,7 @@ class RestSource extends BaseObject implements BatchSourceInterface, ConditionSo
      */
     public function batch($batchSize = 100): Iterator
     {
-        return $this->client->each($this->resource, $this->condition, $batchSize);
+        return $this->client->each($this->method, $this->condition, $batchSize);
     }
 
     /**
@@ -60,7 +61,8 @@ class RestSource extends BaseObject implements BatchSourceInterface, ConditionSo
      */
     public function each($batchSize = 100): Iterator
     {
-        return $this->client->each($this->resource, $this->condition, $batchSize);
+        $iterator = $this->batch($batchSize);
+        yield from $iterator;
     }
 
     /**

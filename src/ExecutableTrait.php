@@ -59,6 +59,9 @@ trait ExecutableTrait
                 return $this->{$method}();
             }
         }
+        if (isset($this->callback) && is_callable($this->callback)) {
+            return call_user_func($this->callback);
+        }
         throw new NotSupportedException('Object not implement the execute method');
     }
 }

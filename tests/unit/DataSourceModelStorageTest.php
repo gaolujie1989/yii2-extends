@@ -35,22 +35,24 @@ class DataSourceModelStorageTest extends \Codeception\Test\Unit
             'options' => [],
         ]);
         $source->save(false);
-        $storage = new DataSourceModelStorage();
-        $this->assertNull($storage->get($source->data_source_id));
-        $data = ['xxx' => 'xxx'];
-        $storage->set($source->data_source_id, $data);
+        $dataSourceId = $source->data_source_id;
 
-        $source = DataSource::findOne($source->data_source_id);
+        $storage = new DataSourceModelStorage();
+        $this->assertNull($storage->get($dataSourceId));
+        $data = ['xxx' => 'xxx'];
+        $storage->set($dataSourceId, $data);
+
+        $source = DataSource::findOne($dataSourceId);
         $this->assertTrue(isset($source->additional_info[$storage->conditionKey]));
         $this->assertEquals($data, $source->additional_info[$storage->conditionKey]);
 
         $data = ['yyy' => 'yyy'];
-        $storage->set($source->data_source_id, $data);
-        $source = DataSource::findOne($source->data_source_id);
+        $storage->set($dataSourceId, $data);
+        $source = DataSource::findOne($dataSourceId);
         $this->assertEquals($data, $source->additional_info[$storage->conditionKey]);
 
-        $storage->remove($source->data_source_id);
-        $source = DataSource::findOne($source->data_source_id);
+        $storage->remove($dataSourceId);
+        $source = DataSource::findOne($dataSourceId);
         $this->assertNull($source->additional_info[$storage->conditionKey]);
     }
 }

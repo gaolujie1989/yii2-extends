@@ -6,16 +6,15 @@
 namespace lujie\data\staging;
 
 
-use lujie\data\staging\models\DataAccount;
-use lujie\data\staging\models\DataSource;
-use lujie\data\staging\DataSourceModelStorage;
-use lujie\data\staging\pipelines\DataRecordPipeline;
-use lujie\data\staging\transformers\RecordTransformer;
 use lujie\data\exchange\DataExchange;
 use lujie\data\exchange\sources\ClientSource;
 use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\data\staging\models\DataAccount;
+use lujie\data\staging\models\DataSource;
+use lujie\data\staging\pipelines\DataRecordPipeline;
+use lujie\data\staging\transformers\RecordTransformer;
 use lujie\extend\helpers\ObjectHelper;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
@@ -37,10 +36,21 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var array
      */
-    public $sources = [];
+    public $clientSources = [];
 
+    /**
+     * @var array
+     */
+    public $incrementSources = [];
+
+    /**
+     * @var array
+     */
     public $transformers = [];
 
+    /**
+     * @var array
+     */
     public $pipelines = [];
 
     /**
@@ -75,7 +85,8 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
             throw new InvalidConfigException('Pipeline not set');
         }
         $pipelineConfig = $this->pipelines[$dataSource->type];
-        return ObjectHelper::create(ClientSource::class, $pipelineConfig);
+        $pipelineConfig['sourceId'] = $dataSource->data_source_id;
+        return ObjectHelper::create($pipelineConfig, ClientSource::class);
     }
 
     /**
@@ -90,7 +101,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
             throw new InvalidConfigException('Transformer not set');
         }
         $transformerConfig = $this->transformers[$dataSource->type];
-        return ObjectHelper::create(ClientSource::class, $transformerConfig);
+        return ObjectHelper::create($transformerConfig, ClientSource::class);
     }
 
     /**
@@ -101,18 +112,24 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
      */
     protected function createSource(DataSource $dataSource): SourceInterface
     {
-        if (empty($this->sources[$dataSource->type])) {
+        if (empty($this->clientSources[$dataSource->type])) {
             throw new InvalidConfigException('Invalid source type');
         }
-        $sourceConfig = $this->sources[$dataSource->type];
-        $source = ObjectHelper::create(ClientSource::class, $sourceConfig, $dataSource);
-        return new IncrementSource([
-            'source' => $source,
+        $clientSourceConfig = $this->clientSources[$dataSource->type];
+        $clientSourceConfig['client'] = $this->createClient($dataSource->dataAccount);
+        $clientSource = ObjectHelper::create($clientSourceConfig, ClientSource::class);
+
+        if (empty($this->incrementSources[$dataSource->type])) {
+            return $clientSource;
+        }
+        $incrementSourceConfig = array_merge($this->incrementSources[$dataSource->type], [
+            'source' => $clientSource,
             'sourceKey' => $dataSource->data_source_id,
             'dataStorage' => [
                 'class' => DataSourceModelStorage::class
             ]
         ]);
+        return ObjectHelper::create($incrementSourceConfig);
     }
 
     /**
@@ -127,7 +144,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
             throw new InvalidConfigException('Invalid account type');
         }
         $clientConfig = $this->clients[$dataAccount->type];
-        return ObjectHelper::create(Client::class, $clientConfig, $dataAccount);
+        return ObjectHelper::create($clientConfig, null, $dataAccount);
     }
 
     /**

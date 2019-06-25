@@ -6,6 +6,7 @@
 namespace lujie\scheduling\tests\unit;
 
 use lujie\data\loader\ArrayDataLoader;
+use lujie\executing\tests\unit\mocks\TestExecutable;
 use lujie\scheduling\CronTask;
 use lujie\scheduling\Scheduler;
 use lujie\scheduling\tests\unit\mocks\TestOverlappingTask;
@@ -48,13 +49,13 @@ class SchedulerTest extends \Codeception\Test\Unit
                     'testTask1' => [
                         'expression' => '* * * * *',
                         'executable' => [
-                            'class' => TestTask::class,
+                            'class' => TestExecutable::class,
                         ],
                     ],
                     'testTask2' => [
                         'expression' => '*/2 * * * *',
                         'executable' => [
-                            'class' => TestTask::class,
+                            'class' => TestExecutable::class,
                             'yKey' => '222',
                             'yValue' => '222',
                         ]
@@ -77,14 +78,14 @@ class SchedulerTest extends \Codeception\Test\Unit
                 'id' => 'testTask1',
                 'expression' => '* * * * *',
                 'executable' => [
-                    'class' => TestTask::class
+                    'class' => TestExecutable::class
                 ],
             ]),
             'testTask2' => new CronTask([
                 'id' => 'testTask2',
                 'expression' => '*/2 * * * *',
                 'executable' => [
-                    'class' => TestTask::class,
+                    'class' => TestExecutable::class,
                     'yKey' => '222',
                     'yValue' => '222',
                 ],

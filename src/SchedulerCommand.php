@@ -78,7 +78,7 @@ class SchedulerCommand extends Controller
     public function actionHandle(string $taskCode): void
     {
         $task = $this->scheduler->getTask($taskCode);
-        $this->scheduler->handleTask($task);
+        $this->scheduler->handle($task);
     }
 
     /**
@@ -89,10 +89,11 @@ class SchedulerCommand extends Controller
     public function actionExecute(string $taskCode): void
     {
         $task = $this->scheduler->getTask($taskCode);
-        $this->scheduler->executeTask($task);
+        $this->scheduler->execute($task);
     }
 
     /**
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function actionTasks(): void

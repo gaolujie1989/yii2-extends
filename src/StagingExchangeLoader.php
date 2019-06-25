@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\center;
+namespace lujie\data\staging;
 
 
-use lujie\data\center\models\DataAccount;
-use lujie\data\center\models\DataSource;
-use lujie\data\center\models\DataSourceModelStorage;
-use lujie\data\center\pipelines\DataRecordPipeline;
-use lujie\data\center\transformers\RecordTransformer;
+use lujie\data\staging\models\DataAccount;
+use lujie\data\staging\models\DataSource;
+use lujie\data\staging\DataSourceModelStorage;
+use lujie\data\staging\pipelines\DataRecordPipeline;
+use lujie\data\staging\transformers\RecordTransformer;
 use lujie\data\exchange\DataExchange;
 use lujie\data\exchange\sources\ClientSource;
 use lujie\data\exchange\sources\IncrementSource;
@@ -24,7 +24,7 @@ use yii\httpclient\Client;
 
 /**
  * Class StagingExchangeLoader
- * @package lujie\data\center
+ * @package lujie\data\staging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StagingExchangeLoader extends BaseObject implements DataLoaderInterface

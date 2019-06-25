@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\center\transformers;
+namespace lujie\data\staging\transformers;
 
 use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\data\staging\compress\CompressorInterface;
@@ -17,7 +17,7 @@ use yii\queue\serializers\SerializerInterface;
 
 /**
  * Class RecordTransformer
- * @package lujie\data\center\transformers
+ * @package lujie\data\staging\transformers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class RecordTransformer extends BaseObject implements TransformerInterface

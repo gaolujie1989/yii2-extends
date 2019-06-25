@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\data\center\models;
+namespace lujie\data\staging\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 

@@ -3,18 +3,18 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\center\pipelines;
+namespace lujie\data\staging\pipelines;
 
 
-use lujie\data\center\models\DataRecord;
-use lujie\data\center\models\DataSource;
+use lujie\data\staging\models\DataRecord;
+use lujie\data\staging\models\DataSource;
 use lujie\data\exchange\pipelines\PipelineInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 
 /**
  * Class FileDataRecordPipeline
- * @package lujie\data\center\pipelines
+ * @package lujie\data\staging\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataRecordPipeline extends BaseObject implements PipelineInterface

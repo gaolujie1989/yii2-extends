@@ -1,7 +1,8 @@
 <?php
 
-namespace lujie\data\center\models;
+namespace lujie\data\staging;
 
+use lujie\data\staging\models\DataSource;
 use lujie\data\storage\ActiveRecordDataStorage;
 use yii\base\InvalidConfigException;
 
@@ -28,6 +29,19 @@ class DataSourceModelStorage extends ActiveRecordDataStorage
     public $conditionKey = 'incrementCondition';
 
     /**
+     * @param int|string $key
+     * @return array|\yii\db\BaseActiveRecord|null
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function get($key)
+    {
+        /** @var DataSource $model */
+        $model = $this->getModel($key);
+        return $model->additional_info[$this->conditionKey] ?? null;
+    }
+
+    /**
      * @param $key
      * @param $data
      * @return bool
@@ -38,7 +52,7 @@ class DataSourceModelStorage extends ActiveRecordDataStorage
     {
         /** @var DataSource $model */
         $model = $this->getModel($key);
-        $model->additional_info[$this->conditionKey] = $data;
+        $model->additional_info = array_merge($model->additional_info ?: [], [$this->conditionKey => $data]);
         return $model->save($this->runValidation, ['additional_info']);
     }
 
@@ -48,11 +62,8 @@ class DataSourceModelStorage extends ActiveRecordDataStorage
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function delete($key): bool
+    public function remove($key): bool
     {
-        /** @var DataSource $model */
-        $model = $this->getModel($key);
-        unset($model->additional_info[$this->conditionKey]);
-        return $model->save($this->runValidation, ['additional_info']);
+        return $this->set($key, null);
     }
 }

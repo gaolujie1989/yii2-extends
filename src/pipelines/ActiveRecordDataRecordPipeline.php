@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\center\pipelines;
+namespace lujie\data\staging\pipelines;
 
 
 use creocoder\flysystem\Filesystem;
-use lujie\data\center\models\DataRecord;
-use lujie\data\center\models\DataRecordData;
-use lujie\data\center\models\DataSource;
+use lujie\data\staging\models\DataRecord;
+use lujie\data\staging\models\DataRecordData;
+use lujie\data\staging\models\DataSource;
 use lujie\data\exchange\pipelines\PipelineInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
@@ -17,7 +17,7 @@ use yii\di\Instance;
 
 /**
  * Class FileDataRecordPipeline
- * @package lujie\data\center\pipelines
+ * @package lujie\data\staging\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ActiveRecordDataRecordPipeline extends DataRecordPipeline

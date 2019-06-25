@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\center;
+namespace lujie\data\staging;
 
 
 use lujie\data\exchange\DataExchange;
@@ -19,7 +19,7 @@ use yii\di\Instance;
 
 /**
  * Class DataStaging
- * @package lujie\data\center
+ * @package lujie\data\staging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StagingExchanger extends Exchanger

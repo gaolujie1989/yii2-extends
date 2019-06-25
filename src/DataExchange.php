@@ -8,6 +8,7 @@ namespace lujie\data\exchange;
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\pipelines\PipelineInterface;
+use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\executing\ExecutableInterface;
@@ -65,10 +66,11 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
      */
     public function execute(): bool
     {
-        if ($this->source === null) {
+        $source = $this->source;
+        if ($source === null) {
             return false;
         }
-        $data = $this->source->all();
+        $data = $source instanceof IncrementSource ? $source->each() : $source->all();
         if ($this->transformer) {
             $data = $this->transformer->transform($data);
         }

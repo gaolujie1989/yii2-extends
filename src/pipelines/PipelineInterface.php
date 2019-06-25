@@ -9,8 +9,8 @@ namespace lujie\data\exchange\pipelines;
 interface PipelineInterface
 {
     /**
-     * @param $data
-     * @return mixed
+     * @param array $data
+     * @return bool
      * @inheritdoc
      */
     public function process(array $data): bool;

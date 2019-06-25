@@ -34,6 +34,7 @@ class FileExport extends DataExchange
     /**
      * @param string $file
      * @return bool
+     * @throws InvalidConfigException
      * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */

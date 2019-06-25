@@ -8,6 +8,7 @@ namespace lujie\data\exchange;
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\pipelines\PipelineInterface;
+use lujie\data\exchange\sources\BatchSourceInterface;
 use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\exchange\transformers\TransformerInterface;
@@ -70,7 +71,26 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
         if ($source === null) {
             return false;
         }
-        $data = $source instanceof IncrementSource ? $source->each() : $source->all();
+        $batch = $source instanceof BatchSourceInterface ? $source->batch() : [$source->all()];
+        foreach ($batch as $data) {
+            if ($this->exchange($data)) {
+                if ($source instanceof IncrementSource) {
+                    $source->ackReceived();
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @inheritdoc
+     */
+    public function exchange(array $data): bool
+    {
         if ($this->transformer) {
             $data = $this->transformer->transform($data);
         }

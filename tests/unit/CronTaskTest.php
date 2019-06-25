@@ -6,6 +6,7 @@
 namespace lujie\scheduling\tests\unit;
 
 
+use lujie\executing\tests\unit\mocks\TestExecutable;
 use lujie\scheduling\CronTask;
 use lujie\scheduling\tests\unit\mocks\InvalidTestTask;
 use lujie\scheduling\tests\unit\mocks\TestTask;
@@ -32,46 +33,47 @@ class CronTaskTest extends \Codeception\Test\Unit
         Yii::$app->params['xxx'] = 'xxx';
     }
 
-    public function testMe()
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function testMe(): void
     {
         $data = [
-            'taskCode' => 'testCronTask1',
+            'id' => 'testCronTask1',
             'expression' => '* * * * *',
         ];
-        $cronTask = new CronTask(['data' => $data]);
+        $cronTask = new CronTask($data);
 
-        $this->assertEquals($data['taskCode'], $cronTask->getTaskCode());
-        $this->assertEquals($data['expression'], $cronTask->getExpression());
-        $this->assertEquals('', $cronTask->getTaskDescription());
+        $this->assertEquals($data['id'], $cronTask->getId());
+        $this->assertEquals($data['expression'], $cronTask->expression);
         $this->assertTrue($cronTask->isDue());
         $dateTime = \DateTime::createFromFormat('Y-m-d H:i', date('Y-m-d H:i', strtotime('+1 min')));
         $this->assertEquals($dateTime, $cronTask->getNextRunTime());
         $this->assertEquals(Yii::$app->timeZone, $cronTask->getTimezone());
-        $this->assertFalse($cronTask->isWithoutOverlapping());
+        $this->assertFalse($cronTask->shouldLocked());
         $this->assertNull($cronTask->getMutex());
-        $this->assertEquals(0, $cronTask->getExpiresAt());
+        $this->assertEquals(0, $cronTask->getTimeout());
         $this->assertFalse($cronTask->shouldQueued());
         $this->assertNull($cronTask->getQueue());
         $this->assertEquals(0, $cronTask->getTtr());
         $this->assertEquals(0, $cronTask->getAttempts());
 
         $data = [
-            'taskCode' => 'testCronTask2',
+            'id' => 'testCronTask2',
             'expression' => '*/2 * * * *',
-            'taskDescription' => 'taskDescription2',
             'timezone' => 'Asia/Tokyo',
-            'isWithoutOverlapping' => true,
+            'shouldLocked' => true,
             'mutex' => 'mutex',
-            'expiresAt' => 5,
+            'timeout' => 5,
             'shouldQueued' => true,
             'queue' => 'queue',
             'ttr' => 30,
             'attempts' => 3,
         ];
-        $cronTask = new CronTask(['data' => $data]);
-        $this->assertEquals($data['taskCode'], $cronTask->getTaskCode());
-        $this->assertEquals($data['expression'], $cronTask->getExpression());
-        $this->assertEquals($data['taskDescription'], $cronTask->getTaskDescription());
+        $cronTask = new CronTask($data);
+        $this->assertEquals($data['id'], $cronTask->getId());
+        $this->assertEquals($data['expression'], $cronTask->expression);
         $isDue = !(date('i') % 2);
         $this->assertEquals($isDue, $cronTask->isDue());
         $dateTime = \DateTime::createFromFormat(
@@ -81,9 +83,9 @@ class CronTaskTest extends \Codeception\Test\Unit
         $dateTime->setTimezone(new \DateTimeZone($data['timezone']));
         $this->assertEquals($dateTime, $cronTask->getNextRunTime());
         $this->assertEquals($data['timezone'], $cronTask->getTimezone());
-        $this->assertEquals($data['isWithoutOverlapping'], $cronTask->isWithoutOverlapping());
+        $this->assertEquals($data['shouldLocked'], $cronTask->shouldLocked());
         $this->assertEquals(Yii::$app->get($data['mutex']), $cronTask->getMutex());
-        $this->assertEquals($data['expiresAt'], $cronTask->getExpiresAt());
+        $this->assertEquals($data['timeout'], $cronTask->getTimeout());
         $this->assertEquals($data['shouldQueued'], $cronTask->shouldQueued());
         $this->assertEquals(Yii::$app->get($data['queue']), $cronTask->getQueue());
         $this->assertEquals($data['ttr'], $cronTask->getTtr());
@@ -91,47 +93,38 @@ class CronTaskTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
+     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
     public function testExecute(): void
     {
-        $cronTask = new CronTask(['data' => [
-            'taskCode' => 'testCronTask1',
+        $cronTask = new CronTask([
+            'id' => 'testCronTask1',
             'expression' => '* * * * *',
-        ]]);
+        ]);
 
         $this->assertFalse($cronTask->execute());
 
-        $cronTask->data['callback'] = 'abc';
+        $cronTask->executable = 'abc';
         $this->assertFalse($cronTask->execute());
 
-        $cronTask->data['callback'] = ['abc' => 'abc'];
+        $cronTask->executable = ['abc' => 'abc'];
         $this->assertFalse($cronTask->execute());
 
-        $cronTask->data['callback'] = [
-            'class' => InvalidTestTask::class,
-        ];
-        try {
-            $cronTask->execute();
-            $this->assertTrue(false, 'Should throw exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(InvalidConfigException::class, $e);
-        }
-
-        $cronTask->data['callback'] = [
-            'class' => TestTask::class,
+        $cronTask->executable = [
+            'class' => TestExecutable::class,
         ];
         Yii::$app->params['xxx'] = null;
         $cronTask->execute();
         $this->assertEquals('xxx', Yii::$app->params['xxx']);
 
-        $cronTask->data['callback'] = [$this, 'forTestTask'];
+        $cronTask->executable = [$this, 'forTestTask'];
         Yii::$app->params['xxx'] = null;
         $cronTask->execute();
         $this->assertEquals('xxx', Yii::$app->params['xxx']);
 
-        $cronTask->data['callback'] = static function () {
+        $cronTask->executable = static function () {
             Yii::$app->params['xxx'] = 'xxx';
         };
         Yii::$app->params['xxx'] = null;

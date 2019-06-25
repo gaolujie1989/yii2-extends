@@ -5,10 +5,10 @@
 
 namespace lujie\scheduling;
 
+use lujie\executing\Executor;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\data\loader\DataLoaderInterface;
 use Yii;
-use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -21,27 +21,12 @@ use yii\queue\Queue;
  * @package lujie\scheduling\components
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Scheduler extends Component
+class Scheduler extends Executor
 {
-    public const EVENT_BEFORE_EXEC = 'beforeExec';
-    public const EVENT_AFTER_EXEC = 'afterExec';
-    public const EVENT_AFTER_ERROR = 'afterError';
-    public const EVENT_AFTER_SKIP = 'afterSkip';
-
-    /**
-     * @var Queue
-     */
-    public $queue = 'queue';
-
-    /**
-     * @var Mutex
-     */
-    public $mutex = 'mutex';
-
     /**
      * @var string
      */
-    public $mutexPrefix = 'scheduler:';
+    public $mutexNamePrefix = 'scheduler:';
 
     /**
      * @var DataLoaderInterface
@@ -59,43 +44,47 @@ class Scheduler extends Component
     }
 
     /**
-     * @return array|TaskInterface[]
+     * @return array|ScheduleTaskInterface[]
      * @throws InvalidConfigException
      * @inheritdoc
      */
     public function getTasks(): array
     {
         $tasks = $this->taskLoader->all();
-        foreach ($tasks as $taskCode => $task) {
-            if (!($task instanceof TaskInterface)) {
-                $taskConfig = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
-                if (empty($taskConfig['class'])) {
-                    $taskConfig['class'] = CronTask::class;
+        foreach ($tasks as $taskId => $task) {
+            if (!($task instanceof ScheduleTaskInterface)) {
+                if (empty($task['id'])) {
+                    $task['id'] = $taskId;
                 }
-                $tasks[$taskCode] = Instance::ensure($taskConfig, TaskInterface::class);
+                if (empty($task['class'])) {
+                    $task['class'] = CronTask::class;
+                }
+                $tasks[$taskId] = Instance::ensure($task, ScheduleTaskInterface::class);
             }
         }
         return $tasks;
     }
 
     /**
-     * @param string $taskCode
-     * @return TaskInterface|QueuedTaskInterface
+     * @param $taskId
+     * @return ScheduleTaskInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getTask(string $taskCode) : TaskInterface
+    public function getTask($taskId): ScheduleTaskInterface
     {
-        $task = $this->taskLoader->get($taskCode);
+        $task = $this->taskLoader->get($taskId);
         if (empty($task)) {
-            throw new InvalidArgumentException("Task code {$taskCode} not found.");
+            throw new InvalidArgumentException("Task ID {$taskId} not found.");
         }
-        if (!($task instanceof TaskInterface)) {
-            $taskConfig = array_merge(ArrayHelper::toArray($task, [], false), ['taskCode' => $taskCode]);
-            if (empty($taskConfig['class'])) {
-                $taskConfig['class'] = CronTask::class;
+        if (!($task instanceof ScheduleTaskInterface)) {
+            if (empty($task['id'])) {
+                $task['id'] = $taskId;
             }
-            $task = Instance::ensure($taskConfig, TaskInterface::class);
+            if (empty($task['class'])) {
+                $task['class'] = CronTask::class;
+            }
+            $task = Instance::ensure($task, ScheduleTaskInterface::class);
         }
         return $task;
     }
@@ -124,100 +113,7 @@ class Scheduler extends Component
     {
         $dueTasks = $this->getDueTasks();
         foreach ($dueTasks as $task) {
-            $this->handleTask($task);
-        }
-    }
-
-    /**
-     * @param TaskInterface $task
-     * @return bool|string|null
-     * @throws InvalidConfigException
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    public function handleTask(TaskInterface $task)
-    {
-        if ($task instanceof QueuedTaskInterface && $task->shouldQueued()) {
-            return $this->handleQueuedTask($task);
-        }
-        return $this->executeTask($task);
-    }
-
-    /**
-     * @param QueuedTaskInterface $task
-     * @return string|null
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    private function handleQueuedTask(QueuedTaskInterface $task): ?string
-    {
-        /** @var Queue $queue */
-        $queue = Instance::ensure($task->getQueue() ?: $this->queue);
-        $job = new QueuedTaskJob([
-            'scheduler' => ComponentHelper::getName($this),
-            'taskCode' => $task->getTaskCode(),
-        ]);
-        if ($task->getTtr()) {
-            $job->ttr = $task->getTtr();
-        }
-        if ($task->getAttempts()) {
-            $job->attempts = $task->getAttempts();
-        }
-        $jobId = $queue->push($job);
-
-        $queueName = ComponentHelper::getName($queue);
-        Yii::info("Push task {$task->getTaskCode()} to {$queueName}", __METHOD__);
-        return $jobId;
-    }
-
-    /**
-     * @param TaskInterface $task
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    public function executeTask(TaskInterface $task): bool
-    {
-        $event = new TaskEvent(['task' => $task]);
-        $taskCode = $task->getTaskCode();
-        $mutexName = ($this->mutexPrefix ?: ComponentHelper::getName($this)) . $taskCode;
-
-        if ($task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping()) {
-            /** @var Mutex $mutex */
-            $mutex = Instance::ensure($task->getMutex() ?: $this->mutex, Mutex::class);
-            if (!$mutex->acquire($mutexName, $task->getExpiresAt())) {
-                Yii::info("Task {$taskCode} is running in another scheduler, skip.", __METHOD__);
-                $this->trigger(self::EVENT_AFTER_SKIP, $event);
-                return false;
-            }
-        }
-
-        try {
-            $this->trigger(self::EVENT_BEFORE_EXEC, $event);
-            if ($event->executed) {
-                Yii::info("Task {$taskCode} executed in events, skip.", __METHOD__);
-                $this->trigger(self::EVENT_AFTER_SKIP, $event);
-                return false;
-            }
-
-            $event->task->execute();
-            Yii::info("Task {$taskCode} executed success.", __METHOD__);
-
-            $this->trigger(self::EVENT_AFTER_EXEC, $event);
-            return true;
-        } catch (\Throwable $e) {
-            Yii::info("Task {$taskCode} executed failed.", __METHOD__);
-            Yii::error($e, __METHOD__);
-
-            $event->error = $e;
-            $this->trigger(self::EVENT_AFTER_ERROR, $event);
-
-            return false;
-        } finally {
-            if (isset($mutex) && $task instanceof WithoutOverlappingTaskInterface && $task->isWithoutOverlapping()) {
-                $mutex->release($mutexName);
-            }
+            $this->handle($task);
         }
     }
 }

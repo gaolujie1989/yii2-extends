@@ -26,9 +26,6 @@ class RecordTransformer extends BaseObject implements TransformerInterface
      * @var array
      */
     public $recordConfig = [
-        'data_key' => '',
-        'data_parent_id' => '',
-        'data_additional' => '',
     ];
 
     /**
@@ -38,6 +35,9 @@ class RecordTransformer extends BaseObject implements TransformerInterface
         'data_id' => 'id',
         'data_created_at' => 'createdAt',
         'data_updated_at' => 'updatedAt',
+        'data_key' => '',
+        'data_parent_id' => '',
+        'data_additional' => [],
     ];
 
     /**
@@ -71,8 +71,15 @@ class RecordTransformer extends BaseObject implements TransformerInterface
         $record = [];
         $config = array_merge($this->defaultConfig, $this->recordConfig);
         foreach ($config as $attribute => $item) {
-            if ($item && $value = ArrayHelper::getValue($data, $item)) {
+            if (empty($item)) {
+                continue;
+            }
+            if (is_string($item) && $value = ArrayHelper::getValue($data, $item)) {
                 $record[$attribute] = $value;
+            } else if (is_array($item)) {
+                foreach ($item as $k => $v) {
+                    $record[$attribute][$k] = ArrayHelper::getValue($data, $v);
+                }
             }
         }
 

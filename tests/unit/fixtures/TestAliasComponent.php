@@ -24,6 +24,8 @@ class TestAliasComponent extends Component
 
     public $length_m;
 
+    public $price_cent;
+
     public $lengthBaseUnit = 'm';
 
     public $lengthDisplayUnit = 'mm';

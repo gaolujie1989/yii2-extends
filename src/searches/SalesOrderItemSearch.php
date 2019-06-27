@@ -39,22 +39,22 @@ class SalesOrderItemSearch extends SalesOrderItem
     {
         $query = static::find()->alias('oi');
         $query->andFilterWhere([
-            'oi.item_id' => $this->item_id,
-            'oi.currency' => $this->currency,
+            'soi.item_id' => $this->item_id,
+            'soi.currency' => $this->currency,
         ]);
-        $query->andFilterWhere(['LIKE', 'oi.item_no', $this->item_no]);
-        $query->andFilterWhere(['LIKE', 'oi.external_item_no', $this->external_item_no]);
+        $query->andFilterWhere(['LIKE', 'soi.item_no', $this->item_no]);
+        $query->andFilterWhere(['LIKE', 'soi.external_item_no', $this->external_item_no]);
 
         $query->innerJoinWith('order o');
         $query->andFilterWhere([
-            'o.sales_account_id' => $this->salesAccountId,
-            'o.platform' => $this->platform,
-            'o.country' => $this->country,
+            'so.sales_account_id' => $this->salesAccountId,
+            'so.platform' => $this->platform,
+            'so.country' => $this->country,
         ]);
-        $query->andFilterWhere(['>', 'o.ordered_at', $this->orderedAtFrom]);
-        $query->andFilterWhere(['<', 'o.ordered_at', $this->orderedAtTo]);
-        $query->andFilterWhere(['>', 'o.paid_at', $this->paidAtFrom]);
-        $query->andFilterWhere(['<', 'o.paid_at', $this->paidAtTo]);
+        $query->andFilterWhere(['>', 'so.ordered_at', $this->orderedAtFrom]);
+        $query->andFilterWhere(['<', 'so.ordered_at', $this->orderedAtTo]);
+        $query->andFilterWhere(['>', 'so.paid_at', $this->paidAtFrom]);
+        $query->andFilterWhere(['<', 'so.paid_at', $this->paidAtTo]);
 
         return $query;
     }

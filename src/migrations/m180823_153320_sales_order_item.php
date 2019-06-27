@@ -19,6 +19,7 @@ class m180823_153320_sales_order_item extends Migration
 
             'item_id' => $this->bigInteger()->unsigned()->notNull(),
             'item_no' => $this->string(50)->notNull(),
+            'external_item_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'external_item_no' => $this->string(50)->notNull(),
 
             'order_item_name' => $this->string(500)->notNull()->defaultValue(''),

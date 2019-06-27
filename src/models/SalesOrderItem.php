@@ -16,6 +16,7 @@ use yii\db\ActiveQuery;
  * @property string $external_order_item_id
  * @property string $item_id
  * @property string $item_no
+ * @property string $external_item_id
  * @property string $external_item_no
  * @property string $order_item_name
  * @property int $price_cent
@@ -48,7 +49,7 @@ class SalesOrderItem extends \yii\db\ActiveRecord
     {
         return [
             [['sales_order_id', 'item_id', 'item_no', 'external_item_no', 'price_cent', 'currency', 'qty'], 'required'],
-            [['sales_order_id', 'external_order_item_id', 'item_id', 'price_cent', 'qty'], 'integer'],
+            [['sales_order_id', 'external_order_item_id', 'item_id', 'external_item_id', 'price_cent', 'qty'], 'integer'],
             [['discounts'], 'safe'],
             [['item_no', 'external_item_no'], 'string', 'max' => 50],
             [['order_item_name'], 'string', 'max' => 500],
@@ -87,6 +88,7 @@ class SalesOrderItem extends \yii\db\ActiveRecord
             'external_order_item_id' => Yii::t('sales/order', 'External Order Item ID'),
             'item_id' => Yii::t('sales/order', 'Item ID'),
             'item_no' => Yii::t('sales/order', 'Item No'),
+            'external_item_id' => Yii::t('sales/order', 'External Item ID'),
             'external_item_no' => Yii::t('sales/order', 'External Item No'),
             'order_item_name' => Yii::t('sales/order', 'Order Item Name'),
             'price_cent' => Yii::t('sales/order', 'Price Cent'),

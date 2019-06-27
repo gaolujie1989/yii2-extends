@@ -17,24 +17,27 @@ use yii\helpers\ArrayHelper;
 class ObjectHelper
 {
     /**
-     * @param string $class
      * @param $config
+     * @param string|null $class
      * @param null $data
      * @return object
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public static function create(string $class, $config, $data = null)
+    public static function create($config, ?string $class = null, $data = null)
     {
         if (is_string($config)) {
             $config = ['class' => $config];
         }
         if ($data !== null) {
             foreach ($config as $key => $path) {
+                if ($key === 'class') {
+                    continue;
+                }
                 $config[$key] = ArrayHelper::getValue($data, $path);
             }
         }
-        if (empty($config['class'])) {
+        if ($class && empty($config['class'])) {
             $config['class'] = $class;
         }
         return Yii::createObject($config);

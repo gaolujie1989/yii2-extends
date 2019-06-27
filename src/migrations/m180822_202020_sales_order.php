@@ -16,6 +16,9 @@ class m180822_202020_sales_order extends Migration
             'sales_order_id' => $this->bigPrimaryKey()->unsigned(),
             'sales_account_id' => $this->bigInteger()->unsigned()->notNull(),
             'sales_account_name' => $this->string(50)->notNull(),
+            'referrer' => $this->string(50)->notNull()->defaultValue(''),
+            'referrer_account_name' => $this->string(50)->notNull()->defaultValue(''),
+            'referrer_order_id' => $this->bigInteger(50)->unsigned()->notNull()->defaultValue(0),
 
             'customer_id' => $this->bigInteger()->unsigned()->notNull(),
             'customer_email' => $this->string(100)->notNull()->defaultValue(''),

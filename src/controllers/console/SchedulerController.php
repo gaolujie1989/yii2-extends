@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\scheduling;
+namespace lujie\scheduling\controllers\console;
 
-use function GuzzleHttp\Psr7\str;
+use lujie\scheduling\Scheduler;
 use Yii;
 use yii\console\Controller;
 use yii\di\Instance;
@@ -16,7 +16,7 @@ use yii\helpers\VarDumper;
  * @package lujie\scheduling
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class SchedulerCommand extends Controller
+class SchedulerController extends Controller
 {
     /**
      * @var Scheduler
@@ -44,7 +44,7 @@ class SchedulerCommand extends Controller
                 try {
                     $this->scheduler->run();
 
-                    $memoryUsage = memory_get_peak_usage(true) / 1024 / 1024; //MB
+                    $memoryUsage = round(memory_get_peak_usage(true) / 1024 / 1024, 2); //MB
                     $this->stdout("Memory usage {$memoryUsage} MB\n");
                     if ($memoryUsage > 100) {
                         break;
@@ -99,6 +99,6 @@ class SchedulerCommand extends Controller
     public function actionTasks(): void
     {
         $tasks = $this->scheduler->getTasks();
-        VarDumper::dump($tasks);
+        $this->stdout(VarDumper::dumpAsString($tasks));
     }
 }

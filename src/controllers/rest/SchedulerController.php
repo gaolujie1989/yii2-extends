@@ -17,7 +17,7 @@ use yii\rest\Controller;
  * @package lujie\scheduling\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ScheduleController extends Controller
+class SchedulerController extends Controller
 {
     /**
      * @var Scheduler

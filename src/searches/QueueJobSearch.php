@@ -22,7 +22,7 @@ class QueueJobSearch extends QueueJob
      * @return array
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['queue', 'job_id', 'last_exec_status'], 'safe'],
@@ -48,7 +48,7 @@ class QueueJobSearch extends QueueJob
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getJobInfo()
+    public function getJobInfo(): string
     {
         /** @var Queue $queue */
         $queue = Instance::ensure($this->queue);
@@ -60,7 +60,7 @@ class QueueJobSearch extends QueueJob
      * @return mixed
      * @inheritdoc
      */
-    public function fields()
+    public function fields(): array
     {
         $fields = parent::fields();
         unset($fields['job']);
@@ -71,7 +71,7 @@ class QueueJobSearch extends QueueJob
      * @return array|false
      * @inheritdoc
      */
-    public function extraFields()
+    public function extraFields(): array
     {
         return array_merge(parent::extraFields(), [
             'jobInfo' => 'jobInfo'

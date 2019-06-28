@@ -168,6 +168,10 @@ abstract class RestOAuth2Client extends OAuth2
             return $this->callApiMethod($name, $params[0] ?? []);
         }
 
+        if (strpos($name, 'batch') === 0) {
+            return $this->batch(substr($name, 4), $params[0] ?? []);
+        }
+
         if (strpos($name, 'each') === 0) {
             return $this->each(substr($name, 4), $params[0] ?? []);
         }
@@ -235,9 +239,11 @@ abstract class RestOAuth2Client extends OAuth2
                     if (empty($pathParams)) {
                         $apiMethods[] = " * @method array {$method}(\$data = [])";
                         $apiMethods[] = " * @method \Generator each{$resource}(\$batchSize, \$condition = [])";
+                        $apiMethods[] = " * @method \Generator batch{$resource}(\$batchSize, \$condition = [])";
                     } else {
                         $apiMethods[] = " * @method array {$method}(\$data)";
                         $apiMethods[] = " * @method \Generator each{$resource}(\$batchSize, \$condition = [])";
+                        $apiMethods[] = " * @method \Generator batch{$resource}(\$batchSize, \$condition = [])";
                     }
                 } else {
                     $apiMethods[] = " * @method array {$method}(\$data)";

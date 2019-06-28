@@ -17,7 +17,7 @@ use yii\rest\Controller;
  * @package lujie\scheduling\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class SchedulerController extends Controller
+class ScheduleTaskController extends Controller
 {
     /**
      * @var Scheduler
@@ -32,6 +32,16 @@ class SchedulerController extends Controller
     {
         parent::init();
         $this->scheduler = Instance::ensure($this->scheduler, Scheduler::class);
+    }
+
+    /**
+     * @return ArrayDataProvider
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionIndex(): ArrayDataProvider
+    {
+        return new ArrayDataProvider(['allModels' => ArrayHelper::toArray($this->scheduler->getTasks())]);
     }
 
     /**
@@ -54,15 +64,5 @@ class SchedulerController extends Controller
     {
         $task = $this->scheduler->getTask($taskCode);
         $this->scheduler->execute($task);
-    }
-
-    /**
-     * @return ArrayDataProvider
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionTasks(): ArrayDataProvider
-    {
-        return new ArrayDataProvider(['allModels' => ArrayHelper::toArray($this->scheduler->getTasks())]);
     }
 }

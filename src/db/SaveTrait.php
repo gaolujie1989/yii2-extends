@@ -5,10 +5,9 @@
 
 namespace lujie\extend\db;
 
-use Yii;
+use lujie\extend\helpers\ClassHelper;
 use yii\db\BaseActiveRecord;
 use yii\db\Exception;
-use yii\helpers\VarDumper;
 
 /**
  * Trait SaveTrait
@@ -17,64 +16,43 @@ use yii\helpers\VarDumper;
 trait SaveTrait
 {
     /**
+     * @param bool $runValidation
+     * @param null $attributeNames
+     * @return mixed
      * @inheritdoc
      */
     public function save($runValidation = true, $attributeNames = null)
     {
-        /** @var BaseActiveRecord $this */
+
         if ($attributeNames) {
-            if ($this->hasAttribute('updated_at')) {
-                $attributeNames[] = 'updated_at';
-            }
-            if ($this->hasAttribute('updated_by')) {
-                $attributeNames[] = 'updated_by';
-            }
-        }
-
-        $createOrUpdate = $this->getIsNewRecord() ? 'Create' : 'Update';
-        $result = parent::save($runValidation, $attributeNames);
-        $parts = explode('\\', static::class);
-        $className = end($parts);
-        $category = get_called_class() . '::save';
-
-        if ($result) {
-            $message = "{$createOrUpdate} {$className} {$this->getPrimaryKey()} Success";
-            Yii::debug([$message, $this->getAttributes()], $category);
-            Yii::info($message, $category);
-        } else {
-            if ($this->hasErrors()) {
-                $message = "{$createOrUpdate} {$className} Failed.";
-                Yii::warning([$message, $this->getAttributes(), $this->getErrors()], $category);
-            } else {
-                $message = "{$createOrUpdate} {$className} Failed With Unknown Error.";
-                Yii::error([$message, $this->getAttributes()], $category);
+            $traceableAttributes = ['updated_at', 'updated_by'];
+            foreach ($traceableAttributes as $attribute) {
+                /** @var BaseActiveRecord $this */
+                if ($this->hasAttribute($attribute)) {
+                    $attributeNames[] = $attribute;
+                }
             }
         }
-        return $result;
+        return parent::save($runValidation, $attributeNames);
     }
 
     /**
      * @param bool $runValidation
      * @param null $attributeNames
-     * @return bool
+     * @return mixed
      * @throws Exception
      * @inheritdoc
      */
-    public function saveWithException($runValidation = true, $attributeNames = null)
+    public function mustSave($runValidation = true, $attributeNames = null)
     {
-        $createOrUpdate = $this->getIsNewRecord() ? 'Create' : 'Update';
-        $parts = explode('\\', static::class);
-        $className = end($parts);
-
-        $result = $this->save($runValidation, $attributeNames);
-        if ($result) {
+        if ($result = $this->save($runValidation, $attributeNames)) {
             return $result;
-        } else if ($this->hasErrors()) {
-            $message = "{$createOrUpdate} {$className} Failed. Errors:" . VarDumper::dumpAsString($this->getErrors());
-            throw new Exception($message, $this->getErrors());
-        } else {
-            $message = "{$createOrUpdate} {$className} Failed With Unknown Error.";
-            throw new Exception($message);
         }
+        /** @var BaseActiveRecord $this */
+        $createOrUpdate = $this->getIsNewRecord() ? 'Create' : 'Update';
+        $className = ClassHelper::getClassShortName(static::class);
+        $message = "{$createOrUpdate} {$className} Failed.";
+        /** @var BaseActiveRecord $this */
+        throw new Exception($message, $this->getErrors());
     }
 }

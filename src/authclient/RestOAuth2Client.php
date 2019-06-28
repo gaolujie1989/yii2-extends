@@ -5,6 +5,8 @@
 
 namespace lujie\extend\authclient;
 
+use Iterator;
+use Throwable;
 use yii\authclient\OAuth2;
 use yii\helpers\Inflector;
 use yii\httpclient\Client;
@@ -157,7 +159,7 @@ abstract class RestOAuth2Client extends OAuth2
      * @param array $params
      * @return array|mixed
      * @throws NotFoundHttpException
-     * @throws \Throwable
+     * @throws Throwable
      * @inheritdoc
      */
     public function __call($name, $params)
@@ -196,19 +198,19 @@ abstract class RestOAuth2Client extends OAuth2
      * @param string $resource
      * @param array $condition
      * @param int $batchSize
-     * @return \Iterator
+     * @return Iterator
      * @inheritdoc
      */
-    abstract public function batch(string $resource, array $condition = [], int $batchSize = 100): \Iterator;
+    abstract public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator;
 
     /**
      * @param string $resource
      * @param array $condition
      * @param int $batchSize
-     * @return \Iterator
+     * @return Iterator
      * @inheritdoc
      */
-    public function each(string $resource, array $condition = [], int $batchSize = 100): \Iterator
+    public function each(string $resource, array $condition = [], int $batchSize = 100): Iterator
     {
         $iterator = $this->batch($resource, $condition, $batchSize);
         foreach ($iterator as $items) {

@@ -4,8 +4,8 @@
  */
 
 return [
-    'lujie/yii2-plentymarkets-rest-client' => [
-        'name' => 'lujie/yii2-plentymarkets-rest-client',
+    'lujie/yii2-plentymarkets-client' => [
+        'name' => 'lujie/yii2-plentymarkets-client',
         'version' => 'dev-master',
         'alias' => [
             '@lujie/plentyMarkets' => __DIR__ . '/src',

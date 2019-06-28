@@ -1,7 +1,7 @@
 {
   "name": "lujie/yii2-plentymarkets-rest-client",
-  "description": "Yii2 plentymarkets-rest-client",
-  "keywords": ["yii2", "plentymarkets-rest-client"],
+  "description": "Yii2 plentyMarkets rest client",
+  "keywords": ["yii2", "plentyMarkets rest client"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
@@ -16,8 +16,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "lujie\\plentymarkets\\": "src",
-      "lujie\\plentymarkets\\tests\\": "tests"
+      "lujie\\plentyMarkets\\": "src"
     }
   },
   "repositories": [

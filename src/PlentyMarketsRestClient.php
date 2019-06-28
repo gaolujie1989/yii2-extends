@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\plentymarkets;
+namespace lujie\plentyMarkets;
 
 use lujie\extend\authclient\RestOAuth2Client;
 use Yii;
@@ -15,7 +15,7 @@ use yii\helpers\Inflector;
  * @package lujie\plentymarkets
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PlentymarketsRestClient extends RestOAuth2Client
+class PlentyMarketsRestClient extends RestOAuth2Client
 {
     public $tokenUrl = 'login';
 

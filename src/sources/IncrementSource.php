@@ -10,6 +10,7 @@ use lujie\data\storage\DataStorageInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class IncrementSource
@@ -83,7 +84,8 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function batch($batchSize = 100): Iterator
     {
-        $this->source->setCondition($this->incrementCondition);
+        $condition = $this->source->getCondition();
+        $this->source->setCondition(ArrayHelper::merge($condition, $this->incrementCondition));
         $iterator = $this->source->batch($batchSize);
         foreach ($iterator as $items) {
             $this->lastRow = end($items);
@@ -98,7 +100,8 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function each($batchSize = 100): Iterator
     {
-        $this->source->setCondition($this->incrementCondition);
+        $condition = $this->source->getCondition();
+        $this->source->setCondition(ArrayHelper::merge($condition, $this->incrementCondition));
         $iterator = $this->source->each($batchSize);
         foreach ($iterator as $item) {
             $this->lastRow = $item;
@@ -112,10 +115,20 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function all(): array
     {
-        $this->source->setCondition($this->incrementCondition);
+        $condition = $this->source->getCondition();
+        $this->source->setCondition(ArrayHelper::merge($condition, $this->incrementCondition));
         $all = $this->source->all();
         $this->lastRow = end($all);
         return $all;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getCondition(): array
+    {
+        $this->source->getCondition();
     }
 
     /**

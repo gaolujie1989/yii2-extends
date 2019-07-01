@@ -48,36 +48,10 @@ class DataAccountForm extends DataAccount
     }
 
     /**
-     * @param bool $insert
-     * @param array $changedAttributes
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function afterSave($insert, $changedAttributes): void
-    {
-        parent::afterSave($insert, $changedAttributes);
-        $this->createDataSources();
-    }
-
-    /**
      * @inheritdoc
      */
     protected function generateName(): void
     {
         $this->name = $this->type . '_' . $this->username;
-    }
-
-    /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function createDataSources(): void
-    {
-        if (empty($this->dataSourceCreators[$this->type])) {
-            throw new InvalidConfigException('Source creator must be set');
-        }
-        /** @var DataSourceCreator $creator */
-        $creator = Instance::ensure($this->dataSourceCreators[$this->type], DataSourceCreator::class);
-        $creator->createSources($this);
     }
 }

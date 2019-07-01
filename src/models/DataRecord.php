@@ -82,15 +82,4 @@ class DataRecord extends \yii\db\ActiveRecord
     {
         return $this->hasOne(DataRecordData::class, ['data_record_id' => 'data_record_id']);
     }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function extraFields(): array
-    {
-        return array_merge(parent::extraFields(), [
-            'recordData'
-        ]);
-    }
 }

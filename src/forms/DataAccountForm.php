@@ -32,19 +32,19 @@ class DataAccountForm extends DataAccount
             [['options'], 'safe'],
             [['status'], 'integer'],
             [['type'], 'string', 'max' => 50],
+            [['name'], 'string', 'max' => 100],
             [['url', 'username', 'password'], 'string', 'max' => 255],
         ];
     }
 
     /**
-     * @param bool $insert
      * @return bool
      * @inheritdoc
      */
-    public function beforeSave($insert): bool
+    public function beforeValidate(): bool
     {
         $this->generateName();
-        return parent::beforeSave($insert);
+        return parent::beforeValidate();
     }
 
     /**

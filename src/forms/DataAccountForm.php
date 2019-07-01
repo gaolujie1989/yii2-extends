@@ -64,7 +64,7 @@ class DataAccountForm extends DataAccount
      */
     protected function generateName(): void
     {
-        $this->name = $this->type . $this->username;
+        $this->name = $this->type . '_' . $this->username;
     }
 
     /**

@@ -81,10 +81,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
      */
     protected function createPipeline(DataSource $dataSource): DataRecordPipeline
     {
-        if (empty($this->pipelines[$dataSource->type])) {
-            throw new InvalidConfigException('Pipeline not set');
-        }
-        $pipelineConfig = $this->pipelines[$dataSource->type];
+        $pipelineConfig = $this->pipelines[$dataSource->type] ?? [];
         $pipelineConfig['sourceId'] = $dataSource->data_source_id;
         return ObjectHelper::create($pipelineConfig, DataRecordPipeline::class);
     }
@@ -97,10 +94,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
      */
     protected function createTransformer(DataSource $dataSource): RecordTransformer
     {
-        if (empty($this->transformers[$dataSource->type])) {
-            throw new InvalidConfigException('Transformer not set');
-        }
-        $transformerConfig = $this->transformers[$dataSource->type];
+        $transformerConfig = $this->transformers[$dataSource->type] ?? [];
         return ObjectHelper::create($transformerConfig, RecordTransformer::class);
     }
 

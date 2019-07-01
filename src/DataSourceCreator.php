@@ -5,9 +5,14 @@
 
 namespace lujie\data\staging;
 
+use lujie\data\staging\forms\DataAccountForm;
 use lujie\data\staging\models\DataAccount;
 use lujie\data\staging\models\DataSource;
+use yii\base\Application;
 use yii\base\BaseObject;
+use yii\base\BootstrapInterface;
+use yii\base\Event;
+use yii\db\AfterSaveEvent;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -15,7 +20,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\staging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DataSourceCreator extends BaseObject
+class DataSourceCreator extends BaseObject implements BootstrapInterface
 {
     /**
      * @var string
@@ -31,6 +36,27 @@ class DataSourceCreator extends BaseObject
      * @var array
      */
     public $sourceConfig = [];
+
+    /**
+     * @param Application $app
+     * @inheritdoc
+     */
+    public function bootstrap($app): void
+    {
+        Event::on(DataAccountForm::class, DataAccountForm::EVENT_AFTER_INSERT, [$this, 'afterDataAccountCreated']);
+        Event::on(DataAccountForm::class, DataAccountForm::EVENT_AFTER_UPDATE, [$this, 'afterDataAccountCreated']);
+    }
+
+    /**
+     * @param AfterSaveEvent $event
+     * @inheritdoc
+     */
+    public function afterDataAccountSaved(AfterSaveEvent $event)
+    {
+        if ($event->sender instanceof DataAccount) {
+            $this->createSources($event->sender);
+        }
+    }
 
     /**
      * @param DataAccount $account

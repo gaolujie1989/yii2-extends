@@ -39,8 +39,8 @@ class PlentyMarketsClientTest extends \Codeception\Test\Unit
     {
         $pmClient = new PlentyMarketsRestClient();
         $pmClient->apiBaseUrl = 'https://www.cclife-technic.de/rest/';
-        $pmClient->username = 'lujie';
-        $pmClient->password = 'Gao@1989';
+        $pmClient->username = 'xxx';
+        $pmClient->password = 'xxx';
 //        file_put_contents('/tmp/xxx', $pmClient->generateMethodDoc());exit;
         $itemData = [
             'name' => 'TestAbc123',

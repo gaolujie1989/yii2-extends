@@ -8,6 +8,7 @@ namespace lujie\extend\authclient;
 use Iterator;
 use Throwable;
 use yii\authclient\OAuth2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\httpclient\Client;
 use yii\web\NotFoundHttpException;
@@ -147,7 +148,7 @@ abstract class RestOAuth2Client extends OAuth2
         if ($pathParams && $params) {
             $pathParamValues = [];
             foreach ($pathParams as $pathParam) {
-                $pathParamValues['{' . $pathParam . '}'] = $params[$pathParam];
+                $pathParamValues['{' . $pathParam . '}'] = ArrayHelper::getValue($params, $pathParam);
             }
             return strtr($path, $pathParamValues);
         }
@@ -188,14 +189,19 @@ abstract class RestOAuth2Client extends OAuth2
      */
     public function callApiMethod(string $name, array $data): array
     {
-        if (isset($this->apiMethods[$name])) {
-            [$method, $url] = $this->apiMethods[$name];
-            $method = strtoupper($method);
-            $url = $this->getRealPath($url, $data);
-
-            return $this->api($url, $method, $data);
+        if (empty($this->apiMethods[$name])) {
+            throw new NotFoundHttpException("API method {$name} not found.");
         }
-        throw new NotFoundHttpException("API method {$name} not found.");
+
+        [$method, $url] = $this->apiMethods[$name];
+        $method = strtoupper($method);
+        $url = $this->getRealPath($url, $data);
+
+        if ($method === 'GET' && $data) {
+            $url = array_merge([$url], $data);
+            $data = [];
+        }
+        return $this->api($url, $method, $data);
     }
 
     /**

@@ -78,6 +78,9 @@ class RecordTransformer extends BaseObject implements TransformerInterface
                 $record[$attribute] = $value;
             } else if (is_array($item)) {
                 foreach ($item as $k => $v) {
+                    if (is_int($k)) {
+                        $k = $v;
+                    }
                     $record[$attribute][$k] = ArrayHelper::getValue($data, $v);
                 }
             }

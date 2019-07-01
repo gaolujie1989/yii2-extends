@@ -22,7 +22,7 @@ class CombinedExchangeLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var array
      */
-    public $stagingExchangeLoaders = [];
+    public $exchangeLoaders = [];
 
     /**
      * @param int|string $key
@@ -37,7 +37,7 @@ class CombinedExchangeLoader extends BaseObject implements DataLoaderInterface
             return null;
         }
 
-        $exchangeLoader = $this->getStagingExchangeLoader($dataSource->dataAccount->type);
+        $exchangeLoader = $this->getExchangeLoader($dataSource->dataAccount->type);
         return $exchangeLoader->get($key);
     }
 
@@ -47,14 +47,14 @@ class CombinedExchangeLoader extends BaseObject implements DataLoaderInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getStagingExchangeLoader(string $accountType): DataLoaderInterface
+    protected function getExchangeLoader(string $accountType): DataLoaderInterface
     {
-        if (empty($this->stagingExchangeLoaders[$accountType])) {
+        if (empty($this->exchangeLoaders[$accountType])) {
             throw new InvalidConfigException('ExchangeLoader not config');
         }
 
-        $this->stagingExchangeLoaders[$accountType] = Instance::ensure($this->stagingExchangeLoaders[$accountType], DataLoaderInterface::class);
-        return $this->stagingExchangeLoaders[$accountType];
+        $this->exchangeLoaders[$accountType] = Instance::ensure($this->exchangeLoaders[$accountType], DataLoaderInterface::class);
+        return $this->exchangeLoaders[$accountType];
     }
 
     /**

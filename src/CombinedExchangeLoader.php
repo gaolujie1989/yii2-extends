@@ -19,6 +19,9 @@ use yii\di\Instance;
  */
 class CombinedExchangeLoader extends BaseObject implements DataLoaderInterface
 {
+    /**
+     * @var array
+     */
     public $stagingExchangeLoaders = [];
 
     /**

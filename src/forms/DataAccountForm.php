@@ -62,7 +62,7 @@ class DataAccountForm extends DataAccount
     /**
      * @inheritdoc
      */
-    public function generateName(): void
+    protected function generateName(): void
     {
         $this->name = $this->type . $this->username;
     }
@@ -71,7 +71,7 @@ class DataAccountForm extends DataAccount
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function createDataSources(): void
+    protected function createDataSources(): void
     {
         if (empty($this->dataSourceCreators[$this->type])) {
             throw new InvalidConfigException('Source creator must be set');

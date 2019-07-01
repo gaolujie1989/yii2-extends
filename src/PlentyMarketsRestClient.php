@@ -436,7 +436,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         'listTypeStocks' => ['GET', 'stockmanagement/stock/types/{type}'],
         'listWarehouseStocks' => ['GET', 'stockmanagement/warehouses/{warehouseId}/stock'],
         'listWarehouseLocationStocks' => ['GET', 'stockmanagement/warehouses/{warehouseId}/stock/storageLocations'],
-        'listStockMovements' => ['GET', 'stockmanagement/warehouses/{warehouseId}/stock/movements'],
+        'listWarehouseStockMovements' => ['GET', 'stockmanagement/warehouses/{warehouseId}/stock/movements'],
 
         'correctStock' => ['PUT', 'stockmanagement/warehouses/{warehouseId}/stock/correction'],
         'bookIncomingStock' => ['PUT', 'stockmanagement/warehouses/{warehouseId}/stock/bookIncomingItems'],

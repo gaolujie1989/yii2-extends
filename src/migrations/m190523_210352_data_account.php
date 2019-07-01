@@ -25,6 +25,7 @@ class m190523_210352_data_account extends Migration
             'username' => $this->string()->notNull()->defaultValue(''),
             'password' => $this->string()->notNull()->defaultValue(''),
             'options' => $this->json(),
+            'additional_info' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
         ]);
     }

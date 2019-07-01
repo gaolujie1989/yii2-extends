@@ -36,7 +36,7 @@ class DataSourceCreator extends BaseObject
      * @param DataAccount $account
      * @inheritdoc
      */
-    public function createSourceS(DataAccount $account): void
+    public function createSources(DataAccount $account): void
     {
         if ($account->type !== $this->accountType) {
             return;
@@ -50,7 +50,7 @@ class DataSourceCreator extends BaseObject
             $dataSource = new DataSource($this->sourceConfig);
             $dataSource->type = $sourceType;
             $dataSource->data_account_id = $account->data_account_id;
-            $dataSource->name = $sourceType . '_' . $account->name;
+            $dataSource->name = $account->name . '_' . $sourceType;
             $dataSource->save(false);
         }
     }

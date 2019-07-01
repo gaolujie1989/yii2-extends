@@ -86,7 +86,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
         }
         $pipelineConfig = $this->pipelines[$dataSource->type];
         $pipelineConfig['sourceId'] = $dataSource->data_source_id;
-        return ObjectHelper::create($pipelineConfig, ClientSource::class);
+        return ObjectHelper::create($pipelineConfig, DataRecordPipeline::class);
     }
 
     /**
@@ -101,7 +101,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
             throw new InvalidConfigException('Transformer not set');
         }
         $transformerConfig = $this->transformers[$dataSource->type];
-        return ObjectHelper::create($transformerConfig, ClientSource::class);
+        return ObjectHelper::create($transformerConfig, RecordTransformer::class);
     }
 
     /**
@@ -119,7 +119,10 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
         $clientSourceConfig['client'] = $this->createClient($dataSource->dataAccount);
         $clientSource = ObjectHelper::create($clientSourceConfig, ClientSource::class);
 
-        $incrementSourceConfig = array_merge($this->incrementSources[$dataSource->type] ?? [], [
+        if (empty($this->incrementSources[$dataSource->type])) {
+            return $clientSource;
+        }
+        $incrementSourceConfig = array_merge($this->incrementSources[$dataSource->type], [
             'source' => $clientSource,
             'sourceKey' => $dataSource->data_source_id,
             'dataStorage' => [

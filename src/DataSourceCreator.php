@@ -36,7 +36,7 @@ class DataSourceCreator extends BaseObject
      * @param DataAccount $account
      * @inheritdoc
      */
-    public function createSourceS(DataAccount $account): void
+    public function createSources(DataAccount $account): void
     {
         if ($account->type !== $this->accountType) {
             return;

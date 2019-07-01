@@ -119,17 +119,14 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
         $clientSourceConfig['client'] = $this->createClient($dataSource->dataAccount);
         $clientSource = ObjectHelper::create($clientSourceConfig, ClientSource::class);
 
-        if (empty($this->incrementSources[$dataSource->type])) {
-            return $clientSource;
-        }
-        $incrementSourceConfig = array_merge($this->incrementSources[$dataSource->type], [
+        $incrementSourceConfig = array_merge($this->incrementSources[$dataSource->type] ?? [], [
             'source' => $clientSource,
             'sourceKey' => $dataSource->data_source_id,
             'dataStorage' => [
                 'class' => DataSourceModelStorage::class
             ]
         ]);
-        return ObjectHelper::create($incrementSourceConfig);
+        return ObjectHelper::create($incrementSourceConfig, IncrementSource::class);
     }
 
     /**

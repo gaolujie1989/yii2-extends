@@ -43,8 +43,8 @@ class DataSourceCreator extends BaseObject implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        Event::on(DataAccountForm::class, DataAccountForm::EVENT_AFTER_INSERT, [$this, 'afterDataAccountCreated']);
-        Event::on(DataAccountForm::class, DataAccountForm::EVENT_AFTER_UPDATE, [$this, 'afterDataAccountCreated']);
+        Event::on(DataAccountForm::class, DataAccountForm::EVENT_AFTER_INSERT, [$this, 'afterDataAccountSaved']);
+        Event::on(DataAccountForm::class, DataAccountForm::EVENT_AFTER_UPDATE, [$this, 'afterDataAccountSaved']);
     }
 
     /**

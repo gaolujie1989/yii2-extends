@@ -57,7 +57,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
         if (empty($this->sourceKey)) {
             throw new InvalidConfigException('The "sourceKey" property must be set');
         }
-        $this->incrementCondition = $this->dataStorage->get($this->sourceKey);
+        $this->incrementCondition = $this->dataStorage->get($this->sourceKey) ?: [];
     }
 
     /**

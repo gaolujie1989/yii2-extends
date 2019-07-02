@@ -6,7 +6,7 @@
 namespace lujie\data\exchange\tests\unit;
 
 use lujie\data\exchange\DataExchange;
-use lujie\data\exchange\sources\ClientSource;
+use lujie\data\exchange\sources\RestClientSource;
 use lujie\data\staging\DataSourceModelStorage;
 use lujie\data\staging\models\DataAccount;
 use lujie\data\staging\models\DataSource;
@@ -63,7 +63,7 @@ class StagingExchangeLoaderTest extends \Codeception\Test\Unit
             ],
             'clientSources' => [
                 'testType' => [
-                    'method' => 'testMethod',
+                    'resource' => 'testResource',
                 ]
             ],
             'incrementSources' => [
@@ -86,11 +86,11 @@ class StagingExchangeLoaderTest extends \Codeception\Test\Unit
             'source' => new IncrementSourceMock([
                 'dataStorage' => DataSourceModelStorage::class,
                 'sourceKey' => $dataSourceId,
-                'source' => new ClientSource([
+                'source' => new RestClientSource([
                     'client' => new Client([
                         'requestConfig' => ['xxx' => 'xxx']
                     ]),
-                    'method' => 'testMethod',
+                    'resource' => 'testResource',
                 ])
             ]),
             'transformer' => new RecordTransformer(),

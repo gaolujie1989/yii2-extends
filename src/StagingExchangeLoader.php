@@ -7,7 +7,7 @@ namespace lujie\data\staging;
 
 
 use lujie\data\exchange\DataExchange;
-use lujie\data\exchange\sources\ClientSource;
+use lujie\data\exchange\sources\RestClientSource;
 use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\loader\DataLoaderInterface;
@@ -111,7 +111,7 @@ class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
         }
         $clientSourceConfig = $this->clientSources[$dataSource->type];
         $clientSourceConfig['client'] = $this->createClient($dataSource->dataAccount);
-        $clientSource = ObjectHelper::create($clientSourceConfig, ClientSource::class);
+        $clientSource = ObjectHelper::create($clientSourceConfig, RestClientSource::class);
 
         if (empty($this->incrementSources[$dataSource->type])) {
             return $clientSource;

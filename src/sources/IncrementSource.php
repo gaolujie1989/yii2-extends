@@ -10,7 +10,6 @@ use lujie\data\storage\DataStorageInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class IncrementSource

@@ -45,7 +45,7 @@ class DataAccountForm extends DataAccount
         return array_merge(parent::behaviors(), [
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,
-                'relations' => 'dataSources'
+                'relations' => ['dataSources']
             ]
         ]);
     }

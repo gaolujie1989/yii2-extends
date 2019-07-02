@@ -48,11 +48,12 @@ class DataSourceCreatorTest extends \Codeception\Test\Unit
             'status' => 0,
         ]);
         $this->assertTrue($dataAccount->save(false));
-        $count = DataSource::find()->andWhere(['data_account_id' => $dataAccount->data_account_id])->count();
-        $this->assertEquals(2, $count);
+        $query = DataSource::find()->andWhere(['data_account_id' => $dataAccount->data_account_id]);
+        $this->assertEquals(2, $query->count());
+        print_r($dataAccount);exit;
 
-        $this->assertTrue($dataAccount->delete());
-        $count = DataSource::find()->andWhere(['data_account_id' => $dataAccount->data_account_id])->count();
-        $this->assertEquals(0, $count);
+        $dataAccount->refresh();
+        $this->assertEquals(1, $dataAccount->delete());
+        $this->assertEquals(0, $query->count());
     }
 }

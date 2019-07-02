@@ -14,9 +14,10 @@ use lujie\scheduling\tests\unit\mocks\TestOverlappingTask;
 use lujie\scheduling\tests\unit\mocks\TestTask;
 use lujie\shopify\ShopifyRestClient;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
-class PlentyMarketsClientTest extends \Codeception\Test\Unit
+class PlentyMarketsRestClientTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -38,9 +39,9 @@ class PlentyMarketsClientTest extends \Codeception\Test\Unit
     public function testItemCurd(): void
     {
         $pmClient = new PlentyMarketsRestClient();
-        $pmClient->apiBaseUrl = 'https://www.cclife-technic.de/rest/';
-        $pmClient->username = 'xxx';
-        $pmClient->password = 'xxx';
+        $pmClient->apiBaseUrl = ArrayHelper::getValue(Yii::$app->params, 'test.plentyMarkets.url');
+        $pmClient->username = ArrayHelper::getValue(Yii::$app->params, 'test.plentyMarkets.username');
+        $pmClient->password = ArrayHelper::getValue(Yii::$app->params, 'test.plentyMarkets.password');
 //        file_put_contents('/tmp/xxx', $pmClient->generateMethodDoc());exit;
         $itemData = [
             'name' => 'TestAbc123',

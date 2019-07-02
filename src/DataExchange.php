@@ -81,6 +81,9 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
                 return false;
             }
         }
+        if ($source instanceof IncrementSource) {
+            $source->ackReceived();
+        }
         return true;
     }
 

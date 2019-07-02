@@ -46,6 +46,16 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     private $lastRow;
 
     /**
+     * @var bool
+     */
+    private $isFinished = false;
+
+    /**
+     * @var bool
+     */
+    public $ackReceivedOnlyFinished = false;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -61,13 +71,17 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     }
 
     /**
-     * @param array $row
+     * @return bool
      * @inheritdoc
      */
-    public function ackReceived()
+    public function ackReceived(): bool
     {
+        if ($this->ackReceivedOnlyFinished && !$this->isFinished) {
+            return false;
+        }
         $this->incrementCondition = $this->generateCondition($this->lastRow);
         $this->dataStorage->set($this->sourceKey, $this->incrementCondition);
+        return true;
     }
 
     /**
@@ -84,12 +98,15 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function batch($batchSize = 100): Iterator
     {
+        $this->isFinished = false;
+        $this->lastRow = null;
         $this->source->setCondition($this->incrementCondition);
         $iterator = $this->source->batch($batchSize);
         foreach ($iterator as $items) {
             $this->lastRow = end($items);
             yield $items;
         }
+        $this->isFinished = true;
     }
 
     /**
@@ -99,12 +116,15 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function each($batchSize = 100): Iterator
     {
+        $this->isFinished = false;
+        $this->lastRow = null;
         $this->source->setCondition($this->incrementCondition);
         $iterator = $this->source->each($batchSize);
         foreach ($iterator as $item) {
             $this->lastRow = $item;
             yield $item;
         }
+        $this->isFinished = true;
     }
 
     /**

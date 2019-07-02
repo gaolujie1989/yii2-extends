@@ -84,8 +84,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function batch($batchSize = 100): Iterator
     {
-        $condition = $this->source->getCondition();
-        $this->source->setCondition(ArrayHelper::merge($condition, $this->incrementCondition));
+        $this->source->setCondition($this->incrementCondition);
         $iterator = $this->source->batch($batchSize);
         foreach ($iterator as $items) {
             $this->lastRow = end($items);
@@ -100,8 +99,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function each($batchSize = 100): Iterator
     {
-        $condition = $this->source->getCondition();
-        $this->source->setCondition(ArrayHelper::merge($condition, $this->incrementCondition));
+        $this->source->setCondition($this->incrementCondition);
         $iterator = $this->source->each($batchSize);
         foreach ($iterator as $item) {
             $this->lastRow = $item;
@@ -115,8 +113,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function all(): array
     {
-        $condition = $this->source->getCondition();
-        $this->source->setCondition(ArrayHelper::merge($condition, $this->incrementCondition));
+        $this->source->setCondition($this->incrementCondition);
         $all = $this->source->all();
         $this->lastRow = end($all);
         return $all;

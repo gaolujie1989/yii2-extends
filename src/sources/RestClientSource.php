@@ -68,7 +68,9 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     public function each($batchSize = 100): Iterator
     {
         $iterator = $this->batch($batchSize);
-        yield from $iterator;
+        foreach ($iterator as $items) {
+            yield from $items;
+        }
     }
 
     /**

@@ -12,6 +12,7 @@ use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
+use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\helpers\ArrayHelper;
 
@@ -36,6 +37,21 @@ class DataSourceCreator extends BaseObject implements BootstrapInterface
      * @var array
      */
     public $sourceConfig = [];
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (empty($this->accountType)) {
+            throw new InvalidConfigException('The property `accountType` must be set');
+        }
+        if (empty($this->sourceTypes)) {
+            throw new InvalidConfigException('The property `sourceTypes` must be set');
+        }
+    }
 
     /**
      * @param Application $app

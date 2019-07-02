@@ -17,7 +17,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ClientSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
+class RestClientSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
      * @var RestOAuth2Client
@@ -27,7 +27,7 @@ class ClientSource extends BaseObject implements BatchSourceInterface, Condition
     /**
      * @var string
      */
-    public $method;
+    public $resource;
 
     /**
      * @var array
@@ -57,7 +57,7 @@ class ClientSource extends BaseObject implements BatchSourceInterface, Condition
     public function batch($batchSize = 100): Iterator
     {
         $condition = array_merge($this->defaultCondition, $this->condition);
-        return $this->client->each($this->method, $condition, $batchSize);
+        return $this->client->each($this->resource, $condition, $batchSize);
     }
 
     /**

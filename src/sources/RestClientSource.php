@@ -57,7 +57,7 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     public function batch($batchSize = 100): Iterator
     {
         $condition = array_merge($this->defaultCondition, $this->condition);
-        return $this->client->each($this->resource, $condition, $batchSize);
+        return $this->client->batch($this->resource, $condition, $batchSize);
     }
 
     /**
@@ -68,7 +68,9 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     public function each($batchSize = 100): Iterator
     {
         $iterator = $this->batch($batchSize);
-        yield from $iterator;
+        foreach ($iterator as $items) {
+            yield from $items;
+        }
     }
 
     /**

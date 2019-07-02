@@ -50,7 +50,6 @@ class DataSourceCreatorTest extends \Codeception\Test\Unit
         $this->assertTrue($dataAccount->save(false));
         $query = DataSource::find()->andWhere(['data_account_id' => $dataAccount->data_account_id]);
         $this->assertEquals(2, $query->count());
-        print_r($dataAccount);exit;
 
         $dataAccount->refresh();
         $this->assertEquals(1, $dataAccount->delete());

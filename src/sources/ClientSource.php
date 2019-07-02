@@ -32,6 +32,11 @@ class ClientSource extends BaseObject implements BatchSourceInterface, Condition
     /**
      * @var array
      */
+    public $defaultCondition = [];
+
+    /**
+     * @var array
+     */
     public $condition = [];
 
     /**
@@ -51,7 +56,8 @@ class ClientSource extends BaseObject implements BatchSourceInterface, Condition
      */
     public function batch($batchSize = 100): Iterator
     {
-        return $this->client->each($this->method, $this->condition, $batchSize);
+        $condition = array_merge($this->defaultCondition, $this->condition);
+        return $this->client->each($this->method, $condition, $batchSize);
     }
 
     /**

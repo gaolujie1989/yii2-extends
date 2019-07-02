@@ -123,15 +123,6 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     }
 
     /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getCondition(): array
-    {
-        $this->source->getCondition();
-    }
-
-    /**
      * @param $condition
      * @inheritdoc
      */

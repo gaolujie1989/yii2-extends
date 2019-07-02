@@ -5,6 +5,7 @@
 
 namespace lujie\data\staging\forms;
 
+use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\data\staging\DataSourceCreator;
 use lujie\data\staging\models\DataAccount;
 
@@ -33,6 +34,20 @@ class DataAccountForm extends DataAccount
             [['name'], 'string', 'max' => 100],
             [['url', 'username', 'password'], 'string', 'max' => 255],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'relationDelete' => [
+                'class' => RelationDeletableBehavior::class,
+                'relations' => ['dataSources']
+            ]
+        ]);
     }
 
     /**

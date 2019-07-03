@@ -585,7 +585,8 @@ class PlentyMarketsRestClient extends RestOAuth2Client
                 yield $items;
 
                 $pageCount = $responseData['lastPageNumber'] ?? 1;
-                $condition['page'] = ($condition['page'] ?? 1) + ($condition['pageStep'] ?? 1);
+                $condition['page'] = $condition['page'] ?? 1;
+                $condition['page']++;
             } while ($condition['page'] <= $pageCount);
         }
     }

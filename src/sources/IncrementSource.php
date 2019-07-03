@@ -8,6 +8,7 @@ namespace lujie\data\exchange\sources;
 use Iterator;
 use lujie\data\storage\DataStorageInterface;
 use yii\base\BaseObject;
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -45,6 +46,16 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     protected $lastRow;
 
     /**
+     * @var array
+     */
+    protected $lastCondition;
+
+    /**
+     * @var bool
+     */
+    protected $sortable = false;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -77,17 +88,42 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     abstract protected function generateIncrementCondition(): array;
 
     /**
+     * @param $condition
+     * @return array
+     * @inheritdoc
+     */
+    protected function generateBatchConditions($condition): array
+    {
+        if ($this->sortable) {
+            return [$condition];
+        }
+        throw new InvalidCallException('Generate batch condition must be rewrite for unSortable source');
+    }
+
+    /**
      * @param int $batchSize
      * @return Iterator
      * @inheritdoc
      */
     public function batch($batchSize = 100): Iterator
     {
-        $this->source->setCondition($this->incrementCondition);
-        $iterator = $this->source->batch($batchSize);
-        foreach ($iterator as $items) {
-            $this->lastRow = end($items);
-            yield $items;
+        $batchIncrementConditions = $this->generateBatchConditions($this->incrementCondition);
+        foreach ($batchIncrementConditions as $condition) {
+            $this->source->setCondition($condition);
+            $iterator = $this->source->batch($batchSize);
+
+            if ($this->sortable) {
+                $this->lastCondition = $condition;
+                foreach ($iterator as $items) {
+                    $this->lastRow = end($items);
+                    yield $items;
+                }
+            } else {
+                $items = iterator_to_array($this->source->each($batchSize));
+                $this->lastRow = end($items);
+                $this->lastCondition = $condition;
+                yield $items;
+            }
         }
     }
 
@@ -98,11 +134,25 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function each($batchSize = 100): Iterator
     {
-        $this->source->setCondition($this->incrementCondition);
-        $iterator = $this->source->each($batchSize);
-        foreach ($iterator as $item) {
-            $this->lastRow = $item;
-            yield $item;
+        $batchIncrementConditions = $this->generateBatchConditions($this->incrementCondition);
+        foreach ($batchIncrementConditions as $condition) {
+            $this->source->setCondition($condition);
+            $iterator = $this->source->each($batchSize);
+
+            if ($this->sortable) {
+                $this->lastCondition = $condition;
+                foreach ($iterator as $item) {
+                    $this->lastRow = $item;
+                    yield $item;
+                }
+            } else {
+                $items = iterator_to_array($this->source->each($batchSize));
+                $this->lastRow = end($items);
+                if (count($items) === 0) {
+                    $this->lastCondition = $condition;
+                }
+                yield from $items;
+            }
         }
     }
 

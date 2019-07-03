@@ -53,13 +53,7 @@ class DbPipeline extends BaseDbPipeline
 
         if ($this->indexKeys) {
             foreach ($data as $key => $values) {
-                $condition = array_intersect_key($values, array_flip($this->indexKeys));
-                $exists = (new Query())->from($this->table)->andWhere($condition)->exists($this->db);
-                if ($exists) {
-                    $updateRows[] = [$values, $condition];
-                } else {
-                    $insertRows[] = $values;
-                }
+                $this->createRow($values, $updateRows, $insertRows);
             }
         } else {
             $insertRows = array_values($data);
@@ -85,5 +79,22 @@ class DbPipeline extends BaseDbPipeline
             return true;
         };
         return $this->db->transaction($callable);
+    }
+
+    /**
+     * @param $values
+     * @param array $updateRows
+     * @param array $insertRows
+     * @inheritdoc
+     */
+    protected function createRow(array $values, array &$updateRows, array &$insertRows): void
+    {
+        $condition = array_intersect_key($values, array_flip($this->indexKeys));
+        $exists = (new Query())->from($this->table)->andWhere($condition)->exists($this->db);
+        if ($exists) {
+            $updateRows[] = [$values, $condition];
+        } else {
+            $insertRows[] = $values;
+        }
     }
 }

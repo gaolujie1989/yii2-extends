@@ -73,6 +73,9 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
         }
         $batch = $source instanceof BatchSourceInterface ? $source->batch() : [$source->all()];
         foreach ($batch as $data) {
+            if (empty($data)) {
+                continue;
+            }
             if ($this->exchange($data)) {
                 if ($source instanceof IncrementSource) {
                     $source->ackReceived();
@@ -80,9 +83,6 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
             } else {
                 return false;
             }
-        }
-        if ($source instanceof IncrementSource) {
-            $source->ackReceived();
         }
         return true;
     }
@@ -94,6 +94,9 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
      */
     public function exchange(array $data): bool
     {
+        if (empty($data)) {
+            return false;
+        }
         if ($this->transformer) {
             $data = $this->transformer->transform($data);
         }

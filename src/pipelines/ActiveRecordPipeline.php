@@ -62,17 +62,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
         $models = [];
         $modelClass = $this->modelClass;
         foreach ($data as $key => $values) {
-            /** @var BaseActiveRecord $model */
-            if ($this->indexKeys) {
-                $condition = array_intersect_key($values, array_flip($this->indexKeys));
-                $model = $modelClass::findOne($condition) ?: new $modelClass($condition);
-            } else {
-                $model = new $modelClass();
-            }
-            if ($this->modelScenario) {
-                $model->setScenario($this->modelScenario);
-            }
-            $model->setAttributes($values);
+            $model = $this->createModel($values);
             $models[$key] = $model;
         }
 
@@ -106,5 +96,27 @@ class ActiveRecordPipeline extends BaseDbPipeline
             return $db->transaction($callable);
         }
         return $callable();
+    }
+
+    /**
+     * @param $values
+     * @return BaseActiveRecord
+     * @inheritdoc
+     */
+    protected function createModel(array $values): BaseActiveRecord
+    {
+        $modelClass = $this->modelClass;
+        /** @var BaseActiveRecord $model */
+        if ($this->indexKeys) {
+            $condition = array_intersect_key($values, array_flip($this->indexKeys));
+            $model = $modelClass::findOne($condition) ?: new $modelClass($condition);
+        } else {
+            $model = new $modelClass();
+        }
+        if ($this->modelScenario) {
+            $model->setScenario($this->modelScenario);
+        }
+        $model->setAttributes($values);
+        return $model;
     }
 }

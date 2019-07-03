@@ -563,17 +563,17 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         if ($this->reverse) {
             $responseData = $this->callApiMethod($listMethod, $condition);
             $firstPageItems = $responseData['entries'] ?? $responseData;
-            $firstPage = $data['page'] ?? 1;
-            $data['page'] = $responseData['lastPageNumber'] ?? 1;
+            $firstPage = $condition['page'] ?? 1;
+            $condition['page'] = $responseData['lastPageNumber'] ?? 1;
 
-            while ($data['page'] > $firstPage) {
-                $responseData = $this->callApiMethod($listMethod, $data);
+            while ($condition['page'] > $firstPage) {
+                $responseData = $this->callApiMethod($listMethod, $condition);
                 $items = $responseData['entries'] ?? $responseData;
 
                 $items = array_reverse($items);
                 yield $items;
 
-                $data['page']--;
+                $condition['page']--;
             }
 
             $firstPageItems = array_reverse($firstPageItems);
@@ -585,8 +585,8 @@ class PlentyMarketsRestClient extends RestOAuth2Client
                 yield $items;
 
                 $pageCount = $responseData['lastPageNumber'] ?? 1;
-                $data['page'] = ($data['page'] ?? 1) + ($data['pageStep'] ?? 1);
-            } while ($data['page'] <= $pageCount);
+                $condition['page'] = ($condition['page'] ?? 1) + ($condition['pageStep'] ?? 1);
+            } while ($condition['page'] <= $pageCount);
         }
     }
 

@@ -65,7 +65,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      */
     public function ackReceived(): void
     {
-        $this->incrementCondition = $this->generateCondition($this->lastRow);
+        $this->incrementCondition = $this->generateIncrementCondition();
         $this->dataStorage->set($this->sourceKey, $this->incrementCondition);
     }
 
@@ -74,7 +74,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      * @return array
      * @inheritdoc
      */
-    abstract protected function generateCondition($data): array;
+    abstract protected function generateIncrementCondition(): array;
 
     /**
      * @param int $batchSize

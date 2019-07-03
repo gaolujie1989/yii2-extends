@@ -12,19 +12,45 @@ use Iterator;
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class InBatchIncrementSource extends IncrementSource
+abstract class MultiIncrementSource extends IncrementSource
 {
+    /**
+     * @var array
+     */
+    protected $multiIncrementCondition = [];
+
     /**
      * @var array
      */
     protected $lastCondition = [];
 
     /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->multiIncrementCondition = $this->incrementCondition;
+        $this->incrementCondition = [];
+    }
+
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function ackReceived(): void
+    {
+        $this->multiIncrementCondition = $this->generateIncrementCondition();
+        $this->dataStorage->set($this->sourceKey, $this->multiIncrementCondition);
+    }
+
+    /**
      * @param $condition
      * @return array
      * @inheritdoc
      */
-    abstract protected function generateBatchConditions($condition): array;
+    abstract protected function generateMultiConditions($condition): array;
 
     /**
      * @param int $batchSize
@@ -33,8 +59,8 @@ abstract class InBatchIncrementSource extends IncrementSource
      */
     public function batch($batchSize = 100): Iterator
     {
-        $batchIncrementConditions = $this->generateBatchConditions($this->incrementCondition);
-        foreach ($batchIncrementConditions as $condition) {
+        $multiIncrementConditions = $this->generateMultiConditions($this->incrementCondition);
+        foreach ($multiIncrementConditions as $condition) {
             $this->source->setCondition($condition);
             $items = iterator_to_array($this->source->each($batchSize));
             $this->lastRow = end($items);
@@ -50,8 +76,8 @@ abstract class InBatchIncrementSource extends IncrementSource
      */
     public function each($batchSize = 100): Iterator
     {
-        $batchIncrementConditions = $this->generateBatchConditions($this->incrementCondition);
-        foreach ($batchIncrementConditions as $condition) {
+        $multiIncrementConditions = $this->generateMultiConditions($this->incrementCondition);
+        foreach ($multiIncrementConditions as $condition) {
             $this->source->setCondition($condition);
             $items = iterator_to_array($this->source->each($batchSize));
             while ($items) {

@@ -558,7 +558,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
      */
     public function batch(string $resource, array $condition = [],  int $batchSize = 100): \Iterator
     {
-        $condition['pageSize'] = $batchSize;
+        $condition['itemsPerPage'] = $batchSize;
         $listMethod = 'list' . Inflector::pluralize($resource);
         if ($this->reverse) {
             $responseData = $this->callApiMethod($listMethod, $condition);

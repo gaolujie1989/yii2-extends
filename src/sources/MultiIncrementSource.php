@@ -79,7 +79,13 @@ abstract class MultiIncrementSource extends IncrementSource
         foreach ($multiIncrementConditions as $condition) {
             $this->incrementCondition = $condition;
             $iterator = parent::each($batchSize);
-            yield from $iterator;
+            //@TODO
+            //yield from another yield from will cause problems. unknown reason
+            //so change it to foreach
+            foreach ($iterator as $item) {
+                yield $item;
+            }
+//            yield from $iterator;
         }
     }
 }

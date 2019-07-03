@@ -15,7 +15,7 @@ class IncrementSourceMock extends IncrementSource
      * @return array
      * @inheritdoc
      */
-    protected function generateCondition($data): array
+    protected function generateIncrementCondition(): array
     {
         return ['xxx' => 'xxx'];
     }

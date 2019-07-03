@@ -119,7 +119,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
                     yield $items;
                 }
             } else {
-                $items = iterator_to_array($this->source->each($batchSize));
+                $items = iterator_to_array($this->source->each($batchSize), false);
                 $this->lastRow = end($items);
                 $this->lastCondition = $condition;
                 yield $items;
@@ -146,7 +146,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
                     yield $item;
                 }
             } else {
-                $items = iterator_to_array($this->source->each($batchSize));
+                $items = iterator_to_array($this->source->each($batchSize), false);
                 $this->lastRow = end($items);
                 if (count($items) === 0) {
                     $this->lastCondition = $condition;

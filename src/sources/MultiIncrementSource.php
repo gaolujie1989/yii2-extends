@@ -31,7 +31,7 @@ abstract class MultiIncrementSource extends IncrementSource
     public function init(): void
     {
         parent::init();
-        $this->multiIncrementCondition = $this->incrementCondition ?: $this->multiIncrementCondition;
+        $this->multiIncrementCondition = $this->incrementCondition;
         $this->incrementCondition = [];
     }
 

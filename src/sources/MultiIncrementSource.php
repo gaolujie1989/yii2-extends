@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\sources;
 
 use Iterator;
+use yii\base\InvalidConfigException;
 
 /**
  * Class InBatchIncrementSource
@@ -33,6 +34,9 @@ abstract class MultiIncrementSource extends IncrementSource
         parent::init();
         $this->multiIncrementCondition = $this->incrementCondition;
         $this->incrementCondition = [];
+        if (empty($this->multiKey)) {
+            throw new InvalidConfigException('The property `multiKey` must be set');
+        }
     }
 
     /**

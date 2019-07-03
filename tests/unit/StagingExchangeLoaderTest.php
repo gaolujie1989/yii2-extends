@@ -10,7 +10,7 @@ use lujie\data\exchange\sources\RestClientSource;
 use lujie\data\staging\DataSourceModelStorage;
 use lujie\data\staging\models\DataAccount;
 use lujie\data\staging\models\DataSource;
-use lujie\data\staging\pipelines\ActiveRecordDataRecordPipeline;
+use lujie\data\staging\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\staging\StagingExchangeLoader;
 use lujie\data\staging\tests\unit\mocks\IncrementSourceMock;
 use lujie\data\staging\transformers\RecordTransformer;
@@ -78,7 +78,7 @@ class StagingExchangeLoaderTest extends \Codeception\Test\Unit
             ],
             'pipelines' => [
                 'testType' => [
-                    'class' => ActiveRecordDataRecordPipeline::class
+                    'class' => ActiveRecordRecordDataPipeline::class
                 ]
             ],
         ]);
@@ -94,7 +94,7 @@ class StagingExchangeLoaderTest extends \Codeception\Test\Unit
                 ])
             ]),
             'transformer' => new RecordTransformer(),
-            'pipeline' => new ActiveRecordDataRecordPipeline([
+            'pipeline' => new ActiveRecordRecordDataPipeline([
                 'sourceId' => $dataSourceId
             ]),
         ]);

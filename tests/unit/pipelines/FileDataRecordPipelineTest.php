@@ -11,9 +11,9 @@ use lujie\data\staging\models\DataAccount;
 use lujie\data\staging\models\DataRecord;
 use lujie\data\staging\models\DataRecordData;
 use lujie\data\staging\models\DataSource;
-use lujie\data\staging\pipelines\ActiveRecordDataRecordPipeline;
+use lujie\data\staging\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\staging\pipelines\DataRecordPipeline;
-use lujie\data\staging\pipelines\FileDataRecordPipeline;
+use lujie\data\staging\pipelines\FileRecordDataPipeline;
 use lujie\data\staging\transformers\RecordTransformer;
 use yii\queue\serializers\JsonSerializer;
 
@@ -77,7 +77,7 @@ class FileDataRecordPipelineTest extends \Codeception\Test\Unit
         ];
         $data['text'] = (new GzDeflateCompressor())->compress((new JsonSerializer())->serialize($data['record']));
 
-        $pipeline = new FileDataRecordPipeline([
+        $pipeline = new FileRecordDataPipeline([
             'sourceId' => $source->data_source_id
         ]);
         $pipeline->process($data);

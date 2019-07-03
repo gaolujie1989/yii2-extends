@@ -6,18 +6,18 @@
 namespace lujie\data\staging\pipelines;
 
 
+use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\staging\models\DataRecord;
 use lujie\data\staging\models\DataSource;
-use lujie\data\exchange\pipelines\PipelineInterface;
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\db\BaseActiveRecord;
 
 /**
  * Class FileDataRecordPipeline
  * @package lujie\data\staging\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DataRecordPipeline extends BaseObject implements PipelineInterface
+class DataRecordPipeline extends ActiveRecordPipeline
 {
     public $sourceId;
 
@@ -29,7 +29,7 @@ class DataRecordPipeline extends BaseObject implements PipelineInterface
     /**
      * @var DataRecord
      */
-    public $recordClass = DataRecord::class;
+    public $modelClass = DataRecord::class;
 
     /**
      * @throws InvalidConfigException
@@ -48,44 +48,36 @@ class DataRecordPipeline extends BaseObject implements PipelineInterface
     }
 
     /**
-     * @param array $data
-     * @return bool
+     * @param array $values
+     * @return BaseActiveRecord|DataRecord
      * @inheritdoc
      */
-    public function process(array $data): bool
+    protected function createModel(array $values): BaseActiveRecord
     {
-        $record = $this->createRecord($data);
-        $record->setAttributes($data['record']);
-        return $record->save(false);
-    }
-
-    /**
-     * @param array $data
-     * @return DataRecord
-     * @inheritdoc
-     */
-    protected function createRecord(array $data): DataRecord
-    {
-        $query = $this->recordClass::find()
+        $query = $this->modelClass::find()
             ->dataAccountId($this->source->data_account_id)
             ->dataType($this->source->type);
 
-        $record = null;
-        if (isset($data['data_id'])) {
-            $record = $query->dataId($data['data_id'])
+        $model = null;
+        $record = $values['record'];
+        if (isset($record['data_id'])) {
+            $model = $query->dataId($record['data_id'])
                 ->one();
-        } elseif (isset($data['data_parent_id']) && $data['data_key']) {
-            $record = $query->dataParentId($data['data_parent_id'])
-                ->dataKey($data['data_key'])
+        } elseif (isset($record['data_parent_id']) && $record['data_key']) {
+            $model = $query->dataParentId($record['data_parent_id'])
+                ->dataKey($record['data_key'])
                 ->one();
         }
-        if (empty($record)) {
-            /** @var DataRecord $record */
-            $record = new $this->recordClass([
+        if (empty($model)) {
+            /** @var DataRecord $model */
+            $model = new $this->modelClass();
+            $model->setAttributes([
                 'data_account_id' => $this->source->data_account_id,
+                'data_source_id' => $this->source->data_source_id,
                 'data_type' => $this->source->type,
             ]);
+            $model->setAttributes($record);
         }
-        return $record;
+        return $model;
     }
 }

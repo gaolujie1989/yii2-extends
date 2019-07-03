@@ -68,29 +68,31 @@ class RecordTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        $record = [];
-        $config = array_merge($this->defaultConfig, $this->recordConfig);
-        foreach ($config as $attribute => $item) {
-            if (empty($item)) {
-                continue;
-            }
-            if (is_string($item) && $value = ArrayHelper::getValue($data, $item)) {
-                $record[$attribute] = $value;
-            } else if (is_array($item)) {
-                foreach ($item as $k => $v) {
-                    if (is_int($k)) {
-                        $k = $v;
+        return array_map(function($values) {
+            $record = [];
+            $config = array_merge($this->defaultConfig, $this->recordConfig);
+            foreach ($config as $attribute => $item) {
+                if (empty($item)) {
+                    continue;
+                }
+                if (is_string($item) && $value = ArrayHelper::getValue($values, $item)) {
+                    $record[$attribute] = $value;
+                } else if (is_array($item)) {
+                    foreach ($item as $k => $v) {
+                        if (is_int($k)) {
+                            $k = $v;
+                        }
+                        $record[$attribute][$k] = ArrayHelper::getValue($values, $v);
                     }
-                    $record[$attribute][$k] = ArrayHelper::getValue($data, $v);
                 }
             }
-        }
 
-        $text = $this->serializer->serialize($data);
-        $text = $this->compressor->compress($text);
-        return [
-            'text' => $text,
-            'record' => $record,
-        ];
+            $text = $this->serializer->serialize($values);
+            $text = $this->compressor->compress($text);
+            return [
+                'text' => $text,
+                'record' => $record,
+            ];
+        }, $data);
     }
 }

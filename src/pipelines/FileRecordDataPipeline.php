@@ -12,6 +12,7 @@ use lujie\data\staging\models\DataSource;
 use lujie\data\exchange\pipelines\PipelineInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 
 /**
@@ -19,7 +20,7 @@ use yii\di\Instance;
  * @package lujie\data\staging\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileDataRecordPipeline extends DataRecordPipeline
+class FileRecordDataPipeline extends DataRecordPipeline
 {
     /**
      * @var Filesystem
@@ -48,22 +49,23 @@ class FileDataRecordPipeline extends DataRecordPipeline
     }
 
     /**
-     * @param array $data
-     * @return bool
-     * @throws \Throwable
+     * @param array $values
+     * @return BaseActiveRecord
      * @inheritdoc
      */
-    public function process(array $data): bool
+    public function createModel(array $values): BaseActiveRecord
     {
-        $record = $this->createRecord($data);
-        $record->setAttributes($data['record']);
-        return $this->recordClass::getDb()->transaction(function() use ($record, $data) {
-            if ($record->save(false)) {
-                $this->fs->write($this->getFilePath($record), $data['text']);
-                return true;
-            }
-            return false;
-        });
+        $dataRecord = parent::createModel($values);
+        if ($dataRecord->getIsNewRecord()) {
+            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_INSERT, static function() use ($dataRecord, $values) {
+                $this->fs->write($this->getFilePath($dataRecord), $values['text']);
+            });
+        } else {
+            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_UPDATE, static function() use ($dataRecord, $values) {
+                $this->fs->write($this->getFilePath($dataRecord), $values['text']);
+            });
+        }
+        return $dataRecord;
     }
 
     /**

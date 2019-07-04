@@ -36,7 +36,7 @@ class DataSourceCreator extends BaseObject implements BootstrapInterface
     /**
      * @var array
      */
-    public $sourceConfig = [];
+    public $sourceTypeConfigs = [];
 
     /**
      * @throws InvalidConfigException
@@ -89,7 +89,8 @@ class DataSourceCreator extends BaseObject implements BootstrapInterface
             if (isset($dataSources[$sourceType])) {
                 continue;
             }
-            $dataSource = new DataSource($this->sourceConfig);
+            $sourceConfig = $this->sourceTypeConfigs[$sourceType] ?? [];
+            $dataSource = new DataSource($sourceConfig);
             $dataSource->type = $sourceType;
             $dataSource->data_account_id = $account->data_account_id;
             $dataSource->name = $account->name . '_' . $sourceType;

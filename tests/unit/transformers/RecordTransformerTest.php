@@ -55,9 +55,9 @@ class RecordTransformerTest extends \Codeception\Test\Unit
                 'y' => 'yy123',
             ]
         ];
-        $transformedData = $transformer->transform($data);
-        $this->assertEquals($expectedRecord, $transformedData['record']);
-        $unCompressText = $transformer->compressor->unCompress($transformedData['text']);
+        $transformedData = $transformer->transform([$data]);
+        $this->assertEquals($expectedRecord, $transformedData[0]['record']);
+        $unCompressText = $transformer->compressor->unCompress($transformedData[0]['text']);
         $unserializeData = $transformer->serializer->unserialize($unCompressText);
         $this->assertEquals($data, $unserializeData);
     }

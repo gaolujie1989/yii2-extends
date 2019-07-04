@@ -57,11 +57,11 @@ class FileRecordDataPipeline extends DataRecordPipeline
     {
         $dataRecord = parent::createModel($values);
         if ($dataRecord->getIsNewRecord()) {
-            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_INSERT, static function() use ($dataRecord, $values) {
+            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_INSERT, function() use ($dataRecord, $values) {
                 $this->fs->write($this->getFilePath($dataRecord), $values['text']);
             });
         } else {
-            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_UPDATE, static function() use ($dataRecord, $values) {
+            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_UPDATE, function() use ($dataRecord, $values) {
                 $this->fs->write($this->getFilePath($dataRecord), $values['text']);
             });
         }

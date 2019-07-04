@@ -79,7 +79,7 @@ class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
         $pipeline = new ActiveRecordRecordDataPipeline([
             'sourceId' => $source->data_source_id
         ]);
-        $pipeline->process($data);
+        $pipeline->process([$data]);
 
         $record = DataRecord::find()
             ->dataAccountId($source->data_account_id)

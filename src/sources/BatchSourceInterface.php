@@ -18,11 +18,11 @@ interface BatchSourceInterface extends SourceInterface
      * @return array
      * @inheritdoc
      */
-    public function batch($batchSize = 100): Iterator;
+    public function batch(int $batchSize = 100): Iterator;
 
     /**
      * @return mixed
      * @inheritdoc
      */
-    public function each($batchSize = 100): Iterator;
+    public function each(int $batchSize = 100): Iterator;
 }

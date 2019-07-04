@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\sources;
 
 use Iterator;
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 
 /**
@@ -62,7 +63,7 @@ abstract class MultiIncrementSource extends IncrementSource
      * @return Iterator
      * @inheritdoc
      */
-    public function batch($batchSize = 100): Iterator
+    public function batch(int $batchSize = 100): Iterator
     {
         $multiIncrementConditions = $this->getMultiConditions();
         foreach ($multiIncrementConditions as $condition) {
@@ -77,19 +78,22 @@ abstract class MultiIncrementSource extends IncrementSource
      * @return Iterator
      * @inheritdoc
      */
-    public function each($batchSize = 100): Iterator
+    public function each(int $batchSize = 100): Iterator
     {
         $multiIncrementConditions = $this->getMultiConditions();
         foreach ($multiIncrementConditions as $condition) {
             $this->incrementCondition = $condition;
             $iterator = parent::each($batchSize);
-            //@TODO
-            //yield from another yield from will cause problems. unknown reason
-            //so change it to foreach
-            foreach ($iterator as $item) {
-                yield $item;
-            }
-//            yield from $iterator;
+            yield from $iterator;
         }
+    }
+
+    /**
+     * @param $condition
+     * @inheritdoc
+     */
+    public function setIncrementCondition($condition): void
+    {
+        throw new InvalidCallException('Multi increment source not support');
     }
 }

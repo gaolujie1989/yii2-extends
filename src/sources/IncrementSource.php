@@ -38,7 +38,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     /**
      * @var array
      */
-    public $incrementCondition = [];
+    protected $incrementCondition = [];
 
     /**
      * @var array
@@ -105,14 +105,13 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      * @return Iterator
      * @inheritdoc
      */
-    public function batch($batchSize = 100): Iterator
+    public function batch(int $batchSize = 100): Iterator
     {
         $batchIncrementConditions = $this->generateBatchConditions($this->incrementCondition);
         foreach ($batchIncrementConditions as $condition) {
             $this->source->setCondition($condition);
-            $iterator = $this->source->batch($batchSize);
-
             if ($this->sortable) {
+                $iterator = $this->source->batch($batchSize);
                 $this->lastCondition = $condition;
                 foreach ($iterator as $items) {
                     $this->lastRow = end($items);
@@ -132,7 +131,7 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
      * @return Iterator
      * @inheritdoc
      */
-    public function each($batchSize = 100): Iterator
+    public function each(int $batchSize = 100): Iterator
     {
         $batchIncrementConditions = $this->generateBatchConditions($this->incrementCondition);
         foreach ($batchIncrementConditions as $condition) {
@@ -169,11 +168,20 @@ abstract class IncrementSource extends BaseObject implements BatchSourceInterfac
     }
 
     /**
+     * @param array $condition
+     * @inheritdoc
+     */
+    public function setCondition(array $condition): void
+    {
+        $this->source->setCondition($condition);
+    }
+
+    /**
      * @param $condition
      * @inheritdoc
      */
-    public function setCondition($condition): void
+    public function setIncrementCondition($condition): void
     {
-        $this->source->setCondition($condition);
+        $this->incrementCondition = $condition;
     }
 }

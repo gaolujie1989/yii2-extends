@@ -12,5 +12,5 @@ interface ConditionSourceInterface extends SourceInterface
      * @param $condition
      * @inheritdoc
      */
-    public function setCondition($condition): void;
+    public function setCondition(array $condition): void;
 }

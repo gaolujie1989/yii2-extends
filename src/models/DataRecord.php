@@ -12,7 +12,7 @@ use yii\db\ActiveQuery;
  * @property int $data_record_id
  * @property int $data_account_id
  * @property int $data_source_id
- * @property int $data_type
+ * @property int $data_source_type
  * @property int $data_id
  * @property string $data_key
  * @property int $data_parent_id
@@ -43,7 +43,7 @@ class DataRecord extends \yii\db\ActiveRecord
             [['data_account_id', 'data_source_id', 'data_id', 'data_parent_id',
                 'data_created_at', 'data_updated_at'], 'integer'],
             [['data_additional'], 'safe'],
-            [['data_type'], 'string', 'max' => 50],
+            [['data_source_type'], 'string', 'max' => 50],
             [['data_key'], 'string', 'max' => 255],
         ];
     }
@@ -57,7 +57,7 @@ class DataRecord extends \yii\db\ActiveRecord
             'data_record_id' => Yii::t('lujie/data', 'Data Record ID'),
             'data_account_id' => Yii::t('lujie/data', 'Data Account ID'),
             'data_source_id' => Yii::t('lujie/data', 'Data Source ID'),
-            'data_type' => Yii::t('lujie/data', 'Data Type'),
+            'data_source_type' => Yii::t('lujie/data', 'Data Source Type'),
             'data_id' => Yii::t('lujie/data', 'Data ID'),
             'data_key' => Yii::t('lujie/data', 'Data Key'),
             'data_parent_id' => Yii::t('lujie/data', 'Data Parent ID'),

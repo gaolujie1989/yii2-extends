@@ -77,7 +77,7 @@ class FileRecordDataPipeline extends DataRecordPipeline
     {
         $file = implode('/', [
             $record->data_account_id,
-            $record->data_type,
+            $record->data_source_type,
             $record->data_id ?: $record->data_parent_id . '_' . $record->data_key
         ]);
         return $this->filePathPrefix . $file . $this->filePathSuffix;

@@ -8,7 +8,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * This is the ActiveQuery class for [[DataRecord]].
  *
  * @method DataRecordQuery dataAccountId($dataAccountId)
- * @method DataRecordQuery dataType($dataType)
+ * @method DataRecordQuery dataSourceId($dataSourceId)
+ * @method DataRecordQuery dataSourceType($dataSourceType)
  * @method DataRecordQuery dataId($dataId)
  * @method DataRecordQuery dataKey($dataKey)
  * @method DataRecordQuery dataParentId($dataParentId)
@@ -35,7 +36,8 @@ class DataRecordQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'dataAccountId' => 'data_account_id',
-                    'dataType' => 'data_type',
+                    'dataSourceId' => 'data_source_id',
+                    'dataSourceType' => 'data_source_type',
                     'dataId' => 'data_id',
                     'dataKey' => 'data_key',
                     'dataParentId' => 'data_parent_id',

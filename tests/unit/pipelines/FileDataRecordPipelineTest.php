@@ -84,7 +84,7 @@ class FileDataRecordPipelineTest extends \Codeception\Test\Unit
 
         $record = DataRecord::find()
             ->dataAccountId($source->data_account_id)
-            ->dataType($source->type)
+            ->dataSourceType($source->type)
             ->dataId($data['record']['data_id'])
             ->one();
         $this->assertNotNull($record);

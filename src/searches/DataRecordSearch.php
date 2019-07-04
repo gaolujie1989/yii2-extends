@@ -22,7 +22,7 @@ class DataRecordSearch extends DataRecord
     public function rules(): array
     {
         return [
-            [['data_account_id', 'data_type', 'data_id', 'data_key', 'data_parent_id'], 'safe'],
+            [['data_account_id', 'data_source_type', 'data_id', 'data_key', 'data_parent_id'], 'safe'],
         ];
     }
 
@@ -33,7 +33,7 @@ class DataRecordSearch extends DataRecord
     public function query(): ActiveQuery
     {
         return static::find()->andFilterWhere(
-            $this->getAttributes(['data_account_id', 'data_type', 'data_id', 'data_key', 'data_parent_id'])
+            $this->getAttributes(['data_account_id', 'data_source_type', 'data_id', 'data_key', 'data_parent_id'])
         );
     }
 

@@ -56,7 +56,7 @@ class DataRecordPipeline extends ActiveRecordPipeline
     {
         $query = $this->modelClass::find()
             ->dataAccountId($this->source->data_account_id)
-            ->dataType($this->source->type);
+            ->dataSourceType($this->source->type);
 
         $model = null;
         $record = $values['record'];
@@ -74,7 +74,7 @@ class DataRecordPipeline extends ActiveRecordPipeline
             $model->setAttributes([
                 'data_account_id' => $this->source->data_account_id,
                 'data_source_id' => $this->source->data_source_id,
-                'data_type' => $this->source->type,
+                'data_source_type' => $this->source->type,
             ]);
             $model->setAttributes($record);
         }

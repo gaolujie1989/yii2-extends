@@ -1,8 +1,8 @@
 <?php
 
-namespace lujie\data\staging;
+namespace lujie\data\recording;
 
-use lujie\data\staging\models\DataSource;
+use lujie\data\recording\models\DataSource;
 use lujie\data\storage\ActiveRecordDataStorage;
 use yii\base\InvalidConfigException;
 

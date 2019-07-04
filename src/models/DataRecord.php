@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\data\staging\models;
+namespace lujie\data\recording\models;
 
 use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;

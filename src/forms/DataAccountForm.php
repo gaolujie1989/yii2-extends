@@ -3,15 +3,15 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\forms;
+namespace lujie\data\recording\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
-use lujie\data\staging\DataSourceCreator;
-use lujie\data\staging\models\DataAccount;
+use lujie\data\recording\DataSourceCreator;
+use lujie\data\recording\models\DataAccount;
 
 /**
  * Class DataAccountForm
- * @package lujie\data\staging\forms
+ * @package lujie\data\recording\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataAccountForm extends DataAccount

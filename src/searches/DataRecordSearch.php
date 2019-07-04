@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\searches;
+namespace lujie\data\recording\searches;
 
-use lujie\data\staging\models\DataRecord;
+use lujie\data\recording\models\DataRecord;
 use yii\db\ActiveQuery;
 
 /**
  * Class DataRecordSearch
- * @package lujie\data\staging\searches
+ * @package lujie\data\recording\searches
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataRecordSearch extends DataRecord

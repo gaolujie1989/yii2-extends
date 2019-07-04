@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\searches;
+namespace lujie\data\recording\searches;
 
-use lujie\data\staging\models\DataAccount;
+use lujie\data\recording\models\DataAccount;
 use yii\db\ActiveQuery;
 
 /**
  * Class DataAccountSearch
- * @package lujie\data\staging\searches
+ * @package lujie\data\recording\searches
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataAccountSearch extends DataAccount

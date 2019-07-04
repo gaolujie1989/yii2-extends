@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-data-staging",
-  "description": "Yii2 data staging",
-  "keywords": ["yii2", "data staging"],
+  "name": "lujie/yii2-data-recording",
+  "description": "Yii2 data recording",
+  "keywords": ["yii2", "data recording"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-data-staging/issues",
-    "source": "https://gitee.com/code4dream/yii2-data-staging"
+    "issues": "https://gitee.com/code4dream/yii2-data-recording/issues",
+    "source": "https://gitee.com/code4dream/yii2-data-recording"
   },
   "authors": [
     {
@@ -16,8 +16,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "lujie\\data\\staging\\": "src",
-      "lujie\\data\\staging\\tests\\": "tests"
+      "lujie\\data\\recording\\": "src",
+      "lujie\\data\\recording\\tests\\": "tests"
     }
   },
   "repositories": [

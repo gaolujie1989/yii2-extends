@@ -3,10 +3,10 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging;
+namespace lujie\data\recording;
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\staging\models\DataSource;
+use lujie\data\recording\models\DataSource;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
@@ -14,7 +14,7 @@ use yii\di\Instance;
 
 /**
  * Class CombinedExchangeLoader
- * @package lujie\data\staging
+ * @package lujie\data\recording
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class CombinedExchangeLoader extends BaseObject implements DataLoaderInterface

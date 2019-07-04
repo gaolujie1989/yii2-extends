@@ -3,18 +3,18 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\pipelines;
+namespace lujie\data\recording\pipelines;
 
 
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
-use lujie\data\staging\models\DataRecord;
-use lujie\data\staging\models\DataSource;
+use lujie\data\recording\models\DataRecord;
+use lujie\data\recording\models\DataSource;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 
 /**
  * Class FileDataRecordPipeline
- * @package lujie\data\staging\pipelines
+ * @package lujie\data\recording\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataRecordPipeline extends ActiveRecordPipeline

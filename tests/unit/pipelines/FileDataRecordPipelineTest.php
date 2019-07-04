@@ -3,18 +3,18 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\tests\unit\pipelines;
+namespace lujie\data\recording\tests\unit\pipelines;
 
 
-use lujie\data\staging\compress\GzDeflateCompressor;
-use lujie\data\staging\models\DataAccount;
-use lujie\data\staging\models\DataRecord;
-use lujie\data\staging\models\DataRecordData;
-use lujie\data\staging\models\DataSource;
-use lujie\data\staging\pipelines\ActiveRecordRecordDataPipeline;
-use lujie\data\staging\pipelines\DataRecordPipeline;
-use lujie\data\staging\pipelines\FileRecordDataPipeline;
-use lujie\data\staging\transformers\RecordTransformer;
+use lujie\data\recording\compress\GzDeflateCompressor;
+use lujie\data\recording\models\DataAccount;
+use lujie\data\recording\models\DataRecord;
+use lujie\data\recording\models\DataRecordData;
+use lujie\data\recording\models\DataSource;
+use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
+use lujie\data\recording\pipelines\DataRecordPipeline;
+use lujie\data\recording\pipelines\FileRecordDataPipeline;
+use lujie\data\recording\transformers\RecordTransformer;
 use yii\queue\serializers\JsonSerializer;
 
 class FileDataRecordPipelineTest extends \Codeception\Test\Unit

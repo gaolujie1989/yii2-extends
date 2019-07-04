@@ -1,7 +1,7 @@
-# yii2-data-staging
+# yii2-data-recording
 
 #### Introduction
-Third part data staging
+Third part data recording
 Download all needed data from third part data, 
 no logic processing with own system, 
 but record main data and storage compressed serialize text.

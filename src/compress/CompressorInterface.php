@@ -3,11 +3,11 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\compress;
+namespace lujie\data\recording\compress;
 
 /**
  * Interface Compressor
- * @package lujie\data\staging\compress
+ * @package lujie\data\recording\compress
  */
 interface CompressorInterface
 {

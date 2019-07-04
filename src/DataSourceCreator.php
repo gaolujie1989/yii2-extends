@@ -3,11 +3,11 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging;
+namespace lujie\data\recording;
 
-use lujie\data\staging\forms\DataAccountForm;
-use lujie\data\staging\models\DataAccount;
-use lujie\data\staging\models\DataSource;
+use lujie\data\recording\forms\DataAccountForm;
+use lujie\data\recording\models\DataAccount;
+use lujie\data\recording\models\DataSource;
 use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Class DataSourceCreator
- * @package lujie\data\staging
+ * @package lujie\data\recording
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataSourceCreator extends BaseObject implements BootstrapInterface

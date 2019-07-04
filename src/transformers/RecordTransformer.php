@@ -3,11 +3,11 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\transformers;
+namespace lujie\data\recording\transformers;
 
 use lujie\data\exchange\transformers\TransformerInterface;
-use lujie\data\staging\compress\CompressorInterface;
-use lujie\data\staging\compress\GzDeflateCompressor;
+use lujie\data\recording\compress\CompressorInterface;
+use lujie\data\recording\compress\GzDeflateCompressor;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -17,7 +17,7 @@ use yii\queue\serializers\SerializerInterface;
 
 /**
  * Class RecordTransformer
- * @package lujie\data\staging\transformers
+ * @package lujie\data\recording\transformers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class RecordTransformer extends BaseObject implements TransformerInterface

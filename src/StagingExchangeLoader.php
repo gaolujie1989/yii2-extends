@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging;
+namespace lujie\data\recording;
 
 
 use lujie\data\exchange\DataExchange;
@@ -11,10 +11,10 @@ use lujie\data\exchange\sources\RestClientSource;
 use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\staging\models\DataAccount;
-use lujie\data\staging\models\DataSource;
-use lujie\data\staging\pipelines\DataRecordPipeline;
-use lujie\data\staging\transformers\RecordTransformer;
+use lujie\data\recording\models\DataAccount;
+use lujie\data\recording\models\DataSource;
+use lujie\data\recording\pipelines\DataRecordPipeline;
+use lujie\data\recording\transformers\RecordTransformer;
 use lujie\extend\helpers\ObjectHelper;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
@@ -22,11 +22,11 @@ use yii\base\NotSupportedException;
 use yii\httpclient\Client;
 
 /**
- * Class StagingExchangeLoader
- * @package lujie\data\staging
+ * Class RecordingExchangeLoader
+ * @package lujie\data\recording
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class StagingExchangeLoader extends BaseObject implements DataLoaderInterface
+class RecordingExchangeLoader extends BaseObject implements DataLoaderInterface
 {
     /**
      * @var array

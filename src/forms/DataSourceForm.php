@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\forms;
+namespace lujie\data\recording\forms;
 
-use lujie\data\staging\models\DataSource;
+use lujie\data\recording\models\DataSource;
 
 /**
  * Class DataSourceForm
- * @package lujie\data\staging\forms
+ * @package lujie\data\recording\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DataSourceForm extends DataSource

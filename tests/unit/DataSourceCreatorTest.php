@@ -5,10 +5,10 @@
 
 namespace lujie\data\exchange\tests\unit;
 
-use lujie\data\staging\DataSourceCreator;
-use lujie\data\staging\forms\DataAccountForm;
-use lujie\data\staging\models\DataSource;
-use lujie\data\staging\DataSourceModelStorage;
+use lujie\data\recording\DataSourceCreator;
+use lujie\data\recording\forms\DataAccountForm;
+use lujie\data\recording\models\DataSource;
+use lujie\data\recording\DataSourceModelStorage;
 use Yii;
 
 class DataSourceCreatorTest extends \Codeception\Test\Unit

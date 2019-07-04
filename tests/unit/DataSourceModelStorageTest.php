@@ -5,8 +5,8 @@
 
 namespace lujie\data\exchange\tests\unit;
 
-use lujie\data\staging\models\DataSource;
-use lujie\data\staging\DataSourceModelStorage;
+use lujie\data\recording\models\DataSource;
+use lujie\data\recording\DataSourceModelStorage;
 
 class DataSourceModelStorageTest extends \Codeception\Test\Unit
 {

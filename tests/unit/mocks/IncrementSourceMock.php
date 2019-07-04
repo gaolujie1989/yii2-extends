@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\tests\unit\mocks;
+namespace lujie\data\recording\tests\unit\mocks;
 
 
 use lujie\data\exchange\sources\IncrementSource;

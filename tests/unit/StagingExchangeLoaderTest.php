@@ -7,16 +7,16 @@ namespace lujie\data\exchange\tests\unit;
 
 use lujie\data\exchange\DataExchange;
 use lujie\data\exchange\sources\RestClientSource;
-use lujie\data\staging\DataSourceModelStorage;
-use lujie\data\staging\models\DataAccount;
-use lujie\data\staging\models\DataSource;
-use lujie\data\staging\pipelines\ActiveRecordRecordDataPipeline;
-use lujie\data\staging\StagingExchangeLoader;
-use lujie\data\staging\tests\unit\mocks\IncrementSourceMock;
-use lujie\data\staging\transformers\RecordTransformer;
+use lujie\data\recording\DataSourceModelStorage;
+use lujie\data\recording\models\DataAccount;
+use lujie\data\recording\models\DataSource;
+use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
+use lujie\data\recording\RecordingExchangeLoader;
+use lujie\data\recording\tests\unit\mocks\IncrementSourceMock;
+use lujie\data\recording\transformers\RecordTransformer;
 use yii\httpclient\Client;
 
-class StagingExchangeLoaderTest extends \Codeception\Test\Unit
+class RecordingExchangeLoaderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -54,7 +54,7 @@ class StagingExchangeLoaderTest extends \Codeception\Test\Unit
         $source->save(false);
         $dataSourceId = $source->data_source_id;
 
-        $loader = new StagingExchangeLoader([
+        $loader = new RecordingExchangeLoader([
             'clients' => [
                 'testType' => [
                     'class' => Client::class,

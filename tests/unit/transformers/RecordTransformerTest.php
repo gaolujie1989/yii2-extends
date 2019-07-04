@@ -3,10 +3,10 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\staging\tests\unit\transformers;
+namespace lujie\data\recording\tests\unit\transformers;
 
 
-use lujie\data\staging\transformers\RecordTransformer;
+use lujie\data\recording\transformers\RecordTransformer;
 
 class RecordTransformerTest extends \Codeception\Test\Unit
 {

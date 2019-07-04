@@ -4,12 +4,12 @@
  */
 
 return [
-    'lujie/yii2-data-staging' => [
-        'name' => 'lujie/yii2-data-staging',
+    'lujie/yii2-data-recording' => [
+        'name' => 'lujie/yii2-data-recording',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/data/staging' => __DIR__ . '/src',
-            '@lujie/data/staging/tests' => __DIR__ . '/tests',
+            '@lujie/data/recording' => __DIR__ . '/src',
+            '@lujie/data/recording/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

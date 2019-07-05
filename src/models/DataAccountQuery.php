@@ -11,8 +11,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method int getAccountId()
  *
- * @method DataAccount|array|null one($db = null)
- * @method DataAccount[]|array all($db = null)
+ * @method array|DataAccount[] all($db = null)
+ * @method array|DataAccount|null one($db = null)
  *
  * @see DataRecord
  */

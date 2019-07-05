@@ -18,8 +18,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method array getDataIds()
  *
- * @method array|DataRecord one($db = null)
  * @method array|DataRecord[] all($db = null)
+ * @method array|DataRecord|null one($db = null)
  *
  * @see DataRecord
  */

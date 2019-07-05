@@ -2,6 +2,8 @@
 
 namespace lujie\data\recording\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;
 use yii\db\ActiveQuery;
@@ -15,7 +17,7 @@ use yii\db\ActiveQuery;
  */
 class DataRecordData extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
 
     /**
      * {@inheritdoc}

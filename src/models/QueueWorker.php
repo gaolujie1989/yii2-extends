@@ -2,6 +2,8 @@
 
 namespace lujie\queuing\monitor\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;
 use yii\db\ActiveRecord;
@@ -20,7 +22,7 @@ use yii\db\ActiveRecord;
  */
 class QueueWorker extends ActiveRecord
 {
-    use TraceableBehaviorTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
 
     /**
      * @inheritdoc

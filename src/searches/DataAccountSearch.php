@@ -40,4 +40,15 @@ class DataAccountSearch extends DataAccount
             ->andFilterWhere(['LIKE', 'username', $this->username]);
         return $query;
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'dataSource',
+        ]);
+    }
 }

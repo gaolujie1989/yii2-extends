@@ -38,4 +38,15 @@ class DataSourceSearch extends DataSource
             'status' => $this->status
         ]);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'dataAccount',
+        ]);
+    }
 }

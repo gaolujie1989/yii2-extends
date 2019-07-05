@@ -23,6 +23,8 @@ use yii\db\ActiveQuery;
  * @property int $data_updated_at
  *
  * @property DataRecordData $recordData
+ * @property DataAccount $dataAccount
+ * @property DataSource $dataSource
  */
 class DataRecord extends \yii\db\ActiveRecord
 {
@@ -85,5 +87,23 @@ class DataRecord extends \yii\db\ActiveRecord
     public function getRecordData(): ActiveQuery
     {
         return $this->hasOne(DataRecordData::class, ['data_record_id' => 'data_record_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getDataAccount(): ActiveQuery
+    {
+        return $this->hasOne(DataAccount::class, ['data_account_id' => 'data_account_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getDataSources(): ActiveQuery
+    {
+        return $this->hasOne(DataSource::class, ['data_source_id' => 'data_source_id']);
     }
 }

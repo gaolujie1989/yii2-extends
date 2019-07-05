@@ -62,7 +62,6 @@ class DataSource extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * @return ActiveQuery
      * @inheritdoc

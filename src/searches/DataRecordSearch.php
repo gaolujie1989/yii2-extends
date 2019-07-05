@@ -44,7 +44,9 @@ class DataRecordSearch extends DataRecord
     public function extraFields(): array
     {
         return array_merge(parent::extraFields(), [
-            'recordData'
+            'recordData',
+            'dataAccount',
+            'dataSource',
         ]);
     }
 }

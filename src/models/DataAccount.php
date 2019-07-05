@@ -70,6 +70,15 @@ class DataAccount extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return DataRecordQuery|ActiveQuery
+     * @inheritdoc
+     */
+    public static function find(): DataAccountQuery
+    {
+        return new DataAccountQuery(static::class);
+    }
+
+    /**
      * @return ActiveQuery
      * @inheritdoc
      */

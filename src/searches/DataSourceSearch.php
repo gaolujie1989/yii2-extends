@@ -5,6 +5,7 @@
 
 namespace lujie\data\recording\searches;
 
+use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataSource;
 use yii\db\ActiveQuery;
 
@@ -15,6 +16,8 @@ use yii\db\ActiveQuery;
  */
 class DataSourceSearch extends DataSource
 {
+    public $accountName;
+
     /**
      * @return array
      * @inheritdoc
@@ -23,6 +26,7 @@ class DataSourceSearch extends DataSource
     {
         return [
             [['data_account_id', 'type', 'status'], 'safe'],
+            [['accountName'], 'safe'],
         ];
     }
 
@@ -32,6 +36,9 @@ class DataSourceSearch extends DataSource
      */
     public function query(): ActiveQuery
     {
+        if ($this->accountName) {
+            $this->data_account_id = DataAccount::find()->name($this->accountName)->getAccountId() ?: 0;
+        }
         return static::find()->andFilterWhere([
             'data_account_id' => $this->data_account_id,
             'type' => $this->type,

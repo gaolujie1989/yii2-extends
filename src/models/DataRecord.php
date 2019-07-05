@@ -75,7 +75,7 @@ class DataRecord extends \yii\db\ActiveRecord
      * @return DataRecordQuery|ActiveQuery
      * @inheritdoc
      */
-    public static function find()
+    public static function find(): DataRecordQuery
     {
         return new DataRecordQuery(static::class);
     }

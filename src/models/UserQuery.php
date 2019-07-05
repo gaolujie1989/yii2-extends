@@ -13,8 +13,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method UserQuery active()
  * @method UserQuery inactive()
  *
- * @method User[]|array all($db = null)
- * @method User|array one($db = null)
+ * @method array|User[] all($db = null)
+ * @method array|User|null one($db = null)
  *
  * @see User
  */

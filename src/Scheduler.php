@@ -45,20 +45,20 @@ class Scheduler extends Executor
 
     /**
      * @param int|string $taskId
-     * @param array|mixed $task
+     * @param array|mixed $taskConfig
      * @return ScheduleTaskInterface|object
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function createTask($taskId, $task): ScheduleTaskInterface
+    protected function createTask($taskId, $taskConfig): ScheduleTaskInterface
     {
-        if (empty($task['id'])) {
-            $task['id'] = $taskId;
+        if (empty($taskConfig['id'])) {
+            $taskConfig['id'] = $taskId;
         }
-        if (empty($task['class'])) {
-            $task['class'] = CronTask::class;
+        if (empty($taskConfig['class'])) {
+            $taskConfig['class'] = CronTask::class;
         }
-        return Instance::ensure($task, ScheduleTaskInterface::class);
+        return Instance::ensure($taskConfig, ScheduleTaskInterface::class);
     }
 
     /**

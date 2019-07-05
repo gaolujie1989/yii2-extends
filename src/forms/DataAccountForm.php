@@ -30,7 +30,9 @@ class DataAccountForm extends DataAccount
         return [
             [['options'], 'safe'],
             [['status'], 'integer'],
-            [['type'], 'string', 'max' => 50],
+            [['type'], 'string', 'max' => 50, 'when' => function() {
+                return $this->getIsNewRecord();
+            }],
             [['name'], 'string', 'max' => 100],
             [['url', 'username', 'password'], 'string', 'max' => 255],
         ];

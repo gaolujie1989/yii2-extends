@@ -93,7 +93,7 @@ class DataSourceCreator extends BaseObject implements BootstrapInterface
             $dataSource = new DataSource($sourceConfig);
             $dataSource->type = $sourceType;
             $dataSource->data_account_id = $account->data_account_id;
-            $dataSource->name = $account->name . '_' . $sourceType;
+            $dataSource->name = $sourceType . '_' . $account->username;
             $dataSource->save(false);
         }
     }

@@ -13,12 +13,13 @@ use yii\db\ActiveQuery;
 /**
  * Class HistoryQuery
  *
- * @method DeletedDataQuery tableName(string $tableName);
- * @method DeletedDataQuery rowId(int $rowId);
+ * @method HistoryQuery tableName(string $tableName);
+ * @method HistoryQuery rowId(int $rowId);
  *
- * @method DeletedData|array one($db = null)
- * @method DeletedData[]|array all($db = null)
+ * @method array|History[] all($db = null)
+ * @method array|History|null one($db = null)
  *
+ * @see History
  * @package lujie\ar\history\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

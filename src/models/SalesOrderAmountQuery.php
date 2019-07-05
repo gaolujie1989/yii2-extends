@@ -15,7 +15,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method SalesOrderAmountQuery orderItemAmount()
  *
  * @method array|SalesOrderAmount[] all($db = null)
- * @method array|SalesOrderAmount one($db = null)
+ * @method array|SalesOrderAmount|null one($db = null)
  *
  * @see SalesOrderAmount
  */

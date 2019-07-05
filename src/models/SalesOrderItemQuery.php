@@ -6,7 +6,7 @@ namespace lujie\sales\order\center\models;
  * This is the ActiveQuery class for [[SalesOrderItem]].
  *
  * @method array|SalesOrderItem[] all($db = null)
- * @method array|SalesOrderItem one($db = null)
+ * @method array|SalesOrderItem|null one($db = null)
  *
  * @see SalesOrderItem
  */

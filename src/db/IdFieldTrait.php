@@ -36,7 +36,8 @@ trait IdFieldTrait
         /** @var BaseActiveRecord $model */
         $model = $this;
         if ($model->hasAttribute('id')) {
-            return $model->setAttribute('id', $id);
+            $model->setAttribute('id', $id);
+            return;
         }
         $keys = $model::primaryKey();
         if (count($keys) === 1) {

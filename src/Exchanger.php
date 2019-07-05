@@ -5,10 +5,14 @@
 
 namespace lujie\data\exchange;
 
-use lujie\data\exchange\sources\SourceInterface;
+use lujie\data\exchange\sources\ConditionSourceInterface;
+use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\executing\Executor;
-use yii\base\Component;
+use yii\base\InvalidArgumentException;
+use yii\base\InvalidCallException;
+use yii\base\InvalidConfigException;
+use yii\base\NotSupportedException;
 use yii\di\Instance;
 
 /**
@@ -24,7 +28,7 @@ class Exchanger extends Executor
     public $exchangeLoader;
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
@@ -34,14 +38,39 @@ class Exchanger extends Executor
     }
 
     /**
-     * @param int|string $name
+     * @param $key
      * @return DataExchange|object
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getExchange($name): DataExchange
+    public function getExchange($key): DataExchange
     {
-        $config = $this->exchangeLoader->get($name);
+        $config = $this->exchangeLoader->get($key);
+        if (empty($config)) {
+            throw new InvalidArgumentException("Exchange {$key} not found.");
+        }
         return Instance::ensure($config, DataExchange::class);
+    }
+
+    /**
+     * @param $key
+     * @param array $condition
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function executeCondition($key, array $condition = []): bool
+    {
+        $dataExchange = $this->getExchange($key);
+        if ($dataExchange->source instanceof ConditionSourceInterface) {
+            $dataExchange->source->setCondition($condition);
+        } else {
+            throw new InvalidCallException('Source not implements ConditionSourceInterface');
+        }
+        if ($dataExchange->source instanceof IncrementSource) {
+            $dataExchange->source = $dataExchange->source->source;
+        }
+        return $dataExchange->execute();
     }
 }

@@ -2,6 +2,8 @@
 
 namespace lujie\sales\order\center\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\sales\order\center\Module;
 use Yii;
@@ -51,7 +53,7 @@ use yii\helpers\ArrayHelper;
  */
 class SalesOrder extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
 
     /**
      * {@inheritdoc}

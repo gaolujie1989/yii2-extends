@@ -2,6 +2,8 @@
 
 namespace lujie\sales\order\center\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use Yii;
 
@@ -25,7 +27,7 @@ use Yii;
  */
 class Address extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
 
     /**
      * {@inheritdoc}

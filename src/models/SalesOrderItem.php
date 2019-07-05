@@ -3,6 +3,8 @@
 namespace lujie\sales\order\center\models;
 
 use lujie\alias\behaviors\MoneyAliasBehavior;
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\sales\order\center\Module;
 use Yii;
@@ -32,7 +34,7 @@ use yii\db\ActiveQuery;
  */
 class SalesOrderItem extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
 
     /**
      * {@inheritdoc}

@@ -7,16 +7,14 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[DataRecord]].
  *
- * @method DataAccountQuery name($name)
+ * @method DataSourceQuery dataSourceId($dataSourceId)
  *
- * @method int getAccountId()
+ * @method array|DataSource[] all($db = null)
+ * @method array|DataSource|null one($db = null)
  *
- * @method array|DataAccount[] all($db = null)
- * @method array|DataAccount|null one($db = null)
- *
- * @see DataAccount
+ * @see DataSource
  */
-class DataAccountQuery extends \yii\db\ActiveQuery
+class DataSourceQuery extends \yii\db\ActiveQuery
 {
     /**
      * @return array
@@ -28,10 +26,7 @@ class DataAccountQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'name' => 'name',
-                ],
-                'queryReturns' => [
-                    'getAccountId' => ['data_account_id', FieldQueryBehavior::RETURN_SCALAR],
+                    'data_source_id' => 'data_source_id',
                 ]
             ]
         ];

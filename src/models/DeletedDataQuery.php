@@ -14,9 +14,10 @@ use yii\db\ActiveQuery;
  * @method DeletedDataQuery tableName(string $tableName);
  * @method DeletedDataQuery rowId(int $rowId);
  *
- * @method DeletedData|array one($db = null)
- * @method DeletedData[]|array all($db = null)
+ * @method array|DeletedData[] all($db = null)
+ * @method array|DeletedData|null one($db = null)
  *
+ * @see DeletedData
  * @package lujie\backupdelete\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

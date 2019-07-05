@@ -44,6 +44,24 @@ class Scheduler extends Executor
     }
 
     /**
+     * @param int|string $taskId
+     * @param array|mixed $task
+     * @return ScheduleTaskInterface|object
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function createTask($taskId, $task): ScheduleTaskInterface
+    {
+        if (empty($task['id'])) {
+            $task['id'] = $taskId;
+        }
+        if (empty($task['class'])) {
+            $task['class'] = CronTask::class;
+        }
+        return Instance::ensure($task, ScheduleTaskInterface::class);
+    }
+
+    /**
      * @return array|ScheduleTaskInterface[]
      * @throws InvalidConfigException
      * @inheritdoc
@@ -53,13 +71,7 @@ class Scheduler extends Executor
         $tasks = $this->taskLoader->all();
         foreach ($tasks as $taskId => $task) {
             if (!($task instanceof ScheduleTaskInterface)) {
-                if (empty($task['id'])) {
-                    $task['id'] = $taskId;
-                }
-                if (empty($task['class'])) {
-                    $task['class'] = CronTask::class;
-                }
-                $tasks[$taskId] = Instance::ensure($task, ScheduleTaskInterface::class);
+                $tasks[$taskId] = $this->createTask($taskId, $task);
             }
         }
         return $tasks;
@@ -78,13 +90,7 @@ class Scheduler extends Executor
             throw new InvalidArgumentException("Task ID {$taskId} not found.");
         }
         if (!($task instanceof ScheduleTaskInterface)) {
-            if (empty($task['id'])) {
-                $task['id'] = $taskId;
-            }
-            if (empty($task['class'])) {
-                $task['class'] = CronTask::class;
-            }
-            $task = Instance::ensure($task, ScheduleTaskInterface::class);
+            $task = $this->createTask($taskId, $task);
         }
         return $task;
     }

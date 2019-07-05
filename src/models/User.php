@@ -239,6 +239,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function fields(): array
     {
         $fields = parent::fields();
+        $fields['id'] = 'id';
         unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
         return $fields;
     }

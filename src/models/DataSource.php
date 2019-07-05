@@ -63,6 +63,15 @@ class DataSource extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return DataSourceQuery|ActiveQuery
+     * @inheritdoc
+     */
+    public static function find(): DataSourceQuery
+    {
+        return new DataSourceQuery(static::class);
+    }
+
+    /**
      * @return ActiveQuery
      * @inheritdoc
      */

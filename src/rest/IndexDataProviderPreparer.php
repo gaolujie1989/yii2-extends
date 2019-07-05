@@ -27,11 +27,6 @@ class IndexDataProviderPreparer
     /**
      * @var string
      */
-    public $searchMethod = 'search';
-
-    /**
-     * @var string
-     */
     public $queryMethod = 'query';
 
     /**

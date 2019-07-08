@@ -22,6 +22,7 @@ class DataSourceForm extends DataSource
         return [
             [['status'], 'integer'],
             [['options', 'additional_info'], 'safe'],
+            [['cron_expression'], 'string', 'max' => 50],
         ];
     }
 

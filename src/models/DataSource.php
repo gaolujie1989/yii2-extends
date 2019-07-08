@@ -46,7 +46,7 @@ class DataSource extends \yii\db\ActiveRecord
             [['data_account_id', 'status'], 'integer'],
             [['options', 'additional_info'], 'safe'],
             [['name'], 'string', 'max' => 100],
-            [['type'], 'string', 'max' => 50],
+            [['type', 'cron_expression'], 'string', 'max' => 50],
         ];
     }
 

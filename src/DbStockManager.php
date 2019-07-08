@@ -95,7 +95,7 @@ class DbStockManager extends BaseStockManager
         ];
 
         $query = (new Query())->from($this->stockTable)->andWhere($condition);
-        return $query->one();
+        return $query->one() ?: null;
     }
 
 

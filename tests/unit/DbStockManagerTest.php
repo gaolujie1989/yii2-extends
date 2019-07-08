@@ -5,16 +5,15 @@
 
 namespace lujie\stock\tests\unit;
 
-
-use lujie\stock\ActiveRecordStockManager;
 use lujie\stock\BaseStockManager;
+use lujie\stock\DbStockManager;
 use lujie\stock\models\Stock;
 use lujie\stock\models\StockMovement;
 use lujie\stock\StockConst;
 use lujie\stock\StockValueBehavior;
 use yii\base\InvalidArgumentException;
 
-class ActiveRecordStockManagerTest extends \Codeception\Test\Unit
+class DbStockManagerTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -35,9 +34,10 @@ class ActiveRecordStockManagerTest extends \Codeception\Test\Unit
      */
     private function getStockManager(): BaseStockManager
     {
-        $stockManager = new ActiveRecordStockManager([
-            'stockClass' => Stock::class,
-            'stockMovementClass' => StockMovement::class,
+        $stockManager = new DbStockManager([
+            'db' => 'db',
+            'stockTable' => Stock::tableName(),
+            'stockMovementTable' => StockMovement::tableName(),
             'as stockValue' => [
                 'class' => StockValueBehavior::class
             ]

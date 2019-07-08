@@ -22,6 +22,7 @@ class m190523_210633_data_source extends Migration
             'data_account_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
+            'cron_expression' => $this->string(50)->notNull()->defaultValue(''),
             'options' => $this->json(),
             'additional_info' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),

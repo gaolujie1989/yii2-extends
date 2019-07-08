@@ -15,6 +15,7 @@ use yii\db\ActiveQuery;
  * @property int $data_account_id
  * @property string $name
  * @property string $type
+ * @property string $cron_expression
  * @property array $options
  * @property array $additional_info
  * @property int $status
@@ -24,6 +25,9 @@ use yii\db\ActiveQuery;
 class DataSource extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+
+    public const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE = 10;
 
     /**
      * {@inheritdoc}
@@ -56,6 +60,7 @@ class DataSource extends \yii\db\ActiveRecord
             'data_account_id' => Yii::t('lujie/data', 'Data Account ID'),
             'name' => Yii::t('lujie/data', 'Name'),
             'type' => Yii::t('lujie/data', 'Type'),
+            'cron_expression' => Yii::t('lujie/data', 'Cron Expression'),
             'options' => Yii::t('lujie/data', 'Options'),
             'additional_info' => Yii::t('lujie/data', 'Additional Info'),
             'status' => Yii::t('lujie/data', 'Status'),
@@ -78,5 +83,23 @@ class DataSource extends \yii\db\ActiveRecord
     public function getDataAccount(): ActiveQuery
     {
         return $this->hasOne(DataAccount::class, ['data_account_id' => 'data_account_id']);
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getTimezone(): string
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getCronExpression(): string
+    {
+        return $this->cron_expression ?: '0 * * * *';
     }
 }

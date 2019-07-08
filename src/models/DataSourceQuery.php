@@ -8,6 +8,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * This is the ActiveQuery class for [[DataRecord]].
  *
  * @method DataSourceQuery dataSourceId($dataSourceId)
+ * @method DataSourceQuery active()
  *
  * @method array|DataSource[] all($db = null)
  * @method array|DataSource|null one($db = null)
@@ -27,7 +28,10 @@ class DataSourceQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'data_source_id' => 'data_source_id',
-                ]
+                ],
+                'queryConditions' => [
+                    'active' => ['status' => DataAccount::STATUS_ACTIVE],
+                ],
             ]
         ];
     }

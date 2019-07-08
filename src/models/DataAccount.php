@@ -27,6 +27,9 @@ class DataAccount extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
 
+    public const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE = 10;
+
     /**
      * {@inheritdoc}
      */

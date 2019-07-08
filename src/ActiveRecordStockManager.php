@@ -27,47 +27,12 @@ class ActiveRecordStockManager extends BaseStockManager
     public $stockMovementClass;
 
     /**
-     * @param int $itemId
-     * @param int $fromLocationId
-     * @param int $toLocationId
-     * @param int $qty
-     * @param array $extraData
-     * @return bool
-     * @throws \Throwable
+     * @return mixed|Connection
      * @inheritdoc
      */
-    public function transfer(int $itemId, int $fromLocationId, int $toLocationId, int $qty, array $extraData = []): bool
+    protected function getDb()
     {
-        $callable = static function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
-            return parent::transfer($itemId, $fromLocationId, $toLocationId, $qty, $extraData);
-        };
-        $db = $this->stockMovementClass::getDb();
-        if ($db instanceof Connection) {
-            return $db->transaction($callable);
-        }
-        return $callable();
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @param int $qty
-     * @param $reason
-     * @param array $extraData
-     * @return bool
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    protected function moveStock(int $itemId, int $locationId, int $qty, $reason, $extraData = []): bool
-    {
-        $callable = static function () use ($itemId, $locationId, $qty, $reason, $extraData) {
-            return parent::moveStock($itemId, $locationId, $qty, $reason, $extraData);
-        };
-        $db = $this->stockMovementClass::getDb();
-        if ($db instanceof Connection) {
-            return $db->transaction($callable);
-        }
-        return $callable();
+        return $this->stockClass::getDb();
     }
 
     /**

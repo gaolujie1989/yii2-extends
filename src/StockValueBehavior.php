@@ -48,7 +48,7 @@ class StockValueBehavior extends Behavior
      */
     public function afterStockMovement(StockMovementEvent $event): void
     {
-        if ($event->reason !== StockConst::MOVEMENT_REASON_INBOUND) {
+        if ($event->reason !== StockConst::MOVEMENT_REASON_INBOUND || empty($event->stockMovement)) {
             return;
         }
 

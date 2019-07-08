@@ -8,6 +8,7 @@ namespace lujie\stock;
 use yii\base\Component;
 use yii\console\Exception;
 use yii\db\BaseActiveRecord;
+use yii\db\Connection;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -25,6 +26,12 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     public $stockQtyAttribute = 'stock_qty';
     public $moveQtyAttribute = 'move_qty';
     public $reasonAttribute = 'reason';
+
+    /**
+     * @return Connection|mixed
+     * @inheritdoc
+     */
+    abstract protected function getDb();
 
     /**
      * @param int $itemId
@@ -76,8 +83,15 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             return false;
         }
 
-        $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData);
-        $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
+        $callable = function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
+            $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData);
+            $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
+        };
+        $db = $this->getDb();
+        if ($db instanceof Connection) {
+            return $db->transaction($callable);
+        }
+        return $callable();
     }
 
     /**
@@ -112,13 +126,14 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     }
 
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param $reason
      * @param array $extraData
      * @return bool
      * @throws Exception
+     * @throws \Throwable
      * @inheritdoc
      */
     protected function moveStock(int $itemId, int $locationId, int $qty, $reason, $extraData = []): bool
@@ -128,6 +143,29 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             throw new Exception("No enough stocks of {$itemId} in {$locationId}");
         }
 
+        $callable = function () use ($itemId, $locationId, $qty, $reason, $extraData) {
+            return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
+        };
+
+        $db = $this->getDb();
+        if ($db instanceof Connection) {
+            return $db->transaction($callable);
+        }
+        return $callable();
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @param int $qty
+     * @param $reason
+     * @param array $extraData
+     * @return bool
+     * @inheritdoc
+     */
+    protected function moveStockInternal(int $itemId, int $locationId, int $qty, $reason, $extraData = []): bool
+    {
+        $stockQty = $this->getStockQty($itemId, $locationId);
         $event = new StockMovementEvent([
             'itemId' => $itemId,
             'locationId' => $locationId,

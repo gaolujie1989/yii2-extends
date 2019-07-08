@@ -24,10 +24,12 @@ class StockQuery extends \yii\db\ActiveQuery
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
-            'class' => FieldQueryBehavior::class,
-            'queryFields' => [
-                'itemId' => 'item_id',
-                'locationId' => 'location_id',
+            'fieldQuery' => [
+                'class' => FieldQueryBehavior::class,
+                'queryFields' => [
+                    'itemId' => 'item_id',
+                    'locationId' => 'location_id',
+                ]
             ]
         ]);
     }

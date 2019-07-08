@@ -12,7 +12,7 @@ use Yii;
  * @property string $location_id
  * @property int $move_qty
  * @property int $move_item_value
- * @property int $reason
+ * @property string $reason
  */
 class StockMovement extends \yii\db\ActiveRecord
 {
@@ -31,8 +31,9 @@ class StockMovement extends \yii\db\ActiveRecord
     {
         return [
             [['item_id', 'location_id'], 'required'],
-            [['item_id', 'location_id', 'move_qty', 'reason'], 'integer'],
+            [['item_id', 'location_id', 'move_qty'], 'integer'],
             [['move_item_value'], 'number'],
+            [['reason'], 'string', 'max' => 20],
         ];
     }
 

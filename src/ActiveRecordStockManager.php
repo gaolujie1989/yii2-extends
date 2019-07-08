@@ -115,7 +115,7 @@ class ActiveRecordStockManager extends BaseStockManager
             $stock->setAttribute($this->stockQtyAttribute, $moveQty);
             return $stock->save(false);
         }
-        return $stock->updateCounters([$this->stockQtyAttribute, $moveQty]);
+        return $stock->updateCounters([$this->stockQtyAttribute => $moveQty]);
     }
 
     /**

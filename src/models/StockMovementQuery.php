@@ -11,6 +11,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method StockMovementQuery locationId($locationId)
  * @method StockMovementQuery reason($reason)
  *
+ * @method int orderByMovementId($order = SORT_ASC)
+ *
  * @method int getTotalMovedQty()
  *
  * @method array|StockMovement[] all($db = null)
@@ -27,14 +29,19 @@ class StockMovementQuery extends \yii\db\ActiveQuery
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
-            'class' => FieldQueryBehavior::class,
-            'queryFields' => [
-                'itemId' => 'item_id',
-                'locationId' => 'location_id',
-                'reason' => 'reason',
-            ],
-            'queryReturn' => [
-                'getTotalMovedQty' => ['move_qty', FieldQueryBehavior::RETURN_SUM]
+            'fieldQuery' => [
+                'class' => FieldQueryBehavior::class,
+                'queryFields' => [
+                    'itemId' => 'item_id',
+                    'locationId' => 'location_id',
+                    'reason' => 'reason',
+                ],
+                'querySorts' => [
+                    'orderByMovementId' => 'stock_movement_id'
+                ],
+                'queryReturns' => [
+                    'getTotalMovedQty' => ['move_qty', FieldQueryBehavior::RETURN_SUM]
+                ]
             ]
         ]);
     }

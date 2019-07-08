@@ -6,6 +6,7 @@
 namespace lujie\stock;
 
 use yii\base\Component;
+use yii\base\InvalidArgumentException;
 use yii\console\Exception;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
@@ -64,7 +65,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         if ($qty <= 0) {
             return false;
         }
-        return $this->moveStock($itemId, $locationId, -$qty, StockConst::MOVEMENT_REASON_INBOUND, $extraData);
+        return $this->moveStock($itemId, $locationId, -$qty, StockConst::MOVEMENT_REASON_OUTBOUND, $extraData);
     }
 
     /**
@@ -83,15 +84,28 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             return false;
         }
 
-        $callable = function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
-            $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData);
-            $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
-        };
         $db = $this->getDb();
         if ($db instanceof Connection) {
-            return $db->transaction($callable);
+            $transaction = static::getDb()->beginTransaction();
+            try {
+                $result = $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
+                    && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
+                if ($result === false) {
+                    $transaction->rollBack();
+                } else {
+                    $transaction->commit();
+                }
+                return $result;
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                throw $e;
+            } catch (\Throwable $e) {
+                $transaction->rollBack();
+                throw $e;
+            }
         }
-        return $callable();
+        return $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
+            && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
     }
 
     /**
@@ -107,7 +121,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     {
         $stockQty = $this->getStockQty($itemId, $locationId);
         $moveQty = $qty - $stockQty;
-        $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $extraData);
+        return $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $extraData);
     }
 
     /**
@@ -140,18 +154,30 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     {
         $stockQty = $this->getStockQty($itemId, $locationId);
         if ($qty < 0 && $stockQty + $qty < 0) {
-            throw new Exception("No enough stocks of {$itemId} in {$locationId}");
+            $message = "Not enough stocks of {$itemId} in {$locationId}, only exist {$stockQty}, can not move {$qty}";
+            throw new InvalidArgumentException($message);
         }
-
-        $callable = function () use ($itemId, $locationId, $qty, $reason, $extraData) {
-            return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
-        };
 
         $db = $this->getDb();
         if ($db instanceof Connection) {
-            return $db->transaction($callable);
+            $transaction = static::getDb()->beginTransaction();
+            try {
+                $result = $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
+                if ($result === false) {
+                    $transaction->rollBack();
+                } else {
+                    $transaction->commit();
+                }
+                return $result;
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                throw $e;
+            } catch (\Throwable $e) {
+                $transaction->rollBack();
+                throw $e;
+            }
         }
-        return $callable();
+        return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
     }
 
     /**
@@ -180,7 +206,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         }
 
         $result = false;
-        $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $extraData);
+        $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $event->extraData);
         if ($createdMovement) {
             $result = $this->updateStockQty($itemId, $locationId, $qty);
         }

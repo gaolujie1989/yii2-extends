@@ -8,6 +8,7 @@ namespace lujie\stock;
 
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
+use yii\debug\FlattenException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -30,6 +31,10 @@ class StockValueBehavior extends Behavior
      */
     public $stockItemValueAttribute = 'stock_item_value';
 
+    /**
+     * @var array
+     */
+    private $transferOutItemValue;
 
     /**
      * @return array
@@ -38,6 +43,7 @@ class StockValueBehavior extends Behavior
     public function events(): array
     {
         return [
+            ActiveRecordStockManager::EVENT_BEFORE_STOCK_MOVEMENT => 'beforeStockMovement',
             ActiveRecordStockManager::EVENT_AFTER_STOCK_MOVEMENT => 'afterStockMovement',
         ];
     }
@@ -46,13 +52,37 @@ class StockValueBehavior extends Behavior
      * @param StockMovementEvent $event
      * @inheritdoc
      */
+    public function beforeStockMovement(StockMovementEvent $event): void
+    {
+        //set transferOut stock item value, using in transferIn
+        if ($event->reason === StockConst::MOVEMENT_REASON_TRANSFER_OUT) {
+            $this->transferOutItemValue = $this->getStockValue($event->itemId, $event->locationId);
+            return;
+        }
+        if ($event->reason === StockConst::MOVEMENT_REASON_TRANSFER_IN) {
+            if (empty($this->transferOutItemValue)) {
+                //normally should not execute it here, so throw exception
+                throw new InvalidArgumentException('Transfer out item value must be set');
+            }
+            //set move item value, so it will save in stock movement
+            $event->extraData[$this->moveItemValueAttribute] = $this->transferOutItemValue;
+            $this->transferOutItemValue = null;
+        }
+    }
+
+    /**
+     * @param StockMovementEvent $event
+     * @inheritdoc
+     */
     public function afterStockMovement(StockMovementEvent $event): void
     {
-        if ($event->reason !== StockConst::MOVEMENT_REASON_INBOUND || empty($event->stockMovement)) {
+        $effectValueReasons = [StockConst::MOVEMENT_REASON_INBOUND, StockConst::MOVEMENT_REASON_TRANSFER_IN];
+        if (empty($event->stockMovement) || !in_array($event->reason, $effectValueReasons, true)) {
             return;
         }
 
-        if (empty($event->extraData[$this->moveItemValueAttribute])) {
+        if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
+            && empty($event->extraData[$this->moveItemValueAttribute])) {
             throw new InvalidArgumentException("Move extra data {$this->moveItemValueAttribute} must be set");
         }
 
@@ -69,15 +99,15 @@ class StockValueBehavior extends Behavior
     /**
      * @param int $itemId
      * @param int $locationId
-     * @return int
+     * @return float
      * @inheritdoc
      */
-    protected function getStockValue(int $itemId, int $locationId): int
+    protected function getStockValue(int $itemId, int $locationId): float
     {
         $stock = $this->owner->getStock($itemId, $locationId);
         if (empty($stock)) {
             return 0;
         }
-        return ArrayHelper::getValue($stock, $this->stockItemValueAttribute);
+        return ArrayHelper::getValue($stock, $this->stockItemValueAttribute) ?: 0;
     }
 }

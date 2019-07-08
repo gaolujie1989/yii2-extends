@@ -23,7 +23,13 @@ class StockValueBehavior extends Behavior
     /**
      * @var string
      */
-    public $stockValueAttribute = 'stock_value';
+    public $moveItemValueAttribute = 'move_item_value';
+
+    /**
+     * @var string
+     */
+    public $stockItemValueAttribute = 'stock_item_value';
+
 
     /**
      * @return array
@@ -32,7 +38,7 @@ class StockValueBehavior extends Behavior
     public function events(): array
     {
         return [
-            ActiveRecordStockManager::EVENT_AFTER_STOCK_MOVEMENT => 'afterStockMovement'
+            ActiveRecordStockManager::EVENT_AFTER_STOCK_MOVEMENT => 'afterStockMovement',
         ];
     }
 
@@ -46,18 +52,18 @@ class StockValueBehavior extends Behavior
             return;
         }
 
-        if (empty($event->extraData[$this->stockValueAttribute])) {
-            throw new InvalidArgumentException("Inbound extra data {$this->stockValueAttribute} must be set");
+        if (empty($event->extraData[$this->moveItemValueAttribute])) {
+            throw new InvalidArgumentException("Move extra data {$this->moveItemValueAttribute} must be set");
         }
 
+        $movedStockValue = $event->extraData[$this->moveItemValueAttribute];
+        $movedQty = $event->moveQty;
         $oldStockValue = $this->getStockValue($event->itemId, $event->locationId);
         $oldStockQty = $event->stockQty;
-        $movedStockValue = $event->extraData[$this->stockValueAttribute];
-        $movedQty = $event->moveQty;
         $newStockQty = $event->stockQty + $event->moveQty;
 
         $newStockValue = round((($oldStockValue * $oldStockQty) + ($movedStockValue * $movedQty)) / $newStockQty, 2);
-        $this->owner->updateStock($event->itemId, $event->locationId, [$this->stockValueAttribute => $newStockValue]);
+        $this->owner->updateStock($event->itemId, $event->locationId, [$this->stockItemValueAttribute => $newStockValue]);
     }
 
     /**
@@ -72,6 +78,6 @@ class StockValueBehavior extends Behavior
         if (empty($stock)) {
             return 0;
         }
-        return ArrayHelper::getValue($stock, $this->stockValueAttribute);
+        return ArrayHelper::getValue($stock, $this->stockItemValueAttribute);
     }
 }

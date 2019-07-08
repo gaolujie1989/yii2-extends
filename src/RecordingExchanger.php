@@ -9,7 +9,6 @@ use Cron\CronExpression;
 use lujie\data\exchange\DataExchange;
 use lujie\data\exchange\Exchanger;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataAccountQuery;
 use lujie\data\recording\models\DataSource;
 use yii\base\InvalidArgumentException;
@@ -58,9 +57,9 @@ class RecordingExchanger extends Exchanger
     public function run(): void
     {
         $closure = static function (DataAccountQuery $query) {
-            $query->active();
+            $query->alias('a')->active();
         };
-        $query = DataSource::find()->innerJoinWith(['dataAccount' => $closure])->active();
+        $query = DataSource::find()->alias('s')->innerJoinWith(['dataAccount' => $closure])->active();
         /** @var DataSource[] $each */
         $each = $query->each();
         foreach ($each as $dataSource) {

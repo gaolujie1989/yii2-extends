@@ -11,7 +11,10 @@ namespace lujie\db\fieldQuery\behaviors;
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
 /**
@@ -65,6 +68,11 @@ class FieldQueryBehavior extends Behavior
      * @var array
      */
     public $queryReturns = [];
+
+    /**
+     * @var null
+     */
+    private $_alias;
 
     /**
      * @inheritdoc
@@ -132,6 +140,77 @@ class FieldQueryBehavior extends Behavior
     }
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    protected function getAlias(): string
+    {
+        if ($this->_alias === null) {
+            $this->_alias = '';
+            /** @var Query $owner */
+            $owner = $this->owner;
+            if (empty($owner->from)) {
+                $this->_alias = '';
+            } else if (count($owner->from) === 1) {
+                $alias = array_keys($owner->from)[0];
+                $this->_alias = is_string($alias) ? $alias : '';
+            } else if ($owner instanceof ActiveQuery && count($owner->from) > 1) {
+                /** @var ActiveRecord $modelClass */
+                $modelClass = $owner->modelClass;
+                foreach ($owner->from as $alias => $tableName) {
+                    if (is_string($alias) && $tableName === $modelClass::tableName()) {
+                        $this->_alias = $alias;
+                    }
+                }
+            }
+        }
+        return $this->_alias;
+    }
+
+    /**
+     * @param string $field
+     * @return string
+     * @inheritdoc
+     */
+    protected function buildAliasField(string $field): string
+    {
+        $alias = $this->getAlias();
+        if (!$alias) {
+            return $field;
+        }
+        return $alias . '.' . $field;
+    }
+
+    /**
+     * @param $condition
+     * @inheritdoc
+     */
+    protected function buildAliasCondition($condition)
+    {
+        $alias = $this->getAlias();
+        if (!$alias) {
+            return $condition;
+        }
+        if (ArrayHelper::isAssociative($condition)) {
+            $newCondition = [];
+            foreach ($condition as $field => $value) {
+                $newCondition[$this->buildAliasField($field)] = $value;
+            }
+            $condition = $newCondition;
+        } else if (is_array($condition)) {
+            if (isset($condition[1]) && is_string($condition[1])) {
+                $condition[1] = $this->buildAliasField($condition[1]);
+            } else if (isset($condition[0])
+                && in_array(strtoupper($condition[0]), ['AND', 'OR'], true)) {
+                for ($i = count($condition) - 1; $i > 0; $i--) {
+                    $condition[$i] = $this->buildAliasCondition($condition[$i]);
+                }
+            }
+        }
+        return $condition;
+    }
+
+    /**
      * @param string $name
      * @param array $params
      * @return Query
@@ -152,6 +231,7 @@ class FieldQueryBehavior extends Behavior
                 throw new InvalidArgumentException("{$paramName} must be set");
             }
             $value = array_shift($params);
+            $field = $this->buildAliasField($field);
             if ($op) {
                 $owner->andWhere([$op, $field, $value]);
             } else {
@@ -168,9 +248,12 @@ class FieldQueryBehavior extends Behavior
      */
     protected function queryCondition(string $name): Query
     {
+        $alias = $this->getAlias();
         /** @var Query $owner */
         $owner = $this->owner;
-        $owner->andWhere($this->queryConditions[$name]);
+        $condition = $this->queryConditions[$name];
+        $condition = $this->buildAliasCondition($condition);
+        $owner->andWhere($condition);
         return $owner;
     }
 
@@ -185,6 +268,7 @@ class FieldQueryBehavior extends Behavior
         $owner = $this->owner;
         foreach ($this->querySorts[$name] as $field) {
             $sort = empty($params) ? SORT_ASC : array_shift($params);
+            $field = $this->buildAliasField($field);
             $owner->addOrderBy([$field => $sort]);
         }
         return $owner;
@@ -201,6 +285,7 @@ class FieldQueryBehavior extends Behavior
         /** @var Query $owner */
         $owner = $this->owner;
         [$field, $method] = $this->queryReturns[$name];
+        $field = $this->buildAliasField($field);
         switch ($method) {
             case self::RETURN_COLUMN:
                 return $owner->select([$field])->column();

@@ -21,11 +21,6 @@ class StockMovementEvent extends ModelEvent
     /**
      * @var BaseActiveRecord|array
      */
-    public $stock;
-
-    /**
-     * @var BaseActiveRecord|array
-     */
     public $stockMovement;
 
     /**
@@ -41,7 +36,12 @@ class StockMovementEvent extends ModelEvent
     /**
      * @var int
      */
-    public $qty;
+    public $stockQty;
+
+    /**
+     * @var int
+     */
+    public $moveQty;
 
     /**
      * @var int

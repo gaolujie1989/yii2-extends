@@ -6,6 +6,8 @@
 namespace lujie\stock;
 
 
+use yii\db\BaseActiveRecord;
+
 interface StockManagerInterface
 {
     /**
@@ -17,7 +19,7 @@ interface StockManagerInterface
      * @throws \Throwable
      * @inheritdoc
      */
-    public function inbound($itemId, $locationId, int $qty, $extraData = []);
+    public function inbound(int $itemId, int $locationId, int $qty, array $extraData = []): bool;
 
     /**
      * @param $itemId
@@ -28,7 +30,7 @@ interface StockManagerInterface
      * @throws \Throwable
      * @inheritdoc
      */
-    public function outbound($itemId, $locationId, int $qty, $extraData = []);
+    public function outbound(int $itemId, int $locationId, int $qty, array $extraData = []): bool;
 
     /**
      * @param $itemId
@@ -40,7 +42,7 @@ interface StockManagerInterface
      * @throws \Throwable
      * @inheritdoc
      */
-    public function transfer($itemId, $fromLocationId, $toLocationId, int $qty, $extraData = []);
+    public function transfer(int $itemId, int $fromLocationId, int $toLocationId, int $qty, array $extraData = []): bool;
 
     /**
      * @param $itemId
@@ -50,21 +52,20 @@ interface StockManagerInterface
      * @throws \Throwable
      * @inheritdoc
      */
-    public function correct($itemId, $locationId, int $qty, $extraData = []);
+    public function correct(int $itemId, int $locationId, int $qty, array $extraData = []): bool;
 
     /**
-     * @param $itemId
-     * @param $locationId
-     * @return bool
+     * @param int $itemId
+     * @param int $locationId
      * @inheritdoc
      */
-    public function calculateStock($itemId, $locationId);
+    public function calculateStock(int $itemId, int $locationId): void;
 
     /**
-     * @param $itemId
-     * @param $locationId
-     * @return mixed
+     * @param int $itemId
+     * @param int $locationId
+     * @return array|BaseActiveRecord|null
      * @inheritdoc
      */
-    public function getStock($itemId, $locationId);
+    public function getStock(int $itemId, int $locationId);
 }

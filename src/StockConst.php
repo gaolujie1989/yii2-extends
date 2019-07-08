@@ -5,12 +5,16 @@
 
 namespace lujie\stock;
 
-
+/**
+ * Class StockConst
+ * @package lujie\stock
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class StockConst
 {
-    const MOVEMENT_REASON_INBOUND = 'inbound';
-    const MOVEMENT_REASON_OUTBOUND = 'outbound';
-    const MOVEMENT_REASON_TRANSFER_IN = 'transfer_in';
-    const MOVEMENT_REASON_TRANSFER_OUT = 'transfer_out';
-    const MOVEMENT_REASON_CORRECT = 'correct';
+    public const MOVEMENT_REASON_INBOUND = 'INBOUND';
+    public const MOVEMENT_REASON_OUTBOUND = 'OUTBOUND';
+    public const MOVEMENT_REASON_TRANSFER_IN = 'TRANSFER_IN';
+    public const MOVEMENT_REASON_TRANSFER_OUT = 'TRANSFER_OUT';
+    public const MOVEMENT_REASON_CORRECT = 'CORRECT';
 }

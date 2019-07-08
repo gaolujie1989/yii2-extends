@@ -8,21 +8,28 @@ namespace lujie\stock;
 
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class StockValueBehavior
+ *
+ * @property BaseStockManager $owner
+ *
  * @package lujie\stock
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class StockValueBehavior extends Behavior
 {
+    /**
+     * @var string
+     */
     public $stockValueAttribute = 'stock_value';
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             ActiveRecordStockManager::EVENT_AFTER_STOCK_MOVEMENT => 'afterStockMovement'
@@ -33,13 +40,9 @@ class StockValueBehavior extends Behavior
      * @param StockMovementEvent $event
      * @inheritdoc
      */
-    public function afterStockMovement(StockMovementEvent $event)
+    public function afterStockMovement(StockMovementEvent $event): void
     {
-        /** @var ActiveRecordStockManager $stockManager */
-        $stockManager = $event->sender;
-        $movedQty = $event->stockMovement->getAttribute($stockManager->movedQtyAttribute);
-        $moveReason = $event->stockMovement->getAttribute($stockManager->reasonAttribute);
-        if ($moveReason != StockConst::MOVEMENT_REASON_INBOUND) {
+        if ($event->reason !== StockConst::MOVEMENT_REASON_INBOUND) {
             return;
         }
 
@@ -47,14 +50,28 @@ class StockValueBehavior extends Behavior
             throw new InvalidArgumentException("Inbound extra data {$this->stockValueAttribute} must be set");
         }
 
-        $stock = $event->stock;
+        $oldStockValue = $this->getStockValue($event->itemId, $event->locationId);
+        $oldStockQty = $event->stockQty;
         $movedStockValue = $event->extraData[$this->stockValueAttribute];
-        $oldStockValue = $stock->getAttribute($this->stockValueAttribute);
-        $newStockQty = $stock->getAttribute($stockManager->stockQtyAttribute);
-        $oldStockQty = $newStockQty - $movedQty;
+        $movedQty = $event->moveQty;
+        $newStockQty = $event->stockQty + $event->moveQty;
 
         $newStockValue = round((($oldStockValue * $oldStockQty) + ($movedStockValue * $movedQty)) / $newStockQty, 2);
-        $stock->setAttributes([$this->stockValueAttribute => $newStockValue]);
-        $stock->save(false);
+        $this->owner->updateStock($event->itemId, $event->locationId, [$this->stockValueAttribute => $newStockValue]);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return int
+     * @inheritdoc
+     */
+    protected function getStockValue(int $itemId, int $locationId): int
+    {
+        $stock = $this->owner->getStock($itemId, $locationId);
+        if (empty($stock)) {
+            return 0;
+        }
+        return ArrayHelper::getValue($stock, $this->stockValueAttribute);
     }
 }

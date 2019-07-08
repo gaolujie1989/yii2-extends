@@ -8,6 +8,7 @@ namespace lujie\stock;
 use yii\base\Component;
 use yii\console\Exception;
 use yii\db\BaseActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class BaseStockManager
@@ -16,25 +17,25 @@ use yii\db\BaseActiveRecord;
  */
 abstract class BaseStockManager extends Component implements StockManagerInterface
 {
-    const EVENT_BEFORE_STOCK_MOVEMENT = 'beforeStockMovement';
-    const EVENT_AFTER_STOCK_MOVEMENT = 'afterStockMovement';
+    public const EVENT_BEFORE_STOCK_MOVEMENT = 'beforeStockMovement';
+    public const EVENT_AFTER_STOCK_MOVEMENT = 'afterStockMovement';
 
     public $itemIdAttribute = 'item_id';
     public $locationIdAttribute = 'location_id';
     public $stockQtyAttribute = 'stock_qty';
-    public $movedQtyAttribute = 'moved_qty';
+    public $moveQtyAttribute = 'move_qty';
     public $reasonAttribute = 'reason';
 
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param array $extraData
-     * @return bool|mixed
+     * @return bool
      * @throws \Throwable
      * @inheritdoc
      */
-    public function inbound($itemId, $locationId, int $qty, $extraData = [])
+    public function inbound(int $itemId, int $locationId, int $qty, $extraData = []): bool
     {
         if ($qty <= 0) {
             return false;
@@ -43,15 +44,15 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     }
 
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param array $extraData
-     * @return bool|mixed
+     * @return bool
      * @throws \Throwable
      * @inheritdoc
      */
-    public function outbound($itemId, $locationId, int $qty, $extraData = [])
+    public function outbound(int $itemId, int $locationId, int $qty, $extraData = []): bool
     {
         if ($qty <= 0) {
             return false;
@@ -69,7 +70,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @throws \Throwable
      * @inheritdoc
      */
-    public function transfer($itemId, $fromLocationId, $toLocationId, int $qty, $extraData = [])
+    public function transfer(int $itemId, int $fromLocationId, int $toLocationId, int $qty, array $extraData = []): bool
     {
         if ($qty <= 0) {
             return false;
@@ -80,36 +81,35 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     }
 
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param array $extraData
+     * @return bool
      * @throws \Throwable
      * @inheritdoc
      */
-    public function correct($itemId, $locationId, int $qty, $extraData = [])
+    public function correct(int $itemId, int $locationId, int $qty, array $extraData = []): bool
     {
-        $stock = $this->getStock($itemId, $locationId);
-        $stockQty = $stock->getAttribute($this->stockQtyAttribute) ?: 0;
+        $stockQty = $this->getStockQty($itemId, $locationId);
         $moveQty = $qty - $stockQty;
         $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $extraData);
     }
 
     /**
-     * @param $itemId
-     * @param $locationId
-     * @return bool
+     * @param int $itemId
+     * @param int $locationId
+     * @return int|mixed
      * @inheritdoc
      */
-    abstract public function calculateStock($itemId, $locationId);
-
-    /**
-     * @param $itemId
-     * @param $locationId
-     * @return BaseActiveRecord
-     * @inheritdoc
-     */
-    abstract public function getStock($itemId, $locationId);
+    protected function getStockQty(int $itemId, int $locationId): int
+    {
+        $stock = $this->getStock($itemId, $locationId);
+        if (empty($stock)) {
+            return 0;
+        }
+        return ArrayHelper::getValue($stock, $this->stockQtyAttribute);
+    }
 
     /**
      * @param $itemId
@@ -117,25 +117,22 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $qty
      * @param $reason
      * @param array $extraData
-     * @return mixed
-     * @throws \Throwable
+     * @return bool
+     * @throws Exception
      * @inheritdoc
      */
-    protected function moveStock($itemId, $locationId, int $qty, $reason, $extraData = [])
+    protected function moveStock(int $itemId, int $locationId, int $qty, $reason, $extraData = []): bool
     {
-        $stock = $this->getStock($itemId, $locationId);
-        if ($qty < 0) {
-            $stockQty = $stock->getAttribute($this->stockQtyAttribute) ?: 0;
-            if ($stockQty + $qty < 0) {
-                throw new Exception("No enough stocks of {$itemId} in {$locationId}");
-            }
+        $stockQty = $this->getStockQty($itemId, $locationId);
+        if ($qty < 0 && $stockQty + $qty < 0) {
+            throw new Exception("No enough stocks of {$itemId} in {$locationId}");
         }
 
         $event = new StockMovementEvent([
-            'stock' => $stock,
             'itemId' => $itemId,
             'locationId' => $locationId,
-            'qty' => $qty,
+            'stockQty' => $stockQty,
+            'moveQty' => $qty,
             'reason' => $reason,
             'extraData' => $extraData,
         ]);
@@ -147,12 +144,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         $result = false;
         $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $extraData);
         if ($createdMovement) {
-            if ($stock->getIsNewRecord()) {
-                $stock->setAttributes([$this->stockQtyAttribute => $qty]);
-                $result = $stock->save(false);
-            } else {
-                $result = $stock->updateCounters([$this->stockQtyAttribute => $qty]);
-            }
+            $result = $this->updateStockQty($itemId, $locationId, $qty);
         }
 
         $event->stockMovement = $createdMovement;
@@ -166,7 +158,26 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $qty
      * @param $reason
      * @param array $extraData
-     * @return bool
+     * @return array|BaseActiveRecord
+     * @inheritdoc
      */
-    abstract protected function createStockMovement($itemId, $locationId, int $qty, $reason, $extraData = []);
+    abstract protected function createStockMovement(int $itemId, int $locationId, int $qty, $reason, $extraData = []);
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @param int $moveQty
+     * @return bool
+     * @inheritdoc
+     */
+    abstract protected function updateStockQty(int $itemId, int $locationId, int $moveQty): bool;
+
+    /**
+     * @param $item
+     * @param $locationId
+     * @param $moveQty
+     * @return bool
+     * @inheritdoc
+     */
+    abstract public function updateStock(int $itemId, int $locationId, array $data): bool;
 }

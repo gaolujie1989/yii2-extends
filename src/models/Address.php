@@ -2,6 +2,7 @@
 
 namespace lujie\common\address\models;
 
+use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -24,6 +25,14 @@ use Yii;
  * @property string $email
  * @property string $phone
  * @property string $signature
+ *
+ * @property string $companyName
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $street
+ * @property string $houseNo
+ * @property string $additional
+ *
  */
 class Address extends \yii\db\ActiveRecord
 {
@@ -51,6 +60,27 @@ class Address extends \yii\db\ActiveRecord
             [['email'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'alias' => [
+                'class' => AliasPropertyBehavior::class,
+                'aliasProperties' => [
+                    'companyName' => 'name1',
+                    'firstName' => 'name2',
+                    'lastName' => 'name3',
+                    'street' => 'address1',
+                    'houseNo' => 'address2',
+                    'additional' => 'address3',
+                ]
+            ]
+        ]);
     }
 
     /**

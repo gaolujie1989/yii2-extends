@@ -35,6 +35,7 @@ class AddressForm extends Address
             $address = static::findBySignature($signature);
             if ($address === null) {
                 $this->setIsNewRecord(true);
+                $this->address_id = null;
                 return parent::save();
             }
             $this->refreshInternal($address);

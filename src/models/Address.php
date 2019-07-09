@@ -59,6 +59,7 @@ class Address extends \yii\db\ActiveRecord
             [['zip_code'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
+            [['companyName', 'firstName', 'lastName', 'street', 'houseNo', 'additional'], 'safe'],
         ];
     }
 
@@ -112,7 +113,7 @@ class Address extends \yii\db\ActiveRecord
      */
     protected function generateSignature(): string
     {
-        $addressData = $this->getAttributes(null, ['address_id', 'created_at', 'created_by', 'updated_at', 'updated_by']);
+        $addressData = $this->getAttributes(null, ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by']);
         return md5(json_encode($addressData));
     }
 
@@ -134,6 +135,6 @@ class Address extends \yii\db\ActiveRecord
      */
     public static function findBySignature(string $signature): ?self
     {
-        static::findOne(['signature' => $signature]);
+        return static::findOne(['signature' => $signature]);
     }
 }

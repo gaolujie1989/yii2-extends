@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-common-address",
+  "description": "Yii2 common address",
+  "keywords": ["yii2", "address"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-common-address/issues",
+    "source": "https://gitee.com/code4dream/yii2-common-address"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\common\\address\\": "src",
+      "lujie\\common\\address\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

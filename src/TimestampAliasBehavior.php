@@ -6,8 +6,6 @@
 namespace lujie\alias\behaviors;
 
 
-use yii\helpers\StringHelper;
-
 /**
  * Class TimestampAliasBehavior
  * @package lujie\core\behaviors

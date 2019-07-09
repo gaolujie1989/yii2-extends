@@ -42,4 +42,16 @@ class AddressForm extends Address
         }
         return parent::save();
     }
+
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeDelete(): bool
+    {
+        if ($this->identifyBySignature) {
+            return false;
+        }
+        return parent::beforeDelete();
+    }
 }

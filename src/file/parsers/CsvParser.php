@@ -18,6 +18,11 @@ class CsvParser extends BaseObject implements FileParserInterface
 {
     public $firstLineIsHeader = true;
 
+    public $delimiter = ',';
+    public $enclosure = '"';
+    public $escape = '\\';
+    public $flag = true;
+
     /**
      * @param string $file
      * @return array
@@ -25,6 +30,6 @@ class CsvParser extends BaseObject implements FileParserInterface
      */
     public function parseFile(string $file): array
     {
-        return CsvHelper::readCsv($file, $this->firstLineIsHeader);
+        return CsvHelper::readCsv($file, $this->firstLineIsHeader, 0, $this->delimiter, $this->enclosure, $this->escape, $this->flag);
     }
 }

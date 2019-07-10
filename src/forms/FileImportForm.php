@@ -42,7 +42,7 @@ class FileImportForm extends Model
     /**
      * @var FileImport
      */
-    public $fileImporter;
+    public $fileImport;
 
     /**
      * @var array import results
@@ -58,7 +58,7 @@ class FileImportForm extends Model
         parent::init();
         $this->path = Yii::getAlias($this->path);
         $this->path = rtrim($this->path, '/') . '/';
-        $this->fileImporter = Instance::ensure($this->fileImporter, FileImport::class);
+        $this->fileImport = Instance::ensure($this->fileImport, FileImport::class);
     }
 
     #region model overwrites
@@ -160,11 +160,14 @@ class FileImportForm extends Model
             return false;
         }
 
-        $importer = $this->fileImporter;
+        $import = $this->fileImport;
         foreach ($this->files as $file) {
             $filePath = $this->path . $file;
-            $importer->import($filePath);
-            $this->affectedRowCounts[$file] = $importer->getAffectedRowCounts();
+            if ($import->import($filePath)) {
+                $this->affectedRowCounts[$file] = $import->getAffectedRowCounts();
+            } else {
+                $this->addError($this->fileAttribute, ['file' => $import->getErrors()]);
+            }
         }
         return !$this->hasErrors();
     }

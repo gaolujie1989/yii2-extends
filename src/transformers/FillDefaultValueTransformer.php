@@ -27,8 +27,10 @@ class FillDefaultValueTransformer extends BaseObject implements TransformerInter
     public function transform(array $data): array
     {
         return array_map(function($values) {
-            $emptyValues = array_filter($values, [$this, 'isEmpty']);
-            $fillValues = array_intersect_key($this->defaultValues, $emptyValues);
+            $notEmptyValues = array_filter($values, function($value) {
+                return !$this->isEmpty($value);
+            });
+            $fillValues = array_diff_key($this->defaultValues, $notEmptyValues);
             $values = array_merge($values, $fillValues);
             return $values;
         }, $data);

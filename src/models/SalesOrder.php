@@ -2,6 +2,7 @@
 
 namespace lujie\sales\order\center\models;
 
+use lujie\common\address\models\Address;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;

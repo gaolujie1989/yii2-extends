@@ -7,6 +7,7 @@ namespace lujie\sales\order\center\forms;
 
 
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use lujie\common\address\forms\AddressForm;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\sales\order\center\models\Customer;
 use lujie\sales\order\center\models\SalesOrder;

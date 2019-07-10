@@ -9,6 +9,7 @@ use lujie\data\exchange\FileImport;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
+use yii\base\NotSupportedException;
 use yii\di\Instance;
 
 /**
@@ -21,12 +22,12 @@ class FileImportForm extends Model
     /**
      * @var string
      */
-    public $fileAttribute = 'file';
+    public $fileAttribute = 'files';
 
     /**
      * @var string
      */
-    public $fileAttributeLabel = 'File';
+    public $fileAttributeLabel = 'Files';
 
     /**
      * @var array
@@ -36,7 +37,7 @@ class FileImportForm extends Model
     /**
      * @var string
      */
-    public $path = '/tmp/';
+    public $path = '/tmp/imports';
 
     /**
      * @var FileImport
@@ -150,6 +151,7 @@ class FileImportForm extends Model
     /**
      * @return bool
      * @throws InvalidConfigException
+     * @throws NotSupportedException
      * @inheritdoc
      */
     public function import(): bool

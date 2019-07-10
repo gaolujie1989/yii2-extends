@@ -2,6 +2,7 @@
 
 namespace lujie\common\address\models;
 
+use function GuzzleHttp\Psr7\str;
 use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -21,16 +22,17 @@ use Yii;
  * @property string $address1 street|pack station|post filiale
  * @property string $address2 house no|pack station id
  * @property string $address3 additional
- * @property string $zip_code
+ * @property string $postal_code
  * @property string $email
  * @property string $phone
  * @property string $signature
  *
- * @property string $companyName
- * @property string $firstName
- * @property string $lastName
+ * @property string $zip_code
+ * @property string $company_name
+ * @property string $first_name
+ * @property string $last_name
  * @property string $street
- * @property string $houseNo
+ * @property string $house_no
  * @property string $additional
  *
  */
@@ -53,14 +55,26 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             [['country'], 'required'],
+            [['state', 'city', 'name1', 'name2', 'name3', 'address1', 'address2', 'address3',
+                'postal_code', 'email', 'phone'], 'default', 'value' => ''],
             [['country'], 'string', 'max' => 2],
             [['state', 'city'], 'string', 'max' => 200],
+            [['address1', 'address2', 'address3', 'postal_code', 'phone'], 'strVal'],
             [['name1', 'name2', 'name3', 'address1', 'address2', 'address3'], 'string', 'max' => 255],
-            [['zip_code'], 'string', 'max' => 20],
+            [['postal_code'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
             [['companyName', 'firstName', 'lastName', 'street', 'houseNo', 'additional'], 'safe'],
         ];
+    }
+
+    /**
+     * @param string $attribute
+     * @inheritdoc
+     */
+    public function strVal(string $attribute): void
+    {
+        $this->{$attribute} = (string)$this->{$attribute};
     }
 
     /**
@@ -73,11 +87,13 @@ class Address extends \yii\db\ActiveRecord
             'alias' => [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [
-                    'companyName' => 'name1',
-                    'firstName' => 'name2',
-                    'lastName' => 'name3',
+                    'province' => 'state',
+                    'zip_code' => 'postal_code',
+                    'company_name' => 'name1',
+                    'first_name' => 'name2',
+                    'last_name' => 'name3',
                     'street' => 'address1',
-                    'houseNo' => 'address2',
+                    'house_no' => 'address2',
                     'additional' => 'address3',
                 ]
             ]
@@ -100,7 +116,7 @@ class Address extends \yii\db\ActiveRecord
             'address1' => Yii::t('lujie/common', 'Address1'),
             'address2' => Yii::t('lujie/common', 'Address2'),
             'address3' => Yii::t('lujie/common', 'Address3'),
-            'zip_code' => Yii::t('lujie/common', 'Zip Code'),
+            'postal_code' => Yii::t('lujie/common', 'Postal Code'),
             'email' => Yii::t('lujie/common', 'Email'),
             'phone' => Yii::t('lujie/common', 'Phone'),
             'signature' => Yii::t('lujie/common', 'Signature'),

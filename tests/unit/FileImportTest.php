@@ -57,7 +57,7 @@ class FileImportTest extends \Codeception\Test\Unit
                 'table' => '{{%migration}}',
             ]
         ]);
-        $importer->import($file);
+        $importer->import($filePath);
         $this->assertEquals($data, $dbSource->all());
     }
 }

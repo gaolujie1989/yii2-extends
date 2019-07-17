@@ -5,6 +5,7 @@ namespace lujie\fulfillment\models;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\state\machine\behaviors\StatusCheckBehavior;
 use Yii;
 
 /**
@@ -19,10 +20,16 @@ use Yii;
  * @property array $options
  * @property array $additional_info
  * @property int $status
+ *
+ * @property bool $isActive;
+ * @property bool $isInActive;
  */
 class FulfillmentAccount extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+
+    public const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE = 10;
 
     /**
      * {@inheritdoc}
@@ -44,6 +51,23 @@ class FulfillmentAccount extends \yii\db\ActiveRecord
             [['type'], 'string', 'max' => 50],
             [['url', 'username', 'password'], 'string', 'max' => 255],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'statusChecker' => [
+                'class' => StatusCheckBehavior::class,
+                'statusCheckProperties' => [
+                    'isActive' => [static::STATUS_ACTIVE],
+                    'isInActive' => [static::STATUS_INACTIVE],
+                ]
+            ]
+        ]);
     }
 
     /**

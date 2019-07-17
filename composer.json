@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-fulfillment",
+  "description": "fulfillment",
+  "keywords": ["yii2", "fulfillment"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-fulfillment/issues",
+    "source": "https://gitee.com/code4dream/yii2-fulfillment"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\fulfillment\\": "src",
+      "lujie\\fulfillment\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

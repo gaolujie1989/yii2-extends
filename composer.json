@@ -1,0 +1,31 @@
+{
+  "name": "lujie/yii2-barcode",
+  "description": "Yii2 barcode",
+  "keywords": ["yii2", "barcode"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-barcode/issues",
+    "source": "https://gitee.com/code4dream/yii2-barcode"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\barcode\\": "src",
+      "lujie\\barcode\\tests\\": "tests",
+      "BarcodeBakery\\Common\\": "src/barcodegen6.0.0/packages/barcode-common/src",
+      "BarcodeBakery\\Barcode\\": "src/barcodegen6.0.0/packages/barcode-1d/src"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

@@ -19,11 +19,12 @@ class FileHelper
      * @param string $suffix
      * @param string $prefix
      * @return string
+     * @throws \Exception
      * @inheritdoc
      */
     public static function generateRandomFileName($suffix = '.xxx', $prefix = 'tmp_')
     {
-        return $prefix . date('YmdHis') . '_' . rand(1000, 9999) . $suffix;
+        return $prefix . date('YmdHis') . '_' . random_int(1000, 9999) . $suffix;
     }
 
     /**

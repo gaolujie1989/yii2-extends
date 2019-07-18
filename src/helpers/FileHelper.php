@@ -22,7 +22,7 @@ class FileHelper
      * @throws \Exception
      * @inheritdoc
      */
-    public static function generateRandomFileName($suffix = '.xxx', $prefix = 'tmp_')
+    public static function generateRandomFileName($suffix = '.xxx', $prefix = 'tmp_'): string
     {
         return $prefix . date('YmdHis') . '_' . random_int(1000, 9999) . $suffix;
     }
@@ -32,7 +32,7 @@ class FileHelper
      * @param $fileName
      * @inheritdoc
      */
-    public static function sendFile($file, $fileName)
+    public static function sendFile($file, $fileName): bool
     {
         $response = Yii::$app->getResponse();
         $response->format = $response::FORMAT_HTML;

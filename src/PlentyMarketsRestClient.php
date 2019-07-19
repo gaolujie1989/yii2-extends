@@ -6,7 +6,7 @@
 namespace lujie\plentyMarkets;
 
 use lujie\extend\authclient\RestOAuth2Client;
-use Yii;
+use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\helpers\Inflector;
 
@@ -116,6 +116,10 @@ use yii\helpers\Inflector;
  * @method array createItemShippingProfile($data)
  * @method array updateItemShippingProfile($data)
  * @method array deleteItemShippingProfile($data)
+ *
+ * @method array listVariations($data)
+ * @method \Generator eachVariation($condition = [])
+ * @method \Generator batchVariation($condition = [])
  *
  * @method array listItemVariations($data)
  * @method \Generator eachItemVariation($batchSize, $condition = [])
@@ -309,6 +313,8 @@ use yii\helpers\Inflector;
  * @method array createListingMarketTexts($data)
  * @method array updateListingMarketTexts($data)
  * @method array deleteListingMarketTexts($data)
+ *
+ * @method array getOrderPackageNumbers($data)
  *
  * @package lujie\plentyMarkets
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -505,6 +511,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
     /**
      * @param OAuthToken $token
      * @return OAuthToken
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     public function refreshAccessToken(OAuthToken $token): OAuthToken
@@ -516,16 +523,16 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         $this->applyClientCredentialsToRequest($request);
 
         try {
-            $response = $this->sendRequest($request);
-        } catch (\Exception $e) {
-            Yii::warning($e->getMessage(), __METHOD__);
-            return null;
+            $responseData = $this->sendRequest($request);
+            $token = $this->createToken(['params' => $responseData]);
+            $this->setAccessToken($token);
+            return $token;
+        } catch (InvalidResponseException $e) {
+            if ($e->response->statusCode === '401') {
+                return $this->authenticateUser($this->username, $this->password);
+            }
+            throw $e;
         }
-
-        $token = $this->createToken(['params' => $response]);
-        $this->setAccessToken($token);
-
-        return $token;
     }
 
     /**

@@ -23,7 +23,6 @@ trait SaveTrait
      */
     public function save($runValidation = true, $attributeNames = null): bool
     {
-
         if ($attributeNames) {
             $traceableAttributes = ['updated_at', 'updated_by'];
             foreach ($traceableAttributes as $attribute) {

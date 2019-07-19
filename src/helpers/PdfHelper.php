@@ -5,6 +5,7 @@
 
 namespace lujie\extend\helpers;
 
+use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii2tech\html2pdf\Manager;
 
@@ -16,24 +17,24 @@ use yii2tech\html2pdf\Manager;
 class PdfHelper
 {
     /**
-     * @param $file
-     * @param $data
-     * @param $view
-     * @param null $viewPath
+     * @param string $file
+     * @param array $data
+     * @param string $view
+     * @param string|null $viewPath
      * @param string $render
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public static function writePdf($file, $data, $view, $viewPath = null, $render = 'html2pdf')
+    public static function writePdf(string $file, array $data, string $view, ?string $viewPath = null, string $render = 'html2pdf'): void
     {
         if (file_exists($file)) {
             unlink($file);
         }
-        /** @var Manager $render */
-        $render = Instance::ensure($render);
+        /** @var Manager $renderInstance */
+        $renderInstance = Instance::ensure($render, Manager::class);
         if ($viewPath) {
-            $render->setViewPath($viewPath);
+            $renderInstance->setViewPath($viewPath);
         }
-        $render->render($view, $data)->saveAs($file);
+        $renderInstance->render($view, $data)->saveAs($file);
     }
 }

@@ -85,7 +85,7 @@ trait CachingTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getOrSet($key, $callable)
+    public function getOrSet(string $key, $callable)
     {
         if ($this->cache) {
             $this->initCache();

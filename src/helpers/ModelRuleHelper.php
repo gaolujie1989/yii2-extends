@@ -6,22 +6,22 @@
 namespace lujie\extend\helpers;
 
 
-class RuleHelper
+class ModelRuleHelper
 {
     /**
      * @param array $rules
-     * @param string $attribute
-     * @param null|mixed $rule
-     * @return mixed
+     * @param $attributes
+     * @param string|null $rule
+     * @return array
      * @inheritdoc
      */
-    public static function removeAttributesRules($rules, $attributes, $rule = null)
+    public static function removeAttributesRules(array $rules, $attributes, ?string $rule = null): array
     {
         $attributes = (array) $attributes;
         foreach ($rules as $key => $ruleConfig) {
             [$ruleAttributes, $ruleName] = $ruleConfig;
             if ($rule === null || $rule === $ruleName) {
-                if ((is_string($ruleAttributes) && in_array($ruleAttributes, $attributes))) {
+                if (is_string($ruleAttributes) && in_array($ruleAttributes, $attributes, true)) {
                     unset($rules[$key]);
                 } else if (is_array($ruleAttributes) && array_intersect($attributes, $ruleAttributes)) {
                     $ruleAttributes = array_diff($ruleAttributes, $attributes);

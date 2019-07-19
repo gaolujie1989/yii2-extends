@@ -16,6 +16,9 @@ use yii\base\InvalidConfigException;
  */
 class DateValidator extends \yii\validators\DateValidator
 {
+    /**
+     * @var string
+     */
     public $parseDateValueFunc = 'strtotime';
 
     public $timestampAttributeTimeZone = null;
@@ -24,7 +27,11 @@ class DateValidator extends \yii\validators\DateValidator
 
     public $timestampAttributeFormat = true;
 
-    public function init()
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
     {
         parent::init();
         if (!$this->timestampAttributeTimeZone) {
@@ -55,16 +62,18 @@ class DateValidator extends \yii\validators\DateValidator
     }
 
     /**
+     * @param $model
+     * @param $attribute
      * @inheritdoc
      */
-    public function validateAttribute($model, $attribute)
+    public function validateAttribute($model, $attribute): void
     {
         if ($this->timestampAttribute === true) {
             $this->timestampAttribute = $attribute;
-            $isValid = parent::validateAttribute($model, $attribute);
+            parent::validateAttribute($model, $attribute);
             $this->timestampAttribute = true;
-            return $isValid;
+        } else {
+            parent::validateAttribute($model, $attribute);
         }
-        return parent::validateAttribute($model, $attribute);
     }
 }

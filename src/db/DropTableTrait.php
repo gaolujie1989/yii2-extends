@@ -20,7 +20,7 @@ trait DropTableTrait
      * @return bool|void
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         if ($this->tableName) {
             /** @var Migration|DropTableTrait $this */

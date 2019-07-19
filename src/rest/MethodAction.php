@@ -10,6 +10,7 @@ use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\db\ActiveRecord;
+use yii\db\BaseActiveRecord;
 use yii\rest\Action;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
@@ -45,7 +46,7 @@ class MethodAction extends Action
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -57,14 +58,14 @@ class MethodAction extends Action
     }
 
     /**
-     * @param null $id
-     * @return ActiveRecord
+     * @param null|int|string $id
+     * @return BaseActiveRecord
      * @throws InvalidConfigException
-     * @throws ServerErrorHttpException
      * @throws NotFoundHttpException
+     * @throws ServerErrorHttpException
      * @inheritdoc
      */
-    public function run($id = null)
+    public function run($id = null): BaseActiveRecord
     {
         if ($this->requireId && empty($id)) {
             throw new InvalidArgumentException('Id must be set');

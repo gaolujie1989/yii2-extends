@@ -6,6 +6,7 @@
 namespace lujie\extend\console\controllers;
 
 
+use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;
@@ -18,29 +19,29 @@ use yii\di\Instance;
 class CacheController extends \yii\console\controllers\CacheController
 {
     /**
-     * @param $cache
      * @param $tag
-     * @throws \yii\base\InvalidConfigException
+     * @param string $cache
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function actionFlushTag($cache, $tag)
+    public function actionFlushTag(string $cache, string $tag): void
     {
-        /** @var CacheInterface $cache */
-        $cache = Instance::ensure($cache, CacheInterface::class);
-        TagDependency::invalidate($cache, $tag);
+        /** @var CacheInterface $cacheInstance */
+        $cacheInstance = Instance::ensure($cache, CacheInterface::class);
+        TagDependency::invalidate($cacheInstance, $tag);
     }
 
     /**
-     * @param $cache
-     * @param $key
-     * @throws \yii\base\InvalidConfigException
+     * @param string $cache
+     * @param string $key
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function actionGet($cache, $key)
+    public function actionGet(string $cache, string $key): void
     {
-        /** @var CacheInterface $cache */
-        $cache = Instance::ensure($cache, CacheInterface::class);
-        $var = $cache->get($key);
+        /** @var CacheInterface $cacheInstance */
+        $cacheInstance = Instance::ensure($cache, CacheInterface::class);
+        $var = $cacheInstance->get($key);
         $this->stdout($var);
     }
 }

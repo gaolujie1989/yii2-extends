@@ -26,13 +26,13 @@ class CustomFileFixtureController extends FixtureController
     public $fileGenerator;
 
     /**
-     * @param $templateName
-     * @param $templatePath
-     * @param $fixtureDataPath
+     * @param string $templateName
+     * @param string $templatePath
+     * @param string $fixtureDataPath
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function generateFixtureFile($templateName, $templatePath, $fixtureDataPath)
+    public function generateFixtureFile($templateName, $templatePath, $fixtureDataPath): void
     {
         $fixtures = [];
 

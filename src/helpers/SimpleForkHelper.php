@@ -14,17 +14,17 @@ use Yii;
  * Class SimpleForkHelper
  * @package lujie\extend\helpers
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 class SimpleForkHelper
 {
     /**
      * @inheritdoc
      */
-    public static function resetConnections()
+    public static function resetConnections(): void
     {
         foreach (Yii::$app->getComponents(false) as $component) {
-            if (strpos(get_class($component), 'Connection') !== false
-                && method_exists($component, 'open') && method_exists($component, 'close')) {
+            if (method_exists($component, 'close') && method_exists($component, 'open')) {
                 $component->close();
                 $component->open();
             }

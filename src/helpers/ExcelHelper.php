@@ -25,7 +25,7 @@ class ExcelHelper
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @inheritdoc
      */
-    public static function readExcel($file, $firstLineIsHeader = true, $multiSheet = false): array
+    public static function readExcel(string $file, bool $firstLineIsHeader = true, bool $multiSheet = false): array
     {
         $spreadsheet = IOFactory::load($file);
         if ($multiSheet) {
@@ -54,16 +54,15 @@ class ExcelHelper
     }
 
     /**
-     * @param $file
-     * @param $data
+     * @param string $file
+     * @param array $data
      * @param bool $keyAsHeader
      * @param bool $multiSheet
-     * @return mixed
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @inheritdoc
      */
-    public static function writeExcel($file, $data, $keyAsHeader = true, $multiSheet = false): void
+    public static function writeExcel(string $file, array $data, bool $keyAsHeader = true, bool $multiSheet = false): void
     {
         $spreadsheet = new Spreadsheet();
         if ($multiSheet) {
@@ -97,7 +96,7 @@ class ExcelHelper
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
-    private static function writeData2Sheet(Worksheet $sheet, $data, $withImage = false): void
+    private static function writeData2Sheet(Worksheet $sheet, array $data, bool $withImage = false): void
     {
         if ($withImage) {
             $rowIndex = 1;

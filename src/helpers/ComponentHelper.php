@@ -7,6 +7,7 @@ namespace lujie\extend\helpers;
 
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\Module;
 
 /**
  * Class ComponentHelper
@@ -22,7 +23,7 @@ class ComponentHelper
      * @throws InvalidArgumentException
      * @inheritdoc
      */
-    public static function getName($component, $app = null)
+    public static function getName($component, ?Module $app = null)
     {
         $app = $app ?: Yii::$app;
         foreach ($app->getComponents(false) as $id => $instance) {

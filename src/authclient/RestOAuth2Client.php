@@ -170,11 +170,11 @@ abstract class RestOAuth2Client extends OAuth2
         }
 
         if (strpos($name, 'batch') === 0) {
-            return $this->batch(substr($name, 4), $params[0] ?? []);
+            return $this->batch(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
         }
 
         if (strpos($name, 'each') === 0) {
-            return $this->each(substr($name, 4), $params[0] ?? []);
+            return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
         }
 
         parent::__call($name, $params);
@@ -244,12 +244,12 @@ abstract class RestOAuth2Client extends OAuth2
                 if ($action === 'list') {
                     if (empty($pathParams)) {
                         $apiMethods[] = " * @method array {$method}(\$data = [])";
-                        $apiMethods[] = " * @method \Generator each{$resource}(\$batchSize, \$condition = [])";
-                        $apiMethods[] = " * @method \Generator batch{$resource}(\$batchSize, \$condition = [])";
+                        $apiMethods[] = " * @method \Generator each{$resource}(\$condition = [], \$batchSize = 100)";
+                        $apiMethods[] = " * @method \Generator batch{$resource}(\$condition = [], \$batchSize = 100)";
                     } else {
                         $apiMethods[] = " * @method array {$method}(\$data)";
-                        $apiMethods[] = " * @method \Generator each{$resource}(\$batchSize, \$condition = [])";
-                        $apiMethods[] = " * @method \Generator batch{$resource}(\$batchSize, \$condition = [])";
+                        $apiMethods[] = " * @method \Generator each{$resource}(\$condition = [], \$batchSize = 100)";
+                        $apiMethods[] = " * @method \Generator batch{$resource}(\$condition = [], \$batchSize = 100)";
                     }
                 } else {
                     $apiMethods[] = " * @method array {$method}(\$data)";

@@ -18,10 +18,10 @@ trait SaveTrait
     /**
      * @param bool $runValidation
      * @param null $attributeNames
-     * @return mixed
+     * @return bool
      * @inheritdoc
      */
-    public function save($runValidation = true, $attributeNames = null)
+    public function save($runValidation = true, $attributeNames = null): bool
     {
 
         if ($attributeNames) {
@@ -38,12 +38,12 @@ trait SaveTrait
 
     /**
      * @param bool $runValidation
-     * @param null $attributeNames
-     * @return mixed
+     * @param array|null $attributeNames
+     * @return bool
      * @throws Exception
      * @inheritdoc
      */
-    public function mustSave($runValidation = true, $attributeNames = null)
+    public function mustSave(bool $runValidation = true, ?array $attributeNames = null): bool
     {
         if ($result = $this->save($runValidation, $attributeNames)) {
             return $result;

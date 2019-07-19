@@ -22,8 +22,9 @@ class CsvHelper
      * @return array
      * @inheritdoc
      */
-    public static function readCsv($file, $firstLineIsHeader = true, $length = 0,
-                                   $delimiter = ',', $enclosure = '"', $escape = '\\', $flag = true): array
+    public static function readCsv(string $file, bool $firstLineIsHeader = true, int $length = 0,
+                                   string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
+                                   bool $flag = true): array
     {
         $data = [];
         if ($flag) {
@@ -51,15 +52,16 @@ class CsvHelper
     }
 
     /**
-     * @param $file
-     * @param $data
+     * @param string $file
+     * @param array $data
+     * @param bool $keyAsHeader
      * @param string $delimiter
      * @param string $enclosure
      * @param string $escape
      * @inheritdoc
      */
-    public static function writeCsv($file, $data, $keyAsHeader = true,
-                                    $delimiter = ',', $enclosure = '"', $escape = '\\'): void
+    public static function writeCsv(string $file, array $data, bool $keyAsHeader = true,
+                                    string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): void
     {
         if (file_exists($file)) {
             unlink($file);

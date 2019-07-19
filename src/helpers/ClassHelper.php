@@ -20,7 +20,7 @@ class ClassHelper
      * @return mixed|null
      * @inheritdoc
      */
-    public static function getFormClass($modelClass): ?string
+    public static function getFormClass(string $modelClass): ?string
     {
         $formClasses = [
             strtr($modelClass, ['models' => 'forms']) . 'Form',
@@ -39,7 +39,7 @@ class ClassHelper
      * @return mixed|null
      * @inheritdoc
      */
-    public static function getSearchClass($modelClass): ?string
+    public static function getSearchClass(string $modelClass): ?string
     {
         $searchClasses = [
             strtr($modelClass, ['models' => 'searches']) . 'Search',
@@ -54,7 +54,7 @@ class ClassHelper
     }
 
     /**
-     * @param $modelOrClass
+     * @param BaseActiveRecord|string $modelOrClass
      * @return string|null
      * @inheritdoc
      */
@@ -71,7 +71,7 @@ class ClassHelper
     }
 
     /**
-     * @param $modelOrClass
+     * @param object|string $modelOrClass
      * @return mixed
      * @inheritdoc
      */

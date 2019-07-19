@@ -19,24 +19,34 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->initControllerNamespace();
         $this->initViewPath();
     }
 
-    protected function getScope()
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    protected function getScope(): string
     {
         return Yii::$app->params[$this->scopeKey] ?? Yii::$app->id;
     }
 
-    public function initControllerNamespace()
+    /**
+     * @inheritdoc
+     */
+    public function initControllerNamespace(): void
     {
         $this->controllerNamespace = $this->controllerNamespace . '\\' . $this->getScope();
     }
 
-    public function initViewPath()
+    /**
+     * @inheritdoc
+     */
+    public function initViewPath(): void
     {
         $this->setViewPath($this->getBasePath() . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $this->getScope());
     }

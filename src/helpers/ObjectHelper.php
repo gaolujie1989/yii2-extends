@@ -17,9 +17,9 @@ use yii\helpers\ArrayHelper;
 class ObjectHelper
 {
     /**
-     * @param $config
+     * @param string|array $config
      * @param string|null $class
-     * @param null $data
+     * @param null|array|object $data
      * @return object
      * @throws InvalidConfigException
      * @inheritdoc

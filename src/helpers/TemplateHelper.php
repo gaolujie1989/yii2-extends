@@ -16,12 +16,12 @@ class TemplateHelper
 {
     /**
      * @param string $template
-     * @param $params
+     * @param array|object $params
      * @param array $tag
      * @return string
      * @inheritdoc
      */
-    public static function render(string $template, $params, $tag = ['{', '}']): string
+    public static function render(string $template, $params, array $tag = ['{', '}']): string
     {
         //build regex string like '/{([^{}\s]+)}/'
         $regexStr = '/' . $tag[0] . '([^' . $tag[0] . $tag[1] . '\s]+)' . $tag[1] . '/';

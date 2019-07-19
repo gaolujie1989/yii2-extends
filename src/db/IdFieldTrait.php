@@ -14,7 +14,7 @@ use yii\db\BaseActiveRecord;
 trait IdFieldTrait
 {
     /**
-     * @return mixed
+     * @return int|string
      * @inheritdoc
      */
     public function getId()
@@ -28,7 +28,7 @@ trait IdFieldTrait
     }
 
     /**
-     * @param $id
+     * @param int|string $id
      * @inheritdoc
      */
     public function setId($id): void

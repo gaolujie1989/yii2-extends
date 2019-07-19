@@ -31,7 +31,7 @@ class RestResponseBehavior extends Behavior
      * @return array
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             Response::EVENT_BEFORE_SEND => 'beforeSend',
@@ -43,13 +43,13 @@ class RestResponseBehavior extends Behavior
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function beforeSend(Event $event)
+    public function beforeSend(Event $event): void
     {
         /** @var \yii\web\Response $response */
         $response = $event->sender;
         $data = $response->data;
 
-        if ($response->format == $response::FORMAT_JSON) {
+        if ($response->format === $response::FORMAT_JSON) {
             //Exception will be handle by error handler, model errors will be handle by rest Serializer
             if ($response->statusCode >= 200 && $response->statusCode < 300) {
                 $response->data = [
@@ -58,7 +58,7 @@ class RestResponseBehavior extends Behavior
                     'status' => $response->statusCode,
                 ];
                 $response->statusCode = 200;
-            } else if ($response->statusCode == 422) {  //if model return errors
+            } else if ($response->statusCode === 422) {  //if model return errors
                 $firstError = reset($data);
                 $response->data = [
                     'message' => $firstError['message'] ?: 'Data Validation Failed.',

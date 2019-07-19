@@ -47,40 +47,51 @@ class RestResponseBehavior extends Behavior
     {
         /** @var \yii\web\Response $response */
         $response = $event->sender;
-        $data = $response->data;
-
         if ($response->format === $response::FORMAT_JSON) {
             //Exception will be handle by error handler, model errors will be handle by rest Serializer
-            if ($response->statusCode >= 200 && $response->statusCode < 300) {
-                $response->data = [
-                    'data' => $data,
-                    'code' => $response->statusCode,
-                    'status' => $response->statusCode,
-                ];
-                $response->statusCode = 200;
-            } else if ($response->statusCode === 422) {  //if model return errors
-                $firstError = reset($data);
-                $response->data = [
-                    'message' => $firstError['message'] ?: 'Data Validation Failed.',
-                    'errors' => $data,
-                    'code' => $response->statusCode,
-                    'status' => $response->statusCode,
-                ];
-                $response->statusCode = 200;
-            } else {
-                $response->data['status'] = $response->statusCode;
-                $response->data['code'] = $response->statusCode;
-                if ($this->alwaysStatusOK) {
-                    $response->statusCode = 200;
-                }
-            }
+            $this->formatResponse($response);
+        }
+    }
 
-            if ($this->enableCors) {
-                $cors = new Cors();
-                $requestCorsHeaders = $cors->extractHeaders();
-                $responseCorsHeaders = $cors->prepareHeaders($requestCorsHeaders);
-                $cors->addCorsHeaders($response, $responseCorsHeaders);
+    /**
+     * @param Response $response
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function formatResponse(Response $response): void
+    {
+        $data = $response->data;
+        if ($response->statusCode >= 200 && $response->statusCode < 300) {
+            $response->data = [
+                'data' => $data,
+                'code' => $response->statusCode,
+                'status' => $response->statusCode,
+            ];
+            $response->statusCode = 200;
+        } else if ($response->statusCode === 422) {  //if model return errors
+            $firstError = reset($data);
+            $response->data = [
+                'message' => $firstError['message'] ?: 'Data Validation Failed.',
+                'errors' => $data,
+                'code' => $response->statusCode,
+                'status' => $response->statusCode,
+            ];
+            $response->statusCode = 200;
+        } else {
+            $response->data['status'] = $response->statusCode;
+            $response->data['code'] = $response->statusCode;
+            if ($this->alwaysStatusOK) {
+                $response->statusCode = 200;
             }
         }
+
+        if ($this->enableCors) {
+            $cors = new Cors();
+            $requestCorsHeaders = $cors->extractHeaders();
+            $responseCorsHeaders = $cors->prepareHeaders($requestCorsHeaders);
+            $cors->addCorsHeaders($response, $responseCorsHeaders);
+        }
+        return $data;
     }
 }

@@ -1,27 +1,12 @@
 <?php
-// Here you can initialize variables that will be available to your tests
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'test');
+defined('YII_APP_BASE_PATH') or define('YII_APP_BASE_PATH', __DIR__ . '/../../../apps');
 
-namespace lujie\upload\behaviors;
+require_once YII_APP_BASE_PATH . '/vendor/autoload.php';
+require_once YII_APP_BASE_PATH . '/vendor/yiisoft/yii2/Yii.php';
+require_once YII_APP_BASE_PATH . '/common/config/bootstrap.php';
 
-function is_uploaded_file()
-{
-    return true;
-}
+Yii::setAlias('@tests', __DIR__);
 
-function move_uploaded_file ($filename, $destination)
-{
-    return rename($filename, $destination);
-}
-
-
-namespace yii\web;
-
-function is_uploaded_file()
-{
-    return true;
-}
-
-function move_uploaded_file ($filename, $destination)
-{
-    return rename($filename, $destination);
-}
+require_once __DIR__ . '/mock_functions.php';

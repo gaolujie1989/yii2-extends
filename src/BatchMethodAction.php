@@ -5,7 +5,6 @@
 
 namespace lujie\batch;
 
-
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -48,7 +47,7 @@ class BatchMethodAction extends Action
 
         $batchMethodForm->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($batchMethodForm->hasMethod($this->method, false)) {
-            if ($models = call_user_func([$batchMethodForm, $this->method])) {
+            if ($models = $batchMethodForm->{$this->method}) {
                 return $models;
             } else {
                 return $batchMethodForm;

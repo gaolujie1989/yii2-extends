@@ -47,7 +47,7 @@ class MultipleMethodAction extends Action
         ]);
 
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if (call_user_func([$model, $this->method]) === false && !$model->hasErrors()) {
+        if ($model->{$this->method}() === false && !$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
         }
 

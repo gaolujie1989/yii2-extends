@@ -6,11 +6,14 @@
 namespace lujie\batch;
 
 
+use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
+use yii\db\Connection;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 
 /**
  * Class BatchSaveForm
@@ -19,10 +22,14 @@ use yii\web\NotFoundHttpException;
  */
 class MultipleForm extends Model
 {
-    /** @var ActiveRecordInterface */
+    /**
+     * @var BaseActiveRecord
+     */
     public $modelClass;
 
-    /** @var BaseActiveRecord[] */
+    /**
+     * @var BaseActiveRecord[]
+     */
     public $multiModels;
 
     /**
@@ -32,10 +39,10 @@ class MultipleForm extends Model
      * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function load($data, $formName = null)
+    public function load($data, $formName = null): void
     {
         $modelClass = $this->modelClass;
-        $pkColumn = reset($modelClass::primaryKey());
+        $pkColumn = $modelClass::primaryKey()[0];
         $this->multiModels = [];
         foreach ($data as $values) {
             $pkValue = $values[$pkColumn] ?? ($values['id'] ?? null);
@@ -50,54 +57,60 @@ class MultipleForm extends Model
      * @return bool
      * @inheritdoc
      */
-    public function validate($attributeNames = null, $clearErrors = true)
+    public function validate($attributeNames = null, $clearErrors = true): bool
     {
         if ($clearErrors) {
             $this->clearErrors();
         }
 
         $result = Model::validateMultiple($this->multiModels, $attributeNames);
-        $this->addErrors(ArrayHelper::getValue($this->multiModels, 'errors'));
-
-        return $result;
-    }
-
-    public function save($runValidation = true, $attributeNames = null, $throwException = true)
-    {
-
-    }
-
-    public function __call($name, $params)
-    {
-        if (strpos($name, 'get') === 0 && $this->multiModels) {
-            $model = reset($this->multiModels);
-            if ($model->hasMethod($name)) {
-                $key = substr($name, 3);
-                return ArrayHelper::getValue($this->multiModels, $key);
-            }
+        if (!$result) {
+            $this->addErrors(ArrayHelper::getColumn($this->multiModels, 'errors'));
         }
-        return parent::__call($name, $params);
+
+        return !$this->hasErrors();
     }
 
-    public function hasErrors($attribute = null)
+    /**
+     * @param bool $runValidation
+     * @param null $attributeNames
+     * @return bool
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributeNames = null): bool
     {
-        foreach ($this->multiModels as $model) {
-            if ($model->hasErrors($attribute)) {
-                return true;
-            }
+        if ($runValidation && !$this->validate($attributeNames)) {
+            Yii::info('Model not inserted due to validation error.', __METHOD__);
+            return false;
         }
-        return false;
+
+        $callable = function () use ($attributeNames) {
+            foreach ($this->multiModels as $model) {
+                if ($model->save(false, $attributeNames) === false && !$model->hasErrors()) {
+                    throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
+                }
+            }
+        };
+
+        $db = $this->modelClass::getDb();
+        if ($db instanceof Connection) {
+            $db->transaction($callable);
+        } else {
+            $callable();
+        }
+        return true;
     }
 
     /**
      * @param $id
-     * @return ActiveRecordInterface
+     * @return BaseActiveRecord
      * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function findModel($id)
+    public function findModel($id): ?BaseActiveRecord
     {
-        /* @var $modelClass ActiveRecordInterface */
+        $model = null;
         $modelClass = $this->modelClass;
         $keys = $modelClass::primaryKey();
         if (count($keys) > 1) {
@@ -109,15 +122,24 @@ class MultipleForm extends Model
             $model = $modelClass::findOne($id);
         }
 
-        if (isset($model)) {
-            return $model;
-        } else {
+        if ($model === null) {
             throw new NotFoundHttpException("Object not found: $id");
         }
+        return $model;
     }
 
-    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    /**
+     * @param array $fields
+     * @param array $expand
+     * @param bool $recursive
+     * @return array
+     * @inheritdoc
+     */
+    public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
-        return ArrayHelper::toArray($this->multiModels, $fields, $recursive);
+        return array_map(static function ($model) use ($fields, $expand, $recursive) {
+            /** @var BaseActiveRecord $model */
+            $model->toArray($fields, $expand, $recursive);
+        }, $this->multiModels);
     }
 }

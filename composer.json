@@ -15,7 +15,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "lujie\\batch\\": "src" }
+    "psr-4": {
+      "lujie\\batch\\": "src",
+      "lujie\\batch\\tests\\": "tests"
+    }
   },
   "repositories": [
     {

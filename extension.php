@@ -9,6 +9,7 @@ return [
         'version' => 'dev-master',
         'alias' => [
             '@lujie/batch' => __DIR__ . '/src',
+            '@lujie/batch/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

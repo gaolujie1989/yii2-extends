@@ -30,6 +30,7 @@ class Migration extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['version', 'apply_time'], 'required'],
             [['apply_time'], 'integer', 'min' => 0],
         ];
     }

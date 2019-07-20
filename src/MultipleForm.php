@@ -34,10 +34,9 @@ class MultipleForm extends Model
      * @param array $data
      * @param null $formName
      * @return bool
-     * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function load($data, $formName = null): void
+    public function load($data, $formName = null): bool
     {
         $this->loadedModels = [];
         foreach ($data as $values) {

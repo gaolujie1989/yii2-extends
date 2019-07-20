@@ -27,7 +27,6 @@ class MultipleAction extends Action
      * @return MultipleForm
      * @throws InvalidConfigException
      * @throws ServerErrorHttpException
-     * @throws \yii\web\NotFoundHttpException
      * @inheritdoc
      */
     public function run(): MultipleForm

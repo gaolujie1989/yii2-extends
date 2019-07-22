@@ -1,10 +1,8 @@
 <?php
 
-namespace lujie\executing\monitor\models;
+namespace lujie\scheduling\monitor\models;
 
-use lujie\extend\db\TraceableBehaviorTrait;
-use Yii;
-use yii\db\ActiveRecord;
+use lujie\executing\monitor\models\ExecutableExec;
 
 /**
  * Class ScheduleTaskExec

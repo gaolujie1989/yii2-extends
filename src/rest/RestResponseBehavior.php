@@ -92,6 +92,5 @@ class RestResponseBehavior extends Behavior
             $responseCorsHeaders = $cors->prepareHeaders($requestCorsHeaders);
             $cors->addCorsHeaders($response, $responseCorsHeaders);
         }
-        return $data;
     }
 }

@@ -5,7 +5,7 @@
 
 namespace lujie\import\actions;
 
-use lujie\import\forms\FileImportForm;
+use lujie\data\exchange\forms\FileImportForm;
 use Yii;
 use yii\base\Model;
 use yii\rest\Action;

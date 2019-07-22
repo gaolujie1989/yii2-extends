@@ -32,6 +32,7 @@ class HttpCookieAuth extends AuthMethod
         $authCookie = $request->getCookies()->get($this->cookie);
 
         if ($authCookie !== null) {
+            $authCookie = $authCookie->value;
             if ($this->pattern !== null) {
                 if (preg_match($this->pattern, $authCookie, $matches)) {
                     $authCookie = $matches[1];

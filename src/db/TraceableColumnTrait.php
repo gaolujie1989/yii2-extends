@@ -50,7 +50,7 @@ trait TraceableColumnTrait
      * @param string|null $options
      * @inheritdoc
      */
-    public function createTable(string $table, array $columns, ?string $options = null): void
+    public function createTable($table, $columns, $options = null): void
     {
         /** @var Migration|TraceableColumnTrait $this */
         if ($this->db->driverName === 'mysql' && $options === null) {

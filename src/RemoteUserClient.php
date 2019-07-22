@@ -28,7 +28,7 @@ class RemoteUserClient extends BaseObject
 
     public $tokenHeader;
 
-    public $dateKey = 'date';
+    public $dateKey = 'data';
 
     /**
      * @throws \yii\base\InvalidConfigException

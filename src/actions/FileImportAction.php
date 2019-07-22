@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2018
  */
 
-namespace lujie\import\actions;
+namespace lujie\data\exchange\actions;
 
 use lujie\data\exchange\forms\FileImportForm;
 use Yii;

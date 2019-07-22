@@ -68,7 +68,7 @@ class RestResponseBehavior extends Behavior
                 'code' => $response->statusCode,
                 'status' => $response->statusCode,
             ];
-            $response->statusCode = 200;
+//            $response->statusCode = 200;
         } else if ($response->statusCode === 422) {  //if model return errors
             $firstError = reset($data);
             $response->data = [

@@ -7,6 +7,7 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%fulfillment_warehouse}}".
@@ -18,6 +19,8 @@ use Yii;
  * @property string $external_warehouse_name
  * @property array $additional
  * @property int $status
+ *
+ * @property FulfillmentAccount $fulfillmentAccount
  */
 class FulfillmentWarehouse extends \yii\db\ActiveRecord
 {
@@ -66,5 +69,14 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public static function find(): FulfillmentWarehouseQuery
     {
         return new FulfillmentWarehouseQuery(static::class);
+    }
+
+    /**
+     * @return FulfillmentAccountQuery|ActiveQuery
+     * @inheritdoc
+     */
+    public function getFulfillmentAccount(): FulfillmentAccountQuery
+    {
+        return $this->hasOne(FulfillmentAccount::class, ['fulfillment_account_id' => 'fulfillment_account_id']);
     }
 }

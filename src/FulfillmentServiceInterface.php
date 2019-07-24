@@ -11,6 +11,12 @@ use lujie\fulfillment\models\FulfillmentOrder;
 interface FulfillmentServiceInterface
 {
     /**
+     * @param array $condition
+     * @inheritdoc
+     */
+    public function pullWarehouses(array $condition = []): void;
+
+    /**
      * @param $item
      * @return mixed
      * @inheritdoc
@@ -22,7 +28,7 @@ interface FulfillmentServiceInterface
      * @return mixed
      * @inheritdoc
      */
-    public function pullExistItems(array $condition = []): void;
+    public function pullItems(array $condition = []): void;
 
     /**
      * @param $order

@@ -141,7 +141,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
-        $fulfillmentService->pullExistItems();
+        $fulfillmentService->pullItems();
     }
 
     /**

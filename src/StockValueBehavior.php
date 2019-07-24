@@ -24,7 +24,7 @@ class StockValueBehavior extends Behavior
     /**
      * @var string
      */
-    public $moveItemValueAttribute = 'move_item_value';
+    public $movedItemValueAttribute = 'moved_item_value';
 
     /**
      * @var string
@@ -65,7 +65,7 @@ class StockValueBehavior extends Behavior
                 throw new InvalidArgumentException('Transfer out item value must be set');
             }
             //set move item value, so it will save in stock movement
-            $event->extraData[$this->moveItemValueAttribute] = $this->transferOutItemValue;
+            $event->extraData[$this->movedItemValueAttribute] = $this->transferOutItemValue;
             $this->transferOutItemValue = null;
         }
     }
@@ -82,11 +82,11 @@ class StockValueBehavior extends Behavior
         }
 
         if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
-            && empty($event->extraData[$this->moveItemValueAttribute])) {
-            throw new InvalidArgumentException("Move extra data {$this->moveItemValueAttribute} must be set");
+            && empty($event->extraData[$this->movedItemValueAttribute])) {
+            throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} must be set");
         }
 
-        $movedStockValue = $event->extraData[$this->moveItemValueAttribute];
+        $movedStockValue = $event->extraData[$this->movedItemValueAttribute];
         $movedQty = $event->moveQty;
         $oldStockValue = $this->getStockValue($event->itemId, $event->locationId);
         $oldStockQty = $event->stockQty;

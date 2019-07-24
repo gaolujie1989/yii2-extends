@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment;
+namespace lujie\fulfillment\jobs;
 
-use lujie\fulfillment\models\FulfillmentItem;
+use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;

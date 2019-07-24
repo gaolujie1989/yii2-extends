@@ -7,7 +7,6 @@ namespace lujie\fulfillment;
 
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\ComponentHelper;
-use lujie\fulfillment\forms\PushFulfillmentOrderForm;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\Application;

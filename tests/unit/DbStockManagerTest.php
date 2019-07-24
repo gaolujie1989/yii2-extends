@@ -67,10 +67,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 5, 'stock_item_value' => 1.5];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => 5, 'moved_item_value' => 1.5, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
+        $expected = ['moved_qty' => 5, 'moved_item_value' => 1.5, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
         $this->assertEquals($expected, $movement);
 
         //transfer again
@@ -86,10 +86,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 20, 'stock_item_value' => 2.25];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => 15, 'moved_item_value' => 2.5, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
+        $expected = ['moved_qty' => 15, 'moved_item_value' => 2.5, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
         $this->assertEquals($expected, $movement);
     }
 
@@ -122,10 +122,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 15, 'stock_item_value' => 10];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => -5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_OUTBOUND];
+        $expected = ['moved_qty' => -5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_OUTBOUND];
         $this->assertEquals($expected, $movement);
 
         $outboundQty = 16;
@@ -169,10 +169,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 15, 'stock_item_value' => 20];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($fromLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => -5, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
+        $expected = ['moved_qty' => -5, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
         $this->assertEquals($expected, $movement);
 
         $stock = Stock::find()->itemId($itemId)->locationId($toLocationId)
@@ -182,10 +182,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 15, 'stock_item_value' => 13.33];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($toLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => 5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
+        $expected = ['moved_qty' => 5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
         $this->assertEquals($expected, $movement);
 
         //transfer again
@@ -197,10 +197,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 10, 'stock_item_value' => 20];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($fromLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => -5, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
+        $expected = ['moved_qty' => -5, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
         $this->assertEquals($expected, $movement);
 
         $stock = Stock::find()->itemId($itemId)->locationId($toLocationId)
@@ -210,10 +210,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => 20, 'stock_item_value' => 15];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($toLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => 5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
+        $expected = ['moved_qty' => 5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
         $this->assertEquals($expected, $movement);
     }
 
@@ -242,10 +242,10 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $expected = ['stock_qty' => $correctQty, 'stock_item_value' => 20];
         $this->assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['move_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'moved_item_value', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['move_qty' => -15, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_CORRECT];
+        $expected = ['moved_qty' => -15, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_CORRECT];
         $this->assertEquals($expected, $movement);
     }
 }

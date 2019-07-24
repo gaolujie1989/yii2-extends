@@ -32,6 +32,11 @@ class StockValueBehavior extends Behavior
     public $stockItemValueAttribute = 'stock_item_value';
 
     /**
+     * @var int
+     */
+    public $itemValueRoundPrecision = 2;
+
+    /**
      * @var array
      */
     private $transferOutItemValue;
@@ -95,7 +100,8 @@ class StockValueBehavior extends Behavior
         $oldStockQty = $event->stockQty;
         $newStockQty = $event->stockQty + $event->moveQty;
 
-        $newStockValue = round((($oldStockValue * $oldStockQty) + ($movedStockValue * $movedQty)) / $newStockQty, 2);
+        $newStockValue = (($oldStockValue * $oldStockQty) + ($movedStockValue * $movedQty)) / $newStockQty;
+        $newStockValue = round($newStockValue, $this->itemValueRoundPrecision);
         $this->owner->updateStock($event->itemId, $event->locationId, [$this->stockItemValueAttribute => $newStockValue]);
     }
 

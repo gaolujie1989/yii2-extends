@@ -48,7 +48,7 @@ class ActiveRecordStockManager extends BaseStockManager
         ];
         /** @var Query $query */
         $query = $this->stockMovementClass::find()->andWhere($condition);
-        $stockQty = $query->sum($this->moveQtyAttribute);
+        $stockQty = $query->sum($this->movedQtyAttribute);
 
         $stock = $this->getStock($itemId, $locationId);
         $stock->setAttribute($this->stockQtyAttribute, $stockQty);
@@ -90,7 +90,7 @@ class ActiveRecordStockManager extends BaseStockManager
         $data = [
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,
-            $this->moveQtyAttribute => $qty,
+            $this->movedQtyAttribute => $qty,
             $this->reasonAttribute => $reason,
         ];
         /** @var BaseActiveRecord $stockMovement */
@@ -128,11 +128,7 @@ class ActiveRecordStockManager extends BaseStockManager
     public function updateStock(int $itemId, int $locationId, array $data): bool
     {
         $stock = $this->getStock($itemId, $locationId);
-        if ($stock->getIsNewRecord()) {
-            $stock->setAttributes($data);
-            return $stock->save(false);
-        }
-        $stock->updateAttributes($data);
-        return true;
+        $stock->setAttributes($data);
+        return $stock->save(false);
     }
 }

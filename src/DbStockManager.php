@@ -66,7 +66,7 @@ class DbStockManager extends BaseStockManager
             $this->locationIdAttribute => $locationId,
         ];
         $query = (new Query())->from($this->stockMovementTable)->andWhere($condition);
-        $stockQty = $query->sum($this->moveQtyAttribute);
+        $stockQty = $query->sum($this->movedQtyAttribute);
 
         $stock = $this->getStock($itemId, $locationId);
         $update = [$this->stockQtyAttribute => $stockQty];
@@ -114,7 +114,7 @@ class DbStockManager extends BaseStockManager
         $data = [
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,
-            $this->moveQtyAttribute => $qty,
+            $this->movedQtyAttribute => $qty,
             $this->reasonAttribute => $reason,
         ];
         $stockMovement = array_merge($extraData, $data);

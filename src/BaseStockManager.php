@@ -26,7 +26,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     public $itemIdAttribute = 'item_id';
     public $locationIdAttribute = 'location_id';
     public $stockQtyAttribute = 'stock_qty';
-    public $moveQtyAttribute = 'move_qty';
+    public $movedQtyAttribute = 'moved_qty';
     public $reasonAttribute = 'reason';
 
     /**

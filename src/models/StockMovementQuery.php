@@ -40,7 +40,7 @@ class StockMovementQuery extends \yii\db\ActiveQuery
                     'orderByMovementId' => 'stock_movement_id'
                 ],
                 'queryReturns' => [
-                    'getTotalMovedQty' => ['move_qty', FieldQueryBehavior::RETURN_SUM]
+                    'getTotalMovedQty' => ['moved_qty', FieldQueryBehavior::RETURN_SUM]
                 ]
             ]
         ]);

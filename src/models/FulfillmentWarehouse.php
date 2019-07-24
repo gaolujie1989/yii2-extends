@@ -2,6 +2,10 @@
 
 namespace lujie\fulfillment\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
+use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -10,16 +14,15 @@ use Yii;
  * @property string $fulfillment_warehouse_id
  * @property string $fulfillment_account_id
  * @property string $warehouse_id
- * @property string $external_name
+ * @property string $external_warehouse_id
+ * @property string $external_warehouse_name
  * @property array $additional
  * @property int $status
- * @property int $created_at
- * @property int $created_by
- * @property int $updated_at
- * @property int $updated_by
  */
 class FulfillmentWarehouse extends \yii\db\ActiveRecord
 {
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -34,9 +37,9 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'warehouse_id', 'status'], 'integer'],
+            [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_id', 'status'], 'integer'],
             [['additional'], 'safe'],
-            [['external_name'], 'string', 'max' => 100],
+            [['external_warehouse_name'], 'string', 'max' => 100],
         ];
     }
 
@@ -49,7 +52,8 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
             'fulfillment_warehouse_id' => Yii::t('lujie/fulfillment', 'Fulfillment Warehouse ID'),
             'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
             'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
-            'external_name' => Yii::t('lujie/fulfillment', 'External Name'),
+            'external_warehouse_id' => Yii::t('lujie/fulfillment', 'External Warehouse ID'),
+            'external_warehouse_name' => Yii::t('lujie/fulfillment', 'External Warehouse Name'),
             'additional' => Yii::t('lujie/fulfillment', 'Additional'),
             'status' => Yii::t('lujie/fulfillment', 'Status'),
         ];

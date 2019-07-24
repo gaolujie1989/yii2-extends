@@ -45,8 +45,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                 ],
                 'queryConditions' => [
                     'processing' => ['status' => [
-                        FulfillmentConst::FULFILLMENT_ORDER_STATUS_PUSHED,
-                        FulfillmentConst::FULFILLMENT_ORDER_STATUS_PICKING,
+                        FulfillmentConst::ORDER_STATUS_PUSHED,
+                        FulfillmentConst::ORDER_STATUS_PICKING,
                     ]]
                 ],
                 'queryReturns' => [

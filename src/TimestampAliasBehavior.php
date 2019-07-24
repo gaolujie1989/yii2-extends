@@ -13,7 +13,7 @@ namespace lujie\alias\behaviors;
  */
 class TimestampAliasBehavior extends AliasPropertyBehavior
 {
-    public $format = 'Y-m-d H:i:s';
+    public $format = 'c';
 
     public $timezone = null;
 

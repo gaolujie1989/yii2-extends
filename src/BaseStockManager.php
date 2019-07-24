@@ -85,7 +85,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             return false;
         }
 
-        return TransactionHelper::transaction(static function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
+        return TransactionHelper::transaction(function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
             return $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
                 && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
         }, $this->getDb());
@@ -141,7 +141,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             throw new InvalidArgumentException($message);
         }
 
-        return TransactionHelper::transaction(static function () use ($itemId, $locationId, $qty, $reason, $extraData) {
+        return TransactionHelper::transaction(function () use ($itemId, $locationId, $qty, $reason, $extraData) {
             return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
         }, $this->getDb());
     }

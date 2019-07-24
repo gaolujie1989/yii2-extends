@@ -7,10 +7,10 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[FulfillmentWarehouse]].
  *
- * @method FulfillmentOrderQuery accountId($accountId)
- * @method FulfillmentOrderQuery warehouseId($warehouseId)
- * @method FulfillmentOrderQuery externalWarehouseId($externalWarehouseId)
- * @method FulfillmentOrderQuery externalWarehouseName($externalWarehouseName)
+ * @method FulfillmentWarehouseQuery accountId($accountId)
+ * @method FulfillmentWarehouseQuery warehouseId($warehouseId)
+ * @method FulfillmentWarehouseQuery externalWarehouseId($externalWarehouseId)
+ * @method FulfillmentWarehouseQuery externalWarehouseName($externalWarehouseName)
  *
  * @method array|FulfillmentWarehouse[] all($db = null)
  * @method array|FulfillmentWarehouse|null one($db = null)

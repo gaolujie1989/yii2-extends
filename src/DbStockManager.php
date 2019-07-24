@@ -111,6 +111,9 @@ class DbStockManager extends BaseStockManager
      */
     protected function createStockMovement($itemId, $locationId, int $qty, $reason, $extraData = []): array
     {
+        $columns = $this->db->getTableSchema($this->stockMovementTable)->columns;
+        $extraData = array_intersect_key($extraData, $columns);
+
         $data = [
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,
@@ -118,6 +121,7 @@ class DbStockManager extends BaseStockManager
             $this->reasonAttribute => $reason,
         ];
         $stockMovement = array_merge($extraData, $data);
+        $stockMovement = array_intersect_key($stockMovement, $columns);
         $this->db->createCommand()
             ->insert($this->stockMovementTable, $stockMovement)
             ->execute();
@@ -163,6 +167,9 @@ class DbStockManager extends BaseStockManager
      */
     public function updateStock(int $itemId, int $locationId, array $data): bool
     {
+        $columns = $this->db->getTableSchema($this->stockTable)->columns;
+        $data = array_intersect_key($data, $columns);
+
         $condition = [
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,

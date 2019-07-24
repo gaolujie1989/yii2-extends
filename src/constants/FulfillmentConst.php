@@ -12,8 +12,10 @@ class FulfillmentConst
     public const FULFILLMENT_TYPE_PM = 'PM';
 
     public const FULFILLMENT_ORDER_STATUS_PENDING = 0;
-    public const FULFILLMENT_ORDER_STATUS_PUSHED = 1;
+    public const FULFILLMENT_ORDER_STATUS_PUSHING = 1;
+    public const FULFILLMENT_ORDER_STATUS_PUSHED = 2;
     public const FULFILLMENT_ORDER_STATUS_PICKING = 5;
     public const FULFILLMENT_ORDER_STATUS_SHIPPED = 10;
     public const FULFILLMENT_ORDER_STATUS_CANCELLED = 11;
+    public const FULFILLMENT_ORDER_STATUS_PUSH_FAILED = 12;
 }

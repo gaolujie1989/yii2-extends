@@ -5,6 +5,7 @@
 
 namespace lujie\stock;
 
+use lujie\extend\helpers\TransactionHelper;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\console\Exception;
@@ -84,28 +85,10 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             return false;
         }
 
-        $db = $this->getDb();
-        if ($db instanceof Connection) {
-            $transaction = static::getDb()->beginTransaction();
-            try {
-                $result = $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
-                    && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
-                if ($result === false) {
-                    $transaction->rollBack();
-                } else {
-                    $transaction->commit();
-                }
-                return $result;
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                throw $e;
-            } catch (\Throwable $e) {
-                $transaction->rollBack();
-                throw $e;
-            }
-        }
-        return $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
-            && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
+        return TransactionHelper::transaction(static function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
+            return $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
+                && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
+        }, $this->getDb());
     }
 
     /**
@@ -158,26 +141,9 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             throw new InvalidArgumentException($message);
         }
 
-        $db = $this->getDb();
-        if ($db instanceof Connection) {
-            $transaction = static::getDb()->beginTransaction();
-            try {
-                $result = $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
-                if ($result === false) {
-                    $transaction->rollBack();
-                } else {
-                    $transaction->commit();
-                }
-                return $result;
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                throw $e;
-            } catch (\Throwable $e) {
-                $transaction->rollBack();
-                throw $e;
-            }
-        }
-        return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
+        return TransactionHelper::transaction(static function () use ($itemId, $locationId, $qty, $reason, $extraData) {
+            return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
+        }, $this->getDb());
     }
 
     /**

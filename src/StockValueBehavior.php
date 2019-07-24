@@ -49,6 +49,7 @@ class StockValueBehavior extends Behavior
     }
 
     /**
+     * set Transfer out item value, for transfer in to average item value
      * @param StockMovementEvent $event
      * @inheritdoc
      */
@@ -71,6 +72,7 @@ class StockValueBehavior extends Behavior
     }
 
     /**
+     * Average item value, for transfer in, the item value has validate in beforeStockMovement, only check inbound
      * @param StockMovementEvent $event
      * @inheritdoc
      */
@@ -82,8 +84,9 @@ class StockValueBehavior extends Behavior
         }
 
         if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
-            && empty($event->extraData[$this->movedItemValueAttribute])) {
-            throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} must be set");
+            && (!isset($event->extraData[$this->movedItemValueAttribute])
+                && !is_numeric(!isset($event->extraData[$this->movedItemValueAttribute])))) {
+            throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} should be a number");
         }
 
         $movedStockValue = $event->extraData[$this->movedItemValueAttribute];

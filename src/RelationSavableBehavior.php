@@ -292,7 +292,7 @@ class RelationSavableBehavior extends Behavior
                 $errors = [];
                 foreach ($relationModels as $key => $model) {
                     if (!$model->validate($attributeNames, $clearErrors)) {
-                        $errors[$key] = $model->getErrors();
+                        $errors[$key] = $model->getFirstErrors();
                     }
                 }
                 if ($errors) {
@@ -301,7 +301,7 @@ class RelationSavableBehavior extends Behavior
             } else {
                 $model = $relationModels;
                 if (!$model->validate($attributeNames, $clearErrors)) {
-                    $owner->addError($name, $model->getErrors());
+                    $owner->addError($name, $model->getFirstErrors());
                 }
             }
         }

@@ -54,7 +54,7 @@ class Address extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['country'], 'required'],
+            [['country', 'city', 'name2', 'address1'], 'required'],
             [['state', 'city', 'name1', 'name2', 'name3', 'address1', 'address2', 'address3',
                 'postal_code', 'email', 'phone'], 'default', 'value' => ''],
             [['country'], 'string', 'max' => 2],
@@ -64,7 +64,8 @@ class Address extends \yii\db\ActiveRecord
             [['postal_code'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
-            [['companyName', 'firstName', 'lastName', 'street', 'houseNo', 'additional'], 'safe'],
+            [['email'], 'email'],
+            [['company_name', 'first_name', 'last_name', 'street', 'house_no', 'additional'], 'safe'],
         ];
     }
 

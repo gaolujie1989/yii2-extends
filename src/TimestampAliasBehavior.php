@@ -84,6 +84,9 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      */
     public function getTimestamp($date): int
     {
+        if (empty($date)) {
+            return 0;
+        }
         if (is_int($date)) {
             return $date;
         }

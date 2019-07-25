@@ -129,7 +129,10 @@ class StatusCheckBehavior extends Behavior
      */
     protected function isStatus($name): bool
     {
-        $attribute = $this->owner->getAttribute($this->statusAttribute);
+        $owner = $this->owner;
+        $attribute = $owner->getIsNewRecord()
+            ? $owner->getAttribute($this->statusAttribute)
+            : $owner->getOldAttribute($this->statusAttribute);
         return in_array($attribute, $this->statusCheckProperties[$name], true);
     }
 }

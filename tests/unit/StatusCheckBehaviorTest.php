@@ -24,11 +24,11 @@ class StatusCheckBehaviorTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $testOrder = $this->getTestOrder();
-        $testOrder->status = TestOrder::STATUS_PENDING;
+        $testOrder->setOldAttribute('status', TestOrder::STATUS_PENDING);
         $this->assertTrue($testOrder->isPending);
         $this->assertTrue($testOrder->getIsPending());
 
-        $testOrder->status = TestOrder::STATUS_CANCELLED;
+        $testOrder->setOldAttribute('status', TestOrder::STATUS_CANCELLED);
         $this->assertFalse($testOrder->isPending);
         $this->assertFalse($testOrder->getIsPending());
         $this->assertTrue($testOrder->isFinished);

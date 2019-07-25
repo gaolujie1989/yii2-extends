@@ -64,6 +64,7 @@ abstract class BatchForm extends Model
         $callable = static function () use ($models, $attributeNames) {
             foreach ($models as $model) {
                 if ($model->save(false, $attributeNames) === false) {
+                    $this->addErrors($model->getErrors());
                     return false;
                 }
             }
@@ -87,6 +88,7 @@ abstract class BatchForm extends Model
         $callable = static function () use ($models) {
             foreach ($models as $model) {
                 if ($model->delete() === false) {
+                    $this->addErrors($model->getErrors());
                     return false;
                 }
             }

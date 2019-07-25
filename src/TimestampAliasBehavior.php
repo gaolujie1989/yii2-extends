@@ -66,6 +66,9 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      */
     public function getDatetime($time): string
     {
+        if (empty($time)) {
+            $time = 0;
+        }
         if (!is_numeric($time)) {
             return $time;
         }

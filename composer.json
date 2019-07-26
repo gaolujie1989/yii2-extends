@@ -17,6 +17,7 @@
   "autoload": {
     "psr-4": {
       "lujie\\alias\\behaviors\\": "src",
+      "lujie\\alias\\db\\": "src/db",
       "lujie\\alias\\behaviors\\tests\\": "tests"
     }
   },

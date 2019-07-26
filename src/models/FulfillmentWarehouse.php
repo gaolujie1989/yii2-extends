@@ -42,6 +42,7 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
         return [
             [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_id', 'status'], 'integer'],
             [['additional'], 'safe'],
+            [['fulfillment_account_id', 'external_warehouse_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'external_warehouse_id']],
             [['external_warehouse_name'], 'string', 'max' => 100],
         ];
     }

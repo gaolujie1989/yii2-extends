@@ -47,13 +47,12 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['fulfillment_account_id', 'order_id'], 'required'],
             [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_status',
                 'external_order_id', 'external_created_at', 'external_updated_at', 'order_pulled_at'], 'integer'],
-            [['order_id', 'order_status'], 'required'],
             [['external_order_no'], 'string', 'max' => 50],
             [['external_order_status'], 'string', 'max' => 20],
             [['fulfillment_account_id', 'order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'order_id']],
-            [['fulfillment_account_id', 'external_order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'external_order_id']],
             [['external_order_additional'], 'safe']
         ];
     }

@@ -43,7 +43,10 @@ class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
         return [
             [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_id', 'item_id', 'external_item_id',
                 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'integer'],
-            [['item_id'], 'required'],
+            [['fulfillment_account_id', 'warehouse_id', 'item_id'], 'unique',
+                'targetAttribute' => ['fulfillment_account_id', 'warehouse_id', 'item_id']],
+            [['fulfillment_account_id', 'external_warehouse_id', 'external_item_id'], 'unique',
+                'targetAttribute' => ['fulfillment_account_id', 'external_warehouse_id', 'external_item_id']],
             [['additional'], 'safe'],
         ];
     }

@@ -44,10 +44,11 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['fulfillment_account_id', 'item_id'], 'required'],
             [['fulfillment_account_id', 'item_id',
                 'external_item_id', 'external_item_parent_id',
                 'external_created_at', 'external_updated_at', 'stock_pulled_at'], 'integer'],
-            [['item_id'], 'required'],
+            [['fulfillment_account_id', 'item_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'item_id']],
             [['external_item_no'], 'string', 'max' => 50],
         ];
     }

@@ -31,7 +31,7 @@ class m190708_132647_fulfillment_order extends Migration
 
         $this->createIndex('uk_fulfillment_account_id_order_id', $this->tableName,
             ['fulfillment_account_id', 'order_id'], true);
-        $this->createIndex('uk_fulfillment_account_id_external_order_id', $this->tableName,
-            ['fulfillment_account_id', 'external_order_id'], true);
+        $this->createIndex('idx_fulfillment_account_id_external_order_id', $this->tableName,
+            ['fulfillment_account_id', 'external_order_id']);
     }
 }

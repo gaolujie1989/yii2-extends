@@ -17,7 +17,7 @@ class m190726_095731_fulfillment_warehouse_stock extends Migration
             'fulfillment_account_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'warehouse_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'external_warehouse_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
-            'item_id' => $this->bigInteger()->unsigned()->notNull(),
+            'item_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
             'external_item_id' => $this->bigInteger()->unsigned()->defaultValue(0),
             'stock_qty' => $this->integer()->defaultValue(0),
             'reserved_qty' => $this->integer()->defaultValue(0),

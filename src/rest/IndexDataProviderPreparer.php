@@ -8,6 +8,7 @@ namespace lujie\extend\rest;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryInterface;
 use yii\rest\IndexAction;
@@ -35,6 +36,11 @@ class IndexDataProviderPreparer
     public $formName = '';
 
     /**
+     * @var string
+     */
+    public $expandParam = 'expand';
+
+    /**
      * @param IndexAction $action
      * @return object
      * @throws \yii\base\InvalidConfigException
@@ -54,6 +60,7 @@ class IndexDataProviderPreparer
                 $searchModel->load($requestParams, $this->formName);
                 $result = $searchModel->{$this->queryMethod}();
                 if ($result instanceof QueryInterface) {
+                    $this->expandQuery($result);
                     return Yii::createObject([
                         'class' => ActiveDataProvider::class,
                         'query' => $result,
@@ -69,6 +76,7 @@ class IndexDataProviderPreparer
             $model->load($requestParams, $this->formName);
             $result = $model->{$this->queryMethod}();
             if ($result instanceof QueryInterface) {
+                $this->expandQuery($result);
                 return Yii::createObject([
                     'class' => ActiveDataProvider::class,
                     'query' => $result,
@@ -77,9 +85,33 @@ class IndexDataProviderPreparer
             return $result;
         }
 
+        $activeQuery = $model::find();
+        $this->expandQuery($activeQuery);
         return Yii::createObject([
             'class' => ActiveDataProvider::class,
-            'query' => $model::find(),
+            'query' => $activeQuery,
         ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExpandFields(): array
+    {
+        $expand = Yii::$app->getRequest()->get($this->expandParam);
+
+        return is_string($expand) ? preg_split('/\s*,\s*/', $expand, -1, PREG_SPLIT_NO_EMPTY) : [];
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @inheritdoc
+     */
+    protected function expandQuery(QueryInterface $query): void
+    {
+        if ($query instanceof ActiveQueryInterface && $expandFields = $this->getExpandFields()) {
+            $query->with($expandFields);
+        }
     }
 }

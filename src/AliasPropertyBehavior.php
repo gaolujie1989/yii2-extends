@@ -6,9 +6,13 @@
 namespace lujie\alias\behaviors;
 
 use yii\base\Behavior;
+use yii\base\Model;
 
 /**
  * Class AliasAttributeBehavior
+ *
+ * @property Model $owner
+ *
  * @package lujie\core\behaviors
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

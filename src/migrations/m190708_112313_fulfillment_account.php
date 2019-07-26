@@ -23,5 +23,7 @@ class m190708_112313_fulfillment_account extends Migration
             'additional' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
         ]);
+
+        $this->createIndex('idx_name', $this->tableName, ['name']);
     }
 }

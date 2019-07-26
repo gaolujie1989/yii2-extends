@@ -21,5 +21,10 @@ class m190708_113921_fulfillment_warehouse extends Migration
             'additional' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
         ]);
+
+        $this->createIndex('idx_fulfillment_account_id_warehouse_id', $this->tableName,
+            ['fulfillment_account_id', 'order_id']);
+        $this->createIndex('uk_fulfillment_account_id_external_warehouse_id', $this->tableName,
+            ['fulfillment_account_id', 'external_warehouse_id'], true);
     }
 }

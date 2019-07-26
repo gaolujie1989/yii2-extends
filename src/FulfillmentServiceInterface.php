@@ -24,13 +24,6 @@ interface FulfillmentServiceInterface
     public function pushItem(FulfillmentItem $fulfillmentItem): bool;
 
     /**
-     * @param array $condition
-     * @return mixed
-     * @inheritdoc
-     */
-    public function pullItems(array $condition = []): void;
-
-    /**
      * @param $order
      * @return mixed
      * @inheritdoc

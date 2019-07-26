@@ -22,6 +22,7 @@ use yii\db\ActiveQuery;
  * @property int $external_updated_at
  * @property array $item_options
  * @property array $item_errors
+ * @property int $stock_pulled_at
  *
  * @property FulfillmentAccount $fulfillmentAccount
  */
@@ -45,7 +46,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
         return [
             [['fulfillment_account_id', 'item_id',
                 'external_item_id', 'external_item_parent_id',
-                'external_created_at', 'external_updated_at'], 'integer'],
+                'external_created_at', 'external_updated_at', 'stock_pulled_at'], 'integer'],
             [['item_id'], 'required'],
             [['external_item_no'], 'string', 'max' => 50],
         ];
@@ -65,6 +66,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'external_item_parent_id' => Yii::t('lujie/fulfillment', 'External Item Parent ID'),
             'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
         ];
     }
 

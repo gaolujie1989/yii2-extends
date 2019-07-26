@@ -24,6 +24,7 @@ class m190708_122250_fulfillment_item extends Migration
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_options' => $this->json(),
             'item_errors' => $this->json(),
+            'stock_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
         $this->createIndex('idx_fulfillment_account_id_item_id', $this->tableName,

@@ -19,7 +19,7 @@ use Yii;
  * @property string $username
  * @property string $password
  * @property array $options
- * @property array $additional_info
+ * @property array $additional
  * @property int $status
  *
  * @property bool $isActive;
@@ -46,7 +46,7 @@ class FulfillmentAccount extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['options', 'additional_info'], 'safe'],
+            [['options', 'additional'], 'safe'],
             [['status'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 50],
@@ -84,7 +84,7 @@ class FulfillmentAccount extends \yii\db\ActiveRecord
             'username' => Yii::t('lujie/fulfillment', 'Username'),
             'password' => Yii::t('lujie/fulfillment', 'Password'),
             'options' => Yii::t('lujie/fulfillment', 'Options'),
-            'additional_info' => Yii::t('lujie/fulfillment', 'Additional Info'),
+            'additional' => Yii::t('lujie/fulfillment', 'Additional'),
             'status' => Yii::t('lujie/fulfillment', 'Status'),
         ];
     }

@@ -2,8 +2,10 @@
 
 namespace lujie\fulfillment\models;
 
+use Generator;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 use lujie\fulfillment\constants\FulfillmentConst;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentOrder]].
@@ -16,6 +18,7 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
  *
  * @method FulfillmentOrderQuery processing()
+ * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
  * @method int maxExternalUpdatedAt()
  *
@@ -48,6 +51,9 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                         FulfillmentConst::ORDER_STATUS_PUSHED,
                         FulfillmentConst::ORDER_STATUS_PICKING,
                     ]]
+                ],
+                'querySorts' => [
+                    'orderByOrderPulledAt' => ['order_pulled_at']
                 ],
                 'queryReturns' => [
                     'maxExternalUpdatedAt' => [['external_order_updated_at', FieldQueryBehavior::RETURN_MAX]]

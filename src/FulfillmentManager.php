@@ -139,21 +139,39 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param $accountId
      * @inheritdoc
      */
-    public function pullFulfillmentItems($accountId)
+    public function pullFulfillmentWarehouses(int $accountId, array $condition = [])
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
-        $fulfillmentService->pullItems();
+        $fulfillmentService->pullWarehouses($condition);
     }
 
     /**
      * @param $accountId
      * @inheritdoc
      */
-    public function pullFulfillmentOrders($accountId)
+    public function pullFulfillmentItems(int $accountId, array $condition = [])
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
-        $fulfillmentService->pullFulfillmentOrders();
+        $fulfillmentService->pullItems($condition);
+    }
+
+    /**
+     * @param $accountId
+     * @inheritdoc
+     */
+    public function pullFulfillmentOrders(int $accountId, array $condition = [])
+    {
+        /** @var FulfillmentServiceInterface $fulfillmentService */
+        $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
+        $fulfillmentService->pullFulfillmentOrders($condition);
+    }
+
+    public function pullFulfillmentWarehouseStocks(int $accountId, array $condition = [])
+    {
+        /** @var FulfillmentServiceInterface $fulfillmentService */
+        $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
+        $fulfillmentService->pullWarehouseStocks($condition);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace lujie\fulfillment\models;
 
+use Generator;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentWarehouse]].
@@ -36,5 +38,15 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
                 ]
             ]
         ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getWarehouseIdsIndexByExternalWarehouseId(): array
+    {
+        $warehouses = $this->select(['warehouse_id', 'external_warehouse_id'])->asArray()->all();
+        return ArrayHelper::map($warehouses, 'external_warehouse_id', 'warehouse_id');
     }
 }

@@ -25,6 +25,7 @@ use yii\db\ActiveQuery;
  * @property int $external_updated_at
  * @property array $order_options
  * @property array $order_errors
+ * @property int $order_pulled_at
  *
  * @property FulfillmentAccount $fulfillmentAccount
  */
@@ -47,7 +48,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
     {
         return [
             [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_status',
-                'external_order_id', 'external_created_at', 'external_updated_at'], 'integer'],
+                'external_order_id', 'external_created_at', 'external_updated_at', 'order_pulled_at'], 'integer'],
             [['order_id', 'order_status'], 'required'],
             [['external_order_no'], 'string', 'max' => 50],
             [['external_order_status'], 'string', 'max' => 20],
@@ -74,6 +75,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             'external_order_additional' => Yii::t('lujie/fulfillment', 'External Order Additional'),
             'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'order_pulled_at' => Yii::t('lujie/fulfillment', 'Order Pulled At'),
         ];
     }
 

@@ -41,5 +41,11 @@ interface FulfillmentServiceInterface
      * @return mixed
      * @inheritdoc
      */
-    public function pullFulfillmentOrders(array $condition = []): void;
+    public function pullFulfillmentOrders(): void;
+
+    /**
+     * @param array $condition
+     * @inheritdoc
+     */
+    public function pullWarehouseStocks(): void;
 }

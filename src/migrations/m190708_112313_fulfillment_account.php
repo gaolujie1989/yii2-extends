@@ -20,7 +20,7 @@ class m190708_112313_fulfillment_account extends Migration
             'username' => $this->string()->notNull()->defaultValue(''),
             'password' => $this->string()->notNull()->defaultValue(''),
             'options' => $this->json(),
-            'additional_info' => $this->json(),
+            'additional' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
         ]);
     }

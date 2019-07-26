@@ -26,6 +26,7 @@ class m190708_132647_fulfillment_order extends Migration
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'order_options' => $this->json(),
             'order_errors' => $this->json(),
+            'order_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
         $this->createIndex('uk_fulfillment_account_id_order_id', $this->tableName,

@@ -18,7 +18,7 @@ class IdNameAliasPropertyBehavior extends AliasPropertyBehavior
     /**
      * [
      *      'aliasXXX' => [
-     *          'class' => 'xxx',
+     *          'modelClass' => 'xxx',
      *          'idField' => 'xxx_id',
      *          'nameField' => 'xxx_name',
      *      ]
@@ -40,7 +40,7 @@ class IdNameAliasPropertyBehavior extends AliasPropertyBehavior
 //            return '';
 //        }
         /** @var ActiveRecord $modelClass */
-        ['class' => $modelClass, 'idField' => $idField, 'nameField' => $nameField] = $this->aliasProperties[$name];
+        ['modelClass' => $modelClass, 'idField' => $idField, 'nameField' => $nameField] = $this->aliasProperties[$name];
         $query = new ReturnFieldQuery($modelClass, ['returnField' => $nameField]);
         $query->primaryModel = $this->owner;
         $query->link = [$idField => $idField];
@@ -60,7 +60,7 @@ class IdNameAliasPropertyBehavior extends AliasPropertyBehavior
             return;
         }
         /** @var ActiveRecord $modelClass */
-        ['class' => $modelClass, 'idField' => $idField, 'nameField' => $nameField] = $this->aliasProperties[$name];
+        ['modelClass' => $modelClass, 'idField' => $idField, 'nameField' => $nameField] = $this->aliasProperties[$name];
         $idValue = $modelClass::find()->andWhere([$nameField => $value])->select([$idField])->scalar();
         if ($idValue === null) {
             $this->owner->addError($name, 'Invalid value');

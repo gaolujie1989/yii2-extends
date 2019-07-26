@@ -27,7 +27,7 @@ class ReturnFieldQuery extends ActiveQuery
     public function init(): void
     {
         parent::init();
-        if (empty($this->queryField)) {
+        if (empty($this->returnField)) {
             throw new InvalidArgumentException('The property `queryField` must be set');
         }
     }

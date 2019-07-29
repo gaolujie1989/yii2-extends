@@ -8,6 +8,7 @@ namespace lujie\extend\rest;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryInterface;
@@ -110,7 +111,12 @@ class IndexDataProviderPreparer
      */
     protected function expandQuery(QueryInterface $query): void
     {
-        if ($query instanceof ActiveQueryInterface && $expandFields = $this->getExpandFields()) {
+        if ($query instanceof ActiveQuery && $expandFields = $this->getExpandFields()) {
+            /** @var BaseActiveRecord $model */
+            $model = new $query->modelClass();
+            $expandFields = array_filter($expandFields, static function ($expandField) use ($model) {
+                $model->getRelation($expandField);
+            });
             $query->with($expandFields);
         }
     }

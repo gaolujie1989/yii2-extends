@@ -26,6 +26,7 @@ use Yii;
 class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+    use FulfillmentAccountRelationTrait;
 
     /**
      * {@inheritdoc}

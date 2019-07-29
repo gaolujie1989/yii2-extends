@@ -25,6 +25,7 @@ use yii\db\ActiveQuery;
 class FulfillmentWarehouse extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+    use FulfillmentAccountRelationTrait;
 
     /**
      * {@inheritdoc}
@@ -70,14 +71,5 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public static function find(): FulfillmentWarehouseQuery
     {
         return new FulfillmentWarehouseQuery(static::class);
-    }
-
-    /**
-     * @return FulfillmentAccountQuery|ActiveQuery
-     * @inheritdoc
-     */
-    public function getFulfillmentAccount(): FulfillmentAccountQuery
-    {
-        return $this->hasOne(FulfillmentAccount::class, ['fulfillment_account_id' => 'fulfillment_account_id']);
     }
 }

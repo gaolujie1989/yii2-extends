@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\searches;
 
+use lujie\fulfillment\models\FulfillmentAccountQuery;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentOrderQuery;
 
@@ -33,7 +34,7 @@ class FulfillmentOrderSearch extends FulfillmentOrder
      */
     public function query(): FulfillmentOrderQuery
     {
-        return static::find()
+        return static::find()->with('fulfillmentAccount')
             ->andFilterWhere(['LIKE', 'external_order_no', $this->external_order_no])
             ->andFilterWhere([
                 'fulfillment_account_id' => $this->fulfillment_account_id,
@@ -43,5 +44,25 @@ class FulfillmentOrderSearch extends FulfillmentOrder
                 'order_status' => $this->order_status,
                 'external_order_status' => $this->external_order_status,
             ]);
+    }
+
+    /**
+     * @return FulfillmentAccountQuery
+     * @inheritdoc
+     */
+    public function getFulfillmentAccount(): FulfillmentAccountQuery
+    {
+        return parent::getFulfillmentAccount()->select(['fulfillment_account_id', 'name']);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'fulfillment_account_name' => 'fulfillmentAccount.name',
+        ]);
     }
 }

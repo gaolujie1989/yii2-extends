@@ -48,8 +48,11 @@ class QueueJobSearch extends QueueJob
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getJobInfo(): string
+    public function getJobInfo(): ?string
     {
+        if (empty($this->queue)) {
+            return null;
+        }
         /** @var Queue $queue */
         $queue = Instance::ensure($this->queue);
         $job = $queue->serializer->unserialize($this->job);

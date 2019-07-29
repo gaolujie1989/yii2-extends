@@ -6,6 +6,7 @@ use lujie\common\address\models\Address;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use lujie\sales\order\center\Module;
 use Yii;
 use yii\db\ActiveQuery;
@@ -54,7 +55,7 @@ use yii\helpers\ArrayHelper;
  */
 class SalesOrder extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
     /**
      * {@inheritdoc}

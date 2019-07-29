@@ -6,6 +6,7 @@ use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use lujie\sales\order\center\Module;
 use Yii;
 use yii\db\ActiveQuery;
@@ -34,7 +35,7 @@ use yii\db\ActiveQuery;
  */
 class SalesOrderItem extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
     /**
      * {@inheritdoc}

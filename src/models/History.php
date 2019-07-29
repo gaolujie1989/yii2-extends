@@ -9,6 +9,7 @@ namespace lujie\ar\history\models;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use yii\db\ActiveRecord;
 
 /**
@@ -25,7 +26,7 @@ use yii\db\ActiveRecord;
  */
 class History extends ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
     /**
      * @return string

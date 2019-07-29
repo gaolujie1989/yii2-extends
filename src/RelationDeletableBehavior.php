@@ -97,7 +97,7 @@ class RelationDeletableBehavior extends Behavior
         }
         /** @var BaseActiveRecord[] $relationModels */
         $relationModels = $owner->$name;
-        if (!is_array($relationModels)) {
+        if (!is_array($relationModels) && $relationModels) {
             $relationModels = [$relationModels];
         }
         foreach ($relationModels as $model) {

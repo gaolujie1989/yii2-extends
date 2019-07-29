@@ -138,10 +138,10 @@ abstract class BaseJobMonitorBehavior extends Behavior
     }
 
     /**
-     * @param ErrorEvent $event
+     * @param ExecEvent $event
      * @inheritdoc
      */
-    public function afterError(ErrorEvent $event): void
+    public function afterError(ExecEvent $event): void
     {
         $now = time();
         $queueName = ComponentHelper::getName($event->sender);

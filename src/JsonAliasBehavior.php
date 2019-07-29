@@ -15,6 +15,8 @@ use yii\helpers\Json;
  */
 class JsonAliasBehavior extends AliasPropertyBehavior
 {
+    public $jsonOption = JSON_PRETTY_PRINT;
+
     /**
      * @param $name
      * @return int|mixed|string
@@ -24,7 +26,7 @@ class JsonAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty($name)
     {
         $value = parent::getAliasProperty($name);
-        return is_string($value) ? $value : Json::encode($value);
+        return is_string($value) ? $value : Json::encode($value, $this->jsonOption);
     }
 
     /**

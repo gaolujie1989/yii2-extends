@@ -2,6 +2,7 @@
 
 namespace lujie\common\address\models;
 
+use lujie\extend\db\TransactionTrait;
 use function GuzzleHttp\Psr7\str;
 use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\extend\db\IdFieldTrait;
@@ -38,7 +39,7 @@ use Yii;
  */
 class Address extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
     /**
      * {@inheritdoc}

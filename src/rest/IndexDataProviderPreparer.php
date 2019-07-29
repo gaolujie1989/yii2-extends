@@ -115,7 +115,7 @@ class IndexDataProviderPreparer
             /** @var BaseActiveRecord $model */
             $model = new $query->modelClass();
             $expandFields = array_filter($expandFields, static function ($expandField) use ($model) {
-                $model->getRelation($expandField);
+                $model->getRelation($expandField, false);
             });
             $query->with($expandFields);
         }

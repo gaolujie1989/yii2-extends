@@ -5,6 +5,7 @@ namespace lujie\upload\models;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use lujie\upload\behaviors\FileBehavior;
 use Yii;
 use yii\db\ActiveQuery;
@@ -32,7 +33,7 @@ use yii\db\ActiveRecord;
  */
 class UploadSavedFile extends ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
     /**
      * {@inheritdoc}

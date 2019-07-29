@@ -24,7 +24,7 @@ class JsonAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty($name)
     {
         $value = parent::getAliasProperty($name);
-        return is_string($value) ? $value : Json::encode($name);
+        return is_string($value) ? $value : Json::encode($value);
     }
 
     /**

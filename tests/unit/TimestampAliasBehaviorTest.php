@@ -33,12 +33,12 @@ class TimestampAliasBehaviorTest extends \Codeception\Test\Unit
             ]
         ]);
         $datetime = '2019-01-01 08:00:00';
-        $jpDateTime = '2019-01-01 09:00:00';
+        $jpDateTime = '2019-01-01T09:00:00+09:00';
         $testAliasComponent->created_at = strtotime($datetime);
         $this->assertEquals($jpDateTime, $testAliasComponent->created_time);
 
         $datetime = '2019-01-02 08:00:00';
-        $jpDateTime = '2019-01-02 09:00:00';
+        $jpDateTime = '2019-01-02T09:00:00+09:00';
         $testAliasComponent->created_time = $jpDateTime;
         $this->assertEquals(strtotime($datetime), $testAliasComponent->created_at);
 
@@ -46,6 +46,7 @@ class TimestampAliasBehaviorTest extends \Codeception\Test\Unit
             'as timestamp' => [
                 'class' => TimestampAliasBehavior::class,
                 'timezone' => 'Asia/Tokyo',
+                'format' => 'Y-m-d H:i:s',
                 'aliasProperties' => [
                     'updated_at' => 'updated_time'
                 ]

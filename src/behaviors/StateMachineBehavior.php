@@ -190,7 +190,7 @@ class StateMachineBehavior extends Behavior
 
         $currentStatus = $this->owner->getAttribute($this->statusAttribute);
         if (empty($this->statusMethods[$name][$currentStatus])) {
-            throw new InvalidCallException('Current status can not support this method');
+            throw new InvalidCallException("Current status {$currentStatus} can not support for method {$name}");
         }
 
         $newStatus = $this->statusMethods[$name][$currentStatus];

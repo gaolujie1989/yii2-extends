@@ -212,7 +212,7 @@ class FieldQueryBehaviorTest extends \Codeception\Test\Unit
 
         $avgApplyTime = $query->avgApplyTime();
         $existAvgApplyTime = array_sum($existApplyTimes) / count($existApplyTimes);
-        $this->assertEquals(round($avgApplyTime, 4), round($existAvgApplyTime, 4));
+        $this->assertEquals(round($avgApplyTime, 2), round($existAvgApplyTime, 2));
 
 
         //test with alias

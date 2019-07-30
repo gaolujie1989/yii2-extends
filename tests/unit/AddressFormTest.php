@@ -41,11 +41,11 @@ class AddressFormTest extends \Codeception\Test\Unit
             'phone' => '12345678901',
         ];
         $aliasData = [
-            'companyName' => 'CCLIFE Tech',
-            'firstName' => 'Lujie',
-            'lastName' => 'Zhou',
+            'company_name' => 'CCLIFE Tech',
+            'first_name' => 'Lujie',
+            'last_name' => 'Zhou',
             'street' => 'XXX Road',
-            'houseNo' => '21',
+            'house_no' => '21',
             'additional' => 'under the door',
         ];
         $query = Address::find();

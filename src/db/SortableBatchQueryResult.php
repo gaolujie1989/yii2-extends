@@ -43,10 +43,14 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
         $orderBy = $this->query->orderBy;
         if ($orderBy) {
             foreach ($orderBy as $column => $sort) {
-                $column = is_int($column) ? $sort : $column;
-                $sort = is_int($column) ? SORT_ASC : $sort;
-                $this->sortCondition = [$sort === SORT_ASC ? '>' : '<', $column, 0];
-                break;
+                if (empty($this->query->select)
+                    || in_array('*', $this->query->select, true)
+                    || in_array($column, $this->query->select, true)) {
+                    $column = is_int($column) ? $sort : $column;
+                    $sort = is_int($column) ? SORT_ASC : $sort;
+                    $this->sortCondition = [$sort === SORT_ASC ? '>=' : '<=', $column, 0];
+                    break;
+                }
             }
         } else if ($this->query instanceof ActiveQuery) {
             /** @var BaseActiveRecord $modelClass */

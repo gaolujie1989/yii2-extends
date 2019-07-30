@@ -1,3 +1,4 @@
+namespace: queuing\monitor
 paths:
   tests: tests
   output: tests/_output

@@ -1,3 +1,4 @@
+namespace: remote\user
 paths:
   tests: tests
   output: tests/_output

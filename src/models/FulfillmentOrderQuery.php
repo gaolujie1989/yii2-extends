@@ -47,10 +47,12 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'externalOrderStatus' => 'external_order_status',
                 ],
                 'queryConditions' => [
-                    'processing' => ['status' => [
-                        FulfillmentConst::ORDER_STATUS_PUSHED,
-                        FulfillmentConst::ORDER_STATUS_PICKING,
-                    ]]
+                    'processing' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::ORDER_STATUS_PUSHED,
+                            FulfillmentConst::ORDER_STATUS_PICKING,
+                        ]
+                    ]
                 ],
                 'querySorts' => [
                     'orderByOrderPulledAt' => ['order_pulled_at']

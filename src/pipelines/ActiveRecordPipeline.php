@@ -32,6 +32,11 @@ class ActiveRecordPipeline extends BaseDbPipeline
     public $runValidation = false;
 
     /**
+     * @var bool
+     */
+    public $skipOnUnChanged = true;
+
+    /**
      * [
      *     'lineNum' => 'line num xxx has error xxx',
      * ]
@@ -80,7 +85,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
         $callable = function () use ($models) {
             foreach ($models as $model) {
                 $createOrUpdate = $model->getIsNewRecord() ? self::AFFECTED_CREATED : self::AFFECTED_UPDATED;
-                if (empty($model->getDirtyAttributes())) {
+                if ($this->skipOnUnChanged && empty($model->getDirtyAttributes())) {
                     $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 } else if ($model->save(false)) {
                     $this->affectedRowCounts[$createOrUpdate]++;

@@ -80,6 +80,10 @@ class FileDataRecordPipelineTest extends \Codeception\Test\Unit
         $pipeline = new FileRecordDataPipeline([
             'sourceId' => $source->data_source_id
         ]);
+        $path = 'record_data/10/testType/123.bin';
+        if ($pipeline->fs->has($path)) {
+            $pipeline->fs->delete($path);
+        }
         $pipeline->process([$data]);
 
         $record = DataRecord::find()

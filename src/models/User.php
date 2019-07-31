@@ -132,7 +132,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null): ?self
     {
         $key = ($type ?? '') . $token;
-        $userId = static::getCache()->get(static::getUserIdCacheKey($key));
+        $userId = static::getCache()->get(static::getUserIdCacheKey($key))
+            ?: static::getCache()->get(static::getUserIdCacheKey($token));
         if ($userId) {
             return static::findIdentity($userId);
         }
@@ -153,6 +154,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $key = ($type ?? '') . $token;
         $dependency = new TagDependency(['tags' => static::CACHE_TAGS]);
         static::getCache()->set(static::getUserIdCacheKey($key), $this->getId(), $duration, $dependency);
+        static::getCache()->set(static::getUserIdCacheKey($token), $this->getId(), $duration, $dependency);
         return $token;
     }
 

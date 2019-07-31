@@ -56,6 +56,7 @@ class ActiveController extends \yii\rest\ActiveController
             $actions['create']['modelClass'] = $this->formClass;
             $actions['update']['modelClass'] = $this->formClass;
             $actions['delete']['modelClass'] = $this->formClass;
+            $actions['view']['modelClass'] = $this->formClass;
         }
         return $actions;
     }

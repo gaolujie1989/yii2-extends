@@ -19,6 +19,24 @@ class ActiveController extends \yii\rest\ActiveController
 {
     public $idSeparator = ';';
 
+    public $formClass;
+    public $searchClass;
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (empty($this->formClass)) {
+            $this->formClass = ClassHelper::getFormClass($this->modelClass);
+        }
+        if (empty($this->searchClass)) {
+            $this->searchClass = ClassHelper::getSearchClass($this->modelClass);
+        }
+    }
+
     /**
      * @return array
      * @throws \yii\base\InvalidConfigException
@@ -28,13 +46,16 @@ class ActiveController extends \yii\rest\ActiveController
     {
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = [
-            Yii::createObject(['class' => IndexDataProviderPreparer::class]),
+            Yii::createObject([
+                'class' => IndexDataProviderPreparer::class,
+                'searchModelClass' => $this->searchClass
+            ]),
             'prepare'
         ];
-        if ($formClass = ClassHelper::getFormClass($this->modelClass)) {
-            $actions['create']['modelClass'] = $formClass;
-            $actions['update']['modelClass'] = $formClass;
-            $actions['delete']['modelClass'] = $formClass;
+        if ($this->formClass) {
+            $actions['create']['modelClass'] = $this->formClass;
+            $actions['update']['modelClass'] = $this->formClass;
+            $actions['delete']['modelClass'] = $this->formClass;
         }
         return $actions;
     }

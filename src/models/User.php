@@ -118,7 +118,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public static function findIdentity($id): ?self
     {
         $dependency = new TagDependency(['tags' => static::CACHE_TAGS]);
-        static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
+        return static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
             return static::findOne(['user_id' => $id, 'status' => static::STATUS_ACTIVE]);
         }, static::CACHE_DURATION, $dependency);
     }

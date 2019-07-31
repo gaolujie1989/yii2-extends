@@ -30,10 +30,10 @@ class ActiveController extends \yii\rest\ActiveController
     {
         parent::init();
         if (empty($this->formClass)) {
-            $this->formClass = ClassHelper::getFormClass($this->modelClass);
+            $this->formClass = ClassHelper::getFormClass($this->modelClass) ?: $this->modelClass;
         }
         if (empty($this->searchClass)) {
-            $this->searchClass = ClassHelper::getSearchClass($this->modelClass);
+            $this->searchClass = ClassHelper::getSearchClass($this->modelClass) ?: $this->modelClass;
         }
     }
 

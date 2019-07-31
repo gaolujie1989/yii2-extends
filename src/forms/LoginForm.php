@@ -109,7 +109,7 @@ class LoginForm extends Model
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function getToken(): ?string
+    public function getAccessToken(): ?string
     {
         if ($user = $this->getUser()) {
             return $user->getAccessToken($this->rememberDuration);
@@ -124,7 +124,7 @@ class LoginForm extends Model
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'token',
+            'accessToken',
         ]);
     }
 }

@@ -115,11 +115,12 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
     }
 
-    /**
+    /**、
      * @param FulfillmentItem $fulfillmentItem
+     * @return bool|mixed
      * @inheritdoc
      */
-    public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): void
+    public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): bool
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentItem->fulfillment_account_id);
@@ -135,9 +136,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool|mixed
      * @inheritdoc
      */
-    public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): void
+    public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
@@ -155,11 +157,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentOrder $fulfillmentOrder
      * @inheritdoc
      */
-    public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): void
+    public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
-        $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
+        return $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
     }
 
     /**

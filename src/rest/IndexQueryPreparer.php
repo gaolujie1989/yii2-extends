@@ -8,6 +8,7 @@ namespace lujie\extend\rest;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryInterface;
 use yii\rest\Action;
@@ -35,6 +36,11 @@ class IndexQueryPreparer
     public $formName = '';
 
     /**
+     * @var array
+     */
+    public $with = [];
+
+    /**
      * @param Action $action
      * @return QueryInterface
      * @throws InvalidConfigException
@@ -52,7 +58,11 @@ class IndexQueryPreparer
             $searchModel = Yii::createObject($searchClass);
             if (method_exists($searchModel, $this->queryMethod)) {
                 $searchModel->load($requestParams, $this->formName);
-                return $searchModel->{$this->queryMethod}();
+                $query = $searchModel->{$this->queryMethod}();
+                if ($this->with && $query instanceof ActiveQuery) {
+                    $query->with($this->with);
+                }
+                return $query;
             }
         }
 
@@ -60,9 +70,17 @@ class IndexQueryPreparer
         $model = new $action->modelClass();
         if (method_exists($model, $this->queryMethod)) {
             $model->load($requestParams, $this->formName);
-            return $model->{$this->queryMethod}();
+            $query = $model->{$this->queryMethod}();
+            if ($this->with && $query instanceof ActiveQuery) {
+                $query->with($this->with);
+            }
+            return $query;
         }
 
-        return $model::find();
+        $query = $model::find();
+        if ($this->with && $query instanceof ActiveQuery) {
+            $query->with($this->with);
+        }
+        return $query;
     }
 }

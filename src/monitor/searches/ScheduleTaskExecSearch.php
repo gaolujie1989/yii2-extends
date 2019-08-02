@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\scheduling\monitor\models;
+namespace lujie\scheduling\monitor\searches;
 
 use lujie\executing\monitor\searches\ExecutableExecSearch;
 

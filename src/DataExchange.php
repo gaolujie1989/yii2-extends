@@ -72,7 +72,8 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
         if ($source === null) {
             return false;
         }
-        $batch = $source instanceof BatchSourceInterface ? $source->batch() : [$source->all()];
+        $batch = $source instanceof BatchSourceInterface && !($this->pipeline instanceof FilePipeline)
+            ? $source->batch() : [$source->all()];
         foreach ($batch as $data) {
             if (empty($data)) {
                 continue;

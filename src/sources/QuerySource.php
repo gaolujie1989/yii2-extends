@@ -45,7 +45,9 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
         if (!($this->query instanceof QueryInterface)) {
             throw new InvalidConfigException('Query must be a query object');
         }
-        $this->query->andFilterWhere($this->condition);
+        if ($this->condition) {
+            $this->query->andFilterWhere($this->condition);
+        }
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
         }

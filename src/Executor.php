@@ -95,9 +95,9 @@ class Executor extends Component
         if (empty($jobConfig['class'])) {
             $jobConfig['class'] = ExecutableJob::class;
         }
+        $jobConfig['executable'] = $queueable;
         /** @var ExecutableJob $job */
         $job = Instance::ensure($jobConfig, ExecutableJob::class);
-        $job->executable = $queueable;
         $job->executor = ComponentHelper::getName($this);
 
         if ($queueable->getTtr()) {

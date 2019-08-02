@@ -50,7 +50,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public $mutexNamePrefix = 'fulfillment:';
 
-    public $orderCancelledStatus;
+    public $orderCancellingStatus;
 
     /**
      * @throws InvalidConfigException
@@ -107,7 +107,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = $event->sender;
-        if ($fulfillmentOrder->order_status === $this->orderCancelledStatus) {
+        if ($fulfillmentOrder->order_status === $this->orderCancellingStatus) {
             $job = new CancelFulfillmentOrderJob();
             $job->fulfillmentManager = ComponentHelper::getName($this);
             $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;

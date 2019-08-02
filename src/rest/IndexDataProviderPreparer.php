@@ -9,10 +9,9 @@ use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
-use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryInterface;
-use yii\rest\IndexAction;
+use yii\rest\Action;
 
 /**
  * Class IndexDataProviderPreparer
@@ -42,12 +41,12 @@ class IndexDataProviderPreparer
     public $expandParam = 'expand';
 
     /**
-     * @param IndexAction $action
+     * @param Action $action
      * @return object
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function prepare(IndexAction $action)
+    public function prepare(Action $action)
     {
         $requestParams = Yii::$app->getRequest()->getBodyParams();
         if (empty($requestParams)) {

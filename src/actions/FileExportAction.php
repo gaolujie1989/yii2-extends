@@ -32,6 +32,13 @@ class FileExportAction extends Action
      */
     public $fileExport;
 
+    public $path;
+
+    /**
+     * @var string
+     */
+    public $filePath = '/tmp/exports/{date}/tmp_{datetime}.xlsx';
+
     /**
      * @throws InvalidConfigException
      * @inheritdoc
@@ -41,6 +48,7 @@ class FileExportAction extends Action
         parent::init();
         $this->queryPreparer = Instance::ensure($this->queryPreparer, IndexQueryPreparer::class);
         $this->fileExport = Instance::ensure($this->fileExport, FileExport::class);
+        $this->fileExport->pipeline->filePathTemplate = $this->filePath;
     }
 
     /**

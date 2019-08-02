@@ -7,6 +7,7 @@ namespace lujie\data\exchange;
 
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
+use lujie\data\exchange\pipelines\FilePipeline;
 use lujie\data\exchange\pipelines\PipelineInterface;
 use lujie\data\exchange\sources\BatchSourceInterface;
 use lujie\data\exchange\sources\IncrementSource;
@@ -125,5 +126,17 @@ class DataExchange extends BaseObject implements ExecutableInterface, LockableIn
             return $this->pipeline->getErrors();
         }
         return [];
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getFilePath(): string
+    {
+        if ($this->pipeline instanceof FilePipeline) {
+            return $this->pipeline->getFilePath();
+        }
+        return '';
     }
 }

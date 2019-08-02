@@ -38,6 +38,17 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     public $attempts = 1;
 
     /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->executable = Instance::ensure($this->executable, ExecutableInterface::class);
+        $this->executable->getExecUid();
+    }
+
+    /**
      * @param \yii\queue\Queue $queue
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

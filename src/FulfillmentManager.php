@@ -7,6 +7,7 @@ namespace lujie\fulfillment;
 
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\ComponentHelper;
+use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
 use lujie\fulfillment\jobs\PushFulfillmentItemJob;
 use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
 use lujie\fulfillment\models\FulfillmentItem;
@@ -49,6 +50,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public $mutexNamePrefix = 'fulfillment:';
 
+    public $orderCancelledStatus;
+
     /**
      * @throws InvalidConfigException
      * @inheritdoc
@@ -69,6 +72,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentItemCreated']);
         Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderCreated']);
+        Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderUpdated']);
     }
 
     /**
@@ -99,11 +103,23 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $this->queue->push($job);
     }
 
+    public function afterFulfillmentOrderUpdated(AfterSaveEvent $event): void
+    {
+        /** @var FulfillmentOrder $fulfillmentOrder */
+        $fulfillmentOrder = $event->sender;
+        if ($fulfillmentOrder->order_status === $this->orderCancelledStatus) {
+            $job = new CancelFulfillmentOrderJob();
+            $job->fulfillmentManager = ComponentHelper::getName($this);
+            $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
+            $this->queue->push($job);
+        }
+    }
+
     /**
      * @param FulfillmentItem $fulfillmentItem
      * @inheritdoc
      */
-    public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem)
+    public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): void
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentItem->fulfillment_account_id);
@@ -121,7 +137,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentOrder $fulfillmentOrder
      * @inheritdoc
      */
-    public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder)
+    public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): void
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
@@ -136,10 +152,21 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @inheritdoc
+     */
+    public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): void
+    {
+        /** @var FulfillmentServiceInterface $fulfillmentService */
+        $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
+        $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
+    }
+
+    /**
      * @param $accountId
      * @inheritdoc
      */
-    public function pullFulfillmentWarehouses(int $accountId, array $condition = [])
+    public function pullFulfillmentWarehouses(int $accountId, array $condition = []): void
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
@@ -150,14 +177,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param $accountId
      * @inheritdoc
      */
-    public function pullFulfillmentOrders(int $accountId)
+    public function pullFulfillmentOrders(int $accountId): void
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
         $fulfillmentService->pullFulfillmentOrders();
     }
 
-    public function pullFulfillmentWarehouseStocks(int $accountId)
+    public function pullFulfillmentWarehouseStocks(int $accountId): void
     {
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);

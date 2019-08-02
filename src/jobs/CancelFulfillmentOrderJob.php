@@ -15,11 +15,11 @@ use yii\queue\JobInterface;
 use yii\queue\Queue;
 
 /**
- * Class FulfillmentExecutable
- * @package lujie\fulfillment
+ * Class CancelFulfillmentOrderJob
+ * @package lujie\fulfillment\jobs
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushFulfillmentOrderJob extends BaseObject implements JobInterface
+class CancelFulfillmentOrderJob extends BaseObject implements JobInterface
 {
     /**
      * @var FulfillmentManager
@@ -46,6 +46,6 @@ class PushFulfillmentOrderJob extends BaseObject implements JobInterface
         }
 
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $this->fulfillmentManager->pushFulfillmentOrder($fulfillmentOrder);
+        $this->fulfillmentManager->cancelFulfillmentOrder($fulfillmentOrder);
     }
 }

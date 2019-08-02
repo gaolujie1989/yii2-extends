@@ -37,7 +37,7 @@ class PushFulfillmentItemJob extends BaseObject implements JobInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function execute($queue)
+    public function execute($queue): void
     {
         /** @var FulfillmentItem $fulfillmentItem */
         $fulfillmentItem = FulfillmentItem::findOne($this->fulfillmentItemId);

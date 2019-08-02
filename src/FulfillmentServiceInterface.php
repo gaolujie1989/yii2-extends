@@ -31,6 +31,13 @@ interface FulfillmentServiceInterface
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool;
 
     /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @inheritdoc
+     */
+    public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool;
+
+    /**
      * @return mixed
      * @inheritdoc
      */

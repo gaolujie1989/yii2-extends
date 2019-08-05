@@ -53,12 +53,13 @@ class RelatedCounterUpdateBehavior extends Behavior
      */
     public function afterInsert(AfterSaveEvent $event): void
     {
+        $sender = $event->sender;
         /** @var BaseActiveRecord|null $relation */
-        $relation = $this->{$this->relation};
+        $relation = $sender->{$this->relation};
         if ($relation === null) {
             throw new InvalidConfigException('Null relation model');
         }
-        $relation->updateCounters([$this->relationValueAttribute => $event->sender->{$this->valueAttribute}]);
+        $relation->updateCounters([$this->relationValueAttribute => $sender->{$this->valueAttribute}]);
     }
 
     /**
@@ -69,13 +70,14 @@ class RelatedCounterUpdateBehavior extends Behavior
     public function afterUpdate(AfterSaveEvent $event): void
     {
         if (isset($event->changedAttributes[$this->valueAttribute])) {
+            $sender = $event->sender;
             /** @var BaseActiveRecord|null $relation */
-            $relation = $this->{$this->relation};
+            $relation = $sender->{$this->relation};
             if ($relation === null) {
                 throw new InvalidConfigException('Null relation model');
             }
 
-            $diff = $event->sender->{$this->valueAttribute} - $event->changedAttributes[$this->valueAttribute];
+            $diff = $sender->{$this->valueAttribute} - $event->changedAttributes[$this->valueAttribute];
             $relation->updateCounters([$this->relationValueAttribute => $diff]);
         }
     }
@@ -86,11 +88,12 @@ class RelatedCounterUpdateBehavior extends Behavior
      */
     public function afterDelete(Event $event): void
     {
+        $sender = $event->sender;
         /** @var BaseActiveRecord|null $relation */
-        $relation = $this->{$this->relation};
+        $relation = $sender->{$this->relation};
         if ($relation === null) { //for delete, it may be also deleted
             return;
         }
-        $relation->updateCounters([$this->relationValueAttribute => -$event->sender->{$this->valueAttribute}]);
+        $relation->updateCounters([$this->relationValueAttribute => -$sender->{$this->valueAttribute}]);
     }
 }

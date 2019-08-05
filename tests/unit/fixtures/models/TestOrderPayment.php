@@ -3,6 +3,7 @@
 namespace lujie\ar\relation\behaviors\tests\unit\fixtures\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "test_order_payment".
@@ -10,6 +11,7 @@ use Yii;
  * @property string $test_order_payment_id
  * @property string $test_order_id
  * @property string $transaction_no
+ * @property int $paid_amount
  */
 class TestOrderPayment extends \yii\db\ActiveRecord
 {
@@ -27,7 +29,7 @@ class TestOrderPayment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['test_order_id'], 'integer'],
+            [['test_order_id', 'paid_amount'], 'integer'],
             [['transaction_no'], 'string', 'max' => 255],
         ];
     }
@@ -41,6 +43,16 @@ class TestOrderPayment extends \yii\db\ActiveRecord
             'test_order_payment_id' => 'Test Order Payment ID',
             'test_order_id' => 'Test Order ID',
             'transaction_no' => 'Transaction No',
+            'paid_amount' => 'Paid Amount',
         ];
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getOrder(): ActiveQuery
+    {
+        return $this->hasOne(TestOrder::class, ['test_order_id'=> 'test_order_id']);
     }
 }

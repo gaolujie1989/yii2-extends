@@ -7,6 +7,7 @@ namespace lujie\upload\forms;
 
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\models\UploadSavedFile;
+use yii\helpers\Inflector;
 
 /**
  * Class UploadForm
@@ -34,6 +35,7 @@ class UploadSavedFileForm extends UploadSavedFile
     {
         $modelType = strtolower($this->model_type);
         $pathPrefix = $this->modelTypePathPrefixes[$this->model_type] ?? $modelType;
+        $pathPrefix = lcfirst(Inflector::pluralize(Inflector::camelize($pathPrefix)));
         return array_merge(parent::behaviors(), [
             'upload' => [
                 'class' => UploadBehavior::class,

@@ -7,7 +7,7 @@ namespace lujie\upload\actions;
 
 use lujie\upload\models\UploadSavedFile;
 use Yii;
-use yii\base\Action;
+use yii\rest\Action;
 use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
 
@@ -16,7 +16,7 @@ use yii\web\NotFoundHttpException;
  * @package lujie\upload
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UploadedFileViewAction extends Action
+class UploadedFileDownloadAction extends Action
 {
     /**
      * @var UploadSavedFile

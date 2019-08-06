@@ -21,7 +21,7 @@ class UploadSavedFileForm extends UploadSavedFile
     /**
      * @var array allowedExtensions like ['jpg', 'jpeg', 'png', 'gif']
      */
-    public $allowedExtensions;
+    public $allowedExtensions = [];
 
     public $checkExtensionByMimeType = false;
 

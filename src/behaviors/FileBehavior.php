@@ -95,7 +95,7 @@ class FileBehavior extends Behavior
      * @return string
      * @inheritdoc
      */
-    public function getFileUrl(): string
+    public function getUrl(): string
     {
         $value = $this->owner->{$this->attribute};
         return $this->url . $value;
@@ -105,7 +105,7 @@ class FileBehavior extends Behavior
      * @return string
      * @inheritdoc
      */
-    public function getFilePath(): string
+    public function getPath(): string
     {
         $value = $this->owner->{$this->attribute};
         return $this->path . $value;
@@ -115,7 +115,7 @@ class FileBehavior extends Behavior
      * @return bool|false|string
      * @inheritdoc
      */
-    public function getFileContent(): string
+    public function getContent(): string
     {
         $value = $this->owner->{$this->attribute};
         return $this->loadFile($value);

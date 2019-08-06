@@ -10,6 +10,7 @@ use lujie\upload\behaviors\FileBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "{{%uploaded_file}}".
@@ -103,6 +104,10 @@ class UploadSavedFile extends ActiveRecord
             parent::behaviors(),
             $this->traceableBehaviors(),
             [
+                'position' => [
+                    'class' => PositionBehavior::class,
+                    'groupAttributes' => ['model_type', 'model_id'],
+                ],
                 'file' => [
                     'class' => FileBehavior::class,
                     'attribute' => 'file',

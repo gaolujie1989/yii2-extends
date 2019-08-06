@@ -40,6 +40,11 @@ class FileExportAction extends Action
     public $filePath = '/tmp/exports/{date}/tmp_{datetime}.xlsx';
 
     /**
+     * @var string
+     */
+    public $exportFileName;
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -67,7 +72,7 @@ class FileExportAction extends Action
         $this->fileExport->source = new QuerySource(['query' => $query]);
         if ($this->fileExport->execute()) {
             $filePath = $this->fileExport->getFilePath();
-            Yii::$app->getResponse()->sendFile($filePath);
+            Yii::$app->getResponse()->sendFile($filePath, $this->exportFileName);
             return;
         }
         throw new ServerErrorHttpException('Unknown Error');

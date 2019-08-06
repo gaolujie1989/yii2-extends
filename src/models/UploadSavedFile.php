@@ -115,15 +115,4 @@ class UploadSavedFile extends ActiveRecord
     {
         return (new UploadSavedFileQuery(static::class))->modelType(static::MODEL_TYPE);
     }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'url' => 'fileUrl',
-        ]);
-    }
 }

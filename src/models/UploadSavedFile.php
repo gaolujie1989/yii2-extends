@@ -69,6 +69,28 @@ class UploadSavedFile extends ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(
+            parent::behaviors(),
+            $this->traceableBehaviors(),
+            [
+                'position' => [
+                    'class' => PositionBehavior::class,
+                    'groupAttributes' => ['model_type', 'model_id'],
+                ],
+                'file' => [
+                    'class' => FileBehavior::class,
+                    'attribute' => 'file',
+                ]
+            ]
+        );
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -98,21 +120,10 @@ class UploadSavedFile extends ActiveRecord
      * @return array
      * @inheritdoc
      */
-    public function behaviors(): array
+    public function fields(): array
     {
-        return array_merge(
-            parent::behaviors(),
-            $this->traceableBehaviors(),
-            [
-                'position' => [
-                    'class' => PositionBehavior::class,
-                    'groupAttributes' => ['model_type', 'model_id'],
-                ],
-                'file' => [
-                    'class' => FileBehavior::class,
-                    'attribute' => 'file',
-                ]
-            ]
-        );
+        return array_merge(parent::fields(), [
+            'url' => 'fileUrl',
+        ]);
     }
 }

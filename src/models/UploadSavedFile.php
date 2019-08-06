@@ -123,7 +123,7 @@ class UploadSavedFile extends ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'url',
+            'url' => 'fileUrl',
         ]);
     }
 }

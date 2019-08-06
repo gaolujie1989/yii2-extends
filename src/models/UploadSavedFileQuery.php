@@ -10,6 +10,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method UploadSavedFileQuery modelType($modelType)
  * @method UploadSavedFileQuery modelId($modelId)
  * @method UploadSavedFileQuery file($file)
+ * @method UploadSavedFileQuery ext($ext)
+ * @method UploadSavedFileQuery nameLike($name)
  *
  * @see UploadSavedFile
  */
@@ -19,7 +21,7 @@ class UploadSavedFileQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function behaviors(): void
+    public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
             'fieldQuery' => [
@@ -28,6 +30,8 @@ class UploadSavedFileQuery extends \yii\db\ActiveQuery
                     'modelType' => ['model_type'],
                     'modelId' => ['model_id'],
                     'file' => ['file'],
+                    'ext' => ['ext'],
+                    'nameLike' => ['name' => 'LIKE'],
                 ]
             ]
         ]);

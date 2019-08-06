@@ -36,8 +36,6 @@ class FileBehavior extends Behavior
      */
     public $fs = 'filesystem';
 
-    public $suffixes = ['Url', 'Path', 'Content'];
-
     /**
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException

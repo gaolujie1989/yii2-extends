@@ -42,8 +42,8 @@ class UploadSavedFile extends ActiveRecord
      */
     public function init(): void
     {
-        parent::init();
         $this->model_type = static::MODEL_TYPE;
+        parent::init();
     }
 
     /**

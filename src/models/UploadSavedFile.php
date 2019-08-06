@@ -36,6 +36,20 @@ class UploadSavedFile extends ActiveRecord
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
     /**
+     *
+     */
+    public const MODEL_TYPE = 'DEFAULT';
+
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->model_type = static::MODEL_TYPE;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName(): string
@@ -79,7 +93,7 @@ class UploadSavedFile extends ActiveRecord
      */
     public static function find(): UploadSavedFileQuery
     {
-        return new UploadSavedFileQuery(static::class);
+        return (new UploadSavedFileQuery(static::class))->modelType(static::MODEL_TYPE);
     }
 
     /**

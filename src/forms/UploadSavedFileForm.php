@@ -23,6 +23,11 @@ class UploadSavedFileForm extends UploadSavedFile
     public $checkExtensionByMimeType = false;
 
     /**
+     * @var array
+     */
+    public $modelTypePathPrefixes = [];
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -41,13 +46,14 @@ class UploadSavedFileForm extends UploadSavedFile
     public function behaviors(): array
     {
         $modelType = strtolower($this->model_type);
+        $pathPrefix = $this->modelTypePathPrefixes[$this->model_type] ?? $modelType;
         return array_merge(parent::behaviors(), [
             'upload' => [
                 'class' => UploadBehavior::class,
                 'attribute' => 'file',
                 'inputName' => $this->inputName,
                 'fs' => 'filesystem',
-                'newNameTemplate' => "{$modelType}/{date}/{$modelType}_{datetime}_{rand}.{ext}"
+                'newNameTemplate' => "{$pathPrefix}/{date}/{$modelType}_{datetime}_{rand}.{ext}"
             ],
         ]);
     }

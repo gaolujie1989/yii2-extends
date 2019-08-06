@@ -28,18 +28,6 @@ class UploadSavedFileForm extends UploadSavedFile
     public $modelTypePathPrefixes = [];
 
     /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function init()
-    {
-        if (!$this->model_type) {
-            throw new InvalidConfigException('Uploaded file model type must be set.');
-        }
-        parent::init();
-    }
-
-    /**
      * @return array
      * @inheritdoc
      */

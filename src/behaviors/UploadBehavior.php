@@ -24,6 +24,8 @@ class UploadBehavior extends Behavior
 
     public $attribute = 'file';
 
+    public $nameAttribute;
+
     public $scenarios = [];
 
     public $inputName;
@@ -119,6 +121,9 @@ class UploadBehavior extends Behavior
             $fileName = $this->getFileName($this->_uploadedFile);
             if ($this->saveUploadedFile($fileName, $this->_uploadedFile, $this->deleteTempFile)) {
                 $model->{$this->attribute} = $fileName;
+                if ($this->nameAttribute) {
+                    $model->{$this->nameAttribute} = $this->_uploadedFile->getBaseName() . '.' . $this->_uploadedFile->getExtension();
+                }
             } else {
                 $event->isValid = false;
                 $model->addError($this->attribute, 'Save uploaded file failed.');

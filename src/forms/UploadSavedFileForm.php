@@ -40,6 +40,7 @@ class UploadSavedFileForm extends UploadSavedFile
             'upload' => [
                 'class' => UploadBehavior::class,
                 'attribute' => 'file',
+                'nameAttribute' => 'name',
                 'inputName' => $this->inputName,
                 'fs' => 'filesystem',
                 'newNameTemplate' => "{$pathPrefix}/{date}/{$modelType}_{datetime}_{rand}.{ext}"

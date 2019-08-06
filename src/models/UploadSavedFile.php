@@ -35,9 +35,6 @@ class UploadSavedFile extends ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
-    /**
-     *
-     */
     public const MODEL_TYPE = 'DEFAULT';
 
     /**

@@ -7,7 +7,6 @@ namespace lujie\upload\forms;
 
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\models\UploadSavedFile;
-use yii\base\InvalidConfigException;
 
 /**
  * Class UploadForm

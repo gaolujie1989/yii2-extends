@@ -1,15 +1,9 @@
 <?php
 
-namespace lujie\upload\models;
+namespace lujie\upload\searches;
 
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
-use lujie\upload\behaviors\FileBehavior;
-use Yii;
-use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
+use lujie\upload\models\UploadSavedFile;
+use lujie\upload\models\UploadSavedFileQuery;
 
 /**
  * Class UploadSavedFileSearch

@@ -31,8 +31,14 @@ class UploadedFileDownloadAction extends Action
     public $tmp = '/tmp/';
 
     /**
-     * @param $file
+     * @var array
+     */
+    public $options = ['inline' => true];
+
+    /**
+     * @param $id
      * @throws NotFoundHttpException
+     * @throws \yii\base\Exception
      * @throws \yii\web\RangeNotSatisfiableHttpException
      * @inheritdoc
      */
@@ -44,14 +50,16 @@ class UploadedFileDownloadAction extends Action
         if ($this->tmp) {
             $tmpFilePath = $this->tmp . $uploadSavedFile->file;
             if (!file_exists($tmpFilePath)) {
+                FileHelper::createDirectory(dirname($tmpFilePath));
                 file_put_contents($tmpFilePath, $uploadSavedFile->getContent());
             }
-            Yii::$app->getResponse()->xSendFile($tmpFilePath, $uploadSavedFile->name);
+            Yii::$app->getResponse()->sendFile($tmpFilePath, $uploadSavedFile->name, $this->options);
         } else {
+            $mimeTypeByExtension = FileHelper::getMimeTypeByExtension($uploadSavedFile->file);
             Yii::$app->getResponse()->sendContentAsFile(
                 $uploadSavedFile->getContent(),
                 $uploadSavedFile->name,
-                ['mimeType' => FileHelper::getMimeTypeByExtension($uploadSavedFile->file)]
+                array_merge($this->options, ['mimeType' => $mimeTypeByExtension])
             );
         }
     }

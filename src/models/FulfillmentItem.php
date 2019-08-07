@@ -2,6 +2,7 @@
 
 namespace lujie\fulfillment\models;
 
+use lujie\alias\behaviors\JsonAliasBehavior;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -51,7 +52,22 @@ class FulfillmentItem extends \yii\db\ActiveRecord
                 'external_created_at', 'external_updated_at', 'stock_pulled_at'], 'integer'],
             [['fulfillment_account_id', 'item_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'item_id']],
             [['external_item_no'], 'string', 'max' => 50],
+            [['item_options', 'item_errors'], 'safe']
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+            'jsonAlias' => [
+                'class' => JsonAliasBehavior::class,
+                'item_errors_summary' => 'item_errors',
+            ]
+        ]);
     }
 
     /**
@@ -68,6 +84,8 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'external_item_parent_id' => Yii::t('lujie/fulfillment', 'External Item Parent ID'),
             'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'item_options' => Yii::t('lujie/fulfillment', 'Item Options'),
+            'item_errors' => Yii::t('lujie/fulfillment', 'Item Errors'),
             'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
         ];
     }
@@ -79,5 +97,16 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public static function find(): FulfillmentItemQuery
     {
         return new FulfillmentItemQuery(static::class);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'item_errors_summary'
+        ]);
     }
 }

@@ -69,7 +69,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             'jsonAlias' => [
                 'class' => JsonAliasBehavior::class,
                 'aliasProperties' => [
-                    'order_errors_summary' => 'order_errors'
+                    'order_error_summary' => 'order_errors'
                 ],
             ]
         ]);
@@ -114,7 +114,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'order_errors_summary'
+            'order_error_summary'
         ]);
     }
 }

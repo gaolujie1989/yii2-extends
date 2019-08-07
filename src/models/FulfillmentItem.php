@@ -66,7 +66,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'jsonAlias' => [
                 'class' => JsonAliasBehavior::class,
                 'aliasProperties' => [
-                    'item_errors_summary' => 'item_errors'
+                    'item_error_summary' => 'item_errors'
                 ],
             ]
         ]);
@@ -108,7 +108,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'item_errors_summary'
+            'item_error_summary'
         ]);
     }
 }

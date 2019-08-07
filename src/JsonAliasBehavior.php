@@ -26,7 +26,10 @@ class JsonAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty($name)
     {
         $value = parent::getAliasProperty($name);
-        return is_string($value) ? $value : Json::encode($value, $this->jsonOption);
+        if (is_string($value)) {
+            return $value;
+        }
+        return $value ? Json::encode($value, $this->jsonOption) : '';
     }
 
     /**
@@ -37,7 +40,9 @@ class JsonAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty($name, $value): void
     {
-        $value = is_array($value) ? $value : Json::decode($value);
+        if (is_string($value)) {
+            $value = $value ? Json::decode($value) : [];
+        }
         parent::setAliasProperty($name, $value);
     }
 }

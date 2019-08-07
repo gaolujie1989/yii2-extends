@@ -68,7 +68,9 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
         return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
             'jsonAlias' => [
                 'class' => JsonAliasBehavior::class,
-                'order_errors_summary' => 'order_errors',
+                'aliasProperties' => [
+                    'order_errors_summary' => 'order_errors'
+                ],
             ]
         ]);
     }

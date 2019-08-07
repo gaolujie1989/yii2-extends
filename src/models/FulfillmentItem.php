@@ -65,7 +65,9 @@ class FulfillmentItem extends \yii\db\ActiveRecord
         return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
             'jsonAlias' => [
                 'class' => JsonAliasBehavior::class,
-                'item_errors_summary' => 'item_errors',
+                'aliasProperties' => [
+                    'item_errors_summary' => 'item_errors'
+                ],
             ]
         ]);
     }

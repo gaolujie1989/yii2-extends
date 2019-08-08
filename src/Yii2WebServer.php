@@ -61,7 +61,7 @@ class Yii2WebServer extends WebServer
     {
         $this->uploadTmpDir = rtrim($this->uploadTmpDir, '/') . '/';
         $this->_onWorkerReload = $this->onWorkerReload;
-        $this->onWorkerReload  = array($this, 'onWorkerReload');
+        $this->onWorkerReload = array($this, 'onWorkerReload');
         parent::run();
     }
 
@@ -230,8 +230,9 @@ class Yii2WebServer extends WebServer
         $uploadFiles = $_FILES;
         $_FILES = [];
         foreach ($uploadFiles as $file) {
-            $tmpName = $this->uploadTmpDir
-                . implode('_', [WORKERMAN_UPLOAD_FILENAME_PREFIX, date('ymdHis'),  random_int(1000, 9999)]);
+            $tmpName = $this->uploadTmpDir . WORKERMAN_UPLOAD_FILENAME_PREFIX
+                . date('ymdHis') . '_' . random_int(1000, 9999);
+            file_put_contents($tmpName, $file['file_data']);
             $_FILES[$file['name']] = [
                 'name' => $file['file_name'],
                 'type' => $file['file_type'] ?? '',

@@ -22,7 +22,7 @@ namespace yii\web;
 
 function is_uploaded_file($filename)
 {
-    return strpos($filename, WORKERMAN_UPLOAD_FILENAME_PREFIX);
+    return strpos($filename, WORKERMAN_UPLOAD_FILENAME_PREFIX) !== false;
 }
 
 function move_uploaded_file($filename, $destination)

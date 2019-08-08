@@ -18,6 +18,10 @@ class XHProfiler
      */
     private static $enable = false;
 
+    private static $server;
+
+    private static $data = [];
+
     public static function init(): void
     {
         if (!extension_loaded('xhprof') && !extension_loaded('uprofiler')
@@ -44,6 +48,9 @@ class XHProfiler
             return;
         }
 
+        $config = Xhgui_Config::all();
+        $config += array('db.options' => array());
+        self::$server = Xhgui_Saver::factory($config);
         self::$enable = true;
     }
 
@@ -143,13 +150,18 @@ class XHProfiler
             'request_date' => date('Y-m-d', $time),
         );
 
+        static::$data = $data;
+        unset($data);
+    }
+
+    public static function save(): void
+    {
         try {
-            $config = Xhgui_Config::all();
-            $config += array('db.options' => array());
-            $saver = Xhgui_Saver::factory($config);
-            $saver->save($data);
+            self::$server->save(static::$data);
         } catch (Exception $e) {
             echo 'xhgui - ' . $e->getMessage() . "\n";
+        } finally {
+            static::$data = [];
         }
     }
 }

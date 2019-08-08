@@ -216,6 +216,7 @@ class Yii2WebServer extends WebServer
         }
         $content = ob_get_clean();
         Yii::getLogger()->flush(true);
+        XHProfiler::save();
         unset($yii2App);
         chdir($workermanCwd);
         return $content;

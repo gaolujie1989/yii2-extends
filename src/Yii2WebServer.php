@@ -5,10 +5,13 @@
 
 namespace lujie\workerman;
 
+use lujie\workerman\log\Logger;
+use lujie\workerman\web\Response;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
 use Workerman\WebServer;
 use Workerman\Worker;
+use Yii;
 use yii\web\Application;
 
 /**
@@ -38,13 +41,59 @@ class Yii2WebServer extends WebServer
     public $yii2AppUrlDefault = true;
 
     /**
+     * Used to save user OnWorkerStart callback settings.
+     *
+     * @var callback
+     */
+    protected $_onWorkerReload = null;
+
+    /**
+     * @var string
+     */
+    public $uploadTmpDir = '/tmp';
+
+    /**
+     * Run webserver instance.
+     *
+     * @see Workerman.Worker::run()
+     */
+    public function run(): void
+    {
+        $this->uploadTmpDir = rtrim($this->uploadTmpDir, '/') . '/';
+        $this->_onWorkerReload = $this->onWorkerReload;
+        $this->onWorkerReload  = array($this, 'onWorkerReload');
+        parent::run();
+    }
+
+    /**
      * @throws \Exception
      * @inheritdoc
      */
     public function onWorkerStart(): void
     {
-        parent::onWorkerStart();
         $this->initYii2Apps();
+        parent::onWorkerStart();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function onWorkerReload(): void
+    {
+        $this->initYii2Apps();
+
+        // Try to emit onWorkerStart callback.
+        if ($this->_onWorkerStart) {
+            try {
+                call_user_func($this->_onWorkerStart, $this);
+            } catch (\Exception $e) {
+                self::log($e);
+                exit(250);
+            } catch (\Error $e) {
+                self::log($e);
+                exit(250);
+            }
+        }
     }
 
     /**
@@ -52,20 +101,49 @@ class Yii2WebServer extends WebServer
      */
     public function initYii2Apps(): void
     {
+        include_once __DIR__ . '/rewrite_upload_functions.php';
+        $this->yii2Apps = [];
         foreach ($this->serverRoot as $domain => $config) {
             $appFile = rtrim($config['root'], '/') . '/' . $this->yii2AppFile;
             $this->yii2Apps[$domain] = include $appFile;
         }
         foreach ($this->yii2Apps as $yii2App) {
             foreach ($yii2App->getComponents() as $name => $config) {
-                if (in_array($name, ['request', 'response'], true)) {
+                if ($name === 'response') {
+                    $config['class'] = Response::class;
+                    $yii2App->setComponents([$name => $config]);
                     continue;
                 }
-                $component = $yii2App->get($name);
+                if ($name === 'logger') {
+                    $config['class'] = Logger::class;
+                    $yii2App->setComponents([$name => $config]);
+                }
+                $yii2App->get($name);
             }
             foreach ($yii2App->getModules() as $name => $config) {
-                $module = $yii2App->get($name);
+                $yii2App->get($name);
             }
+        }
+    }
+
+    /**
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function setUploadedFiles(): void
+    {
+        $uploadFiles = $_FILES;
+        $_FILES = [];
+        foreach ($uploadFiles as $file) {
+            $tmpName = $this->uploadTmpDir
+                . implode('_', [WORKERMAN_UPLOAD_FILENAME_PREFIX, date('ymdHis'),  random_int(1000, 9999)]);
+            $_FILES[$file['name']] = [
+                'name' => $file['file_name'],
+                'type' => $file['file_type'] ?? '',
+                'tmp_name' => $tmpName,
+                'error' => UPLOAD_ERR_OK,
+                'size' => $file['file_size'],
+            ];
         }
     }
 
@@ -91,7 +169,10 @@ class Yii2WebServer extends WebServer
             try {
                 $_SERVER['REMOTE_ADDR'] = $connection->getRemoteIp();
                 $_SERVER['REMOTE_PORT'] = $connection->getRemotePort();
+                $this->setUploadedFiles();
+                $yii2App->getRequest()->setRawBody($GLOBALS['HTTP_RAW_POST_DATA']);
                 $yii2App->run();
+                Yii::getLogger()->flush(true);
             } catch (\Throwable $e) {
                 // Jump_exit?
                 if ($e->getMessage() !== 'jump_exit') {

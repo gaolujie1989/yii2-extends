@@ -17,6 +17,6 @@ class Logger extends \yii\log\Logger
      */
     public function init(): void
     {
-        //@TODO register event for flush
+        //not register shutdown function
     }
 }

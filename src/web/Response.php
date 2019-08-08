@@ -5,7 +5,6 @@
 
 namespace lujie\workerman\web;
 
-use Workerman\Connection\ConnectionInterface;
 use Workerman\Protocols\Http;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -17,23 +16,6 @@ use yii\base\InvalidConfigException;
  */
 class Response extends \yii\web\Response
 {
-    /**
-     * @var ConnectionInterface
-     */
-    public $connection;
-
-    /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        if (!($this->connection instanceof ConnectionInterface)) {
-            throw new InvalidConfigException('The property `connection` must be set');
-        }
-    }
-
     /**
      * @throws InvalidConfigException
      * @inheritdoc
@@ -73,16 +55,6 @@ class Response extends \yii\web\Response
                 $value = Yii::$app->getSecurity()->hashData(serialize([$cookie->name, $value]), $validationKey);
             }
             Http::setcookie($cookie->name, $value, $cookie->expire, $cookie->path, $cookie->domain, $cookie->secure, $cookie->httpOnly);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function sendContent(): void
-    {
-        if ($this->content) {
-            $this->connection->send($this->content);
         }
     }
 }

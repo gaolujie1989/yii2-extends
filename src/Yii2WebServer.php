@@ -205,7 +205,6 @@ class Yii2WebServer extends WebServer
             $yii2App->getRequest()->setRawBody($GLOBALS['HTTP_RAW_POST_DATA']);
             XHProfiler::start();
             $yii2App->run();
-            Yii::getLogger()->flush(true);
         } catch (\Throwable $e) {
             // Jump_exit?
             if ($e->getMessage() !== 'jump_exit') {
@@ -216,6 +215,7 @@ class Yii2WebServer extends WebServer
             XHProfiler::end();
         }
         $content = ob_get_clean();
+        Yii::getLogger()->flush(true);
         unset($yii2App);
         chdir($workermanCwd);
         return $content;

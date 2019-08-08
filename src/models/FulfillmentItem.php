@@ -108,6 +108,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
+            'id',
             'item_error_summary'
         ]);
     }

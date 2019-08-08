@@ -114,7 +114,8 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'order_error_summary'
+            'id',
+            'order_error_summary',
         ]);
     }
 }

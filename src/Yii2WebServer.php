@@ -107,7 +107,10 @@ class Yii2WebServer extends WebServer
             $appFile = rtrim($config['root'], '/') . '/' . $this->yii2AppFile;
             $this->yii2Apps[$domain] = include $appFile;
         }
-        foreach ($this->yii2Apps as $yii2App) {
+        foreach ($this->yii2Apps as $domain => $yii2App) {
+            $domainRoot = $this->serverRoot[$domain]['root'];
+            $workermanCwd = getcwd();
+            chdir($domainRoot);
             foreach ($yii2App->getComponents() as $name => $config) {
                 if ($name === 'response') {
                     $config['class'] = Response::class;
@@ -121,8 +124,9 @@ class Yii2WebServer extends WebServer
                 $yii2App->get($name);
             }
             foreach ($yii2App->getModules() as $name => $config) {
-                $yii2App->get($name);
+                $yii2App->getModule($name);
             }
+            chdir($workermanCwd);
         }
     }
 
@@ -163,12 +167,20 @@ class Yii2WebServer extends WebServer
 
         $workerman_path = $workerman_url_info['path'] ?? '/';
         if ($this->isYii2AppUrl($workerman_path)) {
-            $yii2App = clone $this->yii2Apps[$_SERVER['SERVER_NAME']] ?? current($this->yii2Apps);
+            $yii2App = clone ($this->yii2Apps[$_SERVER['SERVER_NAME']] ?? current($this->yii2Apps));
+            $workermanSiteConfig = $this->serverRoot[$_SERVER['SERVER_NAME']] ?? current($this->serverRoot);
+            $domainRoot = rtrim($workermanSiteConfig['root'], '/');
+            $workermanCwd = getcwd();
+            chdir($domainRoot);
             ob_start();
             // Try to run yii2 app.
             try {
                 $_SERVER['REMOTE_ADDR'] = $connection->getRemoteIp();
                 $_SERVER['REMOTE_PORT'] = $connection->getRemotePort();
+                $_SERVER['REQUEST_TIME'] = time();
+                $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+                $_SERVER['SCRIPT_NAME'] = '/index.php';
+                $_SERVER['SCRIPT_FILENAME'] = $domainRoot . $_SERVER['SCRIPT_NAME'];
                 $this->setUploadedFiles();
                 $yii2App->getRequest()->setRawBody($GLOBALS['HTTP_RAW_POST_DATA']);
                 $yii2App->run();
@@ -182,6 +194,7 @@ class Yii2WebServer extends WebServer
             }
             $content = ob_get_clean();
             unset($yii2App);
+            chdir($workermanCwd);
             if (strtolower($_SERVER['HTTP_CONNECTION']) === 'keep-alive') {
                 $connection->send($content);
             } else {

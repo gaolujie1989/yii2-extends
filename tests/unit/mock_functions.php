@@ -5,7 +5,7 @@
 
 namespace lujie\upload\behaviors;
 
-function is_uploaded_file()
+function is_uploaded_file($filename)
 {
     return true;
 }
@@ -18,7 +18,7 @@ function move_uploaded_file ($filename, $destination)
 
 namespace yii\web;
 
-function is_uploaded_file()
+function is_uploaded_file($filename)
 {
     return true;
 }

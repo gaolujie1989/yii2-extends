@@ -72,6 +72,7 @@ class Yii2WebServer extends WebServer
     public function onWorkerStart(): void
     {
         $this->initYii2Apps();
+        XHProfiler::init();
         parent::onWorkerStart();
     }
 
@@ -81,11 +82,11 @@ class Yii2WebServer extends WebServer
     public function onWorkerReload(): void
     {
         $this->initYii2Apps();
-
+        XHProfiler::init();
         // Try to emit onWorkerStart callback.
-        if ($this->_onWorkerStart) {
+        if ($this->_onWorkerReload) {
             try {
-                call_user_func($this->_onWorkerStart, $this);
+                call_user_func($this->_onWorkerReload, $this);
             } catch (\Exception $e) {
                 self::log($e);
                 exit(250);
@@ -99,7 +100,7 @@ class Yii2WebServer extends WebServer
     /**
      * @inheritdoc
      */
-    public function initYii2Apps(): void
+    protected function initYii2Apps(): void
     {
         include_once __DIR__ . '/rewrite_upload_functions.php';
         $this->yii2Apps = [];
@@ -131,27 +132,6 @@ class Yii2WebServer extends WebServer
     }
 
     /**
-     * @throws \Exception
-     * @inheritdoc
-     */
-    public function setUploadedFiles(): void
-    {
-        $uploadFiles = $_FILES;
-        $_FILES = [];
-        foreach ($uploadFiles as $file) {
-            $tmpName = $this->uploadTmpDir
-                . implode('_', [WORKERMAN_UPLOAD_FILENAME_PREFIX, date('ymdHis'),  random_int(1000, 9999)]);
-            $_FILES[$file['name']] = [
-                'name' => $file['file_name'],
-                'type' => $file['file_type'] ?? '',
-                'tmp_name' => $tmpName,
-                'error' => UPLOAD_ERR_OK,
-                'size' => $file['file_size'],
-            ];
-        }
-    }
-
-    /**
      * @param TcpConnection $connection
      * @inheritdoc
      */
@@ -167,34 +147,9 @@ class Yii2WebServer extends WebServer
 
         $workerman_path = $workerman_url_info['path'] ?? '/';
         if ($this->isYii2AppUrl($workerman_path)) {
-            $yii2App = clone ($this->yii2Apps[$_SERVER['SERVER_NAME']] ?? current($this->yii2Apps));
-            $workermanSiteConfig = $this->serverRoot[$_SERVER['SERVER_NAME']] ?? current($this->serverRoot);
-            $domainRoot = rtrim($workermanSiteConfig['root'], '/');
-            $workermanCwd = getcwd();
-            chdir($domainRoot);
-            ob_start();
-            // Try to run yii2 app.
-            try {
-                $_SERVER['REMOTE_ADDR'] = $connection->getRemoteIp();
-                $_SERVER['REMOTE_PORT'] = $connection->getRemotePort();
-                $_SERVER['REQUEST_TIME'] = time();
-                $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
-                $_SERVER['SCRIPT_NAME'] = '/index.php';
-                $_SERVER['SCRIPT_FILENAME'] = $domainRoot . $_SERVER['SCRIPT_NAME'];
-                $this->setUploadedFiles();
-                $yii2App->getRequest()->setRawBody($GLOBALS['HTTP_RAW_POST_DATA']);
-                $yii2App->run();
-                Yii::getLogger()->flush(true);
-            } catch (\Throwable $e) {
-                // Jump_exit?
-                if ($e->getMessage() !== 'jump_exit') {
-                    Worker::safeEcho($e);
-                }
-                echo $e->getMessage() . $e->getTraceAsString();
-            }
-            $content = ob_get_clean();
-            unset($yii2App);
-            chdir($workermanCwd);
+            $_SERVER['REMOTE_ADDR'] = $connection->getRemoteIp();
+            $_SERVER['REMOTE_PORT'] = $connection->getRemotePort();
+            $content = $this->runYii2App();
             if (strtolower($_SERVER['HTTP_CONNECTION']) === 'keep-alive') {
                 $connection->send($content);
             } else {
@@ -210,7 +165,7 @@ class Yii2WebServer extends WebServer
      * @return bool
      * @inheritdoc
      */
-    public function isYii2AppUrl(string $urlPath): bool
+    protected function isYii2AppUrl(string $urlPath): bool
     {
         foreach ($this->yii2AppUrlPrefix as $urlPrefix) {
             if (strpos($urlPrefix, '!') === 0) {
@@ -223,5 +178,67 @@ class Yii2WebServer extends WebServer
             }
         }
         return $this->yii2AppUrlDefault;
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    protected function runYii2App(): string
+    {
+        $yii2App = $this->yii2Apps[$_SERVER['SERVER_NAME']] ?? current($this->yii2Apps);
+        $workermanSiteConfig = $this->serverRoot[$_SERVER['SERVER_NAME']] ?? current($this->serverRoot);
+        $domainRoot = rtrim($workermanSiteConfig['root'], '/');
+        $workermanCwd = getcwd();
+        chdir($domainRoot);
+        ob_start();
+        // Try to run yii2 app.
+        try {
+            $_SERVER['REQUEST_TIME'] = time();
+            $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+            $_SERVER['SCRIPT_NAME'] = '/index.php';
+            $_SERVER['SCRIPT_FILENAME'] = $domainRoot . $_SERVER['SCRIPT_NAME'];
+            $this->setUploadedFiles();
+            $componentsConfig = $yii2App->getComponents();
+            $yii2App->set('request', $componentsConfig['request']);
+            $yii2App->set('response', $componentsConfig['response']);
+            $yii2App->getRequest()->setRawBody($GLOBALS['HTTP_RAW_POST_DATA']);
+            XHProfiler::start();
+            $yii2App->run();
+            Yii::getLogger()->flush(true);
+        } catch (\Throwable $e) {
+            // Jump_exit?
+            if ($e->getMessage() !== 'jump_exit') {
+                Worker::safeEcho($e);
+            }
+            echo $e->getMessage() . $e->getTraceAsString();
+        } finally {
+            XHProfiler::end();
+        }
+        $content = ob_get_clean();
+        unset($yii2App);
+        chdir($workermanCwd);
+        return $content;
+    }
+
+    /**
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function setUploadedFiles(): void
+    {
+        $uploadFiles = $_FILES;
+        $_FILES = [];
+        foreach ($uploadFiles as $file) {
+            $tmpName = $this->uploadTmpDir
+                . implode('_', [WORKERMAN_UPLOAD_FILENAME_PREFIX, date('ymdHis'),  random_int(1000, 9999)]);
+            $_FILES[$file['name']] = [
+                'name' => $file['file_name'],
+                'type' => $file['file_type'] ?? '',
+                'tmp_name' => $tmpName,
+                'error' => UPLOAD_ERR_OK,
+                'size' => $file['file_size'],
+            ];
+        }
     }
 }

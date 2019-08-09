@@ -5,12 +5,14 @@
 
 namespace lujie\workerman;
 
+use lujie\workerman\db\Command;
 use lujie\workerman\log\Logger;
 use lujie\workerman\web\Response;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
 use Workerman\WebServer;
 use Yii;
+use yii\db\Connection;
 use yii\web\Application;
 
 /**
@@ -119,6 +121,10 @@ class Yii2WebServer extends WebServer
                 }
                 if ($name === 'logger') {
                     $config['class'] = Logger::class;
+                    $yii2App->setComponents([$name => $config]);
+                }
+                if (ltrim($config['class'], '\\') === Connection::class) {
+                    $config['commandClass'] = Command::class;
                     $yii2App->setComponents([$name => $config]);
                 }
                 $yii2App->get($name);

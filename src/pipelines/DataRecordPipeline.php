@@ -11,6 +11,7 @@ use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class FileDataRecordPipeline
@@ -79,5 +80,19 @@ class DataRecordPipeline extends ActiveRecordPipeline
             $model->setAttributes($record);
         }
         return $model;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @inheritdoc
+     */
+    protected function createModels(array $data): array
+    {
+        $models = [];
+        foreach ($data as $key => $values) {
+            $models[$key] = $this->createModel($data);
+        }
+        return $models;
     }
 }

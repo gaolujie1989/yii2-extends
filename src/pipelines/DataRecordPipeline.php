@@ -91,7 +91,7 @@ class DataRecordPipeline extends ActiveRecordPipeline
     {
         $models = [];
         foreach ($data as $key => $values) {
-            $models[$key] = $this->createModel($data);
+            $models[$key] = $this->createModel($values);
         }
         return $models;
     }

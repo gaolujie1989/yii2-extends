@@ -64,16 +64,11 @@ class ActiveRecordPipeline extends BaseDbPipeline
     {
         $this->errors = [];
 
-        /** @var BaseActiveRecord[] $models */
-        $models = [];
         $modelClass = $this->modelClass;
         if ($this->indexKeys) {
             $data = $this->indexData($data);
         }
-        foreach ($data as $key => $values) {
-            $model = $this->createModel($values);
-            $models[$key] = $model;
-        }
+        $models = $this->createModels($data);
         if ($this->runValidation && !$modelClass::validateMultiple($models)) {
             $line = 1;
             foreach ($models as $model) {
@@ -108,23 +103,41 @@ class ActiveRecordPipeline extends BaseDbPipeline
 
     /**
      * @param $values
-     * @return BaseActiveRecord
+     * @return BaseActiveRecord[]
      * @inheritdoc
      */
-    protected function createModel(array $values): BaseActiveRecord
+    protected function createModels(array $data): array
     {
+        $models = [];
         $modelClass = $this->modelClass;
-        /** @var BaseActiveRecord $model */
-        if ($this->indexKeys) {
-            $condition = array_intersect_key($values, array_flip($this->indexKeys));
-            $model = $modelClass::findOne($condition) ?: new $modelClass($condition);
-        } else {
-            $model = new $modelClass();
+        $dataChunks = array_chunk($data, $this->chunkSize, true);
+        foreach ($dataChunks as $chunkedData) {
+            $existModels = [];
+            if ($this->indexKeys) {
+                $conditions = ArrayHelper::getColumn($chunkedData, function ($values) {
+                    return array_intersect_key($values, array_flip($this->indexKeys));
+                }, false);
+                array_unshift($conditions, 'OR');
+                $existModels = $modelClass::find()
+                    ->andWhere($conditions)
+                    ->indexBy(function ($values) {
+                        return $this->getIndexValue($values);
+                    })->all();
+            }
+            foreach ($chunkedData as $indexValue => $values) {
+                /** @var BaseActiveRecord $model */
+                if ($this->indexKeys) {
+                    $model = $existModels[$indexValue] ?? new $modelClass();
+                } else {
+                    $model = new $modelClass();
+                }
+                if ($this->modelScenario) {
+                    $model->setScenario($this->modelScenario);
+                }
+                $model->setAttributes($values);
+                $models[] = $model;
+            }
         }
-        if ($this->modelScenario) {
-            $model->setScenario($this->modelScenario);
-        }
-        $model->setAttributes($values);
-        return $model;
+        return $models;
     }
 }

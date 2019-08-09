@@ -30,6 +30,11 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     ];
 
     /**
+     * @var int
+     */
+    public $chunkSize = 50;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -47,10 +52,21 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     {
         if ($this->indexKeys) {
             return ArrayHelper::index($data, function($values) {
-                $condition = array_intersect_key($values, array_flip($this->indexKeys));
-                return md5(json_encode($condition));
+                return $this->getIndexValue($values);
             });
         }
         return $data;
+    }
+
+    /**
+     * @param array $values
+     * @return string
+     * @inheritdoc
+     */
+    protected function getIndexValue($values): string
+    {
+        $values = ArrayHelper::toArray($values);
+        $condition = array_intersect_key($values, array_flip($this->indexKeys));
+        return json_encode($condition);
     }
 }

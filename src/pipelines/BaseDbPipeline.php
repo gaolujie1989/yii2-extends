@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\pipelines;
 
+use yii\base\Arrayable;
 use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 
@@ -59,13 +60,19 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     }
 
     /**
-     * @param array $values
+     * @param $values
      * @return string
      * @inheritdoc
      */
     protected function getIndexValue($values): string
     {
-        $values = ArrayHelper::toArray($values);
+        if (is_object($values) && $values instanceof Arrayable) {
+            $condition = $values->toArray($this->indexKeys);
+            return json_encode($condition);
+        }
+        if (is_object($values)) {
+            $values = ArrayHelper::toArray($values);
+        }
         $condition = array_intersect_key($values, array_flip($this->indexKeys));
         return json_encode($condition);
     }

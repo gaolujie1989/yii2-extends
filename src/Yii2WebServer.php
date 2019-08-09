@@ -15,6 +15,7 @@ use Workerman\WebServer;
 use Yii;
 use yii\db\Connection;
 use yii\web\Application;
+use yii\web\UploadedFile;
 
 /**
  * Class Yii2WebServer
@@ -252,5 +253,6 @@ class Yii2WebServer extends WebServer
                 'size' => $file['file_size'],
             ];
         }
+        UploadedFile::reset();
     }
 }

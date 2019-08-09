@@ -52,6 +52,9 @@ class DbPipeline extends BaseDbPipeline
         }, $data);
 
         if ($this->indexKeys) {
+            if ($this->indexKeys) {
+                $data = $this->indexData($data);
+            }
             foreach ($data as $key => $values) {
                 $this->createRow($values, $updateRows, $insertRows);
             }

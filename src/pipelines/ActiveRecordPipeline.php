@@ -8,6 +8,7 @@ namespace lujie\data\exchange\pipelines;
 
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ActiveRecordImporter
@@ -66,11 +67,13 @@ class ActiveRecordPipeline extends BaseDbPipeline
         /** @var BaseActiveRecord[] $models */
         $models = [];
         $modelClass = $this->modelClass;
+        if ($this->indexKeys) {
+            $data = $this->indexData($data);
+        }
         foreach ($data as $key => $values) {
             $model = $this->createModel($values);
             $models[$key] = $model;
         }
-
         if ($this->runValidation && !$modelClass::validateMultiple($models)) {
             $line = 1;
             foreach ($models as $model) {

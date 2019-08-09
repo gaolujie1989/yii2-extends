@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\pipelines;
 
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class BaseImporter
@@ -35,5 +36,21 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     public function getAffectedRowCounts(): array
     {
         return $this->affectedRowCounts;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     * @inheritdoc
+     */
+    protected function indexData($data): array
+    {
+        if ($this->indexKeys) {
+            return ArrayHelper::index($data, function($values) {
+                $condition = array_intersect_key($values, array_flip($this->indexKeys));
+                return md5(json_encode($condition));
+            });
+        }
+        return $data;
     }
 }

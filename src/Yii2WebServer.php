@@ -7,6 +7,7 @@ namespace lujie\workerman;
 
 use lujie\workerman\db\Command;
 use lujie\workerman\log\Logger;
+use lujie\workerman\web\ErrorHandler;
 use lujie\workerman\web\Response;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
@@ -123,6 +124,10 @@ class Yii2WebServer extends WebServer
                     $config['class'] = Logger::class;
                     $yii2App->setComponents([$name => $config]);
                 }
+                if ($name === 'errorHandler') {
+                    $config['class'] = ErrorHandler::class;
+                    $yii2App->setComponents([$name => $config]);
+                }
                 if (ltrim($config['class'], '\\') === Connection::class) {
                     $config['commandClass'] = Command::class;
                     $yii2App->setComponents([$name => $config]);
@@ -132,6 +137,7 @@ class Yii2WebServer extends WebServer
             foreach ($yii2App->getModules() as $name => $config) {
                 $yii2App->getModule($name);
             }
+            $yii2App->getErrorHandler()->register();
             chdir($workermanCwd);
         }
     }

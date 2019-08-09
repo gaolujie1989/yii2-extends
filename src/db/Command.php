@@ -6,6 +6,7 @@
 namespace lujie\workerman\db;
 
 use yii\db\Exception;
+use yii\helpers\VarDumper;
 
 /**
  * Class Command
@@ -64,6 +65,7 @@ class Command extends \yii\db\Command
             if ($resetConnection) {
                 $this->db->close();
                 $this->db->open();
+                $this->bindValues($this->params);
                 $this->pdoStatement = null;
             }
             return true;

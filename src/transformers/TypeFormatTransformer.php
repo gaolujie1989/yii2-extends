@@ -16,7 +16,7 @@ class TypeFormatTransformer extends BaseObject implements TransformerInterface
 {
     public const TYPE_STRING = 'STRING';
     public const TYPE_STRING_TRIM = 'STRING_TRIM';
-    public const TYPE_INTEGER = 'STRING';
+    public const TYPE_INTEGER = 'INTEGER';
     public const TYPE_INTEGER_ROUND = 'INTEGER_ROUND';
     public const TYPE_FLOAT = 'FLOAT';
 

@@ -220,7 +220,9 @@ class Yii2WebServer extends WebServer
             XHProfiler::start();
             $yii2App->run();
         } catch (\Exception $exception) {
-            $yii2App->getErrorHandler()->handleException($exception);
+            if ($exception->getMessage() !== 'jump_exit') {
+                $yii2App->getErrorHandler()->handleException($exception);
+            }
         } catch (\Error $error) {
             $yii2App->getErrorHandler()->handleError($error->getCode(), $error->getMessage(), $error->getFile(), $error->getLine());
         } finally {

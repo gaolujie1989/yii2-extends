@@ -47,6 +47,9 @@ class TypeFormatTransformer extends BaseObject implements TransformerInterface
      */
     public function convertType(string $type, $value)
     {
+        if ($value === null) {
+            return $value;
+        }
         switch ($type) {
             case self::TYPE_STRING:
                 $value = (string)$value;

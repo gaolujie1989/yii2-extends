@@ -10,7 +10,6 @@ use lujie\workerman\web\Response;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
 use Workerman\WebServer;
-use Workerman\Worker;
 use Yii;
 use yii\web\Application;
 
@@ -133,6 +132,7 @@ class Yii2WebServer extends WebServer
 
     /**
      * @param TcpConnection $connection
+     * @throws \yii\base\ErrorException
      * @inheritdoc
      */
     public function onMessage($connection): void
@@ -182,6 +182,7 @@ class Yii2WebServer extends WebServer
 
     /**
      * @return string
+     * @throws \yii\base\ErrorException
      * @inheritdoc
      */
     protected function runYii2App(): string
@@ -205,19 +206,16 @@ class Yii2WebServer extends WebServer
             $yii2App->getRequest()->setRawBody($GLOBALS['HTTP_RAW_POST_DATA']);
             XHProfiler::start();
             $yii2App->run();
-        } catch (\Throwable $e) {
-            // Jump_exit?
-            if ($e->getMessage() !== 'jump_exit') {
-                Worker::safeEcho($e);
-            }
-            echo $e->getMessage() . $e->getTraceAsString();
+        } catch (\Exception $exception) {
+            $yii2App->getErrorHandler()->handleException($exception);
+        } catch (\Error $error) {
+            $yii2App->getErrorHandler()->handleError($error->getCode(), $error->getMessage(), $error->getFile(), $error->getLine());
         } finally {
             XHProfiler::end();
         }
         $content = ob_get_clean();
         Yii::getLogger()->flush(true);
         XHProfiler::save();
-        unset($yii2App);
         chdir($workermanCwd);
         return $content;
     }

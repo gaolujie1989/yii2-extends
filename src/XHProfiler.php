@@ -156,6 +156,10 @@ class XHProfiler
 
     public static function save(): void
     {
+        if (!self::$enable || !Xhgui_Config::shouldRun()) {
+            return;
+        }
+
         try {
             self::$server->save(static::$data);
         } catch (Exception $e) {

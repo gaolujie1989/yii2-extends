@@ -47,7 +47,7 @@ class TypeFormatTransformer extends BaseObject implements TransformerInterface
      */
     public function convertType(string $type, $value)
     {
-        if ($value === null) {
+        if ($value === null || $value === '') {
             return $value;
         }
         switch ($type) {

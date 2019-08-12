@@ -12,12 +12,13 @@ defined('XHGUI_BASH_PATH') or define('XHGUI_BASH_PATH', __DIR__ . '/../../../../
 
 require_once YII_APP_BASE_PATH . '/vendor/autoload.php';
 
-$webServer = new Yii2WebServer('http://0.0.0.0:8080');
-
 $webServer::$logFile = __DIR__ . '/workerman.log';
 $webServer::$pidFile = __DIR__ . '/workerman.pid';
-$webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
 
+$webServer = new Yii2WebServer('http://0.0.0.0:8080');
+$webServer->addRoot('backend', YII_APP_BASE_PATH . '/backend/web/');
+$webServer->user = 'www-data';
+$webServer->group = 'www-data';
 $webServer->count = 4;
 
 Yii2WebServer::runAll();

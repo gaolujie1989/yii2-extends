@@ -45,13 +45,6 @@ class Yii2WebServer extends WebServer
     public $yii2AppUrlDefault = true;
 
     /**
-     * Used to save user OnWorkerStart callback settings.
-     *
-     * @var callback
-     */
-    protected $_onWorkerReload = null;
-
-    /**
      * @var string
      */
     public $uploadTmpDir = '/tmp';
@@ -74,8 +67,6 @@ class Yii2WebServer extends WebServer
     public function run(): void
     {
         $this->uploadTmpDir = rtrim($this->uploadTmpDir, '/') . '/';
-        $this->_onWorkerReload = $this->onWorkerReload;
-        $this->onWorkerReload = array($this, 'onWorkerReload');
         parent::run();
     }
 
@@ -88,27 +79,6 @@ class Yii2WebServer extends WebServer
         $this->initYii2Apps();
         XHProfiler::init();
         parent::onWorkerStart();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function onWorkerReload(): void
-    {
-        $this->initYii2Apps();
-        XHProfiler::init();
-        // Try to emit onWorkerStart callback.
-        if ($this->_onWorkerReload) {
-            try {
-                call_user_func($this->_onWorkerReload, $this);
-            } catch (\Exception $e) {
-                self::log($e);
-                exit(250);
-            } catch (\Error $e) {
-                self::log($e);
-                exit(250);
-            }
-        }
     }
 
     /**

@@ -12,6 +12,7 @@ use lujie\workerman\web\Response;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
 use Workerman\WebServer;
+use Workerman\Worker;
 use Yii;
 use yii\db\Connection;
 use yii\web\Application;
@@ -54,6 +55,16 @@ class Yii2WebServer extends WebServer
      * @var string
      */
     public $uploadTmpDir = '/tmp';
+
+    /**
+     * @var int
+     */
+    public $maxRequestCount = 10000;
+
+    /**
+     * @var int
+     */
+    private $currentRequestCount = 0;
 
     /**
      * Run webserver instance.
@@ -151,6 +162,10 @@ class Yii2WebServer extends WebServer
      */
     public function onMessage($connection): void
     {
+        if ($this->maxRequestCount && ++$this->currentRequestCount > $this->maxRequestCount) {
+            Worker::stopAll();
+        }
+
         // REQUEST_URI.
         $workerman_url_info = parse_url('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         if (!$workerman_url_info) {

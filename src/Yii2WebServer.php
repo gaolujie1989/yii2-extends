@@ -119,20 +119,16 @@ class Yii2WebServer extends WebServer
         include_once __DIR__ . '/rewrite_functions.php';
         include_once __DIR__ . '/rewrite_classes.php';
         $this->yii2Apps = [];
-        foreach ($this->serverRoot as $domain => $config) {
-            $appFile = rtrim($config['root'], '/') . '/' . $this->yii2AppFile;
-            $this->yii2Apps[$domain] = include $appFile;
-        }
-        foreach ($this->yii2Apps as $domain => $yii2App) {
+        foreach ($this->serverRoot as $domain => $serverConfig) {
             $domainRoot = $this->serverRoot[$domain]['root'];
             $workermanCwd = getcwd();
             chdir($domainRoot);
+
+            $_SERVER['SCRIPT_NAME'] = '/index.php';
+            $_SERVER['SCRIPT_FILENAME'] = $domainRoot . $_SERVER['SCRIPT_NAME'];
+            $appFile = rtrim($serverConfig['root'], '/') . '/' . $this->yii2AppFile;
+            $this->yii2Apps[$domain] = $yii2App = include $appFile;
             foreach ($yii2App->getComponents() as $name => $config) {
-//                if ($name === 'response') {
-//                    $config['class'] = Response::class;
-//                    $yii2App->setComponents([$name => $config]);
-//                    continue;
-//                }
                 if ($name === 'logger') {
                     $config['class'] = Logger::class;
                     $yii2App->setComponents([$name => $config]);

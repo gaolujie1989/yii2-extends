@@ -116,7 +116,7 @@ class Yii2WebServer extends WebServer
      */
     protected function initYii2Apps(): void
     {
-        include_once __DIR__ . '/rewrite_upload_functions.php';
+        include_once __DIR__ . '/rewrite_functions.php';
         include_once __DIR__ . '/rewrite_classes.php';
         $this->yii2Apps = [];
         foreach ($this->serverRoot as $domain => $config) {

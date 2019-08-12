@@ -14,6 +14,8 @@ require_once YII_APP_BASE_PATH . '/vendor/autoload.php';
 
 $webServer = new Yii2WebServer('http://0.0.0.0:8080');
 
+$webServer::$logFile = __DIR__ . '/workerman.log';
+$webServer::$pidFile = __DIR__ . '/workerman.pid';
 $webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
 
 $webServer->count = 4;

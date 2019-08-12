@@ -128,11 +128,11 @@ class Yii2WebServer extends WebServer
             $workermanCwd = getcwd();
             chdir($domainRoot);
             foreach ($yii2App->getComponents() as $name => $config) {
-                if ($name === 'response') {
-                    $config['class'] = Response::class;
-                    $yii2App->setComponents([$name => $config]);
-                    continue;
-                }
+//                if ($name === 'response') {
+//                    $config['class'] = Response::class;
+//                    $yii2App->setComponents([$name => $config]);
+//                    continue;
+//                }
                 if ($name === 'logger') {
                     $config['class'] = Logger::class;
                     $yii2App->setComponents([$name => $config]);

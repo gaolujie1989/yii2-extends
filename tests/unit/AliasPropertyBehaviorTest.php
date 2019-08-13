@@ -27,7 +27,8 @@ class AliasPropertyBehaviorTest extends \Codeception\Test\Unit
             'as alias' => [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [
-                    'aliasA' => 'propertyA'
+                    'aliasA' => 'propertyA',
+                    'aliasArrayA' => 'propertyArray.A'
                 ]
             ]
         ]);
@@ -35,5 +36,10 @@ class AliasPropertyBehaviorTest extends \Codeception\Test\Unit
         $this->assertEquals('A', $testAliasComponent->aliasA);
         $testAliasComponent->aliasA = 'AA';
         $this->assertEquals('AA', $testAliasComponent->propertyA);
+
+        $this->assertNull($testAliasComponent->aliasArrayA);
+        $testAliasComponent->aliasArrayA = 'ABC';
+        $this->assertEquals(['A' => 'ABC'], $testAliasComponent->propertyArray);
+        $this->assertEquals('ABC', $testAliasComponent->aliasArrayA);
     }
 }

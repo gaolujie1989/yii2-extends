@@ -7,6 +7,7 @@ namespace lujie\alias\behaviors;
 
 use yii\base\Behavior;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class AliasAttributeBehavior
@@ -106,7 +107,7 @@ class AliasPropertyBehavior extends Behavior
     public function getAliasProperty(string $name)
     {
         $property = $this->aliasProperties[$name];
-        return $this->owner->$property;
+        return ArrayHelper::getValue($this->owner, $property);
     }
 
     /**
@@ -117,6 +118,13 @@ class AliasPropertyBehavior extends Behavior
     public function setAliasProperty(string $name, $value): void
     {
         $property = $this->aliasProperties[$name];
-        $this->owner->$property = $value;
+        if (($pos = strpos($property, '.')) === false) {
+            $this->owner->$property = $value;
+        } else {
+            $attribute = substr($property, 0, $pos);
+            $attributeValue = $this->owner->$attribute ?: [];
+            ArrayHelper::setValue($attributeValue, substr($property, $pos + 1), $value);
+            $this->owner->$attribute = $attributeValue;
+        }
     }
 }

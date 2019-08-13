@@ -29,4 +29,6 @@ class TestAliasComponent extends Component
     public $lengthBaseUnit = 'm';
 
     public $lengthDisplayUnit = 'mm';
+
+    public $propertyArray;
 }

@@ -5,8 +5,8 @@
 
 namespace lujie\extend\rest;
 
+use lujie\extend\data\ActiveArrayDataProvider;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
@@ -61,7 +61,7 @@ class IndexDataProviderPreparer
         $query = $queryPreparer->prepare($action->modelClass, $requestParams);
         $this->expandQuery($query);
         return Yii::createObject([
-            'class' => ActiveDataProvider::class,
+            'class' => ActiveArrayDataProvider::class,
             'query' => $query,
         ]);
     }

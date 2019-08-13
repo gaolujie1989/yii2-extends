@@ -31,11 +31,14 @@ class ActiveArrayDataProvider extends ActiveDataProvider
      */
     public function prepareModels(): array
     {
-        if ($this->isPrepareArray()) {
+        $isPrepareArray = $this->isPrepareArray();
+        if ($isPrepareArray) {
             $this->query->asArray();
         }
         $models = parent::prepareModels();
-        $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
+        if ($isPrepareArray) {
+            $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
+        }
         return $models;
     }
 

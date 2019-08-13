@@ -47,5 +47,6 @@ function header($string, $replace = true, $http_response_code = null)
 
 function setcookie($name, $value = "", $expire = 0, $path = "", $domain = "", $secure = false, $httponly = false)
 {
-    Http::setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+    $maxAge = 0;
+    Http::setcookie($name, $value, $maxAge, $path, $domain, $secure, $httponly);
 }

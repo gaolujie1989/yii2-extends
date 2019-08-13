@@ -30,10 +30,7 @@ class FileMonitor
     public function startFileMonitoring(): void
     {
         $this->lastModifyTime = time();
-        if(!Worker::$daemonize) {
-            // check mtime of files every interval second
-            Timer::add($this->checkInterval, [$this, 'checkFilesChange'], [$this->monitorDir]);
-        }
+        Timer::add($this->checkInterval, [$this, 'checkFilesChange'], [$this->monitorDir]);
     }
 
     /**

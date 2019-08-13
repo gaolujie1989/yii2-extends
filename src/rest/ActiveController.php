@@ -22,6 +22,8 @@ class ActiveController extends \yii\rest\ActiveController
     public $formClass;
     public $searchClass;
 
+    public $indexTypecast = false;
+
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -45,13 +47,12 @@ class ActiveController extends \yii\rest\ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        $actions['index']['prepareDataProvider'] = [
-            Yii::createObject([
-                'class' => IndexDataProviderPreparer::class,
-                'searchModelClass' => $this->searchClass
-            ]),
-            'prepare'
-        ];
+        $dataProviderPreparer = Yii::createObject([
+            'class' => IndexDataProviderPreparer::class,
+            'searchClass' => $this->searchClass,
+            'typecast' => $this->indexTypecast,
+        ]);
+        $actions['index']['prepareDataProvider'] = [$dataProviderPreparer, 'prepare'];
         if ($this->formClass) {
             $actions['create']['modelClass'] = $this->formClass;
             $actions['update']['modelClass'] = $this->formClass;

@@ -23,7 +23,7 @@ class IndexDataProviderPreparer
     /**
      * @var BaseActiveRecord
      */
-    public $searchModelClass;
+    public $searchClass;
 
     /**
      * @var string
@@ -41,6 +41,11 @@ class IndexDataProviderPreparer
     public $expandParam = 'expand';
 
     /**
+     * @var bool
+     */
+    public $typecast = false;
+
+    /**
      * @param Action $action
      * @return DataProviderInterface|object
      * @throws \yii\base\InvalidConfigException
@@ -54,15 +59,16 @@ class IndexDataProviderPreparer
         }
 
         $queryPreparer = new IndexQueryPreparer([
-            'searchModelClass' => $this->searchModelClass,
+            'searchClass' => $this->searchClass,
             'queryMethod' => $this->queryMethod,
             'formName' => $this->formName,
         ]);
         $query = $queryPreparer->prepare($action->modelClass, $requestParams);
         $this->expandQuery($query);
-        return Yii::createObject([
-            'class' => ActiveArrayDataProvider::class,
+
+        return new ActiveArrayDataProvider([
             'query' => $query,
+            'typecast' => $this->typecast
         ]);
     }
 

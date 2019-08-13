@@ -1,0 +1,35 @@
+{
+  "name": "lujie/dpd-eu-client",
+  "description": "DPD EU Client",
+  "keywords": ["DPD", "Client"],
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/dpd-eu-client/issues",
+    "source": "https://gitee.com/code4dream/dpd-eu-client"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\dpd\\": "src",
+      "dpd\\": "src/dpd"
+    }
+  },
+  "require": {
+    "phpro/soap-client": "~1.0.1",
+    "php-http/client-common": "^2.0",
+    "php-http/message": "^1.7",
+    "php-http/discovery": "^1.6",
+    "php-http/guzzle6-adapter": "^2.0"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

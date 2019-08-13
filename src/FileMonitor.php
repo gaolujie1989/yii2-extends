@@ -35,6 +35,7 @@ class FileMonitor
                 if ($this->isFilesChanged($monitorDir)) {
                     $this->lastModifyTime = time();
                     posix_kill(posix_getppid(), SIGUSR1);
+                    break;
                 }
             }
         });

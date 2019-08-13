@@ -5,7 +5,6 @@
 
 namespace lujie\extend\rest;
 
-use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
@@ -53,43 +52,16 @@ class IndexDataProviderPreparer
             $requestParams = Yii::$app->getRequest()->getQueryParams();
         }
 
-        $searchClass = $this->searchModelClass ?: ClassHelper::getSearchClass($action->modelClass);
-        if ($searchClass) {
-            $searchModel = Yii::createObject($searchClass);
-            if (method_exists($searchModel, $this->queryMethod)) {
-                $searchModel->load($requestParams, $this->formName);
-                $result = $searchModel->{$this->queryMethod}();
-                if ($result instanceof QueryInterface) {
-                    $this->expandQuery($result);
-                    return Yii::createObject([
-                        'class' => ActiveDataProvider::class,
-                        'query' => $result,
-                    ]);
-                }
-                return $result;
-            }
-        }
-
-        /* @var $model BaseActiveRecord */
-        $model = new $action->modelClass();
-        if (method_exists($model, $this->queryMethod)) {
-            $model->load($requestParams, $this->formName);
-            $result = $model->{$this->queryMethod}();
-            if ($result instanceof QueryInterface) {
-                $this->expandQuery($result);
-                return Yii::createObject([
-                    'class' => ActiveDataProvider::class,
-                    'query' => $result,
-                ]);
-            }
-            return $result;
-        }
-
-        $activeQuery = $model::find();
-        $this->expandQuery($activeQuery);
+        $queryPreparer = new IndexQueryPreparer([
+            'searchModelClass' => $this->searchModelClass,
+            'queryMethod' => $this->queryMethod,
+            'formName' => $this->formName,
+        ]);
+        $query = $queryPreparer->prepare($action->modelClass, $requestParams);
+        $this->expandQuery($query);
         return Yii::createObject([
             'class' => ActiveDataProvider::class,
-            'query' => $activeQuery,
+            'query' => $query,
         ]);
     }
 

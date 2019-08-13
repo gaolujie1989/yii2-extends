@@ -18,18 +18,18 @@ require_once YII_APP_BASE_PATH . '/vendor/autoload.php';
 Worker::$logFile = '/var/log/workerman.log';
 Worker::$pidFile = '/var/run/workerman.pid';
 
-$webServer = new Yii2WebServer('http://0.0.0.0:8080');
-$webServer->name = 'Yii2WebApp';
-$webServer->user = 'www-data';
-$webServer->group = 'www-data';
-$webServer->count = 4;
-$webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
-
 $fileMonitor = new FileMonitor();
 $fileMonitor->monitorDirs = ['/app'];
 $fileMonitorWorker = new Worker();
 $fileMonitorWorker->name = 'FileMonitor';
 $fileMonitorWorker->reloadable = false;
 $fileMonitorWorker->onWorkerStart = [$fileMonitor, 'startFileMonitoring'];
+
+$webServer = new Yii2WebServer('http://0.0.0.0:8080');
+$webServer->name = 'Yii2WebApp';
+$webServer->user = 'www-data';
+$webServer->group = 'www-data';
+$webServer->count = 4;
+$webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
 
 Worker::runAll();

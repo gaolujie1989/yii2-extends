@@ -26,6 +26,11 @@ class ActiveArrayDataProvider extends ActiveDataProvider
     public $prepareArrayMethod = 'prepareArray';
 
     /**
+     * @var bool
+     */
+    public $typecast = false;
+
+    /**
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc
@@ -38,7 +43,9 @@ class ActiveArrayDataProvider extends ActiveDataProvider
         }
         $models = parent::prepareModels();
         if ($isPrepareArray) {
-            $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
+            if ($this->typecast) {
+                $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
+            }
             $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
         }
         return $models;

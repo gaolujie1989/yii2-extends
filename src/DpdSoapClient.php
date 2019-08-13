@@ -24,6 +24,15 @@ use yii\base\Component;
 /**
  * Class GlsSoapClient
  *
+ * @method \dpd\Type\GetAuthResponse getAuth(\dpd\Type\GetAuth $parameters)
+ * @method \dpd\Type\StoreOrdersResponse storeOrders(\dpd\Type\StoreOrders $parameters)
+ * @method \dpd\Type\GetTrackingDataResponse getTrackingData(\dpd\Type\GetTrackingData $parameters) :
+ * @method \dpd\Type\GetParcelLabelNumberForWebNumberResponse getParcelLabelNumberForWebNumber(\dpd\Type\GetParcelLabelNumberForWebNumber $parameters)
+ * @method \dpd\Type\FindParcelShopsResponseType findParcelShops(\dpd\Type\FindParcelShopsType $parameters)
+ * @method \dpd\Type\FindParcelShopsByGeoDataResponseType findParcelShopsByGeoData(\dpd\Type\FindParcelShopsByGeoDataType $parameters)
+ * @method \dpd\Type\FindCitiesResponseType findCities(\dpd\Type\FindCitiesType $parameters)
+ * @method \dpd\Type\GetAvailableServicesResponseType getAvailableServices(\dpd\Type\GetAvailableServicesType $parameters)
+ *
  * https://esolutions.dpd.com/entwickler/entwicklerdaten/sandbox.aspx
  * @package lujie\gls
  * @author Lujie Zhou <gao_lujie@live.cn>

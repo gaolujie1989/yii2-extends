@@ -7,6 +7,7 @@ namespace lujie\extend\rest;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\DataProviderInterface;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryInterface;
@@ -41,11 +42,11 @@ class IndexDataProviderPreparer
 
     /**
      * @param Action $action
-     * @return object
+     * @return DataProviderInterface|object
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function prepare(Action $action)
+    public function prepare(Action $action): DataProviderInterface
     {
         $requestParams = Yii::$app->getRequest()->getBodyParams();
         if (empty($requestParams)) {

@@ -5,6 +5,7 @@
 
 namespace lujie\extend\data;
 
+use lujie\extend\helpers\ActiveDataHelper;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
@@ -37,6 +38,7 @@ class ActiveArrayDataProvider extends ActiveDataProvider
         }
         $models = parent::prepareModels();
         if ($isPrepareArray) {
+            $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
             $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
         }
         return $models;

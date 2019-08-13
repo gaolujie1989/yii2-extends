@@ -26,7 +26,7 @@ $webServer->count = 4;
 $webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
 
 $fileMonitor = new FileMonitor();
-$fileMonitor->monitorDir = '/app';
+$fileMonitor->monitorDirs = ['/app'];
 $fileMonitorWorker = new Worker();
 $fileMonitorWorker->name = 'FileMonitor';
 $fileMonitorWorker->reloadable = false;

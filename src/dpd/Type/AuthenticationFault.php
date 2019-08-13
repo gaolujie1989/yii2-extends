@@ -1,0 +1,75 @@
+<?php
+
+namespace dpd\Type;
+
+
+use Phpro\SoapClient\Type\RequestInterface;
+
+class AuthenticationFault implements RequestInterface
+{
+
+    /**
+     * @var string
+     */
+    private $errorCode = null;
+
+    /**
+     * @var string
+     */
+    private $errorMessage = null;
+
+    /**
+     * Constructor
+     *
+     * @var string $errorCode
+     * @var string $errorMessage
+     */
+    public function __construct($errorCode, $errorMessage)
+    {
+        $this->errorCode = $errorCode;
+        $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorCode()
+    {
+        return $this->errorCode;
+    }
+
+    /**
+     * @param string $errorCode
+     * @return AuthenticationFault
+     */
+    public function withErrorCode($errorCode)
+    {
+        $new = clone $this;
+        $new->errorCode = $errorCode;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @param string $errorMessage
+     * @return AuthenticationFault
+     */
+    public function withErrorMessage($errorMessage)
+    {
+        $new = clone $this;
+        $new->errorMessage = $errorMessage;
+
+        return $new;
+    }
+
+
+}
+

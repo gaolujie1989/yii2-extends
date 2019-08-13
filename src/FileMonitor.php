@@ -20,7 +20,7 @@ class FileMonitor
 {
     private $lastModifyTime = 0;
 
-    public $monitorDir;
+    public $monitorDirs;
 
     public $checkInterval = 2;
 
@@ -30,14 +30,21 @@ class FileMonitor
     public function startFileMonitoring(): void
     {
         $this->lastModifyTime = time();
-        Timer::add($this->checkInterval, [$this, 'checkFilesChange'], [$this->monitorDir]);
+        Timer::add($this->checkInterval, function() {
+            foreach ($this->monitorDirs as $monitorDir) {
+                if ($this->isFilesChanged($monitorDir)) {
+                    $this->lastModifyTime = time();
+                    posix_kill(posix_getppid(), SIGUSR1);
+                }
+            }
+        });
     }
 
     /**
      * @param string $dir
      * @inheritdoc
      */
-    public function checkFilesChange(string $dir): void
+    public function isFilesChanged(string $dir): bool
     {
         $directoryIterator = new RecursiveDirectoryIterator($dir);
         $fileIterator = new RecursiveIteratorIterator($directoryIterator);
@@ -48,9 +55,9 @@ class FileMonitor
             }
             if ($this->lastModifyTime < $file->getMTime()) {
                 Worker::safeEcho($file . " updated and reload\n");
-                posix_kill(posix_getppid(), SIGUSR1);
-                $this->lastModifyTime = time();
+                return true;
             }
         }
+        return false;
     }
 }

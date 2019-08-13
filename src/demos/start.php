@@ -20,8 +20,8 @@ Worker::$pidFile = '/var/run/workerman.pid';
 
 if (isset($_ENV['ENABLE_FILE_MONITOR'])) {
     $fileMonitor = new FileMonitor();
-    $fileMonitor->monitorDirs = ['/app'];
     $fileMonitor->checkInterval = $_ENV['FILE_MONITOR_INTERVAL'] ?? 2;
+    $fileMonitor->monitorDirs = ['/app'];
     $fileMonitorWorker = new Worker();
     $fileMonitorWorker->name = 'FileMonitor';
     $fileMonitorWorker->reloadable = false;

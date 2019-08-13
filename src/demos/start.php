@@ -18,12 +18,15 @@ require_once YII_APP_BASE_PATH . '/vendor/autoload.php';
 Worker::$logFile = '/var/log/workerman.log';
 Worker::$pidFile = '/var/run/workerman.pid';
 
-$fileMonitor = new FileMonitor();
-$fileMonitor->monitorDirs = ['/app'];
-$fileMonitorWorker = new Worker();
-$fileMonitorWorker->name = 'FileMonitor';
-$fileMonitorWorker->reloadable = false;
-$fileMonitorWorker->onWorkerStart = [$fileMonitor, 'startFileMonitoring'];
+if (isset($_ENV['ENABLE_FILE_MONITOR'])) {
+    $fileMonitor = new FileMonitor();
+    $fileMonitor->monitorDirs = ['/app'];
+    $fileMonitor->checkInterval = $_ENV['FILE_MONITOR_INTERVAL'] ?? 2;
+    $fileMonitorWorker = new Worker();
+    $fileMonitorWorker->name = 'FileMonitor';
+    $fileMonitorWorker->reloadable = false;
+    $fileMonitorWorker->onWorkerStart = [$fileMonitor, 'startFileMonitoring'];
+}
 
 $webServer = new Yii2WebServer('http://0.0.0.0:8080');
 $webServer->name = 'Yii2WebApp';

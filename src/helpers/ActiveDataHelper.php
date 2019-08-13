@@ -30,6 +30,7 @@ class ActiveDataHelper
                     $row[$name] = $columns[$name]->phpTypecast($value);
                 }
             }
+            return $row;
         }, $data);
     }
 }

@@ -54,7 +54,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
         if (substr($property, -strlen($this->datetimeSuffix)) === $this->datetimeSuffix) {
             $value = $this->getDatetime($value);
         }
-        $this->owner->$property = $value;
+        parent::setAliasProperty($name, $value);
     }
 
 

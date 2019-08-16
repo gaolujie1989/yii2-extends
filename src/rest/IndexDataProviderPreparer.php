@@ -43,7 +43,7 @@ class IndexDataProviderPreparer
     /**
      * @var bool
      */
-    public $typecast = false;
+    public $typecast = true;
 
     /**
      * @param Action $action

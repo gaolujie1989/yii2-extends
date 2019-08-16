@@ -5,8 +5,6 @@
 
 namespace lujie\extend\rest;
 
-use Yii;
-use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\rest\Action;
@@ -17,7 +15,7 @@ use yii\web\ServerErrorHttpException;
  * @package lujie\extend\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CloneAction extends Action
+class DuplicateAction extends Action
 {
     /**
      * @var array

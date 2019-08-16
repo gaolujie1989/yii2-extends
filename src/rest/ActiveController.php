@@ -22,7 +22,7 @@ class ActiveController extends \yii\rest\ActiveController
     public $formClass;
     public $searchClass;
 
-    public $indexTypecast = false;
+    public $indexTypecast = true;
 
     /**
      * @throws \yii\base\InvalidConfigException

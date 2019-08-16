@@ -42,26 +42,31 @@ class DuplicateAction extends Action
         /** @var ActiveRecord $newModel */
         $newModel = new $this->modelClass();
         $newModel->setAttributes($model->getAttributes(null, $model::primaryKey()), false);
+        $modelPk = $newModel::primaryKey();
 
         foreach ($this->with as $with) {
             /** @var ActiveRecord|ActiveRecord[] $modelRelations */
             $modelRelations = $model->{$with};
             if (is_array($modelRelations)) {
                 foreach ($modelRelations as $modelRelation) {
+                    $relationPk = $modelRelation::primaryKey();
                     $modelRelation->setIsNewRecord(true);
-                    $modelRelation->setAttributes(array_fill_keys($modelRelation::primaryKey(), null));
+                    $modelRelation->setAttributes(array_fill_keys($relationPk, null), false);
+                    $modelRelation->setAttributes(array_fill_keys($modelPk, null), false);
                 }
             } else {
+                $relationPk = $modelRelations::primaryKey();
                 $modelRelations->setIsNewRecord(true);
-                $modelRelations->setAttributes(array_fill_keys($modelRelations::primaryKey(), null));
+                $modelRelations->setAttributes(array_fill_keys($relationPk, null), false);
+                $modelRelations->setAttributes(array_fill_keys($modelPk, null), false);
             }
             $newModel->{$with} = $modelRelations;
         }
 
-        if ($model->save() === false && !$model->hasErrors()) {
+        if ($newModel->save() === false && !$newModel->hasErrors()) {
             throw new ServerErrorHttpException('Failed to clone the object for unknown reason.');
         }
 
-        return $model;
+        return $newModel;
     }
 }

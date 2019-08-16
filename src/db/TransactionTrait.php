@@ -24,8 +24,9 @@ trait TransactionTrait
         $opInsert = $that->hasEventHandlers(ActiveRecord::EVENT_AFTER_INSERT) ? ActiveRecord::OP_INSERT : 0;
         $opUpdate = $that->hasEventHandlers(ActiveRecord::EVENT_AFTER_UPDATE) ? ActiveRecord::OP_UPDATE : 0;
         $opDelete = $that->hasEventHandlers(ActiveRecord::EVENT_AFTER_DELETE) ? ActiveRecord::OP_DELETE : 0;
+        $isTransaction = $opInsert | $opUpdate | $opDelete;
         return [
-            ActiveRecord::SCENARIO_DEFAULT => $opInsert | $opUpdate | $opDelete,
+            array_fill_keys($that->scenarios(), $isTransaction)
         ];
     }
 }

@@ -5,6 +5,7 @@
 
 namespace lujie\extend\rest;
 
+use dpd\Type\ProductAndServiceData;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\db\ActiveRecordInterface;
@@ -91,14 +92,19 @@ class ActiveController extends \yii\rest\ActiveController
 
     /**
      * @param $ids
+     * @param array $with
      * @return ActiveRecordInterface[]
      * @inheritdoc
      */
-    public function findModels($ids): array
+    public function findModels($ids, $with = []): array
     {
         /* @var $modelClass ActiveRecordInterface */
         $modelClass = $this->modelClass;
-        return $modelClass::findAll($this->getIdsCondition($ids));
+        $query = $modelClass::find()->andWhere($this->getIdsCondition($ids));
+        if ($with) {
+            $query->with($with);
+        }
+        return $query->all();
     }
 
     /**

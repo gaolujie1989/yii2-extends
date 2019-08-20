@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\barcode;
+namespace lujie\barcode\generating;
 
 use Picqer\Barcode\BarcodeGeneratorJPG;
 use Picqer\Barcode\Exceptions\BarcodeException;
@@ -14,10 +14,10 @@ use yii\base\NotSupportedException;
 
 /**
  * Class TCBarcode
- * @package lujie\barcode
+ * @package lujie\barcode\generating
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TCBarcode extends BaseObject implements BarcodeInterface
+class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
 {
     /**
      * @var BarcodeGeneratorJPG

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\barcode;
+namespace lujie\barcode\generating;
 
 
 use yii\base\BaseObject;
@@ -13,7 +13,7 @@ use yii\base\BaseObject;
  * @package ccship\common
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TecITBarcode extends BaseObject implements BarcodeInterface
+class TecITBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
 {
     public $barcodeUrl = 'https://barcode.tec-it.com/barcode.ashx?';
 

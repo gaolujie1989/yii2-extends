@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\barcode;
+namespace lujie\barcode\generating;
 
 
 use BarcodeBakery\Barcode\BCGcode128;
@@ -22,10 +22,10 @@ use yii\base\NotSupportedException;
 
 /**
  * Class BCGBarcode
- * @package lujie\barcode
+ * @package lujie\barcode\generating
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class BCGBarcode extends BaseObject implements BarcodeInterface
+class BCGBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
 {
     /**
      * @var array

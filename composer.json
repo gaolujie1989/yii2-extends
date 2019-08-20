@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-barcode",
-  "description": "Yii2 barcode",
-  "keywords": ["yii2", "barcode"],
+  "name": "lujie/yii2-barcode-generator",
+  "description": "Yii2 barcode generator",
+  "keywords": ["yii2", "barcode generator"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-barcode/issues",
-    "source": "https://gitee.com/code4dream/yii2-barcode"
+    "issues": "https://gitee.com/code4dream/yii2-barcode-generator/issues",
+    "source": "https://gitee.com/code4dream/yii2-barcode-generator"
   },
   "authors": [
     {
@@ -15,12 +15,12 @@
     }
   ],
   "require": {
-    "picqer/php-barcode-generator": "~0.3",
+    "picqer/php-barcode-generator": "~0.3"
   },
   "autoload": {
     "psr-4": {
-      "lujie\\barcode\\": "src",
-      "lujie\\barcode\\tests\\": "tests",
+      "lujie\\barcode\\generating\\": "src",
+      "lujie\\barcode\\generating\\tests\\": "tests",
       "BarcodeBakery\\Common\\": "src/barcodegen6.0.0/packages/barcode-common/src",
       "BarcodeBakery\\Barcode\\": "src/barcodegen6.0.0/packages/barcode-1d/src"
     }

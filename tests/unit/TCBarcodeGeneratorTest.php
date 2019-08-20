@@ -5,10 +5,10 @@
 
 namespace lujie\remote\rbac\tests\unit;
 
-use lujie\barcode\BarcodeInterface;
-use lujie\barcode\TCBarcode;
+use lujie\barcode\generating\BarcodeGeneratorInterface;
+use lujie\barcode\generating\TCBarcodeGenerator;
 
-class TCBarcodeTest extends \Codeception\Test\Unit
+class TCBarcodeGeneratorTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -31,10 +31,10 @@ class TCBarcodeTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $dir = __DIR__ . '/../_output/';
-        $barcode = new TCBarcode();
-        $image = $barcode->generateBarcodeImage(BarcodeInterface::CODE128, 'CODE128ABC123456');
+        $barcode = new TCBarcodeGenerator();
+        $image = $barcode->generateBarcodeImage(BarcodeGeneratorInterface::CODE128, 'CODE128ABC123456');
         file_put_contents($dir . 'tc.code128.png', $image);
-        $image = $barcode->generateBarcodeImage(BarcodeInterface::EAN13, '4251249498714');
+        $image = $barcode->generateBarcodeImage(BarcodeGeneratorInterface::EAN13, '4251249498714');
         file_put_contents($dir . 'tc.ean13.png', $image);
     }
 }

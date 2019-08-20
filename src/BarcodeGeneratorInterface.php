@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\barcode;
+namespace lujie\barcode\generating;
 
 /**
  * Class Barcode
- * @package lujie\barcode
+ * @package lujie\barcode\generating
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-interface BarcodeInterface
+interface BarcodeGeneratorInterface
 {
     public const CODE128 = 'CODE128';
     public const EAN13 = 'EAN13';

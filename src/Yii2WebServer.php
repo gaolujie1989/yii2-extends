@@ -8,7 +8,6 @@ namespace lujie\workerman;
 use lujie\workerman\db\Command;
 use lujie\workerman\log\Logger;
 use lujie\workerman\web\ErrorHandler;
-use lujie\workerman\web\Response;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
 use Workerman\WebServer;
@@ -206,7 +205,7 @@ class Yii2WebServer extends WebServer
                 $yii2App->getErrorHandler()->handleException($exception);
             }
         } catch (\Error $error) {
-            $yii2App->getErrorHandler()->handleError($error->getCode(), $error->getMessage(), $error->getFile(), $error->getLine());
+            $yii2App->getErrorHandler()->handleException($error);
         } finally {
             XHProfiler::end();
         }

@@ -21,6 +21,8 @@ use yii\web\ServerErrorHttpException;
  */
 class UserController extends Controller
 {
+    public $loginForm = LoginForm::class;
+
     /**
      * @return LoginForm
      * @throws ServerErrorHttpException
@@ -29,7 +31,8 @@ class UserController extends Controller
      */
     public function actionLogin(): LoginForm
     {
-        $loginForm = new LoginForm();
+        /** @var LoginForm $loginForm */
+        $loginForm = Yii::createObject($this->loginForm);
         $loginForm->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($loginForm->login() === false && $loginForm->hasErrors() === false) {
             throw new ServerErrorHttpException('Failed to login for unknown reason.');

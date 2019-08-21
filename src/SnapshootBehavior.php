@@ -43,6 +43,11 @@ class SnapshootBehavior extends Behavior
     public $timestampAttribute = 'updated_at';
 
     /**
+     * @var bool
+     */
+    public $skipOnUnchanged = true;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -62,6 +67,10 @@ class SnapshootBehavior extends Behavior
      */
     public function createModelSnapshoot(AfterSaveEvent $event): ?BaseActiveRecord
     {
+        if ($this->skipOnUnchanged && empty($event->changedAttributes)) {
+            return null;
+        }
+
         if (empty($this->snapshootModelClass)) {
             $this->snapshootModelClass = get_class($this->owner) . 'Snapshoot';
         }

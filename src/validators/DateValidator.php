@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\extend\validator;
+namespace lujie\extend\validators;
 
 
 use Yii;

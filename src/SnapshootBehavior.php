@@ -86,7 +86,7 @@ class SnapshootBehavior extends Behavior
 
         /** @var BaseActiveRecord $snapshoot */
         $snapshoot = new $this->snapshootModelClass();
-        $snapshoot->setAttributes($this->owner->getAttributes(), false);
+        $snapshoot->setAttributes($this->owner->getAttributes(null, $snapshoot::primaryKey()), false);
         $callable = function () use ($snapshoot) {
             if ($snapshoot->save(false)) {
                 if ($this->owner->updateAttributes([$this->snapshootIdAttribute => $snapshoot->getPrimaryKey()])) {

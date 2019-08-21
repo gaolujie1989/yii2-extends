@@ -68,7 +68,12 @@ class FileExportAction extends Action
             call_user_func($this->checkAccess, $this->id);
         }
 
-        $query = $this->queryPreparer->prepare($this);
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
+
+        $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
         $this->fileExport->source = new QuerySource(['query' => $query]);
         if ($this->fileExport->execute()) {
             $filePath = $this->fileExport->getFilePath();

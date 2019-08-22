@@ -40,18 +40,15 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
         $generalShipmentData = new GeneralShipmentData(null, null, 's_ref_305-6470832-3224327', null, null, null, 'id_305-6470832-3224327',
             '0998', 'CL', false, false, null, 2280, date('Ymd', strtotime('+1 day')), '170000',
             $this->getSenderAddress(), $this->getRecipientAddress());
-        $higherInsurance = new HigherInsurance(0, 'EUR');
-        $parcels = new Parcel(null, 'p_ref_305-6470832-3224327', null, null, null, false, null, 2280, false, $higherInsurance, 'TEST Content',
-            null, 1, null, null, null, null, null, true, 'note1', 'note2', null);
-        $personalDelivery = null;
-        $pickup = null;
-        $parcelShopDelivery = null;
         $productAndServiceData = new ProductAndServiceData('consignment', false, false, false, false,
             null, null, null, null, null, null, null, null, null);
-        $order = new ShipmentServiceData($generalShipmentData, $parcels, $productAndServiceData);
+        $order = new ShipmentServiceData($generalShipmentData, null, $productAndServiceData);
         $storeOrdersResponse = $client->storeOrders(new StoreOrders($printOptions, $order));
-        $faults = $storeOrdersResponse->getOrderResult()->getShipmentResponses()[0]->getFaults();
-        $this->assertEmpty($faults, $faults[0]->getFaultCode() . ': ' . $faults[0]->getMessage());
+        $shipmentResponse = $storeOrdersResponse->getOrderResult()->getShipmentResponses()[0];
+        $faults = $shipmentResponse->getFaults();
+        $this->assertEmpty($faults);
+        $parcelLabelNumber = $shipmentResponse->getParcelInformation()[0]->getParcelLabelNumber();
+        file_put_contents(Yii::getAlias('@runtime/') . $parcelLabelNumber . '.pdf', $storeOrdersResponse->getOrderResult()->getParcellabelsPDF());
     }
 
     public function te1stGetTrackingData()

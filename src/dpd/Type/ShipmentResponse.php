@@ -23,7 +23,7 @@ class ShipmentResponse implements ResultInterface
     private $parcelInformation;
 
     /**
-     * @var \dpd\Type\FaultCodeType
+     * @var \dpd\Type\FaultCodeType[]
      */
     private $faults;
 
@@ -88,7 +88,7 @@ class ShipmentResponse implements ResultInterface
     }
 
     /**
-     * @return \dpd\Type\FaultCodeType
+     * @return \dpd\Type\FaultCodeType[]
      */
     public function getFaults()
     {

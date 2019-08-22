@@ -13,7 +13,7 @@ class StoreOrdersResponseType implements RequestInterface
     private $parcellabelsPDF;
 
     /**
-     * @var \dpd\Type\ShipmentResponse
+     * @var \dpd\Type\ShipmentResponse[]
      */
     private $shipmentResponses;
 
@@ -50,7 +50,7 @@ class StoreOrdersResponseType implements RequestInterface
     }
 
     /**
-     * @return \dpd\Type\ShipmentResponse
+     * @return \dpd\Type\ShipmentResponse[]
      */
     public function getShipmentResponses()
     {

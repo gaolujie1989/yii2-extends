@@ -16,10 +16,12 @@
   "autoload": {
     "psr-4": {
       "lujie\\dpd\\": "src",
+      "lujie\\dpd\\tests\\": "tests",
       "dpd\\": "src/dpd"
     }
   },
   "require": {
+    "ext-simplexml": ">=1.7",
     "phpro/soap-client": "~1.0.1",
     "php-http/client-common": "^2.0",
     "php-http/message": "^1.7",

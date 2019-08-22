@@ -13,8 +13,11 @@ use dpd\ParcelShopFinderServiceClassmap;
 use dpd\ParcelShopFinderServiceClient;
 use dpd\ShipmentServiceClassmap;
 use dpd\ShipmentServiceClient;
+use dpd\Type\GetAuth;
+use dpd\Type\Login;
+use lujie\dpd\soap\DpdAuthMiddleware;
+use lujie\extend\caching\CachingTrait;
 use Phpro\SoapClient\Client;
-use Phpro\SoapClient\Middleware\BasicAuthMiddleware;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
 use Phpro\SoapClient\Soap\Handler\HttPlugHandle;
@@ -39,6 +42,8 @@ use yii\base\Component;
  */
 class DpdSoapClient extends Component
 {
+    use CachingTrait;
+
     /**
      * @var string
      */
@@ -55,6 +60,11 @@ class DpdSoapClient extends Component
     public $password = 'xMmshh1';
 
     /**
+     * @var string
+     */
+    public $language = 'en_US';
+
+    /**
      * @var array
      */
     public $clientFactories = [
@@ -65,16 +75,18 @@ class DpdSoapClient extends Component
     ];
 
     /**
-     * @var array
+     * @var ShipmentServiceClient[]
      */
     private $clients = [];
 
     /**
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
+        $this->initCache();
         foreach ($this->clientFactories as $wsdlPath => [$clientClass, $classMapClass]) {
             $wsdlUrl = trim($this->baseUrl, '/') . '/' . trim($wsdlPath, '/');
             $this->clients[$wsdlPath] = $this->createClient($wsdlUrl, $clientClass, $classMapClass);
@@ -91,7 +103,13 @@ class DpdSoapClient extends Component
     protected function createClient($wsdl, $clientClass, $classMapClass): Client
     {
         $handler = HttPlugHandle::createWithDefaultClient();
-        $handler->addMiddleware(new BasicAuthMiddleware($this->username, $this->password));
+        if ($clientClass !== LoginServiceClient::class) {
+            $dpdAuthMiddleware = new DpdAuthMiddleware(
+                $this->getDpdLogin()->getDelisId(),
+                $this->getDpdLogin()->getAuthToken(),
+                $this->language);
+            $handler->addMiddleware($dpdAuthMiddleware);
+        }
 
         $engine = ExtSoapEngineFactory::fromOptionsWithHandler(
             ExtSoapOptions::defaults($wsdl, [])
@@ -101,6 +119,19 @@ class DpdSoapClient extends Component
         $eventDispatcher = new EventDispatcher();
 
         return new $clientClass($engine, $eventDispatcher);
+    }
+
+    /**
+     * @return Login
+     * @inheritdoc
+     */
+    public function getDpdLogin(): Login
+    {
+        $key = $this->baseUrl . $this->username;
+        return $this->cache->getOrSet($key, function() {
+            $authResponse = $this->getAuth(new GetAuth($this->username, $this->password, $this->language));
+            return $authResponse->getReturn();
+        });
     }
 
     /**

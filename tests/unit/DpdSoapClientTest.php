@@ -33,7 +33,7 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
     {
     }
 
-    public function testStoreOrder()
+    public function testStoreOrder(): void
     {
         $client = new DpdSoapClient();
         $printOptions = new PrintOptions('PDF', 'A4', null, null);
@@ -51,7 +51,7 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
         file_put_contents(Yii::getAlias('@runtime/dpd_') . $parcelLabelNumber . '.pdf', $storeOrdersResponse->getOrderResult()->getParcellabelsPDF());
     }
 
-    public function te1stGetTrackingData()
+    public function te1stGetTrackingData(): void
     {
         $client = new DpdSoapClient();
         $getTrackingDataResponse = $client->getTrackingData(new GetTrackingData('01405400945058'));

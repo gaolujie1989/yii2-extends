@@ -48,7 +48,7 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
         $faults = $shipmentResponse->getFaults();
         $this->assertEmpty($faults);
         $parcelLabelNumber = $shipmentResponse->getParcelInformation()[0]->getParcelLabelNumber();
-        file_put_contents(Yii::getAlias('@runtime/') . $parcelLabelNumber . '.pdf', $storeOrdersResponse->getOrderResult()->getParcellabelsPDF());
+        file_put_contents(Yii::getAlias('@runtime/dpd_') . $parcelLabelNumber . '.pdf', $storeOrdersResponse->getOrderResult()->getParcellabelsPDF());
     }
 
     public function te1stGetTrackingData()

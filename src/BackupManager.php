@@ -61,7 +61,15 @@ class BackupManager extends Component
      * ]
      * @var array
      */
-    public $backup = [];
+    public $backup = [
+        'db' => [
+            'database' => 'db',
+            'destinations' => [
+                'local:db_{date}_{time}.sql',
+            ],
+            'compression' => 'gzip'
+        ],
+    ];
 
     /**
      * 'xxx' => [

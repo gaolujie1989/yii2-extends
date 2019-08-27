@@ -7,6 +7,7 @@ namespace lujie\backup\manager\controllers\console;
 
 use BackupManager\Filesystems\Destination;
 use lujie\backup\manager\BackupManager;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\console\Controller;
 use yii\di\Instance;
@@ -98,6 +99,9 @@ class BackupManagerController extends Controller
                 $backup['compression'] ?? $this->compression
             );
         } else {
+            if (empty($this->destinations)) {
+                throw new InvalidArgumentException('Destinations must be set');
+            }
             $this->backupManager->backup(
                 $this->database,
                 $this->getDestinations($this->destinations),
@@ -126,6 +130,9 @@ class BackupManagerController extends Controller
                 $restore['compression'] ?? $this->compression
             );
         } else {
+            if (empty($this->sourceType) || empty($this->sourcePath)) {
+                throw new InvalidArgumentException('Source type and path must be set');
+            }
             $this->backupManager->restore(
                 $this->sourceType,
                 $this->sourcePath,

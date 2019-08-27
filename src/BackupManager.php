@@ -78,8 +78,8 @@ class BackupManager extends Component
     public function initManager(): void
     {
         $filesystems = new FilesystemProvider(new Config($this->storages));
-        $filesystems->add(new AliyunOssFilesystem());
         $filesystems->add(new LocalFilesystem());
+        $filesystems->add(new AliyunOssFilesystem());
         $filesystems->add(new Awss3Filesystem());
         $filesystems->add(new RackspaceFilesystem());
         $filesystems->add(new GcsFilesystem());

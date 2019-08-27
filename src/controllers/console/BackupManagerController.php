@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\backup\manager;
+namespace lujie\backup\manager\controllers\console;
 
+use lujie\backup\manager\BackupManager;
 use yii\base\InvalidConfigException;
 use yii\console\Controller;
 use yii\di\Instance;
@@ -14,7 +15,7 @@ use yii\di\Instance;
  * @package lujie\backup\manager
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class BackupManagerCommand extends Controller
+class BackupManagerController extends Controller
 {
     /**
      * 'xxx' => [
@@ -26,6 +27,15 @@ class BackupManagerCommand extends Controller
      */
     public $backup = [];
 
+    /**
+     * 'xxx' => [
+     *      'storage' => 'xx',
+     *      'storagePath' => 'xx',
+     *      'database' => 'xx',
+     *      'compression' => 'gzip',
+     * ]
+     * @var array
+     */
     public $restore = [];
 
     /**
@@ -33,14 +43,29 @@ class BackupManagerCommand extends Controller
      */
     public $backupManager = 'backupManager';
 
+    /**
+     * @var string
+     */
     public $database = 'db';
 
+    /**
+     * @var array
+     */
     public $destinations = [];
 
+    /**
+     * @var string
+     */
     public $compression = 'gzip';
 
+    /**
+     * @var string
+     */
     public $storage = '';
 
+    /**
+     * @var string
+     */
     public $storagePath = '';
 
     /**
@@ -54,6 +79,7 @@ class BackupManagerCommand extends Controller
     }
 
     /**
+     * @param string $name
      * @throws \BackupManager\Compressors\CompressorTypeNotSupported
      * @throws \BackupManager\Config\ConfigFieldNotFound
      * @throws \BackupManager\Config\ConfigNotFoundForConnection
@@ -72,6 +98,7 @@ class BackupManagerCommand extends Controller
     }
 
     /**
+     * @param string $name
      * @throws \BackupManager\Compressors\CompressorTypeNotSupported
      * @throws \BackupManager\Config\ConfigFieldNotFound
      * @throws \BackupManager\Config\ConfigNotFoundForConnection

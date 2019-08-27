@@ -2,6 +2,10 @@
 
 namespace lujie\barcode\assigning\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
+use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -14,6 +18,8 @@ use Yii;
  */
 class Barcode extends \yii\db\ActiveRecord
 {
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+
     public const CODE_TYPE_EAN = 'EAN';
     public const CODE_TYPE_UPC = 'UPC';
 

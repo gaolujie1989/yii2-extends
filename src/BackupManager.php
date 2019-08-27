@@ -23,7 +23,7 @@ use BackupManager\Filesystems\RackspaceFilesystem;
 use BackupManager\Filesystems\SftpFilesystem;
 use BackupManager\Manager;
 use creocoder\flysystem\Filesystem;
-use lujie\flysystem\BackupManager\Filesystems\AliyunOssFilesystem;
+use lujie\backup\manager\Filesystems\AliyunOssFilesystem;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;

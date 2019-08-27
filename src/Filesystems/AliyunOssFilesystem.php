@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\flysystem\BackupManager\Filesystems;
+namespace lujie\backup\manager\Filesystems;
 
 use BackupManager\Filesystems\Filesystem;
 use League\Flysystem\Filesystem as Flysystem;

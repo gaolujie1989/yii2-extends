@@ -85,7 +85,7 @@ class Address extends \yii\db\ActiveRecord
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
             'alias' => [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [

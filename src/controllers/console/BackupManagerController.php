@@ -20,27 +20,6 @@ use yii\di\Instance;
 class BackupManagerController extends Controller
 {
     /**
-     * 'xxx' => [
-     *      'database' => 'xx',
-     *      'destinations' => [],
-     *      'compression' => 'gzip',
-     * ]
-     * @var array
-     */
-    public $backup = [];
-
-    /**
-     * 'xxx' => [
-     *      'storage' => 'xx',
-     *      'storagePath' => 'xx',
-     *      'database' => 'xx',
-     *      'compression' => 'gzip',
-     * ]
-     * @var array
-     */
-    public $restore = [];
-
-    /**
      * @var BackupManager
      */
     public $backupManager = 'backupManager';
@@ -91,20 +70,15 @@ class BackupManagerController extends Controller
      */
     public function actionBackup(string $name = ''): void
     {
-        if (isset($this->backup[$name])) {
-            $backup = $this->backup[$name];
-            $this->backupManager->backup(
-                $backup['database'],
-                $this->getDestinations($backup['destinations']),
-                $backup['compression'] ?? $this->compression
-            );
+        if ($name) {
+            $this->backupManager->runBackup($name);
         } else {
             if (empty($this->destinations)) {
                 throw new InvalidArgumentException('Destinations must be set');
             }
             $this->backupManager->backup(
                 $this->database,
-                $this->getDestinations($this->destinations),
+                $this->destinations,
                 $this->compression
             );
         }
@@ -121,14 +95,8 @@ class BackupManagerController extends Controller
      */
     public function actionRestore(string $name = ''): void
     {
-        if (isset($this->restore[$name])) {
-            $restore = $this->restore[$name];
-            $this->backupManager->restore(
-                $restore['storage'],
-                $restore['storagePath'],
-                $restore['database'],
-                $restore['compression'] ?? $this->compression
-            );
+        if ($name) {
+            $this->backupManager->runRestore($name);
         } else {
             if (empty($this->sourceType) || empty($this->sourcePath)) {
                 throw new InvalidArgumentException('Source type and path must be set');
@@ -140,25 +108,5 @@ class BackupManagerController extends Controller
                 $this->compression
             );
         }
-    }
-
-    /**
-     * @param array $destinations
-     * @return array
-     * @inheritdoc
-     */
-    public function getDestinations(array $destinations): array
-    {
-        foreach ($destinations as $index => $destination) {
-            if (is_string($destination)) {
-                [$name, $path] = explode(':', $destination);
-                $path = strtr($path, [
-                    '{date}' => date('ymd'),
-                    '{time}' => date('His'),
-                ]);
-                $destinations[$index] = new Destination($name, $path);
-            }
-        }
-        return $destinations;
     }
 }

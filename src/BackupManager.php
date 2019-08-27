@@ -13,6 +13,7 @@ use BackupManager\Databases\DatabaseProvider;
 use BackupManager\Databases\MysqlDatabase;
 use BackupManager\Databases\PostgresqlDatabase;
 use BackupManager\Filesystems\Awss3Filesystem;
+use BackupManager\Filesystems\Destination;
 use BackupManager\Filesystems\DropboxFilesystem;
 use BackupManager\Filesystems\DropboxV2Filesystem;
 use BackupManager\Filesystems\FilesystemProvider;
@@ -51,6 +52,27 @@ class BackupManager extends Component
      * @var array
      */
     public $storages;
+
+    /**
+     * 'xxx' => [
+     *      'database' => 'xx',
+     *      'destinations' => [],
+     *      'compression' => 'gzip',
+     * ]
+     * @var array
+     */
+    public $backup = [];
+
+    /**
+     * 'xxx' => [
+     *      'storage' => 'xx',
+     *      'storagePath' => 'xx',
+     *      'database' => 'xx',
+     *      'compression' => 'gzip',
+     * ]
+     * @var array
+     */
+    public $restore = [];
 
     /**
      * @throws InvalidConfigException
@@ -112,7 +134,7 @@ class BackupManager extends Component
      */
     public function backup(string $database, array $destinations, string $compression): void
     {
-        $this->manager->makeBackup()->run($database, $destinations, $compression);
+        $this->manager->makeBackup()->run($database, $this->getDestinations($destinations), $compression);
     }
 
     /**
@@ -130,6 +152,51 @@ class BackupManager extends Component
     public function restore($sourceType, $sourcePath, $databaseName, $compression = null): void
     {
         $this->manager->makeRestore()->run($sourceType, $sourcePath, $databaseName, $compression);
+    }
+
+    /**
+     * @param string $name
+     * @throws \BackupManager\Compressors\CompressorTypeNotSupported
+     * @throws \BackupManager\Config\ConfigFieldNotFound
+     * @throws \BackupManager\Config\ConfigNotFoundForConnection
+     * @throws \BackupManager\Databases\DatabaseTypeNotSupported
+     * @throws \BackupManager\Filesystems\FilesystemTypeNotSupported
+     * @inheritdoc
+     */
+    public function runBackup(string $name): void
+    {
+        if (empty($this->backup[$name])) {
+            throw new InvalidArgumentException('Invalid backup name');
+        }
+        $backup = $this->backup[$name];
+        $this->backup(
+            $backup['database'],
+            $this->getDestinations($backup['destinations']),
+            $backup['compression']
+        );
+    }
+
+    /**
+     * @param string $name
+     * @throws \BackupManager\Compressors\CompressorTypeNotSupported
+     * @throws \BackupManager\Config\ConfigFieldNotFound
+     * @throws \BackupManager\Config\ConfigNotFoundForConnection
+     * @throws \BackupManager\Databases\DatabaseTypeNotSupported
+     * @throws \BackupManager\Filesystems\FilesystemTypeNotSupported
+     * @inheritdoc
+     */
+    public function runRestore(string $name): void
+    {
+        if (empty($this->restore[$name])) {
+            throw  new InvalidArgumentException('Invalid restore name');
+        }
+        $restore = $this->restore[$name];
+        $this->restore(
+            $restore['storage'],
+            $restore['storagePath'],
+            $restore['database'],
+            $restore['compression']
+        );
     }
 
     /**
@@ -199,5 +266,25 @@ class BackupManager extends Component
             ];
         }
         throw new InvalidArgumentException('Invalid filesystem to get config');
+    }
+
+    /**
+     * @param array $destinations
+     * @return array
+     * @inheritdoc
+     */
+    protected function getDestinations(array $destinations): array
+    {
+        foreach ($destinations as $index => $destination) {
+            if (is_string($destination)) {
+                [$name, $path] = explode(':', $destination);
+                $path = strtr($path, [
+                    '{date}' => date('ymd'),
+                    '{time}' => date('His'),
+                ]);
+                $destinations[$index] = new Destination($name, $path);
+            }
+        }
+        return $destinations;
     }
 }

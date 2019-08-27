@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\actions;
 
 use lujie\data\exchange\FileExport;
+use lujie\data\exchange\sources\ActiveRecordSource;
 use lujie\data\exchange\sources\QuerySource;
 use lujie\extend\rest\IndexQueryPreparer;
 use Yii;
@@ -32,6 +33,9 @@ class FileExportAction extends Action
      */
     public $fileExport;
 
+    /**
+     * @var string
+     */
     public $path;
 
     /**
@@ -74,7 +78,7 @@ class FileExportAction extends Action
         }
 
         $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
-        $this->fileExport->source = new QuerySource(['query' => $query]);
+        $this->fileExport->source = new ActiveRecordSource(['query' => $query]);
         if ($this->fileExport->execute()) {
             $filePath = $this->fileExport->getFilePath();
             Yii::$app->getResponse()->sendFile($filePath, $this->exportFileName);

@@ -62,12 +62,12 @@ class BackupManagerController extends Controller
     /**
      * @var string
      */
-    public $storage = '';
+    public $sourceType = '';
 
     /**
      * @var string
      */
-    public $storagePath = '';
+    public $sourcePath = '';
 
     /**
      * @throws InvalidConfigException
@@ -127,8 +127,8 @@ class BackupManagerController extends Controller
             );
         } else {
             $this->backupManager->restore(
-                $this->storage,
-                $this->storagePath,
+                $this->sourceType,
+                $this->sourcePath,
                 $this->database,
                 $this->compression
             );

@@ -143,7 +143,7 @@ class BackupManager extends Component
         /** @var Connection $db */
         $db = Instance::ensure($db, Connection::class);
         $driverName = $db->getDriverName();
-        if (in_array($driverName, ['mysql', 'pgsql'], true)) {
+        if (!in_array($driverName, ['mysql', 'pgsql'], true)) {
             throw new InvalidArgumentException('Invalid db');
         }
 

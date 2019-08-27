@@ -15,6 +15,11 @@ use yii\base\BaseObject;
 class FillPreValueTransformer extends BaseObject implements TransformerInterface
 {
     /**
+     * @var string
+     */
+    public $indexKey = '';
+
+    /**
      * @var array
      */
     public $onlyKeys = [];
@@ -35,6 +40,10 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
         $flipOnlyKeys = array_flip($this->onlyKeys);
         $flipExcludeKeys = array_flip($this->excludeKeys);
         return array_map(function($values) use (&$preValues, $flipOnlyKeys, $flipExcludeKeys) {
+            if (!$this->isOneGroup($values, $preValues)) {
+                $preValues = $values;
+                return $values;
+            }
             $emptyValues = array_filter($values, [$this, 'isEmpty']);
             $fillValues = array_intersect_key($preValues, $emptyValues);
             if ($flipOnlyKeys) {
@@ -43,11 +52,24 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
             if ($flipExcludeKeys) {
                 $fillValues = array_diff_key($fillValues, $flipExcludeKeys);
             }
-
             $values = array_merge($values, $fillValues);
             $preValues = $values;
             return $values;
         }, $data);
+    }
+
+    /**
+     * @param $values
+     * @param $preValues
+     * @return bool
+     * @inheritdoc
+     */
+    public function isOneGroup($values, $preValues): bool
+    {
+        if ($this->indexKey && isset($preValues[$this->indexKey])) {
+            return empty($values[$this->indexKey]) || $values[$this->indexKey] === $preValues[$this->indexKey];
+        }
+        return true;
     }
 
     /**

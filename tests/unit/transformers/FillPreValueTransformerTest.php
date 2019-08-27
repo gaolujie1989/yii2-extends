@@ -27,41 +27,50 @@ class FillPreValueTransformerTest extends \Codeception\Test\Unit
     {
         $data = [
             ['columnA' => 'AAA1', 'columnB' => 'BBB1', 'value' => 1],
-            ['columnA' => '', 'columnB' => '', 'value' => 2],
+            ['columnA' => 'AAA2', 'columnB' => '', 'value' => 2],
             ['columnA' => 'AAA3', 'columnB' => 'BBB3', 'value' => 3],
             ['columnA' => '', 'columnB' => '', 'value' => 4],
         ];
         $transformer = new FillPreValueTransformer([
+            'indexKey' => 'columnA',
             'onlyKeys' => [],
             'excludeKeys' => [],
         ]);
         $transformedData = $transformer->transform($data);
         $expectedData = [
             ['columnA' => 'AAA1', 'columnB' => 'BBB1', 'value' => 1],
-            ['columnA' => 'AAA1', 'columnB' => 'BBB1', 'value' => 2],
+            ['columnA' => 'AAA2', 'columnB' => '', 'value' => 2],
             ['columnA' => 'AAA3', 'columnB' => 'BBB3', 'value' => 3],
             ['columnA' => 'AAA3', 'columnB' => 'BBB3', 'value' => 4],
         ];
         $this->assertEquals($expectedData, $transformedData);
 
         $transformer = new FillPreValueTransformer([
-            'onlyKeys' => ['columnA'],
+            'indexKey' => 'columnA',
+            'onlyKeys' => ['columnB'],
             'excludeKeys' => [],
         ]);
         $transformedData = $transformer->transform($data);
         $expectedData = [
             ['columnA' => 'AAA1', 'columnB' => 'BBB1', 'value' => 1],
-            ['columnA' => 'AAA1', 'columnB' => '', 'value' => 2],
+            ['columnA' => 'AAA2', 'columnB' => '', 'value' => 2],
             ['columnA' => 'AAA3', 'columnB' => 'BBB3', 'value' => 3],
-            ['columnA' => 'AAA3', 'columnB' => '', 'value' => 4],
+            ['columnA' => '', 'columnB' => 'BBB3', 'value' => 4],
         ];
         $this->assertEquals($expectedData, $transformedData);
 
         $transformer = new FillPreValueTransformer([
+            'indexKey' => 'columnA',
             'onlyKeys' => [],
             'excludeKeys' => ['columnB'],
         ]);
         $transformedData = $transformer->transform($data);
+        $expectedData = [
+            ['columnA' => 'AAA1', 'columnB' => 'BBB1', 'value' => 1],
+            ['columnA' => 'AAA2', 'columnB' => '', 'value' => 2],
+            ['columnA' => 'AAA3', 'columnB' => 'BBB3', 'value' => 3],
+            ['columnA' => 'AAA3', 'columnB' => '', 'value' => 4],
+        ];
         $this->assertEquals($expectedData, $transformedData);
     }
 }

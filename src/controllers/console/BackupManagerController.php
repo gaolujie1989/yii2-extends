@@ -5,6 +5,7 @@
 
 namespace lujie\backup\manager\controllers\console;
 
+use BackupManager\Filesystems\Destination;
 use lujie\backup\manager\BackupManager;
 use yii\base\InvalidConfigException;
 use yii\console\Controller;
@@ -49,7 +50,7 @@ class BackupManagerController extends Controller
     public $database = 'db';
 
     /**
-     * @var array
+     * @var string[] like ['name:path', 'local:xxxbackup/xxx.sql']
      */
     public $destinations = [];
 
@@ -91,9 +92,17 @@ class BackupManagerController extends Controller
     {
         if (isset($this->backup[$name])) {
             $backup = $this->backup[$name];
-            $this->backupManager->backup($backup['database'], $backup['destinations'], $backup['compression'] ?? $this->compression);
+            $this->backupManager->backup(
+                $backup['database'],
+                $this->getDestinations($backup['destinations']),
+                $backup['compression'] ?? $this->compression
+            );
         } else {
-            $this->backupManager->backup($this->database, $this->destinations, $this->compression);
+            $this->backupManager->backup(
+                $this->database,
+                $this->getDestinations($this->destinations),
+                $this->compression
+            );
         }
     }
 
@@ -110,9 +119,39 @@ class BackupManagerController extends Controller
     {
         if (isset($this->restore[$name])) {
             $restore = $this->restore[$name];
-            $this->backupManager->restore($restore['storage'], $restore['storagePath'], $restore['database'], $restore['compression'] ?? $this->compression);
+            $this->backupManager->restore(
+                $restore['storage'],
+                $restore['storagePath'],
+                $restore['database'],
+                $restore['compression'] ?? $this->compression
+            );
         } else {
-            $this->backupManager->restore($this->storage, $this->storagePath, $this->database, $this->compression);
+            $this->backupManager->restore(
+                $this->storage,
+                $this->storagePath,
+                $this->database,
+                $this->compression
+            );
         }
+    }
+
+    /**
+     * @param array $destinations
+     * @return array
+     * @inheritdoc
+     */
+    public function getDestinations(array $destinations): array
+    {
+        foreach ($destinations as $index => $destination) {
+            if (is_string($destination)) {
+                [$name, $path] = explode(':', $destination);
+                $path = strtr($path, [
+                    '{date}' => date('ymd'),
+                    '{time}' => date('His'),
+                ]);
+                $destinations[$index] = new Destination($name, $path);
+            }
+        }
+        return $destinations;
     }
 }

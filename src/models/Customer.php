@@ -2,6 +2,10 @@
 
 namespace lujie\sales\order\center\models;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
+use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -21,6 +25,8 @@ use Yii;
  */
 class Customer extends \yii\db\ActiveRecord
 {
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+
     /**
      * {@inheritdoc}
      */

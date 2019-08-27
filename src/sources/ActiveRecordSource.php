@@ -7,6 +7,7 @@ namespace lujie\data\exchange\sources;
 
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
@@ -36,7 +37,10 @@ class ActiveRecordSource extends QuerySource
     public function init(): void
     {
         if (empty($this->query)) {
-            $this->query = $this->modelClass::find()->asArray($this->asArray);
+            $this->query = $this->modelClass::find();
+        }
+        if ($this->query instanceof ActiveQueryInterface) {
+            $this->query->asArray($this->asArray);
         }
         parent::init();
     }

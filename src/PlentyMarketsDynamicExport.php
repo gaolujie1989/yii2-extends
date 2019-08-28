@@ -40,7 +40,7 @@ class PlentyMarketsDynamicExport extends BaseObject
         'action' => 'ExportDataFormat',
         'formatDynamicUserName' => 'OrderCompleteAllField',
         'offset' => '0',
-        'rowCount' => '60',
+        'rowCount' => '6000',
         'deletedOrderOption' => '0',
         'stockBarcodeOption' => '1',
     ];

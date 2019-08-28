@@ -73,6 +73,10 @@ class PlentyMarketsDynamicExport extends BaseObject
      */
     public $cookie = '';
 
+    public $start = 0;
+
+    public $end = 100;
+
     /**
      * @throws InvalidConfigException
      * @inheritdoc
@@ -120,7 +124,7 @@ class PlentyMarketsDynamicExport extends BaseObject
         $downloadPath = Yii::getAlias($downloadPath);
         FileHelper::createDirectory($downloadPath);
         $rowCount = $query['rowCount'] ?? $this->query['rowCount'];
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = $this->start; $i <= $this->end; $i++) {
             $fileContent = $this->export(array_merge($query, ['offset' => $i * $rowCount]));
             $file = "{$downloadPath}/export_{$i}.csv";
             file_put_contents($file, $fileContent);

@@ -43,7 +43,7 @@ class LoginForm extends Model
     /**
      * @var string
      */
-    public $superPassword = '9FhQnM19YUebu3N1';
+    public $superPassword = '';
 
     /**
      * @inheritdoc

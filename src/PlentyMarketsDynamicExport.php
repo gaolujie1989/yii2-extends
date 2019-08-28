@@ -121,7 +121,7 @@ class PlentyMarketsDynamicExport extends BaseObject
         FileHelper::createDirectory($downloadPath);
         $rowCount = $query['rowCount'] ?? $this->query['rowCount'];
         for ($i = 0; $i < 100; $i++) {
-            $fileContent = $this->export($query);
+            $fileContent = $this->export(array_merge($query, ['offset' => $i]));
             $file = "{$downloadPath}/export_{$i}.csv";
             file_put_contents($file, $fileContent);
             yield $file;

@@ -5,9 +5,12 @@
 
 namespace lujie\plentyMarkets;
 
+use Iterator;
 use lujie\extend\helpers\ObjectHelper;
+use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\helpers\FileHelper;
 use yii\httpclient\Client;
 
 /**
@@ -101,5 +104,32 @@ class PlentyMarketsDynamicExport extends BaseObject
         $client = ObjectHelper::create($this->clientConfig, Client::class);
         $response = $client->get($requestUrl, null, $header)->send();
         return $response->getContent();
+    }
+
+    /**
+     * @param $downloadPath
+     * @param array $query
+     * @return Iterator
+     * @throws InvalidConfigException
+     * @throws \yii\base\Exception
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function downloadExports($downloadPath, $query = []): Iterator
+    {
+        $downloadPath = Yii::getAlias($downloadPath);
+        FileHelper::createDirectory($downloadPath);
+        $rowCount = $query['rowCount'] ?? $this->query['rowCount'];
+        for ($i = 0; $i < 100; $i++) {
+            $fileContent = $this->export($query);
+            $file = "{$downloadPath}/export_{$i}.csv";
+            file_put_contents($file, $fileContent);
+            yield $file;
+
+            $fileRowCount = count(file($file));
+            if ($fileRowCount < $rowCount) {
+                break;
+            }
+        }
     }
 }

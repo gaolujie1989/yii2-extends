@@ -6,10 +6,7 @@
 namespace lujie\plentyMarkets;
 
 use lujie\extend\authclient\BaseCookieClient;
-use lujie\extend\helpers\ObjectHelper;
 use yii\base\InvalidConfigException;
-use yii\di\Instance;
-use yii\httpclient\Client;
 use yii\web\CookieCollection;
 
 /**
@@ -58,9 +55,10 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    protected function getDomainHash(): string
+    protected function getDomainHash(): ?string
     {
-        return $this->getCookies()->getValue('domainHash');
+        $cookies = $this->getCookies();
+        return $cookies ? $cookies->getValue('domainHash') : null;
     }
 
     /**

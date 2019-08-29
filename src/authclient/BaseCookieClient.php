@@ -97,7 +97,7 @@ abstract class BaseCookieClient extends BaseClient
     public function getCookies(): CookieCollection
     {
         if (empty($this->_cookies)) {
-            $this->_cookies = $this->getState('cookies');
+            $this->_cookies = $this->getState('cookies') ?: $this->login();
         }
         return $this->_cookies;
     }
@@ -121,9 +121,6 @@ abstract class BaseCookieClient extends BaseClient
     public function beforeCallRequestSend(RequestEvent $event): void
     {
         $cookies = $this->getCookies();
-        if ($cookies === null) {
-            $cookies = $this->login();
-        }
         $this->applyCookiesToRequest($event->request, $cookies);
     }
 

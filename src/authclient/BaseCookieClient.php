@@ -6,8 +6,8 @@
 namespace lujie\extend\authclient;
 
 use yii\authclient\BaseClient;
-use yii\authclient\OAuthToken;
 use yii\base\Exception;
+use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
 use yii\httpclient\Response;
@@ -39,6 +39,13 @@ abstract class BaseCookieClient extends BaseClient
     public $cacheStorage = CacheStateStorage::class;
 
     /**
+     * @var array
+     */
+    public $httpClientOptions = [
+        'transport' => CurlTransport::class
+    ];
+
+    /**
      * @inheritdoc
      */
     public function init(): void
@@ -47,12 +54,16 @@ abstract class BaseCookieClient extends BaseClient
         if ($this->cacheStorage) {
             $this->setStateStorage($this->cacheStorage);
         }
+        if ($this->httpClientOptions) {
+            $this->setHttpClient($this->httpClientOptions);
+        }
     }
 
     /**
+     * @return CookieCollection
      * @inheritdoc
      */
-    public function login(): void
+    public function login(): CookieCollection
     {
         $loginData = array_merge($this->loginData, [
             'username' => $this->username,
@@ -64,24 +75,26 @@ abstract class BaseCookieClient extends BaseClient
             ->setMethod('POST')
             ->setData($loginData)
             ->send();
-        $this->setCookies($response->getCookies());
+        $cookies = $response->getCookies();
+        $this->setCookies($cookies);
+        return $cookies;
     }
 
     /**
-     * @param array|CookieCollection $cookies
+     * @param CookieCollection $cookies
      * @inheritdoc
      */
-    public function setCookies($cookies): void
+    public function setCookies(CookieCollection $cookies): void
     {
         $this->_cookies = $cookies;
         $this->setState('cookies', $cookies);
     }
 
     /**
-     * @param array|CookieCollection $cookies
+     * @return CookieCollection
      * @inheritdoc
      */
-    public function getCookies()
+    public function getCookies(): CookieCollection
     {
         if (empty($this->_cookies)) {
             $this->_cookies = $this->getState('cookies');
@@ -93,10 +106,10 @@ abstract class BaseCookieClient extends BaseClient
      * @return Request
      * @inheritdoc
      */
-    public function createApiRequest(): Request
+    public function createCallRequest(): Request
     {
         $request = $this->createRequest();
-        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeApiRequestSend']);
+        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeCallRequestSend']);
         return $request;
     }
 
@@ -105,22 +118,48 @@ abstract class BaseCookieClient extends BaseClient
      * @throws Exception
      * @inheritdoc
      */
-    public function beforeApiRequestSend(RequestEvent $event): void
+    public function beforeCallRequestSend(RequestEvent $event): void
     {
         $cookies = $this->getCookies();
-        if (empty($cookies)) {
-            throw new Exception('Invalid cookies.');
+        if ($cookies === null) {
+            $cookies = $this->login();
         }
         $this->applyCookiesToRequest($event->request, $cookies);
     }
 
     /**
      * @param Request $request
-     * @param $cookies
+     * @param CookieCollection $cookies
      * @inheritdoc
      */
-    public function applyCookiesToRequest(Request $request, $cookies): void
+    public function applyCookiesToRequest(Request $request, CookieCollection $cookies): void
     {
-        $request->addCookies($cookies);
+        $request->addCookies($cookies->toArray());
+    }
+
+    /**
+     * @param $callSubUrl
+     * @param string $method
+     * @param array|string $data
+     * @param array $headers
+     * @return Response
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function call(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Response
+    {
+        $request = $this->createCallRequest()
+            ->setMethod($method)
+            ->setUrl($callSubUrl)
+            ->addHeaders($headers);
+
+        if (!empty($data)) {
+            if (is_array($data)) {
+                $request->setData($data);
+            } else {
+                $request->setContent($data);
+            }
+        }
+        return $request->send();
     }
 }

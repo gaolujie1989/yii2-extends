@@ -65,7 +65,6 @@ abstract class RestOAuth2Client extends OAuth2
      * @var array
      */
     public $httpClientOptions = [
-        'class' => Client::class,
         'requestConfig' => [
             'format' => 'json'
         ],

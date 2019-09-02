@@ -34,7 +34,7 @@ class PlentyMarketsAdminClientTest extends \Codeception\Test\Unit
     public function testDynamicExport(): void
     {
         $pmAdminClient = new PlentyMarketsAdminClient([
-            'plentyId' => 27552,
+            'plentyId' => Yii::$app->params['pm.plentyId'],
             'username' => Yii::$app->params['pm.username'],
             'password' => Yii::$app->params['pm.password'],
             'requestOptions' => [

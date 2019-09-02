@@ -5,17 +5,9 @@
 
 namespace lujie\scheduling\tests\unit;
 
-use lujie\data\loader\ArrayDataLoader;
-use lujie\executing\tests\unit\mocks\TestExecutable;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
-use lujie\scheduling\CronTask;
-use lujie\scheduling\Scheduler;
-use lujie\scheduling\tests\unit\mocks\TestOverlappingTask;
-use lujie\scheduling\tests\unit\mocks\TestTask;
-use lujie\shopify\ShopifyRestClient;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 class PlentyMarketsRestClientTest extends \Codeception\Test\Unit
 {

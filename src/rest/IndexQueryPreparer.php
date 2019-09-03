@@ -11,6 +11,7 @@ use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
+use yii\db\Query;
 use yii\db\QueryInterface;
 
 /**
@@ -31,6 +32,11 @@ class IndexQueryPreparer extends BaseObject
     public $queryMethod = 'query';
 
     /**
+     * @var bool
+     */
+    public $runValidation = true;
+
+    /**
      * @var string
      */
     public $formName = '';
@@ -41,7 +47,7 @@ class IndexQueryPreparer extends BaseObject
     public $with = [];
 
     /**
-     * @param string $modelClass
+     * @param string|BaseActiveRecord $modelClass
      * @param array $params
      * @return QueryInterface
      * @throws InvalidConfigException
@@ -49,32 +55,22 @@ class IndexQueryPreparer extends BaseObject
      */
     public function prepare(string $modelClass, array $params): QueryInterface
     {
-        $searchClass = $this->searchClass ?: ClassHelper::getSearchClass($modelClass);
-        if ($searchClass) {
-            /* @var $searchModel BaseActiveRecord */
-            $searchModel = Yii::createObject($searchClass);
-            if (method_exists($searchModel, $this->queryMethod)) {
-                $searchModel->load($params, $this->formName);
-                $query = $searchModel->{$this->queryMethod}();
-                if ($this->with && $query instanceof ActiveQuery) {
-                    $query->with($this->with);
-                }
-                return $query;
+        $searchClass = $this->searchClass ?: ClassHelper::getSearchClass($modelClass) ?: $modelClass;
+        /* @var $searchModel BaseActiveRecord */
+        $searchModel = Yii::createObject($searchClass);
+        if (method_exists($searchModel, $this->queryMethod)) {
+            $searchModel->load($params, $this->formName);
+            if ($this->runValidation && !$searchModel->validate()) {
+                return $searchModel::find()->where('1=2');
             }
-        }
-
-        /* @var $model BaseActiveRecord */
-        $model = new $modelClass();
-        if (method_exists($model, $this->queryMethod)) {
-            $model->load($params, $this->formName);
-            $query = $model->{$this->queryMethod}();
+            $query = $searchModel->{$this->queryMethod}();
             if ($this->with && $query instanceof ActiveQuery) {
                 $query->with($this->with);
             }
             return $query;
         }
 
-        $query = $model::find();
+        $query = $modelClass::find();
         if ($this->with && $query instanceof ActiveQuery) {
             $query->with($this->with);
         }

@@ -16,16 +16,18 @@ use yii\base\InvalidConfigException;
  */
 class DateValidator extends \yii\validators\DateValidator
 {
+    public const TIMESTAMP_ATTRIBUTE_SELF = 'SELF';
+    public const TIMESTAMP_ATTRIBUTE_FORMAT_BY_TYPE = 'BY_TYPE';
+
     /**
      * @var string
      */
     public $parseDateValueFunc = 'strtotime';
 
-    public $timestampAttributeTimeZone = null;
-
-    public $timestampAttribute = true;
-
-    public $timestampAttributeFormat = true;
+    /**
+     * @var string
+     */
+    public $timestampAttribute = self::TIMESTAMP_ATTRIBUTE_SELF;
 
     /**
      * @throws InvalidConfigException
@@ -34,10 +36,10 @@ class DateValidator extends \yii\validators\DateValidator
     public function init(): void
     {
         parent::init();
-        if (!$this->timestampAttributeTimeZone) {
+        if (empty($this->timestampAttributeTimeZone)) {
             $this->timestampAttributeTimeZone = Yii::$app->timeZone;
         }
-        if ($this->timestampAttributeFormat === true) {
+        if ($this->timestampAttributeFormat === self::TIMESTAMP_ATTRIBUTE_FORMAT_BY_TYPE) {
             if ($this->type === self::TYPE_DATE) {
                 $this->timestampAttributeFormat = 'php:Y-m-d';
             } elseif ($this->type === self::TYPE_DATETIME) {
@@ -71,10 +73,10 @@ class DateValidator extends \yii\validators\DateValidator
      */
     public function validateAttribute($model, $attribute): void
     {
-        if ($this->timestampAttribute === true) {
+        if ($this->timestampAttribute === self::TIMESTAMP_ATTRIBUTE_SELF) {
             $this->timestampAttribute = $attribute;
             parent::validateAttribute($model, $attribute);
-            $this->timestampAttribute = true;
+            $this->timestampAttribute = self::TIMESTAMP_ATTRIBUTE_SELF;
         } else {
             parent::validateAttribute($model, $attribute);
         }

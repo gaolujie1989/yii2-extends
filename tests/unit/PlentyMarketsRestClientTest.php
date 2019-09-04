@@ -31,9 +31,9 @@ class PlentyMarketsRestClientTest extends \Codeception\Test\Unit
     public function testItemCurd(): void
     {
         $pmClient = new PlentyMarketsRestClient();
-        $pmClient->apiBaseUrl = ArrayHelper::getValue(Yii::$app->params, 'test.plentyMarkets.url');
-        $pmClient->username = ArrayHelper::getValue(Yii::$app->params, 'test.plentyMarkets.username');
-        $pmClient->password = ArrayHelper::getValue(Yii::$app->params, 'test.plentyMarkets.password');
+        $pmClient->apiBaseUrl = ArrayHelper::getValue(Yii::$app->params, 'test.pm.url');
+        $pmClient->username = ArrayHelper::getValue(Yii::$app->params, 'test.pm.username');
+        $pmClient->password = ArrayHelper::getValue(Yii::$app->params, 'test.pm.password');
 //        file_put_contents('/tmp/xxx', $pmClient->generateMethodDoc());exit;
         $itemData = [
             'name' => 'TestAbc123',

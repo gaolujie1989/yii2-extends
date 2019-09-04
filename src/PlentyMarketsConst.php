@@ -8,7 +8,7 @@ namespace lujie\plentyMarkets;
 
 class PlentyMarketsConst
 {
-    public const COUNTRY_ID2CODE = [
+    public const COUNTRY_CODES = [
         1 => 'DE', //Germany
         2 => 'AT', //Austria
         3 => 'BE', //Belgium

@@ -7,5 +7,5 @@ namespace lujie\data\exchange\file;
 
 interface FileReaderInterface
 {
-    public function parseFile(string $file) : array;
+    public function read(string $file) : array;
 }

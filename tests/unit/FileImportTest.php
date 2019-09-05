@@ -49,7 +49,7 @@ class FileImportTest extends \Codeception\Test\Unit
         $filePath = $dir . $file;
         $csvExporter = new CsvWriter();
         FileHelper::createDirectory($dir);
-        $csvExporter->exportToFile($filePath, $data);
+        $csvExporter->write($filePath, $data);
 
         $importer = new FileImporter([
             'pipeline' => [

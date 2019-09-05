@@ -28,7 +28,7 @@ class CsvReader extends BaseObject implements FileReaderInterface
      * @return array
      * @inheritdoc
      */
-    public function parseFile(string $file): array
+    public function read(string $file): array
     {
         return CsvHelper::readCsv($file, $this->firstLineIsHeader, 0, $this->delimiter, $this->enclosure, $this->escape, $this->flag);
     }

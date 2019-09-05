@@ -27,7 +27,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @inheritdoc
      */
-    public function exportToFile(string $file, array $data): void
+    public function write(string $file, array $data): void
     {
         ExcelHelper::writeExcel($file, $data, $this->keyAsHeader, $this->multiSheet);
     }

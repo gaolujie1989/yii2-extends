@@ -7,5 +7,5 @@ namespace lujie\data\exchange\file;
 
 interface FileWriterInterface
 {
-    public function exportToFile(string $file, array $data): void;
+    public function write(string $file, array $data): void;
 }

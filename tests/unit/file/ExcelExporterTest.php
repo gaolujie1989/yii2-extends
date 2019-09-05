@@ -40,10 +40,10 @@ class ExcelExporterTest extends \Codeception\Test\Unit
             ['AAA3', 'BBB3'],
         ];
         $exporter->keyAsHeader = false;
-        $exporter->exportToFile($file, $dataWithNoKey);
+        $exporter->write($file, $dataWithNoKey);
         $parser = new ExcelReader();
         $parser->firstLineIsHeader = false;
-        $this->assertEquals($dataWithNoKey, $parser->parseFile($file));
+        $this->assertEquals($dataWithNoKey, $parser->read($file));
 
         if (file_exists($file)) {
             unlink($file);
@@ -54,9 +54,9 @@ class ExcelExporterTest extends \Codeception\Test\Unit
             ['columnA' => 'AAA3', 'columnB' => 'BBB3'],
         ];
         $exporter->keyAsHeader = true;
-        $exporter->exportToFile($file, $dataWithKey);
+        $exporter->write($file, $dataWithKey);
         $parser = new ExcelReader();
         $parser->firstLineIsHeader = true;
-        $this->assertEquals($dataWithKey, $parser->parseFile($file));
+        $this->assertEquals($dataWithKey, $parser->read($file));
     }
 }

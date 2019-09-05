@@ -81,7 +81,7 @@ class FilePipeline extends BaseObject implements PipelineInterface
         $localFilePath = $this->localPath . $this->filePath;
         $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
         FileHelper::createDirectory($localDir);
-        $this->fileWriter->exportToFile($localFilePath, $data);
+        $this->fileWriter->write($localFilePath, $data);
         if ($this->fs) {
             $fsFilePath = $this->fsPath . $this->filePath;
             $this->fs->write($fsFilePath, file_get_contents($localFilePath));

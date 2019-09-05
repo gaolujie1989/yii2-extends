@@ -23,7 +23,7 @@ class CsvWriter extends BaseObject implements FileWriterInterface
      * @param array $data
      * @inheritdoc
      */
-    public function exportToFile(string $file, array $data): void
+    public function write(string $file, array $data): void
     {
         CsvHelper::writeCsv($file, $data, $this->keyAsHeader);
     }

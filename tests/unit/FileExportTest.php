@@ -56,6 +56,6 @@ class FileExportTest extends \Codeception\Test\Unit
         $this->assertTrue($exporter->export($file));
         $filePath = $exporter->pipeline->getFilePath();
         $this->assertFileExists($filePath);
-        $this->assertEquals($dbSource->all(), $csvParser->parseFile($filePath));
+        $this->assertEquals($dbSource->all(), $csvParser->read($filePath));
     }
 }

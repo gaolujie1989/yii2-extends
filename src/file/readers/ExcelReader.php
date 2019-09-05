@@ -27,7 +27,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @inheritdoc
      */
-    public function parseFile(string $file): array
+    public function read(string $file): array
     {
         return ExcelHelper::readExcel($file, $this->firstLineIsHeader, $this->multiSheet);
     }

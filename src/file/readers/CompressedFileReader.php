@@ -46,7 +46,7 @@ class CompressedFileReader extends BaseObject implements FileReaderInterface
      * @param array $data
      * @inheritdoc
      */
-    public function parseFile(string $file): array
+    public function read(string $file): array
     {
         $dataStr = file_get_contents($file);
         $unCompressedStr = call_user_func($this->unCompressor, $dataStr);

@@ -77,12 +77,12 @@ class FileSource extends BaseObject implements SourceInterface
             $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
             FileHelper::createDirectory($localDir);
             file_put_contents($localFilePath, $this->fs->read($fsFilePath));
-            $data = $this->fileReader->parseFile($localFilePath);
+            $data = $this->fileReader->read($localFilePath);
             if ($this->unlinkTmp) {
                 unlink($localFilePath);
             }
         } else {
-            $data = $this->fileReader->parseFile($this->file);
+            $data = $this->fileReader->read($this->file);
         }
         return $data;
     }

@@ -46,7 +46,7 @@ class CompressedFileWriter extends BaseObject implements FileWriterInterface
      * @param array $data
      * @inheritdoc
      */
-    public function exportToFile(string $file, array $data): void
+    public function write(string $file, array $data): void
     {
         $dataStr = call_user_func($this->serializer, $data);
         $compressedStr = call_user_func($this->compressor, $dataStr);

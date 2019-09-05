@@ -36,7 +36,7 @@ class ExcelParserTest extends \Codeception\Test\Unit
             ['AAA3', 'BBB3'],
         ];
         $parser->firstLineIsHeader = false;
-        $data = $parser->parseFile($file);
+        $data = $parser->read($file);
         $this->assertEquals($dataWithNoHeader, $data);
 
         $dataWithHeader = [
@@ -45,7 +45,7 @@ class ExcelParserTest extends \Codeception\Test\Unit
             ['columnA' => 'AAA3', 'columnB' => 'BBB3'],
         ];
         $parser->firstLineIsHeader = true;
-        $data = $parser->parseFile($file);
+        $data = $parser->read($file);
         $this->assertEquals($dataWithHeader, $data);
     }
 }

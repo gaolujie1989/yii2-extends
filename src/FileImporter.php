@@ -18,7 +18,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileImport extends DataExchange
+class FileImporter extends DataExchanger
 {
     /**
      * @var array

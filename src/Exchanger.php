@@ -39,17 +39,17 @@ class Exchanger extends Executor
 
     /**
      * @param $key
-     * @return DataExchange|object
+     * @return DataExchanger|object
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getExchange($key): DataExchange
+    public function getExchange($key): DataExchanger
     {
         $config = $this->exchangeLoader->get($key);
         if (empty($config)) {
             throw new InvalidArgumentException("Exchange {$key} not found.");
         }
-        return Instance::ensure($config, DataExchange::class);
+        return Instance::ensure($config, DataExchanger::class);
     }
 
     /**

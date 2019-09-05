@@ -6,9 +6,9 @@
 namespace lujie\data\exchange\tests\unit;
 
 
-use lujie\data\exchange\DataExchange;
+use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\file\exporters\CsvExporter;
-use lujie\data\exchange\FileImport;
+use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\DbSource;
 use yii\helpers\FileHelper;
@@ -51,7 +51,7 @@ class FileImportTest extends \Codeception\Test\Unit
         FileHelper::createDirectory($dir);
         $csvExporter->exportToFile($filePath, $data);
 
-        $importer = new FileImport([
+        $importer = new FileImporter([
             'pipeline' => [
                 'class' => DbPipeline::class,
                 'table' => '{{%migration}}',

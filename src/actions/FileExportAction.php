@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange\actions;
 
-use lujie\data\exchange\FileExport;
+use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\sources\ActiveRecordSource;
 use lujie\data\exchange\sources\QuerySource;
 use lujie\extend\rest\IndexQueryPreparer;
@@ -29,7 +29,7 @@ class FileExportAction extends Action
     public $queryPreparer = IndexQueryPreparer::class;
 
     /**
-     * @var FileExport
+     * @var FileExporter
      */
     public $fileExport;
 
@@ -56,7 +56,7 @@ class FileExportAction extends Action
     {
         parent::init();
         $this->queryPreparer = Instance::ensure($this->queryPreparer, IndexQueryPreparer::class);
-        $this->fileExport = Instance::ensure($this->fileExport, FileExport::class);
+        $this->fileExport = Instance::ensure($this->fileExport, FileExporter::class);
         $this->fileExport->pipeline->filePathTemplate = $this->filePath;
     }
 

@@ -6,10 +6,10 @@
 namespace lujie\data\exchange\tests\unit;
 
 
-use lujie\data\exchange\DataExchange;
+use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\file\exporters\CsvExporter;
 use lujie\data\exchange\file\parsers\CsvParser;
-use lujie\data\exchange\FileExport;
+use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\pipelines\FilePipeline;
 use lujie\data\exchange\sources\DbSource;
 use lujie\data\exchange\transformers\KeyMapTransformer;
@@ -41,7 +41,7 @@ class FileExportTest extends \Codeception\Test\Unit
             'condition' => ['version' => $baseMigrationVersion],
         ]);
 
-        $exporter = new FileExport([
+        $exporter = new FileExporter([
             'source' => $dbSource,
             'transformer' => [
                 'class' => KeyMapTransformer::class,

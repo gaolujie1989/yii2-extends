@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange\forms;
 
-use lujie\data\exchange\FileImport;
+use lujie\data\exchange\FileImporter;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -40,9 +40,9 @@ class FileImportForm extends Model
     public $path = '/tmp/imports';
 
     /**
-     * @var FileImport
+     * @var FileImporter
      */
-    public $fileImport;
+    public $fileImporter;
 
     /**
      * @var array import results
@@ -58,7 +58,7 @@ class FileImportForm extends Model
         parent::init();
         $this->path = Yii::getAlias($this->path);
         $this->path = rtrim($this->path, '/') . '/';
-        $this->fileImport = Instance::ensure($this->fileImport, FileImport::class);
+        $this->fileImporter = Instance::ensure($this->fileImporter, FileImporter::class);
     }
 
     #region model overwrites
@@ -160,7 +160,7 @@ class FileImportForm extends Model
             return false;
         }
 
-        $import = $this->fileImport;
+        $import = $this->fileImporter;
         foreach ($this->files as $file) {
             $filePath = $this->path . $file;
             if ($import->import($filePath)) {

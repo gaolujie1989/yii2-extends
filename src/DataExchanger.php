@@ -27,7 +27,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DataExchange extends BaseObject implements ExecutableInterface, LockableInterface, QueueableInterface
+class DataExchanger extends BaseObject implements ExecutableInterface, LockableInterface, QueueableInterface
 {
     use ExecutableTrait, LockableTrait, QueueableTrait;
 

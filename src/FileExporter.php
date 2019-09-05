@@ -17,7 +17,7 @@ use yii\base\InvalidConfigException;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileExport extends DataExchange
+class FileExporter extends DataExchanger
 {
     public $pipeline = [
         'class' => FilePipeline::class,

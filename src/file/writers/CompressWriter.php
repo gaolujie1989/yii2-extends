@@ -14,7 +14,7 @@ use yii\base\InvalidConfigException;
  * @package lujie\data\exchange\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CompressedFileWriter extends BaseObject implements FileWriterInterface
+class CompressWriter extends BaseObject implements FileWriterInterface
 {
     /**
      * @var string

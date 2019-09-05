@@ -31,7 +31,7 @@ class FileExportAction extends Action
     /**
      * @var FileExporter
      */
-    public $fileExport;
+    public $fileExporter;
 
     /**
      * @var string
@@ -56,8 +56,8 @@ class FileExportAction extends Action
     {
         parent::init();
         $this->queryPreparer = Instance::ensure($this->queryPreparer, IndexQueryPreparer::class);
-        $this->fileExport = Instance::ensure($this->fileExport, FileExporter::class);
-        $this->fileExport->pipeline->filePathTemplate = $this->filePath;
+        $this->fileExporter = Instance::ensure($this->fileExporter, FileExporter::class);
+        $this->fileExporter->pipeline->filePathTemplate = $this->filePath;
     }
 
     /**
@@ -78,9 +78,9 @@ class FileExportAction extends Action
         }
 
         $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
-        $this->fileExport->source = new ActiveRecordSource(['query' => $query]);
-        if ($this->fileExport->execute()) {
-            $filePath = $this->fileExport->getFilePath();
+        $this->fileExporter->source = new ActiveRecordSource(['query' => $query]);
+        if ($this->fileExporter->execute()) {
+            $filePath = $this->fileExporter->getFilePath();
             Yii::$app->getResponse()->sendFile($filePath, $this->exportFileName);
             return;
         }

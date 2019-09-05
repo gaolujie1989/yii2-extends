@@ -6,15 +6,15 @@
 namespace lujie\data\exchange;
 
 
-use lujie\data\exchange\file\FileReaderInterface;
 use lujie\data\exchange\file\readers\ExcelReader;
-use lujie\data\exchange\pipelines\ActiveRecordPipeline;
-use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\FileSource;
 use yii\di\Instance;
 
 /**
  * Class FileImporter
+ *
+ * @property FileSource $source
+ *
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

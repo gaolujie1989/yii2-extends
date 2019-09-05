@@ -6,7 +6,7 @@
 namespace lujie\data\exchange\pipelines;
 
 use creocoder\flysystem\Filesystem;
-use lujie\data\exchange\file\FileExporterInterface;
+use lujie\data\exchange\file\FileWriterInterface;
 use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
@@ -20,9 +20,9 @@ use yii\helpers\FileHelper;
 class FilePipeline extends BaseObject implements PipelineInterface
 {
     /**
-     * @var FileExporterInterface
+     * @var FileWriterInterface
      */
-    public $fileExporter;
+    public $fileWriter;
 
     /**
      * @var string
@@ -61,7 +61,7 @@ class FilePipeline extends BaseObject implements PipelineInterface
     public function init(): void
     {
         parent::init();
-        $this->fileExporter = Instance::ensure($this->fileExporter, FileExporterInterface::class);
+        $this->fileWriter = Instance::ensure($this->fileWriter, FileWriterInterface::class);
         $this->localPath = rtrim(Yii::getAlias($this->localPath), "/ \t\n\r \v") . '/';
         if ($this->fs) {
             $this->fs = Instance::ensure($this->fs, Filesystem::class);
@@ -81,7 +81,7 @@ class FilePipeline extends BaseObject implements PipelineInterface
         $localFilePath = $this->localPath . $this->filePath;
         $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
         FileHelper::createDirectory($localDir);
-        $this->fileExporter->exportToFile($localFilePath, $data);
+        $this->fileWriter->exportToFile($localFilePath, $data);
         if ($this->fs) {
             $fsFilePath = $this->fsPath . $this->filePath;
             $this->fs->write($fsFilePath, file_get_contents($localFilePath));

@@ -2,8 +2,8 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\exporters\CsvExporter;
-use lujie\data\exchange\file\parsers\CsvParser;
+use lujie\data\exchange\file\writers\CsvWriter;
+use lujie\data\exchange\file\readers\CsvReader;
 
 class CsvExporterTest extends \Codeception\Test\Unit
 {
@@ -29,7 +29,7 @@ class CsvExporterTest extends \Codeception\Test\Unit
         if (file_exists($file)) {
             unlink($file);
         }
-        $exporter = new CsvExporter();
+        $exporter = new CsvWriter();
 
         $dataWithNoKey = [
             ['columnA', 'columnB'],
@@ -39,7 +39,7 @@ class CsvExporterTest extends \Codeception\Test\Unit
         ];
         $exporter->keyAsHeader = false;
         $exporter->exportToFile($file, $dataWithNoKey);
-        $parser = new CsvParser();
+        $parser = new CsvReader();
         $parser->firstLineIsHeader = false;
         $this->assertEquals($dataWithNoKey, $parser->parseFile($file));
 

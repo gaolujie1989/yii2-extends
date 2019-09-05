@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\exchange\file\parsers;
+namespace lujie\data\exchange\file\readers;
 
-use lujie\data\exchange\file\FileParserInterface;
+use lujie\data\exchange\file\FileReaderInterface;
 use lujie\extend\helpers\CsvHelper;
 use yii\base\BaseObject;
 
@@ -14,7 +14,7 @@ use yii\base\BaseObject;
  * @package lujie\data\exchange\parsers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CsvParser extends BaseObject implements FileParserInterface
+class CsvReader extends BaseObject implements FileReaderInterface
 {
     public $firstLineIsHeader = true;
 

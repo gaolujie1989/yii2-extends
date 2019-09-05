@@ -7,7 +7,7 @@ namespace lujie\data\exchange\tests\unit;
 
 
 use lujie\data\exchange\DataExchanger;
-use lujie\data\exchange\file\exporters\CsvExporter;
+use lujie\data\exchange\file\writers\CsvWriter;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\DbSource;
@@ -47,7 +47,7 @@ class FileImportTest extends \Codeception\Test\Unit
         $file = 'import.csv';
         $dir = '/tmp/imports/';
         $filePath = $dir . $file;
-        $csvExporter = new CsvExporter();
+        $csvExporter = new CsvWriter();
         FileHelper::createDirectory($dir);
         $csvExporter->exportToFile($filePath, $data);
 

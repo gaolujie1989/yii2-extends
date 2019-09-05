@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange;
 
-use lujie\data\exchange\file\exporters\ExcelExporter;
+use lujie\data\exchange\file\writers\ExcelWriter;
 use lujie\data\exchange\pipelines\FilePipeline;
 use yii\base\InvalidConfigException;
 
@@ -21,7 +21,7 @@ class FileExporter extends DataExchanger
 {
     public $pipeline = [
         'class' => FilePipeline::class,
-        'fileExporter' => ExcelExporter::class,
+        'fileWriter' => ExcelWriter::class,
     ];
 
     /**

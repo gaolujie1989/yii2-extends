@@ -3,18 +3,18 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\exchange\file\exporters;
+namespace lujie\data\exchange\file\readers;
 
-use lujie\data\exchange\file\FileParserInterface;
+use lujie\data\exchange\file\FileReaderInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 
 /**
  * Class CompressedFileExporter
- * @package lujie\data\exchange\file\exporters
+ * @package lujie\data\exchange\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CompressedFileParser extends BaseObject implements FileParserInterface
+class CompressedFileReader extends BaseObject implements FileReaderInterface
 {
     /**
      * @var string

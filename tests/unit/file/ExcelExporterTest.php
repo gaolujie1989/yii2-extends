@@ -2,8 +2,8 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\exporters\ExcelExporter;
-use lujie\data\exchange\file\parsers\ExcelParser;
+use lujie\data\exchange\file\writers\ExcelWriter;
+use lujie\data\exchange\file\readers\ExcelReader;
 
 class ExcelExporterTest extends \Codeception\Test\Unit
 {
@@ -31,7 +31,7 @@ class ExcelExporterTest extends \Codeception\Test\Unit
         if (file_exists($file)) {
             unlink($file);
         }
-        $exporter = new ExcelExporter();
+        $exporter = new ExcelWriter();
 
         $dataWithNoKey = [
             ['columnA', 'columnB'],
@@ -41,7 +41,7 @@ class ExcelExporterTest extends \Codeception\Test\Unit
         ];
         $exporter->keyAsHeader = false;
         $exporter->exportToFile($file, $dataWithNoKey);
-        $parser = new ExcelParser();
+        $parser = new ExcelReader();
         $parser->firstLineIsHeader = false;
         $this->assertEquals($dataWithNoKey, $parser->parseFile($file));
 
@@ -55,7 +55,7 @@ class ExcelExporterTest extends \Codeception\Test\Unit
         ];
         $exporter->keyAsHeader = true;
         $exporter->exportToFile($file, $dataWithKey);
-        $parser = new ExcelParser();
+        $parser = new ExcelReader();
         $parser->firstLineIsHeader = true;
         $this->assertEquals($dataWithKey, $parser->parseFile($file));
     }

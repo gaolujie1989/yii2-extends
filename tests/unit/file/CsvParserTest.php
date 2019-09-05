@@ -2,7 +2,7 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\parsers\CsvParser;
+use lujie\data\exchange\file\readers\CsvReader;
 
 class CsvParserTest extends \Codeception\Test\Unit
 {
@@ -25,7 +25,7 @@ class CsvParserTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $file = __DIR__ . '/../fixtures/test.csv';
-        $parser = new CsvParser();
+        $parser = new CsvReader();
 
         $dataWithNoHeader = [
             ['columnA', 'columnB'],

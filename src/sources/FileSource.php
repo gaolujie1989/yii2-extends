@@ -6,7 +6,7 @@
 namespace lujie\data\exchange\sources;
 
 use creocoder\flysystem\Filesystem;
-use lujie\data\exchange\file\FileParserInterface;
+use lujie\data\exchange\file\FileReaderInterface;
 use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
@@ -20,9 +20,9 @@ use yii\helpers\FileHelper;
 class FileSource extends BaseObject implements SourceInterface
 {
     /**
-     * @var FileParserInterface
+     * @var FileReaderInterface
      */
-    public $fileParser;
+    public $fileReader;
 
     /**
      * @var string
@@ -56,7 +56,7 @@ class FileSource extends BaseObject implements SourceInterface
     public function init(): void
     {
         parent::init();
-        $this->fileParser = Instance::ensure($this->fileParser, FileParserInterface::class);
+        $this->fileReader = Instance::ensure($this->fileReader, FileReaderInterface::class);
         if ($this->fs) {
             $this->fs = Instance::ensure($this->fs, Filesystem::class);
             $this->fsPath = rtrim($this->fsPath, "/ \t\n\r \v") . '/';
@@ -77,12 +77,12 @@ class FileSource extends BaseObject implements SourceInterface
             $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
             FileHelper::createDirectory($localDir);
             file_put_contents($localFilePath, $this->fs->read($fsFilePath));
-            $data = $this->fileParser->parseFile($localFilePath);
+            $data = $this->fileReader->parseFile($localFilePath);
             if ($this->unlinkTmp) {
                 unlink($localFilePath);
             }
         } else {
-            $data = $this->fileParser->parseFile($this->file);
+            $data = $this->fileReader->parseFile($this->file);
         }
         return $data;
     }

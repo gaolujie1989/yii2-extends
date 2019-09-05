@@ -2,7 +2,7 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\parsers\ExcelParser;
+use lujie\data\exchange\file\readers\ExcelReader;
 
 class ExcelParserTest extends \Codeception\Test\Unit
 {
@@ -27,7 +27,7 @@ class ExcelParserTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $file = __DIR__ . '/../fixtures/test.xlsx';
-        $parser = new ExcelParser();
+        $parser = new ExcelReader();
 
         $dataWithNoHeader = [
             ['columnA', 'columnB'],

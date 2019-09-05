@@ -6,8 +6,8 @@
 namespace lujie\data\exchange;
 
 
-use lujie\data\exchange\file\FileParserInterface;
-use lujie\data\exchange\file\parsers\ExcelParser;
+use lujie\data\exchange\file\FileReaderInterface;
+use lujie\data\exchange\file\readers\ExcelReader;
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\FileSource;
@@ -24,7 +24,7 @@ class FileImporter extends DataExchanger
      * @var array
      */
     public $fileSource = [
-        'fileParser' => ExcelParser::class,
+        'fileReader' => ExcelReader::class,
     ];
 
     /**

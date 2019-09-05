@@ -5,246 +5,249 @@
 
 namespace lujie\plentyMarkets;
 
+use Generator;
+use Iterator;
 use lujie\extend\authclient\RestOAuth2Client;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\helpers\Inflector;
-use yii\helpers\Json;
+use yii\httpclient\Request;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class PlentyMarketsRestClient
  *
  * @method array listSalesPrices($data = [])
- * @method \Generator eachSalesPrice($batchSize, $condition = [])
- * @method \Generator batchSalesPrice($batchSize, $condition = [])
+ * @method Generator eachSalesPrice($batchSize, $condition = [])
+ * @method Generator batchSalesPrice($batchSize, $condition = [])
  * @method array getSalesPrice($data)
  * @method array createSalesPrice($data)
  * @method array updateSalesPrice($data)
  * @method array deleteSalesPrice($data)
  *
  * @method array listAttributes($data = [])
- * @method \Generator eachAttribute($batchSize, $condition = [])
- * @method \Generator batchAttribute($batchSize, $condition = [])
+ * @method Generator eachAttribute($batchSize, $condition = [])
+ * @method Generator batchAttribute($batchSize, $condition = [])
  * @method array getAttribute($data)
  * @method array createAttribute($data)
  * @method array updateAttribute($data)
  * @method array deleteAttribute($data)
  *
  * @method array listAttributeNames($data)
- * @method \Generator eachAttributeName($batchSize, $condition = [])
- * @method \Generator batchAttributeName($batchSize, $condition = [])
+ * @method Generator eachAttributeName($batchSize, $condition = [])
+ * @method Generator batchAttributeName($batchSize, $condition = [])
  * @method array getAttributeName($data)
  * @method array createAttributeName($data)
  * @method array updateAttributeName($data)
  * @method array deleteAttributeName($data)
  *
  * @method array listAttributeValues($data)
- * @method \Generator eachAttributeValue($batchSize, $condition = [])
- * @method \Generator batchAttributeValue($batchSize, $condition = [])
+ * @method Generator eachAttributeValue($batchSize, $condition = [])
+ * @method Generator batchAttributeValue($batchSize, $condition = [])
  * @method array getAttributeValue($data)
  * @method array createAttributeValue($data)
  * @method array updateAttributeValue($data)
  * @method array deleteAttributeValue($data)
  *
  * @method array listAttributeValueNames($data)
- * @method \Generator eachAttributeValueName($batchSize, $condition = [])
- * @method \Generator batchAttributeValueName($batchSize, $condition = [])
+ * @method Generator eachAttributeValueName($batchSize, $condition = [])
+ * @method Generator batchAttributeValueName($batchSize, $condition = [])
  * @method array getAttributeValueName($data)
  * @method array createAttributeValueName($data)
  * @method array updateAttributeValueName($data)
  * @method array deleteAttributeValueName($data)
  *
  * @method array listItems($data = [])
- * @method \Generator eachItem($batchSize, $condition = [])
- * @method \Generator batchItem($batchSize, $condition = [])
+ * @method Generator eachItem($batchSize, $condition = [])
+ * @method Generator batchItem($batchSize, $condition = [])
  * @method array getItem($data)
  * @method array createItem($data)
  * @method array updateItem($data)
  * @method array deleteItem($data)
  *
  * @method array listItemImages($data)
- * @method \Generator eachItemImage($batchSize, $condition = [])
- * @method \Generator batchItemImage($batchSize, $condition = [])
+ * @method Generator eachItemImage($batchSize, $condition = [])
+ * @method Generator batchItemImage($batchSize, $condition = [])
  * @method array getItemImage($data)
  * @method array createItemImage($data)
  * @method array updateItemImage($data)
  * @method array deleteItemImage($data)
  *
  * @method array listItemImageNames($data)
- * @method \Generator eachItemImageName($batchSize, $condition = [])
- * @method \Generator batchItemImageName($batchSize, $condition = [])
+ * @method Generator eachItemImageName($batchSize, $condition = [])
+ * @method Generator batchItemImageName($batchSize, $condition = [])
  * @method array getItemImageName($data)
  * @method array createItemImageName($data)
  * @method array updateItemImageName($data)
  * @method array deleteItemImageName($data)
  *
  * @method array listItemImageAvailabilities($data)
- * @method \Generator eachItemImageAvailability($batchSize, $condition = [])
- * @method \Generator batchItemImageAvailability($batchSize, $condition = [])
+ * @method Generator eachItemImageAvailability($batchSize, $condition = [])
+ * @method Generator batchItemImageAvailability($batchSize, $condition = [])
  * @method array getItemImageAvailability($data)
  * @method array createItemImageAvailability($data)
  * @method array updateItemImageAvailability($data)
  * @method array deleteItemImageAvailability($data)
  *
  * @method array listItemTexts($data)
- * @method \Generator eachItemText($batchSize, $condition = [])
- * @method \Generator batchItemText($batchSize, $condition = [])
+ * @method Generator eachItemText($batchSize, $condition = [])
+ * @method Generator batchItemText($batchSize, $condition = [])
  * @method array getItemText($data)
  * @method array createItemText($data)
  * @method array updateItemText($data)
  * @method array deleteItemText($data)
  *
  * @method array listItemProperties($data)
- * @method \Generator eachItemProperty($batchSize, $condition = [])
- * @method \Generator batchItemProperty($batchSize, $condition = [])
+ * @method Generator eachItemProperty($batchSize, $condition = [])
+ * @method Generator batchItemProperty($batchSize, $condition = [])
  * @method array getItemProperty($data)
  * @method array createItemProperty($data)
  * @method array updateItemProperty($data)
  * @method array deleteItemProperty($data)
  *
  * @method array listItemPropertyTexts($data)
- * @method \Generator eachItemPropertyText($batchSize, $condition = [])
- * @method \Generator batchItemPropertyText($batchSize, $condition = [])
+ * @method Generator eachItemPropertyText($batchSize, $condition = [])
+ * @method Generator batchItemPropertyText($batchSize, $condition = [])
  * @method array getItemPropertyText($data)
  * @method array createItemPropertyText($data)
  * @method array updateItemPropertyText($data)
  * @method array deleteItemPropertyText($data)
  *
  * @method array listItemShippingProfiles($data)
- * @method \Generator eachItemShippingProfile($batchSize, $condition = [])
- * @method \Generator batchItemShippingProfile($batchSize, $condition = [])
+ * @method Generator eachItemShippingProfile($batchSize, $condition = [])
+ * @method Generator batchItemShippingProfile($batchSize, $condition = [])
  * @method array getItemShippingProfile($data)
  * @method array createItemShippingProfile($data)
  * @method array updateItemShippingProfile($data)
  * @method array deleteItemShippingProfile($data)
  *
  * @method array listVariations($data)
- * @method \Generator eachVariation($condition = [])
- * @method \Generator batchVariation($condition = [])
+ * @method Generator eachVariation($condition = [])
+ * @method Generator batchVariation($condition = [])
  *
  * @method array listItemVariations($data)
- * @method \Generator eachItemVariation($batchSize, $condition = [])
- * @method \Generator batchItemVariation($batchSize, $condition = [])
+ * @method Generator eachItemVariation($batchSize, $condition = [])
+ * @method Generator batchItemVariation($batchSize, $condition = [])
  * @method array getItemVariation($data)
  * @method array createItemVariation($data)
  * @method array updateItemVariation($data)
  * @method array deleteItemVariation($data)
  *
  * @method array listItemVariationImages($data)
- * @method \Generator eachItemVariationImage($batchSize, $condition = [])
- * @method \Generator batchItemVariationImage($batchSize, $condition = [])
+ * @method Generator eachItemVariationImage($batchSize, $condition = [])
+ * @method Generator batchItemVariationImage($batchSize, $condition = [])
  * @method array getItemVariationImage($data)
  * @method array createItemVariationImage($data)
  * @method array updateItemVariationImage($data)
  * @method array deleteItemVariationImage($data)
  *
  * @method array listItemVariationSalesPrices($data)
- * @method \Generator eachItemVariationSalesPrice($batchSize, $condition = [])
- * @method \Generator batchItemVariationSalesPrice($batchSize, $condition = [])
+ * @method Generator eachItemVariationSalesPrice($batchSize, $condition = [])
+ * @method Generator batchItemVariationSalesPrice($batchSize, $condition = [])
  * @method array getItemVariationSalesPrice($data)
  * @method array createItemVariationSalesPrice($data)
  * @method array updateItemVariationSalesPrice($data)
  * @method array deleteItemVariationSalesPrice($data)
  *
  * @method array listItemVariationBundles($data)
- * @method \Generator eachItemVariationBundle($batchSize, $condition = [])
- * @method \Generator batchItemVariationBundle($batchSize, $condition = [])
+ * @method Generator eachItemVariationBundle($batchSize, $condition = [])
+ * @method Generator batchItemVariationBundle($batchSize, $condition = [])
  * @method array getItemVariationBundle($data)
  * @method array createItemVariationBundle($data)
  * @method array updateItemVariationBundle($data)
  * @method array deleteItemVariationBundle($data)
  *
  * @method array listItemVariationMarkets($data)
- * @method \Generator eachItemVariationMarket($batchSize, $condition = [])
- * @method \Generator batchItemVariationMarket($batchSize, $condition = [])
+ * @method Generator eachItemVariationMarket($batchSize, $condition = [])
+ * @method Generator batchItemVariationMarket($batchSize, $condition = [])
  * @method array getItemVariationMarket($data)
  * @method array createItemVariationMarket($data)
  * @method array updateItemVariationMarket($data)
  * @method array deleteItemVariationMarket($data)
  *
  * @method array listItemVariationSkus($data)
- * @method \Generator eachItemVariationSku($batchSize, $condition = [])
- * @method \Generator batchItemVariationSku($batchSize, $condition = [])
+ * @method Generator eachItemVariationSku($batchSize, $condition = [])
+ * @method Generator batchItemVariationSku($batchSize, $condition = [])
  * @method array getItemVariationSku($data)
  * @method array createItemVariationSku($data)
  * @method array updateItemVariationSku($data)
  * @method array deleteItemVariationSku($data)
  *
  * @method array listItemVariationBarcodes($data)
- * @method \Generator eachItemVariationBarcode($batchSize, $condition = [])
- * @method \Generator batchItemVariationBarcode($batchSize, $condition = [])
+ * @method Generator eachItemVariationBarcode($batchSize, $condition = [])
+ * @method Generator batchItemVariationBarcode($batchSize, $condition = [])
  * @method array getItemVariationBarcode($data)
  * @method array createItemVariationBarcode($data)
  * @method array updateItemVariationBarcode($data)
  * @method array deleteItemVariationBarcode($data)
  *
  * @method array listWarehouses($data = [])
- * @method \Generator eachWarehouse($batchSize, $condition = [])
- * @method \Generator batchWarehouse($batchSize, $condition = [])
+ * @method Generator eachWarehouse($batchSize, $condition = [])
+ * @method Generator batchWarehouse($batchSize, $condition = [])
  * @method array getWarehouse($data)
  * @method array createWarehouse($data)
  * @method array updateWarehouse($data)
  * @method array deleteWarehouse($data)
  *
  * @method array listWarehouseLocationDimensions($data)
- * @method \Generator eachWarehouseLocationDimension($batchSize, $condition = [])
- * @method \Generator batchWarehouseLocationDimension($batchSize, $condition = [])
+ * @method Generator eachWarehouseLocationDimension($batchSize, $condition = [])
+ * @method Generator batchWarehouseLocationDimension($batchSize, $condition = [])
  * @method array getWarehouseLocationDimension($data)
  * @method array createWarehouseLocationDimension($data)
  * @method array updateWarehouseLocationDimension($data)
  * @method array deleteWarehouseLocationDimension($data)
  *
  * @method array listWarehouseLocationLevels($data)
- * @method \Generator eachWarehouseLocationLevel($batchSize, $condition = [])
- * @method \Generator batchWarehouseLocationLevel($batchSize, $condition = [])
+ * @method Generator eachWarehouseLocationLevel($batchSize, $condition = [])
+ * @method Generator batchWarehouseLocationLevel($batchSize, $condition = [])
  * @method array getWarehouseLocationLevel($data)
  * @method array createWarehouseLocationLevel($data)
  * @method array updateWarehouseLocationLevel($data)
  * @method array deleteWarehouseLocationLevel($data)
  *
  * @method array listWarehouseLocations($data)
- * @method \Generator eachWarehouseLocation($batchSize, $condition = [])
- * @method \Generator batchWarehouseLocation($batchSize, $condition = [])
+ * @method Generator eachWarehouseLocation($batchSize, $condition = [])
+ * @method Generator batchWarehouseLocation($batchSize, $condition = [])
  * @method array getWarehouseLocation($data)
  * @method array createWarehouseLocation($data)
  * @method array updateWarehouseLocation($data)
  * @method array deleteWarehouseLocation($data)
  *
  * @method array listCustomers($data = [])
- * @method \Generator eachCustomer($batchSize, $condition = [])
- * @method \Generator batchCustomer($batchSize, $condition = [])
+ * @method Generator eachCustomer($batchSize, $condition = [])
+ * @method Generator batchCustomer($batchSize, $condition = [])
  * @method array getCustomer($data)
  * @method array createCustomer($data)
  * @method array updateCustomer($data)
  * @method array deleteCustomer($data)
  *
  * @method array listAddresses($data = [])
- * @method \Generator eachAddress($batchSize, $condition = [])
- * @method \Generator batchAddress($batchSize, $condition = [])
+ * @method Generator eachAddress($batchSize, $condition = [])
+ * @method Generator batchAddress($batchSize, $condition = [])
  * @method array getAddress($data)
  * @method array createAddress($data)
  * @method array updateAddress($data)
  * @method array deleteAddress($data)
  *
  * @method array listCustomerAddresses($data)
- * @method \Generator eachCustomerAddress($batchSize, $condition = [])
- * @method \Generator batchCustomerAddress($batchSize, $condition = [])
+ * @method Generator eachCustomerAddress($batchSize, $condition = [])
+ * @method Generator batchCustomerAddress($batchSize, $condition = [])
  * @method array getCustomerAddress($data)
  * @method array createCustomerAddress($data)
  * @method array updateCustomerAddress($data)
  * @method array deleteCustomerAddress($data)
  *
  * @method array listCustomerBanks($data)
- * @method \Generator eachCustomerBanks($batchSize, $condition = [])
- * @method \Generator batchCustomerBanks($batchSize, $condition = [])
+ * @method Generator eachCustomerBanks($batchSize, $condition = [])
+ * @method Generator batchCustomerBanks($batchSize, $condition = [])
  * @method array getCustomerBanks($data)
  * @method array createCustomerBanks($data)
  * @method array updateCustomerBanks($data)
  * @method array deleteCustomerBanks($data)
  *
  * @method array listOrders($data = [])
- * @method \Generator eachOrder($batchSize, $condition = [])
- * @method \Generator batchOrder($batchSize, $condition = [])
+ * @method Generator eachOrder($batchSize, $condition = [])
+ * @method Generator batchOrder($batchSize, $condition = [])
  * @method array getOrder($data)
  * @method array createOrder($data)
  * @method array updateOrder($data)
@@ -252,64 +255,64 @@ use yii\helpers\Json;
  * @method array cancelOrder($data)
  *
  * @method array listOrderShippingPackages($data)
- * @method \Generator eachOrderShippingPackage($batchSize, $condition = [])
- * @method \Generator batchOrderShippingPackage($batchSize, $condition = [])
+ * @method Generator eachOrderShippingPackage($batchSize, $condition = [])
+ * @method Generator batchOrderShippingPackage($batchSize, $condition = [])
  * @method array getOrderShippingPackage($data)
  * @method array createOrderShippingPackage($data)
  * @method array updateOrderShippingPackage($data)
  * @method array deleteOrderShippingPackage($data)
  *
  * @method array listOrderShippingPallets($data)
- * @method \Generator eachOrderShippingPallet($batchSize, $condition = [])
- * @method \Generator batchOrderShippingPallet($batchSize, $condition = [])
+ * @method Generator eachOrderShippingPallet($batchSize, $condition = [])
+ * @method Generator batchOrderShippingPallet($batchSize, $condition = [])
  * @method array getOrderShippingPallet($data)
  * @method array createOrderShippingPallet($data)
  * @method array updateOrderShippingPallet($data)
  * @method array deleteOrderShippingPallet($data)
  *
  * @method array listOrderShippingPalletPackages($data)
- * @method \Generator eachOrderShippingPalletPackages($batchSize, $condition = [])
- * @method \Generator batchOrderShippingPalletPackages($batchSize, $condition = [])
+ * @method Generator eachOrderShippingPalletPackages($batchSize, $condition = [])
+ * @method Generator batchOrderShippingPalletPackages($batchSize, $condition = [])
  * @method array getOrderShippingPalletPackages($data)
  * @method array createOrderShippingPalletPackages($data)
  * @method array updateOrderShippingPalletPackages($data)
  * @method array deleteOrderShippingPalletPackages($data)
  *
  * @method array listOrderShippingPackageItems($data)
- * @method \Generator eachOrderShippingPackageItem($batchSize, $condition = [])
- * @method \Generator batchOrderShippingPackageItem($batchSize, $condition = [])
+ * @method Generator eachOrderShippingPackageItem($batchSize, $condition = [])
+ * @method Generator batchOrderShippingPackageItem($batchSize, $condition = [])
  * @method array getOrderShippingPackageItem($data)
  * @method array createOrderShippingPackageItem($data)
  * @method array updateOrderShippingPackageItem($data)
  * @method array deleteOrderShippingPackageItem($data)
  *
  * @method array listPayments($data = [])
- * @method \Generator eachPayment($batchSize, $condition = [])
- * @method \Generator batchPayment($batchSize, $condition = [])
+ * @method Generator eachPayment($batchSize, $condition = [])
+ * @method Generator batchPayment($batchSize, $condition = [])
  * @method array getPayment($data)
  * @method array createPayment($data)
  * @method array updatePayment($data)
  * @method array deletePayment($data)
  *
  * @method array listPaymentProperties($data)
- * @method \Generator eachPaymentProperty($batchSize, $condition = [])
- * @method \Generator batchPaymentProperty($batchSize, $condition = [])
+ * @method Generator eachPaymentProperty($batchSize, $condition = [])
+ * @method Generator batchPaymentProperty($batchSize, $condition = [])
  * @method array getPaymentProperty($data)
  * @method array createPaymentProperty($data)
  * @method array updatePaymentProperty($data)
  * @method array deletePaymentProperty($data)
  *
  * @method array listListingMarkets($data = [])
- * @method \Generator eachListingMarket($batchSize, $condition = [])
- * @method \Generator batchListingMarket($batchSize, $condition = [])
+ * @method Generator eachListingMarket($batchSize, $condition = [])
+ * @method Generator batchListingMarket($batchSize, $condition = [])
  * @method array getListingMarket($data)
  * @method array createListingMarket($data)
  * @method array updateListingMarket($data)
  * @method array deleteListingMarket($data)
  *
  * @method array listListingMarketTexts($data = [])
- * @method \Generator eachListingMarketTexts($batchSize, $condition = [])
- * @method \Generator batchListingMarketTexts($batchSize, $condition = [])
+ * @method Generator eachListingMarketTexts($batchSize, $condition = [])
+ * @method Generator batchListingMarketTexts($batchSize, $condition = [])
  * @method array getListingMarketTexts($data)
  * @method array createListingMarketTexts($data)
  * @method array updateListingMarketTexts($data)
@@ -323,6 +326,8 @@ use yii\helpers\Json;
  */
 class PlentyMarketsRestClient extends RestOAuth2Client
 {
+    use PlentyMarketsBatchRestTrait;
+
     public $tokenUrl = 'login';
 
     public $refreshTokenUrl = 'login/refresh?refresh_token=';
@@ -539,7 +544,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
     }
 
     /**
-     * @param \yii\httpclient\Request $request HTTP request instance.
+     * @param Request $request HTTP request instance.
      * @param OAuthToken $accessToken access token instance.
      * @inheritdoc
      */
@@ -549,7 +554,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
     }
 
     /**
-     * @param \yii\httpclient\Request $request
+     * @param Request $request
      * @inheritdoc
      */
     public function applyClientCredentialsToRequest($request): void
@@ -562,11 +567,11 @@ class PlentyMarketsRestClient extends RestOAuth2Client
      * @param string $resource
      * @param array $condition
      * @param int $batchSize
-     * @return \Iterator
-     * @throws \yii\web\NotFoundHttpException
+     * @return Iterator
+     * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function batch(string $resource, array $condition = [], int $batchSize = 100): \Iterator
+    public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
     {
         $condition['itemsPerPage'] = $batchSize;
         $listMethod = 'list' . Inflector::pluralize($resource);
@@ -599,73 +604,5 @@ class PlentyMarketsRestClient extends RestOAuth2Client
                 $condition['page']++;
             } while ($condition['page'] <= $pageCount);
         }
-    }
-
-    /**
-     * @param array $variationIds
-     * @return array
-     * @inheritdoc
-     */
-    public function getWarehouseStocksByVariationIds(array $variationIds): array
-    {
-        $payloads = array_map(static function ($variationId) {
-            return [
-                'resource' => 'rest/stockmanagement/stock?variationId=' . $variationId,
-                'method' => 'GET',
-            ];
-        }, $variationIds);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $warehouseStocks = [];
-        foreach ($batchResponse as $response) {
-            $content = Json::decode($response['content']);
-            $warehouseStocks[] = $content['entries'];
-        }
-        return array_merge(...$warehouseStocks);
-    }
-
-    /**
-     * @param array $orderIds
-     * @return array
-     * @inheritdoc
-     */
-    public function getOrdersByOrderIds(array $orderIds): array
-    {
-        $payloads = array_map(static function ($orderId) {
-            return [
-                'resource' => "rest/orders/{$orderId}",
-                'method' => 'GET',
-            ];
-        }, $orderIds);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $orders = [];
-        foreach ($batchResponse as $response) {
-            $orderId = substr($response['resource'], 12);
-            $content = Json::decode($response['content']);
-            $orders[$orderId] = $content;
-        }
-        return $orders;
-    }
-
-    /**
-     * @param array $orderIds
-     * @return array
-     * @inheritdoc
-     */
-    public function getOrderPackageNumbersByOrderIds(array $orderIds): array
-    {
-        $payloads = array_map(static function ($orderId) {
-            return [
-                'resource' => "rest/orders/{$orderId}/packagenumbers",
-                'method' => 'GET',
-            ];
-        }, $orderIds);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $orderPackageNumbers = [];
-        foreach ($batchResponse as $response) {
-            $orderId = substr($response['resource'], 12, -15);
-            $content = Json::decode($response['content']);
-            $orderPackageNumbers[$orderId] = $content;
-        }
-        return $orderPackageNumbers;
     }
 }

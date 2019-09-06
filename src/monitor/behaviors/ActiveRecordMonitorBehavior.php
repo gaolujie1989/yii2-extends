@@ -26,7 +26,7 @@ class ActiveRecordMonitorBehavior extends ExecutorActiveRecordMonitorBehavior
      */
     protected function saveExec(ExecutableInterface $executable, string $executeManagerName, array $data): void
     {
-        $data = array_merge($data, $this->getExchangeAdditional($executable));
+        $data['additional'] = $this->getExchangeAdditional($executable);
         parent::saveExec($executable, $executeManagerName, $data);
     }
 }

@@ -20,18 +20,18 @@ trait ExchangeMonitorTrait
      */
     public function getExchangeAdditional(ExecutableInterface $executable): array
     {
-        $data = [];
+        $additional = [];
         if ($executable instanceof FileImporter) {
-            $data['importFile'] = $executable->source->file;
+            $additional['importFile'] = $executable->source->file;
             if ($executable->pipeline instanceof DbPipelineInterface) {
-                $data['importRowCounts'] = $executable->pipeline->getAffectedRowCounts();
+                $additional['importRowCounts'] = $executable->pipeline->getAffectedRowCounts();
             }
         } else if ($executable instanceof FileExporter) {
-            $data['exportFile'] = $executable->pipeline->getFilePath();
+            $additional['exportFile'] = $executable->pipeline->getFilePath();
             if ($executable->source instanceof QuerySource) {
-                $data['exportConditions'] = json_encode($executable->source->query->where);
+                $additional['exportConditions'] = json_encode($executable->source->query->where);
             }
         }
-        return $data;
+        return $additional;
     }
 }

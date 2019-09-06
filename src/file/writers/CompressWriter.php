@@ -6,8 +6,12 @@
 namespace lujie\data\exchange\file\writers;
 
 use lujie\data\exchange\file\FileWriterInterface;
+use lujie\extend\compressors\CompressorInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\di\Instance;
+use yii\queue\serializers\JsonSerializer;
+use yii\queue\serializers\SerializerInterface;
 
 /**
  * Class CompressedFileExporter
@@ -17,14 +21,17 @@ use yii\base\InvalidConfigException;
 class CompressWriter extends BaseObject implements FileWriterInterface
 {
     /**
-     * @var string
+     * @var SerializerInterface
      */
-    public $serializer = 'yii\helpers\Json::encode';
+    public $serializer = [
+        'class' => JsonSerializer::class,
+        'classKey' => null,
+    ];
 
     /**
-     * @var string
+     * @var CompressorInterface
      */
-    public $compressor = 'gzinflate';
+    public $compressor = 'gzdeflate';
 
     /**
      * @throws InvalidConfigException
@@ -33,12 +40,28 @@ class CompressWriter extends BaseObject implements FileWriterInterface
     public function init(): void
     {
         parent::init();
-        if (!is_callable($this->serializer)) {
-            throw new InvalidConfigException('The serializer must be callable');
+        $this->serializer = Instance::ensure($this->serializer, SerializerInterface::class);
+        if ($this->compressor) {
+            $this->compressor = Instance::ensure($this->compressor, CompressorInterface::class);
         }
-        if (!is_callable($this->compressor)) {
-            throw new InvalidConfigException('The compressor must be callable');
+    }
+
+    /**
+     * @param string $file
+     * @param array $data
+     * @inheritdoc
+     */
+    public function read(string $file): array
+    {
+        $content = file_get_contents($file);
+        if ($this->compressor) {
+            $content = $this->compressor->unCompress($content);
         }
+        if ($this->serializer) {
+            $content = $this->serializer->unserialize($content);
+        }
+
+        return $content;
     }
 
     /**
@@ -48,8 +71,10 @@ class CompressWriter extends BaseObject implements FileWriterInterface
      */
     public function write(string $file, array $data): void
     {
-        $dataStr = call_user_func($this->serializer, $data);
-        $compressedStr = call_user_func($this->compressor, $dataStr);
-        file_put_contents($file, $compressedStr);
+        $content = $this->serializer->serialize($data);
+        if ($this->compressor) {
+            $content = $this->compressor->compress($content);
+        }
+        file_put_contents($file, $content);
     }
 }

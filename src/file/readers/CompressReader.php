@@ -6,8 +6,12 @@
 namespace lujie\data\exchange\file\readers;
 
 use lujie\data\exchange\file\FileReaderInterface;
+use lujie\extend\compressors\CompressorInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\di\Instance;
+use yii\queue\serializers\JsonSerializer;
+use yii\queue\serializers\SerializerInterface;
 
 /**
  * Class CompressedFileExporter
@@ -17,14 +21,17 @@ use yii\base\InvalidConfigException;
 class CompressReader extends BaseObject implements FileReaderInterface
 {
     /**
-     * @var string
+     * @var SerializerInterface
      */
-    public $unSerializer = 'yii\helpers\Json::decode';
+    public $serializer = [
+        'class' => JsonSerializer::class,
+        'classKey' => null,
+    ];
 
     /**
-     * @var string
+     * @var CompressorInterface
      */
-    public $unCompressor = 'gzdeflate';
+    public $compressor = 'gzdeflate';
 
     /**
      * @throws InvalidConfigException
@@ -33,11 +40,9 @@ class CompressReader extends BaseObject implements FileReaderInterface
     public function init(): void
     {
         parent::init();
-        if (!is_callable($this->unSerializer)) {
-            throw new InvalidConfigException('The unSerializer must be callable');
-        }
-        if (!is_callable($this->unCompressor)) {
-            throw new InvalidConfigException('The unCompressor must be callable');
+        $this->serializer = Instance::ensure($this->serializer, SerializerInterface::class);
+        if ($this->compressor) {
+            $this->compressor = Instance::ensure($this->compressor, CompressorInterface::class);
         }
     }
 
@@ -48,8 +53,10 @@ class CompressReader extends BaseObject implements FileReaderInterface
      */
     public function read(string $file): array
     {
-        $dataStr = file_get_contents($file);
-        $unCompressedStr = call_user_func($this->unCompressor, $dataStr);
-        return call_user_func($this->unSerializer, $unCompressedStr);
+        $content = file_get_contents($file);
+        if ($this->compressor) {
+            $content = $this->compressor->unCompress($content);
+        }
+        return (array)$this->serializer->unserialize($content);
     }
 }

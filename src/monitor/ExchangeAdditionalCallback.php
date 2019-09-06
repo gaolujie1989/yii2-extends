@@ -3,7 +3,8 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\data\exchange\monitor\behaviors;
+namespace lujie\data\exchange\monitor;
+
 
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\FileImporter;
@@ -11,14 +12,19 @@ use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\QuerySource;
 use lujie\executing\ExecutableInterface;
 
-trait ExchangeMonitorTrait
+/**
+ * Class ExchangeAdditionalCallback
+ * @package lujie\data\exchange\monitor
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class ExchangeAdditionalCallback
 {
     /**
      * @param ExecutableInterface $executable
      * @return array
      * @inheritdoc
      */
-    public function getExchangeAdditional(ExecutableInterface $executable): array
+    public static function getExchangeAdditional(ExecutableInterface $executable): array
     {
         $additional = [];
         if ($executable instanceof FileImporter) {

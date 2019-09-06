@@ -8,9 +8,6 @@ namespace lujie\data\recording\pipelines;
 
 use creocoder\flysystem\Filesystem;
 use lujie\data\recording\models\DataRecord;
-use lujie\data\recording\models\DataSource;
-use lujie\data\exchange\pipelines\PipelineInterface;
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;

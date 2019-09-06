@@ -6,8 +6,8 @@
 namespace lujie\data\recording\transformers;
 
 use lujie\data\exchange\transformers\TransformerInterface;
-use lujie\data\recording\compress\CompressorInterface;
-use lujie\data\recording\compress\GzDeflateCompressor;
+use lujie\extend\compressors\CompressorInterface;
+use lujie\extend\compressors\GzCompressor;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -43,12 +43,15 @@ class RecordTransformer extends BaseObject implements TransformerInterface
     /**
      * @var SerializerInterface
      */
-    public $serializer = JsonSerializer::class;
+    public $serializer = [
+        'class' => JsonSerializer::class,
+        'classKey' => null,
+    ];
 
     /**
      * @var CompressorInterface
      */
-    public $compressor = GzDeflateCompressor::class;
+    public $compressor = GzCompressor::class;
 
     /**
      * @throws InvalidConfigException
@@ -68,7 +71,7 @@ class RecordTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        return array_map(function($values) {
+        return array_map(function ($values) {
             $record = [];
             $config = array_merge($this->defaultConfig, $this->recordConfig);
             foreach ($config as $attribute => $item) {

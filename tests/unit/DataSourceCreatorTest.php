@@ -44,7 +44,7 @@ class DataSourceCreatorTest extends \Codeception\Test\Unit
             'username' => 'xxu',
             'password' => 'xxp',
             'options' => ['xx' => 'xx'],
-            'additional_info' => ['yy' => 'yy'],
+            'additional' => ['yy' => 'yy'],
             'status' => 0,
         ]);
         $this->assertTrue($dataAccount->save(false));

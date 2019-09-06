@@ -6,7 +6,7 @@
 namespace lujie\data\recording\controllers\rest;
 
 
-use lujie\data\recording\RecordingExchanger;
+use lujie\data\recording\RecordingExchangerManager;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -20,7 +20,7 @@ use yii\rest\Controller;
 class RecordingExchangerController extends Controller
 {
     /**
-     * @var RecordingExchanger
+     * @var RecordingExchangerManager
      */
     public $recordingExchanger = 'recordingExchanger';
 
@@ -31,7 +31,7 @@ class RecordingExchangerController extends Controller
     public function init(): void
     {
         parent::init();
-        $this->recordingExchanger = Instance::ensure($this->recordingExchanger, RecordingExchanger::class);
+        $this->recordingExchanger = Instance::ensure($this->recordingExchanger, RecordingExchangerManager::class);
     }
 
     /**

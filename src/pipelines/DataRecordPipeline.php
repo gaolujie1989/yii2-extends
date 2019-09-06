@@ -11,7 +11,6 @@ use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class FileDataRecordPipeline

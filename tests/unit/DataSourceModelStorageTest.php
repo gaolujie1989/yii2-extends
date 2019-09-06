@@ -43,16 +43,16 @@ class DataSourceModelStorageTest extends \Codeception\Test\Unit
         $storage->set($dataSourceId, $data);
 
         $source = DataSource::findOne($dataSourceId);
-        $this->assertTrue(isset($source->additional_info[$storage->conditionKey]));
-        $this->assertEquals($data, $source->additional_info[$storage->conditionKey]);
+        $this->assertTrue(isset($source->additional[$storage->conditionKey]));
+        $this->assertEquals($data, $source->additional[$storage->conditionKey]);
 
         $data = ['yyy' => 'yyy'];
         $storage->set($dataSourceId, $data);
         $source = DataSource::findOne($dataSourceId);
-        $this->assertEquals($data, $source->additional_info[$storage->conditionKey]);
+        $this->assertEquals($data, $source->additional[$storage->conditionKey]);
 
         $storage->remove($dataSourceId);
         $source = DataSource::findOne($dataSourceId);
-        $this->assertNull($source->additional_info[$storage->conditionKey]);
+        $this->assertNull($source->additional[$storage->conditionKey]);
     }
 }

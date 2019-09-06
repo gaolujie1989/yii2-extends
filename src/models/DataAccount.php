@@ -19,7 +19,7 @@ use yii\db\ActiveQuery;
  * @property string $username
  * @property string $password
  * @property array $options
- * @property array $additional_info
+ * @property array $additional
  * @property int $status
  *
  * @property DataSource[] $dataSources
@@ -46,7 +46,7 @@ class DataAccount extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['options', 'additional_info'], 'safe'],
+            [['options', 'additional'], 'safe'],
             [['status'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 50],
@@ -68,7 +68,7 @@ class DataAccount extends \yii\db\ActiveRecord
             'username' => Yii::t('lujie/data', 'Username'),
             'password' => Yii::t('lujie/data', 'Password'),
             'options' => Yii::t('lujie/data', 'Options'),
-            'additional_info' => Yii::t('lujie/data', 'Additional Info'),
+            'additional' => Yii::t('lujie/data', 'Additional Info'),
             'status' => Yii::t('lujie/data', 'Status'),
         ];
     }

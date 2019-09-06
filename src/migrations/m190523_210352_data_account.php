@@ -22,10 +22,10 @@ class m190523_210352_data_account extends Migration
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'url' => $this->string()->notNull()->defaultValue(''),
-            'username' => $this->string()->notNull()->defaultValue(''),
-            'password' => $this->string()->notNull()->defaultValue(''),
+            'username' => $this->string(200)->notNull()->defaultValue(''),
+            'password' => $this->string(200)->notNull()->defaultValue(''),
             'options' => $this->json(),
-            'additional_info' => $this->json(),
+            'additional' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
         ]);
     }

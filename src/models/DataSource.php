@@ -16,9 +16,8 @@ use yii\db\ActiveQuery;
  * @property int $data_account_id
  * @property string $name
  * @property string $type
- * @property string $cron_expression
- * @property array $options
- * @property array $additional_info
+ * @property array $condition
+ * @property array $additional
  * @property int $status
  *
  * @property DataAccount $dataAccount
@@ -45,9 +44,9 @@ class DataSource extends \yii\db\ActiveRecord
     {
         return [
             [['data_account_id', 'status'], 'integer'],
-            [['options', 'additional_info'], 'safe'],
+            [['condition', 'additional'], 'safe'],
             [['name'], 'string', 'max' => 100],
-            [['type', 'cron_expression'], 'string', 'max' => 50],
+            [['type'], 'string', 'max' => 50],
         ];
     }
 
@@ -61,9 +60,8 @@ class DataSource extends \yii\db\ActiveRecord
             'data_account_id' => Yii::t('lujie/data', 'Data Account ID'),
             'name' => Yii::t('lujie/data', 'Name'),
             'type' => Yii::t('lujie/data', 'Type'),
-            'cron_expression' => Yii::t('lujie/data', 'Cron Expression'),
-            'options' => Yii::t('lujie/data', 'Options'),
-            'additional_info' => Yii::t('lujie/data', 'Additional Info'),
+            'condition' => Yii::t('lujie/data', 'Condition'),
+            'additional' => Yii::t('lujie/data', 'Additional'),
             'status' => Yii::t('lujie/data', 'Status'),
         ];
     }
@@ -84,23 +82,5 @@ class DataSource extends \yii\db\ActiveRecord
     public function getDataAccount(): ActiveQuery
     {
         return $this->hasOne(DataAccount::class, ['data_account_id' => 'data_account_id']);
-    }
-
-    /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getTimezone(): string
-    {
-        return '';
-    }
-
-    /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getCronExpression(): string
-    {
-        return $this->cron_expression ?: '0 * * * *';
     }
 }

@@ -36,12 +36,22 @@ class FileImporter extends DataExchanger
      */
     public function import(string $file): bool
     {
+        $this->prepare($file);
+        return $this->execute();
+    }
+
+    /**
+     * @param string $file
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function prepare(string $file): void
+    {
         if (is_array($this->fileSource) && empty($this->fileSource['class'])) {
             $this->fileSource['class'] = FileSource::class;
         }
         /** @var FileSource $source */
         $this->source = Instance::ensure($this->fileSource, FileSource::class);
         $this->source->file = $file;
-        return $this->execute();
     }
 }

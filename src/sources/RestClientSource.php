@@ -46,7 +46,7 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     public function init(): void
     {
         parent::init();
-        $this->client = Instance::ensure($this->client);
+        $this->client = Instance::ensure($this->client, RestOAuth2Client::class);
     }
 
     /**

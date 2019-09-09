@@ -45,7 +45,16 @@ class FileExporter extends DataExchanger
      */
     public function export(string $file): bool
     {
-        $this->pipeline->filePathTemplate = $file;
+        $this->prepare($file);
         return $this->execute();
+    }
+
+    /**
+     * @param string $file
+     * @inheritdoc
+     */
+    public function prepare(string $file): void
+    {
+        $this->pipeline->filePathTemplate = $file;
     }
 }

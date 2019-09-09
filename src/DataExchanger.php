@@ -10,7 +10,6 @@ use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\pipelines\FilePipeline;
 use lujie\data\exchange\pipelines\PipelineInterface;
 use lujie\data\exchange\sources\BatchSourceInterface;
-use lujie\data\exchange\sources\IncrementSource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\executing\ExecutableInterface;
@@ -78,11 +77,7 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
             if (empty($data)) {
                 continue;
             }
-            if ($this->exchange($data)) {
-                if ($source instanceof IncrementSource) {
-                    $source->ackReceived();
-                }
-            } else {
+            if (!$this->exchange($data)) {
                 return false;
             }
         }

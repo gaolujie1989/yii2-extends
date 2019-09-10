@@ -19,6 +19,9 @@ use yii\db\ActiveQuery;
  * @property array $condition
  * @property array $additional
  * @property int $status
+ * @property int last_exec_at
+ * @property int last_exec_status
+ * @property array last_exec_result
  *
  * @property DataAccount $dataAccount
  */
@@ -28,6 +31,11 @@ class DataSource extends \yii\db\ActiveRecord
 
     public const STATUS_INACTIVE = 0;
     public const STATUS_ACTIVE = 10;
+
+    public const EXEC_STATUS_PENDING = 0;
+    public const EXEC_STATUS_RUNNING = 1;
+    public const EXEC_STATUS_SUCCESS = 10;
+    public const EXEC_STATUS_FAILED = 11;
 
     /**
      * {@inheritdoc}
@@ -43,8 +51,8 @@ class DataSource extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['data_account_id', 'status'], 'integer'],
-            [['condition', 'additional'], 'safe'],
+            [['data_account_id', 'status', 'last_exec_at', 'last_exec_status'], 'integer'],
+            [['condition', 'additional', 'last_exec_result'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 50],
         ];
@@ -63,6 +71,9 @@ class DataSource extends \yii\db\ActiveRecord
             'condition' => Yii::t('lujie/data', 'Condition'),
             'additional' => Yii::t('lujie/data', 'Additional'),
             'status' => Yii::t('lujie/data', 'Status'),
+            'last_exec_at' => Yii::t('lujie/data', 'Last Exec At'),
+            'last_exec_status' => Yii::t('lujie/data', 'Last Exec Status'),
+            'last_exec_result' => Yii::t('lujie/data', 'Last Exec Result'),
         ];
     }
 

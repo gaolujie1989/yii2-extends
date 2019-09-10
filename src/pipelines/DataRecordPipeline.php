@@ -19,33 +19,15 @@ use yii\db\BaseActiveRecord;
  */
 class DataRecordPipeline extends ActiveRecordPipeline
 {
-    public $sourceId;
-
     /**
      * @var DataSource
      */
-    private $source;
+    public $dataSource;
 
     /**
      * @var DataRecord
      */
     public $modelClass = DataRecord::class;
-
-    /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        if (empty($this->sourceId)) {
-            throw new InvalidConfigException('The "sourceId" property must be set');
-        }
-        $this->source = DataSource::findOne($this->sourceId);
-        if (empty($this->source)) {
-            throw new InvalidConfigException('Invalid sourceId');
-        }
-    }
 
     /**
      * @param array $values
@@ -54,9 +36,11 @@ class DataRecordPipeline extends ActiveRecordPipeline
      */
     protected function createModel(array $values): BaseActiveRecord
     {
+        $dataSource = $this->dataSource;
         $query = $this->modelClass::find()
-            ->dataAccountId($this->source->data_account_id)
-            ->dataSourceType($this->source->type);
+            ->dataAccountId($dataSource->data_account_id)
+            ->dataSourceId($dataSource->data_source_id)
+            ->dataSourceType($dataSource->type);
 
         $model = null;
         $record = $values['record'];
@@ -72,9 +56,9 @@ class DataRecordPipeline extends ActiveRecordPipeline
             /** @var DataRecord $model */
             $model = new $this->modelClass();
             $model->setAttributes([
-                'data_account_id' => $this->source->data_account_id,
-                'data_source_id' => $this->source->data_source_id,
-                'data_source_type' => $this->source->type,
+                'data_account_id' => $dataSource->data_account_id,
+                'data_source_id' => $dataSource->data_source_id,
+                'data_source_type' => $dataSource->type,
             ]);
             $model->setAttributes($record);
         }
@@ -84,10 +68,15 @@ class DataRecordPipeline extends ActiveRecordPipeline
     /**
      * @param array $data
      * @return array
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function createModels(array $data): array
     {
+        if (empty($this->dataSource) || !($this->dataSource instanceof DataSource)) {
+            throw new InvalidConfigException('Invalid source');
+        }
+
         $models = [];
         foreach ($data as $key => $values) {
             $models[$key] = $this->createModel($values);

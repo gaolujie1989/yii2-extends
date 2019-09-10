@@ -25,6 +25,9 @@ class m190523_210633_data_source extends Migration
             'condition' => $this->json(),
             'additional' => $this->json(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
+            'last_exec_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'last_exec_status' => $this->tinyInteger()->notNull()->defaultValue(0),
+            'last_exec_result' => $this->json(),
         ]);
 
         $this->createIndex('idx_data_account_id', $this->tableName, ['data_account_id']);

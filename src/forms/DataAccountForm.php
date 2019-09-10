@@ -6,7 +6,6 @@
 namespace lujie\data\recording\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
-use lujie\data\recording\DataSourceCreator;
 use lujie\data\recording\models\DataAccount;
 
 /**
@@ -16,11 +15,6 @@ use lujie\data\recording\models\DataAccount;
  */
 class DataAccountForm extends DataAccount
 {
-    /**
-     * @var DataSourceCreator[]
-     */
-    public $dataSourceCreators;
-
     /**
      * @return array
      * @inheritdoc

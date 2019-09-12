@@ -5,9 +5,14 @@
 
 namespace lujie\scheduling\controllers\rest;
 
+use lujie\data\loader\QueryDataLoader;
+use lujie\extend\rest\ActiveController;
+use lujie\scheduling\monitor\models\ScheduleTask;
 use lujie\scheduling\Scheduler;
 use yii\base\InvalidConfigException;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\data\DataProviderInterface;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
@@ -17,8 +22,13 @@ use yii\rest\Controller;
  * @package lujie\scheduling\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ScheduleTaskController extends Controller
+class ScheduleTaskController extends ActiveController
 {
+    /**
+     * @var string
+     */
+    public $modelClass = ScheduleTask::class;
+
     /**
      * @var Scheduler
      */
@@ -35,13 +45,19 @@ class ScheduleTaskController extends Controller
     }
 
     /**
-     * @return ArrayDataProvider
-     * @throws InvalidConfigException
+     * @return DataProviderInterface
      * @inheritdoc
      */
-    public function actionIndex(): ArrayDataProvider
+    public function actionIndex(): DataProviderInterface
     {
-        return new ArrayDataProvider(['allModels' => ArrayHelper::toArray($this->scheduler->getTasks())]);
+        $dataLoader = $this->scheduler->taskLoader;
+        if ($dataLoader instanceof QueryDataLoader) {
+            $query = clone $dataLoader->query;
+            return new ActiveDataProvider([
+                'query' => $query->andFilterWhere($dataLoader->condition),
+            ]);
+        }
+        return new ArrayDataProvider(['allModels' => ArrayHelper::toArray($dataLoader->all())]);
     }
 
     /**

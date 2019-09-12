@@ -10,6 +10,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method ScheduleTaskQuery taskCode($taskCode)
  * @method ScheduleTaskQuery status($status)
  *
+ * @method ScheduleTaskQuery active()
+ *
  * @method array|ScheduleTask[] all($db = null)
  * @method array|ScheduleTask|null one($db = null)
  *
@@ -29,6 +31,9 @@ class ScheduleTaskQuery extends \yii\db\ActiveQuery
                 'queryFields' => [
                     'taskCode' => 'task_code',
                     'status' => 'status',
+                ],
+                'queryConditions' => [
+                    'active' => ['status' => ScheduleTask::STATUS_ACTIVE],
                 ]
             ]
         ];

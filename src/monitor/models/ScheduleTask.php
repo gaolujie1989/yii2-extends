@@ -32,6 +32,9 @@ class ScheduleTask extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
+    public const STATUS_ACTIVE = 10;
+    public const STATUS_INACTIVE = 0;
+
     /**
      * {@inheritdoc}
      */

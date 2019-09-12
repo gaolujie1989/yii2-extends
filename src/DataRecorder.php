@@ -58,6 +58,7 @@ abstract class DataRecorder extends DataExchanger
             $this->pipeline->dataSource = $dataSource;
         }
         $this->source = $this->createSource($dataSource);
+        $this->id = $dataSource->data_source_id;
     }
 
     /**

@@ -8,6 +8,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * This is the ActiveQuery class for [[DataRecord]].
  *
  * @method DataAccountQuery name($name)
+ * @method DataAccountQuery type($type)
  * @method DataAccountQuery active()
  *
  * @method int getAccountId()
@@ -30,6 +31,7 @@ class DataAccountQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'name' => 'name',
+                    'type' => 'type',
                 ],
                 'queryConditions' => [
                     'active' => ['status' => DataAccount::STATUS_ACTIVE],

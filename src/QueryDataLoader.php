@@ -30,9 +30,14 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     public $db;
 
     /**
-     * @var string|int
+     * @var string
      */
     public $key;
+
+    /**
+     * @var string
+     */
+    public $indexBy;
 
     /**
      * @var array
@@ -51,6 +56,9 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
         }
         if (!($this->query instanceof QueryInterface)) {
             throw new InvalidConfigException('The "query" property must be instanceof QueryInterface.');
+        }
+        if ($this->indexBy) {
+            $this->query->indexBy($this->indexBy);
         }
         if ($this->db) {
             $this->db = Instance::ensure($this->db);

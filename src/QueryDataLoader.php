@@ -37,7 +37,7 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var string
      */
-    private $indexBy;
+    protected $indexBy;
 
     /**
      * @var array

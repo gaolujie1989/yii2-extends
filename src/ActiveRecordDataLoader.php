@@ -26,7 +26,7 @@ class ActiveRecordDataLoader extends QueryDataLoader
     /**
      * @var bool
      */
-    private $returnAsArray = false;
+    protected $returnAsArray = false;
 
     /**
      * @throws \yii\base\InvalidConfigException

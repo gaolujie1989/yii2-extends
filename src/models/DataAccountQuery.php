@@ -10,6 +10,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method DataAccountQuery name($name)
  * @method DataAccountQuery type($type)
  * @method DataAccountQuery active()
+ * @method DataAccountQuery inactive()
  *
  * @method int getAccountId()
  *

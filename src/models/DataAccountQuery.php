@@ -35,6 +35,7 @@ class DataAccountQuery extends \yii\db\ActiveQuery
                 ],
                 'queryConditions' => [
                     'active' => ['status' => DataAccount::STATUS_ACTIVE],
+                    'inactive' => ['status' => DataAccount::STATUS_INACTIVE],
                 ],
                 'queryReturns' => [
                     'getAccountId' => ['data_account_id', FieldQueryBehavior::RETURN_SCALAR],

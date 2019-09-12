@@ -37,7 +37,7 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     /**
      * @var string
      */
-    public $indexBy;
+    private $indexBy;
 
     /**
      * @var array
@@ -63,6 +63,15 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
         }
+    }
+
+    /**
+     * @param string|null $column
+     * @inheritdoc
+     */
+    public function setIndexBy(?string $column): void
+    {
+        $this->query->indexBy($column);
     }
 
     /**

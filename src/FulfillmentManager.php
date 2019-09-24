@@ -132,6 +132,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $this->mutex->release($lockName);
             }
         }
+        return false;
     }
 
     /**
@@ -151,6 +152,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $this->mutex->release($lockName);
             }
         }
+        return false;
     }
 
     /**
@@ -191,5 +193,34 @@ class FulfillmentManager extends Component implements BootstrapInterface
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
         $fulfillmentService->pullWarehouseStocks();
+    }
+
+    /**
+     * @param int $accountId
+     * @return bool
+     * @inheritdoc
+     */
+    public function pushFulfillmentItems(int $accountId): bool
+    {
+        $fulfillmentItems = FulfillmentItem::find()->externalItemId(0)->all();
+        foreach ($fulfillmentItems as $fulfillmentItem) {
+            $this->pushFulfillmentItem($fulfillmentItem);
+        }
+    }
+
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function pushFulfillmentOrders(): bool
+    {
+        $fulfillmentOrders = FulfillmentOrder::find()->externalOrderId(0)->all();
+        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            $this->pushFulfillmentOrder($fulfillmentOrder);
+        }
+        $fulfillmentOrders = FulfillmentOrder::find()->orderStatus($this->orderCancellingStatus)->processing()->all();
+        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            $this->pushFulfillmentOrder($fulfillmentOrder);
+        }
     }
 }

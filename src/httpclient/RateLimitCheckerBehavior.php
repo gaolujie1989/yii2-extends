@@ -33,7 +33,7 @@ class RateLimitCheckerBehavior extends Behavior
 
     /**
      * Retry After
-     * seconds later on limit reset
+     * Limit reset after n seconds
      * @var string
      */
     public $resetHeader;
@@ -120,7 +120,7 @@ class RateLimitCheckerBehavior extends Behavior
      * @return int
      * @inheritdoc
      */
-    public function getRateLimit(HeaderCollection $headers): ?int
+    public function getRateLimit(HeaderCollection $headers): int
     {
         return $headers->get($this->limitHeader);
     }

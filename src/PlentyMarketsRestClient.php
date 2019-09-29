@@ -8,6 +8,7 @@ namespace lujie\plentyMarkets;
 use Generator;
 use Iterator;
 use lujie\extend\authclient\RestOAuth2Client;
+use lujie\extend\httpclient\RateLimitCheckerBehavior;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\helpers\Inflector;
@@ -328,14 +329,53 @@ class PlentyMarketsRestClient extends RestOAuth2Client
 {
     use PlentyMarketsBatchRestTrait;
 
+    /**
+     * @var string
+     */
     public $tokenUrl = 'login';
 
+    /**
+     * @var string
+     */
     public $refreshTokenUrl = 'login/refresh?refresh_token=';
 
+    /**
+     * @var string
+     */
     public $username;
 
+    /**
+     * @var string
+     */
     public $password;
 
+    /**
+     * @var array
+     */
+    public $httpClientOptions = [
+        'requestConfig' => [
+            'format' => 'json'
+        ],
+        'responseConfig' => [
+            'format' => 'json'
+        ],
+        'as shortPeriodRateLimitChecker' => [
+            'class' => RateLimitCheckerBehavior::class,
+            'limitHeader' => 'X-Plenty-Global-Short-Period-Limit',
+            'remainingHeader' => 'X-Plenty-Global-Short-Period-Calls-Left',
+            'resetHeader' => 'X-Plenty-Global-Short-Period-Decay',
+        ],
+        'as longPeriodRateLimitChecker' => [
+            'class' => RateLimitCheckerBehavior::class,
+            'limitHeader' => 'X-Plenty-Global-Long-Period-Limit',
+            'remainingHeader' => 'X-Plenty-Global-Long-Period-Calls-Left',
+            'resetHeader' => 'X-Plenty-Global-Long-Period-Decay',
+        ]
+    ];
+
+    /**
+     * @var array
+     */
     public $resources = [
         'SalesPrice' => 'items/sales_prices',
         'Attribute' => 'items/attributes',
@@ -381,6 +421,9 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         'ListingMarketTexts' => 'listings/markets/texts'
     ];
 
+    /**
+     * @var array
+     */
     public $extraActions = [
         'AttributeName' => [
             'get' => ['GET', '{lang}'],
@@ -441,6 +484,9 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         ]
     ];
 
+    /**
+     * @var array
+     */
     public $apiMethods = [
         'batchRequest' => ['POST', 'batch'],
         'searchItemVariations' => ['GET', 'items/variations'],

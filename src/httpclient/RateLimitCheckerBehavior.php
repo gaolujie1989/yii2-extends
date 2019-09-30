@@ -5,6 +5,7 @@
 
 namespace lujie\extend\httpclient;
 
+use Workerman\Protocols\Http;
 use Yii;
 use yii\base\Behavior;
 use yii\httpclient\Client;
@@ -96,10 +97,12 @@ class RateLimitCheckerBehavior extends Behavior
         $headers = $event->response->getHeaders();
         $limit = $this->getRateLimit($headers);
         [$this->allowance, $this->allowanceResetAt] = $this->getAllowance($headers);
-        $this->allowanceUpdatedAt = time();
-        $message = "Rate Limit: {$this->allowance}/{$limit}, Reset After {$this->allowanceResetAt}."
-            . " Url: {$event->request->getFullUrl()}";
-        Yii::info($message, __METHOD__);
+        if ($limit) {
+            $this->allowanceUpdatedAt = time();
+            $message = "Rate Limit: {$this->allowance}/{$limit}, Reset After {$this->allowanceResetAt}."
+                . " Url: {$event->request->getFullUrl()}";
+            Yii::info($message, __METHOD__);
+        }
     }
 
     /**
@@ -120,7 +123,7 @@ class RateLimitCheckerBehavior extends Behavior
      * @return int
      * @inheritdoc
      */
-    public function getRateLimit(HeaderCollection $headers): int
+    public function getRateLimit(HeaderCollection $headers): ?int
     {
         return $headers->get($this->limitHeader);
     }

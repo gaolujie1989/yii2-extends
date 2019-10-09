@@ -315,6 +315,9 @@ class PlentyMarketBatchRequest extends BaseObject
      */
     public function send(): array
     {
+        if (empty($this->payloads)) {
+            return [];
+        }
         $batchResponse = $this->client->batchRequest(['payloads' => $this->payloads]);
         foreach ($batchResponse as $key => $response) {
             $batchResponse[$key]['content'] = Json::decode($response['content']);

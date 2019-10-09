@@ -28,7 +28,7 @@ class PlentyMarketsRestClientTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function testItemCurd(): void
+    public function te1stItemCurd(): void
     {
         $pmClient = new PlentyMarketsRestClient();
         $pmClient->apiBaseUrl = ArrayHelper::getValue(Yii::$app->params, 'test.pm.url');
@@ -59,5 +59,25 @@ class PlentyMarketsRestClientTest extends \Codeception\Test\Unit
         $this->assertEquals($itemData['id'], $pmItem['id']);
 
         $pmClient->deleteItem($pmItem);
+    }
+
+    public function testBatchRequest(): void
+    {
+        $pmClient = new PlentyMarketsRestClient();
+        $pmClient->apiBaseUrl = ArrayHelper::getValue(Yii::$app->params, 'pm.url');
+        $pmClient->username = ArrayHelper::getValue(Yii::$app->params, 'pm.username');
+        $pmClient->password = ArrayHelper::getValue(Yii::$app->params, 'pm.password');
+
+        $variationStocks = $pmClient->getWarehouseStocksByVariationIds(['3508', '6970']);
+        $variationStocks = ArrayHelper::map($variationStocks, 'warehouseId', 'stockPhysical', 'variationId');
+        $expectedStocks = [
+            '3508' => [
+                '108' => 83
+            ],
+            '6970' => [
+                '108' => 99
+            ]
+        ];
+        $this->assertEquals($expectedStocks, $variationStocks);
     }
 }

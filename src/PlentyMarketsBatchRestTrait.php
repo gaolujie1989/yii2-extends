@@ -5,12 +5,9 @@
 
 namespace lujie\plentyMarkets;
 
-use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
 
 /**
- *
- * @method array batchRequest($data)
- *
  * Trait PlentyMarketsBatchRestTrait
  * @package lujie\plentyMarkets
  */
@@ -23,19 +20,14 @@ trait PlentyMarketsBatchRestTrait
      */
     public function getWarehouseStocksByVariationIds(array $variationIds): array
     {
-        $payloads = array_map(static function ($variationId) {
-            return [
-                'resource' => 'rest/stockmanagement/stock?variationId=' . $variationId,
-                'method' => 'GET',
-            ];
-        }, $variationIds);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $warehouseStocks = [];
-        foreach ($batchResponse as $response) {
-            $content = Json::decode($response['content']);
-            $warehouseStocks[] = $content['entries'];
+        /** @var PlentyMarketBatchRequest $batchRequest */
+        $batchRequest = $this->createBatchRequest();
+        foreach ($variationIds as $variationId) {
+            $batchRequest->listStocks(['variationId' => $variationId]);
         }
-        return array_merge(...$warehouseStocks);
+        $batchResponses = $batchRequest->send();
+        $entries = ArrayHelper::getColumn($batchResponses, 'content.entries');
+        return array_merge(...array_filter($entries));
     }
 
     /**
@@ -45,23 +37,14 @@ trait PlentyMarketsBatchRestTrait
      */
     public function getOrdersByExternalOrderNos(array $orderNos): array
     {
-        $payloads = array_map(static function ($orderNo) {
-            return [
-                'resource' => 'rest/orders',
-                'method' => 'GET',
-                'body' => [
-                    'externalOrderId' => $orderNo,
-                ],
-            ];
-        }, $orderNos);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $orders = [];
-        foreach ($batchResponse as $response) {
-            $content = Json::decode($response['content']);
-            $entries = $content['entries'];
-            $orders[] = $entries;
+        /** @var PlentyMarketBatchRequest $batchRequest */
+        $batchRequest = $this->createBatchRequest();
+        foreach ($orderNos as $orderNo) {
+            $batchRequest->listOrders(['externalOrderId' => $orderNo]);
         }
-        return array_merge(...$orders);
+        $batchResponses = $batchRequest->send();
+        $entries = ArrayHelper::getColumn($batchResponses, 'content.entries');
+        return array_merge(...array_filter($entries));
     }
 
     /**
@@ -71,20 +54,15 @@ trait PlentyMarketsBatchRestTrait
      */
     public function getOrdersByOrderIds(array $orderIds): array
     {
-        $payloads = array_map(static function ($orderId) {
-            return [
-                'resource' => "rest/orders/{$orderId}",
-                'method' => 'GET',
-            ];
-        }, $orderIds);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $orders = [];
-        foreach ($batchResponse as $response) {
-            $orderId = substr($response['resource'], 12);
-            $content = Json::decode($response['content']);
-            $orders[$orderId] = $content;
+        /** @var PlentyMarketBatchRequest $batchRequest */
+        $batchRequest = $this->createBatchRequest();
+        foreach ($orderIds as $orderId) {
+            $batchRequest->getOrder(['id' => $orderId]);
         }
-        return $orders;
+        $batchResponses = $batchRequest->send();
+        return ArrayHelper::map($batchResponses, static function ($response) {
+            return substr($response['resource'], 12);
+        }, 'content');
     }
 
     /**
@@ -94,19 +72,14 @@ trait PlentyMarketsBatchRestTrait
      */
     public function getOrderPackageNumbersByOrderIds(array $orderIds): array
     {
-        $payloads = array_map(static function ($orderId) {
-            return [
-                'resource' => "rest/orders/{$orderId}/packagenumbers",
-                'method' => 'GET',
-            ];
-        }, $orderIds);
-        $batchResponse = $this->batchRequest(['payloads' => $payloads]);
-        $orderPackageNumbers = [];
-        foreach ($batchResponse as $response) {
-            $orderId = substr($response['resource'], 12, -15);
-            $content = Json::decode($response['content']);
-            $orderPackageNumbers[$orderId] = $content;
+        /** @var PlentyMarketBatchRequest $batchRequest */
+        $batchRequest = $this->createBatchRequest();
+        foreach ($orderIds as $orderId) {
+            $batchRequest->getOrderPackageNumbers(['orderId' => $orderId]);
         }
-        return $orderPackageNumbers;
+        $batchResponses = $batchRequest->send();
+        return ArrayHelper::map($batchResponses, static function ($response) {
+            return substr($response['resource'], 12, -15);
+        }, 'content');
     }
 }

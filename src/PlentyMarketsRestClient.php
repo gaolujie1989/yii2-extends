@@ -122,10 +122,6 @@ use yii\web\NotFoundHttpException;
  * @method array updateItemShippingProfile($data)
  * @method array deleteItemShippingProfile($data)
  *
- * @method array listVariations($data)
- * @method Generator eachVariation($condition = [])
- * @method Generator batchVariation($condition = [])
- *
  * @method array listItemVariations($data)
  * @method Generator eachItemVariation($batchSize, $condition = [])
  * @method Generator batchItemVariation($batchSize, $condition = [])
@@ -320,7 +316,39 @@ use yii\web\NotFoundHttpException;
  * @method array deleteListingMarketTexts($data)
  *
  * @method array batchRequest($data)
+ * @method array searchItemVariations($data)
+ * @method array listVariations($data)
+ * @method Generator eachVariation($condition = [])
+ * @method Generator batchVariation($condition = [])
+
+ * @method array listStocks($data)
+ * @method array listTypeStocks($data)
+ * @method array listWarehouseStocks($data)
+ * @method array listWarehouseLocationStocks($data)
+ * @method array listWarehouseStockMovements($data)
+
+ * @method array correctStock($data)
+ * @method array bookIncomingStock($data)
+ * @method array redistributeStock($data)
+
+ * @method array bookOrderOutgoingStocks($data)
+ * @method array revertOrderOutgoingStocks($data)
+
+ * @method array listOrderDates($data)
+ * @method array listOrderContracts($data)
  * @method array getOrderPackageNumbers($data)
+ * @method array getOrderShippingInformation($data)
+ * @method array getOrderShippingPackageItems($data)
+ * @method array getOrderShippingPackagePackedItems($data)
+ * @method array getOrderShippingPackageUnpackedItems($data)
+ * @method array updateShippingPackageItemByUnionId($data)
+ * @method array deleteShippingPackageItemByUnionId($data)
+
+ * @method array listOrderPayments($data)
+ * @method array listPaymentsByProperty($data)
+ * @method array listPaymentsByTransactionId($data)
+
+ * @method array createPaymentOrderRelation($data)
  *
  * @package lujie\plentyMarkets
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -650,5 +678,14 @@ class PlentyMarketsRestClient extends RestOAuth2Client
                 $condition['page']++;
             } while ($condition['page'] <= $pageCount);
         }
+    }
+
+    /**
+     * @return PlentyMarketBatchRequest
+     * @inheritdoc
+     */
+    public function createBatchRequest(): PlentyMarketBatchRequest
+    {
+        return new PlentyMarketBatchRequest(['client' => $this]);
     }
 }

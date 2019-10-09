@@ -53,7 +53,13 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
     /**
      * @var array
      */
-    public $buttons = [];
+    public $buttons = [
+        VueViewGenerator::BUTTON_SEARCH,
+        VueViewGenerator::BUTTON_CREATE,
+        VueViewGenerator::BUTTON_UPLOAD,
+        VueViewGenerator::BUTTON_DOWNLOAD,
+        VueViewGenerator::BUTTON_BATCH_UPDATE,
+    ];
 
     /**
      *  [
@@ -141,27 +147,27 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
         ];
         foreach ($this->searchFields as $field => $fieldConfig) {
             $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['filterInputContent'][] = $this->view->render('el-filter-input.vue', array_merge($fieldConfig, $params), $this);
+            $contents['filterInputContent'][] = $this->view->render('el-filter-input.vue.php', array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->buttons as $buttonType) {
             $params = ['buttonType' => $buttonType];
-            $contents['filterButtonContent'][] = $this->view->render('el-filter-button.vue', $params, $this);
+            $contents['filterButtonContent'][] = $this->view->render('el-filter-button.vue.php', $params, $this);
         }
         foreach ($this->listFields as $field => $fieldConfig) {
             $params = ['field' => $field, 'columnType' => array_shift($fieldConfig)];
-            $contents['tableColumnContent'][] = $this->view->render('el-table-column.vue', array_merge($fieldConfig, $params), $this);
+            $contents['tableColumnContent'][] = $this->view->render('el-table-column.vue.php', array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->formFields as $field => $fieldConfig) {
             $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['formItemContent'][] = $this->view->render('el-form-item.vue', array_merge($fieldConfig, $params), $this);
+            $contents['formItemContent'][] = $this->view->render('el-form-item.vue.php', array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->batchFormFields as $field => $fieldConfig) {
             $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['batchFormItemContent'][] = $this->view->render('el-form-item.vue', array_merge($fieldConfig, $params), $this);
+            $contents['batchFormItemContent'][] = $this->view->render('el-form-item.vue.php', array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->uploadFormFields as $field => $fieldConfig) {
             $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['uploadFormItemContent'][] = $this->view->render('el-form-item.vue', array_merge($fieldConfig, $params), $this);
+            $contents['uploadFormItemContent'][] = $this->view->render('el-form-item.vue.php', array_merge($fieldConfig, $params), $this);
         }
         foreach ($contents as $key => $content) {
             $contents[$key] = implode("\n\n", $contents);

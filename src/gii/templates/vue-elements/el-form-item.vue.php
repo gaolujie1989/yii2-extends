@@ -11,24 +11,26 @@ use yii\helpers\Inflector;
  * @var View $this
  * @var string $modelName
  * @var string $field
- * @var string $inputType
- * @var string $messageCategory
+ * @var string $type
  * @var string $optionsName
  */
 
+/** @var VueViewGenerator $generator */
+$generator = $this->context;
+$messageCategory = $generator->messageCategory;
 $fieldVarName = Inflector::variablize($field);
 $fieldLabelName = "\$t('{$messageCategory}.{$field}')";
 $modelField = ($modelName ?? 'temp') . '.' . $field;
 $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
 ?>
 <el-form-item :error="<?= $errorField ?>" :label="<?= $fieldLabelName ?>">
-    <?php switch ($inputType) {
+    <?php switch ($type) {
         case VueViewGenerator::INPUT_TYPE_TEXT: ?>
           <el-input v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" />
             <?php break;
         case VueViewGenerator::INPUT_TYPE_DATE:
         case VueViewGenerator::INPUT_TYPE_DATETIME: ?>
-          <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($inputType) ?>" />
+          <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($type) ?>" />
             <?php break;
         case VueViewGenerator::INPUT_TYPE_SELECT:
             $multipleProp = isset($multiple) && $multiple ? ' multiple' : ''; ?>

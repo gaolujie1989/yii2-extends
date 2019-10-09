@@ -8,10 +8,10 @@ use yii\base\View;
 
 /**
  * @var View $this
- * @var string $button
+ * @var string $type
  */
 
-switch ($button) {
+switch ($type) {
     case VueViewGenerator::BUTTON_SEARCH: ?>
       <el-button v-waves type="primary" icon="el-icon-search" class="filter-item" @click="handleFilter">
         {{ $t('common.search') }}

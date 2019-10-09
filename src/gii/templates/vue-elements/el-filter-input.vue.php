@@ -10,16 +10,18 @@ use yii\helpers\Inflector;
 /**
  * @var View $this
  * @var string $field
- * @var string $inputType
- * @var string $messageCategory
+ * @var string $type
  * @var string $optionsName
  */
 
+/** @var VueViewGenerator $generator */
+$generator = $this->context;
+$messageCategory = $generator->messageCategory;
 $fieldVarName = Inflector::variablize($field);
 $fieldLabelName = "\$t('{$messageCategory}.{$field}')";
 $modelField = 'listQuery.' . $field;
 
-switch ($inputType) {
+switch ($type) {
     case VueViewGenerator::INPUT_TYPE_TEXT: ?>
       <el-input
         v-model="<?= $modelField ?>"
@@ -31,8 +33,8 @@ switch ($inputType) {
     case VueViewGenerator::INPUT_TYPE_DATE_RANGE: ?>
       <el-date-picker
         v-model="<?= $modelField ?>"
-        :start-placeholder="$t('<?= $messageCategory . $fieldVarName ?>From')"
-        :end-placeholder="$t('<?= $messageCategory . $fieldVarName ?>To')"
+        :start-placeholder="$t('<?= $messageCategory . '.' . $fieldVarName ?>From')"
+        :end-placeholder="$t('<?= $messageCategory . '.' . $fieldVarName ?>To')"
         :default-time="['00:00:00', '23:59:59']"
         type="daterange"
         range-separator=" - "

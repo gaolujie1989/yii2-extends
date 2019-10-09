@@ -40,11 +40,11 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
 
     /**
      *  [
-     *      'text_field' => [self::INPUT_TYPE_TEXT],
-     *      'date_range_field' => [self::INPUT_TYPE_DATE_RANGE],
-     *      'select_field' => [self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions'],
-     *      'select_multi_field' => [self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions', 'multiple' => true],
-     *      'checkbox_field' => [self::INPUT_TYPE_CHECKBOX],
+     *      'text_field' => ['type' => self::INPUT_TYPE_TEXT],
+     *      'date_range_field' => ['type' => self::INPUT_TYPE_DATE_RANGE],
+     *      'select_field' => ['type' => self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions'],
+     *      'select_multi_field' => ['type' => self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions', 'multiple' => true],
+     *      'checkbox_field' => ['type' => self::INPUT_TYPE_CHECKBOX],
      *  ]
      * @var array
      */
@@ -53,23 +53,17 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
     /**
      * @var array
      */
-    public $buttons = [
-        VueViewGenerator::BUTTON_SEARCH,
-        VueViewGenerator::BUTTON_CREATE,
-        VueViewGenerator::BUTTON_UPLOAD,
-        VueViewGenerator::BUTTON_DOWNLOAD,
-        VueViewGenerator::BUTTON_BATCH_UPDATE,
-    ];
+    public $buttons = [];
 
     /**
      *  [
-     *      'index' => [self::COLUMN_TYPE_INDEX, 'properties' => ['align' => 'center', 'width' => '50']],
-     *      'selection' => [self::COLUMN_TYPE_SELECTION, 'properties' => ['align' => 'center', 'width' => '50']],
-     *      'xxx_id' => [self::COLUMN_TYPE_TEXT, 'properties' => ['width' => '120']],
-     *      'xxx_name' => [self::COLUMN_TYPE_TEXT],
-     *      'xxx_status' => [self::COLUMN_TYPE_OPTION, 'optionsName' => 'xxxOptions'],
-     *      'xxx_at' => [self::COLUMN_TYPE_TIMESTAMP],
-     *      'action' => [self::COLUMN_TYPE_ACTION, 'properties' => ['align' => 'center', 'width' => '160']],
+     *      'index' => ['type' => self::COLUMN_TYPE_INDEX, 'properties' => ['align' => 'center', 'width' => '50']],
+     *      'selection' => ['type' => self::COLUMN_TYPE_SELECTION, 'properties' => ['align' => 'center', 'width' => '50']],
+     *      'xxx_id' => ['type' => self::COLUMN_TYPE_TEXT, 'properties' => ['width' => '120']],
+     *      'xxx_name' => ['type' => self::COLUMN_TYPE_TEXT],
+     *      'xxx_status' => ['type' => self::COLUMN_TYPE_OPTION, 'optionsName' => 'xxxOptions'],
+     *      'xxx_at' => ['type' => self::COLUMN_TYPE_TIMESTAMP],
+     *      'action' => ['type' => self::COLUMN_TYPE_ACTION, 'properties' => ['align' => 'center', 'width' => '160']],
      *  ]
      * @var array
      */
@@ -77,11 +71,11 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
 
     /**
      *  [
-     *      'date_field' => [self::INPUT_TYPE_DATE],
-     *      'datetime_field' => [self::INPUT_TYPE_DATETIME],
-     *      'checkbox_field' => [self::INPUT_TYPE_CHECKBOX],
-     *      'checkbox_multi_field' => [self::INPUT_TYPE_CHECKBOX, 'optionsName' => 'xxxOptions'],
-     *      'radio_field' => [self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions'],
+     *      'date_field' => ['type' => self::INPUT_TYPE_DATE],
+     *      'datetime_field' => ['type' => self::INPUT_TYPE_DATETIME],
+     *      'checkbox_field' => ['type' => self::INPUT_TYPE_CHECKBOX],
+     *      'checkbox_multi_field' => ['type' => self::INPUT_TYPE_CHECKBOX, 'optionsName' => 'xxxOptions'],
+     *      'radio_field' => ['type' => self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions'],
      *  ]
      * @var array
      */
@@ -146,33 +140,38 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
             'uploadFormItemContent' => [],
         ];
         foreach ($this->searchFields as $field => $fieldConfig) {
-            $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['filterInputContent'][] = $this->view->render('el-filter-input.vue.php', array_merge($fieldConfig, $params), $this);
+            $params = ['field' => $field];
+            $contents['filterInputContent'][] = $this->view->render('el-filter-input.vue.php',
+                array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->buttons as $buttonType) {
-            $params = ['buttonType' => $buttonType];
-            $contents['filterButtonContent'][] = $this->view->render('el-filter-button.vue.php', $params, $this);
+            $contents['filterButtonContent'][] = $this->view->render('el-filter-button.vue.php',
+                ['type' => $buttonType], $this);
         }
         foreach ($this->listFields as $field => $fieldConfig) {
-            $params = ['field' => $field, 'columnType' => array_shift($fieldConfig)];
-            $contents['tableColumnContent'][] = $this->view->render('el-table-column.vue.php', array_merge($fieldConfig, $params), $this);
+            $params = ['field' => $field];
+            $contents['tableColumnContent'][] = $this->view->render('el-table-column.vue.php',
+                array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->formFields as $field => $fieldConfig) {
-            $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['formItemContent'][] = $this->view->render('el-form-item.vue.php', array_merge($fieldConfig, $params), $this);
+            $params = ['field' => $field];
+            $contents['formItemContent'][] = $this->view->render('el-form-item.vue.php',
+                array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->batchFormFields as $field => $fieldConfig) {
-            $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['batchFormItemContent'][] = $this->view->render('el-form-item.vue.php', array_merge($fieldConfig, $params), $this);
+            $params = ['field' => $field];
+            $contents['batchFormItemContent'][] = $this->view->render('el-form-item.vue.php',
+                array_merge($fieldConfig, $params), $this);
         }
         foreach ($this->uploadFormFields as $field => $fieldConfig) {
-            $params = ['field' => $field, 'inputType' => array_shift($fieldConfig)];
-            $contents['uploadFormItemContent'][] = $this->view->render('el-form-item.vue.php', array_merge($fieldConfig, $params), $this);
+            $params = ['field' => $field];
+            $contents['uploadFormItemContent'][] = $this->view->render('el-form-item.vue.php',
+                array_merge($fieldConfig, $params), $this);
         }
         foreach ($contents as $key => $content) {
-            $contents[$key] = implode("\n\n", $contents);
+            $contents[$key] = implode("\n", $content);
         }
 
-        $this->view->render('index.vue.php', $contents);
+        return $this->view->render('index.vue.php', $contents, $this);
     }
 }

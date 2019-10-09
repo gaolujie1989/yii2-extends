@@ -20,6 +20,10 @@ use yii\base\View;
 $generator = $this->context;
 $enabledUpload = in_array(VueViewGenerator::BUTTON_UPLOAD, $generator->buttons, true);
 $enabledBatch = in_array(VueViewGenerator::BUTTON_BATCH_UPDATE, $generator->buttons, true);
+$fields = array_keys($generator->formFields);
+$fields = array_map(static function ($field) {
+    return $field . ": '',";
+}, $fields);
 ?>
 <template>
   <div class="app-container">
@@ -126,8 +130,6 @@ $enabledBatch = in_array(VueViewGenerator::BUTTON_BATCH_UPDATE, $generator->butt
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import outboundOrderApi from 'inventory/api/outboundOrder'
-import fulfillmentOrderApi from 'fulfillment/api/order'
 import List from 'common/mixins/list'
 import Search from 'common/mixins/search'
 import Download from 'common/mixins/download'
@@ -137,213 +139,34 @@ import Upload from 'common/mixins/upload'
 import BatchUpdate from 'common/mixins/batchUpdate'
 import Pagination from 'components/Pagination'
 import waves from 'directive/waves'
-import AddressFormItem from 'common/views/address/formItem'
-import { carrierConst } from 'inventory/constants/carrier'
-import { outboundOrderConst, outboundOrderStatusTransition } from 'inventory/constants/outboundOrder'
 
 export default {
-  name: 'OutboundOrderIndex',
-  components: { Pagination, AddressFormItem },
+  name: 'XXXIndex',
+  components: { Pagination },
   directives: { waves },
   mixins: [Save, Delete, Upload, BatchUpdate, List, Search, Download],
   data() {
-    const carrierList = [
-      { key: carrierConst.DHL, label: 'DHL' },
-      { key: carrierConst.DPD, label: 'DPD' },
-      { key: carrierConst.GLS, label: 'GLS' }
-    ]
-    const orderTypeList = [
-      { key: outboundOrderConst.ORDER_TYPE_SALES, label: this.$t('outboundOrder.orderTypeList.sales') },
-      { key: outboundOrderConst.ORDER_TYPE_FBA, label: this.$t('outboundOrder.orderTypeList.fba') }
-    ]
-    const outboundOrderStatusList = [
-      { key: outboundOrderConst.STATUS_DRAFT, label: this.$t('outboundOrder.orderStatusList.draft'), 'tag': 'info' },
-      {
-        key: outboundOrderConst.STATUS_SELLER_CONFIRMED,
-        label: this.$t('outboundOrder.orderStatusList.sellerConfirmed'),
-        'tag': 'warning'
-      },
-      {
-        key: outboundOrderConst.STATUS_ADMIN_APPROVED,
-        label: this.$t('outboundOrder.orderStatusList.adminApproved'),
-        'tag': 'primary'
-      },
-      { key: outboundOrderConst.STATUS_PICKING, label: this.$t('outboundOrder.orderStatusList.picking'), 'tag': 'primary' },
-      {
-        key: outboundOrderConst.STATUS_PICKING_CANCELING,
-        label: this.$t('outboundOrder.orderStatusList.pickingCanceling'),
-        'tag': 'primary'
-      },
-      { key: outboundOrderConst.STATUS_SHIPPED, label: this.$t('outboundOrder.orderStatusList.shipped'), 'tag': 'success' },
-      // {
-      //   key: outboundOrderConst.STATUS_CUSTOMER_RECEIVED,
-      //   label: this.$t('outboundOrder.orderStatusList.customerReceived'),
-      //   'tag': 'success'
-      // },
-      { key: outboundOrderConst.STATUS_CANCELLED, label: this.$t('outboundOrder.orderStatusList.cancelled'), 'tag': 'info' },
-      { key: outboundOrderConst.STATUS_PICKING_CANCELLED, label: this.$t('outboundOrder.orderStatusList.pickingCancelled'), 'tag': 'info' },
-      {
-        key: outboundOrderConst.STATUS_ADMIN_REJECTED,
-        label: this.$t('outboundOrder.orderStatusList.adminRejected'),
-        'tag': 'danger'
-      }
-    ]
-    const canBatchedOutboundOrderStatusList = [
-      {
-        key: outboundOrderConst.STATUS_ADMIN_APPROVED,
-        label: this.$t('outboundOrder.orderStatusList.adminApproved'),
-        'tag': 'primary'
-      },
-      {
-        key: outboundOrderConst.STATUS_PICKING_CANCELING,
-        label: this.$t('outboundOrder.orderStatusList.pickingCanceling'),
-        'tag': 'primary'
-      },
-      { key: outboundOrderConst.STATUS_CANCELLED, label: this.$t('outboundOrder.orderStatusList.cancelled'), 'tag': 'info' },
-      {
-        key: outboundOrderConst.STATUS_ADMIN_REJECTED,
-        label: this.$t('outboundOrder.orderStatusList.adminRejected'),
-        'tag': 'danger'
-      }
-    ]
-    return {
-      activeName: 'outboundOrder',
-      carrierList: carrierList,
-      orderTypeList: orderTypeList,
-      outboundOrderStatusList: outboundOrderStatusList,
-      canBatchedOutboundOrderStatusList: canBatchedOutboundOrderStatusList,
-      transitionOutboundStatusList: [],
-      listQuery: {
-        // expand: 'orderItems,shippingAddress',
-        sort: '-created_at',
-        order_type: outboundOrderConst.ORDER_TYPE_SALES,
-        external_order_no: '',
-        warehouse_id: '',
-        owner_id: '',
-        status: '',
-        itemNo: '',
-        barcode: ''
-      },
-      errors: {
-        shippingAddress: {}
-      },
-      selectItems: [],
-      importTemp: {
-        file: [],
-        ownerId: '',
-        warehouseCode: ''
-      },
-      fulfillmentOrderLoading: false,
-      fulfillmentOrders: []
-    }
+    return {}
   },
   computed: {
-    ...mapGetters(['sellers', 'warehouses', 'items'])
-  },
-  watch: {
-    temp: 'setTransitionOutboundStatusList'
+    ...mapGetters([])
   },
   created() {
-    this.GetSellers()
-    this.GetWarehouses()
   },
   methods: {
-    ...mapActions(['GetSellers', 'GetWarehouses', 'GetItems']),
+    ...mapActions([]),
     getService() {
-      return outboundOrderApi
+      return xxxApi
     },
     getModel() {
       return {
-        order_type: outboundOrderConst.ORDER_TYPE_SALES,
-        warehouse_code: '',
-        carrier: '',
-        external_order_no: '',
-        estimate_ship_time: '',
-        actual_ship_time: '',
-        owner_id: '',
-        status: '',
-        orderItems: [],
-        shippingAddress: {},
-        created_at: '',
-
-        isEditing: true,
-        isProcessing: false,
-        isShipped: false,
-        isFinished: false
-      }
-    },
-    getOrderItemModel() {
-      return {
-        item_id: '',
-        item_no: '',
-        order_item_name: '',
-        ordered_qty: '',
-        shipped_qty: ''
-      }
-    },
-    handleAddOrderItem() {
-      this.temp.orderItems.push(this.getOrderItemModel())
-    },
-    handleRemoveOrderItem(row) {
-      const index = this.temp.orderItems.indexOf(row)
-      if (index !== -1) {
-        this.temp.orderItems.splice(index, 1)
+          <?= implode("\n", $fields) ?>
       }
     },
     fetchTemp(row) {
-      return outboundOrderApi.detail(row, { expand: 'orderItems,shippingAddress' }).then(response => {
-        this.temp = Object.assign({}, this.temp, row, response.data)
-      })
+      this.temp = Object.assign({}, this.temp, row)
+      return Promise.resolve()
     },
-    getOwnerItems(itemNoOrBarcode) {
-      if (!this.temp.owner_id) {
-        this.selectItems = []
-        return
-      }
-      const barcodeQueryPayload = { ownerId: this.temp.owner_id, itemNo: '', barcode: itemNoOrBarcode }
-      const itemNoQueryPayload = { ownerId: this.temp.owner_id, itemNo: itemNoOrBarcode, barcode: '' }
-      Promise.all([this.GetItems(barcodeQueryPayload), this.GetItems(itemNoQueryPayload)]).then(values => {
-        this.selectItems = [].concat(values[0], values[1])
-      })
-    },
-    getItemNoWithBarcode(item) {
-      return item.item_no +
-      (item.ean ? ' (' + this.$t('item.ean') + ': ' + item.ean + ')' : '') +
-      (item.fnSku ? ' (' + this.$t('item.fnSku') + ': ' + item.fnSku + ')' : '') +
-      (item.ownSku ? ' (' + this.$t('item.ownSku') + ': ' + item.ownSku + ')' : '')
-    },
-    itemNoChanged(row) {
-      const findItem = this.selectItems.find(item => item.item_no === row.item_no)
-      if (findItem) {
-        row.item_no = findItem.item_no
-        row.ean = findItem.ean
-        row.fnSku = findItem.fnSku
-        row.ownSku = findItem.ownSku
-      }
-    },
-    setTransitionOutboundStatusList() {
-      const currentStatus = this.temp.status ? this.temp.status : outboundOrderConst.STATUS_DRAFT
-      this.transitionOutboundStatusList = this.outboundOrderStatusList.filter(item => {
-        return item.key === currentStatus ||
-        (outboundOrderStatusTransition[currentStatus] && outboundOrderStatusTransition[currentStatus].indexOf(item.key) !== -1)
-      })
-    },
-    afterList() {
-      this.getFulfillmentOrders()
-    },
-    getFulfillmentOrders() {
-      this.fulfillmentOrderLoading = true
-      const orderIds = this.listData.map(order => order.id)
-      fulfillmentOrderApi.list({ order_id: orderIds, limit: 500 }).then(response => {
-        this.fulfillmentOrderLoading = false
-        this.fulfillmentOrders = response.data.items
-      }).catch(() => {
-        this.fulfillmentOrderLoading = false
-      })
-    },
-    getOrderFulfillmentOrder(orderId) {
-      return this.fulfillmentOrders.filter(order => order.order_id === orderId)
-    }
   }
 }
 </script>

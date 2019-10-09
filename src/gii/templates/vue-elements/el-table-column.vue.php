@@ -10,12 +10,14 @@ use yii\helpers\Inflector;
 /**
  * @var View $this
  * @var string $field
- * @var string $columnType
- * @var string $messageCategory
+ * @var string $type
  * @var array $properties
  * @var string $optionsName
  */
 
+/** @var VueViewGenerator $generator */
+$generator = $this->context;
+$messageCategory = $generator->messageCategory;
 $fieldVarName = Inflector::variablize($field);
 $fieldLabelName = "\$t('{$messageCategory}.{$field}')";
 
@@ -27,10 +29,10 @@ if (isset($properties)) {
 }
 $propTexts = implode(' ', $propTexts);
 
-switch ($columnType) {
+switch ($type) {
     case VueViewGenerator::COLUMN_TYPE_INDEX:
     case VueViewGenerator::COLUMN_TYPE_SELECTION: ?>
-      <el-table-column type="<?= strtolower($columnType) ?>" align="center" <?= $propTexts ?>/>
+      <el-table-column type="<?= strtolower($type) ?>" align="center" <?= $propTexts ?>/>
         <?php break;
     case VueViewGenerator::COLUMN_TYPE_OPTION: ?>
       <el-table-column :label="<?= $fieldLabelName ?>" prop="<?= $field ?>" <?= $propTexts ?>>

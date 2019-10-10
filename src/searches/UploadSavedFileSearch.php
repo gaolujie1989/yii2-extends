@@ -19,7 +19,7 @@ class UploadSavedFileSearch extends UploadSavedFile
     public function rules(): array
     {
         return [
-            [['model_id', 'name', 'ext'], 'safe'],
+            [['model_id', 'model_parent_id', 'name', 'ext'], 'safe'],
         ];
     }
 
@@ -33,6 +33,7 @@ class UploadSavedFileSearch extends UploadSavedFile
             ->andFilterWhere(['LIKE', 'name', $this->name])
             ->andFilterWhere([
                 'model_id' => $this->model_id,
+                'model_parent_id' => $this->model_parent_id,
                 'ext' => $this->ext
             ]);
     }

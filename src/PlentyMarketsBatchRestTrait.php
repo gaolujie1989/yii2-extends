@@ -60,9 +60,7 @@ trait PlentyMarketsBatchRestTrait
             $batchRequest->getOrder(['id' => $orderId]);
         }
         $batchResponses = $batchRequest->send();
-        return ArrayHelper::map($batchResponses, static function ($response) {
-            return substr($response['resource'], 12);
-        }, 'content');
+        return ArrayHelper::map($batchResponses, 'content.id', 'content');
     }
 
     /**
@@ -79,7 +77,8 @@ trait PlentyMarketsBatchRestTrait
         }
         $batchResponses = $batchRequest->send();
         return ArrayHelper::map($batchResponses, static function ($response) {
-            return substr($response['resource'], 12, -15);
+            $parts = parse_url($response['resource']);
+            return substr($parts['path'], 12, -15);
         }, 'content');
     }
 }

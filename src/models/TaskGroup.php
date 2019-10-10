@@ -87,7 +87,7 @@ class TaskGroup extends \yii\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getProject(): ActiveQuery
+    public function getProject(): ProjectQuery
     {
         return $this->hasOne(Project::class, ['project_id' => 'project_id']);
     }
@@ -96,7 +96,7 @@ class TaskGroup extends \yii\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getTasks(): ActiveQuery
+    public function getTasks(): TaskQuery
     {
         return $this->hasMany(Task::class, ['task_group_id' => 'task_group_id']);
     }

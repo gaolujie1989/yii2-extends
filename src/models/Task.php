@@ -6,6 +6,7 @@ use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
+use lujie\upload\models\UploadSavedFileQuery;
 use Yii;
 use yii\db\ActiveQuery;
 use yii2tech\ar\position\PositionBehavior;
@@ -115,7 +116,7 @@ class Task extends \yii\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getProject(): ActiveQuery
+    public function getProject(): ProjectQuery
     {
         return $this->hasOne(Project::class, ['project_id' => 'project_id']);
     }
@@ -124,7 +125,7 @@ class Task extends \yii\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getTaskGroup(): ActiveQuery
+    public function getTaskGroup(): TaskGroupQuery
     {
         return $this->hasOne(TaskGroup::class, ['task_group_id' => 'task_group_id']);
     }
@@ -133,7 +134,7 @@ class Task extends \yii\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getAttachments(): ActiveQuery
+    public function getAttachments(): UploadSavedFileQuery
     {
         return $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
     }

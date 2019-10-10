@@ -1,0 +1,59 @@
+<?php
+/**
+ * @copyright Copyright (c) 2019
+ */
+
+namespace lujie\project\searches;
+
+
+use lujie\project\models\Task;
+use lujie\project\models\TaskGroupQuery;
+use lujie\project\models\TaskQuery;
+
+/**
+ * Class TaskSearch
+ * @package lujie\project\searches
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class TaskSearch extends Task
+{
+    public $globalStatus;
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function rules(): array
+    {
+        return [
+            [['project_id', 'task_group_id', 'parent_task_id',
+                'position', 'priority', 'status', 'owner_id', 'executor_id'], 'safe'],
+            [['due_at', 'started_at', 'finished_at'], 'each', 'rule' => ['date']],
+        ];
+    }
+
+    /**
+     * @return TaskGroupQuery
+     * @inheritdoc
+     */
+    public function query(): TaskQuery
+    {
+        $query = static::find()->andFilterWhere(['LIKE', 'name', $this->name])
+            ->andFilterWhere($this->getAttributes([
+                'project_id', 'task_group_id', 'parent_task_id',
+                'priority', 'status', 'owner_id', 'executor_id'
+            ]));
+
+        $timeAttributes = ['due_at', 'started_at', 'finished_at'];
+        foreach ($timeAttributes as $timeAttribute) {
+            $value = $this->getAttribute($timeAttribute);
+            if ($value && is_array($value)) {
+//                $query->andFilterWhere(['BETWEEN', $timeAttribute, $value[0], $value[1]]);
+                $query->andFilterWhere(['>=', $timeAttribute, $value[0]])
+                    ->andFilterWhere(['<=', $timeAttribute, $value[1]]);
+            }
+        }
+
+        return $query;
+    }
+}

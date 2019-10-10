@@ -28,7 +28,7 @@ class ProjectSearch extends Project
     {
         return [
             [['name', 'visibility', 'owner_id'], 'safe'],
-            [['status'], 'in', 'range' => GlobalStatusConst::STATUS_LIST],
+            [['globalStatus'], 'in', 'range' => GlobalStatusConst::STATUS_LIST],
         ];
     }
 

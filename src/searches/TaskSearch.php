@@ -6,6 +6,7 @@
 namespace lujie\project\searches;
 
 
+use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Task;
 use lujie\project\models\TaskGroupQuery;
 use lujie\project\models\TaskQuery;
@@ -27,7 +28,7 @@ class TaskSearch extends Task
     {
         return [
             [['project_id', 'task_group_id', 'parent_task_id',
-                'position', 'priority', 'status', 'owner_id', 'executor_id'], 'safe'],
+                'position', 'priority', 'status', 'owner_id', 'executor_id', 'globalStatus'], 'safe'],
             [['due_at', 'started_at', 'finished_at'], 'each', 'rule' => ['date']],
         ];
     }
@@ -52,6 +53,18 @@ class TaskSearch extends Task
                 $query->andFilterWhere(['>=', $timeAttribute, $value[0]])
                     ->andFilterWhere(['<=', $timeAttribute, $value[1]]);
             }
+        }
+
+        switch ($this->globalStatus) {
+            case GlobalStatusConst::STATUS_NORMAL:
+                $query->normal();
+                break;
+            case GlobalStatusConst::STATUS_ARCHIVED:
+                $query->archived();
+                break;
+            case GlobalStatusConst::STATUS_DELETED:
+                $query->deleted();
+                break;
         }
 
         return $query;

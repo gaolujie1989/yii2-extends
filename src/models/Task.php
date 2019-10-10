@@ -30,6 +30,10 @@ use yii2tech\ar\position\PositionBehavior;
  * @property int $finished_at
  * @property int $archived_at
  * @property int $deleted_at
+ *
+ * @property Project $project
+ * @property TaskGroup $taskGroup
+ * @property TaskAttachment[] $attachments
  */
 class Task extends \yii\db\ActiveRecord
 {
@@ -123,5 +127,14 @@ class Task extends \yii\db\ActiveRecord
     public function getTaskGroup(): ActiveQuery
     {
         return $this->hasOne(TaskGroup::class, ['task_group_id' => 'task_group_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getAttachments(): ActiveQuery
+    {
+        return $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
     }
 }

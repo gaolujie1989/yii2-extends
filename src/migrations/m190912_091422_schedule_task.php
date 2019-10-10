@@ -18,7 +18,7 @@ class m190912_091422_schedule_task extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'schedule_task_id' => $this->primaryKey(),
+            'schedule_task_id' => $this->bigPrimaryKey()->unsigned(),
             'position' => $this->smallInteger()->notNull()->defaultValue(0),
             'task_code' => $this->string(50)->notNull(),
             'task_group' => $this->string(50)->notNull()->defaultValue(''),

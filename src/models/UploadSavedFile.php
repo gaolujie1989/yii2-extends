@@ -18,6 +18,7 @@ use yii2tech\ar\position\PositionBehavior;
  * @property int $uploaded_file_id
  * @property string $model_type
  * @property int $model_id
+ * @property int $model_parent_id
  * @property int $position
  * @property string $file
  * @property string $name
@@ -62,7 +63,7 @@ class UploadSavedFile extends ActiveRecord
     {
         return [
             [['file'], 'required'],
-            [['model_id', 'position', 'size'], 'integer'],
+            [['model_id', 'model_parent_id', 'position', 'size'], 'integer'],
             [['name', 'file'], 'string', 'max' => 255],
             [['ext'], 'string', 'max' => 10],
         ];
@@ -99,6 +100,7 @@ class UploadSavedFile extends ActiveRecord
             'uploaded_file_id' => Yii::t('lujie/upload', 'Uploaded File ID'),
             'model_type' => Yii::t('lujie/upload', 'Model Type'),
             'model_id' => Yii::t('lujie/upload', 'Model ID'),
+            'model_parent_id' => Yii::t('lujie/upload', 'Model Parent ID'),
             'position' => Yii::t('lujie/upload', 'Position'),
             'file' => Yii::t('lujie/upload', 'File'),
             'name' => Yii::t('lujie/upload', 'Name'),

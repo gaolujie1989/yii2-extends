@@ -9,6 +9,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method UploadSavedFileQuery modelType($modelType)
  * @method UploadSavedFileQuery modelId($modelId)
+ * @method UploadSavedFileQuery modelParentId($modelParentId)
  * @method UploadSavedFileQuery file($file)
  * @method UploadSavedFileQuery ext($ext)
  * @method UploadSavedFileQuery nameLike($name)
@@ -29,6 +30,7 @@ class UploadSavedFileQuery extends \yii\db\ActiveQuery
                 'queryFields' => [
                     'modelType' => ['model_type'],
                     'modelId' => ['model_id'],
+                    'modelParentId' => ['model_parent_id'],
                     'file' => ['file'],
                     'ext' => ['ext'],
                     'nameLike' => ['name' => 'LIKE'],

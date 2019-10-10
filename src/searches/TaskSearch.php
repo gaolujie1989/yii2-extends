@@ -5,7 +5,6 @@
 
 namespace lujie\project\searches;
 
-
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Task;
 use lujie\project\models\TaskGroupQuery;

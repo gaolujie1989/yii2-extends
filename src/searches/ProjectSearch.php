@@ -5,11 +5,9 @@
 
 namespace lujie\project\searches;
 
-
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Project;
 use lujie\project\models\ProjectQuery;
-use yii\db\Query;
 
 /**
  * Class ProjectSearch

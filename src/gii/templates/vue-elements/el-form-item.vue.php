@@ -54,5 +54,8 @@ $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
             {{ item.label }}
           </el-radio>
             <?php break;
+        case VueViewGenerator::INPUT_TYPE_UPLOAD: ?>
+          <xxx-upload :xxxModel="temp" />
+            <?php break;
     } ?>
 </el-form-item>

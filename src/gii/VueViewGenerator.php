@@ -31,6 +31,7 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
     public const INPUT_TYPE_SELECT = 'SELECT';
     public const INPUT_TYPE_CHECKBOX = 'CHECKBOX';
     public const INPUT_TYPE_RADIO = 'RADIO';
+    public const INPUT_TYPE_UPLOAD = 'UPLOAD';
 
     public const BUTTON_SEARCH = 'SEARCH';
     public const BUTTON_CREATE = 'CREATE';
@@ -76,6 +77,7 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
      *      'checkbox_field' => ['type' => self::INPUT_TYPE_CHECKBOX],
      *      'checkbox_multi_field' => ['type' => self::INPUT_TYPE_CHECKBOX, 'optionsName' => 'xxxOptions'],
      *      'radio_field' => ['type' => self::INPUT_TYPE_SELECT, 'optionsName' => 'xxxOptions'],
+     *      'upload_field' => ['type' => self::INPUT_TYPE_UPLOAD],
      *  ]
      * @var array
      */

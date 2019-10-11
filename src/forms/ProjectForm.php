@@ -5,9 +5,12 @@
 
 namespace lujie\project\forms;
 
+use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Project;
+use lujie\project\models\TaskQuery;
+use yii\db\ActiveQuery;
 
 /**
  * Class ProjectForm
@@ -38,7 +41,7 @@ class ProjectForm extends Project
                 [
                     'name' => 'Done',
                 ],
-            ]
+            ],
         ]
     ];
 
@@ -76,6 +79,10 @@ class ProjectForm extends Project
                 'class' => RelationSavableBehavior::class,
                 'relations' => ['taskGroups']
             ],
+            'relationDelete' => [
+                'class' => RelationDeletableBehavior::class,
+                'relations' => ['taskGroups', 'tasks']
+            ]
         ]);
     }
 
@@ -86,10 +93,19 @@ class ProjectForm extends Project
      */
     public function beforeSave($insert): bool
     {
-        if ($this->template) {
+        if ($insert && $this->template) {
             $groupTemplate = $this->groupTemplates[$this->template];
             $this->taskGroups = $groupTemplate['taskGroups'];
         }
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getTasks(): TaskQuery
+    {
+        return $this->hasMany(TaskForm::class, ['project_id' => 'project_id']);
     }
 }

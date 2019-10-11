@@ -6,15 +6,17 @@
 namespace lujie\project\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
-use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\project\models\Task;
+use lujie\project\models\TaskGroup;
+use lujie\project\models\TaskQuery;
+use yii\db\ActiveQuery;
 
 /**
- * Class TaskForm
+ * Class TaskGroupForm
  * @package lujie\project\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TaskForm extends Task
+class TaskGroupForm extends TaskGroup
 {
     /**
      * {@inheritdoc}
@@ -22,10 +24,7 @@ class TaskForm extends Task
     public function rules(): array
     {
         return [
-            [['project_id', 'task_group_id', 'parent_task_id',
-                'priority', 'status', 'owner_id', 'executor_id',
-                'due_at', 'started_at', 'finished_at'], 'integer'],
-            [['additional'], 'safe'],
+            [['project_id'], 'integer'],
             [['name'], 'string', 'max' => 250],
             [['description'], 'string', 'max' => 1000],
         ];
@@ -38,14 +37,19 @@ class TaskForm extends Task
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
-            'relationSave' => [
-                'class' => RelationSavableBehavior::class,
-                'relations' => ['attachments']
-            ],
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,
-                'relations' => ['attachments']
+                'relations' => ['tasks']
             ]
         ]);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getTasks(): TaskQuery
+    {
+        return $this->hasMany(TaskForm::class, ['task_group_id' => 'task_group_id']);
     }
 }

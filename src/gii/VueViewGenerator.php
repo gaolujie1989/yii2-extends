@@ -25,6 +25,7 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
     public const COLUMN_TYPE_TEXT = 'TEXT';
 
     public const INPUT_TYPE_TEXT = 'TEXT';
+    public const INPUT_TYPE_TEXTAREA = 'TEXTAREA';
     public const INPUT_TYPE_DATE = 'DATE';
     public const INPUT_TYPE_DATETIME = 'DATETIME';
     public const INPUT_TYPE_DATE_RANGE = 'DATE_RANGE';

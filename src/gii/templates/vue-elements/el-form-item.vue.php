@@ -28,6 +28,13 @@ $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
         case VueViewGenerator::INPUT_TYPE_TEXT: ?>
           <el-input v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" />
             <?php break;
+        case VueViewGenerator::INPUT_TYPE_TEXTAREA: ?>
+          <el-input
+            v-model="<?= $modelField ?>"
+            :placeholder="<?= $fieldLabelName ?>"
+            :autosize="{ minRows: 2, maxRows: 8}"
+            type="textarea" />
+            <?php break;
         case VueViewGenerator::INPUT_TYPE_DATE:
         case VueViewGenerator::INPUT_TYPE_DATETIME: ?>
           <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($type) ?>" />

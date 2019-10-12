@@ -132,6 +132,7 @@ class Task extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
+            'id' => 'id',
             'due_time' => 'due_time',
             'started_time' => 'started_time',
             'finished_time' => 'finished_time',

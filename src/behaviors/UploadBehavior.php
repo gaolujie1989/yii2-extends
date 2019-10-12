@@ -22,12 +22,34 @@ class UploadBehavior extends Behavior
 {
     use FileTrait;
 
+    /**
+     * @var string
+     */
     public $attribute = 'file';
 
+    /**
+     * @var string
+     */
     public $nameAttribute;
 
+    /**
+     * @var string
+     */
+    public $extAttribute;
+
+    /**
+     * @var string
+     */
+    public $sizeAttribute;
+
+    /**
+     * @var array
+     */
     public $scenarios = [];
 
+    /**
+     * @var string
+     */
     public $inputName;
 
     /**
@@ -41,14 +63,29 @@ class UploadBehavior extends Behavior
      */
     public $fs = 'filesystem';
 
+    /**
+     * @var bool
+     */
     public $generateNewName = true;
 
+    /**
+     * @var string
+     */
     public $newNameTemplate = '{datetime}_{rand}.{ext}';
 
+    /**
+     * @var bool
+     */
     public $deleteOnUpdate = true;
 
+    /**
+     * @var bool
+     */
     public $deleteTempFile = true;
 
+    /**
+     * @var UploadedFile
+     */
     private $_uploadedFile;
 
     /**
@@ -123,6 +160,12 @@ class UploadBehavior extends Behavior
                 $model->{$this->attribute} = $fileName;
                 if ($this->nameAttribute) {
                     $model->{$this->nameAttribute} = $this->_uploadedFile->getBaseName() . '.' . $this->_uploadedFile->getExtension();
+                }
+                if ($this->sizeAttribute) {
+                    $model->{$this->sizeAttribute} = $this->_uploadedFile->size;
+                }
+                if ($this->extAttribute) {
+                    $model->{$this->extAttribute} = $this->_uploadedFile->getExtension();
                 }
             } else {
                 $event->isValid = false;

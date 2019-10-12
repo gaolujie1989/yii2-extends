@@ -68,4 +68,15 @@ class TaskSearch extends Task
 
         return $query;
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'attachments',
+        ]);
+    }
 }

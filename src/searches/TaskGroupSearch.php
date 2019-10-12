@@ -35,15 +35,4 @@ class TaskGroupSearch extends TaskGroup
         return static::find()
             ->andFilterWhere(['project_id' => $this->project_id]);
     }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function extraFields(): array
-    {
-        return array_merge(parent::extraFields(), [
-            'tasks',
-        ]);
-    }
 }

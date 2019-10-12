@@ -126,6 +126,32 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'due_time' => 'due_time',
+            'started_time' => 'started_time',
+            'finished_time' => 'finished_time',
+        ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'project' => 'project',
+            'taskGroup' => 'taskGroup',
+            'attachments' => 'attachments',
+        ]);
+    }
+
+    /**
      * @return ActiveQuery
      * @inheritdoc
      */

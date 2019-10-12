@@ -48,15 +48,4 @@ class TaskForm extends Task
             ]
         ]);
     }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function extraFields(): array
-    {
-        return array_merge(parent::extraFields(), [
-            'attachments',
-        ]);
-    }
 }

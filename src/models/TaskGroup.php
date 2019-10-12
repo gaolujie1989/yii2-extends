@@ -84,6 +84,18 @@ class TaskGroup extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'project' => 'project',
+            'tasks' => 'tasks',
+        ]);
+    }
+
+    /**
      * @return ActiveQuery
      * @inheritdoc
      */

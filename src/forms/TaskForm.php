@@ -27,7 +27,8 @@ class TaskForm extends Task
             [['additional'], 'safe'],
             [['name'], 'string', 'max' => 250],
             [['description'], 'string', 'max' => 1000],
-            [['due_time', 'started_time', 'finished_time'], 'date']
+            [['due_time', 'started_time', 'finished_time'], 'date'],
+            [['attachments'], 'safe'],
         ];
     }
 
@@ -40,7 +41,9 @@ class TaskForm extends Task
         return array_merge(parent::behaviors(), [
             'relationSave' => [
                 'class' => RelationSavableBehavior::class,
-                'relations' => ['attachments']
+                'relations' => ['attachments'],
+                'indexKeys' => ['attachments' => 'file'],
+                'linkUnlinkRelations' => ['attachments'],
             ],
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,

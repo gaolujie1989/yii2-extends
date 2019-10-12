@@ -61,7 +61,7 @@ class UploadSavedFileForm extends UploadSavedFile
     {
         return [
             [['file', 'model_id'], 'required'],
-            [['model_id'], 'integer'],
+            [['model_id', 'model_parent_id'], 'integer'],
             [['file'], 'file',
                 'extensions' => $this->allowedExtensions,
                 'checkExtensionByMimeType' => $this->checkExtensionByMimeType

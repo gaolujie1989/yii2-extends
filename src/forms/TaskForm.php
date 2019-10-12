@@ -27,7 +27,7 @@ class TaskForm extends Task
             [['additional'], 'safe'],
             [['name'], 'string', 'max' => 250],
             [['description'], 'string', 'max' => 1000],
-            [['due_at', 'started_at', 'finished_at'], 'date']
+            [['due_time', 'started_time', 'finished_time'], 'date']
         ];
     }
 

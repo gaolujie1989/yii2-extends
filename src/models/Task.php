@@ -2,6 +2,7 @@
 
 namespace lujie\project\models;
 
+use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -31,6 +32,10 @@ use yii2tech\ar\position\PositionBehavior;
  * @property int $finished_at
  * @property int $archived_at
  * @property int $deleted_at
+ *
+ * @property string $due_time
+ * @property string $started_time
+ * @property string $finished_time
  *
  * @property Project $project
  * @property TaskGroup $taskGroup
@@ -70,6 +75,14 @@ class Task extends \yii\db\ActiveRecord
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+            'dateAlias' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'due_time' => 'due_at',
+                    'started_time' => 'started_at',
+                    'finished_time' => 'finished_at'
+                ]
+            ],
             'position' => [
                 'class' => PositionBehavior::class,
                 'groupAttributes' => ['project_id', 'task_group_id']

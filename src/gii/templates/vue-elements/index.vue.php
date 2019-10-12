@@ -24,6 +24,11 @@ $fields = array_keys($generator->formFields);
 $fields = array_map(static function ($field) {
     return $field . ": '',";
 }, $fields);
+$querySearchFields = array_keys($generator->searchFields);
+$querySearchFields = array_map(static function ($field) {
+    return $field . ": ''";
+}, $querySearchFields);
+$querySearchFields = implode("\n", $querySearchFields);
 ?>
 <template>
   <div class="app-container">
@@ -146,7 +151,11 @@ export default {
   directives: { waves },
   mixins: [Save, Delete, Upload, BatchUpdate, List, Search, Download],
   data() {
-    return {}
+    return {
+      listQuery: {
+          <?= $querySearchFields ?>
+      }
+    }
   },
   computed: {
     ...mapGetters([])

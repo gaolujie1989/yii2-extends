@@ -13,10 +13,10 @@ class m190506_095550_upload_saved_file extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'upload_saved_file_id' => $this->bigPrimaryKey()->unsigned(),
+            'upload_saved_file_id' => $this->bigPrimaryKey(),
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
-            'model_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
-            'model_parent_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'model_parent_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->smallInteger()->unsigned()->notNull()->defaultValue(0),
             'file' => $this->string()->notNull(),
             'name' => $this->string()->notNull()->defaultValue(''),

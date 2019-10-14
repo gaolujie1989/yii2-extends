@@ -13,9 +13,9 @@ class m190709_153933_stock extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'stock_id' => $this->bigPrimaryKey()->unsigned(),
-            'item_id' => $this->bigInteger()->unsigned()->notNull(),
-            'location_id' => $this->bigInteger()->unsigned()->notNull(),
+            'stock_id' => $this->bigPrimaryKey(),
+            'item_id' => $this->bigInteger()->notNull(),
+            'location_id' => $this->bigInteger()->notNull(),
             'stock_qty' => $this->integer()->notNull()->defaultValue(0),
             'stock_item_value' => $this->decimal(10, 2)->notNull()->defaultValue(0),
         ]);

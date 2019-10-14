@@ -80,7 +80,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param AfterSaveEvent $event
      * @inheritdoc
      */
-    public function afterFulfillmentItemCreated(AfterSaveEvent $event): void
+    public function afterFulfillmentItemSaved(AfterSaveEvent $event): void
     {
         /** @var FulfillmentItem $fulfillmentItem */
         $fulfillmentItem = $event->sender;

@@ -14,7 +14,7 @@ class m180822_141551_address extends Migration
     {
         $this->createTable($this->tableName, [
             'address_id' => $this->bigPrimaryKey(),
-            'country' => $this->char(2)->notNull(),
+            'country' => $this->char(2)->notNull()->defaultValue(''),
             'state' => $this->string(200)->notNull()->defaultValue(''),
             'city' => $this->string(200)->notNull()->defaultValue(''),
             'name1' => $this->string()->notNull()->defaultValue('')->comment('company name'),

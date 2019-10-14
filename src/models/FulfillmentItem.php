@@ -16,6 +16,7 @@ use yii\db\ActiveQuery;
  * @property string $fulfillment_item_id
  * @property string $fulfillment_account_id
  * @property string $item_id
+ * @property int $item_updated_at
  * @property string $external_item_id
  * @property string $external_item_no
  * @property string $external_item_parent_id for some system, support variation must link item
@@ -23,6 +24,7 @@ use yii\db\ActiveQuery;
  * @property int $external_updated_at
  * @property array $item_options
  * @property array $item_errors
+ * @property int $item_pushed_at
  * @property int $stock_pulled_at
  *
  * @property FulfillmentAccount $fulfillmentAccount
@@ -47,9 +49,10 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     {
         return [
             [['fulfillment_account_id', 'item_id'], 'required'],
-            [['fulfillment_account_id', 'item_id',
+            [['fulfillment_account_id', 'item_id', 'item_updated_at',
                 'external_item_id', 'external_item_parent_id',
-                'external_created_at', 'external_updated_at', 'stock_pulled_at'], 'integer'],
+                'external_created_at', 'external_updated_at',
+                'item_pushed_at', 'stock_pulled_at'], 'integer'],
             [['fulfillment_account_id', 'item_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'item_id']],
             [['external_item_no'], 'string', 'max' => 50],
             [['item_options', 'item_errors'], 'safe']
@@ -81,6 +84,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'fulfillment_item_id' => Yii::t('lujie/fulfillment', 'Fulfillment Item ID'),
             'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
             'item_id' => Yii::t('lujie/fulfillment', 'Item ID'),
+            'item_updated_at' => Yii::t('lujie/fulfillment', 'Item Updated At'),
             'external_item_id' => Yii::t('lujie/fulfillment', 'External Item ID'),
             'external_item_no' => Yii::t('lujie/fulfillment', 'External Item No'),
             'external_item_parent_id' => Yii::t('lujie/fulfillment', 'External Item Parent ID'),
@@ -88,6 +92,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
             'item_options' => Yii::t('lujie/fulfillment', 'Item Options'),
             'item_errors' => Yii::t('lujie/fulfillment', 'Item Errors'),
+            'item_pushed_at' => Yii::t('lujie/fulfillment', 'Item Pushed At'),
             'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
         ];
     }

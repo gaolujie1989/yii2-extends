@@ -16,6 +16,7 @@ class m190708_122250_fulfillment_item extends Migration
             'fulfillment_item_id' => $this->bigPrimaryKey(),
             'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'item_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_item_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_item_no' => $this->string(50)->notNull()->defaultValue(''),
             'external_item_parent_id' => $this->bigInteger()->notNull()->defaultValue(0)
@@ -24,6 +25,7 @@ class m190708_122250_fulfillment_item extends Migration
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_options' => $this->json(),
             'item_errors' => $this->json(),
+            'item_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'stock_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 

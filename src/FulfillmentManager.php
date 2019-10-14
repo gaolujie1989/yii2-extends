@@ -71,7 +71,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function bootstrap($app): void
     {
         Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentItemSaved']);
-//        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentItemSaved']);
+        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentItemSaved']);
         Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderCreated']);
         Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderUpdated']);
     }
@@ -84,6 +84,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentItem $fulfillmentItem */
         $fulfillmentItem = $event->sender;
+        if ($fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
+            return;
+        }
         $job = new PushFulfillmentItemJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;

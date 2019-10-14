@@ -31,8 +31,8 @@ class m190625_132316_data_record_data extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'data_record_data_id' => $this->bigPrimaryKey()->unsigned(),
-            'data_record_id' => $this->bigInteger()->unsigned(),
+            'data_record_data_id' => $this->bigPrimaryKey(),
+            'data_record_id' => $this->bigInteger(),
             'data_text' => $this->binary(),
         ]);
 

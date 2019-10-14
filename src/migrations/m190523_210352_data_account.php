@@ -18,7 +18,7 @@ class m190523_210352_data_account extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'data_account_id' => $this->bigPrimaryKey()->unsigned(),
+            'data_account_id' => $this->bigPrimaryKey(),
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'url' => $this->string()->notNull()->defaultValue(''),

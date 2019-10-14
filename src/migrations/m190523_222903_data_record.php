@@ -31,9 +31,9 @@ class m190523_222903_data_record extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'data_record_id' => $this->bigPrimaryKey()->unsigned(),
-            'data_account_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
-            'data_source_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'data_record_id' => $this->bigPrimaryKey(),
+            'data_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'data_source_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'data_source_type' => $this->string(50)->notNull()->defaultValue(0),
             'data_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'data_key' => $this->string()->notNull()->defaultValue(''),

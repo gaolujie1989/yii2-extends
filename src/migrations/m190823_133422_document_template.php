@@ -14,7 +14,7 @@ class m190823_133422_document_template extends Migration
     {
         $this->createTable($this->tableName, [
             'document_template_id' => $this->bigPrimaryKey()->unique(),
-            'document_reference_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'document_reference_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'document_type' => $this->string(50)->notNull()->defaultValue(''),
             'position' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'title' => $this->string(250)->notNull()->defaultValue(''),

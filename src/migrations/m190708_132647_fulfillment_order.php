@@ -13,12 +13,12 @@ class m190708_132647_fulfillment_order extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'fulfillment_order_id' => $this->bigPrimaryKey()->unsigned(),
-            'fulfillment_account_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'fulfillment_order_id' => $this->bigPrimaryKey(),
+            'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'fulfillment_status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
-            'order_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'order_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'order_status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
-            'external_order_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'external_order_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_order_no' => $this->string(50)->notNull()->defaultValue(''),
             'external_order_status' => $this->string(20)->notNull()->defaultValue(''),
             'external_order_additional' => $this->json(),

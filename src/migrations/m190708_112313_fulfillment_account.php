@@ -13,7 +13,7 @@ class m190708_112313_fulfillment_account extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'fulfillment_account_id' => $this->bigPrimaryKey()->unsigned(),
+            'fulfillment_account_id' => $this->bigPrimaryKey(),
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'url' => $this->string()->notNull()->defaultValue(''),

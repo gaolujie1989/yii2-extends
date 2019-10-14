@@ -13,12 +13,12 @@ class m190708_122250_fulfillment_item extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'fulfillment_item_id' => $this->bigPrimaryKey()->unsigned(),
-            'fulfillment_account_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
-            'item_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
-            'external_item_id' => $this->bigInteger()->unsigned()->defaultValue(0),
+            'fulfillment_item_id' => $this->bigPrimaryKey(),
+            'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'external_item_id' => $this->bigInteger()->defaultValue(0),
             'external_item_no' => $this->string(50)->defaultValue(''),
-            'external_item_parent_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0)
+            'external_item_parent_id' => $this->bigInteger()->notNull()->defaultValue(0)
                 ->comment('for some system, support variation must link item'),
             'external_created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),

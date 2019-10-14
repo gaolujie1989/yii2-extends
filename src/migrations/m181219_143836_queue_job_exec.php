@@ -13,9 +13,9 @@ class m181219_143836_queue_job_exec extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'job_exec_id' => $this->bigPrimaryKey()->unsigned(),
+            'job_exec_id' => $this->bigPrimaryKey(),
             'queue' => $this->string(50)->notNull()->defaultValue(''),
-            'job_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'job_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'worker_pid' => $this->integer()->unsigned()->notNull()->defaultValue(0),
 
             'started_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),

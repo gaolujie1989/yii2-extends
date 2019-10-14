@@ -13,7 +13,7 @@ class m181219_143804_queue_worker extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'queue_worker_id' => $this->bigPrimaryKey()->unsigned(),
+            'queue_worker_id' => $this->bigPrimaryKey(),
             'queue' => $this->string(50)->notNull()->defaultValue(''),
             'pid' => $this->integer()->unsigned()->notNull()->defaultValue(0),
 

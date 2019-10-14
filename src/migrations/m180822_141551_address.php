@@ -13,7 +13,7 @@ class m180822_141551_address extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'address_id' => $this->bigPrimaryKey()->unsigned(),
+            'address_id' => $this->bigPrimaryKey(),
             'country' => $this->char(2)->notNull(),
             'state' => $this->string(200)->notNull()->defaultValue(''),
             'city' => $this->string(200)->notNull()->defaultValue(''),

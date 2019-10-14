@@ -14,7 +14,7 @@ class m191010_094534_task_group extends Migration
     {
         $this->createTable($this->tableName, [
             'task_group_id' => $this->bigPrimaryKey()->unique(),
-            'project_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'project_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'name' => $this->string(250)->notNull()->defaultValue(''),
             'description' => $this->string(1000)->notNull()->defaultValue(''),

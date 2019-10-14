@@ -17,7 +17,7 @@ class m191010_093411_project extends Migration
             'name' => $this->string(250)->notNull()->defaultValue(''),
             'description' => $this->string(1000)->notNull()->defaultValue(''),
             'visibility' => $this->string(10)->notNull()->defaultValue(''),
-            'owner_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'owner_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'archived_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'archived_by' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'deleted_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),

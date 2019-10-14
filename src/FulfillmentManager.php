@@ -70,7 +70,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentItemCreated']);
+        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentItemSaved']);
+        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentItemSaved']);
         Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderCreated']);
         Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderUpdated']);
     }

@@ -13,9 +13,9 @@ class m180823_154927_sales_order_amount extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'sales_order_amount_id' => $this->bigPrimaryKey()->unsigned(),
-            'sales_order_id' => $this->bigInteger()->unsigned()->notNull(),
-            'sales_order_item_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'sales_order_amount_id' => $this->bigPrimaryKey(),
+            'sales_order_id' => $this->bigInteger()->notNull(),
+            'sales_order_item_id' => $this->bigInteger()->notNull()->defaultValue(0),
 
             'currency' => $this->char(3)->notNull(),
             'exchange_rate' => $this->decimal(10, 4)->notNull()->defaultValue(1),

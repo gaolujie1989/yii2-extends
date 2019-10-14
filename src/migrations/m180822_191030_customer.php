@@ -13,7 +13,7 @@ class m180822_191030_customer extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'customer_id' => $this->bigPrimaryKey()->unsigned(),
+            'customer_id' => $this->bigPrimaryKey(),
 
             'email' => $this->string(100)->notNull()->unique(),
             'phone' => $this->string(50)->notNull()->defaultValue(''),

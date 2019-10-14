@@ -30,9 +30,9 @@ class m170720_163717_history extends \yii\db\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'id' => $this->bigPrimaryKey()->unsigned(),
+            'id' => $this->bigPrimaryKey(),
             'table_name' => $this->string(50)->notNull()->defaultValue(''),
-            'row_id' => $this->bigInteger()->unsigned()->notNull()->defaultValue(0),
+            'row_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'old_data' => $this->json(),
             'new_data' => $this->json(),
         ]);

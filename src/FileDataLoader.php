@@ -5,7 +5,6 @@
 
 namespace lujie\data\loader;
 
-
 use Yii;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -36,7 +35,7 @@ class FileDataLoader extends ArrayDataLoader
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->fileParser = Instance::ensure($this->fileParser);

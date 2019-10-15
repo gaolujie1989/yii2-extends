@@ -5,8 +5,6 @@
 
 namespace lujie\data\loader;
 
-
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
@@ -16,7 +14,7 @@ use yii\di\Instance;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CombinedDataLoader extends BaseObject implements DataLoaderInterface
+class CombinedDataLoader extends BaseDataLoader
 {
     /**
      * @var DataLoaderInterface[]

@@ -6,7 +6,6 @@
 namespace lujie\data\loader;
 
 use Yii;
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -16,7 +15,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ObjectDataLoader extends BaseObject implements DataLoaderInterface
+class ObjectDataLoader extends BaseDataLoader
 {
     /**
      * @var DataLoaderInterface
@@ -42,7 +41,7 @@ class ObjectDataLoader extends BaseObject implements DataLoaderInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->dataLoader = Instance::ensure($this->dataLoader, DataLoaderInterface::class);

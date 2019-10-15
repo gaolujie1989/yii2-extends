@@ -23,7 +23,7 @@ class YiiParamsDataLoader extends ArrayDataLoader
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->data = ArrayHelper::getValue(Yii::$app->params, $this->paramKey, []);

@@ -5,7 +5,6 @@
 
 namespace lujie\data\loader;
 
-use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -13,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ArrayDataLoader extends BaseObject implements DataLoaderInterface
+class ArrayDataLoader extends BaseDataLoader
 {
     public $data = [];
 

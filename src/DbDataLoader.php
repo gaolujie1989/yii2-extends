@@ -5,7 +5,6 @@
 
 namespace lujie\data\loader;
 
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\Connection;
 use yii\db\Query;

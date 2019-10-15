@@ -16,8 +16,21 @@ interface DataLoaderInterface
     public function get($key);
 
     /**
+     * @param array $keys
+     * @return array
+     * @inheritdoc
+     */
+    public function multiGet(array $keys): array;
+
+    /**
      * @return array
      * @inheritdoc
      */
     public function all(): ?array;
+
+    /**
+     * @return \Iterator
+     * @inheritdoc
+     */
+    public function batch($batchSize = 100): \Iterator;
 }

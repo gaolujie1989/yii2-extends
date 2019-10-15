@@ -6,7 +6,6 @@
 namespace lujie\data\loader;
 
 use lujie\extend\caching\CachingTrait;
-use yii\base\BaseObject;
 use yii\di\Instance;
 
 /**
@@ -14,7 +13,7 @@ use yii\di\Instance;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CachedDataLoader extends BaseObject implements DataLoaderInterface
+class CachedDataLoader extends BaseDataLoader
 {
     use CachingTrait;
 
@@ -42,7 +41,7 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->dataLoader = Instance::ensure($this->dataLoader, DataLoaderInterface::class);
@@ -58,6 +57,20 @@ class CachedDataLoader extends BaseObject implements DataLoaderInterface
     {
         return $this->getOrSet($key, function() use ($key) {
             return $this->dataLoader->get($key);
+        });
+    }
+
+    /**
+     * @param array $keys
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function multiGet(array $keys): array
+    {
+        $cacheKey = implode(';', $keys);
+        return $this->getOrSet($cacheKey, function() use ($keys) {
+            return parent::multiGet($keys);
         });
     }
 

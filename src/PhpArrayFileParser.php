@@ -5,7 +5,11 @@
 
 namespace lujie\data\loader;
 
-
+/**
+ * Class PhpArrayFileParser
+ * @package lujie\data\loader
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class PhpArrayFileParser implements FileParserInterface
 {
     /**

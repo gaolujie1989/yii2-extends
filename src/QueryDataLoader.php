@@ -5,10 +5,10 @@
 
 namespace lujie\data\loader;
 
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
+use yii\db\Query;
 use yii\db\QueryInterface;
 use yii\di\Instance;
 
@@ -17,7 +17,7 @@ use yii\di\Instance;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class QueryDataLoader extends BaseObject implements DataLoaderInterface
+class QueryDataLoader extends BaseDataLoader
 {
     /**
      * @var QueryInterface
@@ -82,7 +82,23 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     public function get($key)
     {
         $query = clone $this->query;
-        return $query->andFilterWhere($this->condition)->andWhere([$this->key => $key])->one($this->db);
+        return $query->andFilterWhere($this->condition)
+            ->andWhere([$this->key => $key])
+            ->one($this->db);
+    }
+
+    /**
+     * @param array $keys
+     * @return array
+     * @inheritdoc
+     */
+    public function multiGet(array $keys): array
+    {
+        $query = clone $this->query;
+        return $query->andFilterWhere($this->condition)
+            ->andWhere([$this->key => $keys])
+            ->indexBy($this->key)
+            ->all($this->db);
     }
 
     /**
@@ -93,5 +109,16 @@ class QueryDataLoader extends BaseObject implements DataLoaderInterface
     {
         $query = clone $this->query;
         return $query->andFilterWhere($this->condition)->all($this->db);
+    }
+
+    /**
+     * @return \Iterator
+     * @inheritdoc
+     */
+    public function batch($batchSize = 100): \Iterator
+    {
+        /** @var Query $query */
+        $query = clone $this->query;
+        $query->andFilterWhere($this->condition)->batch($batchSize, $this->db);
     }
 }

@@ -25,7 +25,7 @@ class StringValidator extends \yii\validators\StringValidator
         if ($this->trim) {
             $model->{$attribute} = trim($model->{$attribute});
         }
-        return parent::validateAttribute($model, $attribute);
+        parent::validateAttribute($model, $attribute);
     }
 
     /**

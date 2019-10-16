@@ -8,6 +8,7 @@ namespace lujie\remote\user;
 
 use yii\base\BaseObject;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
 
 /**
@@ -58,7 +59,7 @@ class RemoteUserClient extends BaseObject
         $response = $request->send();
         if ($response->getIsOk()) {
             $data = $response->getData();
-            return $this->dateKey ? ($data[$this->dateKey] ?? []) : $data;
+            return $this->dateKey ? ArrayHelper::getValue($data, $this->dateKey) : $data;
         }
         return null;
     }

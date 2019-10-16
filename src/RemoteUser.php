@@ -24,7 +24,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
     //for static function, so defined with const
     protected const CACHE_DURATION = 86400;
     protected const CACHE_TAGS = ['RemoteUser', 'User'];
-    protected const CACHE_TOKEN_KEY_PREFIX = 'RemoteUserToken:';
+    protected const CACHE_USER_TOKEN_KEY_PREFIX = 'RemoteUserToken:';
     protected const CACHE_USER_DATA_KEY_PREFIX = 'RemoteUserData:';
 
     /**
@@ -56,9 +56,9 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @return string
      * @inheritdoc
      */
-    public static function getTokenCacheKey($key): string
+    public static function getUserTokenCacheKey($key): string
     {
-        return static::CACHE_TOKEN_KEY_PREFIX . $key;
+        return static::CACHE_USER_TOKEN_KEY_PREFIX . $key;
     }
 
     /**
@@ -79,7 +79,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
     public static function findIdentity($id): ?RemoteUser
     {
         $cache = static::getCache();
-        $token = $cache->get(static::getTokenCacheKey($id));
+        $token = $cache->get(static::getUserTokenCacheKey($id));
         if ($token && $userData = $cache->get(static::getUserDataCacheKey($token))) {
             $remoteUser = new self();
             $remoteUser->data = $userData;
@@ -100,7 +100,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
         $data = static::getCache()->getOrSet(static::getUserDataCacheKey($token), static function () use ($token, $type, $dependency) {
             $userData = static::getUserData($token, $type);
             if ($userData && isset($userData['id'])) {
-                static::getCache()->set(static::getTokenCacheKey($userData['id']), $token, static::CACHE_DURATION, $dependency);
+                static::getCache()->set(static::getUserTokenCacheKey($userData['id']), $token, static::CACHE_DURATION, $dependency);
             }
             return $userData;
         }, static::CACHE_DURATION, $dependency);

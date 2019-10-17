@@ -25,7 +25,7 @@ class RemoteUserClient extends BaseObject
 
     public $baseUrl;
 
-    public $tokenUserUrl = 'users/info?access-token={token}';
+    public $remoteUserUrl = 'user/info?access-token={token}';
 
     public $tokenHeader;
 
@@ -51,8 +51,8 @@ class RemoteUserClient extends BaseObject
      */
     public function getUserByAccessToken(string $token, string $type = null): ?array
     {
-        $tokenUserUrl = strtr($this->tokenUserUrl, ['{token}' => $token, '{type}' => $type]);
-        $request = $this->client->get($tokenUserUrl);
+        $remoteUserUrl = strtr($this->remoteUserUrl, ['{token}' => $token, '{type}' => $type]);
+        $request = $this->client->get($remoteUserUrl);
         if ($this->tokenHeader) {
             $request->addHeaders([$this->tokenHeader => $token]);
         }

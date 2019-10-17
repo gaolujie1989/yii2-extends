@@ -41,7 +41,7 @@ class RemoteUserClient extends BaseObject
     /**
      * @var string
      */
-    public $dateKey = 'data';
+    public $dataKey = 'data';
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -71,7 +71,7 @@ class RemoteUserClient extends BaseObject
         $response = $request->send();
         if ($response->getIsOk()) {
             $data = $response->getData();
-            return $this->dateKey ? ArrayHelper::getValue($data, $this->dateKey) : $data;
+            return $this->dataKey ? ArrayHelper::getValue($data, $this->dataKey) : $data;
         }
         return null;
     }

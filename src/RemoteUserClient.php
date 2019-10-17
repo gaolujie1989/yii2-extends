@@ -31,7 +31,7 @@ class RemoteUserClient extends BaseObject
     /**
      * @var string
      */
-    public $userUrl = 'user/info?access-token={token}';
+    public $userUrl = 'user/info';
 
     /**
      * @var string

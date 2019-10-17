@@ -23,12 +23,24 @@ class RemoteUserClient extends BaseObject
      */
     public $client = Client::class;
 
+    /**
+     * @var string
+     */
     public $baseUrl;
 
+    /**
+     * @var string
+     */
     public $remoteUserUrl = 'user/info?access-token={token}';
 
-    public $tokenHeader;
+    /**
+     * @var string
+     */
+    public $tokenHeader = 'X-Api-Key';
 
+    /**
+     * @var string
+     */
     public $dateKey = 'data';
 
     /**

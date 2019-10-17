@@ -6,7 +6,6 @@
 namespace lujie\auth\filters;
 
 use yii\base\Action;
-use yii\base\Application;
 use yii\filters\AccessRule;
 
 /**
@@ -21,14 +20,14 @@ use yii\filters\AccessRule;
  *      'class' => '\yii\filters\AccessControl',
  *      'rules' => [
  *          [
- *              'class' => 'lujie\auth\filters\AccessRule',
+ *              'class' => '\yii\auth\filters\AccessRule',
  *              'controllers' => ['user']
  *              'action' => ['login', 'reset-password', 'send-reset-password-verify-code']
  *              'roles' => ['?']
  *              'allow' => true,
  *          ],
  *          [
- *              'class' => 'lujie\auth\filters\AccessRule',
+ *              'class' => '\yii\auth\filters\AccessRule',
  *              'controllers' => ['user']
  *              'action' => ['logout', 'update', 'update-password']
  *              'roles' => ['@']
@@ -47,6 +46,9 @@ use yii\filters\AccessRule;
  */
 class ActionAccessRule extends AccessRule
 {
+    /**
+     * @var callable
+     */
     public $actionPermissionNameCallback;
 
     /**

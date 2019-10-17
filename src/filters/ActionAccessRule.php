@@ -47,26 +47,7 @@ use yii\filters\AccessRule;
  */
 class ActionAccessRule extends AccessRule
 {
-    /**
-     * @var string
-     */
-    public $glue = '_';
-
-    /**
-     * @param Action $action
-     * @return string
-     * @inheritdoc
-     */
-    protected function getActionPermission(Action $action): string
-    {
-        $keys = [$action->controller->id, $action->id];
-        $module = $action->controller->module;
-        while ($module && !($module instanceof Application)) {
-            array_unshift($keys, $module->id);
-            $module = $module->module;
-        }
-        return implode($this->glue, $keys);
-    }
+    public $actionPermissionNameCallback;
 
     /**
      * @param Action $action
@@ -77,8 +58,12 @@ class ActionAccessRule extends AccessRule
      */
     public function allows($action, $user, $request): array
     {
+        $actionId = $action->getUniqueId();
+        if ($this->actionPermissionNameCallback && is_callable($this->actionPermissionNameCallback)) {
+            $actionId = call_user_func($this->actionPermissionNameCallback, $actionId);
+        }
         $this->permissions = $this->permissions ?: [];
-        $this->permissions[] = $this->getActionPermission($action);
+        $this->permissions[] = $actionId;
         return parent::allows($action, $user, $request);
     }
 }

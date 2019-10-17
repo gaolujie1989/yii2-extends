@@ -58,7 +58,7 @@ class ActionAccessRule extends AccessRule
      * @return bool|null
      * @inheritdoc
      */
-    public function allows($action, $user, $request): array
+    public function allows($action, $user, $request): ?bool
     {
         $actionId = $action->getUniqueId();
         if ($this->actionPermissionNameCallback && is_callable($this->actionPermissionNameCallback)) {

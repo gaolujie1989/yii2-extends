@@ -8,6 +8,7 @@ namespace lujie\remote\user;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
+use yii\base\UnknownPropertyException;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;

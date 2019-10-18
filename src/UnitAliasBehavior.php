@@ -91,7 +91,10 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     {
         $this->initUnit();
         $value = parent::getAliasProperty($name);
-        return $this->convert($value, $this->baseUnit, $this->displayUnit);
+        if (is_numeric($value)) {
+            return $this->convert($value, $this->baseUnit, $this->displayUnit);
+        }
+        return $value;
     }
 
     /**
@@ -104,11 +107,10 @@ class UnitAliasBehavior extends AliasPropertyBehavior
         $this->initUnit();
         if (!is_numeric($value)) {
             $value = strtr($value, [',' => '.']);
-            if (!is_numeric($value)) {
-                throw new InvalidArgumentException('Unit value must be a number');
-            }
         }
-        $value = $this->convert($value, $this->displayUnit, $this->baseUnit);
+        if (is_numeric($value)) {
+            $value = $this->convert($value, $this->displayUnit, $this->baseUnit);
+        }
         parent::setAliasProperty($name, $value);
     }
 

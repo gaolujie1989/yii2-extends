@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[User]].
  *
+ * @method UserQuery id($id)
  * @method UserQuery username($username)
  * @method UserQuery email($email)
  *

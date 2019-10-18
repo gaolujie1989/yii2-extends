@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[DocumentTemplate]].
  *
+ * @method DocumentTemplateQuery id($id)
  * @method DocumentTemplateQuery type(string $type);
  * @method DocumentTemplateQuery referenceId(int $referenceId);
  *

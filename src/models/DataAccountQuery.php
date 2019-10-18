@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[DataRecord]].
  *
+ * @method DataAccountQuery id($id)
  * @method DataAccountQuery name($name)
  * @method DataAccountQuery type($type)
  * @method DataAccountQuery active()

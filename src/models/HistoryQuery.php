@@ -13,6 +13,7 @@ use yii\db\ActiveQuery;
 /**
  * Class HistoryQuery
  *
+ * @method HistoryQuery id($id)
  * @method HistoryQuery tableName(string $tableName);
  * @method HistoryQuery rowId(int $rowId);
  *

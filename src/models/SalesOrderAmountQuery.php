@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[SalesOrderAmount]].
  *
+ * @method SalesOrderAmountQuery id($id)
  * @method SalesOrderAmountQuery salesOrderId($salesOrderId)
  * @method SalesOrderAmountQuery salesOrderItemId($salesOrderItemId)
  * @method SalesOrderAmountQuery currency($currency)

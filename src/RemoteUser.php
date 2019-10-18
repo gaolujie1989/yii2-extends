@@ -7,9 +7,11 @@ namespace lujie\remote\user;
 
 use Yii;
 use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;
+use yii\httpclient\Exception;
 use yii\web\IdentityInterface;
 
 /**
@@ -31,8 +33,8 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @param string $token
      * @param string|null $type
      * @return array|null
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\httpclient\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      * @inheritdoc
      */
     protected static function getUserData(string $token, string $type = null): ?array

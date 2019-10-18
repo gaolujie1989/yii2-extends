@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[StockMovement]].
  *
+ * @method StockMovementQuery id($id)
  * @method StockMovementQuery itemId($itemId)
  * @method StockMovementQuery locationId($locationId)
  * @method StockMovementQuery reason($reason)

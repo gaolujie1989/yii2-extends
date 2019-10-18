@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[Stock]].
  *
+ * @method StockQuery id($id)
  * @method StockQuery itemId($itemId)
  * @method StockQuery locationId($locationId)
  *

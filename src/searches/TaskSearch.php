@@ -9,6 +9,7 @@ use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Task;
 use lujie\project\models\TaskGroupQuery;
 use lujie\project\models\TaskQuery;
+use yii\helpers\StringHelper;
 
 /**
  * Class TaskSearch
@@ -17,7 +18,15 @@ use lujie\project\models\TaskQuery;
  */
 class TaskSearch extends Task
 {
+    /**
+     * @var string
+     */
     public $globalStatus;
+
+    /**
+     * @var bool
+     */
+    public $isSubTask;
 
     /**
      * @return array
@@ -27,7 +36,8 @@ class TaskSearch extends Task
     {
         return [
             [['project_id', 'task_group_id', 'parent_task_id',
-                'position', 'priority', 'status', 'owner_id', 'executor_id', 'globalStatus'], 'safe'],
+                'position', 'priority', 'status', 'owner_id', 'executor_id',
+                'globalStatus', 'isSubTask'], 'safe'],
             [['due_at', 'started_at', 'finished_at'], 'each', 'rule' => ['date']],
         ];
     }
@@ -64,6 +74,10 @@ class TaskSearch extends Task
             case GlobalStatusConst::STATUS_DELETED:
                 $query->deleted();
                 break;
+        }
+
+        if ($this->isSubTask !== null && $this->isSubTask !== '') {
+            $query->isSubTask($this->isSubTask);
         }
 
         return $query;

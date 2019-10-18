@@ -40,4 +40,19 @@ class TaskQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
+
+    /**
+     * @param bool $isSubTask
+     * @return TaskQuery
+     * @inheritdoc
+     */
+    public function isSubTask($isSubTask = true): TaskQuery
+    {
+        if ($isSubTask) {
+            $this->andWhere(['>', 'parent_task_id', 0]);
+        } else {
+            $this->andWhere(['=', 'parent_task_id', 0]);
+        }
+        return $this;
+    }
 }

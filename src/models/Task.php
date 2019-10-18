@@ -178,4 +178,22 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
     }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getSubTasks(): TaskQuery
+    {
+        return $this->hasMany(self::class, ['parent_task_id' => 'task_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getParentTask(): TaskQuery
+    {
+        return $this->hasOne(self::class, ['task_id' => 'parent_task_id']);
+    }
 }

@@ -12,14 +12,20 @@ use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
+use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
 /**
  * Class FieldQueryBehavior
- * @package lujie\core\behaviors
+ *
+ * @property Query|ActiveQuery $owner
+ *
+ * @package lujie\db\fieldQuery\behaviors
+ * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class FieldQueryBehavior extends Behavior
 {
@@ -90,6 +96,12 @@ class FieldQueryBehavior extends Behavior
                 $this->querySorts[$key] = [$queryField];
             }
         }
+        if ($this->owner instanceof ActiveQueryInterface) {
+            /** @var BaseActiveRecord $modelClass */
+            $modelClass = $this->owner->modelClass;
+            $this->queryFields['id'] = $modelClass::primaryKey();
+            $this->querySorts['orderById'] = $modelClass::primaryKey();
+        }
     }
 
     /**
@@ -147,7 +159,6 @@ class FieldQueryBehavior extends Behavior
     {
         if ($this->_alias === null) {
             $this->_alias = '';
-            /** @var Query $owner */
             $owner = $this->owner;
             if (empty($owner->from)) {
                 $this->_alias = '';
@@ -218,7 +229,6 @@ class FieldQueryBehavior extends Behavior
      */
     protected function queryField(string $name, array $params): Query
     {
-        /** @var Query $owner */
         $owner = $this->owner;
         foreach ($this->queryFields[$name] as $field => $op) {
             if (is_int($field)) {
@@ -248,8 +258,6 @@ class FieldQueryBehavior extends Behavior
      */
     protected function queryCondition(string $name): Query
     {
-        $alias = $this->getAlias();
-        /** @var Query $owner */
         $owner = $this->owner;
         $condition = $this->queryConditions[$name];
         $condition = $this->buildAliasCondition($condition);
@@ -282,7 +290,6 @@ class FieldQueryBehavior extends Behavior
      */
     protected function queryReturn(string $name)
     {
-        /** @var Query $owner */
         $owner = $this->owner;
         [$field, $method] = $this->queryReturns[$name];
         $field = $this->buildAliasField($field);

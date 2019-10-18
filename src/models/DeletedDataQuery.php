@@ -11,6 +11,7 @@ use yii\db\ActiveQuery;
 /**
  * Class DeletedDataQuery
  *
+ * @method DeletedDataQuery id($id)
  * @method DeletedDataQuery tableName(string $tableName);
  * @method DeletedDataQuery rowId(int $rowId);
  *

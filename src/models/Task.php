@@ -149,6 +149,7 @@ class Task extends \yii\db\ActiveRecord
             'project' => 'project',
             'taskGroup' => 'taskGroup',
             'attachments' => 'attachments',
+            'subTasks' => 'subTasks',
         ]);
     }
 

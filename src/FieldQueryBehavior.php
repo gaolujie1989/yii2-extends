@@ -9,6 +9,7 @@
 namespace lujie\db\fieldQuery\behaviors;
 
 use yii\base\Behavior;
+use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
@@ -96,12 +97,30 @@ class FieldQueryBehavior extends Behavior
                 $this->querySorts[$key] = [$queryField];
             }
         }
+    }
+
+    /**
+     * @param Component $owner
+     * @inheritdoc
+     */
+    public function attach($owner): void
+    {
+        parent::attach($owner);
         if ($this->owner instanceof ActiveQueryInterface) {
             /** @var BaseActiveRecord $modelClass */
             $modelClass = $this->owner->modelClass;
             $this->queryFields['id'] = $modelClass::primaryKey();
             $this->querySorts['orderById'] = $modelClass::primaryKey();
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function detach(): void
+    {
+        parent::detach();
+        unset($this->queryFields['id'], $this->querySorts['orderById']);
     }
 
     /**

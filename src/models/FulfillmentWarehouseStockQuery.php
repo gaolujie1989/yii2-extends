@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[FulfillmentWarehouseStock]].
  *
+ * @method FulfillmentWarehouseStockQuery id($id)
  * @method FulfillmentWarehouseStockQuery accountId($accountId)
  * @method FulfillmentWarehouseStockQuery warehouseId($warehouseId)
  * @method FulfillmentWarehouseStockQuery externalWarehouseId($externalWarehouseId)

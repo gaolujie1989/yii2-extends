@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the ActiveQuery class for [[FulfillmentOrder]].
  *
+ * @method FulfillmentOrderQuery id($id)
  * @method FulfillmentOrderQuery accountId($accountId)
  * @method FulfillmentOrderQuery orderId($orderId)
  * @method FulfillmentOrderQuery orderStatus($orderStatus)

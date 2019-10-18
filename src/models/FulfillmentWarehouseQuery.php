@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the ActiveQuery class for [[FulfillmentWarehouse]].
  *
+ * @method FulfillmentWarehouseQuery id($id)
  * @method FulfillmentWarehouseQuery accountId($accountId)
  * @method FulfillmentWarehouseQuery warehouseId($warehouseId)
  * @method FulfillmentWarehouseQuery externalWarehouseId($externalWarehouseId)

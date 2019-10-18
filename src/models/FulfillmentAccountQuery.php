@@ -7,6 +7,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[FulfillmentAccount]].
  *
+ * @method FulfillmentAccountQuery id($id)
+ *
  * @method FulfillmentAccountQuery active()
  * @method FulfillmentAccountQuery inActive()
  *

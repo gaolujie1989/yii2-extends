@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[ScheduleTask]].
  *
+ * @method ScheduleTaskQuery id($id)
  * @method ScheduleTaskQuery taskCode($taskCode)
  * @method ScheduleTaskQuery status($status)
  *

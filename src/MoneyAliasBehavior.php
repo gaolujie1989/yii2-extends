@@ -49,6 +49,12 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty($name, $value): void
     {
+        if (!is_numeric($value)) {
+            $value = strtr($value, [',' => '.']);
+            if (!is_numeric($value)) {
+                throw new InvalidArgumentException('Money value must be a number');
+            }
+        }
         $value = round($value * 10 ** $this->decimalLength);
         parent::setAliasProperty($name, $value);
     }

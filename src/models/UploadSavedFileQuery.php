@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[UploadedFile]].
  *
+ * @method UploadSavedFileQuery id($id)
  * @method UploadSavedFileQuery modelType($modelType)
  * @method UploadSavedFileQuery modelId($modelId)
  * @method UploadSavedFileQuery modelParentId($modelParentId)

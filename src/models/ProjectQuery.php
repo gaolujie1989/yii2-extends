@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[Project]].
  *
+ * @method ProjectQuery id($id)
  * @method ProjectQuery ownerId($ownerId)
  *
  * @method ProjectQuery notSystem()

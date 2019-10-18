@@ -16,9 +16,16 @@ use yii\web\IdentityInterface;
  */
 class TestUser extends BaseObject implements IdentityInterface
 {
+    public $data = [
+        'permissions' => [
+            'xxxPermission1',
+            'xxxPermission2',
+        ]
+    ];
+
     public static function findIdentity($id)
     {
-        return $id >= 1 ? new self : null;
+        return $id >= 1 ? new self() : null;
     }
 
     public static function findIdentityByAccessToken($token, $type = null)

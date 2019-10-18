@@ -7,6 +7,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[Barcode]].
  *
+ * @method BarcodeQuery id($id)
  * @method BarcodeQuery codeText($codeText)
  * @method BarcodeQuery assignedId($assignedId)
  *

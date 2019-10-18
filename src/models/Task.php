@@ -40,6 +40,8 @@ use yii2tech\ar\position\PositionBehavior;
  * @property Project $project
  * @property TaskGroup $taskGroup
  * @property TaskAttachment[] $attachments
+ * @property Task[] subTasks
+ * @property Task parentTask
  */
 class Task extends \yii\db\ActiveRecord
 {
@@ -150,6 +152,7 @@ class Task extends \yii\db\ActiveRecord
             'taskGroup' => 'taskGroup',
             'attachments' => 'attachments',
             'subTasks' => 'subTasks',
+            'parentTask' => 'parentTask',
         ]);
     }
 

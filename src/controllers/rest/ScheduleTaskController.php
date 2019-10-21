@@ -5,17 +5,12 @@
 
 namespace lujie\scheduling\controllers\rest;
 
-use lujie\data\loader\QueryDataLoader;
 use lujie\extend\rest\ActiveController;
-use lujie\scheduling\monitor\models\ScheduleTask;
 use lujie\scheduling\Scheduler;
 use yii\base\InvalidConfigException;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
-use yii\rest\Controller;
 
 /**
  * Class ScheduleTaskController
@@ -27,7 +22,7 @@ class ScheduleTaskController extends ActiveController
     /**
      * @var string
      */
-    public $modelClass = ScheduleTask::class;
+    public $modelClass = false;
 
     /**
      * @var Scheduler

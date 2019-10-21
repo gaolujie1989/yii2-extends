@@ -2,6 +2,7 @@
 
 namespace lujie\scheduling\monitor\models;
 
+use lujie\alias\behaviors\JsonAliasBehavior;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -59,6 +60,22 @@ class ScheduleTask extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'json' => [
+                'class' => JsonAliasBehavior::class,
+                'aliasProperties' => [
+                    'executableJson' => 'executable'
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -81,5 +98,16 @@ class ScheduleTask extends \yii\db\ActiveRecord
             'attempts' => Yii::t('lujie/scheduling', 'Attempts'),
             'status' => Yii::t('lujie/scheduling', 'Status')
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'executableJson'
+        ]);
     }
 }

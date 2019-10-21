@@ -60,18 +60,12 @@ class ScheduleTaskController extends ActiveController
 
     /**
      * @return DataProviderInterface
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function actionIndex(): DataProviderInterface
     {
-        $dataLoader = $this->scheduler->taskLoader;
-        if ($dataLoader instanceof QueryDataLoader) {
-            $query = clone $dataLoader->query;
-            return new ActiveDataProvider([
-                'query' => $query->andFilterWhere($dataLoader->condition),
-            ]);
-        }
-        return new ArrayDataProvider(['allModels' => ArrayHelper::toArray($dataLoader->all())]);
+        return new ArrayDataProvider(['allModels' => $this->scheduler->getTasks()]);
     }
 
     /**

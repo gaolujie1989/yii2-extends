@@ -45,6 +45,20 @@ class ScheduleTaskController extends ActiveController
     }
 
     /**
+     * @return array
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function actions(): array
+    {
+        $actions = parent::actions();
+        if (empty($this->modelClass)) {
+            unset($actions['index']);
+        }
+        return $actions;
+    }
+
+    /**
      * @return DataProviderInterface
      * @inheritdoc
      */

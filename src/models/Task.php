@@ -189,7 +189,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getSubTasks(): TaskQuery
     {
-        return $this->hasMany(self::class, ['parent_task_id' => 'task_id']);
+        return $this->hasMany(static::class, ['parent_task_id' => 'task_id']);
     }
 
     /**
@@ -198,6 +198,6 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getParentTask(): TaskQuery
     {
-        return $this->hasOne(self::class, ['task_id' => 'parent_task_id']);
+        return $this->hasOne(static::class, ['task_id' => 'parent_task_id']);
     }
 }

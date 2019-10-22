@@ -43,6 +43,6 @@ class FillDefaultValueTransformer extends BaseObject implements TransformerInter
      */
     public function isEmpty($value): bool
     {
-        return $value === null || (is_string($value) && $value === '') || (is_array($value) && count($value) === 0);
+        return $value === null || (is_string($value) && trim($value) === '') || (is_array($value) && count($value) === 0);
     }
 }

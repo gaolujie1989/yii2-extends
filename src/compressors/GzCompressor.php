@@ -39,7 +39,7 @@ class GzCompressor extends BaseObject implements CompressorInterface
         if ($this->encoding === ZLIB_ENCODING_GZIP || $this->encoding === ZLIB_ENCODING_DEFLATE) {
             return gzcompress($text, $this->level, $this->encoding);
         }
-        return gzdeflate($this->encoding, $this->level);
+        return gzdeflate($text, $this->level, $this->encoding);
     }
 
     /**

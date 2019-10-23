@@ -67,6 +67,8 @@ class CsvHelper
             unlink($file);
         }
         $fp = fopen($file, 'wb');
+        //add BOM to fix UTF-8 in Excel
+        //fwrite($fp, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
         if ($keyAsHeader) {
             array_unshift($data, array_keys($data[0]));
         }

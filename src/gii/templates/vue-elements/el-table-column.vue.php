@@ -32,10 +32,10 @@ $propTexts = implode(' ', $propTexts);
 switch ($type) {
     case VueViewGenerator::COLUMN_TYPE_INDEX:
     case VueViewGenerator::COLUMN_TYPE_SELECTION: ?>
-      <el-table-column type="<?= strtolower($type) ?>" align="center" <?= $propTexts ?>/>
+      <el-table-column type="<?= strtolower($type) ?>" :width="columnWidth.selection" align="center" <?= $propTexts ?>/>
         <?php break;
     case VueViewGenerator::COLUMN_TYPE_OPTION: ?>
-      <el-table-column :label="<?= $fieldLabelName ?>" prop="<?= $field ?>" <?= $propTexts ?>>
+      <el-table-column :label="<?= $fieldLabelName ?>" :width="columnWidth.status" align="center" prop="<?= $field ?>" <?= $propTexts ?>>
         <template slot-scope="scope">
           <el-tag :type="scope.row.<?= $field ?> | keyToLabel(<?= $optionsName ?>, 'key', 'tag')">
             {{ scope.row.<?= $field ?> | keyToLabel(<?= $optionsName ?>, 'key', 'label') }}
@@ -44,17 +44,17 @@ switch ($type) {
       </el-table-column>
         <?php break;
     case VueViewGenerator::COLUMN_TYPE_TIMESTAMP: ?>
-      <el-table-column :label="<?= $fieldLabelName ?>" prop="<?= $field ?>" <?= $propTexts ?>>
+      <el-table-column :label="<?= $fieldLabelName ?>" :width="columnWidth.datetime" align="center" prop="<?= $field ?>" <?= $propTexts ?>>
         <template slot-scope="scope">
           {{ scope.row.<?= $field ?> | parseTime }}
         </template>
       </el-table-column>
         <?php break;
     case VueViewGenerator::COLUMN_TYPE_TEXT: ?>
-      <el-table-column :label="<?= $fieldLabelName ?>" prop="<?= $field ?>" <?= $propTexts ?>/>
+      <el-table-column :label="<?= $fieldLabelName ?>" align="center" prop="<?= $field ?>" <?= $propTexts ?>/>
         <?php break;
     case VueViewGenerator::COLUMN_TYPE_ACTION: ?>
-      <el-table-column :label="$t('common.action')" align="center" <?= $propTexts ?>>
+      <el-table-column :label="$t('common.action')" :width="columnWidth.action2" align="center" <?= $propTexts ?>>
         <div slot-scope="scope" class="table-action">
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)" />
           <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row)" />

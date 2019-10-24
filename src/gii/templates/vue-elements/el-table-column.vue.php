@@ -46,7 +46,7 @@ switch ($type) {
     case VueViewGenerator::COLUMN_TYPE_TIMESTAMP: ?>
       <el-table-column :label="<?= $fieldLabelName ?>" prop="<?= $field ?>" <?= $propTexts ?>>
         <template slot-scope="scope">
-          <span v-if="scope.row.<?= $field ?>">{{ scope.row.<?= $field ?> | parseTime }}</span>
+          {{ scope.row.<?= $field ?> | parseTime }}
         </template>
       </el-table-column>
         <?php break;

@@ -52,7 +52,7 @@ class DataAccountForm extends DataAccount
      */
     public function beforeValidate(): bool
     {
-        if (empty($this->username)) {
+        if (empty($this->name)) {
             $this->name = $this->type . '_' . $this->username;
         }
         return parent::beforeValidate();

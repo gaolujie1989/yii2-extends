@@ -27,7 +27,6 @@ switch ($type) {
         v-model="<?= $modelField ?>"
         :placeholder="<?= $fieldLabelName ?>"
         class="filter-item"
-        style="width: 200px"
         @keyup.enter.native="handleFilter" />
         <?php break;
     case VueViewGenerator::INPUT_TYPE_DATE_RANGE: ?>

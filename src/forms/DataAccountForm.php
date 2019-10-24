@@ -52,15 +52,9 @@ class DataAccountForm extends DataAccount
      */
     public function beforeValidate(): bool
     {
-        $this->generateName();
+        if (empty($this->username)) {
+            $this->name = $this->type . '_' . $this->username;
+        }
         return parent::beforeValidate();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function generateName(): void
-    {
-        $this->name = $this->type . '_' . $this->username;
     }
 }

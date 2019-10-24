@@ -26,7 +26,7 @@ $fields = array_map(static function ($field) {
 }, $fields);
 $querySearchFields = array_keys($generator->searchFields);
 $querySearchFields = array_map(static function ($field) {
-    return $field . ": ''";
+    return $field . ": '',";
 }, $querySearchFields);
 $querySearchFields = implode("\n", $querySearchFields);
 ?>

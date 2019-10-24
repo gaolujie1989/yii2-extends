@@ -19,9 +19,9 @@ use yii\db\ActiveQuery;
  * @property array $condition
  * @property array $additional
  * @property int $status
- * @property int last_exec_at
- * @property int last_exec_status
- * @property array last_exec_result
+ * @property int $last_exec_at
+ * @property int $last_exec_status
+ * @property array $last_exec_result
  *
  * @property DataAccount $dataAccount
  */

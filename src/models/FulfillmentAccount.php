@@ -2,6 +2,7 @@
 
 namespace lujie\fulfillment\models;
 
+use lujie\extend\constants\StatusConst;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -28,9 +29,6 @@ use Yii;
 class FulfillmentAccount extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
-    public const STATUS_INACTIVE = 0;
-    public const STATUS_ACTIVE = 10;
 
     /**
      * {@inheritdoc}
@@ -64,8 +62,8 @@ class FulfillmentAccount extends \yii\db\ActiveRecord
             'statusChecker' => [
                 'class' => StatusCheckBehavior::class,
                 'statusCheckProperties' => [
-                    'isActive' => [static::STATUS_ACTIVE],
-                    'isInActive' => [static::STATUS_INACTIVE],
+                    'isActive' => [StatusConst::STATUS_ACTIVE],
+                    'isInActive' => [StatusConst::STATUS_INACTIVE],
                 ]
             ]
         ]);

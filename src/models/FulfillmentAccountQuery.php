@@ -3,6 +3,7 @@
 namespace lujie\fulfillment\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentAccount]].
@@ -29,8 +30,8 @@ class FulfillmentAccountQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryConditions' => [
-                    'active' => ['status' => FulfillmentAccount::STATUS_ACTIVE],
-                    'inActive' => ['status' => FulfillmentAccount::STATUS_INACTIVE],
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
+                    'inActive' => ['status' => StatusConst::STATUS_INACTIVE],
                 ]
             ]
         ]);

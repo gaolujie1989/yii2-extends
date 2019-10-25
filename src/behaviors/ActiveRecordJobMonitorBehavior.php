@@ -5,6 +5,7 @@
 
 namespace lujie\queuing\monitor\behaviors;
 
+use lujie\extend\constants\ExecStatusConst;
 use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
 use Yii;
@@ -56,12 +57,12 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
         //when it trigger error with child process error like timeout or Uncaught like compile
         //it will already triggered beforeExec in child process but trigger afterError in parent process
         //so jobExec property will be null
-        if ($this->jobExec === null && $data['status'] === static::EXEC_STATUS_FAILED) {
+        if ($this->jobExec === null && $data['status'] === ExecStatusConst::EXEC_STATUS_FAILED) {
             $condition = [
                 'job_id' => $data['job_id'],
                 'queue' => $data['queue'],
                 'worker_pid' => $data['worker_pid'],
-                'status' => self::EXEC_STATUS_RUNNING,
+                'status' => ExecStatusConst::EXEC_STATUS_RUNNING,
                 'finished_at' => 0,
             ];
             $this->jobExec = $this->jobExecClass::findOne([$condition]);

@@ -5,10 +5,9 @@
 
 namespace lujie\queuing\monitor\behaviors;
 
-
+use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use yii\base\Behavior;
-use yii\queue\ErrorEvent;
 use yii\queue\ExecEvent;
 use yii\queue\PushEvent;
 use yii\queue\Queue;
@@ -20,11 +19,6 @@ use yii\queue\Queue;
  */
 abstract class BaseJobMonitorBehavior extends Behavior
 {
-    public const EXEC_STATUS_PENDING = 0;
-    public const EXEC_STATUS_RUNNING = 1;
-    public const EXEC_STATUS_SUCCESS = 10;
-    public const EXEC_STATUS_FAILED = 11;
-
     /**
      * @var int the probability (parts per million) that clean the expired exec records
      * when log success record. Defaults to 10, meaning 0.1% chance.
@@ -36,9 +30,9 @@ abstract class BaseJobMonitorBehavior extends Behavior
      * @var array
      */
     public $timeToClean = [
-        self::EXEC_STATUS_RUNNING => '-7 days',
-        self::EXEC_STATUS_SUCCESS => '-3 day',
-        self::EXEC_STATUS_FAILED => '-7 days',
+        ExecStatusConst::EXEC_STATUS_RUNNING => '-7 days',
+        ExecStatusConst::EXEC_STATUS_SUCCESS => '-3 day',
+        ExecStatusConst::EXEC_STATUS_FAILED => '-7 days',
     ];
 
     /**
@@ -93,7 +87,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'attempt' => $event->attempt,
             'started_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
-            'status' => self::EXEC_STATUS_RUNNING,
+            'status' => ExecStatusConst::EXEC_STATUS_RUNNING,
         ];
         $this->saveJobExecRecord($data);
 
@@ -101,7 +95,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'job_id' => $event->id,
             'queue' => $queueName,
             'last_exec_at' => $now,
-            'last_exec_status' => self::EXEC_STATUS_RUNNING,
+            'last_exec_status' => ExecStatusConst::EXEC_STATUS_RUNNING,
         ];
         $this->saveJobRecord($jobData);
     }
@@ -122,7 +116,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'attempt' => $event->attempt,
             'finished_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
-            'status' => self::EXEC_STATUS_SUCCESS,
+            'status' => ExecStatusConst::EXEC_STATUS_SUCCESS,
         ];
         $this->saveJobExecRecord($data);
 
@@ -130,7 +124,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'job_id' => $event->id,
             'queue' => $queueName,
             'last_exec_at' => $now,
-            'last_exec_status' => self::EXEC_STATUS_SUCCESS,
+            'last_exec_status' => ExecStatusConst::EXEC_STATUS_SUCCESS,
         ];
         $this->saveJobRecord($jobData);
         $this->updateWorkerExecCount($event, true);
@@ -154,7 +148,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'memory_usage' => memory_get_peak_usage(),
             'error' => $event->error->getMessage() . "\n" . $event->error->getTraceAsString(),
             'retry' => $event->retry,
-            'status' => self::EXEC_STATUS_FAILED,
+            'status' => ExecStatusConst::EXEC_STATUS_FAILED,
         ];
         $this->saveJobExecRecord($data);
 
@@ -162,7 +156,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'job_id' => $event->id,
             'queue' => $queueName,
             'last_exec_at' => $now,
-            'last_exec_status' => self::EXEC_STATUS_FAILED,
+            'last_exec_status' => ExecStatusConst::EXEC_STATUS_FAILED,
         ];
         $this->saveJobRecord($jobData);
         $this->updateWorkerExecCount($event, false);

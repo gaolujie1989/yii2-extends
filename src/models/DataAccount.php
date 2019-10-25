@@ -83,6 +83,17 @@ class DataAccount extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'dataSource',
+        ]);
+    }
+
+    /**
      * @return ActiveQuery
      * @inheritdoc
      */

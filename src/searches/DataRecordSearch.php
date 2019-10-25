@@ -7,6 +7,7 @@ namespace lujie\data\recording\searches;
 
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
+use lujie\extend\compressors\GzCompressor;
 use yii\db\ActiveQuery;
 
 /**
@@ -42,18 +43,5 @@ class DataRecordSearch extends DataRecord
         return static::find()->andFilterWhere(
             $this->getAttributes(['data_account_id', 'data_source_type', 'data_id', 'data_key', 'data_parent_id'])
         );
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function extraFields(): array
-    {
-        return array_merge(parent::extraFields(), [
-            'recordData',
-            'dataAccount',
-            'dataSource',
-        ]);
     }
 }

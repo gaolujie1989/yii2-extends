@@ -2,6 +2,7 @@
 
 namespace lujie\data\recording\models;
 
+use lujie\extend\compressors\GzCompressor;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -82,6 +83,20 @@ class DataRecord extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'dataAccount',
+            'dataSource',
+            'recordData',
+            'recordDataText',
+        ]);
+    }
+
+    /**
      * @return ActiveQuery
      * @inheritdoc
      */
@@ -106,5 +121,15 @@ class DataRecord extends \yii\db\ActiveRecord
     public function getDataSources(): ActiveQuery
     {
         return $this->hasOne(DataSource::class, ['data_source_id' => 'data_source_id']);
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getRecordDataText(): string
+    {
+        $compressor = new GzCompressor();
+        return $this->recordData ? $compressor->unCompress($this->recordData->data_text) : '';
     }
 }

@@ -3,6 +3,7 @@
 namespace lujie\scheduling\monitor\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[ScheduleTask]].
@@ -34,7 +35,7 @@ class ScheduleTaskQuery extends \yii\db\ActiveQuery
                     'status' => 'status',
                 ],
                 'queryConditions' => [
-                    'active' => ['status' => ScheduleTask::STATUS_ACTIVE],
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
                 ]
             ]
         ];

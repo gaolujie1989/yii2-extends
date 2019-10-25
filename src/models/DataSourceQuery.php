@@ -3,6 +3,8 @@
 namespace lujie\data\recording\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[DataRecord]].
@@ -34,8 +36,8 @@ class DataSourceQuery extends \yii\db\ActiveQuery
                     'type' => 'type',
                 ],
                 'queryConditions' => [
-                    'active' => ['status' => DataSource::STATUS_ACTIVE],
-                    'pending' => ['last_exec_status' => DataSource::EXEC_STATUS_PENDING],
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
+                    'pending' => ['last_exec_status' => ExecStatusConst::EXEC_STATUS_PENDING],
                 ],
             ]
         ];

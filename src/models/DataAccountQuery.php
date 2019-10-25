@@ -3,6 +3,7 @@
 namespace lujie\data\recording\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[DataRecord]].
@@ -36,8 +37,8 @@ class DataAccountQuery extends \yii\db\ActiveQuery
                     'type' => 'type',
                 ],
                 'queryConditions' => [
-                    'active' => ['status' => DataAccount::STATUS_ACTIVE],
-                    'inactive' => ['status' => DataAccount::STATUS_INACTIVE],
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
+                    'inactive' => ['status' => StatusConst::STATUS_INACTIVE],
                 ],
                 'queryReturns' => [
                     'getAccountId' => ['data_account_id', FieldQueryBehavior::RETURN_SCALAR],

@@ -11,6 +11,7 @@ use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\recording\pipelines\DataRecordPipeline;
 use lujie\data\recording\transformers\RecordTransformer;
+use lujie\extend\constants\ExecStatusConst;
 
 /**
  * Class DataRecorder
@@ -71,12 +72,12 @@ abstract class DataRecorder extends DataExchanger
         if ($this->pipeline instanceof DataRecordPipeline) {
             $dataSource = $this->pipeline->dataSource;
             $dataSource->last_exec_at = time();
-            $dataSource->last_exec_status = DataSource::EXEC_STATUS_RUNNING;
+            $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_RUNNING;
             $dataSource->save(false);
 
             $isSuccess = parent::exchange($data);
 
-            $dataSource->last_exec_status = $isSuccess ? DataSource::EXEC_STATUS_SUCCESS : DataSource::EXEC_STATUS_FAILED;
+            $dataSource->last_exec_status = $isSuccess ? ExecStatusConst::EXEC_STATUS_SUCCESS : DataSource::EXEC_STATUS_FAILED;
             $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
             $dataSource->save(false);
 

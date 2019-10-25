@@ -29,15 +29,6 @@ class DataSource extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
-    public const STATUS_INACTIVE = 0;
-    public const STATUS_ACTIVE = 10;
-
-    public const EXEC_STATUS_PENDING = 0;
-    public const EXEC_STATUS_QUEUED = 1;
-    public const EXEC_STATUS_RUNNING = 5;
-    public const EXEC_STATUS_SUCCESS = 10;
-    public const EXEC_STATUS_FAILED = 11;
-
     /**
      * {@inheritdoc}
      */

@@ -45,22 +45,6 @@ class QueueJobSearch extends QueueJob
 
     /**
      * @return mixed
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function getJobInfo(): ?string
-    {
-        if (empty($this->queue)) {
-            return null;
-        }
-        /** @var Queue $queue */
-        $queue = Instance::ensure($this->queue);
-        $job = $queue->serializer->unserialize($this->job);
-        return VarDumper::dumpAsString($job);
-    }
-
-    /**
-     * @return mixed
      * @inheritdoc
      */
     public function fields(): array
@@ -79,5 +63,21 @@ class QueueJobSearch extends QueueJob
         return array_merge(parent::extraFields(), [
             'jobInfo' => 'jobInfo'
         ]);
+    }
+
+    /**
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function getJobInfo(): ?string
+    {
+        if (empty($this->queue)) {
+            return null;
+        }
+        /** @var Queue $queue */
+        $queue = Instance::ensure($this->queue);
+        $job = $queue->serializer->unserialize($this->job);
+        return VarDumper::dumpAsString($job);
     }
 }

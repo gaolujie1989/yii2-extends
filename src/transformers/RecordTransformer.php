@@ -79,7 +79,11 @@ class RecordTransformer extends BaseObject implements TransformerInterface
                     continue;
                 }
                 if (is_string($item) && $value = ArrayHelper::getValue($values, $item)) {
-                    $record[$attribute] = $value;
+                    if (in_array($attribute, ['data_created_at', 'data_updated_at'], true)) {
+                        $record[$attribute] = is_numeric($value) ? $value : strtotime($value);
+                    } else {
+                        $record[$attribute] = $value;
+                    }
                 } else if (is_array($item)) {
                     foreach ($item as $k => $v) {
                         if (is_int($k)) {

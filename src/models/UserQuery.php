@@ -3,6 +3,7 @@
 namespace lujie\user\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -36,8 +37,8 @@ class UserQuery extends \yii\db\ActiveQuery
                     'email' => ['email'],
                 ],
                 'queryConditions' => [
-                    'active' => ['status' => User::STATUS_ACTIVE],
-                    'inactive' => ['status' => User::STATUS_ACTIVE],
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
+                    'inactive' => ['status' => StatusConst::STATUS_ACTIVE],
                 ]
             ]
         ];

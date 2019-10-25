@@ -6,6 +6,7 @@
 namespace lujie\user\tests\unit;
 
 
+use lujie\extend\constants\StatusConst;
 use lujie\user\forms\UserForm;
 use lujie\user\models\User;
 
@@ -34,7 +35,7 @@ class UserFormTest extends \Codeception\Test\Unit
             'username' => 'test_user',
             'password' => 'pass123',
             'email' => 'test_user@xxx.com',
-            'status' => User::STATUS_ACTIVE,
+            'status' => StatusConst::STATUS_ACTIVE,
         ]);
         $this->assertTrue($userForm->save(false));
         $user = User::findOne(['username' => 'test_user']);

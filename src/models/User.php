@@ -2,6 +2,7 @@
 
 namespace lujie\user\models;
 
+use lujie\extend\constants\StatusConst;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -24,9 +25,6 @@ use yii\web\IdentityInterface;
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
-    public const STATUS_ACTIVE = 10;
-    public const STATUS_INACTIVE = 0;
 
     protected const CACHE_DURATION = 86400;
     protected const CACHE_TAGS = ['User'];
@@ -119,7 +117,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $dependency = new TagDependency(['tags' => static::CACHE_TAGS]);
         return static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
-            return static::findOne(['user_id' => $id, 'status' => static::STATUS_ACTIVE]);
+            return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]);
         }, static::CACHE_DURATION, $dependency);
     }
 

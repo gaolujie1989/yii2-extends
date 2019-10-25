@@ -3,6 +3,7 @@
 namespace lujie\template\document\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[DocumentTemplate]].
@@ -35,7 +36,7 @@ class DocumentTemplateQuery extends \yii\db\ActiveQuery
                     'referenceId' => 'document_reference_id',
                 ],
                 'queryConditions' => [
-                    'active' => ['status' => DocumentTemplate::STATUS_ACTIVE],
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
                 ],
                 'querySorts' => [
                     'orderByPosition' => 'position',

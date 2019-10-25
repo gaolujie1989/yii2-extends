@@ -2,6 +2,7 @@
 
 namespace lujie\template\document\models;
 
+use lujie\extend\constants\StatusConst;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -24,9 +25,6 @@ class DocumentTemplate extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 
-    public const STATUS_INACTIVE = 0;
-    public const STATUS_ACTIVE = 10;
-
     /**
      * {@inheritdoc}
      */
@@ -46,7 +44,7 @@ class DocumentTemplate extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['document_type'], 'string', 'max' => 50],
             [['title', 'subtitle'], 'string', 'max' => 250],
-            [['status'], 'in', 'range' => [self::STATUS_INACTIVE, self::STATUS_ACTIVE]],
+            [['status'], 'in', 'range' => [StatusConst::STATUS_INACTIVE, StatusConst::STATUS_ACTIVE]],
         ];
     }
 

@@ -77,7 +77,7 @@ abstract class DataRecorder extends DataExchanger
 
             $isSuccess = parent::exchange($data);
 
-            $dataSource->last_exec_status = $isSuccess ? ExecStatusConst::EXEC_STATUS_SUCCESS : DataSource::EXEC_STATUS_FAILED;
+            $dataSource->last_exec_status = $isSuccess ? ExecStatusConst::EXEC_STATUS_SUCCESS : ExecStatusConst::EXEC_STATUS_FAILED;
             $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
             $dataSource->save(false);
 

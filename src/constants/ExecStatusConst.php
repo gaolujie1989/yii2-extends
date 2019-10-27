@@ -16,6 +16,6 @@ class ExecStatusConst
     public const EXEC_STATUS_RUNNING = 1;
     public const EXEC_STATUS_SUCCESS = 10;
     public const EXEC_STATUS_FAILED = 11;
-    public const EXEC_STATUS_SKIPPED = 13;
-    public const EXEC_STATUS_QUEUED = 12;
+    public const EXEC_STATUS_SKIPPED = 12;
+    public const EXEC_STATUS_QUEUED = 13;
 }

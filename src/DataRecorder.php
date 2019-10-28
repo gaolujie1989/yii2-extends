@@ -63,11 +63,13 @@ abstract class DataRecorder extends DataExchanger
     }
 
     /**
-     * @param array $data
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public function exchange(array $data): bool
+    public function execute(): bool
     {
         if ($this->pipeline instanceof DataRecordPipeline) {
             $dataSource = $this->pipeline->dataSource;
@@ -75,14 +77,19 @@ abstract class DataRecorder extends DataExchanger
             $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_RUNNING;
             $dataSource->save(false);
 
-            $isSuccess = parent::exchange($data);
-
-            $dataSource->last_exec_status = $isSuccess ? ExecStatusConst::EXEC_STATUS_SUCCESS : ExecStatusConst::EXEC_STATUS_FAILED;
-            $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
-            $dataSource->save(false);
-
-            return $isSuccess;
+            try {
+                $execute = parent::execute();
+                $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+                $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
+                return $execute;
+            } catch (\Throwable $e) {
+                $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
+                $dataSource->last_exec_result = ['error' => $e->getMessage(), 'trace' => $e->getTrace()];
+                throw $e;
+            } finally {
+                $dataSource->save(false);
+            }
         }
-        return parent::exchange($data);
+        return parent::execute();
     }
 }

@@ -22,6 +22,8 @@ class TaskForm extends Task
     public function rules(): array
     {
         return [
+            [['task_group_id', 'parent_task_id',
+                'priority', 'status', 'owner_id', 'executor_id'], 'default', 'value' => 0],
             [['project_id', 'task_group_id', 'name', 'owner_id'], 'required'],
             [['project_id', 'task_group_id', 'parent_task_id',
                 'priority', 'status', 'owner_id', 'executor_id'], 'integer'],

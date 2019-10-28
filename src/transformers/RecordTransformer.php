@@ -6,6 +6,7 @@
 namespace lujie\data\recording\transformers;
 
 use lujie\data\exchange\transformers\TransformerInterface;
+use lujie\data\recording\models\DataSource;
 use lujie\extend\compressors\CompressorInterface;
 use lujie\extend\compressors\GzCompressor;
 use yii\base\BaseObject;
@@ -22,6 +23,11 @@ use yii\queue\serializers\SerializerInterface;
  */
 class RecordTransformer extends BaseObject implements TransformerInterface
 {
+    /**
+     * @var DataSource
+     */
+    public $dataSource;
+
     /**
      * @var array
      */

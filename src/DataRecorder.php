@@ -37,6 +37,7 @@ abstract class DataRecorder extends DataExchanger
     /**
      * @param DataSource $dataSource
      * @return bool
+     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\base\NotSupportedException
      * @inheritdoc
@@ -57,6 +58,9 @@ abstract class DataRecorder extends DataExchanger
     {
         if ($this->pipeline instanceof DataRecordPipeline) {
             $this->pipeline->dataSource = $dataSource;
+        }
+        if ($this->transformer instanceof RecordTransformer) {
+            $this->transformer->dataSource = $dataSource;
         }
         $this->source = $this->createSource($dataSource);
         $this->id = $dataSource->data_source_id;

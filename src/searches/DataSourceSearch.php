@@ -25,7 +25,7 @@ class DataSourceSearch extends DataSource
     public function rules(): array
     {
         return [
-            [['data_account_id', 'type', 'status'], 'safe'],
+            [['data_account_id', 'type', 'status', 'last_exec_status'], 'safe'],
             [['accountName'], 'safe'],
         ];
     }
@@ -42,7 +42,8 @@ class DataSourceSearch extends DataSource
         return static::find()->andFilterWhere([
             'data_account_id' => $this->data_account_id,
             'type' => $this->type,
-            'status' => $this->status
+            'status' => $this->status,
+            'last_exec_status' => $this->last_exec_status,
         ]);
     }
 }

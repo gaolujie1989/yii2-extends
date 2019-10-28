@@ -63,6 +63,9 @@ class Task extends \yii\db\ActiveRecord
         return [
             [['project_id', 'task_group_id', 'parent_task_id',
                 'position', 'priority', 'status', 'owner_id', 'executor_id',
+                'due_at', 'started_at', 'finished_at', 'archived_at', 'deleted_at'], 'default', 'value' => 0],
+            [['project_id', 'task_group_id', 'parent_task_id',
+                'position', 'priority', 'status', 'owner_id', 'executor_id',
                 'due_at', 'started_at', 'finished_at', 'archived_at', 'deleted_at'], 'integer'],
             [['additional'], 'safe'],
             [['name'], 'string', 'max' => 250],

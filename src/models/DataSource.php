@@ -82,6 +82,18 @@ class DataSource extends \yii\db\ActiveRecord
      * @return array
      * @inheritdoc
      */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'id' => 'id',
+            'resultSummary' => 'resultSummary',
+        ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function extraFields(): array
     {
         return array_merge(parent::extraFields(), [
@@ -96,5 +108,21 @@ class DataSource extends \yii\db\ActiveRecord
     public function getDataAccount(): ActiveQuery
     {
         return $this->hasOne(DataAccount::class, ['data_account_id' => 'data_account_id']);
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getResultSummary(): string
+    {
+        if (empty($this->last_exec_result)) {
+            return '';
+        }
+        $summary = [];
+        foreach ($this->last_exec_result as $key => $value) {
+            $summary[] = $key . ': ' . $value;
+        }
+        return implode("\n", $summary);
     }
 }

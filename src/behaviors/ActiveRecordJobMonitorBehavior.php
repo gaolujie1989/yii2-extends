@@ -65,7 +65,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
                 'status' => ExecStatusConst::EXEC_STATUS_RUNNING,
                 'finished_at' => 0,
             ];
-            $this->jobExec = $this->jobExecClass::findOne([$condition]);
+            $this->jobExec = $this->jobExecClass::findOne($condition);
         }
         if ($this->jobExec === null) {
             $this->jobExec = Yii::createObject($this->jobExecClass);

@@ -25,6 +25,6 @@ class QueueWorkerController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        return array_intersect_key($actions, array_flip(['index']));
+        return array_intersect_key($actions, array_flip(['index', 'delete']));
     }
 }

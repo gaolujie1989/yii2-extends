@@ -6,7 +6,7 @@
 namespace lujie\workerman\db;
 
 use yii\db\Exception;
-use yii\helpers\VarDumper;
+use Yii;
 
 /**
  * Class Command
@@ -68,6 +68,7 @@ class Command extends \yii\db\Command
                 $this->bindValues($this->params);
                 $this->pdoStatement = null;
             }
+            Yii::warning("MYSQL ERROR: {$errorCode}. Connection Lost And Reset...", __METHOD__);
             return true;
         }
         return false;

@@ -85,12 +85,11 @@ abstract class DataRecorder extends DataExchanger
                 $execute = parent::execute();
                 $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
                 $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
+                $dataSource->save(false);
                 return $execute;
             } catch (\Throwable $e) {
                 $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
                 $dataSource->last_exec_result = ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()];
-                throw $e;
-            } finally {
                 $dataSource->save(false);
             }
         }

@@ -10,6 +10,7 @@ use lujie\extend\helpers\ComponentHelper;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
 use lujie\fulfillment\jobs\PushFulfillmentItemJob;
 use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
+use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\Application;
@@ -206,7 +207,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pushFulfillmentItems(int $accountId): bool
     {
-        $fulfillmentItems = FulfillmentItem::find()->externalItemId(0)->all();
+        $fulfillmentItems = FulfillmentItem::find()->accountId($accountId)->externalItemId(0)->all();
         foreach ($fulfillmentItems as $fulfillmentItem) {
             $this->pushFulfillmentItem($fulfillmentItem);
         }
@@ -218,13 +219,20 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pushFulfillmentOrders(): bool
     {
-        $fulfillmentOrders = FulfillmentOrder::find()->externalOrderId(0)->all();
+        $accountIds = FulfillmentAccount::find()->active()->column();
+        $fulfillmentOrders = FulfillmentOrder::find()->accountId($accountIds)
+            ->externalOrderId(0)
+            ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
         }
-        $fulfillmentOrders = FulfillmentOrder::find()->orderStatus($this->orderCancellingStatus)->processing()->all();
+        $fulfillmentOrders = FulfillmentOrder::find()->accountId($accountIds)
+            ->orderStatus($this->orderCancellingStatus)
+            ->processing()
+            ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
         }
+        return true;
     }
 }

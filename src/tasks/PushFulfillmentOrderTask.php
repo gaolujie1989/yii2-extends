@@ -16,7 +16,7 @@ use yii\queue\Queue;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushFulfillmentOrdersTask extends CronTask
+class PushFulfillmentOrderTask extends CronTask
 {
     /**
      * @var FulfillmentManager

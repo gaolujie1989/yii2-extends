@@ -89,7 +89,6 @@ abstract class DataRecorder extends DataExchanger
                 return $execute;
             } catch (\Throwable $e) {
                 $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
-                $dataSource->last_exec_result = ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()];
                 $dataSource->save(false);
             }
         }

@@ -68,7 +68,11 @@ class ActiveRecordPipeline extends BaseDbPipeline
     public function process(array $data): bool
     {
         if ($this->filterNull) {
-            $data = array_map('array_filter', $data);
+            $data = array_map(static function ($values) {
+                return array_filter($values, static function($value) {
+                    return $value !== null;
+                });
+            }, $data);
         }
 
         $this->errors = [];

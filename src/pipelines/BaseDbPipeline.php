@@ -66,14 +66,10 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
      */
     protected function getIndexValue($values): string
     {
-        if (is_object($values) && $values instanceof Arrayable) {
-            $condition = $values->toArray($this->indexKeys);
-            return json_encode($condition);
+        $indexValues = [];
+        foreach ($this->indexKeys as $indexKey) {
+            $indexValues[] = ArrayHelper::getValue($values, $indexKey, 'NULL');
         }
-        if (is_object($values)) {
-            $values = ArrayHelper::toArray($values);
-        }
-        $condition = array_intersect_key($values, array_flip($this->indexKeys));
-        return json_encode($condition);
+        return implode('-', $indexValues);
     }
 }

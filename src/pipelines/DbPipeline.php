@@ -28,6 +28,11 @@ class DbPipeline extends BaseDbPipeline
     public $table;
 
     /**
+     * @var bool
+     */
+    public $filterNull = true;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -45,6 +50,10 @@ class DbPipeline extends BaseDbPipeline
      */
     public function process(array $data): bool
     {
+        if ($this->filterNull) {
+            $data = array_map('array_filter', $data);
+        }
+        
         $columns = $this->db->getTableSchema($this->table)->columns;
         $data = array_map(static function ($values) use ($columns) {
             return array_intersect_key($values, $columns);

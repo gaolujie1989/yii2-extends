@@ -38,6 +38,11 @@ class ActiveRecordPipeline extends BaseDbPipeline
     public $skipOnUnChanged = true;
 
     /**
+     * @var bool
+     */
+    public $filterNull = true;
+
+    /**
      * [
      *     'lineNum' => 'line num xxx has error xxx',
      * ]
@@ -62,6 +67,10 @@ class ActiveRecordPipeline extends BaseDbPipeline
      */
     public function process(array $data): bool
     {
+        if ($this->filterNull) {
+            $data = array_map('array_filter', $data);
+        }
+
         $this->errors = [];
 
         $modelClass = $this->modelClass;

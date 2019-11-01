@@ -35,12 +35,12 @@ class MockActiveQuery extends ActiveQuery
     {
         return [
             [
-                'id' => 1,
-                'xxx' => 'aaa'
+                'mock_id' => 1,
+                'mock_key' => 'aaa',
             ],
             [
-                'id' => 2,
-                'xxx' => 'bbb'
+                'mock_id' => 2,
+                'mock_key' => 'bbb',
             ]
         ];
     }

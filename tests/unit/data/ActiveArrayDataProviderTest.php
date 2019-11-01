@@ -32,20 +32,19 @@ class ActiveArrayDataProviderTest extends \Codeception\Test\Unit
     {
         $activeArrayDataProvider = new ActiveArrayDataProvider([
             'query' => new MockActiveQuery(MockActiveRecord::class),
-            'key' => 'id',
         ]);
         $models = $activeArrayDataProvider->getModels();
         $expected = [
             [
-                'id' => 1,
-                'xxx' => 'aaa',
+                'mock_id' => 1,
+                'mock_key' => 'aaa',
                 'prepared' => 1,
             ],
             [
-                'id' => 2,
-                'xxx' => 'bbb',
+                'mock_id' => 2,
+                'mock_key' => 'bbb',
                 'prepared' => 1,
-            ]
+            ],
         ];
         $this->assertEquals($expected, $models);
     }

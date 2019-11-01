@@ -20,12 +20,24 @@ use yii\web\CookieCollection;
  */
 abstract class BaseCookieClient extends BaseClient
 {
+    /**
+     * @var string
+     */
     public $loginUrl;
 
+    /**
+     * @var array
+     */
     public $loginData = [];
 
+    /**
+     * @var string
+     */
     public $username;
 
+    /**
+     * @var string
+     */
     public $password;
 
     /**
@@ -106,10 +118,10 @@ abstract class BaseCookieClient extends BaseClient
      * @return Request
      * @inheritdoc
      */
-    public function createCallRequest(): Request
+    public function createAuthRequest(): Request
     {
         $request = $this->createRequest();
-        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeCallRequestSend']);
+        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeAuthRequestSend']);
         return $request;
     }
 
@@ -118,7 +130,7 @@ abstract class BaseCookieClient extends BaseClient
      * @throws Exception
      * @inheritdoc
      */
-    public function beforeCallRequestSend(RequestEvent $event): void
+    public function beforeAuthRequestSend(RequestEvent $event): void
     {
         $cookies = $this->getCookies();
         $this->applyCookiesToRequest($event->request, $cookies);
@@ -143,9 +155,9 @@ abstract class BaseCookieClient extends BaseClient
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function call(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Response
+    public function request(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Response
     {
-        $request = $this->createCallRequest()
+        $request = $this->createAuthRequest()
             ->setMethod($method)
             ->setUrl($callSubUrl)
             ->addHeaders($headers);

@@ -10,7 +10,6 @@ use Throwable;
 use yii\authclient\OAuth2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use yii\httpclient\Client;
 use yii\web\NotFoundHttpException;
 
 /**

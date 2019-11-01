@@ -40,7 +40,7 @@ class Module extends \yii\base\Module
      */
     public function initControllerNamespace(): void
     {
-        $this->controllerNamespace = $this->controllerNamespace . '\\' . $this->getScope();
+        $this->controllerNamespace .= '\\' . $this->getScope();
     }
 
     /**

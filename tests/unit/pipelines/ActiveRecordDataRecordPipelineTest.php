@@ -5,15 +5,12 @@
 
 namespace lujie\data\recording\tests\unit\pipelines;
 
-
-use lujie\data\recording\compress\GzDeflateCompressor;
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataRecordData;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
-use lujie\data\recording\pipelines\DataRecordPipeline;
-use lujie\data\recording\transformers\RecordTransformer;
+use lujie\extend\compressors\GzCompressor;
 use yii\queue\serializers\JsonSerializer;
 
 class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
@@ -49,7 +46,6 @@ class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
             'data_account_id' => $account->data_account_id,
             'name' => 'testSource',
             'type' => 'testType',
-            'options' => [],
         ]);
         $source->save(false);
         return $source;
@@ -61,6 +57,8 @@ class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
+        $compressor = new GzCompressor();
+        $serializer = new JsonSerializer();
         $source = $this->getSource();
 
         $data = [
@@ -74,10 +72,10 @@ class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
                 ]
             ],
         ];
-        $data['text'] = (new GzDeflateCompressor())->compress((new JsonSerializer())->serialize($data['record']));
+        $data['text'] = $compressor->compress($serializer->serialize($data['record']));
 
         $pipeline = new ActiveRecordRecordDataPipeline([
-            'sourceId' => $source->data_source_id
+            'dataSource' => $source
         ]);
         $pipeline->process([$data]);
 
@@ -92,7 +90,7 @@ class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
         $recordData = DataRecordData::findByDataRecordId($record->data_record_id);
         $this->assertNotNull($recordData);
         $this->assertEquals($data['text'], $recordData->data_text);
-        $recoveryData = (new JsonSerializer())->unserialize((new GzDeflateCompressor())->unCompress($recordData->data_text));
+        $recoveryData = $serializer->unserialize($compressor->unCompress($recordData->data_text));
         $this->assertEquals($data['record'], $recoveryData);
     }
 }

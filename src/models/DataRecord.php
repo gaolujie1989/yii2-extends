@@ -112,12 +112,11 @@ class DataRecord extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return string
+     * @return string|null
      * @inheritdoc
      */
-    public function getRecordDataText(): string
+    public function getRecordDataText(): ?string
     {
-        $compressor = new GzCompressor();
-        return $this->recordData ? $compressor->unCompress($this->recordData->data_text) : '';
+        return DataRecordData::getDataTextByRecordId($this->data_record_id);
     }
 }

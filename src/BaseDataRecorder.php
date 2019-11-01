@@ -18,7 +18,7 @@ use lujie\extend\constants\ExecStatusConst;
  * @package lujie\data\recording
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class DataRecorder extends DataExchanger
+abstract class BaseDataRecorder extends DataExchanger
 {
     /**
      * @var array

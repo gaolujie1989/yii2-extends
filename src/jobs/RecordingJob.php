@@ -6,7 +6,7 @@
 namespace lujie\data\recording\jobs;
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\recording\forms\RecordingSourceForm;
+use lujie\data\recording\forms\RecordingForm;
 use lujie\executing\Executor;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
@@ -45,7 +45,7 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
      */
     public function execute($queue)
     {
-        $form = new RecordingSourceForm();
+        $form = new RecordingForm();
         $form->dataRecorderLoader = $this->dataRecorderLoader;
         $form->dataSourceId = $this->dataSourceId;
         $form->executor = $this->executor;

@@ -2,6 +2,7 @@
 
 namespace lujie\data\recording\models;
 
+use lujie\extend\compressors\GzCompressor;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -59,5 +60,20 @@ class DataRecordData extends \yii\db\ActiveRecord
     public static function findByDataRecordId(int $dataRecordId): ?self
     {
         return static::findOne(['data_record_id' => $dataRecordId]);
+    }
+
+    /**
+     * @param int $dataRecordId
+     * @return string|null
+     * @inheritdoc
+     */
+    public static function getDataTextByRecordId(int $dataRecordId): ?string
+    {
+        $dataText = static::find()->andWhere(['data_record_id' => $dataRecordId])->select(['data_text'])->scalar();
+        if ($dataText === null) {
+            return null;
+        }
+        $compressor = new GzCompressor();
+        return $compressor->unCompress($dataText);
     }
 }

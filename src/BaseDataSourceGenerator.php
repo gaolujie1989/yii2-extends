@@ -20,7 +20,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
     /**
      * @var int
      */
-    public $defaultSourceStatus = StatusConst::STATUS_ACTIVE;
+    public $sourceStatus = StatusConst::STATUS_ACTIVE;
 
     /**
      * @var int
@@ -32,7 +32,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @throws \Throwable
      * @inheritdoc
      */
-    public function generateSources(DataAccount $dataAccount, array $dataSourceTypes, int $startTime, int $endTime, int $timePeriod = 0): array
+    public function generateSources(DataAccount $dataAccount, array $dataSourceTypes, int $startTime, int $endTime, ?int $timePeriod = 0): array
     {
         return DataSource::getDb()->transaction(function () use ($dataAccount, $dataSourceTypes, $startTime, $endTime, $timePeriod) {
             $dataSources = [];

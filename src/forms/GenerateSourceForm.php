@@ -62,7 +62,7 @@ class GenerateSourceForm extends Model
         return [
             [['dataAccountId', 'sourceTypes', 'startTime', 'endTime'], 'required'],
             [['startTime', 'endTime'], 'date'],
-            [['sourceTypes'], 'each', 'string'],
+            [['sourceTypes'], 'each', 'rule' => ['string']],
             [['dataAccountId', 'timePeriod'], 'integer'],
             ['dataAccountId', 'validateAccountId'],
         ];
@@ -86,7 +86,8 @@ class GenerateSourceForm extends Model
     public function validateAccountId(): void
     {
         if ($this->getDataAccount() === null) {
-            $this->addError('Invalid data account id, DataAccount not found');
+            $this->addError('dataAccountId', 'Invalid data account id, DataAccount not found');
+            return;
         }
     }
 

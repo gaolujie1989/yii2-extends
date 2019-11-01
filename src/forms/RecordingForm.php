@@ -6,7 +6,7 @@
 namespace lujie\data\recording\forms;
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\recording\DataRecorder;
+use lujie\data\recording\BaseDataRecorder;
 use lujie\data\recording\models\DataSource;
 use lujie\executing\Executor;
 use yii\base\Model;
@@ -17,7 +17,7 @@ use yii\di\Instance;
  * @package kiwi\data\recording\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class RecordingSourceForm extends Model
+class RecordingForm extends Model
 {
     /**
      * @var DataLoaderInterface
@@ -70,10 +70,12 @@ class RecordingSourceForm extends Model
     public function validateSourceId(): void
     {
         if ($this->getDataSource() === null) {
-            $this->addError('Invalid data source id, DataSource not found');
+            $this->addError('dataSourceId', 'Invalid data source id, DataSource not found');
+            return;
         }
         if ($this->getDataSource()->dataAccount === null) {
-            $this->addError('Invalid data source, DataAccount not found');
+            $this->addError('dataSourceId', 'Invalid data source, DataAccount not found');
+            return;
         }
     }
 
@@ -97,8 +99,8 @@ class RecordingSourceForm extends Model
             return false;
         }
 
-        /** @var DataRecorder $dataRecorder */
-        $dataRecorder = Instance::ensure($dataRecorder, DataRecorder::class);
+        /** @var BaseDataRecorder $dataRecorder */
+        $dataRecorder = Instance::ensure($dataRecorder, BaseDataRecorder::class);
         $dataRecorder->prepare($this->getDataSource());
         if ($this->executor) {
             $this->executor = Instance::ensure($this->executor, Executor::class);

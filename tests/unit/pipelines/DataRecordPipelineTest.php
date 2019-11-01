@@ -10,8 +10,6 @@ use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\DataRecordPipeline;
-use lujie\data\recording\transformers\RecordTransformer;
-use yii\queue\serializers\JsonSerializer;
 
 class DataRecordPipelineTest extends \Codeception\Test\Unit
 {
@@ -46,7 +44,6 @@ class DataRecordPipelineTest extends \Codeception\Test\Unit
             'data_account_id' => $account->data_account_id,
             'name' => 'testSource',
             'type' => 'testType',
-            'options' => [],
         ]);
         $source->save(false);
         return $source;
@@ -71,7 +68,7 @@ class DataRecordPipelineTest extends \Codeception\Test\Unit
             ],
         ];
         $pipeline = new DataRecordPipeline([
-            'sourceId' => $source->data_source_id
+            'dataSource' => $source
         ]);
         $pipeline->process([$data]);
 

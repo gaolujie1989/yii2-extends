@@ -251,6 +251,15 @@ use yii\web\NotFoundHttpException;
  * @method array deleteOrder($data)
  * @method array cancelOrder($data)
  *
+ * @method array listOrderProperties($data = [])
+ * @method Generator eachOrderProperty($batchSize, $condition = [])
+ * @method Generator batchOrderProperty($batchSize, $condition = [])
+ * @method array getOrderProperty($data)
+ * @method array createOrderProperty($data)
+ * @method array updateOrderProperty($data)
+ * @method array deleteOrderProperty($data)
+ * @method array cancelOrderProperty($data)
+ *
  * @method array listOrderShippingPackages($data)
  * @method Generator eachOrderShippingPackage($batchSize, $condition = [])
  * @method Generator batchOrderShippingPackage($batchSize, $condition = [])
@@ -438,6 +447,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         'CustomerAddress' => 'accounts/contacts/{contactId}/addresses',
         'CustomerBanks' => 'accounts/contacts/{contactId}/banks',
         'Order' => 'orders',
+        'OrderProperty' => 'orders/{orderId}/properties',
         'OrderShippingPackage' => 'orders/{orderId}/shipping/packages',
         'OrderShippingPallet' => 'orders/{orderId}/shipping/pallets',
         'OrderShippingPalletPackages' => 'orders/{orderId}/shipping/pallets/{palletId}/packages',
@@ -504,12 +514,17 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         'Order' => [
             'cancel' => ['PUT', '{id}/cancel'],
         ],
+        'OrderProperty' => [
+            'get' => ['GET', '{typeId}'],
+            'update' => ['PUT', '{typeId}'],
+            'delete' => ['DELETE', '{typeId}'],
+        ],
         'OrderShippingPackageItem' => [
             'list' => ['GET', '{packageId}/items'],
             'create' => ['PUT', '{packageId}/items'],
             'update' => ['PUT', 'items/{id}'],
             'delete' => ['DELETE', 'items/{id}'],
-        ]
+        ],
     ];
 
     /**

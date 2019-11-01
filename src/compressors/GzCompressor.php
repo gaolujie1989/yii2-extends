@@ -17,6 +17,7 @@ use yii\base\BaseObject;
 class GzCompressor extends BaseObject implements CompressorInterface
 {
     /**
+     * it's funny. FORCE_GZIP === ZLIB_ENCODING_GZIP AND FORCE_DEFLATE === ZLIB_ENCODING_DEFLATE
      * @var int
      */
     public $encoding = ZLIB_ENCODING_RAW;

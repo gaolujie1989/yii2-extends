@@ -5,6 +5,10 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
+use lujie\extend\db\IdFieldTrait;
+use lujie\extend\db\SaveTrait;
+use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -14,6 +18,12 @@ use yii\db\BaseActiveRecord;
  */
 class MockActiveRecord extends BaseActiveRecord
 {
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+
+    public static $inserts = [];
+
+    public static $updates = [];
+
     public static function primaryKey(): array
     {
         return ['mock_id'];
@@ -26,7 +36,14 @@ class MockActiveRecord extends BaseActiveRecord
 
     public function insert($runValidation = true, $attributes = null)
     {
-        return 0;
+        static::$inserts[] = [$runValidation, $attributes, $this->attributes];
+        return 1;
+    }
+
+    public static function updateAll($attributes, $condition = '')
+    {
+        static::$updates[] = [$attributes, $condition];
+        return 1;
     }
 
     public static function getDb()
@@ -40,7 +57,7 @@ class MockActiveRecord extends BaseActiveRecord
      */
     public function attributes(): array
     {
-        return ['mock_id', 'mock_key', 'updated_by', 'updated_at'];
+        return ['mock_id', 'mock_value', 'updated_by', 'updated_at'];
     }
 
     /**
@@ -53,5 +70,16 @@ class MockActiveRecord extends BaseActiveRecord
         return $model;
     }
 
+    /**
+     * @param $operation
+     * @return bool
+     * @inheritdoc
+     */
+    public function isTransactional($operation)
+    {
+        $scenario = $this->getScenario();
+        $transactions = $this->transactions();
 
+        return isset($transactions[$scenario]) && ($transactions[$scenario] & $operation);
+    }
 }

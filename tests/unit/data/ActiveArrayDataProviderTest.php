@@ -37,12 +37,12 @@ class ActiveArrayDataProviderTest extends \Codeception\Test\Unit
         $expected = [
             [
                 'mock_id' => 1,
-                'mock_key' => 'aaa',
+                'mock_value' => 'aaa',
                 'prepared' => 1,
             ],
             [
                 'mock_id' => 2,
-                'mock_key' => 'bbb',
+                'mock_value' => 'bbb',
                 'prepared' => 1,
             ],
         ];

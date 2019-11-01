@@ -9,9 +9,11 @@ namespace lujie\data\recording\tests\unit\forms;
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\forms\RecordingForm;
 use lujie\data\recording\models\DataRecord;
+use lujie\data\recording\models\DataSource;
 use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\fixtures\DataSourceFixture;
 use lujie\data\recording\tests\unit\mocks\MockDataRecorder;
+use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\helpers\Json;
 
@@ -58,7 +60,6 @@ class RecordingFormTest extends \Codeception\Test\Unit
      */
     public function testGenerate(): void
     {
-
         $recordingForm = new RecordingForm();
         $recordingForm->dataSourceId = 3;
         $this->assertFalse($recordingForm->recording());
@@ -66,7 +67,19 @@ class RecordingFormTest extends \Codeception\Test\Unit
 
         $recordingForm->dataSourceId = 1;
         $this->assertTrue($recordingForm->recording());
-        $records = DataRecord::find()->dataAccountId(1)->dataSourceType('MOCK')->all();
+        $dataSource = DataSource::findOne(1);
+        $this->assertEquals(ExecStatusConst::EXEC_STATUS_SUCCESS, $dataSource->last_exec_status);
+        $expected = [
+            'created' => 1,
+            'skipped' => 0,
+            'updated' => 0,
+        ];
+        $this->assertEquals($expected, $dataSource->last_exec_result);
+
+        $records = DataRecord::find()
+            ->dataAccountId($dataSource->data_account_id)
+            ->dataSourceType($dataSource->type)
+            ->all();
         $this->assertCount(1, $records);
         $expected = [
             'data_id' => 1,
@@ -75,7 +88,7 @@ class RecordingFormTest extends \Codeception\Test\Unit
         ];
         $dataRecord = $records[0];
         $this->assertEquals($expected, $dataRecord->getAttributes(array_keys($expected)));
-        $expected =             [
+        $expected = [
             'id' => 1,
             'createdAt' => 1234567890,
             'updatedAt' => 1334567890,
@@ -83,7 +96,7 @@ class RecordingFormTest extends \Codeception\Test\Unit
             'xxx2' => 'xxx22',
             'yyy' => 'yy123',
         ];
-        $data =  Json::decode($dataRecord->getRecordDataText());
+        $data = Json::decode($dataRecord->getRecordDataText());
         $this->assertEquals($expected, $data);
     }
 }

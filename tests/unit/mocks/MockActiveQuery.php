@@ -15,6 +15,17 @@ use yii\db\ActiveQuery;
  */
 class MockActiveQuery extends ActiveQuery
 {
+    public static $activeData = [
+        [
+            'mock_id' => 1,
+            'mock_value' => 'aaa',
+        ],
+        [
+            'mock_id' => 2,
+            'mock_value' => 'bbb',
+        ]
+    ];
+
     /**
      * @param string $q
      * @param null $db
@@ -33,15 +44,6 @@ class MockActiveQuery extends ActiveQuery
      */
     public function all($db = null): array
     {
-        return [
-            [
-                'mock_id' => 1,
-                'mock_value' => 'aaa',
-            ],
-            [
-                'mock_id' => 2,
-                'mock_value' => 'bbb',
-            ]
-        ];
+        return static::$activeData;
     }
 }

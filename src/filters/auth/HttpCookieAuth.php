@@ -25,7 +25,12 @@ class HttpCookieAuth extends AuthMethod
     public $pattern;
 
     /**
-     * {@inheritdoc}
+     * @param \yii\web\User $user
+     * @param \yii\web\Request $request
+     * @param \yii\web\Response $response
+     * @return IdentityInterface|null
+     * @throws \yii\web\UnauthorizedHttpException
+     * @inheritdoc
      */
     public function authenticate($user, $request, $response): ?IdentityInterface
     {

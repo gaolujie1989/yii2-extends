@@ -1,4 +1,4 @@
-namespace: batch
+namespace: lujie\batch
 paths:
   tests: tests
   output: tests/_output

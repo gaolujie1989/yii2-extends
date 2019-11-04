@@ -1,4 +1,4 @@
-namespace: state\machine
+namespace: lujie\state\machine
 paths:
   tests: tests
   output: tests/_output

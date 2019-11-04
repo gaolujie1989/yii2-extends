@@ -1,4 +1,4 @@
-namespace: ar\relation
+namespace: lujie\ar\relation
 paths:
   tests: tests
   output: tests/_output

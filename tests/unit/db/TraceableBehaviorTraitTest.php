@@ -13,7 +13,7 @@ use yii\behaviors\TimestampBehavior;
 class TraceableBehaviorTraitTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

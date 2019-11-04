@@ -14,7 +14,7 @@ use yii\httpclient\Response;
 class RateLimitCheckerBehaviorTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

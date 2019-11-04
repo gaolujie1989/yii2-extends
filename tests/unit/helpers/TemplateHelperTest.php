@@ -11,7 +11,7 @@ use lujie\extend\helpers\TemplateHelper;
 class TemplateHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

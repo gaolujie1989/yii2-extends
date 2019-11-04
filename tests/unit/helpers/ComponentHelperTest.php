@@ -13,7 +13,7 @@ use yii\base\Component;
 class ComponentHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

@@ -10,7 +10,7 @@ use yii\httpclient\Response;
 class RestOAuth2ClientTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

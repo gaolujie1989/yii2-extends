@@ -17,7 +17,7 @@ use yii\base\InvalidArgumentException;
 class ClassHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

@@ -9,7 +9,7 @@ use yii\httpclient\Response;
 class BaseCookieClientTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

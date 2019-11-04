@@ -11,7 +11,7 @@ use lujie\extend\helpers\ModelRuleHelper;
 class ModelRuleHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

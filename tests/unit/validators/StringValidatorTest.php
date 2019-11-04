@@ -13,7 +13,7 @@ use yii\validators\StringValidator as YiiStringValidator;
 class StringValidatorTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

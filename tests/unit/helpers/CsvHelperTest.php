@@ -11,7 +11,7 @@ use lujie\extend\tests\unit\mocks\MockActiveRecord;
 class CsvHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

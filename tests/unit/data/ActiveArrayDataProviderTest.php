@@ -13,7 +13,7 @@ use lujie\extend\tests\unit\mocks\MockActiveRecord;
 class ActiveArrayDataProviderTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

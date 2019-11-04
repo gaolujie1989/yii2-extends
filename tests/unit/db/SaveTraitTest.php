@@ -14,7 +14,7 @@ use yii\db\Exception;
 class SaveTraitTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

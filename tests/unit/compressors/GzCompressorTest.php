@@ -11,7 +11,7 @@ use lujie\extend\compressors\GzCompressor;
 class GzCompressorTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

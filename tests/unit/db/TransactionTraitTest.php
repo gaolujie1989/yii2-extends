@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
 class TransactionTraitTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

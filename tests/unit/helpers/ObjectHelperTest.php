@@ -12,7 +12,7 @@ use lujie\extend\tests\unit\mocks\MockIdentity;
 class ObjectHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

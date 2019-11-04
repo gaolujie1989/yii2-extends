@@ -13,7 +13,7 @@ use yii\db\Exception;
 class TransactionHelperTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

@@ -9,7 +9,7 @@ namespace lujie\extend\test\unit\db;
 class SortableBatchQueryResultTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

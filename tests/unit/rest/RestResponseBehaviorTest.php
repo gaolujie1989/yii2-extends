@@ -12,7 +12,7 @@ use yii\web\Response;
 class RestResponseBehaviorTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \lujie\extend\tests\UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 

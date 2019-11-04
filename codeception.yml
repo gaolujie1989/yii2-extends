@@ -1,4 +1,4 @@
-namespace: ar\history
+namespace: lujie\ar\history
 paths:
   tests: tests
   output: tests/_output

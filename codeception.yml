@@ -1,4 +1,4 @@
-namespace: executing
+namespace: lujie\executing
 paths:
   tests: tests
   output: tests/_output

@@ -41,7 +41,7 @@ class CustomFileFixtureController extends FixtureController
         }
 
         // data file full path
-        $dataFile = $fixtureDataPath . '/'. $templateName . $this->dataFileSuffix;
+        $dataFile = $fixtureDataPath . '/' . $templateName . $this->dataFileSuffix;
 
         // data file directory, create if it doesn't exist
         $dataFileDir = dirname($dataFile);

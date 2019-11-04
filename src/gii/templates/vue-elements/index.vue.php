@@ -134,7 +134,7 @@ $querySearchFields = implode("\n", $querySearchFields);
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import List from '@/modules/common/mixins/list'
 import Search from '@/modules/common/mixins/search'
 import Download from '@/modules/common/mixins/download'

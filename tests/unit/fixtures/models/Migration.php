@@ -3,12 +3,16 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\extend\tests\unit\fixtures;
+namespace lujie\extend\tests\unit\fixtures\models;
 
 use yii\db\ActiveRecord;
 
 /**
  * Class Migration
+ *
+ * @property string $version
+ * @property int $apply_time
+ *
  * @package tests\unit\fixtures
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

@@ -6,11 +6,9 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\TemplateHelper;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class TemplateHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -31,11 +29,14 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $template = 'Value1: {key1},Value2: {data.key2}';
+        $params = [
+            'key1' => 'v1',
+            'data' => [
+                'key2' => 'v2'
+            ],
+        ];
+        $excepted = 'Value1: v1,Value2: v2';
+        $this->assertEquals($excepted, TemplateHelper::render($template, $params));
     }
 }

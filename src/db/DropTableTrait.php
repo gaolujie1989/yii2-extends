@@ -5,7 +5,7 @@
 
 namespace lujie\extend\db;
 
-use \yii\db\Migration;
+use yii\db\Migration;
 
 /**
  * Trait DropTableTrait

@@ -17,7 +17,7 @@ class ModelRuleHelper
      */
     public static function removeAttributesRules(array $rules, $attributes, ?string $rule = null): array
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
         foreach ($rules as $key => $ruleConfig) {
             [$ruleAttributes, $ruleName] = $ruleConfig;
             if ($rule === null || $rule === $ruleName) {

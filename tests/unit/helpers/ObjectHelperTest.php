@@ -6,11 +6,10 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\ObjectHelper;
+use lujie\extend\tests\unit\mocks\MockIdentity;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class ObjectHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -31,11 +30,19 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $identityData = [
+            'id' => 1,
+            'authKey' => 'auth_key_111'
+        ];
+        $excepted = new MockIdentity($identityData);
+        $identity = ObjectHelper::create($identityData, MockIdentity::class);
+        $this->assertEquals($excepted, $identity);
+
+        $identity = ObjectHelper::create(
+            ['id' => 'data.id', 'authKey' => 'data.authKey'],
+            MockIdentity::class,
+            ['data' => $identityData]
+        );
+        $this->assertEquals($excepted, $identity);
     }
 }

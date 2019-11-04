@@ -6,11 +6,10 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\ActiveDataHelper;
+use lujie\extend\tests\unit\fixtures\models\Migration;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class ActiveDataHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -31,11 +30,15 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $migration = [
+            [
+                'version' => 123456789,
+                'apply_time' => '123456789',
+                'xxx' => 'xxx',
+            ]
+        ];
+        $typecast = ActiveDataHelper::typecast(Migration::class, $migration);
+        $this->assertIsString($typecast[0]['version']);
+        $this->assertIsInt($typecast[0]['apply_time']);
     }
 }

@@ -18,13 +18,20 @@ class FileHelper
     /**
      * @param string $suffix
      * @param string $prefix
+     * @param string $template
      * @return string
      * @throws \Exception
      * @inheritdoc
      */
-    public static function generateRandomFileName(string $suffix = '.xxx', string $prefix = 'tmp_'): string
+    public static function generateRandomFileName(string $suffix = '.xxx', string $prefix = 'tmp_',
+                                                  string $template = '{prefix}{datetime}_{rand}{suffix}'): string
     {
-        return $prefix . date('YmdHis') . '_' . random_int(1000, 9999) . $suffix;
+        return strtr($template, [
+            '{prefix}' => $prefix,
+            '{suffix}' => $suffix,
+            '{datetime}' => date('YmdHis'),
+            '{rand}' => random_int(1000, 9999),
+        ]);
     }
 
     /**
@@ -33,11 +40,11 @@ class FileHelper
      * @return bool
      * @inheritdoc
      */
-    public static function sendFile(string $file, string $fileName): bool
+    public static function sendFile(string $file, string $fileName, $inline = false): bool
     {
         $response = Yii::$app->getResponse();
         $response->format = $response::FORMAT_HTML;
-        $response->sendFile($file, $fileName);
+        $response->sendFile($file, $fileName, ['inline' => $inline]);
         return true;
     }
 }

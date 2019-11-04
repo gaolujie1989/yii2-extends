@@ -6,11 +6,10 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\ExcelHelper;
+use Yii;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class ExcelHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -26,16 +25,42 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @inheritdoc
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $file = Yii::getAlias('@runtime/testExcel.xlsx');
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $excelData = [
+            [
+                'AAA' => 'A111',
+                'BBB' => 'B111',
+            ],
+            [
+                'AAA' => 'A222',
+                'BBB' => 'B222',
+            ],
+        ];
+        ExcelHelper::writeExcel($file, $excelData, true, false);
+        $this->assertFileExists($file);
+        $this->assertEquals($excelData, ExcelHelper::readExcel($file, true, false));
+
+        $excelData = [
+            'AB' => [
+                ['A111', 'B111'],
+                ['A222', 'B222'],
+            ],
+            'CD' => [
+                ['C111', 'D111'],
+                ['C222', 'D222'],
+            ]
+        ];
+        ExcelHelper::writeExcel($file, $excelData, false, true);
+        $this->assertFileExists($file);
+        $this->assertEquals($excelData, ExcelHelper::readExcel($file, false, true));
     }
 }

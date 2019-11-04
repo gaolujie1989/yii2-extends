@@ -6,11 +6,11 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\ComponentHelper;
+use Yii;
+use yii\base\Component;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class ComponentHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -31,11 +31,9 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $component = new Component();
+        Yii::$app->set('testComponent', $component);
+        Yii::$app->get('testComponent');
+        $this->assertEquals('testComponent', ComponentHelper::getName($component));
     }
 }

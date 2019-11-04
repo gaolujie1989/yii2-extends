@@ -1,7 +1,10 @@
 {
   "name": "lujie/yii2-extend",
   "description": "Code to extend Yii2",
-  "keywords": ["yii2", "extend"],
+  "keywords": [
+    "yii2",
+    "extend"
+  ],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {

@@ -5,7 +5,6 @@
 
 namespace lujie\extend\httpclient;
 
-use Workerman\Protocols\Http;
 use Yii;
 use yii\base\Behavior;
 use yii\httpclient\Client;

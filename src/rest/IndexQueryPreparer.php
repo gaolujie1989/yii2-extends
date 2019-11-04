@@ -11,7 +11,6 @@ use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
-use yii\db\Query;
 use yii\db\QueryInterface;
 
 /**

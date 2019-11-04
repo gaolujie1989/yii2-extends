@@ -56,24 +56,20 @@ class HttpCookieAuthTest extends \Codeception\Test\Unit
         $cookieCollection->readOnly = false;
 
         $this->assertNull($cookieAuth->authenticate($user, $request, $response));
-        $cookieCollection->add(new Cookie([
-            'name' => $cookieAuth->cookie,
-            'value' => 'access_token_invalid'
-        ]));
 
-        try {
-            $this->assertNull($cookieAuth->authenticate($user, $request, $response));
-            $this->assertTrue(false, 'Should throw exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(UnauthorizedHttpException::class, $e);
-        }
-
-        $cookieCollection->remove($cookieAuth->cookie);
         $cookieCollection->add(new Cookie([
             'name' => $cookieAuth->cookie,
             'value' => 'access_token_111'
         ]));
         $expected = new MockIdentity(['id' => 1, 'authKey' => 'auth_key_111']);
         $this->assertEquals($expected, $cookieAuth->authenticate($user, $request, $response));
+
+        $cookieCollection->remove($cookieAuth->cookie);
+        $cookieCollection->add(new Cookie([
+            'name' => $cookieAuth->cookie,
+            'value' => 'access_token_invalid'
+        ]));
+        $this->expectException(UnauthorizedHttpException::class);
+        $this->assertNull($cookieAuth->authenticate($user, $request, $response));
     }
 }

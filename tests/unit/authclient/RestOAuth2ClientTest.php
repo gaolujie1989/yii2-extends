@@ -2,7 +2,6 @@
 
 namespace lujie\extend\tests\unit;
 
-use lujie\extend\tests\unit\mocks\MockCookieClient;
 use lujie\extend\tests\unit\mocks\MockOAuth2Client;
 use yii\helpers\VarDumper;
 use yii\httpclient\MockTransport;

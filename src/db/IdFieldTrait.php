@@ -44,7 +44,7 @@ trait IdFieldTrait
             $model->setAttribute($keys[0], $id);
         } else {
             foreach ($keys as $index => $name) {
-                $value =  $id[$name] ?? $id[$index] ?? null;
+                $value = $id[$name] ?? $id[$index] ?? null;
                 $model->setAttribute($name, $value);
             }
         }

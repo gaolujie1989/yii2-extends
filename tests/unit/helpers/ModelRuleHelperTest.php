@@ -6,11 +6,9 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\ModelRuleHelper;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class ModelRuleHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -31,11 +29,13 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $rules = [
+            [['version', 'apply_time'], 'required'],
+            [['apply_time'], 'integer', 'min' => 0],
+        ];
+        $excepted = [
+            [['version'], 'required'],
+        ];
+        $this->assertEquals($excepted, ModelRuleHelper::removeAttributesRules($rules, 'apply_time'));
     }
 }

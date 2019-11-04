@@ -7,10 +7,8 @@ namespace lujie\extend\test\unit\db;
 
 
 use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class CsvHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester

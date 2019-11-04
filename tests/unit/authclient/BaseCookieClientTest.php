@@ -3,7 +3,6 @@
 namespace lujie\extend\tests\unit;
 
 use lujie\extend\tests\unit\mocks\MockCookieClient;
-use yii\helpers\VarDumper;
 use yii\httpclient\MockTransport;
 use yii\httpclient\Response;
 

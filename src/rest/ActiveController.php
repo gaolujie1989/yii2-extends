@@ -5,7 +5,6 @@
 
 namespace lujie\extend\rest;
 
-use dpd\Type\ProductAndServiceData;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\db\ActiveRecordInterface;

@@ -8,11 +8,8 @@ namespace lujie\extend\test\unit\db;
 
 use lujie\extend\tests\unit\mocks\MockActiveRecord;
 use yii\base\ModelEvent;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Exception;
-use yii\helpers\VarDumper;
 
 class SaveTraitTest extends \Codeception\Test\Unit
 {
@@ -51,17 +48,12 @@ class SaveTraitTest extends \Codeception\Test\Unit
         ];
         $this->assertEquals($expected, $attributes);
 
-        $mockActiveRecord->on(BaseActiveRecord::EVENT_BEFORE_UPDATE, static function(ModelEvent $event) {
+        $mockActiveRecord->on(BaseActiveRecord::EVENT_BEFORE_UPDATE, static function (ModelEvent $event) {
             $event->sender->addError('model_value', 'xxx error');
             $event->isValid = false;
         });
-        try {
-            $mockActiveRecord->mustSave();
-            $this->assertTrue(false, 'Should throw exception');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(Exception::class, $e);
-            /** @var Exception $e */
-            $this->assertEquals(['model_value' => ['xxx error']], $e->errorInfo);
-        }
+
+        $this->expectException(Exception::class);
+        $mockActiveRecord->mustSave();
     }
 }

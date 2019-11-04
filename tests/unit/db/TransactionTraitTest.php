@@ -7,12 +7,7 @@ namespace lujie\extend\test\unit\db;
 
 
 use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
-use yii\db\Exception;
-use yii\helpers\VarDumper;
 
 class TransactionTraitTest extends \Codeception\Test\Unit
 {
@@ -40,7 +35,8 @@ class TransactionTraitTest extends \Codeception\Test\Unit
         $this->assertFalse($mockActiveRecord->isTransactional(ActiveRecord::OP_UPDATE));
         $this->assertFalse($mockActiveRecord->isTransactional(ActiveRecord::OP_DELETE));
 
-        $closure = static function () {};
+        $closure = static function () {
+        };
         $mockActiveRecord->on(ActiveRecord::EVENT_AFTER_INSERT, $closure);
         $this->assertTrue($mockActiveRecord->isTransactional(ActiveRecord::OP_INSERT));
         $mockActiveRecord->on(ActiveRecord::EVENT_AFTER_UPDATE, $closure);

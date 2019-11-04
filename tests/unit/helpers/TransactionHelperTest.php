@@ -6,11 +6,11 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\tests\unit\mocks\MockActiveRecord;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use lujie\extend\helpers\TransactionHelper;
+use lujie\extend\tests\unit\fixtures\models\Migration;
+use yii\db\Exception;
 
-class IdFieldTraitTest extends \Codeception\Test\Unit
+class TransactionHelperTest extends \Codeception\Test\Unit
 {
     /**
      * @var \lujie\extend\tests\UnitTester
@@ -26,16 +26,43 @@ class IdFieldTraitTest extends \Codeception\Test\Unit
     }
 
     /**
+     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
+        $query = Migration::find()->andWhere(['version' => 'm_test']);
+        $migration = new Migration(['version' => 'm_test', 'apply_time' => 123456789]);
+
+        $this->assertFalse($query->exists());
+        $transaction = TransactionHelper::transaction(static function () use ($migration) {
+            $migration->setIsNewRecord(true);
+            $migration->save(false);
+            return false;
+        }, Migration::getDb());
+        $this->assertFalse($transaction);
+        $this->assertFalse($query->exists());
+
+        $transaction = TransactionHelper::transaction(static function () use ($migration) {
+            $migration->setIsNewRecord(true);
+            return $migration->save(false);
+        }, Migration::getDb());
+        $this->assertTrue($transaction);
+        $this->assertTrue($query->exists());
+
+        $this->assertEquals(1, $migration->delete());
+        $this->expectException(Exception::class);
+        try {
+            TransactionHelper::transaction(static function () use ($migration) {
+                $migration->setIsNewRecord(true);
+                $migration->save(false);
+                throw new Exception('xxx');
+            }, Migration::getDb());
+        } catch (\Exception $exception) {
+            throw $exception;
+        } finally {
+            $this->assertFalse($query->exists());
+        }
     }
 }

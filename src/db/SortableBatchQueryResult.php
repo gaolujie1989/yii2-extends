@@ -5,7 +5,6 @@
 
 namespace lujie\extend\db;
 
-use lujie\remote\user\tests\unit\mocks\TestRemoteUserClient;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 

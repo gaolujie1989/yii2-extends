@@ -1,4 +1,4 @@
-namespace: queuing\monitor
+namespace: lujie\queuing\monitor
 paths:
   tests: tests
   output: tests/_output

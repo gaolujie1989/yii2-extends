@@ -37,7 +37,7 @@ class DateValidatorTest extends \Codeception\Test\Unit
     {
         $now = time();
         $migration = new Migration([
-            'apply_time' => date('Y-m-d H:i:s', $now),
+            'apply_time' => date('c', $now),
         ]);
         $validator = new DateValidator();
         $validator->validateAttribute($migration, 'apply_time');

@@ -17,11 +17,24 @@ use yii\web\NotFoundHttpException;
  */
 class ActiveController extends \yii\rest\ActiveController
 {
+    /**
+     * @var string
+     */
     public $idSeparator = ';';
 
+    /**
+     * @var string
+     */
     public $formClass;
+
+    /**
+     * @var string
+     */
     public $searchClass;
 
+    /**
+     * @var bool
+     */
     public $indexTypecast = true;
 
     /**

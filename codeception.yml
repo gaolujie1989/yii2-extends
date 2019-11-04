@@ -1,4 +1,4 @@
-namespace: upload
+namespace: lujie\upload
 paths:
   tests: tests
   output: tests/_output

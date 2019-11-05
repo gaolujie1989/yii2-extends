@@ -21,7 +21,7 @@ use Yii;
  * @property string $name2 first name
  * @property string $name3 last name
  * @property string $address1 street|pack station|post filiale
- * @property string $address2 house no|pack station id
+ * @property string $address2 street no|house no|pack station id
  * @property string $address3 additional
  * @property string $postal_code
  * @property string $email
@@ -33,6 +33,7 @@ use Yii;
  * @property string $first_name
  * @property string $last_name
  * @property string $street
+ * @property string $street_no
  * @property string $house_no
  * @property string $additional
  *
@@ -95,6 +96,7 @@ class Address extends \yii\db\ActiveRecord
                     'first_name' => 'name2',
                     'last_name' => 'name3',
                     'street' => 'address1',
+                    'street_no' => 'address2',
                     'house_no' => 'address2',
                     'additional' => 'address3',
                 ]
@@ -132,7 +134,7 @@ class Address extends \yii\db\ActiveRecord
     protected function generateSignature(): string
     {
         $addressData = $this->getAttributes(null, ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by']);
-        return md5(json_encode($addressData));
+        return md5(json_encode($addressData, JSON_THROW_ON_ERROR, 512));
     }
 
     /**

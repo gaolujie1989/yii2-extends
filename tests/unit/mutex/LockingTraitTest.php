@@ -68,5 +68,8 @@ class LockingTraitTest extends \Codeception\Test\Unit
         $this->assertArrayNotHasKey('success', $result);
         $this->assertArrayHasKey('fail', $result);
         $this->assertFalse($mutex->acquire('aaa'));
+
+        $mutexObject->setLockTimeout(10);
+        $this->assertEquals(10, $mutexObject->getTimeout());
     }
 }

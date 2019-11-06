@@ -11,7 +11,8 @@ use yii\mutex\Mutex;
 /**
  * Trait LockingTrait
  *
- * @property string lockKeyPrefix = '';
+ * @property string lockKeyPrefix;
+ * @property int lockTimeout;
  *
  * @package lujie\extend\mutex
  */
@@ -21,6 +22,11 @@ trait LockingTrait
      * @var Mutex
      */
     public $mutex = 'mutex';
+
+    /**
+     * @var int
+     */
+    private $timeout = 0;
 
     /**
      * @var string
@@ -45,6 +51,9 @@ trait LockingTrait
         if ($this->mutex) {
             $this->mutex = Instance::ensure($this->mutex, Mutex::class);
         }
+        if (isset($this->lockTimeout) && is_int($this->lockTimeout)) {
+            $this->timeout = $this->lockTimeout;
+        }
         if (isset($this->lockKeyPrefix) && is_string($this->lockKeyPrefix)) {
             $this->keyPrefix = $this->lockKeyPrefix;
         }
@@ -55,15 +64,15 @@ trait LockingTrait
      * @param $name
      * @param $onSuccess
      * @param $onFailure
-     * @param int $timeout
-     * @return mixed
+     * @return mixed|void
      * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function lockingRun($name, $onSuccess, $onFailure, $timeout = 0)
+    public function lockingRun($name, $onSuccess, $onFailure)
     {
         $this->initMutex();
-        if ($this->mutex->acquire($name, $timeout)) {
+        if ($this->mutex->acquire($name, $this->timeout)) {
             try {
                 if ($onSuccess && is_callable($onSuccess)) {
                     return $onSuccess();
@@ -76,5 +85,17 @@ trait LockingTrait
         } else if ($onFailure && is_callable($onFailure)) {
             return $onFailure();
         }
+    }
+
+    /**
+     * @param int $timeout
+     * @inheritdoc
+     */
+    public function setLockTimeout(int $timeout = 5): void
+    {
+        if (isset($this->lockTimeout)) {
+            $this->lockTimeout = $timeout;
+        }
+        $this->timeout = $timeout;
     }
 }

@@ -21,9 +21,23 @@ class MockMutexObject extends BaseObject
     use LockingTrait;
 
     /**
+     * @var int
+     */
+    public $lockTimeout = 0;
+
+    /**
      * @var string
      */
     public $lockKeyPrefix = 'test:';
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getTimeout(): int
+    {
+        return $this->timeout;
+    }
 
     /**
      * @return string

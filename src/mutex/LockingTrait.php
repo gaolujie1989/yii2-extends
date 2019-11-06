@@ -72,6 +72,7 @@ trait LockingTrait
     public function lockingRun($name, $onSuccess, $onFailure)
     {
         $this->initMutex();
+        $name = $this->lockKeyPrefix . $name;
         if ($this->mutex->acquire($name, $this->timeout)) {
             try {
                 if ($onSuccess && is_callable($onSuccess)) {

@@ -69,23 +69,24 @@ trait LockingTrait
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function lockingRun($name, $onSuccess, $onFailure)
+    public function lockingRun($name, $onSuccess, $onFailure = null)
     {
-        $this->initMutex();
-        $name = $this->lockKeyPrefix . $name;
-        if ($this->mutex->acquire($name, $this->timeout)) {
-            try {
-                if ($onSuccess && is_callable($onSuccess)) {
+        if ($this->mutex) {
+            $this->initMutex();
+            $name = $this->lockKeyPrefix . $name;
+            if ($this->mutex->acquire($name, $this->timeout)) {
+                try {
                     return $onSuccess();
+                } catch (\Throwable $e) {
+                    throw $e;
+                } finally {
+                    $this->mutex->release($name);
                 }
-            } catch (\Throwable $e) {
-                throw $e;
-            } finally {
-                $this->mutex->release($name);
+            } else if ($onFailure && is_callable($onFailure)) {
+                return $onFailure();
             }
-        } else if ($onFailure && is_callable($onFailure)) {
-            return $onFailure();
         }
+        return $onSuccess();
     }
 
     /**

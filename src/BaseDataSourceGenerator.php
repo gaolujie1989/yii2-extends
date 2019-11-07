@@ -25,6 +25,11 @@ abstract class BaseDataSourceGenerator extends BaseObject
     /**
      * @var int
      */
+    public $previousTimeSeconds = 5;
+
+    /**
+     * @var int
+     */
     public $overTimeSeconds = 5;
 
     /**
@@ -39,11 +44,21 @@ abstract class BaseDataSourceGenerator extends BaseObject
             foreach ($dataSourceTypes as $dataSourceType) {
                 if ($timePeriod) {
                     for ($fromTime = $startTime; $fromTime < $endTime; $fromTime += $timePeriod) {
-                        $toTime = min($fromTime + $timePeriod + $this->overTimeSeconds, $endTime);
-                        $dataSources[] = $this->createSource($dataAccount, $dataSourceType, $fromTime, $toTime);
+                        $toTime = min($fromTime + $timePeriod, $endTime);
+                        $dataSources[] = $this->createSource(
+                            $dataAccount,
+                            $dataSourceType,
+                            $fromTime - $this->previousTimeSeconds,
+                            $toTime - $this->overTimeSeconds
+                        );
                     }
                 } else {
-                    $dataSources[] = $this->createSource($dataAccount, $dataSourceType, $startTime, $endTime);
+                    $dataSources[] = $this->createSource(
+                        $dataAccount,
+                        $dataSourceType,
+                        $startTime - $this->previousTimeSeconds,
+                        $endTime - $this->overTimeSeconds
+                    );
                 }
             }
             return $dataSources;
@@ -59,5 +74,5 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @return DataSource|null
      * @inheritdoc
      */
-    abstract protected function createSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime, $timePrevious = 5): DataSource;
+    abstract protected function createSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime): DataSource;
 }

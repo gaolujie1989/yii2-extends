@@ -43,13 +43,19 @@ class GenerateSourceTask extends CronTask
      */
     public function execute(): bool
     {
+        if ($this->sourceTypes) {
+            return true;
+        }
+
         $invalidTypeAccounts = [];
         /** @var DataAccount[] $eachAccount */
-        $eachAccount = DataAccount::find()->active()->each();
+        $eachAccount = DataAccount::find()->active()
+            ->type(array_keys($this->sourceTypes))
+            ->each();
         foreach ($eachAccount as $account) {
             $form = new GenerateSourceForm();
             $form->sourceGeneratorLoader = $this->sourceGeneratorLoader;
-            $form->sourceTypes = $this->sourceTypes;
+            $form->sourceTypes = $this->sourceTypes[$account->type];
             $form->dataAccountId = $account->data_account_id;
             $form->endTime = time();
             $form->startTime = $form->endTime - $this->timePeriodSeconds;

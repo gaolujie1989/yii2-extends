@@ -54,12 +54,13 @@ class GenerateSourceFormTest extends \Codeception\Test\Unit
      */
     public function testGenerate(): void
     {
-        $now = time();
+        $fromTime = strtotime('2019-01-01');
+        $toTime = strtotime('2019-01-02');
         $generateSourceForm = new GenerateSourceForm();
         $generateSourceForm->dataAccountId = 1;
         $generateSourceForm->sourceTypes = ['MOCK_TYPE1', 'MOCK_TYPE2'];
-        $generateSourceForm->startTime = $now - 10800;
-        $generateSourceForm->endTime = $now;
+        $generateSourceForm->startTime = $fromTime;
+        $generateSourceForm->endTime = $toTime;
 
         $generateSourceForm->dataAccountId = 3;
         $this->assertFalse($generateSourceForm->generate());
@@ -67,13 +68,32 @@ class GenerateSourceFormTest extends \Codeception\Test\Unit
         $generateSourceForm->dataAccountId = 1;
 
         $this->assertTrue($generateSourceForm->generate());
-        $count = DataSource::find()->dataAccountId(1)->type(['MOCK_TYPE1', 'MOCK_TYPE2'])->count();
-        $this->assertEquals(2, $count);
+        $query = DataSource::find()->dataAccountId(1)->type(['MOCK_TYPE1', 'MOCK_TYPE2']);
+        $this->assertEquals(2, $query->count());
+        $name = 'mock_account1:' . implode('--', [
+                date('c', $fromTime - 5),
+                date('c', $toTime + 5)]);
+        $dataSource = $query->one();
+        $this->assertEquals($name, $dataSource->name);
 
         $generateSourceForm->sourceTypes = ['MOCK_TYPE3', 'MOCK_TYPE4'];
-        $generateSourceForm->timePeriod = 3600;
+        $timePeriod = ($toTime - $fromTime) / 2;
+        $generateSourceForm->timePeriod = $timePeriod;
         $this->assertTrue($generateSourceForm->generate());
         $count = DataSource::find()->dataAccountId(1)->type(['MOCK_TYPE3', 'MOCK_TYPE4'])->count();
-        $this->assertEquals(6, $count);
+        $this->assertEquals(4, $count);
+        $name1 = 'mock_account1:' . implode('--', [
+                date('c', $fromTime - 5),
+                date('c', $fromTime + $timePeriod + 5)]);
+        $name2 = 'mock_account1:' . implode('--', [
+                date('c', $fromTime + $timePeriod - 5),
+                date('c', $toTime + 5)
+            ]);
+        $dataSources = DataSource::find()->dataAccountId(1)->type('MOCK_TYPE3')
+            ->asArray()
+            ->indexBy('name')
+            ->all();
+        $this->assertArrayHasKey($name1, $dataSources);
+        $this->assertArrayHasKey($name2, $dataSources);
     }
 }

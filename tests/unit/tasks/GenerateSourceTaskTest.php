@@ -10,11 +10,8 @@ use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\tasks\GenerateSourceTask;
 use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
-use lujie\data\recording\tests\unit\fixtures\DataSourceFixture;
 use lujie\data\recording\tests\unit\mocks\MockDataSourceGenerator;
-use lujie\extend\constants\ExecStatusConst;
 use Yii;
-use yii\queue\sync\Queue;
 
 class GenerateSourceTaskTest extends \Codeception\Test\Unit
 {
@@ -61,9 +58,9 @@ class GenerateSourceTaskTest extends \Codeception\Test\Unit
         $recordingTask = new GenerateSourceTask([
             'sourceGeneratorLoader' => 'dataSourceGeneratorLoader',
             'sourceTypes' => [
-                'MOCK_TYPE1', 'MOCK_TYPE2'
+                'MOCK' => ['MOCK_TYPE1', 'MOCK_TYPE2']
             ],
-            'timePeriodSeconds' => 300,
+            'timeDurationSeconds' => 300,
         ]);
         $this->assertTrue($recordingTask->execute());
         $count = DataSource::find()->dataAccountId(1)->type(['MOCK_TYPE1', 'MOCK_TYPE2'])->count();

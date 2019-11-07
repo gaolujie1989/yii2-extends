@@ -11,6 +11,7 @@ use lujie\data\recording\models\DataAccount;
 use lujie\scheduling\CronTask;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\di\Instance;
 use yii\helpers\VarDumper;
 
 /**
@@ -33,7 +34,12 @@ class GenerateSourceTask extends CronTask
     /**
      * @var int seconds
      */
-    public $timePeriodSeconds = 300;
+    public $timeDurationSeconds = 300;
+
+    /**
+     * @var array
+     */
+    public $formConfig = [];
 
     /**
      * @return bool
@@ -43,7 +49,7 @@ class GenerateSourceTask extends CronTask
      */
     public function execute(): bool
     {
-        if ($this->sourceTypes) {
+        if (empty($this->sourceTypes)) {
             return true;
         }
 
@@ -53,12 +59,12 @@ class GenerateSourceTask extends CronTask
             ->type(array_keys($this->sourceTypes))
             ->each();
         foreach ($eachAccount as $account) {
-            $form = new GenerateSourceForm();
+            $form = Instance::ensure($this->formConfig, GenerateSourceForm::class);
             $form->sourceGeneratorLoader = $this->sourceGeneratorLoader;
             $form->sourceTypes = $this->sourceTypes[$account->type];
             $form->dataAccountId = $account->data_account_id;
             $form->endTime = time();
-            $form->startTime = $form->endTime - $this->timePeriodSeconds;
+            $form->startTime = $form->endTime - $this->timeDurationSeconds;
             if ($form->generate() === false && $form->hasErrors()) {
                 $invalidTypeAccounts[$account->data_account_id . $account->name] = $account->type;
             }

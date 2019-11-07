@@ -5,6 +5,7 @@
 
 namespace lujie\data\recording;
 
+use kiwi\data\exporting\models\ExportSource;
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataSource;
 use lujie\extend\constants\StatusConst;
@@ -75,4 +76,24 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @inheritdoc
      */
     abstract protected function createSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime): DataSource;
+
+    /**
+     * @param DataAccount $dataAccount
+     * @param string $type
+     * @param int $fromTime
+     * @param int $toTime
+     * @return DataSource
+     * @inheritdoc
+     */
+    protected function createRecordExportSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime): DataSource
+    {
+        $exportSource = new DataSource();
+        $exportSource->data_account_id = $dataAccount->data_account_id;
+        $exportSource->type = $type;
+        $exportSource->condition = ['BETWEEN', 'data_updated_at', $fromTime, $toTime];
+        $exportSource->name = implode('--', [date('c', $fromTime), date('c', $toTime)]);
+        $exportSource->status = $this->sourceStatus;
+        $exportSource->save(false);
+        return $exportSource;
+    }
 }

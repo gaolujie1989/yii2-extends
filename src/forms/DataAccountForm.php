@@ -33,20 +33,6 @@ class DataAccountForm extends DataAccount
     }
 
     /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'relationDelete' => [
-                'class' => RelationDeletableBehavior::class,
-                'relations' => ['dataSources']
-            ]
-        ]);
-    }
-
-    /**
      * @return bool
      * @inheritdoc
      */

@@ -34,20 +34,6 @@ abstract class BaseDataRecorder extends DataExchanger
         'class' => ActiveRecordRecordDataPipeline::class
     ];
 
-    /**
-     * @param DataSource $dataSource
-     * @return bool
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\base\NotSupportedException
-     * @inheritdoc
-     */
-    public function pull(DataSource $dataSource): bool
-    {
-        $this->prepare($dataSource);
-        return $this->execute();
-    }
-
     abstract protected function createSource(DataSource $dataSource): SourceInterface;
 
     /**

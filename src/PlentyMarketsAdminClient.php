@@ -7,6 +7,7 @@ namespace lujie\plentyMarkets;
 
 use lujie\extend\authclient\BaseCookieClient;
 use yii\base\InvalidConfigException;
+use yii\helpers\Json;
 use yii\web\CookieCollection;
 
 /**
@@ -108,7 +109,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
                 'token' => '',
             ],
         ];
-        $sessionRequestData = ['request' => json_encode($sessionRequestData)];
+        $sessionRequestData = ['request' => Json::encode($sessionRequestData)];
         $header = [
             'Authorization' => 'Bearer ' . $this->getAuthorization(),
             'Referer' => strtr('https://{domainHash}.plentymarkets-cloud-de.com/plenty/gwt/productive/2a28ee69/admin.html',
@@ -153,7 +154,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
             'stockBarcodeOption' => '1',
         ];
         $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]) . http_build_query($query);
-        $response = $this->call($requestUrl);
+        $response = $this->request($requestUrl);
         return $response->content;
     }
 }

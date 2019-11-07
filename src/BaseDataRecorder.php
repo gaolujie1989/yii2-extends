@@ -6,6 +6,7 @@
 namespace lujie\data\recording;
 
 use lujie\data\exchange\DataExchanger;
+use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
@@ -34,6 +35,11 @@ abstract class BaseDataRecorder extends DataExchanger
         'class' => ActiveRecordRecordDataPipeline::class
     ];
 
+    /**
+     * @var DataSource
+     */
+    protected $dataSource;
+
     abstract protected function createSource(DataSource $dataSource): SourceInterface;
 
     /**
@@ -42,11 +48,12 @@ abstract class BaseDataRecorder extends DataExchanger
      */
     public function prepare(DataSource $dataSource): void
     {
-        if ($this->pipeline instanceof DataRecordPipeline) {
-            $this->pipeline->dataSource = $dataSource;
-        }
+        $this->dataSource = $dataSource;
         if ($this->transformer instanceof RecordTransformer) {
             $this->transformer->dataSource = $dataSource;
+        }
+        if ($this->pipeline instanceof DataRecordPipeline) {
+            $this->pipeline->dataSource = $dataSource;
         }
         $this->source = $this->createSource($dataSource);
         $this->id = $dataSource->data_source_id;
@@ -61,23 +68,23 @@ abstract class BaseDataRecorder extends DataExchanger
      */
     public function execute(): bool
     {
-        if ($this->pipeline instanceof DataRecordPipeline) {
-            $dataSource = $this->pipeline->dataSource;
-            $dataSource->last_exec_at = time();
-            $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_RUNNING;
-            $dataSource->save(false);
+        $dataSource = $this->dataSource;
+        $dataSource->last_exec_at = time();
+        $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_RUNNING;
+        $dataSource->save(false);
 
-            try {
-                $execute = parent::execute();
-                $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+        try {
+            $execute = parent::execute();
+            $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+            if ($this->pipeline instanceof DbPipelineInterface) {
                 $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
-                $dataSource->save(false);
-                return $execute;
-            } catch (\Throwable $e) {
-                $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
-                $dataSource->save(false);
             }
+            $dataSource->save(false);
+            return $execute;
+        } catch (\Throwable $e) {
+            $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
+            $dataSource->last_exec_result = ['error' => mb_substr($e->getMessage(), 0, 1000)];
+            $dataSource->save(false);
         }
-        return parent::execute();
     }
 }

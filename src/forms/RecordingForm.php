@@ -93,7 +93,8 @@ class RecordingForm extends Model
         }
 
         $this->dataRecorderLoader = Instance::ensure($this->dataRecorderLoader, DataLoaderInterface::class);
-        $dataRecorder = $this->dataRecorderLoader->get($this->getDataSource()->dataAccount->type);
+        $dataRecorder = $this->dataRecorderLoader->get($this->getDataSource()->type)
+            ?: $this->dataRecorderLoader->get($this->getDataSource()->dataAccount->type);
         if ($dataRecorder === null) {
             $this->addError('Invalid data account type, Null DataRecorder');
             return false;

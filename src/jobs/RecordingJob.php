@@ -36,6 +36,11 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
     public $executor;
 
     /**
+     * @var int
+     */
+    public $attempt = 1;
+
+    /**
      * @param \yii\queue\Queue $queue
      * @return bool|mixed|void
      * @throws InvalidConfigException
@@ -77,6 +82,6 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
      */
     public function canRetry($attempt, $error): bool
     {
-        return false;
+        return $attempt < $this->attempt;
     }
 }

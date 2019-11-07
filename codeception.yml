@@ -21,3 +21,4 @@ coverage:
   exclude:
     - src/migrations/*
     - src/controllers/*
+    - src/searches/*

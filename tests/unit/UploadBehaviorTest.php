@@ -126,6 +126,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
         $this->assertFalse($uploadForm->validate());
 
         $uploadForm = new UploadSavedFileForm([
+            'model_id' => 1,
             'model_type' => 'test',
             'inputName' => 'testFile',
             'allowedExtensions' => ['bin'],

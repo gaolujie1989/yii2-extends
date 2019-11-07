@@ -50,7 +50,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
                             $dataAccount,
                             $dataSourceType,
                             $fromTime - $this->previousTimeSeconds,
-                            $toTime - $this->overTimeSeconds
+                            $toTime + $this->overTimeSeconds
                         );
                     }
                 } else {
@@ -58,7 +58,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
                         $dataAccount,
                         $dataSourceType,
                         $startTime - $this->previousTimeSeconds,
-                        $endTime - $this->overTimeSeconds
+                        $endTime + $this->overTimeSeconds
                     );
                 }
             }

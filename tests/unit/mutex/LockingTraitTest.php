@@ -51,7 +51,7 @@ class LockingTraitTest extends \Codeception\Test\Unit
         }
         $this->assertArrayHasKey('success', $result);
         $this->assertArrayNotHasKey('fail', $result);
-        $this->assertTrue($mutex->acquire('aaa'));
+        $this->assertTrue($mutex->acquire($mutexObject->lockKeyPrefix . 'aaa'));
 
         $result = [];
         try {
@@ -67,7 +67,7 @@ class LockingTraitTest extends \Codeception\Test\Unit
         }
         $this->assertArrayNotHasKey('success', $result);
         $this->assertArrayHasKey('fail', $result);
-        $this->assertFalse($mutex->acquire('aaa'));
+        $this->assertFalse($mutex->acquire($mutexObject->lockKeyPrefix . 'aaa'));
 
         $mutexObject->setLockTimeout(10);
         $this->assertEquals(10, $mutexObject->getTimeout());

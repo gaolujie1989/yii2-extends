@@ -69,7 +69,7 @@ class DataRecordData extends \yii\db\ActiveRecord
      * @return string|null
      * @inheritdoc
      */
-    public static function getDataTextByRecordId(int $dataRecordId, $compressor): ?string
+    public static function getDataTextByRecordId(int $dataRecordId, $compressor = null): ?string
     {
         $dataText = static::find()->andWhere(['data_record_id' => $dataRecordId])->select(['data_text'])->scalar();
         if ($dataText === null) {

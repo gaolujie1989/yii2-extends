@@ -13,7 +13,7 @@ return [
         'url' => 'url',
         'username' => 'username',
         'password' => 'password',
-        'status' => StatusConst::STATUS_INACTIVE,
+        'status' => StatusConst::STATUS_ACTIVE,
     ],
     [
         'data_account_id' => 2,

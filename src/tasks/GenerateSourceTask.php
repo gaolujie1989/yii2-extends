@@ -28,11 +28,6 @@ class GenerateSourceTask extends CronTask
     /**
      * @var array
      */
-    private $sourceGenerators = [];
-
-    /**
-     * @var array
-     */
     public $sourceTypes = [];
 
     /**

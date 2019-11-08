@@ -6,6 +6,7 @@
 namespace lujie\data\recording;
 
 use lujie\data\exchange\DataExchanger;
+use lujie\data\exchange\pipelines\CombinedPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\recording\models\DataSource;
@@ -78,6 +79,13 @@ abstract class BaseDataRecorder extends DataExchanger
             $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
             if ($this->pipeline instanceof DbPipelineInterface) {
                 $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
+            } else if ($this->pipeline instanceof CombinedPipeline) {
+                foreach ($this->pipeline->pipelines as $pipeline) {
+                    if ($pipeline instanceof DbPipelineInterface) {
+                        $dataSource->last_exec_result = $pipeline->getAffectedRowCounts();
+                        break;
+                    }
+                }
             }
             $dataSource->save(false);
             return $execute;

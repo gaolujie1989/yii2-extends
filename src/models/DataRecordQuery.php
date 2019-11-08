@@ -40,8 +40,8 @@ class DataRecordQuery extends \yii\db\ActiveQuery
                     'dataId' => 'data_id',
                     'dataKey' => 'data_key',
                     'dataParentId' => 'data_parent_id',
-                    'dataUpdatedAtFrom' => ['>=', 'data_updated_at'],
-                    'dataUpdatedAtTo' => ['<=', 'data_updated_at'],
+                    'dataUpdatedAtFrom' => ['data_updated_at' => '>='],
+                    'dataUpdatedAtTo' => ['data_updated_at' => '<='],
                 ],
                 'queryReturns' => [
                     'getDataIds' => ['data_id', FieldQueryBehavior::RETURN_COLUMN],

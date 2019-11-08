@@ -8,6 +8,7 @@ namespace lujie\data\recording\jobs;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\forms\RecordingForm;
 use lujie\executing\Executor;
+use lujie\extend\queue\RetryableJobTrait;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\queue\JobInterface;
@@ -20,6 +21,8 @@ use yii\queue\RetryableJobInterface;
  */
 class RecordingJob extends BaseObject implements JobInterface, RetryableJobInterface
 {
+    use RetryableJobTrait;
+
     /**
      * @var DataLoaderInterface
      */
@@ -34,6 +37,11 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
      * @var Executor
      */
     public $executor;
+
+    /**
+     * @var int
+     */
+    public $ttr = 1800;
 
     /**
      * @var int
@@ -58,30 +66,5 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
             return true;
         }
         throw new InvalidConfigException(implode(';', $form->getErrorSummary(true)));
-    }
-
-    /**
-     * @var int
-     */
-    public $ttr = 1800;
-
-    /**
-     * @return int
-     * @inheritdoc
-     */
-    public function getTtr(): int
-    {
-        return $this->ttr;
-    }
-
-    /**
-     * @param int $attempt
-     * @param \Exception|\Throwable $error
-     * @return bool
-     * @inheritdoc
-     */
-    public function canRetry($attempt, $error): bool
-    {
-        return $attempt < $this->attempt;
     }
 }

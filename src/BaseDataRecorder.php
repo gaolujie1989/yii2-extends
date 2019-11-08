@@ -91,7 +91,8 @@ abstract class BaseDataRecorder extends DataExchanger
             return $execute;
         } catch (\Throwable $e) {
             $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
-            $dataSource->last_exec_result = ['error' => mb_substr($e->getMessage(), 0, 1000)];
+            $error = mb_substr($e->getMessage() . "\n" . $e->getTraceAsString(), 0, 1000);
+            $dataSource->last_exec_result = ['error' => $error];
             $dataSource->save(false);
             return false;
         }

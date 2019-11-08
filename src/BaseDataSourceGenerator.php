@@ -90,7 +90,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
         $exportSource = new DataSource();
         $exportSource->data_account_id = $dataAccount->data_account_id;
         $exportSource->type = $type;
-        $exportSource->condition = ['BETWEEN', 'date_updated_at', $fromTime, $toTime];
+        $exportSource->condition = ['BETWEEN', 'data_updated_at', $fromTime, $toTime];
         $exportSource->name = implode('--', [date('c', $fromTime), date('c', $toTime)]);
         $exportSource->status = $this->sourceStatus;
         $exportSource->save(false);

@@ -31,7 +31,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static function getDb(): Connection
     {
         $app = Yii::$app;
-        $db = Yii::$app->params['dataDB'] ?? null;
+        $db = Yii::$app->params['recordingDB'] ?? null;
         return $db ? $app->get($db) : parent::getDb();
     }
 }

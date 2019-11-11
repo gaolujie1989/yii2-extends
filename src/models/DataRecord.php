@@ -27,7 +27,7 @@ use yii\db\ActiveQuery;
  * @property DataAccount $dataAccount
  * @property DataSource $dataSource
  */
-class DataRecord extends \yii\db\ActiveRecord
+class DataRecord extends \lujie\data\recording\base\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
 

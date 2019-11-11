@@ -24,10 +24,8 @@ use yii\db\ActiveQuery;
  * @property TaskGroup[] $taskGroups
  * @property Task[] $tasks
  */
-class Project extends \yii\db\ActiveRecord
+class Project extends \lujie\project\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
     public const VISIBILITY_PUBLIC = 'PUBLIC';
     public const VISIBILITY_PRIVATE = 'PRIVATE';
     public const VISIBILITY_SYSTEM = 'SYSTEM';

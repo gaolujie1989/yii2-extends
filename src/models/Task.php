@@ -3,10 +3,6 @@
 namespace lujie\project\models;
 
 use lujie\alias\behaviors\TimestampAliasBehavior;
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use lujie\upload\models\UploadSavedFileQuery;
 use Yii;
 use yii\db\ActiveQuery;
@@ -43,10 +39,8 @@ use yii2tech\ar\position\PositionBehavior;
  * @property Task[] subTasks
  * @property Task parentTask
  */
-class Task extends \yii\db\ActiveRecord
+class Task extends \lujie\project\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
     /**
      * {@inheritdoc}
      */
@@ -79,7 +73,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+        return array_merge(parent::behaviors(), [
             'dateAlias' => [
                 'class' => TimestampAliasBehavior::class,
                 'aliasProperties' => [

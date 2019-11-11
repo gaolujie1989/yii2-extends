@@ -8,7 +8,10 @@ namespace lujie\project\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\upload\models\UploadSavedFile;
+use Yii;
+use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
+use yii\db\Connection;
 
 /**
  * Class TaskAttachment
@@ -27,6 +30,18 @@ class TaskAttachment extends UploadSavedFile
     public const MODEL_TYPE_TASK_ATTACHMENT = 'TASK_ATTACHMENT';
 
     public const MODEL_TYPE = self::MODEL_TYPE_TASK_ATTACHMENT;
+
+    /**
+     * @return Connection|object
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public static function getDb(): Connection
+    {
+        $app = Yii::$app;
+        $db = Yii::$app->params['projectDB'] ?? null;
+        return $db ? $app->get($db) : parent::getDb();
+    }
 
     /**
      * @return array

@@ -2,10 +2,6 @@
 
 namespace lujie\project\models;
 
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 use yii\db\ActiveQuery;
 use yii2tech\ar\position\PositionBehavior;
@@ -22,10 +18,8 @@ use yii2tech\ar\position\PositionBehavior;
  * @property Project $project
  * @property Task[] $tasks
  */
-class TaskGroup extends \yii\db\ActiveRecord
+class TaskGroup extends \lujie\project\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
     /**
      * {@inheritdoc}
      */
@@ -52,7 +46,7 @@ class TaskGroup extends \yii\db\ActiveRecord
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+        return array_merge(parent::behaviors(), [
             'position' => [
                 'class' => PositionBehavior::class,
                 'groupAttributes' => ['project_id']

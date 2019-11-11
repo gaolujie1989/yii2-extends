@@ -4,12 +4,7 @@ namespace lujie\data\recording\models;
 
 use lujie\extend\compressors\CompressorInterface;
 use lujie\extend\compressors\GzCompressor;
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%data_record_data}}".
@@ -18,10 +13,8 @@ use yii\db\ActiveQuery;
  * @property int $data_record_id
  * @property int $data_text
  */
-class DataRecordData extends \yii\db\ActiveRecord
+class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
     /**
      * {@inheritdoc}
      */

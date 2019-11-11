@@ -2,10 +2,6 @@
 
 namespace lujie\stock\models;
 
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -18,10 +14,8 @@ use Yii;
  * @property int $moved_item_value
  * @property string $reason
  */
-class StockMovement extends \yii\db\ActiveRecord
+class StockMovement extends \lujie\stock\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
     /**
      * {@inheritdoc}
      */

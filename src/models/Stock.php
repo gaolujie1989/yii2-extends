@@ -2,10 +2,6 @@
 
 namespace lujie\stock\models;
 
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -17,10 +13,8 @@ use Yii;
  * @property int $stock_qty
  * @property string $stock_item_value
  */
-class Stock extends \yii\db\ActiveRecord
+class Stock extends \lujie\stock\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
     /**
      * {@inheritdoc}
      */

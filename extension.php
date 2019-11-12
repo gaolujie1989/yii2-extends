@@ -4,12 +4,12 @@
  */
 
 return [
-    'lujie/yii2-barcode-assigner' => [
-        'name' => 'lujie/yii2-barcode-assigner',
+    'lujie/yii2-currency-exchange' => [
+        'name' => 'lujie/yii2-currency-exchange',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/barcode/assigning' => __DIR__ . '/src',
-            '@lujie/barcode/assigning/tests' => __DIR__ . '/tests',
+            '@lujie/currency/exchanging' => __DIR__ . '/src',
+            '@lujie/currency/exchanging/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

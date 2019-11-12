@@ -60,7 +60,7 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
     public function getRate(string $from, string $to, ?string $date = null): float
     {
         $currencyPair = $from . '/' . $to;
-        if (empty($date) || $date === $date('Y-m-d')) {
+        if (empty($date) || $date === date('Y-m-d')) {
             $exchangeRate = $this->swap->latest($currencyPair);
             return $exchangeRate->getValue();
         }

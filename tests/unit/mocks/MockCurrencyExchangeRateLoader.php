@@ -38,7 +38,7 @@ class MockCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
      * @return float
      * @inheritdoc
      */
-    public function getRate(string $from, string $to, ?string $date): float
+    public function getRate(string $from, string $to, ?string $date = null): float
     {
         return $this->rates[$from . '/' . $to] ?? 0;
     }

@@ -8,6 +8,7 @@ namespace lujie\remote\rbac\tests\unit;
 use lujie\currency\exchanging\CurrencyExchangeRateUpdater;
 use lujie\currency\exchanging\models\CurrencyExchangeRate;
 use lujie\currency\exchanging\tests\unit\mocks\MockCurrencyExchangeRateLoader;
+use yii\helpers\VarDumper;
 
 class CurrencyExchangeRateUpdaterTest extends \Codeception\Test\Unit
 {
@@ -53,7 +54,7 @@ class CurrencyExchangeRateUpdaterTest extends \Codeception\Test\Unit
             ->indexBy($rateIndex)
             ->all();
         $this->assertCount(2, $rates);
-        $this->assertEquals($rateLoader->rates['EUR/USD'], $rates['EUR/USD']);
-        $this->assertEquals($rateLoader->rates['USD/EUR'], $rates['USD/EUR']);
+        $this->assertEquals($rateLoader->rates['EUR/USD'], $rates['EUR/USD']['rate']);
+        $this->assertEquals($rateLoader->rates['USD/EUR'], $rates['USD/EUR']['rate']);
     }
 }

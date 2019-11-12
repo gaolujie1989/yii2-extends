@@ -47,10 +47,13 @@ class CurrencyExchangeRateUpdater extends BaseObject
         $this->rateLoader = Instance::ensure($this->rateLoader, CurrencyExchangeRateLoader::class);
         $timeFrom = strtotime($this->dateRange[0]);
         $timeTo = strtotime($this->dateRange[1]);
-        for ($time = $timeFrom; $time < $timeTo; $time += 86400) {
+        for ($time = $timeFrom; $time <= $timeTo; $time += 86400) {
             $date = date('Y-m-d', $time);
             foreach ($this->currencies as $currencyFrom) {
                 foreach ($this->currencies as $currencyTo) {
+                    if ($currencyFrom === $currencyTo) {
+                        continue;
+                    }
                     $query = CurrencyExchangeRate::find()
                         ->fromTo($currencyFrom, $currencyTo)
                         ->date($date);
@@ -65,7 +68,7 @@ class CurrencyExchangeRateUpdater extends BaseObject
                         $exchangeRate->to = $currencyTo;
                         $exchangeRate->date = $date;
                     }
-                    $rate = $this->getRate($currencyFrom, $currencyTo, $date);
+                    $rate = $this->rateLoader->getRate($currencyFrom, $currencyTo, $date);
                     $exchangeRate->rate = $rate;
                     $exchangeRate->mustSave(false);
                 }

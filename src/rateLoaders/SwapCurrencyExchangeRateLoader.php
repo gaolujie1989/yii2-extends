@@ -7,7 +7,9 @@ namespace lujie\currency\exchanging\rateLoaders;
 
 use DateTime;
 use lujie\currency\exchanging\CurrencyExchangeRateLoader;
+use lujie\currency\exchanging\swap\services\Juhe;
 use Swap\Builder;
+use Swap\Service\Registry;
 use Swap\Swap;
 use yii\base\BaseObject;
 
@@ -28,7 +30,17 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
         'currency_layer' => [
             'access_key' => '83b0ee2572f1a20200dc2be602fb666a',
             'enterprise' => false
+        ],
+        'juhe' => [
+            'access_key' => '8132ee950b073eca54515a83dd9e9229',
         ]
+    ];
+
+    /**
+     * @var array
+     */
+    public $registerServices = [
+        'juhe' => Juhe::class,
     ];
 
     /**
@@ -42,6 +54,9 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
     public function init(): void
     {
         parent::init();
+        foreach ($this->registerServices as $service => $class) {
+            Registry::register($service, $class);
+        }
         $builder = new Builder();
         foreach ($this->swapServices as $service => $options) {
             $builder->add($service, $options);

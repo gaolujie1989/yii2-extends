@@ -21,6 +21,10 @@
     }
   },
   "require": {
+    "php-http/message": "^1.8",
+    "php-http/curl-client": "^2.0",
+    "nyholm/psr7": "^1.2",
+    "florianv/swap": "^4.0",
   },
   "repositories": [
     {

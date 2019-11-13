@@ -10,6 +10,8 @@ use DateTime;
 use Exchanger\Contract\ExchangeRate as ExchangeRateContract;
 use Exchanger\Contract\ExchangeRateQuery;
 use Exchanger\Exception\Exception;
+use Exchanger\Exception\UnsupportedExchangeQueryException;
+use Exchanger\HistoricalExchangeRateQuery;
 use Exchanger\Service\HttpService;
 use Exchanger\StringUtil;
 
@@ -35,11 +37,14 @@ class Juhe extends HttpService
      * @param ExchangeRateQuery $exchangeQuery
      * @return ExchangeRateContract
      * @throws Exception
-     * @throws \Exception
+     * @throws UnsupportedExchangeQueryException
      * @inheritdoc
      */
     public function getExchangeRate(ExchangeRateQuery $exchangeQuery): ExchangeRateContract
     {
+        if ($exchangeQuery instanceof HistoricalExchangeRateQuery) {
+            throw new UnsupportedExchangeQueryException($exchangeQuery, $this);
+        }
         $currencyPair = $exchangeQuery->getCurrencyPair();
         $url = strtr(self::URL, [
             '{from}' => $currencyPair->getBaseCurrency(),

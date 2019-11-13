@@ -37,7 +37,7 @@ class CurrencyExchangeRateUpdaterTest extends \Codeception\Test\Unit
         };
         $rateLoader = new MockCurrencyExchangeRateLoader();
         $updater = new CurrencyExchangeRateUpdater([
-            'currencies' => ['EUR', 'USD'],
+            'currencies' => ['EUR', 'USD', 'CNY'],
             'dateRange' => ['-1 day', 'now'],
             'rateLoader' => $rateLoader
         ]);
@@ -47,14 +47,17 @@ class CurrencyExchangeRateUpdaterTest extends \Codeception\Test\Unit
             ->asArray()
             ->indexBy($rateIndex)
             ->all();
-        $this->assertCount(2, $rates);
+        $this->assertCount(6, $rates);
         $rates = CurrencyExchangeRate::find()
             ->date(date('Y-m-d', strtotime('-1 day')))
             ->asArray()
             ->indexBy($rateIndex)
             ->all();
-        $this->assertCount(2, $rates);
+        $this->assertCount(6, $rates);
         $this->assertEquals($rateLoader->rates['EUR/USD'], $rates['EUR/USD']['rate']);
-        $this->assertEquals($rateLoader->rates['USD/EUR'], $rates['USD/EUR']['rate']);
+        $expectedUSDEUR = number_format(1 / $rateLoader->rates['EUR/USD'], 4);
+        $this->assertEquals($expectedUSDEUR, $rates['USD/EUR']['rate']);
+        $exceptedCNYUSD = number_format($rateLoader->rates['EUR/CNY'] / $rateLoader->rates['EUR/USD'], 4);
+        $this->assertEquals($exceptedCNYUSD, $rates['USD/CNY']['rate']);
     }
 }

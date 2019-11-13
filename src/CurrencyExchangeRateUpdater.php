@@ -43,7 +43,7 @@ class CurrencyExchangeRateUpdater extends BaseObject
     /**
      * @var string
      */
-    public $baseCurrency;
+    public $baseCurrency = 'EUR';
 
     /**
      * @var string
@@ -109,12 +109,27 @@ class CurrencyExchangeRateUpdater extends BaseObject
     {
         if ($this->baseCurrency) {
             if ($from === $this->baseCurrency) {
-                $cacheKey = implode('/', [$from, $to, $date]);
-                $this->getOrSet($cacheKey, function() {
-                    return $this->rateLoader->getRate($from, $to, $date);
+                $fromRate = 1;
+            } else {
+                $fromCacheKey = implode('/', [$this->baseCurrency, $from, $date]);
+                $fromRate = $this->getOrSet($fromCacheKey, function () use ($from, $date) {
+                    return $this->rateLoader->getRate($this->baseCurrency, $from, $date);
                 });
             }
+            if ($to === $this->baseCurrency) {
+                $toRate = 1;
+            } else {
+                $toCacheKey = implode('/', [$this->baseCurrency, $to, $date]);
+                $toRate = $this->getOrSet($toCacheKey, function () use ($to, $date) {
+                    return $this->rateLoader->getRate($this->baseCurrency, $to, $date);
+                });
+            }
+            return $toRate / $fromRate;
         }
-        return $this->rateLoader->getRate($from, $to, $date);
+
+        $cacheKey = implode('/', [$from, $to, $date]);
+        return $this->getOrSet($cacheKey, function () use ($from, $to, $date) {
+            return $this->rateLoader->getRate($from, $to, $date);
+        });
     }
 }

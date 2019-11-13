@@ -31,6 +31,8 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
             'access_key' => '83b0ee2572f1a20200dc2be602fb666a',
             'enterprise' => false
         ],
+        'european_central_bank' => [],
+        'exchange_rates_api' => [],
         'juhe' => [
             'access_key' => '8132ee950b073eca54515a83dd9e9229',
         ]
@@ -72,7 +74,7 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
      * @throws \Exception
      * @inheritdoc
      */
-    public function getRate(string $from, string $to, ?string $date = null): float
+    public function getRate(string $from, string $to, string $date = ''): float
     {
         $currencyPair = $from . '/' . $to;
         if (empty($date) || $date === date('Y-m-d')) {

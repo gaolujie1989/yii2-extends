@@ -44,7 +44,7 @@ class SwapCurrencyExchangeRateLoaderTest extends \Codeception\Test\Unit
         ]);
         $rate = $swapRateLoader->getRate('EUR', 'USD');
         $this->assertTrue($rate > 1 && $rate < 1.2, 'Swap Rate: ' . VarDumper::dumpAsString($rate));
-        $rate = $swapRateLoader->getRate('CNY', 'EUR', '2019-01-01');
+        $rate = $swapRateLoader->getRate('EUR', 'USD', '2019-01-01');
         $this->assertTrue($rate > 0.1 && $rate < 0.2, 'Swap Rate: ' . VarDumper::dumpAsString($rate));
     }
 

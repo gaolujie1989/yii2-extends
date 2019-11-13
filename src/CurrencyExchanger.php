@@ -25,10 +25,10 @@ class CurrencyExchanger extends BaseObject
     /**
      * @param string $from
      * @param string $to
-     * @param string|int|null $date
+     * @param string|int $date
      * @inheritdoc
      */
-    public function getRate(string $from, string $to, $date = null): ?float
+    public function getRate(string $from, string $to, $date = ''): ?float
     {
         $from = $this->currencyAlias[$from] ?? $from;
         $to = $this->currencyAlias[$to] ?? $to;
@@ -36,7 +36,7 @@ class CurrencyExchanger extends BaseObject
             return 1;
         }
 
-        if ($date === null) {
+        if (empty($date)) {
             $date = date('Y-m-d');
         } else if (is_int($date)) {
             $date = date('Y-m-d', $date);
@@ -53,11 +53,11 @@ class CurrencyExchanger extends BaseObject
      * @param string $from
      * @param string $to
      * @param float $amount
-     * @param null $date
+     * @param string|int $date
      * @return float|null
      * @inheritdoc
      */
-    public function exchange(string $from, string $to, float $amount, $date = null): ?float
+    public function exchange(string $from, string $to, float $amount, $date = ''): ?float
     {
         $rate = $this->getRate($from, $to, $date);
         if ($rate === null) {

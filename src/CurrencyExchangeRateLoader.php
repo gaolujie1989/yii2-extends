@@ -11,9 +11,9 @@ interface CurrencyExchangeRateLoader
     /**
      * @param string $from
      * @param string $to
-     * @param string|null $date
+     * @param string $date
      * @return float
      * @inheritdoc
      */
-    public function getRate(string $from, string $to, ?string $date = null): float;
+    public function getRate(string $from, string $to, string $date = ''): float;
 }

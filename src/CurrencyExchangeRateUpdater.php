@@ -7,6 +7,7 @@ namespace lujie\currency\exchanging;
 
 
 use lujie\currency\exchanging\models\CurrencyExchangeRate;
+use lujie\extend\caching\CachingTrait;
 use yii\base\BaseObject;
 use yii\di\Instance;
 
@@ -17,6 +18,8 @@ use yii\di\Instance;
  */
 class CurrencyExchangeRateUpdater extends BaseObject
 {
+    use CachingTrait;
+
     /**
      * @var array
      */
@@ -38,13 +41,32 @@ class CurrencyExchangeRateUpdater extends BaseObject
     public $rateLoader;
 
     /**
+     * @var string
+     */
+    public $baseCurrency;
+
+    /**
+     * @var string
+     */
+    public $cacheKeyPrefix = 'CurrencyExchangeRateUpdater';
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->rateLoader = Instance::ensure($this->rateLoader, CurrencyExchangeRateLoader::class);
+    }
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function updateRates(): void
     {
-        $this->rateLoader = Instance::ensure($this->rateLoader, CurrencyExchangeRateLoader::class);
         $timeFrom = strtotime($this->dateRange[0]);
         $timeTo = strtotime($this->dateRange[1]);
         for ($time = $timeFrom; $time <= $timeTo; $time += 86400) {
@@ -68,11 +90,31 @@ class CurrencyExchangeRateUpdater extends BaseObject
                         $exchangeRate->to = $currencyTo;
                         $exchangeRate->date = $date;
                     }
-                    $rate = $this->rateLoader->getRate($currencyFrom, $currencyTo, $date);
-                    $exchangeRate->rate = $rate;
+                    $exchangeRate->rate = $this->getRate($currencyFrom, $currencyTo, $date);
                     $exchangeRate->mustSave(false);
                 }
             }
         }
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param string|null $date
+     * @return float
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function getRate(string $from, string $to, ?string $date = null): float
+    {
+        if ($this->baseCurrency) {
+            if ($from === $this->baseCurrency) {
+                $cacheKey = implode('/', [$from, $to, $date]);
+                $this->getOrSet($cacheKey, function() {
+                    return $this->rateLoader->getRate($from, $to, $date);
+                });
+            }
+        }
+        return $this->rateLoader->getRate($from, $to, $date);
     }
 }

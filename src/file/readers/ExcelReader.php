@@ -5,30 +5,12 @@
 
 namespace lujie\data\exchange\file\readers;
 
-use lujie\data\exchange\file\FileReaderInterface;
-use lujie\extend\helpers\ExcelHelper;
-use yii\base\BaseObject;
-
 /**
- * Class ExcelExporter
- * @package lujie\data\exchange\parsers
+ * Class ExcelReader
+ * @package lujie\data\exchange\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
-class ExcelReader extends BaseObject implements FileReaderInterface
+class ExcelReader extends \lujie\extend\file\readers\ExcelReader
 {
-    public $firstLineIsHeader = true;
-
-    public $multiSheet = false;
-
-    /**
-     * @param string $file
-     * @return array
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @inheritdoc
-     */
-    public function read(string $file): array
-    {
-        return ExcelHelper::readExcel($file, $this->firstLineIsHeader, $this->multiSheet);
-    }
 }

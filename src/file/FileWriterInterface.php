@@ -5,7 +5,11 @@
 
 namespace lujie\data\exchange\file;
 
-interface FileWriterInterface
+/**
+ * Interface FileWriterInterface
+ * @package lujie\data\exchange\file
+ * @deprecated
+ */
+interface FileWriterInterface extends \lujie\extend\file\FileWriterInterface
 {
-    public function write(string $file, array $data): void;
 }

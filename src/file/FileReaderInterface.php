@@ -5,7 +5,11 @@
 
 namespace lujie\data\exchange\file;
 
-interface FileReaderInterface
+/**
+ * Interface FileReaderInterface
+ * @package lujie\data\exchange\file
+ * @deprecated
+ */
+interface FileReaderInterface extends \lujie\extend\file\FileReaderInterface
 {
-    public function read(string $file) : array;
 }

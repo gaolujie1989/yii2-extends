@@ -5,23 +5,12 @@
 
 namespace lujie\data\exchange\file\readers;
 
-use lujie\data\exchange\file\FileReaderInterface;
-use yii\base\BaseObject;
-
 /**
- * Class CsvParser
- * @package lujie\data\exchange\parsers
+ * Class TxtReader
+ * @package lujie\data\exchange\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
-class TxtReader extends BaseObject implements FileReaderInterface
+class TxtReader extends \lujie\extend\file\readers\TxtReader
 {
-    /**
-     * @param string $file
-     * @return array
-     * @inheritdoc
-     */
-    public function read(string $file): array
-    {
-        return file($file);
-    }
 }

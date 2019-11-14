@@ -5,23 +5,12 @@
 
 namespace lujie\data\exchange\file\writers;
 
-use lujie\data\exchange\file\FileWriterInterface;
-use yii\base\BaseObject;
-
 /**
  * Class TxtWriter
  * @package lujie\data\exchange\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
-class TxtWriter extends BaseObject implements FileWriterInterface
+class TxtWriter extends \lujie\extend\file\writers\TxtWriter
 {
-    /**
-     * @param string $file
-     * @param array $data
-     * @inheritdoc
-     */
-    public function write(string $file, array $data): void
-    {
-        file_put_contents($file, implode("\n", $data));
-    }
 }

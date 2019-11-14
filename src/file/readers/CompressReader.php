@@ -15,8 +15,8 @@ use yii\queue\serializers\JsonSerializer;
 use yii\queue\serializers\SerializerInterface;
 
 /**
- * Class CompressedFileExporter
- * @package lujie\extend\file\writers
+ * Class CompressReader
+ * @package lujie\extend\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class CompressReader extends BaseObject implements FileReaderInterface

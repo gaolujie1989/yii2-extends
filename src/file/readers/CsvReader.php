@@ -9,8 +9,8 @@ use lujie\extend\file\FileReaderInterface;
 use yii\base\BaseObject;
 
 /**
- * Class CsvParser
- * @package lujie\data\exchange\parsers
+ * Class CsvReader
+ * @package lujie\extend\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class CsvReader extends BaseObject implements FileReaderInterface

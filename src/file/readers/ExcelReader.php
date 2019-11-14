@@ -11,8 +11,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use yii\base\BaseObject;
 
 /**
- * Class ExcelExporter
- * @package lujie\data\exchange\parsers
+ * Class ExcelReader
+ * @package lujie\extend\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ExcelReader extends BaseObject implements FileReaderInterface

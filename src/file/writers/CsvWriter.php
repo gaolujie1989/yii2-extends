@@ -6,12 +6,11 @@
 namespace lujie\extend\file\writers;
 
 use lujie\extend\file\FileWriterInterface;
-use lujie\extend\helpers\CsvHelper;
 use yii\base\BaseObject;
 
 /**
- * Class CsvParser
- * @package lujie\data\exchange\parsers
+ * Class CsvWriter
+ * @package lujie\extend\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class CsvWriter extends BaseObject implements FileWriterInterface
@@ -29,8 +28,6 @@ class CsvWriter extends BaseObject implements FileWriterInterface
      */
     public function write(string $file, array $data): void
     {
-        CsvHelper::writeCsv($file, $data, $this->keyAsHeader);
-
         if (file_exists($file)) {
             unlink($file);
         }

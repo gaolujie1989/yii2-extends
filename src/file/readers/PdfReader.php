@@ -10,8 +10,8 @@ use Spatie\PdfToText\Pdf;
 use yii\base\BaseObject;
 
 /**
- * Class CsvParser
- * @package lujie\data\exchange\parsers
+ * Class PdfReader
+ * @package lujie\extend\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class PdfReader extends BaseObject implements FileReaderInterface
@@ -34,6 +34,6 @@ class PdfReader extends BaseObject implements FileReaderInterface
     public function read(string $file): array
     {
         $text = Pdf::getText($file, $this->binPath, $this->options);
-        return [$text];
+        return explode("\n", $text);
     }
 }

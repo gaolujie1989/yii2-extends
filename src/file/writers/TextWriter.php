@@ -9,11 +9,11 @@ use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
 
 /**
- * Class TxtWriter
+ * Class TextWriter
  * @package lujie\extend\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TxtWriter extends BaseObject implements FileWriterInterface
+class TextWriter extends BaseObject implements FileWriterInterface
 {
     /**
      * @param string $file

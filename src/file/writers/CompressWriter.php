@@ -15,7 +15,7 @@ use yii\queue\serializers\JsonSerializer;
 use yii\queue\serializers\SerializerInterface;
 
 /**
- * Class CompressedFileExporter
+ * Class CompressWriter
  * @package lujie\extend\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

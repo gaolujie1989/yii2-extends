@@ -13,8 +13,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use yii\base\BaseObject;
 
 /**
- * Class ExcelExporter
- * @package lujie\data\exchange\parsers
+ * Class ExcelWriter
+ * @package lujie\extend\file\writers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ExcelWriter extends BaseObject implements FileWriterInterface

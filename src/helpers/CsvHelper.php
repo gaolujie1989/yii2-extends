@@ -5,6 +5,9 @@
 
 namespace lujie\extend\helpers;
 
+use lujie\extend\file\readers\CsvReader;
+use lujie\extend\file\writers\CsvWriter;
+
 /**
  * Class CsvHelper
  * @package lujie\extend\helpers
@@ -26,29 +29,14 @@ class CsvHelper
                                    string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
                                    bool $flag = true): array
     {
-        $data = [];
-        if ($flag) {
-            $rows = file($file);
-            $count = count($rows);
-            $delimiters = array_fill(0, $count, $delimiter);
-            $enclosures = array_fill(0, $count, $enclosure);
-            $escapes = array_fill(0, $count, $escape);
-            $data = array_map('str_getcsv', $rows, $delimiters, $enclosures, $escapes);
-        } else {
-            if (($handle = fopen($file, 'rb')) !== FALSE) {
-                while (($row = fgetcsv($handle, $length, $delimiter, $enclosure, $escape)) !== FALSE) {
-                    $data[] = $row;
-                }
-                fclose($handle);
-            }
-        }
-        if ($firstLineIsHeader) {
-            array_walk($data, static function (&$a) use ($data) {
-                $a = array_combine($data[0], $a);
-            });
-            array_shift($data);
-        }
-        return $data;
+        $csvReader = new CsvReader();
+        $csvReader->firstLineIsHeader = $firstLineIsHeader;
+        $csvReader->bufferLength = $length;
+        $csvReader->delimiter = $delimiter;
+        $csvReader->enclosure = $enclosure;
+        $csvReader->escape = $escape;
+        $csvReader->flag = $flag;
+        return $csvReader->read($file);
     }
 
     /**
@@ -63,18 +51,11 @@ class CsvHelper
     public static function writeCsv(string $file, array $data, bool $keyAsHeader = true,
                                     string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): void
     {
-        if (file_exists($file)) {
-            unlink($file);
-        }
-        $fp = fopen($file, 'wb');
-        //add BOM to fix UTF-8 in Excel
-        //fwrite($fp, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
-        if ($keyAsHeader) {
-            array_unshift($data, array_keys($data[0]));
-        }
-        foreach ($data as $values) {
-            fputcsv($fp, $values, $delimiter, $enclosure, $escape);
-        }
-        fclose($fp);
+        $csvWriter = new CsvWriter();
+        $csvWriter->keyAsHeader = $keyAsHeader;
+        $csvWriter->delimiter = $delimiter;
+        $csvWriter->enclosure = $enclosure;
+        $csvWriter->escape = $escape;
+        $csvWriter->write($file, $data);
     }
 }

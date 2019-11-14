@@ -2,8 +2,8 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\writers\ExcelWriter;
-use lujie\data\exchange\file\readers\ExcelReader;
+use lujie\extend\file\writers\ExcelWriter;
+use lujie\extend\file\readers\ExcelReader;
 
 class ExcelExporterTest extends \Codeception\Test\Unit
 {

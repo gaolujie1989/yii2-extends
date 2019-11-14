@@ -2,8 +2,8 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\writers\CsvWriter;
-use lujie\data\exchange\file\readers\CsvReader;
+use lujie\extend\file\writers\CsvWriter;
+use lujie\extend\file\readers\CsvReader;
 
 class CsvExporterTest extends \Codeception\Test\Unit
 {

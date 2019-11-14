@@ -7,7 +7,7 @@ namespace lujie\data\exchange\tests\unit;
 
 
 use lujie\data\exchange\DataExchanger;
-use lujie\data\exchange\file\writers\CsvWriter;
+use lujie\extend\file\writers\CsvWriter;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\DbSource;

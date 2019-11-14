@@ -2,7 +2,7 @@
 
 namespace lujie\data\exchange\tests\unit\file;
 
-use lujie\data\exchange\file\readers\ExcelReader;
+use lujie\extend\file\readers\ExcelReader;
 
 class ExcelParserTest extends \Codeception\Test\Unit
 {

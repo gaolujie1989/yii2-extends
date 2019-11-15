@@ -3,6 +3,7 @@
 namespace lujie\user\models;
 
 use lujie\extend\constants\StatusConst;
+use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -24,7 +25,7 @@ use yii\web\IdentityInterface;
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     protected const CACHE_DURATION = 86400;
     protected const CACHE_TAGS = ['User'];

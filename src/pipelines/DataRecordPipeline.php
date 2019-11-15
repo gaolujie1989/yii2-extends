@@ -58,8 +58,8 @@ class DataRecordPipeline extends ActiveRecordPipeline
                 'data_account_id' => $dataSource->data_account_id,
                 'data_source_type' => $dataSource->type,
             ]);
-            $model->setAttributes($record);
         }
+        $model->setAttributes($record);
         return $model;
     }
 

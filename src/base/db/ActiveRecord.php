@@ -5,6 +5,7 @@
 
 namespace lujie\stock\base\db;
 
+use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -23,17 +24,5 @@ use yii\db\Connection;
  */
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
-
-    /**
-     * @return Connection|object
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public static function getDb(): Connection
-    {
-        $app = Yii::$app;
-        $db = Yii::$app->params['stockDB'] ?? null;
-        return $db ? $app->get($db) : parent::getDb();
-    }
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 }

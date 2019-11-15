@@ -5,6 +5,7 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
+use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -18,7 +19,7 @@ use yii\db\BaseActiveRecord;
  */
 class MockActiveRecord extends BaseActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     public static $inserts = [];
 
@@ -44,11 +45,6 @@ class MockActiveRecord extends BaseActiveRecord
     {
         static::$updates[] = [$attributes, $condition];
         return 1;
-    }
-
-    public static function getDb()
-    {
-        return null;
     }
 
     /**

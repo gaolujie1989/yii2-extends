@@ -11,6 +11,6 @@ namespace lujie\data\exchange\file\writers;
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @deprecated
  */
-class TxtWriter extends \lujie\extend\file\writers\TxtWriter
+class TxtWriter extends \lujie\extend\file\writers\TextWriter
 {
 }

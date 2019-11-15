@@ -11,6 +11,6 @@ namespace lujie\data\exchange\file\readers;
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @deprecated
  */
-class TxtReader extends \lujie\extend\file\readers\TxtReader
+class TxtReader extends \lujie\extend\file\readers\TextReader
 {
 }

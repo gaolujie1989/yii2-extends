@@ -3,6 +3,7 @@
 namespace lujie\template\document\models;
 
 use lujie\extend\constants\StatusConst;
+use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
@@ -23,7 +24,7 @@ use Yii;
  */
 class DocumentTemplate extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait;
+    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

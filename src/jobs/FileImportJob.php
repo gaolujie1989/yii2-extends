@@ -25,7 +25,7 @@ class FileImportJob extends BaseObject implements JobInterface
     /**
      * @var FileImporter
      */
-    public $importer;
+    public $fileImporter;
 
     /**
      * @param \yii\queue\Queue $queue
@@ -36,7 +36,7 @@ class FileImportJob extends BaseObject implements JobInterface
      */
     public function execute($queue)
     {
-        $this->importer = Instance::ensure($this->importer, FileImporter::class);
-        $this->importer->import($this->file);
+        $this->fileImporter = Instance::ensure($this->fileImporter, FileImporter::class);
+        $this->fileImporter->import($this->file);
     }
 }

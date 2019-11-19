@@ -40,7 +40,7 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
     {
         $value = parent::getAliasProperty($name);
         if (is_numeric($value)) {
-            return number_format($value / (10 ** $this->decimalLength), $this->decimalLength);
+            return number_format($value / (10 ** $this->decimalLength), $this->decimalLength, '.', '');
         }
         return $value;
     }

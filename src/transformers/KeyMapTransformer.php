@@ -38,11 +38,12 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
     {
         return array_map(function($values) {
             foreach ($this->keyMap as $from => $to) {
-                if (isset($values[$from]) && $from !== $to) {
-                    $values[$to] = $values[$from];
+                if (isset($values[$from])) {
+                    $v = &$values[$from];
                     if ($this->unsetOriginalKey) {
                         unset($values[$from]);
                     }
+                    $values[$to] = $v;
                 }
             }
             if ($this->unsetNotInMapKey) {

@@ -2,13 +2,12 @@
 
 namespace lujie\common\address\models;
 
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\TransactionTrait;
-use function GuzzleHttp\Psr7\str;
 use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -29,6 +28,8 @@ use Yii;
  * @property string $phone
  * @property string $signature
  *
+ * @property string $province
+ * @property string $town
  * @property string $zip_code
  * @property string $company_name
  * @property string $first_name
@@ -68,7 +69,9 @@ class Address extends \yii\db\ActiveRecord
             [['email'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
             [['email'], 'email'],
-            [['company_name', 'first_name', 'last_name', 'street', 'house_no', 'additional'], 'safe'],
+            [['province', 'town', 'zip_code',
+                'company_name', 'first_name', 'last_name',
+                'street', 'house_no', 'additional'], 'safe'],
         ];
     }
 
@@ -92,6 +95,7 @@ class Address extends \yii\db\ActiveRecord
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [
                     'province' => 'state',
+                    'town' => 'city',
                     'zip_code' => 'postal_code',
                     'company_name' => 'name1',
                     'first_name' => 'name2',

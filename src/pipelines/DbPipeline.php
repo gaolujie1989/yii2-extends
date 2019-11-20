@@ -112,6 +112,7 @@ class DbPipeline extends BaseDbPipeline
                 array_unshift($conditions, 'OR');
                 $existRows = (new Query())->from($this->table)
                     ->andWhere($conditions)
+                    ->select($this->indexKeys)
                     ->indexBy(function ($values) {
                         return $this->getIndexValue($values);
                     })->all($this->db);

@@ -5,10 +5,12 @@
 
 namespace lujie\data\exchange\pipelines;
 
+use Yii;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\web\User;
 
 /**
  * Class ActiveRecordImporter
@@ -33,6 +35,23 @@ class DbPipeline extends BaseDbPipeline
     public $filterNull = true;
 
     /**
+     * @var string
+     */
+    public $createdAtField = 'created_at';
+    /**
+     * @var string
+     */
+    public $updatedAtField = 'updated_at';
+    /**
+     * @var string
+     */
+    public $createdByField = 'created_by';
+    /**
+     * @var string
+     */
+    public $updatedByField = 'updated_by';
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -52,7 +71,7 @@ class DbPipeline extends BaseDbPipeline
     {
         if ($this->filterNull) {
             $data = array_map(static function ($values) {
-                return array_filter($values, static function($value) {
+                return array_filter($values, static function ($value) {
                     return $value !== null;
                 });
             }, $data);
@@ -70,6 +89,8 @@ class DbPipeline extends BaseDbPipeline
             $insertRows = array_values($data);
             $updateRows = [];
         }
+
+        $this->appendTraceableToRows($insertRows, $updateRows);
 
         $callable = function () use ($insertRows, $updateRows) {
             foreach ($insertRows as $values) {
@@ -127,5 +148,54 @@ class DbPipeline extends BaseDbPipeline
             }
         }
         return [$insertRows, $updateRows];
+    }
+
+    /**
+     * @param array $insertRows
+     * @param array $updateRows
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function appendTraceableToRows(array &$insertRows, array &$updateRows): void
+    {
+        $now = time();
+        $userId = $this->getActionBy();
+        $columns = $this->db->getTableSchema($this->table)->columns;
+        $createdTraceable = [];
+        if (isset($columns[$this->createdAtField])) {
+            $createdTraceable[$this->createdAtField] = $now;
+        }
+        if (isset($columns[$this->createdByField])) {
+            $createdTraceable[$this->createdByField] = $userId;
+        }
+        $updatedTraceable =[];
+        if (isset($columns[$this->updatedAtField])) {
+            $updatedTraceable[$this->updatedAtField] = $now;
+        }
+        if (isset($columns[$this->updatedByField])) {
+            $updatedTraceable[$this->updatedByField] = $userId;
+        }
+
+        array_walk($insertRows, static function(&$row) use ($createdTraceable, $updatedTraceable) {
+            $row = array_merge($createdTraceable, $updatedTraceable, $row);
+        }, );
+        array_walk($updateRows, static function($row) use ($updatedTraceable) {
+            $row[0] = array_merge($updatedTraceable, $row[0]);
+        });
+    }
+
+    /**
+     * @return int
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function getActionBy(): int
+    {
+        /** @var User $user */
+        $user = Yii::$app->get('user', false);
+        if ($user === null || $user->getIsGuest()) {
+            return 0;
+        }
+        return $user->getId();
     }
 }

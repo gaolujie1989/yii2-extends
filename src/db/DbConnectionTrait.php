@@ -23,7 +23,7 @@ trait DbConnectionTrait
     public static function getDb(): Connection
     {
         $app = Yii::$app;
-        $db = $app->params['modelDBs'][self::class] ?? 'db';
+        $db = $app->params['modelDBs'][static::class] ?? $app->params['modelDBs'][self::class] ?? 'db';
         return $app->get($db);
     }
 }

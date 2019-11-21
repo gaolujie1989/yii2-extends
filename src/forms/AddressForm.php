@@ -36,12 +36,12 @@ class AddressForm extends Address
             if ($address === null) {
                 $this->setIsNewRecord(true);
                 $this->address_id = null;
-                return parent::save();
+                return parent::save($runValidation, $attributeNames);
             }
             $this->refreshInternal($address);
             return true;
         }
-        return parent::save();
+        return parent::save($runValidation, $attributeNames);
     }
 
     /**

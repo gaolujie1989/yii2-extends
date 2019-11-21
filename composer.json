@@ -1,0 +1,32 @@
+{
+  "name": "lujie/yii2-charging",
+  "description": "Yii2 charging",
+  "keywords": [
+    "yii2",
+    "charging"
+  ],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-charging/issues",
+    "source": "https://gitee.com/code4dream/yii2-charging"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\charging\\": "src",
+      "lujie\\charging\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

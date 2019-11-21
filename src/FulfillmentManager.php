@@ -102,6 +102,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = $event->sender;
+        if ($fulfillmentOrder->external_order_id) {
+            return;
+        }
         $job = new PushFulfillmentOrderJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
@@ -112,7 +115,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = $event->sender;
-        if ($fulfillmentOrder->order_status === $this->orderCancellingStatus) {
+        if ($fulfillmentOrder->order_status === $this->orderCancellingStatus && $fulfillmentOrder->external_order_id) {
             $job = new CancelFulfillmentOrderJob();
             $job->fulfillmentManager = ComponentHelper::getName($this);
             $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;

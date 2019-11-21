@@ -58,6 +58,7 @@ class Address extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['name2'], 'validateName'],
             [['country', 'city', 'name2', 'address1'], 'required'],
             [['state', 'city', 'name1', 'name2', 'name3', 'address1', 'address2', 'address3',
                 'postal_code', 'email', 'phone'], 'default', 'value' => ''],
@@ -82,6 +83,22 @@ class Address extends \yii\db\ActiveRecord
     public function strVal(string $attribute): void
     {
         $this->{$attribute} = (string)$this->{$attribute};
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateName(): void
+    {
+        if (empty(trim($this->name2))) {
+            if (trim($this->name3)) {
+                $this->name2 = $this->name3;
+                $this->name3 = '';
+            } else if (trim($this->name1)) {
+                $this->name2 = $this->name1;
+                $this->name1 = '';
+            }
+        }
     }
 
     /**

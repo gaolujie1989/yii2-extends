@@ -5,12 +5,14 @@
 
 namespace lujie\charging\calculators;
 
+use yii\base\BaseObject;
+
 /**
  * Class ShippingPackage
  * @package lujie\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingItem extends ChargeableItem
+class ShippingItem extends BaseObject
 {
     /**
      * @var string
@@ -51,4 +53,19 @@ class ShippingItem extends ChargeableItem
      * @var int
      */
     public $heightMM;
+
+    /**
+     * @var int
+     */
+    public $qty;
+
+    /**
+     * @var int
+     */
+    public $ownerId;
+
+    /**
+     * @var int
+     */
+    public $parentId;
 }

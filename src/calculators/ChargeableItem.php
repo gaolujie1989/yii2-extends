@@ -15,11 +15,6 @@ use yii\base\BaseObject;
 class ChargeableItem extends BaseObject
 {
     /**
-     * @var
-     */
-    public $chargeType;
-
-    /**
      * @var string
      */
     public $customType;

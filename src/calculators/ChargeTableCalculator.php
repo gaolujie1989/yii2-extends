@@ -47,20 +47,20 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
         /** @var ChargeableItem $chargeableItem */
-        $chargeableItem = $this->chargeableItemLoader->get([$model, $chargePrice]);
-        $chargeTablePrice = $this->getChargeTablePrice($chargeableItem);
+        $chargeableItem = $this->chargeableItemLoader->get($model);
+        $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
         if ($chargeTablePrice === null) {
             throw new InvalidConfigException('No matched shipping price');
         }
 
         $chargePrice->custom_type = $chargeableItem->customType;
-        $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
-        $chargePrice->price_cent = $chargeTablePrice->price_cent;
-        $chargePrice->currency = $chargeTablePrice->currency;
-
         $chargePrice->qty = $chargeableItem->qty;
         $chargePrice->owner_id = $chargeableItem->ownerId;
         $chargePrice->parent_model_id = $chargeableItem->parentId;
+
+        $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
+        $chargePrice->price_cent = $chargeTablePrice->price_cent;
+        $chargePrice->currency = $chargeTablePrice->currency;
         return $chargePrice;
     }
 
@@ -70,12 +70,12 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
      * @return ChargeTable|null
      * @inheritdoc
      */
-    public function getChargeTablePrice(ChargeableItem $chargeableItem): ?ChargeTable
+    public function getChargeTablePrice(ChargeableItem $chargeableItem, string $chargeType): ?ChargeTable
     {
         return ChargeTable::find()
             ->ownerId($chargeableItem->ownerId)
             ->activeAt($chargeableItem->chargedAt ?: time())
-            ->chargeType($chargeableItem->chargeType)
+            ->chargeType($chargeType)
             ->customType($chargeableItem->customType)
             ->limitValue($chargeableItem->limitValue)
             ->one();

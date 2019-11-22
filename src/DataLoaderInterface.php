@@ -9,7 +9,7 @@ namespace lujie\data\loader;
 interface DataLoaderInterface
 {
     /**
-     * @param string|int $key
+     * @param string|int|mixed $key
      * @return mixed|null
      * @inheritdoc
      */

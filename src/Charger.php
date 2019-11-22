@@ -8,7 +8,10 @@ namespace lujie\charging;
 
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
+use yii\base\Application;
 use yii\base\BaseObject;
+use yii\base\BootstrapInterface;
+use yii\base\Event;
 use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
@@ -18,7 +21,7 @@ use yii\di\Instance;
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Charger extends BaseObject
+class Charger extends BaseObject implements BootstrapInterface
 {
     /**
      * [
@@ -37,6 +40,18 @@ class Charger extends BaseObject
      * @var DataLoaderInterface
      */
     public $chargeCalculatorLoader = 'chargeCalculatorLoader';
+
+    /**
+     * @param Application $app
+     * @inheritdoc
+     */
+    public function bootstrap($app): void
+    {
+        foreach ($this->chargeConfig as [$modelClass]) {
+            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'triggerChargeOnModelSaved']);
+            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'triggerChargeOnModelSaved']);
+        }
+    }
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -68,7 +83,7 @@ class Charger extends BaseObject
             if ($chargePrice === null) {
                 $chargePrice = new ChargePrice();
                 $chargePrice->charge_type = $chargeType;
-                $chargePrice->charge_group = $this->chargeGroups[$chargeType];
+                $chargePrice->charge_group = $this->chargeGroups[$chargeType] ?? '';
                 $chargePrice->model_type = $modelType;
                 $chargePrice->model_id = $model->getPrimaryKey();
                 $chargePrice->status = ChargePrice::STATUS_GENERATED;

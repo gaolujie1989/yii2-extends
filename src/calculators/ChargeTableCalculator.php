@@ -70,7 +70,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
      * @return ChargeTable|null
      * @inheritdoc
      */
-    public function getChargeTablePrice(ChargeableItem $chargeableItem, string $chargeType): ?ChargeTable
+    protected function getChargeTablePrice(ChargeableItem $chargeableItem, string $chargeType): ?ChargeTable
     {
         return ChargeTable::find()
             ->ownerId($chargeableItem->ownerId)

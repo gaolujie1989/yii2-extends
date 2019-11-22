@@ -21,6 +21,9 @@ use yii\di\Instance;
 class Charger extends BaseObject
 {
     /**
+     * [
+     *     'modelType'  => ['modelClass', ['chargeTypes']]
+     * ]
      * @var array
      */
     public $chargeConfig = [];
@@ -70,7 +73,7 @@ class Charger extends BaseObject
                 $chargePrice->model_id = $model->getPrimaryKey();
                 $chargePrice->status = ChargePrice::STATUS_GENERATED;
             }
-            if ($force || $chargePrice->getIsNewRecord()) {
+            if ($force || $chargePrice->status === ChargePrice::STATUS_GENERATED || $chargePrice->getIsNewRecord()) {
                 /** @var ChargeCalculatorInterface $chargeCalculator */
                 $chargeCalculator = $this->chargeCalculatorLoader->get($chargeType);
                 $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
@@ -88,7 +91,7 @@ class Charger extends BaseObject
      */
     public function getModelChargeTypes(BaseActiveRecord $model): array
     {
-        foreach ($this->chargeConfig as $modelType  => [$modelClass, $chargeTypes]) {
+        foreach ($this->chargeConfig as $modelType => [$modelClass, $chargeTypes]) {
             if ($model instanceof $modelClass) {
                 return [$modelType, $chargeTypes];
             }

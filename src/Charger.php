@@ -6,7 +6,12 @@
 namespace lujie\charging;
 
 
+use lujie\charging\models\ChargePrice;
+use lujie\data\loader\DataLoaderInterface;
 use yii\base\BaseObject;
+use yii\base\InvalidArgumentException;
+use yii\db\BaseActiveRecord;
+use yii\di\Instance;
 
 /**
  * Class Charger
@@ -15,5 +20,79 @@ use yii\base\BaseObject;
  */
 class Charger extends BaseObject
 {
+    /**
+     * @var array
+     */
+    public $chargeConfig = [];
 
+    /**
+     * @var array
+     */
+    public $chargeGroups = [];
+
+    /**
+     * @var DataLoaderInterface
+     */
+    public $chargeCalculatorLoader = 'chargeCalculatorLoader';
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->chargeCalculatorLoader = Instance::ensure($this->chargeCalculatorLoader, DataLoaderInterface::class);
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @param bool $force
+     * @return array|ChargePrice[]
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function calculate(BaseActiveRecord $model, bool $force = false): array
+    {
+        [$modelType, $chargeTypes] = $this->getModelChargeTypes($model);
+        $chargePrices = [];
+        foreach ($chargeTypes as $chargeType) {
+            $chargePrice = ChargePrice::find()
+                ->modelId($model->getPrimaryKey())
+                ->modelType($modelType)
+                ->chargeType($chargeType)
+                ->one();
+            if ($chargePrice === null) {
+                $chargePrice = new ChargePrice();
+                $chargePrice->charge_type = $chargeType;
+                $chargePrice->charge_group = $this->chargeGroups[$chargeType];
+                $chargePrice->model_type = $modelType;
+                $chargePrice->model_id = $model->getPrimaryKey();
+                $chargePrice->status = ChargePrice::STATUS_GENERATED;
+            }
+            if ($force || $chargePrice->getIsNewRecord()) {
+                /** @var ChargeCalculatorInterface $chargeCalculator */
+                $chargeCalculator = $this->chargeCalculatorLoader->get($chargeType);
+                $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
+                $chargePrice->mustSave(false);
+            }
+            $chargePrices[$chargeType] = $chargePrice;
+        }
+        return $chargePrices;
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return array
+     * @inheritdoc
+     */
+    public function getModelChargeTypes(BaseActiveRecord $model): array
+    {
+        foreach ($this->chargeConfig as $modelType  => [$modelClass, $chargeTypes]) {
+            if ($model instanceof $modelClass) {
+                return [$modelType, $chargeTypes];
+            }
+        }
+        throw new InvalidArgumentException('Invalid model, no matched modelClass, charge type not found');
+    }
 }

@@ -26,10 +26,6 @@ use Yii;
  * @property int $started_at
  * @property int $ended_at
  * @property int $owner_id
- * @property int $created_at
- * @property int $created_by
- * @property int $updated_at
- * @property int $updated_by
  */
 class ShippingTable extends \yii\db\ActiveRecord
 {
@@ -49,7 +45,8 @@ class ShippingTable extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'l2wh_mm_limit', 'price_cent', 'started_at', 'ended_at', 'owner_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'l2wh_mm_limit',
+                'price_cent', 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['carrier', 'currency'], 'string', 'max' => 3],
             [['departure', 'destination'], 'string', 'max' => 2],
         ];
@@ -75,19 +72,15 @@ class ShippingTable extends \yii\db\ActiveRecord
             'started_at' => Yii::t('lujie/charging', 'Started At'),
             'ended_at' => Yii::t('lujie/charging', 'Ended At'),
             'owner_id' => Yii::t('lujie/charging', 'Owner ID'),
-            'created_at' => Yii::t('lujie/charging', 'Created At'),
-            'created_by' => Yii::t('lujie/charging', 'Created By'),
-            'updated_at' => Yii::t('lujie/charging', 'Updated At'),
-            'updated_by' => Yii::t('lujie/charging', 'Updated By'),
         ];
     }
 
     /**
-     * {@inheritdoc}
-     * @return ShippingTableQuery the active query used by this AR class.
+     * @return ShippingTableQuery
+     * @inheritdoc
      */
-    public static function find()
+    public static function find(): ShippingTableQuery
     {
-        return new ShippingTableQuery(get_called_class());
+        return new ShippingTableQuery(static::class);
     }
 }

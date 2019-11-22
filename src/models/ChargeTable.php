@@ -12,7 +12,7 @@ use Yii;
 /**
  * This is the model class for table "{{%charge_table}}".
  *
- * @property int $charge_rate_id
+ * @property int $charge_table_id
  * @property string $charge_group
  * @property string $charge_type
  * @property string $custom_type
@@ -46,7 +46,8 @@ class ChargeTable extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['charge_rate_id', 'min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit', 'started_at', 'ended_at', 'owner_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit',
+                'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['charge_group', 'charge_type', 'custom_type'], 'string', 'max' => 50],
             [['limit_unit', 'display_limit_unit'], 'string', 'max' => 6],
             [['currency'], 'string', 'max' => 3],
@@ -74,10 +75,6 @@ class ChargeTable extends \yii\db\ActiveRecord
             'started_at' => Yii::t('lujie/charging', 'Started At'),
             'ended_at' => Yii::t('lujie/charging', 'Ended At'),
             'owner_id' => Yii::t('lujie/charging', 'Owner ID'),
-            'created_at' => Yii::t('lujie/charging', 'Created At'),
-            'created_by' => Yii::t('lujie/charging', 'Created By'),
-            'updated_at' => Yii::t('lujie/charging', 'Updated At'),
-            'updated_by' => Yii::t('lujie/charging', 'Updated By'),
         ];
     }
 
@@ -85,8 +82,8 @@ class ChargeTable extends \yii\db\ActiveRecord
      * {@inheritdoc}
      * @return ChargeTableQuery the active query used by this AR class.
      */
-    public static function find()
+    public static function find(): ChargeTableQuery
     {
-        return new ChargeTableQuery(get_called_class());
+        return new ChargeTableQuery(static::class);
     }
 }

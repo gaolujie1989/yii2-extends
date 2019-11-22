@@ -21,11 +21,13 @@ class m191121_161905_charge_price extends \yii\db\Migration
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'parent_model_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'price_table_id' => $this->bigInteger()->notNull()->defaultValue(''),
 
             'price_cent' => $this->integer()->notNull()->defaultValue(0),
             'qty' => $this->integer()->notNull()->defaultValue(0),
             'subtotal_cent' => $this->integer()->notNull()->defaultValue(0),
             'discount_cent' => $this->integer()->notNull()->defaultValue(0),
+            'surcharge_cent' => $this->integer()->notNull()->defaultValue(0),
             'grant_total_cent' => $this->integer()->notNull()->defaultValue(0),
             'currency' => $this->char(3)->notNull()->defaultValue(''),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),

@@ -7,8 +7,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[ChargeTable]].
  *
- * @method ChargePriceQuery chargeType(string $chargeType);
- * @method ChargePriceQuery ownerId(int $ownerId)
+ * @method ChargeTableQuery ownerId(int $ownerId)
+ * @method ChargeTableQuery chargeType(string $chargeType);
+ * @method ChargeTableQuery customType(string $customType);
  *
  * @method ChargeTable[]|array all($db = null)
  * @method ChargeTable|array|null one($db = null)
@@ -27,8 +28,9 @@ class ChargeTableQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'chargeType' => 'charge_type',
                     'ownerId' => 'owner_id',
+                    'chargeType' => 'charge_type',
+                    'customType' => 'custom_type',
                 ],
             ]
         ]);
@@ -36,11 +38,32 @@ class ChargeTableQuery extends \yii\db\ActiveQuery
 
     /**
      * @param int $time
-     * @return ChargeTableQuery
+     * @return $this
      * @inheritdoc
      */
-    public function activeAt(int $time): ChargeTableQuery
+    public function activeAt(int $time): self
     {
         return $this->andWhere(['<=', 'started_at', $time])->andWhere(['>=', 'ended_at', $time]);
+    }
+
+    /**
+     * @param int $value
+     * @return $this
+     * @inheritdoc
+     */
+    public function limitValue(int $value): self
+    {
+        return $this->andWhere(['OR',
+            [
+                'AND',
+                ['<=', 'min_limit', $value],
+                ['>=', 'max_limit', $value],
+            ],
+            [
+                ['<', 'max_limit', $value],
+                ['>', 'over_limit_price_cent', 0],
+                ['>', 'per_limit', 0],
+            ]
+        ]);
     }
 }

@@ -12,7 +12,7 @@ class m191121_165645_charge_table extends \yii\db\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'charge_rate_id' => $this->bigInteger(),
+            'charge_table_id' => $this->bigPrimaryKey(),
 
             'charge_group' => $this->string(50)->notNull()->defaultValue(''),
             'charge_type' => $this->string(50)->notNull()->defaultValue(''),

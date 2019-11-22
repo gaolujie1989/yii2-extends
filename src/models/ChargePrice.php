@@ -19,10 +19,12 @@ use Yii;
  * @property string $model_type
  * @property int $model_id
  * @property int $parent_model_id
+ * @property int $price_table_id
  * @property int $price_cent
  * @property int $qty
  * @property int $subtotal_cent
  * @property int $discount_cent
+ * @property int $surcharge_cent
  * @property int $grant_total_cent
  * @property string $currency
  * @property int $status
@@ -33,6 +35,10 @@ use Yii;
 class ChargePrice extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+
+    public const STATUS_ESTIMATE = 0;
+    public const STATUS_GENERATED = 10;
+    public const STATUS_CANCELLED = 110;
 
     /**
      * {@inheritdoc}
@@ -48,8 +54,9 @@ class ChargePrice extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['charge_price_id', 'model_id', 'parent_model_id', 'price_cent', 'qty',
-                'subtotal_cent', 'discount_cent', 'grant_total_cent', 'status', 'owner_id', ], 'integer'],
+            [['charge_price_id', 'model_id', 'parent_model_id', 'price_table_id',
+                'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grant_total_cent',
+                'status', 'owner_id', ], 'integer'],
             [['charge_type', 'model_type', 'model_id'], 'required'],
             [['additional'], 'safe'],
             [['charge_group', 'charge_type', 'custom_type', 'model_type'], 'string', 'max' => 50],
@@ -72,10 +79,12 @@ class ChargePrice extends \yii\db\ActiveRecord
             'model_type' => Yii::t('lujie/charging', 'Model Type'),
             'model_id' => Yii::t('lujie/charging', 'Model ID'),
             'parent_model_id' => Yii::t('lujie/charging', 'Parent Model ID'),
+            'price_table_id' => Yii::t('lujie/charging', 'Price Table ID'),
             'price_cent' => Yii::t('lujie/charging', 'Price Cent'),
             'qty' => Yii::t('lujie/charging', 'Qty'),
             'subtotal_cent' => Yii::t('lujie/charging', 'Subtotal Cent'),
             'discount_cent' => Yii::t('lujie/charging', 'Discount Cent'),
+            'surcharge_cent' => Yii::t('lujie/charging', 'Surcharge Cent'),
             'grant_total_cent' => Yii::t('lujie/charging', 'Grant Total Cent'),
             'currency' => Yii::t('lujie/charging', 'Currency'),
             'status' => Yii::t('lujie/charging', 'Status'),
@@ -92,5 +101,31 @@ class ChargePrice extends \yii\db\ActiveRecord
     public static function find(): ChargePriceQuery
     {
         return new ChargePriceQuery(static::class);
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeSave($insert): void
+    {
+        $this->calculateTotal();
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function calculateTotal(): void
+    {
+        if (empty($this->discount_cent)) {
+            $this->discount_cent = 0;
+        }
+        if (empty($this->surcharge_cent)) {
+            $this->surcharge_cent = 0;
+        }
+        $this->subtotal_cent = $this->price_cent * $this->qty;
+        $this->grant_total_cent = $this->subtotal_cent - $this->discount_cent + $this->surcharge_cent;
     }
 }

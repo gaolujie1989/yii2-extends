@@ -13,6 +13,7 @@ use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
 use yii\base\InvalidArgumentException;
+use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 
@@ -42,6 +43,11 @@ class Charger extends BaseObject implements BootstrapInterface
     public $chargeCalculatorLoader = 'chargeCalculatorLoader';
 
     /**
+     * @var bool
+     */
+    public $calculateForceOnEvent = false;
+
+    /**
      * @param Application $app
      * @inheritdoc
      */
@@ -64,9 +70,23 @@ class Charger extends BaseObject implements BootstrapInterface
     }
 
     /**
+     * @param AfterSaveEvent $event
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function triggerChargeOnModelSaved(AfterSaveEvent $event): void
+    {
+        /** @var BaseActiveRecord $model */
+        $model = $event->sender;
+        $this->calculate($model, $this->calculateForceOnEvent);
+    }
+
+    /**
      * @param BaseActiveRecord $model
      * @param bool $force
-     * @return array|ChargePrice[]
+     * @return array
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -88,9 +108,10 @@ class Charger extends BaseObject implements BootstrapInterface
                 $chargePrice->model_id = $model->getPrimaryKey();
                 $chargePrice->status = ChargePrice::STATUS_GENERATED;
             }
-            if ($force || $chargePrice->status === ChargePrice::STATUS_GENERATED || $chargePrice->getIsNewRecord()) {
+            if ($force || $chargePrice->status === ChargePrice::STATUS_ESTIMATE || $chargePrice->getIsNewRecord()) {
                 /** @var ChargeCalculatorInterface $chargeCalculator */
                 $chargeCalculator = $this->chargeCalculatorLoader->get($chargeType);
+                $chargeCalculator = Instance::ensure($chargeCalculator, ChargeCalculatorInterface::class);
                 $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
                 $chargePrice->mustSave(false);
             }

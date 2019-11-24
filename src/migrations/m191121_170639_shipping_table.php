@@ -12,7 +12,7 @@ class m191121_170639_shipping_table extends \yii\db\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'shipping_table_id' => $this->primaryKey(),
+            'shipping_table_id' => $this->bigPrimaryKey(),
 
             'carrier' => $this->char(3)->notNull()->defaultValue(''),
             'departure' => $this->char(2)->notNull()->defaultValue(''),

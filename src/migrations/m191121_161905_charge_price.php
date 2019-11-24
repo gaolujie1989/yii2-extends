@@ -12,7 +12,7 @@ class m191121_161905_charge_price extends \yii\db\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'charge_price_id' => $this->bigInteger(),
+            'charge_price_id' => $this->bigPrimaryKey(),
 
             'charge_group' => $this->string(50)->notNull()->defaultValue(''),
             'charge_type' => $this->string(50)->notNull()->defaultValue(''),
@@ -21,7 +21,7 @@ class m191121_161905_charge_price extends \yii\db\Migration
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'parent_model_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'price_table_id' => $this->bigInteger()->notNull()->defaultValue(''),
+            'price_table_id' => $this->bigInteger()->notNull()->defaultValue(0),
 
             'price_cent' => $this->integer()->notNull()->defaultValue(0),
             'qty' => $this->integer()->notNull()->defaultValue(0),

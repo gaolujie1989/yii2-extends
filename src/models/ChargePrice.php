@@ -108,7 +108,7 @@ class ChargePrice extends \yii\db\ActiveRecord
      * @return bool
      * @inheritdoc
      */
-    public function beforeSave($insert): void
+    public function beforeSave($insert): bool
     {
         $this->calculateTotal();
         return parent::beforeSave($insert);

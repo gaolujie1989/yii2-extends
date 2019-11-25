@@ -123,6 +123,7 @@ class Charger extends Component implements BootstrapInterface
     public function calculate(BaseActiveRecord $model, bool $force = false): array
     {
         $chargeEvent = new ChargeEvent();
+        $chargeEvent->model = $model;
         [$chargeEvent->modelType, $chargeEvent->chargeTypes] = $this->getModelChargeTypes($model);
         $this->trigger(self::EVENT_BEFORE_CHARGE, $chargeEvent);
         if ($chargeEvent->handled) {

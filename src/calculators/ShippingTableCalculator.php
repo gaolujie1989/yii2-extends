@@ -9,6 +9,7 @@ use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\helpers\QueryHelper;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
@@ -53,9 +54,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
         }
 
         $chargePrice->custom_type = $shippingItem->carrier;
-        $chargePrice->qty = $shippingItem->qty;
-        $chargePrice->owner_id =  $shippingItem->ownerId;
-        $chargePrice->parent_model_id = $shippingItem->parentId;
+        $chargePrice->setAttributes($shippingItem->additional);
 
         $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
         $chargePrice->price_cent = $shippingTablePrice->price_cent;
@@ -73,7 +72,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     {
         $l2whMM = $shippingItem->lengthMM + ($shippingItem->widthMM + $shippingItem->heightMM) * 2;
         $query = ShippingTable::find()
-            ->ownerId($shippingItem->ownerId)
+            ->ownerId($shippingItem->additional['owner_id'] ?? 0)
             ->activeAt($shippingItem->shippedAt ?: time())
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)

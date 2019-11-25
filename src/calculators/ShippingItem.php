@@ -55,17 +55,7 @@ class ShippingItem extends BaseObject
     public $heightMM;
 
     /**
-     * @var int
+     * @var array
      */
-    public $qty;
-
-    /**
-     * @var int
-     */
-    public $ownerId;
-
-    /**
-     * @var int
-     */
-    public $parentId;
+    public $additional = [];
 }

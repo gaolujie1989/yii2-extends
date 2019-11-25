@@ -3,10 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\charging;
+namespace lujie\charging\calculators;
 
-
-use lujie\charging\calculators\ChargeableItem;
+use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ChargeTable;
 use lujie\data\loader\DataLoaderInterface;
@@ -50,17 +49,19 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         $chargeableItem = $this->chargeableItemLoader->get($model);
         $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
         if ($chargeTablePrice === null) {
-            throw new InvalidConfigException('No matched shipping price');
+            throw new InvalidConfigException('No matched charge price');
         }
 
         $chargePrice->custom_type = $chargeableItem->customType;
-        $chargePrice->qty = $chargeableItem->qty;
-        $chargePrice->owner_id = $chargeableItem->ownerId;
-        $chargePrice->parent_model_id = $chargeableItem->parentId;
+        $chargePrice->setAttributes($chargeableItem->additional);
 
         $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
         $chargePrice->price_cent = $chargeTablePrice->price_cent;
         $chargePrice->currency = $chargeTablePrice->currency;
+        if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
+            $chargePrice->price_cent += ceil(($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit)
+                * $chargeTablePrice->over_limit_price_cent;
+        }
         return $chargePrice;
     }
 
@@ -73,7 +74,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     protected function getChargeTablePrice(ChargeableItem $chargeableItem, string $chargeType): ?ChargeTable
     {
         return ChargeTable::find()
-            ->ownerId($chargeableItem->ownerId)
+            ->ownerId($chargeableItem->additional['owner_id'] ?? 0)
             ->activeAt($chargeableItem->chargedAt ?: time())
             ->chargeType($chargeType)
             ->customType($chargeableItem->customType)

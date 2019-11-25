@@ -36,9 +36,9 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
                     'destination' => ['destination'],
                     'ownerId' => 'owner_id',
                 ],
-            ],
-            'querySorts' => [
-                'orderByPrice' => ['price_cent']
+                'querySorts' => [
+                    'orderByPrice' => ['price_cent']
+                ],
             ],
         ]);
     }
@@ -60,7 +60,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      */
     protected function limitCondition($limitType, $limitValue): self
     {
-        return $this->andWhere(['OR', [$limitType => 0], ['<=', $limitType, $limitValue]]);
+        return $this->andWhere(['OR', [$limitType => 0], ['>=', $limitType, $limitValue]]);
     }
 
     /**

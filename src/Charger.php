@@ -78,6 +78,7 @@ class Charger extends Component implements BootstrapInterface
         foreach ($this->chargeConfig as [$modelClass]) {
             Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'triggerChargeOnModelSaved']);
             Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'triggerChargeOnModelSaved']);
+            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'triggerChargeOnModelDeleted']);
         }
     }
 
@@ -92,6 +93,23 @@ class Charger extends Component implements BootstrapInterface
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
         $this->calculate($model, $this->calculateForceOnEvent);
+    }
+
+    /**
+     * @param Event $event
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
+     */
+    public function triggerChargeOnModelDeleted(Event $event): void
+    {
+        /** @var BaseActiveRecord $model */
+        $model = $event->sender;
+        [$modelType] = $this->getModelChargeTypes($model);
+        $chargePrices = ChargePrice::find()->modelType($modelType)->modelId($model->getPrimaryKey())->all();
+        foreach ($chargePrices as $chargePrice) {
+            $chargePrice->delete();
+        }
     }
 
     /**

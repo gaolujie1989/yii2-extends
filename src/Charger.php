@@ -53,10 +53,7 @@ class Charger extends BaseObject implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        foreach ($this->chargeConfig as [$modelClass]) {
-            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'triggerChargeOnModelSaved']);
-            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'triggerChargeOnModelSaved']);
-        }
+        $this->listen();
     }
 
     /**
@@ -67,6 +64,17 @@ class Charger extends BaseObject implements BootstrapInterface
     {
         parent::init();
         $this->chargeCalculatorLoader = Instance::ensure($this->chargeCalculatorLoader, DataLoaderInterface::class);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function listen(): void
+    {
+        foreach ($this->chargeConfig as [$modelClass]) {
+            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'triggerChargeOnModelSaved']);
+            Event::on($modelClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'triggerChargeOnModelSaved']);
+        }
     }
 
     /**

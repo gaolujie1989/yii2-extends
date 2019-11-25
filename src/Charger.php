@@ -24,9 +24,9 @@ use yii\di\Instance;
  */
 class Charger extends Component implements BootstrapInterface
 {
-    public const EVENT_BEFORE_CHARGE = 'BEFORE_CHARGE';
+    public const EVENT_BEFORE_CHARGE = 'beforeCharge';
 
-    public const EVENT_AFTER_CHARGE = 'AFTER_CHARGE';
+    public const EVENT_AFTER_CHARGE = 'afterCharge';
 
     /**
      * [

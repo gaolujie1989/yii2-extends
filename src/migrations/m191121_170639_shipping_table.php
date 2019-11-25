@@ -22,6 +22,7 @@ class m191121_170639_shipping_table extends \yii\db\Migration
             'width_mm_limit' => $this->integer()->notNull()->defaultValue(0),
             'height_mm_limit' => $this->integer()->notNull()->defaultValue(0),
             'l2wh_mm_limit' => $this->integer()->notNull()->defaultValue(0),
+            'lh_mm_limit' => $this->integer()->notNull()->defaultValue(0),
             'price_cent' => $this->integer()->notNull()->defaultValue(0),
             'currency' => $this->char(3)->notNull()->defaultValue(''),
 

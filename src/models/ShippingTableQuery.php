@@ -54,7 +54,8 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $weightG
+     * @param $limitType
+     * @param $limitValue
      * @return $this
      * @inheritdoc
      */
@@ -64,7 +65,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $weightG
+     * @param int $weightG
      * @return $this
      * @inheritdoc
      */
@@ -74,7 +75,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $lengthMM
+     * @param int $lengthMM
      * @return $this
      * @inheritdoc
      */
@@ -84,7 +85,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $widthMM
+     * @param int $widthMM
      * @return $this
      * @inheritdoc
      */
@@ -94,7 +95,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $heightMM
+     * @param int $heightMM
      * @return $this
      * @inheritdoc
      */
@@ -104,12 +105,22 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $weightG
+     * @param int $l2whMM
      * @return $this
      * @inheritdoc
      */
     public function l2whMMLimit(int $l2whMM): self
     {
         return $this->limitCondition('l2wh_mm_limit', $l2whMM);
+    }
+
+    /**
+     * @param int $lhMM
+     * @return $this
+     * @inheritdoc
+     */
+    public function lhMMLimit(int $lhMM): self
+    {
+        return $this->limitCondition('lh_mm_limit', $lhMM);
     }
 }

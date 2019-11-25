@@ -17,7 +17,7 @@ class ChargeableItem extends BaseObject
     /**
      * @var string
      */
-    public $customType;
+    public $customType = '';
 
     /**
      * for matching limit

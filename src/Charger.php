@@ -9,8 +9,8 @@ namespace lujie\charging;
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
 use yii\base\Application;
-use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
+use yii\base\Component;
 use yii\base\Event;
 use yii\base\InvalidArgumentException;
 use yii\db\AfterSaveEvent;
@@ -22,8 +22,12 @@ use yii\di\Instance;
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Charger extends BaseObject implements BootstrapInterface
+class Charger extends Component implements BootstrapInterface
 {
+    public const EVENT_BEFORE_CHARGE = 'BEFORE_CHARGE';
+
+    public const EVENT_AFTER_CHARGE = 'AFTER_CHARGE';
+
     /**
      * [
      *     'modelType'  => ['modelClass', ['chargeTypes']]
@@ -100,9 +104,16 @@ class Charger extends BaseObject implements BootstrapInterface
      */
     public function calculate(BaseActiveRecord $model, bool $force = false): array
     {
-        [$modelType, $chargeTypes] = $this->getModelChargeTypes($model);
+        $chargeEvent = new ChargeEvent();
+        [$chargeEvent->modelType, $chargeEvent->chargeTypes] = $this->getModelChargeTypes($model);
+        $this->trigger(self::EVENT_BEFORE_CHARGE, $chargeEvent);
+        if ($chargeEvent->handled) {
+            return $chargeEvent->chargePrices;
+        }
+
         $chargePrices = [];
-        foreach ($chargeTypes as $chargeType) {
+        $modelType = $chargeEvent->modelType;
+        foreach ($chargeEvent->chargeTypes as $chargeType) {
             $chargePrice = ChargePrice::find()
                 ->modelId($model->getPrimaryKey())
                 ->modelType($modelType)
@@ -125,7 +136,11 @@ class Charger extends BaseObject implements BootstrapInterface
             }
             $chargePrices[$chargeType] = $chargePrice;
         }
-        return $chargePrices;
+
+        $chargeEvent->chargePrices = $chargePrices;
+        $this->trigger(self::EVENT_AFTER_CHARGE, $chargeEvent);
+
+        return $chargeEvent->chargePrices;
     }
 
     /**

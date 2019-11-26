@@ -49,7 +49,7 @@ class Charger extends Component implements BootstrapInterface
     /**
      * @var bool
      */
-    public $calculateForceOnEvent = false;
+    public $calculateForceOnEvent = true;
 
     /**
      * @param Application $app

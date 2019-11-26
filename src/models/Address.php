@@ -64,7 +64,6 @@ class Address extends \yii\db\ActiveRecord
                 'postal_code', 'email', 'phone'], 'default', 'value' => ''],
             [['country'], 'string', 'max' => 2],
             [['state', 'city'], 'string', 'max' => 200],
-            [['address1', 'address2', 'address3', 'postal_code', 'phone'], 'strVal'],
             [['name1', 'name2', 'name3', 'address1', 'address2', 'address3'], 'string', 'max' => 255],
             [['postal_code'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
@@ -73,15 +72,6 @@ class Address extends \yii\db\ActiveRecord
             [['province', 'town', 'zip_code', 'company_name', 'first_name', 'last_name',
                 'street', 'street_no', 'house_no', 'additional'], 'safe'],
         ];
-    }
-
-    /**
-     * @param string $attribute
-     * @inheritdoc
-     */
-    public function strVal(string $attribute): void
-    {
-        $this->{$attribute} = (string)$this->{$attribute};
     }
 
     /**

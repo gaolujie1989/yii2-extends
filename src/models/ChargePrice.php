@@ -2,6 +2,7 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -67,6 +68,26 @@ class ChargePrice extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'money' => [
+                'class' => MoneyAliasBehavior::class,
+                'aliasProperties' => [
+                    'price' => 'price_cent',
+                    'subtotal' => 'subtotal_cent',
+                    'discount' => 'discount_cent',
+                    'surcharge' => 'surcharge_cent',
+                    'grand_total' => 'grand_total_cent',
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -101,6 +122,21 @@ class ChargePrice extends \yii\db\ActiveRecord
     public static function find(): ChargePriceQuery
     {
         return new ChargePriceQuery(static::class);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'price' => 'price',
+            'subtotal' => 'subtotal',
+            'discount' => 'discount',
+            'surcharge' => 'surcharge',
+            'grand_total' => 'grand_total',
+        ]);
     }
 
     /**

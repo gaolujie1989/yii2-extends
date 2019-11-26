@@ -2,6 +2,7 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -55,6 +56,23 @@ class ChargeTable extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'money' => [
+                'class' => MoneyAliasBehavior::class,
+                'aliasProperties' => [
+                    'price' => 'price_cent',
+                    'over_limit_price' => 'over_limit_price_cent',
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -85,5 +103,17 @@ class ChargeTable extends \yii\db\ActiveRecord
     public static function find(): ChargeTableQuery
     {
         return new ChargeTableQuery(static::class);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'price' => 'price',
+            'over_limit_price' => 'over_limit_price',
+        ]);
     }
 }

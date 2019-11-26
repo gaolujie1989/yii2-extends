@@ -25,7 +25,7 @@ use Yii;
  * @property int $subtotal_cent
  * @property int $discount_cent
  * @property int $surcharge_cent
- * @property int $grant_total_cent
+ * @property int $grand_total_cent
  * @property string $currency
  * @property int $status
  * @property string $note
@@ -55,7 +55,7 @@ class ChargePrice extends \yii\db\ActiveRecord
     {
         return [
             [['charge_price_id', 'model_id', 'parent_model_id', 'price_table_id',
-                'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grant_total_cent',
+                'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
                 'status', 'owner_id', ], 'integer'],
             [['charge_type', 'model_type', 'model_id'], 'required'],
             [['additional'], 'safe'],
@@ -85,7 +85,7 @@ class ChargePrice extends \yii\db\ActiveRecord
             'subtotal_cent' => Yii::t('lujie/charging', 'Subtotal Cent'),
             'discount_cent' => Yii::t('lujie/charging', 'Discount Cent'),
             'surcharge_cent' => Yii::t('lujie/charging', 'Surcharge Cent'),
-            'grant_total_cent' => Yii::t('lujie/charging', 'Grant Total Cent'),
+            'grand_total_cent' => Yii::t('lujie/charging', 'Grant Total Cent'),
             'currency' => Yii::t('lujie/charging', 'Currency'),
             'status' => Yii::t('lujie/charging', 'Status'),
             'note' => Yii::t('lujie/charging', 'Note'),
@@ -126,6 +126,6 @@ class ChargePrice extends \yii\db\ActiveRecord
             $this->surcharge_cent = 0;
         }
         $this->subtotal_cent = $this->price_cent * $this->qty;
-        $this->grant_total_cent = $this->subtotal_cent - $this->discount_cent + $this->surcharge_cent;
+        $this->grand_total_cent = $this->subtotal_cent - $this->discount_cent + $this->surcharge_cent;
     }
 }

@@ -28,7 +28,7 @@ class m191121_161905_charge_price extends \yii\db\Migration
             'subtotal_cent' => $this->integer()->notNull()->defaultValue(0),
             'discount_cent' => $this->integer()->notNull()->defaultValue(0),
             'surcharge_cent' => $this->integer()->notNull()->defaultValue(0),
-            'grant_total_cent' => $this->integer()->notNull()->defaultValue(0),
+            'grand_total_cent' => $this->integer()->notNull()->defaultValue(0),
             'currency' => $this->char(3)->notNull()->defaultValue(''),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'note' => $this->string(1000)->notNull()->defaultValue(''),

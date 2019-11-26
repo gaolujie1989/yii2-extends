@@ -72,7 +72,7 @@ class Address extends \yii\db\ActiveRecord
             [['email'], 'email'],
             [['province', 'town', 'zip_code',
                 'company_name', 'first_name', 'last_name',
-                'street', 'house_no', 'additional'], 'safe'],
+                'street', 'street_no', 'house_no', 'additional'], 'safe'],
         ];
     }
 

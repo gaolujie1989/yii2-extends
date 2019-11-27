@@ -144,7 +144,6 @@ class Charger extends Component implements BootstrapInterface
                 $chargePrice->charge_group = $this->chargeGroups[$chargeType] ?? '';
                 $chargePrice->model_type = $modelType;
                 $chargePrice->model_id = $model->getPrimaryKey();
-                $chargePrice->status = ChargePrice::STATUS_GENERATED;
             }
             if ($force || $chargePrice->status === ChargePrice::STATUS_ESTIMATE || $chargePrice->getIsNewRecord()) {
                 /** @var ChargeCalculatorInterface $chargeCalculator */

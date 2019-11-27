@@ -53,26 +53,39 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
      * @param BaseActiveRecord $model
      * @param ChargePrice $chargePrice
      * @return ChargePrice
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
         /** @var CarrierItem $carrierItem */
         $carrierItem = $this->carrierItemLoader->get($model);
-        $carrierPackages = (new Query())->from($this->carrierPackageTable)
-            ->andWhere(['carrier' => $carrierItem->carrier])
-            ->andWhere(['tracking_no' => $carrierItem->trackingNumbers])
-            ->all($this->carrierPackageDB);
-        if (empty($carrierPackages)) {
-            throw new InvalidConfigException('No matched carrier price');
-        }
-
         $chargePrice->custom_type = $carrierItem->carrier;
         $chargePrice->setAttributes($carrierItem->additional);
 
-        $chargePrice->price_table_id = 0;
-        $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($carrierPackages, 'total_price_cent'));
-        $chargePrice->currency = $carrierPackages[0]['currency'];
+        $carrierPackages = $this->getCarrierInvoicePrices($carrierItem);
+        if (empty($carrierPackages)) {
+            $chargePrice->price_table_id = 0;
+            $chargePrice->price_cent = 0;
+            $chargePrice->currency = '';
+        } else {
+            $chargePrice->price_table_id = $carrierPackages[0]['carrier_package_id'] ?? $carrierPackages[0]['id'] ?? 1;
+            $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($carrierPackages, 'total_price_cent'));
+            $chargePrice->currency = $carrierPackages[0]['currency'];
+        }
+
+        return $chargePrice;
+    }
+
+    /**
+     * @param CarrierItem $carrierItem
+     * @return array
+     * @inheritdoc
+     */
+    public function getCarrierInvoicePrices(CarrierItem $carrierItem): array
+    {
+        return (new Query())->from($this->carrierPackageTable)
+            ->andWhere(['carrier' => $carrierItem->carrier])
+            ->andWhere(['tracking_no' => $carrierItem->trackingNumbers])
+            ->all($this->carrierPackageDB);
     }
 }

@@ -9,7 +9,6 @@ use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\helpers\QueryHelper;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
@@ -41,24 +40,25 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
      * @param BaseActiveRecord $model
      * @param ChargePrice $chargePrice
      * @return ChargePrice
-     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
         /** @var ShippingItem $shippingItem */
         $shippingItem = $this->shippingItemLoader->get($model);
-        $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
-        if ($shippingTablePrice === null) {
-            throw new InvalidConfigException('No matched shipping price');
-        }
-
         $chargePrice->custom_type = $shippingItem->carrier;
         $chargePrice->setAttributes($shippingItem->additional);
 
-        $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
-        $chargePrice->price_cent = $shippingTablePrice->price_cent;
-        $chargePrice->currency = $shippingTablePrice->currency;
+        $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
+        if ($shippingTablePrice === null) {
+            $chargePrice->price_table_id = 0;
+            $chargePrice->price_cent = 0;
+            $chargePrice->currency = '';
+        } else {
+            $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
+            $chargePrice->price_cent = $shippingTablePrice->price_cent;
+            $chargePrice->currency = $shippingTablePrice->currency;
+        }
 
         return $chargePrice;
     }

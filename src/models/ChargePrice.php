@@ -39,7 +39,8 @@ class ChargePrice extends \yii\db\ActiveRecord
 
     public const STATUS_ESTIMATE = 0;
     public const STATUS_GENERATED = 10;
-    public const STATUS_CANCELLED = 110;
+    public const STATUS_CANCELLED = 11;
+    public const STATUS_FAILED = 12;
 
     /**
      * {@inheritdoc}
@@ -147,6 +148,7 @@ class ChargePrice extends \yii\db\ActiveRecord
     public function beforeSave($insert): bool
     {
         $this->calculateTotal();
+        $this->setChargePriceStatus();
         return parent::beforeSave($insert);
     }
 
@@ -163,5 +165,20 @@ class ChargePrice extends \yii\db\ActiveRecord
         }
         $this->subtotal_cent = $this->price_cent * $this->qty;
         $this->grand_total_cent = $this->subtotal_cent - $this->discount_cent + $this->surcharge_cent;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function setChargePriceStatus(): void
+    {
+        if (empty($this->price_table_id)) {
+            $this->status = self::STATUS_FAILED;
+            $this->price_table_id = 0;
+            $this->price_cent = 0;
+            $this->currency = '';
+        } else if ($this->status === self::STATUS_FAILED) {
+            $this->status = self::STATUS_GENERATED;
+        }
     }
 }

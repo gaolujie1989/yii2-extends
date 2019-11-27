@@ -83,6 +83,9 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
      */
     public function getCarrierInvoicePrices(CarrierItem $carrierItem): array
     {
+        if (empty($carrierItem->trackingNumbers)) {
+            return [];
+        }
         return (new Query())->from($this->carrierPackageTable)
             ->andWhere(['carrier' => $carrierItem->carrier])
             ->andWhere(['tracking_no' => $carrierItem->trackingNumbers])

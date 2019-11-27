@@ -16,6 +16,12 @@ use yii\db\BaseActiveRecord;
 class ChargeEvent extends Event
 {
     /**
+     * default is false, if set true, skip calculate
+     * @var bool
+     */
+    public $calculated = false;
+
+    /**
      * @var string
      */
     public $modelType;

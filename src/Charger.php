@@ -126,7 +126,7 @@ class Charger extends Component implements BootstrapInterface
         $chargeEvent->model = $model;
         [$chargeEvent->modelType, $chargeEvent->chargeTypes] = $this->getModelChargeTypes($model);
         $this->trigger(self::EVENT_BEFORE_CHARGE, $chargeEvent);
-        if ($chargeEvent->handled) {
+        if ($chargeEvent->calculated) {
             return $chargeEvent->chargePrices;
         }
 

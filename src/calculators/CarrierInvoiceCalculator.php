@@ -81,14 +81,27 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
      * @return array
      * @inheritdoc
      */
-    public function getCarrierInvoicePrices(CarrierItem $carrierItem): array
+    protected function getCarrierInvoicePrices(CarrierItem $carrierItem): array
     {
         if (empty($carrierItem->trackingNumbers)) {
             return [];
         }
+        $carrierItem->trackingNumbers = array_map([$this, 'formatInvoiceTrackingNo'], $carrierItem->trackingNumbers);
         return (new Query())->from($this->carrierPackageTable)
-            ->andWhere(['carrier' => $carrierItem->carrier])
             ->andWhere(['tracking_no' => $carrierItem->trackingNumbers])
             ->all($this->carrierPackageDB);
+    }
+
+    /**
+     * @param string $trackingNo
+     * @return string
+     * @inheritdoc
+     */
+    public function formatInvoiceTrackingNo(string $trackingNo): string
+    {
+        if (strlen($trackingNo) === 12 && strpos($trackingNo, '50') === 0) {
+            return substr($trackingNo, 0, 11);
+        }
+        return $trackingNo;
     }
 }

@@ -9,8 +9,8 @@ use lujie\extend\constants\StatusConst;
  * This is the ActiveQuery class for [[DocumentTemplate]].
  *
  * @method DocumentTemplateQuery id($id)
- * @method DocumentTemplateQuery type(string $type);
- * @method DocumentTemplateQuery referenceId(int $referenceId);
+ * @method DocumentTemplateQuery type($type);
+ * @method DocumentTemplateQuery referenceId($referenceId);
  *
  * @method DocumentTemplateQuery active();
  * @method DocumentTemplateQuery orderByPosition($sort = SORT_ASC);

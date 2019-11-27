@@ -14,8 +14,8 @@ use yii\db\ActiveQuery;
  * Class HistoryQuery
  *
  * @method HistoryQuery id($id)
- * @method HistoryQuery tableName(string $tableName);
- * @method HistoryQuery rowId(int $rowId);
+ * @method HistoryQuery tableName($tableName);
+ * @method HistoryQuery rowId($rowId);
  *
  * @method array|History[] all($db = null)
  * @method array|History|null one($db = null)

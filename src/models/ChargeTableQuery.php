@@ -7,9 +7,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[ChargeTable]].
  *
- * @method ChargeTableQuery ownerId(int $ownerId)
- * @method ChargeTableQuery chargeType(string $chargeType);
- * @method ChargeTableQuery customType(string $customType);
+ * @method ChargeTableQuery ownerId($ownerId)
+ * @method ChargeTableQuery chargeType($chargeType);
+ * @method ChargeTableQuery customType($customType);
  *
  * @method ChargeTable[]|array all($db = null)
  * @method ChargeTable|array|null one($db = null)

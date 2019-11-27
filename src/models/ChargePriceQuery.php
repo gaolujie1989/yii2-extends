@@ -8,11 +8,11 @@ use lujie\extend\constants\StatusConst;
 /**
  * This is the ActiveQuery class for [[ChargePrice]].
  *
- * @method ChargePriceQuery chargeType(string $chargeType);
- * @method ChargePriceQuery modelType(string $modelType);
- * @method ChargePriceQuery modelId(int $modelId);
- * @method ChargePriceQuery parentModelId(int $parentModelId);
- * @method ChargePriceQuery ownerId(int $ownerId)
+ * @method ChargePriceQuery chargeType($chargeType);
+ * @method ChargePriceQuery modelType($modelType);
+ * @method ChargePriceQuery modelId($modelId);
+ * @method ChargePriceQuery parentModelId($parentModelId);
+ * @method ChargePriceQuery ownerId($ownerId)
  *
  * @method ChargePrice[]|array all($db = null)
  * @method ChargePrice|array|null one($db = null)

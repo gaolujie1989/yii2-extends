@@ -7,10 +7,10 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[ShippingTable]].
  *
- * @method ShippingTableQuery carrier(string $carrier);
- * @method ShippingTableQuery departure(string $departure);
- * @method ShippingTableQuery destination(string $destination);
- * @method ShippingTableQuery ownerId(int $ownerId)
+ * @method ShippingTableQuery carrier($carrier);
+ * @method ShippingTableQuery departure($departure);
+ * @method ShippingTableQuery destination($destination);
+ * @method ShippingTableQuery ownerId($ownerId)
  *
  * @method ShippingTableQuery orderByPrice($order = SORT_ASC)
  *

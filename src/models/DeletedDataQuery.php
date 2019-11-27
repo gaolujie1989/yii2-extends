@@ -12,8 +12,8 @@ use yii\db\ActiveQuery;
  * Class DeletedDataQuery
  *
  * @method DeletedDataQuery id($id)
- * @method DeletedDataQuery tableName(string $tableName);
- * @method DeletedDataQuery rowId(int $rowId);
+ * @method DeletedDataQuery tableName($tableName);
+ * @method DeletedDataQuery rowId($rowId);
  *
  * @method array|DeletedData[] all($db = null)
  * @method array|DeletedData|null one($db = null)

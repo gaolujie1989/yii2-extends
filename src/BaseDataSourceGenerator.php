@@ -82,15 +82,17 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @param string $type
      * @param int $fromTime
      * @param int $toTime
+     * @param string $timeField
      * @return DataSource
      * @inheritdoc
      */
-    protected function createRecordSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime): DataSource
+    protected function createRecordSource(DataAccount $dataAccount, string $type,
+                                          int $fromTime, int $toTime, string $timeField = 'data_updated_at'): DataSource
     {
         $exportSource = new DataSource();
         $exportSource->data_account_id = $dataAccount->data_account_id;
         $exportSource->type = $type;
-        $exportSource->condition = ['BETWEEN', 'data_updated_at', $fromTime, $toTime];
+        $exportSource->condition = ['BETWEEN', $timeField, $fromTime, $toTime];
         $exportSource->name = implode('--', [date('c', $fromTime), date('c', $toTime)]);
         $exportSource->status = $this->sourceStatus;
         $exportSource->save(false);

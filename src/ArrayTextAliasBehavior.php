@@ -12,7 +12,15 @@ namespace lujie\alias\behaviors;
  */
 class ArrayTextAliasBehavior extends AliasPropertyBehavior
 {
-    public $separator = ',';
+    /**
+     * @var array
+     */
+    public $separators = [',', ';', '/'];
+
+    /**
+     * @var bool
+     */
+    public $trim = true;
 
     /**
      * @param $name
@@ -26,7 +34,8 @@ class ArrayTextAliasBehavior extends AliasPropertyBehavior
         if (is_string($value)) {
             return $value;
         }
-        return $value ? implode($this->separator, $value) : '';
+        $separator = reset($this->separators);
+        return $value ? implode($separator, $value) : '';
     }
 
     /**
@@ -38,7 +47,20 @@ class ArrayTextAliasBehavior extends AliasPropertyBehavior
     public function setAliasProperty($name, $value): void
     {
         if (is_string($value)) {
-            $value = $value ? explode($this->separator, $value) : [];
+            $value = [$value];
+            foreach ($this->separators as $separator) {
+                if (empty($value)) {
+                    break;
+                }
+                $value = array_map(static function($v) use ($separator) {
+                    return explode($separator, $v);
+                }, $value);
+                if ($this->trim) {
+                    $value = array_filter(array_map('trim', array_merge(...$value)));
+                } else {
+                    $value = array_filter(array_merge(...$value));
+                }
+            }
         }
         parent::setAliasProperty($name, $value);
     }

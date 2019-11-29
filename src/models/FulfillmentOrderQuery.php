@@ -17,8 +17,10 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery externalOrderId($externalOrderId)
  * @method FulfillmentOrderQuery externalOrderNo($externalOrderNo)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
+ * @method FulfillmentOrderQuery fulfillmentStatus($externalOrderStatus)
  *
  * @method FulfillmentOrderQuery processing()
+ * @method FulfillmentOrderQuery shipped()
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
  * @method int maxExternalUpdatedAt()
@@ -46,12 +48,18 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'externalOrderId' => 'external_order_id',
                     'externalOrderNo' => 'external_order_no',
                     'externalOrderStatus' => 'external_order_status',
+                    'fulfillmentStatus' => 'fulfillment_status',
                 ],
                 'queryConditions' => [
                     'processing' => [
                         'fulfillment_status' => [
                             FulfillmentConst::ORDER_STATUS_PUSHED,
                             FulfillmentConst::ORDER_STATUS_PICKING,
+                        ]
+                    ],
+                    'shipped' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::ORDER_STATUS_SHIPPED,
                         ]
                     ]
                 ],

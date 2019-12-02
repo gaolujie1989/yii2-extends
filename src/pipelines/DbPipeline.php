@@ -179,7 +179,7 @@ class DbPipeline extends BaseDbPipeline
         array_walk($insertRows, static function(&$row) use ($createdTraceable, $updatedTraceable) {
             $row = array_merge($createdTraceable, $updatedTraceable, $row);
         });
-        array_walk($updateRows, static function($row) use ($updatedTraceable) {
+        array_walk($updateRows, static function(&$row) use ($updatedTraceable) {
             $row[0] = array_merge($updatedTraceable, $row[0]);
         });
     }

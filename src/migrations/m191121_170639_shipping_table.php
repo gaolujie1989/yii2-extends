@@ -36,6 +36,6 @@ class m191121_170639_shipping_table extends \yii\db\Migration
                 'weight_g_limit', 'length_mm_limit',
                 'width_mm_limit', 'height_mm_limit',
                 'l2wh_mm_limit', 'lh_mm_limit',
-                'started_at', 'ended_at', 'owner_id']);
+                'started_at', 'ended_at', 'owner_id', 'price_cent']);
     }
 }

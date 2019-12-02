@@ -30,5 +30,12 @@ class m191121_170639_shipping_table extends \yii\db\Migration
             'ended_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'owner_id' => $this->bigInteger()->notNull()->defaultValue(0),
         ]);
+
+        $this->createIndex('idx_carrier_departure_destination_limit_date_owner', $this->tableName,
+            ['carrier', 'departure', 'destination',
+                'weight_g_limit', 'length_mm_limit',
+                'width_mm_limit', 'height_mm_limit',
+                'l2wh_mm_limit', 'lh_mm_limit',
+                'started_at', 'ended_at', 'owner_id']);
     }
 }

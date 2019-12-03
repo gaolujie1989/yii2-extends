@@ -7,6 +7,7 @@ namespace lujie\extend\authclient;
 
 use Iterator;
 use Throwable;
+use Yii;
 use yii\authclient\OAuth2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -194,12 +195,21 @@ abstract class RestOAuth2Client extends OAuth2
         [$method, $url] = $this->apiMethods[$name];
         $method = strtoupper($method);
         $url = $this->getRealPath($url, $data);
+        $message = strtr('Send api request: {method} {url}', [
+            '{method}' => $method,
+            '{url}' => $url
+        ]);
 
         if ($method === 'GET' && $data) {
             $url = array_merge([$url], $data);
             $data = [];
         }
-        return $this->api($url, $method, $data);
+
+        Yii::info($message, __METHOD__);
+        Yii::beginProfile($message, __METHOD__);
+        $response = $this->api($url, $method, $data);
+        Yii::endProfile($message, __METHOD__);
+        return $response;
     }
 
     /**

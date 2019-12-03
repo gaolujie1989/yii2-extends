@@ -37,7 +37,14 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
             $this->worker = Yii::createObject($this->workerClass);
         }
         $this->worker->setAttributes($data);
-        $this->worker->save(false);
+        try {
+            $this->worker->save(false);
+        } catch (\Exception $e) {
+            $message = strtr('Save worker record failed. [probably reason: db connection lost]. [ex: {ex}]', [
+                '{ex}' => $e->getMessage(),
+            ]);
+            Yii::warning($message, __METHOD__);
+        }
     }
 
     /**

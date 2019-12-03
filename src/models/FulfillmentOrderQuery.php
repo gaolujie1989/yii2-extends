@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery externalOrderNo($externalOrderNo)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
  * @method FulfillmentOrderQuery fulfillmentStatus($externalOrderStatus)
+ * @method FulfillmentOrderQuery orderPulledAt($orderPulledAt)
  *
  * @method FulfillmentOrderQuery processing()
  * @method FulfillmentOrderQuery shipped()
@@ -49,6 +50,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'externalOrderNo' => 'external_order_no',
                     'externalOrderStatus' => 'external_order_status',
                     'fulfillmentStatus' => 'fulfillment_status',
+                    'orderPulledAtFrom' => ['order_pulled_at' => '>='],
+                    'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
                 'queryConditions' => [
                     'processing' => [

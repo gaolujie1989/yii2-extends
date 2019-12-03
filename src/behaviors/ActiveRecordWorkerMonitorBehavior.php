@@ -54,14 +54,18 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
     public function updateCount($workerPid, $success = true): void
     {
         $worker = $this->workerClass::findOne(['pid' => $workerPid, 'finished_at' => 0]);
-        if ($worker) {
-            $countAttribute = $success ? 'success_count' : 'failed_count';
-            $worker->updateCounters([$countAttribute => 1]);
+        if ($worker === null) {
+            $message = strtr('Worker pid: {pid} not exists.', ['pid' => $workerPid]);
+            Yii::info($message, __METHOD__);
+            return;
         }
+        $countAttribute = $success ? 'success_count' : 'failed_count';
+        $worker->updateCounters([$countAttribute => 1]);
     }
 
     /**
      * @param WorkerEvent $event
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function workerStop(WorkerEvent $event): void

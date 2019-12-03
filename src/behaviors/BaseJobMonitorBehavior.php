@@ -7,6 +7,7 @@ namespace lujie\queuing\monitor\behaviors;
 
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
+use Yii;
 use yii\base\Behavior;
 use yii\queue\ExecEvent;
 use yii\queue\PushEvent;
@@ -176,10 +177,18 @@ abstract class BaseJobMonitorBehavior extends Behavior
     {
         /** @var BaseWorkerMonitorBehavior $workerMonitor */
         $workerMonitor = $event->sender->getBehavior($this->workerMonitorBehavior);
-        $workerPid = $event->sender->getWorkerPid();
-        if ($workerMonitor && $workerPid) {
-            $workerMonitor->updateCount($workerPid, $success);
+        if ($workerMonitor === null) {
+            Yii::info('WorkerMonitor is null', __METHOD__);
+            return;
         }
+        $workerPid = $event->sender->getWorkerPid();
+        if (empty($workerPid) === null) {
+            Yii::info('WorkerPid is empty', __METHOD__);
+            return;
+        }
+        $workerMonitor->updateCount($workerPid, $success);
+        $message = strtr('Worker pid: {pid} update counters.', ['pid' => $workerPid]);
+        Yii::info($message, __METHOD__);
     }
 
     /**

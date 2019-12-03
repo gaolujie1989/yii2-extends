@@ -61,6 +61,8 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
         }
         $countAttribute = $success ? 'success_count' : 'failed_count';
         $worker->updateCounters([$countAttribute => 1]);
+        $message = strtr('Worker pid: {pid} update counters.', ['pid' => $workerPid]);
+        Yii::info($message, __METHOD__);
     }
 
     /**

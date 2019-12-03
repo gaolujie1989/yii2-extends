@@ -187,7 +187,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             return;
         }
         $workerMonitor->updateCount($workerPid, $success);
-        $message = strtr('Worker pid: {pid} update counters.', ['pid' => $workerPid]);
+        $message = strtr('Worker pid: {pid} update counters.', ['{pid}' => $workerPid]);
         Yii::info($message, __METHOD__);
     }
 

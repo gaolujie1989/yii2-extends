@@ -55,13 +55,13 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
     {
         $worker = $this->workerClass::findOne(['pid' => $workerPid, 'finished_at' => 0]);
         if ($worker === null) {
-            $message = strtr('Worker pid: {pid} not exists.', ['pid' => $workerPid]);
+            $message = strtr('Worker pid: {pid} not exists.', ['{pid}' => $workerPid]);
             Yii::info($message, __METHOD__);
             return;
         }
         $countAttribute = $success ? 'success_count' : 'failed_count';
         $worker->updateCounters([$countAttribute => 1]);
-        $message = strtr('Worker pid: {pid} update counters.', ['pid' => $workerPid]);
+        $message = strtr('Worker pid: {pid} update counters.', ['{pid}' => $workerPid]);
         Yii::info($message, __METHOD__);
     }
 

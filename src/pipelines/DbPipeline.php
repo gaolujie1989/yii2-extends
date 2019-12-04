@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\pipelines;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\di\Instance;
@@ -28,6 +29,11 @@ class DbPipeline extends BaseDbPipeline
      * @var string
      */
     public $table;
+
+    /**
+     * @var ActiveRecord
+     */
+    public $modelClass;
 
     /**
      * @var bool
@@ -58,6 +64,10 @@ class DbPipeline extends BaseDbPipeline
     public function init(): void
     {
         parent::init();
+        if ($this->modelClass) {
+            $this->db = $this->modelClass::getDb();
+            $this->table = $this->modelClass::tableName();
+        }
         $this->db = Instance::ensure($this->db, Connection::class);
     }
 

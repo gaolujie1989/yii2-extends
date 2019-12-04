@@ -4,7 +4,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace lujie\extend\log\targets\console;
+namespace lujie\extend\log\targets;
 
 use lujie\extend\helpers\TemplateHelper;
 use yii\helpers\Console;

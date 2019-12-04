@@ -5,7 +5,7 @@
 
 namespace lujie\extend\tests\unit\log;
 
-use lujie\extend\log\targets\console\ConsoleTarget;
+use lujie\extend\log\targets\ConsoleTarget;
 use yii\log\Logger;
 
 class ConsoleTargetTest extends \Codeception\Test\Unit

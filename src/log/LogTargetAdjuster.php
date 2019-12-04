@@ -56,8 +56,8 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         ],
         'appDebugFile' => [
             'class' => FileTarget::class,
-            'logFile' => '@runtime/logs/app-debug.log',
-            'levels' => ['debug'],
+            'logFile' => '@runtime/logs/app-trace.log',
+            'levels' => ['trace'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
@@ -95,8 +95,8 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         ],
         'yiiDebugFile' => [
             'class' => FileTarget::class,
-            'logFile' => '@runtime/logs/yii-debug.log',
-            'levels' => ['debug'],
+            'logFile' => '@runtime/logs/yii-trace.log',
+            'levels' => ['trace'],
             'logVars' => [],
             'categories' => ['yii\*'],
         ],
@@ -165,7 +165,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        $app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'beforeRequest']);
+        $app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'updateLogTargets']);
     }
 
     /**
@@ -173,7 +173,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function beforeRequest(Event $event): void
+    public function updateLogTargets(): void
     {
         if ($targets = $this->getScenarioTargets()) {
             Yii::debug('Set log targets: ' . implode(',', array_keys($targets)), __METHOD__);

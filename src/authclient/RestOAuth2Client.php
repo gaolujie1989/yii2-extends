@@ -205,11 +205,7 @@ abstract class RestOAuth2Client extends OAuth2
             $data = [];
         }
 
-        Yii::info($message, __METHOD__);
-        Yii::beginProfile($message, __METHOD__);
-        $response = $this->api($url, $method, $data);
-        Yii::endProfile($message, __METHOD__);
-        return $response;
+        return $this->api($url, $method, $data);
     }
 
     /**

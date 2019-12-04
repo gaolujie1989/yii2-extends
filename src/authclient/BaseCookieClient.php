@@ -5,7 +5,6 @@
 
 namespace lujie\extend\authclient;
 
-use Yii;
 use yii\authclient\BaseClient;
 use yii\base\Exception;
 use yii\httpclient\CurlTransport;
@@ -82,24 +81,16 @@ abstract class BaseCookieClient extends BaseClient
             'username' => $this->username,
             'password' => $this->password,
         ]);
-        $message = strtr('Send login request, username: {username}', [
-            '{username}' => $this->username
-        ]);
-        Yii::info($message, __METHOD__);
-        Yii::beginProfile($message, __METHOD__);
+
         /** @var Response $response */
         $response = $this->createRequest()
             ->setUrl($this->loginUrl)
             ->setMethod('POST')
             ->setData($loginData)
             ->send();
-        Yii::endProfile($message, __METHOD__);
+
         $cookies = $response->getCookies();
         $this->setCookies($cookies);
-        $message = strtr('Login with username: {username}, Set Cookies', [
-            '{username}' => $this->username
-        ]);
-        Yii::info($message, __METHOD__);
         return $cookies;
     }
 
@@ -181,14 +172,6 @@ abstract class BaseCookieClient extends BaseClient
             }
         }
 
-        $message = strtr('Send request: {method} {subUrl}', [
-            '{method}' => $method,
-            '{subUrl}' => $callSubUrl
-        ]);
-        Yii::info($message, __METHOD__);
-        Yii::beginProfile($message, __METHOD__);
-        $response = $request->send();
-        Yii::endProfile($message, __METHOD__);
-        return $response;
+        return $request->send();
     }
 }

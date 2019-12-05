@@ -92,6 +92,10 @@ class ActiveController extends \yii\rest\ActiveController
                 'typecast' => $this->indexTypecast,
                 'queryMethod' => $this->queryTotalMethod,
                 'expandParam' => false,
+                'dataProviderConfig' => [
+                    'pagination' => false,
+                    'sort' => false,
+                ]
             ]);
             $actions['total'] = [
                 'class' => IndexAction::class,

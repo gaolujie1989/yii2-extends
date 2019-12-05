@@ -46,6 +46,11 @@ class IndexDataProviderPreparer
     public $typecast = true;
 
     /**
+     * @var array
+     */
+    public $dataProviderConfig = [];
+
+    /**
      * @param Action $action
      * @return DataProviderInterface|object
      * @throws \yii\base\InvalidConfigException
@@ -66,10 +71,14 @@ class IndexDataProviderPreparer
         $query = $queryPreparer->prepare($action->modelClass, $requestParams);
         $this->expandQuery($query);
 
-        return new ActiveArrayDataProvider([
-            'query' => $query,
-            'typecast' => $this->typecast
-        ]);
+        return Yii::createObject(array_merge(
+            ['class' => ActiveArrayDataProvider::class],
+            $this->dataProviderConfig,
+            [
+                'query' => $query,
+                'typecast' => $this->typecast
+            ]
+        ));
     }
 
     /**

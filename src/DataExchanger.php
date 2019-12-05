@@ -18,6 +18,7 @@ use lujie\executing\LockableInterface;
 use lujie\executing\LockableTrait;
 use lujie\executing\QueueableInterface;
 use lujie\executing\QueueableTrait;
+use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
 
@@ -69,15 +70,18 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
     {
         $source = $this->source;
         if ($source === null) {
+            Yii::debug('Empty source', __METHOD__);
             return false;
         }
         $batch = $source instanceof BatchSourceInterface && !($this->pipeline instanceof FilePipeline)
             ? $source->batch() : [$source->all()];
         foreach ($batch as $data) {
             if (empty($data)) {
+                Yii::debug('Empty source data', __METHOD__);
                 continue;
             }
             if (!$this->exchange($data)) {
+                Yii::debug('Exchange data failed', __METHOD__);
                 return false;
             }
         }

@@ -91,6 +91,7 @@ class ActiveController extends \yii\rest\ActiveController
                 'searchClass' => $this->searchClass,
                 'typecast' => $this->indexTypecast,
                 'queryMethod' => $this->queryTotalMethod,
+                'expandParam' => false,
             ]);
             $actions['total'] = [
                 'class' => IndexAction::class,
@@ -105,6 +106,7 @@ class ActiveController extends \yii\rest\ActiveController
                 'searchClass' => $this->searchClass,
                 'typecast' => $this->indexTypecast,
                 'queryMethod' => $this->queryStatisticsMethod,
+                'expandParam' => false,
             ]);
             $actions['statistics'] = [
                 'class' => IndexAction::class,

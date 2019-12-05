@@ -17,7 +17,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\data\recording\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DataRecordPipeline extends ActiveRecordPipeline
+class RecordPipeline extends ActiveRecordPipeline
 {
     /**
      * @var DataSource
@@ -72,7 +72,7 @@ class DataRecordPipeline extends ActiveRecordPipeline
     protected function createModels(array $data): array
     {
         if (empty($this->dataSource) || !($this->dataSource instanceof DataSource)) {
-            throw new InvalidConfigException('Invalid source');
+            throw new InvalidConfigException('Source can not be empty and must be instanceof DataSource');
         }
 
         $models = [];

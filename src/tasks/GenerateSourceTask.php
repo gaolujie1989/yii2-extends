@@ -71,7 +71,6 @@ class GenerateSourceTask extends CronTask
         }
         if ($invalidTypeAccounts) {
             $message = 'Invalid account type: ' . VarDumper::dumpAsString($invalidTypeAccounts);
-            Yii::error($message, __METHOD__);
             throw new InvalidConfigException($message);
         }
         return true;

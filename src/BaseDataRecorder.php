@@ -11,9 +11,10 @@ use lujie\data\exchange\pipelines\DbPipelineInterface;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
-use lujie\data\recording\pipelines\DataRecordPipeline;
+use lujie\data\recording\pipelines\RecordPipeline;
 use lujie\data\recording\transformers\RecordTransformer;
 use lujie\extend\constants\ExecStatusConst;
+use Yii;
 
 /**
  * Class DataRecorder
@@ -53,7 +54,7 @@ abstract class BaseDataRecorder extends DataExchanger
         if ($this->transformer instanceof RecordTransformer) {
             $this->transformer->dataSource = $dataSource;
         }
-        if ($this->pipeline instanceof DataRecordPipeline) {
+        if ($this->pipeline instanceof RecordPipeline) {
             $this->pipeline->dataSource = $dataSource;
         }
         $this->source = $this->createSource($dataSource);
@@ -62,9 +63,6 @@ abstract class BaseDataRecorder extends DataExchanger
 
     /**
      * @return bool
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
     public function execute(): bool

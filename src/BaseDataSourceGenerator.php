@@ -5,10 +5,10 @@
 
 namespace lujie\data\recording;
 
-use kiwi\data\exporting\models\ExportSource;
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataSource;
 use lujie\extend\constants\StatusConst;
+use Yii;
 use yii\base\BaseObject;
 
 /**
@@ -42,6 +42,8 @@ abstract class BaseDataSourceGenerator extends BaseObject
     {
         return DataSource::getDb()->transaction(function () use ($dataAccount, $dataSourceTypes, $startTime, $endTime, $timePeriod) {
             $dataSources = [];
+            $message = "GenerateSources {$dataAccount->name} [" . implode(',', $dataSourceTypes) . ']';
+            Yii::info($message, __METHOD__);
             foreach ($dataSourceTypes as $dataSourceType) {
                 if ($timePeriod) {
                     for ($fromTime = $startTime; $fromTime < $endTime; $fromTime += $timePeriod) {
@@ -95,6 +97,8 @@ abstract class BaseDataSourceGenerator extends BaseObject
         $exportSource->condition = ['BETWEEN', $timeField, $fromTime, $toTime];
         $exportSource->name = implode('--', [date('c', $fromTime), date('c', $toTime)]);
         $exportSource->status = $this->sourceStatus;
+        $message = "CreateRecordSource {$dataAccount->name} {$type}, condition: [" . implode(',', $exportSource->condition) . ']';
+        Yii::info($message, __METHOD__);
         $exportSource->save(false);
         return $exportSource;
     }

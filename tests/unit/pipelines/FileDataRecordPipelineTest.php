@@ -5,16 +5,10 @@
 
 namespace lujie\data\recording\tests\unit\pipelines;
 
-
-use lujie\data\recording\compress\GzDeflateCompressor;
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
-use lujie\data\recording\models\DataRecordData;
 use lujie\data\recording\models\DataSource;
-use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
-use lujie\data\recording\pipelines\DataRecordPipeline;
 use lujie\data\recording\pipelines\FileRecordDataPipeline;
-use lujie\data\recording\transformers\RecordTransformer;
 use lujie\extend\compressors\GzCompressor;
 use yii\queue\serializers\JsonSerializer;
 

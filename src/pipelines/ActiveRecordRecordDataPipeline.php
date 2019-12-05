@@ -8,6 +8,7 @@ namespace lujie\data\recording\pipelines;
 
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataRecordData;
+use Yii;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
@@ -16,7 +17,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\data\recording\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecordRecordDataPipeline extends DataRecordPipeline
+class ActiveRecordRecordDataPipeline extends RecordPipeline
 {
     /**
      * @var DataRecordData
@@ -37,6 +38,7 @@ class ActiveRecordRecordDataPipeline extends DataRecordPipeline
             $recordData->data_text = $values['text'];
             $dataRecord->on(BaseActiveRecord::EVENT_AFTER_INSERT, static function(AfterSaveEvent $event) use ($recordData) {
                 $recordData->data_record_id = $event->sender->data_record_id;
+                Yii::debug("Save record data of record: {$recordData->data_record_id}", __METHOD__);
                 $recordData->save(false);
             });
         } else {
@@ -45,6 +47,7 @@ class ActiveRecordRecordDataPipeline extends DataRecordPipeline
                 ?: new $this->recordDataClass();
             $recordData->data_text = $values['text'];
             $dataRecord->on(BaseActiveRecord::EVENT_AFTER_UPDATE, static function() use ($recordData) {
+                Yii::debug("Save record data of record: {$recordData->data_record_id}", __METHOD__);
                 $recordData->save(false);
             });
         }

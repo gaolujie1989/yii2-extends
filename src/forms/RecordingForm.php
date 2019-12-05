@@ -9,6 +9,7 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\BaseDataRecorder;
 use lujie\data\recording\models\DataSource;
 use lujie\executing\Executor;
+use Yii;
 use yii\base\Model;
 use yii\di\Instance;
 
@@ -104,9 +105,11 @@ class RecordingForm extends Model
         $dataRecorder = Instance::ensure($dataRecorder, BaseDataRecorder::class);
         $dataRecorder->prepare($this->getDataSource());
         if ($this->executor) {
+            Yii::info("Execute data dataRecorder {$dataRecorder->getId()} with executor", __METHOD__);
             $this->executor = Instance::ensure($this->executor, Executor::class);
             return (bool)$this->executor->handle($dataRecorder);
         }
+        Yii::info("Execute data dataRecorder {$dataRecorder->getId()}", __METHOD__);
         return $dataRecorder->execute();
     }
 }

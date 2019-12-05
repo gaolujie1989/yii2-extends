@@ -8,6 +8,7 @@ namespace lujie\data\recording\pipelines;
 
 use creocoder\flysystem\Filesystem;
 use lujie\data\recording\models\DataRecord;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
@@ -17,7 +18,7 @@ use yii\di\Instance;
  * @package lujie\data\recording\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FileRecordDataPipeline extends DataRecordPipeline
+class FileRecordDataPipeline extends RecordPipeline
 {
     /**
      * @var Filesystem
@@ -53,14 +54,14 @@ class FileRecordDataPipeline extends DataRecordPipeline
     public function createModel(array $values): BaseActiveRecord
     {
         $dataRecord = parent::createModel($values);
+        $handler = function () use ($dataRecord, $values) {
+            Yii::debug("Write file of record: {$dataRecord->data_record_id}", __METHOD__);
+            $this->fs->write($this->getFilePath($dataRecord), $values['text']);
+        };
         if ($dataRecord->getIsNewRecord()) {
-            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_INSERT, function() use ($dataRecord, $values) {
-                $this->fs->write($this->getFilePath($dataRecord), $values['text']);
-            });
+            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_INSERT, $handler);
         } else {
-            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_UPDATE, function() use ($dataRecord, $values) {
-                $this->fs->write($this->getFilePath($dataRecord), $values['text']);
-            });
+            $dataRecord->on(BaseActiveRecord::EVENT_AFTER_UPDATE, $handler);
         }
         return $dataRecord;
     }

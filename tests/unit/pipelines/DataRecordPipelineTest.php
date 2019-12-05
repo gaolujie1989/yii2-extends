@@ -9,7 +9,7 @@ namespace lujie\data\recording\tests\unit\pipelines;
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;
-use lujie\data\recording\pipelines\DataRecordPipeline;
+use lujie\data\recording\pipelines\RecordPipeline;
 
 class DataRecordPipelineTest extends \Codeception\Test\Unit
 {
@@ -67,7 +67,7 @@ class DataRecordPipelineTest extends \Codeception\Test\Unit
                 ]
             ],
         ];
-        $pipeline = new DataRecordPipeline([
+        $pipeline = new RecordPipeline([
             'dataSource' => $source
         ]);
         $pipeline->process([$data]);

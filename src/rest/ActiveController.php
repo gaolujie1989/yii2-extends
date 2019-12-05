@@ -8,7 +8,9 @@ namespace lujie\extend\rest;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\db\ActiveRecordInterface;
+use yii\rest\IndexAction;
 use yii\web\NotFoundHttpException;
+use function Sabre\Event\Loop\instance;
 
 /**
  * Class ActiveController
@@ -36,6 +38,16 @@ class ActiveController extends \yii\rest\ActiveController
      * @var bool
      */
     public $indexTypecast = true;
+
+    /**
+     * @var string
+     */
+    public $queryTotalMethod = 'queryTotal';
+
+    /**
+     * @var string
+     */
+    public $queryStatisticsMethod = 'queryStatistics';
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -71,6 +83,35 @@ class ActiveController extends \yii\rest\ActiveController
             $actions['update']['modelClass'] = $this->formClass;
             $actions['delete']['modelClass'] = $this->formClass;
             $actions['view']['modelClass'] = $this->formClass;
+        }
+        $searchModel = new $this->searchClass();
+        if ($this->queryTotalMethod && method_exists($searchModel, $this->queryTotalMethod)) {
+            $totalProviderPreparer = Yii::createObject([
+                'class' => IndexDataProviderPreparer::class,
+                'searchClass' => $this->searchClass,
+                'typecast' => $this->indexTypecast,
+                'queryMethod' => $this->queryTotalMethod,
+            ]);
+            $actions['total'] = [
+                'class' => IndexAction::class,
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
+            ];
+        }
+        if ($this->queryStatisticsMethod && method_exists($searchModel, $this->queryStatisticsMethod)) {
+            $totalProviderPreparer = Yii::createObject([
+                'class' => IndexDataProviderPreparer::class,
+                'searchClass' => $this->searchClass,
+                'typecast' => $this->indexTypecast,
+                'queryMethod' => $this->queryStatisticsMethod,
+            ]);
+            $actions['statistics'] = [
+                'class' => IndexAction::class,
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
+            ];
         }
         return $actions;
     }

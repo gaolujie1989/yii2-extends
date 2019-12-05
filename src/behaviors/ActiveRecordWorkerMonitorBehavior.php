@@ -53,7 +53,10 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
      */
     public function updateCount($workerPid, $success = true): void
     {
-        $worker = $this->workerClass::findOne(['pid' => $workerPid, 'finished_at' => 0]);
+        $worker = $this->workerClass::find()
+            ->andWhere(['pid' => $workerPid, 'finished_at' => 0])
+            ->orderBy(['queue_worker_id' => SORT_DESC])
+            ->one();
         if ($worker === null) {
             $message = strtr('Worker pid: {pid} not exists.', ['{pid}' => $workerPid]);
             Yii::info($message, __METHOD__);

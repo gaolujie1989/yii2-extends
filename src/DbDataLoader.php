@@ -6,6 +6,7 @@
 namespace lujie\data\loader;
 
 use yii\base\InvalidConfigException;
+use yii\db\ActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\di\Instance;
@@ -28,12 +29,21 @@ class DbDataLoader extends QueryDataLoader
     public $table;
 
     /**
+     * @var ActiveRecord
+     */
+    public $modelClass;
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
-        $this->db = Instance::ensure($this->db);
+        if ($this->modelClass) {
+            $this->table = $this->modelClass::tableName();
+            $this->db = $this->modelClass::getDb();
+        }
+        $this->db = Instance::ensure($this->db, Connection::class);
         $this->initUniqueKey();
         if (empty($this->query)) {
             $this->query = (new Query())->from($this->table);

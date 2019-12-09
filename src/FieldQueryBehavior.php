@@ -109,8 +109,11 @@ class FieldQueryBehavior extends Behavior
         if ($this->owner instanceof ActiveQueryInterface) {
             /** @var BaseActiveRecord $modelClass */
             $modelClass = $this->owner->modelClass;
-            $this->queryFields['id'] = $modelClass::primaryKey();
-            $this->querySorts['orderById'] = $modelClass::primaryKey();
+            $primaryKey = $modelClass::primaryKey();
+            $this->queryFields['id'] = $primaryKey;
+            $this->querySorts['orderById'] = $primaryKey;
+            $this->queryReturns['getId'] = [reset($primaryKey), self::RETURN_SCALAR];
+            $this->queryReturns['getIds'] = [reset($primaryKey), self::RETURN_COLUMN];
         }
     }
 

@@ -61,7 +61,6 @@ class Task extends \lujie\project\base\db\ActiveRecord
             [['project_id', 'task_group_id', 'parent_task_id',
                 'position', 'priority', 'status', 'owner_id', 'executor_id',
                 'due_at', 'started_at', 'finished_at', 'archived_at', 'deleted_at'], 'integer'],
-            [['additional'], 'safe'],
             [['name'], 'string', 'max' => 250],
             [['description'], 'string', 'max' => 1000],
         ];

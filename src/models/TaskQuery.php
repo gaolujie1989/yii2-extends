@@ -9,6 +9,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method TaskGroupQuery id($id)
  * @method TaskGroupQuery projectId($projectId)
+ * @method TaskGroupQuery ownerId($ownerId)
+ * @method TaskGroupQuery executorId($executorId)
  *
  * @method TaskQuery normal()
  * @method TaskQuery archived()
@@ -32,6 +34,8 @@ class TaskQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'projectId' => ['project_id'],
+                    'ownerId' => ['owner_id'],
+                    'executorId' => ['executor_id'],
                 ],
                 'queryConditions' => [
                     'normal' => ['archived_at' => 0, 'deleted_at' => 0],

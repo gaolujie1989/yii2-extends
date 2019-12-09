@@ -60,7 +60,6 @@ class ChargePrice extends \yii\db\ActiveRecord
                 'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
                 'status', 'owner_id', ], 'integer'],
             [['charge_type', 'model_type', 'model_id'], 'required'],
-            [['additional'], 'safe'],
             [['charge_group', 'charge_type', 'custom_type', 'model_type'], 'string', 'max' => 50],
             [['currency'], 'string', 'max' => 3],
             [['note'], 'string', 'max' => 1000],

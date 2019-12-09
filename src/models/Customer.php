@@ -43,7 +43,6 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['email'], 'required'],
-            [['additional'], 'safe'],
             [['email'], 'string', 'max' => 100],
             [['phone', 'ebay_name'], 'string', 'max' => 50],
             [['first_name', 'last_name'], 'string', 'max' => 255],

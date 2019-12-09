@@ -7,10 +7,10 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[Task]].
  *
- * @method TaskGroupQuery id($id)
- * @method TaskGroupQuery projectId($projectId)
- * @method TaskGroupQuery ownerId($ownerId)
- * @method TaskGroupQuery executorId($executorId)
+ * @method TaskQuery id($id)
+ * @method TaskQuery projectId($projectId)
+ * @method TaskQuery ownerId($ownerId)
+ * @method TaskQuery executorId($executorId)
  *
  * @method TaskQuery normal()
  * @method TaskQuery archived()

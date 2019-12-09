@@ -27,6 +27,11 @@ class AliasPropertyBehavior extends Behavior
      */
     public $aliasProperties = [];
 
+    /**
+     * @var array
+     */
+    public $aliasDefaults = [];
+
     #region overwrite for magic get/set
 
     /**
@@ -107,7 +112,7 @@ class AliasPropertyBehavior extends Behavior
     public function getAliasProperty(string $name)
     {
         $property = $this->aliasProperties[$name];
-        return ArrayHelper::getValue($this->owner, $property);
+        return ArrayHelper::getValue($this->owner, $property, $this->aliasDefaults[$name] ?? null);
     }
 
     /**

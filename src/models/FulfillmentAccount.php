@@ -45,7 +45,6 @@ class FulfillmentAccount extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['options', 'additional'], 'safe'],
             [['status'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 50],

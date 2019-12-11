@@ -31,7 +31,7 @@ class UserAppForm extends UserApp
                 StatusConst::STATUS_ACTIVE,
                 StatusConst::STATUS_INACTIVE
             ]],
-            [['refreshSecret'], 'integer']
+            [['refreshSecret'], 'safe']
         ];
     }
 

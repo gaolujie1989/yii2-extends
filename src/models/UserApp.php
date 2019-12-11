@@ -2,12 +2,14 @@
 
 namespace lujie\user\models;
 
+use lujie\extend\constants\StatusConst;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii\caching\TagDependency;
 use yii\db\ActiveQuery;
 
 /**
@@ -70,6 +72,19 @@ class UserApp extends \yii\db\ActiveRecord
     public static function find(): UserAppQuery
     {
         return new UserAppQuery(static::class);
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes): void
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($this->status === StatusConst::STATUS_INACTIVE) {
+            TagDependency::invalidate(User::getCache(), [$this->user->getTokenCacheTag('AppLogin')]);
+        }
     }
 
     /**

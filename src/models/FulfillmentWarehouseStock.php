@@ -81,4 +81,16 @@ class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
     {
         return new FulfillmentWarehouseStockQuery(static::class);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        $fields['id'] = 'id';
+        unset($fields['additional']);
+        return $fields;
+    }
 }

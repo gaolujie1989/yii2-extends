@@ -28,7 +28,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     protected const CACHE_DURATION = 86400;
-    protected const CACHE_TAGS = ['User'];
+    protected const CACHE_TAG = 'User';
     protected const CACHE_USER_KEY_PREFIX = 'User:';
     protected const CACHE_USER_ID_KEY_PREFIX = 'UserID:';
 
@@ -110,13 +110,23 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param string|null $type
+     * @return string
+     * @inheritdoc
+     */
+    public function getTokenCacheTag(?string $type): string
+    {
+        return static::CACHE_TAG . ':' . $this->getId() . ($type ?? '');
+    }
+
+    /**
      * @param int|string $id
      * @return User|null
      * @inheritdoc
      */
     public static function findIdentity($id): ?self
     {
-        $dependency = new TagDependency(['tags' => static::CACHE_TAGS]);
+        $dependency = new TagDependency(['tags' => static::CACHE_TAG]);
         return static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
             return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]);
         }, static::CACHE_DURATION, $dependency);
@@ -151,7 +161,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $token = Yii::$app->security->generateRandomString($length);
         $key = ($type ?? '') . $token;
-        $dependency = new TagDependency(['tags' => static::CACHE_TAGS]);
+        $dependency = new TagDependency(['tags' => [static::CACHE_TAG, $this->getTokenCacheTag(null), $this->getTokenCacheTag($type)]]);
         static::getCache()->set(static::getUserIdCacheKey($key), $this->getId(), $duration, $dependency);
         static::getCache()->set(static::getUserIdCacheKey($token), $this->getId(), $duration, $dependency);
         return $token;
@@ -216,6 +226,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
+
     /**
      * @param bool $insert
      * @return bool
@@ -233,6 +244,18 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes): void
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($this->status === StatusConst::STATUS_INACTIVE) {
+            TagDependency::invalidate(static::getCache(), [$this->getTokenCacheTag(null)]);
+        }
+    }
 
     /**
      * @return array

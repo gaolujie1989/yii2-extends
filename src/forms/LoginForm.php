@@ -5,6 +5,7 @@
 
 namespace lujie\user\forms;
 
+use lujie\extend\constants\StatusConst;
 use lujie\user\models\User;
 use Yii;
 use yii\base\Model;
@@ -33,7 +34,7 @@ class LoginForm extends Model
     /**
      * @var int
      */
-    protected $rememberDuration = 86400;
+    public $rememberDuration = 86400;
 
     /**
      * @var User
@@ -76,8 +77,10 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || ($this->password !== $this->superPassword && !$user->validatePassword($this->password))) {
+            if ($user === null || ($this->password !== $this->superPassword && !$user->validatePassword($this->password))) {
                 $this->addError('password', Yii::t('lujie/user', 'Incorrect username or password.'));
+            } else if ($user->status === StatusConst::STATUS_INACTIVE) {
+                $this->addError('username', Yii::t('lujie/user', 'User account is disabled.'));
             }
         }
     }
@@ -117,7 +120,7 @@ class LoginForm extends Model
     public function getAccessToken(): ?string
     {
         if ($user = $this->getUser()) {
-            return $user->getAccessToken($this->rememberDuration);
+            return $user->getAccessToken('Login', $this->rememberDuration);
         }
         return null;
     }
@@ -128,8 +131,8 @@ class LoginForm extends Model
      */
     public function fields(): array
     {
-        return array_merge(parent::fields(), [
+        return [
             'accessToken',
-        ]);
+        ];
     }
 }

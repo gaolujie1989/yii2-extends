@@ -82,7 +82,7 @@ class UserApp extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes): void
     {
         parent::afterSave($insert, $changedAttributes);
-        if ($this->status === StatusConst::STATUS_INACTIVE) {
+        if ($this->status === StatusConst::STATUS_INACTIVE || isset($changedAttributes['secret'])) {
             TagDependency::invalidate(User::getCache(), [$this->user->getTokenCacheTag('AppLogin')]);
         }
     }

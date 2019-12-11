@@ -26,7 +26,7 @@ class UserAppController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionLogin(): LoginForm
+    public function actionLogin(): AppLoginForm
     {
         /** @var LoginForm $loginForm */
         $loginForm = Yii::createObject($this->loginForm);

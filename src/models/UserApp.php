@@ -88,6 +88,15 @@ class UserApp extends \yii\db\ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterDelete(): void
+    {
+        parent::afterDelete();
+        TagDependency::invalidate(User::getCache(), [$this->user->getTokenCacheTag('AppLogin')]);
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */

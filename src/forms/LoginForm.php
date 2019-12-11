@@ -93,7 +93,7 @@ class LoginForm extends Model
     {
         if ($this->_user === null) {
             /** @var User $identityClass */
-            $identityClass = Yii::$app->getUser()->identityClass;
+            $identityClass = Yii::$app->user->identityClass;
             $this->_user = $identityClass::find()->username($this->username)->one();
         }
         return $this->_user;
@@ -109,7 +109,7 @@ class LoginForm extends Model
             return false;
         }
 
-        return Yii::$app->getUser()->login($this->getUser(), $this->rememberMe ? $this->rememberDuration : 0);
+        return Yii::$app->user->login($this->getUser(), $this->rememberMe ? $this->rememberDuration : 0);
     }
 
     /**

@@ -60,11 +60,13 @@ class AppLoginForm extends Model
     public function validateSecret(): void
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUserApp();
-            if ($user === null) {
-                $this->addError('secret', Yii::t('lujie/user', 'Incorrect key or secret.'));
-            } else if ($user->status === StatusConst::STATUS_INACTIVE) {
-                $this->addError('key', Yii::t('lujie/user', 'App account is disabled.'));
+            $userApp = $this->getUserApp();
+            if ($userApp === null) {
+                $this->addError('secret', Yii::t('lujie/userApp', 'Incorrect key or secret.'));
+            } else if ($userApp->status === StatusConst::STATUS_INACTIVE) {
+                $this->addError('key', Yii::t('lujie/userApp', 'App account is disabled.'));
+            } else if ($userApp->user->status === StatusConst::STATUS_INACTIVE) {
+                $this->addError('key', Yii::t('lujie/userApp', 'User account is disabled.'));
             }
         }
     }

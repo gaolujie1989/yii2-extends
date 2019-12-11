@@ -33,6 +33,11 @@ class AppLoginForm extends Model
     protected $_userApp;
 
     /**
+     * @var UserApp
+     */
+    public $userAppClass = UserApp::class;
+
+    /**
      * @inheritdoc
      */
     public function rules(): array
@@ -90,7 +95,7 @@ class AppLoginForm extends Model
     protected function getUserApp(): ?UserApp
     {
         if ($this->_userApp === null) {
-            $this->_userApp = UserApp::find()->key($this->key)->secret($this->secret)->one();
+            $this->_userApp = $this->userAppClass::find()->key($this->key)->secret($this->secret)->one();
         }
         return $this->_userApp;
     }

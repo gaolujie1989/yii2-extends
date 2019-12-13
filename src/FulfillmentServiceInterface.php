@@ -5,6 +5,8 @@
 
 namespace lujie\fulfillment;
 
+use lujie\fulfillment\common\Item;
+use lujie\fulfillment\common\Order;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 
@@ -17,15 +19,15 @@ interface FulfillmentServiceInterface
     public function pullWarehouses(array $condition = []): void;
 
     /**
-     * @param $item
-     * @return mixed
+     * @param FulfillmentItem $fulfillmentItem
+     * @return bool
      * @inheritdoc
      */
     public function pushItem(FulfillmentItem $fulfillmentItem): bool;
 
     /**
-     * @param $order
-     * @return mixed
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool;

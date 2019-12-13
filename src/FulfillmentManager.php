@@ -13,6 +13,7 @@ use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
+use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -78,6 +79,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $this->mutex = Instance::ensure($this->mutex, Mutex::class);
     }
 
+    #region event, listen to fulfillment
+
     /**
      * @param Application $app
      * @inheritdoc
@@ -98,7 +101,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentItem $fulfillmentItem */
         $fulfillmentItem = $event->sender;
-        if ($fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
+        if ($fulfillmentItem->external_item_id && $fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
+            Yii::info("Fulfillment item not updated, skip to push, itemId: {$fulfillmentItem->item_id}", __METHOD__);
             return;
         }
         $job = new PushFulfillmentItemJob();
@@ -116,6 +120,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = $event->sender;
         if ($fulfillmentOrder->external_order_id) {
+            Yii::info("Fulfillment order already pushed, orderId: {$fulfillmentOrder->order_id}", __METHOD__);
             return;
         }
         $job = new PushFulfillmentOrderJob();
@@ -132,13 +137,20 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = $event->sender;
-        if ($fulfillmentOrder->order_status === $this->orderCancellingStatus && $fulfillmentOrder->external_order_id) {
+        if ($fulfillmentOrder->external_order_id && $this->orderCancellingStatus &&
+            $this->orderCancellingStatus === $fulfillmentOrder->order_status) {
             $job = new CancelFulfillmentOrderJob();
             $job->fulfillmentManager = ComponentHelper::getName($this);
             $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
             $this->queue->push($job);
+        } else {
+            Yii::info("Order not pushed or not cancelling status, orderId: {$fulfillmentOrder->order_id}", __METHOD__);
         }
     }
+
+    #endregion
+
+    #region push and cancelling
 
     /**
      * @param FulfillmentItem $fulfillmentItem
@@ -190,6 +202,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
         return $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
     }
+
+    #endregion
+
+    #region pull and update
 
     /**
      * @param $accountId
@@ -246,6 +262,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
     }
 
+    #endregion
+
+    #region Recheck and Push
+
     /**
      * @param int $accountId
      * @return bool
@@ -295,4 +315,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
             $this->pushFulfillmentOrder($fulfillmentOrder);
         }
     }
+
+    #endregion
 }

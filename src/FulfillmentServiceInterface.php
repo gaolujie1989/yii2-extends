@@ -5,8 +5,6 @@
 
 namespace lujie\fulfillment;
 
-use lujie\fulfillment\common\Item;
-use lujie\fulfillment\common\Order;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 

@@ -18,6 +18,8 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery externalOrderNo($externalOrderNo)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
  * @method FulfillmentOrderQuery fulfillmentStatus($externalOrderStatus)
+ * @method FulfillmentOrderQuery externalUpdatedAtFrom($externalUpdatedAtFrom)
+ * @method FulfillmentOrderQuery externalUpdatedAtTo($externalUpdatedAtTo)
  * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
  * @method FulfillmentOrderQuery orderPulledAtTo($orderPulledAtTo)
  *
@@ -51,6 +53,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'externalOrderNo' => 'external_order_no',
                     'externalOrderStatus' => 'external_order_status',
                     'fulfillmentStatus' => 'fulfillment_status',
+                    'externalUpdatedAtFrom' => ['order_pulled_at' => '>='],
+                    'externalUpdatedAtTo' => ['order_pulled_at' => '<='],
                     'orderPulledAtFrom' => ['order_pulled_at' => '>='],
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
@@ -71,7 +75,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderByOrderPulledAt' => ['order_pulled_at']
                 ],
                 'queryReturns' => [
-                    'maxExternalUpdatedAt' => [['external_order_updated_at', FieldQueryBehavior::RETURN_MAX]]
+                    'maxExternalUpdatedAt' => [['external_updated_at', FieldQueryBehavior::RETURN_MAX]]
                 ]
             ]
         ]);

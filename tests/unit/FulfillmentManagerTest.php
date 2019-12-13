@@ -111,4 +111,29 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         ]);
         $this->assertEquals($expectedJob, array_shift($pushedJobs));
     }
+
+    public function testPushItem(): void
+    {
+
+    }
+
+    public function testPushOrder(): void
+    {
+
+    }
+
+    public function testPullWarehouses(): void
+    {
+
+    }
+
+    public function testPullStocks(): void
+    {
+
+    }
+
+    public function testPullOrders(): void
+    {
+
+    }
 }

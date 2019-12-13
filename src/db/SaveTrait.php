@@ -16,6 +16,15 @@ use yii\db\Exception;
 trait SaveTrait
 {
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getTraceableAttributes(): array
+    {
+        return ['updated_at', 'updated_by'];
+    }
+
+    /**
      * @param bool $runValidation
      * @param null $attributeNames
      * @return bool
@@ -24,7 +33,7 @@ trait SaveTrait
     public function save($runValidation = true, $attributeNames = null): bool
     {
         if ($attributeNames) {
-            $traceableAttributes = ['updated_at', 'updated_by'];
+            $traceableAttributes = $this->getTraceableAttributes();
             foreach ($traceableAttributes as $attribute) {
                 /** @var BaseActiveRecord $this */
                 if ($this->hasAttribute($attribute)) {

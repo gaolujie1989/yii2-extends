@@ -18,7 +18,8 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery externalOrderNo($externalOrderNo)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
  * @method FulfillmentOrderQuery fulfillmentStatus($externalOrderStatus)
- * @method FulfillmentOrderQuery orderPulledAt($orderPulledAt)
+ * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
+ * @method FulfillmentOrderQuery orderPulledAtTo($orderPulledAtTo)
  *
  * @method FulfillmentOrderQuery processing()
  * @method FulfillmentOrderQuery shipped()

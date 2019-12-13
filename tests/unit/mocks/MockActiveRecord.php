@@ -53,7 +53,7 @@ class MockActiveRecord extends BaseActiveRecord
      */
     public function attributes(): array
     {
-        return ['mock_id', 'mock_value', 'updated_by', 'updated_at'];
+        return ['mock_id', 'mock_value', 'created_by', 'created_at', 'updated_by', 'updated_at'];
     }
 
     /**

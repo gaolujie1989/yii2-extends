@@ -44,12 +44,8 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
-        if ($model->hasAttribute($this->createdAtAttribute)) {
-            $model->setAttribute($this->createdAtAttribute, time());
-        }
-        if ($model->hasAttribute($this->createdByAttribute)) {
-            $model->setAttribute($this->createdByAttribute, $this->getActionBy());
-        }
+        $this->appendCreatedAttributes($model);
+        $this->appendUpdatedAttributes($model);
     }
 
     /**
@@ -61,6 +57,31 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
+        $this->appendUpdatedAttributes($model);
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function appendCreatedAttributes(BaseActiveRecord $model): void
+    {
+        if ($model->hasAttribute($this->createdAtAttribute)) {
+            $model->setAttribute($this->createdAtAttribute, time());
+        }
+        if ($model->hasAttribute($this->createdByAttribute)) {
+            $model->setAttribute($this->createdByAttribute, $this->getActionBy());
+        }
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function appendUpdatedAttributes(BaseActiveRecord $model): void
+    {
         if ($model->hasAttribute($this->updatedAtAttribute)) {
             $model->setAttribute($this->updatedAtAttribute, time());
         }
@@ -74,7 +95,7 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getActionBy(): int
+    protected function getActionBy(): int
     {
         /** @var User $user */
         $user = Yii::$app->get('user', false);

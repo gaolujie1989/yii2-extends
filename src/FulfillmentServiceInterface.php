@@ -38,14 +38,14 @@ interface FulfillmentServiceInterface
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool;
 
     /**
-     * @return mixed
+     * @param FulfillmentOrder[] $fulfillmentOrders
      * @inheritdoc
      */
-    public function pullFulfillmentOrders(): void;
+    public function pullFulfillmentOrders(array $fulfillmentOrders): void;
 
     /**
-     * @param array $condition
+     * @param FulfillmentItem[] $fulfillmentItems
      * @inheritdoc
      */
-    public function pullWarehouseStocks(): void;
+    public function pullWarehouseStocks(array $fulfillmentItems): void;
 }

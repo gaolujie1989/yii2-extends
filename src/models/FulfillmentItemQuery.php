@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentItemQuery externalItemNo($externalItemNo)
  *
  * @method FulfillmentItemQuery hasExternalItemId()
+ * @method FulfillmentItemQuery newUpdatedItems()
  * @method FulfillmentItemQuery orderByStockPulledAt($sort = SORT_ASC)
  *
  * @method array|FulfillmentItem[] all($db = null)
@@ -42,6 +43,7 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
                 ],
                 'queryConditions' => [
                     'hasExternalItemId' => ['>', 'external_item_id', 0],
+                    'newUpdatedItems' => ['item_updated_at > item_pushed_at'],
                 ],
                 'querySorts' => [
                     'orderByStockPulledAt' => ['stock_pulled_at']

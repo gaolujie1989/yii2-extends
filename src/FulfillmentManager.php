@@ -51,7 +51,20 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public $mutexNamePrefix = 'fulfillment:';
 
+    /**
+     * @var
+     */
     public $orderCancellingStatus;
+
+    /**
+     * @var int
+     */
+    public $batchLimit = 100;
+
+    /**
+     * @var int
+     */
+    public $batchSize = 20;
 
     /**
      * @throws InvalidConfigException
@@ -111,6 +124,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $this->queue->push($job);
     }
 
+    /**
+     * @param AfterSaveEvent $event
+     * @inheritdoc
+     */
     public function afterFulfillmentOrderUpdated(AfterSaveEvent $event): void
     {
         /** @var FulfillmentOrder $fulfillmentOrder */
@@ -123,7 +140,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
     }
 
-    /**、
+    /**
      * @param FulfillmentItem $fulfillmentItem
      * @return bool|mixed
      * @inheritdoc
@@ -186,21 +203,47 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
-     * @param $accountId
+     * @param int $accountId
      * @inheritdoc
      */
     public function pullFulfillmentOrders(int $accountId): void
     {
+        $query = FulfillmentOrder::find()
+            ->accountId($accountId)
+            ->processing()
+            ->orderByOrderPulledAt()
+            ->limit($this->batchLimit);
+        if (!$query->exists()) {
+            return;
+        }
+
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
-        $fulfillmentService->pullFulfillmentOrders();
+        foreach ($query->batch($this->batchSize) as $batch) {
+            $fulfillmentService->pullFulfillmentOrders($batch);
+        }
     }
 
+    /**
+     * @param int $accountId
+     * @inheritdoc
+     */
     public function pullFulfillmentWarehouseStocks(int $accountId): void
     {
+        $query = FulfillmentItem::find()
+            ->accountId($accountId)
+            ->hasExternalItemId()
+            ->orderByStockPulledAt()
+            ->limit($this->batchLimit);
+        if (!$query->exists()) {
+            return;
+        }
+
         /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
-        $fulfillmentService->pullWarehouseStocks();
+        foreach ($query->batch($this->batchSize) as $batch) {
+            $fulfillmentService->pullWarehouseStocks($batch);
+        }
     }
 
     /**
@@ -208,9 +251,21 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @return bool
      * @inheritdoc
      */
-    public function pushFulfillmentItems(int $accountId): bool
+    public function pushFulfillmentItems(int $accountId): void
     {
-        $fulfillmentItems = FulfillmentItem::find()->accountId($accountId)->externalItemId(0)->all();
+        $fulfillmentItems = FulfillmentItem::find()
+            ->accountId($accountId)
+            ->externalItemId(0)
+            ->all();
+        foreach ($fulfillmentItems as $fulfillmentItem) {
+            $this->pushFulfillmentItem($fulfillmentItem);
+        }
+
+        $fulfillmentItems = FulfillmentItem::find()
+            ->accountId($accountId)
+            ->hasExternalItemId()
+            ->newUpdatedItems()
+            ->all();
         foreach ($fulfillmentItems as $fulfillmentItem) {
             $this->pushFulfillmentItem($fulfillmentItem);
         }
@@ -220,22 +275,24 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @return bool
      * @inheritdoc
      */
-    public function pushFulfillmentOrders(): bool
+    public function pushFulfillmentOrders(): void
     {
         $accountIds = FulfillmentAccount::find()->active()->column();
-        $fulfillmentOrders = FulfillmentOrder::find()->accountId($accountIds)
+        $fulfillmentOrders = FulfillmentOrder::find()
+            ->accountId($accountIds)
             ->externalOrderId(0)
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
         }
-        $fulfillmentOrders = FulfillmentOrder::find()->accountId($accountIds)
+
+        $fulfillmentOrders = FulfillmentOrder::find()
+            ->accountId($accountIds)
             ->orderStatus($this->orderCancellingStatus)
             ->processing()
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
         }
-        return true;
     }
 }

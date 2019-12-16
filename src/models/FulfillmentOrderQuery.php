@@ -28,6 +28,7 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
  * @method int maxExternalUpdatedAt()
+ * @method array getExternalOrderIds()
  *
  * @method array|FulfillmentOrder[] all($db = null)
  * @method array|FulfillmentOrder|null one($db = null)
@@ -75,7 +76,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderByOrderPulledAt' => ['order_pulled_at']
                 ],
                 'queryReturns' => [
-                    'maxExternalUpdatedAt' => [['external_updated_at', FieldQueryBehavior::RETURN_MAX]]
+                    'maxExternalUpdatedAt' => [['external_updated_at', FieldQueryBehavior::RETURN_MAX]],
+                    'getExternalOrderIds' => [['external_order_id', FieldQueryBehavior::RETURN_COLUMN]],
                 ]
             ]
         ]);

@@ -76,8 +76,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderByOrderPulledAt' => ['order_pulled_at']
                 ],
                 'queryReturns' => [
-                    'maxExternalUpdatedAt' => [['external_updated_at', FieldQueryBehavior::RETURN_MAX]],
-                    'getExternalOrderIds' => [['external_order_id', FieldQueryBehavior::RETURN_COLUMN]],
+                    'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX],
+                    'getExternalOrderIds' => ['external_order_id', FieldQueryBehavior::RETURN_COLUMN],
                 ]
             ]
         ]);

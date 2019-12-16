@@ -5,6 +5,7 @@
 
 namespace lujie\extend\db;
 
+use lujie\fulfillment\tasks\PushFulfillmentItemTask;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -38,7 +39,7 @@ trait TraceableBehaviorTrait
      */
     public function traceableBehaviors(): array
     {
-        if (Yii::$app->has('activeRecordTracer')) {
+        if (Yii::$app->has('activeRecordTracer') || $this->hasActiveRecordTracer()) {
             return [];
         }
         $behaviors = [];
@@ -74,5 +75,20 @@ trait TraceableBehaviorTrait
             return 0;
         }
         return $user->getId();
+    }
+
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function hasActiveRecordTracer(): bool
+    {
+        $components = Yii::$app->getComponents(false);
+        foreach ($components as $component) {
+            if ($component instanceof ActiveRecordTracer) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -5,7 +5,6 @@
 
 namespace lujie\extend\db;
 
-use lujie\fulfillment\tasks\PushFulfillmentItemTask;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;

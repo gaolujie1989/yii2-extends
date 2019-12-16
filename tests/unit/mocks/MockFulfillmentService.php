@@ -19,7 +19,7 @@ use yii\base\BaseObject;
  */
 class MockFulfillmentService extends BaseObject implements FulfillmentServiceInterface
 {
-    public $accountId;
+    public $accountId = 1;
 
     public static $externalWarehouseIds = [1];
 

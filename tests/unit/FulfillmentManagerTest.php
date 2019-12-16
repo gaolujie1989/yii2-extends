@@ -7,12 +7,15 @@ namespace lujie\fulfillment\tests\unit;
 
 
 use lujie\data\loader\ChainedDataLoader;
+use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
 use lujie\fulfillment\jobs\PushFulfillmentItemJob;
 use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
+use lujie\fulfillment\models\FulfillmentWarehouse;
+use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentServiceLoader;
 use Yii;
 use yii\di\Instance;
@@ -114,26 +117,59 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
 
     public function testPushItem(): void
     {
-
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $this->getFulfillmentManager()->pushFulfillmentItem($fulfillmentItem);
+        $this->assertFalse($fulfillmentItem->getIsNewRecord());
+        $this->assertEquals(1, $fulfillmentItem->external_item_id);
     }
 
     public function testPushOrder(): void
     {
-
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_account_id = 1;
+        $fulfillmentOrder->order_id = 1;
+        $this->getFulfillmentManager()->pushFulfillmentOrder($fulfillmentOrder);
+        $this->assertFalse($fulfillmentOrder->getIsNewRecord());
+        $this->assertEquals(1, $fulfillmentOrder->external_order_id);
     }
 
     public function testPullWarehouses(): void
     {
-
+        $query = FulfillmentWarehouse::find();
+        $this->assertEquals(0, $query->count());
+        $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
+        $this->assertEquals(1, $query->count());
+        $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
+        $this->assertEquals(1, $query->count());
     }
 
     public function testPullStocks(): void
     {
-
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->external_item_id = 1;
+        $fulfillmentItem->mustSave(false);
+        $query = FulfillmentWarehouseStock::find();
+        $this->assertEquals(0, $query->count());
+        $this->getFulfillmentManager()->pullFulfillmentWarehouseStocks(1);
+        $this->assertEquals(1, $query->count());
+        $this->getFulfillmentManager()->pullFulfillmentWarehouseStocks(1);
+        $this->assertEquals(1, $query->count());
     }
 
     public function testPullOrders(): void
     {
-
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_account_id = 1;
+        $fulfillmentOrder->order_id = 1;
+        $fulfillmentOrder->external_order_id = 1;
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::ORDER_STATUS_PUSHED;
+        $fulfillmentOrder->mustSave(false);
+        $this->getFulfillmentManager()->pullFulfillmentOrders(1);
+        $fulfillmentOrder->refresh();
+        $this->assertTrue($fulfillmentOrder->order_pulled_at > 0, VarDumper::dumpAsString($fulfillmentOrder->attributes));
     }
 }

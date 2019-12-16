@@ -38,6 +38,9 @@ trait TraceableBehaviorTrait
      */
     public function traceableBehaviors(): array
     {
+        if (Yii::$app->has('activeRecordTracer')) {
+            return [];
+        }
         $behaviors = [];
         /** @var BaseActiveRecord $this */
         if ($this->hasAttribute('created_at') || $this->hasAttribute('updated_at')) {

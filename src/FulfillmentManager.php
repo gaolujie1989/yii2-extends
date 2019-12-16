@@ -267,14 +267,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region Recheck and Push
 
     /**
-     * @param int $accountId
-     * @return bool
      * @inheritdoc
      */
-    public function pushFulfillmentItems(int $accountId): void
+    public function pushFulfillmentItems(): void
     {
+        $accountIds = FulfillmentAccount::find()->active()->column();
         $fulfillmentItems = FulfillmentItem::find()
-            ->accountId($accountId)
+            ->accountId($accountIds)
             ->externalItemId(0)
             ->all();
         foreach ($fulfillmentItems as $fulfillmentItem) {
@@ -282,7 +281,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $fulfillmentItems = FulfillmentItem::find()
-            ->accountId($accountId)
+            ->accountId($accountIds)
             ->hasExternalItemId()
             ->newUpdatedItems()
             ->all();

@@ -24,11 +24,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public $targets = [
         'appErrorEmail' => [
             'class' => EmailTarget::class,
-            'mailer' => 'mailer',
-            'message' => [
-                'to' => ['lujie.zhou@skylinktools.com'],
-                'subject' => 'Log message',
-            ],
             'levels' => ['error'],
             'logVars' => [],
             'except' => ['yii\*'],
@@ -63,11 +58,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         ],
         'yiiErrorEmail' => [
             'class' => EmailTarget::class,
-            'mailer' => 'mailer',
-            'message' => [
-                'to' => ['lujie.zhou@skylinktools.com'],
-                'subject' => 'Log message',
-            ],
             'levels' => ['error'],
             'logVars' => [],
             'categories' => ['yii\*'],
@@ -150,12 +140,30 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public $scenarioKey = 'log';
 
     /**
+     * @var array
+     */
+    public $mailerTargetConfig = [];
+
+    /**
      * @param Application $app
      * @inheritdoc
      */
     public function bootstrap($app): void
     {
         $app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'updateLogTargets']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        foreach ($this->targets as $key => $target) {
+            if ($target['class'] === EmailTarget::class) {
+                $this->targets[$key] = array_merge($target, $this->mailerTargetConfig);
+            }
+        }
     }
 
     /**

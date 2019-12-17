@@ -26,7 +26,9 @@ class RechargeTask extends CronTask
     /**
      * @var array
      */
-    public $rechargePriceStatus = [ChargePrice::STATUS_FAILED];
+    public $rechargePriceCondition = [
+        'status' => ChargePrice::STATUS_FAILED
+    ];
 
     /**
      * @return bool
@@ -39,7 +41,7 @@ class RechargeTask extends CronTask
     public function execute(): bool
     {
         $this->charger = Instance::ensure($this->charger, Charger::class);
-        $query = ChargePrice::find()->status($this->rechargePriceStatus);
+        $query = ChargePrice::find()->andWhere($this->rechargePriceCondition);
         /** @var ChargePrice $chargePrice */
         foreach ($query->each() as $chargePrice) {
             $recalculate = $this->charger->recalculate($chargePrice);

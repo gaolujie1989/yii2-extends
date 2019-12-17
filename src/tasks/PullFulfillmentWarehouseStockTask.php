@@ -34,13 +34,12 @@ class PullFulfillmentWarehouseStockTask extends CronTask
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function execute(): bool
+    public function execute(): void
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
         $accountIds = FulfillmentAccount::find()->active()->column();
         foreach ($accountIds as $accountId) {
             $this->fulfillmentManager->pullFulfillmentWarehouseStocks($accountId);
         }
-        return true;
     }
 }

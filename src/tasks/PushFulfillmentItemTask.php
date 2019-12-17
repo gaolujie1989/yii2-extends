@@ -29,9 +29,10 @@ class PushFulfillmentItemTask extends CronTask
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function execute(): void
+    public function execute(): bool
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
         $this->fulfillmentManager->pushFulfillmentItems();
+        return true;
     }
 }

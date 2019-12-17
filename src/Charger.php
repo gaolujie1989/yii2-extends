@@ -175,4 +175,27 @@ class Charger extends Component implements BootstrapInterface
         }
         throw new InvalidArgumentException('Invalid model, no matched modelClass, charge type not found');
     }
+
+    /**
+     * @param ChargePrice $chargePrice
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function recalculate(ChargePrice $chargePrice): bool
+    {
+        /** @var BaseActiveRecord $modelClass */
+        [$modelClass] = $this->chargeConfig[$chargePrice->model_type];
+        $model = $modelClass::findOne($chargePrice->model_id);
+        if ($model === null) {
+            return false;
+        }
+        /** @var ChargeCalculatorInterface $chargeCalculator */
+        $chargeCalculator = $this->chargeCalculatorLoader->get($chargePrice->charge_type);
+        $chargeCalculator = Instance::ensure($chargeCalculator, ChargeCalculatorInterface::class);
+        $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
+        $chargePrice->mustSave(false);
+        return true;
+    }
 }

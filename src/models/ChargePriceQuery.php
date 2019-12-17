@@ -13,6 +13,7 @@ use lujie\extend\constants\StatusConst;
  * @method ChargePriceQuery modelId($modelId);
  * @method ChargePriceQuery parentModelId($parentModelId);
  * @method ChargePriceQuery ownerId($ownerId)
+ * @method ChargePriceQuery status($status)
  *
  * @method ChargePrice[]|array all($db = null)
  * @method ChargePrice|array|null one($db = null)
@@ -36,6 +37,7 @@ class ChargePriceQuery extends \yii\db\ActiveQuery
                     'modelId' => 'model_id',
                     'parentModelId' => 'parent_model_id',
                     'ownerId' => 'owner_id',
+                    'status' => 'status',
                 ],
             ]
         ]);

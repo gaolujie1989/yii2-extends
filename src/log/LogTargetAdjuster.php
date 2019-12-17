@@ -142,7 +142,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     /**
      * @var array
      */
-    public $mailerTargetConfig = [];
+    public $emailTargetConfig = [];
 
     /**
      * @param Application $app
@@ -161,7 +161,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         parent::init();
         foreach ($this->targets as $key => $target) {
             if ($target['class'] === EmailTarget::class) {
-                $this->targets[$key] = array_merge($target, $this->mailerTargetConfig);
+                $this->targets[$key] = array_merge($target, $this->emailTargetConfig);
             }
         }
     }

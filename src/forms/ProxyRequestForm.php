@@ -31,6 +31,7 @@ class ProxyRequestForm extends Model
     public $url;
 
     /**
+     * if url is set, method means HTTP_METHOD, else method is client function
      * @var string
      */
     public $method;
@@ -72,11 +73,11 @@ class ProxyRequestForm extends Model
     public function rules(): array
     {
         return [
-            [['dataAccountId', 'url', 'method'], 'required'],
-            [['dataAccountId'], 'validateAccountId'],
-            [['url'], 'string'],
-            [['method'], 'in', 'range' => ['GET', 'POST', 'PUT', 'DELETE']],
+            [['dataAccountId', 'method'], 'required'],
+            [['url', 'method'], 'string'],
             [['data'], 'safe'],
+            [['dataAccountId'], 'validateAccountId'],
+            [['method'], 'validateMethod'],
         ];
     }
 
@@ -84,6 +85,13 @@ class ProxyRequestForm extends Model
     {
         if ($this->getDataAccount() === null) {
             $this->addError('dataAccountId', 'Invalid dataAccountId');
+        }
+    }
+
+    public function validateMethod(): void
+    {
+        if ($this->url && !in_array($this->method, ['GET', 'POST', 'PUT', 'DELETE'], true)) {
+            $this->addError('method', 'Invalid method');
         }
     }
 
@@ -114,7 +122,13 @@ class ProxyRequestForm extends Model
         $client = $this->dataClientLoader->get($this->dataAccountId);
         $client = Instance::ensure($client, RestOAuth2Client::class);
         try {
-            $this->responseData = $client->api($this->url, $this->method, $this->data);
+            if ($this->url) {
+                $this->responseData = $client->api($this->url, $this->method, $this->data);
+            } else if ($this->method) {
+                $this->responseData = $client->{$this->method}($this->data);
+            } else {
+                return false;
+            }
         } catch (InvalidResponseException $e) {
             $this->addError('url', $e->getMessage());
         } catch (Exception $e) {

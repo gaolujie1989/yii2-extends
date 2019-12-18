@@ -20,6 +20,6 @@ class MockClientLoader extends BaseDataLoader
 {
     public function get($key)
     {
-        return new MockApiClient();
+        return ['class' => MockApiClient::class];
     }
 }

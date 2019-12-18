@@ -100,7 +100,8 @@ class ProxyRequestForm extends Model
     }
 
     /**
-     * @return array
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function send(): bool
@@ -111,6 +112,7 @@ class ProxyRequestForm extends Model
 
         /** @var RestOAuth2Client $client */
         $client = $this->dataClientLoader->get($this->dataAccountId);
+        $client = Instance::ensure($client, RestOAuth2Client::class);
         try {
             $this->responseData = $client->api($this->url, $this->method, $this->data);
         } catch (InvalidResponseException $e) {

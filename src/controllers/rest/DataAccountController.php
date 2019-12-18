@@ -5,10 +5,13 @@
 
 namespace lujie\data\recording\controllers\rest;
 
+use lujie\data\loader\DataLoaderInterface;
+use lujie\data\recording\forms\ProxyRequestForm;
 use lujie\data\recording\forms\GenerateSourceForm;
 use lujie\data\recording\models\DataAccount;
 use lujie\extend\rest\ActiveController;
 use lujie\extend\rest\MethodAction;
+use yii\di\Instance;
 
 /**
  * Class DataAccountController
@@ -23,6 +26,11 @@ class DataAccountController extends ActiveController
     public $modelClass = DataAccount::class;
 
     /**
+     * @var DataLoaderInterface
+     */
+    public $dataClientLoader = 'dataClientLoader';
+
+    /**
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -34,7 +42,12 @@ class DataAccountController extends ActiveController
                 'class' => MethodAction::class,
                 'modelClass' => GenerateSourceForm::class,
                 'method' => 'generate',
-            ]
+            ],
+            'proxy-request' => [
+                'class' => MethodAction::class,
+                'modelClass' => ProxyRequestForm::class,
+                'method' => 'send',
+            ],
         ]);
     }
 }

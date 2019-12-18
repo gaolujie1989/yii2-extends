@@ -7,12 +7,15 @@ namespace lujie\data\recording\tests\unit\forms;
 
 
 use lujie\data\loader\ArrayDataLoader;
+use lujie\data\loader\ChainedDataLoader;
+use lujie\data\recording\forms\ProxyRequestForm;
 use lujie\data\recording\forms\RecordingForm;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\fixtures\DataSourceFixture;
 use lujie\data\recording\tests\unit\mocks\MockApiClient;
+use lujie\data\recording\tests\unit\mocks\MockClientLoader;
 use lujie\data\recording\tests\unit\mocks\MockDataRecorder;
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
@@ -32,11 +35,9 @@ class ProxyRequestFormTest extends \Codeception\Test\Unit
     protected function _before()
     {
         Yii::$app->set('dataClientLoader', [
-            'class' => ArrayDataLoader::class,
-            'data' => [
-                'MOCK' => [
-                    'class' => MockApiClient::class
-                ]
+            'class' => ChainedDataLoader::class,
+            'dataLoaders' => [
+                'class' => MockClientLoader::class
             ]
         ]);
     }
@@ -59,8 +60,14 @@ class ProxyRequestFormTest extends \Codeception\Test\Unit
      * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public function testGenerate(): void
+    public function testSend(): void
     {
-
+        MockApiClient::$responses[] = ['xxx'];
+        $proxyRequestForm = new ProxyRequestForm();
+        $proxyRequestForm->dataAccountId = 1;
+        $proxyRequestForm->url = 'test/xxx';
+        $proxyRequestForm->method = 'GET';
+        $this->assertTrue($proxyRequestForm->send());
+        $this->assertEquals(['xxx'], $proxyRequestForm->responseData);
     }
 }

@@ -136,4 +136,15 @@ class ProxyRequestForm extends Model
         }
         return true;
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        unset($fields['dataClientLoader']);
+        return $fields;
+    }
 }

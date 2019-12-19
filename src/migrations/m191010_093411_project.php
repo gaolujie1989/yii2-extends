@@ -13,7 +13,7 @@ class m191010_093411_project extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'project_id' => $this->bigPrimaryKey()->unique(),
+            'project_id' => $this->bigPrimaryKey(),
             'name' => $this->string(250)->notNull()->defaultValue(''),
             'description' => $this->string(1000)->notNull()->defaultValue(''),
             'visibility' => $this->string(10)->notNull()->defaultValue(''),

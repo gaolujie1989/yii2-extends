@@ -13,7 +13,7 @@ class m191010_094534_task_group extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'task_group_id' => $this->bigPrimaryKey()->unique(),
+            'task_group_id' => $this->bigPrimaryKey(),
             'project_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'name' => $this->string(250)->notNull()->defaultValue(''),

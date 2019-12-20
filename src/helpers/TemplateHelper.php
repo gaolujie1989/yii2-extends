@@ -36,4 +36,23 @@ class TemplateHelper
         }
         return strtr($template, $paramValues);
     }
+
+    /**
+     * @param string $suffix
+     * @param string $prefix
+     * @param string $template
+     * @return string
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function generateRandomFileName(string $suffix = '.xxx', string $prefix = 'tmp_',
+                                            string $template = '{prefix}{datetime}_{rand}{suffix}'): string
+    {
+        return strtr($template, [
+            '{prefix}' => $prefix,
+            '{suffix}' => $suffix,
+            '{datetime}' => date('YmdHis'),
+            '{rand}' => random_int(1000, 9999),
+        ]);
+    }
 }

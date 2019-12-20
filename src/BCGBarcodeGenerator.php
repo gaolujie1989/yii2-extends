@@ -15,7 +15,7 @@ use BarcodeBakery\Common\BCGDrawing;
 use BarcodeBakery\Common\BCGFontFile;
 use BarcodeBakery\Common\BCGFontPhp;
 use Exception;
-use lujie\extend\helpers\FileHelper;
+use lujie\extend\helpers\TemplateHelper;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\NotSupportedException;
@@ -93,7 +93,7 @@ class BCGBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterfac
         $barcode->setForegroundColor($colorBlack);
         $barcode->parse($codeText);
 
-        $tmpFileName = $this->tmpPath . FileHelper::generateRandomFileName();
+        $tmpFileName = $this->tmpPath . TemplateHelper::generateRandomFileName();
         $drawing = new BCGDrawing($tmpFileName, $colorWhite);
         $drawing->setBarcode($barcode);
         $drawing->setRotationAngle($this->options['rotation']);

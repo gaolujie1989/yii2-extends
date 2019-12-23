@@ -5,6 +5,7 @@
 
 namespace lujie\executing;
 
+use lujie\extend\queue\RetryableJobTrait;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\queue\JobInterface;
@@ -17,6 +18,8 @@ use yii\queue\RetryableJobInterface;
  */
 class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInterface
 {
+    use RetryableJobTrait;
+
     /**
      * @var ExecutableInterface
      */
@@ -30,12 +33,7 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     /**
      * @var int
      */
-    public $ttr = 300;
-
-    /**
-     * @var int
-     */
-    public $attempts = 1;
+    public $ttr = 900;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -57,25 +55,5 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     {
         $this->executor = Instance::ensure($this->executor, Executor::class);
         $this->executor->execute($this->executable);
-    }
-
-    /**
-     * @return int
-     * @inheritdoc
-     */
-    public function getTtr(): int
-    {
-        return $this->ttr;
-    }
-
-    /**
-     * @param int $attempt
-     * @param \Exception|\Throwable $error
-     * @return bool
-     * @inheritdoc
-     */
-    public function canRetry($attempt, $error): bool
-    {
-        return $attempt < $this->attempts;
     }
 }

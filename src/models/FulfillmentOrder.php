@@ -56,6 +56,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             [['external_order_no'], 'string', 'max' => 50],
             [['external_order_status'], 'string', 'max' => 20],
             [['fulfillment_account_id', 'order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'order_id']],
+            [['fulfillment_account_id', 'external_order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'external_order_id']],
             [['external_order_additional', 'order_options', 'order_errors'], 'safe']
         ];
     }

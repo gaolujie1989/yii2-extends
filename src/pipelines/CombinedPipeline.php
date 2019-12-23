@@ -14,7 +14,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange\pipelines
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CombinedPipeline extends BaseObject implements PipelineInterface
+class CombinedPipeline extends BaseObject implements DbPipelineInterface
 {
     /**
      * @var PipelineInterface[]
@@ -62,5 +62,20 @@ class CombinedPipeline extends BaseObject implements PipelineInterface
             return $this->transactionDb->transaction($callable);
         }
         return $callable();
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getAffectedRowCounts(): array
+    {
+        $affectedRowCounts = [];
+        foreach ($this->pipelines as $key => $pipeline) {
+            if ($pipeline instanceof DbPipelineInterface) {
+                $affectedRowCounts[$key] = $pipeline->getAffectedRowCounts();
+            }
+        }
+        return $affectedRowCounts;
     }
 }

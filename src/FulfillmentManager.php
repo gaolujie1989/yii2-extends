@@ -36,7 +36,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @var DataLoaderInterface
      */
-    public $fulfillmentServiceLoader;
+    public $fulfillmentServiceLoader = 'fulfillmentServiceLoader';
 
     /**
      * @var Queue

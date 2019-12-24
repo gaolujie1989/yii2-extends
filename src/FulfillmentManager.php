@@ -80,6 +80,19 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $this->mutex = Instance::ensure($this->mutex, Mutex::class);
     }
 
+    /**
+     * @param FulfillmentItem $fulfillmentItem
+     * @return FulfillmentServiceInterface|object
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function getFulfillmentService(int $fulfillmentAccountId): FulfillmentServiceInterface
+    {
+        $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentAccountId);
+        $fulfillmentService = Instance::ensure($fulfillmentService, FulfillmentServiceInterface::class);
+        return $fulfillmentService;
+    }
+
     #region event, listen to fulfillment
 
     /**
@@ -156,13 +169,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @param FulfillmentItem $fulfillmentItem
      * @return bool
+     * @throws InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): bool
     {
-        /** @var FulfillmentServiceInterface $fulfillmentService */
-        $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentItem->fulfillment_account_id);
+        $fulfillmentService = $this->getFulfillmentService($fulfillmentItem->fulfillment_account_id);
         $lockName = $this->mutexNamePrefix . 'item:' . $fulfillmentItem->fulfillment_item_id;
         if ($this->mutex->acquire($lockName)) {
             try {
@@ -184,13 +197,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
+     * @throws InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        /** @var FulfillmentServiceInterface $fulfillmentService */
-        $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
+        $fulfillmentService = $this->getFulfillmentService($fulfillmentOrder->fulfillment_order_id);
         $lockName = $this->mutexNamePrefix . 'order:' . $fulfillmentOrder->fulfillment_order_id;
         if ($this->mutex->acquire($lockName)) {
             try {
@@ -213,12 +226,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        /** @var FulfillmentServiceInterface $fulfillmentService */
-        $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentOrder->fulfillment_account_id);
+        $fulfillmentService = $fulfillmentService = $this->getFulfillmentService($fulfillmentOrder->fulfillment_order_id);
         return $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
     }
 
@@ -227,18 +241,20 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region pull and update
 
     /**
-     * @param $accountId
+     * @param int $accountId
+     * @param array $condition
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pullFulfillmentWarehouses(int $accountId, array $condition = []): void
     {
-        /** @var FulfillmentServiceInterface $fulfillmentService */
-        $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
+        $fulfillmentService = $this->getFulfillmentService($accountId);
         $fulfillmentService->pullWarehouses($condition);
     }
 
     /**
      * @param int $accountId
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pullFulfillmentOrders(int $accountId): void
@@ -252,8 +268,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
             return;
         }
 
-        /** @var FulfillmentServiceInterface $fulfillmentService */
-        $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
+        $fulfillmentService = $this->getFulfillmentService($accountId);
         foreach ($query->batch($this->batchSize) as $batch) {
             $fulfillmentService->pullFulfillmentOrders($batch);
         }
@@ -261,6 +276,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pullFulfillmentWarehouseStocks(int $accountId): void
@@ -274,8 +290,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
             return;
         }
 
-        /** @var FulfillmentServiceInterface $fulfillmentService */
-        $fulfillmentService = $this->fulfillmentServiceLoader->get($accountId);
+        $fulfillmentService = $this->getFulfillmentService($accountId);
         foreach ($query->batch($this->batchSize) as $batch) {
             $fulfillmentService->pullWarehouseStocks($batch);
         }
@@ -286,6 +301,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region Recheck and Push
 
     /**
+     * @throws InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentItems(): void
@@ -310,7 +327,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
-     * @return bool
+     * @throws InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentOrders(): void

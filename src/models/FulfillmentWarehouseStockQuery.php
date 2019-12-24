@@ -3,6 +3,7 @@
 namespace lujie\fulfillment\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentWarehouseStock]].
@@ -39,5 +40,15 @@ class FulfillmentWarehouseStockQuery extends \yii\db\ActiveQuery
                 ]
             ]
         ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getWarehouseStocks(): array
+    {
+        $barcodes = $this->select(['item_id', 'warehouse_id', 'stock_qty'])->asArray()->all();
+        return ArrayHelper::map($barcodes, 'warehouse_id', 'stock_qty', 'item_id');
     }
 }

@@ -7,6 +7,7 @@ namespace lujie\fulfillment;
 
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\ComponentHelper;
+use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
 use lujie\fulfillment\jobs\PushFulfillmentItemJob;
 use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
@@ -196,10 +197,12 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $fulfillmentOrder->order_pushed_at = time();
                 if ($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder)) {
                     $fulfillmentOrder->order_pushed_errors = [];
+                    $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
                     return $fulfillmentOrder->mustSave(false);
                 }
             } catch (\Throwable $ex) {
                 $fulfillmentOrder->order_pushed_errors = ['ex' => $ex->getMessage()];
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSH_FAILED;
                 return $fulfillmentOrder->mustSave(false);
             } finally {
                 $this->mutex->release($lockName);

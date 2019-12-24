@@ -11,11 +11,11 @@ class FulfillmentConst
     public const ACCOUNT_TYPE_AMAZON = 'AMAZON';
     public const ACCOUNT_TYPE_PM = 'PM';
 
-    public const ORDER_STATUS_PENDING = 0;
-    public const ORDER_STATUS_PUSHING = 1;
-    public const ORDER_STATUS_PUSHED = 2;
-    public const ORDER_STATUS_PICKING = 5;
-    public const ORDER_STATUS_SHIPPED = 10;
-    public const ORDER_STATUS_CANCELLED = 11;
-    public const ORDER_STATUS_PUSH_FAILED = 12;
+    public const FULFILLMENT_STATUS_PENDING = 0;
+    public const FULFILLMENT_STATUS_PUSHING = 10;
+    public const FULFILLMENT_STATUS_PUSHED = 20;
+    public const FULFILLMENT_STATUS_PICKING = 50;
+    public const FULFILLMENT_STATUS_SHIPPED = 100;
+    public const FULFILLMENT_STATUS_CANCELLED = 110;
+    public const FULFILLMENT_STATUS_PUSH_FAILED = 120;
 }

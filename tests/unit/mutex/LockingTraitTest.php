@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\extend\tests\unit\caching;
+namespace lujie\extend\tests\unit\mutex;
 
 
 use lujie\extend\tests\unit\mocks\MockMutexObject;

@@ -24,8 +24,9 @@ class m190708_132647_fulfillment_order extends Migration
             'external_order_additional' => $this->json(),
             'external_created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-            'order_options' => $this->json(),
-            'order_errors' => $this->json(),
+            'order_pushed_options' => $this->json(),
+            'order_pushed_errors' => $this->json(),
+            'order_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'order_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 

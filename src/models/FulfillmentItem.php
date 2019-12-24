@@ -23,8 +23,8 @@ use yii\db\ActiveQuery;
  * @property string $external_item_parent_id for some system, support variation must link item
  * @property int $external_created_at
  * @property int $external_updated_at
- * @property array $item_options
- * @property array $item_errors
+ * @property array $item_pushed_options
+ * @property array $item_pushed_errors
  * @property int $item_pushed_at
  * @property int $stock_pulled_at
  *
@@ -56,7 +56,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
                 'item_pushed_at', 'stock_pulled_at'], 'integer'],
             [['fulfillment_account_id', 'item_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'item_id']],
             [['external_item_no'], 'string', 'max' => 50],
-            [['item_options', 'item_errors'], 'safe']
+            [['item_pushed_options', 'item_pushed_errors'], 'safe']
         ];
     }
 
@@ -70,7 +70,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'jsonAlias' => [
                 'class' => JsonAliasBehavior::class,
                 'aliasProperties' => [
-                    'item_error_summary' => 'item_errors'
+                    'item_error_summary' => 'item_pushed_errors'
                 ],
             ]
         ]);
@@ -91,8 +91,8 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'external_item_parent_id' => Yii::t('lujie/fulfillment', 'External Item Parent ID'),
             'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
-            'item_options' => Yii::t('lujie/fulfillment', 'Item Options'),
-            'item_errors' => Yii::t('lujie/fulfillment', 'Item Errors'),
+            'item_pushed_options' => Yii::t('lujie/fulfillment', 'Item Pushed Options'),
+            'item_pushed_errors' => Yii::t('lujie/fulfillment', 'Item Pushed Errors'),
             'item_pushed_at' => Yii::t('lujie/fulfillment', 'Item Pushed At'),
             'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
         ];

@@ -23,8 +23,8 @@ class m190708_122250_fulfillment_item extends Migration
                 ->comment('for some system, support variation must link item'),
             'external_created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-            'item_options' => $this->json(),
-            'item_errors' => $this->json(),
+            'item_pushed_options' => $this->json(),
+            'item_pushed_errors' => $this->json(),
             'item_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'stock_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);

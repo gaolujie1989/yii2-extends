@@ -154,7 +154,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentItem $fulfillmentItem
-     * @return bool|mixed
+     * @return bool
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): bool
@@ -164,7 +165,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $lockName = $this->mutexNamePrefix . 'item:' . $fulfillmentItem->fulfillment_item_id;
         if ($this->mutex->acquire($lockName)) {
             try {
-                return $fulfillmentService->pushItem($fulfillmentItem);
+                $fulfillmentItem->item_pushed_at = time();
+                if ($fulfillmentService->pushItem($fulfillmentItem)) {
+                    $fulfillmentItem->item_pushed_errors = [];
+                    return $fulfillmentItem->mustSave(false);
+                }
+            } catch (\Throwable $ex) {
+                $fulfillmentItem->item_pushed_errors = ['ex' => $ex->getMessage()];
+                return $fulfillmentItem->mustSave(false);
             } finally {
                 $this->mutex->release($lockName);
             }
@@ -174,7 +182,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
-     * @return bool|mixed
+     * @return bool
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -184,7 +193,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $lockName = $this->mutexNamePrefix . 'order:' . $fulfillmentOrder->fulfillment_order_id;
         if ($this->mutex->acquire($lockName)) {
             try {
-                return $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
+                $fulfillmentOrder->order_pushed_at = time();
+                if ($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder)) {
+                    $fulfillmentOrder->order_pushed_errors = [];
+                    return $fulfillmentOrder->mustSave(false);
+                }
+            } catch (\Throwable $ex) {
+                $fulfillmentOrder->order_pushed_errors = ['ex' => $ex->getMessage()];
+                return $fulfillmentOrder->mustSave(false);
             } finally {
                 $this->mutex->release($lockName);
             }

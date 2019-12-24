@@ -25,8 +25,9 @@ use yii\db\ActiveQuery;
  * @property array $external_order_additional
  * @property int $external_created_at
  * @property int $external_updated_at
- * @property array $order_options
- * @property array $order_errors
+ * @property array $order_pushed_options
+ * @property array $order_pushed_errors
+ * @property int $order_pushed_at
  * @property int $order_pulled_at
  *
  * @property FulfillmentAccount $fulfillmentAccount
@@ -52,12 +53,13 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
         return [
             [['fulfillment_account_id', 'order_id'], 'required'],
             [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_status',
-                'external_order_id', 'external_created_at', 'external_updated_at', 'order_pulled_at'], 'integer'],
+                'external_order_id', 'external_created_at', 'external_updated_at',
+                'order_pushed_at', 'order_pulled_at'], 'integer'],
             [['external_order_no'], 'string', 'max' => 50],
             [['external_order_status'], 'string', 'max' => 20],
             [['fulfillment_account_id', 'order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'order_id']],
             [['fulfillment_account_id', 'external_order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'external_order_id']],
-            [['external_order_additional', 'order_options', 'order_errors'], 'safe']
+            [['external_order_additional', 'order_pushed_options', 'order_pushed_errors'], 'safe']
         ];
     }
 
@@ -71,7 +73,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             'jsonAlias' => [
                 'class' => JsonAliasBehavior::class,
                 'aliasProperties' => [
-                    'order_error_summary' => 'order_errors'
+                    'order_error_summary' => 'order_pushed_errors'
                 ],
             ]
         ]);
@@ -94,8 +96,9 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             'external_order_additional' => Yii::t('lujie/fulfillment', 'External Order Additional'),
             'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
-            'order_options' => Yii::t('lujie/fulfillment', 'Order Options'),
-            'order_errors' => Yii::t('lujie/fulfillment', 'Order Errors'),
+            'order_pushed_options' => Yii::t('lujie/fulfillment', 'Order Pushed Options'),
+            'order_pushed_errors' => Yii::t('lujie/fulfillment', 'Order Pushed Errors'),
+            'order_pushed_at' => Yii::t('lujie/fulfillment', 'Order Pushed At'),
             'order_pulled_at' => Yii::t('lujie/fulfillment', 'Order Pulled At'),
         ];
     }

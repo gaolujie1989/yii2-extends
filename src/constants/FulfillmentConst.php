@@ -15,7 +15,9 @@ class FulfillmentConst
     public const FULFILLMENT_STATUS_PUSHING = 10;
     public const FULFILLMENT_STATUS_PUSHED = 20;
     public const FULFILLMENT_STATUS_PICKING = 50;
+    public const FULFILLMENT_STATUS_PICKING_CANCELLING = 55;
     public const FULFILLMENT_STATUS_SHIPPED = 100;
     public const FULFILLMENT_STATUS_CANCELLED = 110;
     public const FULFILLMENT_STATUS_PUSH_FAILED = 120;
+    public const FULFILLMENT_STATUS_CANCEL_FAILED = 130;
 }

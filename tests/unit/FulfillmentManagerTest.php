@@ -104,8 +104,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->save();
         $this->assertCount(0, $pushedJobs, VarDumper::dumpAsString($pushedJobs));
 
-        $fulfillmentManager->orderCancellingStatus = 11;
-        $fulfillmentOrder->order_status = 11;
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING;
         $fulfillmentOrder->save();
         $this->assertCount(1, $pushedJobs);
         $expectedJob = new CancelFulfillmentOrderJob([
@@ -166,7 +165,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->external_order_id = 1;
-        $fulfillmentOrder->fulfillment_status = FulfillmentConst::ORDER_STATUS_PUSHED;
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
         $fulfillmentOrder->mustSave(false);
         $this->getFulfillmentManager()->pullFulfillmentOrders(1);
         $fulfillmentOrder->refresh();

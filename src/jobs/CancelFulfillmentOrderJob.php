@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\jobs;
 
+use lujie\extend\queue\RetryableJobTrait;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\BaseObject;
@@ -13,14 +14,17 @@ use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\queue\JobInterface;
 use yii\queue\Queue;
+use yii\queue\RetryableJobInterface;
 
 /**
  * Class CancelFulfillmentOrderJob
  * @package lujie\fulfillment\jobs
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CancelFulfillmentOrderJob extends BaseObject implements JobInterface
+class CancelFulfillmentOrderJob extends BaseObject implements JobInterface, RetryableJobInterface
 {
+    use RetryableJobTrait;
+
     /**
      * @var FulfillmentManager
      */
@@ -34,6 +38,7 @@ class CancelFulfillmentOrderJob extends BaseObject implements JobInterface
     /**
      * @param Queue $queue
      * @throws InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function execute($queue): void

@@ -24,6 +24,7 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery orderPulledAtTo($orderPulledAtTo)
  *
  * @method FulfillmentOrderQuery processing()
+ * @method FulfillmentOrderQuery pickingCancellingOrCancelFailed()
  * @method FulfillmentOrderQuery shipped()
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
@@ -70,7 +71,13 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
                         ]
-                    ]
+                    ],
+                    'pickingCancellingOrCancelFailed' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING,
+                            FulfillmentConst::FULFILLMENT_STATUS_CANCEL_FAILED,
+                        ]
+                    ],
                 ],
                 'querySorts' => [
                     'orderByOrderPulledAt' => ['order_pulled_at']

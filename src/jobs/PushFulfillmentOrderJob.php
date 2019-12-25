@@ -33,8 +33,8 @@ class PushFulfillmentOrderJob extends BaseObject implements JobInterface
 
     /**
      * @param Queue $queue
-     * @return mixed|void
      * @throws InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function execute($queue): void

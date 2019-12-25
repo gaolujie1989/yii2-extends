@@ -33,7 +33,6 @@ class CancelFulfillmentOrderJob extends BaseObject implements JobInterface
 
     /**
      * @param Queue $queue
-     * @return mixed|void
      * @throws InvalidConfigException
      * @inheritdoc
      */

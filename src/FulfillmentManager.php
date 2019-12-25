@@ -119,6 +119,15 @@ class FulfillmentManager extends Component implements BootstrapInterface
             Yii::info("Fulfillment item not updated, skip to push, itemId: {$fulfillmentItem->item_id}", __METHOD__);
             return;
         }
+        $this->pushFulfillmentItemJob($fulfillmentItem);
+    }
+
+    /**
+     * @param FulfillmentItem $fulfillmentItem
+     * @inheritdoc
+     */
+    protected function pushFulfillmentItemJob(FulfillmentItem $fulfillmentItem)
+    {
         $job = new PushFulfillmentItemJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
@@ -137,6 +146,15 @@ class FulfillmentManager extends Component implements BootstrapInterface
             Yii::info("Fulfillment order already pushed, orderId: {$fulfillmentOrder->order_id}", __METHOD__);
             return;
         }
+        $this->pushFulfillmentOrderJob($fulfillmentOrder);
+    }
+
+    /**
+     * @param FulfillmentItem $fulfillmentItem
+     * @inheritdoc
+     */
+    protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)
+    {
         $job = new PushFulfillmentOrderJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
@@ -153,13 +171,22 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentOrder = $event->sender;
         if ($fulfillmentOrder->external_order_id && $this->orderCancellingStatus &&
             $this->orderCancellingStatus === $fulfillmentOrder->order_status) {
-            $job = new CancelFulfillmentOrderJob();
-            $job->fulfillmentManager = ComponentHelper::getName($this);
-            $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
-            $this->queue->push($job);
+            $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
         } else {
             Yii::info("Order not pushed or not cancelling status, orderId: {$fulfillmentOrder->order_id}", __METHOD__);
         }
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @inheritdoc
+     */
+    protected function pushCancelFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)
+    {
+        $job = new CancelFulfillmentOrderJob();
+        $job->fulfillmentManager = ComponentHelper::getName($this);
+        $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
+        $this->queue->push($job);
     }
 
     #endregion
@@ -301,8 +328,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region Recheck and Push
 
     /**
-     * @throws InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentItems(): void
@@ -313,7 +338,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->externalItemId(0)
             ->all();
         foreach ($fulfillmentItems as $fulfillmentItem) {
-            $this->pushFulfillmentItem($fulfillmentItem);
+            $this->pushFulfillmentItemJob($fulfillmentItem);
         }
 
         $fulfillmentItems = FulfillmentItem::find()
@@ -322,13 +347,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->newUpdatedItems()
             ->all();
         foreach ($fulfillmentItems as $fulfillmentItem) {
-            $this->pushFulfillmentItem($fulfillmentItem);
+            $this->pushFulfillmentItemJob($fulfillmentItem);
         }
     }
 
     /**
-     * @throws InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function pushFulfillmentOrders(): void
@@ -339,7 +362,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->externalOrderId(0)
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
-            $this->pushFulfillmentOrder($fulfillmentOrder);
+            $this->pushFulfillmentOrderJob($fulfillmentOrder);
         }
 
         $fulfillmentOrders = FulfillmentOrder::find()
@@ -348,7 +371,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->processing()
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
-            $this->pushFulfillmentOrder($fulfillmentOrder);
+            $this->pushFulfillmentOrderJob($fulfillmentOrder);
         }
     }
 

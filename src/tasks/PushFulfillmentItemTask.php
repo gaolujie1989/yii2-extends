@@ -24,9 +24,9 @@ class PushFulfillmentItemTask extends CronTask
     public $fulfillmentManager = 'fulfillmentManager';
 
     /**
-     * @param Queue $queue
-     * @return mixed|void
+     * @return bool
      * @throws InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function execute(): bool

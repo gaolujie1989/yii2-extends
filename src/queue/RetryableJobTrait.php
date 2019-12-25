@@ -9,7 +9,7 @@ namespace lujie\extend\queue;
  * Trait RetryableJobTrait
  *
  * @property int $ttr;
- * @property int $attempt;
+ * @property int $attempts;
  *
  * @package lujie\extend\queue
  */
@@ -32,6 +32,6 @@ trait RetryableJobTrait
      */
     public function canRetry($attempt, $error): bool
     {
-        return isset($this->attempt) ? $attempt < $this->attempt : false;
+        return isset($this->attempts) ? $attempt < $this->attempts : false;
     }
 }

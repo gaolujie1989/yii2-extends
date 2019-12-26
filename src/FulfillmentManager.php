@@ -128,6 +128,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushFulfillmentItemJob(FulfillmentItem $fulfillmentItem)
     {
+        if ($fulfillmentItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
+            return;
+        }
         $job = new PushFulfillmentItemJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
@@ -157,6 +160,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)
     {
+        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
+            return;
+        }
         $job = new PushFulfillmentOrderJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
@@ -187,6 +193,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushCancelFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)
     {
+        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
+            return;
+        }
         $job = new CancelFulfillmentOrderJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;

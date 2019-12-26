@@ -4,6 +4,7 @@ namespace lujie\fulfillment\models;
 
 use Generator;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\ExecStatusConst;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -14,7 +15,9 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentItemQuery itemId($itemId)
  * @method FulfillmentItemQuery externalItemId($externalItemId)
  * @method FulfillmentItemQuery externalItemNo($externalItemNo)
+ * @method FulfillmentItemQuery itemPushedStatus($itemPushedStatus)
  *
+ * @method FulfillmentItemQuery notQueued()
  * @method FulfillmentItemQuery itemPushed()
  * @method FulfillmentItemQuery newUpdatedItems()
  * @method FulfillmentItemQuery orderByStockPulledAt($sort = SORT_ASC)
@@ -40,8 +43,10 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
                     'itemId' => 'item_id',
                     'externalItemId' => 'external_item_id',
                     'externalItemNo' => 'external_item_no',
+                    'itemPushedStatus' => 'item_pushed_status',
                 ],
                 'queryConditions' => [
+                    'notQueued' => ['!=', 'item_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
                     'itemPushed' => ['>', 'item_pushed_at', 0],
                     'newUpdatedItems' => 'item_updated_at > item_pushed_at',
                 ],

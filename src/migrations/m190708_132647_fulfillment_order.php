@@ -26,6 +26,7 @@ class m190708_132647_fulfillment_order extends Migration
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'order_pushed_options' => $this->json(),
             'order_pushed_errors' => $this->json(),
+            'order_pushed_status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'order_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'order_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);

@@ -25,6 +25,7 @@ use yii\db\ActiveQuery;
  * @property int $external_updated_at
  * @property array $item_pushed_options
  * @property array $item_pushed_errors
+ * @property int $item_pushed_status
  * @property int $item_pushed_at
  * @property int $stock_pulled_at
  *
@@ -53,7 +54,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             [['fulfillment_account_id', 'item_id', 'item_updated_at',
                 'external_item_id', 'external_item_parent_id',
                 'external_created_at', 'external_updated_at',
-                'item_pushed_at', 'stock_pulled_at'], 'integer'],
+                'item_pushed_status', 'item_pushed_at', 'stock_pulled_at'], 'integer'],
             [['fulfillment_account_id', 'item_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'item_id']],
             [['external_item_no'], 'string', 'max' => 50],
             [['item_pushed_options', 'item_pushed_errors'], 'safe']
@@ -93,6 +94,7 @@ class FulfillmentItem extends \yii\db\ActiveRecord
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
             'item_pushed_options' => Yii::t('lujie/fulfillment', 'Item Pushed Options'),
             'item_pushed_errors' => Yii::t('lujie/fulfillment', 'Item Pushed Errors'),
+            'item_pushed_status' => Yii::t('lujie/fulfillment', 'Item Pushed Status'),
             'item_pushed_at' => Yii::t('lujie/fulfillment', 'Item Pushed At'),
             'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
         ];

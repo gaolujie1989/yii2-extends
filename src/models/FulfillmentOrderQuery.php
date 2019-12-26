@@ -4,6 +4,7 @@ namespace lujie\fulfillment\models;
 
 use Generator;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\ExecStatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
 use yii\helpers\ArrayHelper;
 
@@ -18,11 +19,13 @@ use yii\helpers\ArrayHelper;
  * @method FulfillmentOrderQuery externalOrderNo($externalOrderNo)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
  * @method FulfillmentOrderQuery fulfillmentStatus($externalOrderStatus)
+ * @method FulfillmentOrderQuery orderPushedStatus($orderPushedStatus)
  * @method FulfillmentOrderQuery externalUpdatedAtFrom($externalUpdatedAtFrom)
  * @method FulfillmentOrderQuery externalUpdatedAtTo($externalUpdatedAtTo)
  * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
  * @method FulfillmentOrderQuery orderPulledAtTo($orderPulledAtTo)
  *
+ * @method FulfillmentOrderQuery notQueued()
  * @method FulfillmentOrderQuery pending()
  * @method FulfillmentOrderQuery processing()
  * @method FulfillmentOrderQuery pickingCancelling()
@@ -56,12 +59,14 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'externalOrderNo' => 'external_order_no',
                     'externalOrderStatus' => 'external_order_status',
                     'fulfillmentStatus' => 'fulfillment_status',
+                    'orderPushedStatus' => 'order_pushed_status',
                     'externalUpdatedAtFrom' => ['order_pulled_at' => '>='],
                     'externalUpdatedAtTo' => ['order_pulled_at' => '<='],
                     'orderPulledAtFrom' => ['order_pulled_at' => '>='],
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
                 'queryConditions' => [
+                    'notQueued' => ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
                     'pending' => [
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_PENDING,

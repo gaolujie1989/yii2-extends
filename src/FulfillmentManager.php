@@ -6,6 +6,7 @@
 namespace lujie\fulfillment;
 
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
@@ -131,6 +132,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
         $this->queue->push($job);
+        $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
+        $fulfillmentItem->save(false);
     }
 
     /**
@@ -158,6 +161,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         $this->queue->push($job);
+        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
+        $fulfillmentOrder->save(false);
     }
 
     /**
@@ -186,6 +191,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         $this->queue->push($job);
+        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
+        $fulfillmentOrder->save(false);
     }
 
     #endregion
@@ -207,17 +214,20 @@ class FulfillmentManager extends Component implements BootstrapInterface
             try {
                 if ($fulfillmentItem->item_pushed_at > $fulfillmentItem->item_updated_at) {
                     Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} already pushed, skip", __METHOD__);
+                    $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+                    $fulfillmentItem->mustSave(false);
                     return false;
                 }
-                if ($fulfillmentService->pushItem($fulfillmentItem)) {
-                    Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed success", __METHOD__);
-                    $fulfillmentItem->item_pushed_at = time();
-                    $fulfillmentItem->item_pushed_errors = [];
-                    $fulfillmentItem->mustSave(false);
-                    return true;
-                }
+                $fulfillmentService->pushItem($fulfillmentItem);
+                Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed success", __METHOD__);
+                $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+                $fulfillmentItem->item_pushed_at = time();
+                $fulfillmentItem->item_pushed_errors = [];
+                $fulfillmentItem->mustSave(false);
+                return true;
             } catch (\Throwable $ex) {
                 Yii::error("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed error: {$ex->getMessage()}", __METHOD__);
+                $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
                 $fulfillmentItem->item_pushed_errors = ['ex' => $ex->getMessage()];
                 $fulfillmentItem->mustSave(false);
                 return false;
@@ -243,18 +253,21 @@ class FulfillmentManager extends Component implements BootstrapInterface
             try {
                 if ($fulfillmentOrder->order_pushed_at) {
                     Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} already pushed, skip", __METHOD__);
+                    $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+                    $fulfillmentOrder->mustSave(false);
                     return false;
                 }
-                if ($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder)) {
-                    Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} pushed success", __METHOD__);
-                    $fulfillmentOrder->order_pushed_at = time();
-                    $fulfillmentOrder->order_pushed_errors = [];
-                    $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
-                    $fulfillmentOrder->mustSave(false);
-                    return true;
-                }
+                $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
+                Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} pushed success", __METHOD__);
+                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+                $fulfillmentOrder->order_pushed_at = time();
+                $fulfillmentOrder->order_pushed_errors = [];
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
+                $fulfillmentOrder->mustSave(false);
+                return true;
             } catch (\Throwable $ex) {
                 Yii::error("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} pushed error: {$ex->getMessage()}", __METHOD__);
+                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
                 $fulfillmentOrder->order_pushed_errors = ['ex' => $ex->getMessage()];
                 $fulfillmentOrder->mustSave(false);
                 return false;
@@ -280,18 +293,21 @@ class FulfillmentManager extends Component implements BootstrapInterface
             try {
                 if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING) {
                     Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} not cancelling, skip", __METHOD__);
-                    return false;
-                }
-                if ($fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder)) {
-                    Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} cancelled success", __METHOD__);
-                    $fulfillmentOrder->order_pushed_at = time();
-                    $fulfillmentOrder->order_pushed_errors = [];
-                    $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
+                    $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
                     $fulfillmentOrder->mustSave(false);
                     return false;
                 }
+                $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
+                Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} cancelled success", __METHOD__);
+                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+                $fulfillmentOrder->order_pushed_at = time();
+                $fulfillmentOrder->order_pushed_errors = [];
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
+                $fulfillmentOrder->mustSave(false);
+                return false;
             } catch (\Throwable $ex) {
                 Yii::error("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} cancelled error: {$ex->getMessage()}", __METHOD__);
+                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
                 $fulfillmentOrder->order_pushed_errors = ['ex' => $ex->getMessage()];
                 $fulfillmentOrder->mustSave(false);
                 return false;
@@ -375,6 +391,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentItems = FulfillmentItem::find()
             ->accountId($accountIds)
             ->newUpdatedItems()
+            ->notQueued()
             ->all();
         foreach ($fulfillmentItems as $fulfillmentItem) {
             $this->pushFulfillmentItemJob($fulfillmentItem);
@@ -390,6 +407,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentOrders = FulfillmentOrder::find()
             ->accountId($accountIds)
             ->pending()
+            ->notQueued()
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
@@ -398,6 +416,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentOrders = FulfillmentOrder::find()
             ->accountId($accountIds)
             ->pickingCancelling()
+            ->notQueued()
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
             $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);

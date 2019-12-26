@@ -27,6 +27,7 @@ use yii\db\ActiveQuery;
  * @property int $external_updated_at
  * @property array $order_pushed_options
  * @property array $order_pushed_errors
+ * @property int $order_pushed_status
  * @property int $order_pushed_at
  * @property int $order_pulled_at
  *
@@ -54,7 +55,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             [['fulfillment_account_id', 'order_id'], 'required'],
             [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_status',
                 'external_order_id', 'external_created_at', 'external_updated_at',
-                'order_pushed_at', 'order_pulled_at'], 'integer'],
+                'order_pushed_status', 'order_pushed_at', 'order_pulled_at'], 'integer'],
             [['external_order_no'], 'string', 'max' => 50],
             [['external_order_status'], 'string', 'max' => 20],
             [['fulfillment_account_id', 'order_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'order_id']],
@@ -98,6 +99,7 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
             'order_pushed_options' => Yii::t('lujie/fulfillment', 'Order Pushed Options'),
             'order_pushed_errors' => Yii::t('lujie/fulfillment', 'Order Pushed Errors'),
+            'order_pushed_status' => Yii::t('lujie/fulfillment', 'Order Pushed Status'),
             'order_pushed_at' => Yii::t('lujie/fulfillment', 'Order Pushed At'),
             'order_pulled_at' => Yii::t('lujie/fulfillment', 'Order Pulled At'),
         ];

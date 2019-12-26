@@ -46,7 +46,7 @@ class LogBehavior extends Behavior
     public function afterQueued(QueuedEvent $event): void
     {
         $title = $this->getExecutableTitle($event->job->executable);
-        Yii::info("$title is pushed.", __METHOD__);
+        Yii::info("$title is pushed.", Executor::class);
     }
 
     /**
@@ -56,8 +56,8 @@ class LogBehavior extends Behavior
     public function beforeExec(ExecuteEvent $event): void
     {
         $title = $this->getExecutableTitle($event->executable);
-        Yii::info("$title is started.", __METHOD__);
-        Yii::beginProfile($title, __METHOD__);
+        Yii::info("$title is started.", Executor::class);
+        Yii::beginProfile($title, Executor::class);
     }
 
     /**
@@ -67,12 +67,12 @@ class LogBehavior extends Behavior
     public function afterExec(ExecuteEvent $event): void
     {
         $title = $this->getExecutableTitle($event->executable);
-        Yii::endProfile($title, __METHOD__);
+        Yii::endProfile($title, Executor::class);
         if ($event->error) {
             $error = $event->error->getMessage() . "\n" . $event->error->getTraceAsString();
-            Yii::info("$title is finished with error: $error.", __METHOD__);
+            Yii::info("$title is finished with error: $error.", Executor::class);
         } else {
-            Yii::info("$title is finished.", __METHOD__);
+            Yii::info("$title is finished.", Executor::class);
         }
         if ($this->autoFlush) {
             Yii::getLogger()->flush(true);

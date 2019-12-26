@@ -9,8 +9,12 @@ use lujie\charging\ChargeEvent;
 use lujie\charging\Charger;
 use Yii;
 use yii\base\Behavior;
-use yii\helpers\ArrayHelper;
 
+/**
+ * Class LogBehavior
+ * @package lujie\charging\behaviors
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class LogBehavior extends Behavior
 {
     /**
@@ -32,7 +36,8 @@ class LogBehavior extends Behavior
     {
         $chargeTypes = implode('/', $event->chargeTypes);
         $calculated = $event->calculated ? 'true' : 'false';
-        Yii::info("Charge {$event->modelType} {$event->model->getPrimaryKey()} with {$chargeTypes} is started, calculated: {$calculated}", __METHOD__);
+        $message = "Charge {$event->modelType} {$event->model->getPrimaryKey()} with {$chargeTypes} started, isCalculated: {$calculated}";
+        Yii::info($message, Charger::class);
     }
 
     /**
@@ -47,6 +52,7 @@ class LogBehavior extends Behavior
             $chargePrices[] = $chargePrice->charge_type . ':' . $chargePrice->price_cent;
         }
         $chargePrices = implode(',', $chargePrices);
-        Yii::info("charge {$event->modelType} {$event->model->getPrimaryKey()} with {$chargeTypes} is finished, chargePrices: {$chargePrices}", __METHOD__);
+        $message = "charge {$event->modelType} {$event->model->getPrimaryKey()} with {$chargeTypes} finished, chargePrices: {$chargePrices}";
+        Yii::info($message, Charger::class);
     }
 }

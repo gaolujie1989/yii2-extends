@@ -219,8 +219,6 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         if ($fulfillmentOrder->external_order_id) {
             return true;
         }
-        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHING;
-        $fulfillmentOrder->mustSave(false);
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder->order_id);

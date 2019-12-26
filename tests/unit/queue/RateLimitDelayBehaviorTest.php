@@ -35,10 +35,7 @@ class RateLimitDelayBehaviorTest extends \Codeception\Test\Unit
         $behavior = new RateLimitDelayBehavior();
         $behavior->jobRates = [
             'mock' => [
-                'jobClasses' => [
-                    MockJob::class
-                ],
-                'delay' => 1
+                MockJob::class => 1,
             ]
         ];
         $queue = new Queue();

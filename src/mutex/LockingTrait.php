@@ -76,7 +76,7 @@ trait LockingTrait
     {
         if ($this->mutex) {
             $this->initMutex();
-            $name = $this->lockKeyPrefix . $name;
+            $name = $this->keyPrefix . $name;
             if ($this->mutex->acquire($name, $this->timeout)) {
                 try {
                     return $onSuccess();

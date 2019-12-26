@@ -5,6 +5,7 @@
 
 namespace lujie\extend\caching;
 
+use lujie\extend\helpers\ClassHelper;
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\ChainedDependency;
@@ -67,6 +68,8 @@ trait CachingTrait
         }
         if (isset($this->cacheKeyPrefix) && is_string($this->cacheKeyPrefix)) {
             $this->keyPrefix = $this->cacheKeyPrefix;
+        } else {
+            $this->keyPrefix = ClassHelper::getClassShortName($this) . ':';
         }
         if ($this->dependency === null) {
             if (isset($this->cacheDependency) && $this->cacheDependency instanceof Dependency) {

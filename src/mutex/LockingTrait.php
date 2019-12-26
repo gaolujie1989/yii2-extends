@@ -5,6 +5,7 @@
 
 namespace lujie\extend\mutex;
 
+use lujie\extend\helpers\ClassHelper;
 use yii\di\Instance;
 use yii\mutex\Mutex;
 
@@ -56,6 +57,8 @@ trait LockingTrait
         }
         if (isset($this->lockKeyPrefix) && is_string($this->lockKeyPrefix)) {
             $this->keyPrefix = $this->lockKeyPrefix;
+        } else {
+            $this->keyPrefix = ClassHelper::getClassShortName($this) . ':';
         }
         $this->initialized = true;
     }

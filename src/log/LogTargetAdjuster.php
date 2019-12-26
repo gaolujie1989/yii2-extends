@@ -61,6 +61,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'levels' => ['error'],
             'logVars' => [],
             'categories' => ['yii\*'],
+            'except' => ['yii\web\HttpException:4*'], //4xx httpCode not need send mail
         ],
         'yiiErrorFile' => [
             'class' => FileTarget::class,

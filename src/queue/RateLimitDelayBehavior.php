@@ -23,8 +23,9 @@ class RateLimitDelayBehavior extends Behavior
 
     /**
      * [
-     *      'jobClasses' => [],
-     *      'delay' => 1,
+     *      'xxx' => [
+     *          'xxxJobClass' => 1
+     *      ]
      * ]
      * @var array
      */
@@ -57,9 +58,9 @@ class RateLimitDelayBehavior extends Behavior
             Yii::debug('Custom delay, skip rate limit', __METHOD__);
             return;
         }
-        foreach ($this->jobRates as $key => $jobRate) {
-            if ($this->isRateLimitedJob($event->job, $jobRate['jobClasses'] ?? [])) {
-                $event->delay = $this->getDelay($key);
+        foreach ($this->jobRates as $key => $jobDelays) {
+            if ($delay = $this->getJoaRateDelay($event->job, $jobDelays)) {
+                $event->delay = $this->getDelay($key, $delay);
                 Yii::info("Rate limit delay {$event->delay} of limit {$key}", __METHOD__);
             }
         }
@@ -67,27 +68,28 @@ class RateLimitDelayBehavior extends Behavior
 
     /**
      * @param JobInterface $job
-     * @param array $jobClasses
-     * @return bool
+     * @param array $jobDelays
+     * @return int|null
      * @inheritdoc
      */
-    protected function isRateLimitedJob(JobInterface $job, array $jobClasses): bool
+    protected function getJoaRateDelay(JobInterface $job, array $jobDelays): ?int
     {
-        foreach ($jobClasses as $jobClass) {
+        foreach ($jobDelays as $jobClass => $delay) {
             if ($job instanceof $jobClass) {
-                return true;
+                return $delay;
             }
         }
-        return false;
+        return null;
     }
 
     /**
-     * @param $key
+     * @param string $key
+     * @param int $rateDelay
      * @return int
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getDelay($key): int
+    protected function getDelay(string $key, int $rateDelay): int
     {
         $cacheKey = 'delay:' . $key;
         [$time, $delay] = $this->getOrSet($cacheKey, static function () {
@@ -95,8 +97,7 @@ class RateLimitDelayBehavior extends Behavior
         });
 
         $now = time();
-        $limitDelay = $this->jobRates[$key]['delay'] ?? 1;
-        $delay = $delay - ($now - $time) + $limitDelay;
+        $delay = $delay - ($now - $time) + $rateDelay;
         if ($delay < 0) {
             $delay = 0;
         }

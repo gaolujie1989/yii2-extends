@@ -17,9 +17,9 @@ use yii\di\Instance;
  * Trait CachingTrait
  *
  * @property int $cacheDuration = 3600;
- * @property string cacheKeyPrefix = '';
- * @property string[] cacheTags = [];
- * @property Dependency cacheDependency = null;
+ * @property string $cacheKeyPrefix = '';
+ * @property string[] $cacheTags = [];
+ * @property Dependency $cacheDependency = null;
  *
  * @package lujie\extend\caching
  */

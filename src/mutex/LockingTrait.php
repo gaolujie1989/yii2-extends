@@ -12,8 +12,8 @@ use yii\mutex\Mutex;
 /**
  * Trait LockingTrait
  *
- * @property string lockKeyPrefix;
- * @property int lockTimeout;
+ * @property string $lockKeyPrefix;
+ * @property int $lockTimeout;
  *
  * @package lujie\extend\mutex
  */

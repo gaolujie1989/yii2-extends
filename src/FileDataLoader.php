@@ -5,6 +5,8 @@
 
 namespace lujie\data\loader;
 
+use lujie\extend\file\FileReaderInterface;
+use lujie\extend\file\readers\PhpReader;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -27,9 +29,9 @@ class FileDataLoader extends ArrayDataLoader
     public $filePathTemplate = '{filePool}/data.php';
 
     /**
-     * @var FileParserInterface
+     * @var FileReaderInterface
      */
-    public $fileParser = PhpArrayFileParser::class;
+    public $fileReader = PhpReader::class;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -38,7 +40,7 @@ class FileDataLoader extends ArrayDataLoader
     public function init(): void
     {
         parent::init();
-        $this->fileParser = Instance::ensure($this->fileParser);
+        $this->fileReader = Instance::ensure($this->fileReader, FileReaderInterface::class);
     }
 
     /**
@@ -93,7 +95,7 @@ class FileDataLoader extends ArrayDataLoader
         $loadedFiles = $this->findFiles();
         $data = [[], []];
         foreach ($loadedFiles as $loadedFile) {
-            $fileData = $this->fileParser->parseFile($loadedFile);
+            $fileData = $this->fileReader->read($loadedFile);
             $data[] = $fileData;
         }
         $data = ArrayHelper::merge(...$data);

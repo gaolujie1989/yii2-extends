@@ -59,7 +59,7 @@ class TypedFileDataLoader extends FileDataLoader
         $data = [[], []];
         foreach ($loadedFiles as $loadedFile) {
             $fileName = pathinfo($loadedFile, PATHINFO_FILENAME);
-            $fileData[$fileName] = $this->fileParser->parseFile($loadedFile);
+            $fileData[$fileName] = $this->fileReader->read($loadedFile);
             $data[] = $fileData;
         }
         $data = ArrayHelper::merge(...$data);

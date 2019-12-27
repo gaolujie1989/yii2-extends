@@ -16,6 +16,7 @@ use yii\base\Event;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\i18n\PhpMessageSource;
 
 /**
  * Class Configuration
@@ -143,7 +144,7 @@ class Configuration extends Component implements BootstrapInterface
             $moduleNamespace = trim($moduleNamespace, '\\');
             $modulePath = strtr($moduleNamespace, ['\\' => '/']);
             $translationsConfig[$modulePath] = [
-                'class' => 'yii\i18n\PhpMessageSource',
+                'class' => PhpMessageSource::class,
                 'sourceLanguage' => 'en-US',
                 'basePath' => "@{$modulePath}/messages",
             ];

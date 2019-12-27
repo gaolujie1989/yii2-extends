@@ -6,8 +6,10 @@
 namespace lujie\data\storage;
 
 use lujie\data\loader\ArrayDataLoader;
-use lujie\data\loader\FileParserInterface;
-use lujie\data\loader\PhpArrayFileParser;
+use lujie\extend\file\FileReaderInterface;
+use lujie\extend\file\FileWriterInterface;
+use lujie\extend\file\readers\PhpReader;
+use lujie\extend\file\writers\PhpWriter;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -25,14 +27,14 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     public $file = '@runtime/data.php';
 
     /**
-     * @var FileExporterInterface
+     * @var FileReaderInterface
      */
-    public $dataExporter = PhpArrayFileExporter::class;
+    public $fileReader = PhpReader::class;
 
     /**
-     * @var FileParserInterface
+     * @var FileWriterInterface
      */
-    public $dataParser = PhpArrayFileParser::class;
+    public $fileWriter = PhpWriter::class;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -41,11 +43,11 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     public function init()
     {
         parent::init();
-        $this->dataExporter = Instance::ensure($this->dataExporter);
-        $this->dataParser = Instance::ensure($this->dataParser);
+        $this->fileReader = Instance::ensure($this->fileReader, FileReaderInterface::class);
+        $this->fileWriter = Instance::ensure($this->fileWriter, FileWriterInterface::class);
         $this->file = Yii::getAlias($this->file);
         if (file_exists($this->file)) {
-            $this->data = $this->dataParser->parseFile($this->file);
+            $this->data = $this->fileWriter->parseFile($this->file);
         }
     }
 
@@ -57,7 +59,7 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     public function set($key, $data)
     {
         ArrayHelper::setValue($this->data, $key, $data);
-        $this->dataExporter->exportToFile($this->file, $this->data);
+        $this->fileWriter->write($this->file, $this->data);
     }
 
     /**

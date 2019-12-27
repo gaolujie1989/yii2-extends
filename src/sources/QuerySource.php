@@ -69,7 +69,7 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
      */
     public function batch(int $batchSize = 100): Iterator
     {
-        return $this->query->batch($batchSize);
+        return $this->query->batch($batchSize, $this->db);
     }
 
     /**
@@ -79,7 +79,7 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
      */
     public function each(int $batchSize = 100): Iterator
     {
-        return $this->query->each($batchSize);
+        return $this->query->each($batchSize, $this->db);
     }
 
     /**

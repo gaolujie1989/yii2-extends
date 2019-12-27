@@ -42,10 +42,10 @@ class ActiveArrayDataProvider extends ActiveDataProvider
             $this->query->asArray();
         }
         $models = parent::prepareModels();
+        if ($this->query->asArray && $this->typecast) {
+            $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
+        }
         if ($isPrepareArray) {
-            if ($this->typecast) {
-                $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
-            }
             $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
         }
         return $models;

@@ -542,14 +542,12 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         } else if ($pmStatus >= 6 && $pmStatus < 7) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
         } else if ($pmStatus >= 7 && $pmStatus < 8) {
-            if ($packageNumbers) {
-                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
-                $additional = $fulfillmentOrder->external_order_additional;
-                $additional['packageNumbers'] = $packageNumbers;
-                $additional['shippingProfileId'] = $pmOrderProperties[2] ?? 0;
-                $additional['carrier'] = $this->shippingProfiles[$additional['shippingProfileId']] ?? '';
-                $fulfillmentOrder->external_order_additional = $additional;
-            }
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
+            $additional = $fulfillmentOrder->external_order_additional;
+            $additional['packageNumbers'] = $packageNumbers ?: [];
+            $additional['shippingProfileId'] = $pmOrderProperties[2] ?? 0;
+            $additional['carrier'] = $this->shippingProfiles[$additional['shippingProfileId']] ?? '';
+            $fulfillmentOrder->external_order_additional = $additional;
         } else if (($pmStatus >= 8 && $pmStatus < 9) || $pmStatus === $this->orderCancelledStatus) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
         }

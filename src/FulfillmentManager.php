@@ -266,12 +266,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
                     $fulfillmentOrder->mustSave(false);
                     return false;
                 }
-                $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
                 Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} pushed success", __METHOD__);
                 $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
                 $fulfillmentOrder->order_pushed_at = time();
                 $fulfillmentOrder->order_pushed_errors = [];
-                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
                 $fulfillmentOrder->mustSave(false);
                 return true;
             } catch (\Throwable $ex) {
@@ -311,7 +309,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
                 $fulfillmentOrder->order_pushed_at = time();
                 $fulfillmentOrder->order_pushed_errors = [];
-                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
                 $fulfillmentOrder->mustSave(false);
                 return false;
             } catch (\Throwable $ex) {

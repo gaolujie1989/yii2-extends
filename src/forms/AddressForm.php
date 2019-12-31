@@ -20,7 +20,7 @@ class AddressForm extends Address
      * if signature is same, not create address, return exist address instead
      * @var bool
      */
-    public $identifyBySignature = true;
+    public $identifyBySignature = false;
 
     /**
      * @param bool $runValidation

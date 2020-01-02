@@ -467,7 +467,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_id]);
         $pmOrderId = $pmOrder['id'];
         $pmStatusId = $pmOrder['statusId'];
-        if ($pmStatusId >= 5 && $pmStatusId < 6) {
+        if ($this->isOrderAllowCancelled($pmOrder)) {
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderCancelledStatus]);
             $pmStatusId = $pmOrder['statusId'];
         }
@@ -477,6 +477,17 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         }
         $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, $pmOrderPackageNumbers[$pmOrderId] ?? []);
         return ($pmStatusId >= 8 && $pmStatusId < 9) || $pmStatusId === $this->orderCancelledStatus;
+    }
+
+    /**
+     * @param array $pmOrder
+     * @return bool
+     * @inheritdoc
+     */
+    protected function isOrderAllowCancelled(array $pmOrder): bool
+    {
+        $pmStatusId = $pmOrder['statusId'];
+        return $pmStatusId >= 5 && $pmStatusId < 6;
     }
 
     #endregion

@@ -539,8 +539,10 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
         if ($pmStatus >= 5 && $pmStatus < 6) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
-        } else if ($pmStatus >= 6 && $pmStatus < 7) {
+        } else if ($pmStatus >= 6 && $pmStatus < 6.5) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
+        } else if ($pmStatus >= 6.5 && $pmStatus < 7) {
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
         } else if ($pmStatus >= 7 && $pmStatus < 8) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
             $additional = $fulfillmentOrder->external_order_additional;

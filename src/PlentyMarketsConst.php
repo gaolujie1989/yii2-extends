@@ -500,7 +500,7 @@ class PlentyMarketsConst
         'EBayFrance' => '2.07',
         'EBayGermany' => '2.08',
         'EBayMotors' => '2.09',
-        'EBayItaly' => '2.10',
+        'EBayItaly' => '2.1',
         'EBayBelgiumDutch' => '2.11',
         'EBayNetherlands' => '2.12',
         'EBaySpain' => '2.13',
@@ -510,7 +510,7 @@ class PlentyMarketsConst
         'EBayIreland' => '2.17',
         'EBayMalaysia' => '2.18',
         'EBayCanadaFrench' => '2.19',
-        'EBayPhilippines' => '2.20',
+        'EBayPhilippines' => '2.2',
         'EBayPoland' => '2.21',
         'EBaySingapore' => '2.22',
         'Elmar' => '3',
@@ -595,6 +595,6 @@ class PlentyMarketsConst
         'Netto' => '154',
         'GartenXXLAt' => '155',
         'OTTO' => '160',
-        'OTTOCooperation' => '160.10',
+        'OTTOCooperation' => '160.1',
     ];
 }

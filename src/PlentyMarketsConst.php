@@ -488,8 +488,8 @@ class PlentyMarketsConst
     ];
 
     public const REFERRER_IDS = [
-        'ManuelleEingabe' => '0',
-        'MandantShop' => '1',
+        'Manuel' => '0',
+        'Shop' => '1',
         'Ebay' => '2',
         'EBayUnitedStates' => '2.01',
         'EBayCanadaEnglish' => '2.02',

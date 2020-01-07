@@ -664,7 +664,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         $responseData = parent::callApiMethod($name, $data);
         if ($name === 'listWarehouseLocations') {
             array_walk($responseData['entries'], static function(&$values) use ($data) {
-                $values['warehouseId'] = $data;
+                $values['warehouseId'] = $data['warehouseId'];
             });
         }
         return $responseData;

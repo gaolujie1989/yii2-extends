@@ -22,11 +22,6 @@ class UnionSource extends BaseObject implements SourceInterface, BatchSourceInte
     public $sources = [];
 
     /**
-     * @var SourceInterface
-     */
-    public $currentSource;
-
-    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -59,7 +54,6 @@ class UnionSource extends BaseObject implements SourceInterface, BatchSourceInte
     public function batch(int $batchSize = 100): Iterator
     {
         foreach ($this->sources as $source) {
-            $this->currentSource = $source;
             if ($source instanceof BatchSourceInterface) {
                 foreach ($source->batch() as $batch) {
                     yield $batch;

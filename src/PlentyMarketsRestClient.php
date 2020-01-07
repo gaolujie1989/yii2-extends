@@ -653,6 +653,24 @@ class PlentyMarketsRestClient extends RestOAuth2Client
     #endregion OAuth2
 
     /**
+     * @param string $name
+     * @param array $data
+     * @return array
+     * @throws NotFoundHttpException
+     * @inheritdoc
+     */
+    public function callApiMethod(string $name, array $data): array
+    {
+        $responseData = parent::callApiMethod($name, $data);
+        if ($name === 'listWarehouseLocations') {
+            array_walk($responseData['entries'], static function(&$values) use ($data) {
+                $values['warehouseId'] = $data;
+            });
+        }
+        return $responseData;
+    }
+
+    /**
      * @param string $resource
      * @param array $condition
      * @param int $batchSize

@@ -76,6 +76,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_PUSHED,
                             FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+                            FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
                         ]
                     ],
                     'pickingCancelling' => [

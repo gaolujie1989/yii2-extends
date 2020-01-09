@@ -21,6 +21,7 @@ use yii\base\BaseObject;
 class ExcelWriter extends BaseObject implements FileWriterInterface
 {
     public const ADAPTER_XLSXWriter = 'XLSXWriter';
+    public const ADAPTER_PhpSpreadsheet = 'PhpSpreadsheet';
 
     public $keyAsHeader = true;
 

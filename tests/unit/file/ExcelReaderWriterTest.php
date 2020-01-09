@@ -53,8 +53,29 @@ class ExcelReaderWriterTest extends \Codeception\Test\Unit
             unlink($file);
         }
         $writer = new ExcelWriter();
+        $writer->adapter = ExcelWriter::ADAPTER_PhpSpreadsheet;
         $writer->write($file, $data);
 
+        $reader = new ExcelReader();
+        $readData = $reader->read($file);
+        $this->assertEquals($data, $readData);
+
+        $writer = new ExcelWriter();
+        $writer->adapter = ExcelWriter::ADAPTER_XLSXWriter;
+        $writer->write($file, $data);
+
+        $data = [
+            [
+                'aaa' => 'a1',
+                'bbb' => 'b1',
+                '' => null,
+            ],
+            [
+                'aaa' => 'a2',
+                'bbb' => 'b2',
+                '' => null,
+            ],
+        ];
         $reader = new ExcelReader();
         $readData = $reader->read($file);
         $this->assertEquals($data, $readData);

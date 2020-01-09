@@ -7,15 +7,11 @@ namespace lujie\extend\file\writers;
 
 use lujie\extend\file\FileWriterInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Symfony\Component\Cache\Adapter\RedisAdapter;
-use Symfony\Component\Cache\Simple\RedisCache;
+use XLSXWriter;
 use yii\base\BaseObject;
-use yii\di\Instance;
-use yii\redis\Connection;
 
 /**
  * Class ExcelWriter
@@ -24,30 +20,13 @@ use yii\redis\Connection;
  */
 class ExcelWriter extends BaseObject implements FileWriterInterface
 {
+    public const ADAPTER_XLSXWriter = 'XLSXWriter';
+
     public $keyAsHeader = true;
 
     public $multiSheet = false;
 
-    /**
-     * @var Connection
-     */
-    public $redis = 'redis';
-
-    /**
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        $this->redis = Instance::ensure($this->redis, Connection::class);
-        $client = RedisAdapter::createConnection(strtr('redis://{hostname}:{port}/{database}', [
-            '{hostname}' => $this->redis->hostname,
-            '{port}' => $this->redis->port,
-            '{database}' => $this->redis->database,
-        ]));
-        Settings::setCache(new RedisCache($client, 'ExcelWriter', 3600));
-    }
+    public $adapter = 'XLSXWriter';
 
     /**
      * @param string $file
@@ -58,6 +37,11 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      */
     public function write(string $file, array $data): void
     {
+        if ($this->adapter === self::ADAPTER_XLSXWriter) {
+            $this->writeByXLSXWriter($file, $data);
+            return;
+        }
+
         $spreadsheet = new Spreadsheet();
         if ($this->multiSheet) {
             foreach ($data as $key => $datum) {
@@ -76,6 +60,28 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             unlink($file);
         }
         $writer->save($file);
+    }
+
+    /**
+     * @param string $file
+     * @param array $data
+     * @inheritdoc
+     */
+    public function writeByXLSXWriter(string $file, array $data): void
+    {
+        $writer = new XLSXWriter();
+        if ($this->multiSheet) {
+            foreach ($data as $key => $datum) {
+                $writer->writeSheet($datum, $key);
+            }
+        } else {
+            $writer->writeSheet($data);
+        }
+
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $writer->writeToFile($file);
     }
 
     /**

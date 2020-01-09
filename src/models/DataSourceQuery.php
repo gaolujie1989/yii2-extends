@@ -15,6 +15,7 @@ use lujie\extend\constants\StatusConst;
  * @method DataSourceQuery active()
  * @method DataSourceQuery inactive()
  * @method DataSourceQuery pending()
+ * @method DataSourceQuery queued()
  *
  * @method array|DataSource[] all($db = null)
  * @method array|DataSource|null one($db = null)
@@ -40,6 +41,7 @@ class DataSourceQuery extends \yii\db\ActiveQuery
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],
                     'inactive' => ['status' => StatusConst::STATUS_INACTIVE],
                     'pending' => ['last_exec_status' => ExecStatusConst::EXEC_STATUS_PENDING],
+                    'queued' => ['last_exec_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
                 ],
             ]
         ];

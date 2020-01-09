@@ -41,11 +41,10 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     {
         parent::init();
         $this->redis = Instance::ensure($this->redis, Connection::class);
-        /** @var Connection $redis */
         $client = RedisAdapter::createConnection(strtr('redis://{hostname}:{port}/{database}', [
-            '{hostname}' => $redis->hostname,
-            '{port}' => $redis->port,
-            '{database}' => $redis->database,
+            '{hostname}' => $this->redis->hostname,
+            '{port}' => $this->redis->port,
+            '{database}' => $this->redis->database,
         ]));
         Settings::setCache(new RedisCache($client, 'ExcelWriter', 3600));
     }

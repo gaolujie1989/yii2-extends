@@ -26,6 +26,9 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
 
     public $multiSheet = false;
 
+    /**
+     * @var string
+     */
     public $adapter = 'XLSXWriter';
 
     /**
@@ -37,11 +40,54 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      */
     public function write(string $file, array $data): void
     {
-        if ($this->adapter === self::ADAPTER_XLSXWriter) {
-            $this->writeByXLSXWriter($file, $data);
-            return;
+        if ($this->keyAsHeader) {
+            if ($this->multiSheet) {
+                array_walk($data, static function(&$datum) {
+                    array_unshift($datum, array_keys($datum[0]));
+                });
+            } else {
+                array_unshift($data, array_keys($data[0]));
+            }
         }
 
+        if ($this->adapter === self::ADAPTER_XLSXWriter) {
+            $this->writeByXLSXWriter($file, $data);
+        } else {
+            $this->writeByPhpSpreadsheet($file, $data);
+        }
+    }
+
+    /**
+     * @param string $file
+     * @param array $data
+     * @inheritdoc
+     */
+    protected function writeByXLSXWriter(string $file, array $data): void
+    {
+        $writer = new XLSXWriter();
+        if ($this->multiSheet) {
+            foreach ($data as $key => $datum) {
+                $writer->writeSheet($datum, $key);
+            }
+        } else {
+            $writer->writeSheet($data);
+        }
+
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $writer->writeToFile($file);
+    }
+
+    /**
+     * @param string $file
+     * @param array $data
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @inheritdoc
+     */
+    protected function writeByPhpSpreadsheet(string $file, array $data): void
+    {
         $spreadsheet = new Spreadsheet();
         if ($this->multiSheet) {
             foreach ($data as $key => $datum) {
@@ -63,45 +109,14 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     }
 
     /**
-     * @param string $file
-     * @param array $data
-     * @inheritdoc
-     */
-    public function writeByXLSXWriter(string $file, array $data): void
-    {
-        $writer = new XLSXWriter();
-        if ($this->multiSheet) {
-            foreach ($data as $key => $datum) {
-                if ($this->keyAsHeader) {
-                    array_unshift($datum, array_keys($datum[0]));
-                }
-                $writer->writeSheet($datum, $key);
-            }
-        } else {
-            if ($this->keyAsHeader) {
-                array_unshift($data, array_keys($data[0]));
-            }
-            $writer->writeSheet($data);
-        }
-
-        if (file_exists($file)) {
-            unlink($file);
-        }
-        $writer->writeToFile($file);
-    }
-
-    /**
      * @param Worksheet $sheet
      * @param array $data
      * @param bool $withImage
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
-    public function setSheetData(Worksheet $sheet, array $data, bool $withImage = false): void
+    protected function setSheetData(Worksheet $sheet, array $data, bool $withImage = false): void
     {
-        if ($this->keyAsHeader) {
-            array_unshift($data, array_keys($data[0]));
-        }
         if ($withImage) {
             $rowIndex = 1;
             foreach ($data as $values) {

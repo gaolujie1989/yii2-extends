@@ -7,10 +7,15 @@ namespace lujie\extend\file\writers;
 
 use lujie\extend\file\FileWriterInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\Cache\Simple\RedisCache;
 use yii\base\BaseObject;
+use yii\di\Instance;
+use yii\redis\Connection;
 
 /**
  * Class ExcelWriter
@@ -22,6 +27,28 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     public $keyAsHeader = true;
 
     public $multiSheet = false;
+
+    /**
+     * @var Connection
+     */
+    public $redis = 'redis';
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->redis = Instance::ensure($this->redis, Connection::class);
+        /** @var Connection $redis */
+        $client = RedisAdapter::createConnection(strtr('redis://{hostname}:{port}/{database}', [
+            '{hostname}' => $redis->hostname,
+            '{port}' => $redis->port,
+            '{database}' => $redis->database,
+        ]));
+        Settings::setCache(new RedisCache($client, 'ExcelWriter', 3600));
+    }
 
     /**
      * @param string $file

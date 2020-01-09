@@ -72,9 +72,15 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
         $writer = new XLSXWriter();
         if ($this->multiSheet) {
             foreach ($data as $key => $datum) {
+                if ($this->keyAsHeader) {
+                    array_unshift($datum, array_keys($datum[0]));
+                }
                 $writer->writeSheet($datum, $key);
             }
         } else {
+            if ($this->keyAsHeader) {
+                array_unshift($data, array_keys($data[0]));
+            }
             $writer->writeSheet($data);
         }
 

@@ -218,7 +218,7 @@ class RelationSavableBehavior extends Behavior
                 //just to access the validation
                 foreach ($relation->link as $fk => $pk) {
                     if (!$model->$fk) {
-                        $model->$fk = 0;
+                        $model->$fk = $owner->$pk ?: 0;
                     }
                 }
                 $models[$key] = $model;
@@ -248,7 +248,7 @@ class RelationSavableBehavior extends Behavior
                 //just to access the validation
                 foreach ($relation->link as $pk => $fk) {
                     if (!$model->$pk && !in_array($pk, $model::primaryKey(), true)) {
-                        $model->$pk = 0;
+                        $model->$pk = $owner->$fk ?: 0;
                     }
                 }
                 $this->savedRelations[$name] = $model;

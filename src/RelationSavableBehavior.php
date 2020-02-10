@@ -212,15 +212,15 @@ class RelationSavableBehavior extends Behavior
                 if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
                     $model->setScenario($this->scenarioMaps[$name][$owner->getScenario()]);
                 }
-                if (!($values instanceof BaseActiveRecord)) {
-                    $model->setAttributes($values);
-                };
                 //just to access the validation
                 foreach ($relation->link as $fk => $pk) {
                     if (!$model->$fk) {
                         $model->$fk = $owner->$pk ?: 0;
                     }
                 }
+                if (!($values instanceof BaseActiveRecord)) {
+                    $model->setAttributes($values);
+                };
                 $models[$key] = $model;
             }
             $this->savedRelations[$name] = $models;
@@ -241,15 +241,14 @@ class RelationSavableBehavior extends Behavior
                 if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
                     $model->setScenario($this->scenarioMaps[$name][$owner->getScenario()]);
                 }
-                if (!($data instanceof BaseActiveRecord)) {
-                    $model->setAttributes($data);
-                }
-
                 //just to access the validation
                 foreach ($relation->link as $pk => $fk) {
                     if (!$model->$pk && !in_array($pk, $model::primaryKey(), true)) {
                         $model->$pk = $owner->$fk ?: 0;
                     }
+                }
+                if (!($data instanceof BaseActiveRecord)) {
+                    $model->setAttributes($data);
                 }
                 $this->savedRelations[$name] = $model;
             }

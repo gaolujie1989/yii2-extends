@@ -99,6 +99,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
      */
     public function formatInvoiceTrackingNo(string $trackingNo): string
     {
+        $trackingNo = trim($trackingNo);
         if (strlen($trackingNo) === 12 && strpos($trackingNo, '50') === 0) {
             return substr($trackingNo, 0, 11);
         }

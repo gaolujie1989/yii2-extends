@@ -22,6 +22,11 @@ use yii\helpers\Inflector;
 
 /**
  * Class FieldQueryBehavior
+ * owner default methods:
+ * @method static id($id)
+ * @method static orderById($sort)
+ * @method int getId()
+ * @method array getIds()
  *
  * @property Query|ActiveQuery $owner
  *

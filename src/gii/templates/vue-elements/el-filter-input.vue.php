@@ -27,7 +27,8 @@ switch ($type) {
         v-model="<?= $modelField ?>"
         :placeholder="<?= $fieldLabelName ?>"
         class="filter-item"
-        @keyup.enter.native="handleFilter" />
+        @keyup.enter.native="handleFilter"
+      />
         <?php break;
     case VueViewGenerator::INPUT_TYPE_DATE_RANGE: ?>
       <el-date-picker
@@ -37,7 +38,8 @@ switch ($type) {
         :default-time="['00:00:00', '23:59:59']"
         type="daterange"
         range-separator=" - "
-        class="filter-item" />
+        class="filter-item"
+      />
         <?php break;
     case VueViewGenerator::INPUT_TYPE_SELECT:
         $multipleProp = isset($multiple) && $multiple ? ' multiple' : ''; ?>

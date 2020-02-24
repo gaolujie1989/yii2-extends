@@ -40,8 +40,7 @@ $querySearchFields = implode("\n", $querySearchFields);
 
     </div>
 
-    <el-table v-loading.body="listLoading" :data="listData" border highlight-current-row style="width: 100%"
-        <?= $enabledBatch ? '@selection-change="handleSelectionChange"' : '' ?>>
+    <el-table v-loading.body="listLoading" :data="listData" border highlight-current-row style="width: 100%" <?= $enabledBatch ? '@selection-change="handleSelectionChange"' : '' ?>>
 
         <?= $tableColumnContent ?>
 
@@ -55,14 +54,16 @@ $querySearchFields = implode("\n", $querySearchFields);
       :close-on-click-modal="false"
       class="dialog-container"
       width="60%"
-      top="2vh">
+      top="2vh"
+    >
       <el-form
         v-loading="fetchTempLoading"
         :model="temp"
         label-position="right"
         label-suffix=": "
         label-width="140px"
-        style="width: 95%">
+        style="width: 95%"
+      >
 
           <?= $formItemContent ?>
 

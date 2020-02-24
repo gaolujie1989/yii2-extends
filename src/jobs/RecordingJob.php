@@ -46,7 +46,7 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
     /**
      * @var int
      */
-    public $attempt = 1;
+    public $attempt = 3;
 
     /**
      * @param \yii\queue\Queue $queue

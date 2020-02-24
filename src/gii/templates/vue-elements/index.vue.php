@@ -135,13 +135,13 @@ $querySearchFields = implode("\n", $querySearchFields);
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import List from '@/modules/common/mixins/list'
-import Search from '@/modules/common/mixins/search'
-import Download from '@/modules/common/mixins/download'
-import Save from '@/modules/common/mixins/save'
-import Delete from '@/modules/common/mixins/delete'
-import Upload from '@/modules/common/mixins/upload'
-import BatchUpdate from '@/modules/common/mixins/batchUpdate'
+import List from '@/exts/common/mixins/list'
+import Search from '@/exts/common/mixins/search'
+import Download from '@/exts/common/mixins/download'
+import Save from '@/exts/common/mixins/save'
+import Delete from '@/exts/common/mixins/delete'
+import Upload from '@/exts/common/mixins/upload'
+import BatchUpdate from '@/exts/common/mixins/batchUpdate'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 

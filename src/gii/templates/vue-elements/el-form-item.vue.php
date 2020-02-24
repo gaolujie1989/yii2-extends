@@ -19,7 +19,7 @@ use yii\helpers\Inflector;
 $generator = $this->context;
 $messageCategory = $generator->messageCategory;
 $fieldVarName = Inflector::variablize($field);
-$fieldLabelName = "\$t('{$messageCategory}.{$field}')";
+$fieldLabelName = "\$t('{$messageCategory}.{$fieldVarName}')";
 $modelField = ($modelName ?? 'temp') . '.' . $field;
 $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
 ?>

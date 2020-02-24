@@ -18,7 +18,7 @@ use yii\helpers\Inflector;
 $generator = $this->context;
 $messageCategory = $generator->messageCategory;
 $fieldVarName = Inflector::variablize($field);
-$fieldLabelName = "\$t('{$messageCategory}.{$field}')";
+$fieldLabelName = "\$t('{$messageCategory}.{$fieldVarName}')";
 $modelField = 'listQuery.' . $field;
 
 switch ($type) {

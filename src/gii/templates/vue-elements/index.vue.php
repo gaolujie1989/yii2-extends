@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       listQuery: {
-          <?= $querySearchFields ?>
+          <?= trim($querySearchFields, ',') ?>
       }
     }
   },

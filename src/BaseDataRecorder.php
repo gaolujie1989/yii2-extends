@@ -14,6 +14,7 @@ use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\recording\pipelines\RecordPipeline;
 use lujie\data\recording\transformers\RecordTransformer;
 use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\helpers\ExecuteHelper;
 use Yii;
 
 /**
@@ -63,18 +64,14 @@ abstract class BaseDataRecorder extends DataExchanger
 
     /**
      * @return bool
+     * @throws \Throwable
      * @inheritdoc
      */
     public function execute(): bool
     {
         $dataSource = $this->dataSource;
-        $dataSource->last_exec_at = time();
-        $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_RUNNING;
-        $dataSource->save(false);
-
-        try {
-            $execute = parent::execute();
-            $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+        return ExecuteHelper::execute(static function() use ($dataSource) {
+            parent::execute();
             if ($this->pipeline instanceof DbPipelineInterface) {
                 $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
             } else if ($this->pipeline instanceof CombinedPipeline) {
@@ -85,14 +82,7 @@ abstract class BaseDataRecorder extends DataExchanger
                     }
                 }
             }
-            $dataSource->save(false);
-            return $execute;
-        } catch (\Throwable $e) {
-            $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_FAILED;
-            $error = mb_substr($e->getMessage() . "\n" . $e->getTraceAsString(), 0, 1000);
-            $dataSource->last_exec_result = ['error' => $error];
-            $dataSource->save(false);
-            return false;
-        }
+            return true;
+        }, $dataSource, 'last_exec_at', 'last_exec_status', 'last_exec_status');
     }
 }

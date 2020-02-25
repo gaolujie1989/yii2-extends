@@ -31,7 +31,7 @@ class ExecuteHelper
         string $timeAttribute = 'execute_at',
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
-        bool $throwException = true): void
+        bool $throwException = true): bool
     {
         $timeAttribute && $model->setAttribute($timeAttribute, time());
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
@@ -41,6 +41,7 @@ class ExecuteHelper
             $callable();
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             $model->save(false);
+            return true;
         } catch (\Throwable $exception) {
             $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
             $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
@@ -49,6 +50,7 @@ class ExecuteHelper
             if ($throwException) {
                 throw $exception;
             }
+            return false;
         }
     }
 }

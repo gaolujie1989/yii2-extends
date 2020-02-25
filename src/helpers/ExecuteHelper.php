@@ -5,7 +5,6 @@
 
 namespace lujie\extend\helpers;
 
-
 use lujie\extend\constants\ExecStatusConst;
 use yii\db\BaseActiveRecord;
 
@@ -16,26 +15,40 @@ use yii\db\BaseActiveRecord;
  */
 class ExecuteHelper
 {
+    /**
+     * @param callable $callable
+     * @param BaseActiveRecord $model
+     * @param string $timeAttribute
+     * @param string $statusAttribute
+     * @param string $resultAttribute
+     * @param bool $throwException
+     * @throws \Throwable
+     * @inheritdoc
+     */
     public static function execute(
         callable $callable,
         BaseActiveRecord $model,
         string $timeAttribute = 'execute_at',
         string $statusAttribute = 'execute_status',
-        string $resultAttribute = 'execute_result'): void
+        string $resultAttribute = 'execute_result',
+        bool $throwException = true): void
     {
-        $model->setAttribute($timeAttribute, time());
-        $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
+        $timeAttribute && $model->setAttribute($timeAttribute, time());
+        $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
         $model->save(false);
 
         try {
             $callable();
-            $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
+            $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             $model->save(false);
         } catch (\Throwable $exception) {
             $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
-            $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
-            $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
+            $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
+            $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);
+            if ($throwException) {
+                throw $exception;
+            }
         }
     }
 }

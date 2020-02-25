@@ -70,7 +70,7 @@ abstract class BaseDataRecorder extends DataExchanger
     public function execute(): bool
     {
         $dataSource = $this->dataSource;
-        return ExecuteHelper::execute(static function() use ($dataSource) {
+        return ExecuteHelper::execute(function() use ($dataSource) {
             parent::execute();
             if ($this->pipeline instanceof DbPipelineInterface) {
                 $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();

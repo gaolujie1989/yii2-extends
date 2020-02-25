@@ -32,7 +32,7 @@ class ExecuteHelper
         string $timeAttribute = 'execute_at',
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
-        bool $throwException = true): bool
+        bool $throwException = false): bool
     {
         $timeAttribute && $model->setAttribute($timeAttribute, time());
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);

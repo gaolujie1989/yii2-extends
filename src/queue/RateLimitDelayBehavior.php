@@ -58,8 +58,14 @@ class RateLimitDelayBehavior extends Behavior
             Yii::debug('Custom delay, skip rate limit', __METHOD__);
             return;
         }
+        $job = $event->job;
+        if ($job instanceof RateLimitDelayJobInterface) {
+            $event->delay = $this->getDelay($job->getRateLimitKey(), $job->getRateLimitDelay());
+            Yii::info("Rate limit delay {$event->delay} of limit {$job->getRateLimitKey()}", __METHOD__);
+            return;
+        }
         foreach ($this->jobRates as $key => $jobDelays) {
-            if ($delay = $this->getJoaRateDelay($event->job, $jobDelays)) {
+            if ($delay = $this->getJoaRateDelay($job, $jobDelays)) {
                 $event->delay = $this->getDelay($key, $delay);
                 Yii::info("Rate limit delay {$event->delay} of limit {$key}", __METHOD__);
             }

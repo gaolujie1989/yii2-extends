@@ -35,6 +35,7 @@ class ExecuteHelper
     {
         $timeAttribute && $model->setAttribute($timeAttribute, time());
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
+        $resultAttribute && $model->setAttribute($resultAttribute, []);
         $model->save(false);
 
         try {

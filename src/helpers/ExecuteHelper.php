@@ -6,6 +6,7 @@
 namespace lujie\extend\helpers;
 
 use lujie\extend\constants\ExecStatusConst;
+use Yii;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -44,6 +45,7 @@ class ExecuteHelper
             $model->save(false);
             return true;
         } catch (\Throwable $exception) {
+            Yii::error($exception->getMessage(), __METHOD__);
             $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
             $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);

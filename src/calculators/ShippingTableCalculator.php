@@ -10,7 +10,6 @@ use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\data\loader\DataLoaderInterface;
 use yii\base\BaseObject;
-use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 
@@ -22,7 +21,7 @@ use yii\di\Instance;
 class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInterface
 {
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $shippingItemLoader = 'shippingItemLoader';
 

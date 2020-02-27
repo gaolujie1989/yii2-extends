@@ -9,7 +9,6 @@ use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
 use yii\base\BaseObject;
-use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
@@ -24,7 +23,7 @@ use yii\helpers\ArrayHelper;
 class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInterface
 {
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $carrierItemLoader;
 

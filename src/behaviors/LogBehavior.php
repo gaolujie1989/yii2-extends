@@ -80,7 +80,7 @@ class LogBehavior extends Behavior
     }
 
     /**
-     * @param QueuedEvent $event
+     * @param ExecutableInterface $executable
      * @return string
      * @inheritdoc
      */

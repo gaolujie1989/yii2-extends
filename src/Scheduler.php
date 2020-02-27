@@ -5,16 +5,11 @@
 
 namespace lujie\scheduling;
 
-use lujie\executing\Executor;
-use lujie\extend\helpers\ComponentHelper;
 use lujie\data\loader\DataLoaderInterface;
-use Yii;
+use lujie\executing\Executor;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
-use yii\mutex\Mutex;
-use yii\queue\Queue;
 
 /**
  * Class Scheduler
@@ -29,7 +24,7 @@ class Scheduler extends Executor
     public $mutexNamePrefix = 'scheduler:';
 
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $taskLoader;
 

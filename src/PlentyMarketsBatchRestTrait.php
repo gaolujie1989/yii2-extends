@@ -31,7 +31,7 @@ trait PlentyMarketsBatchRestTrait
     }
 
     /**
-     * @param array $orderIds
+     * @param array $orderNos
      * @return array
      * @inheritdoc
      */

@@ -46,7 +46,7 @@ class ActiveRecordDataLoader extends QueryDataLoader
     }
 
     /**
-     * @param $returnAsArray
+     * @param bool $returnAsArray
      * @inheritdoc
      */
     public function setReturnAsArray(bool $returnAsArray): void

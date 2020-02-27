@@ -17,7 +17,7 @@ use yii\di\Instance;
 class ChainedDataLoader extends BaseDataLoader
 {
     /**
-     * @var DataLoaderInterface[]
+     * @var DataLoaderInterface[]|array
      */
     public $dataLoaders;
 

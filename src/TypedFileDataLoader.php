@@ -20,7 +20,7 @@ class TypedFileDataLoader extends FileDataLoader
     public $typedFilePathTemplate = '{filePool}/{type}.php';
 
     /**
-     * @var bool
+     * @var string
      */
     public $allType = '*';
 
@@ -39,7 +39,7 @@ class TypedFileDataLoader extends FileDataLoader
     }
 
     /**
-     * @return array|mixed|void|null
+     * @return array|null
      * @inheritdoc
      */
     public function all(): ?array

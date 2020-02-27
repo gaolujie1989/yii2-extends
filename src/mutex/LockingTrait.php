@@ -64,7 +64,7 @@ trait LockingTrait
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param callable $onSuccess
      * @param callable|null $onFailure
      * @return mixed
@@ -72,7 +72,7 @@ trait LockingTrait
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function lockingRun($name, callable $onSuccess, ?callable $onFailure = null)
+    public function lockingRun(string $name, callable $onSuccess, ?callable $onFailure = null)
     {
         if ($this->mutex) {
             $this->initMutex();

@@ -52,24 +52,6 @@ class CompressWriter extends BaseObject implements FileWriterInterface
      * @param array $data
      * @inheritdoc
      */
-    public function read(string $file): array
-    {
-        $content = file_get_contents($file);
-        if ($this->compressor) {
-            $content = $this->compressor->unCompress($content);
-        }
-        if ($this->serializer) {
-            $content = $this->serializer->unserialize($content);
-        }
-
-        return $content;
-    }
-
-    /**
-     * @param string $file
-     * @param array $data
-     * @inheritdoc
-     */
     public function write(string $file, array $data): void
     {
         $content = $this->serializer->serialize($data);

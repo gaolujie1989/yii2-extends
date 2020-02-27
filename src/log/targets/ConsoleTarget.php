@@ -82,11 +82,11 @@ class ConsoleTarget extends Target
     }
 
     /**
-     * @param $message
+     * @param array $message
      * @return string
      * @inheritdoc
      */
-    private function generateLabel($message): string
+    private function generateLabel(array $message): string
     {
         $labelData = [
             'datetime' => date($this->dateFormat, $message[3]),
@@ -100,11 +100,11 @@ class ConsoleTarget extends Target
     }
 
     /**
-     * @param $message
+     * @param array $message
      * @return string
      * @inheritdoc
      */
-    private function generateText($message): string
+    private function generateText(array $message): string
     {
         $text = $message[0];
         if (is_array($text) || is_object($text)) {

@@ -14,7 +14,7 @@ class ModelRuleHelper
 {
     /**
      * @param array $rules
-     * @param $attributes
+     * @param array|string $attributes
      * @param string|null $rule
      * @return array
      * @inheritdoc

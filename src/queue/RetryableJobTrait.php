@@ -25,8 +25,8 @@ trait RetryableJobTrait
     }
 
     /**
-     * @param $attempt
-     * @param $error
+     * @param int $attempt
+     * @param \Exception|\Throwable $error
      * @return bool
      * @inheritdoc
      */

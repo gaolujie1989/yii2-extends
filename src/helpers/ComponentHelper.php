@@ -17,12 +17,12 @@ use yii\base\Module;
 class ComponentHelper
 {
     /**
-     * @param $component
+     * @param object $component
      * @param Module|null $app
      * @return int|string
      * @inheritdoc
      */
-    public static function getName($component, ?Module $app = null)
+    public static function getName(object $component, ?Module $app = null)
     {
         $app = $app ?: Yii::$app;
         foreach ($app->getComponents(false) as $id => $instance) {

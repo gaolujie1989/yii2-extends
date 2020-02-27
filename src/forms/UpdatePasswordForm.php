@@ -33,11 +33,10 @@ class UpdatePasswordForm extends Model
     }
 
     /**
-     * @return array
      * @throws \Throwable
      * @inheritdoc
      */
-    public function validatePassword(): array
+    public function validatePassword(): void
     {
         if (!$this->hasErrors()) {
             /** @var User $user */

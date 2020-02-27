@@ -1,0 +1,32 @@
+{
+  "name": "lujie/yii2-sharding",
+  "description": "Yii2 multi sharding",
+  "keywords": [
+    "yii2",
+    "multi sharding"
+  ],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-sharding/issues",
+    "source": "https://gitee.com/code4dream/yii2-sharding"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\sharding\\": "src",
+      "lujie\\sharding\\tests": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

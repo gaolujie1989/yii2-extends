@@ -9,7 +9,6 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\forms\GenerateSourceForm;
 use lujie\data\recording\models\DataAccount;
 use lujie\scheduling\CronTask;
-use Yii;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
@@ -22,7 +21,7 @@ use yii\helpers\VarDumper;
 class GenerateSourceTask extends CronTask
 {
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $sourceGeneratorLoader = 'dataSourceGeneratorLoader';
 

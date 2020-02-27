@@ -47,7 +47,7 @@ class ProxyRequestForm extends Model
     public $responseData;
 
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $dataClientLoader = 'dataClientLoader';
 

@@ -24,7 +24,7 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
     use RetryableJobTrait;
 
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $dataRecorderLoader = 'dataRecorderLoader';
 

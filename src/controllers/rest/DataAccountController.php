@@ -6,12 +6,11 @@
 namespace lujie\data\recording\controllers\rest;
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\recording\forms\ProxyRequestForm;
 use lujie\data\recording\forms\GenerateSourceForm;
+use lujie\data\recording\forms\ProxyRequestForm;
 use lujie\data\recording\models\DataAccount;
 use lujie\extend\rest\ActiveController;
 use lujie\extend\rest\MethodAction;
-use yii\di\Instance;
 
 /**
  * Class DataAccountController
@@ -26,7 +25,7 @@ class DataAccountController extends ActiveController
     public $modelClass = DataAccount::class;
 
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $dataClientLoader = 'dataClientLoader';
 

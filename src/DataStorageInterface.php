@@ -14,14 +14,15 @@ use lujie\data\loader\DataLoaderInterface;
 interface DataStorageInterface extends DataLoaderInterface
 {
     /**
-     * @param mixed $data
+     * @param string|int $key
+     * @param mixed $value
      * @return mixed
      * @inheritdoc
      */
     public function set($key, $value);
 
     /**
-     * @param mixed $key
+     * @param string|int $key
      * @return mixed
      * @inheritdoc
      */

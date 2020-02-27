@@ -52,7 +52,8 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     }
 
     /**
-     * @param $data
+     * @param int|string $key
+     * @param mixed $data
      * @return mixed|void
      * @inheritdoc
      */
@@ -63,7 +64,7 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     }
 
     /**
-     * @param $key
+     * @param int|string $key
      * @return mixed|void
      * @inheritdoc
      */

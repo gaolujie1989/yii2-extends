@@ -10,7 +10,6 @@ use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
-use yii\queue\Queue;
 
 /**
  * Class PullWarehouseStockTask
@@ -25,8 +24,7 @@ class PullFulfillmentOrderTask extends CronTask
     public $fulfillmentManager = 'fulfillmentManager';
 
     /**
-     * @param Queue $queue
-     * @return mixed|void
+     * @return bool
      * @throws InvalidConfigException
      * @inheritdoc
      */

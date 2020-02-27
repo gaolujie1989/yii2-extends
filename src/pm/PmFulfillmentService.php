@@ -207,7 +207,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
-     * @return mixed|void
+     * @return bool
      * @throws Exception
      * @inheritdoc
      */
@@ -413,8 +413,8 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     }
 
     /**
-     * @param $concatId
-     * @param $address
+     * @param int $concatId
+     * @param Address $address
      * @return array
      * @inheritdoc
      */

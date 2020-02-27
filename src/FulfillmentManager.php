@@ -78,13 +78,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
-     * @param FulfillmentItem $fulfillmentItem
-     * @return FulfillmentServiceInterface|object
+     * @param int $fulfillmentAccountId
+     * @return FulfillmentServiceInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function getFulfillmentService(int $fulfillmentAccountId): FulfillmentServiceInterface
     {
+        /** @var FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentAccountId);
         if ($fulfillmentService === null) {
             throw new InvalidArgumentException("Null fulfillmentService of {$fulfillmentAccountId}");
@@ -155,7 +156,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
-     * @param FulfillmentItem $fulfillmentItem
+     * @param FulfillmentOrder $fulfillmentOrder
      * @inheritdoc
      */
     protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)

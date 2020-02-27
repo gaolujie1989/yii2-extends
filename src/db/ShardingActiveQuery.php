@@ -42,10 +42,11 @@ class ShardingActiveQuery extends ActiveQuery
     /**
      * @param array|string|\yii\db\ExpressionInterface $condition
      * @param array $params
+     * @return void|ActiveQuery
      * @throws NotSupportedException
      * @inheritdoc
      */
-    public function orWhere($condition, $params = []): void
+    public function orWhere($condition, $params = [])
     {
         throw new NotSupportedException('Or where not support for sharding query');
     }

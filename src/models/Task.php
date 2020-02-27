@@ -36,8 +36,8 @@ use yii2tech\ar\position\PositionBehavior;
  * @property Project $project
  * @property TaskGroup $taskGroup
  * @property TaskAttachment[] $attachments
- * @property Task[] subTasks
- * @property Task parentTask
+ * @property Task[] $subTasks
+ * @property Task $parentTask
  */
 class Task extends \lujie\project\base\db\ActiveRecord
 {

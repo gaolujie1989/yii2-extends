@@ -7,9 +7,7 @@ namespace lujie\project\searches;
 
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Task;
-use lujie\project\models\TaskGroupQuery;
 use lujie\project\models\TaskQuery;
-use yii\helpers\StringHelper;
 
 /**
  * Class TaskSearch
@@ -43,7 +41,7 @@ class TaskSearch extends Task
     }
 
     /**
-     * @return TaskGroupQuery
+     * @return TaskQuery
      * @inheritdoc
      */
     public function query(): TaskQuery

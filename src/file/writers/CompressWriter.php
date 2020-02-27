@@ -22,7 +22,7 @@ use yii\queue\serializers\SerializerInterface;
 class CompressWriter extends BaseObject implements FileWriterInterface
 {
     /**
-     * @var SerializerInterface|mixed
+     * @var SerializerInterface
      */
     public $serializer = [
         'class' => JsonSerializer::class,
@@ -30,7 +30,7 @@ class CompressWriter extends BaseObject implements FileWriterInterface
     ];
 
     /**
-     * @var CompressorInterface|mixed
+     * @var CompressorInterface
      */
     public $compressor = GzCompressor::class;
 

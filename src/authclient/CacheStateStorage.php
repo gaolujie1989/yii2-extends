@@ -19,7 +19,7 @@ use yii\di\Instance;
 class CacheStateStorage extends Component implements StateStorageInterface
 {
     /**
-     * @var CacheInterface|mixed
+     * @var CacheInterface
      */
     public $cache = 'cache';
 

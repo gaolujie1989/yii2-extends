@@ -95,7 +95,7 @@ class VueViewGenerator extends BaseObject implements ViewContextInterface
     public $uploadFormFields = [];
 
     /**
-     * @var View|mixed
+     * @var View
      */
     public $view = [];
 

@@ -6,7 +6,6 @@
 namespace lujie\stock;
 
 
-use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Expression;
 use yii\db\Query;
@@ -103,13 +102,13 @@ class DbStockManager extends BaseStockManager
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param $reason
+     * @param string $reason
      * @param array $extraData
      * @return array
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    protected function createStockMovement($itemId, $locationId, int $qty, $reason, $extraData = []): array
+    protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []): array
     {
         $columns = $this->db->getTableSchema($this->stockMovementTable)->columns;
         $extraData = array_intersect_key($extraData, $columns);

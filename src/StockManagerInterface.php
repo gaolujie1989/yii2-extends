@@ -11,45 +11,42 @@ use yii\db\BaseActiveRecord;
 interface StockManagerInterface
 {
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param array $extraData
-     * @return bool|mixed
-     * @throws \Throwable
+     * @return bool
      * @inheritdoc
      */
     public function inbound(int $itemId, int $locationId, int $qty, array $extraData = []): bool;
 
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param array $extraData
-     * @return bool|mixed
-     * @throws \Throwable
+     * @return bool
      * @inheritdoc
      */
     public function outbound(int $itemId, int $locationId, int $qty, array $extraData = []): bool;
 
     /**
-     * @param $itemId
-     * @param $fromLocationId
-     * @param $toLocationId
+     * @param int $itemId
+     * @param int $fromLocationId
+     * @param int $toLocationId
      * @param int $qty
      * @param array $extraData
-     * @return bool|mixed
-     * @throws \Throwable
+     * @return bool
      * @inheritdoc
      */
     public function transfer(int $itemId, int $fromLocationId, int $toLocationId, int $qty, array $extraData = []): bool;
 
     /**
-     * @param $itemId
-     * @param $locationId
+     * @param int $itemId
+     * @param int $locationId
      * @param int $qty
      * @param array $extraData
-     * @throws \Throwable
+     * @return bool
      * @inheritdoc
      */
     public function correct(int $itemId, int $locationId, int $qty, array $extraData = []): bool;

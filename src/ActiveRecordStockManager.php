@@ -75,17 +75,16 @@ class ActiveRecordStockManager extends BaseStockManager
         return $stock;
     }
 
-
     /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param $reason
+     * @param string $reason
      * @param array $extraData
      * @return BaseActiveRecord
      * @inheritdoc
      */
-    protected function createStockMovement($itemId, $locationId, int $qty, $reason, $extraData = []): BaseActiveRecord
+    protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []): BaseActiveRecord
     {
         $data = [
             $this->itemIdAttribute => $itemId,

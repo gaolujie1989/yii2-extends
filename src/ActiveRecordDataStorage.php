@@ -22,7 +22,7 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
     public $runValidation = false;
 
     /**
-     * @param $key
+     * @param mixed $key
      * @return BaseActiveRecord
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -38,8 +38,8 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
     }
 
     /**
-     * @param $key
-     * @param $data
+     * @param mixed $key
+     * @param mixed|array $data
      * @return bool
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -52,8 +52,8 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
     }
 
     /**
-     * @param $key
-     * @return bool|false|int
+     * @param mixed $key
+     * @return false|int|mixed
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @throws \yii\db\StaleObjectException

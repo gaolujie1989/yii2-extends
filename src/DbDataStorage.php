@@ -16,8 +16,8 @@ use yii\db\Query;
 class DbDataStorage extends DbDataLoader implements DataStorageInterface
 {
     /**
-     * @param $key
-     * @param $data
+     * @param mixed $key
+     * @param mixed $data
      * @return int|mixed
      * @throws \yii\db\Exception
      * @inheritdoc
@@ -36,7 +36,7 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
     }
 
     /**
-     * @param $key
+     * @param mixed $key
      * @return int|mixed
      * @throws \yii\db\Exception
      * @inheritdoc

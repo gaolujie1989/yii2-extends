@@ -213,12 +213,12 @@ class UploadBehavior extends Behavior
     }
 
     /**
-     * @param $suffix
+     * @param string $suffix
      * @return string
      * @throws \Exception
      * @inheritdoc
      */
-    protected function generateFileName($suffix): string
+    protected function generateFileName(string $suffix): string
     {
         $pairs = [
             '{date}' => date('ymd'),

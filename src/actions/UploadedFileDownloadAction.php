@@ -7,8 +7,8 @@ namespace lujie\upload\actions;
 
 use lujie\upload\models\UploadSavedFile;
 use Yii;
-use yii\rest\Action;
 use yii\helpers\FileHelper;
+use yii\rest\Action;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -36,7 +36,7 @@ class UploadedFileDownloadAction extends Action
     public $options = ['inline' => true];
 
     /**
-     * @param $id
+     * @param int|string $id
      * @throws NotFoundHttpException
      * @throws \yii\base\Exception
      * @throws \yii\web\RangeNotSatisfiableHttpException

@@ -9,7 +9,6 @@ use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use lujie\upload\behaviors\FileBehavior;
 use Yii;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii2tech\ar\position\PositionBehavior;
 
@@ -111,7 +110,7 @@ class UploadSavedFile extends ActiveRecord
     }
 
     /**
-     * @return UploadSavedFileQuery|ActiveQuery
+     * @return UploadSavedFileQuery
      * @inheritdoc
      */
     public static function find(): UploadSavedFileQuery

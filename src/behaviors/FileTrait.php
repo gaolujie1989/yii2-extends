@@ -46,7 +46,7 @@ trait FileTrait
     }
 
     /**
-     * @param $fileName
+     * @param string $fileName
      * @param UploadedFile $file
      * @param bool $deleteTempFile
      * @return bool
@@ -73,8 +73,8 @@ trait FileTrait
     }
 
     /**
-     * @param $fileName
-     * @param $file
+     * @param string $fileName
+     * @param string $file
      * @param bool $deleteFile
      * @return bool
      * @throws \yii\base\Exception
@@ -99,7 +99,7 @@ trait FileTrait
     }
 
     /**
-     * @param $fileName
+     * @param string $fileName
      * @return bool
      * @inheritdoc
      */
@@ -117,8 +117,8 @@ trait FileTrait
     }
 
     /**
-     * @param $fileName
-     * @return bool|false|string
+     * @param string $fileName
+     * @return false|string|null
      * @inheritdoc
      */
     public function loadFile(string $fileName)

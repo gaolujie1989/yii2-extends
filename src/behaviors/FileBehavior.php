@@ -112,7 +112,7 @@ class FileBehavior extends Behavior
     }
 
     /**
-     * @return bool|false|string
+     * @return string
      * @inheritdoc
      */
     public function getContent(): string

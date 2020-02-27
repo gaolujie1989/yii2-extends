@@ -12,7 +12,6 @@ use Twig\Loader\ArrayLoader;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 use yii2tech\html2pdf\Manager;
 
 /**
@@ -33,6 +32,7 @@ class TemplateDocumentGenerator extends BaseObject
     public $documentRender = 'html2pdf';
 
     /**
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
@@ -66,6 +66,7 @@ class TemplateDocumentGenerator extends BaseObject
      * @param string $documentType
      * @param int $documentReferenceId
      * @return array
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -75,7 +76,7 @@ class TemplateDocumentGenerator extends BaseObject
         if ($documentReferenceId && !$templateQuery->exists()) {
             $defaultTemplates = DocumentTemplate::find()
                 ->type($documentType)
-                ->referenceId($documentReferenceId)
+                ->referenceId(0)
                 ->asArray()
                 ->all();
             if (empty($defaultTemplates)) {
@@ -119,8 +120,7 @@ class TemplateDocumentGenerator extends BaseObject
             throw new InvalidArgumentException("Unknown Document Type: {$documentType}");
         }
         if (!($this->templateDataLoaders[$documentType] instanceof DataLoaderInterface)) {
-            $this->templateDataLoaders[$documentType] = Instance::ensure(
-                $this->templateDataLoaders[$documentType], DataLoaderInterface::class);
+            $this->templateDataLoaders[$documentType] = Instance::ensure($this->templateDataLoaders[$documentType], DataLoaderInterface::class);
         }
         return $this->templateDataLoaders[$documentType];
     }

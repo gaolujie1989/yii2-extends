@@ -33,7 +33,7 @@ class ObjectDataLoader extends BaseDataLoader
     public $objectConfig = [];
 
     /**
-     * @var
+     * @var array
      */
     public $dataConfig = [];
 

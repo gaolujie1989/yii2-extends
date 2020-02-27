@@ -19,7 +19,7 @@ class RoleController extends BaseItemController
      */
     public function actionIndex(): array
     {
-        $this->authManager->getRoles();
+        return $this->authManager->getRoles();
     }
 
     /**

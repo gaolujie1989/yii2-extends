@@ -90,7 +90,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param $key
+     * @param string|int $key
      * @return string
      * @inheritdoc
      */
@@ -100,7 +100,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param $key
+     * @param string|int $key
      * @return string
      * @inheritdoc
      */
@@ -198,21 +198,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     #endregion
 
     /**
-     * @param $password
+     * @param string $password
      * @return bool
      * @inheritdoc
      */
-    public function validatePassword($password): bool
+    public function validatePassword(string $password): bool
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
     /**
-     * @param $password
+     * @param string $password
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function setPassword($password): void
+    public function setPassword(string $password): void
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }

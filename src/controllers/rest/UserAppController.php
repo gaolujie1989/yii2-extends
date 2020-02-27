@@ -6,7 +6,6 @@
 namespace lujie\user\controllers\rest;
 
 use lujie\user\forms\AppLoginForm;
-use lujie\user\forms\LoginForm;
 use Yii;
 use yii\rest\Controller;
 use yii\web\ServerErrorHttpException;
@@ -21,14 +20,14 @@ class UserAppController extends Controller
     public $loginForm = AppLoginForm::class;
 
     /**
-     * @return LoginForm
+     * @return AppLoginForm
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function actionLogin(): AppLoginForm
     {
-        /** @var LoginForm $loginForm */
+        /** @var AppLoginForm $loginForm */
         $loginForm = Yii::createObject($this->loginForm);
         $loginForm->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($loginForm->login() === false && $loginForm->hasErrors() === false) {

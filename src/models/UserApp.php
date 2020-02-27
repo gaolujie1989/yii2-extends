@@ -108,7 +108,7 @@ class UserApp extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return UserQuery|ActiveQuery
+     * @return ActiveQuery|UserQuery
      * @inheritdoc
      */
     public function getUser(): UserQuery

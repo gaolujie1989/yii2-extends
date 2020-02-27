@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
 class ActiveRecordPipeline extends BaseDbPipeline
 {
     /**
-     * @var BaseActiveRecord
+     * @var string|BaseActiveRecord
      */
     public $modelClass;
 

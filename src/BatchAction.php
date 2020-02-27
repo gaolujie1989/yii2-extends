@@ -46,7 +46,7 @@ class BatchAction extends Action
     }
 
     /**
-     * @param $ids
+     * @param array|string|int $ids
      * @return BatchForm
      * @throws InvalidConfigException
      * @throws ServerErrorHttpException
@@ -75,7 +75,7 @@ class BatchAction extends Action
     }
 
     /**
-     * @param $ids
+     * @param array|string|int $ids
      * @return array|bool
      * @inheritdoc
      */

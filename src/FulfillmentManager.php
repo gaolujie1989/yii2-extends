@@ -36,7 +36,7 @@ use yii\queue\Queue;
 class FulfillmentManager extends Component implements BootstrapInterface
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $fulfillmentServiceLoader = 'fulfillmentServiceLoader';
 

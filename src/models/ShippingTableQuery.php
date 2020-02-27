@@ -54,12 +54,12 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param $limitType
-     * @param $limitValue
+     * @param string $limitType
+     * @param int $limitValue
      * @return $this
      * @inheritdoc
      */
-    protected function limitCondition($limitType, $limitValue): self
+    protected function limitCondition(string $limitType, int $limitValue): self
     {
         return $this->andWhere(['OR', [$limitType => 0], ['>=', $limitType, $limitValue]]);
     }

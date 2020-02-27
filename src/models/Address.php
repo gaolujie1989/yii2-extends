@@ -160,8 +160,8 @@ class Address extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $signature
-     * @return Address|null
+     * @param string $signature
+     * @return static|null
      * @inheritdoc
      */
     public static function findBySignature(string $signature): ?self

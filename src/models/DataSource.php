@@ -64,7 +64,7 @@ class DataSource extends \lujie\data\recording\base\db\ActiveRecord
     }
 
     /**
-     * @return DataSourceQuery|ActiveQuery
+     * @return DataSourceQuery
      * @inheritdoc
      */
     public static function find(): DataSourceQuery

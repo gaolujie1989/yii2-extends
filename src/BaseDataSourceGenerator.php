@@ -73,8 +73,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @param string $type
      * @param int $fromTime
      * @param int $toTime
-     * @param int $timePrevious
-     * @return DataSource|null
+     * @return DataSource
      * @inheritdoc
      */
     abstract protected function createSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime): DataSource;

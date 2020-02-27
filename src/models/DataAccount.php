@@ -64,7 +64,7 @@ class DataAccount extends \lujie\data\recording\base\db\ActiveRecord
     }
 
     /**
-     * @return DataAccountQuery|ActiveQuery
+     * @return DataAccountQuery
      * @inheritdoc
      */
     public static function find(): DataAccountQuery

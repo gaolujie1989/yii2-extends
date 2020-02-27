@@ -64,7 +64,10 @@ class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
      */
     public static function getDataTextByRecordId(int $dataRecordId, $compressor = null): ?string
     {
-        $dataText = static::find()->andWhere(['data_record_id' => $dataRecordId])->select(['data_text'])->scalar();
+        $dataText = static::find()
+            ->andWhere(['data_record_id' => $dataRecordId])
+            ->select(['data_text'])
+            ->scalar();
         if ($dataText === null) {
             return null;
         }

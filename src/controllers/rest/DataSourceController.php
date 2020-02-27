@@ -36,7 +36,7 @@ class  DataSourceController extends ActiveController
     public $jobConfig = [];
 
     /**
-     * @param $id
+     * @param int|string $id
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
      * @inheritdoc

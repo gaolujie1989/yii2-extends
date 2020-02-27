@@ -65,7 +65,7 @@ class DataRecord extends \lujie\data\recording\base\db\ActiveRecord
     }
 
     /**
-     * @return DataRecordQuery|ActiveQuery
+     * @return DataRecordQuery
      * @inheritdoc
      */
     public static function find(): DataRecordQuery

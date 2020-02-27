@@ -130,9 +130,9 @@ class BackupManager extends Component
     }
 
     /**
-     * @param $database
+     * @param string $database
      * @param array $destinations
-     * @param $compression
+     * @param string $compression
      * @throws \BackupManager\Compressors\CompressorTypeNotSupported
      * @throws \BackupManager\Config\ConfigFieldNotFound
      * @throws \BackupManager\Config\ConfigNotFoundForConnection
@@ -146,10 +146,10 @@ class BackupManager extends Component
     }
 
     /**
-     * @param $sourceType
-     * @param $sourcePath
-     * @param $databaseName
-     * @param null $compression
+     * @param string $sourceType
+     * @param string $sourcePath
+     * @param string $databaseName
+     * @param string|null $compression
      * @throws \BackupManager\Compressors\CompressorTypeNotSupported
      * @throws \BackupManager\Config\ConfigFieldNotFound
      * @throws \BackupManager\Config\ConfigNotFoundForConnection
@@ -157,7 +157,7 @@ class BackupManager extends Component
      * @throws \BackupManager\Filesystems\FilesystemTypeNotSupported
      * @inheritdoc
      */
-    public function restore($sourceType, $sourcePath, $databaseName, $compression = null): void
+    public function restore(string $sourceType, string $sourcePath, string $databaseName, ?string $compression = null): void
     {
         $this->manager->makeRestore()->run($sourceType, $sourcePath, $databaseName, $compression);
     }
@@ -208,7 +208,7 @@ class BackupManager extends Component
     }
 
     /**
-     * @param $db
+     * @param string|Connection|object $db
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc
@@ -246,7 +246,7 @@ class BackupManager extends Component
     }
 
     /**
-     * @param $filesystem
+     * @param string|Filesystem|object $filesystem
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc

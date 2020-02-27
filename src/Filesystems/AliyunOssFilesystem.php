@@ -17,7 +17,7 @@ use Xxtime\Flysystem\Aliyun\OssAdapter;
 class AliyunOssFilesystem implements Filesystem
 {
     /**
-     * @param $type
+     * @param string $type
      * @return bool
      * @inheritdoc
      */

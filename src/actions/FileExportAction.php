@@ -7,11 +7,9 @@ namespace lujie\data\exchange\actions;
 
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\sources\ActiveRecordSource;
-use lujie\data\exchange\sources\QuerySource;
 use lujie\extend\rest\IndexQueryPreparer;
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\base\UnknownClassException;
 use yii\di\Instance;
 use yii\rest\Action;
 use yii\web\ServerErrorHttpException;
@@ -24,12 +22,12 @@ use yii\web\ServerErrorHttpException;
 class FileExportAction extends Action
 {
     /**
-     * @var IndexQueryPreparer
+     * @var IndexQueryPreparer|mixed
      */
     public $queryPreparer = IndexQueryPreparer::class;
 
     /**
-     * @var FileExporter
+     * @var FileExporter|mixed
      */
     public $fileExporter;
 

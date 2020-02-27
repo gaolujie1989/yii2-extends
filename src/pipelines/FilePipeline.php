@@ -20,7 +20,7 @@ use yii\helpers\FileHelper;
 class FilePipeline extends BaseObject implements PipelineInterface
 {
     /**
-     * @var FileWriterInterface
+     * @var FileWriterInterface|mixed
      */
     public $fileWriter;
 

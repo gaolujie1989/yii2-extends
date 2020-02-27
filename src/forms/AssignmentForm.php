@@ -58,11 +58,11 @@ class AssignmentForm extends AuthForm
     }
 
     /**
-     * @param $itemName
+     * @param string $itemName
      * @return Item|null|Permission|Role
      * @inheritdoc
      */
-    protected function getItem($itemName): ?Item
+    protected function getItem(string $itemName): ?Item
     {
         if (empty($this->_items[$itemName])) {
             $this->_items[$itemName] = $this->authManager->getRole($itemName) ?: $this->authManager->getPermission($itemName);

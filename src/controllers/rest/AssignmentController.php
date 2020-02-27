@@ -18,7 +18,7 @@ use yii\web\ServerErrorHttpException;
 class AssignmentController extends BaseAuthController
 {
     /**
-     * @param $userId
+     * @param int|string $userId
      * @return array
      * @inheritdoc
      */
@@ -28,7 +28,7 @@ class AssignmentController extends BaseAuthController
     }
 
     /**
-     * @param $userId
+     * @param int|string $userId
      * @return array
      * @inheritdoc
      */
@@ -38,7 +38,7 @@ class AssignmentController extends BaseAuthController
     }
 
     /**
-     * @param $userId
+     * @param int|string $userId
      * @return array
      * @inheritdoc
      */
@@ -48,8 +48,7 @@ class AssignmentController extends BaseAuthController
     }
 
     /**
-     * @param $userId
-     * @return array
+     * @return AssignmentForm
      * @throws InvalidConfigException
      * @throws ServerErrorHttpException
      * @throws \Exception
@@ -69,7 +68,7 @@ class AssignmentController extends BaseAuthController
     }
 
     /**
-     * @return array
+     * @return AssignmentForm
      * @throws InvalidConfigException
      * @throws ServerErrorHttpException
      * @throws \Exception
@@ -89,7 +88,7 @@ class AssignmentController extends BaseAuthController
     }
 
     /**
-     * @param $userId
+     * @param int|string $userId
      * @inheritdoc
      */
     public function actionRevokeAll($userId): void

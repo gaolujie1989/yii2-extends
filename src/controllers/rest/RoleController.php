@@ -23,7 +23,7 @@ class RoleController extends BaseItemController
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return array
      * @inheritdoc
      */

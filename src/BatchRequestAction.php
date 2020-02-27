@@ -23,7 +23,7 @@ class BatchRequestAction extends Action
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function run(): void
+    public function run(): array
     {
         $result = [];
         $request = Yii::$app->getRequest();

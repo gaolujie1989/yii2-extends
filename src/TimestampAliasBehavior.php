@@ -22,12 +22,12 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     public $datetimeSuffix = '_time';
 
     /**
-     * @param $name
+     * @param string $name
      * @return int|mixed|string
      * @throws \Exception
      * @inheritdoc
      */
-    public function getAliasProperty($name)
+    public function getAliasProperty(string $name)
     {
         $value = parent::getAliasProperty($name);
         if (substr($name, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
@@ -40,12 +40,12 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      * @throws \Exception
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value): void
+    public function setAliasProperty(string $name, $value): void
     {
         $property = $this->aliasProperties[$name];
         if (substr($property, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
@@ -59,7 +59,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
 
 
     /**
-     * @param $time
+     * @param string|int $time
      * @return string
      * @throws \Exception
      * @inheritdoc
@@ -80,7 +80,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $date
+     * @param string|int $date
      * @return int
      * @throws \Exception
      * @inheritdoc

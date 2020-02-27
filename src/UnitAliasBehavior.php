@@ -6,7 +6,6 @@
 namespace lujie\alias\behaviors;
 
 
-use yii\base\InvalidArgumentException;
 use yii\base\InvalidValueException;
 
 /**
@@ -83,11 +82,11 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return float|int|mixed
      * @inheritdoc
      */
-    public function getAliasProperty($name)
+    public function getAliasProperty(string $name)
     {
         $this->initUnit();
         $value = parent::getAliasProperty($name);
@@ -98,11 +97,11 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value): void
+    public function setAliasProperty(string $name, $value): void
     {
         $this->initUnit();
         if (!is_numeric($value)) {
@@ -115,13 +114,13 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $value
-     * @param $from
-     * @param $to
+     * @param float|int $value
+     * @param string $from
+     * @param string $to
      * @return float|int
      * @inheritdoc
      */
-    public function convert($value, $from, $to)
+    public function convert($value, string $from, string $to)
     {
         if ($from === $to) {
             return $value;

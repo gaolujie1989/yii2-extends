@@ -117,7 +117,7 @@ class AliasPropertyBehavior extends Behavior
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @inheritdoc
      */
     public function setAliasProperty(string $name, $value): void

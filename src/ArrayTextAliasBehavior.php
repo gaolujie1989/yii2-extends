@@ -23,12 +23,12 @@ class ArrayTextAliasBehavior extends AliasPropertyBehavior
     public $trim = true;
 
     /**
-     * @param $name
+     * @param string $name
      * @return int|mixed|string
      * @throws \Exception
      * @inheritdoc
      */
-    public function getAliasProperty($name)
+    public function getAliasProperty(string $name)
     {
         $value = parent::getAliasProperty($name);
         if (is_string($value)) {
@@ -39,12 +39,11 @@ class ArrayTextAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @throws \Exception
+     * @param string $name
+     * @param mixed $value
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value): void
+    public function setAliasProperty(string $name, $value): void
     {
         if (is_string($value)) {
             $value = [$value];
@@ -52,7 +51,7 @@ class ArrayTextAliasBehavior extends AliasPropertyBehavior
                 if (empty($value)) {
                     break;
                 }
-                $value = array_map(static function($v) use ($separator) {
+                $value = array_map(static function ($v) use ($separator) {
                     return explode($separator, $v);
                 }, $value);
                 if ($this->trim) {

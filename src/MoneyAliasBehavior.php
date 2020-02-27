@@ -6,9 +6,7 @@
 namespace lujie\alias\behaviors;
 
 
-use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
-use yii\base\InvalidValueException;
 
 /**
  * Class UnitBehavior
@@ -32,11 +30,11 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $name
-     * @return float|int|mixed
+     * @param string $name
+     * @return mixed|string
      * @inheritdoc
      */
-    public function getAliasProperty($name)
+    public function getAliasProperty(string $name)
     {
         $value = parent::getAliasProperty($name);
         if (is_numeric($value)) {
@@ -46,11 +44,11 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      * @inheritdoc
      */
-    public function setAliasProperty($name, $value): void
+    public function setAliasProperty(string $name, $value): void
     {
         if (!is_numeric($value)) {
             $value = strtr($value, [',' => '.']);

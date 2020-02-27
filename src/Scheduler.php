@@ -73,7 +73,7 @@ class Scheduler extends Executor
     }
 
     /**
-     * @param $taskId
+     * @param string|int $taskId
      * @return ScheduleTaskInterface
      * @throws InvalidConfigException
      * @inheritdoc

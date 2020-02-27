@@ -64,7 +64,7 @@ class ScheduleTaskController extends ActiveController
     }
 
     /**
-     * @param $taskCode
+     * @param string|int $taskCode
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -75,7 +75,7 @@ class ScheduleTaskController extends ActiveController
     }
 
     /**
-     * @param $taskCode
+     * @param string|int $taskCode
      * @throws InvalidConfigException
      * @inheritdoc
      */

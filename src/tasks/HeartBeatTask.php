@@ -22,7 +22,7 @@ class HeartBeatTask extends BaseObject
     public $cache = 'cache';
 
     /**
-     * @var
+     * @var string
      */
     public $cacheKey = 'HeatBeat';
 

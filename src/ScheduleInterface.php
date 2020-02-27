@@ -21,7 +21,7 @@ interface ScheduleInterface
     public function getNextRunTime(): \DateTime;
 
     /**
-     * @return \DateTimeZone|string
+     * @return string
      * @inheritdoc
      */
     public function getTimezone(): string;

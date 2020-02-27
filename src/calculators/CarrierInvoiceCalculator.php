@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
 class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInterface
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $carrierItemLoader;
 

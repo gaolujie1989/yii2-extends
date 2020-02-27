@@ -69,7 +69,7 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
     /**
      * @param string $from
      * @param string $to
-     * @param string|null $date
+     * @param string $date
      * @return float
      * @throws \Exception
      * @inheritdoc

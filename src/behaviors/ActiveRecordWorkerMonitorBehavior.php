@@ -27,11 +27,11 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
     private $worker;
 
     /**
-     * @param $data
+     * @param array $data
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function saveWorkerRecord($data): void
+    protected function saveWorkerRecord(array $data): void
     {
         if ($this->worker === null) {
             $this->worker = Yii::createObject($this->workerClass);
@@ -48,11 +48,13 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
     }
 
     /**
+     * @param int $workerPid
      * @param bool $success
      * @inheritdoc
      */
-    public function updateCount($workerPid, $success = true): void
+    public function updateCount(int $workerPid, $success = true): void
     {
+        /** @var QueueWorker $worker */
         $worker = $this->workerClass::find()
             ->andWhere(['pid' => $workerPid, 'finished_at' => 0])
             ->orderBy(['queue_worker_id' => SORT_DESC])

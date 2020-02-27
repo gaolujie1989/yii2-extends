@@ -164,9 +164,17 @@ abstract class BaseJobMonitorBehavior extends Behavior
         $this->updateWorkerExecCount($event, false);
     }
 
-    abstract protected function saveJobRecord($data): void;
+    /**
+     * @param array $data
+     * @inheritdoc
+     */
+    abstract protected function saveJobRecord(array $data): void;
 
-    abstract protected function saveJobExecRecord($data): void;
+    /**
+     * @param array $data
+     * @inheritdoc
+     */
+    abstract protected function saveJobExecRecord(array $data): void;
 
     /**
      * @param ExecEvent $event
@@ -210,15 +218,13 @@ abstract class BaseJobMonitorBehavior extends Behavior
     }
 
     /**
-     * @param $condition
-     * @return mixed
+     * @param string|array $condition
      * @inheritdoc
      */
     abstract protected function deleteJob($condition): void;
 
     /**
-     * @param $condition
-     * @return mixed
+     * @param string|array $condition
      * @inheritdoc
      */
     abstract protected function deleteJobExec($condition): void;

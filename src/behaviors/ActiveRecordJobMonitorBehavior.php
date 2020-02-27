@@ -33,11 +33,11 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
     private $jobExec;
 
     /**
-     * @param $data
+     * @param array $data
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function saveJobRecord($data): void
+    protected function saveJobRecord(array $data): void
     {
         $condition = ['queue' => $data['queue'], 'job_id' => $data['job_id']];
         /** @var QueueJob $job */
@@ -47,11 +47,11 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function saveJobExecRecord($data): void
+    protected function saveJobExecRecord(array $data): void
     {
         //if queue run with isolate mode
         //when it trigger error with child process error like timeout or Uncaught like compile
@@ -79,8 +79,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
     }
 
     /**
-     * @param $condition
-     * @return mixed|void
+     * @param string|array $condition
      * @inheritdoc
      */
     protected function deleteJob($condition): void
@@ -89,8 +88,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
     }
 
     /**
-     * @param $condition
-     * @return mixed|void
+     * @param string|array $condition
      * @inheritdoc
      */
     protected function deleteJobExec($condition): void

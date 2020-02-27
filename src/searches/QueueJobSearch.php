@@ -44,7 +44,7 @@ class QueueJobSearch extends QueueJob
     }
 
     /**
-     * @return mixed
+     * @return array
      * @inheritdoc
      */
     public function fields(): array
@@ -55,7 +55,7 @@ class QueueJobSearch extends QueueJob
     }
 
     /**
-     * @return array|false
+     * @return array
      * @inheritdoc
      */
     public function extraFields(): array
@@ -66,7 +66,7 @@ class QueueJobSearch extends QueueJob
     }
 
     /**
-     * @return mixed
+     * @return string|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

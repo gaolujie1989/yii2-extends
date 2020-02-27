@@ -31,7 +31,7 @@ class QueueJobController extends ActiveController
     }
 
     /**
-     * @param $id
+     * @param int|string $id
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException

@@ -22,12 +22,12 @@ use yii\web\ServerErrorHttpException;
 class FileExportAction extends Action
 {
     /**
-     * @var IndexQueryPreparer|mixed
+     * @var IndexQueryPreparer
      */
     public $queryPreparer = IndexQueryPreparer::class;
 
     /**
-     * @var FileExporter|mixed
+     * @var FileExporter
      */
     public $fileExporter;
 

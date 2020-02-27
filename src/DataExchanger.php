@@ -32,17 +32,17 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
     use ExecutableTrait, LockableTrait, QueueableTrait;
 
     /**
-     * @var SourceInterface|mixed
+     * @var SourceInterface
      */
     public $source;
 
     /**
-     * @var TransformerInterface|mixed
+     * @var TransformerInterface
      */
     public $transformer;
 
     /**
-     * @var PipelineInterface|mixed
+     * @var PipelineInterface
      */
     public $pipeline;
 

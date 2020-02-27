@@ -31,7 +31,7 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|null
+     * @return array
      * @inheritdoc
      */
     public function transform(array $data): array
@@ -59,12 +59,12 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
     }
 
     /**
-     * @param $values
-     * @param $preValues
+     * @param array $values
+     * @param array $preValues
      * @return bool
      * @inheritdoc
      */
-    public function isOneGroup($values, $preValues): bool
+    public function isOneGroup(array $values, array $preValues): bool
     {
         if ($this->indexKey && isset($preValues[$this->indexKey])) {
             return empty($values[$this->indexKey]) || $values[$this->indexKey] === $preValues[$this->indexKey];
@@ -73,7 +73,7 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return bool
      * @inheritdoc
      */

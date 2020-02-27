@@ -72,8 +72,8 @@ class DbPipeline extends BaseDbPipeline
     }
 
     /**
-     * @param $data
-     * @return bool|mixed
+     * @param array $data
+     * @return bool
      * @throws \Throwable
      * @inheritdoc
      */

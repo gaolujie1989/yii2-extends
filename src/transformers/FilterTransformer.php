@@ -33,7 +33,7 @@ class FilterTransformer extends BaseObject implements TransformerInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return bool
      * @inheritdoc
      */

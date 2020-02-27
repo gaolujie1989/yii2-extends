@@ -84,7 +84,7 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     }
 
     /**
-     * @param $condition
+     * @param array $condition
      * @inheritdoc
      */
     public function setCondition(array $condition): void

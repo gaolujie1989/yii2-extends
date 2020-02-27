@@ -115,7 +115,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
     }
 
     /**
-     * @param $values
+     * @param array $data
      * @return BaseActiveRecord[]
      * @inheritdoc
      */

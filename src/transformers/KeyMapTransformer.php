@@ -31,7 +31,7 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|null
+     * @return array
      * @inheritdoc
      */
     public function transform(array $data): array

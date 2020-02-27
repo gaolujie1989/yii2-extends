@@ -21,7 +21,7 @@ class FillDefaultValueTransformer extends BaseObject implements TransformerInter
 
     /**
      * @param array $data
-     * @return array|null
+     * @return array
      * @inheritdoc
      */
     public function transform(array $data): array
@@ -37,7 +37,7 @@ class FillDefaultValueTransformer extends BaseObject implements TransformerInter
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return bool
      * @inheritdoc
      */

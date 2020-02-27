@@ -26,7 +26,7 @@ class TypeFormatTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|null
+     * @return array
      * @inheritdoc
      */
     public function transform(array $data): array
@@ -42,7 +42,8 @@ class TypeFormatTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param string $type
-     * @param $value
+     * @param mixed $value
+     * @return false|float|int|string
      * @inheritdoc
      */
     public function convertType(string $type, $value)

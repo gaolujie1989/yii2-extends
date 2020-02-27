@@ -9,7 +9,7 @@ namespace lujie\data\exchange\sources;
 interface ConditionSourceInterface extends SourceInterface
 {
     /**
-     * @param $condition
+     * @param array $condition
      * @inheritdoc
      */
     public function setCondition(array $condition): void;

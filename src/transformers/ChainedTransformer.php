@@ -23,7 +23,7 @@ class ChainedTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|null
+     * @return array
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

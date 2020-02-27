@@ -28,7 +28,7 @@ class GroupTransformer extends BaseObject implements TransformerInterface
 
     /**
      * @param array $data
-     * @return array|null
+     * @return array
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -38,20 +38,20 @@ class GroupTransformer extends BaseObject implements TransformerInterface
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @param array $group
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function groupData($data, $group = []): array
+    protected function groupData(array $data, array $group = []): array
     {
         $indexKey = $group['indexKey'] ?? null;
         $valueKeys = $group['valueKeys'] ?? [];
         $flipValueKeys = array_flip($valueKeys);
 
         $groupData = $indexKey ? ArrayHelper::index($data, $indexKey) : $data;
-        $groupData = $flipValueKeys ? array_map(static function($values) use ($flipValueKeys) {
+        $groupData = $flipValueKeys ? array_map(static function ($values) use ($flipValueKeys) {
             return array_intersect_key($values, $flipValueKeys);
         }, $groupData) : $groupData;
 

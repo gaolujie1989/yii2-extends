@@ -26,7 +26,7 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
     public $db;
 
     /**
-     * @var QueryInterface|Query
+     * @var Query|QueryInterface
      */
     public $query;
 
@@ -83,7 +83,7 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
     }
 
     /**
-     * @param $condition
+     * @param array $condition
      * @inheritdoc
      */
     public function setCondition(array $condition): void

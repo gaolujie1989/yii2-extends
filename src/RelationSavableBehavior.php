@@ -106,7 +106,7 @@ class RelationSavableBehavior extends Behavior
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      * @inheritdoc
      */
@@ -117,6 +117,7 @@ class RelationSavableBehavior extends Behavior
             && method_exists($this->owner, $getter)
             && $this->owner->$getter() instanceof ActiveQueryInterface;
     }
+
 
     /**
      * @param string $name
@@ -155,7 +156,7 @@ class RelationSavableBehavior extends Behavior
      * for not multi relations, should set link attribute first, then set relation data,
      * because it will load one relation model first and check, then set with relation
      * @param string $name
-     * @param $data
+     * @param array|BaseActiveRecord $data
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -405,7 +406,7 @@ class RelationSavableBehavior extends Behavior
 
     /**
      * @param string $name
-     * @param $models
+     * @param array|BaseActiveRecord $models
      * @throws Exception
      * @throws InvalidConfigException
      * @inheritdoc
@@ -418,8 +419,8 @@ class RelationSavableBehavior extends Behavior
             throw new InvalidConfigException('DELETE_MODE_MODEL not support for relation has via');
         }
         if (is_array($models)) {
+            /** @var BaseActiveRecord $model */
             foreach ($models as $model) {
-                /** @var BaseActiveRecord $model */
                 foreach ($relation->link as $fk => $pk) {
                     $model->$fk = $owner->$pk;
                 }

@@ -119,6 +119,6 @@ class QueryDataLoader extends BaseDataLoader
     {
         /** @var Query $query */
         $query = clone $this->query;
-        $query->andFilterWhere($this->condition)->batch($batchSize, $this->db);
+        return $query->andFilterWhere($this->condition)->batch($batchSize, $this->db);
     }
 }

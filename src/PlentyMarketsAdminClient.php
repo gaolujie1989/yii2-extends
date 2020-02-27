@@ -26,8 +26,13 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      */
     public $guiCallUrl = 'https://{domainHash}.plentymarkets-cloud-de.com/plenty/admin/gui_call.php?';
 
-    protected function initUserAttributes()
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function initUserAttributes(): array
     {
+        return [];
     }
 
     /**

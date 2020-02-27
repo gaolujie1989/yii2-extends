@@ -34,7 +34,7 @@ class Configuration extends Component implements BootstrapInterface
     public const CONFIG_TYPE_MAIN = 'main';
 
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $configLoader = [
         'class' => TypedFileDataLoader::class,

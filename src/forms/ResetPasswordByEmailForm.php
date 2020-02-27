@@ -26,7 +26,7 @@ class ResetPasswordByEmailForm extends ResetPasswordForm
     public $email;
 
     /**
-     * @var MailerInterface
+     * @var MailerInterface|mixed
      */
     public $mailer = 'mailer';
 

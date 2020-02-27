@@ -31,5 +31,6 @@ class UpdateCurrencyExchangeRateTask extends CronTask
     {
         $this->currencyExchangeRateUpdater = Instance::ensure($this->currencyExchangeRateUpdater, CurrencyExchangeRateUpdater::class);
         $this->currencyExchangeRateUpdater->updateRates();
+        return true;
     }
 }

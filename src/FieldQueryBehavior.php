@@ -220,7 +220,8 @@ class FieldQueryBehavior extends Behavior
     }
 
     /**
-     * @param $condition
+     * @param array|string $condition
+     * @return array|string
      * @inheritdoc
      */
     protected function buildAliasCondition($condition)
@@ -279,7 +280,7 @@ class FieldQueryBehavior extends Behavior
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return Query
      * @inheritdoc
      */

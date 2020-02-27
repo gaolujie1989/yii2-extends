@@ -27,12 +27,12 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     public $file = '@runtime/data.php';
 
     /**
-     * @var FileReaderInterface|mixed
+     * @var FileReaderInterface
      */
     public $fileReader = PhpReader::class;
 
     /**
-     * @var FileWriterInterface|mixed
+     * @var FileWriterInterface
      */
     public $fileWriter = PhpWriter::class;
 

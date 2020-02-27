@@ -25,7 +25,7 @@ abstract class BaseItemController extends ActiveController
     public $modelClass;
 
     /**
-     * @var ManagerInterface
+     * @var ManagerInterface|mixed
      */
     public $authManager = 'authManager';
 

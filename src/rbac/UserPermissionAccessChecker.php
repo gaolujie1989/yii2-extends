@@ -5,8 +5,6 @@
 
 namespace lujie\auth\rbac;
 
-use lujie\remote\user\RemoteUser;
-use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -23,7 +21,7 @@ use yii\web\IdentityInterface;
 class UserPermissionAccessChecker extends BaseObject implements CheckAccessInterface
 {
     /**
-     * @var IdentityInterface
+     * @var IdentityInterface|mixed
      */
     public $identityClass;
 

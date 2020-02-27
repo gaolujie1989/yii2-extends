@@ -17,7 +17,7 @@ use yii\rbac\ManagerInterface;
 abstract class AuthForm extends Model
 {
     /**
-     * @var ManagerInterface
+     * @var ManagerInterface|mixed
      */
     public $authManager = 'authManager';
 

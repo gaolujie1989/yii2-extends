@@ -26,7 +26,7 @@ use yii\di\Instance;
 class SalesOrderForm extends SalesOrder
 {
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|mixed
      */
     public $currencyExchangeRateLoader;
 
@@ -81,7 +81,7 @@ class SalesOrderForm extends SalesOrder
 
         $systemCurrency = Module::getSystemCurrency();
         if ($systemCurrency === $this->currency) {
-            return null;
+            return;
         }
         $rateKey = $this->currency . '2' . $systemCurrency . '@' . $this->ordered_at;
         $rate = $this->currencyExchangeRateLoader->get($rateKey);

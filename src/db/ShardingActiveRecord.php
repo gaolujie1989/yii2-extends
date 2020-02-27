@@ -5,16 +5,14 @@
 
 namespace lujie\sharding\db;
 
-use Yii;
 use yii\base\InvalidConfigException;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Connection;
 use yii\di\Instance;
 
 /**
- * Class ShardingRecordTrait
- * @package lujie\sharding
+ * Class ShardingActiveRecord
+ * @package lujie\sharding\db
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ShardingActiveRecord extends ActiveRecord
@@ -89,7 +87,7 @@ class ShardingActiveRecord extends ActiveRecord
     }
 
     /**
-     * @param $values
+     * @param mixed $values
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -99,7 +97,7 @@ class ShardingActiveRecord extends ActiveRecord
     }
 
     /**
-     * @param $values
+     * @param mixed $values
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -226,13 +224,12 @@ class ShardingActiveRecord extends ActiveRecord
     }
 
     /**
-     * @return ShardingActiveQuery|object|ActiveQuery
-     * @throws InvalidConfigException
+     * @return ShardingActiveQuery
      * @inheritdoc
      */
     public static function find(): ShardingActiveQuery
     {
-        return Yii::createObject(ShardingActiveQuery::class, [static::class]);
+        return new ShardingActiveQuery(static::class);
     }
 
     #endregion

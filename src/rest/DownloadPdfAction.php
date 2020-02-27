@@ -75,5 +75,6 @@ class DownloadPdfAction extends Action
         FileHelper::createDirectory(dirname($filePath));
         PdfHelper::writePdf($filePath, $data, $this->view, $this->viewPath);
         Yii::$app->getResponse()->sendFile($filePath, $fileName, $this->options);
+        return null;
     }
 }

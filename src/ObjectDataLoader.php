@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
 class ObjectDataLoader extends BaseDataLoader
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $dataLoader;
 

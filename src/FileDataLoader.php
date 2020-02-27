@@ -29,7 +29,7 @@ class FileDataLoader extends ArrayDataLoader
     public $filePathTemplate = '{filePool}/data.php';
 
     /**
-     * @var FileReaderInterface|mixed
+     * @var FileReaderInterface
      */
     public $fileReader = PhpReader::class;
 

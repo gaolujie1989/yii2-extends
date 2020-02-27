@@ -306,8 +306,9 @@ class Configuration extends Component implements BootstrapInterface
     }
 
     /**
-     * @param $config
-     * @return mixed
+     * @param string $key
+     * @param array $config
+     * @return array
      * @inheritdoc
      */
     protected function sortConfig(string $key, array $config): array

@@ -177,12 +177,12 @@ class StateMachineBehavior extends Behavior
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param array $data
      * @return bool
      * @inheritdoc
      */
-    public function callStatusMethod($name, $data = []): bool
+    public function callStatusMethod(string $name, $data = []): bool
     {
         if (empty($this->statusMethods[$name])) {
             throw new InvalidCallException('Invalid method name');

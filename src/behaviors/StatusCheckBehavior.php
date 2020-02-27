@@ -97,11 +97,11 @@ class StatusCheckBehavior extends Behavior
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      * @inheritdoc
      */
-    protected function isStatusCheckMethod($name): bool
+    protected function isStatusCheckMethod(string $name): bool
     {
         if (strpos($name, $this->statusCheckMethodPrefix) === 0) {
             $property = lcfirst(substr($name, strlen($this->statusCheckMethodPrefix)));
@@ -113,21 +113,21 @@ class StatusCheckBehavior extends Behavior
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      * @inheritdoc
      */
-    protected function isStatusCheckProperty($name): bool
+    protected function isStatusCheckProperty(string $name): bool
     {
         return isset($this->statusCheckProperties[$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      * @inheritdoc
      */
-    protected function isStatus($name): bool
+    protected function isStatus(string $name): bool
     {
         $owner = $this->owner;
         $attribute = $owner->getIsNewRecord()

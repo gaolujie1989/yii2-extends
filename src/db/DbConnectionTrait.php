@@ -16,7 +16,7 @@ use yii\db\Connection;
 trait DbConnectionTrait
 {
     /**
-     * @return Connection|object
+     * @return Connection
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -24,6 +24,8 @@ trait DbConnectionTrait
     {
         $app = Yii::$app;
         $db = $app->params['modelDBs'][static::class] ?? $app->params['modelDBs'][self::class] ?? 'db';
-        return $app->get($db);
+        /** @var Connection $connection */
+        $connection = $app->get($db);
+        return $connection;
     }
 }

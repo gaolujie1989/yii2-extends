@@ -8,7 +8,7 @@ namespace lujie\extend\db;
 use yii\db\Migration;
 
 /**
- * @property string tableName
+ * @property string $tableName
  *
  * Trait LogColumnMigrateTrait
  * @package lujie\extend\db

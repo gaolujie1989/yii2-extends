@@ -124,6 +124,6 @@ class RateLimitCheckerBehavior extends Behavior
      */
     public function getRateLimit(HeaderCollection $headers): ?int
     {
-        return $headers->get($this->limitHeader);
+        return (int)$headers->get($this->limitHeader);
     }
 }

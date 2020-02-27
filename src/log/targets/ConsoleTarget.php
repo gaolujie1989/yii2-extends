@@ -83,8 +83,8 @@ class ConsoleTarget extends Target
 
     /**
      * @param $message
-     *
      * @return string
+     * @inheritdoc
      */
     private function generateLabel($message): string
     {
@@ -101,8 +101,8 @@ class ConsoleTarget extends Target
 
     /**
      * @param $message
-     *
      * @return string
+     * @inheritdoc
      */
     private function generateText($message): string
     {

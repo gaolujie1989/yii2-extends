@@ -52,7 +52,7 @@ class IndexDataProviderPreparer
 
     /**
      * @param Action $action
-     * @return DataProviderInterface|object
+     * @return DataProviderInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -71,7 +71,8 @@ class IndexDataProviderPreparer
         $query = $queryPreparer->prepare($action->modelClass, $requestParams);
         $this->expandQuery($query);
 
-        return Yii::createObject(array_merge(
+        /** @var DataProviderInterface $object */
+        $object = Yii::createObject(array_merge(
             ['class' => ActiveArrayDataProvider::class],
             $this->dataProviderConfig,
             [
@@ -79,6 +80,7 @@ class IndexDataProviderPreparer
                 'typecast' => $this->typecast
             ]
         ));
+        return $object;
     }
 
     /**

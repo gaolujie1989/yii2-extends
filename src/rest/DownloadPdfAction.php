@@ -45,7 +45,7 @@ class DownloadPdfAction extends Action
     public $options = ['inline' => true];
 
     /**
-     * @param $id
+     * @param int|string $id
      * @return string|null
      * @throws \Exception
      * @throws \yii\base\Exception

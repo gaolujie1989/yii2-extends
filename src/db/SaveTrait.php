@@ -32,10 +32,10 @@ trait SaveTrait
      */
     public function save($runValidation = true, $attributeNames = null): bool
     {
+        /** @var BaseActiveRecord $this */
         if ($attributeNames) {
             $traceableAttributes = $this->getTraceableAttributes();
             foreach ($traceableAttributes as $attribute) {
-                /** @var BaseActiveRecord $this */
                 if ($this->hasAttribute($attribute)) {
                     $attributeNames[] = $attribute;
                 }
@@ -53,14 +53,13 @@ trait SaveTrait
      */
     public function mustSave(bool $runValidation = true, ?array $attributeNames = null): bool
     {
+        /** @var BaseActiveRecord $this */
         if ($result = $this->save($runValidation, $attributeNames)) {
             return $result;
         }
-        /** @var BaseActiveRecord $this */
         $createOrUpdate = $this->getIsNewRecord() ? 'Create' : 'Update';
         $className = ClassHelper::getClassShortName(static::class);
         $message = "{$createOrUpdate} {$className} Failed.";
-        /** @var BaseActiveRecord $this */
         throw new Exception($message, $this->getErrors());
     }
 }

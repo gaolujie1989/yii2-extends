@@ -55,7 +55,6 @@ class RestResponseBehavior extends Behavior
 
     /**
      * @param Response $response
-     * @return mixed
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

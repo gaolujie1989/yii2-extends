@@ -20,7 +20,7 @@ use yii\mutex\Mutex;
 trait LockingTrait
 {
     /**
-     * @var Mutex
+     * @var Mutex|mixed
      */
     public $mutex = 'mutex';
 
@@ -65,14 +65,14 @@ trait LockingTrait
 
     /**
      * @param $name
-     * @param $onSuccess
-     * @param $onFailure
-     * @return mixed|void
+     * @param callable $onSuccess
+     * @param callable|null $onFailure
+     * @return mixed
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function lockingRun($name, $onSuccess, $onFailure = null)
+    public function lockingRun($name, callable $onSuccess, ?callable $onFailure = null)
     {
         if ($this->mutex) {
             $this->initMutex();

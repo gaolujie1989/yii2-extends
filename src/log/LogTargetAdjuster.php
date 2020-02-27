@@ -9,7 +9,6 @@ use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
-use yii\base\Event;
 use yii\log\EmailTarget;
 use yii\log\FileTarget;
 use yii\log\Target;
@@ -168,7 +167,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     }
 
     /**
-     * @param Event $event
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

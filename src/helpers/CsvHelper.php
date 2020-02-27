@@ -16,7 +16,7 @@ use lujie\extend\file\writers\CsvWriter;
 class CsvHelper
 {
     /**
-     * @param $file
+     * @param string $file
      * @param bool $firstLineIsHeader
      * @param int $length
      * @param string $delimiter

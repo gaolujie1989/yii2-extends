@@ -46,7 +46,7 @@ class IndexQueryPreparer extends BaseObject
     public $with = [];
 
     /**
-     * @param string|BaseActiveRecord $modelClass
+     * @param string $modelClass
      * @param array $params
      * @return QueryInterface
      * @throws InvalidConfigException
@@ -54,6 +54,7 @@ class IndexQueryPreparer extends BaseObject
      */
     public function prepare(string $modelClass, array $params): QueryInterface
     {
+        /** @var BaseActiveRecord $modelClass */
         $searchClass = $this->searchClass ?: ClassHelper::getSearchClass($modelClass) ?: $modelClass;
         /* @var $searchModel BaseActiveRecord */
         $searchModel = Yii::createObject($searchClass);

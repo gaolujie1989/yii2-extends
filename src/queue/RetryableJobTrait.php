@@ -8,8 +8,8 @@ namespace lujie\extend\queue;
 /**
  * Trait RetryableJobTrait
  *
- * @property int $ttr;
- * @property int $attempts;
+ * @property int $ttr
+ * @property int $attempts
  *
  * @package lujie\extend\queue
  */

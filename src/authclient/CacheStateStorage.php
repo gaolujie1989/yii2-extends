@@ -5,11 +5,10 @@
 
 namespace lujie\extend\authclient;
 
-use Yii;
 use yii\authclient\StateStorageInterface;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\caching\Cache;
+use yii\caching\CacheInterface;
 use yii\di\Instance;
 
 /**
@@ -20,9 +19,9 @@ use yii\di\Instance;
 class CacheStateStorage extends Component implements StateStorageInterface
 {
     /**
-     * @var Cache
+     * @var CacheInterface|mixed
      */
-    public $cache;
+    public $cache = 'cache';
 
     /**
      * @throws InvalidConfigException
@@ -32,12 +31,8 @@ class CacheStateStorage extends Component implements StateStorageInterface
     {
         parent::init();
 
-        if ($this->cache === null) {
-            if (Yii::$app->has('cache')) {
-                $this->cache = Yii::$app->get('cache');
-            }
-        } else {
-            $this->cache = Instance::ensure($this->cache, Cache::class);
+        if ($this->cache !== null) {
+            $this->cache = Instance::ensure($this->cache, CacheInterface::class);
         }
     }
 

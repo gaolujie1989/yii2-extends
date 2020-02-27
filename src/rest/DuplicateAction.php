@@ -23,10 +23,9 @@ class DuplicateAction extends Action
     public $with = [];
 
     /**
-     * @param $id
+     * @param int|string $id
      * @return BaseActiveRecord
      * @throws ServerErrorHttpException
-     * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
      * @inheritdoc
      */

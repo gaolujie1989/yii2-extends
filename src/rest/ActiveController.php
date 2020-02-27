@@ -10,7 +10,6 @@ use Yii;
 use yii\db\ActiveRecordInterface;
 use yii\rest\IndexAction;
 use yii\web\NotFoundHttpException;
-use function Sabre\Event\Loop\instance;
 
 /**
  * Class ActiveController
@@ -125,7 +124,7 @@ class ActiveController extends \yii\rest\ActiveController
     }
 
     /**
-     * @param $id
+     * @param int|string $id
      * @return ActiveRecordInterface
      * @throws NotFoundHttpException
      * @inheritdoc
@@ -152,7 +151,7 @@ class ActiveController extends \yii\rest\ActiveController
     }
 
     /**
-     * @param $ids
+     * @param array|string|int $ids
      * @param array $with
      * @return ActiveRecordInterface[]
      * @inheritdoc
@@ -169,7 +168,7 @@ class ActiveController extends \yii\rest\ActiveController
     }
 
     /**
-     * @param $ids
+     * @param array|string|int $ids
      * @return array|null
      * @inheritdoc
      */

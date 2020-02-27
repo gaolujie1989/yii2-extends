@@ -5,9 +5,9 @@
 
 namespace lujie\extend\file\readers;
 
+use lujie\extend\compressors\CompressorInterface;
 use lujie\extend\compressors\GzCompressor;
 use lujie\extend\file\FileReaderInterface;
-use lujie\extend\compressors\CompressorInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -22,7 +22,7 @@ use yii\queue\serializers\SerializerInterface;
 class CompressReader extends BaseObject implements FileReaderInterface
 {
     /**
-     * @var SerializerInterface
+     * @var SerializerInterface|mixed
      */
     public $serializer = [
         'class' => JsonSerializer::class,
@@ -30,7 +30,7 @@ class CompressReader extends BaseObject implements FileReaderInterface
     ];
 
     /**
-     * @var CompressorInterface
+     * @var CompressorInterface|mixed
      */
     public $compressor = GzCompressor::class;
 
@@ -49,7 +49,7 @@ class CompressReader extends BaseObject implements FileReaderInterface
 
     /**
      * @param string $file
-     * @param array $data
+     * @return array
      * @inheritdoc
      */
     public function read(string $file): array

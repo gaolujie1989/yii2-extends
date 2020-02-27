@@ -16,8 +16,8 @@ class StringValidator extends \yii\validators\StringValidator
     public $trim = true;
 
     /**
-     * @param $model
-     * @param $attribute
+     * @param \yii\base\Model $model
+     * @param string $attribute
      * @inheritdoc
      */
     public function validateAttribute($model, $attribute): void
@@ -29,7 +29,7 @@ class StringValidator extends \yii\validators\StringValidator
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return array|null
      * @throws \yii\base\NotSupportedException
      * @inheritdoc

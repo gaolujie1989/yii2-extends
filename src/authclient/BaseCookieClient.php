@@ -6,7 +6,6 @@
 namespace lujie\extend\authclient;
 
 use yii\authclient\BaseClient;
-use yii\base\Exception;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
@@ -128,8 +127,7 @@ abstract class BaseCookieClient extends BaseClient
     }
 
     /**
-     * @param $event
-     * @throws Exception
+     * @param RequestEvent $event
      * @inheritdoc
      */
     public function beforeAuthRequestSend(RequestEvent $event): void
@@ -149,7 +147,7 @@ abstract class BaseCookieClient extends BaseClient
     }
 
     /**
-     * @param $callSubUrl
+     * @param string $callSubUrl
      * @param string $method
      * @param array|string $data
      * @param array $headers

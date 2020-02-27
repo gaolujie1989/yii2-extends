@@ -5,7 +5,11 @@
 
 namespace lujie\extend\helpers;
 
-
+/**
+ * Class ModelRuleHelper
+ * @package lujie\extend\helpers
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class ModelRuleHelper
 {
     /**

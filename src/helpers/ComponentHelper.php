@@ -18,9 +18,8 @@ class ComponentHelper
 {
     /**
      * @param $component
-     * @param null $app
+     * @param Module|null $app
      * @return int|string
-     * @throws InvalidArgumentException
      * @inheritdoc
      */
     public static function getName($component, ?Module $app = null)

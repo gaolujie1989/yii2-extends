@@ -28,7 +28,7 @@ trait IdFieldTrait
     }
 
     /**
-     * @param int|string $id
+     * @param int|string|array $id
      * @inheritdoc
      */
     public function setId($id): void

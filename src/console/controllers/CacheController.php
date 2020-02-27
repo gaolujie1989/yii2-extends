@@ -19,8 +19,8 @@ use yii\di\Instance;
 class CacheController extends \yii\console\controllers\CacheController
 {
     /**
-     * @param $tag
      * @param string $cache
+     * @param string $tag
      * @throws InvalidConfigException
      * @inheritdoc
      */

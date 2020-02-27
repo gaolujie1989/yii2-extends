@@ -16,8 +16,8 @@ use yii\db\BaseActiveRecord;
 class ClassHelper
 {
     /**
-     * @param $modelClass
-     * @return mixed|null
+     * @param string $modelClass
+     * @return string|null
      * @inheritdoc
      */
     public static function getFormClass(string $modelClass): ?string
@@ -35,8 +35,8 @@ class ClassHelper
     }
 
     /**
-     * @param $modelClass
-     * @return mixed|null
+     * @param string $modelClass
+     * @return string|null
      * @inheritdoc
      */
     public static function getSearchClass(string $modelClass): ?string
@@ -72,7 +72,7 @@ class ClassHelper
 
     /**
      * @param object|string $modelOrClass
-     * @return mixed
+     * @return string
      * @inheritdoc
      */
     public static function getClassShortName($modelOrClass): string

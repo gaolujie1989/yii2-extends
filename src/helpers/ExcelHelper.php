@@ -16,8 +16,9 @@ use lujie\extend\file\writers\ExcelWriter;
 class ExcelHelper
 {
     /**
-     * @param $file
-     * @param bool $multi
+     * @param string $file
+     * @param bool $firstLineIsHeader
+     * @param bool $multiSheet
      * @return array
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception

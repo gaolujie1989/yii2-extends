@@ -26,7 +26,7 @@ use yii\di\Instance;
 trait CachingTrait
 {
     /**
-     * @var CacheInterface
+     * @var CacheInterface|mixed
      */
     public $cache = 'cache';
 
@@ -82,8 +82,8 @@ trait CachingTrait
     }
 
     /**
-     * @param $key
-     * @param $callable
+     * @param string $key
+     * @param callable|\Closure $callable
      * @return mixed
      * @throws InvalidConfigException
      * @inheritdoc
@@ -99,7 +99,6 @@ trait CachingTrait
     }
 
     /**
-     * @return bool
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -142,7 +141,7 @@ trait CachingTrait
     }
 
     /**
-     * @param Dependency|null $dependency
+     * @param ?Dependency $dependency
      * @inheritdoc
      */
     public function setCacheDependency(?Dependency $dependency): void

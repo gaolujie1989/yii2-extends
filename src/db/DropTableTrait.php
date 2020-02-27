@@ -10,7 +10,7 @@ use yii\db\Migration;
 /**
  * Trait DropTableTrait
  *
- * @property string tableName
+ * @property string $tableName
  *
  * @package lujie\extend\db
  */

@@ -67,8 +67,8 @@ class DateValidator extends \yii\validators\DateValidator
     }
 
     /**
-     * @param $model
-     * @param $attribute
+     * @param \yii\base\Model $model
+     * @param string $attribute
      * @inheritdoc
      */
     public function validateAttribute($model, $attribute): void

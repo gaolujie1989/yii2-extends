@@ -8,7 +8,6 @@ namespace lujie\remote\user;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
-use yii\base\UnknownPropertyException;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;
@@ -55,7 +54,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
     }
 
     /**
-     * @param $key
+     * @param string|int $key
      * @return string
      * @inheritdoc
      */
@@ -65,7 +64,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
     }
 
     /**
-     * @param $key
+     * @param string|int $key
      * @return string
      * @inheritdoc
      */
@@ -94,7 +93,7 @@ class RemoteUser extends BaseObject implements IdentityInterface
     /**
      * @param mixed $token
      * @param null $type
-     * @return RemoteUser|IdentityInterface
+     * @return RemoteUser|null
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null): ?RemoteUser

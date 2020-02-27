@@ -55,7 +55,7 @@ class RemoteUserClient extends BaseObject
     }
 
     /**
-     * @param $token
+     * @param string $token
      * @param null $type
      * @return array|null
      * @throws \yii\httpclient\Exception

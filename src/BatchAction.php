@@ -19,7 +19,7 @@ use yii\web\ServerErrorHttpException;
 class BatchAction extends Action
 {
     /**
-     * @var BatchForm
+     * @var string|BatchForm
      */
     public $batchFormClass;
 

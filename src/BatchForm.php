@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
 abstract class BatchForm extends Model
 {
     /**
-     * @var ActiveRecordInterface|mixed
+     * @var ActiveRecordInterface
      */
     public $modelClass;
 

@@ -18,7 +18,7 @@ class CachedDataLoader extends BaseDataLoader
     use CachingTrait;
 
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $dataLoader;
 

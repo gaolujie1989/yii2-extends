@@ -19,7 +19,7 @@ use yii\di\Instance;
 class DbDataLoader extends QueryDataLoader
 {
     /**
-     * @var Connection|mixed
+     * @var Connection
      */
     public $db = 'db';
 

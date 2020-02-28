@@ -20,12 +20,12 @@ use yii\di\Instance;
 class QueryDataLoader extends BaseDataLoader
 {
     /**
-     * @var QueryInterface|mixed
+     * @var QueryInterface
      */
     public $query;
 
     /**
-     * @var Connection|mixed
+     * @var Connection
      */
     public $db;
 

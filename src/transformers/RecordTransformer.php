@@ -47,7 +47,7 @@ class RecordTransformer extends BaseObject implements TransformerInterface
     ];
 
     /**
-     * @var SerializerInterface|mixed
+     * @var SerializerInterface
      */
     public $serializer = [
         'class' => JsonSerializer::class,
@@ -55,7 +55,7 @@ class RecordTransformer extends BaseObject implements TransformerInterface
     ];
 
     /**
-     * @var CompressorInterface|mixed
+     * @var CompressorInterface
      */
     public $compressor = GzCompressor::class;
 

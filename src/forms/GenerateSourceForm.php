@@ -19,7 +19,7 @@ use yii\di\Instance;
 class GenerateSourceForm extends Model
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $sourceGeneratorLoader = 'dataSourceGeneratorLoader';
 

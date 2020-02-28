@@ -25,7 +25,7 @@ class DataAccountController extends ActiveController
     public $modelClass = DataAccount::class;
 
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $dataClientLoader = 'dataClientLoader';
 

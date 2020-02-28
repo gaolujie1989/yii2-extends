@@ -21,7 +21,7 @@ use yii\di\Instance;
 class RecordingForm extends Model
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $dataRecorderLoader = 'dataRecorderLoader';
 

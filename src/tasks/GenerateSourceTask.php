@@ -21,7 +21,7 @@ use yii\helpers\VarDumper;
 class GenerateSourceTask extends CronTask
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $sourceGeneratorLoader = 'dataSourceGeneratorLoader';
 

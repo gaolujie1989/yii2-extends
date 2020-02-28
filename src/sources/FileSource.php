@@ -20,7 +20,7 @@ use yii\helpers\FileHelper;
 class FileSource extends BaseObject implements SourceInterface
 {
     /**
-     * @var FileReaderInterface|mixed
+     * @var FileReaderInterface
      */
     public $fileReader;
 

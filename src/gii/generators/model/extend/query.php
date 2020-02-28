@@ -33,6 +33,8 @@ echo "<?php\n";
 
 namespace <?= $generator->queryNs ?>;
 
+use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+
 /**
  * This is the ActiveQuery class for [[<?= $modelFullClassName ?>]].
  *

@@ -42,7 +42,7 @@ class Charger extends Component implements BootstrapInterface
     public $chargeGroups = [];
 
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $chargeCalculatorLoader = 'chargeCalculatorLoader';
 

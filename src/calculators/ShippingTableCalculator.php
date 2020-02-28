@@ -21,7 +21,7 @@ use yii\di\Instance;
 class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInterface
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $shippingItemLoader = 'shippingItemLoader';
 

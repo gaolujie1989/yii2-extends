@@ -21,7 +21,7 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     use RetryableJobTrait;
 
     /**
-     * @var ExecutableInterface|mixed
+     * @var ExecutableInterface
      */
     public $executable;
 

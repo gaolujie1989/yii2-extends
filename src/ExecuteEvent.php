@@ -21,7 +21,7 @@ class ExecuteEvent extends Event
     public $executed = false;
 
     /**
-     * @var ExecutableInterface|mixed
+     * @var ExecutableInterface
      */
     public $executable;
 

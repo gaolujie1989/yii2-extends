@@ -6,7 +6,6 @@
 namespace lujie\executing;
 
 use Yii;
-use yii\base\NotSupportedException;
 
 /**
  * Trait ExecUidTrait
@@ -52,8 +51,7 @@ trait ExecutableTrait
     }
 
     /**
-     * @return mixed
-     * @throws NotSupportedException
+     * @return bool
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

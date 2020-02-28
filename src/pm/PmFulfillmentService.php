@@ -45,12 +45,12 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     public $client;
 
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $itemLoader;
 
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $orderLoader;
 

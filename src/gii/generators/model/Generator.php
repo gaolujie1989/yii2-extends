@@ -5,8 +5,6 @@
 
 namespace lujie\extend\gii\generators\model;
 
-use ReflectionClass;
-
 /**
  * Class Generator
  * @package lujie\extend\gii\generators\model
@@ -21,7 +19,7 @@ class Generator extends \yii\gii\generators\model\Generator
      */
     public function formView(): string
     {
-        $class = new ReflectionClass(\yii\gii\generators\model\Generator::class);
+        $class = new \ReflectionClass(\yii\gii\generators\model\Generator::class);
 
         return dirname($class->getFileName()) . '/form.php';
     }

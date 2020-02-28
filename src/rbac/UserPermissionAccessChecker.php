@@ -21,7 +21,7 @@ use yii\web\IdentityInterface;
 class UserPermissionAccessChecker extends BaseObject implements CheckAccessInterface
 {
     /**
-     * @var IdentityInterface|mixed
+     * @var IdentityInterface
      */
     public $identityClass;
 

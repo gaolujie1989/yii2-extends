@@ -22,7 +22,7 @@ class AssignmentForm extends AuthForm
     public const SCENARIO_REVOKE = 'REVOKE';
 
     /**
-     * @var IdentityInterface|mixed
+     * @var IdentityInterface
      */
     public $userClass;
 

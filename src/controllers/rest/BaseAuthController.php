@@ -19,7 +19,7 @@ use yii\rest\Controller;
 abstract class BaseAuthController extends Controller
 {
     /**
-     * @var ManagerInterface|mixed
+     * @var ManagerInterface
      */
     public $authManager = 'authManager';
 

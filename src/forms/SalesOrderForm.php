@@ -26,7 +26,7 @@ use yii\di\Instance;
 class SalesOrderForm extends SalesOrder
 {
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $currencyExchangeRateLoader;
 

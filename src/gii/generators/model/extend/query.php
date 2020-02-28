@@ -50,8 +50,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 *
 * @method array|<?= $modelFullClassName ?>[] all($db = null)
 * @method array|<?= $modelFullClassName ?>|null one($db = null)
-* @method array|<?= $modelFullClassName ?>[][] batch($db = null)
-* @method array|<?= $modelFullClassName ?>[] each($db = null)
+* @method array|<?= $modelFullClassName ?>[] each($batchSize = 100, $db = null)
 *
 * @see <?= $modelFullClassName . "\n" ?>
 */

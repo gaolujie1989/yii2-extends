@@ -24,7 +24,7 @@ class Scheduler extends Executor
     public $mutexNamePrefix = 'scheduler:';
 
     /**
-     * @var DataLoaderInterface|mixed
+     * @var DataLoaderInterface
      */
     public $taskLoader;
 

@@ -17,7 +17,7 @@ use yii\di\Instance;
 class HeartBeatTask extends BaseObject
 {
     /**
-     * @var CacheInterface|mixed
+     * @var CacheInterface
      */
     public $cache = 'cache';
 

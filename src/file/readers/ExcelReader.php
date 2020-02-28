@@ -5,6 +5,7 @@
 
 namespace lujie\extend\file\readers;
 
+use dpd\Type\Parcel;
 use lujie\extend\file\FileReaderInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -51,8 +52,8 @@ class ExcelReader extends BaseObject implements FileReaderInterface
     {
         $data = $sheet->toArray();
         if ($this->firstLineIsHeader) {
-            array_walk($data, static function (&$a) use ($data) {
-                $a = array_combine($data[0], $a);
+            array_walk($data, static function (&$values) use ($data) {
+                $values = array_combine($data[0], $values);
             });
             array_shift($data);
         }

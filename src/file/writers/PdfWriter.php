@@ -19,7 +19,7 @@ use yii2tech\html2pdf\Manager;
 class PdfWriter extends BaseObject implements FileWriterInterface
 {
     /**
-     * @var Manager|mixed
+     * @var Manager
      */
     public $html2pdf = 'html2pdf';
 

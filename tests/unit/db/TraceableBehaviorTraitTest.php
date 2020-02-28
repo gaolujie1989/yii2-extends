@@ -31,6 +31,7 @@ class TraceableBehaviorTraitTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
+        MockActiveRecord::$columns = ['mock_id', 'mock_value', 'updated_by', 'updated_at'];
         $mockActiveRecord = new MockActiveRecord();
         $this->assertEquals(0, $mockActiveRecord->getActionBy());
 

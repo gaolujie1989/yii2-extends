@@ -29,7 +29,7 @@ class ActiveRecordTracerTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function tes1tMe(): void
+    public function testMe(): void
     {
         $activeRecordTracer = new ActiveRecordTracer();
         $activeRecordTracer->bootstrap(null);
@@ -59,7 +59,7 @@ class ActiveRecordTracerTest extends \Codeception\Test\Unit
     /**
      * @inheritdoc
      */
-    public function testProfile(): void
+    public function te1stProfile(): void
     {
         $count = 100;
         $startAt = microtime(true);

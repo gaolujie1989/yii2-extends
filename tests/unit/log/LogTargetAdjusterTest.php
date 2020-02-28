@@ -29,6 +29,7 @@ class LogTargetAdjusterTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
+        $_ENV['log'] = 'debug';
         $adjuster = new LogTargetAdjuster();
         $adjuster->updateLogTargets();
         $expected = [

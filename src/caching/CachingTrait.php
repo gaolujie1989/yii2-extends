@@ -26,7 +26,7 @@ use yii\di\Instance;
 trait CachingTrait
 {
     /**
-     * @var CacheInterface|mixed
+     * @var CacheInterface
      */
     public $cache = 'cache';
 

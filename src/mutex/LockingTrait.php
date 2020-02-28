@@ -20,7 +20,7 @@ use yii\mutex\Mutex;
 trait LockingTrait
 {
     /**
-     * @var Mutex|mixed
+     * @var Mutex
      */
     public $mutex = 'mutex';
 

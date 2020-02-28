@@ -24,6 +24,13 @@ unset(
     $labels['updated_at'],
     $labels['updated_by']
 );
+foreach ($rules as $key => $rule) {
+    if (strpos($rule, "['created_at', 'created_by', 'updated_at', 'updated_by']") !== false) {
+        unset($rules[$key]);
+    } else if (strpos($rule, "'created_at', 'created_by', 'updated_at', 'updated_by'") !== false) {
+        $rules[$key] = strtr($rule, ['created_at', 'created_by', 'updated_at', 'updated_by' => '']);
+    }
+}
 
 echo "<?php\n";
 ?>

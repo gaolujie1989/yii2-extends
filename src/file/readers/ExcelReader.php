@@ -5,7 +5,6 @@
 
 namespace lujie\extend\file\readers;
 
-use dpd\Type\Parcel;
 use lujie\extend\file\FileReaderInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -57,6 +56,12 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             });
             array_shift($data);
         }
+        //fix load end null value
+        array_walk($data, static function (&$values) {
+            while (end($values) === null) {
+                array_pop($values);
+            }
+        });
         return $data;
     }
 }

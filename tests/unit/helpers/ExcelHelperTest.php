@@ -47,9 +47,7 @@ class ExcelHelperTest extends \Codeception\Test\Unit
         ];
         ExcelHelper::writeExcel($file, $excelData, true, false);
         $this->assertFileExists($file);
-        $readExcel = ExcelHelper::readExcel($file, true, false);
-        $readExcel = array_map('array_filter', $readExcel);
-        $this->assertEquals($excelData, $readExcel);
+        $this->assertEquals($excelData, ExcelHelper::readExcel($file, true, false));
 
         $file = Yii::getAlias('@runtime/testExcel.xlsx');
         $excelData = [
@@ -64,10 +62,6 @@ class ExcelHelperTest extends \Codeception\Test\Unit
         ];
         ExcelHelper::writeExcel($file, $excelData, false, true);
         $this->assertFileExists($file);
-        $readExcel = ExcelHelper::readExcel($file, false, true);
-        array_walk($readExcel, static function(&$values) {
-            $values = array_map('array_filter', $values);
-        });
-        $this->assertEquals($excelData, $readExcel);
+        $this->assertEquals($excelData, ExcelHelper::readExcel($file, false, true));
     }
 }

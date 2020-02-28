@@ -68,12 +68,10 @@ class ExcelReaderWriterTest extends \Codeception\Test\Unit
             [
                 'aaa' => 'a1',
                 'bbb' => 'b1',
-                '' => null,
             ],
             [
                 'aaa' => 'a2',
                 'bbb' => 'b2',
-                '' => null,
             ],
         ];
         $reader = new ExcelReader();

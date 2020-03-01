@@ -232,7 +232,7 @@ class RelationSavableBehavior extends Behavior
             /** @var BaseActiveRecord $model */
             $model = $owner->$name;
             if ($model && !$data) {
-                $this->deletedRelations[$name] = $model;
+                $this->deletedRelations[$name] = [$model];
             } else {
                 if ($data instanceof BaseActiveRecord) {
                     $model = $data;

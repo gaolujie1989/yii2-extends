@@ -3,7 +3,6 @@
 namespace lujie\charging\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
-use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[ChargePrice]].

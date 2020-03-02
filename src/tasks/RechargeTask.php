@@ -5,7 +5,6 @@
 
 namespace lujie\charging\tasks;
 
-use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\Charger;
 use lujie\charging\models\ChargePrice;
 use lujie\scheduling\CronTask;

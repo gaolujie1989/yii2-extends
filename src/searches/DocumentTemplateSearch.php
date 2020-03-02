@@ -4,7 +4,6 @@ namespace lujie\template\document\searches;
 
 use lujie\template\document\models\DocumentTemplate;
 use lujie\template\document\models\DocumentTemplateQuery;
-use Yii;
 
 /**
  * Class DocumentTemplateSearch

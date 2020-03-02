@@ -8,7 +8,6 @@ namespace lujie\stock;
 
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
-use yii\debug\FlattenException;
 use yii\helpers\ArrayHelper;
 
 /**

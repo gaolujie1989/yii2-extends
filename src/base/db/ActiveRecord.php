@@ -10,9 +10,6 @@ use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
-use Yii;
-use yii\base\InvalidConfigException;
-use yii\db\Connection;
 
 /**
  * Class ActiveRecord

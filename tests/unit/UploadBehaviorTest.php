@@ -6,7 +6,7 @@ use creocoder\flysystem\Filesystem;
 use lujie\upload\behaviors\FileBehavior;
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\forms\UploadForm;
-use lujie\upload\forms\UploadSavedFileForm;
+use lujie\upload\forms\UploadModelFileForm;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\FileHelper;
@@ -111,7 +111,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
         $testFile = __DIR__ . '/fixtures/testUploadedFile.bin';
         $contents = file_get_contents($testFile);
 
-        $uploadForm = new UploadSavedFileForm([
+        $uploadForm = new UploadModelFileForm([
             'model_type' => 'test',
             'inputName' => 'testFile',
             'as upload' => [
@@ -125,7 +125,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
         ]);
         $this->assertFalse($uploadForm->validate());
 
-        $uploadForm = new UploadSavedFileForm([
+        $uploadForm = new UploadModelFileForm([
             'model_id' => 1,
             'model_type' => 'test',
             'inputName' => 'testFile',

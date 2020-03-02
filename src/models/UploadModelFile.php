@@ -33,7 +33,7 @@ use yii2tech\ar\position\PositionBehavior;
  * @method string getPath()
  * @method string getContent()
  */
-class UploadSavedFile extends ActiveRecord
+class UploadModelFile extends ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
@@ -53,7 +53,7 @@ class UploadSavedFile extends ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%upload_saved_file}}';
+        return '{{%upload_model_file}}';
     }
 
     /**
@@ -110,11 +110,11 @@ class UploadSavedFile extends ActiveRecord
     }
 
     /**
-     * @return UploadSavedFileQuery
+     * @return UploadModelFileQuery
      * @inheritdoc
      */
-    public static function find(): UploadSavedFileQuery
+    public static function find(): UploadModelFileQuery
     {
-        return (new UploadSavedFileQuery(static::class))->modelType(static::MODEL_TYPE);
+        return (new UploadModelFileQuery(static::class))->modelType(static::MODEL_TYPE);
     }
 }

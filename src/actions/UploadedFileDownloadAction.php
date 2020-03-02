@@ -5,7 +5,7 @@
 
 namespace lujie\upload\actions;
 
-use lujie\upload\models\UploadSavedFile;
+use lujie\upload\models\UploadModelFile;
 use Yii;
 use yii\helpers\FileHelper;
 use yii\rest\Action;
@@ -19,7 +19,7 @@ use yii\web\NotFoundHttpException;
 class UploadedFileDownloadAction extends Action
 {
     /**
-     * @var UploadSavedFile
+     * @var UploadModelFile
      */
     public $modelClass;
 
@@ -44,7 +44,7 @@ class UploadedFileDownloadAction extends Action
      */
     public function run($id): void
     {
-        /** @var UploadSavedFile $uploadSavedFile */
+        /** @var UploadModelFile $uploadSavedFile */
         $uploadSavedFile = $this->findModel($id);
 
         if ($this->tmp) {

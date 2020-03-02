@@ -2,15 +2,15 @@
 
 namespace lujie\upload\searches;
 
-use lujie\upload\models\UploadSavedFile;
-use lujie\upload\models\UploadSavedFileQuery;
+use lujie\upload\models\UploadModelFile;
+use lujie\upload\models\UploadModelFileQuery;
 
 /**
  * Class UploadSavedFileSearch
  * @package lujie\upload\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UploadSavedFileSearch extends UploadSavedFile
+class UploadModelFileSearch extends UploadModelFile
 {
     /**
      * @return array
@@ -24,10 +24,10 @@ class UploadSavedFileSearch extends UploadSavedFile
     }
 
     /**
-     * @return UploadSavedFileQuery
+     * @return UploadModelFileQuery
      * @inheritdoc
      */
-    public function query(): UploadSavedFileQuery
+    public function query(): UploadModelFileQuery
     {
         return static::find()
             ->andFilterWhere(['LIKE', 'name', $this->name])

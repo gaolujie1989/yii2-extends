@@ -4,16 +4,16 @@ use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
-class m190506_095550_upload_saved_file extends Migration
+class m190506_095550_upload_model_file extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 
-    public $tableName = '{{%upload_saved_file}}';
+    public $tableName = '{{%upload_model_file}}';
 
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'upload_saved_file_id' => $this->bigPrimaryKey(),
+            'upload_model_file_id' => $this->bigPrimaryKey(),
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'model_parent_id' => $this->bigInteger()->notNull()->defaultValue(0),

@@ -3,7 +3,7 @@
 namespace lujie\upload\tests\unit;
 
 use lujie\upload\behaviors\FileBehavior;
-use lujie\upload\models\UploadSavedFile;
+use lujie\upload\models\UploadModelFile;
 use Yii;
 
 class FileBehaviorTest extends \Codeception\Test\Unit
@@ -41,7 +41,7 @@ class FileBehaviorTest extends \Codeception\Test\Unit
         $contents = file_get_contents($testFile);
         $staticUrl = 'xxx.com/';
         Yii::$app->params['staticUrl'] = $staticUrl;
-        $file = new UploadSavedFile([
+        $file = new UploadModelFile([
             'file' => 'savedUploadedFile.bin',
             'name' => 'Uploaded Bin File',
             'ext' => 'bin',

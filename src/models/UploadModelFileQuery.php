@@ -7,17 +7,17 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[UploadedFile]].
  *
- * @method UploadSavedFileQuery id($id)
- * @method UploadSavedFileQuery modelType($modelType)
- * @method UploadSavedFileQuery modelId($modelId)
- * @method UploadSavedFileQuery modelParentId($modelParentId)
- * @method UploadSavedFileQuery file($file)
- * @method UploadSavedFileQuery ext($ext)
- * @method UploadSavedFileQuery nameLike($name)
+ * @method UploadModelFileQuery id($id)
+ * @method UploadModelFileQuery modelType($modelType)
+ * @method UploadModelFileQuery modelId($modelId)
+ * @method UploadModelFileQuery modelParentId($modelParentId)
+ * @method UploadModelFileQuery file($file)
+ * @method UploadModelFileQuery ext($ext)
+ * @method UploadModelFileQuery nameLike($name)
  *
- * @see UploadSavedFile
+ * @see UploadModelFile
  */
-class UploadSavedFileQuery extends \yii\db\ActiveQuery
+class UploadModelFileQuery extends \yii\db\ActiveQuery
 {
     /**
      * @return array

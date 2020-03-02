@@ -6,7 +6,7 @@
 namespace lujie\upload\forms;
 
 use lujie\upload\behaviors\UploadBehavior;
-use lujie\upload\models\UploadSavedFile;
+use lujie\upload\models\UploadModelFile;
 use yii\helpers\Inflector;
 
 /**
@@ -14,7 +14,7 @@ use yii\helpers\Inflector;
  * @package lujie\uploadImport\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UploadSavedFileForm extends UploadSavedFile
+class UploadModelFileForm extends UploadModelFile
 {
     public $inputName = 'file';
 

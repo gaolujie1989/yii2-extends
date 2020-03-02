@@ -9,7 +9,6 @@ use lujie\auth\rbac\UserPermissionAccessChecker;
 use lujie\auth\rules\AuthorRule;
 use lujie\auth\tests\unit\fixtures\TestModel;
 use lujie\auth\tests\unit\fixtures\TestUser;
-use Yii;
 
 /**
  * Class UserPermissionAccessCheckerTest

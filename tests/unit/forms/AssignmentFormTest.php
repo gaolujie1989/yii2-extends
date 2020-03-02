@@ -6,11 +6,9 @@
 namespace lujie\auth\tests\unit;
 
 
-use function Complex\theta;
 use lujie\auth\forms\AssignmentForm;
 use lujie\auth\tests\unit\fixtures\TestUser;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 class AssignmentFormTest extends \Codeception\Test\Unit
 {

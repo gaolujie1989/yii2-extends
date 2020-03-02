@@ -2,11 +2,9 @@
 
 namespace dpd;
 
-use dpd\LoginServiceClient;
-use dpd\LoginServiceClassmap;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class LoginServiceClientFactory
 {

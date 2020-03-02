@@ -3,8 +3,8 @@
 namespace dpd;
 
 use dpd\Type;
-use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
 use Phpro\SoapClient\Soap\ClassMap\ClassMap;
+use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
 
 class ShipmentServiceClassmap
 {

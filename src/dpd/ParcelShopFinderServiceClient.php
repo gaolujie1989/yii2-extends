@@ -3,9 +3,9 @@
 namespace dpd;
 
 use dpd\Type;
+use Phpro\SoapClient\Exception\SoapException;
 use Phpro\SoapClient\Type\RequestInterface;
 use Phpro\SoapClient\Type\ResultInterface;
-use Phpro\SoapClient\Exception\SoapException;
 
 class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
 {

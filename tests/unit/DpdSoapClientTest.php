@@ -9,8 +9,6 @@ namespace lujie\dpd\tests\unit;
 use dpd\Type\Address;
 use dpd\Type\GeneralShipmentData;
 use dpd\Type\GetTrackingData;
-use dpd\Type\HigherInsurance;
-use dpd\Type\Parcel;
 use dpd\Type\PrintOptions;
 use dpd\Type\ProductAndServiceData;
 use dpd\Type\ShipmentServiceData;

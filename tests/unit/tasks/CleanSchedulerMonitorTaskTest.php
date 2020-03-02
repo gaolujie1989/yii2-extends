@@ -6,10 +6,8 @@
 namespace lujie\scheduling\tests\unit\tasks;
 
 use lujie\data\loader\ArrayDataLoader;
-use lujie\executing\monitor\behaviors\ActiveRecordMonitorBehavior;
-use lujie\executing\monitor\behaviors\DbMonitorBehavior;
-use lujie\scheduling\tasks\CleanSchedulerMonitorTask;
 use lujie\scheduling\Scheduler;
+use lujie\scheduling\tasks\CleanSchedulerMonitorTask;
 
 class CleanSchedulerMonitorTaskTest extends \Codeception\Test\Unit
 {

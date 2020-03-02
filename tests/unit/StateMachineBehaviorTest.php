@@ -5,7 +5,6 @@ namespace lujie\state\machine\tests\unit;
 use lujie\state\machine\behaviors\StateMachineBehavior;
 use lujie\state\machine\tests\unit\fixtures\TestOrder;
 use yii\base\InvalidCallException;
-use yii\helpers\VarDumper;
 
 class StateMachineBehaviorTest extends \Codeception\Test\Unit
 {

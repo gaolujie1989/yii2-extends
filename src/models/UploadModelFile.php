@@ -44,7 +44,9 @@ class UploadModelFile extends ActiveRecord
      */
     public function init(): void
     {
-        $this->model_type = static::MODEL_TYPE;
+        if (empty($this->model_type)) {
+            $this->model_type = static::MODEL_TYPE;
+        }
         parent::init();
     }
 

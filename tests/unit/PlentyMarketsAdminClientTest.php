@@ -7,8 +7,6 @@ namespace lujie\scheduling\tests\unit;
 
 use lujie\plentyMarkets\PlentyMarketsAdminClient;
 use Yii;
-use yii\helpers\Console;
-use yii\helpers\FileHelper;
 
 class PlentyMarketsAdminClientTest extends \Codeception\Test\Unit
 {

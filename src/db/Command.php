@@ -5,8 +5,8 @@
 
 namespace lujie\workerman\db;
 
-use yii\db\Exception;
 use Yii;
+use yii\db\Exception;
 
 /**
  * Class Command

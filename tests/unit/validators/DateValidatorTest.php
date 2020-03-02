@@ -6,12 +6,8 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\httpclient\RateLimitCheckerBehavior;
 use lujie\extend\tests\unit\fixtures\models\Migration;
-use lujie\extend\tests\unit\mocks\MockTransport;
 use lujie\extend\validators\DateValidator;
-use yii\httpclient\Client;
-use yii\httpclient\Response;
 
 class DateValidatorTest extends \Codeception\Test\Unit
 {

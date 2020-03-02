@@ -6,10 +6,8 @@
 namespace lujie\extend\tests\unit\mocks;
 
 
-use lujie\extend\caching\CachingTrait;
 use lujie\extend\mutex\LockingTrait;
 use yii\base\BaseObject;
-use yii\caching\Dependency;
 
 /**
  * Class MockCacheObject

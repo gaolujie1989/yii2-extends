@@ -7,9 +7,7 @@ namespace lujie\extend\tests\unit\file;
 
 
 use lujie\extend\file\readers\PdfReader;
-use lujie\extend\file\readers\TextReader;
 use lujie\extend\file\writers\PdfWriter;
-use lujie\extend\file\writers\TextWriter;
 use Yii;
 use yii\helpers\FileHelper;
 

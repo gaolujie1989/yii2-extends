@@ -9,7 +9,6 @@ use lujie\fulfillment\FulfillmentManager;
 use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
-use yii\queue\Queue;
 
 /**
  * Class PushPendingFulfillmentOrderTask

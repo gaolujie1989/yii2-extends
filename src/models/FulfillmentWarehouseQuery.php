@@ -2,7 +2,6 @@
 
 namespace lujie\fulfillment\models;
 
-use Generator;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 use yii\helpers\ArrayHelper;
 

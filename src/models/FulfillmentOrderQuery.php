@@ -2,11 +2,9 @@
 
 namespace lujie\fulfillment\models;
 
-use Generator;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentOrder]].

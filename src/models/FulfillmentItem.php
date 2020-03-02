@@ -9,7 +9,6 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%fulfillment_item}}".

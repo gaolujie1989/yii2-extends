@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\searches;
 
-use lujie\fulfillment\models\FulfillmentAccountQuery;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentOrderQuery;
 

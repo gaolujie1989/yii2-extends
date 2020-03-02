@@ -13,8 +13,8 @@ declare(strict_types=1);
  */
 namespace BarcodeBakery\Common;
 
-use BarcodeBakery\Common\Drawer\BCGDrawPNG;
 use BarcodeBakery\Common\Drawer\BCGDrawJPG;
+use BarcodeBakery\Common\Drawer\BCGDrawPNG;
 
 class BCGDrawing
 {

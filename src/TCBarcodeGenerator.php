@@ -9,7 +9,6 @@ use Picqer\Barcode\BarcodeGeneratorJPG;
 use Picqer\Barcode\Exceptions\BarcodeException;
 use Yii;
 use yii\base\BaseObject;
-use yii\base\Component;
 use yii\base\NotSupportedException;
 
 /**

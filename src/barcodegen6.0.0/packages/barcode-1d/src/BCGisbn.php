@@ -19,7 +19,6 @@ declare(strict_types=1);
 namespace BarcodeBakery\Barcode;
 
 use BarcodeBakery\Common\BCGArgumentException;
-use BarcodeBakery\Common\BCGBarcode1D;
 use BarcodeBakery\Common\BCGLabel;
 use BarcodeBakery\Common\BCGParseException;
 

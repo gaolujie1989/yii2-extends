@@ -19,8 +19,8 @@ declare(strict_types=1);
  */
 namespace BarcodeBakery\Barcode;
 
-use BarcodeBakery\Common\BCGBarcode1D;
 use BarcodeBakery\Common\BCGArgumentException;
+use BarcodeBakery\Common\BCGBarcode1D;
 use BarcodeBakery\Common\BCGParseException;
 
 define('CODE128_A', 1);            // Table A

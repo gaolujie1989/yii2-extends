@@ -12,7 +12,6 @@ declare(strict_types=1);
  */
 namespace BarcodeBakery\Barcode;
 
-use BarcodeBakery\Common\BCGBarcode1D;
 use BarcodeBakery\Common\BCGParseException;
 
 class BCGgs1128 extends BCGcode128

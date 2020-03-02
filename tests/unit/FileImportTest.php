@@ -6,11 +6,10 @@
 namespace lujie\data\exchange\tests\unit;
 
 
-use lujie\data\exchange\DataExchanger;
-use lujie\extend\file\writers\CsvWriter;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\DbSource;
+use lujie\extend\file\writers\CsvWriter;
 use yii\helpers\FileHelper;
 
 class FileImportTest extends \Codeception\Test\Unit

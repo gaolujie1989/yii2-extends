@@ -6,14 +6,8 @@
 namespace lujie\data\exchange\tests\unit\sources;
 
 
-use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\ActiveRecordSource;
-use lujie\data\exchange\sources\DbSource;
 use lujie\data\exchange\tests\unit\fixtures\Migration;
-use lujie\data\storage\DbDataStorage;
-use yii\db\Connection;
-use yii\db\Query;
-use yii\di\Instance;
 
 class ActiveRecordSourceTest extends \Codeception\Test\Unit
 {

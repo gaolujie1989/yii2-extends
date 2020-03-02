@@ -5,13 +5,9 @@
 
 namespace lujie\data\exchange\sources;
 
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
-use yii\db\Connection;
-use yii\db\Query;
-use yii\db\QueryInterface;
 
 /**
  * Class ActiveRecordSource

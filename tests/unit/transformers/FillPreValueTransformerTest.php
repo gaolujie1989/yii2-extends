@@ -3,7 +3,6 @@
 namespace lujie\data\exchange\tests\unit\transformers;
 
 use lujie\data\exchange\transformers\FillPreValueTransformer;
-use lujie\data\exchange\transformers\KeyMapTransformer;
 
 class FillPreValueTransformerTest extends \Codeception\Test\Unit
 {

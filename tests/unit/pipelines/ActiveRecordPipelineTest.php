@@ -7,10 +7,6 @@ namespace lujie\data\exchange\tests\unit\pipelines;
 
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\tests\unit\fixtures\Migration;
-use yii\db\Connection;
-use yii\db\Query;
-use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 class ActiveRecordPipelineTest extends \Codeception\Test\Unit
 {

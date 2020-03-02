@@ -9,7 +9,6 @@ use lujie\data\exchange\pipelines\DbPipeline;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 class DbPipelineTest extends \Codeception\Test\Unit
 {

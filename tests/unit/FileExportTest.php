@@ -6,13 +6,12 @@
 namespace lujie\data\exchange\tests\unit;
 
 
-use lujie\data\exchange\DataExchanger;
-use lujie\extend\file\writers\CsvWriter;
-use lujie\extend\file\readers\CsvReader;
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\pipelines\FilePipeline;
 use lujie\data\exchange\sources\DbSource;
 use lujie\data\exchange\transformers\KeyMapTransformer;
+use lujie\extend\file\readers\CsvReader;
+use lujie\extend\file\writers\CsvWriter;
 
 class FileExportTest extends \Codeception\Test\Unit
 {

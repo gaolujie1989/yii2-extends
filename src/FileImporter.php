@@ -6,8 +6,8 @@
 namespace lujie\data\exchange;
 
 
-use lujie\extend\file\readers\ExcelReader;
 use lujie\data\exchange\sources\FileSource;
+use lujie\extend\file\readers\ExcelReader;
 use yii\di\Instance;
 
 /**

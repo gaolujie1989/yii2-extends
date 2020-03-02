@@ -2,7 +2,6 @@
 
 namespace lujie\ar\relation\behaviors\tests\unit\fixtures\models;
 
-use Yii;
 use yii\db\ActiveQuery;
 
 /**

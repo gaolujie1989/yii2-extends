@@ -3,15 +3,8 @@
 namespace lujie\ar\relation\behaviors\tests\unit;
 
 use lujie\ar\relation\behaviors\RelatedCounterUpdateBehavior;
-use lujie\ar\relation\behaviors\RelationDeletableBehavior;
-use lujie\ar\relation\behaviors\RelationSavableBehavior;
-use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestAddress;
-use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestCustomer;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
-use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderItem;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderPayment;
-use yii\base\InvalidCallException;
-use yii\helpers\ArrayHelper;
 
 class RelatedCounterUpdateBehaviorTest extends \Codeception\Test\Unit
 {

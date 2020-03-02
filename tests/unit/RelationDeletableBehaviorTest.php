@@ -8,9 +8,6 @@ use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestAddress;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestCustomer;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderItem;
-use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderPayment;
-use yii\base\InvalidCallException;
-use yii\helpers\ArrayHelper;
 
 class RelationDeletableBehaviorTest extends \Codeception\Test\Unit
 {

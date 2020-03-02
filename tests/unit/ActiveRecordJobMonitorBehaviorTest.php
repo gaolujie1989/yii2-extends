@@ -7,7 +7,6 @@ namespace lujie\queuing\monitor\tests\unit;
 
 use lujie\extend\constants\ExecStatusConst;
 use lujie\queuing\monitor\behaviors\ActiveRecordJobMonitorBehavior;
-use lujie\queuing\monitor\behaviors\BaseJobMonitorBehavior;
 use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
 use lujie\queuing\monitor\tests\unit\mocks\TestJob;

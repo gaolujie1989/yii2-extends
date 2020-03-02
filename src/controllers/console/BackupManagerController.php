@@ -5,7 +5,6 @@
 
 namespace lujie\backup\manager\controllers\console;
 
-use BackupManager\Filesystems\Destination;
 use lujie\backup\manager\BackupManager;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;

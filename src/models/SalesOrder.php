@@ -11,7 +11,6 @@ use lujie\extend\db\TransactionTrait;
 use lujie\sales\order\center\Module;
 use Yii;
 use yii\db\ActiveQuery;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%sales_order}}".

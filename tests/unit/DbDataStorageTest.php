@@ -2,9 +2,7 @@
 
 namespace lujie\data\storage\tests\unit;
 
-use lujie\data\loader\DbDataLoader;
 use lujie\data\storage\DbDataStorage;
-use lujie\data\storage\FileDataStorage;
 
 /**
  * Class DbDataStorageTest

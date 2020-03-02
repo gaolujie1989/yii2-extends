@@ -2,8 +2,8 @@
 
 namespace lujie\db\fieldQuery\behaviors\tests\unit;
 
-use lujie\db\fieldQuery\behaviors\tests\unit\fixtures\Migration;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\db\fieldQuery\behaviors\tests\unit\fixtures\Migration;
 
 class FieldQueryBehaviorTest extends \Codeception\Test\Unit
 {

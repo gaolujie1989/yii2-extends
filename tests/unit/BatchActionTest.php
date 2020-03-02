@@ -2,21 +2,12 @@
 
 namespace lujie\upload\tests\unit;
 
-use creocoder\flysystem\Filesystem;
 use lujie\batch\BatchAction;
-use lujie\batch\BatchForm;
 use lujie\batch\tests\unit\fixtures\Migration;
 use lujie\batch\tests\unit\mocks\MigrationBatchForm;
-use lujie\upload\behaviors\FileBehavior;
-use lujie\upload\behaviors\UploadBehavior;
-use lujie\upload\forms\UploadForm;
-use lujie\upload\forms\UploadModelFileForm;
 use Yii;
 use yii\base\Event;
 use yii\base\ModelEvent;
-use yii\di\Instance;
-use yii\helpers\FileHelper;
-use yii\helpers\VarDumper;
 use yii\web\Request;
 use yii\web\ServerErrorHttpException;
 

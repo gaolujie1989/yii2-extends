@@ -11,7 +11,6 @@ use Yii;
 use yii\base\Model;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
-use yii\web\NotFoundHttpException;
 
 /**
  * Class BatchSaveForm

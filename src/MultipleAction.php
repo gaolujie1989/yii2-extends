@@ -7,7 +7,6 @@ namespace lujie\batch;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\base\Model;
 use yii\rest\Action;
 use yii\web\ServerErrorHttpException;
 

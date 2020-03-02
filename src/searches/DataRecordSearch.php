@@ -7,7 +7,6 @@ namespace lujie\data\recording\searches;
 
 use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
-use lujie\extend\compressors\GzCompressor;
 use yii\db\ActiveQuery;
 
 /**

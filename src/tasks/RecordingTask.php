@@ -11,7 +11,6 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ObjectHelper;
 use lujie\scheduling\CronTask;
 use yii\di\Instance;
-use yii\queue\JobInterface;
 use yii\queue\Queue;
 
 /**

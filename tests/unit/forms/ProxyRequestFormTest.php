@@ -6,20 +6,13 @@
 namespace lujie\data\recording\tests\unit\forms;
 
 
-use lujie\data\loader\ArrayDataLoader;
 use lujie\data\loader\ChainedDataLoader;
 use lujie\data\recording\forms\ProxyRequestForm;
-use lujie\data\recording\forms\RecordingForm;
-use lujie\data\recording\models\DataRecord;
-use lujie\data\recording\models\DataSource;
 use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\fixtures\DataSourceFixture;
 use lujie\data\recording\tests\unit\mocks\MockApiClient;
 use lujie\data\recording\tests\unit\mocks\MockClientLoader;
-use lujie\data\recording\tests\unit\mocks\MockDataRecorder;
-use lujie\extend\constants\ExecStatusConst;
 use Yii;
-use yii\helpers\Json;
 
 class ProxyRequestFormTest extends \Codeception\Test\Unit
 {

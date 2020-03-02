@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\forms;
 
-use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\data\recording\models\DataAccount;
 
 /**

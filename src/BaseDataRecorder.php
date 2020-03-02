@@ -13,9 +13,7 @@ use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\recording\pipelines\RecordPipeline;
 use lujie\data\recording\transformers\RecordTransformer;
-use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ExecuteHelper;
-use Yii;
 
 /**
  * Class DataRecorder

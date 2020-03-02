@@ -16,19 +16,40 @@ use yii\base\ModelEvent;
  */
 class UploadForm extends Model
 {
+    /**
+     * @var
+     */
     public $file;
 
     /**
-     * not use /tmp, file may be clean by system
      * @var string
      */
-    public $path = '@uploads';
-
     public $inputName = 'file';
 
+    /**
+     * @var array
+     */
     public $allowedExtensions = ['csv', 'xls', 'xlsx'];
 
+    /**
+     * @var bool
+     */
     public $checkExtensionByMimeType = false;
+
+    /**
+     * @var string
+     */
+    public $path = '@uploads/temp';
+
+    /**
+     * @var string
+     */
+    public $fs = false;
+
+    /**
+     * @var string
+     */
+    public $fileNameTemplate = 'tmp_{datetime}_{rand}.{ext}';
 
     /**
      * @return array
@@ -42,8 +63,8 @@ class UploadForm extends Model
                 'attribute' => 'file',
                 'inputName' => $this->inputName,
                 'path' => $this->path,
-                'fs' => false,
-                'newNameTemplate' => 'tmp_{datetime}_{rand}.{ext}'
+                'fs' => $this->fs,
+                'fileNameTemplate' => $this->fileNameTemplate,
             ],
         ]);
     }

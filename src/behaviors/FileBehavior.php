@@ -21,15 +21,24 @@ class FileBehavior extends Behavior
 {
     use FileTrait;
 
+    /**
+     * @var string
+     */
     public $attribute = 'file';
 
-    public $path = '@uploads';
-
+    /**
+     * @var string
+     */
     public $url = 'staticUrl';
 
     public $unlinkOnUpdate = false;
 
     public $unlinkOnDelete = true;
+
+    /**
+     * @var string
+     */
+    public $path = '@uploads';
 
     /**
      * @var Filesystem
@@ -105,20 +114,10 @@ class FileBehavior extends Behavior
      * @return string
      * @inheritdoc
      */
-    public function getPath(): string
-    {
-        $value = $this->owner->{$this->attribute};
-        return $this->path . $value;
-    }
-
-    /**
-     * @return string
-     * @inheritdoc
-     */
     public function getContent(): string
     {
         $value = $this->owner->{$this->attribute};
-        return $this->loadFile($value);
+        return $this->read($value);
     }
 
     #endregion

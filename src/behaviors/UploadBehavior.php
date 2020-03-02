@@ -6,6 +6,7 @@
 namespace lujie\upload\behaviors;
 
 use creocoder\flysystem\Filesystem;
+use lujie\extend\helpers\TemplateHelper;
 use yii\base\Behavior;
 use yii\base\Model;
 use yii\base\ModelEvent;
@@ -64,14 +65,9 @@ class UploadBehavior extends Behavior
     public $fs = 'filesystem';
 
     /**
-     * @var bool
-     */
-    public $generateNewName = true;
-
-    /**
      * @var string
      */
-    public $newNameTemplate = '{datetime}_{rand}.{ext}';
+    public $fileNameTemplate = '{name}_{datetime}_{rand}.{ext}';
 
     /**
      * @var bool
@@ -204,28 +200,15 @@ class UploadBehavior extends Behavior
      */
     protected function getFileName(UploadedFile $file): string
     {
-        if ($this->generateNewName) {
-            return is_callable($this->generateNewName)
-                ? call_user_func($this->generateNewName, $file)
-                : $this->generateFileName($file->extension);
+        if ($this->fileNameTemplate) {
+            return TemplateHelper::render($this->fileNameTemplate, [
+                'date' => date('ymd'),
+                'datetime' => date('ymdHis'),
+                'rand' => random_int(1000, 9999),
+                'name' => $file->name,
+                'ext' => $file->extension,
+            ]);
         }
         return $file->name;
-    }
-
-    /**
-     * @param string $suffix
-     * @return string
-     * @throws \Exception
-     * @inheritdoc
-     */
-    protected function generateFileName(string $suffix): string
-    {
-        $pairs = [
-            '{date}' => date('ymd'),
-            '{datetime}' => date('ymdHis'),
-            '{rand}' => random_int(1000, 9999),
-            '{ext}' => $suffix
-        ];
-        return strtr($this->newNameTemplate, $pairs);
     }
 }

@@ -26,11 +26,9 @@ use yii2tech\ar\position\PositionBehavior;
  * @property int $size
  *
  * @property string $url
- * @property string $path
  * @property string $content
  *
  * @method string getUrl()
- * @method string getPath()
  * @method string getContent()
  */
 class UploadModelFile extends ActiveRecord

@@ -120,7 +120,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
                 'inputName' => 'testFile',
                 'path' => 'tests',
                 'fs' => $fs,
-                'newNameTemplate' => 'test/{date}/test_{datetime}_{rand}.{ext}'
+                'fileNameTemplate' => 'test/{date}/test_{datetime}_{rand}.{ext}'
             ]
         ]);
         $this->assertFalse($uploadForm->validate());
@@ -136,7 +136,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
                 'inputName' => 'testFile',
                 'path' => 'tests',
                 'fs' => $fs,
-                'newNameTemplate' => 'test/{date}/test_{datetime}_{rand}.{ext}'
+                'fileNameTemplate' => 'test/{date}/test_{datetime}_{rand}.{ext}'
             ],
             'as file' => [
                 'class' => FileBehavior::class,

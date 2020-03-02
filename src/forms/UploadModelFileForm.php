@@ -7,7 +7,6 @@ namespace lujie\upload\forms;
 
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\models\UploadModelFile;
-use yii\helpers\Inflector;
 
 /**
  * Class UploadForm
@@ -16,6 +15,9 @@ use yii\helpers\Inflector;
  */
 class UploadModelFileForm extends UploadModelFile
 {
+    /**
+     * @var string
+     */
     public $inputName = 'file';
 
     /**
@@ -29,9 +31,31 @@ class UploadModelFileForm extends UploadModelFile
     public $checkExtensionByMimeType = false;
 
     /**
-     * @var array
+     * @var string
      */
-    public $modelTypePathPrefixes = [];
+    public $path = '@uploads';
+
+    /**
+     * @var string
+     */
+    public $fs = 'filesystem';
+
+    /**
+     * @var string
+     */
+    public $fileNameTemplate = '';
+
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (empty($this->fileNameTemplate)) {
+            $modelType = strtolower($this->model_type);
+            $this->fileNameTemplate = "{$modelType}/{date}/{$modelType}_{datetime}_{rand}.{ext}";
+        }
+    }
 
     /**
      * @return array
@@ -39,9 +63,6 @@ class UploadModelFileForm extends UploadModelFile
      */
     public function behaviors(): array
     {
-        $modelType = strtolower($this->model_type);
-        $pathPrefix = $this->modelTypePathPrefixes[$this->model_type] ?? $modelType;
-        $pathPrefix = lcfirst(Inflector::pluralize(Inflector::camelize($pathPrefix)));
         return array_merge(parent::behaviors(), [
             'upload' => [
                 'class' => UploadBehavior::class,
@@ -50,8 +71,9 @@ class UploadModelFileForm extends UploadModelFile
                 'sizeAttribute' => 'size',
                 'extAttribute' => 'ext',
                 'inputName' => $this->inputName,
-                'fs' => 'filesystem',
-                'newNameTemplate' => "{$pathPrefix}/{date}/{$modelType}_{datetime}_{rand}.{ext}"
+                'path' => $this->path,
+                'fs' => $this->fs,
+                'fileNameTemplate' => $this->fileNameTemplate
             ],
         ]);
     }

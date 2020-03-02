@@ -8,7 +8,6 @@ namespace lujie\remote\rbac\tests\unit;
 use lujie\currency\exchanging\CurrencyExchangeRateUpdater;
 use lujie\currency\exchanging\models\CurrencyExchangeRate;
 use lujie\currency\exchanging\tests\unit\mocks\MockCurrencyExchangeRateLoader;
-use yii\helpers\VarDumper;
 
 class CurrencyExchangeRateUpdaterTest extends \Codeception\Test\Unit
 {

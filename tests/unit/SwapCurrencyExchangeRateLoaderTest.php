@@ -5,8 +5,6 @@
 
 namespace lujie\remote\rbac\tests\unit;
 
-use lujie\barcode\generating\BarcodeGeneratorInterface;
-use lujie\barcode\generating\BCGBarcodeGenerator;
 use lujie\currency\exchanging\rateLoaders\SwapCurrencyExchangeRateLoader;
 use yii\helpers\VarDumper;
 

@@ -2,7 +2,6 @@
 
 namespace lujie\data\loader\tests\unit;
 
-use lujie\data\loader\DbDataLoader;
 use lujie\data\loader\QueryDataLoader;
 use yii\db\Query;
 

@@ -3,7 +3,6 @@
 namespace lujie\data\loader\tests\unit;
 
 use lujie\data\loader\ArrayDataLoader;
-use lujie\data\loader\CachedDataLoader;
 use lujie\data\loader\ChainedDataLoader;
 
 /**

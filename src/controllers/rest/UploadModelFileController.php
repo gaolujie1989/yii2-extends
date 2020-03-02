@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\upload\controller\rest;
+namespace lujie\upload\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
 use lujie\upload\actions\UploadAction;

@@ -3,9 +3,9 @@
 namespace lujie\ar\snapshoot\behaviors\tests\unit;
 
 use lujie\ar\snapshoot\behaviors\ConditionalSnapshootBehavior;
+use lujie\ar\snapshoot\behaviors\SnapshootBehavior;
 use lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models\TestItem;
 use lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models\TestItemSnapshoot;
-use lujie\ar\snapshoot\behaviors\SnapshootBehavior;
 
 class ConditionalSnapshootBehaviorTest extends \Codeception\Test\Unit
 {

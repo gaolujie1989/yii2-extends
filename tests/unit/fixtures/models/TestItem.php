@@ -2,8 +2,6 @@
 
 namespace lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models;
 
-use Yii;
-
 /**
  * This is the model class for table "{{%test_item}}".
  *

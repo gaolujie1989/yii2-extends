@@ -7,8 +7,6 @@ namespace lujie\ar\snapshoot\behaviors;
 
 
 use yii\base\Behavior;
-use yii\base\Event;
-use yii\base\ModelEvent;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;

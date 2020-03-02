@@ -7,7 +7,7 @@ namespace lujie\project\models;
 
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
-use lujie\upload\models\UploadSavedFile;
+use lujie\upload\models\UploadModelFile;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
@@ -25,7 +25,7 @@ use yii\db\Connection;
  * @package lujie\project\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TaskAttachment extends UploadSavedFile
+class TaskAttachment extends UploadModelFile
 {
     public const MODEL_TYPE_TASK_ATTACHMENT = 'TASK_ATTACHMENT';
 

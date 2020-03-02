@@ -3,7 +3,7 @@
 namespace lujie\project\models;
 
 use lujie\alias\behaviors\TimestampAliasBehavior;
-use lujie\upload\models\UploadSavedFileQuery;
+use lujie\upload\models\UploadModelFileQuery;
 use Yii;
 use yii\db\ActiveQuery;
 use yii2tech\ar\position\PositionBehavior;
@@ -174,7 +174,7 @@ class Task extends \lujie\project\base\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getAttachments(): UploadSavedFileQuery
+    public function getAttachments(): UploadModelFileQuery
     {
         return $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
     }

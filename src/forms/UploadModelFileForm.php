@@ -50,11 +50,11 @@ class UploadModelFileForm extends UploadModelFile
      */
     public function init(): void
     {
-        parent::init();
         if (empty($this->fileNameTemplate)) {
             $modelType = strtolower($this->model_type);
             $this->fileNameTemplate = "{$modelType}/{date}/{$modelType}_{datetime}_{rand}.{ext}";
         }
+        parent::init();
     }
 
     /**

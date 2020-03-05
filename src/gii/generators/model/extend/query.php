@@ -23,7 +23,11 @@ if ($generator->ns !== $generator->queryNs) {
 
 $queryFields = [];
 foreach ($labels as $name => $label) {
-    if (in_array(substr($name, -3), ['_id', '_no'], true)) {
+    if (in_array($name, ['type', 'status'], true)
+        || substr($name, -4) === '_type'
+        || substr($name, -5) === '_status'
+        || in_array(substr($name, -3), ['_id', '_no'], true)
+    ) {
         $queryFields[lcfirst(Inflector::camelize($name))] = $name;
     }
 }

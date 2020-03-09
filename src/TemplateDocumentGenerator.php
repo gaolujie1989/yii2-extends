@@ -62,12 +62,27 @@ class TemplateDocumentGenerator extends BaseObject
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function generate(string $documentType, int $documentReferenceId = 0): string
+    public function render(string $documentType, int $documentReferenceId = 0): string
     {
         $templates = $this->getTemplates($documentType, $documentReferenceId);
         $referenceData = $this->getReferenceData($documentType, $documentReferenceId);
-        $documentContent = $this->renderDocumentContent($templates, $referenceData);
-        return $this->documentGenerator->generate($documentContent);
+        return $this->renderDocumentContent($templates, $referenceData);
+    }
+
+    /**
+     * @param string $documentType
+     * @param int $documentReferenceId
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function generate(string $documentType, int $documentReferenceId = 0): string
+    {
+        return $this->documentGenerator->generate($this->render($documentType, $documentReferenceId));
     }
 
     /**

@@ -111,10 +111,10 @@ class FileBehavior extends Behavior
     }
 
     /**
-     * @return string
+     * @return string|null
      * @inheritdoc
      */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         $value = $this->owner->{$this->attribute};
         return $this->read($value);

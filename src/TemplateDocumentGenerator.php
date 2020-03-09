@@ -6,12 +6,16 @@
 namespace lujie\template\document;
 
 use lujie\data\loader\DataLoaderInterface;
+use lujie\template\document\engines\TemplateEngineInterface;
+use lujie\template\document\generators\DocumentGeneratorInterface;
+use lujie\template\document\generators\PdfGenerator;
 use lujie\template\document\models\DocumentTemplate;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii2tech\html2pdf\Manager;
 
 /**
@@ -22,14 +26,19 @@ use yii2tech\html2pdf\Manager;
 class TemplateDocumentGenerator extends BaseObject
 {
     /**
+     * @var TemplateEngineInterface
+     */
+    public $templateEngine;
+
+    /**
+     * @var DocumentGeneratorInterface
+     */
+    public $documentGenerator = PdfGenerator::class;
+
+    /**
      * @var DataLoaderInterface[]
      */
     public $templateDataLoaders = [];
-
-    /**
-     * @var Manager
-     */
-    public $documentRender = 'html2pdf';
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -38,28 +47,27 @@ class TemplateDocumentGenerator extends BaseObject
     public function init(): void
     {
         parent::init();
-        $this->documentRender = Instance::ensure($this->documentRender, Manager::class);
+        $this->templateEngine = Instance::ensure($this->templateEngine, TemplateEngineInterface::class);
+        $this->documentGenerator = Instance::ensure($this->documentGenerator, DocumentGeneratorInterface::class);
     }
 
     /**
      * @param string $documentType
      * @param int $documentReferenceId
-     * @param array $options
      * @return string
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
-     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function generateDocument(string $documentType, int $documentReferenceId = 0, $options = []): string
+    public function generate(string $documentType, int $documentReferenceId = 0): string
     {
         $templates = $this->getTemplates($documentType, $documentReferenceId);
         $referenceData = $this->getReferenceData($documentType, $documentReferenceId);
         $documentContent = $this->renderDocumentContent($templates, $referenceData);
-        return $this->documentRender->convert($documentContent, $options)->name;
+        return $this->documentGenerator->generate($documentContent);
     }
 
     /**
@@ -136,20 +144,14 @@ class TemplateDocumentGenerator extends BaseObject
      */
     protected function renderDocumentContent(array $templates, array $templateData): string
     {
-        $loader = new ArrayLoader();
-        foreach ($templates as $template) {
-            $name = 'tpl_' . $template['document_template_id'] . '.html';
-            $loader->setTemplate($name, $template['content']);
-        }
-
+        $this->templateEngine->setTemplates($templates);
         $renderContents = [];
-        $twig = new Environment($loader);
         foreach ($templates as $template) {
-            $name = 'tpl_' . $template['document_template_id'] . '.html';
             unset($template['content']);
             //set template self data
             $templateData['template'] = $template;
-            $renderContents[] = $twig->render($name, $templateData);
+            $name = $template['document_template_id'];
+            $renderContents[] = $this->templateEngine->render($name, $templateData);
         }
         return implode('', $renderContents);
     }

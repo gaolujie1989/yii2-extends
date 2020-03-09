@@ -38,7 +38,7 @@ class TemplateDocumentGenerator extends BaseObject
     public function init(): void
     {
         parent::init();
-        $this->documentRender = Instance::ensure($this->documentRender);
+        $this->documentRender = Instance::ensure($this->documentRender, Manager::class);
     }
 
     /**
@@ -147,6 +147,7 @@ class TemplateDocumentGenerator extends BaseObject
         foreach ($templates as $template) {
             $name = 'tpl_' . $template['document_template_id'] . '.html';
             unset($template['content']);
+            //set template self data
             $templateData['template'] = $template;
             $renderContents[] = $twig->render($name, $templateData);
         }

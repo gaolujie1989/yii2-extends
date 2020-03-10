@@ -9,6 +9,7 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "{{%document_template}}".
@@ -47,6 +48,20 @@ class DocumentTemplate extends \yii\db\ActiveRecord
             [['title', 'subtitle'], 'string', 'max' => 250],
             [['status'], 'in', 'range' => [StatusConst::STATUS_INACTIVE, StatusConst::STATUS_ACTIVE]],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'position' => [
+                'class' => PositionBehavior::class,
+                'groupAttributes' => ['document_type', 'document_reference_id'],
+            ]
+        ]);
     }
 
     /**

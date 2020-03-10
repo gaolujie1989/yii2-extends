@@ -10,20 +10,16 @@ use lujie\template\document\engines\TemplateEngineInterface;
 use lujie\template\document\generators\DocumentGeneratorInterface;
 use lujie\template\document\generators\PdfGenerator;
 use lujie\template\document\models\DocumentTemplate;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
-use yii2tech\html2pdf\Manager;
 
 /**
  * Class TemplateDocumentGenerator
  * @package lujie\template\document
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TemplateDocumentGenerator extends BaseObject
+class TemplateDocumentManager extends BaseObject
 {
     /**
      * @var TemplateEngineInterface
@@ -55,9 +51,6 @@ class TemplateDocumentGenerator extends BaseObject
      * @param string $documentType
      * @param int $documentReferenceId
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
@@ -73,9 +66,6 @@ class TemplateDocumentGenerator extends BaseObject
      * @param string $documentType
      * @param int $documentReferenceId
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
@@ -93,7 +83,7 @@ class TemplateDocumentGenerator extends BaseObject
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    protected function getTemplates(string $documentType, int $documentReferenceId): array
+    public function getTemplates(string $documentType, int $documentReferenceId): array
     {
         $templateQuery = DocumentTemplate::find()->type($documentType)->referenceId($documentReferenceId);
         if ($documentReferenceId && !$templateQuery->exists()) {
@@ -152,9 +142,6 @@ class TemplateDocumentGenerator extends BaseObject
      * @param array $templates
      * @param array $templateData
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      * @inheritdoc
      */
     protected function renderDocumentContent(array $templates, array $templateData): string

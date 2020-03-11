@@ -18,7 +18,7 @@ class DocumentTemplateSearch extends DocumentTemplate
     public function rules(): array
     {
         return [
-            [['document_reference_id', 'document_type'], 'safe'],
+            [['reference_id', 'document_type'], 'safe'],
         ];
     }
 
@@ -28,7 +28,7 @@ class DocumentTemplateSearch extends DocumentTemplate
     public function query(): DocumentTemplateQuery
     {
         return static::find()->andFilterWhere([
-            $this->getAttributes(['document_reference_id', 'document_type'])
+            $this->getAttributes(['reference_id', 'document_type'])
         ]);
     }
 }

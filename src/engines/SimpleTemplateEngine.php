@@ -5,8 +5,6 @@
 
 namespace lujie\template\document\engines;
 
-
-use lujie\data\loader\ArrayDataLoader;
 use lujie\extend\helpers\TemplateHelper;
 use yii\base\BaseObject;
 
@@ -20,22 +18,7 @@ class SimpleTemplateEngine extends BaseObject implements TemplateEngineInterface
     /**
      * @var array
      */
-    public $templates = [];
-
-    /**
-     * @var array
-     */
     public $tag = ['{', '}'];
-
-    /**
-     * @param array $templates
-     * @inheritdoc
-     */
-    public function setTemplates(array $templates): void
-    {
-        $this->loader = new ArrayDataLoader();
-        $this->loader->data = $templates;
-    }
 
     /**
      * @param string $template
@@ -45,9 +28,6 @@ class SimpleTemplateEngine extends BaseObject implements TemplateEngineInterface
      */
     public function render(string $template, array $params = []): string
     {
-        if (empty($this->templates[$template])) {
-            return '';
-        }
-        return TemplateHelper::render($this->templates[$template], $params, $this->tag);
+        return TemplateHelper::render($template, $params, $this->tag);
     }
 }

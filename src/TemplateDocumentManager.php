@@ -6,12 +6,11 @@
 namespace lujie\template\document;
 
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\file\FileWriterInterface;
+use lujie\extend\file\writers\PdfWriter;
 use lujie\template\document\engines\TemplateEngineInterface;
-use lujie\template\document\generators\DocumentGeneratorInterface;
-use lujie\template\document\generators\PdfGenerator;
-use lujie\template\document\models\DocumentTemplate;
+use lujie\template\document\engines\TwigTemplateEngine;
 use yii\base\BaseObject;
-use yii\base\InvalidArgumentException;
 use yii\di\Instance;
 
 /**
@@ -24,17 +23,22 @@ class TemplateDocumentManager extends BaseObject
     /**
      * @var TemplateEngineInterface
      */
-    public $templateEngine;
+    public $templateEngine = TwigTemplateEngine::class;
 
     /**
-     * @var DocumentGeneratorInterface
+     * @var FileWriterInterface
      */
-    public $documentGenerator = PdfGenerator::class;
+    public $fileWriter = PdfWriter::class;
 
     /**
-     * @var DataLoaderInterface[]
+     * @var DataLoaderInterface
      */
-    public $templateDataLoaders = [];
+    public $templateLoader;
+
+    /**
+     * @var DataLoaderInterface
+     */
+    public $referenceDataLoader = [];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -44,117 +48,33 @@ class TemplateDocumentManager extends BaseObject
     {
         parent::init();
         $this->templateEngine = Instance::ensure($this->templateEngine, TemplateEngineInterface::class);
-        $this->documentGenerator = Instance::ensure($this->documentGenerator, DocumentGeneratorInterface::class);
+        $this->fileWriter = Instance::ensure($this->fileWriter, FileWriterInterface::class);
+        $this->templateLoader = Instance::ensure($this->templateLoader, DataLoaderInterface::class);
+        $this->referenceDataLoader = Instance::ensure($this->referenceDataLoader, DataLoaderInterface::class);
     }
 
     /**
-     * @param string $documentType
      * @param int $documentReferenceId
      * @return string
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function render(string $documentType, int $documentReferenceId = 0): string
+    public function render(int $documentReferenceId = 0): string
     {
-        $templates = $this->getTemplates($documentType, $documentReferenceId);
-        $referenceData = $this->getReferenceData($documentType, $documentReferenceId);
-        return $this->renderDocumentContent($templates, $referenceData);
+        $template = $this->templateLoader->get($documentReferenceId);
+        $referenceData = $this->referenceDataLoader->get($documentReferenceId);
+        return $this->templateEngine->render($template, $referenceData);
     }
 
     /**
-     * @param string $documentType
+     * @param string $filePath
      * @param int $documentReferenceId
-     * @return string
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function generate(string $documentType, int $documentReferenceId = 0): string
+    public function generate(string $filePath, int $documentReferenceId = 0): void
     {
-        return $this->documentGenerator->generate($this->render($documentType, $documentReferenceId));
-    }
-
-    /**
-     * @param string $documentType
-     * @param int $documentReferenceId
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function getTemplates(string $documentType, int $documentReferenceId): array
-    {
-        $templateQuery = DocumentTemplate::find()->type($documentType)->referenceId($documentReferenceId);
-        if ($documentReferenceId && !$templateQuery->exists()) {
-            $defaultTemplates = DocumentTemplate::find()
-                ->type($documentType)
-                ->referenceId(0)
-                ->asArray()
-                ->all();
-            if (empty($defaultTemplates)) {
-                throw new InvalidArgumentException("Unknown Document Type: {$documentType}");
-            }
-            $defaultTemplates = array_map(static function ($template) use ($documentReferenceId) {
-                unset($template['document_template_id']);
-                $template['document_reference_id'] = $documentReferenceId;
-                return $template;
-            }, $defaultTemplates);
-            DocumentTemplate::getDb()
-                ->createCommand()
-                ->batchInsert(DocumentTemplate::tableName(), array_keys($defaultTemplates[0]), $defaultTemplates)
-                ->execute();
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
-        return $templateQuery->active()->orderByPosition()->asArray()->all();
-    }
-
-    /**
-     * @param string $documentType
-     * @param int $documentReferenceId
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    protected function getReferenceData(string $documentType, int $documentReferenceId): array
-    {
-        $templateDataLoader = $this->getTemplateDataLoader($documentType);
-        return $templateDataLoader->get($documentReferenceId);
-    }
-
-    /**
-     * @param string $documentType
-     * @return DataLoaderInterface
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    protected function getTemplateDataLoader(string $documentType): DataLoaderInterface
-    {
-        if (empty($this->templateDataLoaders[$documentType])) {
-            throw new InvalidArgumentException("Unknown Document Type: {$documentType}");
-        }
-        if (!($this->templateDataLoaders[$documentType] instanceof DataLoaderInterface)) {
-            $this->templateDataLoaders[$documentType] = Instance::ensure($this->templateDataLoaders[$documentType], DataLoaderInterface::class);
-        }
-        return $this->templateDataLoaders[$documentType];
-    }
-
-    /**
-     * @param array $templates
-     * @param array $templateData
-     * @return string
-     * @inheritdoc
-     */
-    protected function renderDocumentContent(array $templates, array $templateData): string
-    {
-        $this->templateEngine->setTemplates($templates);
-        $renderContents = [];
-        foreach ($templates as $template) {
-            unset($template['content']);
-            //set template self data
-            $templateData['template'] = $template;
-            $name = $template['document_template_id'];
-            $renderContents[] = $this->templateEngine->render($name, $templateData);
-        }
-        return implode('', $renderContents);
+        $this->fileWriter->write($filePath, [$this->render($documentReferenceId)]);
     }
 }

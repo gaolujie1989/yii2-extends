@@ -7,10 +7,12 @@ namespace lujie\template\document\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
 use lujie\extend\rest\MethodAction;
+use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
 use lujie\template\document\TemplateDocumentManager;
 use Yii;
 use yii\di\Instance;
+use yii\web\Response;
 
 /**
  * Class DocumentTemplateController
@@ -41,7 +43,9 @@ class DocumentTemplateController extends ActiveController
      */
     public function actions(): array
     {
-        return array_merge(parent::actions(), [
+        $actions = parent::actions();
+        unset($actions['index'], $actions['create'], $actions['delete']);
+        return array_merge($actions, [
             'move-prev' => [
                 'class' => MethodAction::class,
                 'modelClass' => $this->modelClass,
@@ -58,20 +62,17 @@ class DocumentTemplateController extends ActiveController
     }
 
     /**
-     * @param int $id referenceId
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function actionDownload($id): void
+    public function init(): void
     {
+        parent::init();
         $this->templateDocument = Instance::ensure($this->templateDocument, TemplateDocumentManager::class);
-        $generateFile = $this->templateDocument->generate($this->documentType, $id);
-        Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => true]);
     }
 
     /**
-     * @param int $id referenceId
+     * @param $id
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -79,7 +80,34 @@ class DocumentTemplateController extends ActiveController
      */
     public function actionTemplates($id): array
     {
-        $this->templateDocument = Instance::ensure($this->templateDocument, TemplateDocumentManager::class);
-        return $this->templateDocument->getTemplates($this->documentType, $id);
+        $query = DocumentTemplate::find()
+            ->documentType($this->documentType)
+            ->referenceId($id)
+            ->orderByPosition();
+        if (!$query->exists()) {
+            DocumentTemplateForm::createTemplates($this->documentType, $id);
+        }
+        return $query->all();
+    }
+
+    /**
+     * @param int $id
+     * @inheritdoc
+     */
+    public function actionDownload($id): void
+    {
+        $generateFile = $this->templateDocument->generate($id);
+        Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => true]);
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     * @inheritdoc
+     */
+    public function actionPreview($id): string
+    {
+        Yii::$app->getResponse()->format = Response::FORMAT_HTML;
+        return $this->templateDocument->render($id);
     }
 }

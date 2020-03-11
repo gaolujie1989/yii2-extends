@@ -2,25 +2,23 @@
 
 namespace lujie\template\document\models;
 
-use lujie\extend\constants\StatusConst;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "{{%document_template}}".
  *
  * @property int $document_template_id
- * @property string $document_reference_id
  * @property string $document_type
+ * @property int $reference_id
  * @property int $position
- * @property string $title
- * @property string $subtitle
+ * @property string $name
  * @property string $content
+ * @property string $additional
  * @property int $status
  */
 class DocumentTemplate extends \yii\db\ActiveRecord
@@ -41,27 +39,15 @@ class DocumentTemplate extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['document_reference_id', 'position', 'status'], 'integer'],
-            [['content'], 'required'],
+            [['document_type', 'name'], 'default', 'value' => ''],
+            [['reference_id', 'position', 'status'], 'default', 'value' => 0],
+            [['reference_id', 'position', 'status'], 'integer'],
+            [['content', 'additional'], 'required'],
             [['content'], 'string'],
+            [['additional'], 'safe'],
             [['document_type'], 'string', 'max' => 50],
-            [['title', 'subtitle'], 'string', 'max' => 250],
-            [['status'], 'in', 'range' => [StatusConst::STATUS_INACTIVE, StatusConst::STATUS_ACTIVE]],
+            [['name'], 'string', 'max' => 250],
         ];
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'position' => [
-                'class' => PositionBehavior::class,
-                'groupAttributes' => ['document_type', 'document_reference_id'],
-            ]
-        ]);
     }
 
     /**
@@ -71,12 +57,12 @@ class DocumentTemplate extends \yii\db\ActiveRecord
     {
         return [
             'document_template_id' => Yii::t('lujie/template', 'Document Template ID'),
-            'document_reference_id' => Yii::t('lujie/template', 'Document Reference ID'),
             'document_type' => Yii::t('lujie/template', 'Document Type'),
+            'reference_id' => Yii::t('lujie/template', 'Reference ID'),
             'position' => Yii::t('lujie/template', 'Position'),
-            'title' => Yii::t('lujie/template', 'Title'),
-            'subtitle' => Yii::t('lujie/template', 'Subtitle'),
+            'name' => Yii::t('lujie/template', 'Name'),
             'content' => Yii::t('lujie/template', 'Content'),
+            'additional' => Yii::t('lujie/template', 'Additional'),
             'status' => Yii::t('lujie/template', 'Status'),
         ];
     }
@@ -87,6 +73,6 @@ class DocumentTemplate extends \yii\db\ActiveRecord
      */
     public static function find(): DocumentTemplateQuery
     {
-        return new DocumentTemplateQuery(self::class);
+        return new DocumentTemplateQuery(static::class);
     }
 }

@@ -9,31 +9,41 @@ use lujie\extend\constants\StatusConst;
  * This is the ActiveQuery class for [[DocumentTemplate]].
  *
  * @method DocumentTemplateQuery id($id)
- * @method DocumentTemplateQuery type($type);
- * @method DocumentTemplateQuery referenceId($referenceId);
+ * @method DocumentTemplateQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method DocumentTemplateQuery documentTemplateId($documentTemplateId)
+ * @method DocumentTemplateQuery documentType($documentType)
+ * @method DocumentTemplateQuery referenceId($referenceId)
+ * @method DocumentTemplateQuery status($status)
  *
  * @method DocumentTemplateQuery active();
  * @method DocumentTemplateQuery orderByPosition($sort = SORT_ASC);
  *
- * @method DocumentTemplate[]|array all($db = null)
- * @method DocumentTemplate|array|null one($db = null)
+ * @method array|DocumentTemplate[] all($db = null)
+ * @method array|DocumentTemplate|null one($db = null)
+ * @method array|DocumentTemplate[] each($batchSize = 100, $db = null)
  *
  * @see DocumentTemplate
  */
 class DocumentTemplateQuery extends \yii\db\ActiveQuery
 {
+
     /**
      * @return array
      * @inheritdoc
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'type' => 'document_type',
-                    'referenceId' => 'document_reference_id',
+                    'documentTemplateId' => 'document_template_id',
+                    'documentType' => 'document_type',
+                    'referenceId' => 'reference_id',
+                    'status' => 'status',
                 ],
                 'queryConditions' => [
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],
@@ -42,6 +52,7 @@ class DocumentTemplateQuery extends \yii\db\ActiveQuery
                     'orderByPosition' => 'position',
                 ]
             ]
-        ]);
+        ];
     }
+
 }

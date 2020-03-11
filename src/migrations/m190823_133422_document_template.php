@@ -14,15 +14,15 @@ class m190823_133422_document_template extends Migration
     {
         $this->createTable($this->tableName, [
             'document_template_id' => $this->bigPrimaryKey(),
-            'document_reference_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'document_type' => $this->string(50)->notNull()->defaultValue(''),
+            'reference_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
-            'title' => $this->string(250)->notNull()->defaultValue(''),
-            'subtitle' => $this->string(250)->notNull()->defaultValue(''),
+            'name' => $this->string(250)->notNull()->defaultValue(''),
             'content' => $this->text()->notNull(),
+            'additional' => $this->json(),
             'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('idx_type_reference_id', $this->tableName, ['document_type', 'document_reference_id']);
+        $this->createIndex('idx_type_reference_id', $this->tableName, ['document_type', 'reference_id']);
     }
 }

@@ -34,7 +34,17 @@ class DocumentTemplateController extends ActiveController
     /**
      * @var TemplateDocumentManager
      */
-    public $templateDocument = 'templateDocument';
+    public $documentManager;
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->documentManager = Instance::ensure($this->documentManager, TemplateDocumentManager::class);
+    }
 
     /**
      * @return array
@@ -62,16 +72,6 @@ class DocumentTemplateController extends ActiveController
     }
 
     /**
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        $this->templateDocument = Instance::ensure($this->templateDocument, TemplateDocumentManager::class);
-    }
-
-    /**
      * @param $id
      * @return array
      * @throws \yii\base\InvalidConfigException
@@ -96,7 +96,7 @@ class DocumentTemplateController extends ActiveController
      */
     public function actionDownload($id): void
     {
-        $generateFile = $this->templateDocument->generate($id);
+        $generateFile = $this->documentManager->generate($id);
         Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => true]);
     }
 
@@ -108,6 +108,6 @@ class DocumentTemplateController extends ActiveController
     public function actionPreview($id): string
     {
         Yii::$app->getResponse()->format = Response::FORMAT_HTML;
-        return $this->templateDocument->render($id);
+        return $this->documentManager->render($id);
     }
 }

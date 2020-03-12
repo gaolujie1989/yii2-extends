@@ -37,6 +37,9 @@ class PdfWriter extends BaseObject implements FileWriterInterface
      */
     public function write(string $file, array $data): void
     {
+        if (file_exists($file)) {
+            unlink($file);
+        }
         $this->html2pdf = Instance::ensure($this->html2pdf, Manager::class);
         $tempFile = $this->html2pdf->convert(implode('<br />', $data), $this->options);
         $tempFile->move($file);

@@ -41,6 +41,9 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      */
     public function write(string $file, array $data): void
     {
+        if (file_exists($file)) {
+            unlink($file);
+        }
         if ($this->keyAsHeader) {
             if ($this->multiSheet) {
                 array_walk($data, static function(&$datum) {

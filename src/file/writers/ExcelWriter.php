@@ -76,10 +76,6 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
         } else {
             $writer->writeSheet($data);
         }
-
-        if (file_exists($file)) {
-            unlink($file);
-        }
         $writer->writeToFile($file);
     }
 
@@ -106,9 +102,6 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
 
         $type = ucfirst(pathinfo($file, PATHINFO_EXTENSION));
         $writer = IOFactory::createWriter($spreadsheet, $type);
-        if (file_exists($file)) {
-            unlink($file);
-        }
         $writer->save($file);
     }
 

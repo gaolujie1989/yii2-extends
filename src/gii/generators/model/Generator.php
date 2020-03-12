@@ -5,6 +5,8 @@
 
 namespace lujie\extend\gii\generators\model;
 
+use yii\db\Schema;
+
 /**
  * Class Generator
  * @package lujie\extend\gii\generators\model
@@ -51,13 +53,52 @@ class Generator extends \yii\gii\generators\model\Generator
             }
             if ($column->defaultValue !== null) {
                 $defaults[$column->defaultValue][] = $column->name;
+            } else if ($column->allowNull) {
+                switch ($column->type) {
+                    case Schema::TYPE_JSON:
+                        $defaults['EMPTY_ARRAY'][] = $column->name;
+                        break;
+                    case Schema::TYPE_TEXT:
+                        $defaults[''][] = $column->name;
+                    default:
+                }
             }
         }
         $rules = [];
         foreach ($defaults as $defaultValue => $columns) {
-            $defaultValue = is_string($defaultValue) ? "'$defaultValue'" : $defaultValue;
+            if ($defaultValue === 'EMPTY_ARRAY') {
+                $defaultValue = '[]';
+            } else {
+                $defaultValue = is_string($defaultValue) ? "'$defaultValue'" : $defaultValue;
+            }
             $rules[] = "[['" . implode("', '", $columns) . "'], 'default', 'value' => {$defaultValue}]";
         }
         return $rules;
+    }
+
+    /**
+     * @param \yii\db\TableSchema $table
+     * @return array
+     * @inheritdoc
+     */
+    protected function generateProperties($table): array
+    {
+        $properties = parent::generateProperties($table);
+        foreach ($table->columns as $column) {
+            if ($column->type === Schema::TYPE_JSON) {
+                $type = 'array';
+            } else {
+                continue;
+            }
+            if ($column->allowNull){
+                $type .= '|null';
+            }
+            $properties[$column->name] = [
+                'type' => $type,
+                'name' => $column->name,
+                'comment' => $column->comment,
+            ];
+        }
+        return $properties;
     }
 }

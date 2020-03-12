@@ -24,6 +24,11 @@ class ActiveRecordDataLoader extends QueryDataLoader
     public $modelClass;
 
     /**
+     * @var array|string
+     */
+    public $with;
+
+    /**
      * @var bool
      */
     protected $returnAsArray = false;
@@ -40,6 +45,9 @@ class ActiveRecordDataLoader extends QueryDataLoader
         }
         if (empty($this->query)) {
             $this->query = $this->modelClass::find()->asArray($this->returnAsArray);
+        }
+        if ($this->with) {
+            $this->query->with($this->with);
         }
         $this->db = $this->modelClass::getDb();
         parent::init();

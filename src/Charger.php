@@ -28,6 +28,10 @@ class Charger extends Component implements BootstrapInterface
 
     public const EVENT_AFTER_CHARGE = 'afterCharge';
 
+    public const EVENT_BEFORE_CALCULATE = 'beforeCalculate';
+
+    public const EVENT_AFTER_CALCULATE = 'afterCalculate';
+
     /**
      * [
      *     'modelType'  => ['modelClass', ['chargeTypes']]
@@ -147,11 +151,7 @@ class Charger extends Component implements BootstrapInterface
             }
             if ($force || $chargePrice->getIsNewRecord()
                 || in_array($chargePrice->status, [ChargePrice::STATUS_ESTIMATE, ChargePrice::STATUS_FAILED], true)) {
-                /** @var ChargeCalculatorInterface $chargeCalculator */
-                $chargeCalculator = $this->chargeCalculatorLoader->get($chargeType);
-                $chargeCalculator = Instance::ensure($chargeCalculator, ChargeCalculatorInterface::class);
-                $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
-                $chargePrice->mustSave(false);
+                $this->calculateInternal($chargePrice, $model);
             }
             $chargePrices[$chargeType] = $chargePrice;
         }
@@ -160,21 +160,6 @@ class Charger extends Component implements BootstrapInterface
         $this->trigger(self::EVENT_AFTER_CHARGE, $chargeEvent);
 
         return $chargeEvent->chargePrices;
-    }
-
-    /**
-     * @param BaseActiveRecord $model
-     * @return array
-     * @inheritdoc
-     */
-    public function getModelChargeTypes(BaseActiveRecord $model): array
-    {
-        foreach ($this->chargeConfig as $modelType => [$modelClass, $chargeTypes]) {
-            if ($model instanceof $modelClass) {
-                return [$modelType, $chargeTypes];
-            }
-        }
-        throw new InvalidArgumentException('Invalid model, no matched modelClass, charge type not found');
     }
 
     /**
@@ -192,11 +177,48 @@ class Charger extends Component implements BootstrapInterface
         if ($model === null) {
             return false;
         }
+        $this->calculateInternal($chargePrice, $model);
+        return true;
+    }
+
+    /**
+     * @param ChargePrice $chargePrice
+     * @param BaseActiveRecord $model
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    protected function calculateInternal(ChargePrice $chargePrice, BaseActiveRecord $model): void
+    {
+        $calculateEvent = new CalculateEvent();
+        $calculateEvent->chargePrice = $chargePrice;
+        $calculateEvent->model = $model;
+        $this->trigger(self::EVENT_BEFORE_CHARGE, $calculateEvent);
+        if ($calculateEvent->calculated) {
+            return;
+        }
+
         /** @var ChargeCalculatorInterface $chargeCalculator */
         $chargeCalculator = $this->chargeCalculatorLoader->get($chargePrice->charge_type);
         $chargeCalculator = Instance::ensure($chargeCalculator, ChargeCalculatorInterface::class);
         $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
         $chargePrice->mustSave(false);
-        return true;
+
+        $this->trigger(self::EVENT_AFTER_CHARGE, $calculateEvent);
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return array
+     * @inheritdoc
+     */
+    protected function getModelChargeTypes(BaseActiveRecord $model): array
+    {
+        foreach ($this->chargeConfig as $modelType => [$modelClass, $chargeTypes]) {
+            if ($model instanceof $modelClass) {
+                return [$modelType, $chargeTypes];
+            }
+        }
+        throw new InvalidArgumentException('Invalid model, no matched modelClass, charge type not found');
     }
 }

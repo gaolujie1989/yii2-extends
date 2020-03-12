@@ -62,7 +62,7 @@ class TemplateDocumentManager extends BaseObject
     {
         $template = $this->templateLoader->get($documentReferenceId);
         $referenceData = $this->referenceDataLoader->get($documentReferenceId);
-        return $this->templateEngine->render($template, $referenceData);
+        return $this->templateEngine->render($template, $referenceData ?: []);
     }
 
     /**
@@ -72,9 +72,6 @@ class TemplateDocumentManager extends BaseObject
      */
     public function generate(string $filePath, int $documentReferenceId = 0): void
     {
-        if (file_exists($filePath)) {
-            unlink($filePath);
-        }
         $this->fileWriter->write($filePath, [$this->render($documentReferenceId)]);
     }
 }

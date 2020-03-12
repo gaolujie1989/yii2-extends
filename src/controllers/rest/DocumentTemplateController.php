@@ -96,7 +96,8 @@ class DocumentTemplateController extends ActiveController
      */
     public function actionDownload($id): void
     {
-        $generateFile = $this->documentManager->generate($id);
+        $generateFile = Yii::getAlias("@runtime/{$this->documentType}/{$id}.pdf");
+        $this->documentManager->generate($generateFile, $id);
         Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => true]);
     }
 

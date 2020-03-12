@@ -193,7 +193,7 @@ class Charger extends Component implements BootstrapInterface
         $calculateEvent = new CalculateEvent();
         $calculateEvent->chargePrice = $chargePrice;
         $calculateEvent->model = $model;
-        $this->trigger(self::EVENT_BEFORE_CHARGE, $calculateEvent);
+        $this->trigger(self::EVENT_BEFORE_CALCULATE, $calculateEvent);
         if ($calculateEvent->calculated) {
             return;
         }
@@ -204,7 +204,7 @@ class Charger extends Component implements BootstrapInterface
         $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
         $chargePrice->mustSave(false);
 
-        $this->trigger(self::EVENT_AFTER_CHARGE, $calculateEvent);
+        $this->trigger(self::EVENT_AFTER_CALCULATE, $calculateEvent);
     }
 
     /**

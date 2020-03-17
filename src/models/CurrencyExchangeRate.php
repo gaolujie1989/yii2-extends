@@ -15,7 +15,7 @@ use Yii;
  * @property int $id
  * @property string $from
  * @property string $to
- * @property string $rate
+ * @property float $rate
  * @property string $date
  */
 class CurrencyExchangeRate extends \yii\db\ActiveRecord
@@ -36,8 +36,9 @@ class CurrencyExchangeRate extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['rate'], 'default', 'value' => 1],
             [['rate'], 'number'],
-            [['date'], 'required'],
+            [['from', 'to', 'date'], 'required'],
             [['date'], 'safe'],
             [['from', 'to'], 'string', 'max' => 3],
             [['from', 'to', 'rate'], 'unique', 'targetAttribute' => ['from', 'to', 'rate']],

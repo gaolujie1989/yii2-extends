@@ -7,6 +7,11 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[CurrencyExchangeRate]].
  *
+ * @method CurrencyExchangeRateQuery id($id)
+ * @method CurrencyExchangeRateQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
  * @method CurrencyExchangeRateQuery fromTo($from, $to)
  * @method CurrencyExchangeRateQuery date($date)
  * @method CurrencyExchangeRateQuery beforeDate($date)
@@ -15,8 +20,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method float getRate()
  *
- * @method CurrencyExchangeRate[]|array all($db = null)
- * @method CurrencyExchangeRate|array|null one($db = null)
+ * @method array|CurrencyExchangeRate[] all($db = null)
+ * @method array|CurrencyExchangeRate|null one($db = null)
+ * @method array|CurrencyExchangeRate[] each($batchSize = 100, $db = null)
  *
  * @see CurrencyExchangeRate
  */

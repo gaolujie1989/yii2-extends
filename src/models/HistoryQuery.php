@@ -14,11 +14,16 @@ use yii\db\ActiveQuery;
  * Class HistoryQuery
  *
  * @method HistoryQuery id($id)
+ * @method HistoryQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
  * @method HistoryQuery tableName($tableName);
- * @method HistoryQuery rowId($rowId);
+ * @method HistoryQuery rowId($rowId)
  *
  * @method array|History[] all($db = null)
  * @method array|History|null one($db = null)
+ * @method array|History[] each($batchSize = 100, $db = null)
  *
  * @see History
  * @package lujie\ar\history\models

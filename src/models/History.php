@@ -16,11 +16,11 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%history}}".
  *
- * @property integer $id
+ * @property int $id
  * @property string $table_name
- * @property integer $row_id
- * @property array $old_data
- * @property array $new_data
+ * @property int $row_id
+ * @property array|null $old_data
+ * @property array|null $new_data
  *
  * @package lujie\core\db
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -46,9 +46,10 @@ class History extends ActiveRecord
     {
         return [
             [['table_name', 'row_id'], 'required'],
-            [['row_id'], 'integer'],
+            [['old_data', 'new_data'], 'default', 'value' => []],
+            [['row_id', 'created_at', 'created_by'], 'integer'],
+            [['old_data', 'new_data'], 'safe'],
             [['table_name'], 'string', 'max' => 50],
-            [['old_data', 'new_data'], 'safe']
         ];
     }
 

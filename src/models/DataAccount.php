@@ -14,8 +14,8 @@ use yii\db\ActiveQuery;
  * @property string $url
  * @property string $username
  * @property string $password
- * @property array $options
- * @property array $additional
+ * @property array|null $options
+ * @property array|null $additional
  * @property int $status
  *
  * @property DataSource[] $dataSources
@@ -36,12 +36,15 @@ class DataAccount extends \lujie\data\recording\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'], 'required'],
+            [['name', 'type', 'url', 'username', 'password'], 'default', 'value' => ''],
+            [['options', 'additional'], 'default', 'value' => []],
+            [['status'], 'default', 'value' => 0],
+            [['options', 'additional'], 'safe'],
             [['status'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 50],
-            [['url', 'username', 'password'], 'string', 'max' => 255],
-            [['name'], 'unique'],
+            [['url'], 'string', 'max' => 255],
+            [['username', 'password'], 'string', 'max' => 200],
         ];
     }
 
@@ -58,14 +61,14 @@ class DataAccount extends \lujie\data\recording\base\db\ActiveRecord
             'username' => Yii::t('lujie/data', 'Username'),
             'password' => Yii::t('lujie/data', 'Password'),
             'options' => Yii::t('lujie/data', 'Options'),
-            'additional' => Yii::t('lujie/data', 'Additional Info'),
+            'additional' => Yii::t('lujie/data', 'Additional'),
             'status' => Yii::t('lujie/data', 'Status'),
         ];
     }
 
     /**
-     * @return DataAccountQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return DataAccountQuery the active query used by this AR class.
      */
     public static function find(): DataAccountQuery
     {
@@ -79,7 +82,7 @@ class DataAccount extends \lujie\data\recording\base\db\ActiveRecord
     public function extraFields(): array
     {
         return array_merge(parent::extraFields(), [
-            'dataSource',
+            'dataSource' => 'dataSource',
         ]);
     }
 
@@ -87,7 +90,7 @@ class DataAccount extends \lujie\data\recording\base\db\ActiveRecord
      * @return ActiveQuery
      * @inheritdoc
      */
-    public function getDataSources(): ActiveQuery
+    public function getDataSources(): DataSourceQuery
     {
         return $this->hasMany(DataSource::class, ['data_account_id' => 'data_account_id']);
     }

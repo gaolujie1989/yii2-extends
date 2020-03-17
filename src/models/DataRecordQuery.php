@@ -8,6 +8,11 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * This is the ActiveQuery class for [[DataRecord]].
  *
  * @method DataRecordQuery id($id)
+ * @method DataRecordQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method DataRecordQuery dataRecordId($dataAccountId)
  * @method DataRecordQuery dataAccountId($dataAccountId)
  * @method DataRecordQuery dataSourceType($dataSourceType)
  * @method DataRecordQuery dataId($dataId)
@@ -20,6 +25,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method array|DataRecord[] all($db = null)
  * @method array|DataRecord|null one($db = null)
+ * @method array|DataRecord[] each($batchSize = 100, $db = null)
  *
  * @see DataRecord
  */
@@ -35,6 +41,7 @@ class DataRecordQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
+                    'dataRecordId' => 'data_record_id',
                     'dataAccountId' => 'data_account_id',
                     'dataSourceType' => 'data_source_type',
                     'dataId' => 'data_id',

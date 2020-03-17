@@ -12,12 +12,12 @@ use yii\db\ActiveQuery;
  * @property int $data_account_id
  * @property string $name
  * @property string $type
- * @property array $condition
- * @property array $additional
+ * @property array|null $condition
+ * @property array|null $additional
  * @property int $status
  * @property int $last_exec_at
  * @property int $last_exec_status
- * @property array $last_exec_result
+ * @property array|null $last_exec_result
  *
  * @property DataAccount $dataAccount
  */
@@ -37,6 +37,9 @@ class DataSource extends \lujie\data\recording\base\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['data_account_id', 'status', 'last_exec_at', 'last_exec_status'], 'default', 'value' => 0],
+            [['name', 'type'], 'default', 'value' => ''],
+            [['condition', 'additional', 'last_exec_result'], 'default', 'value' => []],
             [['data_account_id', 'status', 'last_exec_at', 'last_exec_status'], 'integer'],
             [['condition', 'additional', 'last_exec_result'], 'safe'],
             [['name'], 'string', 'max' => 100],

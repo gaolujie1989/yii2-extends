@@ -10,8 +10,8 @@ use Yii;
  * This is the model class for table "{{%data_record_data}}".
  *
  * @property int $data_record_data_id
- * @property int $data_record_id
- * @property int $data_text
+ * @property int|null $data_record_id
+ * @property resource|string|null $data_text
  */
 class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
 {
@@ -30,7 +30,7 @@ class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
     {
         return [
             [['data_record_id'], 'integer'],
-            [['data_text'], 'safe'],
+            [['data_text'], 'string'],
         ];
     }
 

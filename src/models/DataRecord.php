@@ -10,11 +10,11 @@ use yii\db\ActiveQuery;
  *
  * @property int $data_record_id
  * @property int $data_account_id
- * @property int $data_source_type
+ * @property string $data_source_type
  * @property int $data_id
  * @property string $data_key
  * @property int $data_parent_id
- * @property array $data_additional
+ * @property array|null $data_additional
  * @property int $data_created_at
  * @property int $data_updated_at
  *
@@ -38,8 +38,11 @@ class DataRecord extends \lujie\data\recording\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['data_account_id', 'data_id', 'data_parent_id',
-                'data_created_at', 'data_updated_at'], 'integer'],
+            [['data_account_id', 'data_source_type', 'data_id', 'data_parent_id',
+                'data_created_at', 'data_updated_at'], 'default', 'value' => 0],
+            [['data_key'], 'default', 'value' => ''],
+            [['data_additional'], 'default', 'value' => []],
+            [['data_account_id', 'data_id', 'data_parent_id', 'data_created_at', 'data_updated_at'], 'integer'],
             [['data_additional'], 'safe'],
             [['data_source_type'], 'string', 'max' => 50],
             [['data_key'], 'string', 'max' => 255],

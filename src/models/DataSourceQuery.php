@@ -10,6 +10,11 @@ use lujie\extend\constants\StatusConst;
  * This is the ActiveQuery class for [[DataRecord]].
  *
  * @method DataSourceQuery id($id)
+ * @method DataSourceQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method DataSourceQuery dataSourceId($dataSourceId)
  * @method DataSourceQuery dataAccountId($dataAccountId)
  * @method DataSourceQuery type($type)
  * @method DataSourceQuery active()
@@ -34,8 +39,10 @@ class DataSourceQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
+                    'dataSourceId' => 'data_source_id',
                     'dataAccountId' => 'data_account_id',
                     'type' => 'type',
+                    'status' => 'status',
                 ],
                 'queryConditions' => [
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],

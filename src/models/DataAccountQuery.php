@@ -9,15 +9,22 @@ use lujie\extend\constants\StatusConst;
  * This is the ActiveQuery class for [[DataRecord]].
  *
  * @method DataAccountQuery id($id)
- * @method DataAccountQuery name($name)
+ * @method DataAccountQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method DataAccountQuery dataAccountId($dataAccountId)
  * @method DataAccountQuery type($type)
+ * @method DataAccountQuery status($status)
+ * @method DataAccountQuery name($name)
+ *
  * @method DataAccountQuery active()
  * @method DataAccountQuery inactive()
- *
  * @method int getAccountId()
  *
  * @method array|DataAccount[] all($db = null)
  * @method array|DataAccount|null one($db = null)
+ * @method array|DataAccount[] each($batchSize = 100, $db = null)
  *
  * @see DataAccount
  */
@@ -33,8 +40,10 @@ class DataAccountQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'name' => 'name',
+                    'dataAccountId' => 'data_account_id',
                     'type' => 'type',
+                    'status' => 'status',
+                    'name' => 'name',
                 ],
                 'queryConditions' => [
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],

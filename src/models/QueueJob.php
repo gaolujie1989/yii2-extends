@@ -43,6 +43,8 @@ class QueueJob extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['queue', 'job'], 'default', 'value' => ''],
+            [['job_id', 'ttr', 'delay', 'pushed_at', 'last_exec_at', 'last_exec_status'], 'default', 'value' => 0],
             [['job_id', 'ttr', 'delay', 'pushed_at', 'last_exec_at', 'last_exec_status'], 'integer'],
             [['job'], 'string'],
             [['queue'], 'string', 'max' => 50],

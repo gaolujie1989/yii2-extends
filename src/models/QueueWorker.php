@@ -40,6 +40,8 @@ class QueueWorker extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['queue'], 'default', 'value' => ''],
+            [['pid', 'started_at', 'finished_at', 'pinged_at', 'success_count', 'failed_count'], 'default', 'value' => 0],
             [['pid', 'started_at', 'finished_at', 'pinged_at', 'success_count', 'failed_count'], 'integer'],
             [['queue'], 'string', 'max' => 50],
         ];

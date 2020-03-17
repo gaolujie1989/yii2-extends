@@ -21,7 +21,7 @@ use yii\db\ActiveRecord;
  * @property int $finished_at
  * @property int $memory_usage
  * @property int $attempt
- * @property string $error
+ * @property string|null $error
  * @property int $status
  */
 class QueueJobExec extends ActiveRecord
@@ -42,6 +42,8 @@ class QueueJobExec extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['queue', 'error'], 'default', 'value' => ''],
+            [['job_id', 'worker_pid', 'started_at', 'finished_at', 'memory_usage', 'attempt', 'status'], 'default', 'value' => 0],
             [['job_id', 'worker_pid', 'started_at', 'finished_at', 'memory_usage', 'attempt', 'status'], 'integer'],
             [['error'], 'string'],
             [['queue'], 'string', 'max' => 50],

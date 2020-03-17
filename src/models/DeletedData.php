@@ -15,10 +15,10 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%deleted_data}}".
  *
- * @property integer $id
+ * @property int $id
  * @property string $table_name
- * @property integer $row_id
- * @property array $row_data
+ * @property int $row_id
+ * @property array|null $row_data
  *
  * @package lujie\backupdelete\models
  * @author Lujie Zhou <gao_lujie@live.cn>

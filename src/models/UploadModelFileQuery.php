@@ -8,12 +8,21 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * This is the ActiveQuery class for [[UploadedFile]].
  *
  * @method UploadModelFileQuery id($id)
+ * @method UploadModelFileQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method UploadModelFileQuery uploadModelFileId($uploadModelFileId)
  * @method UploadModelFileQuery modelType($modelType)
  * @method UploadModelFileQuery modelId($modelId)
  * @method UploadModelFileQuery modelParentId($modelParentId)
  * @method UploadModelFileQuery file($file)
  * @method UploadModelFileQuery ext($ext)
  * @method UploadModelFileQuery nameLike($name)
+ *
+ * @method array|UploadModelFile[] all($db = null)
+ * @method array|UploadModelFile|null one($db = null)
+ * @method array|UploadModelFile[] each($batchSize = 100, $db = null)
  *
  * @see UploadModelFile
  */
@@ -29,6 +38,7 @@ class UploadModelFileQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
+                    'uploadModelFileId' => 'upload_model_file_id',
                     'modelType' => ['model_type'],
                     'modelId' => ['model_id'],
                     'modelParentId' => ['model_parent_id'],

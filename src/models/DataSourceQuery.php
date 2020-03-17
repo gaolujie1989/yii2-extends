@@ -24,6 +24,7 @@ use lujie\extend\constants\StatusConst;
  *
  * @method array|DataSource[] all($db = null)
  * @method array|DataSource|null one($db = null)
+ * @method array|DataSource[] each($batchSize = 100, $db = null)
  *
  * @see DataSource
  */

@@ -23,7 +23,7 @@ if ($generator->ns !== $generator->queryNs) {
 
 $queryFields = [];
 foreach ($labels as $name => $label) {
-    if (in_array($name, ['type', 'status', 'key'], true)
+    if (in_array($name, ['key', 'code', 'type', 'status'], true)
         || substr($name, -4) === '_key'
         || substr($name, -6) === '_status'
         || in_array(substr($name, -5), ['_code', '_type'], true)

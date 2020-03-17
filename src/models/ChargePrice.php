@@ -30,7 +30,7 @@ use Yii;
  * @property string $currency
  * @property int $status
  * @property string $note
- * @property array $additional
+ * @property array|null $additional
  * @property int $owner_id
  */
 class ChargePrice extends \yii\db\ActiveRecord
@@ -56,10 +56,14 @@ class ChargePrice extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['charge_price_id', 'model_id', 'parent_model_id', 'price_table_id',
-                'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
-                'status', 'owner_id', ], 'integer'],
             [['charge_type', 'model_type', 'model_id'], 'required'],
+            [['charge_group', 'custom_type', 'currency', 'note'], 'default', 'value' => ''],
+            [['parent_model_id', 'price_table_id', 'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent', 'status', 'owner_id'], 'default', 'value' => 0],
+            [['additional'], 'default', 'value' => []],
+            [['model_id', 'parent_model_id', 'price_table_id',
+                'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
+                'status', 'owner_id'], 'integer'],
+            [['additional'], 'safe'],
             [['charge_group', 'charge_type', 'custom_type', 'model_type'], 'string', 'max' => 50],
             [['currency'], 'string', 'max' => 3],
             [['note'], 'string', 'max' => 1000],

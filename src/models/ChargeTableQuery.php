@@ -7,12 +7,19 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[ChargeTable]].
  *
- * @method ChargeTableQuery ownerId($ownerId)
- * @method ChargeTableQuery chargeType($chargeType);
- * @method ChargeTableQuery customType($customType);
+ * @method ChargeTableQuery id($id)
+ * @method ChargeTableQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
  *
- * @method ChargeTable[]|array all($db = null)
- * @method ChargeTable|array|null one($db = null)
+ * @method ChargeTableQuery chargeTableId($chargeTableId)
+ * @method ChargeTableQuery chargeType($chargeType)
+ * @method ChargeTableQuery customType($customType)
+ * @method ChargeTableQuery ownerId($ownerId)
+ *
+ * @method array|ChargeTable[] all($db = null)
+ * @method array|ChargeTable|null one($db = null)
+ * @method array|ChargeTable[] each($batchSize = 100, $db = null)
  *
  * @see ChargeTable
  */
@@ -28,9 +35,10 @@ class ChargeTableQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'ownerId' => 'owner_id',
+                    'chargeTableId' => 'charge_table_id',
                     'chargeType' => 'charge_type',
                     'customType' => 'custom_type',
+                    'ownerId' => 'owner_id',
                 ],
             ]
         ]);

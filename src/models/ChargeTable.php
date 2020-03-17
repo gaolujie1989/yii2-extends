@@ -47,6 +47,10 @@ class ChargeTable extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['charge_type'], 'required'],
+            [['charge_group', 'custom_type', 'limit_unit', 'display_limit_unit', 'currency'], 'default', 'value' => ''],
+            [['min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit',
+                'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
             [['min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit',
                 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['charge_group', 'charge_type', 'custom_type'], 'string', 'max' => 50],

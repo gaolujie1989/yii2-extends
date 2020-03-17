@@ -7,15 +7,22 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[ShippingTable]].
  *
+ * @method ShippingTableQuery id($id)
+ * @method ShippingTableQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method ShippingTableQuery shippingTableId($shippingTableId)
+ * @method ShippingTableQuery ownerId($ownerId)
  * @method ShippingTableQuery carrier($carrier);
  * @method ShippingTableQuery departure($departure);
  * @method ShippingTableQuery destination($destination);
- * @method ShippingTableQuery ownerId($ownerId)
  *
  * @method ShippingTableQuery orderByPrice($order = SORT_ASC)
  *
- * @method ShippingTable[]|array all($db = null)
- * @method ShippingTable|array|null one($db = null)
+ * @method array|ShippingTable[] all($db = null)
+ * @method array|ShippingTable|null one($db = null)
+ * @method array|ShippingTable[] each($batchSize = 100, $db = null)
  *
  * @see ShippingTable
  */
@@ -31,10 +38,11 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
+                    'shippingTableId' => 'shipping_table_id',
+                    'ownerId' => 'owner_id',
                     'carrier' => 'carrier',
                     'departure' => ['departure'],
                     'destination' => ['destination'],
-                    'ownerId' => 'owner_id',
                 ],
                 'querySorts' => [
                     'orderByPrice' => ['price_cent']

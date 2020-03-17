@@ -46,6 +46,9 @@ class ShippingTable extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['carrier', 'departure', 'destination', 'currency'], 'required'],
+            [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'l2wh_mm_limit', 'lh_mm_limit',
+                'price_cent', 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
             [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'l2wh_mm_limit', 'lh_mm_limit',
                 'price_cent', 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['carrier', 'currency'], 'string', 'max' => 3],

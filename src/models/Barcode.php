@@ -12,10 +12,10 @@ use Yii;
 /**
  * This is the model class for table "{{%barcode}}".
  *
- * @property string $barcode_id
+ * @property int $barcode_id
  * @property string $code_type EAN or UPC
  * @property string $code_text
- * @property string $assigned_id
+ * @property int $assigned_id
  */
 class Barcode extends \yii\db\ActiveRecord
 {
@@ -38,6 +38,8 @@ class Barcode extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['code_type', 'code_text'], 'required'],
+            [['assigned_id'], 'default', 'value' => 0],
             [['assigned_id'], 'integer'],
             [['code_type'], 'string', 'max' => 3],
             [['code_text'], 'string', 'max' => 13],

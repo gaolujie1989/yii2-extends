@@ -8,6 +8,12 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * This is the ActiveQuery class for [[Barcode]].
  *
  * @method BarcodeQuery id($id)
+ * @method BarcodeQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method BarcodeQuery barcodeId($barcodeId)
+ * @method BarcodeQuery codeType($codeType)
  * @method BarcodeQuery codeText($codeText)
  * @method BarcodeQuery assignedId($assignedId)
  *
@@ -15,8 +21,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method BarcodeQuery upc()
  * @method BarcodeQuery unassigned()
  *
- * @method Barcode[]|array all($db = null)
- * @method Barcode|array|null one($db = null)
+ * @method array|Barcode[] all($db = null)
+ * @method array|Barcode|null one($db = null)
+ * @method array|Barcode[] each($batchSize = 100, $db = null)
  *
  * @see Barcode
  */
@@ -32,6 +39,8 @@ class BarcodeQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
+                    'barcodeId' => 'barcode_id',
+                    'codeType' => 'code_type',
                     'codeText' => 'code_text',
                     'assignedId' => 'assigned_id',
                 ],

@@ -41,6 +41,6 @@ class m190912_091422_schedule_task extends Migration
         ]);
 
         $this->createIndex('uk_task_code', $this->tableName, ['task_code'], true);
-        $this->createIndex('idx_task_group', $this->tableName, ['task_group'], true);
+        $this->createIndex('idx_task_group', $this->tableName, ['task_group']);
     }
 }

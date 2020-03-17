@@ -18,7 +18,7 @@ use Yii;
  * @property string $task_code
  * @property string $task_group
  * @property string $task_desc
- * @property array $executable
+ * @property array|null $executable
  * @property string $expression
  * @property string $timezone
  * @property int $should_locked
@@ -48,6 +48,9 @@ class ScheduleTask extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['position', 'should_locked', 'timeout', 'should_queued', 'ttr', 'attempts', 'status'], 'default', 'value' => 0],
+            [['task_group', 'task_desc', 'expression', 'timezone', 'mutex', 'queue'], 'default', 'value' => ''],
+            [['executable'], 'default', 'value' => []],
             [['position', 'should_locked', 'timeout', 'should_queued', 'ttr', 'attempts', 'status'], 'integer'],
             [['task_code'], 'required'],
             [['executable'], 'safe'],

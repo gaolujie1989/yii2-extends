@@ -9,6 +9,11 @@ use lujie\extend\constants\StatusConst;
  * This is the ActiveQuery class for [[ScheduleTask]].
  *
  * @method ScheduleTaskQuery id($id)
+ * @method ScheduleTaskQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method ScheduleTaskQuery scheduleTaskId($scheduleTaskId)
  * @method ScheduleTaskQuery taskCode($taskCode)
  * @method ScheduleTaskQuery status($status)
  *
@@ -16,6 +21,7 @@ use lujie\extend\constants\StatusConst;
  *
  * @method array|ScheduleTask[] all($db = null)
  * @method array|ScheduleTask|null one($db = null)
+ * @method array|ScheduleTask[] each($batchSize = 100, $db = null)
  *
  * @see ScheduleTask
  */
@@ -31,6 +37,7 @@ class ScheduleTaskQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
+                    'scheduleTaskId' => 'schedule_task_id',
                     'taskCode' => 'task_code',
                     'status' => 'status',
                 ],

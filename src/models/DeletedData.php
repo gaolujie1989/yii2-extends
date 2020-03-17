@@ -42,9 +42,10 @@ class DeletedData extends ActiveRecord
     {
         return [
             [['table_name', 'row_id', 'row_data'], 'required'],
+            [['row_data'], 'default', 'value' => []],
             [['row_id'], 'integer'],
+            [['row_data'], 'safe'],
             [['table_name'], 'string', 'max' => 50],
-            [['row_data'], 'safe']
         ];
     }
 

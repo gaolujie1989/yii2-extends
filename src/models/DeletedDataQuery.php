@@ -12,11 +12,16 @@ use yii\db\ActiveQuery;
  * Class DeletedDataQuery
  *
  * @method DeletedDataQuery id($id)
+ * @method DeletedDataQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
  * @method DeletedDataQuery tableName($tableName);
  * @method DeletedDataQuery rowId($rowId);
  *
  * @method array|DeletedData[] all($db = null)
  * @method array|DeletedData|null one($db = null)
+ * @method array|DeletedData[] each($batchSize = 100, $db = null)
  *
  * @see DeletedData
  * @package lujie\backupdelete\models

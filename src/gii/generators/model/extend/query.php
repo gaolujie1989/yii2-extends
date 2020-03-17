@@ -25,7 +25,7 @@ $queryFields = [];
 foreach ($labels as $name => $label) {
     if (in_array($name, ['key', 'code', 'type', 'status'], true)
         || substr($name, -4) === '_key'
-        || substr($name, -6) === '_status'
+        || substr($name, -7) === '_status'
         || in_array(substr($name, -5), ['_code', '_type'], true)
         || in_array(substr($name, -3), ['_id', '_no'], true)
     ) {

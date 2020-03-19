@@ -9,6 +9,7 @@ use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
+use yii\log\DbTarget;
 use yii\log\EmailTarget;
 use yii\log\FileTarget;
 use yii\log\Target;
@@ -27,6 +28,29 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'logVars' => [],
             'except' => ['yii\*'],
         ],
+
+        'appErrorDb' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/app-error.log',
+            'levels' => ['error'],
+            'logVars' => [],
+            'except' => ['yii\*'],
+        ],
+        'appWarningDb' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/app-warning.log',
+            'levels' => ['warning'],
+            'logVars' => [],
+            'except' => ['yii\*'],
+        ],
+        'appProfileDb' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/app-profile.log',
+            'levels' => ['profile'],
+            'logVars' => [],
+            'except' => ['yii\*'],
+        ],
+
         'appErrorFile' => [
             'class' => FileTarget::class,
             'logFile' => '@runtime/logs/app-error.log',
@@ -38,6 +62,13 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'class' => FileTarget::class,
             'logFile' => '@runtime/logs/app-warning.log',
             'levels' => ['warning'],
+            'logVars' => [],
+            'except' => ['yii\*'],
+        ],
+        'appProfileFile' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/app-profile.log',
+            'levels' => ['profile'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
@@ -55,6 +86,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'logVars' => [],
             'except' => ['yii\*'],
         ],
+
         'yiiErrorEmail' => [
             'class' => EmailTarget::class,
             'levels' => ['error'],
@@ -62,6 +94,21 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'categories' => ['yii\*'],
             'except' => ['yii\web\HttpException:4*'], //4xx httpCode not need send mail
         ],
+
+        'yiiErrorDb' => [
+            'class' => DbTarget::class,
+            'levels' => ['error'],
+            'logVars' => [],
+            'categories' => ['yii\*'],
+            'except' => ['yii\web\HttpException:4*'], //4xx httpCode not need send mail
+        ],
+        'yiiWarningDb' => [
+            'class' => DbTarget::class,
+            'levels' => ['warning'],
+            'logVars' => [],
+            'categories' => ['yii\*'],
+        ],
+
         'yiiErrorFile' => [
             'class' => FileTarget::class,
             'logFile' => '@runtime/logs/yii-error.log',
@@ -73,6 +120,13 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'class' => FileTarget::class,
             'logFile' => '@runtime/logs/yii-warning.log',
             'levels' => ['warning'],
+            'logVars' => [],
+            'categories' => ['yii\*'],
+        ],
+        'yiiProfileFile' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/yii-profile.log',
+            'levels' => ['profile'],
             'logVars' => [],
             'categories' => ['yii\*'],
         ],
@@ -100,6 +154,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'appErrorEmail',
             'appErrorFile',
             'appWarningFile',
+            'appProfileFile',
             'appInfoFile',
             'yiiErrorEmail',
             'yiiErrorFile',
@@ -108,27 +163,33 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         'test' => [
             'appErrorFile',
             'appWarningFile',
+            'appProfileFile',
             'appInfoFile',
             'yiiErrorFile',
             'yiiWarningFile',
+            'yiiProfileFile',
             'yiiInfoFile',
         ],
         'dev' => [
             'appErrorFile',
             'appWarningFile',
+            'appProfileFile',
             'appInfoFile',
             'appDebugFile',
             'yiiErrorFile',
             'yiiWarningFile',
+            'yiiProfileFile',
             'yiiInfoFile',
         ],
         'debug' => [
             'appErrorFile',
             'appWarningFile',
+            'appProfileFile',
             'appInfoFile',
             'appDebugFile',
             'yiiErrorFile',
             'yiiWarningFile',
+            'yiiProfileFile',
             'yiiInfoFile',
             'yiiDebugFile',
         ],

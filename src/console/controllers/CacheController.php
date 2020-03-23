@@ -24,7 +24,7 @@ class CacheController extends \yii\console\controllers\CacheController
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function actionFlushTag(string $cache, string $tag): void
+    public function actionFlushTag(string $tag, string $cache = 'cache'): void
     {
         /** @var CacheInterface $cacheInstance */
         $cacheInstance = Instance::ensure($cache, CacheInterface::class);
@@ -37,7 +37,7 @@ class CacheController extends \yii\console\controllers\CacheController
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function actionGet(string $cache, string $key): void
+    public function actionGet(string $key, string $cache = 'cache'): void
     {
         /** @var CacheInterface $cacheInstance */
         $cacheInstance = Instance::ensure($cache, CacheInterface::class);

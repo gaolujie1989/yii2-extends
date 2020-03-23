@@ -30,22 +30,19 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         ],
 
         'appErrorDb' => [
-            'class' => FileTarget::class,
-            'logFile' => '@runtime/logs/app-error.log',
+            'class' => DbTarget::class,
             'levels' => ['error'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
         'appWarningDb' => [
-            'class' => FileTarget::class,
-            'logFile' => '@runtime/logs/app-warning.log',
+            'class' => DbTarget::class,
             'levels' => ['warning'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
         'appProfileDb' => [
-            'class' => FileTarget::class,
-            'logFile' => '@runtime/logs/app-profile.log',
+            'class' => DbTarget::class,
             'levels' => ['profile'],
             'logVars' => [],
             'except' => ['yii\*'],
@@ -152,6 +149,8 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public $scenarioTargets = [
         'prod' => [
             'appErrorEmail',
+            'appErrorDb',
+            'appWarningDb',
             'appErrorFile',
             'appWarningFile',
             'appProfileFile',

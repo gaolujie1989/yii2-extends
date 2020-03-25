@@ -111,6 +111,10 @@ class ActiveController extends \yii\rest\ActiveController
                     'typecast' => $this->indexTypecast,
                     'queryMethod' => $this->queryStatisticsMethod,
                     'expandParam' => false,
+                    'dataProviderConfig' => [
+                        'pagination' => false,
+                        'sort' => false,
+                    ]
                 ]);
                 $actions['statistics'] = [
                     'class' => IndexAction::class,

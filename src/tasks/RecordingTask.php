@@ -33,7 +33,7 @@ class RecordingTask extends CronTask
     /**
      * @var array
      */
-    public $recordingStatus = [
+    public $execStatus = [
         ExecStatusConst::EXEC_STATUS_PENDING,
         ExecStatusConst::EXEC_STATUS_FAILED
     ];
@@ -48,7 +48,7 @@ class RecordingTask extends CronTask
     {
         $this->queue = Instance::ensure($this->queue, Queue::class);
         /** @var DataSource[] $eachSource */
-        $eachSource = DataSource::find()->active()->status($this->recordingStatus)->each();
+        $eachSource = DataSource::find()->active()->execStatus($this->execStatus)->each();
         foreach ($eachSource as $dataSource) {
             /** @var RecordingJob $job */
             $job = ObjectHelper::create($this->jobConfig, RecordingJob::class);

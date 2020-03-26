@@ -8,6 +8,7 @@ namespace lujie\data\recording\jobs;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\forms\RecordingForm;
 use lujie\executing\Executor;
+use lujie\extend\queue\RateLimitDelayJobInterface;
 use lujie\extend\queue\RetryableJobTrait;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
@@ -42,11 +43,6 @@ class RecordingJob extends BaseObject implements JobInterface, RetryableJobInter
      * @var int
      */
     public $ttr = 1800;
-
-    /**
-     * @var int
-     */
-    public $attempt = 3;
 
     /**
      * @param \yii\queue\Queue $queue

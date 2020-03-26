@@ -17,6 +17,7 @@ use lujie\extend\constants\StatusConst;
  * @method DataSourceQuery dataSourceId($dataSourceId)
  * @method DataSourceQuery dataAccountId($dataAccountId)
  * @method DataSourceQuery type($type)
+ * @method DataSourceQuery status($status)
  * @method DataSourceQuery active()
  * @method DataSourceQuery inactive()
  * @method DataSourceQuery pending()

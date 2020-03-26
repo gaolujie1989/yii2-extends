@@ -31,6 +31,14 @@ class RecordingTask extends CronTask
     public $jobConfig = [];
 
     /**
+     * @var array
+     */
+    public $recordingStatus = [
+        ExecStatusConst::EXEC_STATUS_PENDING,
+        ExecStatusConst::EXEC_STATUS_FAILED
+    ];
+
+    /**
      * @return bool
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
@@ -40,7 +48,7 @@ class RecordingTask extends CronTask
     {
         $this->queue = Instance::ensure($this->queue, Queue::class);
         /** @var DataSource[] $eachSource */
-        $eachSource = DataSource::find()->active()->pending()->each();
+        $eachSource = DataSource::find()->active()->status($this->recordingStatus)->each();
         foreach ($eachSource as $dataSource) {
             /** @var RecordingJob $job */
             $job = ObjectHelper::create($this->jobConfig, RecordingJob::class);

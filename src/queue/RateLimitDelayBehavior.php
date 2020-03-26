@@ -68,6 +68,7 @@ class RateLimitDelayBehavior extends Behavior
             if ($delay = $this->getJoaRateDelay($job, $jobDelays)) {
                 $event->delay = $this->getDelay($key, $delay);
                 Yii::info("Rate limit delay {$event->delay} of limit {$key}", __METHOD__);
+                return;
             }
         }
     }

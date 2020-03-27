@@ -6,6 +6,7 @@
 namespace lujie\data\recording\tests\unit\forms;
 
 
+use lujie\data\loader\ArrayDataLoader;
 use lujie\data\loader\ChainedDataLoader;
 use lujie\data\recording\forms\ProxyRequestForm;
 use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
@@ -32,6 +33,10 @@ class ProxyRequestFormTest extends \Codeception\Test\Unit
             'dataLoaders' => [
                 'class' => MockClientLoader::class
             ]
+        ]);
+        Yii::$app->set('dataAccountLoader', [
+            'class' => ArrayDataLoader::class,
+            'data' => require __DIR__ . '/../fixtures/data/data_account.php'
         ]);
     }
 

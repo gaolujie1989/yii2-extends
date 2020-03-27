@@ -80,7 +80,7 @@ class GenerateSourceForm extends Model
 
         $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
         $dataAccount = $this->dataAccountLoader->get($this->dataAccountId);
-        if ($dataAccount === null()) {
+        if ($dataAccount === null) {
             $this->addError('dataAccountId', 'Invalid dataAccountId, Null DataAccount');
         }
         $this->sourceGeneratorLoader = Instance::ensure($this->sourceGeneratorLoader, DataLoaderInterface::class);

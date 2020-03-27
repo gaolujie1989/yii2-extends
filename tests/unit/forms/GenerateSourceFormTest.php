@@ -9,7 +9,6 @@ namespace lujie\data\recording\tests\unit\forms;
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\forms\GenerateSourceForm;
 use lujie\data\recording\models\DataSource;
-use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\mocks\MockDataSourceGenerator;
 use Yii;
 
@@ -34,17 +33,14 @@ class GenerateSourceFormTest extends \Codeception\Test\Unit
                 ]
             ]
         ]);
+        Yii::$app->set('dataAccountLoader', [
+            'class' => ArrayDataLoader::class,
+            'data' => require __DIR__ . '/../fixtures/data/data_account.php'
+        ]);
     }
 
     protected function _after()
     {
-    }
-
-    public function _fixtures(): array
-    {
-        return [
-            'dataAccount' => DataAccountFixture::class,
-        ];
     }
 
     /**
@@ -70,7 +66,7 @@ class GenerateSourceFormTest extends \Codeception\Test\Unit
         $this->assertTrue($generateSourceForm->generate());
         $query = DataSource::find()->dataAccountId(1)->type(['MOCK_TYPE1', 'MOCK_TYPE2']);
         $this->assertEquals(2, $query->count());
-        $name = 'mock_account1:' . implode('--', [
+        $name = 'Account1,MOCK_TYPE1,' . implode('--', [
                 date('c', $fromTime - 5),
                 date('c', $toTime + 5)]);
         $dataSource = $query->one();
@@ -82,10 +78,10 @@ class GenerateSourceFormTest extends \Codeception\Test\Unit
         $this->assertTrue($generateSourceForm->generate());
         $count = DataSource::find()->dataAccountId(1)->type(['MOCK_TYPE3', 'MOCK_TYPE4'])->count();
         $this->assertEquals(4, $count);
-        $name1 = 'mock_account1:' . implode('--', [
+        $name1 = 'Account1,MOCK_TYPE3,' . implode('--', [
                 date('c', $fromTime - 5),
                 date('c', $fromTime + $timePeriod + 5)]);
-        $name2 = 'mock_account1:' . implode('--', [
+        $name2 = 'Account1,MOCK_TYPE3,' . implode('--', [
                 date('c', $fromTime + $timePeriod - 5),
                 date('c', $toTime + 5)
             ]);

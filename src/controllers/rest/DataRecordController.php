@@ -9,7 +9,7 @@ use lujie\data\recording\models\DataRecord;
 use lujie\extend\rest\ActiveController;
 
 /**
- * Class DataAccountController
+ * Class DataRecordController
  * @package kiwi\data\recording\controllers\backend
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

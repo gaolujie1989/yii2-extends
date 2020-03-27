@@ -29,7 +29,7 @@ class MockDataSourceGenerator extends BaseDataSourceGenerator
         $dataSource = new DataSource();
         $dataSource->data_account_id = $dataAccountId;
         $dataSource->type = $type;
-        $dataSource->name = implode('--', [date('c', $fromTime), date('c', $toTime)]);
+        $dataSource->name = "Account{$dataAccountId},{$type}," . implode('--', [date('c', $fromTime), date('c', $toTime)]);
         $dataSource->condition = [];
         $dataSource->status = $this->sourceStatus;
         $dataSource->save(false);

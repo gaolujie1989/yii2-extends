@@ -10,7 +10,6 @@ use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\forms\RecordingForm;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;
-use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\fixtures\DataSourceFixture;
 use lujie\data\recording\tests\unit\mocks\MockDataRecorder;
 use lujie\extend\constants\ExecStatusConst;
@@ -38,6 +37,10 @@ class RecordingFormTest extends \Codeception\Test\Unit
                 ]
             ]
         ]);
+        Yii::$app->set('dataAccountLoader', [
+            'class' => ArrayDataLoader::class,
+            'data' => require __DIR__ . '/../fixtures/data/data_account.php'
+        ]);
     }
 
     protected function _after()
@@ -47,7 +50,6 @@ class RecordingFormTest extends \Codeception\Test\Unit
     public function _fixtures(): array
     {
         return [
-            'dataAccount' => DataAccountFixture::class,
             'dataSource' => DataSourceFixture::class,
         ];
     }

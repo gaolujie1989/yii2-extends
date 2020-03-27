@@ -14,7 +14,7 @@ use yii\di\Instance;
 use yii\queue\Queue;
 
 /**
- * Class DataAccountController
+ * Class DataSourceController
  * @package kiwi\data\recording\controllers\backend
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

@@ -34,6 +34,10 @@ class GenerateSourceTaskTest extends \Codeception\Test\Unit
                 ]
             ]
         ]);
+        Yii::$app->set('dataAccountLoader', [
+            'class' => ArrayDataLoader::class,
+            'data' => require __DIR__ . '/../fixtures/data/data_account.php'
+        ]);
     }
 
     protected function _after()

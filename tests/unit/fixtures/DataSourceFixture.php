@@ -10,7 +10,7 @@ use lujie\data\recording\models\DataSource;
 use yii\test\ActiveFixture;
 
 /**
- * Class DataAccountFixture
+ * Class DataSourceFixture
  * @package lujie\data\recording\tests\unit\fixtures
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

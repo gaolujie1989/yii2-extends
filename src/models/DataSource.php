@@ -18,8 +18,6 @@ use yii\db\ActiveQuery;
  * @property int $last_exec_at
  * @property int $last_exec_status
  * @property array|null $last_exec_result
- *
- * @property DataAccount $dataAccount
  */
 class DataSource extends \lujie\data\recording\base\db\ActiveRecord
 {
@@ -73,25 +71,5 @@ class DataSource extends \lujie\data\recording\base\db\ActiveRecord
     public static function find(): DataSourceQuery
     {
         return new DataSourceQuery(static::class);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function extraFields(): array
-    {
-        return array_merge(parent::extraFields(), [
-            'dataAccount',
-        ]);
-    }
-
-    /**
-     * @return ActiveQuery
-     * @inheritdoc
-     */
-    public function getDataAccount(): ActiveQuery
-    {
-        return $this->hasOne(DataAccount::class, ['data_account_id' => 'data_account_id']);
     }
 }

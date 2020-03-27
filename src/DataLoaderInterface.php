@@ -33,4 +33,10 @@ interface DataLoaderInterface
      * @inheritdoc
      */
     public function batch($batchSize = 100): \Iterator;
+
+    /**
+     * @return \Iterator
+     * @inheritdoc
+     */
+    public function each($batchSize = 100): \Iterator;
 }

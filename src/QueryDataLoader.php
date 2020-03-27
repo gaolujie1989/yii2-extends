@@ -121,4 +121,15 @@ class QueryDataLoader extends BaseDataLoader
         $query = clone $this->query;
         return $query->andFilterWhere($this->condition)->batch($batchSize, $this->db);
     }
+
+    /**
+     * @return \Iterator
+     * @inheritdoc
+     */
+    public function each($batchSize = 100): \Iterator
+    {
+        /** @var Query $query */
+        $query = clone $this->query;
+        return $query->andFilterWhere($this->condition)->each($batchSize, $this->db);
+    }
 }

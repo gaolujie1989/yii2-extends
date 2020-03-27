@@ -47,6 +47,18 @@ abstract class BaseDataLoader extends BaseObject implements DataLoaderInterface
      */
     public function batch($batchSize = 100): \Iterator
     {
-        throw new NotSupportedException('The method `batch` not support for current data loader.');
+        $all = $this->all();
+        yield from array_chunk($all, $batchSize, true);
+    }
+
+    /**
+     * @param int $batchSize
+     * @return \Iterator
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function each($batchSize = 100): \Iterator
+    {
+        yield from $this->all();
     }
 }

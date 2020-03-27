@@ -30,6 +30,9 @@ class GenerateSourceTask extends CronTask
     public $dataAccountLoader = 'dataAccountLoader';
 
     /**
+     * [
+     *      'accountType' => ['sourceType1', 'sourceType2']
+     * ]
      * @var array
      */
     public $sourceTypes = [];

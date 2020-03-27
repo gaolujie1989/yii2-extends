@@ -92,6 +92,7 @@ class ProxyRequestForm extends Model
             $this->addError('dataAccountId', 'Invalid dataAccountId, Null dataClient');
             return false;
         }
+
         $client = Instance::ensure($client, RestOAuth2Client::class);
         try {
             if ($this->url) {

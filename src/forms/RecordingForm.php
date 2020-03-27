@@ -26,6 +26,11 @@ class RecordingForm extends Model
     public $dataRecorderLoader = 'dataRecorderLoader';
 
     /**
+     * @var DataLoaderInterface
+     */
+    public $dataAccountLoader = 'dataAccountLoader';
+
+    /**
      * @var int
      */
     public $dataSourceId;
@@ -36,11 +41,6 @@ class RecordingForm extends Model
     public $executor;
 
     /**
-     * @var DataSource
-     */
-    private $_dataSource;
-
-    /**
      * @return array
      * @inheritdoc
      */
@@ -48,36 +48,7 @@ class RecordingForm extends Model
     {
         return [
             [['dataSourceId'], 'required'],
-            ['dataSourceId', 'validateSourceId'],
         ];
-    }
-
-
-    /**
-     * @return DataSource|null
-     * @inheritdoc
-     */
-    protected function getDataSource(): ?DataSource
-    {
-        if ($this->_dataSource === null) {
-            $this->_dataSource = DataSource::findOne($this->dataSourceId);
-        }
-        return $this->_dataSource;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateSourceId(): void
-    {
-        if ($this->getDataSource() === null) {
-            $this->addError('dataSourceId', 'Invalid data source id, DataSource not found');
-            return;
-        }
-        if ($this->getDataSource()->dataAccount === null) {
-            $this->addError('dataSourceId', 'Invalid data source, DataAccount not found');
-            return;
-        }
     }
 
     /**
@@ -93,9 +64,22 @@ class RecordingForm extends Model
             return false;
         }
 
+        $dataSource = DataSource::findOne($this->dataSourceId);
+        if ($dataSource === null) {
+            $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataSource');
+            return false;
+        }
+
+        $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
+        $dataAccount = $this->dataAccountLoader->get($dataSource->data_account_id);
+        if ($dataAccount === null) {
+            $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataAccount');
+            return false;
+        }
+
         $this->dataRecorderLoader = Instance::ensure($this->dataRecorderLoader, DataLoaderInterface::class);
-        $dataRecorder = $this->dataRecorderLoader->get($this->getDataSource()->type)
-            ?: $this->dataRecorderLoader->get($this->getDataSource()->dataAccount->type);
+        $dataRecorder = $this->dataRecorderLoader->get($dataSource->type)
+            ?: $this->dataRecorderLoader->get($dataAccount['type']);
         if ($dataRecorder === null) {
             $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataRecorder');
             return false;
@@ -103,7 +87,7 @@ class RecordingForm extends Model
 
         /** @var BaseDataRecorder $dataRecorder */
         $dataRecorder = Instance::ensure($dataRecorder, BaseDataRecorder::class);
-        $dataRecorder->prepare($this->getDataSource());
+        $dataRecorder->prepare($dataSource);
         if ($this->executor) {
             Yii::info("Execute data dataRecorder {$dataRecorder->getId()} with executor", __METHOD__);
             $this->executor = Instance::ensure($this->executor, Executor::class);

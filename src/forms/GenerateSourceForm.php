@@ -23,6 +23,11 @@ class GenerateSourceForm extends Model
     public $sourceGeneratorLoader = 'dataSourceGeneratorLoader';
 
     /**
+     * @var DataLoaderInterface
+     */
+    public $dataAccountLoader = 'dataAccountLoader';
+
+    /**
      * @var int
      */
     public $dataAccountId;
@@ -73,10 +78,15 @@ class GenerateSourceForm extends Model
             return false;
         }
 
+        $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
+        $dataAccount = $this->dataAccountLoader->get($this->dataAccountId);
+        if ($dataAccount === null()) {
+            $this->addError('dataAccountId', 'Invalid dataAccountId, Null DataAccount');
+        }
         $this->sourceGeneratorLoader = Instance::ensure($this->sourceGeneratorLoader, DataLoaderInterface::class);
-        $sourceGenerator = $this->sourceGeneratorLoader->get($this->dataAccountId);
+        $sourceGenerator = $this->sourceGeneratorLoader->get($dataAccount['type']);
         if ($sourceGenerator === null) {
-            $this->addError('dataAccountId', 'Invalid dataAccountId, Null DataSourceGenerator');
+            $this->addError('dataAccountId', 'Invalid data account type, Null DataSourceGenerator');
             return false;
         }
 

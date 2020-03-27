@@ -39,12 +39,15 @@ class ActiveRecordDataLoader extends QueryDataLoader
      */
     public function init(): void
     {
-        if (empty($this->key)) {
-            $primaryKey = $this->modelClass::primaryKey();
+        $primaryKey = $this->modelClass::primaryKey();
+        if (empty($this->key) && count($primaryKey) === 1) {
             $this->key = reset($primaryKey);
         }
         if (empty($this->query)) {
             $this->query = $this->modelClass::find()->asArray($this->returnAsArray);
+        }
+        if (empty($this->indexBy) && count($primaryKey) === 1) {
+            $this->indexBy = reset($primaryKey);
         }
         if ($this->with) {
             $this->query->with($this->with);

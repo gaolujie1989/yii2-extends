@@ -67,11 +67,13 @@ class ProxyRequestForm extends Model
     public function rules(): array
     {
         return [
-            [['dataAccountId', 'url', 'method'], 'required'],
+            [['dataAccountId', 'method'], 'required'],
             [['dataAccountId'], 'integer'],
             [['url', 'method'], 'string'],
             [['data'], 'safe'],
-            [['method'], 'in', 'range' => ['GET', 'POST', 'PUT', 'DELETE']],
+            [['method'], 'in', 'range' => ['GET', 'POST', 'PUT', 'DELETE'], 'when' => function() {
+                return $this->url;
+            }],
         ];
     }
 

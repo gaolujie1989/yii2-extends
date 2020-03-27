@@ -7,7 +7,6 @@ namespace lujie\data\recording\forms;
 
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\BaseDataSourceGenerator;
-use lujie\data\recording\models\DataAccount;
 use yii\base\Model;
 use yii\di\Instance;
 
@@ -49,11 +48,6 @@ class GenerateSourceForm extends Model
     public $timePeriod;
 
     /**
-     * @var DataAccount
-     */
-    private $_dataAccount;
-
-    /**
      * @return array
      * @inheritdoc
      */
@@ -64,31 +58,7 @@ class GenerateSourceForm extends Model
             [['startTime', 'endTime'], 'date'],
             [['sourceTypes'], 'each', 'rule' => ['string']],
             [['dataAccountId', 'timePeriod'], 'integer'],
-            ['dataAccountId', 'validateAccountId'],
         ];
-    }
-
-    /**
-     * @return DataAccount|null
-     * @inheritdoc
-     */
-    protected function getDataAccount(): ?DataAccount
-    {
-        if ($this->_dataAccount === null) {
-            $this->_dataAccount = DataAccount::findOne($this->dataAccountId);
-        }
-        return $this->_dataAccount;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAccountId(): void
-    {
-        if ($this->getDataAccount() === null) {
-            $this->addError('dataAccountId', 'Invalid data account id, DataAccount not found');
-            return;
-        }
     }
 
     /**
@@ -104,15 +74,15 @@ class GenerateSourceForm extends Model
         }
 
         $this->sourceGeneratorLoader = Instance::ensure($this->sourceGeneratorLoader, DataLoaderInterface::class);
-        $sourceGenerator = $this->sourceGeneratorLoader->get($this->getDataAccount()->type);
+        $sourceGenerator = $this->sourceGeneratorLoader->get($this->dataAccountId);
         if ($sourceGenerator === null) {
-            $this->addError('Invalid data account type, Null DataSourceGenerator');
+            $this->addError('dataAccountId', 'Invalid dataAccountId, Null DataSourceGenerator');
             return false;
         }
 
         /** @var BaseDataSourceGenerator $sourceGenerator */
         $sourceGenerator = Instance::ensure($sourceGenerator, BaseDataSourceGenerator::class);
-        $sourceGenerator->generateSources($this->getDataAccount(), $this->sourceTypes, $this->startTime, $this->endTime, $this->timePeriod);
+        $sourceGenerator->generateSources($this->dataAccountId, $this->sourceTypes, $this->startTime, $this->endTime, $this->timePeriod);
         return true;
     }
 }

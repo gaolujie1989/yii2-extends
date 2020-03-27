@@ -7,7 +7,6 @@ namespace lujie\data\recording\tasks;
 
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\forms\GenerateSourceForm;
-use lujie\data\recording\models\DataAccount;
 use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -24,6 +23,11 @@ class GenerateSourceTask extends CronTask
      * @var DataLoaderInterface
      */
     public $sourceGeneratorLoader = 'dataSourceGeneratorLoader';
+
+    /**
+     * @var DataLoaderInterface
+     */
+    public $dataAccountLoader = 'dataAccountLoader';
 
     /**
      * @var array
@@ -53,19 +57,21 @@ class GenerateSourceTask extends CronTask
         }
 
         $invalidTypeAccounts = [];
-        /** @var DataAccount[] $eachAccount */
-        $eachAccount = DataAccount::find()->active()
-            ->type(array_keys($this->sourceTypes))
-            ->each();
-        foreach ($eachAccount as $account) {
+        $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
+        $eachAccounts = $this->dataAccountLoader->each();
+        foreach ($eachAccounts as $accountId => $account) {
+            if (empty($this->sourceTypes[$account['type']])) {
+                continue;
+            }
+            /** @var GenerateSourceForm $form */
             $form = Instance::ensure($this->formConfig, GenerateSourceForm::class);
             $form->sourceGeneratorLoader = $this->sourceGeneratorLoader;
-            $form->sourceTypes = $this->sourceTypes[$account->type];
-            $form->dataAccountId = $account->data_account_id;
+            $form->sourceTypes = $this->sourceTypes[$account['type']];
+            $form->dataAccountId = $accountId;
             $form->endTime = time();
             $form->startTime = $form->endTime - $this->timeDurationSeconds;
             if ($form->generate() === false && $form->hasErrors()) {
-                $invalidTypeAccounts[$account->data_account_id . $account->name] = $account->type;
+                $invalidTypeAccounts[$account['type'] . ':' . $accountId] = $form->getErrors();
             }
         }
         if ($invalidTypeAccounts) {

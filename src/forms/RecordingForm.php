@@ -97,7 +97,7 @@ class RecordingForm extends Model
         $dataRecorder = $this->dataRecorderLoader->get($this->getDataSource()->type)
             ?: $this->dataRecorderLoader->get($this->getDataSource()->dataAccount->type);
         if ($dataRecorder === null) {
-            $this->addError('Invalid data account type, Null DataRecorder');
+            $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataRecorder');
             return false;
         }
 

@@ -33,16 +33,8 @@ class FileDataRecordPipelineTest extends \Codeception\Test\Unit
      */
     protected function getSource(): DataSource
     {
-        $account = new DataAccount([
-            'name' => 'testAccount',
-            'type' => 'testType',
-            'options' => [
-                'request' => ['xxx' => 'xxx']
-            ],
-        ]);
-        $account->save(false);
         $source = new DataSource([
-            'data_account_id' => $account->data_account_id,
+            'data_account_id' => 1,
             'name' => 'testSource',
             'type' => 'testType',
         ]);

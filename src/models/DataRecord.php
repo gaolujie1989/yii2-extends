@@ -19,7 +19,6 @@ use yii\db\ActiveQuery;
  * @property int $data_updated_at
  *
  * @property DataRecordData $recordData
- * @property DataAccount $dataAccount
  * @property DataSource $dataSource
  */
 class DataRecord extends \lujie\data\recording\base\db\ActiveRecord
@@ -96,15 +95,6 @@ class DataRecord extends \lujie\data\recording\base\db\ActiveRecord
     public function getRecordData(): ActiveQuery
     {
         return $this->hasOne(DataRecordData::class, ['data_record_id' => 'data_record_id']);
-    }
-
-    /**
-     * @return ActiveQuery
-     * @inheritdoc
-     */
-    public function getDataAccount(): ActiveQuery
-    {
-        return $this->hasOne(DataAccount::class, ['data_account_id' => 'data_account_id']);
     }
 
     /**

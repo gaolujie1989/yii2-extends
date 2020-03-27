@@ -6,7 +6,6 @@
 namespace lujie\data\recording\forms;
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\data\recording\models\DataAccount;
 use lujie\extend\authclient\RestOAuth2Client;
 use yii\authclient\InvalidResponseException;
 use yii\base\Exception;
@@ -52,11 +51,6 @@ class ProxyRequestForm extends Model
     public $dataClientLoader = 'dataClientLoader';
 
     /**
-     * @var DataAccount
-     */
-    private $_dataAccount;
-
-    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -73,38 +67,12 @@ class ProxyRequestForm extends Model
     public function rules(): array
     {
         return [
-            [['dataAccountId', 'method'], 'required'],
+            [['dataAccountId', 'url', 'method'], 'required'],
+            [['dataAccountId'], 'integer'],
             [['url', 'method'], 'string'],
             [['data'], 'safe'],
-            [['dataAccountId'], 'validateAccountId'],
-            [['method'], 'validateMethod'],
+            [['method'], 'in', 'range' => ['GET', 'POST', 'PUT', 'DELETE']],
         ];
-    }
-
-    public function validateAccountId(): void
-    {
-        if ($this->getDataAccount() === null) {
-            $this->addError('dataAccountId', 'Invalid dataAccountId');
-        }
-    }
-
-    public function validateMethod(): void
-    {
-        if ($this->url && !in_array($this->method, ['GET', 'POST', 'PUT', 'DELETE'], true)) {
-            $this->addError('method', 'Invalid method');
-        }
-    }
-
-    /**
-     * @return DataAccount|null
-     * @inheritdoc
-     */
-    public function getDataAccount(): ?DataAccount
-    {
-        if ($this->_dataAccount === null) {
-            $this->_dataAccount = DataAccount::findOne($this->dataAccountId);
-        }
-        return $this->_dataAccount;
     }
 
     /**
@@ -120,6 +88,10 @@ class ProxyRequestForm extends Model
 
         /** @var RestOAuth2Client $client */
         $client = $this->dataClientLoader->get($this->dataAccountId);
+        if ($client === null) {
+            $this->addError('dataAccountId', 'Invalid dataAccountId, Null dataClient');
+            return false;
+        }
         $client = Instance::ensure($client, RestOAuth2Client::class);
         try {
             if ($this->url) {

@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording;
 
-use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataSource;
 use lujie\extend\constants\StatusConst;
 use Yii;
@@ -34,22 +33,22 @@ abstract class BaseDataSourceGenerator extends BaseObject
     public $overTimeSeconds = 5;
 
     /**
-     * @param DataAccount $dataAccount
+     * @param int $dataAccountId
      * @throws \Throwable
      * @inheritdoc
      */
-    public function generateSources(DataAccount $dataAccount, array $dataSourceTypes, int $startTime, int $endTime, ?int $timePeriod = 0): array
+    public function generateSources(int $dataAccountId, array $dataSourceTypes, int $startTime, int $endTime, ?int $timePeriod = 0): array
     {
-        return DataSource::getDb()->transaction(function () use ($dataAccount, $dataSourceTypes, $startTime, $endTime, $timePeriod) {
+        return DataSource::getDb()->transaction(function () use ($dataAccountId, $dataSourceTypes, $startTime, $endTime, $timePeriod) {
             $dataSources = [];
-            $message = "GenerateSources {$dataAccount->name} [" . implode(',', $dataSourceTypes) . ']';
+            $message = "GenerateSources Account:{$dataAccountId} [" . implode(',', $dataSourceTypes) . ']';
             Yii::info($message, __METHOD__);
             foreach ($dataSourceTypes as $dataSourceType) {
                 if ($timePeriod) {
                     for ($fromTime = $startTime; $fromTime < $endTime; $fromTime += $timePeriod) {
                         $toTime = min($fromTime + $timePeriod, $endTime);
                         $dataSources[] = $this->createSource(
-                            $dataAccount,
+                            $dataAccountId,
                             $dataSourceType,
                             $fromTime - $this->previousTimeSeconds,
                             $toTime + $this->overTimeSeconds
@@ -57,7 +56,7 @@ abstract class BaseDataSourceGenerator extends BaseObject
                     }
                 } else {
                     $dataSources[] = $this->createSource(
-                        $dataAccount,
+                        $dataAccountId,
                         $dataSourceType,
                         $startTime - $this->previousTimeSeconds,
                         $endTime + $this->overTimeSeconds
@@ -69,17 +68,17 @@ abstract class BaseDataSourceGenerator extends BaseObject
     }
 
     /**
-     * @param DataAccount $dataAccount
+     * @param int $dataAccountId
      * @param string $type
      * @param int $fromTime
      * @param int $toTime
      * @return DataSource
      * @inheritdoc
      */
-    abstract protected function createSource(DataAccount $dataAccount, string $type, int $fromTime, int $toTime): DataSource;
+    abstract protected function createSource(int $dataAccountId, string $type, int $fromTime, int $toTime): DataSource;
 
     /**
-     * @param DataAccount $dataAccount
+     * @param int $dataAccountId
      * @param string $type
      * @param int $fromTime
      * @param int $toTime
@@ -87,16 +86,16 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @return DataSource
      * @inheritdoc
      */
-    protected function createRecordSource(DataAccount $dataAccount, string $type,
+    protected function createRecordSource(int $dataAccountId, string $type,
                                           int $fromTime, int $toTime, string $timeField = 'data_updated_at'): DataSource
     {
         $exportSource = new DataSource();
-        $exportSource->data_account_id = $dataAccount->data_account_id;
+        $exportSource->data_account_id = $dataAccountId;
         $exportSource->type = $type;
         $exportSource->condition = ['BETWEEN', $timeField, $fromTime, $toTime];
         $exportSource->name = implode('--', [date('c', $fromTime), date('c', $toTime)]);
         $exportSource->status = $this->sourceStatus;
-        $message = "CreateRecordSource {$dataAccount->name} {$type}, condition: [" . implode(',', $exportSource->condition) . ']';
+        $message = "CreateRecordSource Account:{$dataAccountId} {$type}, condition: [" . implode(',', $exportSource->condition) . ']';
         Yii::info($message, __METHOD__);
         $exportSource->save(false);
         return $exportSource;

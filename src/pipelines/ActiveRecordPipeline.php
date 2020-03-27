@@ -30,6 +30,11 @@ class ActiveRecordPipeline extends BaseDbPipeline
     /**
      * @var bool
      */
+    public $safeOnly = true;
+
+    /**
+     * @var bool
+     */
     public $runValidation = false;
 
     /**
@@ -147,7 +152,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
                 if ($this->modelScenario) {
                     $model->setScenario($this->modelScenario);
                 }
-                $model->setAttributes($values);
+                $model->setAttributes($values, $this->safeOnly);
                 $models[] = $model;
             }
         }

@@ -63,7 +63,7 @@ class GenerateSourceTask extends CronTask
         $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
         $eachAccounts = $this->dataAccountLoader->each();
         foreach ($eachAccounts as $accountId => $account) {
-            if (empty($this->sourceTypes[$account['type']])) {
+            if (empty($account['status']) || empty($this->sourceTypes[$account['type']])) {
                 continue;
             }
             /** @var GenerateSourceForm $form */

@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\tests\unit\pipelines;
 
-use lujie\data\recording\models\DataAccount;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataRecordData;
 use lujie\data\recording\models\DataSource;

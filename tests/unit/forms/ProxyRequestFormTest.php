@@ -9,7 +9,6 @@ namespace lujie\data\recording\tests\unit\forms;
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\loader\ChainedDataLoader;
 use lujie\data\recording\forms\ProxyRequestForm;
-use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\fixtures\DataSourceFixture;
 use lujie\data\recording\tests\unit\mocks\MockApiClient;
 use lujie\data\recording\tests\unit\mocks\MockClientLoader;
@@ -47,7 +46,6 @@ class ProxyRequestFormTest extends \Codeception\Test\Unit
     public function _fixtures(): array
     {
         return [
-            'dataAccount' => DataAccountFixture::class,
             'dataSource' => DataSourceFixture::class,
         ];
     }

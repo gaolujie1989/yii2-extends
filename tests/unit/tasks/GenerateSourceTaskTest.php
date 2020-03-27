@@ -9,7 +9,6 @@ namespace lujie\data\recording\tests\unit\tasks;
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\tasks\GenerateSourceTask;
-use lujie\data\recording\tests\unit\fixtures\DataAccountFixture;
 use lujie\data\recording\tests\unit\mocks\MockDataSourceGenerator;
 use Yii;
 
@@ -42,13 +41,6 @@ class GenerateSourceTaskTest extends \Codeception\Test\Unit
 
     protected function _after()
     {
-    }
-
-    public function _fixtures(): array
-    {
-        return [
-            'dataAccount' => DataAccountFixture::class,
-        ];
     }
 
     /**

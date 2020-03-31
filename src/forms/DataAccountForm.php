@@ -28,6 +28,7 @@ class DataAccountForm extends DataAccount
             }],
             [['name'], 'string', 'max' => 100],
             [['url', 'username', 'password'], 'string', 'max' => 255],
+            [['options', 'additional'], 'safe'],
         ];
     }
 

@@ -133,6 +133,14 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'levels' => ['info'],
             'logVars' => [],
             'categories' => ['yii\*'],
+            'except' => ['yii\db\*'],
+        ],
+        'yiiDbInfoFile' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/yii-db-info.log',
+            'levels' => ['info'],
+            'logVars' => [],
+            'categories' => ['yii\db\*'],
         ],
         'yiiDebugFile' => [
             'class' => FileTarget::class,
@@ -168,6 +176,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiWarningFile',
             'yiiProfileFile',
             'yiiInfoFile',
+            'yiiDbInfoFile',
         ],
         'dev' => [
             'appErrorFile',
@@ -179,6 +188,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiWarningFile',
             'yiiProfileFile',
             'yiiInfoFile',
+            'yiiDbInfoFile',
         ],
         'debug' => [
             'appErrorFile',
@@ -190,6 +200,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiWarningFile',
             'yiiProfileFile',
             'yiiInfoFile',
+            'yiiDbInfoFile',
             'yiiDebugFile',
         ],
     ];

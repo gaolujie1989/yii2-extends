@@ -70,7 +70,7 @@ class LogBehavior extends Behavior
         Yii::endProfile($title, Executor::class);
         if ($event->error) {
             $error = $event->error->getMessage() . "\n" . $event->error->getTraceAsString();
-            Yii::info("$title is finished with error: $error.", Executor::class);
+            Yii::error("$title is finished with error: $error.", Executor::class);
         } else {
             Yii::info("$title is finished.", Executor::class);
         }

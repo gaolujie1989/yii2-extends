@@ -74,12 +74,16 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
      */
     protected function getChargeTablePrice(ChargeableItem $chargeableItem, string $chargeType): ?ChargeTable
     {
-        return ChargeTable::find()
-            ->ownerId($chargeableItem->additional['owner_id'] ?? 0)
+        $query = ChargeTable::find()
             ->activeAt($chargeableItem->chargedAt ?: time())
             ->chargeType($chargeType)
             ->customType($chargeableItem->customType)
-            ->limitValue($chargeableItem->limitValue)
-            ->one();
+            ->limitValue($chargeableItem->limitValue);
+        $ownerId = $chargeableItem->additional['owner_id'] ?? 0;
+        $chargeTable = (clone $query)->ownerId($ownerId)->one();
+        if ($chargeTable === null && $ownerId > 0) {
+            $chargeTable = (clone $query)->ownerId(0)->one();
+        }
+        return $chargeTable;
     }
 }

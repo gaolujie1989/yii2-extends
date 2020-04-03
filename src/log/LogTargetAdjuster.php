@@ -157,8 +157,8 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public $scenarioTargets = [
         'prod' => [
             'appErrorEmail',
-            'appErrorDb',
-            'appWarningDb',
+//            'appErrorDb',
+//            'appWarningDb',
             'appErrorFile',
             'appWarningFile',
             'appProfileFile',

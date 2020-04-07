@@ -46,6 +46,11 @@ class Charger extends Component implements BootstrapInterface
     public $chargeGroups = [];
 
     /**
+     * @var array
+     */
+    public $chargePriceModelClasses = [];
+
+    /**
      * @var DataLoaderInterface
      */
     public $chargeCalculatorLoader = 'chargeCalculatorLoader';
@@ -109,10 +114,18 @@ class Charger extends Component implements BootstrapInterface
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
-        [$modelType] = $this->getModelChargeTypes($model);
-        $chargePrices = ChargePrice::find()->modelType($modelType)->modelId($model->getPrimaryKey())->all();
-        foreach ($chargePrices as $chargePrice) {
-            $chargePrice->delete();
+        [$modelType, $chargeTypes] = $this->getModelChargeTypes($model);
+        foreach ($chargeTypes as $chargeType) {
+            /** @var ChargePrice $chargePriceModelClass */
+            $chargePriceModelClass = $this->chargePriceModelClasses[$chargeType] ?? ChargePrice::class;
+            $chargePrices = $chargePriceModelClass::find()
+                ->chargeType($chargeType)
+                ->modelType($modelType)
+                ->modelId($model->getPrimaryKey())
+                ->all();
+            foreach ($chargePrices as $chargePrice) {
+                $chargePrice->delete();
+            }
         }
     }
 
@@ -137,13 +150,15 @@ class Charger extends Component implements BootstrapInterface
         $chargePrices = [];
         $modelType = $chargeEvent->modelType;
         foreach ($chargeEvent->chargeTypes as $chargeType) {
-            $chargePrice = ChargePrice::find()
+            /** @var ChargePrice $chargePriceModelClass */
+            $chargePriceModelClass = $this->chargePriceModelClasses[$chargeType] ?? ChargePrice::class;
+            $chargePrice = $chargePriceModelClass::find()
                 ->modelId($model->getPrimaryKey())
                 ->modelType($modelType)
                 ->chargeType($chargeType)
                 ->one();
             if ($chargePrice === null) {
-                $chargePrice = new ChargePrice();
+                $chargePrice = new $chargePriceModelClass();
                 $chargePrice->charge_type = $chargeType;
                 $chargePrice->charge_group = $this->chargeGroups[$chargeType] ?? '';
                 $chargePrice->model_type = $modelType;

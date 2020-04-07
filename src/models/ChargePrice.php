@@ -9,6 +9,7 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%charge_price}}".
@@ -123,7 +124,7 @@ class ChargePrice extends \yii\db\ActiveRecord
      * {@inheritdoc}
      * @return ChargePriceQuery the active query used by this AR class.
      */
-    public static function find(): ChargePriceQuery
+    public static function find(): ActiveQuery
     {
         return new ChargePriceQuery(static::class);
     }

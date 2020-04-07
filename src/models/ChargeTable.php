@@ -54,7 +54,7 @@ class ChargeTable extends \yii\db\ActiveRecord
             [['min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit',
                 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['charge_group', 'charge_type', 'custom_type'], 'string', 'max' => 50],
-            [['limit_unit', 'display_limit_unit'], 'string', 'max' => 6],
+            [['limit_unit', 'display_limit_unit'], 'string', 'max' => 10],
             [['currency'], 'string', 'max' => 3],
         ];
     }

@@ -20,8 +20,8 @@ class m191121_165645_charge_table extends \yii\db\Migration
 
             'min_limit' => $this->integer()->notNull()->defaultValue(0),
             'max_limit' => $this->integer()->notNull()->defaultValue(0),
-            'limit_unit' => $this->string(6)->notNull()->defaultValue(''),
-            'display_limit_unit' => $this->string(6)->notNull()->defaultValue(''),
+            'limit_unit' => $this->string(10)->notNull()->defaultValue(''),
+            'display_limit_unit' => $this->string(10)->notNull()->defaultValue(''),
 
             'price_cent' => $this->integer()->notNull()->defaultValue(0),
             'currency' => $this->char(3)->notNull()->defaultValue(''),

@@ -136,6 +136,7 @@ class ChargePrice extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
+            'id' => 'id',
             'price' => 'price',
             'subtotal' => 'subtotal',
             'discount' => 'discount',

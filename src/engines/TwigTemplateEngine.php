@@ -29,6 +29,7 @@ class TwigTemplateEngine extends BaseObject implements TemplateEngineInterface
     {
         $loader = new ArrayLoader(['template' => $template]);
         $twig = new Environment($loader);
+        if (class_exists(IntlExtension))
         return $twig->render('template', $params);
     }
 }

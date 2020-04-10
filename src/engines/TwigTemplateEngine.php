@@ -6,6 +6,7 @@
 namespace lujie\template\document\engines;
 
 use Twig\Environment;
+use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\ArrayLoader;
 use yii\base\BaseObject;
 
@@ -29,7 +30,9 @@ class TwigTemplateEngine extends BaseObject implements TemplateEngineInterface
     {
         $loader = new ArrayLoader(['template' => $template]);
         $twig = new Environment($loader);
-        if (class_exists(IntlExtension))
+        if (class_exists(IntlExtension::class)) {
+            $twig->addExtension(new IntlExtension());
+        }
         return $twig->render('template', $params);
     }
 }

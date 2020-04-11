@@ -236,7 +236,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $fulfillmentItem->mustSave(false);
                 return true;
             } catch (\Throwable $ex) {
-                Yii::error("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed error: {$ex->getMessage()}", __METHOD__);
+                $error = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed error: {$error}", __METHOD__);
                 $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
                 $fulfillmentItem->item_pushed_errors = ['ex' => $ex->getMessage()];
                 $fulfillmentItem->mustSave(false);

@@ -223,6 +223,9 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder->order_id);
+        if (empty($order->orderItems)) {
+            return false;
+        }
         if ($order->orderNo) {
             $externalOrderId = $this->orderNoPrefix . $order->orderNo;
             $eachOrder = $this->client->eachOrder(['externalOrderId' => $externalOrderId, 'plentyId' => $this->plentyId]);

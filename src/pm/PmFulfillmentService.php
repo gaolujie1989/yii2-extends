@@ -73,6 +73,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             'unitId' => 1,
             'content' => 1
         ],
+        'mainWarehouseId' => 108,
     ];
 
     /**

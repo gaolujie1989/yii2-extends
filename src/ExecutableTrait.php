@@ -5,6 +5,7 @@
 
 namespace lujie\executing;
 
+use lujie\extend\helpers\ClassHelper;
 use Yii;
 
 /**
@@ -34,7 +35,7 @@ trait ExecutableTrait
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id ?: ClassHelper::getClassShortName(static::class);
     }
 
     /**

@@ -8,6 +8,7 @@ namespace lujie\data\exchange;
 
 use lujie\data\exchange\sources\FileSource;
 use lujie\extend\file\readers\ExcelReader;
+use Yii;
 use yii\di\Instance;
 
 /**
@@ -53,5 +54,18 @@ class FileImporter extends DataExchanger
         /** @var FileSource $source */
         $this->source = Instance::ensure($this->fileSource, FileSource::class);
         $this->source->file = $file;
+    }
+
+    /**
+     * @return string
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
+    public function getExecUid(): string
+    {
+        if (!$this->execUid && $this->source->file) {
+            $this->execUid = $this->source->file;
+        }
+        return $this->execUid;
     }
 }

@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\forms;
 
 use lujie\data\exchange\FileImporter;
+use lujie\executing\Executor;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -45,6 +46,11 @@ class FileImportForm extends Model
     public $fileImporter;
 
     /**
+     * @var Executor
+     */
+    public $executor = 'executor';
+
+    /**
      * @var array import results
      */
     public $affectedRowCounts;
@@ -59,6 +65,11 @@ class FileImportForm extends Model
         $this->path = Yii::getAlias($this->path);
         $this->path = rtrim($this->path, '/') . '/';
         $this->fileImporter = Instance::ensure($this->fileImporter, FileImporter::class);
+        if ($this->executor && Yii::$app->has($this->executor)) {
+            $this->executor = Instance::ensure($this->executor, Executor::class);
+        } else {
+            $this->executor = null;
+        }
     }
 
     #region model overwrites
@@ -160,13 +171,19 @@ class FileImportForm extends Model
             return false;
         }
 
-        $import = $this->fileImporter;
+        $fileImporter = $this->fileImporter;
         foreach ($this->files as $file) {
             $filePath = $this->path . $file;
-            if ($import->import($filePath)) {
-                $this->affectedRowCounts[$file] = $import->getAffectedRowCounts();
+            $fileImporter->prepare($filePath);
+            $executed = $this->executor
+                ? $this->executor->execute($fileImporter)
+                : $fileImporter->execute();
+            if ($fileImporter->getErrors()) {
+                $this->addError($this->fileAttribute, ['file' => $fileImporter->getErrors()]);
+            } else if ($executed === false) {
+                $this->addError($this->fileAttribute, ['file' => 'Unknown Error']);
             } else {
-                $this->addError($this->fileAttribute, ['file' => $import->getErrors()]);
+                $this->affectedRowCounts[$file] = $fileImporter->getAffectedRowCounts();
             }
         }
         return !$this->hasErrors();

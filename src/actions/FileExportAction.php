@@ -7,6 +7,7 @@ namespace lujie\data\exchange\actions;
 
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\sources\ActiveRecordSource;
+use lujie\executing\Executor;
 use lujie\extend\rest\IndexQueryPreparer;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -32,6 +33,11 @@ class FileExportAction extends Action
     public $fileExporter;
 
     /**
+     * @var Executor
+     */
+    public $executor = 'executor';
+
+    /**
      * @var string
      */
     public $path;
@@ -55,7 +61,11 @@ class FileExportAction extends Action
         parent::init();
         $this->queryPreparer = Instance::ensure($this->queryPreparer, IndexQueryPreparer::class);
         $this->fileExporter = Instance::ensure($this->fileExporter, FileExporter::class);
-        $this->fileExporter->pipeline->filePathTemplate = $this->filePath;
+        if ($this->executor && Yii::$app->has($this->executor)) {
+            $this->executor = Instance::ensure($this->executor, Executor::class);
+        } else {
+            $this->executor = null;
+        }
     }
 
     /**
@@ -75,10 +85,15 @@ class FileExportAction extends Action
             $requestParams = Yii::$app->getRequest()->getQueryParams();
         }
 
+        $fileExporter = $this->fileExporter;
         $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
-        $this->fileExporter->source = new ActiveRecordSource(['query' => $query]);
-        if ($this->fileExporter->execute()) {
-            $filePath = $this->fileExporter->getFilePath();
+        $fileExporter->source = new ActiveRecordSource(['query' => $query]);
+        $fileExporter->prepare($this->filePath);
+        $executed = $this->executor
+            ? $this->executor->execute($fileExporter)
+            : $fileExporter->execute();
+        if ($executed) {
+            $filePath = $fileExporter->getFilePath();
             Yii::$app->getResponse()->sendFile($filePath, $this->exportFileName);
             return;
         }

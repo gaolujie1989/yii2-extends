@@ -10,7 +10,7 @@ use lujie\extend\authclient\RestOAuth2Client;
 use yii\authclient\OAuthToken;
 
 /**
- * Class MockCookieClient
+ * Class MockOAuth2Client
  * @package lujie\extend\tests\unit\mocks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

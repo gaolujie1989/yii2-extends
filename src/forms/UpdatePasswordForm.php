@@ -82,4 +82,13 @@ class UpdatePasswordForm extends Model
         $user->setPassword($this->newPassword);
         return $user->save(false);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return [];
+    }
 }

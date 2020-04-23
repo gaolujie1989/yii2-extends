@@ -20,6 +20,11 @@ class UpdatePasswordForm extends Model
     public $newPassword;
 
     /**
+     * @var User
+     */
+    protected $_user;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -39,12 +44,25 @@ class UpdatePasswordForm extends Model
     public function validateOldPassword(): void
     {
         if (!$this->hasErrors()) {
-            /** @var User $user */
-            $user = Yii::$app->getUser()->getIdentity();
-            if (!$user || !$user->validatePassword($this->oldPassword)) {
+            $user = $this->getUser();
+            if ($user === null || !$user->validatePassword($this->oldPassword)) {
                 $this->addError('oldPassword', Yii::t('lujie/user', 'Incorrect old password.'));
             }
         }
+    }
+
+    /**
+     * @return User|null
+     * @inheritdoc
+     */
+    protected function getUser(): ?User
+    {
+        if ($this->_user === null) {
+            /** @var User $identityClass */
+            $identityClass = Yii::$app->getUser()->identityClass;
+            $this->_user = $identityClass::findOne(Yii::$app->getUser()->getId());
+        }
+        return $this->_user;
     }
 
     /**

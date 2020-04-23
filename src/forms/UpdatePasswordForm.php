@@ -42,7 +42,7 @@ class UpdatePasswordForm extends Model
             /** @var User $user */
             $user = Yii::$app->getUser()->getIdentity();
             if (!$user || !$user->validatePassword($this->oldPassword)) {
-                $this->addError('password', Yii::t('lujie/user', 'Incorrect old password.'));
+                $this->addError('oldPassword', Yii::t('lujie/user', 'Incorrect old password.'));
             }
         }
     }

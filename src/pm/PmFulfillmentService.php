@@ -552,7 +552,9 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
         $fulfillmentOrder->external_order_status = $pmStatus;
         $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
-        if ($pmStatus >= 5 && $pmStatus < 6) {
+        if ($pmStatus >= 4 && $pmStatus < 5) {
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_WAITING;
+        } else if ($pmStatus >= 5 && $pmStatus < 6) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
         } else if ($pmStatus >= 6 && $pmStatus < 6.5) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING;

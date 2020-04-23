@@ -13,6 +13,7 @@ class FulfillmentConst
 
     public const FULFILLMENT_STATUS_PENDING = 0;
     public const FULFILLMENT_STATUS_PUSHED = 20;
+    public const FULFILLMENT_STATUS_WAITING = 30;
     public const FULFILLMENT_STATUS_PICKING = 50;
     public const FULFILLMENT_STATUS_PICKING_CANCELLING = 55;
     public const FULFILLMENT_STATUS_SHIP_PENDING = 60;

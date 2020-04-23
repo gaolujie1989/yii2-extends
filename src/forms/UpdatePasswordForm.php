@@ -27,7 +27,7 @@ class UpdatePasswordForm extends Model
     {
         return [
             [['oldPassword', 'newPassword'], 'required'],
-            [['oldPassword'], 'validatePassword'],
+            [['oldPassword'], 'validateOldPassword'],
             ['newPassword', 'string', 'min' => 6],
         ];
     }
@@ -36,7 +36,7 @@ class UpdatePasswordForm extends Model
      * @throws \Throwable
      * @inheritdoc
      */
-    public function validatePassword(): void
+    public function validateOldPassword(): void
     {
         if (!$this->hasErrors()) {
             /** @var User $user */

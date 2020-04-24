@@ -37,7 +37,7 @@ class RestOptionsRequestBehavior extends Behavior
     public function beforeRequest(Event $event): void
     {
         if (Yii::$app->getRequest()->getIsOptions()) {
-            throw new ExitException(['statusCode' => 200]);
+            Yii::$app->end(200);
         }
     }
 }

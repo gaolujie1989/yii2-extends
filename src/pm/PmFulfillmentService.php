@@ -491,7 +491,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     protected function isOrderAllowCancelled(array $pmOrder): bool
     {
         $pmStatusId = $pmOrder['statusId'];
-        return $pmStatusId >= 5 && $pmStatusId < 6;
+        return $pmStatusId >= 4 && $pmStatusId < 6;
     }
 
     #endregion

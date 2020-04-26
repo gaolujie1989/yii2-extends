@@ -154,6 +154,14 @@ use yii\web\NotFoundHttpException;
  * @method array updateItemVariationBundle($data)
  * @method array deleteItemVariationBundle($data)
  *
+ * @method array listItemVariationClients($data)
+ * @method Generator eachItemVariationClient($condition = [], $batchSize = 100)
+ * @method Generator batchItemVariationClient($condition = [], $batchSize = 100)
+ * @method array getItemVariationClient($data)
+ * @method array createItemVariationClient($data)
+ * @method array updateItemVariationClient($data)
+ * @method array deleteItemVariationClient($data)
+ *
  * @method array listItemVariationMarkets($data)
  * @method Generator eachItemVariationMarket($condition = [], $batchSize = 100)
  * @method Generator batchItemVariationMarket($condition = [], $batchSize = 100)
@@ -433,6 +441,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         'ItemVariationImage' => 'items/{itemId}/variations/{variationId}/variation_images',
         'ItemVariationSalesPrice' => 'items/{itemId}/variations/{variationId}/variation_sales_prices',
         'ItemVariationBundle' => 'items/{itemId}/variations/{variationId}/variation_bundles',
+        'ItemVariationClient' => 'items/{itemId}/variations/{variationId}/variation_clients',
         'ItemVariationMarket' => 'items/{itemId}/variations/{variationId}/variation_markets',
         'ItemVariationSku' => 'items/{itemId}/variations/{variationId}/variation_skus',
         'ItemVariationBarcode' => 'items/{itemId}/variations/{variationId}/variation_barcodes',
@@ -497,6 +506,11 @@ class PlentyMarketsRestClient extends RestOAuth2Client
             'get' => ['GET', '{salesPriceId}'],
             'update' => ['PUT', '{salesPriceId}'],
             'delete' => ['DELETE', '{salesPriceId}'],
+        ],
+        'ItemVariationClient' => [
+            'get' => ['GET', '{plentyId}'],
+            'update' => ['PUT', '{plentyId}'],
+            'delete' => ['DELETE', '{plentyId}'],
         ],
         'ItemVariationMarket' => [
             'get' => ['GET', '{marketId}'],

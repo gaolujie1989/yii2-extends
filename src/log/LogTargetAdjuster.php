@@ -133,7 +133,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'levels' => ['info'],
             'logVars' => [],
             'categories' => ['yii\*'],
-            'except' => ['yii\db\*'],
+            'except' => ['yii\db\*', 'yii\httpclient\*'],
         ],
         'yiiDbInfoFile' => [
             'class' => FileTarget::class,
@@ -141,6 +141,13 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'levels' => ['info'],
             'logVars' => [],
             'categories' => ['yii\db\*'],
+        ],
+        'yiiHttpInfoFile' => [
+            'class' => FileTarget::class,
+            'logFile' => '@runtime/logs/yii-http-info.log',
+            'levels' => ['info'],
+            'logVars' => [],
+            'categories' => ['yii\httpclient\*'],
         ],
         'yiiDebugFile' => [
             'class' => FileTarget::class,
@@ -166,6 +173,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiErrorEmail',
             'yiiErrorFile',
             'yiiWarningFile',
+            'yiiHttpInfoFile',
         ],
         'test' => [
             'appErrorFile',
@@ -177,6 +185,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
+            'yiiHttpInfoFile',
         ],
         'dev' => [
             'appErrorFile',
@@ -189,6 +198,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
+            'yiiHttpInfoFile',
         ],
         'debug' => [
             'appErrorFile',
@@ -201,6 +211,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
+            'yiiHttpInfoFile',
             'yiiDebugFile',
         ],
     ];

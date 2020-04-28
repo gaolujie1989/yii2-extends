@@ -63,42 +63,6 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     }
 
     /**
-     * @return bool
-     * @throws \yii\httpclient\Exception
-     * @inheritdoc
-     */
-    public function checkLogin(): bool
-    {
-        $query = [
-            'Object' => 'mod_export@GuiDynamicFieldExportView2',
-        ];
-        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]) . http_build_query($query);
-        /** @var Response $response */
-        $response = $this->createRequest()
-            ->setUrl($requestUrl)
-            ->setMethod('GET')
-            ->send();
-        return strpos($response->content, 'login_relogin') === false;
-    }
-
-    /**
-     * @return CookieCollection
-     * @throws \yii\httpclient\Exception
-     * @inheritdoc
-     */
-    public function getCookies(): CookieCollection
-    {
-        if (!$this->isLogin) {
-            if ($this->checkLogin()) {
-                $this->isLogin = true;
-            } else {
-                $this->setCookies(null);
-            }
-        }
-        return parent::getCookies();
-    }
-
-    /**
      * @return string|null
      * @throws \yii\httpclient\Exception
      * @inheritdoc
@@ -164,6 +128,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
                 ['{domainHash}' => $this->getDomainHash()]),
         ];
         $sessionUrl = strtr('https://{domainHash}.plentymarkets-cloud-de.com/plenty/api/ui.php', ['{domainHash}' => $this->getDomainHash()]);
+        /** @var Response $response */
         $response = $this->createRequest()
             ->setMethod('POST')
             ->setUrl($sessionUrl)

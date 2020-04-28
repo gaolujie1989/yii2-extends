@@ -10,6 +10,7 @@ use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
 use yii\httpclient\Response;
+use yii\web\Cookie;
 use yii\web\CookieCollection;
 
 /**
@@ -111,6 +112,13 @@ abstract class BaseCookieClient extends BaseClient
     {
         if (empty($this->_cookies)) {
             $this->_cookies = $this->getState('cookies') ?: $this->login();
+            $now = time();
+            /** @var Cookie $cookie */
+            foreach ($this->_cookies as $cookie) {
+                if ($cookie->expire && $cookie->expire <= $now) {
+                    $this->_cookies = $this->login();
+                }
+            }
         }
         return $this->_cookies;
     }

@@ -8,6 +8,7 @@ namespace lujie\plentyMarkets;
 use lujie\extend\authclient\BaseCookieClient;
 use yii\base\InvalidConfigException;
 use yii\helpers\Json;
+use yii\httpclient\Response;
 use yii\web\CookieCollection;
 
 /**
@@ -25,6 +26,11 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @var string
      */
     public $guiCallUrl = 'https://{domainHash}.plentymarkets-cloud-de.com/plenty/admin/gui_call.php?';
+
+    /**
+     * @var bool
+     */
+    private $isLogin = false;
 
     /**
      * @return array
@@ -52,11 +58,49 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         ];
         parent::login();
         $this->setSessionID();
+        $this->isLogin = true;
         return $this->getCookies();
     }
 
     /**
+     * @return bool
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function checkLogin(): bool
+    {
+        $query = [
+            'Object' => 'mod_export@GuiDynamicFieldExportView2',
+        ];
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]) . http_build_query($query);
+        /** @var Response $response */
+        $response = $this->createRequest()
+            ->setUrl($requestUrl)
+            ->setMethod('GET')
+            ->send();
+        return strpos($response->content, 'login_relogin') === false;
+    }
+
+    /**
+     * @return CookieCollection
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function getCookies(): CookieCollection
+    {
+        if (!$this->isLogin) {
+            if ($this->checkLogin()) {
+                $this->isLogin = true;
+            } else {
+                $this->setCookies(null);
+            }
+        }
+        return parent::getCookies();
+    }
+
+    /**
      * @return string|null
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getDomainHash(): ?string
@@ -68,6 +112,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     /**
      * @return string
      * @throws InvalidConfigException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getAuthorization(): string

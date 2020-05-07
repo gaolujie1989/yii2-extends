@@ -18,19 +18,25 @@ use yii\web\CookieCollection;
  */
 class PlentyMarketsAdminClient extends BaseCookieClient
 {
+    /**
+     * @var int
+     */
     public $plentyId;
 
+    /**
+     * @var string
+     */
     public $loginUrl = 'https://plentymarkets-cloud-de.com/';
 
     /**
      * @var string
      */
-    public $guiCallUrl = 'https://{domainHash}.plentymarkets-cloud-de.com/plenty/admin/gui_call.php?';
+    public $guiCallUrl = 'https://{domainHash}.plentymarkets-cloud-de.com/plenty/admin/gui_call.php';
 
     /**
-     * @var bool
+     * @var string
      */
-    private $isLogin = false;
+    public $apiUiUrl = 'https://{domainHash}.plentymarkets-cloud-de.com/plenty/api/ui.php';
 
     /**
      * @return array
@@ -58,13 +64,11 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         ];
         parent::login();
         $this->setSessionID();
-        $this->isLogin = true;
         return $this->getCookies();
     }
 
     /**
      * @return string|null
-     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getDomainHash(): ?string
@@ -76,7 +80,6 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     /**
      * @return string
      * @throws InvalidConfigException
-     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getAuthorization(): string
@@ -127,8 +130,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
             'Referer' => strtr('https://{domainHash}.plentymarkets-cloud-de.com/plenty/gwt/productive/2a28ee69/admin.html',
                 ['{domainHash}' => $this->getDomainHash()]),
         ];
-        $sessionUrl = strtr('https://{domainHash}.plentymarkets-cloud-de.com/plenty/api/ui.php', ['{domainHash}' => $this->getDomainHash()]);
-        /** @var Response $response */
+        $sessionUrl = strtr($this->apiUiUrl, ['{domainHash}' => $this->getDomainHash()]);
         $response = $this->createRequest()
             ->setMethod('POST')
             ->setUrl($sessionUrl)
@@ -146,7 +148,6 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @param int $offset
      * @param int $rowCount
      * @return string
-     * @throws InvalidConfigException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -166,8 +167,152 @@ class PlentyMarketsAdminClient extends BaseCookieClient
             'deletedOrderOption' => '0',
             'stockBarcodeOption' => '1',
         ];
-        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]) . http_build_query($query);
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]) . '?' . http_build_query($query);
         $response = $this->request($requestUrl);
         return $response->content;
+    }
+
+    /**
+     * @param int $orderId
+     * @return Response
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function deleteOrderStorageLocation(int $orderId): Response
+    {
+        $data = [
+            'Object' => 'mod_order@GuiOrderDetails',
+            'Params' => [
+                'gui' => 'AjaxOverviewTabContent',
+                'result_id' => 'ArticlePosTabContent_' . $orderId,
+            ],
+            'gwt_tab_id' => '',
+            'presenter_id' => '1',
+            'action' => 'unbindPositions',
+            'o_id' => $orderId,
+            'additional_id' => '',
+        ];
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]);
+        return $this->request($requestUrl, 'POST', $data);
+    }
+
+    /**
+     * @param int $orderId
+     * @return Response
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function assignOrderStorageLocation(int $orderId): Response
+    {
+        $data = [
+            'Object' => 'mod_order@GuiOrderDetails',
+            'Params' => [
+                'gui' => 'AjaxOverviewTabContent',
+                'result_id' => 'ArticlePosTabContent_' . $orderId,
+            ],
+            'gwt_tab_id' => '',
+            'presenter_id' => '1',
+            'action' => 'bindPositions',
+            'o_id' => $orderId,
+            'additional_id' => '',
+        ];
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]);
+        return $this->request($requestUrl, 'POST', $data);
+    }
+
+    /**
+     * @param int $orderId
+     * @param int $orderItemId
+     * @return Response
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function deleteOrderItem(int $orderId, int $orderItemId): Response
+    {
+        $data = [
+            'Object' => 'mod_order@GuiOrderDetails',
+            'Params' => [
+                'gui' => 'AjaxRowEditTableRow',
+                'result_id' => 'OrderEditPositionsPane_' . $orderItemId,
+            ],
+            'gwt_tab_id' => '',
+            'presenter_id' => '1',
+            'action' => 'deleteOrderRow',
+            'o_id' => $orderId,
+            'order_row_id' => $orderItemId,
+            'additional_id' => '',
+        ];
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]);
+        return $this->request($requestUrl, 'POST', $data);
+    }
+
+    /**
+     * @param int $orderId
+     * @param int $orderItemId
+     * @return Response
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function deleteOrderItemLink(int $orderId, int $orderItemId): Response
+    {
+        $data = [
+            'Object' => 'mod_order@GuiOrderDetails',
+            'Params' => [
+                'gui' => 'AjaxRowEditTableRow',
+                'result_id' => 'OrderEditPositionsPane_' . $orderItemId,
+            ],
+            'action' => 'deleteArticleLink',
+            'o_id' => $orderId,
+            'order_row_id' => $orderItemId,
+            'additional_id' => '',
+        ];
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]);
+        return $this->request($requestUrl, 'POST', $data);
+    }
+
+    /**
+     * @param int $orderId
+     * @param int $orderItemId
+     * @param int $itemId
+     * @param int $variationId
+     * @param int $warehouseId
+     * @return Response
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function assignOrderItemLink(int $orderId, int $orderItemId, int $itemId, int $variationId, int $warehouseId): Response
+    {
+        $data = [
+            'requests' => [
+                [
+                    '_dataName' => 'OrderItem',
+                    '_moduleName' => 'order/item',
+                    '_searchParams' => [],
+                    '_writeParams' => [],
+                    '_validateParams' => [],
+                    '_commandStack' => [
+                        [
+                            'type' => 'read',
+                            'command' => 'assignItem',
+                        ],
+                    ],
+                    '_dataArray' => [
+                        'orderId' => $orderId,
+                        'itemId' => $itemId,
+                        'id' => $orderItemId,
+                        'itemVariationId' => $variationId,
+                        'warehouseId' => $warehouseId,
+                    ],
+                    '_dataList' => [],
+                ],
+            ],
+            'meta' => [
+                'id' => 22,
+                'token' => '4lBG21ibpUkhsUyu',
+            ],
+        ];
+        $data = ['request' => Json::encode($data)];
+        $requestUrl = strtr($this->apiUiUrl, ['{domainHash}' => $this->getDomainHash()]);
+        return $this->request($requestUrl, 'POST', $data);
     }
 }

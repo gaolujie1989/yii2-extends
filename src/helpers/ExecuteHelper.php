@@ -46,13 +46,13 @@ class ExecuteHelper
             return true;
         } catch (\Throwable $exception) {
             $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
-            Yii::error($message, __METHOD__);
             $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);
             if ($throwException) {
                 throw $exception;
             }
+            Yii::error($message, __METHOD__);
             return false;
         }
     }

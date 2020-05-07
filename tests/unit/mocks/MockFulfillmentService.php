@@ -87,6 +87,38 @@ class MockFulfillmentService extends BaseObject implements FulfillmentServiceInt
      * @throws \yii\db\Exception
      * @inheritdoc
      */
+    public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $now = time();
+        $fulfillmentOrder->external_order_status = 'HOLD';
+        $fulfillmentOrder->external_order_additional = ['HH' => 'HH'];
+        $fulfillmentOrder->external_updated_at = $now;
+        $fulfillmentOrder->mustSave(false);
+        return true;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $now = time();
+        $fulfillmentOrder->external_order_status = 'SHIPPING';
+        $fulfillmentOrder->external_order_additional = ['SS' => 'SS'];
+        $fulfillmentOrder->external_updated_at = $now;
+        $fulfillmentOrder->mustSave(false);
+        return true;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $now = time();

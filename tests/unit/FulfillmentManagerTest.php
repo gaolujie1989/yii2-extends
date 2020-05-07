@@ -7,11 +7,14 @@ namespace lujie\fulfillment\tests\unit;
 
 
 use lujie\data\loader\ChainedDataLoader;
+use lujie\extend\constants\ExecStatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
+use lujie\fulfillment\jobs\HoldFulfillmentOrderJob;
 use lujie\fulfillment\jobs\PushFulfillmentItemJob;
 use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
+use lujie\fulfillment\jobs\ShipFulfillmentOrderJob;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
@@ -92,6 +95,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder = new FulfillmentOrder();
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
+        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
         $this->assertTrue($fulfillmentOrder->save(), VarDumper::dumpAsString($fulfillmentOrder->getErrors()));
         $this->assertCount(1, $pushedJobs);
         $expectedJob = new PushFulfillmentOrderJob([
@@ -104,7 +108,28 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->save();
         $this->assertCount(0, $pushedJobs, VarDumper::dumpAsString($pushedJobs));
 
-        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING;
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING;
+        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
+        $fulfillmentOrder->save();
+        $this->assertCount(1, $pushedJobs);
+        $expectedJob = new HoldFulfillmentOrderJob([
+            'fulfillmentManager' => 'fulfillmentManager',
+            'fulfillmentOrderId' => $fulfillmentOrder->fulfillment_order_id,
+        ]);
+        $this->assertEquals($expectedJob, array_shift($pushedJobs));
+
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING;
+        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
+        $fulfillmentOrder->save();
+        $this->assertCount(1, $pushedJobs);
+        $expectedJob = new ShipFulfillmentOrderJob([
+            'fulfillmentManager' => 'fulfillmentManager',
+            'fulfillmentOrderId' => $fulfillmentOrder->fulfillment_order_id,
+        ]);
+        $this->assertEquals($expectedJob, array_shift($pushedJobs));
+
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING;
+        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
         $fulfillmentOrder->save();
         $this->assertCount(1, $pushedJobs);
         $expectedJob = new CancelFulfillmentOrderJob([
@@ -150,6 +175,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
         $fulfillmentItem->external_item_id = 1;
+        $fulfillmentItem->item_pushed_at = 1;
         $fulfillmentItem->mustSave(false);
         $query = FulfillmentWarehouseStock::find();
         $this->assertEquals(0, $query->count());
@@ -165,7 +191,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->external_order_id = 1;
-        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
         $fulfillmentOrder->mustSave(false);
         $this->getFulfillmentManager()->pullFulfillmentOrders(1);
         $fulfillmentOrder->refresh();

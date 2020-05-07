@@ -18,6 +18,7 @@ class m190708_132647_fulfillment_order extends Migration
             'fulfillment_status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'order_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'order_status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
+            'order_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_order_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_order_no' => $this->string(50)->notNull()->defaultValue(''),
             'external_order_status' => $this->string(20)->notNull()->defaultValue(''),

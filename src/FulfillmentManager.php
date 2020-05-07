@@ -8,10 +8,14 @@ namespace lujie\fulfillment;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
+use lujie\extend\helpers\ExecuteHelper;
 use lujie\fulfillment\constants\FulfillmentConst;
+use lujie\fulfillment\jobs\BaseFulfillmentOrderJob;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
+use lujie\fulfillment\jobs\HoldFulfillmentOrderJob;
 use lujie\fulfillment\jobs\PushFulfillmentItemJob;
 use lujie\fulfillment\jobs\PushFulfillmentOrderJob;
+use lujie\fulfillment\jobs\ShipFulfillmentOrderJob;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
@@ -142,6 +146,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param AfterSaveEvent $event
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function afterFulfillmentOrderCreated(AfterSaveEvent $event): void
@@ -157,47 +162,89 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)
+    protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
     {
-        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
-            return;
-        }
-        $job = new PushFulfillmentOrderJob();
-        $job->fulfillmentManager = ComponentHelper::getName($this);
-        $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
-        $this->queue->push($job);
-        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
-        $fulfillmentOrder->save(false);
+        $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => PushFulfillmentOrderJob::class]);
     }
 
     /**
      * @param AfterSaveEvent $event
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function afterFulfillmentOrderUpdated(AfterSaveEvent $event): void
     {
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = $event->sender;
-        if ($fulfillmentOrder->external_order_id
-            && $fulfillmentOrder->fulfillment_status === FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING) {
-            $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
-        } else {
-            Yii::info("Order not pushed or not cancelling status, orderId: {$fulfillmentOrder->order_id}", __METHOD__);
+        $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
+        if (empty($fulfillmentOrder->external_order_id) || $fulfillmentOrder->order_pushed_at < $fulfillmentOrder->order_updated_at) {
+            $this->pushFulfillmentOrderJob($fulfillmentOrder);
+            Yii::info("{$name} push update job", __METHOD__);
+        }
+        switch ($fulfillmentOrder->fulfillment_status) {
+            case FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING:
+                $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
+                Yii::info("{$name} push hold job", __METHOD__);
+                break;
+            case FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING:
+                $this->pushShipFulfillmentOrderJob($fulfillmentOrder);
+                Yii::info("{$name} push ship job", __METHOD__);
+                break;
+            case FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING:
+                $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
+                Yii::info("{$name} push cancel job", __METHOD__);
+                break;
+            default;
+                break;
         }
     }
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
+     * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushCancelFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder)
+    protected function pushHoldFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
+    {
+        $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => HoldFulfillmentOrderJob::class]);
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pushShipFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
+    {
+        $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => ShipFulfillmentOrderJob::class]);
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pushCancelFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
+    {
+        $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => CancelFulfillmentOrderJob::class]);
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @param $jobConfig
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, $jobConfig): void
     {
         if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
             return;
         }
-        $job = new CancelFulfillmentOrderJob();
+        /** @var BaseFulfillmentOrderJob $job */
+        $job = Instance::ensure($jobConfig, BaseFulfillmentOrderJob::class);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         $this->queue->push($job);
@@ -207,7 +254,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region push and cancelling
+    #region push and holding/shipping/cancelling
 
     /**
      * @param FulfillmentItem $fulfillmentItem
@@ -218,29 +265,25 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): bool
     {
+        $name = "FulfillmentItem {$fulfillmentItem->fulfillment_item_id} of item {$fulfillmentItem->item_id}";
+        if ($fulfillmentItem->item_pushed_at > $fulfillmentItem->item_updated_at) {
+            Yii::info("{$name} already pushed, skip", __METHOD__);
+            $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentItem->mustSave(false);
+            return false;
+        }
+
         $fulfillmentService = $this->getFulfillmentService($fulfillmentItem->fulfillment_account_id);
         $lockName = $this->mutexNamePrefix . 'pushFulfillmentItem:' . $fulfillmentItem->fulfillment_item_id;
         if ($this->mutex->acquire($lockName)) {
             try {
-                if ($fulfillmentItem->item_pushed_at > $fulfillmentItem->item_updated_at) {
-                    Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} already pushed, skip", __METHOD__);
-                    $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
-                    $fulfillmentItem->mustSave(false);
-                    return false;
-                }
-                $fulfillmentService->pushItem($fulfillmentItem);
-                Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed success", __METHOD__);
-                $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
-                $fulfillmentItem->item_pushed_at = time();
-                $fulfillmentItem->item_pushed_errors = [];
-                $fulfillmentItem->mustSave(false);
-                return true;
+                return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentItem, $name) {
+                    $fulfillmentService->pushItem($fulfillmentItem);
+                    Yii::info("{$name} pushed success", __METHOD__);
+                }, $fulfillmentItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_errors', true);
             } catch (\Throwable $ex) {
-                $error = $ex->getMessage() . "\n" . $ex->getTraceAsString();
-                Yii::error("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} pushed error: {$error}", __METHOD__);
-                $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
-                $fulfillmentItem->item_pushed_errors = ['ex' => $ex->getMessage()];
-                $fulfillmentItem->mustSave(false);
+                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("{$name} pushed error: {$message}", __METHOD__);
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -258,28 +301,97 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
+        $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
+        if ($fulfillmentOrder->order_pushed_at > $fulfillmentOrder->order_updated_at) {
+            Yii::info("{$name} already pushed, skip", __METHOD__);
+            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentOrder->mustSave(false);
+            return false;
+        }
+
         $fulfillmentService = $this->getFulfillmentService($fulfillmentOrder->fulfillment_account_id);
         $lockName = $this->mutexNamePrefix . 'pushFulfillmentOrder:' . $fulfillmentOrder->fulfillment_order_id;
         if ($this->mutex->acquire($lockName)) {
             try {
-                if ($fulfillmentOrder->order_pushed_at) {
-                    Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} already pushed, skip", __METHOD__);
-                    $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
-                    $fulfillmentOrder->mustSave(false);
-                    return false;
-                }
-                $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
-                Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} pushed success", __METHOD__);
-                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
-                $fulfillmentOrder->order_pushed_at = time();
-                $fulfillmentOrder->order_pushed_errors = [];
-                $fulfillmentOrder->mustSave(false);
-                return true;
+                return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
+                    $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
+                    Yii::info("{$name} pushed success", __METHOD__);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
             } catch (\Throwable $ex) {
-                Yii::error("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} pushed error: {$ex->getMessage()}", __METHOD__);
-                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
-                $fulfillmentOrder->order_pushed_errors = ['ex' => $ex->getMessage()];
-                $fulfillmentOrder->mustSave(false);
+                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("{$name} pushed error: {$message}", __METHOD__);
+                return false;
+            } finally {
+                $this->mutex->release($lockName);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
+        if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING) {
+            Yii::info("{$name} not to holding, skip", __METHOD__);
+            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentOrder->mustSave(false);
+            return false;
+        }
+
+        $fulfillmentService = $fulfillmentService = $this->getFulfillmentService($fulfillmentOrder->fulfillment_account_id);
+        $lockName = $this->mutexNamePrefix . 'holdFulfillmentOrder:' . $fulfillmentOrder->fulfillment_order_id;
+        if ($this->mutex->acquire($lockName)) {
+            try {
+                return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
+                    $fulfillmentService->holdFulfillmentOrder($fulfillmentOrder);
+                    Yii::info("{$name} to holding success", __METHOD__);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
+            } catch (\Throwable $ex) {
+                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("{$name} to holding error: {$message}", __METHOD__);
+                return false;
+            } finally {
+                $this->mutex->release($lockName);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
+        if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING) {
+            Yii::info("{$name} not to shipping, skip", __METHOD__);
+            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentOrder->mustSave(false);
+            return false;
+        }
+
+        $fulfillmentService = $fulfillmentService = $this->getFulfillmentService($fulfillmentOrder->fulfillment_account_id);
+        $lockName = $this->mutexNamePrefix . 'shipFulfillmentOrder:' . $fulfillmentOrder->fulfillment_order_id;
+        if ($this->mutex->acquire($lockName)) {
+            try {
+                return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
+                    $fulfillmentService->shipFulfillmentOrder($fulfillmentOrder);
+                    Yii::info("{$name} to shipping success", __METHOD__);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
+            } catch (\Throwable $ex) {
+                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("{$name} to shipping error: {$message}", __METHOD__);
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -297,28 +409,25 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
+        $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
+        if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING) {
+            Yii::info("{$name} not to cancelling, skip", __METHOD__);
+            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentOrder->mustSave(false);
+            return false;
+        }
+
         $fulfillmentService = $fulfillmentService = $this->getFulfillmentService($fulfillmentOrder->fulfillment_account_id);
         $lockName = $this->mutexNamePrefix . 'cancelFulfillmentOrder:' . $fulfillmentOrder->fulfillment_order_id;
         if ($this->mutex->acquire($lockName)) {
             try {
-                if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING) {
-                    Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} not cancelling, skip", __METHOD__);
-                    $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
-                    $fulfillmentOrder->mustSave(false);
-                    return false;
-                }
-                $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
-                Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} cancelled success", __METHOD__);
-                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
-                $fulfillmentOrder->order_pushed_at = time();
-                $fulfillmentOrder->order_pushed_errors = [];
-                $fulfillmentOrder->mustSave(false);
-                return false;
+                return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
+                    $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
+                    Yii::info("{$name} cancelled success", __METHOD__);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
             } catch (\Throwable $ex) {
-                Yii::error("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} cancelled error: {$ex->getMessage()}", __METHOD__);
-                $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_FAILED;
-                $fulfillmentOrder->order_pushed_errors = ['ex' => $ex->getMessage()];
-                $fulfillmentOrder->mustSave(false);
+                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("{$name} cancelled error: {$message}", __METHOD__);
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -408,6 +517,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pushFulfillmentOrders(): void
@@ -424,7 +534,25 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
         $fulfillmentOrders = FulfillmentOrder::find()
             ->accountId($accountIds)
-            ->pickingCancelling()
+            ->toHolding()
+            ->notQueued()
+            ->all();
+        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
+        }
+
+        $fulfillmentOrders = FulfillmentOrder::find()
+            ->accountId($accountIds)
+            ->toShipping()
+            ->notQueued()
+            ->all();
+        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            $this->pushShipFulfillmentOrderJob($fulfillmentOrder);
+        }
+
+        $fulfillmentOrders = FulfillmentOrder::find()
+            ->accountId($accountIds)
+            ->toCancelling()
             ->notQueued()
             ->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {

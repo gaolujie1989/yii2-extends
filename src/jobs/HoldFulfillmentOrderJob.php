@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\jobs;
 
+use lujie\extend\queue\RetryableJobTrait;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\BaseObject;
@@ -13,13 +14,14 @@ use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\queue\JobInterface;
 use yii\queue\Queue;
+use yii\queue\RetryableJobInterface;
 
 /**
- * Class PushFulfillmentOrderJob
+ * Class HoldFulfillmentOrderJob
  * @package lujie\fulfillment\jobs
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushFulfillmentOrderJob extends BaseFulfillmentOrderJob
+class HoldFulfillmentOrderJob extends BaseFulfillmentOrderJob
 {
     /**
      * @param Queue $queue
@@ -30,6 +32,6 @@ class PushFulfillmentOrderJob extends BaseFulfillmentOrderJob
     public function execute($queue): void
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $this->fulfillmentManager->pushFulfillmentOrder($this->getFulfillmentOrder());
+        $this->fulfillmentManager->holdFulfillmentOrder($this->getFulfillmentOrder());
     }
 }

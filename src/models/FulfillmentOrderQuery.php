@@ -26,8 +26,10 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery notQueued()
  * @method FulfillmentOrderQuery pending()
  * @method FulfillmentOrderQuery processing()
- * @method FulfillmentOrderQuery pickingCancelling()
  * @method FulfillmentOrderQuery shipped()
+ * @method FulfillmentOrderQuery toHolding()
+ * @method FulfillmentOrderQuery toShipping()
+ * @method FulfillmentOrderQuery toCancelling()
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
  * @method int maxExternalUpdatedAt()
@@ -72,20 +74,30 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     ],
                     'processing' => [
                         'fulfillment_status' => [
-                            FulfillmentConst::FULFILLMENT_STATUS_PUSHED,
-                            FulfillmentConst::FULFILLMENT_STATUS_WAITING,
+                            FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+                            FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
                             FulfillmentConst::FULFILLMENT_STATUS_PICKING,
                             FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-                        ]
-                    ],
-                    'pickingCancelling' => [
-                        'fulfillment_status' => [
-                            FulfillmentConst::FULFILLMENT_STATUS_PICKING_CANCELLING,
                         ]
                     ],
                     'shipped' => [
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+                        ]
+                    ],
+                    'toHolding' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING,
+                        ]
+                    ],
+                    'toShipping' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING,
+                        ]
+                    ],
+                    'pickingCancelling' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING,
                         ]
                     ],
                 ],

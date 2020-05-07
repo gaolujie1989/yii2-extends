@@ -104,6 +104,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
 
     public $orderProcessingStatus = 5;
     public $orderCancelledStatus = 8;
+    public $orderHoldStatus = 4;
 
     /**
      * @throws InvalidConfigException
@@ -226,30 +227,35 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         if (empty($order->orderItems)) {
             return false;
         }
-        if ($order->orderNo) {
+
+        if (empty($fulfillmentOrder->external_order_id) && $order->orderNo) {
             $externalOrderId = $this->orderNoPrefix . $order->orderNo;
-            $eachOrder = $this->client->eachOrder(['externalOrderId' => $externalOrderId, 'plentyId' => $this->plentyId]);
+            $eachOrder = $this->client->eachOrder([
+                'externalOrderId' => $externalOrderId,
+                'plentyId' => $this->plentyId,
+                'with' => 'addresses'
+            ]);
             if ($pmOrder = $eachOrder->current()) {
                 $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
                 $pmOrderRelationIds = ArrayHelper::map($pmOrder['relations'], 'relation', 'relation');
-//                $pmAddressIds = ArrayHelper::map($pmOrder['address'], 'pivot.typeId', 'id');
+                $pmAddressIds = ArrayHelper::map($pmOrder['address'], 'pivot.typeId', 'id');
                 $fulfillmentOrder->external_order_id = $pmOrder['id'];
                 $fulfillmentOrder->external_order_no = $pmOrderProperties[7] ?? '';
                 $fulfillmentOrder->external_order_status = $pmOrder['statusId'];
                 $externalOrderAdditional['plentyId'] = $pmOrder['plentyId'];
                 $externalOrderAdditional['customerId'] = $pmOrderRelationIds['receiver'] ?? 0;
-//                $externalOrderAdditional['addressId'] = $pmAddressIds[2] ?? $pmAddressIds[1] ?? 0;
+                $externalOrderAdditional['addressId'] = $pmAddressIds[2] ?? $pmAddressIds[1] ?? 0;
                 $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
                 $fulfillmentOrder->external_created_at = strtotime($pmOrder['createdAt']);
                 $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
-                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
-                return $fulfillmentOrder->mustSave(false);
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
+                $fulfillmentOrder->mustSave(false);
             }
         }
 
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional;
         if (empty($externalOrderAdditional) || empty($externalOrderAdditional['customerId'])) {
-            $pmCustomer = $this->createPmCustomer($order->address);
+            $pmCustomer = $this->pushPmCustomer($order->address);
             $externalOrderAdditional = array_merge($externalOrderAdditional ?? [], [
                 'customerId' => $pmCustomer['id']
             ]);
@@ -257,26 +263,30 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $fulfillmentOrder->mustSave(false);
         }
         if (empty($externalOrderAdditional) || empty($externalOrderAdditional['addressId'])) {
-            $pmAddress = $this->createPmCustomerAddress($externalOrderAdditional['customerId'], $order->address);
-            $externalOrderAdditional = array_merge($externalOrderAdditional ?? [], [
-                'addressId' => $pmAddress['id']
-            ]);
-            $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
-            $fulfillmentOrder->mustSave(false);
+            $pmAddress = $this->pushPmCustomerAddress($externalOrderAdditional['customerId'], $order->address);
+        } else {
+            $pmAddress = $this->pushPmCustomerAddress($externalOrderAdditional['customerId'], $order->address, $externalOrderAdditional['addressId']);
         }
-        $orderData = $this->getOrderData($order, $externalOrderAdditional);
-
-        $pmOrder = $this->client->createOrder($orderData);
-        $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
-        $fulfillmentOrder->external_order_id = $pmOrder['id'];
-        $fulfillmentOrder->external_order_no = $pmOrderProperties[7] ?? '';
-        $fulfillmentOrder->external_order_status = $pmOrder['statusId'];
-        $externalOrderAdditional['plentyId'] = $pmOrder['plentyId'];
+        $externalOrderAdditional = array_merge($externalOrderAdditional ?? [], [
+            'addressId' => $pmAddress['id']
+        ]);
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
-        $fulfillmentOrder->external_created_at = strtotime($pmOrder['createdAt']);
-        $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
-        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
-        return true;
+        $fulfillmentOrder->mustSave(false);
+
+        if (empty($fulfillmentOrder->external_order_id)) {
+            $orderData = $this->getOrderData($order, $externalOrderAdditional);
+            $pmOrder = $this->client->createOrder($orderData);
+            $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
+            $fulfillmentOrder->external_order_id = $pmOrder['id'];
+            $fulfillmentOrder->external_order_no = $pmOrderProperties[7] ?? '';
+            $fulfillmentOrder->external_order_status = $pmOrder['statusId'];
+            $externalOrderAdditional['plentyId'] = $pmOrder['plentyId'];
+            $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
+            $fulfillmentOrder->external_created_at = strtotime($pmOrder['createdAt']);
+            $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
+            return $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        }
     }
 
     /**
@@ -370,7 +380,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
      * @return array
      * @inheritdoc
      */
-    protected function createPmCustomer(Address $address): array
+    protected function pushPmCustomer(Address $address): array
     {
         if ($address->phone) {
             $customers = $this->client->eachCustomer(['privatePhone' => $address->phone]);
@@ -419,10 +429,10 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     /**
      * @param int $concatId
      * @param Address $address
+     * @param int|null $addressId
      * @return array
-     * @inheritdoc
      */
-    protected function createPmCustomerAddress(int $concatId, Address $address): array
+    protected function pushPmCustomerAddress(int $concatId, Address $address, ?int $addressId = null): array
     {
         $countryCodeToId = array_flip(array_unique(PlentyMarketsConst::COUNTRY_CODES));
         if (empty($countryCodeToId[$address->country])) {
@@ -457,7 +467,43 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         if ($addressOptions) {
             $addressData['options'] = $addressOptions;
         }
+        if ($addressId) {
+            $addressData['id'] = $addressId;
+            return $this->client->updateCustomerAddress($addressData);
+        }
         return $this->client->createCustomerAddress($addressData);
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws Exception
+     * @inheritdoc
+     */
+    public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_id]);
+        if ($this->isOrderAllowHolding($pmOrder)) {
+            $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderHoldStatus]);
+        }
+        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        return $pmOrder['statusId'] === $this->orderHoldStatus;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws Exception
+     * @inheritdoc
+     */
+    public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_id]);
+        if ($this->isOrderAllowShipping($pmOrder)) {
+            $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderProcessingStatus]);
+        }
+        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        return $pmOrder['statusId'] === $this->orderHoldStatus;
     }
 
     /**
@@ -469,18 +515,34 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_id]);
-        $pmOrderId = $pmOrder['id'];
-        $pmStatusId = $pmOrder['statusId'];
         if ($this->isOrderAllowCancelled($pmOrder)) {
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderCancelledStatus]);
-            $pmStatusId = $pmOrder['statusId'];
         }
-        $pmOrderPackageNumbers = [];
-        if ($pmStatusId >= 7 && $pmStatusId < 8) {
-            $pmOrderPackageNumbers = $this->client->getOrderPackageNumbersByOrderIds([$pmOrderId]);
-        }
-        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, $pmOrderPackageNumbers[$pmOrderId] ?? []);
-        return ($pmStatusId >= 8 && $pmStatusId < 9) || $pmStatusId === $this->orderCancelledStatus;
+        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        return $pmOrder['statusId'] === $this->orderCancelledStatus
+            || ($pmOrder['statusId'] >= 8 && $pmOrder['statusId'] < 9);
+    }
+
+    /**
+     * @param array $pmOrder
+     * @return bool
+     * @inheritdoc
+     */
+    protected function isOrderAllowHolding(array $pmOrder): bool
+    {
+        $pmStatusId = $pmOrder['statusId'];
+        return $pmStatusId >= 5 && $pmStatusId < 6;
+    }
+
+    /**
+     * @param array $pmOrder
+     * @return bool
+     * @inheritdoc
+     */
+    protected function isOrderAllowShipping(array $pmOrder): bool
+    {
+        $pmStatusId = $pmOrder['statusId'];
+        return ($pmStatusId >= 4 && $pmStatusId < 5) || ($pmStatusId >= 6.5 && $pmStatusId < 7);
     }
 
     /**
@@ -491,7 +553,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     protected function isOrderAllowCancelled(array $pmOrder): bool
     {
         $pmStatusId = $pmOrder['statusId'];
-        return $pmStatusId >= 5 && $pmStatusId < 6;
+        return $pmStatusId >= 4 && $pmStatusId < 6;
     }
 
     #endregion
@@ -541,26 +603,29 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $pmOrder
-     * @param array $packageNumbers
+     * @param array|null $packageNumbers
      * @return bool
      * @throws Exception
      * @inheritdoc
      */
-    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $pmOrder, array $packageNumbers = []): bool
+    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $pmOrder, ?array $packageNumbers = null): bool
     {
         $pmStatus = $pmOrder['statusId'];
         $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
         $fulfillmentOrder->external_order_status = $pmStatus;
         $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
         if ($pmStatus >= 4 && $pmStatus < 5) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_WAITING;
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_HOLDING;
         } else if ($pmStatus >= 5 && $pmStatus < 6) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PUSHED;
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
         } else if ($pmStatus >= 6 && $pmStatus < 6.5) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
         } else if ($pmStatus >= 6.5 && $pmStatus < 7) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
         } else if ($pmStatus >= 7 && $pmStatus < 8) {
+            if ($packageNumbers === null) {
+                $packageNumbers = $this->client->getOrderPackageNumbers($pmOrder['id']);
+            }
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
             $additional = $fulfillmentOrder->external_order_additional;
             $additional['packageNumbers'] = $packageNumbers ?: [];

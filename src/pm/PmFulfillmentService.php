@@ -238,7 +238,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             if ($pmOrder = $eachOrder->current()) {
                 $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
                 $pmOrderRelationIds = ArrayHelper::map($pmOrder['relations'], 'relation', 'relation');
-                $pmAddressIds = ArrayHelper::map($pmOrder['address'], 'pivot.typeId', 'id');
+                $pmAddressIds = ArrayHelper::map($pmOrder['addresses'], 'pivot.typeId', 'id');
                 $fulfillmentOrder->external_order_id = $pmOrder['id'];
                 $fulfillmentOrder->external_order_no = $pmOrderProperties[7] ?? '';
                 $fulfillmentOrder->external_order_status = $pmOrder['statusId'];

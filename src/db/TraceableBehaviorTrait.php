@@ -20,12 +20,12 @@ use yii\web\User;
  * @property int $updated_at
  * @property int $updated_by
  *
+ * @property bool $saveEmptyOnUpdateBy
+ *
  * @package lujie\extend\db
  */
 trait TraceableBehaviorTrait
 {
-    public $saveEmptyOnUpdateBy = true;
-
     /**
      * @return array
      * @inheritdoc
@@ -71,7 +71,7 @@ trait TraceableBehaviorTrait
      */
     public function getActionByDefault(Event $event): int
     {
-        return $this->saveEmptyOnUpdateBy ? 0 : ($event->sender->updated_by ?: 0);
+        return (isset($this->saveEmptyOnUpdateBy) && $this->saveEmptyOnUpdateBy) ? 0 : ($event->sender->updated_by ?: 0);
     }
 
     /**

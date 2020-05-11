@@ -6,6 +6,7 @@
 namespace lujie\extend\db;
 
 use Yii;
+use yii\base\Event;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
@@ -23,6 +24,8 @@ use yii\web\User;
  */
 trait TraceableBehaviorTrait
 {
+    public $saveEmptyOnUpdateBy = true;
+
     /**
      * @return array
      * @inheritdoc
@@ -55,25 +58,20 @@ trait TraceableBehaviorTrait
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => $this->hasAttribute('created_by') ? 'created_by' : false,
                 'updatedByAttribute' => $this->hasAttribute('updated_by') ? 'updated_by' : false,
-                'value' => [$this, 'getActionBy'],
+                'defaultValue' => [$this, 'getActionByDefault'],
             ];
         }
         return $behaviors;
     }
 
     /**
+     * @param Event $event
      * @return int
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getActionBy(): int
+    public function getActionByDefault(Event $event): int
     {
-        /** @var User $user */
-        $user = Yii::$app->get('user', false);
-        if ($user === null || $user->getIsGuest()) {
-            return 0;
-        }
-        return $user->getId();
+        return $this->saveEmptyOnUpdateBy ? 0 : ($event->sender->updated_by ?: 0);
     }
 
     /**

@@ -25,6 +25,8 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
     public $updatedAtAttribute = 'updated_at';
     public $updatedByAttribute = 'updated_by';
 
+    public $saveEmptyOnUpdateBy = true;
+
     /**
      * @param Application $app
      * @inheritdoc
@@ -86,7 +88,9 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
             $model->setAttribute($this->updatedAtAttribute, time());
         }
         if ($model->hasAttribute($this->updatedByAttribute)) {
-            $model->setAttribute($this->updatedByAttribute, $this->getActionBy());
+            if (($value = $this->getActionBy()) || $this->saveEmptyOnUpdateBy) {
+                $model->setAttribute($this->updatedByAttribute, $value);
+            }
         }
     }
 

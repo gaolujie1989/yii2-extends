@@ -43,22 +43,27 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
+        $chargePrice->price_table_id = 0;
+        $chargePrice->price_cent = 0;
+        $chargePrice->currency = '';
+
         /** @var ShippingItem $shippingItem */
         $shippingItem = $this->shippingItemLoader->get($model);
+        if ($shippingItem === null) {
+            return $chargePrice;
+        }
+
         $chargePrice->custom_type = $shippingItem->carrier;
         $chargePrice->setAttributes($shippingItem->additional);
 
         $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
         if ($shippingTablePrice === null) {
-            $chargePrice->price_table_id = 0;
-            $chargePrice->price_cent = 0;
-            $chargePrice->currency = '';
-        } else {
-            $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
-            $chargePrice->price_cent = $shippingTablePrice->price_cent;
-            $chargePrice->currency = $shippingTablePrice->currency;
+            return $chargePrice;
         }
 
+        $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
+        $chargePrice->price_cent = $shippingTablePrice->price_cent;
+        $chargePrice->currency = $shippingTablePrice->currency;
         return $chargePrice;
     }
 

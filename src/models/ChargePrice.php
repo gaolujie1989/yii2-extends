@@ -183,7 +183,7 @@ class ChargePrice extends \yii\db\ActiveRecord
             $this->price_cent = 0;
             $this->currency = '';
         } else if ($this->status === self::STATUS_FAILED) {
-            $this->status = self::STATUS_GENERATED;
+            $this->status = self::STATUS_ESTIMATE;
         }
     }
 }

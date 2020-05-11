@@ -8,6 +8,7 @@ namespace lujie\charging\calculators;
 use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\data\loader\DbDataLoader;
 use yii\base\BaseObject;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
@@ -28,14 +29,14 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
     public $carrierItemLoader;
 
     /**
-     * @var string
+     * @var DataLoaderInterface
      */
-    public $carrierPackageTable = '{{%carrier_package}}';
-
-    /**
-     * @var string
-     */
-    public $carrierPackageDB = 'kiwiDataRepDB';
+    public $carrierPackageLoader = [
+        'class' => DbDataLoader::class,
+        'table' => '{{%carrier_package}}',
+        'db' => 'kiwiDataRepDB',
+        'key' => 'tracking_no',
+    ];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -45,7 +46,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
     {
         parent::init();
         $this->carrierItemLoader = Instance::ensure($this->carrierItemLoader, DataLoaderInterface::class);
-        $this->carrierPackageDB = Instance::ensure($this->carrierPackageDB, Connection::class);
+        $this->carrierPackageLoader = Instance::ensure($this->carrierPackageLoader, DataLoaderInterface::class);
     }
 
     /**
@@ -56,22 +57,28 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
+        $chargePrice->price_table_id = 0;
+        $chargePrice->price_cent = 0;
+        $chargePrice->currency = '';
+
         /** @var CarrierItem $carrierItem */
         $carrierItem = $this->carrierItemLoader->get($model);
+        if ($carrierItem === null) {
+            return $chargePrice;
+        }
+
         $chargePrice->custom_type = $carrierItem->carrier;
         $chargePrice->setAttributes($carrierItem->additional);
 
         $carrierPackages = $this->getCarrierInvoicePrices($carrierItem);
         if (empty($carrierPackages)) {
-            $chargePrice->price_table_id = 0;
-            $chargePrice->price_cent = 0;
-            $chargePrice->currency = '';
-        } else {
-            $chargePrice->price_table_id = $carrierPackages[0]['carrier_package_id'] ?? $carrierPackages[0]['id'] ?? 1;
-            $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($carrierPackages, 'total_price_cent'));
-            $chargePrice->currency = $carrierPackages[0]['currency'];
+            return $chargePrice;
         }
 
+        $carrierPackage = reset($carrierPackages);
+        $chargePrice->price_table_id = $carrierPackage['carrier_package_id'] ?? $carrierPackage['id'];
+        $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($carrierPackages, 'total_price_cent'));
+        $chargePrice->currency = $carrierPackage['currency'];
         return $chargePrice;
     }
 
@@ -86,9 +93,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
             return [];
         }
         $carrierItem->trackingNumbers = array_map([$this, 'formatInvoiceTrackingNo'], $carrierItem->trackingNumbers);
-        return (new Query())->from($this->carrierPackageTable)
-            ->andWhere(['tracking_no' => $carrierItem->trackingNumbers])
-            ->all($this->carrierPackageDB);
+        return $this->carrierPackageLoader->multiGet($carrierItem->trackingNumbers);
     }
 
     /**

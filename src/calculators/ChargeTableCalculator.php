@@ -43,26 +43,31 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
+        $chargePrice->price_table_id = 0;
+        $chargePrice->price_cent = 0;
+        $chargePrice->currency = '';
+
         /** @var ChargeableItem $chargeableItem */
         $chargeableItem = $this->chargeableItemLoader->get($model);
+        if ($chargeableItem === null) {
+            return $chargePrice;
+        }
+
         $chargePrice->custom_type = $chargeableItem->customType;
         $chargePrice->setAttributes($chargeableItem->additional);
 
         $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
         if ($chargeTablePrice === null) {
-            $chargePrice->price_table_id = 0;
-            $chargePrice->price_cent = 0;
-            $chargePrice->currency = '';
-        } else {
-            $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
-            $chargePrice->price_cent = $chargeTablePrice->price_cent;
-            $chargePrice->currency = $chargeTablePrice->currency;
-            if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-                $chargePrice->price_cent += ceil(($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit)
-                    * $chargeTablePrice->over_limit_price_cent;
-            }
+            return $chargePrice;
         }
 
+        $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
+        $chargePrice->price_cent = $chargeTablePrice->price_cent;
+        $chargePrice->currency = $chargeTablePrice->currency;
+        if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
+            $chargePrice->price_cent += ceil(($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit)
+                * $chargeTablePrice->over_limit_price_cent;
+        }
         return $chargePrice;
     }
 

@@ -218,9 +218,9 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         if ($fulfillmentOrder->fulfillment_account_id !== $this->account->fulfillment_account_id) {
             return false;
         }
-        if ($fulfillmentOrder->external_order_id) {
-            return true;
-        }
+//        if ($fulfillmentOrder->external_order_id) {
+//            return true;
+//        }
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder->order_id);
@@ -228,6 +228,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             return false;
         }
 
+        $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
         if (empty($fulfillmentOrder->external_order_id) && $order->orderNo) {
             $externalOrderId = $this->orderNoPrefix . $order->orderNo;
             $eachOrder = $this->client->eachOrder([
@@ -253,7 +254,6 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             }
         }
 
-        $externalOrderAdditional = $fulfillmentOrder->external_order_additional;
         if (empty($externalOrderAdditional) || empty($externalOrderAdditional['customerId'])) {
             $pmCustomer = $this->pushPmCustomer($order->address);
             $externalOrderAdditional = array_merge($externalOrderAdditional ?? [], [
@@ -286,7 +286,22 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
             return $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        } else {
+            $this->client->updateOrder([
+                'id' => $fulfillmentOrder->external_order_id,
+                'addressRelations' => [
+                    [
+                        'typeId' => 1,
+                        'addressId' => $externalOrderAdditional['addressId'],
+                    ],
+                    [
+                        'typeId' => 2,
+                        'addressId' => $externalOrderAdditional['addressId'],
+                    ],
+                ],
+            ]);
         }
+        return true;
     }
 
     /**
@@ -500,6 +515,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     {
         $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_id]);
         if ($this->isOrderAllowShipping($pmOrder)) {
+            $this->pushFulfillmentOrder($fulfillmentOrder);
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderProcessingStatus]);
         }
         $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);

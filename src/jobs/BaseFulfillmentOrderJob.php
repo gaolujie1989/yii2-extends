@@ -41,7 +41,7 @@ abstract class BaseFulfillmentOrderJob extends BaseObject implements JobInterfac
         /** @var FulfillmentOrder $fulfillmentOrder */
         $fulfillmentOrder = FulfillmentOrder::findOne($this->fulfillmentOrderId);
         if ($fulfillmentOrder === null) {
-            throw new InvalidArgumentException('Invalid fulfillmentItemId');
+            throw new InvalidArgumentException("Invalid fulfillmentOrderId {$this->fulfillmentOrderId}");
         }
         return $fulfillmentOrder;
     }

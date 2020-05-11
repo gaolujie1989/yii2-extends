@@ -46,10 +46,12 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         $chargePrice->price_table_id = 0;
         $chargePrice->price_cent = 0;
         $chargePrice->currency = '';
+        $chargePrice->error = '';
 
         /** @var ChargeableItem $chargeableItem */
         $chargeableItem = $this->chargeableItemLoader->get($model);
         if ($chargeableItem === null) {
+            $chargePrice->error = 'Null ChargeableItem';
             return $chargePrice;
         }
 
@@ -58,6 +60,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
 
         $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
         if ($chargeTablePrice === null) {
+            $chargePrice->error = 'Null ChargeTablePrice';
             return $chargePrice;
         }
 

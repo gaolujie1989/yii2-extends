@@ -46,10 +46,12 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
         $chargePrice->price_table_id = 0;
         $chargePrice->price_cent = 0;
         $chargePrice->currency = '';
+        $chargePrice->error = '';
 
         /** @var ShippingItem $shippingItem */
         $shippingItem = $this->shippingItemLoader->get($model);
         if ($shippingItem === null) {
+            $chargePrice->error = 'Null ShippingItem';
             return $chargePrice;
         }
 
@@ -58,6 +60,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
 
         $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
         if ($shippingTablePrice === null) {
+            $chargePrice->error = 'Null ShippingTablePrice';
             return $chargePrice;
         }
 

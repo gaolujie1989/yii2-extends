@@ -60,10 +60,12 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         $chargePrice->price_table_id = 0;
         $chargePrice->price_cent = 0;
         $chargePrice->currency = '';
+        $chargePrice->error = '';
 
         /** @var CarrierItem $carrierItem */
         $carrierItem = $this->carrierItemLoader->get($model);
         if ($carrierItem === null) {
+            $chargePrice->error = 'Null CarrierItem';
             return $chargePrice;
         }
 
@@ -72,6 +74,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
 
         $carrierPackages = $this->getCarrierInvoicePrices($carrierItem);
         if (empty($carrierPackages)) {
+            $chargePrice->error = 'Empty CarrierPackages';
             return $chargePrice;
         }
 

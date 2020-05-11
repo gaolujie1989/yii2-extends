@@ -2,6 +2,7 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
@@ -33,6 +34,8 @@ use yii\db\ActiveQuery;
  * @property string $note
  * @property array|null $additional
  * @property int $owner_id
+ *
+ * @property string $error;
  */
 class ChargePrice extends \yii\db\ActiveRecord
 {
@@ -87,6 +90,12 @@ class ChargePrice extends \yii\db\ActiveRecord
                     'discount' => 'discount_cent',
                     'surcharge' => 'surcharge_cent',
                     'grand_total' => 'grand_total_cent',
+                ]
+            ],
+            'alias' => [
+                'class' => AliasPropertyBehavior::class,
+                'aliasProperties' => [
+                    'error' => 'additional.error',
                 ]
             ]
         ]);

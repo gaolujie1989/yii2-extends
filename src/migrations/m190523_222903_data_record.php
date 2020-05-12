@@ -42,8 +42,8 @@ class m190523_222903_data_record extends Migration
             'data_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('idx_account_type_id', $this->tableName, ['data_account_id', 'data_source_type', 'data_id']);
-        $this->createIndex('idx_account_type_parent_key', $this->tableName, ['data_account_id', 'data_source_type', 'data_parent_id', 'data_key']);
-        $this->createIndex('idx_account_type_updated_at', $this->tableName, ['data_account_id', 'data_source_type', 'data_updated_at']);
+        $this->createIndex('idx_data_id', $this->tableName, ['data_id']);
+        $this->createIndex('idx_data_key', $this->tableName, ['data_key']);
+        $this->createIndex('idx_data_parent_id_key', $this->tableName, ['data_parent_id', 'data_key']);
     }
 }

@@ -21,6 +21,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method DataRecordQuery dataUpdatedAtFrom($dataUpdatedAtFrom)
  * @method DataRecordQuery dataUpdatedAtTo($dataUpdatedAtTo)
  *
+ * @method DataRecordQuery orderByDataId($sort = SORT_ASC)
+ *
  * @method array getDataIds()
  *
  * @method array|DataRecord[] all($db = null)
@@ -50,9 +52,12 @@ class DataRecordQuery extends \yii\db\ActiveQuery
                     'dataUpdatedAtFrom' => ['data_updated_at' => '>='],
                     'dataUpdatedAtTo' => ['data_updated_at' => '<='],
                 ],
+                'querySorts' => [
+                    'orderByDataId' => ['data_id'],
+                ],
                 'queryReturns' => [
                     'getDataIds' => ['data_id', FieldQueryBehavior::RETURN_COLUMN],
-                ]
+                ],
             ]
         ];
     }

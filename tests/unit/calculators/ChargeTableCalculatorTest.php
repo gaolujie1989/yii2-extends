@@ -9,6 +9,7 @@ use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\charging\calculators\ChargeableItem;
 use lujie\charging\calculators\ChargeTableCalculator;
 use lujie\charging\models\ChargePrice;
+use lujie\charging\models\ChargeTable;
 use lujie\charging\tests\unit\fixtures\ChargeTableFixture;
 use lujie\charging\tests\unit\mocks\MockDataLoader;
 
@@ -73,9 +74,13 @@ class ChargeTableCalculatorTest extends \Codeception\Test\Unit
         $chargePrice->model_id = $testOrder->test_order_id;
         $chargePrice->charge_type = 'MOCK_CHARGE_T1';
         $chargePrice = $calculator->calculate($testOrder, $chargePrice);
-        $this->assertEquals(120, $chargePrice->price_cent);
-        $this->assertEquals('EUR', $chargePrice->currency);
+        $chargePrice->save(false);
         $this->assertEquals(1, $chargePrice->price_table_id);
+        $this->assertEquals(1, $chargePrice->qty);
+        $this->assertEquals(120, $chargePrice->price_cent);
+        $this->assertEquals(12, $chargePrice->discount_cent);
+        $this->assertEquals(108, $chargePrice->grand_total_cent);
+        $this->assertEquals('EUR', $chargePrice->currency);
 
         $testOrder = new TestOrder(['test_order_id' => 2]);
         $chargePrice = new ChargePrice();
@@ -83,8 +88,12 @@ class ChargeTableCalculatorTest extends \Codeception\Test\Unit
         $chargePrice->model_id = $testOrder->test_order_id;
         $chargePrice->charge_type = 'MOCK_CHARGE_T1';
         $chargePrice = $calculator->calculate($testOrder, $chargePrice);
-        $this->assertEquals(390, $chargePrice->price_cent);
-        $this->assertEquals('EUR', $chargePrice->currency);
+        $chargePrice->save(false);
         $this->assertEquals(2, $chargePrice->price_table_id);
+        $this->assertEquals(2, $chargePrice->qty);
+        $this->assertEquals(390, $chargePrice->price_cent);
+        $this->assertEquals(94, $chargePrice->discount_cent);
+        $this->assertEquals(686, $chargePrice->grand_total_cent);
+        $this->assertEquals('EUR', $chargePrice->currency);
     }
 }

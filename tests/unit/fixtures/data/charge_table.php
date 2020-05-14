@@ -17,6 +17,9 @@ return [
         'currency' => 'EUR',
         'over_limit_price_cent' => 0,
         'per_limit' => 0,
+        'additional' => [
+            'discountPriceCent' => 12,
+        ],
         'started_at' => strtotime('-7 days'),
         'ended_at' => strtotime('+7 days'),
         'owner_id' => 1,
@@ -34,6 +37,9 @@ return [
         'currency' => 'EUR',
         'over_limit_price_cent' => 30,
         'per_limit' => 1000,
+        'additional' => [
+            'discountPercent' => 12,
+        ],
         'started_at' => strtotime('-7 days'),
         'ended_at' => strtotime('+7 days'),
         'owner_id' => 1,

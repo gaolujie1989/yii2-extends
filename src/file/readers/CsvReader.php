@@ -6,6 +6,7 @@
 namespace lujie\extend\file\readers;
 
 use lujie\extend\file\FileReaderInterface;
+use Yii;
 use yii\base\BaseObject;
 
 /**
@@ -32,17 +33,36 @@ class CsvReader extends BaseObject implements FileReaderInterface
     {
         $data = [];
         if ($this->flag) {
-            $rows = file($file);
-            $count = count($rows);
-            $delimiters = array_fill(0, $count, $this->delimiter);
-            $enclosures = array_fill(0, $count, $this->enclosure);
-            $escapes = array_fill(0, $count, $this->escape);
-            $data = array_map('str_getcsv', $rows, $delimiters, $enclosures, $escapes);
+            $rows = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($rows as $row) {
+                $data[] = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
+            }
         } else if (($handle = fopen($file, 'rb')) !== FALSE) {
             while (($row = fgetcsv($handle, $this->bufferLength, $this->delimiter, $this->enclosure, $this->escape)) !== FALSE) {
                 $data[] = $row;
             }
             fclose($handle);
+        }
+        if ($this->firstLineIsHeader) {
+            array_walk($data, static function (&$a) use ($data) {
+                $a = array_combine($data[0], $a);
+            });
+            array_shift($data);
+        }
+        return $data;
+    }
+
+    /**
+     * @param string $content
+     * @return array
+     * @inheritdoc
+     */
+    public function readContent(string $content): array
+    {
+        $data = [];
+        $rows = explode("\n", $content);
+        foreach ($rows as $row) {
+            $data[] = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
         }
         if ($this->firstLineIsHeader) {
             array_walk($data, static function (&$a) use ($data) {

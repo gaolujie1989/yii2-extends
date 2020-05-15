@@ -10,7 +10,9 @@ use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
+use yii\db\Query;
 use yii\db\QueryInterface;
 
 /**
@@ -46,6 +48,11 @@ class IndexQueryPreparer extends BaseObject
     public $with = [];
 
     /**
+     * @var null|bool
+     */
+    public $asArray = null;
+
+    /**
      * @param string $modelClass
      * @param array $params
      * @return QueryInterface
@@ -64,16 +71,26 @@ class IndexQueryPreparer extends BaseObject
                 return $searchModel::find()->where('1=2');
             }
             $query = $searchModel->{$this->queryMethod}();
-            if ($this->with && $query instanceof ActiveQuery) {
-                $query->with($this->with);
-            }
+            $this->appendQuery($query);
             return $query;
         }
 
         $query = $modelClass::find();
+        $this->appendQuery($query);
+        return $query;
+    }
+
+    /**
+     * @param ActiveQueryInterface $query
+     * @inheritdoc
+     */
+    protected function appendQuery(ActiveQueryInterface $query): void
+    {
         if ($this->with && $query instanceof ActiveQuery) {
             $query->with($this->with);
         }
-        return $query;
+        if ($this->asArray !== null) {
+            $query->asArray($this->asArray);
+        }
     }
 }

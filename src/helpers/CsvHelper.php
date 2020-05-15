@@ -58,4 +58,29 @@ class CsvHelper
         $csvWriter->escape = $escape;
         $csvWriter->write($file, $data);
     }
+
+    /**
+     * @param string $content
+     * @param bool $firstLineIsHeader
+     * @param int $length
+     * @param string $delimiter
+     * @param string $enclosure
+     * @param string $escape
+     * @param bool $flag
+     * @return array
+     * @inheritdoc
+     */
+    public static function readContent(string $content, bool $firstLineIsHeader = true, int $length = 0,
+                                   string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
+                                   bool $flag = true): array
+    {
+        $csvReader = new CsvReader();
+        $csvReader->firstLineIsHeader = $firstLineIsHeader;
+        $csvReader->bufferLength = $length;
+        $csvReader->delimiter = $delimiter;
+        $csvReader->enclosure = $enclosure;
+        $csvReader->escape = $escape;
+        $csvReader->flag = $flag;
+        return $csvReader->readContent($content);
+    }
 }

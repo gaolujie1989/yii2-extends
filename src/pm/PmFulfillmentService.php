@@ -263,9 +263,9 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $fulfillmentOrder->mustSave(false);
         }
         if (empty($externalOrderAdditional) || empty($externalOrderAdditional['addressId'])) {
-            $pmAddress = $this->pushPmCustomerAddress($externalOrderAdditional['customerId'], $order->address);
+            $pmAddress = $this->pushPmCustomerAddress((int)$externalOrderAdditional['customerId'], $order->address);
         } else {
-            $pmAddress = $this->pushPmCustomerAddress($externalOrderAdditional['customerId'], $order->address, (int)$externalOrderAdditional['addressId']);
+            $pmAddress = $this->pushPmCustomerAddress((int)$externalOrderAdditional['customerId'], $order->address, (int)$externalOrderAdditional['addressId']);
         }
         $externalOrderAdditional = array_merge($externalOrderAdditional ?? [], [
             'addressId' => $pmAddress['id']

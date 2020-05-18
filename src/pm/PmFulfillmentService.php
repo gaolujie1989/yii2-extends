@@ -628,6 +628,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     {
         $pmStatus = $pmOrder['statusId'];
         $pmOrderProperties = ArrayHelper::map($pmOrder['properties'], 'typeId', 'value');
+        $pmOrderDates = ArrayHelper::map($pmOrder['dates'], 'typeId', 'value');
         $fulfillmentOrder->external_order_status = $pmStatus;
         $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
         if ($pmStatus >= 4 && $pmStatus < 5) {
@@ -647,6 +648,8 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $additional['packageNumbers'] = $packageNumbers ?: [];
             $additional['shippingProfileId'] = $pmOrderProperties[2] ?? 0;
             $additional['carrier'] = $this->shippingProfiles[$additional['shippingProfileId']] ?? '';
+            $additional['shippingAt'] = isset($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']])
+                ? strtotime($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']]) : 0;
             $fulfillmentOrder->external_order_additional = $additional;
         } else if (($pmStatus >= 8 && $pmStatus < 9) || $pmStatus === $this->orderCancelledStatus) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;

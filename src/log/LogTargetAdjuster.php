@@ -9,6 +9,7 @@ use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
+use yii\base\InvalidConfigException;
 use yii\log\DbTarget;
 use yii\log\EmailTarget;
 use yii\log\FileTarget;
@@ -21,7 +22,10 @@ use yii\log\Target;
  */
 class LogTargetAdjuster extends BaseObject implements BootstrapInterface
 {
-    public $targets = [
+    /**
+     * @var array[]
+     */
+    public $defaultTargets = [
         'appErrorEmail' => [
             'class' => EmailTarget::class,
             'levels' => ['error'],
@@ -89,7 +93,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'levels' => ['error'],
             'logVars' => [],
             'categories' => ['yii\*'],
-            'except' => ['yii\web\HttpException:4*'], //4xx httpCode not need send mail
+            'except' => ['yii\web\HttpException:4*', 'yii\console\UnknownCommandException*'], //4xx httpCode not need send mail
         ],
 
         'yiiErrorDb' => [
@@ -97,7 +101,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'levels' => ['error'],
             'logVars' => [],
             'categories' => ['yii\*'],
-            'except' => ['yii\web\HttpException:4*'], //4xx httpCode not need send mail
+            'except' => ['yii\web\HttpException:4*', 'yii\console\UnknownCommandException*'], //4xx httpCode not need send mail
         ],
         'yiiWarningDb' => [
             'class' => DbTarget::class,
@@ -161,11 +165,9 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     /**
      * @var array
      */
-    public $scenarioTargets = [
+    public $defaultScenarioTargets = [
         'prod' => [
             'appErrorEmail',
-//            'appErrorDb',
-//            'appWarningDb',
             'appErrorFile',
             'appWarningFile',
             'appProfileFile',
@@ -217,6 +219,16 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     ];
 
     /**
+     * @var array[]
+     */
+    public $targets = [];
+
+    /**
+     * @var array
+     */
+    public $scenarioTargets = [];
+
+    /**
      * @var string
      */
     public $scenarioKey = 'log';
@@ -241,9 +253,12 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public function init(): void
     {
         parent::init();
-        foreach ($this->targets as $key => $target) {
+        foreach ($this->defaultScenarioTargets as $scenario => $scenarioTargets) {
+            $this->defaultScenarioTargets[$scenario] = array_combine($scenarioTargets, $scenarioTargets);
+        }
+        foreach ($this->defaultTargets as $key => $target) {
             if ($target['class'] === EmailTarget::class) {
-                $this->targets[$key] = array_merge($target, $this->emailTargetConfig);
+                $this->defaultTargets[$key] = array_merge($target, $this->emailTargetConfig);
             }
         }
     }
@@ -268,16 +283,24 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     protected function getScenarioTargets(): ?array
     {
         $scenario = $this->getLogScenario();
-        if (empty($this->scenarioTargets[$scenario])) {
-            Yii::debug("Invalid log scenario {$scenario}.");
+        $scenarioTargets = array_filter(array_merge(
+            $this->defaultScenarioTargets[$scenario] ?? [],
+            $this->scenarioTargets[$scenario] ?? [],
+        ));
+        if (empty($scenarioTargets)) {
+            Yii::debug("Empty defaultScenarioTargets of scenario {$scenario}.");
             return null;
         }
-        $scenarioTargets = [];
-        foreach ($this->scenarioTargets[$scenario] as $name) {
-            if (!($this->targets[$name] instanceof Target)) {
-                $this->targets[$name] = Yii::createObject($this->targets[$name]);
+        foreach ($scenarioTargets as $key => $name) {
+            $target = $this->defaultTargets[$name] ?? $this->targets[$name] ?? null;
+            if (empty($target)) {
+                throw new InvalidConfigException("Null target {$name}");
             }
-            $scenarioTargets[$name] = $this->targets[$name];
+
+            if (!($target instanceof Target)) {
+                $target = Yii::createObject($target);
+            }
+            $scenarioTargets[$name] = $target;
         }
         return $scenarioTargets;
     }

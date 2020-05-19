@@ -7,6 +7,7 @@ namespace lujie\extend\tests\unit\log;
 
 use lujie\extend\log\LogTargetAdjuster;
 use Yii;
+use yii\log\FileTarget;
 
 class LogTargetAdjusterTest extends \Codeception\Test\Unit
 {
@@ -30,17 +31,37 @@ class LogTargetAdjusterTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $_ENV['log'] = 'debug';
-        $adjuster = new LogTargetAdjuster();
+        $adjuster = new LogTargetAdjuster([
+            'targets' => [
+                'debugFile' => [
+                    'class' => FileTarget::class,
+                    'logFile' => '@runtime/logs/debug.log',
+                    'levels' => ['error'],
+                    'logVars' => [],
+                    'categories' => ['debug'],
+                ],
+            ],
+            'scenarioTargets' => [
+                'debug' => [
+                    'debugFile' => 'debugFile',
+                    'appDebugFile' => null,
+                    'yiiDebugFile' => null,
+                ]
+            ],
+        ]);
         $adjuster->updateLogTargets();
         $expected = [
             'appErrorFile',
             'appWarningFile',
+            'appProfileFile',
             'appInfoFile',
-            'appDebugFile',
             'yiiErrorFile',
             'yiiWarningFile',
+            'yiiProfileFile',
             'yiiInfoFile',
-            'yiiDebugFile',
+            'yiiDbInfoFile',
+            'yiiHttpInfoFile',
+            'debugFile',
         ];
         $targetNames = array_keys(Yii::$app->getLog()->targets);
         $this->assertEquals($expected, $targetNames);

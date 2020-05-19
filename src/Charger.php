@@ -217,7 +217,7 @@ class Charger extends Component implements BootstrapInterface
         $chargeCalculator = $this->chargeCalculatorLoader->get($chargePrice->charge_type);
         $chargeCalculator = Instance::ensure($chargeCalculator, ChargeCalculatorInterface::class);
         $chargePrice = $chargeCalculator->calculate($model, $chargePrice);
-        $chargePrice->mustSave(false);
+        $chargePrice->save(false);
 
         $this->trigger(self::EVENT_AFTER_CALCULATE, $calculateEvent);
     }

@@ -181,7 +181,6 @@ class Charger extends Component implements BootstrapInterface
      * @param ChargePrice $chargePrice
      * @return bool
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function recalculate(ChargePrice $chargePrice): bool

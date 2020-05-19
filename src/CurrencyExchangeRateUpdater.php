@@ -91,7 +91,7 @@ class CurrencyExchangeRateUpdater extends BaseObject
                         $exchangeRate->date = $date;
                     }
                     $exchangeRate->rate = $this->getRate($currencyFrom, $currencyTo, $date);
-                    $exchangeRate->mustSave(false);
+                    $exchangeRate->save(false);
                 }
             }
         }

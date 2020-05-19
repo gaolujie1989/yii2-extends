@@ -200,7 +200,6 @@ class Charger extends Component implements BootstrapInterface
      * @param ChargePrice $chargePrice
      * @param BaseActiveRecord $model
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     protected function calculateInternal(ChargePrice $chargePrice, BaseActiveRecord $model): void

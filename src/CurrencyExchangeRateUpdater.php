@@ -62,7 +62,6 @@ class CurrencyExchangeRateUpdater extends BaseObject
 
     /**
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function updateRates(): void

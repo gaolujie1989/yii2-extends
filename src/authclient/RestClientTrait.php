@@ -135,7 +135,7 @@ trait RestClientTrait
      * @return array
      * @inheritdoc
      */
-    public function callApiMethod(string $name, array $data): array
+    protected function callApiMethod(string $name, array $data): array
     {
         if (empty($this->apiMethods)) {
             $this->apiMethods = array_merge($this->createApiMethods(), $this->extraMethods ?? []);
@@ -153,6 +153,17 @@ trait RestClientTrait
             $data = [];
         }
         return $this->api($url, $method, $data);
+    }
+
+    /**
+     * @param string $name
+     * @param array $data
+     * @return array
+     * @inheritdoc
+     */
+    public function restApi(string $name, array $data): array
+    {
+        return $this->callApiMethod($name, $data);
     }
 
     /**
@@ -190,7 +201,7 @@ trait RestClientTrait
     public function __call($name, $params)
     {
         if (isset($this->apiMethods[$name])) {
-            return $this->callApiMethod($name, $params[0] ?? []);
+            return $this->restApi($name, $params[0] ?? []);
         }
 
         if (strpos($name, 'batch') === 0) {

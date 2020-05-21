@@ -7,7 +7,7 @@ namespace lujie\data\exchange\sources;
 
 
 use Iterator;
-use lujie\extend\authclient\RestOAuth2Client;
+use lujie\extend\authclient\RestClientTrait;
 use yii\base\BaseObject;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
@@ -20,7 +20,7 @@ use yii\di\Instance;
 class RestClientSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
-     * @var RestOAuth2Client
+     * @var RestClientTrait
      */
     public $client;
 
@@ -46,7 +46,7 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     public function init(): void
     {
         parent::init();
-        $this->client = Instance::ensure($this->client, RestOAuth2Client::class);
+        $this->client = Instance::ensure($this->client);
     }
 
     /**

@@ -6,7 +6,7 @@
 namespace lujie\data\recording\forms;
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\authclient\RestOAuth2Client;
+use yii\authclient\BaseOAuth;
 use yii\authclient\InvalidResponseException;
 use yii\base\Exception;
 use yii\base\Model;
@@ -88,14 +88,14 @@ class ProxyRequestForm extends Model
             return false;
         }
 
-        /** @var RestOAuth2Client $client */
+        /** @var BaseOAuth $client */
         $client = $this->dataClientLoader->get($this->dataAccountId);
         if ($client === null) {
             $this->addError('dataAccountId', 'Invalid dataAccountId, Null dataClient');
             return false;
         }
 
-        $client = Instance::ensure($client, RestOAuth2Client::class);
+        $client = Instance::ensure($client, BaseOAuth::class);
         try {
             if ($this->url) {
                 $this->responseData = $client->api($this->url, $this->method, $this->data);

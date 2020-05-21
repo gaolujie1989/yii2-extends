@@ -6,14 +6,15 @@
 namespace lujie\data\recording\tests\unit\mocks;
 
 use Iterator;
-use lujie\extend\authclient\RestOAuth2Client;
+use yii\authclient\BaseOAuth;
+use yii\authclient\OAuthToken;
 
 /**
  * Class MockApiClient
  * @package lujie\data\recording\tests\unit\mocks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class MockApiClient extends RestOAuth2Client
+class MockApiClient extends BaseOAuth
 {
     public static $responses = [];
 
@@ -29,5 +30,13 @@ class MockApiClient extends RestOAuth2Client
     public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
     {
         return array_shift(static::$responses);
+    }
+
+    public function refreshAccessToken(OAuthToken $token)
+    {
+    }
+
+    public function applyAccessTokenToRequest($request, $accessToken)
+    {
     }
 }

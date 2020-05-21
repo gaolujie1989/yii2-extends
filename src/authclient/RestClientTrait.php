@@ -95,7 +95,7 @@ trait RestClientTrait
      * @return string
      * @inheritdoc
      */
-    protected function getRealPath(string $path, array $params): string
+    public function getRealPath(string $path, array $params): string
     {
         $pathParams = $this->getPathParams($path);
         if ($pathParams && $params) {

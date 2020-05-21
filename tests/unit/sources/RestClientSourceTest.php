@@ -42,5 +42,6 @@ class RestClientSourceTest extends \Codeception\Test\Unit
             'resource' => 'test-data'
         ]);
         $this->assertEquals($testData, iterator_to_array($source->batch(), false));
+        $this->assertEquals(array_merge(...$testData), iterator_to_array($source->each(), false));
     }
 }

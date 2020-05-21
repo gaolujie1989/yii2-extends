@@ -1,0 +1,28 @@
+{
+  "name": "lujie/yii2-amazon-advertising-client",
+  "description": "Yii2 amazon-advertising client",
+  "keywords": ["yii2", "amazon-advertising client"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-amazon-advertising-client/issues",
+    "source": "https://gitee.com/code4dream/yii2-amazon-advertising-client"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\amazon\\advertising\\": "src"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

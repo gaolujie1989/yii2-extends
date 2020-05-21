@@ -53,6 +53,11 @@ class FileExportAction extends Action
     public $exportFileName;
 
     /**
+     * @var int
+     */
+    public $exportLimit = 9000;
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -87,6 +92,7 @@ class FileExportAction extends Action
 
         $fileExporter = $this->fileExporter;
         $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
+        $query->limit($this->exportLimit);
         $fileExporter->source = new ActiveRecordSource(['query' => $query]);
         $fileExporter->prepare($this->filePath);
         $executed = $this->executor

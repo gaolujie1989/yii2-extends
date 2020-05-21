@@ -8,6 +8,7 @@ namespace lujie\extend\authclient;
 use Iterator;
 use Throwable;
 use yii\authclient\CacheStateStorage;
+use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
@@ -132,7 +133,6 @@ trait RestClientTrait
      * @param string $name
      * @param array $data
      * @return array
-     * @throws NotFoundHttpException
      * @inheritdoc
      */
     public function callApiMethod(string $name, array $data): array
@@ -141,7 +141,7 @@ trait RestClientTrait
             $this->apiMethods = array_merge($this->createApiMethods(), $this->extraMethods ?? []);
         }
         if (empty($this->apiMethods[$name])) {
-            throw new NotFoundHttpException("API method {$name} not found.");
+            throw new InvalidArgumentException("API method {$name} not found.");
         }
 
         [$method, $url] = $this->apiMethods[$name];

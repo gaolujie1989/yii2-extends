@@ -2,12 +2,12 @@
 
 namespace lujie\extend\tests\unit;
 
-use lujie\extend\tests\unit\mocks\MockOAuth2Client;
+use lujie\extend\tests\unit\mocks\MockRestClient;
 use yii\helpers\VarDumper;
 use yii\httpclient\MockTransport;
 use yii\httpclient\Response;
 
-class RestOAuth2ClientTest extends \Codeception\Test\Unit
+class RestClientTraitTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -29,9 +29,9 @@ class RestOAuth2ClientTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockOAuth2Client = new MockOAuth2Client([
+        $mockRestClient = new MockRestClient([
             'apiBaseUrl' => 'https://xxx/rest',
-            'tokenUrl' => 'login',
+            'authUrl' => 'login',
             'resources' => [
                 'Task' => 'project/tasks'
             ],
@@ -53,7 +53,7 @@ class RestOAuth2ClientTest extends \Codeception\Test\Unit
             ]
         ]);
         /** @var MockTransport $mockTransport */
-        $mockTransport = $mockOAuth2Client->getHttpClient()->getTransport();
+        $mockTransport = $mockRestClient->getHttpClient()->getTransport();
 
         $expected = [
             'listTasks' => ['GET', 'project/tasks.json'],
@@ -63,7 +63,7 @@ class RestOAuth2ClientTest extends \Codeception\Test\Unit
             'runTask' => ['POST', 'project/tasks/{code}/run.json'],
             'xxxStatus' => ['GET', 'status'],
         ];
-        $this->assertEquals($expected, $mockOAuth2Client->apiMethods, VarDumper::dumpAsString($mockOAuth2Client->apiMethods));
+        $this->assertEquals($expected, $mockRestClient->apiMethods, VarDumper::dumpAsString($mockRestClient->apiMethods));
 
         $response = new Response([
             'headers' => ['http-code' => '200'],
@@ -71,7 +71,7 @@ class RestOAuth2ClientTest extends \Codeception\Test\Unit
         ]);
         $mockTransport->appendResponse($response);
         $data = ['code' => 'xxx', 'status' => 1];
-        $mockOAuth2Client->updateTask($data);
+        $mockRestClient->updateTask($data);
         $requests = $mockTransport->flushRequests();
         $this->assertEquals('project/tasks/xxx.json', $requests[0]->getUrl());
         $data['access_token'] = 'mocked_token';

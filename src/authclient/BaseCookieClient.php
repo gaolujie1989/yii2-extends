@@ -5,6 +5,7 @@
 
 namespace lujie\extend\authclient;
 
+use yii\authclient\CacheStateStorage;
 use yii\authclient\BaseClient;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
@@ -73,6 +74,7 @@ abstract class BaseCookieClient extends BaseClient
 
     /**
      * @return CookieCollection
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function login(): CookieCollection
@@ -82,7 +84,6 @@ abstract class BaseCookieClient extends BaseClient
             'password' => $this->password,
         ]);
 
-        /** @var Response $response */
         $response = $this->createRequest()
             ->setUrl($this->loginUrl)
             ->setMethod('POST')
@@ -106,6 +107,7 @@ abstract class BaseCookieClient extends BaseClient
 
     /**
      * @return CookieCollection
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function getCookies(): CookieCollection
@@ -136,6 +138,7 @@ abstract class BaseCookieClient extends BaseClient
 
     /**
      * @param RequestEvent $event
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function beforeAuthRequestSend(RequestEvent $event): void
@@ -157,7 +160,7 @@ abstract class BaseCookieClient extends BaseClient
     /**
      * @param string $callSubUrl
      * @param string $method
-     * @param array|string $data
+     * @param array $data
      * @param array $headers
      * @return Response
      * @throws \yii\httpclient\Exception
@@ -174,7 +177,7 @@ abstract class BaseCookieClient extends BaseClient
             if (is_array($data)) {
                 $request->setData($data);
             } else {
-                $request->setContent($data);
+                $request->setContent((string)$data);
             }
         }
 

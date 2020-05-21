@@ -14,20 +14,24 @@ use yii\web\NotFoundHttpException;
 
 /**
  * Trait RestTrait
+ *
+ * @property array $resources
+ * @property array $extraActions
+ * @property array $extraMethods
+ * @property string $suffix
+ *
+ * @property string|array $cacheStorage
+ * @property array $httpClientOptions
+ *
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 trait RestClientTrait
 {
     /**
-     * @var array
-     */
-    public $resources = [];
-
-    /**
      * @var array default resource actions
      */
-    public $actions = [
+    private $actions = [
         'list' => ['GET', ''],
         'get' => ['GET', '{id}'],
         'create' => ['POST', ''],
@@ -38,39 +42,12 @@ trait RestClientTrait
     /**
      * @var array
      */
-    public $extraActions = [];
-
-    /**
-     * @var array
-     */
     public $pluralize = ['list'];
-
-    /**
-     * @var string
-     */
-    public $suffix = '';
 
     /**
      * @var array
      */
     public $apiMethods = [];
-
-    /**
-     * @var string
-     */
-    public $cacheStorage = CacheStateStorage::class;
-
-    /**
-     * @var array
-     */
-    public $httpClientOptions = [
-        'requestConfig' => [
-            'format' => 'json'
-        ],
-        'responseConfig' => [
-            'format' => 'json'
-        ],
-    ];
 
     /**
      * @inheritdoc
@@ -86,14 +63,16 @@ trait RestClientTrait
      */
     protected function initRest(): void
     {
-        parent::init();
-        if ($this->cacheStorage) {
-            $this->setStateStorage($this->cacheStorage);
-        }
-        if ($this->httpClientOptions) {
-            $this->setHttpClient($this->httpClientOptions);
-        }
-        $this->apiMethods = array_merge($this->createApiMethods(), $this->apiMethods);
+        $this->setStateStorage($this->cacheStorage ?? CacheStateStorage::class);
+        $this->setHttpClient($this->httpClientOptions ?? [
+                'requestConfig' => [
+                    'format' => 'json'
+                ],
+                'responseConfig' => [
+                    'format' => 'json'
+                ],
+            ]);
+        $this->apiMethods = array_merge($this->createApiMethods(), $this->extraMethods ?? []);
     }
 
     /**
@@ -135,11 +114,14 @@ trait RestClientTrait
     protected function createApiMethods(): array
     {
         $apiMethods = [];
-        foreach ($this->resources as $resource => $resourcePath) {
-            $resourceActions = array_filter(array_merge($this->actions, $this->extraActions[$resource] ?? []));
+        $resources = $this->resources ?? [];
+        $extraActions = $this->extraActions ?? [];
+        $pluralize = $this->pluralize ?? ['list'];
+        foreach ($resources as $resource => $resourcePath) {
+            $resourceActions = array_filter(array_merge($this->actions, $extraActions[$resource] ?? []));
             foreach ($resourceActions as $action => [$httpMethod, $actionPath]) {
-                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '') . $this->suffix;
-                $method = $action . (in_array($action, $this->pluralize, true) ? Inflector::pluralize($resource) : $resource);
+                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '') . ($this->suffix ?? '');
+                $method = $action . (in_array($action, $pluralize, true) ? Inflector::pluralize($resource) : $resource);
                 $apiMethods[$method] = [$httpMethod, $url];
             }
         }
@@ -156,7 +138,7 @@ trait RestClientTrait
     public function callApiMethod(string $name, array $data): array
     {
         if (empty($this->apiMethods)) {
-            $this->apiMethods = array_merge($this->createApiMethods(), $this->apiMethods);
+            $this->apiMethods = array_merge($this->createApiMethods(), $this->extraMethods ?? []);
         }
         if (empty($this->apiMethods[$name])) {
             throw new NotFoundHttpException("API method {$name} not found.");
@@ -228,29 +210,20 @@ trait RestClientTrait
      */
     public function generateMethodDoc(): string
     {
-        $apiMethods = [];
-        foreach ($this->resources as $resource => $resourcePath) {
-            $resourceActions = array_filter(array_merge($this->actions, $this->extraActions[$resource] ?? []));
-            foreach ($resourceActions as $action => [$httpMethod, $actionPath]) {
-                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '') . $this->suffix;
-                $pathParams = $this->getPathParams($url);
-                $method = $action . (in_array($action, $this->pluralize, true) ? Inflector::pluralize($resource) : $resource);
-                if ($action === 'list') {
-                    if (empty($pathParams)) {
-                        $apiMethods[] = " * @method array {$method}(\$data = [])";
-                        $apiMethods[] = " * @method \Generator each{$resource}(\$condition = [], \$batchSize = 100)";
-                        $apiMethods[] = " * @method \Generator batch{$resource}(\$condition = [], \$batchSize = 100)";
-                    } else {
-                        $apiMethods[] = " * @method array {$method}(\$data)";
-                        $apiMethods[] = " * @method \Generator each{$resource}(\$condition = [], \$batchSize = 100)";
-                        $apiMethods[] = " * @method \Generator batch{$resource}(\$condition = [], \$batchSize = 100)";
-                    }
-                } else {
-                    $apiMethods[] = " * @method array {$method}(\$data)";
-                }
-            }
-            $apiMethods[] = ' *';
+        if (empty($this->apiMethods)) {
+            $this->apiMethods = array_merge($this->createApiMethods(), $this->apiMethods);
         }
-        return implode("\n", $apiMethods);
+        $apiMethodDocs = [];
+        foreach ($this->apiMethods as $method => [$httpMethod, $url]) {
+            if (strpos($method, 'list') === 0) {
+                $name = Inflector::singularize(substr($method, 4));
+                $apiMethodDocs[] = " * @method array {$method}(\$data = [])";
+                $apiMethodDocs[] = " * @method \Generator each{$name}(\$condition = [], \$batchSize = 100)";
+                $apiMethodDocs[] = " * @method \Generator batch{$name}(\$condition = [], \$batchSize = 100)";
+            } else {
+                $apiMethodDocs[] = " * @method array {$method}(\$data)";
+            }
+        }
+        return implode("\n", $apiMethodDocs);
     }
 }

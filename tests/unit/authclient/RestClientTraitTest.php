@@ -35,22 +35,17 @@ class RestClientTraitTest extends \Codeception\Test\Unit
             'resources' => [
                 'Task' => 'project/tasks'
             ],
-            'actions' => [
-                'list' => ['GET', ''],
-                'get' => ['GET', '{id}'],
-                'create' => ['POST', ''],
-                'update' => ['PUT', '{id}'],
-            ],
             'extraActions' => [
                 'Task' => [
                     'update' => ['PUT', '{code}'],
                     'run' => ['POST', '{code}/run'],
+                    'delete' => null,
                 ]
             ],
-            'suffix' => '.json',
-            'apiMethods' => [
+            'extraMethods' => [
                 'xxxStatus' => ['GET', 'status'],
-            ]
+            ],
+            'suffix' => '.json',
         ]);
         /** @var MockTransport $mockTransport */
         $mockTransport = $mockRestClient->getHttpClient()->getTransport();

@@ -20,15 +20,20 @@ class MockRestClient extends BaseOAuth
 {
     use RestClientTrait;
 
+    public $resources = [];
+
+    public $extraActions = [];
+
+    public $extraMethods = [];
+
+    public $suffix = '';
+
     /**
-     * @inheritdoc
+     * @var string[]
      */
-    public function init(): void
-    {
-        parent::init();
-        $this->httpClientOptions['transport'] = MockTransport::class;
-        $this->initRest();
-    }
+    public $httpClientOptions = [
+        'transport' => MockTransport::class,
+    ];
 
     protected function initUserAttributes()
     {

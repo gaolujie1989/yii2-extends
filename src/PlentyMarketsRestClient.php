@@ -7,10 +7,13 @@ namespace lujie\plentyMarkets;
 
 use Generator;
 use Iterator;
-use lujie\extend\authclient\RestOAuth2Client;
+use lujie\extend\authclient\RestClientTrait;
 use lujie\extend\httpclient\RateLimitCheckerBehavior;
+use yii\authclient\BaseOAuth;
 use yii\authclient\InvalidResponseException;
+use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
+use yii\base\InvalidArgumentException;
 use yii\helpers\Inflector;
 use yii\httpclient\Request;
 use yii\web\NotFoundHttpException;
@@ -370,9 +373,9 @@ use yii\web\NotFoundHttpException;
  * @package lujie\plentyMarkets
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PlentyMarketsRestClient extends RestOAuth2Client
+class PlentyMarketsRestClient extends OAuth2
 {
-    use PlentyMarketsBatchRestTrait;
+    use RestClientTrait, PlentyMarketsBatchRestTrait;
 
     /**
      * @var string
@@ -393,30 +396,6 @@ class PlentyMarketsRestClient extends RestOAuth2Client
      * @var string
      */
     public $password;
-
-    /**
-     * @var array
-     */
-    public $httpClientOptions = [
-        'requestConfig' => [
-            'format' => 'json'
-        ],
-        'responseConfig' => [
-            'format' => 'json'
-        ],
-        'as shortPeriodRateLimitChecker' => [
-            'class' => RateLimitCheckerBehavior::class,
-            'limitHeader' => 'X-Plenty-Global-Short-Period-Limit',
-            'remainingHeader' => 'X-Plenty-Global-Short-Period-Calls-Left',
-            'resetHeader' => 'X-Plenty-Global-Short-Period-Decay',
-        ],
-        'as longPeriodRateLimitChecker' => [
-            'class' => RateLimitCheckerBehavior::class,
-            'limitHeader' => 'X-Plenty-Global-Long-Period-Limit',
-            'remainingHeader' => 'X-Plenty-Global-Long-Period-Calls-Left',
-            'resetHeader' => 'X-Plenty-Global-Long-Period-Decay',
-        ]
-    ];
 
     /**
      * @var array
@@ -544,7 +523,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
     /**
      * @var array
      */
-    public $apiMethods = [
+    public $extraMethods = [
         'batchRequest' => ['POST', 'batch'],
         'searchItemVariations' => ['GET', 'items/variations'],
         'listVariations' => ['GET', 'items/variations'],
@@ -580,6 +559,30 @@ class PlentyMarketsRestClient extends RestOAuth2Client
     ];
 
     /**
+     * @var array
+     */
+    public $httpClientOptions = [
+        'requestConfig' => [
+            'format' => 'json'
+        ],
+        'responseConfig' => [
+            'format' => 'json'
+        ],
+        'as shortPeriodRateLimitChecker' => [
+            'class' => RateLimitCheckerBehavior::class,
+            'limitHeader' => 'X-Plenty-Global-Short-Period-Limit',
+            'remainingHeader' => 'X-Plenty-Global-Short-Period-Calls-Left',
+            'resetHeader' => 'X-Plenty-Global-Short-Period-Decay',
+        ],
+        'as longPeriodRateLimitChecker' => [
+            'class' => RateLimitCheckerBehavior::class,
+            'limitHeader' => 'X-Plenty-Global-Long-Period-Limit',
+            'remainingHeader' => 'X-Plenty-Global-Long-Period-Calls-Left',
+            'resetHeader' => 'X-Plenty-Global-Long-Period-Decay',
+        ]
+    ];
+
+    /**
      * @var bool
      */
     public $reverse = false;
@@ -595,7 +598,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         return $this;
     }
 
-    #region OAuth2
+    #region BaseOAuth
 
     /**
      * @return array
@@ -660,28 +663,27 @@ class PlentyMarketsRestClient extends RestOAuth2Client
      * @param Request $request
      * @inheritdoc
      */
-    public function applyClientCredentialsToRequest($request): void
+    protected function applyClientCredentialsToRequest($request): void
     {
     }
 
-    #endregion OAuth2
+    #endregion BaseOAuth
 
     /**
      * @param string $name
-     * @param array $data
+     * @param $data
      * @return array
-     * @throws NotFoundHttpException
      * @inheritdoc
      */
-    public function callApiMethod(string $name, array $data): array
+    public function restApi(string $name, $data): array
     {
-        $responseData = parent::callApiMethod($name, $data);
+        $response = $this->callApiMethod($name, $data);
         if ($name === 'listWarehouseLocations') {
-            array_walk($responseData['entries'], static function(&$values) use ($data) {
+            array_walk($response['entries'], static function(&$values) use ($data) {
                 $values['warehouseId'] = $data['warehouseId'];
             });
         }
-        return $responseData;
+        return $response;
     }
 
     /**
@@ -689,7 +691,6 @@ class PlentyMarketsRestClient extends RestOAuth2Client
      * @param array $condition
      * @param int $batchSize
      * @return Iterator
-     * @throws NotFoundHttpException
      * @inheritdoc
      */
     public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
@@ -697,13 +698,13 @@ class PlentyMarketsRestClient extends RestOAuth2Client
         $condition['itemsPerPage'] = $batchSize;
         $listMethod = 'list' . Inflector::pluralize($resource);
         if ($this->reverse) {
-            $responseData = $this->callApiMethod($listMethod, $condition);
+            $responseData = $this->restApi($listMethod, $condition);
             $firstPageItems = $responseData['entries'] ?? $responseData;
             $firstPage = $condition['page'] ?? 1;
             $condition['page'] = $responseData['lastPageNumber'] ?? 1;
 
             while ($condition['page'] > $firstPage) {
-                $responseData = $this->callApiMethod($listMethod, $condition);
+                $responseData = $this->restApi($listMethod, $condition);
                 $items = $responseData['entries'] ?? $responseData;
 
                 $items = array_reverse($items);
@@ -716,7 +717,7 @@ class PlentyMarketsRestClient extends RestOAuth2Client
             yield $firstPageItems;
         } else {
             do {
-                $responseData = $this->callApiMethod($listMethod, $condition);
+                $responseData = $this->restApi($listMethod, $condition);
                 $items = $responseData['entries'] ?? $responseData;
                 yield $items;
 

@@ -28,6 +28,8 @@ class MockRestClient extends BaseOAuth
 
     public $suffix = '';
 
+    public static $batchData = [];
+
     /**
      * @var string[]
      */
@@ -56,6 +58,7 @@ class MockRestClient extends BaseOAuth
 
     public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
     {
+        yield from self::$batchData[$resource];
     }
 
     /**

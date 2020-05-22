@@ -78,7 +78,7 @@ class CsvReader extends BaseObject implements FileReaderInterface
             if (count($data[0]) == count($a)) {
                 $a = array_combine($data[0], $a);
             } else {
-                Yii::warning('Data row not match columns: ' . implode($this->delimiter, $a));
+                Yii::warning('Data row not match columns: ' . implode($this->delimiter, $a), __METHOD__);
             }
         });
         array_shift($data);

@@ -5,6 +5,8 @@
 
 namespace lujie\amazon\advertising\tests\unit;
 
+use lujie\amazon\advertising\AmazonAdvertisingClient;
+
 class AmazonAdvertisingClientTest extends \Codeception\Test\Unit
 {
     /**
@@ -26,5 +28,7 @@ class AmazonAdvertisingClientTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
+        $advertisingClient = new AmazonAdvertisingClient();
+//        codecept_debug($advertisingClient->generateMethodDoc());
     }
 }

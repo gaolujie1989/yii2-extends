@@ -69,10 +69,9 @@ class CsvReader extends BaseObject implements FileReaderInterface
 
     /**
      * @param array $data
-     * @return array
      * @inheritdoc
      */
-    protected function formatData(array &$data): array
+    protected function formatData(array &$data)
     {
         array_walk($data, function (&$a) use ($data) {
             if (count($data[0]) == count($a)) {

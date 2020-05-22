@@ -44,10 +44,7 @@ class CsvReader extends BaseObject implements FileReaderInterface
             fclose($handle);
         }
         if ($this->firstLineIsHeader) {
-            array_walk($data, static function (&$a) use ($data) {
-                $a = array_combine($data[0], $a);
-            });
-            array_shift($data);
+            $this->formatData($data);
         }
         return $data;
     }
@@ -65,11 +62,25 @@ class CsvReader extends BaseObject implements FileReaderInterface
             $data[] = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
         }
         if ($this->firstLineIsHeader) {
-            array_walk($data, static function (&$a) use ($data) {
-                $a = array_combine($data[0], $a);
-            });
-            array_shift($data);
+            $this->formatData($data);
         }
         return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @inheritdoc
+     */
+    protected function formatData(array &$data): array
+    {
+        array_walk($data, static function (&$a) use ($data) {
+            if (count($data[0]) == count($a)) {
+                $a = array_combine($data[0], $a);
+            } else {
+                Yii::warning('Data row not match columns: ' . implode($this->delimiter, $a));
+            }
+        });
+        array_shift($data);
     }
 }

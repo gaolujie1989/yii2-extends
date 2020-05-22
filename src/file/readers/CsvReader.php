@@ -74,7 +74,7 @@ class CsvReader extends BaseObject implements FileReaderInterface
      */
     protected function formatData(array &$data): array
     {
-        array_walk($data, static function (&$a) use ($data) {
+        array_walk($data, function (&$a) use ($data) {
             if (count($data[0]) == count($a)) {
                 $a = array_combine($data[0], $a);
             } else {

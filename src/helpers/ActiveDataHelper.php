@@ -5,6 +5,8 @@
 
 namespace lujie\extend\helpers;
 
+use yii\db\ActiveRecord;
+
 /**
  * Class ActiveDataHelper
  * @package lujie\extend\helpers
@@ -13,10 +15,11 @@ namespace lujie\extend\helpers;
 class ActiveDataHelper
 {
     /**
-     * @param string $modelClass
+     * @param string|ActiveRecord $modelClass
      * @param array $data
      * @return array
      * @inheritdoc
+     * @throws \yii\base\InvalidConfigException
      */
     public static function typecast(string $modelClass, array $data): array
     {

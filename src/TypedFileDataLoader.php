@@ -33,7 +33,7 @@ class TypedFileDataLoader extends FileDataLoader
     {
         if (empty($this->data[$key])) {
             $this->filePathTemplate = strtr($this->typedFilePathTemplate, ['{type}' => $key]);
-            $this->data = ArrayHelper::merge($this->data, $this->loadFilesData());
+            $this->data = $this->loadFilesData();
         }
         return ArrayHelper::getValue($this->data, $key);
     }
@@ -45,7 +45,7 @@ class TypedFileDataLoader extends FileDataLoader
     public function all(): ?array
     {
         $this->filePathTemplate = strtr($this->typedFilePathTemplate, ['{type}' => $this->allType]);
-        $this->data = ArrayHelper::merge($this->data, $this->loadFilesData());
+        $this->data = $this->loadFilesData();
         return $this->data;
     }
 
@@ -59,8 +59,7 @@ class TypedFileDataLoader extends FileDataLoader
         $data = [[], []];
         foreach ($loadedFiles as $loadedFile) {
             $fileName = pathinfo($loadedFile, PATHINFO_FILENAME);
-            $fileData[$fileName] = $this->fileReader->read($loadedFile);
-            $data[] = $fileData;
+            $data[] = [$fileName => $this->fileReader->read($loadedFile)];
         }
         $data = ArrayHelper::merge(...$data);
         return $data;

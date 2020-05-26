@@ -93,12 +93,17 @@ class SchedulerController extends Controller
     }
 
     /**
+     * @param string $d
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionTasks(): void
+    public function actionTasks(string $d = ''): void
     {
         $tasks = $this->scheduler->getTasks();
-        $this->stdout(VarDumper::dumpAsString($tasks));
+        if ($d) {
+            $this->stdout(VarDumper::dumpAsString($tasks));
+        } else {
+            $this->stdout(VarDumper::dumpAsString(array_keys($tasks)));
+        }
     }
 }

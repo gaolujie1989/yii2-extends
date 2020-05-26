@@ -17,26 +17,10 @@ class ModelRuleHelper
      * @param array|string $attributes
      * @param string|null $rule
      * @return array
-     * @inheritdoc
+     * @deprecated
      */
     public static function removeAttributesRules(array &$rules, $attributes, ?string $rule = null): array
     {
-        $attributes = (array)$attributes;
-        foreach ($rules as $key => $ruleConfig) {
-            [$ruleAttributes, $ruleName] = $ruleConfig;
-            if ($rule === null || $rule === $ruleName) {
-                if (is_string($ruleAttributes) && in_array($ruleAttributes, $attributes, true)) {
-                    unset($rules[$key]);
-                } else if (is_array($ruleAttributes) && array_intersect($attributes, $ruleAttributes)) {
-                    $ruleAttributes = array_diff($ruleAttributes, $attributes);
-                    if ($ruleAttributes) {
-                        $rules[$key][0] = $ruleAttributes;
-                    } else {
-                        unset($rules[$key]);
-                    }
-                }
-            }
-        }
-        return $rules;
+        return ModelHelper::removeAttributesRules($rules, $attributes, $rule);
     }
 }

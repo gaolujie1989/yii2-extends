@@ -6,6 +6,7 @@
 namespace lujie\extend\rest;
 
 use lujie\extend\helpers\ClassHelper;
+use lujie\extend\helpers\ModelHelper;
 use Yii;
 use yii\db\ActiveRecordInterface;
 use yii\rest\IndexAction;
@@ -164,47 +165,11 @@ class ActiveController extends \yii\rest\ActiveController
     {
         /* @var $modelClass ActiveRecordInterface */
         $modelClass = $this->modelClass;
-        $query = $modelClass::find()->andWhere($this->getIdsCondition($ids));
+        $condition = ModelHelper::getCondition($ids, $this->modelClass, $this->idSeparator);
+        $query = $modelClass::find()->andWhere($condition);
         if ($with) {
             $query->with($with);
         }
         return $query->all();
-    }
-
-    /**
-     * @param array|string|int $ids
-     * @return array|null
-     * @inheritdoc
-     */
-    protected function getIdsCondition($ids): ?array
-    {
-        if (empty($ids)) {
-            return null;
-        }
-
-        if (is_string($ids) && $ids) {
-            $ids = explode($this->idSeparator, $ids);
-        }
-
-        /* @var $modelClass ActiveRecordInterface */
-        $modelClass = $this->modelClass;
-        $pkColumns = $modelClass::primaryKey();
-        if (count($pkColumns) > 1) {
-            $condition = [];
-            foreach ($ids as $values) {
-                $values = explode(',', $values);
-                if (count($pkColumns) === count($values)) {
-                    $condition[] = array_combine($pkColumns, $values);
-                }
-            }
-            if ($condition) {
-                array_unshift($condition, 'OR');
-                return $condition;
-            }
-        } elseif ($ids !== null) {
-            return [$pkColumns[0] => $ids];
-        }
-
-        return null;
     }
 }

@@ -5,6 +5,7 @@
 
 namespace lujie\batch;
 
+use lujie\extend\helpers\ModelHelper;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecordInterface;
@@ -61,7 +62,7 @@ class BatchAction extends Action
         /** @var BatchForm $batchForm */
         $batchForm = new $this->batchFormClass([
             'modelClass' => $this->modelClass,
-            'condition' => $this->getCondition($ids),
+            'condition' => ModelHelper::getCondition($ids, $this->modelClass, $this->separator),
         ]);
 
         $batchForm->load(Yii::$app->getRequest()->getBodyParams(), '');
@@ -72,38 +73,5 @@ class BatchAction extends Action
             return $batchForm;
         }
         throw new InvalidConfigException('Method Not Exists.');
-    }
-
-    /**
-     * @param array|string|int $ids
-     * @return array|bool
-     * @inheritdoc
-     */
-    protected function getCondition($ids)
-    {
-        if (is_string($ids) && $ids) {
-            $ids = explode($this->separator, $ids);
-        }
-
-        /* @var $modelClass ActiveRecordInterface */
-        $modelClass = $this->modelClass;
-        $pkColumns = $modelClass::primaryKey();
-        if (count($pkColumns) > 1) {
-            $condition = [];
-            foreach ($ids as $values) {
-                $values = explode(',', $values);
-                if (count($pkColumns) === count($values)) {
-                    $condition[] = array_combine($pkColumns, $values);
-                }
-            }
-            if ($condition) {
-                array_unshift($condition, 'OR');
-                return $condition;
-            }
-        } elseif ($ids !== null) {
-            return [$pkColumns[0] => $ids];
-        }
-
-        return false;
     }
 }

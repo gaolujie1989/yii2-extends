@@ -7,6 +7,7 @@ namespace lujie\extend\helpers;
 
 
 use yii\db\ActiveRecordInterface;
+use yii\web\NotFoundHttpException;
 
 class ModelHelper
 {
@@ -72,6 +73,27 @@ class ModelHelper
             return [$pkColumns[0] => $ids];
         }
 
+        return null;
+    }
+
+    /**
+     * @param $id
+     * @param string|ActiveRecordInterface $modelClass
+     * @param string $separator
+     * @return ActiveRecordInterface|null
+     * @inheritdoc
+     */
+    public static function findModel($id, string $modelClass, string $separator = ','): ?ActiveRecordInterface
+    {
+        $keys = $modelClass::primaryKey();
+        if (count($keys) > 1) {
+            $values = explode($separator, $id);
+            if (count($keys) === count($values)) {
+                return $modelClass::findOne(array_combine($keys, $values));
+            }
+        } elseif ($id !== null) {
+            return $modelClass::findOne($id);
+        }
         return null;
     }
 }

@@ -136,23 +136,11 @@ class ActiveController extends \yii\rest\ActiveController
      */
     public function findModel($id): ActiveRecordInterface
     {
-        /* @var $modelClass ActiveRecordInterface */
-        $modelClass = $this->modelClass;
-        $keys = $modelClass::primaryKey();
-        if (count($keys) > 1) {
-            $values = explode(',', $id);
-            if (count($keys) === count($values)) {
-                $model = $modelClass::findOne(array_combine($keys, $values));
-            }
-        } elseif ($id !== null) {
-            $model = $modelClass::findOne($id);
+        $model = ModelHelper::findModel($id, $this->modelClass);
+        if ($model === null) {
+            throw new NotFoundHttpException("Model not found: $id");
         }
-
-        if (isset($model)) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException("Model not found: $id");
+        return $model;
     }
 
     /**

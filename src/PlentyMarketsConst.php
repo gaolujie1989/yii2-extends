@@ -275,6 +275,24 @@ class PlentyMarketsConst
         0 => '--', //Unknown
     ];
 
+    public const ORDER_TYPE_IDS = [
+        'SalesOrder' => 1,
+        'Delivery' => 2,
+        'Returns' => 3,
+        'CreditNote' => 4,
+        'Warranty' => 5,
+        'Repair' => 6,
+        'Offer' => 7,
+        'AdvanceOrder' => 8,
+        'MultiOrder' => 9,
+        'MultiCreditNote' => 10,
+        'MultiDelivery' => 11,
+        'Reorder' => 12,
+        'PartialDelivery' => 13,
+        'Subscription' => 14,
+        'Redistribution' => 15,
+    ];
+
     public const ORDER_DATE_TYPE_IDS = [
         'DeletedOn' => 1,
         'CreatedOn' => 2,
@@ -399,6 +417,23 @@ class PlentyMarketsConst
         997 => 'With Amazon TCS',
         998 => 'ebay payment transaction ID',
         999 => 'Consent for transmitting data to shipping service provider has b',
+    ];
+
+    public const ORDER_ITEM_TYPE_IDS = [
+        'VARIATION' => 1,
+        'ITEM_BUNDLE' => 2,
+        'BUNDLE_COMPONENT' => 3,
+        'PROMOTIONAL_COUPON' => 4,
+        'GIFT_CARD' => 5,
+        'SHIPPING_COSTS' => 6,
+        'PAYMENT_SURCHARGE' => 7,
+        'GIFT_WRAP' => 8,
+        'UNASSIGEND_VARIATION' => 9,
+        'DEPOSIT' => 10,
+        'ORDER' => 11,
+        'DUNNING_CHARGE' => 12,
+        'ITEM_SET' => 13,
+        'SET_COMPONENT' => 14,
     ];
 
     public const ORDER_ITEM_PROPERTY_TYPE_IDS = [

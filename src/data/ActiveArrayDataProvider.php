@@ -52,6 +52,17 @@ class ActiveArrayDataProvider extends ActiveDataProvider
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function prepareKeys($models)
+    {
+        if ($this->isPrepareArray() || ($this->query instanceof ActiveQuery && $this->query->asArray)) {
+            return array_keys($models);
+        }
+        return parent::prepareKeys($models);
+    }
+
+    /**
      * @return bool
      * @inheritdoc
      */

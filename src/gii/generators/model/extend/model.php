@@ -26,9 +26,9 @@ unset(
 );
 $createdUpdatedKeys = ['created_at', 'created_by', 'updated_at', 'updated_by'];
 foreach ($rules as $key => $rule) {
-    foreach ($createdUpdatedKeys as $key) {
-        if (strpos($rule, ", '{$key}'") !== false) {
-            $rules[$key] = $rule = strtr($rule, [", '{$key}'" => '']);
+    foreach ($createdUpdatedKeys as $createdUpdatedKey) {
+        if (strpos($rule, ", '{$createdUpdatedKey}'") !== false) {
+            $rules[$key] = $rule = strtr($rule, [", '{$createdUpdatedKey}'" => '']);
         }
     }
 }

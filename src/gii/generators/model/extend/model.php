@@ -75,7 +75,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     {
         return '<?= $generator->generateTableName($tableName) ?>';
     }
-<?php if ($generator->db !== 'db'): ?>
+<?php if (false && $generator->db !== 'db'): ?>
 
     /**
      * @return \yii\db\Connection the database connection used by this AR class.

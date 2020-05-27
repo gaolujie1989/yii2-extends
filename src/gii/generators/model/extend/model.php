@@ -33,16 +33,20 @@ foreach ($rules as $key => $rule) {
     }
 }
 
+$useTrait = strpos($generator->baseClass, 'yii') !== false;
+
 echo "<?php\n";
 ?>
 
 namespace <?= $generator->ns ?>;
 
+<?php if ($useTrait): ?>
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
+<?php endif; ?>
 use Yii;
 
 /**
@@ -60,8 +64,10 @@ use Yii;
  */
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
 {
+<?php if ($useTrait): ?>
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
+<?php endif; ?>
     /**
      * {@inheritdoc}
      */

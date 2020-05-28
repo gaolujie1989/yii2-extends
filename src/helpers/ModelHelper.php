@@ -7,7 +7,6 @@ namespace lujie\extend\helpers;
 
 
 use yii\db\ActiveRecordInterface;
-use yii\web\NotFoundHttpException;
 
 class ModelHelper
 {
@@ -18,7 +17,7 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function removeAttributesRules(array $rules, $attributes, ?string $rule = null): array
+    public static function removeAttributesRules(array &$rules, $attributes, ?string $rule = null): array
     {
         $attributes = (array)$attributes;
         foreach ($rules as $key => $ruleConfig) {

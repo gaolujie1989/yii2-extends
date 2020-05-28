@@ -23,7 +23,7 @@ class ActiveDataHelper
      */
     public static function typecast(string $modelClass, array $data): array
     {
-        if ($modelClass instanceof ActiveRecord) {
+        if (is_subclass_of($modelClass, ActiveRecord::class)) {
             $columns = $modelClass::getTableSchema()->columns;
             return array_map(static function ($row) use ($columns) {
                 foreach ($row as $name => $value) {

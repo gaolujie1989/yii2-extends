@@ -52,7 +52,6 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
                 }
             }
         } else if ($this->query instanceof ActiveQuery) {
-
             /** @var BaseActiveRecord $modelClass */
             $modelClass = $this->query->modelClass;
             $column = $modelClass::primaryKey()[0];

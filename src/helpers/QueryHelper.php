@@ -23,10 +23,10 @@ class QueryHelper
     public static function buildSql(Query $query): string
     {
         [$sql, $params] = Yii::$app->getDb()->getQueryBuilder()->build($query);
-        $params = array_merge($params, ['{{%' => '', '{{' => '', '}}' => '', '[[' => '', ']]' => '']);
         foreach ($params as $key => $param) {
             $params[$key] = '\'' . $param . '\'';
         }
+        $params = array_merge($params, ['{{%' => '', '{{' => '', '}}' => '', '[[' => '', ']]' => '']);
         return strtr($sql, $params);
     }
 }

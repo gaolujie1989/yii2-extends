@@ -169,7 +169,7 @@ class StateMachineBehavior extends Behavior
         $newStatus = $this->owner->getAttribute($this->statusAttribute);
 
         $transitionStatus = $this->statusTransitions[$oldStatus] ?? [];
-        if (in_array($newStatus, $transitionStatus, true)) {
+        if (in_array($newStatus, $transitionStatus, false)) {
             return true;
         }
         $this->owner->addError($this->statusAttribute, $this->statusInvalidMessage);

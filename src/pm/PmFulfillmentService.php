@@ -450,6 +450,8 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     protected function pushPmCustomerAddress(int $concatId, Address $address, ?int $addressId = null): array
     {
         $countryCodeToId = array_flip(array_unique(PlentyMarketsConst::COUNTRY_CODES));
+        //fix GB to UK
+        $countryCodeToId['GB'] = $countryCodeToId['UK'];
         if (empty($countryCodeToId[$address->country])) {
             throw new InvalidArgumentException('Invalid country: ' . $address->country);
         }

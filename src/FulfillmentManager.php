@@ -266,7 +266,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): bool
     {
         $name = "FulfillmentItem {$fulfillmentItem->fulfillment_item_id} of item {$fulfillmentItem->item_id}";
-        if ($fulfillmentItem->item_pushed_at > $fulfillmentItem->item_updated_at) {
+        if ($fulfillmentItem->external_updated_at > $fulfillmentItem->item_updated_at) {
             Yii::info("{$name} already pushed, skip", __METHOD__);
             $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentItem->mustSave(false);
@@ -302,7 +302,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if ($fulfillmentOrder->order_pushed_at > $fulfillmentOrder->order_updated_at) {
+        if ($fulfillmentOrder->external_updated_at > $fulfillmentOrder->order_updated_at) {
             Yii::info("{$name} already pushed, skip", __METHOD__);
             $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentOrder->mustSave(false);

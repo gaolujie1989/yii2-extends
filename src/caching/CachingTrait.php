@@ -87,7 +87,7 @@ trait CachingTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getCache(string $key)
+    public function getCacheValue(string $key)
     {
         if ($this->cache) {
             $this->initCache();
@@ -104,7 +104,7 @@ trait CachingTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function setCache (string $key, $value)
+    public function setCacheValue(string $key, $value)
     {
         if ($this->cache) {
             $this->initCache();

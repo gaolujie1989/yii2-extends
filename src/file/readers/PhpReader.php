@@ -23,7 +23,7 @@ class PhpReader extends BaseObject implements FileReaderInterface
     public function read(string $file): array
     {
         if (file_exists($file)) {
-            return require($file);
+            return (array) require($file);
         }
         return [];
     }

@@ -83,6 +83,39 @@ trait CachingTrait
 
     /**
      * @param string $key
+     * @return mixed
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function getCache(string $key)
+    {
+        if ($this->cache) {
+            $this->initCache();
+            $key = $this->keyPrefix . $key;
+            return $this->cache->get($key);
+        }
+        throw new InvalidConfigException('Cache not set');
+    }
+
+    /**
+     * @param string $key
+     * @param $value
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function setCache (string $key, $value)
+    {
+        if ($this->cache) {
+            $this->initCache();
+            $key = $this->keyPrefix . $key;
+            return $this->cache->set($key, $value, $this->duration, $this->dependency);
+        }
+        throw new InvalidConfigException('Cache not set');
+    }
+
+    /**
+     * @param string $key
      * @param callable|\Closure $callable
      * @return mixed
      * @throws InvalidConfigException

@@ -15,6 +15,11 @@ class PlentyMarketAddressFormatter
      */
     public static function format(array $address): array
     {
+        if (empty($address['name1']) && $address['address2']
+            && (strpos($address['address1'], 'GmbH') !== false)) {
+            $address['name1'] = $address['address1'];
+            $address['address1'] = $address['address2'];
+        }
         if (empty($address['name3']) && ($pos = strrpos($address['name2'], ' ')) !== false) {
             $address['name3'] = substr($address['name2'], $pos);
             $address['name2'] = substr($address['name2'], 0, $pos);

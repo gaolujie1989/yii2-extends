@@ -35,8 +35,8 @@ abstract class BaseMonitorBehavior extends Behavior
      * @var array
      */
     public $timeToClean = [
-        ExecStatusConst::EXEC_STATUS_SUCCESS => '-3 day',
         ExecStatusConst::EXEC_STATUS_RUNNING => '-7 days',
+        ExecStatusConst::EXEC_STATUS_SUCCESS => '-3 day',
         ExecStatusConst::EXEC_STATUS_FAILED => '-7 days',
         ExecStatusConst::EXEC_STATUS_SKIPPED => '-3 day',
         ExecStatusConst::EXEC_STATUS_QUEUED => '-7 days',

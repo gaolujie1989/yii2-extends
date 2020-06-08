@@ -22,7 +22,7 @@ trait RateLimitTrait
     /**
      * @var int
      */
-    public $rateLimit = 10;
+    public $rateLimit = 5;
     /**
      * @var int
      */

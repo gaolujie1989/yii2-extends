@@ -18,14 +18,17 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\plentyMarkets\PlentyMarketAddressFormatter;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
+use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
  * Class PmFulfillmentService
@@ -104,6 +107,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
 
     public $orderProcessingStatus = 5;
     public $orderCancelledStatus = 8;
+    public $orderErrorStatus = 5.5;
     public $orderHoldStatus = 4;
 
     /**
@@ -455,6 +459,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         if (empty($countryCodeToId[$address->country])) {
             throw new InvalidArgumentException('Invalid country: ' . $address->country);
         }
+
         $addressData = [
             'contactId' => $concatId,
             'name1' => $address->companyName,
@@ -468,6 +473,9 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             'town' => $address->city,
             'countryId' => $countryCodeToId[$address['country']],
         ];
+
+        $addressData = PlentyMarketAddressFormatter::format($addressData);
+
         $addressOptions = [];
         if ($address->phone) {
             $addressOptions[] = [
@@ -633,7 +641,11 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $pmOrderDates = ArrayHelper::map($pmOrder['dates'], 'typeId', 'value');
         $fulfillmentOrder->external_order_status = $pmStatus;
         $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
-        if ($pmStatus >= 4 && $pmStatus < 5) {
+        if ($pmStatus === $this->orderCancelledStatus) {
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
+        } else if ($pmStatus === $this->orderErrorStatus) {
+            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
+        } else if ($pmStatus >= 4 && $pmStatus < 5) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_HOLDING;
         } else if ($pmStatus >= 5 && $pmStatus < 6) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
@@ -643,7 +655,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
         } else if ($pmStatus >= 7 && $pmStatus < 8) {
             if ($packageNumbers === null) {
-                $packageNumbers = $this->client->getOrderPackageNumbers($pmOrder['id']);
+                $packageNumbers = $this->client->getOrderPackageNumbers(['orderId' => $pmOrder['id']]);
             }
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
             $additional = $fulfillmentOrder->external_order_additional;
@@ -653,7 +665,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $additional['shippingAt'] = isset($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']])
                 ? strtotime($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']]) : 0;
             $fulfillmentOrder->external_order_additional = $additional;
-        } else if (($pmStatus >= 8 && $pmStatus < 9) || $pmStatus === $this->orderCancelledStatus) {
+        } else if (($pmStatus >= 8 && $pmStatus < 9)) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
         }
         $fulfillmentOrder->order_pulled_at = time();

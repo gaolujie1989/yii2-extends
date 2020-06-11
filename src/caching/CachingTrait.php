@@ -99,36 +99,59 @@ trait CachingTrait
 
     /**
      * @param string $key
-     * @param $value
+     * @param mixed $value
+     * @param int|null|bool $duration
+     * @param Dependency|null|bool $dependency
      * @return bool
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function setCacheValue(string $key, $value)
+    public function setCacheValue(string $key, $value, $duration = true, $dependency = true)
     {
         if ($this->cache) {
             $this->initCache();
             $key = $this->keyPrefix . $key;
-            return $this->cache->set($key, $value, $this->duration, $this->dependency);
+            $duration = $duration === true ? $this->duration : $duration;
+            $dependency = $dependency === true ? $this->dependency : $dependency;
+            return $this->cache->set($key, $value, $duration, $dependency);
         }
         throw new InvalidConfigException('Cache not set');
     }
 
     /**
      * @param string $key
-     * @param callable|\Closure $callable
+     * @param array|callable $callable
+     * @param int|null|bool $duration
+     * @param Dependency|null|bool $dependency
      * @return mixed
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getOrSet(string $key, $callable)
+    public function getOrSetCacheValue(string $key, $callable, $duration = true, $dependency = true)
     {
         if ($this->cache) {
             $this->initCache();
             $key = $this->keyPrefix . $key;
-            return $this->cache->getOrSet($key, $callable, $this->duration, $this->dependency);
+            $duration = $duration === true ? $this->duration : $duration;
+            $dependency = $dependency === true ? $this->dependency : $dependency;
+            return $this->cache->getOrSet($key, $callable, $duration, $dependency);
         }
         return $callable();
+    }
+
+    /**
+     * @param string $key
+     * @param array|callable $callable
+     * @param int|null|bool $duration
+     * @param Dependency|null|bool $dependency
+     * @return mixed
+     * @throws InvalidConfigException
+     * @deprecated
+     * @inheritdoc
+     */
+    public function getOrSet(string $key, $callable, $duration = true, $dependency = true)
+    {
+        return $this->getOrSetCacheValue($key, $callable, $duration, $dependency);
     }
 
     /**

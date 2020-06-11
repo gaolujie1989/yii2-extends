@@ -114,7 +114,7 @@ class RateLimitDelayBehavior extends Behavior
             $delay = 0;
         }
         $time = $now;
-        $this->setCacheValue($this->cacheKeyPrefix . $cacheKey, [$time, $delay]);
+        $this->setCacheValue($cacheKey, [$time, $delay]);
         return $delay;
     }
 }

@@ -10,6 +10,7 @@ use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;
+use yii\helpers\VarDumper;
 
 /**
  * Class CacheController
@@ -42,7 +43,7 @@ class CacheController extends \yii\console\controllers\CacheController
         /** @var CacheInterface $cacheInstance */
         $cacheInstance = Instance::ensure($cache, CacheInterface::class);
         $var = $cacheInstance->get($key);
-        $this->stdout($var);
+        $this->stdout(VarDumper::dumpAsString($var));
     }
 
     /**

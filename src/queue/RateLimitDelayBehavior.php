@@ -104,7 +104,7 @@ class RateLimitDelayBehavior extends Behavior
     protected function getDelay(string $key, int $rateDelay): int
     {
         $cacheKey = 'delay:' . $key;
-        [$time, $delay] = $this->getOrSet($cacheKey, static function () {
+        [$time, $delay] = $this->getOrSetCacheValue($cacheKey, static function () {
             return [time(), -999];
         });
 

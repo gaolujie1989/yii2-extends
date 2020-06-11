@@ -39,7 +39,7 @@ class Command extends \yii\db\Command
      * @throws Exception
      * @inheritdoc
      */
-    public function execute(): int
+    public function execute()
     {
         try {
             return parent::execute();
@@ -56,19 +56,12 @@ class Command extends \yii\db\Command
      * @param bool $resetConnection
      * @return bool
      * @throws Exception
-     * @inheritdoc
      */
     protected function isLostConnection(Exception $exception, $resetConnection = true): bool
     {
-        $errorCode = $exception->errorInfo[1];
-        if ($errorCode === 2006 || $errorCode === 2013) {
-            if ($resetConnection) {
-                $this->db->close();
-                $this->db->open();
-                $this->bindValues($this->params);
-                $this->pdoStatement = null;
-            }
-            Yii::warning("MYSQL ERROR: {$errorCode}. Connection Lost And Reset...", __METHOD__);
+        if (ConnectionHelper::isLostConnection($exception, $this->db, $resetConnection)) {
+            $this->bindValues($this->params);
+            $this->pdoStatement = null;
             return true;
         }
         return false;

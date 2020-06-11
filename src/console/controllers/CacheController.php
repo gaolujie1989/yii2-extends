@@ -44,4 +44,30 @@ class CacheController extends \yii\console\controllers\CacheController
         $var = $cacheInstance->get($key);
         $this->stdout($var);
     }
+
+    /**
+     * @param string $cache
+     * @param string $key
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionSet(string $key, $value, string $cache = 'cache', $duration = null, $tags = ''): void
+    {
+        /** @var CacheInterface $cacheInstance */
+        $cacheInstance = Instance::ensure($cache, CacheInterface::class);
+        $cacheInstance->set($key, $value, $duration, $tags);
+    }
+
+    /**
+     * @param string $key
+     * @param string $cache
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionDelete(string $key, string $cache = 'cache'): void
+    {
+        /** @var CacheInterface $cacheInstance */
+        $cacheInstance = Instance::ensure($cache, CacheInterface::class);
+        $cacheInstance->delete($key);
+    }
 }

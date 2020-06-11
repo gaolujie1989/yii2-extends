@@ -37,6 +37,11 @@ class RateLimitDelayBehavior extends Behavior
     public $cacheKeyPrefix = 'RateLimitDelayBehavior:';
 
     /**
+     * @var string[]
+     */
+    public $cacheTags = ['RateLimitDelay'];
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -109,7 +114,7 @@ class RateLimitDelayBehavior extends Behavior
             $delay = 0;
         }
         $time = $now;
-        $this->cache->set($this->cacheKeyPrefix . $cacheKey, [$time, $delay]);
+        $this->setCacheValue($this->cacheKeyPrefix . $cacheKey, [$time, $delay]);
         return $delay;
     }
 }

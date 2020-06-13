@@ -26,7 +26,7 @@ class ConnectionHelper
      */
     public static function isLostConnection(Exception $exception, Connection $connection, $resetConnection = true): bool
     {
-        $errorCode = $exception->errorInfo[1];
+        $errorCode = $exception->errorInfo[1] ?? '';
         if ($errorCode === 2006 || $errorCode === 2013
             || strpos($exception->getMessage(), 'MySQL server has gone away') !== false) {
             if ($resetConnection) {

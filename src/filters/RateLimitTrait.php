@@ -49,6 +49,11 @@ trait RateLimitTrait
     public $cacheKeyPrefix = 'RateLimit:';
 
     /**
+     * @var string[]
+     */
+    public $cacheTags = ['RateLimit'];
+
+    /**
      * @param Request $request
      * @param Action $action
      * @return array

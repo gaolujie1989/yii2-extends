@@ -5,8 +5,8 @@
 
 namespace lujie\workerman\db;
 
-use Exception;
 use yii\base\NotSupportedException;
+use yii\db\Exception;
 use yii\db\Transaction;
 
 /**
@@ -20,7 +20,6 @@ class Connection extends \yii\db\Connection
      * @param null $isolationLevel
      * @return Transaction|null
      * @throws NotSupportedException
-     * @throws \yii\db\Exception
      * @throws Exception
      * @inheritdoc
      */
@@ -28,9 +27,9 @@ class Connection extends \yii\db\Connection
     {
         try {
             return parent::beginTransaction($isolationLevel);
-        } catch (Exception $e) {
-            $exception = $this->getSchema()->convertException($e, 'BeginTransaction');
-            if (ConnectionHelper::isLostConnection($exception, $this)) {
+        } catch (\Exception $e) {
+            $e = $this->getSchema()->convertException($e, 'BeginTransaction');
+            if (ConnectionHelper::isLostConnection($e, $this)) {
                 return parent::beginTransaction($isolationLevel);
             }
             throw $e;

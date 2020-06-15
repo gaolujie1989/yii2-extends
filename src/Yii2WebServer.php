@@ -6,6 +6,7 @@
 namespace lujie\workerman;
 
 use lujie\workerman\db\Command;
+use lujie\workerman\db\Connection;
 use lujie\workerman\log\Logger;
 use lujie\workerman\web\ErrorHandler;
 use Workerman\Connection\TcpConnection;
@@ -13,7 +14,7 @@ use Workerman\Protocols\Http;
 use Workerman\WebServer;
 use Workerman\Worker;
 use Yii;
-use yii\db\Connection;
+use yii\db\Connection as YiiConnection;
 use yii\web\Application;
 use yii\web\UploadedFile;
 
@@ -106,7 +107,8 @@ class Yii2WebServer extends WebServer
                     $config['class'] = ErrorHandler::class;
                     $yii2App->setComponents([$name => $config]);
                 }
-                if (ltrim($config['class'], '\\') === Connection::class) {
+                if (ltrim($config['class'], '\\') === YiiConnection::class) {
+                    $config['class'] = Connection::class;
                     $config['commandClass'] = Command::class;
                     $yii2App->setComponents([$name => $config]);
                 }

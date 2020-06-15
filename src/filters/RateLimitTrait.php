@@ -6,8 +6,10 @@
 namespace lujie\extend\filters;
 
 use lujie\extend\caching\CachingTrait;
+use Workerman\Worker;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
+use yii\helpers\VarDumper;
 use yii\web\Request;
 
 /**
@@ -22,11 +24,11 @@ trait RateLimitTrait
     /**
      * @var int
      */
-    public $rateLimit = 5;
+    public $rateLimit = 300;
     /**
      * @var int
      */
-    public $rateWindow = 10;
+    public $rateWindow = 60;
     /**
      * @var string
      */
@@ -47,7 +49,6 @@ trait RateLimitTrait
      * @var string
      */
     public $cacheKeyPrefix = 'RateLimit:';
-
     /**
      * @var string[]
      */
@@ -87,7 +88,8 @@ trait RateLimitTrait
      */
     public function loadAllowance($request, $action)
     {
-        if ($value = $this->getCacheValue($this->rateKey)) {
+        $cacheKey = $this->rateKey . ':' . ($this->user_id ?: 0);
+        if ($value = $this->getCacheValue($cacheKey)) {
             [$this->allowance, $this->allowance_updated_at] = $value;
         }
         return [$this->allowance, $this->allowance_updated_at];
@@ -103,8 +105,9 @@ trait RateLimitTrait
      */
     public function saveAllowance($request, $action, $allowance, $timestamp)
     {
+        $cacheKey = $this->rateKey . ':' . ($this->user_id ?: 0);
         $this->allowance = $allowance;
         $this->allowance_updated_at = $timestamp;
-        $this->setCacheValue($this->rateKey, [$this->allowance, $this->allowance_updated_at]);
+        $this->setCacheValue($cacheKey, [$this->allowance, $this->allowance_updated_at]);
     }
 }

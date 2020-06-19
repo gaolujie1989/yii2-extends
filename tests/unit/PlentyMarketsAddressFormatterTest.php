@@ -6,8 +6,6 @@
 namespace lujie\scheduling\tests\unit;
 
 use lujie\plentyMarkets\PlentyMarketAddressFormatter;
-use lujie\plentyMarkets\PlentyMarketsAdminClient;
-use Yii;
 
 class PlentyMarketsAddressFormatterTest extends \Codeception\Test\Unit
 {

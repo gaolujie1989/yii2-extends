@@ -11,28 +11,17 @@ use League\Flysystem\AdapterInterface;
 use yii\di\Instance;
 
 /**
- * Class ChainedFilesystem
+ * Class CombineFilesystem
  * @package lujie\flysystem
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChainedFilesystem extends Filesystem
+class CombinedFilesystem extends Filesystem
 {
     /**
-     * [ 'name' => 'fsNameOrConfig' ]
+     * [ 'pathPrefix' => 'fsNameOrConfig' ]
      * @var Filesystem[]
      */
     public $filesystems = [];
-
-    /**
-     * @var array
-     */
-    protected $needCheckFileExistMethods = [
-        'copy', 'delete',
-        'getMetadata', 'getMimetype', 'getSize', 'getTimestamp', 'getVisibility', 'setVisibility',
-        'put', 'putStream',
-        'read', 'readAndDelete', 'readStream',
-        'rename', 'update', 'updateStream',
-    ];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -53,13 +42,10 @@ class ChainedFilesystem extends Filesystem
      */
     public function __call($method, $parameters)
     {
-        $needCheckFileExists = in_array($method, $this->needCheckFileExistMethods, true);
-        foreach ($this->filesystems as $filesystem) {
-            if ($needCheckFileExists === false || $filesystem->has($parameters[0])) {
-                $result = call_user_func_array([$filesystem, $method], $parameters);
-                if ($result !== false) {
-                    return $result;
-                }
+        $path = $parameters[0];
+        foreach ($this->filesystems as $pathPrefix => $filesystem) {
+            if (strpos($path, $pathPrefix) === 0) {
+                return call_user_func_array([$filesystem, $method], $parameters);
             }
         }
         return call_user_func_array([$this->filesystem, $method], $parameters);

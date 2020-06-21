@@ -45,7 +45,10 @@ class ChainedFilesystem extends Filesystem
         $path = $parameters[0];
         foreach ($this->filesystems as $pathPrefix => $filesystem) {
             if (strpos($path, $pathPrefix) === 0) {
-                return call_user_func_array([$this->filesystem, $method], $parameters);
+                $result = call_user_func_array([$this->filesystem, $method], $parameters);
+                if ($result !== false) {
+                    return $result;
+                }
             }
         }
         return call_user_func_array([$this->filesystem, $method], $parameters);

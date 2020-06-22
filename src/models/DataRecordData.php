@@ -57,6 +57,30 @@ class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
     }
 
     /**
+     * @param array $dataRecordIds
+     * @param null $compressor
+     * @return array
+     */
+    public static function getDataTextsByRecordIds(array $dataRecordIds, $compressor = null): array
+    {
+        $dataTexts = static::find()
+            ->andWhere(['data_record_id' => $dataRecordIds])
+            ->select(['data_text'])
+            ->indexBy('data_record_id')
+            ->column();
+        if ($compressor === false) {
+            return $dataTexts;
+        }
+        if ($compressor === null) {
+            $compressor = new GzCompressor();
+        }
+        foreach ($dataTexts as $key => $dataText) {
+            $dataTexts[$key] = $compressor->unCompress($dataText);
+        }
+        return $dataTexts;
+    }
+
+    /**
      * @param int $dataRecordId
      * @param CompressorInterface|null|false $compressor
      * @return string|null
@@ -64,19 +88,7 @@ class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
      */
     public static function getDataTextByRecordId(int $dataRecordId, $compressor = null): ?string
     {
-        $dataText = static::find()
-            ->andWhere(['data_record_id' => $dataRecordId])
-            ->select(['data_text'])
-            ->scalar();
-        if ($dataText === null) {
-            return null;
-        }
-        if ($compressor === false) {
-            return $dataText;
-        }
-        if ($compressor === null) {
-            $compressor = new GzCompressor();
-        }
-        return $compressor->unCompress($dataText);
+        $dataTexts = static::getDataTextsByRecordIds([$dataRecordId], $compressor);
+        return $dataTexts[$dataRecordId] ?? null;
     }
 }

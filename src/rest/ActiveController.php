@@ -40,14 +40,12 @@ class ActiveController extends \yii\rest\ActiveController
     public $indexTypecast = true;
 
     /**
-     * @var string
+     * @var array ['action' => 'method']
      */
-    public $queryTotalMethod = 'queryTotal';
-
-    /**
-     * @var string
-     */
-    public $queryStatisticsMethod = 'queryStatistics';
+    public $statisticsActions = [
+        'total' => 'queryTotal',
+        'statistics' => 'queryStatistics'
+    ];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -86,43 +84,26 @@ class ActiveController extends \yii\rest\ActiveController
         }
         if ($this->searchClass) {
             $searchModel = new $this->searchClass();
-            if ($this->queryTotalMethod && method_exists($searchModel, $this->queryTotalMethod)) {
-                $totalProviderPreparer = Yii::createObject([
-                    'class' => IndexDataProviderPreparer::class,
-                    'searchClass' => $this->searchClass,
-                    'typecast' => $this->indexTypecast,
-                    'queryMethod' => $this->queryTotalMethod,
-                    'expandParam' => false,
-                    'dataProviderConfig' => [
-                        'pagination' => false,
-                        'sort' => false,
-                    ]
-                ]);
-                $actions['total'] = [
-                    'class' => IndexAction::class,
-                    'modelClass' => $this->modelClass,
-                    'checkAccess' => [$this, 'checkAccess'],
-                    'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
-                ];
-            }
-            if ($this->queryStatisticsMethod && method_exists($searchModel, $this->queryStatisticsMethod)) {
-                $totalProviderPreparer = Yii::createObject([
-                    'class' => IndexDataProviderPreparer::class,
-                    'searchClass' => $this->searchClass,
-                    'typecast' => $this->indexTypecast,
-                    'queryMethod' => $this->queryStatisticsMethod,
-                    'expandParam' => false,
-                    'dataProviderConfig' => [
-                        'pagination' => false,
-                        'sort' => false,
-                    ]
-                ]);
-                $actions['statistics'] = [
-                    'class' => IndexAction::class,
-                    'modelClass' => $this->modelClass,
-                    'checkAccess' => [$this, 'checkAccess'],
-                    'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
-                ];
+            foreach ($this->statisticsActions as $actionName => $methodName) {
+                if (method_exists($searchModel, $methodName)) {
+                    $totalProviderPreparer = Yii::createObject([
+                        'class' => IndexDataProviderPreparer::class,
+                        'searchClass' => $this->searchClass,
+                        'typecast' => $this->indexTypecast,
+                        'queryMethod' => $methodName,
+                        'expandParam' => false,
+                        'dataProviderConfig' => [
+                            'pagination' => false,
+                            'sort' => false,
+                        ]
+                    ]);
+                    $actions[$actionName] = [
+                        'class' => IndexAction::class,
+                        'modelClass' => $this->modelClass,
+                        'checkAccess' => [$this, 'checkAccess'],
+                        'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
+                    ];
+                }
             }
         }
         return $actions;

@@ -58,6 +58,6 @@ class BaseAttributeHistoryHandler extends BaseObject implements AttributeHistory
         if (strlen($newValue) > $this->maxValueLength) {
             $newValue = mb_substr($newValue, 0, $this->maxValueLength - 3) . '...';
         }
-        return "'{$oldValue}' -> '{$newValue}'";
+        return strtr('"{oldValue}" -> "{newValue}"', ['{oldValue}' => $oldValue, '{newValue}' => $newValue]);
     }
 }

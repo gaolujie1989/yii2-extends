@@ -6,25 +6,18 @@
 namespace lujie\ar\history\behaviors;
 
 
+use lujie\ar\history\handlers\ArrayAttributeHistoryHandler;
 use lujie\ar\history\handlers\AttributeHistoryHandlerInterface;
 use lujie\ar\history\handlers\BaseAttributeHistoryHandler;
 use lujie\ar\history\models\History;
-use lujie\extend\helpers\ClassHelper;
-use lujie\extend\helpers\ModelHelper;
-use yii\base\Arrayable;
 use yii\base\Behavior;
 use yii\base\InvalidConfigException;
-use yii\base\Model;
 use yii\base\ModelEvent;
-use yii\db\ActiveRecord as DbActiveRecord;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\mongodb\ActiveRecord as MongodbActiveRecord;
-use yii\redis\ActiveRecord as RedisActiveRecord;
-use yii\widgets\MaskedInputAsset;
 
 /**
  * Class HistoryBehaviors
@@ -85,9 +78,7 @@ class HistoryBehavior extends Behavior
     public function events(): array
     {
         return [
-            BaseActiveRecord::EVENT_BEFORE_INSERT => 'setOldAttributes',
             BaseActiveRecord::EVENT_BEFORE_UPDATE => 'setOldAttributes',
-            BaseActiveRecord::EVENT_AFTER_INSERT => 'handleAttributeHistory',
             BaseActiveRecord::EVENT_AFTER_UPDATE => 'handleAttributeHistory',
         ];
     }
@@ -100,7 +91,11 @@ class HistoryBehavior extends Behavior
         /** @var BaseActiveRecord $sender */
         $sender = $event->sender;
         foreach ($this->attributes as $attribute) {
-            $this->oldAttributeValues[$attribute] = ArrayHelper::getValue($sender, $attribute);
+            if ($sender->hasAttribute($attribute)) {
+                $this->oldAttributeValues[$attribute] = $sender->getOldAttribute($attribute);
+            } else {
+                $this->oldAttributeValues[$attribute] = ArrayHelper::getValue($sender, $attribute);
+            }
         }
     }
 
@@ -122,7 +117,7 @@ class HistoryBehavior extends Behavior
                 /** @var AttributeHistoryHandlerInterface $handler */
                 $handler = Instance::ensure($this->attributeHandlers[$attribute], AttributeHistoryHandlerInterface::class);
             } else {
-                $handler = new BaseAttributeHistoryHandler();
+                $handler = is_array($oldValue) ? new ArrayAttributeHistoryHandler() : new BaseAttributeHistoryHandler();
             }
             $detail = [
                 'attribute' => $attribute,
@@ -142,6 +137,7 @@ class HistoryBehavior extends Behavior
             $history->parent_id = $owner->getAttribute($this->parentIdAttribute);
         }
         $history->details = $details;
+        $history->summary = '';
         if (!$history->save(false)) {
             throw new Exception('Save History Failed.');
         }

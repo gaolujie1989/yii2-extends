@@ -35,7 +35,7 @@ class ArrayAttributeHistoryHandlerTest extends \Codeception\Test\Unit
         $expected = [
             'added' => ['C' => 'CCC'],
             'deleted' => ['B' => 'BBB'],
-            'modified' => ['A' => "'AAA' -> 'BBB'"],
+            'modified' => ['A' => '"AAA" -> "BBB"'],
         ];
         $this->assertEquals($expected, $diff, VarDumper::dumpAsString($diff));
     }

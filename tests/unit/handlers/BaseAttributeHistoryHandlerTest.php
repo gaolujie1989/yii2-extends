@@ -28,7 +28,7 @@ class BaseAttributeHistoryHandlerTest extends \Codeception\Test\Unit
         $handler = new BaseAttributeHistoryHandler();
         $handler->maxValueLength = 6;
         $this->assertNull($handler->diff('ABC', 'ABC'));
-        $this->assertEquals(['modified' => "'Abc' -> 'Bcd'"], $handler->diff('Abc', 'Bcd'));
-        $this->assertEquals(['modified' => "'Abc...' -> 'Bcd...'"], $handler->diff('Abc123456789', 'Bcd123456789'));
+        $this->assertEquals(['modified' => '"Abc" -> "Bcd"'], $handler->diff('Abc', 'Bcd'));
+        $this->assertEquals(['modified' => '"Abc..." -> "Bcd..."'], $handler->diff('Abc123456789', 'Bcd123456789'));
     }
 }

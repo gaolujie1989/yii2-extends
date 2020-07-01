@@ -2,7 +2,7 @@
 
 namespace lujie\ar\history\behaviors\tests\unit;
 
-use lujie\ar\history\handlers\RelationHistoryHandler;
+use lujie\ar\history\handlers\RelationAttributeHistoryHandler;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestAddress;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderItem;
 use yii\helpers\VarDumper;
@@ -30,7 +30,7 @@ class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
      */
     public function testOne(): void
     {
-        $handler = new RelationHistoryHandler([
+        $handler = new RelationAttributeHistoryHandler([
             'attributes' => ['street'],
             'multi' => false,
         ]);
@@ -43,7 +43,7 @@ class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
         $diff = $handler->diff($testAddress1, $testAddress2);
         $excepted = [
             'modified' => [
-                'street' => "'street 1' -> 'street 2'"
+                'street' => '"street 1" -> "street 2"'
             ]
         ];
         $this->assertEquals($excepted, $diff, VarDumper::dumpAsString($diff));
@@ -56,7 +56,7 @@ class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
      */
     public function testMulti(): void
     {
-        $handler = new RelationHistoryHandler([
+        $handler = new RelationAttributeHistoryHandler([
             'attributes' => ['item_no', 'ordered_qty'],
             'multi' => true,
             'indexAttribute' => 'test_order_item_id',
@@ -97,8 +97,8 @@ class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
             ],
             'modified' => [
                 22 => [
-                    'item_no' => "'item2' -> 'item22'",
-                    'ordered_qty' => "'2' -> '22'",
+                    'item_no' => '"item2" -> "item22"',
+                    'ordered_qty' => '"2" -> "22"',
                 ]
             ],
         ];

@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\ar\history\handlers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class RelationHistoryHandler extends BaseObject implements AttributeHistoryHandlerInterface
+class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
 {
     /**
      * @var array
@@ -90,7 +90,7 @@ class RelationHistoryHandler extends BaseObject implements AttributeHistoryHandl
             $modified = [];
             foreach ($newValue as $key => $i) {
                 if (isset($oldValue[$key])) {
-                    $modified[$key] = $this->diffValue($oldValue[$key], $newValue[$key]);
+                    $modified[$key] = $this->diffRelationValue($oldValue[$key], $newValue[$key]);
                     unset($newValue[$key], $oldValue[$key]);
                 }
             }
@@ -103,7 +103,7 @@ class RelationHistoryHandler extends BaseObject implements AttributeHistoryHandl
         } else {
             $oldValue = $this->extractValue($oldValue);
             $newValue = $this->extractValue($newValue);
-            return ['modified' => $this->diffValue($oldValue, $newValue)];
+            return ['modified' => $this->diffRelationValue($oldValue, $newValue)];
         }
     }
 
@@ -112,12 +112,12 @@ class RelationHistoryHandler extends BaseObject implements AttributeHistoryHandl
      * @param array $newValue
      * @return array
      */
-    public function diffValue(array $oldValue, array $newValue): array
+    public function diffRelationValue(array $oldValue, array $newValue): array
     {
         $diffValue = [];
         foreach ($this->attributes as $attribute) {
             if ($newValue[$attribute] !== $oldValue[$attribute]) {
-                $diffValue[$attribute]  = "'{$oldValue[$attribute]}' -> '{$newValue[$attribute]}'";
+                $diffValue[$attribute]  = $this->diffValue($oldValue[$attribute], $newValue[$attribute]);
             }
         }
         return $diffValue;

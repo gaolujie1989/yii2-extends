@@ -3,7 +3,13 @@
 namespace lujie\ar\history\behaviors\tests\unit;
 
 use lujie\ar\history\behaviors\HistoryBehavior;
+use lujie\ar\history\handlers\MapAttributeHistoryHandler;
+use lujie\ar\history\handlers\RelationAttributeHistoryHandler;
 use lujie\ar\history\models\History;
+use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
+use lujie\data\loader\ArrayDataLoader;
+use yii\helpers\VarDumper;
 
 class HistoryBehaviorTest extends \Codeception\Test\Unit
 {
@@ -21,49 +27,177 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
     {
     }
 
+    public function getTestOrder()
+    {
+        $testOrder = new TestOrder();
+        $testOrder->attachBehavior('relationSave', [
+            'class' => RelationSavableBehavior::class,
+            'relations' => ['shippingAddress', 'orderItems'],
+            'indexKeys' => ['orderItems' => 'item_no'],
+        ]);
+        $testOrder->attachBehavior('history', [
+            'class' => HistoryBehavior::class,
+            'modelType' => 'TestOrder',
+            'attributes' => [
+                'order_no',
+                'customer_email',
+                'status',
+                'shippingAddress.street',
+                'shippingAddress',
+                'orderItems',
+            ],
+            'attributeHandlers' => [
+                'status' => [
+                    'class' => MapAttributeHistoryHandler::class,
+                    'labelLoader' => [
+                        'class' => ArrayDataLoader::class,
+                        'data' => [
+                            '0' => 'Pending',
+                            '1' => 'Processing',
+                            '10' => 'Shipped',
+                        ],
+                    ]
+                ],
+                'shippingAddress' => [
+                    'class' => RelationAttributeHistoryHandler::class,
+                    'attributes' => ['street'],
+                ],
+                'orderItems' => [
+                    'class' => RelationAttributeHistoryHandler::class,
+                    'attributes' => ['item_no', 'ordered_qty'],
+                    'multi' => true,
+                    'indexAttribute' => 'item_no',
+                ],
+            ]
+        ]);
+        return $testOrder;
+    }
+
     /**
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     public function testMe(): void
     {
-        $history = new History();
-        $history->attachBehavior('history', [
-            'class' => HistoryBehavior::class,
-        ]);
+        $testOrder = $this->getTestOrder();
+        //create test order
+        $testOrder->order_no = 'OrderNo-1';
+        $testOrder->customer_email = 'x1@xxx.com';
+        $testOrder->status = 0;
+        $testOrder->shippingAddress = ['street' => 'street1'];
+        $testOrder->orderItems = [
+            [
+                'item_no' => 'Item1',
+                'ordered_qty' => 1
+            ],
+            [
+                'item_no' => 'Item2',
+                'ordered_qty' => 2
+            ],
+        ];
+        $this->assertTrue($testOrder->save(false));
 
-        $history->setAttributes([
-            'table_name' => 'xxx_table',
-            'row_id' => 123,
-        ]);
-        $this->assertTrue($history->save(false));
-        /** @var History $insertHistory */
-        $query = History::find()->tableName(History::tableName())->rowId($history->id);
-        $this->assertEquals(1, $query->count(), 'Should exist one history after insert');
-        $insertHistory = $query->one();
-        $changedAttributes = ['id', 'table_name', 'row_id', 'created_at', 'created_by'];
-        $this->assertEquals(array_fill_keys($changedAttributes, null), $insertHistory->old_data);
-        $this->assertEquals($history->getAttributes($changedAttributes), $insertHistory->new_data);
+        //update test order
+        $testOrder->order_no = 'OrderNo-1-1';
+        $testOrder->customer_email = 'x1@xxx.com';
+        $testOrder->status = 1;
+        $testOrder->shippingAddress = ['street' => 'street1-1'];
+        $testOrder->orderItems = [
+            [
+                'item_no' => 'Item2',
+                'ordered_qty' => 1
+            ],
+            [
+                'item_no' => 'Item3',
+                'ordered_qty' => 1
+            ],
+        ];
+        $this->assertTrue($testOrder->save(false));
 
-        $changedAttributes = ['table_name', 'row_id', 'old_data', 'new_data'];
-        $history->setAttributes([
-            'table_name' => 'xxx_table2',
-            'row_id' => 321,
-            'old_data' => ['old' => '123'],
-            'new_data' => ['new' => '123'],
-        ]);
-        $this->assertTrue($history->save(false));
-
-        $this->assertEquals(2, $query->count());
-        /** @var History $updateHistory */
-        $updateHistory = $query->orderBy(['id' => SORT_DESC])->one();
-        $this->assertEquals([
-            'table_name' => 'xxx_table',
-            'row_id' => 123,
-            'old_data' => null,
-            'new_data' => null,
-        ], $updateHistory->old_data);
-        $this->assertEquals($history->getAttributes($changedAttributes), $updateHistory->new_data);
+        $historyQuery = History::find()->modelType('TestOrder')->modelId($testOrder->test_order_id);
+        $this->assertEquals(1, $historyQuery->count());
+        $history = $historyQuery->one();
+        $excepted = [
+            'order_no' => [
+                'attribute' => 'order_no',
+                'oldValue' => 'OrderNo-1',
+                'newValue' => 'OrderNo-1-1',
+                'diffValue' => ['modified' => '"OrderNo-1" -> "OrderNo-1-1"'],
+            ],
+            'status' => [
+                'attribute' => 'status',
+                'oldValue' => 0,
+                'newValue' => 1,
+                'diffValue' => ['modified' => '"Pending" -> "Processing"'],
+            ],
+            'customer_email' => [
+                'attribute' => 'customer_email',
+                'newValue' => 'x1@xxx.com',
+                'oldValue' => 'x1@xxx.com',
+                'diffValue' => null,
+            ],
+            'shippingAddress.street' => [
+                'attribute' => 'shippingAddress.street',
+                'oldValue' => 'street1',
+                'newValue' => 'street1-1',
+                'diffValue' => [
+                    'modified' => '"street1" -> "street1-1"'
+                ],
+            ],
+            'shippingAddress' => [
+                'attribute' => 'shippingAddress',
+                'oldValue' => ['street' => 'street1'],
+                'newValue' => ['street' => 'street1-1'],
+                'diffValue' => [
+                    'modified' => [
+                        'street' => [
+                            '"street1" -> "street1-1"'
+                        ]
+                    ]
+                ],
+            ],
+            'orderItems' => [
+                'attribute' => 'orderItems',
+                'oldValue' => [
+                    'Item1' => [
+                        'item_no' => 'Item1',
+                        'ordered_qty' => 1
+                    ],
+                    'Item2' => [
+                        'item_no' => 'Item2',
+                        'ordered_qty' => 2
+                    ],
+                ],
+                'newValue' => [
+                    'Item2' => [
+                        'item_no' => 'Item2',
+                        'ordered_qty' => 1
+                    ],
+                    'Item3' => [
+                        'item_no' => 'Item3',
+                        'ordered_qty' => 1
+                    ],
+                ],
+                'diffValue' => [
+                    'added' => [
+                        'Item3' => [
+                            'item_no' => 'Item3',
+                            'ordered_qty' => 1,
+                        ]
+                    ],
+                    'deleted' => [
+                        'Item1' => [
+                            'item_no' => 'Item1',
+                            'ordered_qty' => 1,
+                        ]
+                    ],
+                    'modified' => [
+                        'Item2' => [
+                            'ordered_qty' => '"2" -> "1"'
+                        ]
+                    ]
+                ],
+            ],
+        ];
+        $this->assertEquals($excepted, $history->details, VarDumper::dumpAsString($history->details));
     }
 }

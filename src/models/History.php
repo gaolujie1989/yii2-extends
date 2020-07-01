@@ -1,38 +1,30 @@
 <?php
-/**
- * @copyright Copyright (c) 2017
- */
 
 namespace lujie\ar\history\models;
-
 
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
-use yii\db\ActiveRecord;
+use Yii;
 
 /**
  * This is the model class for table "{{%history}}".
  *
- * @property int $id
+ * @property int $history_id
  * @property string $model_type
  * @property int $model_id
  * @property int $parent_id
- * @property array|null $summary
+ * @property string $summary
  * @property array|null $details
- *
- * @package lujie\core\db
- * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class History extends ActiveRecord
+class History extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
-     * @return string
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName(): string
     {
@@ -40,37 +32,39 @@ class History extends ActiveRecord
     }
 
     /**
-     * @return array
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules(): array
     {
         return [
-            [['table_name', 'row_id'], 'required'],
-            [['old_data', 'new_data'], 'default', 'value' => []],
-            [['row_id', 'created_at', 'created_by'], 'integer'],
-            [['old_data', 'new_data'], 'safe'],
-            [['table_name'], 'string', 'max' => 50],
+            [['model_type', 'summary'], 'default', 'value' => ''],
+            [['model_id', 'parent_id'], 'default', 'value' => 0],
+            [['details'], 'default', 'value' => []],
+            [['model_id', 'parent_id'], 'integer'],
+            [['details'], 'safe'],
+            [['model_type'], 'string', 'max' => 50],
+            [['summary'], 'string', 'max' => 255],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels(): array
     {
         return [
-            'id' => 'ID',
-            'table_name' => 'Table Name',
-            'row_id' => 'Row ID',
-            'old_data' => 'Old Data',
-            'new_data' => 'New Data',
+            'history_id' => Yii::t('lujie/history', 'History ID'),
+            'model_type' => Yii::t('lujie/history', 'Model Type'),
+            'model_id' => Yii::t('lujie/history', 'Model ID'),
+            'parent_id' => Yii::t('lujie/history', 'Parent ID'),
+            'summary' => Yii::t('lujie/history', 'Summary'),
+            'details' => Yii::t('lujie/history', 'Details'),
         ];
     }
 
     /**
-     * @return HistoryQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return HistoryQuery the active query used by this AR class.
      */
     public static function find(): HistoryQuery
     {

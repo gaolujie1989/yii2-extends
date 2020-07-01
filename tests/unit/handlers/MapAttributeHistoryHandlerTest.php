@@ -36,7 +36,7 @@ class MapAttributeHistoryHandlerTest extends \Codeception\Test\Unit
                 ]
             ])
         ]);
-        $this->assertEquals(['modified' => "'AAA' -> 'BBB'"], $handler->diff('a', 'b'));
-        $this->assertEquals(['modified' => "'AAA' -> 'c'"], $handler->diff('a', 'c'));
+        $this->assertEquals(['modified' => '"AAA" -> "BBB"'], $handler->diff('a', 'b'));
+        $this->assertEquals(['modified' => '"AAA" -> "c"'], $handler->diff('a', 'c'));
     }
 }

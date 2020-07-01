@@ -9,7 +9,6 @@ use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
-use yii\db\QueryInterface;
 use yii\di\Instance;
 
 /**
@@ -20,7 +19,7 @@ use yii\di\Instance;
 class QueryDataLoader extends BaseDataLoader
 {
     /**
-     * @var QueryInterface
+     * @var Query
      */
     public $query;
 
@@ -33,6 +32,11 @@ class QueryDataLoader extends BaseDataLoader
      * @var string
      */
     public $key;
+
+    /**
+     * @var string
+     */
+    public $value;
 
     /**
      * @var string
@@ -54,8 +58,8 @@ class QueryDataLoader extends BaseDataLoader
         if (empty($this->key)) {
             throw new InvalidConfigException('The "key" property must be set.');
         }
-        if (!($this->query instanceof QueryInterface)) {
-            throw new InvalidConfigException('The "query" property must be instanceof QueryInterface.');
+        if (!($this->query instanceof Query)) {
+            throw new InvalidConfigException('The "query" property must be instanceof Query.');
         }
         if ($this->indexBy) {
             $this->query->indexBy($this->indexBy);
@@ -76,15 +80,18 @@ class QueryDataLoader extends BaseDataLoader
 
     /**
      * @param int|string $key
-     * @return array|BaseActiveRecord|null
+     * @return array|BaseActiveRecord|null|mixed
      * @inheritdoc
      */
     public function get($key)
     {
         $query = clone $this->query;
-        return $query->andFilterWhere($this->condition)
-            ->andWhere([$this->key => $key])
-            ->one($this->db);
+        $query->andFilterWhere($this->condition)
+            ->andWhere([$this->key => $key]);
+        if ($this->value) {
+            return $query->select([$this->value])->scalar($this->db);
+        }
+        return $query->one($this->db);
     }
 
     /**
@@ -95,10 +102,13 @@ class QueryDataLoader extends BaseDataLoader
     public function multiGet(array $keys): array
     {
         $query = clone $this->query;
-        return $query->andFilterWhere($this->condition)
+        $query->andFilterWhere($this->condition)
             ->andWhere([$this->key => $keys])
-            ->indexBy($this->key)
-            ->all($this->db);
+            ->indexBy($this->key);
+        if ($this->value) {
+            return $query->select([$this->value])->column($this->db);
+        }
+        return $query->all($this->db);
     }
 
     /**
@@ -108,7 +118,11 @@ class QueryDataLoader extends BaseDataLoader
     public function all(): ?array
     {
         $query = clone $this->query;
-        return $query->andFilterWhere($this->condition)->all($this->db);
+        $query->andFilterWhere($this->condition);
+        if ($this->value) {
+            return $query->select([$this->value])->column($this->db);
+        }
+        return $query->all($this->db);
     }
 
     /**
@@ -117,7 +131,6 @@ class QueryDataLoader extends BaseDataLoader
      */
     public function batch($batchSize = 100): \Iterator
     {
-        /** @var Query $query */
         $query = clone $this->query;
         return $query->andFilterWhere($this->condition)->batch($batchSize, $this->db);
     }
@@ -128,7 +141,6 @@ class QueryDataLoader extends BaseDataLoader
      */
     public function each($batchSize = 100): \Iterator
     {
-        /** @var Query $query */
         $query = clone $this->query;
         return $query->andFilterWhere($this->condition)->each($batchSize, $this->db);
     }

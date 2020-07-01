@@ -45,5 +45,8 @@ class QueryDataLoaderTest extends \Codeception\Test\Unit
 
         $dataLoader->condition = ['version' => $baseMigrationVersion];
         $this->assertCount(1, $dataLoader->all());
+
+        $dataLoader->value = 'version';
+        $this->assertEquals($baseMigrationVersion, $dataLoader->get($baseMigrationVersion));
     }
 }

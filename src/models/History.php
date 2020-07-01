@@ -17,10 +17,11 @@ use yii\db\ActiveRecord;
  * This is the model class for table "{{%history}}".
  *
  * @property int $id
- * @property string $table_name
- * @property int $row_id
- * @property array|null $old_data
- * @property array|null $new_data
+ * @property string $model_type
+ * @property int $model_id
+ * @property int $parent_id
+ * @property array|null $summary
+ * @property array|null $details
  *
  * @package lujie\core\db
  * @author Lujie Zhou <gao_lujie@live.cn>

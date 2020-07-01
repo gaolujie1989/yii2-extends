@@ -90,12 +90,9 @@ class HistoryBehavior extends Behavior
     {
         /** @var BaseActiveRecord $sender */
         $sender = $event->sender;
+        $model = $sender::findOne($sender->getPrimaryKey(true));
         foreach ($this->attributes as $attribute) {
-            if ($sender->hasAttribute($attribute)) {
-                $this->oldAttributeValues[$attribute] = $sender->getOldAttribute($attribute);
-            } else {
-                $this->oldAttributeValues[$attribute] = ArrayHelper::getValue($sender, $attribute);
-            }
+            $this->oldAttributeValues[$attribute] = ArrayHelper::getValue($model, $attribute);
         }
     }
 

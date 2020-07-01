@@ -149,20 +149,18 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
                 'newValue' => ['street' => 'street1-1'],
                 'diffValue' => [
                     'modified' => [
-                        'street' => [
-                            '"street1" -> "street1-1"'
-                        ]
+                        'street' => '"street1" -> "street1-1"'
                     ]
                 ],
             ],
             'orderItems' => [
                 'attribute' => 'orderItems',
                 'oldValue' => [
-                    'Item1' => [
+                    [
                         'item_no' => 'Item1',
                         'ordered_qty' => 1
                     ],
-                    'Item2' => [
+                    [
                         'item_no' => 'Item2',
                         'ordered_qty' => 2
                     ],

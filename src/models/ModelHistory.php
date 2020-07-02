@@ -80,4 +80,45 @@ class ModelHistory extends \yii\db\ActiveRecord
     {
         return (new ModelHistoryQuery(static::class))->modelType(static::MODEL_TYPE);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        unset($fields['details']);
+        return array_merge($fields, [
+            'detailSummaries' => 'detailSummaries'
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDetailSummaries(): array
+    {
+        $summaries = [];
+        foreach ($this->details as $attribute => $detail) {
+            $diffValue = $detail['diffValue'];
+            foreach (['added', 'deleted'] as $operation) {
+                if (isset($diffValue[$operation])) {
+                    $summaries[] = [
+                        'attribute' => $attribute,
+                        'operation' => $operation,
+                        'detail' => implode(',', $diffValue[$operation]),
+                    ];
+                }
+            }
+            if (isset($diffValue['modified'])) {
+                $summaries[] = [
+                    'attribute' => $attribute,
+                    'operation' => 'modified',
+                    'detail' => $diffValue['modified'],
+                ];
+            }
+        }
+        return $summaries;
+    }
 }

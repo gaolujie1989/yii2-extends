@@ -99,7 +99,7 @@ class HistoryBehavior extends Behavior
                 /** @var AttributeHistoryHandlerInterface $handler */
                 $handler = Instance::ensure($this->attributeHandlers[$attribute], AttributeHistoryHandlerInterface::class);
             } else {
-                $handler = is_array($oldValue) ? new ArrayAttributeHistoryHandler() : new BaseAttributeHistoryHandler();
+                $handler = is_array($newValue) ? new ArrayAttributeHistoryHandler() : new BaseAttributeHistoryHandler();
             }
             $diff = $handler->diff($oldValue, $newValue);
             if (empty($diff)) {
@@ -128,9 +128,9 @@ class HistoryBehavior extends Behavior
         $history->details = $details;
         $history->summary = '';
         if ($history->save(false)) {
-            Yii::error('Log history success', __METHOD__);
+            Yii::info("Log history of {$history->model_type} {$history->model_id} success", __METHOD__);
         } else {
-            Yii::error('Save history failed: ' . VarDumper::dumpAsString($history->attributes), __METHOD__);
+            Yii::error('Save  history failed: ' . VarDumper::dumpAsString($history->attributes), __METHOD__);
         }
     }
 }

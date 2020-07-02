@@ -99,7 +99,7 @@ class HistoryBehavior extends Behavior
                 /** @var AttributeHistoryHandlerInterface $handler */
                 $handler = Instance::ensure($this->attributeHandlers[$attribute], AttributeHistoryHandlerInterface::class);
             } else {
-                $handler = is_array($newValue)
+                $handler = (is_array($oldValue) || is_array($newValue))
                     ? new ArrayAttributeHistoryHandler(['withKey' => ArrayHelper::isAssociative($newValue)])
                     : new BaseAttributeHistoryHandler();
             }

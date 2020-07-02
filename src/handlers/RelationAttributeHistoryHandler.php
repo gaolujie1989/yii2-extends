@@ -103,7 +103,8 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
         } else {
             $oldValue = $this->extractValue($oldValue);
             $newValue = $this->extractValue($newValue);
-            return ['modified' => $this->diffRelationValue($oldValue, $newValue)];
+            $modified = $this->diffRelationValue($oldValue, $newValue);
+            return $modified ? ['modified' => $modified] : null;
         }
     }
 

@@ -112,7 +112,7 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
         ];
         $this->assertTrue($testOrder->save(false));
 
-        $historyQuery = ModelHistory::find()->modelId($testOrder->test_order_id);
+        $historyQuery = ModelHistory::find()->modelId($testOrder->test_order_id)->orderById(SORT_DESC);
         $this->assertEquals(1, $historyQuery->count());
         $history = $historyQuery->one();
         $excepted = [
@@ -187,6 +187,25 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
                         ]
                     ]
                 ],
+            ],
+        ];
+        $this->assertEquals($excepted, $history->details, VarDumper::dumpAsString($history->details));
+
+        //just update again
+        $this->assertTrue($testOrder->save(false));
+        $this->assertEquals(1, $historyQuery->count());
+
+        //only update status
+        $testOrder->status = 10;
+        $this->assertTrue($testOrder->save(false));
+        $this->assertEquals(2, $historyQuery->count());
+        $history = $historyQuery->one();
+        $excepted = [
+            'status' => [
+                'attribute' => 'status',
+                'oldValue' => 1,
+                'newValue' => 10,
+                'diffValue' => ['modified' => '"Processing" -> "Shipped"'],
             ],
         ];
         $this->assertEquals($excepted, $history->details, VarDumper::dumpAsString($history->details));

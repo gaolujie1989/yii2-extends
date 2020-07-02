@@ -10,6 +10,7 @@ use lujie\ar\history\handlers\ArrayAttributeHistoryHandler;
 use lujie\ar\history\handlers\AttributeHistoryHandlerInterface;
 use lujie\ar\history\handlers\BaseAttributeHistoryHandler;
 use lujie\ar\history\models\ModelHistory;
+use Yii;
 use yii\base\Behavior;
 use yii\base\InvalidConfigException;
 use yii\base\ModelEvent;
@@ -18,6 +19,7 @@ use yii\db\BaseActiveRecord;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
  * Class HistoryBehaviors
@@ -111,6 +113,10 @@ class HistoryBehavior extends Behavior
             ];
             $details[$attribute] = $detail;
         }
+        if (empty($details)) {
+            Yii::info('Nothing updated, skip history', __METHOD__);
+            return;
+        }
 
         $owner = $this->owner;
         /** @var ModelHistory $history */
@@ -121,8 +127,10 @@ class HistoryBehavior extends Behavior
         }
         $history->details = $details;
         $history->summary = '';
-        if (!$history->save(false)) {
-            throw new Exception('Save History Failed.');
+        if ($history->save(false)) {
+            Yii::error('Log history success', __METHOD__);
+        } else {
+            Yii::error('Save history failed: ' . VarDumper::dumpAsString($history->attributes), __METHOD__);
         }
     }
 }

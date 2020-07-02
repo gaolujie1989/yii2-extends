@@ -12,7 +12,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method int getId()
  * @method array getIds()
  *
- * @method ModelHistoryQuery historyId($historyId)
+ * @method ModelHistoryQuery modelHistoryId($historyId)
  * @method ModelHistoryQuery modelType($modelType)
  * @method ModelHistoryQuery modelId($modelId)
  * @method ModelHistoryQuery parentId($parentId)
@@ -36,11 +36,11 @@ class ModelHistoryQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'historyId' => 'history_id',
+                    'modelHistoryId' => 'model_history_id',
                     'modelType' => 'model_type',
                     'modelId' => 'model_id',
                     'parentId' => 'parent_id',
-                ]
+                ],
             ]
         ];
     }

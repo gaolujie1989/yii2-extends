@@ -128,12 +128,6 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
                 'newValue' => 1,
                 'diffValue' => ['modified' => '"Pending" -> "Processing"'],
             ],
-            'customer_email' => [
-                'attribute' => 'customer_email',
-                'newValue' => 'x1@xxx.com',
-                'oldValue' => 'x1@xxx.com',
-                'diffValue' => null,
-            ],
             'shippingAddress.street' => [
                 'attribute' => 'shippingAddress.street',
                 'oldValue' => 'street1',

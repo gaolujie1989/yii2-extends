@@ -99,11 +99,15 @@ class HistoryBehavior extends Behavior
             } else {
                 $handler = is_array($oldValue) ? new ArrayAttributeHistoryHandler() : new BaseAttributeHistoryHandler();
             }
+            $diff = $handler->diff($oldValue, $newValue);
+            if (empty($diff)) {
+                continue;
+            }
             $detail = [
                 'attribute' => $attribute,
                 'oldValue' => $handler->extract($oldValue),
                 'newValue' => $handler->extract($newValue),
-                'diffValue' => $handler->diff($oldValue, $newValue),
+                'diffValue' => $diff,
             ];
             $details[$attribute] = $detail;
         }

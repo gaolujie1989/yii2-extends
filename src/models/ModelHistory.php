@@ -116,7 +116,7 @@ class ModelHistory extends \yii\db\ActiveRecord
     protected function getDetailSummary(string $attribute, array $detail): array
     {
         $summaries = [];
-        $diffValue = $detail;
+        $diffValue = $detail['diffValue'];
         //for model array attribute
         foreach (['added', 'deleted'] as $operation) {
             if (isset($diffValue[$operation])) {

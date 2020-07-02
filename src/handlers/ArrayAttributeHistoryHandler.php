@@ -20,7 +20,7 @@ class ArrayAttributeHistoryHandler extends BaseAttributeHistoryHandler
     /**
      * @var bool
      */
-    public $withKey = true;
+    public $withKey = false;
 
     /**
      * @var DataLoaderInterface

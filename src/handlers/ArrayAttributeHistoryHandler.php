@@ -36,6 +36,8 @@ class ArrayAttributeHistoryHandler extends BaseAttributeHistoryHandler
      */
     public function diff($oldValue, $newValue): ?array
     {
+        $oldValue = $oldValue ?: [];
+        $newValue = $newValue ?: [];
         if ($oldValue === $newValue) {
             return null;
         }

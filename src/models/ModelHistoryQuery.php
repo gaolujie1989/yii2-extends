@@ -7,23 +7,23 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 /**
  * This is the ActiveQuery class for [[History]].
  *
- * @method HistoryQuery id($id)
- * @method HistoryQuery orderById($sort = SORT_ASC)
+ * @method ModelHistoryQuery id($id)
+ * @method ModelHistoryQuery orderById($sort = SORT_ASC)
  * @method int getId()
  * @method array getIds()
  *
- * @method HistoryQuery historyId($historyId)
- * @method HistoryQuery modelType($modelType)
- * @method HistoryQuery modelId($modelId)
- * @method HistoryQuery parentId($parentId)
+ * @method ModelHistoryQuery historyId($historyId)
+ * @method ModelHistoryQuery modelType($modelType)
+ * @method ModelHistoryQuery modelId($modelId)
+ * @method ModelHistoryQuery parentId($parentId)
  *
- * @method array|History[] all($db = null)
- * @method array|History|null one($db = null)
- * @method array|History[] each($batchSize = 100, $db = null)
+ * @method array|ModelHistory[] all($db = null)
+ * @method array|ModelHistory|null one($db = null)
+ * @method array|ModelHistory[] each($batchSize = 100, $db = null)
  *
- * @see History
+ * @see ModelHistory
  */
-class HistoryQuery extends \yii\db\ActiveQuery
+class ModelHistoryQuery extends \yii\db\ActiveQuery
 {
 
     /**

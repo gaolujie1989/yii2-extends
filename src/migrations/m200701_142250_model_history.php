@@ -4,11 +4,11 @@ use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
-class m200701_142250_history extends Migration
+class m200701_142250_model_history extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 
-    protected $tableName = '{{%history}}';
+    protected $tableName = '{{%model_history}}';
 
     /**
      * @return array
@@ -30,7 +30,7 @@ class m200701_142250_history extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'history_id' => $this->bigPrimaryKey(),
+            'model_history_id' => $this->bigPrimaryKey(),
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'parent_id' => $this->bigInteger()->notNull()->defaultValue(0),

@@ -5,7 +5,7 @@ namespace lujie\ar\history\behaviors\tests\unit;
 use lujie\ar\history\behaviors\HistoryBehavior;
 use lujie\ar\history\handlers\MapAttributeHistoryHandler;
 use lujie\ar\history\handlers\RelationAttributeHistoryHandler;
-use lujie\ar\history\models\History;
+use lujie\ar\history\models\ModelHistory;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\data\loader\ArrayDataLoader;
@@ -113,7 +113,7 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
         ];
         $this->assertTrue($testOrder->save(false));
 
-        $historyQuery = History::find()->modelType('TestOrder')->modelId($testOrder->test_order_id);
+        $historyQuery = ModelHistory::find()->modelType('TestOrder')->modelId($testOrder->test_order_id);
         $this->assertEquals(1, $historyQuery->count());
         $history = $historyQuery->one();
         $excepted = [

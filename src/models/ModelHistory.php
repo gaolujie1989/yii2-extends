@@ -12,23 +12,34 @@ use Yii;
 /**
  * This is the model class for table "{{%history}}".
  *
- * @property int $history_id
+ * @property int $model_history_id
  * @property string $model_type
  * @property int $model_id
  * @property int $parent_id
  * @property string $summary
  * @property array|null $details
  */
-class History extends \yii\db\ActiveRecord
+class ModelHistory extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+
+    public const MODEL_TYPE = 'DEFAULT';
 
     /**
      * {@inheritdoc}
      */
     public static function tableName(): string
     {
-        return '{{%history}}';
+        return '{{%model_history}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        $this->model_type = static::MODEL_TYPE;
+        parent::init();
     }
 
     /**
@@ -37,12 +48,11 @@ class History extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['model_type', 'summary'], 'default', 'value' => ''],
+            [['summary'], 'default', 'value' => ''],
             [['model_id', 'parent_id'], 'default', 'value' => 0],
             [['details'], 'default', 'value' => []],
             [['model_id', 'parent_id'], 'integer'],
             [['details'], 'safe'],
-            [['model_type'], 'string', 'max' => 50],
             [['summary'], 'string', 'max' => 255],
         ];
     }
@@ -53,7 +63,7 @@ class History extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'history_id' => Yii::t('lujie/history', 'History ID'),
+            'model_history_id' => Yii::t('lujie/history', 'Model History ID'),
             'model_type' => Yii::t('lujie/history', 'Model Type'),
             'model_id' => Yii::t('lujie/history', 'Model ID'),
             'parent_id' => Yii::t('lujie/history', 'Parent ID'),
@@ -64,10 +74,10 @@ class History extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return HistoryQuery the active query used by this AR class.
+     * @return ModelHistoryQuery the active query used by this AR class.
      */
-    public static function find(): HistoryQuery
+    public static function find(): ModelHistoryQuery
     {
-        return new HistoryQuery(static::class);
+        return (new ModelHistoryQuery(static::class))->modelType(static::MODEL_TYPE);
     }
 }

@@ -9,7 +9,7 @@ namespace lujie\ar\history\behaviors;
 use lujie\ar\history\handlers\ArrayAttributeHistoryHandler;
 use lujie\ar\history\handlers\AttributeHistoryHandlerInterface;
 use lujie\ar\history\handlers\BaseAttributeHistoryHandler;
-use lujie\ar\history\models\History;
+use lujie\ar\history\models\ModelHistory;
 use yii\base\Behavior;
 use yii\base\InvalidConfigException;
 use yii\base\ModelEvent;
@@ -32,12 +32,7 @@ class HistoryBehavior extends Behavior
     /**
      * @var string
      */
-    public $historyModelClass = History::class;
-
-    /**
-     * @var string
-     */
-    public $modelType;
+    public $historyModelClass = ModelHistory::class;
 
     /**
      * @var string
@@ -58,18 +53,6 @@ class HistoryBehavior extends Behavior
      * @var array
      */
     private $oldAttributeValues = [];
-
-    /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        if (empty($this->modelType)) {
-            throw new InvalidConfigException('The property `modelType` must be set.');
-        }
-    }
 
     /**
      * @return array
@@ -126,9 +109,8 @@ class HistoryBehavior extends Behavior
         }
 
         $owner = $this->owner;
-        /** @var History $history */
+        /** @var ModelHistory $history */
         $history = new $this->historyModelClass();
-        $history->model_type = $this->modelType;
         $history->model_id = $owner->getPrimaryKey();
         if ($this->parentIdAttribute) {
             $history->parent_id = $owner->getAttribute($this->parentIdAttribute);

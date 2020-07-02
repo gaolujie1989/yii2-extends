@@ -112,7 +112,7 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
         ];
         $this->assertTrue($testOrder->save(false));
 
-        $historyQuery = ModelHistory::find()->modelType('TestOrder')->modelId($testOrder->test_order_id);
+        $historyQuery = ModelHistory::find()->modelId($testOrder->test_order_id);
         $this->assertEquals(1, $historyQuery->count());
         $history = $historyQuery->one();
         $excepted = [

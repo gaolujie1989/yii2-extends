@@ -102,6 +102,7 @@ class ModelHistory extends \yii\db\ActiveRecord
         $summaries = [];
         foreach ($this->details as $attribute => $detail) {
             $diffValue = $detail['diffValue'];
+            //for model array attribute
             foreach (['added', 'deleted'] as $operation) {
                 if (isset($diffValue[$operation])) {
                     $summaries[] = [
@@ -112,12 +113,25 @@ class ModelHistory extends \yii\db\ActiveRecord
                 }
             }
             if (isset($diffValue['modified'])) {
-                $summaries[] = [
-                    'attribute' => $attribute,
-                    'operation' => 'modified',
-                    'detail' => $diffValue['modified'],
-                ];
+                //for model base attribute
+                if (is_string($diffValue['modified'])) {
+                    $summaries[] = [
+                        'attribute' => $attribute,
+                        'operation' => 'modified',
+                        'detail' => $diffValue['modified'],
+                    ];
+                } else {
+                    //for model one-one relation base attribute
+                    foreach ($diffValue['modified'] as $attr => $modified) {
+                        $summaries[] = [
+                            'attribute' => $attribute . '.' . $attr,
+                            'operation' => 'modified',
+                            'detail' => $modified,
+                        ];
+                    }
+                }
             }
+            //for relation or other, should write code to define
         }
         return $summaries;
     }

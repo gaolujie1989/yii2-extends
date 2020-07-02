@@ -37,7 +37,6 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
         ]);
         $testOrder->attachBehavior('history', [
             'class' => HistoryBehavior::class,
-            'modelType' => 'TestOrder',
             'attributes' => [
                 'order_no',
                 'customer_email',

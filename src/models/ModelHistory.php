@@ -7,6 +7,7 @@ use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
+use lujie\scheduling\tests\unit\SchedulerTest;
 use Yii;
 
 /**
@@ -99,39 +100,51 @@ class ModelHistory extends \yii\db\ActiveRecord
      */
     public function getDetailSummaries(): array
     {
-        $summaries = [];
+        $summaries = [[], []];
         foreach ($this->details as $attribute => $detail) {
-            $diffValue = $detail['diffValue'];
-            //for model array attribute
-            foreach (['added', 'deleted'] as $operation) {
-                if (isset($diffValue[$operation])) {
-                    $summaries[] = [
-                        'attribute' => $attribute,
-                        'operation' => $operation,
-                        'detail' => implode(',', $diffValue[$operation]),
-                    ];
-                }
+            $summaries[] = $this->getDetailSummary($attribute, $detail);
+        }
+        return array_merge(...$summaries);
+    }
+
+    /**
+     * @param string $attribute
+     * @param array $detail
+     * @return array
+     * @inheritdoc
+     */
+    protected function getDetailSummary(string $attribute, array $detail): array
+    {
+        $summaries = [];
+        $diffValue = $detail;
+        //for model array attribute
+        foreach (['added', 'deleted'] as $operation) {
+            if (isset($diffValue[$operation])) {
+                $summaries[] = [
+                    'attribute' => $attribute,
+                    'operation' => $operation,
+                    'detail' => implode(',', $diffValue[$operation]),
+                ];
             }
-            if (isset($diffValue['modified'])) {
-                //for model base attribute
-                if (is_string($diffValue['modified'])) {
+        }
+        if (isset($diffValue['modified'])) {
+            //for model base attribute
+            if (is_string($diffValue['modified'])) {
+                $summaries[] = [
+                    'attribute' => $attribute,
+                    'operation' => 'modified',
+                    'detail' => $diffValue['modified'],
+                ];
+            } else {
+                //for model one-one relation base attribute
+                foreach ($diffValue['modified'] as $attr => $modified) {
                     $summaries[] = [
-                        'attribute' => $attribute,
+                        'attribute' => $attribute . '.' . $attr,
                         'operation' => 'modified',
-                        'detail' => $diffValue['modified'],
+                        'detail' => $modified,
                     ];
-                } else {
-                    //for model one-one relation base attribute
-                    foreach ($diffValue['modified'] as $attr => $modified) {
-                        $summaries[] = [
-                            'attribute' => $attribute . '.' . $attr,
-                            'operation' => 'modified',
-                            'detail' => $modified,
-                        ];
-                    }
                 }
             }
-            //for relation or other, should write code to define
         }
         return $summaries;
     }

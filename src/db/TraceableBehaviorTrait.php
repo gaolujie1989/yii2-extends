@@ -10,7 +10,6 @@ use yii\base\Event;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
-use yii\web\User;
 
 /**
  * Trait TraceableBehaviorTrait
@@ -71,7 +70,7 @@ trait TraceableBehaviorTrait
      */
     public function getActionByDefault(Event $event): int
     {
-        return (isset($this->saveEmptyOnUpdateBy) && $this->saveEmptyOnUpdateBy) ? 0 : ($event->sender->updated_by ?: 0);
+        return (isset($this->saveEmptyOnUpdateBy) && $this->saveEmptyOnUpdateBy) ? 0 : ($event->sender->updated_by ?? 0);
     }
 
     /**

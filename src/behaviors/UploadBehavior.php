@@ -67,7 +67,7 @@ class UploadBehavior extends Behavior
     /**
      * @var string
      */
-    public $fileNameTemplate = '{name}_{datetime}_{rand}.{ext}';
+    public $fileNameTemplate = '{datetime}_{rand}.{ext}';
 
     /**
      * @var bool

@@ -206,6 +206,7 @@ class UploadBehavior extends Behavior
                 'datetime' => date('ymdHis'),
                 'rand' => random_int(1000, 9999),
                 'name' => $file->name,
+                'baseName' => $file->baseName,
                 'ext' => $file->extension,
             ]);
         }

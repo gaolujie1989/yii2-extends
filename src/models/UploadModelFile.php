@@ -10,7 +10,6 @@ use lujie\extend\db\TransactionTrait;
 use lujie\upload\behaviors\FileBehavior;
 use Yii;
 use yii\db\ActiveRecord;
-use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "{{%uploaded_file}}".
@@ -64,7 +63,8 @@ class UploadModelFile extends ActiveRecord
         return [
             [['file'], 'required'],
             [['model_type', 'name', 'ext'], 'default', 'value' => ''],
-            [['model_id', 'model_parent_id', 'position', 'size'], 'default', 'value' => 0],
+            [['position'], 'default', 'value' => 99],
+            [['model_id', 'model_parent_id', 'size'], 'default', 'value' => 0],
             [['model_id', 'model_parent_id', 'position', 'size'], 'integer'],
             [['model_type'], 'string', 'max' => 50],
             [['file', 'name'], 'string', 'max' => 255],
@@ -82,10 +82,6 @@ class UploadModelFile extends ActiveRecord
             parent::behaviors(),
             $this->traceableBehaviors(),
             [
-                'position' => [
-                    'class' => PositionBehavior::class,
-                    'groupAttributes' => ['model_type', 'model_id'],
-                ],
                 'file' => [
                     'class' => FileBehavior::class,
                     'attribute' => 'file',

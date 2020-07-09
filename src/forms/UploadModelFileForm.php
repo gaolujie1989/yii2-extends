@@ -85,6 +85,7 @@ class UploadModelFileForm extends UploadModelFile
     public function rules(): array
     {
         return [
+            [['position'], 'default', 'value' => 99],
             [['file', 'model_id'], 'required'],
             [['model_id', 'model_parent_id'], 'integer'],
             [['file'], 'file',

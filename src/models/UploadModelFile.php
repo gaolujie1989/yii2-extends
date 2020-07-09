@@ -63,8 +63,7 @@ class UploadModelFile extends ActiveRecord
         return [
             [['file'], 'required'],
             [['model_type', 'name', 'ext'], 'default', 'value' => ''],
-            [['position'], 'default', 'value' => 99],
-            [['model_id', 'model_parent_id', 'size'], 'default', 'value' => 0],
+            [['model_id', 'model_parent_id', 'position', 'size'], 'default', 'value' => 0],
             [['model_id', 'model_parent_id', 'position', 'size'], 'integer'],
             [['model_type'], 'string', 'max' => 50],
             [['file', 'name'], 'string', 'max' => 255],

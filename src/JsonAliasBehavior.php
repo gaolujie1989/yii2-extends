@@ -15,7 +15,7 @@ use yii\helpers\Json;
  */
 class JsonAliasBehavior extends AliasPropertyBehavior
 {
-    public $jsonOption = JSON_PRETTY_PRINT;
+    public $jsonOption = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
     /**
      * @param string $name

@@ -28,6 +28,7 @@ class m191121_165645_charge_table extends \yii\db\Migration
 
             'over_limit_price_cent' => $this->integer()->notNull()->defaultValue(0),
             'per_limit' => $this->integer()->notNull()->defaultValue(0),
+            'max_over_limit' => $this->integer()->notNull()->defaultValue(0),
 
             'additional' => $this->json(),
 

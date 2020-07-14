@@ -72,6 +72,7 @@ class ChargeTableQuery extends \yii\db\ActiveQuery
                 ['<', 'max_limit', $value],
                 ['>', 'over_limit_price_cent', 0],
                 ['>', 'per_limit', 0],
+                ['OR', ['min_over_limit' => 0], ['<=', 'min_over_limit', $value]],
                 ['OR', ['max_over_limit' => 0], ['>=', 'max_over_limit', $value]]
             ]
         ]);

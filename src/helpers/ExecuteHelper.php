@@ -45,7 +45,7 @@ class ExecuteHelper
             $model->save(false);
             return true;
         } catch (\Throwable $exception) {
-            $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
+            $message = '[' . get_class($exception) . ']' . $exception->getMessage() . "\n" . $exception->getTraceAsString();
             $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);

@@ -79,7 +79,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         }
 
         $carrierPackage = reset($carrierPackages);
-        $chargePrice->price_table_id = $carrierPackage['carrier_package_id'] ?? $carrierPackage['id'];
+        $chargePrice->price_table_id = (int) ($carrierPackage['carrier_package_id'] ?? $carrierPackage['id']);
         $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($carrierPackages, 'total_price_cent'));
         $chargePrice->currency = $carrierPackage['currency'];
         $chargePrice->note = implode(';', array_filter(ArrayHelper::getColumn($carrierPackages, 'note')));

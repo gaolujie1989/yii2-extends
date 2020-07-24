@@ -20,6 +20,11 @@ class CarrierItem extends BaseObject
     public $carrier;
 
     /**
+     * @var int
+     */
+    public $shippedAt = 0;
+
+    /**
      * @var array
      */
     public $trackingNumbers = [];

@@ -9,6 +9,7 @@ use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\loader\DbDataLoader;
+use lujie\data\loader\QueryDataLoader;
 use yii\base\BaseObject;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
@@ -29,7 +30,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
     public $carrierItemLoader;
 
     /**
-     * @var DataLoaderInterface
+     * @var DataLoaderInterface|QueryDataLoader
      */
     public $carrierPackageLoader = [
         'class' => DbDataLoader::class,
@@ -97,6 +98,8 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
             return [];
         }
         $carrierItem->trackingNumbers = array_map([$this, 'formatInvoiceTrackingNo'], $carrierItem->trackingNumbers);
+        //for shipping_date may not be correctly
+        $this->carrierPackageLoader->condition = ['>=', 'shipping_date', date('Y-m-d', $carrierItem->shippedAt - 86400 * 30)];
         return $this->carrierPackageLoader->multiGet($carrierItem->trackingNumbers);
     }
 

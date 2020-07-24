@@ -97,7 +97,10 @@ abstract class BaseJobMonitorBehavior extends Behavior
 
         $jobData = [
             'job_id' => $event->id,
-            'queue' => $queueName,
+            'queue' => ComponentHelper::getName($event->sender),
+            'job' => $event->sender->serializer->serialize($event->job),
+            'ttr' => $event->ttr,
+            'memory_usage' => memory_get_peak_usage(),
             'last_exec_at' => $now,
             'last_exec_status' => ExecStatusConst::EXEC_STATUS_RUNNING,
         ];

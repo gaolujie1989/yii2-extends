@@ -50,10 +50,7 @@ class Scheduler extends Executor
         if (empty($taskConfig['id'])) {
             $taskConfig['id'] = $taskId;
         }
-        if (empty($taskConfig['class'])) {
-            $taskConfig['class'] = CronTask::class;
-        }
-        return Instance::ensure($taskConfig, ScheduleTaskInterface::class);
+        return Instance::ensure($taskConfig, CronTask::class);
     }
 
     /**

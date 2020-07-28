@@ -58,6 +58,11 @@ class FileExportAction extends Action
     public $exportLimit = 9000;
 
     /**
+     * @var string
+     */
+    public $memoryLimit = '256M';
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -81,6 +86,8 @@ class FileExportAction extends Action
      */
     public function run(): void
     {
+        $memoryLimit = ini_get('memory_limit');
+        ini_set('memory_limit', $this->memoryLimit);
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }
@@ -101,8 +108,10 @@ class FileExportAction extends Action
         if ($executed) {
             $filePath = $fileExporter->getFilePath();
             Yii::$app->getResponse()->sendFile($filePath, $this->exportFileName);
+            ini_set('memory_limit', $memoryLimit);
             return;
         }
+        ini_set('memory_limit', $memoryLimit);
         throw new ServerErrorHttpException('Unknown Error');
     }
 }

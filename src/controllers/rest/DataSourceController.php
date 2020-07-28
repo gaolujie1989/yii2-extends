@@ -8,7 +8,6 @@ namespace lujie\data\recording\controllers\rest;
 use lujie\data\recording\jobs\RecordingJob;
 use lujie\data\recording\models\DataSource;
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\helpers\ObjectHelper;
 use lujie\extend\rest\ActiveController;
 use yii\di\Instance;
 use yii\queue\Queue;
@@ -48,7 +47,7 @@ class  DataSourceController extends ActiveController
 
         $this->queue = Instance::ensure($this->queue, Queue::class);
         /** @var RecordingJob $job */
-        $job = ObjectHelper::create($this->jobConfig, RecordingJob::class);
+        $job = Instance::ensure($this->jobConfig, RecordingJob::class);
         $job->dataSourceId = $model->data_source_id;
         if ($this->queue->push($job)) {
             $model->last_exec_status = ExecStatusConst::EXEC_STATUS_QUEUED;

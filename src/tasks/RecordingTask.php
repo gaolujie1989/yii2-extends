@@ -8,7 +8,6 @@ namespace lujie\data\recording\tasks;
 use lujie\data\recording\jobs\RecordingJob;
 use lujie\data\recording\models\DataSource;
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\helpers\ObjectHelper;
 use lujie\scheduling\CronTask;
 use yii\di\Instance;
 use yii\queue\Queue;
@@ -51,7 +50,7 @@ class RecordingTask extends CronTask
         $eachSource = DataSource::find()->active()->execStatus($this->execStatus)->each();
         foreach ($eachSource as $dataSource) {
             /** @var RecordingJob $job */
-            $job = ObjectHelper::create($this->jobConfig, RecordingJob::class);
+            $job = Instance::ensure($this->jobConfig, RecordingJob::class);
             $job->dataSourceId = $dataSource->data_source_id;
             if ($this->queue->push($job)) {
                 $dataSource->last_exec_status = ExecStatusConst::EXEC_STATUS_QUEUED;

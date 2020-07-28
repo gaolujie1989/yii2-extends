@@ -18,25 +18,27 @@ class ObjectHelper
 {
     /**
      * @param string|array $config
-     * @param string|null $class
      * @param null|array|object $data
+     * @param string|null $class
      * @return object
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public static function create($config, ?string $class = null, $data = null)
+    public static function create($config, $data, ?string $class = null, $prefix = ':')
     {
         if (is_string($config)) {
-            $config = ['class' => $config];
+            return Yii::createObject($config);
         }
-        if ($data !== null) {
-            foreach ($config as $key => $path) {
-                if ($key === 'class') {
-                    continue;
-                }
+
+        foreach ($config as $key => $path) {
+            if ($key === 'class') {
+                continue;
+            }
+            if (is_string($path) && strpos($path, $prefix) === 0) {
                 $config[$key] = ArrayHelper::getValue($data, $path);
             }
         }
+
         if ($class && empty($config['class'])) {
             $config['class'] = $class;
         }

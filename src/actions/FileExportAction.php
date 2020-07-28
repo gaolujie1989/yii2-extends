@@ -55,12 +55,12 @@ class FileExportAction extends Action
     /**
      * @var int
      */
-    public $exportLimit = 9000;
+    public $exportLimit = 20000;
 
     /**
      * @var string
      */
-    public $memoryLimit = '256M';
+    public $memoryLimit = '512M';
 
     /**
      * @throws InvalidConfigException

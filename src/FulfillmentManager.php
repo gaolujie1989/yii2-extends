@@ -10,6 +10,8 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\ExecuteHelper;
 use lujie\fulfillment\constants\FulfillmentConst;
+use lujie\fulfillment\forms\FulfillmentItemForm;
+use lujie\fulfillment\forms\FulfillmentOrderForm;
 use lujie\fulfillment\jobs\BaseFulfillmentOrderJob;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
 use lujie\fulfillment\jobs\HoldFulfillmentOrderJob;
@@ -106,10 +108,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentItemSaved']);
-        Event::on(FulfillmentItem::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentItemSaved']);
-        Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderCreated']);
-        Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderUpdated']);
+        Event::on(FulfillmentItemForm::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentItemSaved']);
+        Event::on(FulfillmentItemForm::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentItemSaved']);
+        Event::on(FulfillmentOrderForm::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderCreated']);
+        Event::on(FulfillmentOrderForm::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderUpdated']);
     }
 
     /**
@@ -118,8 +120,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function afterFulfillmentItemSaved(AfterSaveEvent $event): void
     {
-        /** @var FulfillmentItem $fulfillmentItem */
-        $fulfillmentItem = $event->sender;
+        /** @var FulfillmentItemForm $fulfillmentItemForm */
+        $fulfillmentItemForm = $event->sender;
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->setAttributes($fulfillmentItemForm->attributes, false);
+        $fulfillmentItem->setIsNewRecord(false);
         if ($fulfillmentItem->external_item_id && $fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
             Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} not updated, skip", __METHOD__);
             return;
@@ -133,15 +138,16 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushFulfillmentItemJob(FulfillmentItem $fulfillmentItem)
     {
-        if ($fulfillmentItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
-            return;
-        }
+//        if ($fulfillmentItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
+//            return;
+//        }
         $job = new PushFulfillmentItemJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
-        $this->queue->push($job);
-        $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
-        $fulfillmentItem->save(false);
+        if ($this->queue->push($job)) {
+            $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
+            $fulfillmentItem->save(false);
+        }
     }
 
     /**
@@ -151,8 +157,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function afterFulfillmentOrderCreated(AfterSaveEvent $event): void
     {
-        /** @var FulfillmentOrder $fulfillmentOrder */
-        $fulfillmentOrder = $event->sender;
+        /** @var FulfillmentOrderForm $fulfillmentOrderForm */
+        $fulfillmentOrderForm = $event->sender;
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->setAttributes($fulfillmentOrderForm->attributes, false);
+        $fulfillmentOrder->setIsNewRecord(false);
         if ($fulfillmentOrder->order_pushed_at) {
             Yii::info("FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} already pushed, skip", __METHOD__);
             return;
@@ -177,10 +186,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function afterFulfillmentOrderUpdated(AfterSaveEvent $event): void
     {
-        /** @var FulfillmentOrder $fulfillmentOrder */
-        $fulfillmentOrder = $event->sender;
+        /** @var FulfillmentOrderForm $fulfillmentOrderForm */
+        $fulfillmentOrderForm = $event->sender;
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->setAttributes($fulfillmentOrderForm->attributes, false);
+        $fulfillmentOrder->setIsNewRecord(false);
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if (empty($fulfillmentOrder->external_order_id) || $fulfillmentOrder->order_pushed_at < $fulfillmentOrder->order_updated_at) {
+        if (empty($fulfillmentOrder->external_order_id)) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
             Yii::info("{$name} push update job", __METHOD__);
         }
@@ -240,16 +252,17 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, $jobConfig): void
     {
-        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
-            return;
-        }
+//        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
+//            return;
+//        }
         /** @var BaseFulfillmentOrderJob $job */
         $job = Instance::ensure($jobConfig, BaseFulfillmentOrderJob::class);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
-        $this->queue->push($job);
-        $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
-        $fulfillmentOrder->save(false);
+        if ($this->queue->push($job)) {
+            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
+            $fulfillmentOrder->save(false);
+        }
     }
 
     #endregion
@@ -302,7 +315,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if ($fulfillmentOrder->external_updated_at > $fulfillmentOrder->order_updated_at) {
+        if ($fulfillmentOrder->external_updated_at > $fulfillmentOrder->order_updated_at
+            && $fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_CANCELLED) {
             Yii::info("{$name} already pushed, skip", __METHOD__);
             $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentOrder->mustSave(false);

@@ -174,57 +174,38 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
      * @var array
      */
     public $defaultScenarioTargets = [
-        'prod' => [
-            'appErrorEmail',
+        'default' => [
             'appErrorFile',
             'appWarningFile',
             'appProfileFile',
             'appInfoFile',
-            'yiiErrorEmail',
             'yiiErrorFile',
             'yiiWarningFile',
             'yiiHttpInfoFile',
+        ],
+        'prod' => [
+            'appErrorEmail',
+            'yiiErrorEmail',
             'debugFile',
         ],
         'test' => [
-            'appErrorFile',
-            'appWarningFile',
-            'appProfileFile',
-            'appInfoFile',
-            'yiiErrorFile',
-            'yiiWarningFile',
             'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
-            'yiiHttpInfoFile',
             'debugFile',
         ],
         'dev' => [
-            'appErrorFile',
-            'appWarningFile',
-            'appProfileFile',
-            'appInfoFile',
             'appDebugFile',
-            'yiiErrorFile',
-            'yiiWarningFile',
             'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
-            'yiiHttpInfoFile',
             'debugFile',
         ],
         'debug' => [
-            'appErrorFile',
-            'appWarningFile',
-            'appProfileFile',
-            'appInfoFile',
             'appDebugFile',
-            'yiiErrorFile',
-            'yiiWarningFile',
             'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
-            'yiiHttpInfoFile',
             'yiiDebugFile',
             'debugFile',
         ],
@@ -304,7 +285,9 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     {
         $scenario = $this->getLogScenario();
         $scenarioTargets = array_filter(array_merge(
+            $this->defaultScenarioTargets['default'] ?? [],
             $this->defaultScenarioTargets[$scenario] ?? [],
+            $this->scenarioTargets['default'] ?? [],
             $this->scenarioTargets[$scenario] ?? [],
         ));
         if (empty($scenarioTargets)) {

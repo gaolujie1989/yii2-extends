@@ -273,6 +273,14 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
                 $this->defaultTargets[$key] = array_merge($target, $this->emailTargetConfig);
             }
         }
+        foreach ($this->scenarioTargets as $scenario => $scenarioTargets) {
+            $this->scenarioTargets[$scenario] = array_combine($scenarioTargets, $scenarioTargets);
+        }
+        foreach ($this->targets as $key => $target) {
+            if ($target['class'] === EmailTarget::class) {
+                $this->targets[$key] = array_merge($target, $this->emailTargetConfig);
+            }
+        }
     }
 
     /**
@@ -304,7 +312,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             return null;
         }
         foreach ($scenarioTargets as $key => $name) {
-            $target = $this->defaultTargets[$name] ?? $this->targets[$name] ?? null;
+            $target = $this->targets[$name] ?? $this->defaultTargets[$name] ?? null;
             if (empty($target)) {
                 throw new InvalidConfigException("Null target {$name}");
             }

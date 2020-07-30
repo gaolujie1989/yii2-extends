@@ -49,9 +49,9 @@ class LogBehavior extends Behavior
         $chargeTypes = implode('/', $event->chargeTypes);
         $chargePrices = [];
         foreach ($event->chargePrices as $chargePrice) {
-            $chargePrices[] = $chargePrice->charge_type . ':' . $chargePrice->price_cent;
+            $chargePrices[] = "Type:{$chargePrice->charge_type}, ID:{$chargePrice->price_table_id}, Price:{$chargePrice->price_cent}";
         }
-        $chargePrices = implode(',', $chargePrices);
+        $chargePrices = implode(' + ', $chargePrices);
         $message = "charge {$event->modelType} {$event->model->getPrimaryKey()} with {$chargeTypes} finished, chargePrices: {$chargePrices}";
         Yii::info($message, Charger::class);
     }

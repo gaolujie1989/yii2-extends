@@ -45,5 +45,6 @@ class m190523_222903_data_record extends Migration
         $this->createIndex('idx_data_id', $this->tableName, ['data_id']);
         $this->createIndex('idx_data_key', $this->tableName, ['data_key']);
         $this->createIndex('idx_data_parent_id_key', $this->tableName, ['data_parent_id', 'data_key']);
+        $this->createIndex('idx_data_source_account', $this->tableName, ['data_source_type', 'data_account_id']);
     }
 }

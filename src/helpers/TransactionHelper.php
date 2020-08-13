@@ -5,6 +5,8 @@
 
 namespace lujie\extend\helpers;
 
+use Exception;
+use Throwable;
 use yii\base\InvalidConfigException;
 use yii\db\Connection;
 use yii\di\Instance;
@@ -21,8 +23,7 @@ class TransactionHelper
      * @param string|object|Connection|\yii\mongodb\Connection $db
      * @return bool
      * @throws InvalidConfigException
-     * @throws \Throwable
-     * @inheritdoc
+     * @throws Throwable
      */
     public static function transaction(callable $callable, $db): bool
     {
@@ -39,10 +40,10 @@ class TransactionHelper
                     $transaction->commit();
                 }
                 return $result;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $transaction->rollBack();
                 throw $e;
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $transaction->rollBack();
                 throw $e;
             }

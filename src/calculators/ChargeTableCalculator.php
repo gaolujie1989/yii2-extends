@@ -87,7 +87,8 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
             ->activeAt($chargeableItem->chargedAt ?: time())
             ->chargeType($chargeType)
             ->customType($chargeableItem->customType)
-            ->limitValue($chargeableItem->limitValue);
+            ->limitValue($chargeableItem->limitValue)
+            ->orderByPrice(SORT_ASC);
         $ownerId = $chargeableItem->additional['owner_id'] ?? 0;
         $chargeTable = (clone $query)->ownerId($ownerId)->one();
         if ($chargeTable === null && $ownerId > 0) {

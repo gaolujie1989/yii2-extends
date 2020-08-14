@@ -72,7 +72,7 @@ class ChargePrice extends \yii\db\ActiveRecord
             [['currency'], 'string', 'max' => 3],
             [['note'], 'string', 'max' => 1000],
             [['model_id', 'model_type', 'charge_type'], 'unique', 'targetAttribute' => ['model_id', 'model_type', 'charge_type']],
-            [['discountPriceCent','discountPercent'], 'integer']
+            [['discountPriceCent', 'discountPercent'], 'integer']
         ];
     }
 
@@ -201,17 +201,21 @@ class ChargePrice extends \yii\db\ActiveRecord
      * @param int $priceCent
      * @inheritdoc
      */
-    public function setDiscountPriceCent(int $priceCent): void
+    public function setDiscountPriceCent($priceCent): void
     {
-        $this->discount_cent = $priceCent * $this->qty;
+        if (is_numeric($priceCent)) {
+            $this->discount_cent = $priceCent * $this->qty;
+        }
     }
 
     /**
      * @param int $percent
      * @inheritdoc
      */
-    public function setDiscountPercent(int $percent): void
+    public function setDiscountPercent($percent): void
     {
-        $this->discount_cent = round($this->price_cent * $this->qty * $percent / 100, 0, PHP_ROUND_HALF_DOWN);
+        if (is_numeric($percent)) {
+            $this->discount_cent = round($this->price_cent * $this->qty * $percent / 100, 0, PHP_ROUND_HALF_DOWN);
+        }
     }
 }

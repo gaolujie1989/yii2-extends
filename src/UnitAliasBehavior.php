@@ -129,7 +129,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
         $x = static::$unitConvertRates[$key] ?? 1;
         $convertedValue = $x >= 1 ? $value * $x : $value / round(1 / $x);
         if (in_array($to, static::$onlyIntUnits, true)) {
-            $convertedValue = round($convertedValue);
+            $convertedValue = (int)round($convertedValue);
         }
         return $convertedValue;
     }

@@ -2,6 +2,7 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\alias\behaviors\UnitAliasBehavior;
@@ -69,10 +70,10 @@ class ChargeTable extends \yii\db\ActiveRecord
             [['limit_unit', 'display_limit_unit'], 'string', 'max' => 10],
             [['currency'], 'string', 'max' => 3],
             [['additional'], 'safe'],
-            [['price', 'over_limit_price', 'discountPrice', 'discountPercent',
+            [['price', 'over_limit_price', 'discountPercent',
                 'display_min_limit', 'display_max_limit', 'display_per_limit',
                 'display_min_over_limit', 'display_max_over_limit'], 'default', 'value' => 0],
-            [['price', 'over_limit_price', 'discountPrice', 'discountPercent',
+            [['price', 'over_limit_price', 'discountPercent',
                 'display_min_limit', 'display_max_limit', 'display_per_limit',
                 'display_min_over_limit', 'display_max_over_limit'], 'number'],
             [['started_time', 'ended_time'], 'string'],
@@ -91,14 +92,12 @@ class ChargeTable extends \yii\db\ActiveRecord
                 'aliasProperties' => [
                     'price' => 'price_cent',
                     'over_limit_price' => 'over_limit_price_cent',
-                    'discountPrice' => 'discountPriceCent',
                 ]
             ],
             'alias' => [
-                'class' => MoneyAliasBehavior::class,
+                'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [
                     'discountPercent' => 'additional.discountPercent',
-                    'discountPriceCent' => 'additional.discountPriceCent',
                 ]
             ],
             'unit' => [
@@ -168,9 +167,7 @@ class ChargeTable extends \yii\db\ActiveRecord
         return array_merge(parent::fields(), [
             'price' => 'price',
             'over_limit_price' => 'over_limit_price',
-            'discountPrice' => 'discountPrice',
             'discountPercent' => 'discountPercent',
-            'discountPriceCent' => 'discountPriceCent',
             'display_min_limit' => 'display_min_limit',
             'display_max_limit' => 'display_max_limit',
             'display_per_limit' => 'display_per_limit',

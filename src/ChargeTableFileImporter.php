@@ -17,7 +17,7 @@ use lujie\data\exchange\transformers\KeyMapTransformer;
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChargeTableImporter extends FileImporter
+class ChargeTableFileImporter extends FileImporter
 {
     /**
      * @var string[]
@@ -38,7 +38,7 @@ class ChargeTableImporter extends FileImporter
                     'OverLimitPerLimitPrice' => 'over_limit_price',
                     'MinOverLimit' => 'display_min_over_limit',
                     'MaxOverLimit' => 'display_max_over_limit',
-                    'DiscountPercent' => 'discountPercent',
+                    'DiscountPercent(%)' => 'discountPercent',
                 ]
             ],
             'filter' => [

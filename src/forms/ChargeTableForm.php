@@ -17,6 +17,15 @@ use lujie\extend\helpers\ModelHelper;
 class ChargeTableForm extends ChargeTable
 {
     /**
+     * @var array
+     */
+    public static $chargeGroups = [];
+    /**
+     * @var array
+     */
+    public static $chargeLimitUnits = [];
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -31,5 +40,37 @@ class ChargeTableForm extends ChargeTable
         ];
         ModelHelper::removeAttributesRules($rules, $attributes);
         return $rules;
+    }
+
+    /**
+     * @param array $values
+     * @param bool $safeOnly
+     * @inheritdoc
+     */
+    public function setAttributes($values, $safeOnly = true)
+    {
+        if (isset($values['charge_type'])) {
+            $chargeType = $values['charge_type'];
+            $this->charge_group = static::$chargeGroups[$chargeType] ?? '';
+            $this->limit_unit = static::$chargeLimitUnits[$chargeType] ?? '';
+        }
+        if (isset($values['display_limit_unit'])) {
+            $this->display_limit_unit = $values['display_limit_unit'];
+        }
+        parent::setAttributes($values, $safeOnly);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @inheritdoc
+     */
+    public function setAttribute($name, $value)
+    {
+        if ($name === 'charge_type') {
+            $this->charge_group = static::$chargeGroups[$value] ?? '';
+            $this->limit_unit = static::$chargeLimitUnits[$value] ?? '';
+        }
+        parent::setAttribute($name, $value);
     }
 }

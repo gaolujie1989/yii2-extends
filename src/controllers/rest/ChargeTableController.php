@@ -6,8 +6,6 @@
 namespace lujie\charging\controllers\rest;
 
 
-use ccship\inventory\forms\OutboundOrderFileImportForm;
-use ccship\inventory\OutboundOrderTmpImporter;
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableFileImportForm;
 use lujie\charging\models\ChargeTable;

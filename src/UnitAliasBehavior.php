@@ -122,6 +122,8 @@ class UnitAliasBehavior extends AliasPropertyBehavior
      */
     public function convert($value, string $from, string $to)
     {
+        $from = strtolower($from);
+        $to = strtolower($to);
         if ($from === $to) {
             return $value;
         }

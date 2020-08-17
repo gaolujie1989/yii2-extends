@@ -315,4 +315,31 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         $requestUrl = strtr($this->apiUiUrl, ['{domainHash}' => $this->getDomainHash()]);
         return $this->request($requestUrl, 'POST', $data);
     }
+
+    /**
+     * @param array $orderIds
+     * @return array
+     * @throws InvalidConfigException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function regenerateOrderInvoice(array $orderIds)
+    {
+        $data = array_map(static function($orderId) {
+            return [
+                'Object' => 'mod_order@GuiOrderDetails',
+                'Params' => [
+                    'gui' => 'AjaxDocumentsPane',
+                    'result_id' => 'DocumentsTabContent_' . $orderId,
+                ],
+                'gwt_tab_id' => '',
+                'presenter_id' => '1',
+                'action' => 'invoice_reset',
+                'o_id' => $orderId,
+                'additional_id' => '',
+            ];
+        }, $orderIds);
+        $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]);
+        return $this->batchRequest($requestUrl, 'POST', $data);
+    }
 }

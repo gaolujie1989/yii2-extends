@@ -145,6 +145,7 @@ class ShippingTable extends \yii\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
+            'id' => 'id',
             'price' => 'price',
             'weight_kg_limit' => 'weight_kg_limit',
             'length_cm_limit' => 'length_cm_limit',

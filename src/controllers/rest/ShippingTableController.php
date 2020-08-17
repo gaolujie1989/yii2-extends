@@ -6,24 +6,22 @@
 namespace lujie\charging\controllers\rest;
 
 
-use ccship\inventory\forms\OutboundOrderFileImportForm;
-use ccship\inventory\OutboundOrderTmpImporter;
-use lujie\charging\ChargeTableFileImporter;
-use lujie\charging\forms\ChargeTableFileImportForm;
-use lujie\charging\models\ChargeTable;
+use lujie\charging\forms\ShippingTableFileImportForm;
+use lujie\charging\models\ShippingTable;
+use lujie\charging\ShippingTableFileImporter;
 use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\rest\ActiveController;
 use lujie\upload\actions\UploadAction;
 use lujie\upload\forms\UploadForm;
 
 /**
- * Class ChargeTableController
+ * Class ShippingTableController
  * @package lujie\charging\controllers\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChargeTableController extends ActiveController
+class ShippingTableController extends ActiveController
 {
-    public $modelClass = ChargeTable::class;
+    public $modelClass = ShippingTable::class;
 
     public $uploadPath = '@uploads/temp';
 
@@ -44,8 +42,8 @@ class ChargeTableController extends ActiveController
                 'modelClass' => $this->formClass,
                 'checkAccess' => [$this, 'checkAccess'],
                 'importModel' => [
-                    'class' => ChargeTableFileImportForm::class,
-                    'fileImporter' => ChargeTableFileImporter::class,
+                    'class' => ShippingTableFileImportForm::class,
+                    'fileImporter' => ShippingTableFileImporter::class,
                     'path' => $this->uploadPath
                 ]
             ],

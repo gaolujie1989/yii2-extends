@@ -168,6 +168,39 @@ abstract class BaseCookieClient extends BaseClient
      */
     public function request(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Response
     {
+        $request = $this->createReadyRequest($callSubUrl, $method, $data, $headers);
+        return $request->send();
+    }
+
+    /**
+     * @param string $callSubUrl
+     * @param string $method
+     * @param array $data
+     * @param array $headers
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function batchRequest(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): array
+    {
+        $requests = [];
+        foreach ($data as $item) {
+            $requests[] = $request = $this->createReadyRequest($callSubUrl, $method, $item, $headers);;
+        }
+        return $this->httpClient->batchSend($requests);
+    }
+
+    /**
+     * @param string $callSubUrl
+     * @param string $method
+     * @param array $data
+     * @param array $headers
+     * @return Request
+     * @inheritdoc
+     */
+    protected function createReadyRequest(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Request
+    {
         $request = $this->createAuthRequest()
             ->setMethod($method)
             ->setUrl($callSubUrl)
@@ -180,7 +213,6 @@ abstract class BaseCookieClient extends BaseClient
                 $request->setContent((string)$data);
             }
         }
-
-        return $request->send();
+        return $request;
     }
 }

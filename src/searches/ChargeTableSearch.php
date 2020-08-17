@@ -16,7 +16,7 @@ use lujie\charging\models\ChargeTableQuery;
  */
 class ChargeTableSearch extends ChargeTable
 {
-    public $active_at;
+    public $activeAt;
 
     /**
      * @return array
@@ -26,7 +26,7 @@ class ChargeTableSearch extends ChargeTable
     {
         return [
           [['charge_group', 'charge_type', 'custom_type', 'owner_id'], 'safe'],
-          [['active_at'], 'date'],
+          [['activeAt'], 'date'],
         ];
     }
 
@@ -42,9 +42,9 @@ class ChargeTableSearch extends ChargeTable
             'custom_type' => $this->custom_type,
             'owner_id' => $this->owner_id,
         ]);
-        if ($this->active_at) {
-            $query->andFilterWhere(['<=', 'started_at', $this->active_at])
-                ->andFilterWhere(['>=', 'ended_at', $this->active_at]);
+        if ($this->activeAt) {
+            $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
+                ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);
         }
         return $query;
     }

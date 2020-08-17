@@ -16,7 +16,7 @@ use lujie\charging\models\ShippingTableQuery;
  */
 class ShippingTableSearch extends ShippingTable
 {
-    public $active_at;
+    public $activeAt;
 
     /**
      * @return array
@@ -26,7 +26,7 @@ class ShippingTableSearch extends ShippingTable
     {
         return [
           [['carrier', 'departure', 'destination', 'owner_id'], 'safe'],
-          [['active_at'], 'date'],
+          [['activeAt'], 'date'],
         ];
     }
 
@@ -42,9 +42,9 @@ class ShippingTableSearch extends ShippingTable
             'destination' => $this->destination,
             'owner_id' => $this->owner_id,
         ]);
-        if ($this->active_at) {
-            $query->andFilterWhere(['<=', 'started_at', $this->active_at])
-                ->andFilterWhere(['>=', 'ended_at', $this->active_at]);
+        if ($this->activeAt) {
+            $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
+                ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);
         }
         return $query;
     }

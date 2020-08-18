@@ -6,8 +6,10 @@
 namespace lujie\charging\controllers\rest;
 
 
+use lujie\batch\BatchAction;
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableFileImportForm;
+use lujie\charging\forms\ChargeTableForm;
 use lujie\charging\models\ChargeTable;
 use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\rest\ActiveController;
@@ -46,6 +48,13 @@ class ChargeTableController extends ActiveController
                     'fileImporter' => ChargeTableFileImporter::class,
                     'path' => $this->uploadPath
                 ]
+            ],
+            'batch-update' => [
+                'class' => BatchAction::class,
+                'modelClass' => ChargeTableForm::class,
+                'checkAccess' => [$this, 'checkAccess'],
+                'batchFormClass' => ChargeTableBatchForm::class,
+                'method' => 'batchUpdate'
             ],
         ]);
     }

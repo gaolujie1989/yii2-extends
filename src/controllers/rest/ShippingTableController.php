@@ -5,13 +5,14 @@
 
 namespace lujie\charging\controllers\rest;
 
-
 use lujie\batch\BatchAction;
 use lujie\charging\forms\ShippingTableBatchForm;
 use lujie\charging\forms\ShippingTableFileImportForm;
 use lujie\charging\forms\ShippingTableForm;
 use lujie\charging\models\ShippingTable;
+use lujie\charging\ShippingTableFileExporter;
 use lujie\charging\ShippingTableFileImporter;
+use lujie\data\exchange\actions\FileExportAction;
 use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\rest\ActiveController;
 use lujie\upload\actions\UploadAction;
@@ -49,6 +50,15 @@ class ShippingTableController extends ActiveController
                     'fileImporter' => ShippingTableFileImporter::class,
                     'path' => $this->uploadPath
                 ]
+            ],
+            'export' => [
+                'class' => FileExportAction::class,
+                'modelClass' => $this->searchClass,
+                'queryPreparer' => [
+                    'asArray' => true,
+                ],
+                'fileExporter' => ShippingTableFileExporter::class,
+                'exportFileName' => 'ShippingTable.xlsx'
             ],
             'batch-update' => [
                 'class' => BatchAction::class,

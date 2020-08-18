@@ -5,13 +5,14 @@
 
 namespace lujie\charging\controllers\rest;
 
-
 use lujie\batch\BatchAction;
+use lujie\charging\ChargeTableFileExporter;
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableBatchForm;
 use lujie\charging\forms\ChargeTableFileImportForm;
 use lujie\charging\forms\ChargeTableForm;
 use lujie\charging\models\ChargeTable;
+use lujie\data\exchange\actions\FileExportAction;
 use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\rest\ActiveController;
 use lujie\upload\actions\UploadAction;
@@ -49,6 +50,15 @@ class ChargeTableController extends ActiveController
                     'fileImporter' => ChargeTableFileImporter::class,
                     'path' => $this->uploadPath
                 ]
+            ],
+            'export' => [
+                'class' => FileExportAction::class,
+                'modelClass' => $this->searchClass,
+                'queryPreparer' => [
+                    'asArray' => true,
+                ],
+                'fileExporter' => ChargeTableFileExporter::class,
+                'exportFileName' => 'ChargeTable.xlsx'
             ],
             'batch-update' => [
                 'class' => BatchAction::class,

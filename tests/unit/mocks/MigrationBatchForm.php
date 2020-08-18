@@ -14,8 +14,6 @@ use lujie\batch\BatchForm;
  */
 class MigrationBatchForm extends BatchForm
 {
-    public $apply_time;
-
     /**
      * @return array
      * @inheritdoc

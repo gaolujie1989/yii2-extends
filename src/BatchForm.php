@@ -5,6 +5,7 @@
 
 namespace lujie\batch;
 
+use lujie\extend\base\ModelAttributeTrait;
 use lujie\extend\helpers\TransactionHelper;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
@@ -18,6 +19,8 @@ use yii\helpers\ArrayHelper;
  */
 abstract class BatchForm extends Model
 {
+    use ModelAttributeTrait;
+
     /**
      * @var ActiveRecordInterface
      */

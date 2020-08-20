@@ -21,7 +21,7 @@ class UploadedFileDownloadAction extends Action
     /**
      * @var UploadModelFile
      */
-    public $modelClass;
+    public $modelClass = UploadModelFile::class;
 
     /**
      * if tmp dir is set, storage file in tmp
@@ -36,6 +36,11 @@ class UploadedFileDownloadAction extends Action
     public $options = ['inline' => true];
 
     /**
+     * @var array
+     */
+    public $allowedModelTypes = [];
+
+    /**
      * @param int|string $id
      * @throws NotFoundHttpException
      * @throws \yii\base\Exception
@@ -46,9 +51,12 @@ class UploadedFileDownloadAction extends Action
     {
         /** @var UploadModelFile $uploadSavedFile */
         $uploadSavedFile = $this->findModel($id);
+        if ($this->allowedModelTypes && !in_array($uploadSavedFile->model_type, $this->allowedModelTypes, true)) {
+            throw new NotFoundHttpException("File not allowed: $id");
+        }
 
         if ($this->tmp) {
-            $tmpFilePath = $this->tmp . $uploadSavedFile->file;
+            $tmpFilePath = Yii::getAlias($this->tmp) . $uploadSavedFile->file;
             if (!file_exists($tmpFilePath)) {
                 FileHelper::createDirectory(dirname($tmpFilePath));
                 file_put_contents($tmpFilePath, $uploadSavedFile->getContent());

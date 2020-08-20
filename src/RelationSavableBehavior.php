@@ -340,8 +340,12 @@ class RelationSavableBehavior extends Behavior
         foreach ($this->savedRelations as $name => $models) {
             $relation = $owner->getRelation($name);
             // update lazily loaded related objects
-            if ($relation->multiple && $relation->indexBy !== null) {
-                $models = ArrayHelper::index($models, $relation->indexBy);
+            if ($relation->multiple) {
+                if ($relation->indexBy === null) {
+                    $models = array_values($models);
+                } else {
+                    $models = ArrayHelper::index($models, $relation->indexBy);
+                }
             }
             $owner->populateRelation($name, $models);
         }

@@ -77,7 +77,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
             $this->displayUnit = $this->owner->{$this->displayUnitAttribute};
         }
         if (empty($this->baseUnit) || empty($this->displayUnit)) {
-            throw new InvalidValueException('Base unit and display unit can not be empty');
+            throw new InvalidValueException("Base unit {$this->baseUnit} Or display unit {$this->displayUnit} can not be empty");
         }
     }
 

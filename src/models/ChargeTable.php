@@ -98,6 +98,9 @@ class ChargeTable extends \yii\db\ActiveRecord
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [
                     'discountPercent' => 'additional.discountPercent',
+                ],
+                'aliasDefaults' => [
+                    'discountPercent' => 0,
                 ]
             ],
             'unit' => [

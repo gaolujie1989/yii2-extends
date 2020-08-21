@@ -182,32 +182,24 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'yiiErrorFile',
             'yiiWarningFile',
             'yiiHttpInfoFile',
+            'debugFile',
         ],
         'prod' => [
             'appErrorEmail',
             'yiiErrorEmail',
-            'debugFile',
         ],
         'test' => [
-            'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
-            'debugFile',
         ],
         'dev' => [
-            'appDebugFile',
-            'yiiProfileFile',
-            'yiiInfoFile',
-            'yiiDbInfoFile',
-            'debugFile',
         ],
         'debug' => [
             'appDebugFile',
-            'yiiProfileFile',
             'yiiInfoFile',
             'yiiDbInfoFile',
+            'yiiProfileFile',
             'yiiDebugFile',
-            'debugFile',
         ],
     ];
 

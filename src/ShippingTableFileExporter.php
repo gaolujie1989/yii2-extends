@@ -5,15 +5,9 @@
 
 namespace lujie\charging;
 
-use lujie\charging\forms\ShippingTableForm;
-use lujie\charging\models\ShippingTable;
 use lujie\charging\transformers\ShippingTableImportTransformer;
 use lujie\data\exchange\FileExporter;
-use lujie\data\exchange\FileImporter;
-use lujie\data\exchange\pipelines\ActiveRecordPipeline;
-use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\transformers\ChainedTransformer;
-use lujie\data\exchange\transformers\FilterTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
 
 /**
@@ -31,32 +25,20 @@ class ShippingTableFileExporter extends FileExporter
         'transformers' => [
             'keyMap' => [
                 'class' => KeyMapTransformer::class,
+                'unsetNotInMapKey' => true,
                 'keyMap' => [
-                    'Carrier' => 'carrier',
-                    'Destination' => 'destination',
-                    'WeightLimit(KG)' => 'weight_kg_limit',
-                    'LengthLimit(CM)' => 'length_cm_limit',
-                    'WidthLimit(CM)' => 'width_cm_limit',
-                    'HeightLimit(CM)' => 'height_cm_limit',
-                    'Lx2(H+W)Limit(CM)' => 'l2wh_cm_limit',
-                    '(L+H)Limit(CM)' => 'lh_cm_limit',
-                    'Price' => 'price',
-                    'Currency' => 'currency',
+                    'carrier' => 'Carrier',
+                    'destination' => 'Destination',
+                    'weight_kg_limit' => 'WeightLimit(KG)',
+                    'length_cm_limit' => 'LengthLimit(CM)',
+                    'width_cm_limit' => 'WidthLimit(CM)',
+                    'height_cm_limit' => 'HeightLimit(CM)',
+                    'l2wh_cm_limit' => 'L+2(H+W)Limit(CM)',
+                    'lh_cm_limit' => '(L+H)Limit(CM)',
+                    'price' => 'Price',
+                    'currency' => 'Currency',
                 ]
             ],
-            'filter' => [
-                'class' => FilterTransformer::class,
-                'filterKey' => 'carrier'
-            ],
         ]
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $pipeline = [
-        'class' => ActiveRecordPipeline::class,
-        'modelClass' => ShippingTableForm::class,
-        'runValidation' => true,
     ];
 }

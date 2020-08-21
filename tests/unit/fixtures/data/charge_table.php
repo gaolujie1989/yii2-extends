@@ -19,7 +19,9 @@ return [
         'per_limit' => 0,
         'min_over_limit' => 0,
         'max_over_limit' => 0,
-        'additional' => [],
+        'additional' => [
+            'discountPriceCent' => 10,
+        ],
         'started_at' => strtotime('-7 days'),
         'ended_at' => strtotime('+7 days'),
         'owner_id' => 1,

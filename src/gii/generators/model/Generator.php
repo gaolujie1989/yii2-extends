@@ -5,6 +5,7 @@
 
 namespace lujie\extend\gii\generators\model;
 
+use yii\db\Expression;
 use yii\db\Schema;
 
 /**
@@ -51,7 +52,7 @@ class Generator extends \yii\gii\generators\model\Generator
             if ($column->autoIncrement) {
                 continue;
             }
-            if ($column->defaultValue !== null) {
+            if ($column->defaultValue !== null && !($column->defaultValue instanceof Expression)) {
                 $defaults[$column->defaultValue][] = $column->name;
             } else if ($column->allowNull) {
                 switch ($column->type) {

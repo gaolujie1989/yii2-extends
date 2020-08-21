@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\transformers;
 
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class KeyMappedTransformer
@@ -37,13 +38,15 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
     public function transform(array $data): array
     {
         return array_map(function($values) {
+            if (is_object($values)) {
+                $values = ArrayHelper::toArray($values);
+            }
             foreach ($this->keyMap as $from => $to) {
                 if (isset($values[$from])) {
-                    $v = &$values[$from];
+                    $values[$to] = &$values[$from];
                     if ($this->unsetOriginalKey) {
                         unset($values[$from]);
                     }
-                    $values[$to] = $v;
                 }
             }
             if ($this->unsetNotInMapKey) {

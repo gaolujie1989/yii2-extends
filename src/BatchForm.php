@@ -7,6 +7,7 @@ namespace lujie\batch;
 
 use lujie\extend\base\ModelAttributeTrait;
 use lujie\extend\helpers\TransactionHelper;
+use lujie\extend\helpers\ValueHelper;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
@@ -45,6 +46,11 @@ abstract class BatchForm extends Model
      */
     public function batchUpdate(bool $runValidation = true, ?array $attributeNames = null): bool
     {
+        $attributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
+        if (empty($attributes)) {
+            return true;
+        }
+
         if ($runValidation && !$this->validate()) {
             return false;
         }
@@ -55,7 +61,7 @@ abstract class BatchForm extends Model
         }
 
         foreach ($models as $model) {
-            $model->setAttributes($this->getAttributes());
+            $model->setAttributes($attributes);
         }
 
         if ($this->validateModels && !Model::validateMultiple($models, $attributeNames)) {

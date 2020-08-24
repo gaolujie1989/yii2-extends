@@ -55,7 +55,7 @@ class ChargeTableController extends ActiveController
                 'class' => FileExportAction::class,
                 'modelClass' => $this->searchClass,
                 'queryPreparer' => [
-                    'asArray' => true,
+                    'asArray' => false,
                 ],
                 'fileExporter' => ChargeTableFileExporter::class,
                 'exportFileName' => 'ChargeTable.xlsx'

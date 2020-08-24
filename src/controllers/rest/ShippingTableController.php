@@ -55,7 +55,7 @@ class ShippingTableController extends ActiveController
                 'class' => FileExportAction::class,
                 'modelClass' => $this->searchClass,
                 'queryPreparer' => [
-                    'asArray' => true,
+                    'asArray' => false,
                 ],
                 'fileExporter' => ShippingTableFileExporter::class,
                 'exportFileName' => 'ShippingTable.xlsx'

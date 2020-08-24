@@ -22,9 +22,9 @@ class ActiveRecordSource extends QuerySource
     public $modelClass;
 
     /**
-     * @var bool
+     * @var null|bool
      */
-    public $asArray = true;
+    public $asArray = null;
 
     /**
      * @throws InvalidConfigException
@@ -35,7 +35,7 @@ class ActiveRecordSource extends QuerySource
         if (empty($this->query)) {
             $this->query = $this->modelClass::find();
         }
-        if ($this->query instanceof ActiveQueryInterface) {
+        if ($this->query instanceof ActiveQueryInterface && $this->asArray !== null) {
             $this->query->asArray($this->asArray);
         }
         parent::init();

@@ -28,6 +28,13 @@ class FileExportAction extends Action
     public $queryPreparer = IndexQueryPreparer::class;
 
     /**
+     * @var array
+     */
+    public $sourceConfig = [
+        'class' => ActiveRecordSource::class,
+    ];
+
+    /**
      * @var FileExporter
      */
     public $fileExporter;
@@ -100,7 +107,7 @@ class FileExportAction extends Action
         $fileExporter = $this->fileExporter;
         $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
         $query->limit($this->exportLimit);
-        $fileExporter->source = new ActiveRecordSource(['query' => $query]);
+        $fileExporter->source = Yii::createObject(array_merge($this->sourceConfig, ['query' => $query]));
         $fileExporter->prepare($this->filePath);
         $executed = $this->executor
             ? $this->executor->execute($fileExporter)

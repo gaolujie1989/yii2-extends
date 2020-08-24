@@ -28,9 +28,7 @@ class FillDefaultValueTransformer extends BaseObject implements TransformerInter
     public function transform(array $data): array
     {
         return array_map(function($values) {
-            $notEmptyValues = array_filter($values, function($value) {
-                return !ValueHelper::isEmpty($value);
-            });
+            $notEmptyValues = array_filter($values, [ValueHelper::class, 'notEmpty']);
             $fillValues = array_diff_key($this->defaultValues, $notEmptyValues);
             $values = array_merge($values, $fillValues);
             return $values;

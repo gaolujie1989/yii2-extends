@@ -45,9 +45,7 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
                 $preValues = $values;
                 return $values;
             }
-            $emptyValues = array_filter($values, static function ($value) {
-                return ValueHelper::isEmpty($value);
-            });
+            $emptyValues = array_filter($values, [ValueHelper::class, 'isEmpty']);
             $fillValues = array_intersect_key($preValues, $emptyValues);
             if ($flipOnlyKeys) {
                 $fillValues = array_intersect_key($fillValues, $flipOnlyKeys);

@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\transformers;
 
+use lujie\extend\helpers\ValueHelper;
 use yii\base\BaseObject;
 
 /**
@@ -44,7 +45,9 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
                 $preValues = $values;
                 return $values;
             }
-            $emptyValues = array_filter($values, [$this, 'isEmpty']);
+            $emptyValues = array_filter($values, static function ($value) {
+                return ValueHelper::isEmpty($value);
+            });
             $fillValues = array_intersect_key($preValues, $emptyValues);
             if ($flipOnlyKeys) {
                 $fillValues = array_intersect_key($fillValues, $flipOnlyKeys);
@@ -70,15 +73,5 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
             return empty($values[$this->indexKey]) || $values[$this->indexKey] === $preValues[$this->indexKey];
         }
         return true;
-    }
-
-    /**
-     * @param mixed $value
-     * @return bool
-     * @inheritdoc
-     */
-    public function isEmpty($value): bool
-    {
-        return $value === null || (is_string($value) && trim($value) === '') || (is_array($value) && count($value) === 0);
     }
 }

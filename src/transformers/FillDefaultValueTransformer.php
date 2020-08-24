@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\transformers;
 
+use lujie\extend\helpers\ValueHelper;
 use yii\base\BaseObject;
 
 /**
@@ -28,21 +29,11 @@ class FillDefaultValueTransformer extends BaseObject implements TransformerInter
     {
         return array_map(function($values) {
             $notEmptyValues = array_filter($values, function($value) {
-                return !$this->isEmpty($value);
+                return !ValueHelper::isEmpty($value);
             });
             $fillValues = array_diff_key($this->defaultValues, $notEmptyValues);
             $values = array_merge($values, $fillValues);
             return $values;
         }, $data);
-    }
-
-    /**
-     * @param mixed $value
-     * @return bool
-     * @inheritdoc
-     */
-    public function isEmpty($value): bool
-    {
-        return $value === null || (is_string($value) && trim($value) === '') || (is_array($value) && count($value) === 0);
     }
 }

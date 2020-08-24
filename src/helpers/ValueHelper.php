@@ -21,4 +21,14 @@ class ValueHelper
     {
         return $value === null || (is_string($value) && trim($value) === '') || (is_array($value) && count($value) === 0);
     }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     * @inheritdoc
+     */
+    public static function notEmpty($value): bool
+    {
+        return !self::isEmpty($value);
+    }
 }

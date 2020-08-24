@@ -8,7 +8,6 @@ namespace lujie\charging\controllers\rest;
 use lujie\batch\BatchAction;
 use lujie\charging\forms\ShippingTableBatchForm;
 use lujie\charging\forms\ShippingTableFileImportForm;
-use lujie\charging\forms\ShippingTableForm;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\ShippingTableFileExporter;
 use lujie\charging\ShippingTableFileImporter;
@@ -62,14 +61,14 @@ class ShippingTableController extends ActiveController
             ],
             'batch-update' => [
                 'class' => BatchAction::class,
-                'modelClass' => ShippingTableForm::class,
+                'modelClass' => $this->formClass,
                 'checkAccess' => [$this, 'checkAccess'],
                 'batchFormClass' => ShippingTableBatchForm::class,
                 'method' => 'batchUpdate'
             ],
             'batch-delete' => [
                 'class' => BatchAction::class,
-                'modelClass' => ShippingTableForm::class,
+                'modelClass' => $this->formClass,
                 'checkAccess' => [$this, 'checkAccess'],
                 'batchFormClass' => ShippingTableBatchForm::class,
                 'method' => 'batchDelete'

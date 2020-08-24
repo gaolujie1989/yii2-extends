@@ -10,7 +10,6 @@ use lujie\charging\ChargeTableFileExporter;
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableBatchForm;
 use lujie\charging\forms\ChargeTableFileImportForm;
-use lujie\charging\forms\ChargeTableForm;
 use lujie\charging\models\ChargeTable;
 use lujie\data\exchange\actions\FileExportAction;
 use lujie\data\exchange\actions\FileImportAction;
@@ -62,14 +61,14 @@ class ChargeTableController extends ActiveController
             ],
             'batch-update' => [
                 'class' => BatchAction::class,
-                'modelClass' => ChargeTableForm::class,
+                'modelClass' => $this->formClass,
                 'checkAccess' => [$this, 'checkAccess'],
                 'batchFormClass' => ChargeTableBatchForm::class,
                 'method' => 'batchUpdate'
             ],
             'batch-delete' => [
                 'class' => BatchAction::class,
-                'modelClass' => ChargeTableForm::class,
+                'modelClass' => $this->formClass,
                 'checkAccess' => [$this, 'checkAccess'],
                 'batchFormClass' => ChargeTableBatchForm::class,
                 'method' => 'batchDelete'

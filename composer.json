@@ -1,0 +1,31 @@
+{
+  "name": "lujie/yii2-eav",
+  "description": "EAV Model",
+  "keywords": ["yii2", "EAV Model"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-eav/issues",
+    "source": "https://gitee.com/code4dream/yii2-eav"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "lujie\\eav\\": "src",
+      "lujie\\eav\\tests\\": "tests"
+    },
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

@@ -10,6 +10,9 @@ return [
         'alias' => [
             '@lujie/backup/manager' => __DIR__ . '/src',
             '@lujie/backup/manager/tests' => __DIR__ . '/tests',
+        ],
+        'require' => [
+            'lujie/yii2-executing',
         ]
     ],
 ];

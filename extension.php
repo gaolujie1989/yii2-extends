@@ -10,6 +10,9 @@ return [
         'alias' => [
             '@lujie/charging' => __DIR__ . '/src',
             '@lujie/charging/tests' => __DIR__ . '/tests',
+        ],
+        'require' => [
+            'lujie/yii2-data-exchange',
         ]
     ],
 ];

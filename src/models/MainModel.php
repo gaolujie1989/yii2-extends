@@ -59,7 +59,7 @@ abstract class MainModel extends ActiveRecord
                 'relations' => ['modelTexts', 'modelFiles'],
                 'indexKeys' => [
                     'modelTexts' => static function ($text) {
-                        return $text['key'] . '-' . $text['language'];
+                        return $text['key'] . '-' . $text['channel'];
                     },
                     'modelFiles' => 'file',
                 ],
@@ -112,7 +112,7 @@ abstract class MainModel extends ActiveRecord
             }
             $textValues = $texts[$channel];
             foreach (static::KEYS as $key) {
-                if (is_array($textValues[$key]) || strlen($textValues[$key] === 0)) {
+                if (is_array($textValues[$key])) {
                     continue;
                 }
                 $modelTexts[] = ($textValues[$key] === static::NOUPDATE_VALUE) ? [

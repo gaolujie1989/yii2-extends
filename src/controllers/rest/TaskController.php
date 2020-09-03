@@ -3,17 +3,17 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\project\controllers\backend;
+namespace lujie\project\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
-use lujie\project\models\TaskGroup;
+use lujie\project\models\Task;
 
 /**
  * Class ProjectController
  * @package lujie\project\controllers\backend
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class TaskGroupController extends ActiveController
+class TaskController extends ActiveController
 {
-    public $modelClass = TaskGroup::class;
+    public $modelClass = Task::class;
 }

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\project\controllers\backend;
+namespace lujie\project\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
 use lujie\project\models\Project;

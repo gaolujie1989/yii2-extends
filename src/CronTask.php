@@ -5,7 +5,6 @@
 
 namespace lujie\scheduling;
 
-use lujie\alias\behaviors\JsonAliasBehavior;
 use lujie\executing\ExecutableTrait;
 use lujie\executing\LockableTrait;
 use lujie\executing\QueueableTrait;
@@ -19,31 +18,4 @@ use yii\base\Model;
 class CronTask extends Model implements ScheduleTaskInterface
 {
     use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait;
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'json' => [
-                'class' => JsonAliasBehavior::class,
-                'aliasProperties' => [
-                    'executableJson' => 'executable'
-                ]
-            ]
-        ]);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'executableJson'
-        ]);
-    }
 }

@@ -6,11 +6,14 @@
 namespace lujie\upload\actions;
 
 use lujie\upload\forms\UploadForm;
+use lujie\upload\models\UploadModelFile;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\db\BaseActiveRecord;
 use yii\rest\Action;
+use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
 /**
@@ -33,13 +36,19 @@ class UploadAction extends Action
     ];
 
     /**
-     * @return object
+     * @var array
+     */
+    public $allowedModelTypes = [];
+
+    /**
+     * @param string $modelTypeKey
+     * @return UploadForm|mixed|object|BaseActiveRecord
      * @throws InvalidConfigException
      * @throws ServerErrorHttpException
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function run()
+    public function run(string $modelTypeKey = '')
     {
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
@@ -55,6 +64,12 @@ class UploadAction extends Action
                 throw new ServerErrorHttpException('Failed to save upload file for unknown reason.');
             }
         } else if ($model instanceof BaseActiveRecord) {
+            if ($model instanceof UploadModelFile && $modelTypeKey) {
+                if (empty($this->allowedModelTypes[$modelTypeKey])) {
+                    throw new InvalidArgumentException("Invalid model type of {$modelTypeKey}, not allowed");
+                }
+                $model->model_type = $this->allowedModelTypes[$modelTypeKey];
+            }
             if ($model->save() === false && !$model->hasErrors()) {
                 throw new ServerErrorHttpException('Failed to save the upload object for unknown reason.');
             }

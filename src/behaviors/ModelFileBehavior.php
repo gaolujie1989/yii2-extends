@@ -29,6 +29,11 @@ class ModelFileBehavior extends Behavior
     public $modelFileTypes = [];
 
     /**
+     * @var string
+     */
+    public $relationKey = 'modelFiles';
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -37,15 +42,15 @@ class ModelFileBehavior extends Behavior
         return [
             'relationSaveFiles' => [
                 'class' => RelationSavableBehavior::class,
-                'relations' => ['modelFiles'],
+                'relations' => [$this->relationKey],
                 'indexKeys' => [
                     'modelFiles' => 'file',
                 ],
-                'linkUnlinkRelations' => ['modelFiles']
+                'linkUnlinkRelations' => [$this->relationKey]
             ],
             'relationDeleteFiles' => [
                 'class' => RelationDeletableBehavior::class,
-                'relations' => ['modelFiles'],
+                'relations' => [$this->relationKey],
             ]
         ];
     }
@@ -115,12 +120,11 @@ class ModelFileBehavior extends Behavior
 
     /**
      * @return array
-     * @inheritdoc
      */
     public function getFiles(): array
     {
         $files = [];
-        $modelFiles = ArrayHelper::index($this->owner->modelFiles, null, 'model_type');
+        $modelFiles = ArrayHelper::index($this->owner->{$this->relationKey}, null, 'model_type');
         foreach ($this->modelFileTypes as $relationKey => $modelFileType) {
             $files[$relationKey] = $modelFiles[$modelFileType] ?? [];
         }
@@ -129,7 +133,6 @@ class ModelFileBehavior extends Behavior
 
     /**
      * @param array $files
-     * @throws \yii\base\InvalidConfigException
      */
     public function setFiles(array $files): void
     {
@@ -140,10 +143,7 @@ class ModelFileBehavior extends Behavior
                 $modelFiles[] = $modelFile;
             }
         }
-
-        /** @var RelationSavableBehavior $behavior */
-        $behavior = $this->owner->getBehavior('relationSave');
-        $behavior->setRelation('modelFiles', $modelFiles);
+        $this->owner->{$this->relationKey} = $modelFiles;
     }
 
     #endregion

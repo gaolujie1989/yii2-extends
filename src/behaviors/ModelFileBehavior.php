@@ -56,18 +56,18 @@ class ModelFileBehavior extends Behavior
      */
     public function relationBehaviors(): array
     {
+        $relationKeys = array_merge([$this->relationKey], array_keys($this->modelFileTypes));
+        $indexKeys = array_fill_keys($relationKeys, 'file');
         return [
             'relationSaveFiles' => [
                 'class' => RelationSavableBehavior::class,
-                'relations' => [$this->relationKey],
-                'indexKeys' => [
-                    $this->relationKey => 'file',
-                ],
-                'linkUnlinkRelations' => [$this->relationKey]
+                'relations' => $relationKeys,
+                'indexKeys' => $indexKeys,
+                'linkUnlinkRelations' => $relationKeys,
             ],
             'relationDeleteFiles' => [
                 'class' => RelationDeletableBehavior::class,
-                'relations' => [$this->relationKey],
+                'relations' => $relationKeys,
             ]
         ];
     }

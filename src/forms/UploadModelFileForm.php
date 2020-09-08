@@ -46,6 +46,11 @@ class UploadModelFileForm extends UploadModelFile
     public $fileNameTemplate = '';
 
     /**
+     * @var array
+     */
+    public $allowedModelTypes = [];
+
+    /**
      * @inheritdoc
      */
     public function init(): void
@@ -84,7 +89,7 @@ class UploadModelFileForm extends UploadModelFile
      */
     public function rules(): array
     {
-        return [
+        return array_merge([
             [['position'], 'default', 'value' => 99],
             [['file', 'model_id'], 'required'],
             [['model_id', 'model_parent_id'], 'integer'],
@@ -92,6 +97,8 @@ class UploadModelFileForm extends UploadModelFile
                 'extensions' => $this->allowedExtensions,
                 'checkExtensionByMimeType' => $this->checkExtensionByMimeType
             ],
-        ];
+        ], $this->allowedModelTypes ? [
+            [['model_type'], 'in', 'range' => $this->allowedModelTypes],
+        ] : []);
     }
 }

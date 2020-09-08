@@ -29,6 +29,11 @@ class UploadModelFileController extends ActiveController
     public $fileModelType;
 
     /**
+     * @var array
+     */
+    public $allowedModelTypes = [];
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -43,13 +48,15 @@ class UploadModelFileController extends ActiveController
                 'checkAccess' => [$this, 'checkAccess'],
                 'uploadModel' => [
                     'class' => UploadModelFileForm::class,
-                    'model_type' => $this->fileModelType ?: $this->modelClass::MODEL_TYPE
+                    'model_type' => $this->fileModelType ?: $this->modelClass::MODEL_TYPE,
+                    'allowedModelTypes' => $this->allowedModelTypes
                 ]
             ],
             'download' => [
                 'class' => UploadedFileDownloadAction::class,
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
+                'allowedModelTypes' => $this->allowedModelTypes,
             ]
         ]);
     }

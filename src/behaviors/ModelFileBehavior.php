@@ -36,7 +36,7 @@ class ModelFileBehavior extends Behavior
     /**
      * @var bool
      */
-    public $attachRelationBehaviors = false;
+    public $attachRelationBehaviors = true;
 
     /**
      * @param \yii\base\Component $owner
@@ -61,7 +61,7 @@ class ModelFileBehavior extends Behavior
                 'class' => RelationSavableBehavior::class,
                 'relations' => [$this->relationKey],
                 'indexKeys' => [
-                    'modelFiles' => 'file',
+                    $this->relationKey => 'file',
                 ],
                 'linkUnlinkRelations' => [$this->relationKey]
             ],
@@ -97,7 +97,7 @@ class ModelFileBehavior extends Behavior
      */
     public function hasMethod($name)
     {
-        if (strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
+        if ($name === 'getModelFiles' || strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
             return true;
         }
         return parent::hasMethod($name);
@@ -111,7 +111,7 @@ class ModelFileBehavior extends Behavior
      */
     public function canGetProperty($name, $checkVars = true)
     {
-        if (isset($this->modelFileTypes[lcfirst($name)])) {
+        if ($name === 'modelFiles' || isset($this->modelFileTypes[lcfirst($name)])) {
             return true;
         }
         return parent::canGetProperty($name, $checkVars);
@@ -170,10 +170,10 @@ class ModelFileBehavior extends Behavior
     public function setFiles(array $files): void
     {
         $modelFiles = [];
-        foreach ($files as $relationKey => $modelFiles) {
-            foreach ($modelFiles as $modelFile) {
-                $modelFile['model_type'] = $this->modelFileTypes[$relationKey];
-                $modelFiles[] = $modelFile;
+        foreach ($files as $relationKey => $relationFiles) {
+            foreach ($relationFiles as $relationFile) {
+                $relationFile['model_type'] = $this->modelFileTypes[$relationKey];
+                $modelFiles[] = $relationFile;
             }
         }
         $this->owner->{$this->relationKey} = $modelFiles;

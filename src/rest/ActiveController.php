@@ -35,6 +35,11 @@ class ActiveController extends \yii\rest\ActiveController
     public $searchClass;
 
     /**
+     * @var int
+     */
+    public $indexTotalCount;
+
+    /**
      * @var bool
      */
     public $indexTypecast = true;
@@ -70,10 +75,14 @@ class ActiveController extends \yii\rest\ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
+        /** @var IndexDataProviderPreparer $dataProviderPreparer */
         $dataProviderPreparer = Yii::createObject([
             'class' => IndexDataProviderPreparer::class,
             'searchClass' => $this->searchClass,
             'typecast' => $this->indexTypecast,
+            'dataProviderConfig' => [
+                'totalCount' => $this->indexTotalCount
+            ]
         ]);
         $actions['index']['prepareDataProvider'] = [$dataProviderPreparer, 'prepare'];
         if ($this->formClass) {

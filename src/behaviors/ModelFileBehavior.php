@@ -34,10 +34,27 @@ class ModelFileBehavior extends Behavior
     public $relationKey = 'modelFiles';
 
     /**
+     * @var bool
+     */
+    public $attachRelationBehaviors = false;
+
+    /**
+     * @param \yii\base\Component $owner
+     * @inheritdoc
+     */
+    public function attach($owner)
+    {
+        parent::attach($owner);
+        if ($this->attachRelationBehaviors) {
+            $owner->attachBehaviors($this->relationBehaviors());
+        }
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */
-    public function relations(): array
+    public function relationBehaviors(): array
     {
         return [
             'relationSaveFiles' => [

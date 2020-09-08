@@ -210,7 +210,7 @@ class UploadBehavior extends Behavior
                 'ext' => $file->extension,
             ];
             if ($this->owner instanceof Model) {
-                $params = array_merge($params, $this->owner->attributes);
+                $params = array_merge($this->owner->attributes, $params);
             }
             return TemplateHelper::render($this->fileNameTemplate, $params);
         }

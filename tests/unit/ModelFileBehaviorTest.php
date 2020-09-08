@@ -54,5 +54,12 @@ class ModelFileBehaviorTest extends \Codeception\Test\Unit
 
         $this->assertCount(1, $testOrder->yyyFiles);
         $this->assertEquals(2, $testOrder->yyyFiles[0]->upload_model_file_id);
+
+        $this->assertCount(2, $testOrder->files);
+        $this->assertCount(1, $testOrder->files['xxxImages']);
+        $this->assertEquals(1, $testOrder->files['xxxImages'][0]->upload_model_file_id);
+
+        $this->assertCount(1, $testOrder->files['yyyFiles']);
+        $this->assertEquals(2, $testOrder->files['yyyFiles'][0]->upload_model_file_id);
     }
 }

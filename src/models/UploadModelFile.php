@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%uploaded_file}}".
  *
- * @property int $uploaded_file_id
+ * @property int $upload_model_file_id
  * @property string $model_type
  * @property int $model_id
  * @property int $model_parent_id
@@ -95,7 +95,7 @@ class UploadModelFile extends ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'uploaded_file_id' => Yii::t('lujie/upload', 'Uploaded File ID'),
+            'upload_model_file_id' => Yii::t('lujie/upload', 'Upload Model File ID'),
             'model_type' => Yii::t('lujie/upload', 'Model Type'),
             'model_id' => Yii::t('lujie/upload', 'Model ID'),
             'model_parent_id' => Yii::t('lujie/upload', 'Model Parent ID'),

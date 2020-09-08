@@ -57,6 +57,22 @@ class ModelFileBehavior extends Behavior
 
     #region mock file relation query method
 
+    public function __call($name, $params)
+    {
+        if (strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
+            return $this->getRelationUploadModelFiles(lcfirst(substr($name, 3)));
+        }
+        parent::__call($name, $params);
+    }
+
+    public function __get($name)
+    {
+        if (isset($this->modelFileTypes[lcfirst($name)])) {
+            return $this->getRelationUploadModelFiles(lcfirst($name));
+        }
+        return parent::__get($name);
+    }
+
     /**
      * @param string $name
      * @return bool
@@ -89,7 +105,7 @@ class ModelFileBehavior extends Behavior
      * @return ActiveQuery|UploadModelFileQuery
      * @inheritdoc
      */
-    public function getUploadModelFiles(string $name): ActiveQuery
+    public function getRelationUploadModelFiles(string $name): ActiveQuery
     {
         if (empty($this->modelFileTypes[$name])) {
             throw new InvalidArgumentException("Invalid model file {$name}");

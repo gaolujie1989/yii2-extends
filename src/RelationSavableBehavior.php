@@ -112,9 +112,10 @@ class RelationSavableBehavior extends Behavior
      */
     protected function isRelation(string $name): bool
     {
+
         $getter = 'get' . ucfirst($name);
         return in_array($name, $this->relations, true)
-            && method_exists($this->owner, $getter)
+            && $this->owner->hasMethod($getter)
             && $this->owner->$getter() instanceof ActiveQueryInterface;
     }
 

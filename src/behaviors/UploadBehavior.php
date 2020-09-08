@@ -201,14 +201,18 @@ class UploadBehavior extends Behavior
     protected function getFileName(UploadedFile $file): string
     {
         if ($this->fileNameTemplate) {
-            return TemplateHelper::render($this->fileNameTemplate, [
+            $params = [
                 'date' => date('ymd'),
                 'datetime' => date('ymdHis'),
                 'rand' => random_int(1000, 9999),
                 'name' => $file->name,
                 'baseName' => $file->baseName,
                 'ext' => $file->extension,
-            ]);
+            ];
+            if ($this->owner instanceof Model) {
+                $params = array_merge($params, $this->owner->attributes);
+            }
+            return TemplateHelper::render($this->fileNameTemplate, $params);
         }
         return $file->name;
     }

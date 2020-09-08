@@ -58,7 +58,6 @@ class FileBehaviorTest extends \Codeception\Test\Unit
         $this->assertTrue($file->save());
 
         $this->assertEquals($staticUrl . 'savedUploadedFile.bin', $file->getUrl());
-        $this->assertEquals($savedFile, $file->getPath());
         $this->assertEquals($contents, $file->getContent());
 
         $file->file = 'xxx.file';

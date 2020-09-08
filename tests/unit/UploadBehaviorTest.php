@@ -112,7 +112,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
         $contents = file_get_contents($testFile);
 
         $uploadForm = new UploadModelFileForm([
-            'model_type' => 'test',
+            'allowedModelTypes' => ['test'],
             'inputName' => 'testFile',
             'as upload' => [
                 'class' => UploadBehavior::class,
@@ -127,7 +127,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
 
         $uploadForm = new UploadModelFileForm([
             'model_id' => 1,
-            'model_type' => 'test',
+            'allowedModelTypes' => ['test'],
             'inputName' => 'testFile',
             'allowedExtensions' => ['bin'],
             'as upload' => [

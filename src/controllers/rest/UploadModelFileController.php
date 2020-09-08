@@ -10,6 +10,7 @@ use lujie\upload\actions\UploadAction;
 use lujie\upload\actions\UploadedFileDownloadAction;
 use lujie\upload\forms\UploadModelFileForm;
 use lujie\upload\models\UploadModelFile;
+use Yii;
 
 /**
  * Class UploadModelFileController
@@ -22,11 +23,6 @@ class UploadModelFileController extends ActiveController
      * @var string|UploadModelFile
      */
     public $modelClass = UploadModelFile::class;
-
-    /**
-     * @var string
-     */
-    public $fileModelType;
 
     /**
      * @var array
@@ -48,8 +44,7 @@ class UploadModelFileController extends ActiveController
                 'checkAccess' => [$this, 'checkAccess'],
                 'uploadModel' => [
                     'class' => UploadModelFileForm::class,
-                    'model_type' => $this->fileModelType ?: $this->modelClass::MODEL_TYPE,
-                    'allowedModelTypes' => $this->allowedModelTypes
+                    'allowedModelTypes' => $this->allowedModelTypes,
                 ]
             ],
             'download' => [
@@ -59,5 +54,15 @@ class UploadModelFileController extends ActiveController
                 'allowedModelTypes' => $this->allowedModelTypes,
             ]
         ]);
+    }
+
+    /**
+     * @param $fileModelType
+     * @deprecated
+     */
+    public function setFileModelType($fileModelType): void
+    {
+        Yii::warning('The property `fileModelType` is deprecated.', __METHOD__);
+        $this->allowedModelTypes = [$fileModelType];
     }
 }

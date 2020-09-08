@@ -7,6 +7,7 @@ namespace lujie\upload\forms;
 
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\models\UploadModelFile;
+use yii\base\InvalidConfigException;
 
 /**
  * Class UploadForm
@@ -43,7 +44,7 @@ class UploadModelFileForm extends UploadModelFile
     /**
      * @var string
      */
-    public $fileNameTemplate = '';
+    public $filePathTemplate = '{model_type}/{datetime}_{rand}.{ext}';
 
     /**
      * @var array
@@ -51,14 +52,15 @@ class UploadModelFileForm extends UploadModelFile
     public $allowedModelTypes = [];
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
-        if (empty($this->fileNameTemplate)) {
-            $modelType = strtolower($this->model_type);
-            $this->fileNameTemplate = "{$modelType}/{datetime}_{rand}.{ext}";
+        if (empty($this->allowedModelTypes)) {
+            throw new InvalidConfigException('The property `allowedModelTypes` must be set.');
         }
+        $this->model_type = reset($this->allowedModelTypes);
         parent::init();
     }
 
@@ -78,7 +80,7 @@ class UploadModelFileForm extends UploadModelFile
                 'inputName' => $this->inputName,
                 'path' => $this->path,
                 'fs' => $this->fs,
-                'fileNameTemplate' => $this->fileNameTemplate
+                'fileNameTemplate' => $this->filePathTemplate
             ],
         ]);
     }

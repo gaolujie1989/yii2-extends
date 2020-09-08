@@ -30,14 +30,19 @@ trait FileTrait
     {
         if ($this->fs) {
             $this->fs = Instance::ensure($this->fs);
+            if (strpos($this->path, '@') === 0 || strpos($this->path, '/') === 0) {
+                $this->path = substr($this->path, 1);
+                $pos = strpos($this->path, '/');
+                $this->path = $pos !== false ? substr($this->path, $pos + 1) : '';
+            }
         } else {
             $this->path = Yii::getAlias($this->path);
             if (!file_exists($this->path)) {
                 FileHelper::createDirectory($this->path, 0777);
             }
-            if ($this->path) {
-                $this->path = rtrim($this->path, '/') . '/';
-            }
+        }
+        if ($this->path) {
+            $this->path = rtrim($this->path, '/') . '/';
         }
     }
 
@@ -78,14 +83,13 @@ trait FileTrait
      */
     public function saveFile(string $filePath, string $file, bool $deleteFile = false): bool
     {
-
+        $path = $this->path . $filePath;
         if ($this->fs) {
-            $result = $this->fs->writeStream($filePath, fopen($file, 'rb'));
+            $result = $this->fs->writeStream($path, fopen($file, 'rb'));
             if ($deleteFile) {
                 unlink($file);
             }
         } else {
-            $path = $this->path . $filePath;
             $dir = pathinfo($path, PATHINFO_DIRNAME);
             if (!file_exists($dir)) {
                 FileHelper::createDirectory($this->path, 0777);
@@ -102,12 +106,12 @@ trait FileTrait
      */
     public function deleteFile(string $filePath): bool
     {
+        $path = $this->path . $filePath;
         if ($this->fs) {
-            if ($this->fs->has($filePath)) {
-                return $this->fs->delete($filePath);
+            if ($this->fs->has($path)) {
+                return $this->fs->delete($path);
             }
         } else {
-            $path = $this->path . $filePath;
             if (file_exists($path)) {
                 return unlink($path);
             }
@@ -122,13 +126,12 @@ trait FileTrait
      */
     public function read(string $filePath)
     {
-
+        $path = $this->path . $filePath;
         if ($this->fs) {
-            if ($this->fs->has($filePath)) {
-                return $this->fs->read($filePath);
+            if ($this->fs->has($path)) {
+                return $this->fs->read($path);
             }
         } else {
-            $path = $this->path . $filePath;
             if (file_exists($path)) {
                 return file_get_contents($path);
             }

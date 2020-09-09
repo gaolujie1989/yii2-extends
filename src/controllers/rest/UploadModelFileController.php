@@ -45,6 +45,7 @@ class UploadModelFileController extends ActiveController
                 'uploadModel' => [
                     'class' => UploadModelFileForm::class,
                     'allowedModelTypes' => $this->allowedModelTypes,
+                    'model_type' => $this->modelClass::MODEL_TYPE,
                 ]
             ],
             'download' => [

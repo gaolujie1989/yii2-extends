@@ -38,6 +38,8 @@ class ModelFileBehavior extends Behavior
      */
     public $attachRelationBehaviors = true;
 
+    #region relation behaviors
+
     /**
      * @param \yii\base\Component $owner
      * @inheritdoc
@@ -72,6 +74,8 @@ class ModelFileBehavior extends Behavior
         ];
     }
 
+    #endregion
+
     #region mock file relation query method
 
     public function __call($name, $params)
@@ -97,7 +101,7 @@ class ModelFileBehavior extends Behavior
      */
     public function hasMethod($name)
     {
-        if ($name === 'getModelFiles' || strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
+        if (strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
             return true;
         }
         return parent::hasMethod($name);
@@ -111,7 +115,7 @@ class ModelFileBehavior extends Behavior
      */
     public function canGetProperty($name, $checkVars = true)
     {
-        if ($name === 'modelFiles' || isset($this->modelFileTypes[lcfirst($name)])) {
+        if (isset($this->modelFileTypes[lcfirst($name)])) {
             return true;
         }
         return parent::canGetProperty($name, $checkVars);

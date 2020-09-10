@@ -78,9 +78,27 @@ class ModelFileBehavior extends Behavior
 
     #region mock file relation query method
 
+    /**
+     * @param string $name
+     * @return bool
+     */
+    protected function isRelationMethod(string $name): bool
+    {
+        return strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))]);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    protected function isRelationName(string $name): bool
+    {
+        return isset($this->modelFileTypes[lcfirst($name)]);
+    }
+
     public function __call($name, $params)
     {
-        if (strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
+        if ($this->isRelationMethod($name)) {
             return $this->getRelationUploadModelFiles(lcfirst(substr($name, 3)));
         }
         parent::__call($name, $params);
@@ -88,7 +106,7 @@ class ModelFileBehavior extends Behavior
 
     public function __get($name)
     {
-        if (isset($this->modelFileTypes[lcfirst($name)])) {
+        if ($this->isRelationName($name)) {
             return $this->getRelationUploadModelFiles(lcfirst($name));
         }
         return parent::__get($name);
@@ -101,7 +119,7 @@ class ModelFileBehavior extends Behavior
      */
     public function hasMethod($name)
     {
-        if (strpos($name, 'get') === 0 && isset($this->modelFileTypes[lcfirst(substr($name, 3))])) {
+        if ($this->isRelationMethod($name)) {
             return true;
         }
         return parent::hasMethod($name);
@@ -115,7 +133,7 @@ class ModelFileBehavior extends Behavior
      */
     public function canGetProperty($name, $checkVars = true)
     {
-        if (isset($this->modelFileTypes[lcfirst($name)])) {
+        if ($this->isRelationName($name)) {
             return true;
         }
         return parent::canGetProperty($name, $checkVars);

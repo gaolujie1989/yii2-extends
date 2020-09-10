@@ -8,11 +8,11 @@ use yii\db\Migration;
  * Class m200902_163924_model_text
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class m200902_163924_model_text extends Migration
+class m200910_100316_model_int extends Migration
 {
     use DropTableTrait, TraceableBehaviorTrait;
 
-    public $tableName = '{{%model_text}}';
+    public $tableName = '{{%model_int}}';
 
     /**
      * @return bool|void
@@ -25,10 +25,10 @@ class m200902_163924_model_text extends Migration
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'key' => $this->string(50)->notNull()->defaultValue(''),
-            'value' => $this->text()->notNull(),
+            'value' => $this->bigInteger()->notNull()->defaultValue(0),
             'channel' => $this->string(50)->notNull()->defaultValue(''),
         ]);
 
-        $this->createIndex('idx_model_type_id_key_channel', $this->tableName, ['model_type', 'model_id', 'key', 'channel']);
+        $this->createIndex('idx_model_type_id_key_channel_value', $this->tableName, ['model_type', 'model_id', 'key', 'channel', 'value']);
     }
 }

@@ -5,25 +5,25 @@ namespace lujie\eav\models;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 
 /**
- * This is the ActiveQuery class for [[ModelText]].
+ * This is the ActiveQuery class for [[ModelInt]].
  *
- * @method ModelTextQuery id($id)
- * @method ModelTextQuery orderById($sort = SORT_ASC)
+ * @method ModelValueQuery id($id)
+ * @method ModelValueQuery orderById($sort = SORT_ASC)
  * @method int getId()
  * @method array getIds()
  *
- * @method ModelTextQuery modelTextId($modelTextId)
- * @method ModelTextQuery modelType($modelType)
- * @method ModelTextQuery modelId($modelId)
- * @method ModelTextQuery key($key)
+ * @method ModelValueQuery modelTextId($modelTextId)
+ * @method ModelValueQuery modelType($modelType)
+ * @method ModelValueQuery modelId($modelId)
+ * @method ModelValueQuery key($key)
  *
- * @method array|ModelText[] all($db = null)
- * @method array|ModelText|null one($db = null)
- * @method array|ModelText[] each($batchSize = 100, $db = null)
+ * @method array|ModelInt[]|ModelString[]|ModelText[] all($db = null)
+ * @method array|ModelInt|ModelString|ModelText|null one($db = null)
+ * @method array|ModelInt[]|ModelString[]|ModelText[] each($batchSize = 100, $db = null)
  *
- * @see ModelText
+ * @see ModelInt
  */
-class ModelTextQuery extends \yii\db\ActiveQuery
+class ModelValueQuery extends \yii\db\ActiveQuery
 {
 
     /**

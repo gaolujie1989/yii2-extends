@@ -9,6 +9,7 @@ use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\eav\models\ModelText;
 use lujie\eav\models\ModelTextQuery;
+use lujie\eav\models\ModelValueQuery;
 use yii\base\Behavior;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;

@@ -29,6 +29,6 @@ class UserSearch extends User
         return static::find()
             ->andFilterWhere(['status' => $this->status])
             ->andFilterWhere(['LIKE', 'username', $this->username])
-            ->andFilterWhere(['LIKE', 'username', $this->email]);
+            ->andFilterWhere(['LIKE', 'email', $this->email]);
     }
 }

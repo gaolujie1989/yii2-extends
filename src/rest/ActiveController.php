@@ -9,6 +9,7 @@ use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
 use Yii;
 use yii\db\ActiveRecordInterface;
+use yii\db\BaseActiveRecord;
 use yii\rest\IndexAction;
 use yii\web\NotFoundHttpException;
 
@@ -33,11 +34,6 @@ class ActiveController extends \yii\rest\ActiveController
      * @var string
      */
     public $searchClass;
-
-    /**
-     * @var int
-     */
-    public $indexTotalCount;
 
     /**
      * @var bool
@@ -75,46 +71,51 @@ class ActiveController extends \yii\rest\ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
+        $actions['create']['modelClass'] = $this->formClass;
+        $actions['update']['modelClass'] = $this->formClass;
+        $actions['delete']['modelClass'] = $this->formClass;
+        $actions['view']['modelClass'] = $this->formClass;
+
+        $searchModel = new $this->searchClass();
         /** @var IndexDataProviderPreparer $dataProviderPreparer */
         $dataProviderPreparer = Yii::createObject([
             'class' => IndexDataProviderPreparer::class,
             'searchClass' => $this->searchClass,
             'typecast' => $this->indexTypecast,
             'dataProviderConfig' => [
-                'totalCount' => $this->indexTotalCount
+                'totalCount' => method_exists($searchModel, 'getTotalCount') ? $searchModel->getTotalCount() : null,
             ]
         ]);
         $actions['index']['prepareDataProvider'] = [$dataProviderPreparer, 'prepare'];
-        if ($this->formClass) {
-            $actions['create']['modelClass'] = $this->formClass;
-            $actions['update']['modelClass'] = $this->formClass;
-            $actions['delete']['modelClass'] = $this->formClass;
-            $actions['view']['modelClass'] = $this->formClass;
-        }
-        if ($this->searchClass) {
-            $searchModel = new $this->searchClass();
-            foreach ($this->statisticsActions as $actionName => $methodName) {
-                if (method_exists($searchModel, $methodName)) {
-                    $totalProviderPreparer = Yii::createObject([
-                        'class' => IndexDataProviderPreparer::class,
-                        'searchClass' => $this->searchClass,
-                        'typecast' => $this->indexTypecast,
-                        'queryMethod' => $methodName,
-                        'expandParam' => false,
-                        'dataProviderConfig' => [
-                            'pagination' => false,
-                            'sort' => false,
-                        ]
-                    ]);
-                    $actions[$actionName] = [
-                        'class' => IndexAction::class,
-                        'modelClass' => $this->modelClass,
-                        'checkAccess' => [$this, 'checkAccess'],
-                        'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
-                    ];
-                }
+
+        foreach ($this->statisticsActions as $actionName => $methodName) {
+            if (method_exists($searchModel, $methodName)) {
+                $totalProviderPreparer = Yii::createObject([
+                    'class' => IndexDataProviderPreparer::class,
+                    'searchClass' => $this->searchClass,
+                    'typecast' => $this->indexTypecast,
+                    'queryMethod' => $methodName,
+                    'expandParam' => false,
+                    'dataProviderConfig' => [
+                        'pagination' => false,
+                        'sort' => false,
+                    ]
+                ]);
+                $actions[$actionName] = [
+                    'class' => IndexAction::class,
+                    'modelClass' => $this->modelClass,
+                    'checkAccess' => [$this, 'checkAccess'],
+                    'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
+                ];
             }
         }
+
+        /** @var BaseActiveRecord $formModel */
+        $formModel = new $this->formClass();
+        if ($formModel->getBehavior('position')) {
+            $actions = array_merge($actions, $this->positionActions());
+        }
+
         return $actions;
     }
 
@@ -149,5 +150,45 @@ class ActiveController extends \yii\rest\ActiveController
             $query->with($with);
         }
         return $query->all();
+    }
+
+    /**
+     * @return array[]
+     * @inheritdoc
+     */
+    public function positionActions(): array
+    {
+        return [
+            'move-to' => [
+                'class' => MethodAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'method' => 'moveToPosition'
+            ],
+            'move-prev' => [
+                'class' => MethodAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'method' => 'movePrev'
+            ],
+            'move-next' => [
+                'class' => MethodAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'method' => 'moveNext'
+            ],
+            'move-first' => [
+                'class' => MethodAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'method' => 'moveFirst'
+            ],
+            'move-last' => [
+                'class' => MethodAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'method' => 'moveLast'
+            ],
+        ];
     }
 }

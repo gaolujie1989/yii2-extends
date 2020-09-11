@@ -6,7 +6,6 @@
 namespace lujie\template\document\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
-use lujie\extend\rest\MethodAction;
 use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
 use lujie\template\document\TemplateDocumentManager;
@@ -55,20 +54,7 @@ class DocumentTemplateController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['index'], $actions['create'], $actions['delete']);
-        return array_merge($actions, [
-            'move-prev' => [
-                'class' => MethodAction::class,
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'method' => 'movePrev'
-            ],
-            'move-next' => [
-                'class' => MethodAction::class,
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'method' => 'moveNext'
-            ],
-        ]);
+        return $actions;
     }
 
     /**

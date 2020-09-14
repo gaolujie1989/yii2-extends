@@ -28,6 +28,8 @@ class UserApp extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
+    public const LOGIN_TYPE = 'AppLogin';
+
     /**
      * {@inheritdoc}
      */
@@ -83,7 +85,8 @@ class UserApp extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
         if ($this->status === StatusConst::STATUS_INACTIVE || isset($changedAttributes['secret'])) {
-            TagDependency::invalidate(User::getCache(), [$this->user->getTokenCacheTag('AppLogin')]);
+            $tags = User::getUserIdTokenTags($this->user_id, static::LOGIN_TYPE);
+            TagDependency::invalidate(User::getCache(), [$tags[1]]);
         }
     }
 
@@ -93,7 +96,8 @@ class UserApp extends \yii\db\ActiveRecord
     public function afterDelete(): void
     {
         parent::afterDelete();
-        TagDependency::invalidate(User::getCache(), [$this->user->getTokenCacheTag('AppLogin')]);
+        $tags = User::getUserIdTokenTags($this->user_id, static::LOGIN_TYPE);
+        TagDependency::invalidate(User::getCache(), [$tags[1]]);
     }
 
     /**

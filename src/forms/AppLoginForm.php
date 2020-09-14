@@ -108,7 +108,7 @@ class AppLoginForm extends Model
     public function getAccessToken(): ?string
     {
         if ($userApp = $this->getUserApp()) {
-            return $userApp->user->getAccessToken('AppLogin', $this->rememberDuration);
+            return $userApp->user->getAccessToken($this->userAppClass::LOGIN_TYPE, $this->rememberDuration);
         }
         return null;
     }

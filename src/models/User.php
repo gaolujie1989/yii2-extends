@@ -27,6 +27,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
+    public const LOGIN_TYPE = 'Login';
+
     protected const CACHE_DURATION = 86400;
     protected const CACHE_USER_TAG = 'User';
     protected const CACHE_TOKEN_TAG = 'UserToken';
@@ -91,23 +93,34 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param string|int $key
+     * @param int $id
      * @return string
      * @inheritdoc
      */
-    public static function getUserCacheKey($key): string
+    public static function getUserCacheKey(int $id): string
     {
-        return static::CACHE_USER_KEY_PREFIX . $key;
+        return static::CACHE_USER_KEY_PREFIX . $id;
     }
 
     /**
-     * @param string|int $key
+     * @param string $key
      * @return string
      * @inheritdoc
      */
-    public static function getUserIdCacheKey($key): string
+    public static function getUserIdCacheKey(string $key): string
     {
         return static::CACHE_USER_ID_KEY_PREFIX . $key;
+    }
+
+    /**
+     * @param int $id
+     * @param string|null $type
+     * @return string[]
+     * @inheritdoc
+     */
+    public static function getUserIdTokenTags(int $id, ?string $type): array
+    {
+        return [static::CACHE_TOKEN_TAG, static::CACHE_TOKEN_TAG . $id . ($type ?? '')];
     }
 
     /**
@@ -118,9 +131,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public static function findIdentity($id): ?self
     {
         $dependency = new TagDependency(['tags' => [static::CACHE_USER_TAG]]);
-        return static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
-            return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]);
+        $findUser = static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
+            //return false if dont want to be cached
+            return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]) ?? false;
         }, static::CACHE_DURATION, $dependency);
+        return $findUser === false ? null : $findUser;
     }
 
     /**
@@ -134,6 +149,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $key = ($type ?? '') . $token;
         $userId = static::getCache()->get(static::getUserIdCacheKey($key))
             ?: static::getCache()->get(static::getUserIdCacheKey($token));
+        codecept_debug([$userId]);
         if ($userId) {
             return static::findIdentity($userId);
         }
@@ -152,7 +168,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $token = Yii::$app->security->generateRandomString($length);
         $key = ($type ?? '') . $token;
-        $dependency = new TagDependency(['tags' => [static::CACHE_TOKEN_TAG]]);
+        $dependency = new TagDependency(['tags' => static::getUserIdTokenTags($this->getId(), $type)]);
         static::getCache()->set(static::getUserIdCacheKey($key), $this->getId(), $duration, $dependency);
         static::getCache()->set(static::getUserIdCacheKey($token), $this->getId(), $duration, $dependency);
         return $token;

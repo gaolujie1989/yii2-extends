@@ -92,20 +92,22 @@ class AppLoginFormTest extends \Codeception\Test\Unit
         $user->status = StatusConst::STATUS_INACTIVE;
         $user->save(false);
         $this->assertNull(User::findIdentityByAccessToken($accessToken));
-
         $user->status = StatusConst::STATUS_ACTIVE;
         $user->save(false);
+
         $appLoginForm = new AppLoginForm();
         $appLoginForm->key = 'app1.key';
         $appLoginForm->secret = 'app1.secret';
         $this->assertTrue($appLoginForm->login(), VarDumper::dumpAsString($appLoginForm->getErrors()));
         $accessToken = $appLoginForm->getAccessToken();
         $user = User::findIdentityByAccessToken($accessToken);
+        codecept_debug([$accessToken]);
+        codecept_debug([Yii::$app->cache]);
         $this->assertNotNull($user);
 
         $userApp = UserApp::find()->key($appLoginForm->key)->one();
         $userApp->status = StatusConst::STATUS_INACTIVE;
         $userApp->save(false);
-        $this->assertNull(User::findIdentityByAccessToken($accessToken));
+        $this->assertTrue(User::findIdentityByAccessToken($accessToken) === null);
     }
 }

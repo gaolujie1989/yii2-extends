@@ -149,7 +149,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $key = ($type ?? '') . $token;
         $userId = static::getCache()->get(static::getUserIdCacheKey($key))
             ?: static::getCache()->get(static::getUserIdCacheKey($token));
-        codecept_debug([$userId]);
         if ($userId) {
             return static::findIdentity($userId);
         }

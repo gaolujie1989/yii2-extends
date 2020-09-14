@@ -101,8 +101,6 @@ class AppLoginFormTest extends \Codeception\Test\Unit
         $this->assertTrue($appLoginForm->login(), VarDumper::dumpAsString($appLoginForm->getErrors()));
         $accessToken = $appLoginForm->getAccessToken();
         $user = User::findIdentityByAccessToken($accessToken);
-        codecept_debug([$accessToken]);
-        codecept_debug([Yii::$app->cache]);
         $this->assertNotNull($user);
 
         $userApp = UserApp::find()->key($appLoginForm->key)->one();

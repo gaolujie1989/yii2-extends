@@ -41,7 +41,7 @@ $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
             <?php break;
         case VueViewGenerator::INPUT_TYPE_SELECT:
             $multipleProp = isset($multiple) && $multiple ? ' multiple' : ''; ?>
-          <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>"<?= $multipleProp ?>>
+          <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" filterable <?= $multipleProp ?>>
             <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label" />
           </el-select>
             <?php break;

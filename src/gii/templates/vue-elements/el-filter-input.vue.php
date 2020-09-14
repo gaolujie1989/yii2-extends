@@ -42,8 +42,8 @@ switch ($type) {
       />
         <?php break;
     case VueViewGenerator::INPUT_TYPE_SELECT:
-        $multipleProp = isset($multiple) && !$multiple ? '' : 'multiple'; ?>
-      <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" clearable <?= $multipleProp ?> class="filter-item">
+      ?>
+      <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" filterable clearable multiple class="filter-item">
         <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label" />
       </el-select>
         <?php break;

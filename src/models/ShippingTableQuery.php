@@ -150,7 +150,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      */
     protected function minLimitCondition(string $limitType, int $limitValue): self
     {
-        return $this->andWhere(['OR', [$limitType => 0], ['<=', $limitType, $limitValue]]);
+        return $this->andWhere(['OR', [$limitType => 0], ['<', $limitType, $limitValue]]);
     }
 
     /**

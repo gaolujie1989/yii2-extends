@@ -15,13 +15,23 @@ use yii\base\InvalidValueException;
  */
 class UnitAliasBehavior extends AliasPropertyBehavior
 {
-    public const UNIT_SIZE_MM = 'mm';
-    public const UNIT_SIZE_CM = 'cm';
-    public const UNIT_SIZE_M = 'm';
     public const UNIT_WEIGHT_G = 'g';
     public const UNIT_WEIGHT_KG = 'kg';
     public const UNIT_MONEY_YUAN = 'yuan';
     public const UNIT_MONEY_CENT = 'cent';
+
+    public const UNIT_SIZE_MM = 'mm';
+    public const UNIT_SIZE_CM = 'cm';
+    public const UNIT_SIZE_DM = 'dm';
+    public const UNIT_SIZE_M = 'm';
+    public const UNIT_AREA_MM = 'mm2';
+    public const UNIT_AREA_CM = 'cm2';
+    public const UNIT_AREA_DM = 'dm2';
+    public const UNIT_AREA_M = 'm2';
+    public const UNIT_VOLUME_MM = 'mm3';
+    public const UNIT_VOLUME_CM = 'cm3';
+    public const UNIT_VOLUME_DM = 'dm3';
+    public const UNIT_VOLUME_M = 'm3';
 
     /**
      * @var array
@@ -29,17 +39,50 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     private static $unitConvertRates = [
         'kg2g' => 1000,
         'g2kg' => 0.001,
-        'cm2mm' => 10,
-        'mm2cm' => 0.1,
-        'm2mm' => 1000,
-        'mm2m' => 0.001,
-        'm2cm' => 100,
-        'cm2m' => 0.01,
         'yuan2cent' => 100,
         'cent2yuan' => 0.01,
+
+        'mm2cm' => 0.1,
+        'mm2dm' => 0.01,
+        'mm2m' => 0.001,
+        'cm2mm' => 10,
+        'cm2dm' => 0.1,
+        'cm2m' => 0.01,
+        'dm2mm' => 100,
+        'dm2cm' => 10,
+        'dm2m' => 0.1,
+        'm2mm' => 1000,
+        'm2cm' => 100,
+        'm2dm' => 10,
+
+        'mm22cm2' => 0.01,
+        'mm22dm2' => 0.0001,
+        'mm22m2' => 0.000001,
+        'cm22mm2' => 100,
+        'cm22dm2' => 0.01,
+        'cm22m2' => 0.0001,
+        'dm22mm2' => 10000,
+        'dm22cm2' => 100,
+        'dm22m2' => 0.01,
+        'm22mm2' => 1000000,
+        'm22cm2' => 10000,
+        'm22dm2' => 100,
+
+        'mm32cm3' => 0.001,
+        'mm32dm3' => 0.000001,
+        'mm32m3' => 0.000000001,
+        'cm32mm3' => 1000,
+        'cm32dm3' => 0.001,
+        'cm32m3' => 0.000001,
+        'dm32mm3' => 1000000,
+        'dm32cm3' => 1000,
+        'dm32m3' => 0.001,
+        'm32mm3' => 1000000000,
+        'm32cm3' => 1000000,
+        'm32dm3' => 1000,
     ];
 
-    private static $onlyIntUnits = ['mm', 'g', 'cent'];
+    private static $onlyIntUnits = ['mm', 'mm2', 'mm3', 'g', 'cent'];
 
     /**
      * @var string

@@ -131,4 +131,55 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     {
         return $this->limitCondition('lh_mm_limit', $lhMM);
     }
+
+    /**
+     * @param int $volumeMM3
+     * @return $this
+     * @inheritdoc
+     */
+    public function volumeMM3Limit(int $volumeMM3): self
+    {
+        return $this->limitCondition('volume_mm3_limit', $volumeMM3);
+    }
+
+    /**
+     * @param string $limitType
+     * @param int $limitValue
+     * @return $this
+     * @inheritdoc
+     */
+    protected function minLimitCondition(string $limitType, int $limitValue): self
+    {
+        return $this->andWhere(['OR', [$limitType => 0], ['<=', $limitType, $limitValue]]);
+    }
+
+    /**
+     * @param int $lengthMM
+     * @return $this
+     * @inheritdoc
+     */
+    public function minLengthMMLimit(int $lengthMM): self
+    {
+        return $this->minLimitCondition('length_mm_min_limit', $lengthMM);
+    }
+
+    /**
+     * @param int $widthMM
+     * @return $this
+     * @inheritdoc
+     */
+    public function minWidthMMLimit(int $widthMM): self
+    {
+        return $this->minLimitCondition('width_mm_min_limit', $widthMM);
+    }
+
+    /**
+     * @param int $heightMM
+     * @return $this
+     * @inheritdoc
+     */
+    public function minHeightMMLimit(int $heightMM): self
+    {
+        return $this->minLimitCondition('height_mm_min_limit', $heightMM);
+    }
 }

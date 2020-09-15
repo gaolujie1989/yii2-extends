@@ -20,6 +20,8 @@ use yii\di\Instance;
  */
 class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInterface
 {
+    public $allowDefault = true;
+
     /**
      * @var DataLoaderInterface
      */
@@ -79,6 +81,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     {
         $l2whMM = $shippingItem->lengthMM + ($shippingItem->widthMM + $shippingItem->heightMM) * 2;
         $lhMM = $shippingItem->lengthMM + $shippingItem->heightMM;
+        $volumeMM3 = $shippingItem->lengthMM * $shippingItem->widthMM * $shippingItem->heightMM;
         $query = ShippingTable::find()
             ->activeAt($shippingItem->shippedAt ?: time())
             ->departure($shippingItem->departure)
@@ -88,12 +91,16 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             ->lengthMMLimit($shippingItem->lengthMM)
             ->widthMMLimit($shippingItem->widthMM)
             ->heightMMLimit($shippingItem->heightMM)
+            ->minLengthMMLimit($shippingItem->heightMM)
+            ->minWidthMMLimit($shippingItem->heightMM)
+            ->minHeightMMLimit($shippingItem->heightMM)
             ->l2whMMLimit($l2whMM)
             ->lhMMLimit($lhMM)
+            ->volumeMM3Limit($volumeMM3)
             ->orderByPrice(SORT_ASC);
         $ownerId = $shippingItem->additional['owner_id'] ?? 0;
         $shippingTable = (clone $query)->ownerId($ownerId)->one();
-        if ($shippingTable === null && $ownerId > 0) {
+        if ($shippingTable === null && $ownerId > 0 && $this->allowDefault) {
             $shippingTable = (clone $query)->ownerId(0)->one();
         }
         return $shippingTable;

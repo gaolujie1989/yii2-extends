@@ -5,6 +5,7 @@
 
 namespace lujie\extend\log;
 
+use kiwi\data\exporting\pm\PmVariationShippingPriceNewUpdater;
 use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;
@@ -224,6 +225,11 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public $emailTargetConfig = [];
 
     /**
+     * @var string[]
+     */
+    public $remainTargets = ['debug'];
+
+    /**
      * @param Application $app
      * @inheritdoc
      */
@@ -264,7 +270,11 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     {
         if ($targets = $this->getScenarioTargets()) {
             Yii::debug('Set log targets: ' . implode(',', array_keys($targets)), __METHOD__);
-            Yii::$app->getLog()->targets = $targets;
+            $remainTargets = [];
+            foreach ($this->remainTargets as $remainTargetName) {
+                $remainTargets[$remainTargetName] = Yii::$app->getLog()->targets[$remainTargetName] ?? null;
+            }
+            Yii::$app->getLog()->targets = array_merge($targets, array_filter($remainTargets));
         }
     }
 

@@ -110,10 +110,12 @@ class ActiveController extends \yii\rest\ActiveController
             }
         }
 
-        /** @var BaseActiveRecord $formModel */
-        $formModel = new $this->formClass();
-        if ($formModel->getBehavior('position')) {
-            $actions = array_merge($actions, $this->positionActions());
+        if ($this->modelClass) {
+            /** @var BaseActiveRecord $model */
+            $model = new $this->modelClass();
+            if ($model->getBehavior('position')) {
+                $actions = array_merge($actions, $this->positionActions());
+            }
         }
 
         return $actions;

@@ -57,8 +57,8 @@ class DateValidator extends \yii\validators\DateValidator
      */
     protected function parseDateValue($value)
     {
-        if (is_numeric($value) && strlen($value) > 11) {
-            return (int)substr($value, 0, 11);
+        if (is_numeric($value)) {
+            return (int)substr($value, 0, 10);
         }
         if ($this->parseDateValueFunc) {
             return call_user_func($this->parseDateValueFunc, $value);

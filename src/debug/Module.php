@@ -5,10 +5,13 @@
 
 namespace lujie\extend\debug;
 
-
 use Yii;
-use yii\debug\LogTarget;
 
+/**
+ * Class Module
+ * @package lujie\extend\debug
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class Module extends \yii\debug\Module
 {
     /**
@@ -44,7 +47,7 @@ class Module extends \yii\debug\Module
     {
         $corePanels = parent::corePanels();
         if (Yii::$app instanceof yii\console\Application) {
-            unset($corePanels['assets'], $corePanels['user']);
+            unset($corePanels['request'], $corePanels['assets'], $corePanels['user']);
         }
         return $corePanels;
     }

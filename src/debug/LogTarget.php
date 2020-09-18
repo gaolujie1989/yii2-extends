@@ -37,9 +37,12 @@ class LogTarget extends \yii\debug\LogTarget
             $response = Yii::$app->getResponse();
             $summary = [
                 'tag' => $this->tag,
-                'params' => implode(' ', $request->getParams()),
+                'url' => implode(' ', $request->getParams()),
+                'ajax' => 0,
+                'method' => 'CONSOLE',
+                'ip' => 'local',
                 'time' => $_SERVER['REQUEST_TIME_FLOAT'],
-                'exitStatus' => $response->exitStatus,
+                'statusCode' => $response->exitStatus,
                 'sqlCount' => $this->getSqlTotalCount(),
             ];
 

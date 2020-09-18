@@ -6,6 +6,7 @@
 namespace lujie\extend\debug;
 
 use Yii;
+use yii\di\Instance;
 
 /**
  * Class Module
@@ -14,6 +15,11 @@ use Yii;
  */
 class Module extends \yii\debug\Module
 {
+    /**
+     * @var array
+     */
+    public $logTargetConfig = [];
+
     /**
      * {@inheritdoc}
      * @throws \yii\base\InvalidConfigException
@@ -33,7 +39,7 @@ class Module extends \yii\debug\Module
     public function bootstrap($app): void
     {
         if (Yii::$app instanceof yii\console\Application) {
-            $this->logTarget = $app->getLog()->targets['debug'] = new LogTarget($this);
+            $this->logTarget = $app->getLog()->targets['debug'] = new LogTarget($this, $this->logTargetConfig);
         } else {
             parent::bootstrap($app);
         }

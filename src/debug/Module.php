@@ -18,7 +18,11 @@ class Module extends \yii\debug\Module
     /**
      * @var array
      */
-    public $logTargetConfig = [];
+    public $logTargetConfig = [
+        'levels' => ['profile', 'info', 'warning', 'error'],
+        'logVars' => [],
+        'except' => ['yii\db\*'],
+    ];
 
     /**
      * {@inheritdoc}

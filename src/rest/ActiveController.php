@@ -71,42 +71,46 @@ class ActiveController extends \yii\rest\ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        $actions['create']['modelClass'] = $this->formClass;
-        $actions['update']['modelClass'] = $this->formClass;
-        $actions['delete']['modelClass'] = $this->formClass;
-        $actions['view']['modelClass'] = $this->formClass;
+        if ($this->formClass) {
+            $actions['create']['modelClass'] = $this->formClass;
+            $actions['update']['modelClass'] = $this->formClass;
+            $actions['delete']['modelClass'] = $this->formClass;
+            $actions['view']['modelClass'] = $this->formClass;
+        }
 
-        $searchModel = new $this->searchClass();
-        /** @var IndexDataProviderPreparer $dataProviderPreparer */
-        $dataProviderPreparer = Yii::createObject([
-            'class' => IndexDataProviderPreparer::class,
-            'searchClass' => $this->searchClass,
-            'typecast' => $this->indexTypecast,
-            'dataProviderConfig' => [
-                'totalCount' => method_exists($searchModel, 'getTotalCount') ? $searchModel->getTotalCount() : null,
-            ]
-        ]);
-        $actions['index']['prepareDataProvider'] = [$dataProviderPreparer, 'prepare'];
+        if ($this->searchClass) {
+            $searchModel = new $this->searchClass();
+            /** @var IndexDataProviderPreparer $dataProviderPreparer */
+            $dataProviderPreparer = Yii::createObject([
+                'class' => IndexDataProviderPreparer::class,
+                'searchClass' => $this->searchClass,
+                'typecast' => $this->indexTypecast,
+                'dataProviderConfig' => [
+                    'totalCount' => method_exists($searchModel, 'getTotalCount') ? $searchModel->getTotalCount() : null,
+                ]
+            ]);
+            $actions['index']['prepareDataProvider'] = [$dataProviderPreparer, 'prepare'];
 
-        foreach ($this->statisticsActions as $actionName => $methodName) {
-            if (method_exists($searchModel, $methodName)) {
-                $totalProviderPreparer = Yii::createObject([
-                    'class' => IndexDataProviderPreparer::class,
-                    'searchClass' => $this->searchClass,
-                    'typecast' => $this->indexTypecast,
-                    'queryMethod' => $methodName,
-                    'expandParam' => false,
-                    'dataProviderConfig' => [
-                        'pagination' => false,
-                        'sort' => false,
-                    ]
-                ]);
-                $actions[$actionName] = [
-                    'class' => IndexAction::class,
-                    'modelClass' => $this->modelClass,
-                    'checkAccess' => [$this, 'checkAccess'],
-                    'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
-                ];
+            foreach ($this->statisticsActions as $actionName => $methodName) {
+                if (method_exists($searchModel, $methodName)) {
+                    $totalProviderPreparer = Yii::createObject([
+                        'class' => IndexDataProviderPreparer::class,
+                        'searchClass' => $this->searchClass,
+                        'typecast' => $this->indexTypecast,
+                        'queryMethod' => $methodName,
+                        'expandParam' => false,
+                        'dataProviderConfig' => [
+                            'pagination' => false,
+                            'sort' => false,
+                        ]
+                    ]);
+                    $actions[$actionName] = [
+                        'class' => IndexAction::class,
+                        'modelClass' => $this->modelClass,
+                        'checkAccess' => [$this, 'checkAccess'],
+                        'prepareDataProvider' => [$totalProviderPreparer, 'prepare'],
+                    ];
+                }
             }
         }
 

@@ -56,4 +56,18 @@ class LogTarget extends \yii\debug\LogTarget
 
         return [];
     }
+
+    /**
+     * @param array $messages
+     * @param bool $final
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
+    public function collect($messages, $final)
+    {
+        $this->messages = array_merge($this->messages, static::filterMessages($messages, $this->getLevels(), $this->categories, $this->except));
+        if ($final) {
+            $this->export();
+        }
+    }
 }

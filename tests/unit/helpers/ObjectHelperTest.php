@@ -35,13 +35,13 @@ class ObjectHelperTest extends \Codeception\Test\Unit
             'authKey' => 'auth_key_111'
         ];
         $excepted = new MockIdentity($identityData);
-        $identity = ObjectHelper::create($identityData, MockIdentity::class);
+        $identity = ObjectHelper::create($identityData, [], MockIdentity::class);
         $this->assertEquals($excepted, $identity);
 
         $identity = ObjectHelper::create(
-            ['id' => 'data.id', 'authKey' => 'data.authKey'],
+            ['id' => ':id', 'authKey' => ':authKey'],
+            $identityData,
             MockIdentity::class,
-            ['data' => $identityData]
         );
         $this->assertEquals($excepted, $identity);
     }

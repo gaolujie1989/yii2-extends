@@ -30,12 +30,13 @@ class ObjectHelper
             return Yii::createObject($config);
         }
 
+        $prefixLength = strlen($prefix);
         foreach ($config as $key => $path) {
             if ($key === 'class') {
                 continue;
             }
             if (is_string($path) && strpos($path, $prefix) === 0) {
-                $config[$key] = ArrayHelper::getValue($data, $path);
+                $config[$key] = ArrayHelper::getValue($data, substr($path, $prefixLength));
             }
         }
 

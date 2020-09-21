@@ -7,6 +7,7 @@ namespace lujie\extend\test\unit\db;
 
 
 use lujie\extend\tests\unit\mocks\MockActiveRecord;
+use yii\base\Event;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 
@@ -33,7 +34,7 @@ class TraceableBehaviorTraitTest extends \Codeception\Test\Unit
     {
         MockActiveRecord::$columns = ['mock_id', 'mock_value', 'updated_by', 'updated_at'];
         $mockActiveRecord = new MockActiveRecord();
-        $this->assertEquals(0, $mockActiveRecord->getActionBy());
+        $this->assertEquals(0, $mockActiveRecord->getActionByDefault(new Event(['sender' => $mockActiveRecord])));
 
         /** @var TimestampBehavior $timestampBehavior */
         $timestampBehavior = $mockActiveRecord->getBehavior('timestamp');

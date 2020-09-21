@@ -88,7 +88,7 @@ trait RateLimitTrait
      */
     public function loadAllowance($request, $action)
     {
-        $cacheKey = $this->rateKey . ':' . ($this->user_id ?: 0);
+        $cacheKey = $this->rateKey . ':' . ($this->getId() ?: 0);
         if ($value = $this->getCacheValue($cacheKey)) {
             [$this->allowance, $this->allowance_updated_at] = $value;
         }
@@ -105,7 +105,7 @@ trait RateLimitTrait
      */
     public function saveAllowance($request, $action, $allowance, $timestamp)
     {
-        $cacheKey = $this->rateKey . ':' . ($this->user_id ?: 0);
+        $cacheKey = $this->rateKey . ':' . ($this->getId() ?: 0);
         $this->allowance = $allowance;
         $this->allowance_updated_at = $timestamp;
         $this->setCacheValue($cacheKey, [$this->allowance, $this->allowance_updated_at]);

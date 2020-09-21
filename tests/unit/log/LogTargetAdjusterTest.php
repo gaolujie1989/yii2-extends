@@ -57,13 +57,15 @@ class LogTargetAdjusterTest extends \Codeception\Test\Unit
             'appInfoFile',
             'yiiErrorFile',
             'yiiWarningFile',
-            'yiiProfileFile',
-            'yiiInfoFile',
-            'yiiDbInfoFile',
             'yiiHttpInfoFile',
             'debugFile',
+            'appDebugFile',
+            'yiiInfoFile',
+            'yiiDbInfoFile',
+            'yiiProfileFile',
+            'yiiDebugFile',
         ];
         $targetNames = array_keys(Yii::$app->getLog()->targets);
-        $this->assertEquals($expected, $targetNames);
+        $this->assertEmpty(array_diff($expected, $targetNames));
     }
 }

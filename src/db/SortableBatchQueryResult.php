@@ -12,6 +12,7 @@ use yii\db\BaseActiveRecord;
  * Class SortableBatchQueryResult
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 class SortableBatchQueryResult extends \yii\db\BatchQueryResult
 {

@@ -81,7 +81,7 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
         $offsetData = (clone $this->query)
             ->offset($this->batchSize * $offset)
             ->limit($this->batchSize * $this->limit)
-            ->all();
+            ->all($this->db);
 
         $offsetDataCount = count($offsetData);
         $this->_fetchCount += $offsetDataCount;

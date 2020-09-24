@@ -5,6 +5,8 @@
 
 namespace lujie\extend\helpers;
 
+use yii\helpers\StringHelper;
+
 /**
  * Class ValueHelper
  * @package lujie\extend\helpers
@@ -30,5 +32,33 @@ class ValueHelper
     public static function notEmpty($value): bool
     {
         return !self::isEmpty($value);
+    }
+
+    /**
+     * check value is match condition or not
+     * @param $value
+     * @param $condition
+     * @param false $strict
+     * @return bool
+     * @inheritdoc
+     */
+    public static function isMatch($value, $condition, $strict = false): bool
+    {
+        if (is_array($condition)) {
+            return in_array($value, $condition, $strict);
+        }
+        if (substr($condition,0, 1) === '!') {
+            $condition = substr($condition, 1);
+            return !self::isMatch($value, $condition, $strict);
+        }
+        if (substr($condition, 0, 1) === '%') {
+            $condition = substr($condition, 1);
+            return StringHelper::endsWith($value, $condition);
+        }
+        if (substr($condition, -1) === '%') {
+            $condition = substr($condition, 0, -1);
+            return StringHelper::startsWith($value, $condition);
+        }
+        return $strict ? $value === $condition : $value == $condition;
     }
 }

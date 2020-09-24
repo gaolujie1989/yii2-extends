@@ -51,6 +51,9 @@ class ValueHelper
             $condition = substr($condition, 1);
             return !self::isMatch($value, $condition, $strict);
         }
-        return StringHelper::matchWildcard($condition, $value);
+        if (strpos($condition, '*') !== false || strpos($condition, '?') !== false) {
+            return StringHelper::matchWildcard($condition, $value);
+        }
+        return $strict ? $value === $condition : $value == $condition;
     }
 }

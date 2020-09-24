@@ -51,14 +51,6 @@ class ValueHelper
             $condition = substr($condition, 1);
             return !self::isMatch($value, $condition, $strict);
         }
-        if (substr($condition, 0, 1) === '%') {
-            $condition = substr($condition, 1);
-            return StringHelper::endsWith($value, $condition);
-        }
-        if (substr($condition, -1) === '%') {
-            $condition = substr($condition, 0, -1);
-            return StringHelper::startsWith($value, $condition);
-        }
-        return $strict ? $value === $condition : $value == $condition;
+        return StringHelper::matchWildcard($condition, $value);
     }
 }

@@ -22,8 +22,8 @@ class m181219_143822_queue_job extends Migration
             'pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'last_exec_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'last_exec_status' => $this->tinyInteger()->notNull()->defaultValue(0),
-
-            'KEY `job_id` (`job_id`)',
         ]);
+
+        $this->createIndex('idx_job_id_queue', $this->tableName, ['job_id', 'queue']);
     }
 }

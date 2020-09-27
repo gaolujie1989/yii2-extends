@@ -22,8 +22,8 @@ class m181219_143804_queue_worker extends Migration
             'pinged_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'success_count' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'failed_count' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-
-            'KEY `pid` (`pid`)',
         ]);
+
+        $this->createIndex('idx_queue_pid', $this->tableName, ['queue', 'pid']);
     }
 }

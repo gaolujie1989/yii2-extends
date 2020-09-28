@@ -8,6 +8,8 @@ namespace lujie\extend\debug;
 
 use Yii;
 use yii\console\Application as ConsoleApplication;
+use yii\console\Request;
+use yii\console\Response;
 use yii\debug\panels\MailPanel;
 use yii\web\Application as WebApplication;
 
@@ -34,9 +36,9 @@ class LogTarget extends \yii\debug\LogTarget
         }
 
         if ($app instanceof ConsoleApplication) {
-            /** @var yii\console\Request $request */
+            /** @var Request $request */
             $request = $app->getRequest();
-            /** @var yii\console\Response $response */
+            /** @var Response $response */
             $response = $app->getResponse();
             $summary = [
                 'tag' => $this->tag,

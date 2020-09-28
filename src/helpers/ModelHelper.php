@@ -76,7 +76,7 @@ class ModelHelper
     }
 
     /**
-     * @param $id
+     * @param int|string|array $id
      * @param string|ActiveRecordInterface $modelClass
      * @param string $separator
      * @return ActiveRecordInterface|null

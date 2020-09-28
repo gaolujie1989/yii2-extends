@@ -45,7 +45,7 @@ trait ModelAttributeTrait
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @throws \yii\base\UnknownPropertyException
      * @inheritdoc
      */

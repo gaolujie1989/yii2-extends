@@ -21,7 +21,7 @@ class ArrayAttributeHistoryHandler extends BaseAttributeHistoryHandler
     public $withKey = false;
 
     /**
-     * @var DataLoaderInterface
+     * @var ?DataLoaderInterface
      */
     public $labelLoader;
 

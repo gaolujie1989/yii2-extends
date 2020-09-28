@@ -32,7 +32,7 @@ abstract class BaseDataRecorder extends DataExchanger
     ];
 
     /**
-     * @var PipelineInterface
+     * @var PipelineInterface|CombinedPipeline
      */
     public $pipeline = [
         'class' => ActiveRecordRecordDataPipeline::class

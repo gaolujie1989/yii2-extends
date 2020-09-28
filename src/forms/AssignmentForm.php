@@ -80,7 +80,7 @@ class AssignmentForm extends AuthForm
         }
         //to avoid string validator error
         if (is_int($this->userId)) {
-            $this->userId = (string) $this->userId;
+            $this->userId = (string)$this->userId;
         }
     }
 

@@ -83,7 +83,7 @@ class ResetPasswordByEmailForm extends ResetPasswordForm
     public function sendVerifyCode(): bool
     {
         if (!$this->validate()) {
-           return false;
+            return false;
         }
         $this->mailer = Instance::ensure($this->mailer);
         return $this->mailer->compose()

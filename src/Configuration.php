@@ -321,12 +321,12 @@ class Configuration extends Component implements BootstrapInterface
 
     /**
      * @param array $array
-     * @param array $childKeys
+     * @param array|string|null $childKeys
      * @param string $sortKey
      * @return array
      * @inheritdoc
      */
-    public static function sortByKey(array $array, $childKeys = ['items'], $sortKey = 'sort'): array
+    public static function sortByKey(array $array, $childKeys = ['items'], string $sortKey = 'sort'): array
     {
         uasort($array, static function ($a, $b) use ($sortKey) {
             if (empty($a[$sortKey]) || empty($b[$sortKey]) || $a[$sortKey] === $b[$sortKey]) {

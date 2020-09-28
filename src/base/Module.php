@@ -14,6 +14,9 @@ use Yii;
  */
 class Module extends \yii\base\Module
 {
+    /**
+     * @var string
+     */
     public $scopeKey = 'scope';
 
     /**

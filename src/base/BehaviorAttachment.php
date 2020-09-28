@@ -7,7 +7,6 @@ namespace lujie\extend\base;
 
 use yii\base\BaseObject;
 use yii\base\Behavior;
-use yii\base\Component;
 use yii\base\Event;
 use yii\di\Instance;
 
@@ -19,7 +18,7 @@ use yii\di\Instance;
 class BehaviorAttachment extends BaseObject
 {
     /**
-     * @var Component[]
+     * @var string[]
      */
     public $attachModelClasses = [];
 

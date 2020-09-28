@@ -19,6 +19,9 @@ use yii\di\Instance;
  */
 class DevController extends Controller
 {
+    /**
+     * @var DependencyChecker|array
+     */
     public $dependencyChecker = [];
 
     /**

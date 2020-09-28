@@ -58,7 +58,7 @@ class DocumentTemplateController extends ActiveController
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception

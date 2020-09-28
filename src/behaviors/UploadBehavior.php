@@ -60,7 +60,7 @@ class UploadBehavior extends Behavior
     public $path = '@uploads';
 
     /**
-     * @var Filesystem
+     * @var ?Filesystem
      */
     public $fs = 'filesystem';
 

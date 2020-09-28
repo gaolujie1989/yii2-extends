@@ -14,7 +14,7 @@ use yii\web\UploadedFile;
 /**
  * Trait FileBehaviorTrait
  *
- * @property Filesystem $fs
+ * @property Filesystem|null $fs
  * @property string $path
  *
  * @package lujie\uploadImport\behaviors

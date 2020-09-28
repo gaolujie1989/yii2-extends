@@ -41,7 +41,7 @@ class FileBehavior extends Behavior
     public $path = '@uploads';
 
     /**
-     * @var Filesystem
+     * @var ?Filesystem
      */
     public $fs = 'filesystem';
 

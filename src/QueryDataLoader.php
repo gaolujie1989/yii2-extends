@@ -25,7 +25,7 @@ class QueryDataLoader extends BaseDataLoader
     public $query;
 
     /**
-     * @var Connection
+     * @var ?Connection
      */
     public $db;
 

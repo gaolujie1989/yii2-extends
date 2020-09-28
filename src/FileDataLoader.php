@@ -81,8 +81,7 @@ class FileDataLoader extends ArrayDataLoader
             $files = glob($filePath);
             $loadedFiles[] = $files;
         }
-        $loadedFiles = array_merge(...$loadedFiles);
-        array_unique($loadedFiles);
+        $loadedFiles = array_unique(array_merge(...$loadedFiles));
         return $loadedFiles;
     }
 

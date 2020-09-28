@@ -24,12 +24,12 @@ class DbDataLoader extends QueryDataLoader
     public $db = 'db';
 
     /**
-     * @var string
+     * @var ?string
      */
     public $table;
 
     /**
-     * @var ActiveRecord
+     * @var ActiveRecord|string|null
      */
     public $modelClass;
 
@@ -58,11 +58,9 @@ class DbDataLoader extends QueryDataLoader
     {
         if (empty($this->key)) {
             $tableSchema = $this->db->getTableSchema($this->table);
-            if ($tableSchema) {
-                $primaryKey = $tableSchema->primaryKey;
-                if ($primaryKey) {
-                    $this->key = reset($primaryKey);
-                }
+            $primaryKey = $tableSchema->primaryKey;
+            if ($primaryKey) {
+                $this->key = reset($primaryKey);
             }
         }
     }

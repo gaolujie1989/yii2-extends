@@ -124,7 +124,7 @@ class SalesOrderItem extends \yii\db\ActiveRecord
      * @return SalesOrderAmountQuery|ActiveQuery
      * @inheritdoc
      */
-    public function getItemAmount(): SalesOrderAmountQuery
+    public function getItemAmount(): ActiveQuery
     {
         return $this->hasOne(SalesOrderAmount::class, [
             'sales_order_id' => 'sales_order_id',
@@ -134,16 +134,16 @@ class SalesOrderItem extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return SalesOrderAmountQuery
+     * @return SalesOrderAmountQuery|ActiveQuery
      * @inheritdoc
      */
-    public function getSystemCurrencyOrderItemAmount(): SalesOrderAmountQuery
+    public function getSystemCurrencyOrderItemAmount(): ActiveQuery
     {
-        /** @var SalesOrderAmountQuery $query */
         $query = $this->hasOne(SalesOrderAmount::class, [
             'sales_order_id' => 'sales_order_id',
             'sales_order_item_id' => 'sales_order_item_id',
         ]);
+        /** @var SalesOrderAmountQuery $query */
         return $query->currency(Module::getSystemCurrency());
     }
 }

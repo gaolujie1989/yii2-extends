@@ -31,11 +31,11 @@ class MultipleForm extends Model
 
     /**
      * @param array $data
-     * @param null $formName
+     * @param string|null $formName
      * @return bool
      * @inheritdoc
      */
-    public function load($data, $formName = null): bool
+    public function load($data, ?string $formName = null): bool
     {
         $this->loadedModels = [];
         foreach ($data as $values) {

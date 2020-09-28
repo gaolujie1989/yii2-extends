@@ -71,6 +71,8 @@ class Juhe extends HttpService
                 return $this->createRate($currencyPair, $resultData['result'], $date);
             }
         }
+
+        throw new Exception("No matched result");
     }
 
     /**

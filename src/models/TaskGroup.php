@@ -90,19 +90,19 @@ class TaskGroup extends \lujie\project\base\db\ActiveRecord
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|ProjectQuery
      * @inheritdoc
      */
-    public function getProject(): ProjectQuery
+    public function getProject(): ActiveQuery
     {
         return $this->hasOne(Project::class, ['project_id' => 'project_id']);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskQuery
      * @inheritdoc
      */
-    public function getTasks(): TaskQuery
+    public function getTasks(): ActiveQuery
     {
         return $this->hasMany(Task::class, ['task_group_id' => 'task_group_id']);
     }

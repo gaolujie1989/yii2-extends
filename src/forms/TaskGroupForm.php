@@ -44,10 +44,10 @@ class TaskGroupForm extends TaskGroup
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskQuery
      * @inheritdoc
      */
-    public function getTasks(): TaskQuery
+    public function getTasks(): ActiveQuery
     {
         return $this->hasMany(TaskForm::class, ['task_group_id' => 'task_group_id']);
     }

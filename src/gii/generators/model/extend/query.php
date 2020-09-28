@@ -12,7 +12,6 @@
 /* @var $rules string[] list of validation rules */
 /* @var $relations array list of relations (name => relation declaration) */
 /* @var $className string class name */
-
 /* @var $modelClassName string related model class name */
 
 use yii\helpers\Inflector;

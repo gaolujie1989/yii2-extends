@@ -41,42 +41,42 @@ namespace <?= $generator->queryNs ?>;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 
 /**
-* This is the ActiveQuery class for [[<?= $modelFullClassName ?>]].
-*
-* @method <?= $className ?> id($id)
-* @method <?= $className ?> orderById($sort = SORT_ASC)
-* @method int getId()
-* @method array getIds()
-*
+ * This is the ActiveQuery class for [[<?= $modelFullClassName ?>]].
+ *
+ * @method <?= $className ?> id($id)
+ * @method <?= $className ?> orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
 <?php foreach ($queryFields as $name => $field) {
     echo " * @method $className $name(\$$name)\n";
 } ?>
-*
-* @method array|<?= $modelFullClassName ?>[] all($db = null)
-* @method array|<?= $modelFullClassName ?>|null one($db = null)
-* @method array|<?= $modelFullClassName ?>[] each($batchSize = 100, $db = null)
-*
-* @see <?= $modelFullClassName . "\n" ?>
-*/
+ *
+ * @method array|<?= $modelFullClassName ?>[] all($db = null)
+ * @method array|<?= $modelFullClassName ?>|null one($db = null)
+ * @method array|<?= $modelFullClassName ?>[] each($batchSize = 100, $db = null)
+ *
+ * @see <?= $modelFullClassName . "\n" ?>
+ */
 class <?= $className ?> extends <?= '\\' . ltrim($generator->queryBaseClass, '\\') . "\n" ?>
 {
 
-/**
-* @return array
-* @inheritdoc
-*/
-public function behaviors(): array
-{
-return [
-'fieldQuery' => [
-'class' => FieldQueryBehavior::class,
-'queryFields' => [
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return [
+            'fieldQuery' => [
+                'class' => FieldQueryBehavior::class,
+                'queryFields' => [
 <?php foreach ($queryFields as $name => $field) {
     echo "                    '{$name}' => '{$field}',\n";
 } ?>
-]
-]
-];
-}
+                ]
+            ]
+        ];
+    }
 
 }

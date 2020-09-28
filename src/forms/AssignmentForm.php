@@ -37,7 +37,7 @@ class AssignmentForm extends AuthForm
     public $itemNames;
 
     /**
-     * @var Permission|Role
+     * @var Permission[]|Role[]
      */
     private $_items;
 

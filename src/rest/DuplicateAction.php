@@ -44,7 +44,7 @@ class DuplicateAction extends Action
         $modelPk = $newModel::primaryKey();
 
         foreach ($this->with as $with) {
-            /** @var ActiveRecord[]|ActiveRecord $modelRelations */
+            /** @var ActiveRecord|ActiveRecord[]|array $modelRelations */
             $modelRelations = $model->{$with};
             if (is_array($modelRelations)) {
                 foreach ($modelRelations as $modelRelation) {

@@ -32,7 +32,7 @@ abstract class BaseItemForm extends AuthForm
     public $ruleName;
 
     /**
-     * @var Item|Permission|Role
+     * @var Item|Permission|Role|null
      */
     private $_item;
 

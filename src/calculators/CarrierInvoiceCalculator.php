@@ -61,7 +61,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         $chargePrice->currency = '';
         $chargePrice->error = '';
 
-        /** @var CarrierItem $carrierItem */
+        /** @var ?CarrierItem $carrierItem */
         $carrierItem = $this->carrierItemLoader->get($model);
         if ($carrierItem === null) {
             $chargePrice->error = 'Null CarrierItem';

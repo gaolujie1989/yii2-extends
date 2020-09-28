@@ -48,7 +48,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         $chargePrice->currency = '';
         $chargePrice->error = '';
 
-        /** @var ChargeableItem $chargeableItem */
+        /** @var ?ChargeableItem $chargeableItem */
         $chargeableItem = $this->chargeableItemLoader->get($model);
         if ($chargeableItem === null) {
             $chargePrice->error = 'Null ChargeableItem';

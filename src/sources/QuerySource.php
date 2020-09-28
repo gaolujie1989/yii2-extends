@@ -21,7 +21,7 @@ use yii\di\Instance;
 class QuerySource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
-     * @var Connection
+     * @var ?Connection
      */
     public $db;
 

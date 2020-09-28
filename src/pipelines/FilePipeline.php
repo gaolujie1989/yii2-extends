@@ -30,7 +30,7 @@ class FilePipeline extends BaseObject implements PipelineInterface
     public $filePathTemplate = '/tmp/exports/{date}/tmp_{datetime}.bin';
 
     /**
-     * @var Filesystem
+     * @var ?Filesystem
      */
     public $fs;
 

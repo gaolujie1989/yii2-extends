@@ -22,7 +22,7 @@ class CombinedPipeline extends BaseObject implements DbPipelineInterface
     public $pipelines = [];
 
     /**
-     * @var Connection
+     * @var ?Connection
      */
     public $transactionDb = 'db';
 

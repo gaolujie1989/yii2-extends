@@ -5,13 +5,12 @@
 
 namespace lujie\data\exchange\pipelines;
 
-use Yii;
+use lujie\extend\helpers\IdentityHelper;
 use yii\db\ActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\web\User;
 
 /**
  * Class ActiveRecordImporter
@@ -31,7 +30,7 @@ class DbPipeline extends BaseDbPipeline
     public $table;
 
     /**
-     * @var ActiveRecord
+     * @var ?ActiveRecord
      */
     public $modelClass;
 
@@ -169,7 +168,7 @@ class DbPipeline extends BaseDbPipeline
     protected function appendTraceableToRows(array &$insertRows, array &$updateRows): void
     {
         $now = time();
-        $userId = $this->getActionBy();
+        $userId = IdentityHelper::getId();
         $columns = $this->db->getTableSchema($this->table)->columns;
         $createdTraceable = [];
         if (isset($columns[$this->createdAtField])) {
@@ -192,20 +191,5 @@ class DbPipeline extends BaseDbPipeline
         array_walk($updateRows, static function(&$row) use ($updatedTraceable) {
             $row[0] = array_merge($updatedTraceable, $row[0]);
         });
-    }
-
-    /**
-     * @return int
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function getActionBy(): int
-    {
-        /** @var User $user */
-        $user = Yii::$app->get('user', false);
-        if ($user === null || $user->getIsGuest()) {
-            return 0;
-        }
-        return $user->getId();
     }
 }

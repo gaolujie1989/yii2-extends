@@ -40,7 +40,7 @@ class FileExportAction extends Action
     public $fileExporter;
 
     /**
-     * @var Executor
+     * @var ?Executor
      */
     public $executor = 'executor';
 

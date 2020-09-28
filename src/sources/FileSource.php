@@ -30,7 +30,7 @@ class FileSource extends BaseObject implements SourceInterface
     public $file = 'tmp_import.bin';
 
     /**
-     * @var Filesystem
+     * @var ?Filesystem
      */
     public $fs;
 

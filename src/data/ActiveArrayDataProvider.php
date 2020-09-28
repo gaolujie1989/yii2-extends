@@ -9,6 +9,7 @@ use lujie\extend\helpers\ActiveDataHelper;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class ActiveArrayDataProvider
@@ -56,7 +57,7 @@ class ActiveArrayDataProvider extends ActiveDataProvider
      */
     protected function prepareKeys($models)
     {
-        if ($this->isPrepareArray() || ($this->query instanceof ActiveQuery && $this->query->asArray)) {
+        if ($this->isPrepareArray() || ($this->query instanceof ActiveQueryInterface && $this->query->asArray)) {
             return array_keys($models);
         }
         return parent::prepareKeys($models);
@@ -68,6 +69,6 @@ class ActiveArrayDataProvider extends ActiveDataProvider
      */
     public function isPrepareArray(): bool
     {
-        return $this->query instanceof ActiveQuery && method_exists($this->query->modelClass, $this->prepareArrayMethod);
+        return $this->query instanceof ActiveQueryInterface && method_exists($this->query->modelClass, $this->prepareArrayMethod);
     }
 }

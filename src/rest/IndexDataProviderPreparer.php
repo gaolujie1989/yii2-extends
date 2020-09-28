@@ -9,6 +9,7 @@ use lujie\extend\data\ActiveArrayDataProvider;
 use Yii;
 use yii\data\DataProviderInterface;
 use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryInterface;
 use yii\rest\Action;
@@ -100,7 +101,8 @@ class IndexDataProviderPreparer
      */
     protected function expandQuery(QueryInterface $query): void
     {
-        if ($query instanceof ActiveQuery && $expandFields = $this->getExpandFields()) {
+        /** @var ActiveQuery $query */
+        if ($query instanceof ActiveQueryInterface && $expandFields = $this->getExpandFields()) {
             /** @var BaseActiveRecord $model */
             $model = new $query->modelClass();
             $expandFields = array_filter($expandFields, static function ($expandField) use ($model) {

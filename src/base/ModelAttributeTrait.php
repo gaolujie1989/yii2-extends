@@ -27,8 +27,10 @@ trait ModelAttributeTrait
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed|null
+     * @throws \yii\base\UnknownPropertyException
+     * @inheritdoc
      */
     public function __get($name)
     {
@@ -42,8 +44,10 @@ trait ModelAttributeTrait
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param $value
+     * @throws \yii\base\UnknownPropertyException
+     * @inheritdoc
      */
     public function __set($name, $value)
     {

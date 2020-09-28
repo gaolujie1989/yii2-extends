@@ -6,7 +6,7 @@
 namespace lujie\extend\debug;
 
 use Yii;
-use yii\di\Instance;
+use yii\console\Application;
 
 /**
  * Class Module
@@ -31,7 +31,7 @@ class Module extends \yii\debug\Module
     public function init(): void
     {
         parent::init();
-        if (Yii::$app instanceof yii\console\Application) {
+        if (Yii::$app instanceof Application) {
             $this->initPanels();
         }
     }
@@ -42,7 +42,7 @@ class Module extends \yii\debug\Module
      */
     public function bootstrap($app): void
     {
-        if (Yii::$app instanceof yii\console\Application) {
+        if (Yii::$app instanceof Application) {
             $this->logTarget = $app->getLog()->targets['debug'] = new LogTarget($this, $this->logTargetConfig);
         } else {
             parent::bootstrap($app);
@@ -56,7 +56,7 @@ class Module extends \yii\debug\Module
     protected function corePanels(): array
     {
         $corePanels = parent::corePanels();
-        if (Yii::$app instanceof yii\console\Application) {
+        if (Yii::$app instanceof Application) {
             unset($corePanels['request'], $corePanels['assets'], $corePanels['user']);
         }
         return $corePanels;

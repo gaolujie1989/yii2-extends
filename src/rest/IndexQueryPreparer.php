@@ -12,7 +12,6 @@ use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
-use yii\db\Query;
 use yii\db\QueryInterface;
 
 /**
@@ -81,12 +80,12 @@ class IndexQueryPreparer extends BaseObject
     }
 
     /**
-     * @param ActiveQueryInterface $query
+     * @param ActiveQueryInterface|ActiveQuery $query
      * @inheritdoc
      */
     protected function appendQuery(ActiveQueryInterface $query): void
     {
-        if ($this->with && $query instanceof ActiveQuery) {
+        if ($this->with) {
             $query->with($this->with);
         }
         if ($this->asArray !== null) {

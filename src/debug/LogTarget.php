@@ -7,6 +7,9 @@ namespace lujie\extend\debug;
 
 
 use Yii;
+use yii\console\Application as ConsoleApplication;
+use yii\debug\panels\MailPanel;
+use yii\web\Application as WebApplication;
 
 /**
  * Class LogTarget
@@ -26,15 +29,15 @@ class LogTarget extends \yii\debug\LogTarget
             return [];
         }
 
-        if ($app instanceof yii\web\Application) {
+        if ($app instanceof WebApplication) {
             return parent::collectSummary();
         }
 
-        if ($app instanceof yii\console\Application) {
+        if ($app instanceof ConsoleApplication) {
             /** @var yii\console\Request $request */
-            $request = Yii::$app->getRequest();
+            $request = $app->getRequest();
             /** @var yii\console\Response $response */
-            $response = Yii::$app->getResponse();
+            $response = $app->getResponse();
             $summary = [
                 'tag' => $this->tag,
                 'url' => implode(' ', $request->getParams()),
@@ -47,9 +50,12 @@ class LogTarget extends \yii\debug\LogTarget
             ];
 
             if (isset($this->module->panels['mail'])) {
-                $mailFiles = $this->module->panels['mail']->getMessagesFileName();
-                $summary['mailCount'] = count($mailFiles);
-                $summary['mailFiles'] = $mailFiles;
+                $mailPanel = $this->module->panels['mail'];
+                if ($mailPanel instanceof MailPanel) {
+                    $mailFiles = $mailPanel->getMessagesFileName();
+                    $summary['mailCount'] = count($mailFiles);
+                    $summary['mailFiles'] = $mailFiles;
+                }
             }
             return $summary;
         }

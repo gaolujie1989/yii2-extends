@@ -36,18 +36,18 @@ class ValueHelper
 
     /**
      * check value is match condition or not
-     * @param $value
-     * @param $condition
+     * @param mixed $value
+     * @param string|array|mixed $condition
      * @param false $strict
      * @return bool
      * @inheritdoc
      */
-    public static function isMatch($value, $condition, $strict = false): bool
+    public static function isMatch($value, $condition, bool $strict = false): bool
     {
         if (is_array($condition)) {
             return in_array($value, $condition, $strict);
         }
-        if (substr($condition,0, 1) === '!') {
+        if (substr($condition, 0, 1) === '!') {
             $condition = substr($condition, 1);
             return !self::isMatch($value, $condition, $strict);
         }

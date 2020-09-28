@@ -6,10 +6,14 @@
 namespace lujie\extend\db;
 
 use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
 /**
  * Class SortableBatchQueryResult
+ *
+ * @property ActiveQuery $query
+ *
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @deprecated
@@ -52,7 +56,7 @@ class SortableBatchQueryResult extends \yii\db\BatchQueryResult
                     break;
                 }
             }
-        } else if ($this->query instanceof ActiveQuery) {
+        } else if ($this->query instanceof ActiveQueryInterface) {
             /** @var BaseActiveRecord $modelClass */
             $modelClass = $this->query->modelClass;
             $column = $modelClass::primaryKey()[0];

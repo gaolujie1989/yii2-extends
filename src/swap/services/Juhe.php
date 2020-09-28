@@ -38,6 +38,7 @@ class Juhe extends HttpService
      * @return ExchangeRateContract
      * @throws Exception
      * @throws UnsupportedExchangeQueryException
+     * @throws \Exception
      * @inheritdoc
      */
     public function getExchangeRate(ExchangeRateQuery $exchangeQuery): ExchangeRateContract
@@ -59,17 +60,17 @@ class Juhe extends HttpService
             throw new Exception("Error code: {$data['error_code']}, reason: {$data['reason']}");
         }
 
-        if (isset($data['result'])) {
-            foreach ($data['result'] as $resultData) {
-                if ($resultData['currencyF'] === $currencyPair->getBaseCurrency()
-                    && $resultData['currencyT'] === $currencyPair->getQuoteCurrency()) {
-                    $date = new DateTime($resultData['updateTime']);
-                    return $this->createRate($currencyPair, $resultData['result'], $date);
-                }
-            }
+        if (empty($data['result'])) {
+            throw new Exception("Empty result");
         }
 
-        return null;
+        foreach ($data['result'] as $resultData) {
+            if ($resultData['currencyF'] === $currencyPair->getBaseCurrency()
+                && $resultData['currencyT'] === $currencyPair->getQuoteCurrency()) {
+                $date = new DateTime($resultData['updateTime']);
+                return $this->createRate($currencyPair, $resultData['result'], $date);
+            }
+        }
     }
 
     /**

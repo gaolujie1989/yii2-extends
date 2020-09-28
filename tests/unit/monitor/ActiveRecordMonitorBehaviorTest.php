@@ -103,7 +103,7 @@ class ActiveRecordMonitorBehaviorTest extends \Codeception\Test\Unit
     public function testExecuteSkipped(): void
     {
         $executor = $this->getExecutor();
-        $executor->on(Executor::EVENT_BEFORE_EXEC, static function(ExecuteEvent $event) {
+        $executor->on(Executor::EVENT_BEFORE_EXEC, static function (ExecuteEvent $event) {
             $event->executed = true;
         });
         $executable = new TestExecutable();

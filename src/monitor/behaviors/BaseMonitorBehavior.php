@@ -107,7 +107,7 @@ abstract class BaseMonitorBehavior extends Behavior
             'started_at' => time(),
             'status' => ExecStatusConst::EXEC_STATUS_RUNNING,
             'memory_usage' => memory_get_peak_usage(),
-            'executable' =>  Json::encode($event->executable),
+            'executable' => Json::encode($event->executable),
             'additional' => $this->getExecutableAdditional($event->executable),
         ];
         $executeManagerName = ComponentHelper::getName($event->sender);

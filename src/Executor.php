@@ -80,7 +80,7 @@ class Executor extends Component
         $event->jobId = $queue->push($job);
 
         $this->trigger(self::EVENT_AFTER_QUEUED, $event);
-        return (string) $event->jobId;
+        return (string)$event->jobId;
     }
 
     /**

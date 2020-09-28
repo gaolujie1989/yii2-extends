@@ -115,7 +115,7 @@ class UserApp extends \yii\db\ActiveRecord
      * @return ActiveQuery|UserQuery
      * @inheritdoc
      */
-    public function getUser(): UserQuery
+    public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, ['user_id' => 'user_id']);
     }

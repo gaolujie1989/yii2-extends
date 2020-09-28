@@ -39,7 +39,7 @@ class PushFulfillmentItemJob extends BaseObject implements JobInterface
      */
     public function execute($queue): void
     {
-        /** @var FulfillmentItem $fulfillmentItem */
+        /** @var ?FulfillmentItem $fulfillmentItem */
         $fulfillmentItem = FulfillmentItem::findOne($this->fulfillmentItemId);
         if ($fulfillmentItem === null) {
             throw new InvalidArgumentException('Invalid fulfillmentItemId');

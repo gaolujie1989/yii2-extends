@@ -37,7 +37,7 @@ class PmFulfillmentServiceLoader extends BaseDataLoader
      */
     public function get($key): ?PmFulfillmentService
     {
-        /** @var FulfillmentAccount $account */
+        /** @var ?FulfillmentAccount $account */
         $account = FulfillmentAccount::findOne($key);
         if ($account === null || $account->type !== FulfillmentConst::ACCOUNT_TYPE_PM) {
             return null;

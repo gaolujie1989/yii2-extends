@@ -23,7 +23,7 @@ use yii\log\Target;
 class LogTargetAdjuster extends BaseObject implements BootstrapInterface
 {
     /**
-     * @var array[]
+     * @var array[]|Target[]
      */
     public $defaultTargets = [
         'appErrorEmail' => [
@@ -204,7 +204,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     ];
 
     /**
-     * @var array[]
+     * @var array[]|Target[]
      */
     public $targets = [];
 

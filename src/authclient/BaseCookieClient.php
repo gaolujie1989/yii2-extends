@@ -42,7 +42,7 @@ abstract class BaseCookieClient extends BaseClient
     public $password;
 
     /**
-     * @var CookieCollection
+     * @var ?CookieCollection
      */
     private $_cookies;
 
@@ -106,11 +106,11 @@ abstract class BaseCookieClient extends BaseClient
     }
 
     /**
-     * @return CookieCollection
+     * @return CookieCollection|null
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function getCookies(): CookieCollection
+    public function getCookies(): ?CookieCollection
     {
         if (empty($this->_cookies)) {
             $this->_cookies = $this->getState('cookies') ?: $this->login();

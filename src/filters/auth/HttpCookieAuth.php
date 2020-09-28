@@ -35,26 +35,25 @@ class HttpCookieAuth extends AuthMethod
     public function authenticate($user, $request, $response): ?IdentityInterface
     {
         $authCookie = $request->getCookies()->get($this->cookie);
-
-        if ($authCookie !== null) {
-            $authCookie = $authCookie->value;
-            if ($this->pattern !== null) {
-                if (preg_match($this->pattern, $authCookie, $matches)) {
-                    $authCookie = $matches[1];
-                } else {
-                    return null;
-                }
-            }
-
-            $identity = $user->loginByAccessToken($authCookie, get_class($this));
-            if ($identity === null) {
-                $this->challenge($response);
-                $this->handleFailure($response);
-            }
-
-            return $identity;
+        if ($authCookie === null) {
+            return null;
         }
 
-        return null;
+        $authCookie = $authCookie->value;
+        if ($this->pattern !== null) {
+            if (preg_match($this->pattern, $authCookie, $matches)) {
+                $authCookie = $matches[1];
+            } else {
+                return null;
+            }
+        }
+
+        $identity = $user->loginByAccessToken($authCookie, get_class($this));
+        if ($identity === null) {
+            $this->challenge($response);
+            $this->handleFailure($response);
+        }
+
+        return $identity;
     }
 }

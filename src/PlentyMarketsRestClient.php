@@ -9,14 +9,11 @@ use Generator;
 use Iterator;
 use lujie\extend\authclient\RestClientTrait;
 use lujie\extend\httpclient\RateLimitCheckerBehavior;
-use yii\authclient\BaseOAuth;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
-use yii\base\InvalidArgumentException;
 use yii\helpers\Inflector;
 use yii\httpclient\Request;
-use yii\web\NotFoundHttpException;
 
 /**
  * Class PlentyMarketsRestClient
@@ -671,15 +668,15 @@ class PlentyMarketsRestClient extends OAuth2
 
     /**
      * @param string $name
-     * @param $data
+     * @param array $data
      * @return array
      * @inheritdoc
      */
-    public function restApi(string $name, $data): array
+    public function restApi(string $name, array $data): array
     {
         $response = $this->callApiMethod($name, $data);
         if ($name === 'listWarehouseLocations') {
-            array_walk($response['entries'], static function(&$values) use ($data) {
+            array_walk($response['entries'], static function (&$values) use ($data) {
                 $values['warehouseId'] = $data['warehouseId'];
             });
         }

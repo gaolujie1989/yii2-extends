@@ -14,14 +14,14 @@ use Yii;
 /**
  * This is the model class for table "{{%fulfillment_account}}".
  *
- * @property string $fulfillment_account_id
+ * @property int $fulfillment_account_id
  * @property string $name
  * @property string $type
  * @property string $url
  * @property string $username
  * @property string $password
- * @property array $options
- * @property array $additional
+ * @property array|null $options
+ * @property array|null $additional
  * @property int $status
  *
  * @property bool $isActive;

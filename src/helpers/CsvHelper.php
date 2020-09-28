@@ -71,8 +71,8 @@ class CsvHelper
      * @inheritdoc
      */
     public static function readContent(string $content, bool $firstLineIsHeader = true, int $length = 0,
-                                   string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
-                                   bool $flag = true): array
+                                       string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
+                                       bool $flag = true): array
     {
         $csvReader = new CsvReader();
         $csvReader->firstLineIsHeader = $firstLineIsHeader;

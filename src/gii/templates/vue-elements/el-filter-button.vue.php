@@ -29,24 +29,24 @@ switch ($type) {
         <?php break;
     case VueViewGenerator::BUTTON_DOWNLOAD: ?>
       <el-button
-        v-waves
-        type="info"
-        icon="el-icon-download"
-        class="filter-item"
-        style="float: right"
-        @click="download('xxx', listQuery)">
+          v-waves
+          type="info"
+          icon="el-icon-download"
+          class="filter-item"
+          style="float: right"
+          @click="download('xxx', listQuery)">
         {{ $t('common.download') }}
       </el-button>
         <?php break;
     case VueViewGenerator::BUTTON_BATCH_UPDATE: ?>
       <el-button
-        v-waves
-        :disabled="!multipleSelection.length"
-        type="primary"
-        icon="el-icon-edit"
-        class="filter-item"
-        style="float: right"
-        @click="handleBatchUpdate">
+          v-waves
+          :disabled="!multipleSelection.length"
+          type="primary"
+          icon="el-icon-edit"
+          class="filter-item"
+          style="float: right"
+          @click="handleBatchUpdate">
         {{ $t('common.batchUpdate') }}
       </el-button>
         <?php break;

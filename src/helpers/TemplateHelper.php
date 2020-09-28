@@ -46,7 +46,7 @@ class TemplateHelper
      * @inheritdoc
      */
     public static function generateRandomFileName(string $suffix = '.xxx', string $prefix = 'tmp_',
-                                            string $template = '{prefix}{datetime}_{rand}{suffix}'): string
+                                                  string $template = '{prefix}{datetime}_{rand}{suffix}'): string
     {
         return strtr($template, [
             '{prefix}' => $prefix,

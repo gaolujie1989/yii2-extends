@@ -5,7 +5,6 @@
 
 namespace lujie\extend\log;
 
-use kiwi\data\exporting\pm\PmVariationShippingPriceNewUpdater;
 use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;

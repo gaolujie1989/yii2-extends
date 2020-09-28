@@ -43,7 +43,7 @@ class RateLimitDelayBehaviorTest extends \Codeception\Test\Unit
         $queue->attachBehavior('rateLimit', $behavior);
         /** @var PushEvent[] $pushedJobEvents */
         $pushedJobEvents = [];
-        $queue->on(Queue::EVENT_AFTER_PUSH, static function(PushEvent $event) use (&$pushedJobEvents) {
+        $queue->on(Queue::EVENT_AFTER_PUSH, static function (PushEvent $event) use (&$pushedJobEvents) {
             $pushedJobEvents[] = $event;
         });
 
@@ -69,7 +69,7 @@ class RateLimitDelayBehaviorTest extends \Codeception\Test\Unit
         $queue->attachBehavior('rateLimit', $behavior);
         /** @var PushEvent[] $pushedJobEvents */
         $pushedJobEvents = [];
-        $queue->on(Queue::EVENT_AFTER_PUSH, static function(PushEvent $event) use (&$pushedJobEvents) {
+        $queue->on(Queue::EVENT_AFTER_PUSH, static function (PushEvent $event) use (&$pushedJobEvents) {
             $pushedJobEvents[] = $event;
         });
 

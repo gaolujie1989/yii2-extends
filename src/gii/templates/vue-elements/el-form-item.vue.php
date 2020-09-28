@@ -26,23 +26,23 @@ $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
 <el-form-item :error="<?= $errorField ?>" :label="<?= $fieldLabelName ?>">
     <?php switch ($type) {
         case VueViewGenerator::INPUT_TYPE_TEXT: ?>
-          <el-input v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" />
+          <el-input v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>"/>
             <?php break;
         case VueViewGenerator::INPUT_TYPE_TEXTAREA: ?>
           <el-input
-            v-model="<?= $modelField ?>"
-            :placeholder="<?= $fieldLabelName ?>"
-            :autosize="{ minRows: 2, maxRows: 8}"
-            type="textarea" />
+              v-model="<?= $modelField ?>"
+              :placeholder="<?= $fieldLabelName ?>"
+              :autosize="{ minRows: 2, maxRows: 8}"
+              type="textarea"/>
             <?php break;
         case VueViewGenerator::INPUT_TYPE_DATE:
         case VueViewGenerator::INPUT_TYPE_DATETIME: ?>
-          <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($type) ?>" />
+        <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($type) ?>"/>
             <?php break;
         case VueViewGenerator::INPUT_TYPE_SELECT:
             $multipleProp = isset($multiple) && $multiple ? ' multiple' : ''; ?>
           <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" filterable <?= $multipleProp ?>>
-            <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label" />
+            <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label"/>
           </el-select>
             <?php break;
         case VueViewGenerator::INPUT_TYPE_CHECKBOX: ?>
@@ -62,7 +62,7 @@ $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
           </el-radio>
             <?php break;
         case VueViewGenerator::INPUT_TYPE_UPLOAD: ?>
-          <xxx-upload :xxxModel="temp" />
+          <xxx-upload :xxxModel="temp"/>
             <?php break;
     } ?>
 </el-form-item>

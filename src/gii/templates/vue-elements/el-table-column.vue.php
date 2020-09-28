@@ -56,8 +56,8 @@ switch ($type) {
     case VueViewGenerator::COLUMN_TYPE_ACTION: ?>
       <el-table-column :label="$t('common.action')" :width="columnWidth.action2" align="center" <?= $propTexts ?>>
         <div slot-scope="scope" class="table-action">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)" />
-          <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row)" />
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)"/>
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row)"/>
         </div>
       </el-table-column>
         <?php break;

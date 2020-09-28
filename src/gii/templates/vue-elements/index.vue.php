@@ -34,38 +34,39 @@ $querySearchFields = implode("\n", $querySearchFields);
   <div class="app-container">
     <div class="filter-container">
 
-        <?= $filterInputContent ?>
+      <?= $filterInputContent ?>
 
-        <?= $filterButtonContent ?>
+      <?= $filterButtonContent ?>
 
     </div>
 
-    <el-table v-loading.body="listLoading" :data="listData" border highlight-current-row style="width: 100%" <?= $enabledBatch ? '@selection-change="handleSelectionChange"' : '' ?>>
+    <el-table v-loading.body="listLoading" :data="listData" border highlight-current-row
+              style="width: 100%" <?= $enabledBatch ? '@selection-change="handleSelectionChange"' : '' ?>>
 
-        <?= $tableColumnContent ?>
+      <?= $tableColumnContent ?>
 
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList"/>
 
     <el-dialog
-      :title="$t(textMap[dialogStatus])"
-      :visible.sync="dialogFormVisible"
-      :close-on-click-modal="false"
-      class="dialog-container"
-      width="60%"
-      top="2vh"
+        :title="$t(textMap[dialogStatus])"
+        :visible.sync="dialogFormVisible"
+        :close-on-click-modal="false"
+        class="dialog-container"
+        width="60%"
+        top="2vh"
     >
       <el-form
-        v-loading="fetchTempLoading"
-        :model="temp"
-        label-position="right"
-        label-suffix=": "
-        label-width="140px"
-        style="width: 95%"
+          v-loading="fetchTempLoading"
+          :model="temp"
+          label-position="right"
+          label-suffix=": "
+          label-width="140px"
+          style="width: 95%"
       >
 
-          <?= $formItemContent ?>
+        <?= $formItemContent ?>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -96,16 +97,16 @@ $querySearchFields = implode("\n", $querySearchFields);
 
             <el-form-item :label="$t('common.uploadFile')" :error="importErrors.file">
               <el-upload
-                :action="uploadUrl"
-                :headers="uploadHeaders"
-                :file-list="uploadFileList"
-                :on-success="handleSuccess"
-                :on-error="handleError"
-                :on-remove="handleRemove"
-                drag
-                multiple
-                class="upload-demo">
-                <i class="el-icon-upload" />
+                  :action="uploadUrl"
+                  :headers="uploadHeaders"
+                  :file-list="uploadFileList"
+                  :on-success="handleSuccess"
+                  :on-error="handleError"
+                  :on-remove="handleRemove"
+                  drag
+                  multiple
+                  class="upload-demo">
+                <i class="el-icon-upload"/>
                 <div class="el-upload__text">{{ $t('common.dragFile') }}<em>{{ $t('common.clickToUpload') }}</em></div>
                 <div slot="tip" class="el-upload__tip">
                   <span>{{ $t('common.uploadSupportFile', { ext: 'xlsx' }) }}</span>
@@ -135,48 +136,48 @@ $querySearchFields = implode("\n", $querySearchFields);
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import List from '@/exts/common/mixins/list'
-import Search from '@/exts/common/mixins/search'
-import Download from '@/exts/common/mixins/download'
-import Save from '@/exts/common/mixins/save'
-import Delete from '@/exts/common/mixins/delete'
-import Upload from '@/exts/common/mixins/upload'
-import BatchUpdate from '@/exts/common/mixins/batchUpdate'
-import Pagination from '@/components/Pagination'
-import waves from '@/directive/waves'
+  import {mapActions, mapGetters} from 'vuex'
+  import List from '@/exts/common/mixins/list'
+  import Search from '@/exts/common/mixins/search'
+  import Download from '@/exts/common/mixins/download'
+  import Save from '@/exts/common/mixins/save'
+  import Delete from '@/exts/common/mixins/delete'
+  import Upload from '@/exts/common/mixins/upload'
+  import BatchUpdate from '@/exts/common/mixins/batchUpdate'
+  import Pagination from '@/components/Pagination'
+  import waves from '@/directive/waves'
 
-export default {
-  name: 'XXXIndex',
-  components: { Pagination },
-  directives: { waves },
-  mixins: [Save, Delete, Upload, BatchUpdate, List, Search, Download],
-  data() {
-    return {
-      listQuery: {
-          <?= trim($querySearchFields, ',') ?>
-      }
-    }
-  },
-  computed: {
-    ...mapGetters([])
-  },
-  created() {
-  },
-  methods: {
-    ...mapActions([]),
-    getService() {
-      return xxxApi
-    },
-    getModel() {
+  export default {
+    name: 'XXXIndex',
+    components: {Pagination},
+    directives: {waves},
+    mixins: [Save, Delete, Upload, BatchUpdate, List, Search, Download],
+    data() {
       return {
-          <?= implode("\n", $fields) ?>
+        listQuery: {
+          <?= trim($querySearchFields, ',') ?>
+        }
       }
     },
-    fetchTemp(row) {
-      this.temp = Object.assign({}, this.temp, row)
-      return Promise.resolve()
+    computed: {
+      ...mapGetters([])
     },
+    created() {
+    },
+    methods: {
+      ...mapActions([]),
+      getService() {
+        return xxxApi
+      },
+      getModel() {
+        return {
+          <?= implode("\n", $fields) ?>
+        }
+      },
+      fetchTemp(row) {
+        this.temp = Object.assign({}, this.temp, row)
+        return Promise.resolve()
+      },
+    }
   }
-}
 </script>

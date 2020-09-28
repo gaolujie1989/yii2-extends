@@ -24,27 +24,27 @@ $modelField = 'listQuery.' . $field;
 switch ($type) {
     case VueViewGenerator::INPUT_TYPE_TEXT: ?>
       <el-input
-        v-model="<?= $modelField ?>"
-        :placeholder="<?= $fieldLabelName ?>"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
+          v-model="<?= $modelField ?>"
+          :placeholder="<?= $fieldLabelName ?>"
+          class="filter-item"
+          @keyup.enter.native="handleFilter"
       />
         <?php break;
     case VueViewGenerator::INPUT_TYPE_DATE_RANGE: ?>
       <el-date-picker
-        v-model="<?= $modelField ?>"
-        :start-placeholder="$t('<?= $messageCategory . '.' . $fieldVarName ?>From')"
-        :end-placeholder="$t('<?= $messageCategory . '.' . $fieldVarName ?>To')"
-        :default-time="['00:00:00', '23:59:59']"
-        type="daterange"
-        range-separator=" - "
-        class="filter-item"
+          v-model="<?= $modelField ?>"
+          :start-placeholder="$t('<?= $messageCategory . '.' . $fieldVarName ?>From')"
+          :end-placeholder="$t('<?= $messageCategory . '.' . $fieldVarName ?>To')"
+          :default-time="['00:00:00', '23:59:59']"
+          type="daterange"
+          range-separator=" - "
+          class="filter-item"
       />
         <?php break;
     case VueViewGenerator::INPUT_TYPE_SELECT:
-      ?>
+        ?>
       <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" filterable clearable multiple class="filter-item">
-        <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label" />
+        <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label"/>
       </el-select>
         <?php break;
     case VueViewGenerator::INPUT_TYPE_CHECKBOX: ?>

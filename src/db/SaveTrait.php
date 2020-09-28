@@ -30,7 +30,7 @@ trait SaveTrait
      * @return bool
      * @inheritdoc
      */
-    public function save(bool $runValidation = true, ?array $attributeNames = null): bool
+    public function save($runValidation = true, $attributeNames = null): bool
     {
         /** @var BaseActiveRecord $this */
         if ($attributeNames) {

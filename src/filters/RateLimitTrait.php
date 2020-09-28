@@ -6,10 +6,8 @@
 namespace lujie\extend\filters;
 
 use lujie\extend\caching\CachingTrait;
-use Workerman\Worker;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
-use yii\helpers\VarDumper;
 use yii\web\Request;
 
 /**

@@ -6,23 +6,15 @@
 namespace lujie\extend\test\unit\db;
 
 
-use GuzzleHttp\Exception\TooManyRedirectsException;
-use lujie\extend\filters\auth\HttpCookieAuth;
-use lujie\extend\tests\unit\mocks\MockIdentity;
 use lujie\extend\tests\unit\mocks\MockRateLimitIdentity;
 use Yii;
 use yii\base\Action;
 use yii\base\Controller;
 use yii\filters\RateLimiter;
 use yii\filters\RateLimitInterface;
-use yii\web\Cookie;
-use yii\web\IdentityInterface;
 use yii\web\Request;
 use yii\web\Response;
 use yii\web\TooManyRequestsHttpException;
-use yii\web\UnauthorizedHttpException;
-use yii\web\User;
-use yii\web\UserEvent;
 
 class RateLimitTraitTest extends \Codeception\Test\Unit
 {

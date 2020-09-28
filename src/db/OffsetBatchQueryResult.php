@@ -5,7 +5,6 @@
 
 namespace lujie\extend\db;
 
-use yii\base\InvalidCallException;
 use yii\base\InvalidValueException;
 
 /**

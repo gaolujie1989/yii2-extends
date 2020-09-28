@@ -91,7 +91,7 @@ class Generator extends \yii\gii\generators\model\Generator
             } else {
                 continue;
             }
-            if ($column->allowNull){
+            if ($column->allowNull) {
                 $type .= '|null';
             }
             $properties[$column->name] = [

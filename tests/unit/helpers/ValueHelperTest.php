@@ -6,9 +6,7 @@
 namespace lujie\extend\test\unit\db;
 
 
-use lujie\extend\helpers\ObjectHelper;
 use lujie\extend\helpers\ValueHelper;
-use lujie\extend\tests\unit\mocks\MockIdentity;
 
 class ValueHelperTest extends \Codeception\Test\Unit
 {

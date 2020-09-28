@@ -69,6 +69,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
 
     /**
      * @return string|null
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getDomainHash(): ?string
@@ -80,6 +81,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     /**
      * @return string
      * @throws InvalidConfigException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getAuthorization(): string

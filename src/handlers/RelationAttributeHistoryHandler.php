@@ -47,7 +47,7 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
     }
 
     /**
-     * @param BaseActiveRecord|BaseActiveRecord[] $value
+     * @param BaseActiveRecord|BaseActiveRecord[]|array $value
      * @return array|void
      * @inheritdoc
      */

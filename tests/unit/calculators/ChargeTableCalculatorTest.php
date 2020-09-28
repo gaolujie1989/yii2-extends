@@ -9,7 +9,6 @@ use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\charging\calculators\ChargeableItem;
 use lujie\charging\calculators\ChargeTableCalculator;
 use lujie\charging\models\ChargePrice;
-use lujie\charging\models\ChargeTable;
 use lujie\charging\tests\unit\fixtures\ChargeTableFixture;
 use lujie\charging\tests\unit\mocks\MockDataLoader;
 

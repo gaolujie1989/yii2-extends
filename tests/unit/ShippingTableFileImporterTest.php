@@ -5,13 +5,11 @@
 
 namespace lujie\charging\tests\unit;
 
-use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\ShippingTableFileImporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
 class ShippingTableFileImporterTest extends \Codeception\Test\Unit

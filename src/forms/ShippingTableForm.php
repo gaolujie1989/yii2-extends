@@ -6,7 +6,6 @@
 namespace lujie\charging\forms;
 
 
-use lujie\charging\models\ChargeTable;
 use lujie\charging\models\ShippingTable;
 use lujie\extend\helpers\ModelHelper;
 

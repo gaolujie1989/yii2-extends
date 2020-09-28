@@ -7,7 +7,6 @@ namespace lujie\charging\forms;
 
 
 use lujie\charging\ChargeTableFileImporter;
-use lujie\charging\models\ShippingTable;
 use lujie\charging\ShippingTableFileImporter;
 use lujie\data\exchange\forms\FileImportForm;
 use lujie\data\exchange\transformers\ChainedTransformer;

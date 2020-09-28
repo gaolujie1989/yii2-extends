@@ -25,8 +25,8 @@ class ChargeTableSearch extends ChargeTable
     public function rules(): array
     {
         return [
-          [['charge_group', 'charge_type', 'custom_type', 'owner_id'], 'safe'],
-          [['activeAt'], 'date'],
+            [['charge_group', 'charge_type', 'custom_type', 'owner_id'], 'safe'],
+            [['activeAt'], 'date'],
         ];
     }
 

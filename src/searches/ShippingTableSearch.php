@@ -25,8 +25,8 @@ class ShippingTableSearch extends ShippingTable
     public function rules(): array
     {
         return [
-          [['carrier', 'departure', 'destination', 'owner_id'], 'safe'],
-          [['activeAt'], 'date'],
+            [['carrier', 'departure', 'destination', 'owner_id'], 'safe'],
+            [['activeAt'], 'date'],
         ];
     }
 

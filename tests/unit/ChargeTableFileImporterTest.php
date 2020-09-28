@@ -8,8 +8,6 @@ namespace lujie\charging\tests\unit;
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableForm;
 use lujie\charging\models\ChargeTable;
-use lujie\charging\models\ShippingTable;
-use lujie\charging\ShippingTableFileImporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use Yii;

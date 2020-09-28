@@ -156,14 +156,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param null $type
+     * @param string|null $type
      * @param int $duration
      * @param int $length
      * @return string
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function getAccessToken($type = null, int $duration = 86400, int $length = 32): string
+    public function getAccessToken(?string $type = null, int $duration = 86400, int $length = 32): string
     {
         $token = Yii::$app->security->generateRandomString($length);
         $key = ($type ?? '') . $token;

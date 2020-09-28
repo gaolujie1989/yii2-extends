@@ -229,9 +229,9 @@ class RelationSavableBehavior extends Behavior
                 $this->deletedRelations[$name] = $oldRelations;
             }
         } else {
-            /** @var BaseActiveRecord $model */
+            /** @var ?BaseActiveRecord $model */
             $model = $owner->$name;
-            if ($model && !$data) {
+            if ($model && empty($data)) {
                 $this->deletedRelations[$name] = [$model];
             } else {
                 if ($data instanceof BaseActiveRecord) {

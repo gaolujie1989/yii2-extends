@@ -32,7 +32,7 @@ abstract class BaseItemForm extends AuthForm
     public $ruleName;
 
     /**
-     * @var Item|Permission|Role|null
+     * @var Permission|Role|null
      */
     private $_item;
 
@@ -96,7 +96,7 @@ abstract class BaseItemForm extends AuthForm
     }
 
     /**
-     * @return Role|Permission|Item
+     * @return Role|Permission
      * @inheritdoc
      */
     abstract protected function createItem(): Item;

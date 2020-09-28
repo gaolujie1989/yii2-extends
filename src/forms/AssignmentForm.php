@@ -59,7 +59,7 @@ class AssignmentForm extends AuthForm
 
     /**
      * @param string $itemName
-     * @return Item|null|Permission|Role
+     * @return Permission|Role
      * @inheritdoc
      */
     protected function getItem(string $itemName): ?Item

@@ -36,7 +36,7 @@ class StockValueBehavior extends Behavior
     public $itemValueRoundPrecision = 2;
 
     /**
-     * @var array
+     * @var float
      */
     private $transferOutItemValue;
 

@@ -82,7 +82,7 @@ class FieldQueryBehavior extends Behavior
     public $queryReturns = [];
 
     /**
-     * @var null
+     * @var ?string
      */
     private $_alias;
 

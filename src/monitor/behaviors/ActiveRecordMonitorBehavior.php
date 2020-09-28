@@ -18,7 +18,7 @@ use Yii;
 class ActiveRecordMonitorBehavior extends BaseMonitorBehavior
 {
     /**
-     * @var ExecutableExec
+     * @var ?ExecutableExec
      */
     private $executableExec;
 

@@ -48,7 +48,7 @@ abstract class BaseMonitorBehavior extends Behavior
     public $queues;
 
     /**
-     * @var callable
+     * @var ?callable
      */
     public $additionalCallback;
 

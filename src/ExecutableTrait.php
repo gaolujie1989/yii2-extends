@@ -25,7 +25,7 @@ trait ExecutableTrait
     public $execUid;
 
     /**
-     * @var callable
+     * @var ?callable
      */
     public $executable;
 

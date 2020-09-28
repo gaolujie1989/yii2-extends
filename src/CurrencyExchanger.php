@@ -59,7 +59,7 @@ class CurrencyExchanger extends BaseObject
      */
     public function exchange(string $from, string $to, float $amount, $date = ''): ?float
     {
-        if ($amount === 0) {
+        if ($amount == 0) {
             return 0;
         }
         $rate = $this->getRate($from, $to, $date);

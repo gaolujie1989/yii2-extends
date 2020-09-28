@@ -246,11 +246,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
-     * @param $jobConfig
+     * @param array $jobConfig
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, $jobConfig): void
+    protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, array $jobConfig = []): void
     {
 //        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
 //            return;

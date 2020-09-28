@@ -19,10 +19,10 @@ class ComponentHelper
     /**
      * @param object $component
      * @param Module|null $app
-     * @return int|string
+     * @return string
      * @inheritdoc
      */
-    public static function getName(object $component, ?Module $app = null)
+    public static function getName(object $component, ?Module $app = null): string
     {
         $app = $app ?: Yii::$app;
         foreach ($app->getComponents(false) as $id => $instance) {

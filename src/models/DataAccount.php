@@ -87,10 +87,10 @@ class DataAccount extends \lujie\data\recording\base\db\ActiveRecord
     }
 
     /**
-     * @return ActiveQuery
+     * @return DataSourceQuery|ActiveQuery
      * @inheritdoc
      */
-    public function getDataSources(): DataSourceQuery
+    public function getDataSources(): ActiveQuery
     {
         return $this->hasMany(DataSource::class, ['data_account_id' => 'data_account_id']);
     }

@@ -26,7 +26,7 @@ class ActiveRecordRecordDataPipeline extends RecordPipeline
 
     /**
      * @param array $values
-     * @return DataRecord
+     * @return BaseActiveRecord|DataRecord
      * @inheritdoc
      */
     protected function createModel(array $values): BaseActiveRecord

@@ -88,8 +88,7 @@ class StockValueBehavior extends Behavior
         }
 
         if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
-            && (!isset($event->extraData[$this->movedItemValueAttribute])
-                && !is_numeric(!isset($event->extraData[$this->movedItemValueAttribute])))) {
+            && !is_numeric($event->extraData[$this->movedItemValueAttribute] ?? 0)) {
             throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} should be a number");
         }
 

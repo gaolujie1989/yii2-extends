@@ -44,7 +44,7 @@ class StockMovementEvent extends ModelEvent
     public $moveQty;
 
     /**
-     * @var int
+     * @var string
      */
     public $reason;
 

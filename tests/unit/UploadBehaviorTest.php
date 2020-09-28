@@ -98,7 +98,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
         $this->assertTrue($uploadForm->validate(), VarDumper::dumpAsString($uploadForm->getErrors()));
 
         $this->assertTrue($uploadForm->saveUploadedFile());
-        $this->assertFileEquals($testFile,  $path . $uploadForm->file);
+        $this->assertFileEquals($testFile, $path . $uploadForm->file);
     }
 
     /**

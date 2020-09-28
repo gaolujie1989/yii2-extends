@@ -98,7 +98,7 @@ class FileTraitTest extends \Codeception\Test\Unit
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function testLocalUploadedFile() :void
+    public function testLocalUploadedFile(): void
     {
         $localFile = new FsFile([
             'fs' => null,
@@ -161,7 +161,7 @@ class FileTraitTest extends \Codeception\Test\Unit
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function testFsUploadedFile() :void
+    public function testFsUploadedFile(): void
     {
         /** @var Filesystem $fs */
         $fs = Instance::ensure('filesystem');

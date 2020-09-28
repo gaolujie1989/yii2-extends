@@ -21,7 +21,7 @@ class m190506_095550_upload_model_file extends Migration
             'file' => $this->string()->notNull(),
             'name' => $this->string()->notNull()->defaultValue(''),
             'ext' => $this->string(10)->notNull()->defaultValue(''),
-            'size' =>  $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'size' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
         $this->createIndex('idx_model_type_model_id', $this->tableName, ['model_type', 'model_id']);

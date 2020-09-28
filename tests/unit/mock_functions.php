@@ -10,7 +10,7 @@ function is_uploaded_file($filename)
     return true;
 }
 
-function move_uploaded_file ($filename, $destination)
+function move_uploaded_file($filename, $destination)
 {
     return rename($filename, $destination);
 }
@@ -23,7 +23,7 @@ function is_uploaded_file($filename)
     return true;
 }
 
-function move_uploaded_file ($filename, $destination)
+function move_uploaded_file($filename, $destination)
 {
     return rename($filename, $destination);
 }

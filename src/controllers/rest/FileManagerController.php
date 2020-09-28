@@ -76,7 +76,7 @@ class FileManagerController extends Controller
 
     /**
      * @param string $path
-     * @param string $type,  file or dir
+     * @param string $type ,  file or dir
      * @return array
      * @inheritdoc
      */
@@ -86,7 +86,7 @@ class FileManagerController extends Controller
         if (empty($type)) {
             return $listContents;
         }
-        return array_filter($listContents, static function($content) use ($type) {
+        return array_filter($listContents, static function ($content) use ($type) {
             return $content['type'] === $type;
         });
     }

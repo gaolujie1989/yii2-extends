@@ -3,11 +3,9 @@
 namespace lujie\upload\tests\unit;
 
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
-use lujie\extend\tests\unit\fixtures\models\Migration;
 use lujie\upload\behaviors\ModelFileBehavior;
 use lujie\upload\models\UploadModelFileQuery;
 use lujie\upload\tests\unit\fixtures\UploadModelFileFixture;
-use yii\helpers\ArrayHelper;
 
 class ModelFileBehaviorTest extends \Codeception\Test\Unit
 {

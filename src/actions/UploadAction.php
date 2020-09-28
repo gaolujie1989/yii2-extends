@@ -13,7 +13,6 @@ use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\db\BaseActiveRecord;
 use yii\rest\Action;
-use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
 /**

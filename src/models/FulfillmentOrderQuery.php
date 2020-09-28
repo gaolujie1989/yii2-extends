@@ -66,7 +66,9 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
                 'queryConditions' => [
-                    'notQueued' => ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
+                    'notQueued' => [
+                        '!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED
+                    ],
                     'pending' => [
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_PENDING,

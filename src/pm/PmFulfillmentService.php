@@ -21,14 +21,12 @@ use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\plentyMarkets\PlentyMarketAddressFormatter;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
-use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 /**
  * Class PmFulfillmentService
@@ -254,6 +252,10 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
                 $fulfillmentOrder->external_created_at = strtotime($pmOrder['createdAt']);
                 $fulfillmentOrder->external_updated_at = strtotime($pmOrder['updatedAt']);
                 $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
+                if ($pmOrder['statusId'] === $this->orderCancelledStatus) {  //if is cancelled order, set to ship
+                    $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderProcessingStatus]);
+                    $fulfillmentOrder->external_order_status = $pmOrder['statusId'];
+                }
                 $fulfillmentOrder->mustSave(false);
             }
         }
@@ -494,7 +496,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         }
         if ($addressId) {
             $addressData['id'] = $addressId;
-            return $this->client->updateCustomerAddress($addressData);
+            return $this->client->updateAddress($addressData);
         }
         return $this->client->createCustomerAddress($addressData);
     }
@@ -529,7 +531,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_id, 'statusId' => $this->orderProcessingStatus]);
         }
         $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
-        return $pmOrder['statusId'] === $this->orderHoldStatus;
+        return $pmOrder['statusId'] === $this->orderProcessingStatus;
     }
 
     /**
@@ -654,10 +656,12 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         } else if ($pmStatus >= 6.5 && $pmStatus < 7) {
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
         } else if ($pmStatus >= 7 && $pmStatus < 8) {
-            if ($packageNumbers === null) {
+            if (empty($packageNumbers)) {
                 $packageNumbers = $this->client->getOrderPackageNumbers(['orderId' => $pmOrder['id']]);
             }
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
+            if ($packageNumbers) {
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
+            }
             $additional = $fulfillmentOrder->external_order_additional;
             $additional['packageNumbers'] = $packageNumbers ?: [];
             $additional['shippingProfileId'] = $pmOrderProperties[2] ?? 0;
@@ -711,7 +715,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             $fulfillmentWarehouseStock->item_id = $externalItemId2ItemIds[$pmStock['variationId']];
             $fulfillmentWarehouseStock->stock_qty = $pmStock['stockPhysical'];
             $fulfillmentWarehouseStock->reserved_qty = $pmStock['reservedStock'];
-            $fulfillmentWarehouseStock->external_updated_at = strtotime($pmStock['updatedAt']);
+            $fulfillmentWarehouseStock->external_updated_at = is_numeric($pmStock['updatedAt']) ? $pmStock['updatedAt'] : strtotime($pmStock['updatedAt']);
             $fulfillmentWarehouseStock->additional = $pmStock;
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
             $fulfillmentWarehouseStock->mustSave(false);

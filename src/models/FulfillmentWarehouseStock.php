@@ -2,6 +2,7 @@
 
 namespace lujie\fulfillment\models;
 
+use ccship\item\models\Item;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -23,6 +24,8 @@ use Yii;
  * @property array $additional
  * @property int $external_updated_at
  * @property int $stock_pulled_at
+ *
+ * @property Item $item
  */
 class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
 {

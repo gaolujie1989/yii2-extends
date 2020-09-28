@@ -32,12 +32,13 @@ class FulfillmentWarehouseStockSearch extends FulfillmentWarehouseStock
      */
     public function query(): FulfillmentWarehouseStockQuery
     {
-        return static::find()->andFilterWhere([
-                'fulfillment_account_id' => $this->fulfillment_account_id,
-                'warehouse_id' => $this->warehouse_id,
-                'external_warehouse_id' => $this->external_warehouse_id,
-                'item_id' => $this->item_id,
-                'external_item_id' => $this->external_item_id,
+        return static::find()->alias('fws')
+            ->andFilterWhere([
+                'fws.fulfillment_account_id' => $this->fulfillment_account_id,
+                'fws.warehouse_id' => $this->warehouse_id,
+                'fws.external_warehouse_id' => $this->external_warehouse_id,
+                'fws.item_id' => $this->item_id,
+                'fws.external_item_id' => $this->external_item_id,
             ]);
     }
 }

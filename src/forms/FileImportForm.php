@@ -46,7 +46,7 @@ class FileImportForm extends Model
     public $fileImporter;
 
     /**
-     * @var ?Executor
+     * @var ?Executor|string
      */
     public $executor = 'executor';
 

@@ -189,14 +189,14 @@ abstract class BaseJobMonitorBehavior extends Behavior
      */
     private function updateWorkerExecCount(ExecEvent $event, bool $success): void
     {
-        /** @var BaseWorkerMonitorBehavior $workerMonitor */
+        /** @var ?BaseWorkerMonitorBehavior $workerMonitor */
         $workerMonitor = $event->sender->getBehavior($this->workerMonitorBehavior);
         if ($workerMonitor === null) {
             Yii::info('WorkerMonitor is null', __METHOD__);
             return;
         }
         $workerPid = $event->sender->getWorkerPid();
-        if (empty($workerPid) === null) {
+        if ($workerPid === null) {
             Yii::info('WorkerPid is empty', __METHOD__);
             return;
         }

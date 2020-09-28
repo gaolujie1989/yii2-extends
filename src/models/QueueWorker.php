@@ -8,7 +8,6 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%queue_worker}}".
@@ -22,12 +21,12 @@ use yii\db\ActiveRecord;
  * @property int $success_count
  * @property int $failed_count
  */
-class QueueWorker extends ActiveRecord
+class QueueWorker extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName(): string
     {
@@ -35,7 +34,7 @@ class QueueWorker extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules(): array
     {
@@ -48,7 +47,7 @@ class QueueWorker extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels(): array
     {
@@ -62,5 +61,14 @@ class QueueWorker extends ActiveRecord
             'success_count' => Yii::t('lujie/queuing', 'Success Count'),
             'failed_count' => Yii::t('lujie/queuing', 'Failed Count'),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return QueueWorkerQuery the active query used by this AR class.
+     */
+    public static function find(): QueueWorkerQuery
+    {
+        return new QueueWorkerQuery(static::class);
     }
 }

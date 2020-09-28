@@ -8,7 +8,6 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%queue_job_exec}}".
@@ -24,12 +23,12 @@ use yii\db\ActiveRecord;
  * @property string|null $error
  * @property int $status
  */
-class QueueJobExec extends ActiveRecord
+class QueueJobExec extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName(): string
     {
@@ -37,7 +36,7 @@ class QueueJobExec extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules(): array
     {
@@ -51,7 +50,7 @@ class QueueJobExec extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels(): array
     {
@@ -59,7 +58,7 @@ class QueueJobExec extends ActiveRecord
             'job_exec_id' => Yii::t('lujie/queuing', 'Job Exec ID'),
             'queue' => Yii::t('lujie/queuing', 'Queue'),
             'job_id' => Yii::t('lujie/queuing', 'Job ID'),
-            'worker_pid' => Yii::t('lujie/queuing', 'Worker ID'),
+            'worker_pid' => Yii::t('lujie/queuing', 'Worker Pid'),
             'started_at' => Yii::t('lujie/queuing', 'Started At'),
             'finished_at' => Yii::t('lujie/queuing', 'Finished At'),
             'memory_usage' => Yii::t('lujie/queuing', 'Memory Usage'),
@@ -67,5 +66,14 @@ class QueueJobExec extends ActiveRecord
             'error' => Yii::t('lujie/queuing', 'Error'),
             'status' => Yii::t('lujie/queuing', 'Status'),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return QueueJobExecQuery the active query used by this AR class.
+     */
+    public static function find(): QueueJobExecQuery
+    {
+        return new QueueJobExecQuery(static::class);
     }
 }

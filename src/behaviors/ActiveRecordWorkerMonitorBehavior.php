@@ -54,7 +54,6 @@ class ActiveRecordWorkerMonitorBehavior extends BaseWorkerMonitorBehavior
      */
     public function updateCount(int $workerPid, $success = true): void
     {
-        /** @var QueueWorker $worker */
         $worker = $this->workerClass::find()
             ->andWhere(['pid' => $workerPid, 'finished_at' => 0])
             ->orderBy(['queue_worker_id' => SORT_DESC])

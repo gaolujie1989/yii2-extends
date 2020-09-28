@@ -8,7 +8,6 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%queue_job}}".
@@ -16,21 +15,19 @@ use yii\db\ActiveRecord;
  * @property int $queue_job_id
  * @property string $queue
  * @property int $job_id
- * @property string $job
+ * @property string|null $job
  * @property int $ttr
  * @property int $delay
  * @property int $pushed_at
  * @property int $last_exec_at
  * @property int $last_exec_status
  */
-class QueueJob extends ActiveRecord
+class QueueJob extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
-    public $status;
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName(): string
     {
@@ -38,7 +35,7 @@ class QueueJob extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules(): array
     {
@@ -52,7 +49,7 @@ class QueueJob extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels(): array
     {
@@ -67,5 +64,14 @@ class QueueJob extends ActiveRecord
             'last_exec_at' => Yii::t('lujie/queuing', 'Last Exec At'),
             'last_exec_status' => Yii::t('lujie/queuing', 'Last Exec Status'),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return QueueJobQuery the active query used by this AR class.
+     */
+    public static function find(): QueueJobQuery
+    {
+        return new QueueJobQuery(static::class);
     }
 }

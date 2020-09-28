@@ -72,19 +72,19 @@ class TaskAttachment extends UploadModelFile
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|ProjectQuery
      * @inheritdoc
      */
-    public function getProject(): ProjectQuery
+    public function getProject(): ActiveQuery
     {
         return $this->hasOne(Project::class, ['project_id' => 'model_parent_id']);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskQuery
      * @inheritdoc
      */
-    public function getTask(): TaskQuery
+    public function getTask(): ActiveQuery
     {
         return $this->hasOne(Task::class, ['task_id' => 'model_id']);
     }

@@ -101,10 +101,10 @@ class ProjectForm extends Project
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskQuery
      * @inheritdoc
      */
-    public function getTasks(): TaskQuery
+    public function getTasks(): ActiveQuery
     {
         return $this->hasMany(TaskForm::class, ['project_id' => 'project_id']);
     }

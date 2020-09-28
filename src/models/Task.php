@@ -153,46 +153,46 @@ class Task extends \lujie\project\base\db\ActiveRecord
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|ProjectQuery
      * @inheritdoc
      */
-    public function getProject(): ProjectQuery
+    public function getProject(): ActiveQuery
     {
         return $this->hasOne(Project::class, ['project_id' => 'project_id']);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskGroupQuery
      * @inheritdoc
      */
-    public function getTaskGroup(): TaskGroupQuery
+    public function getTaskGroup(): ActiveQuery
     {
         return $this->hasOne(TaskGroup::class, ['task_group_id' => 'task_group_id']);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|UploadModelFileQuery
      * @inheritdoc
      */
-    public function getAttachments(): UploadModelFileQuery
+    public function getAttachments(): ActiveQuery
     {
         return $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskQuery
      * @inheritdoc
      */
-    public function getSubTasks(): TaskQuery
+    public function getSubTasks(): ActiveQuery
     {
         return $this->hasMany(static::class, ['parent_task_id' => 'task_id']);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQuery|TaskQuery
      * @inheritdoc
      */
-    public function getParentTask(): TaskQuery
+    public function getParentTask(): ActiveQuery
     {
         return $this->hasOne(static::class, ['task_id' => 'parent_task_id']);
     }

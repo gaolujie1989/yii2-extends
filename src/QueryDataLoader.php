@@ -9,6 +9,7 @@ use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
+use yii\db\QueryInterface;
 use yii\di\Instance;
 
 /**
@@ -58,8 +59,8 @@ class QueryDataLoader extends BaseDataLoader
         if (empty($this->key)) {
             throw new InvalidConfigException('The "key" property must be set.');
         }
-        if (!($this->query instanceof Query)) {
-            throw new InvalidConfigException('The "query" property must be instanceof Query.');
+        if (!($this->query instanceof QueryInterface)) {
+            throw new InvalidConfigException('The "query" property must be instanceof QueryInterface.');
         }
         if ($this->indexBy) {
             $this->query->indexBy($this->indexBy);

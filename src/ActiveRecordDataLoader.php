@@ -5,6 +5,7 @@
 
 namespace lujie\data\loader;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
@@ -12,6 +13,7 @@ use yii\db\BaseActiveRecord;
  * Class ActiveRecordLoader
  *
  * @property-write bool $returnAsArray;
+ * @property ActiveQuery $query
  *
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -49,7 +51,7 @@ class ActiveRecordDataLoader extends QueryDataLoader
         if (empty($this->indexBy) && count($primaryKey) === 1) {
             $this->indexBy = reset($primaryKey);
         }
-        if ($this->with) {
+        if ($this->with && $this->query instanceof ActiveQueryInterface) {
             $this->query->with($this->with);
         }
         $this->db = $this->modelClass::getDb();

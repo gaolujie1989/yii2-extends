@@ -215,7 +215,7 @@ class ChargePrice extends \yii\db\ActiveRecord
     public function setDiscountPercent($percent): void
     {
         if (is_numeric($percent)) {
-            $this->discount_cent = round($this->price_cent * $this->qty * $percent / 100, 0, PHP_ROUND_HALF_DOWN);
+            $this->discount_cent = (int)round($this->price_cent * $this->qty * $percent / 100, 0, PHP_ROUND_HALF_DOWN);
         }
     }
 }

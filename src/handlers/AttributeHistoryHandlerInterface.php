@@ -13,14 +13,14 @@ namespace lujie\ar\history\handlers;
 interface AttributeHistoryHandlerInterface
 {
     /**
-     * @param $value
+     * @param mixed $value
      * @return mixed
      */
     public function extract($value);
 
     /**
-     * @param $oldValue
-     * @param $newValue
+     * @param mixed $oldValue
+     * @param mixed $newValue
      * @return array|null ['added' => [...], 'deleted' => [...], 'modified' => [...]]
      */
     public function diff($oldValue, $newValue): ?array;

@@ -6,9 +6,6 @@
 namespace lujie\ar\history\handlers;
 
 use yii\base\BaseObject;
-use yii\base\InvalidConfigException;
-use yii\db\BaseActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class AddressDiffHandler
@@ -20,7 +17,7 @@ class BaseAttributeHistoryHandler extends BaseObject implements AttributeHistory
     public $maxValueLength = 33;
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return mixed
      * @inheritdoc
      */
@@ -42,8 +39,8 @@ class BaseAttributeHistoryHandler extends BaseObject implements AttributeHistory
     }
 
     /**
-     * @param $oldValue
-     * @param $newValue
+     * @param mixed $oldValue
+     * @param mixed $newValue
      * @return string|null
      * @inheritdoc
      */

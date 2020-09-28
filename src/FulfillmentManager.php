@@ -352,7 +352,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if ($fulfillmentOrder->fulfillment_status != FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING) {
+        if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING) {
             Yii::info("{$name} not to holding, skip", __METHOD__);
             $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentOrder->mustSave(false);
@@ -388,7 +388,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if ($fulfillmentOrder->fulfillment_status != FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING) {
+        if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING) {
             Yii::info("{$name} not to shipping, skip", __METHOD__);
             $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentOrder->mustSave(false);
@@ -424,7 +424,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if ($fulfillmentOrder->fulfillment_status != FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING) {
+        if ($fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING) {
             Yii::info("{$name} not to cancelling, skip", __METHOD__);
             $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentOrder->mustSave(false);

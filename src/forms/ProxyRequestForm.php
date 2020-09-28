@@ -88,13 +88,13 @@ class ProxyRequestForm extends Model
             return false;
         }
 
-        /** @var BaseOAuth $client */
         $client = $this->dataClientLoader->get($this->dataAccountId);
         if ($client === null) {
             $this->addError('dataAccountId', 'Invalid dataAccountId, Null dataClient');
             return false;
         }
 
+        /** @var BaseOAuth $client */
         $client = Instance::ensure($client, BaseOAuth::class);
         try {
             if ($this->url) {

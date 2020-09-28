@@ -36,7 +36,7 @@ class RecordingForm extends Model
     public $dataSourceId;
 
     /**
-     * @var Executor
+     * @var ?Executor
      */
     public $executor;
 

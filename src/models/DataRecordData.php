@@ -58,8 +58,9 @@ class DataRecordData extends \lujie\data\recording\base\db\ActiveRecord
 
     /**
      * @param array $dataRecordIds
-     * @param null $compressor
+     * @param CompressorInterface|null|false $compressor
      * @return array
+     * @inheritdoc
      */
     public static function getDataTextsByRecordIds(array $dataRecordIds, $compressor = null): array
     {

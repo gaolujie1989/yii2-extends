@@ -8,7 +8,9 @@ namespace lujie\data\recording;
 use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\CombinedPipeline;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
+use lujie\data\exchange\pipelines\PipelineInterface;
 use lujie\data\exchange\sources\SourceInterface;
+use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\recording\pipelines\RecordPipeline;
@@ -23,14 +25,14 @@ use lujie\extend\helpers\ExecuteHelper;
 abstract class BaseDataRecorder extends DataExchanger
 {
     /**
-     * @var array
+     * @var TransformerInterface
      */
     public $transformer = [
         'class' => RecordTransformer::class,
     ];
 
     /**
-     * @var array
+     * @var PipelineInterface
      */
     public $pipeline = [
         'class' => ActiveRecordRecordDataPipeline::class

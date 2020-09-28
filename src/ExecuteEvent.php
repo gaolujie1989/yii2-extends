@@ -26,7 +26,7 @@ class ExecuteEvent extends Event
     public $executable;
 
     /**
-     * @var \Exception
+     * @var \Throwable
      */
     public $error;
 

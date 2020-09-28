@@ -58,10 +58,10 @@ class UploadModelFileController extends ActiveController
     }
 
     /**
-     * @param $fileModelType
-     * @deprecated
+     * @param string $fileModelType
+     * @inheritdoc
      */
-    public function setFileModelType($fileModelType): void
+    public function setFileModelType(string $fileModelType): void
     {
         Yii::warning('The property `fileModelType` is deprecated.', __METHOD__);
         $this->allowedModelTypes = [$fileModelType];

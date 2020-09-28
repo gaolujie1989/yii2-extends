@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\flysystem\controllers\rest;
+namespace lujie\upload\controllers\rest;
 
 use lujie\upload\actions\FsFileDownloadAction;
 use lujie\upload\actions\UploadAction;

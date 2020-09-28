@@ -8,6 +8,7 @@ namespace lujie\upload\forms;
 use lujie\upload\behaviors\UploadBehavior;
 use yii\base\Model;
 use yii\base\ModelEvent;
+use yii\web\UploadedFile;
 
 /**
  * Class UploadForm
@@ -17,7 +18,7 @@ use yii\base\ModelEvent;
 class UploadForm extends Model
 {
     /**
-     * @var
+     * @var string|UploadedFile
      */
     public $file;
 

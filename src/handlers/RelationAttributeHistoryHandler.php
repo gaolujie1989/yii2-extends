@@ -5,7 +5,6 @@
 
 namespace lujie\ar\history\handlers;
 
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -71,8 +70,8 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
     }
 
     /**
-     * @param array|BaseActiveRecord $oldValue
-     * @param array|BaseActiveRecord $newValue
+     * @param mixed|BaseActiveRecord $oldValue
+     * @param mixed|BaseActiveRecord $newValue
      * @return array|null
      * @inheritdoc
      */

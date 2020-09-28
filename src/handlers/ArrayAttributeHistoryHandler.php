@@ -6,9 +6,7 @@
 namespace lujie\ar\history\handlers;
 
 use lujie\data\loader\DataLoaderInterface;
-use tuyakhov\notifications\behaviors\ReadableBehavior;
 use yii\di\Instance;
-use function Matrix\add;
 
 /**
  * Class AddressDiffHandler
@@ -28,8 +26,8 @@ class ArrayAttributeHistoryHandler extends BaseAttributeHistoryHandler
     public $labelLoader;
 
     /**
-     * @param array $oldValue
-     * @param array $newValue
+     * @param mixed|array $oldValue
+     * @param mixed|array $newValue
      * @return array|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

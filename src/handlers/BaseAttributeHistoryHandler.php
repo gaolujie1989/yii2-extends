@@ -27,9 +27,9 @@ class BaseAttributeHistoryHandler extends BaseObject implements AttributeHistory
     }
 
     /**
-     * @param string|int $oldValue
-     * @param string|int $newValue
-     * @return array|null
+     * @param mixed|int|string $oldValue
+     * @param mixed|int|string $newValue
+     * @return string[]|null
      * @inheritdoc
      */
     public function diff($oldValue, $newValue): ?array

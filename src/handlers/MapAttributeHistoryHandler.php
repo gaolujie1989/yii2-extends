@@ -21,8 +21,8 @@ class MapAttributeHistoryHandler extends BaseAttributeHistoryHandler
     public $labelLoader;
 
     /**
-     * @param int|string $oldValue
-     * @param int|string $newValue
+     * @param mixed|int|string $oldValue
+     * @param mixed|int|string $newValue
      * @return array|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

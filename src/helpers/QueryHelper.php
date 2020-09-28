@@ -73,4 +73,20 @@ class QueryHelper
             'each' => true,
         ]);
     }
+
+    /**
+     * @param Query $query
+     * @param array $timeAttributeValues
+     * @param string $alias
+     */
+    public static function filterTimestampRange(Query $query, array $timeAttributeValues, string $alias = ''): void
+    {
+        $alias = $alias ? $alias . '.' : '';
+        foreach ($timeAttributeValues as $timeAttribute => $value) {
+            if ($value && is_array($value)) {
+                $query->andFilterWhere(['>=', $alias . $timeAttribute, $value[0] ?? ''])
+                    ->andFilterWhere(['<=', $alias . $timeAttribute, $value[1] ?? '']);
+            }
+        }
+    }
 }

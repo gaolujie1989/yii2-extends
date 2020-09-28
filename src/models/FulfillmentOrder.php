@@ -13,20 +13,20 @@ use Yii;
 /**
  * This is the model class for table "{{%fulfillment_order}}".
  *
- * @property string $fulfillment_order_id
- * @property string $fulfillment_account_id
- * @property string $fulfillment_status
- * @property string $order_id
+ * @property int $fulfillment_order_id
+ * @property int $fulfillment_account_id
+ * @property int $fulfillment_status
+ * @property int $order_id
  * @property int $order_status
  * @property int $order_updated_at
- * @property string $external_order_id
+ * @property int $external_order_id
  * @property string $external_order_no
  * @property string $external_order_status
- * @property array $external_order_additional
+ * @property array|null $external_order_additional
  * @property int $external_created_at
  * @property int $external_updated_at
- * @property array $order_pushed_options
- * @property array $order_pushed_errors
+ * @property array|null $order_pushed_options
+ * @property array|null $order_pushed_errors
  * @property int $order_pushed_status
  * @property int $order_pushed_at
  * @property int $order_pulled_at

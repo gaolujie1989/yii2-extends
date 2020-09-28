@@ -364,7 +364,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     protected function getOrderItemData(OrderItem $orderItem)
     {
         $fulfillmentItem = FulfillmentItem::find()
-            ->accountId($this->account->fulfillment_account_id)
+            ->fulfillmentAccountId($this->account->fulfillment_account_id)
             ->itemId($orderItem->itemId)
             ->one();
         return [
@@ -599,7 +599,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $warehouses = $this->client->eachWarehouse($condition);
         foreach ($warehouses as $pmWarehouse) {
             $fulfillmentWarehouse = FulfillmentWarehouse::find()
-                ->accountId($this->account->fulfillment_account_id)
+                ->fulfillmentAccountId($this->account->fulfillment_account_id)
                 ->externalWarehouseId($pmWarehouse['id'])
                 ->one();
             if ($fulfillmentWarehouse === null) {
@@ -685,7 +685,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
     public function pullWarehouseStocks(array $fulfillmentItems): void
     {
         $warehouseIds = FulfillmentWarehouse::find()
-            ->accountId($this->account->fulfillment_account_id)
+            ->fulfillmentAccountId($this->account->fulfillment_account_id)
             ->getWarehouseIdsIndexByExternalWarehouseId();
         $externalWarehouseIds = array_keys($warehouseIds);
 
@@ -693,7 +693,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $externalItemId2ItemIds = ArrayHelper::map($fulfillmentItems, 'external_item_id', 'item_id');
         $externalItemIds = array_keys($externalItemId2ItemIds);
         $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
-            ->accountId($this->account->fulfillment_account_id)
+            ->fulfillmentAccountId($this->account->fulfillment_account_id)
             ->externalWarehouseId($externalWarehouseIds)
             ->externalItemId($externalItemIds)
             ->indexBy(static function ($model) {

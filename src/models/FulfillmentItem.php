@@ -13,17 +13,17 @@ use Yii;
 /**
  * This is the model class for table "{{%fulfillment_item}}".
  *
- * @property string $fulfillment_item_id
- * @property string $fulfillment_account_id
- * @property string $item_id
+ * @property int $fulfillment_item_id
+ * @property int $fulfillment_account_id
+ * @property int $item_id
  * @property int $item_updated_at
- * @property string $external_item_id
+ * @property int $external_item_id
  * @property string $external_item_no
- * @property string $external_item_parent_id for some system, support variation must link item
+ * @property int $external_item_parent_id for some system, support variation must link item
  * @property int $external_created_at
  * @property int $external_updated_at
- * @property array $item_pushed_options
- * @property array $item_pushed_errors
+ * @property array|null $item_pushed_options
+ * @property array|null $item_pushed_errors
  * @property int $item_pushed_status
  * @property int $item_pushed_at
  * @property int $stock_pulled_at

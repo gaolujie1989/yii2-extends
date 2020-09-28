@@ -31,7 +31,7 @@ class MockFulfillmentService extends BaseObject implements FulfillmentServiceInt
     public function pullWarehouses(array $condition = []): void
     {
         $fulfillmentWarehouses = FulfillmentWarehouse::find()
-            ->accountId($this->accountId)
+            ->fulfillmentAccountId($this->accountId)
             ->externalWarehouseId(static::$externalWarehouseIds)
             ->indexBy('external_warehouse_id')
             ->all();
@@ -154,7 +154,7 @@ class MockFulfillmentService extends BaseObject implements FulfillmentServiceInt
     {
         foreach ($fulfillmentItems as $fulfillmentItem) {
             $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
-                ->accountId($this->accountId)
+                ->fulfillmentAccountId($this->accountId)
                 ->externalItemId($fulfillmentItem->external_item_id)
                 ->externalWarehouseId(static::$externalWarehouseIds)
                 ->indexBy('external_warehouse_id')

@@ -2,7 +2,6 @@
 
 namespace lujie\fulfillment\models;
 
-use ccship\item\models\Item;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -13,19 +12,17 @@ use Yii;
 /**
  * This is the model class for table "{{%fulfillment_warehouse_stock}}".
  *
- * @property string $fulfillment_warehouse_stock_id
- * @property string $fulfillment_account_id
- * @property string $warehouse_id
- * @property string $external_warehouse_id
- * @property string $item_id
- * @property string $external_item_id
+ * @property int $fulfillment_warehouse_stock_id
+ * @property int $fulfillment_account_id
+ * @property int $warehouse_id
+ * @property int $external_warehouse_id
+ * @property int $item_id
+ * @property int $external_item_id
  * @property int $stock_qty
  * @property int $reserved_qty
- * @property array $additional
+ * @property array|null $additional
  * @property int $external_updated_at
  * @property int $stock_pulled_at
- *
- * @property Item $item
  */
 class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
 {

@@ -10,12 +10,21 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the ActiveQuery class for [[FulfillmentItem]].
  *
+ * This is the ActiveQuery class for [[FulfillmentItem]].
+ *
  * @method FulfillmentItemQuery id($id)
- * @method FulfillmentItemQuery accountId($accountId)
+ * @method FulfillmentItemQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method FulfillmentItemQuery fulfillmentItemId($fulfillmentItemId)
+ * @method FulfillmentItemQuery fulfillmentAccountId($fulfillmentAccountId)
  * @method FulfillmentItemQuery itemId($itemId)
  * @method FulfillmentItemQuery externalItemId($externalItemId)
  * @method FulfillmentItemQuery externalItemNo($externalItemNo)
+ * @method FulfillmentItemQuery externalItemParentId($externalItemParentId)
  * @method FulfillmentItemQuery itemPushedStatus($itemPushedStatus)
+ * @method FulfillmentItemQuery accountId($accountId)
  *
  * @method FulfillmentItemQuery notQueued()
  * @method FulfillmentItemQuery itemPushed()
@@ -24,6 +33,7 @@ use yii\helpers\ArrayHelper;
  *
  * @method array|FulfillmentItem[] all($db = null)
  * @method array|FulfillmentItem|null one($db = null)
+ * @method array|FulfillmentItem[] each($batchSize = 100, $db = null)
  *
  * @see FulfillmentItem
  */
@@ -39,11 +49,14 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'accountId' => 'fulfillment_account_id',
+                    'fulfillmentItemId' => 'fulfillment_item_id',
+                    'fulfillmentAccountId' => 'fulfillment_account_id',
                     'itemId' => 'item_id',
                     'externalItemId' => 'external_item_id',
                     'externalItemNo' => 'external_item_no',
+                    'externalItemParentId' => 'external_item_parent_id',
                     'itemPushedStatus' => 'item_pushed_status',
+                    'accountId' => 'fulfillment_account_id',
                 ],
                 'queryConditions' => [
                     'notQueued' => ['!=', 'item_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],

@@ -12,12 +12,12 @@ use Yii;
 /**
  * This is the model class for table "{{%fulfillment_warehouse}}".
  *
- * @property string $fulfillment_warehouse_id
- * @property string $fulfillment_account_id
- * @property string $warehouse_id
- * @property string $external_warehouse_id
+ * @property int $fulfillment_warehouse_id
+ * @property int $fulfillment_account_id
+ * @property int $warehouse_id
+ * @property int $external_warehouse_id
  * @property string $external_warehouse_name
- * @property array $additional
+ * @property array|null $additional
  * @property int $status
  *
  * @property FulfillmentAccount $fulfillmentAccount

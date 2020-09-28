@@ -474,7 +474,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pullFulfillmentOrders(int $accountId): void
     {
         $query = FulfillmentOrder::find()
-            ->accountId($accountId)
+            ->fulfillmentAccountId($accountId)
             ->processing()
             ->orderByOrderPulledAt()
             ->limit($this->batchLimit);
@@ -496,7 +496,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pullFulfillmentWarehouseStocks(int $accountId): void
     {
         $query = FulfillmentItem::find()
-            ->accountId($accountId)
+            ->fulfillmentAccountId($accountId)
             ->itemPushed()
             ->orderByStockPulledAt()
             ->limit($this->batchLimit);
@@ -521,7 +521,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         $accountIds = FulfillmentAccount::find()->active()->column();
         $fulfillmentItems = FulfillmentItem::find()
-            ->accountId($accountIds)
+            ->fulfillmentAccountId($accountIds)
             ->newUpdatedItems()
             ->notQueued()
             ->all();
@@ -538,7 +538,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         $accountIds = FulfillmentAccount::find()->active()->column();
         $fulfillmentOrders = FulfillmentOrder::find()
-            ->accountId($accountIds)
+            ->fulfillmentAccountId($accountIds)
             ->pending()
             ->notQueued()
             ->all();
@@ -547,7 +547,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $fulfillmentOrders = FulfillmentOrder::find()
-            ->accountId($accountIds)
+            ->fulfillmentAccountId($accountIds)
             ->toHolding()
             ->notQueued()
             ->all();
@@ -556,7 +556,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $fulfillmentOrders = FulfillmentOrder::find()
-            ->accountId($accountIds)
+            ->fulfillmentAccountId($accountIds)
             ->toShipping()
             ->notQueued()
             ->all();
@@ -565,7 +565,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $fulfillmentOrders = FulfillmentOrder::find()
-            ->accountId($accountIds)
+            ->fulfillmentAccountId($accountIds)
             ->toCancelling()
             ->notQueued()
             ->all();

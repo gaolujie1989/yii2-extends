@@ -9,13 +9,22 @@ use yii\helpers\ArrayHelper;
  * This is the ActiveQuery class for [[FulfillmentWarehouse]].
  *
  * @method FulfillmentWarehouseQuery id($id)
- * @method FulfillmentWarehouseQuery accountId($accountId)
+ * @method FulfillmentWarehouseQuery orderById($sort = SORT_ASC)
+ * @method int getId()
+ * @method array getIds()
+ *
+ * @method FulfillmentWarehouseQuery fulfillmentWarehouseId($fulfillmentWarehouseId)
+ * @method FulfillmentWarehouseQuery fulfillmentAccountId($fulfillmentAccountId)
  * @method FulfillmentWarehouseQuery warehouseId($warehouseId)
  * @method FulfillmentWarehouseQuery externalWarehouseId($externalWarehouseId)
+ * @method FulfillmentWarehouseQuery status($status)
+ *
+ * @method FulfillmentWarehouseQuery accountId($accountId)
  * @method FulfillmentWarehouseQuery externalWarehouseName($externalWarehouseName)
  *
  * @method array|FulfillmentWarehouse[] all($db = null)
  * @method array|FulfillmentWarehouse|null one($db = null)
+ * @method array|FulfillmentWarehouse[] each($batchSize = 100, $db = null)
  *
  * @see FulfillmentWarehouse
  */
@@ -31,9 +40,13 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'accountId' => 'fulfillment_account_id',
+                    'fulfillmentWarehouseId' => 'fulfillment_warehouse_id',
+                    'fulfillmentAccountId' => 'fulfillment_account_id',
                     'warehouseId' => 'warehouse_id',
                     'externalWarehouseId' => 'external_warehouse_id',
+                    'status' => 'status',
+
+                    'accountId' => 'fulfillment_account_id',
                     'externalWarehouseName' => 'external_warehouse_name',
                 ]
             ]

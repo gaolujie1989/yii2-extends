@@ -21,7 +21,7 @@ class ErrorHandler extends \yii\web\ErrorHandler
      */
     public function register(): void
     {
-        ini_set('display_errors', false);
+        ini_set('display_errors', 'off');
         //not register any handler
     }
 

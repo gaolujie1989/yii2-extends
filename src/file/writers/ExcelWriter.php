@@ -119,7 +119,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             foreach ($data as $values) {
                 $columnIndex = 'A';
                 foreach ($values as $value) {
-                    $pCoordinate = chr($columnIndex) . (string)$rowIndex;
+                    $pCoordinate = $columnIndex . $rowIndex;
                     if (is_resource($value)) {
                         $drawing = new MemoryDrawing();
                         $drawing->setImageResource($value);

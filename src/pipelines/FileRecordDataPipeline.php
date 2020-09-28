@@ -48,7 +48,7 @@ class FileRecordDataPipeline extends RecordPipeline
 
     /**
      * @param array $values
-     * @return BaseActiveRecord
+     * @return BaseActiveRecord|DataRecord
      * @inheritdoc
      */
     public function createModel(array $values): BaseActiveRecord

@@ -24,9 +24,9 @@ class ConnectionHelper
      * @return bool
      * @throws Exception
      */
-    public static function isLostConnection(Exception $exception, Connection $connection, $resetConnection = true): bool
+    public static function isLostConnection(Exception $exception, Connection $connection, bool $resetConnection = true): bool
     {
-        $errorCode = is_array($exception->errorInfo) ? $exception->errorInfo[1] ?? '' : '';
+        $errorCode = $exception->errorInfo[1] ?? 'Unknown';
         if ($errorCode === 2006 || $errorCode === 2013
             || strpos($exception->getMessage(), 'MySQL server has gone away') !== false) {
             if ($resetConnection) {

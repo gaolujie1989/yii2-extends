@@ -458,7 +458,8 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
         $countryCodeToId = array_flip(array_unique(PlentyMarketsConst::COUNTRY_CODES));
         //fix GB to UK
         $countryCodeToId['GB'] = $countryCodeToId['UK'];
-        if (empty($countryCodeToId[$address->country])) {
+        $countryId = $countryCodeToId[$address->country] ?? false;
+        if (empty($countryId)) {
             throw new InvalidArgumentException('Invalid country: ' . $address->country);
         }
 
@@ -473,7 +474,7 @@ class PmFulfillmentService extends BaseObject implements FulfillmentServiceInter
             'address3' => $address->additional,
             'postalCode' => $address->postalCode,
             'town' => $address->city,
-            'countryId' => $countryCodeToId[$address['country']],
+            'countryId' => $countryId,
         ];
 
         $addressData = PlentyMarketAddressFormatter::format($addressData);

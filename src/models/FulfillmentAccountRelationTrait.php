@@ -15,10 +15,10 @@ use yii\db\BaseActiveRecord;
 trait FulfillmentAccountRelationTrait
 {
     /**
-     * @return FulfillmentAccountQuery|ActiveQueryInterface
+     * @return ActiveQueryInterface|FulfillmentAccountQuery
      * @inheritdoc
      */
-    public function getFulfillmentAccount(): FulfillmentAccountQuery
+    public function getFulfillmentAccount(): ActiveQueryInterface
     {
         /** @var BaseActiveRecord $this */
         return $this->hasOne(FulfillmentAccount::class, ['fulfillment_account_id' => 'fulfillment_account_id']);

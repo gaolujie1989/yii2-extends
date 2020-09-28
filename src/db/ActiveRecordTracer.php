@@ -5,13 +5,12 @@
 
 namespace lujie\extend\db;
 
-use Yii;
+use lujie\extend\helpers\IdentityHelper;
 use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
-use yii\web\User;
 
 /**
  * Class TraceableBootstrap
@@ -73,7 +72,7 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
             $model->setAttribute($this->createdAtAttribute, time());
         }
         if ($model->hasAttribute($this->createdByAttribute)) {
-            $model->setAttribute($this->createdByAttribute, $this->getActionBy());
+            $model->setAttribute($this->createdByAttribute, IdentityHelper::getId());
         }
     }
 
@@ -88,24 +87,9 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
             $model->setAttribute($this->updatedAtAttribute, time());
         }
         if ($model->hasAttribute($this->updatedByAttribute)) {
-            if (($value = $this->getActionBy()) || $this->saveEmptyOnUpdateBy) {
+            if (($value = IdentityHelper::getId()) || $this->saveEmptyOnUpdateBy) {
                 $model->setAttribute($this->updatedByAttribute, $value);
             }
         }
-    }
-
-    /**
-     * @return int
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    protected function getActionBy(): int
-    {
-        /** @var User $user */
-        $user = Yii::$app->get('user', false);
-        if ($user === null || $user->getIsGuest()) {
-            return 0;
-        }
-        return $user->getId();
     }
 }

@@ -30,7 +30,7 @@ class CompressReader extends BaseObject implements FileReaderInterface
     ];
 
     /**
-     * @var CompressorInterface
+     * @var ?CompressorInterface
      */
     public $compressor = GzCompressor::class;
 

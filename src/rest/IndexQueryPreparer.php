@@ -22,7 +22,7 @@ use yii\db\QueryInterface;
 class IndexQueryPreparer extends BaseObject
 {
     /**
-     * @var BaseActiveRecord
+     * @var BaseActiveRecord|string|null
      */
     public $searchClass;
 

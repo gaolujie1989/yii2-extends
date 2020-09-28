@@ -26,11 +26,11 @@ trait SaveTrait
 
     /**
      * @param bool $runValidation
-     * @param null $attributeNames
+     * @param array|null $attributeNames
      * @return bool
      * @inheritdoc
      */
-    public function save($runValidation = true, $attributeNames = null): bool
+    public function save(bool $runValidation = true, ?array $attributeNames = null): bool
     {
         /** @var BaseActiveRecord $this */
         if ($attributeNames) {

@@ -30,7 +30,7 @@ class CompressWriter extends BaseObject implements FileWriterInterface
     ];
 
     /**
-     * @var CompressorInterface
+     * @var ?CompressorInterface
      */
     public $compressor = GzCompressor::class;
 

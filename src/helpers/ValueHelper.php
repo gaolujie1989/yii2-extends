@@ -38,7 +38,7 @@ class ValueHelper
      * check value is match condition or not
      * @param mixed $value
      * @param string|array|mixed $condition
-     * @param false $strict
+     * @param bool $strict
      * @return bool
      * @inheritdoc
      */

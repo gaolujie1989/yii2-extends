@@ -5,8 +5,8 @@
 
 namespace lujie\extend\authclient;
 
-use yii\authclient\CacheStateStorage;
 use yii\authclient\BaseClient;
+use yii\authclient\CacheStateStorage;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
@@ -194,7 +194,7 @@ abstract class BaseCookieClient extends BaseClient
     /**
      * @param string $callSubUrl
      * @param string $method
-     * @param array $data
+     * @param array|string $data
      * @param array $headers
      * @return Request
      * @inheritdoc

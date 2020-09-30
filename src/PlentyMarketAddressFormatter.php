@@ -33,10 +33,10 @@ class PlentyMarketAddressFormatter
                 $name1 = $address['name1'];
                 $address['name1'] = $address[$field];
                 $address[$field] = $name1;
-                $address = self::validateAddress1($address);
                 break;
             }
         }
+        $address = self::validateAddress1($address);
         if (empty($address['address2']) && !empty($address['address3'])) {
             [$additional3, $address['address3']] = self::extractAdditionalFromAddress($address['address3']);
             [$address['address2'], $address['address3']] = self::extractNumberFromAddress($address['address3'], static::isUK($address));

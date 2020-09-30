@@ -26,7 +26,7 @@ class PlentyMarketAddressFormatter
             $address['name3'] = substr($address['name2'], $pos);
             $address['name2'] = substr($address['name2'], 0, $pos);
         }
-        //fix company name
+        //fix company name in address
         for ($i = 1; $i <= 3; $i++) {
             $field = 'address' . $i;
             if (strpos(strtolower($address[$field]), 'gmbh') !== false) {
@@ -36,7 +36,12 @@ class PlentyMarketAddressFormatter
                 break;
             }
         }
-        $address = self::validateAddress1($address);
+        $address = self::validateAddress1($address, static::$minStreetLength);
+        if (!empty($address['address2'])) {
+            [$address['address2'], $additional21] = self::extractNumberFromAddress($address['address2'], true);
+            $address['address2'] = strtr(trim($address['address2']), [' ' => '-']);
+        }
+
         if (empty($address['address2']) && !empty($address['address3'])) {
             [$additional3, $address['address3']] = self::extractAdditionalFromAddress($address['address3']);
             [$address['address2'], $address['address3']] = self::extractNumberFromAddress($address['address3'], static::isUK($address));
@@ -44,15 +49,17 @@ class PlentyMarketAddressFormatter
         if (empty($address['address2']) && !empty($address['address1'])) {
             [$additional1, $address['address1']] = self::extractAdditionalFromAddress($address['address1']);
             [$address['address2'], $address['address1']] = self::extractNumberFromAddress($address['address1'], static::isUK($address));
-            $address = self::validateAddress1($address);
+            $address = self::validateAddress1($address, static::$minStreetLength);
         }
+
         if (empty($address['address2'])) {
             $address['address2'] = '*';
         } else {
-            [$address['address2'], $additional2] = self::extractNumberFromAddress($address['address2'], true);
+            [$address['address2'], $additional22] = self::extractNumberFromAddress($address['address2'], true);
             $address['address2'] = strtr(trim($address['address2']), [' ' => '-']);
         }
-        $address['address3'] .= ($additional1 ?? '') . ($additional2 ?? '') . ($additional3 ?? '');
+
+        $address['address3'] .= ($additional1 ?? '') . ($additional21 ?? '') . ($additional22 ?? '') . ($additional3 ?? '');
         return array_map('trim', $address);
     }
 
@@ -95,7 +102,7 @@ class PlentyMarketAddressFormatter
      */
     public static function extractAdditionalFromAddress(string $address): array
     {
-        if (preg_match('/(flat)[\s-]*\d+\w*/i', $address, $matches)) {
+        if (preg_match('/(flat|unit)[\s-]*\d+\w*/i', $address, $matches)) {
             return [strtr(trim($matches[0]), [' ' => '-']), trim(strtr($address, [$matches[0] => '']))];
         }
         return ['', $address];
@@ -117,16 +124,20 @@ class PlentyMarketAddressFormatter
      * @return array
      * @inheritdoc
      */
-    public static function validateAddress1(array $address): array
+    public static function validateAddress1(array $address, $minAddress1Length = 0): array
     {
-        if (empty($address['address1'])) {
-            if (!empty($address['address3'])) {
+        $address1 = $address['address1'];
+        if (strlen($address['address1']) < $minAddress1Length) {
+            if (strlen($address['address3']) >= $minAddress1Length) {
                 $address['address1'] = $address['address3'];
-                $address['address3'] = '';
-            } else {
+                $address['address3'] = $address1;
+            } else if (strlen($address['address2']) >= $minAddress1Length) {
                 $address['address1'] = $address['address2'];
-                $address['address2'] = '';
+                $address['address2'] = $address1;
             }
+        }
+        if ($minAddress1Length > 0) {
+            $address = static::validateAddress1($address, 0);
         }
         return $address;
     }

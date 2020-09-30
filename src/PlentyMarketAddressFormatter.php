@@ -126,6 +126,7 @@ class PlentyMarketAddressFormatter
      */
     public static function validateAddress1(array $address, $minAddress1Length = 0): array
     {
+        $address = array_map('trim', $address);
         $address1 = $address['address1'];
         if (strlen($address['address1']) < $minAddress1Length) {
             if (strlen($address['address3']) >= $minAddress1Length) {

@@ -49,8 +49,8 @@ class PlentyMarketAddressFormatter
         if (empty($address['address2']) && !empty($address['address1'])) {
             [$additional1, $address['address1']] = self::extractAdditionalFromAddress($address['address1']);
             [$address['address2'], $address['address1']] = self::extractNumberFromAddress($address['address1'], static::isUK($address));
-            $address = self::validateAddress1($address, static::$minStreetLength);
         }
+        $address = self::validateAddress1($address, static::$minStreetLength);
 
         if (empty($address['address2'])) {
             $address['address2'] = '*';

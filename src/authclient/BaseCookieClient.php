@@ -208,7 +208,7 @@ abstract class BaseCookieClient extends BaseClient
      * @return Request
      * @inheritdoc
      */
-    protected function createReadyRequest(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Request
+    public function createReadyRequest(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Request
     {
         $request = $this->createAuthRequest()
             ->setMethod($method)

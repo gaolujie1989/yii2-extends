@@ -53,7 +53,7 @@ class HttpClientHelper
         $request->client->setTransport(CurlTransport::class);
 
         $outputFile = Yii::getAlias($outputFile);
-        FileHelper::createDirectory($outputFile);
+        FileHelper::createDirectory(dirname($outputFile));
         if (file_exists($outputFile)) {
             unlink($outputFile);
         }

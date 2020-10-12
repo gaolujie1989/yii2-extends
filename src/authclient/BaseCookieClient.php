@@ -59,6 +59,15 @@ abstract class BaseCookieClient extends BaseClient
     ];
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getId(): string
+    {
+        return $this->username;
+    }
+
+    /**
      * @inheritdoc
      */
     public function init(): void

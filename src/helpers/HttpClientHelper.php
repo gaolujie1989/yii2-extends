@@ -25,7 +25,7 @@ class HttpClientHelper
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function sendRequest(Request $request): Response
+    public static function sendRequest(Request $request): Response
     {
         $response = $request->send();
 
@@ -44,7 +44,7 @@ class HttpClientHelper
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function downloadFile(Request $request, string $outputFile)
+    public static function downloadFile(Request $request, string $outputFile)
     {
         $request->client->setTransport(CurlTransport::class);
         if (file_exists($outputFile)) {

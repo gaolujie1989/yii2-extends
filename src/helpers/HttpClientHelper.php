@@ -40,11 +40,13 @@ class HttpClientHelper
     /**
      * @param Request $request
      * @param string $outputFile
+     * @param bool $throwException
+     * @return bool
      * @throws \Throwable
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public static function downloadFile(Request $request, string $outputFile)
+    public static function downloadFile(Request $request, string $outputFile, $throwException = true): bool
     {
         $request->client->setTransport(CurlTransport::class);
         if (file_exists($outputFile)) {
@@ -56,8 +58,12 @@ class HttpClientHelper
         } catch (\Throwable $e) {
             fclose($file);
             unlink($outputFile);
-            throw $e;
+            if ($throwException) {
+                throw $e;
+            }
+            return false;
         }
         fclose($file);
+        return true;
     }
 }

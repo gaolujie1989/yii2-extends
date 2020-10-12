@@ -6,7 +6,9 @@
 namespace lujie\extend\helpers;
 
 
+use Yii;
 use yii\authclient\InvalidResponseException;
+use yii\helpers\FileHelper;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
@@ -49,9 +51,13 @@ class HttpClientHelper
     public static function downloadFile(Request $request, string $outputFile, $throwException = true): bool
     {
         $request->client->setTransport(CurlTransport::class);
+
+        $outputFile = Yii::getAlias($outputFile);
+        FileHelper::createDirectory($outputFile);
         if (file_exists($outputFile)) {
             unlink($outputFile);
         }
+
         $file = fopen($outputFile, 'wb');
         try {
             $request->setOutputFile($file)->send();

@@ -598,6 +598,15 @@ class PlentyMarketsRestClient extends OAuth2
     #region BaseOAuth
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getId(): string
+    {
+        return $this->username;
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */

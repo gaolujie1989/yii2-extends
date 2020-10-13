@@ -123,6 +123,16 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param int $l2whMM
+     * @return $this
+     * @inheritdoc
+     */
+    public function lwhMMLimit(int $l2whMM): self
+    {
+        return $this->limitCondition('lwh_mm_limit', $l2whMM);
+    }
+
+    /**
      * @param int $lhMM
      * @return $this
      * @inheritdoc
@@ -151,26 +161,6 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     protected function minLimitCondition(string $limitType, int $limitValue): self
     {
         return $this->andWhere(['OR', [$limitType => 0], ['<', $limitType, $limitValue]]);
-    }
-
-    /**
-     * @param int $lengthMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function minLengthMMLimit(int $lengthMM): self
-    {
-        return $this->minLimitCondition('length_mm_min_limit', $lengthMM);
-    }
-
-    /**
-     * @param int $widthMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function minWidthMMLimit(int $widthMM): self
-    {
-        return $this->minLimitCondition('width_mm_min_limit', $widthMM);
     }
 
     /**

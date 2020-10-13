@@ -29,6 +29,11 @@ class ShippingTableForm extends ShippingTable
             'started_at', 'ended_at',
         ];
         ModelHelper::removeAttributesRules($rules, $attributes);
-        return $rules;
+        return array_merge($rules, [
+            [['price', 'weight_kg_limit',
+                'length_mm_limit', 'width_mm_limit', 'height_mm_limit',
+                'l2wh_mm_limit', 'lh_mm_limit'], 'number'],
+            [['started_time', 'ended_time'], 'safe']
+        ]);
     }
 }

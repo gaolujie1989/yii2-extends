@@ -14,7 +14,7 @@ class m191121_170639_shipping_table extends \yii\db\Migration
         $this->createTable($this->tableName, [
             'shipping_table_id' => $this->bigPrimaryKey(),
 
-            'carrier' => $this->char(3)->notNull()->defaultValue(''),
+            'carrier' => $this->string(10)->notNull()->defaultValue(''),
             'departure' => $this->char(2)->notNull()->defaultValue(''),
             'destination' => $this->char(2)->notNull()->defaultValue(''),
             'weight_g_limit' => $this->integer()->notNull()->defaultValue(0),

@@ -31,8 +31,8 @@ class ShippingTableForm extends ShippingTable
         ModelHelper::removeAttributesRules($rules, $attributes);
         return array_merge($rules, [
             [['price', 'weight_kg_limit',
-                'length_mm_limit', 'width_mm_limit', 'height_mm_limit',
-                'l2wh_mm_limit', 'lh_mm_limit'], 'number'],
+                'length_cm_limit', 'width_cm_limit', 'height_cm_limit',
+                'l2wh_cm_limit', 'lh_cm_limit'], 'number'],
             [['started_time', 'ended_time'], 'safe']
         ]);
     }

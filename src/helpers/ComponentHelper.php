@@ -8,6 +8,7 @@ namespace lujie\extend\helpers;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\Module;
+use yii\helpers\StringHelper;
 
 /**
  * Class ComponentHelper
@@ -31,5 +32,18 @@ class ComponentHelper
             }
         }
         throw new InvalidArgumentException('Instance must be an application component.');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function closeConnections(): void
+    {
+        $app = Yii::$app;
+        foreach ($app->getComponents(false) as $id => $instance) {
+            if (method_exists($instance, 'close') && ClassHelper::getClassShortName($instance) === 'Connection') {
+                $instance->close();
+            }
+        }
     }
 }

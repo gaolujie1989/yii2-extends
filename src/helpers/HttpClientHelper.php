@@ -9,6 +9,7 @@ namespace lujie\extend\helpers;
 use Yii;
 use yii\authclient\InvalidResponseException;
 use yii\helpers\FileHelper;
+use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
@@ -22,16 +23,17 @@ class HttpClientHelper
 {
     /**
      * @param Request $request
+     * @param array $allowedStatusCodes
      * @return Response
      * @throws InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public static function sendRequest(Request $request): Response
+    public static function sendRequest(Request $request, $allowedStatusCodes = []): Response
     {
         $response = $request->send();
 
-        if (!$response->getIsOk()) {
+        if (!$response->getIsOk() && !in_array($response->getStatusCode(), $allowedStatusCodes)) {
             $message = 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent();
             throw new InvalidResponseException($response, $message);
         }
@@ -51,6 +53,7 @@ class HttpClientHelper
     public static function downloadFile(Request $request, string $outputFile, $throwException = true): bool
     {
         $request->client->setTransport(CurlTransport::class);
+        $request->setFormat(Client::FORMAT_URLENCODED);
 
         $outputFile = Yii::getAlias($outputFile);
         FileHelper::createDirectory(dirname($outputFile));

@@ -85,6 +85,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
             'packagePricesCent' => ArrayHelper::getColumn($carrierPackages, 'package_price_cent'),
             'additionalPricesCent' => ArrayHelper::getColumn($carrierPackages, 'additional_price_cent'),
+            'additionalServices' => ArrayHelper::getColumn($carrierPackages, 'additional_services'),
         ]);
         return $chargePrice;
     }

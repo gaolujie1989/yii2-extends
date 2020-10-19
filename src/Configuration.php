@@ -256,10 +256,10 @@ class Configuration extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getConfig(string $configType) : array
+    public function getConfig(string $configType) : array
     {
         $key = $configType;
-        return $this->getOrSet($key, function() use ($configType) {
+        return $this->getOrSetCacheValue($key, function() use ($configType) {
             $config = $this->configLoader->get($configType) ?: [];
             $config = $this->filterConfig($configType, $config);
             return $this->sortConfig($configType, $config);
@@ -271,10 +271,10 @@ class Configuration extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getAllConfig() : array
+    public function getAllConfig() : array
     {
         $key = 'all';
-        return $this->getOrSet($key, function() {
+        return $this->getOrSetCacheValue($key, function() {
             $all = $this->configLoader->all();
             foreach ($all as $configType => $config) {
                 $config = $this->filterConfig($configType, $config);

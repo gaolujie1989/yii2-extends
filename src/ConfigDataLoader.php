@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\configuration
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ConfigLoader extends BaseDataLoader
+class ConfigDataLoader extends BaseDataLoader
 {
     /**
      * @var Configuration

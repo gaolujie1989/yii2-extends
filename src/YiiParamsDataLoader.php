@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\data\loader
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class YiiParamsDataLoader extends ArrayDataLoader
+class YiiParamsDataLoader extends BaseDataLoader
 {
     /**
      * @var string
@@ -21,11 +21,22 @@ class YiiParamsDataLoader extends ArrayDataLoader
     public $paramKey;
 
     /**
+     * @param int|string $key
+     * @return array|mixed|null
      * @inheritdoc
      */
-    public function init(): void
+    public function get($key)
     {
-        parent::init();
-        $this->data = ArrayHelper::getValue(Yii::$app->params, $this->paramKey, []);
+        $data = ArrayHelper::getValue(Yii::$app->params, $this->paramKey, []);
+        return ArrayHelper::getValue($data, $key);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function all(): ?array
+    {
+        return ArrayHelper::getValue(Yii::$app->params, $this->paramKey, []);
     }
 }

@@ -55,7 +55,7 @@ class DependencyChecker extends BaseObject
                     continue;
                 }
                 $extensionNs = strtr(substr($alias, 1), ['/' => '\\']);
-                $extensionFiles = glob($path . '/*');
+                $extensionFiles = glob($path . '/*.php');
                 foreach ($extensionFiles as $codeFile) {
                     $checkNs = $this->getCheckNs($codeFile);
                     $invalidNs = array_filter($checkNs, function ($ns) use ($extension, $extensionNs) {

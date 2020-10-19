@@ -76,17 +76,28 @@ class QueryHelper
 
     /**
      * @param Query $query
+     * @param array $attributeValues
+     * @param string $alias
+     */
+    public static function filterRange(Query $query, array $attributeValues, string $alias = ''): void
+    {
+        $alias = $alias ? $alias . '.' : '';
+        foreach ($attributeValues as $attribute => $value) {
+            if ($value && is_array($value)) {
+                $query->andFilterWhere(['>=', $alias . $attribute, $value[0] ?? ''])
+                    ->andFilterWhere(['<=', $alias . $attribute, $value[1] ?? '']);
+            }
+        }
+    }
+
+    /**
+     * @param Query $query
      * @param array $timeAttributeValues
      * @param string $alias
+     * @deprecated
      */
     public static function filterTimestampRange(Query $query, array $timeAttributeValues, string $alias = ''): void
     {
-        $alias = $alias ? $alias . '.' : '';
-        foreach ($timeAttributeValues as $timeAttribute => $value) {
-            if ($value && is_array($value)) {
-                $query->andFilterWhere(['>=', $alias . $timeAttribute, $value[0] ?? ''])
-                    ->andFilterWhere(['<=', $alias . $timeAttribute, $value[1] ?? '']);
-            }
-        }
+        static::filterRange($query, $timeAttributeValues, $alias);
     }
 }

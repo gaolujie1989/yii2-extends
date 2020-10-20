@@ -25,6 +25,7 @@ use BackupManager\Filesystems\SftpFilesystem;
 use BackupManager\Manager;
 use creocoder\flysystem\Filesystem;
 use lujie\backup\manager\Filesystems\AliyunOssFilesystem;
+use lujie\flysystem\QCloudCosFilesystem;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -271,6 +272,27 @@ class BackupManager extends Component
                 'token' => $filesystem->token,
                 'accessId' => $filesystem->accessId,
                 'accessSecret' => $filesystem->accessSecret,
+            ];
+        }
+        if ($filesystem instanceof QCloudCosFilesystem) {
+            return [
+                'type' => 'qCloudCos',
+                'region' => $filesystem->region,
+                'credentials' => [
+                    'appId' => $filesystem->appId,
+                    'secretId' => $filesystem->accessId,
+                    'secretKey' => $filesystem->accessSecret,
+                    'token' => $filesystem->token,
+                ],
+
+                'bucket' => $filesystem->bucket,
+                'timeout' => $filesystem->timeout,
+                'connect_timeout' => $filesystem->connectTimeout,
+                'cdn' => '',
+                'scheme' => 'https',
+                'read_from_cdn' => false,
+                'cdn_key' => '',
+                'encrypt' => false,
             ];
         }
         throw new InvalidArgumentException('Invalid filesystem to get config');

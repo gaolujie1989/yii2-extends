@@ -19,7 +19,7 @@ class AliyunOssFilesystem extends Filesystem
 {
     public $bucket;
 
-    public $endpoint;
+    public $endpoint = 'oss-cn-hangzhou.aliyuncs.com';
 
     public $timeout;
 

@@ -34,7 +34,7 @@ class HttpClientHelper
         $response = $request->send();
 
         if (!$response->getIsOk() && !in_array($response->getStatusCode(), $allowedStatusCodes)) {
-            $message = 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent();
+            $message = 'Request failed with code: ' . $response->getStatusCode();
             throw new InvalidResponseException($response, $message);
         }
 

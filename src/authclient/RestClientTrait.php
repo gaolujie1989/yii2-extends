@@ -132,7 +132,7 @@ trait RestClientTrait
     /**
      * @param string $name
      * @param array $data
-     * @return array|null
+     * @return array
      * @inheritdoc
      */
     protected function callApiMethod(string $name, array $data): ?array
@@ -161,7 +161,7 @@ trait RestClientTrait
      * @return array
      * @inheritdoc
      */
-    public function restApi(string $name, array $data): array
+    public function restApi(string $name, array $data): ?array
     {
         return $this->callApiMethod($name, $data);
     }

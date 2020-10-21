@@ -681,7 +681,7 @@ class PlentyMarketsRestClient extends OAuth2
      * @return array
      * @inheritdoc
      */
-    public function restApi(string $name, array $data): array
+    public function restApi(string $name, array $data): ?array
     {
         $response = $this->callApiMethod($name, $data);
         if ($name === 'listWarehouseLocations') {

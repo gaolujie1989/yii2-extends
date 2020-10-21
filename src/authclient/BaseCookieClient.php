@@ -105,12 +105,6 @@ abstract class BaseCookieClient extends BaseClient
             ->send();
 
         $cookies = $response->getCookies();
-        $defaultExpireAt = time() + $this->expireTime;
-        foreach ($cookies as $cookie) {
-            if (empty($cookie->expire)) {
-                $cookie->expire = $defaultExpireAt;
-            }
-        }
         $this->setCookies($cookies);
         return $cookies;
     }
@@ -121,6 +115,12 @@ abstract class BaseCookieClient extends BaseClient
      */
     public function setCookies(CookieCollection $cookies): void
     {
+        $defaultExpireAt = time() + $this->expireTime;
+        foreach ($cookies as $cookie) {
+            if (empty($cookie->expire)) {
+                $cookie->expire = $defaultExpireAt;
+            }
+        }
         $this->_cookies = $cookies;
         $this->setState('cookies', $cookies);
     }

@@ -132,10 +132,10 @@ trait RestClientTrait
     /**
      * @param string $name
      * @param array $data
-     * @return array
+     * @return array|null
      * @inheritdoc
      */
-    protected function callApiMethod(string $name, array $data): array
+    protected function callApiMethod(string $name, array $data): ?array
     {
         if (empty($this->apiMethods)) {
             $this->apiMethods = array_merge($this->createApiMethods(), $this->extraMethods ?? []);

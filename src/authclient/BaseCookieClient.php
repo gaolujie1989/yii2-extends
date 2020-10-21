@@ -42,6 +42,11 @@ abstract class BaseCookieClient extends BaseClient
     public $password;
 
     /**
+     * @var int
+     */
+    public $expireTime = 1800;
+
+    /**
      * @var ?CookieCollection
      */
     private $_cookies;
@@ -100,6 +105,12 @@ abstract class BaseCookieClient extends BaseClient
             ->send();
 
         $cookies = $response->getCookies();
+        $defaultExpireAt = time() + $this->expireTime;
+        foreach ($cookies as $cookie) {
+            if (empty($cookie->expire)) {
+                $cookie->expire = $defaultExpireAt;
+            }
+        }
         $this->setCookies($cookies);
         return $cookies;
     }
@@ -126,7 +137,7 @@ abstract class BaseCookieClient extends BaseClient
             $now = time();
             /** @var Cookie $cookie */
             foreach ($this->_cookies as $cookie) {
-                if ($cookie->expire && $cookie->expire <= $now) {
+                if ($cookie->expire <= $now) {
                     $this->_cookies = $this->login();
                 }
             }

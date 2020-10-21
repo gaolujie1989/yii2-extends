@@ -116,8 +116,9 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
     public function diffRelationValue(array $oldValue, array $newValue): array
     {
         $diffValue = [];
-        $newValue = array_merge(array_fill_keys($this->attributes, ''), $newValue);
-        $oldValue = array_merge(array_fill_keys($this->attributes, ''), $oldValue);
+        $default = array_fill_keys($this->attributes, '');
+        $newValue = array_merge($default, $newValue);
+        $oldValue = array_merge($default, $oldValue);
         foreach ($this->attributes as $attribute) {
             if ($newValue[$attribute] !== $oldValue[$attribute]) {
                 $diffValue[$attribute]  = $this->diffValue($oldValue[$attribute], $newValue[$attribute]);

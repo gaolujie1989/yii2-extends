@@ -56,17 +56,18 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
         if ($this->multi) {
             return array_map([$this, 'extractValue'], $value);
         } else {
-            return $value ? $this->extractValue($value) : [];
+            return $this->extractValue($value);
         }
     }
 
     /**
-     * @param BaseActiveRecord $value
+     * @param BaseActiveRecord|null $value
      * @return array
+     * @inheritdoc
      */
-    public function extractValue(BaseActiveRecord $value): array
+    public function extractValue(?BaseActiveRecord $value): array
     {
-        return $value->getAttributes($this->attributes);
+        return $value ? $value->getAttributes($this->attributes) : [];
     }
 
     /**
@@ -100,8 +101,8 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
                 'modified' => $modified,
             ]) ?: null;
         } else {
-            $oldValue = $oldValue ? $this->extractValue($oldValue) : [];
-            $newValue = $newValue ? $this->extractValue($newValue) : [];
+            $oldValue = $this->extractValue($oldValue);
+            $newValue = $this->extractValue($newValue);
             $modified = $this->diffRelationValue($oldValue, $newValue);
             return $modified ? ['modified' => $modified] : null;
         }

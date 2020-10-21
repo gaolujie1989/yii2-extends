@@ -100,8 +100,8 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
                 'modified' => $modified,
             ]) ?: null;
         } else {
-            $oldValue = $this->extractValue($oldValue);
-            $newValue = $this->extractValue($newValue);
+            $oldValue = $oldValue ? $this->extractValue($oldValue) : [];
+            $newValue = $newValue ? $this->extractValue($newValue) : [];
             $modified = $this->diffRelationValue($oldValue, $newValue);
             return $modified ? ['modified' => $modified] : null;
         }
@@ -115,6 +115,8 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
     public function diffRelationValue(array $oldValue, array $newValue): array
     {
         $diffValue = [];
+        $newValue = array_merge(array_fill_keys($this->attributes, ''), $newValue);
+        $oldValue = array_merge(array_fill_keys($this->attributes, ''), $oldValue);
         foreach ($this->attributes as $attribute) {
             if ($newValue[$attribute] !== $oldValue[$attribute]) {
                 $diffValue[$attribute]  = $this->diffValue($oldValue[$attribute], $newValue[$attribute]);

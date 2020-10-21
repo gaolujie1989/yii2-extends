@@ -9,6 +9,7 @@ use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\helpers\TemplateHelper;
 use yii\base\BaseObject;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
@@ -62,9 +63,25 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
 
         $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
         if ($shippingTablePrice === null) {
-            $chargePrice->error = 'Null ShippingTablePrice';
+            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
             return $chargePrice;
         }
+        //calculate addition shippingItem prices
+        $chargePrice->surcharge_cent = 0;
+        $additionalPrices = [];
+        foreach ($shippingItem->additionalShippingItems as $key => $additionalShippingItem) {
+            $additionalShippingPrice = $this->getShippingTablePrice($additionalShippingItem);
+            if ($additionalShippingPrice === null) {
+                $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $additionalShippingItem);
+                return $chargePrice;
+            }
+            $additionalPrices[$key] = array_merge($shippingItem->additional, [
+                'shipping_table_id' => $additionalShippingPrice->shipping_table_id,
+                'price_cent' => $additionalShippingPrice->price_cent,
+                'currency' => $additionalShippingPrice->currency,
+            ]);
+        }
+        $chargePrice->additional['additionalPrices'] = $additionalPrices;
 
         $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
         $chargePrice->price_cent = $shippingTablePrice->price_cent;

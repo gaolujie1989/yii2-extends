@@ -58,4 +58,9 @@ class ShippingItem extends BaseObject
      * @var array
      */
     public $additional = [];
+
+    /**
+     * @var ShippingItem[]
+     */
+    public $additionalShippingItems = [];
 }

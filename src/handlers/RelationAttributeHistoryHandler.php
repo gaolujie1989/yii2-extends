@@ -56,7 +56,7 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
         if ($this->multi) {
             return array_map([$this, 'extractValue'], $value);
         } else {
-            return $this->extractValue($value);
+            return $value ? $this->extractValue($value) : [];
         }
     }
 

@@ -62,6 +62,9 @@ class QueryDataLoader extends BaseDataLoader
         if (!($this->query instanceof QueryInterface)) {
             throw new InvalidConfigException('The "query" property must be instanceof QueryInterface.');
         }
+        if ($this->indexBy === null) {
+            $this->indexBy = $this->key;
+        }
         if ($this->indexBy) {
             $this->query->indexBy($this->indexBy);
         }
@@ -104,8 +107,7 @@ class QueryDataLoader extends BaseDataLoader
     {
         $query = clone $this->query;
         $query->andFilterWhere($this->condition)
-            ->andWhere([$this->key => $keys])
-            ->indexBy($this->key);
+            ->andWhere([$this->key => $keys]);
         if ($this->value) {
             return $query->select([$this->value])->column($this->db);
         }

@@ -30,7 +30,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
     /**
      * @var DataLoaderInterface|QueryDataLoader
      */
-    public $carrierPackageLoader = [
+    public $carrierInvoiceLoader = [
         'class' => DbDataLoader::class,
         'table' => '{{%carrier_package}}',
         'db' => 'kiwiDataRepDB',
@@ -46,7 +46,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
     {
         parent::init();
         $this->carrierItemLoader = Instance::ensure($this->carrierItemLoader, DataLoaderInterface::class);
-        $this->carrierPackageLoader = Instance::ensure($this->carrierPackageLoader, DataLoaderInterface::class);
+        $this->carrierInvoiceLoader = Instance::ensure($this->carrierInvoiceLoader, DataLoaderInterface::class);
     }
 
     /**
@@ -72,6 +72,7 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         $chargePrice->custom_type = $carrierItem->carrier;
         $chargePrice->setAttributes($carrierItem->additional);
 
+        //because one tracking number maybe exist multi invoice item lines
         $carrierPackages = $this->getCarrierInvoicePrices($carrierItem);
         if (empty($carrierPackages)) {
             $chargePrice->error = 'CarrierInvoice not found';
@@ -84,11 +85,9 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         $chargePrice->surcharge_cent = array_sum(ArrayHelper::getColumn($carrierPackages, 'additional_price_cent'));
         $chargePrice->currency = $carrierPackage['currency'];
         $chargePrice->note = implode(';', array_filter(ArrayHelper::getColumn($carrierPackages, 'note')));
-        $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-            'packagePrices' => ArrayHelper::getColumn($carrierPackages, 'package_price_cent'),
-            'additionalPrices' => ArrayHelper::getColumn($carrierPackages, 'additional_price_cent'),
+        $chargePrice->additional = [
             'additionalServices' => ArrayHelper::getColumn($carrierPackages, 'additional_services'),
-        ]);
+        ];
         return $chargePrice;
     }
 
@@ -104,13 +103,13 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         }
         $carrierItem->trackingNumbers = array_map([$this, 'formatInvoiceTrackingNo'], $carrierItem->trackingNumbers);
         //for shipping_date may not be correctly
-        if ($this->carrierPackageLoader instanceof DbDataLoader) {
-            $this->carrierPackageLoader->condition = ['BETWEEN', 'shipping_date',
+        if ($this->carrierInvoiceLoader instanceof DbDataLoader) {
+            $this->carrierInvoiceLoader->condition = ['BETWEEN', 'shipping_date',
                 date('Y-m-d', $carrierItem->shippedAt - 86400 * 30),
                 date('Y-m-d', $carrierItem->shippedAt + 86400 * 60),
             ];
         }
-        return $this->carrierPackageLoader->multiGet($carrierItem->trackingNumbers);
+        return $this->carrierInvoiceLoader->multiGet($carrierItem->trackingNumbers);
     }
 
     /**

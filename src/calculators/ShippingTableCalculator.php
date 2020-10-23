@@ -68,26 +68,6 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             return $chargePrice;
         }
 
-        //calculate addition shippingItem prices
-        $chargePrice->surcharge_cent = 0;
-        $additionalPrices = [];
-        foreach ($shippingItem->additionalShippingItems as $key => $additionalShippingItem) {
-            $additionalShippingPrice = $this->getShippingTablePrice($additionalShippingItem);
-            if ($additionalShippingPrice === null) {
-                $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $additionalShippingItem);
-                return $chargePrice;
-            }
-            $additionalPrices[$key] = array_merge($additionalShippingItem->additional, [
-                'shipping_table_id' => $additionalShippingPrice->shipping_table_id,
-                'price_cent' => $additionalShippingPrice->price_cent,
-                'currency' => $additionalShippingPrice->currency,
-            ]);
-        }
-        $chargePrice->additional['additionalPrices'] = $additionalPrices;
-        $chargePrice->surcharge_cent = array_sum(ArrayHelper::getColumn($additionalPrices, static function($price) {
-            return $price['price_cent'] * ($price['qty'] ?? 1);
-        }));
-
         $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
         $chargePrice->price_cent = $shippingTablePrice->price_cent;
         $chargePrice->currency = $shippingTablePrice->currency;

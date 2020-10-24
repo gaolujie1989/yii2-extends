@@ -42,7 +42,12 @@ class QueryDataLoader extends BaseDataLoader
     /**
      * @var string
      */
-    protected $indexBy;
+    public $indexBy;
+
+    /**
+     * @var array
+     */
+    public $columns = [];
 
     /**
      * @var array
@@ -67,6 +72,9 @@ class QueryDataLoader extends BaseDataLoader
         }
         if ($this->indexBy) {
             $this->query->indexBy($this->indexBy);
+        }
+        if ($this->columns) {
+            $this->query->select($this->columns);
         }
         if ($this->db) {
             $this->db = Instance::ensure($this->db);

@@ -25,7 +25,7 @@ use BackupManager\Filesystems\SftpFilesystem;
 use BackupManager\Manager;
 use creocoder\flysystem\Filesystem;
 use lujie\backup\manager\Filesystems\AliyunOssFilesystem;
-use lujie\flysystem\QCloudCosFilesystem;
+use lujie\backup\manager\Filesystems\QCloudCosFilesystem;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -111,6 +111,7 @@ class BackupManager extends Component
         $filesystems = new FilesystemProvider(new Config($this->storages));
         $filesystems->add(new LocalFilesystem());
         $filesystems->add(new AliyunOssFilesystem());
+        $filesystems->add(new QCloudCosFilesystem());
         $filesystems->add(new Awss3Filesystem());
         $filesystems->add(new RackspaceFilesystem());
         $filesystems->add(new GcsFilesystem());
@@ -274,7 +275,7 @@ class BackupManager extends Component
                 'accessSecret' => $filesystem->accessSecret,
             ];
         }
-        if ($filesystem instanceof QCloudCosFilesystem) {
+        if ($filesystem instanceof \lujie\flysystem\QCloudCosFilesystem) {
             return [
                 'type' => 'qCloudCos',
                 'region' => $filesystem->region,

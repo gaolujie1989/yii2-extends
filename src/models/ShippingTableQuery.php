@@ -62,14 +62,26 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param string $limitType
-     * @param int $limitValue
+     * @param int $lengthMM
+     * @param int $widthMM
+     * @param int $heightMM
      * @return $this
      * @inheritdoc
      */
-    protected function limitCondition(string $limitType, int $limitValue): self
+    public function sizeMMLimit(int $lengthMM,int $widthMM,int $heightMM): self
     {
-        return $this->andWhere(['OR', [$limitType => 0], ['>=', $limitType, $limitValue]]);
+        $l2whMM = $lengthMM + 2 * ($widthMM + $heightMM);
+        $lwhMM = $lengthMM + $widthMM + $heightMM;
+        $lhMM = $lengthMM + $heightMM;
+        $volumeMM3 = $lengthMM * $widthMM * $heightMM;
+        return $this->limitCondition('length_mm_limit', $lengthMM)
+            ->limitCondition('width_mm_limit', $widthMM)
+            ->limitCondition('height_mm_limit', $heightMM)
+            ->limitCondition('l2wh_mm_limit', $l2whMM)
+            ->limitCondition('lwh_mm_limit', $lwhMM)
+            ->limitCondition('lh_mm_limit', $lhMM)
+            ->limitCondition('volume_mm3_limit', $volumeMM3)
+            ->minLimitCondition('height_mm_min_limit', $heightMM);
     }
 
     /**
@@ -83,73 +95,14 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param int $lengthMM
+     * @param string $limitType
+     * @param int $limitValue
      * @return $this
      * @inheritdoc
      */
-    public function lengthMMLimit(int $lengthMM): self
+    protected function limitCondition(string $limitType, int $limitValue): self
     {
-        return $this->limitCondition('length_mm_limit', $lengthMM);
-    }
-
-    /**
-     * @param int $widthMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function widthMMLimit(int $widthMM): self
-    {
-        return $this->limitCondition('width_mm_limit', $widthMM);
-    }
-
-    /**
-     * @param int $heightMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function heightMMLimit(int $heightMM): self
-    {
-        return $this->limitCondition('height_mm_limit', $heightMM);
-    }
-
-    /**
-     * @param int $l2whMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function l2whMMLimit(int $l2whMM): self
-    {
-        return $this->limitCondition('l2wh_mm_limit', $l2whMM);
-    }
-
-    /**
-     * @param int $l2whMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function lwhMMLimit(int $l2whMM): self
-    {
-        return $this->limitCondition('lwh_mm_limit', $l2whMM);
-    }
-
-    /**
-     * @param int $lhMM
-     * @return $this
-     * @inheritdoc
-     */
-    public function lhMMLimit(int $lhMM): self
-    {
-        return $this->limitCondition('lh_mm_limit', $lhMM);
-    }
-
-    /**
-     * @param int $volumeMM3
-     * @return $this
-     * @inheritdoc
-     */
-    public function volumeMM3Limit(int $volumeMM3): self
-    {
-        return $this->limitCondition('volume_mm3_limit', $volumeMM3);
+        return $this->andWhere(['OR', [$limitType => 0], ['>=', $limitType, $limitValue]]);
     }
 
     /**
@@ -164,8 +117,86 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param int $lengthMM
+     * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function lengthMMLimit(int $lengthMM): self
+    {
+        return $this->limitCondition('length_mm_limit', $lengthMM);
+    }
+
+    /**
+     * @param int $widthMM
+     * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function widthMMLimit(int $widthMM): self
+    {
+        return $this->limitCondition('width_mm_limit', $widthMM);
+    }
+
+    /**
      * @param int $heightMM
      * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function heightMMLimit(int $heightMM): self
+    {
+        return $this->limitCondition('height_mm_limit', $heightMM);
+    }
+
+    /**
+     * @param int $l2whMM
+     * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function l2whMMLimit(int $l2whMM): self
+    {
+        return $this->limitCondition('l2wh_mm_limit', $l2whMM);
+    }
+
+    /**
+     * @param int $lwhMM
+     * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function lwhMMLimit(int $lwhMM): self
+    {
+        return $this->limitCondition('lwh_mm_limit', $lwhMM);
+    }
+
+    /**
+     * @param int $lhMM
+     * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function lhMMLimit(int $lhMM): self
+    {
+        return $this->limitCondition('lh_mm_limit', $lhMM);
+    }
+
+    /**
+     * @param int $volumeMM3
+     * @return $this
+     * @deprecated
+     * @inheritdoc
+     */
+    public function volumeMM3Limit(int $volumeMM3): self
+    {
+        return $this->limitCondition('volume_mm3_limit', $volumeMM3);
+    }
+
+    /**
+     * @param int $heightMM
+     * @return $this
+     * @deprecated
      * @inheritdoc
      */
     public function minHeightMMLimit(int $heightMM): self

@@ -81,24 +81,13 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
      */
     protected function getShippingTablePrice(ShippingItem $shippingItem): ?ShippingTable
     {
-        $l2whMM = $shippingItem->lengthMM + ($shippingItem->widthMM + $shippingItem->heightMM) * 2;
-        $lwhMM = $shippingItem->lengthMM + $shippingItem->widthMM + $shippingItem->heightMM;
-        $lhMM = $shippingItem->lengthMM + $shippingItem->heightMM;
-        $volumeMM3 = $shippingItem->lengthMM * $shippingItem->widthMM * $shippingItem->heightMM;
         $query = ShippingTable::find()
             ->activeAt($shippingItem->shippedAt ?: time())
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)
             ->carrier($shippingItem->carrier)
             ->weightGLimit($shippingItem->weightG)
-            ->lengthMMLimit($shippingItem->lengthMM)
-            ->widthMMLimit($shippingItem->widthMM)
-            ->heightMMLimit($shippingItem->heightMM)
-            ->minHeightMMLimit($shippingItem->heightMM)
-            ->l2whMMLimit($l2whMM)
-            ->lwhMMLimit($lwhMM)
-            ->lhMMLimit($lhMM)
-            ->volumeMM3Limit($volumeMM3)
+            ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
             ->orderByPrice(SORT_ASC);
         $ownerId = $shippingItem->additional['owner_id'] ?? 0;
         $shippingTable = (clone $query)->ownerId($ownerId)->one();

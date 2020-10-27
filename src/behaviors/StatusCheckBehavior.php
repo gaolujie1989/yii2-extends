@@ -133,6 +133,7 @@ class StatusCheckBehavior extends Behavior
         $attribute = $owner->getIsNewRecord()
             ? $owner->getAttribute($this->statusAttribute)
             : $owner->getOldAttribute($this->statusAttribute);
-        return in_array($attribute, $this->statusCheckProperties[$name], true);
+        //status maybe integer but input is string, so not use strict mode
+        return in_array($attribute, $this->statusCheckProperties[$name]);
     }
 }

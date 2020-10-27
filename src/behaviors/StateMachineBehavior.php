@@ -123,7 +123,8 @@ class StateMachineBehavior extends Behavior
     {
         $oldStatus = $this->owner->getOldAttribute($this->statusAttribute) ?: $this->initialStatus;
         $newStatus = $this->owner->getAttribute($this->statusAttribute);
-        if ($oldStatus === $newStatus) {
+        //status maybe integer but input is string, so not use strict mode
+        if ($oldStatus == $newStatus) {
             return;
         }
 

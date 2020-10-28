@@ -595,6 +595,18 @@ class PlentyMarketsRestClient extends OAuth2
         return $this;
     }
 
+    /**
+     * Returns default HTTP request options.
+     * @return array HTTP request options.
+     * @since 2.1
+     */
+    protected function defaultRequestOptions()
+    {
+        return [
+            'timeout' => 60,
+        ];
+    }
+
     #region BaseOAuth
 
     /**

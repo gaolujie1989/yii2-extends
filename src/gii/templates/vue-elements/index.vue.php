@@ -40,8 +40,16 @@ $querySearchFields = implode("\n", $querySearchFields);
 
     </div>
 
-    <el-table v-loading.body="listLoading" :data="listData" border highlight-current-row
-              style="width: 100%" <?= $enabledBatch ? '@selection-change="handleSelectionChange"' : '' ?>>
+    <el-table
+        v-loading.body="listLoading"
+        :data="listData"
+        border
+        fit
+        highlight-current-row
+        style="width: 100%"
+        @sort-change="handleSortChange"
+        <?= $enabledBatch ? '@selection-change="handleSelectionChange"' : '' ?>
+    >
 
       <?= $tableColumnContent ?>
 

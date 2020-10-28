@@ -603,7 +603,7 @@ class PlentyMarketsRestClient extends OAuth2
     protected function defaultRequestOptions()
     {
         return [
-            'timeout' => 60,
+            'timeout' => 90,
         ];
     }
 

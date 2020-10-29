@@ -13,6 +13,7 @@ use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
 use yii\helpers\Inflector;
+use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 
 /**
@@ -559,6 +560,7 @@ class PlentyMarketsRestClient extends OAuth2
      * @var array
      */
     public $httpClientOptions = [
+        'transport' => CurlTransport::class,
         'requestConfig' => [
             'format' => 'json'
         ],
@@ -602,9 +604,18 @@ class PlentyMarketsRestClient extends OAuth2
      */
     protected function defaultRequestOptions()
     {
-        return [
-            'timeout' => 90,
-        ];
+        if ($this->httpClient->transport instanceof CurlTransport) {
+            return [
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_TIMEOUT => 75,
+            ];
+        } else {
+            return [
+                'timeout' => 90,
+            ];
+        }
     }
 
     #region BaseOAuth

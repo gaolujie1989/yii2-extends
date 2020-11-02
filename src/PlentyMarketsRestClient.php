@@ -597,6 +597,14 @@ class PlentyMarketsRestClient extends OAuth2
         return $this;
     }
 
+    public function init(): void
+    {
+        parent::init();
+        $this->initRest();
+        //connect time out is 90s, so set max_execution_time 100
+        ini_set('max_execution_time', 100);
+    }
+
     /**
      * Returns default HTTP request options.
      * @return array HTTP request options.

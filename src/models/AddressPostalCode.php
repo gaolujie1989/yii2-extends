@@ -28,7 +28,7 @@ class AddressPostalCode extends \yii\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return 'address_postal_code';
+        return '{{%address_postal_code}}';
     }
 
     /**

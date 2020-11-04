@@ -36,7 +36,7 @@ class AddressPostalCodeController extends ActiveController
         return array_merge($actions, [
             'batch-update' => [
                 'class' => BatchAction::class,
-                'modelClass' => $this->formClass,
+                'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
                 'batchFormClass' => AddressPostalCodeBatchForm::class,
                 'method' => 'batchUpdate'

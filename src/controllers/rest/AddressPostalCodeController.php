@@ -6,6 +6,7 @@
 namespace lujie\common\address\controllers\rest;
 
 use lujie\batch\BatchAction;
+use lujie\common\address\AddressPostalCodeImporter;
 use lujie\common\address\models\AddressPostalCode;
 use lujie\common\address\searches\AddressPostalCodeBatchForm;
 use lujie\common\address\searches\AddressPostalCodeImportForm;
@@ -49,7 +50,7 @@ class AddressPostalCodeController extends ActiveController
                 'checkAccess' => [$this, 'checkAccess'],
                 'importModel' => [
                     'class' => AddressPostalCodeImportForm::class,
-                    'fileImporter' => PmOrderUpdateVariationImporter::class,
+                    'fileImporter' => AddressPostalCodeImporter::class,
                     'path' => $this->uploadPath
                 ]
             ],

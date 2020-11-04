@@ -20,7 +20,7 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
     {
         $rules = parent::rules();
         ModelHelper::removeAttributesRules($rules, ['postal_code']);
-        return array_merge([
+        return array_merge($rules, [
             [['type', 'country', 'postal_code', 'status'], 'required'],
             [['postal_code'], 'string']
         ]);

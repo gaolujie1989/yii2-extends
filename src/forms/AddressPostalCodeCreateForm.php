@@ -43,7 +43,7 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
         $postalCodes = preg_split('/[,;\n]/', $this->postal_code);
         $postalCodes = array_filter(array_map('trim', $postalCodes));
 
-        $addressPostalCodes = static::find()
+        $addressPostalCodes = AddressPostalCode::find()
             ->type($this->type)
             ->country($this->country)
             ->postalCode($postalCodes)

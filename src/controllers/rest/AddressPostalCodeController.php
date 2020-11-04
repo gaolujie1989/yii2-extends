@@ -7,6 +7,7 @@ namespace lujie\common\address\controllers\rest;
 
 use lujie\batch\BatchAction;
 use lujie\common\address\AddressPostalCodeImporter;
+use lujie\common\address\forms\AddressPostalCodeCreateForm;
 use lujie\common\address\models\AddressPostalCode;
 use lujie\common\address\forms\AddressPostalCodeBatchForm;
 use lujie\common\address\forms\AddressPostalCodeImportForm;
@@ -24,6 +25,8 @@ class AddressPostalCodeController extends ActiveController
 {
     public $modelClass = AddressPostalCode::class;
 
+    public $formClass = AddressPostalCodeCreateForm::class;
+
     public $uploadPath = '@uploads/temp';
 
     /**
@@ -34,6 +37,7 @@ class AddressPostalCodeController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
+        unset($actions['update']);
         return array_merge($actions, [
             'upload' => [
                 'class' => UploadAction::class,

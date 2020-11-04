@@ -57,6 +57,7 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
             $addressPostalCode->country = $this->country;
             $addressPostalCode->note = $this->note;
             $addressPostalCode->postal_code = $postalCode;
+            $addressPostalCode->validate(['postal_code']);
             $addressPostalCode->mustSave(false);
         }
         return true;

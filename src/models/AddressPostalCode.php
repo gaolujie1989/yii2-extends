@@ -43,8 +43,17 @@ class AddressPostalCode extends \yii\db\ActiveRecord
             [['type'], 'string', 'max' => 50],
             [['country'], 'string', 'max' => 2],
             [['postal_code'], 'string', 'max' => 20],
+            [['postal_code'], 'validatePostalCode'],
             [['note'], 'string', 'max' => 255],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validatePostalCode(): void
+    {
+        $this->postal_code = strtr($this->postal_code, ['–' => '-', ' ' => '', "\t" => '']);
     }
 
     /**

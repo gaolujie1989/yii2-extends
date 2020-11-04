@@ -16,4 +16,9 @@ class StatusConst
     public const STATUS_INACTIVE = 0;
     public const STATUS_ENABLE = 10;
     public const STATUS_DISABLE = 0;
+
+    public const STATUS_LIST = [
+        self::STATUS_INACTIVE,
+        self::STATUS_ACTIVE,
+    ];
 }

@@ -2,7 +2,7 @@
 
 namespace lujie\common\address\searches;
 
-use lujie\common\address\models\AddressPostalCode;
+use lujie\batch\BatchForm;
 use lujie\extend\constants\StatusConst;
 
 /**
@@ -10,16 +10,31 @@ use lujie\extend\constants\StatusConst;
  * @package lujie\common\address\searches
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class AddressPostalCodeForm extends AddressPostalCode
+class AddressPostalCodeBatchForm extends BatchForm
 {
+    /**
+     * @var int
+     */
+    public $status;
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function attributes(): array
+    {
+        return ['status'];
+    }
+
     /**
      * @return array
      * @inheritdoc
      */
     public function rules(): array
     {
-        return array_merge(parent::rules(), [
+        return [
+            [['status'], 'required'],
             [['status'], 'in', 'range' => StatusConst::STATUS_LIST],
-        ]);
+        ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace lujie\common\address\searches;
 
-use lujie\charging\models\ShippingTableQuery;
 use lujie\common\address\models\AddressPostalCode;
 use lujie\common\address\models\AddressPostalCodeQuery;
 
@@ -34,9 +33,10 @@ class AddressPostalCodeSearch extends AddressPostalCode
     {
         $query = static::find()->andFilterWhere([
             'type' => $this->type,
+            'status' => $this->status,
             'country' => $this->country,
-            'postal_code' => $this->postal_code,
         ]);
+        $query->andFilterWhere(['LIKE', 'postal_code', $this->postal_code]);
         if ($this->activeAt) {
             $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
                 ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);

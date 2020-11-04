@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\common\address\searches;
+namespace lujie\common\address\forms;
 
 use lujie\common\address\AddressPostalCodeImporter;
 use lujie\data\exchange\forms\FileImportForm;

@@ -15,8 +15,8 @@ class AddressPostalCodeChecker
      * @param string $type
      * @param string $country
      * @param string $postalCode
-     * @param int $time
      * @return bool
+     * @inheritdoc
      */
     public static function match(string $type, string $country, string $postalCode): bool
     {
@@ -44,6 +44,8 @@ class AddressPostalCodeChecker
                 if ($typePostalCodeRange[0] <= $postalCodePrefix && $postalCodePrefix <= $typePostalCodeRange[1]) {
                     return true;
                 }
+            } else if (strpos($postalCode, $typePostalCode) === 0) {
+                return true;
             } else if (StringHelper::matchWildcard($typePostalCode, $postalCode)) {
                 return true;
             }

@@ -39,6 +39,7 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
             return false;
         }
 
+        $this->country = strtoupper($this->country);
         $postalCodes = preg_split('/[,;\n]/', $this->postal_code);
         $postalCodes = array_filter(array_map('trim', $postalCodes));
 

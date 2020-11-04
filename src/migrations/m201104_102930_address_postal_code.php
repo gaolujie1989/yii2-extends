@@ -14,14 +14,13 @@ class m201104_102930_address_postal_code extends Migration
     {
         $this->createTable($this->tableName, [
             'address_postal_code_id' => $this->bigPrimaryKey(),
+            'type' => $this->string(50)->notNull()->defaultValue(''),
             'country' => $this->char(2)->notNull()->defaultValue(''),
             'postal_code' => $this->string(20)->notNull()->defaultValue(''),
-            'type' => $this->string(50)->notNull()->defaultValue(''),
-            'started_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-            'ended_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'note' => $this->string()->notNull()->defaultValue(''),
         ]);
 
-        $this->createIndex('idx_country_time_postal_code', $this->tableName, ['country', 'started_at', 'ended_at', 'postal_code']);
+        $this->createIndex('idx_type_country_status_postal_code', $this->tableName, ['type', 'country', 'status', 'postal_code']);
     }
 }

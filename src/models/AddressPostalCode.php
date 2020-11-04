@@ -13,11 +13,10 @@ use Yii;
  * This is the model class for table "address_postal_code".
  *
  * @property int $address_postal_code_id
+ * @property string $type
  * @property string $country
  * @property string $postal_code
- * @property string $type
- * @property int $started_at
- * @property int $ended_at
+ * @property int $status
  * @property string $note
  */
 class AddressPostalCode extends \yii\db\ActiveRecord
@@ -29,7 +28,7 @@ class AddressPostalCode extends \yii\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%address_postal_code}}';
+        return 'address_postal_code';
     }
 
     /**
@@ -38,12 +37,12 @@ class AddressPostalCode extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['country', 'postal_code', 'type', 'note'], 'default', 'value' => ''],
-            [['started_at', 'ended_at'], 'default', 'value' => 0],
-            [['started_at', 'ended_at'], 'integer'],
+            [['type', 'country', 'postal_code', 'note'], 'default', 'value' => ''],
+            [['status'], 'default', 'value' => 0],
+            [['status'], 'integer'],
+            [['type'], 'string', 'max' => 50],
             [['country'], 'string', 'max' => 2],
             [['postal_code'], 'string', 'max' => 20],
-            [['type'], 'string', 'max' => 50],
             [['note'], 'string', 'max' => 255],
         ];
     }
@@ -55,11 +54,10 @@ class AddressPostalCode extends \yii\db\ActiveRecord
     {
         return [
             'address_postal_code_id' => Yii::t('lujie/common', 'Address Postal Code ID'),
+            'type' => Yii::t('lujie/common', 'Type'),
             'country' => Yii::t('lujie/common', 'Country'),
             'postal_code' => Yii::t('lujie/common', 'Postal Code'),
-            'type' => Yii::t('lujie/common', 'Type'),
-            'started_at' => Yii::t('lujie/common', 'Started At'),
-            'ended_at' => Yii::t('lujie/common', 'Ended At'),
+            'status' => Yii::t('lujie/common', 'Status'),
             'note' => Yii::t('lujie/common', 'Note'),
         ];
     }

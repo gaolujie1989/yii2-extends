@@ -18,7 +18,7 @@ class AddressPostalCodeChecker
      * @param int $time
      * @return bool
      */
-    public static function match(string $type, string $country, string $postalCode, int $time = 0): bool
+    public static function match(string $type, string $country, string $postalCode): bool
     {
         if (in_array($country, ['UK', 'GB'])) {
             $country = ['UK', 'GB'];
@@ -26,7 +26,7 @@ class AddressPostalCodeChecker
         $query = AddressPostalCode::find()
             ->type($type)
             ->country($country)
-            ->activeAt($time ?: time());
+            ->active();
         $exists = (clone $query)->postalCode($postalCode)->exists();
         if ($exists) {
             return true;

@@ -2,8 +2,8 @@
 
 namespace lujie\common\address\models;
 
-use lujie\charging\models\ShippingTableQuery;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[AddressPostalCode]].
@@ -14,11 +14,14 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method array getIds()
  *
  * @method AddressPostalCodeQuery addressPostalCodeId($addressPostalCodeId)
- * @method AddressPostalCodeQuery postalCode($postalCode)
  * @method AddressPostalCodeQuery type($type)
+ * @method AddressPostalCodeQuery status($status)
  * @method AddressPostalCodeQuery country($country)
+ * @method AddressPostalCodeQuery postalCode($postalCode)
  *
- * @method AddressPostalCodeQuery getPostalCodes()
+ * @method AddressPostalCodeQuery active()
+ *
+ * @method array getPostalCodes()
  *
  * @method array|AddressPostalCode[] all($db = null)
  * @method array|AddressPostalCode|null one($db = null)
@@ -40,24 +43,18 @@ class AddressPostalCodeQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'addressPostalCodeId' => 'address_postal_code_id',
-                    'postalCode' => 'postal_code',
                     'type' => 'type',
+                    'status' => 'status',
                     'country' => 'country',
+                    'postalCode' => 'postal_code',
+                ],
+                'queryConditions' => [
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE]
                 ],
                 'queryReturns' => [
                     'getPostalCodes' => ['postal_code', FieldQueryBehavior::RETURN_COLUMN],
                 ]
             ]
         ];
-    }
-
-    /**
-     * @param int $time
-     * @return $this
-     * @inheritdoc
-     */
-    public function activeAt(int $time): self
-    {
-        return $this->andWhere(['<=', 'started_at', $time])->andWhere(['>=', 'ended_at', $time]);
     }
 }

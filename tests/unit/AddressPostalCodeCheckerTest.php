@@ -39,13 +39,8 @@ class AddressPostalCodeCheckerTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $type = 'ISLAND';
-        $now = time();
-        $nextDay = strtotime('+1 days');
-        $nextMonth = strtotime('+30 days');
         $this->assertTrue(AddressPostalCodeChecker::match($type, 'DE', '18565'));
         $this->assertFalse(AddressPostalCodeChecker::match($type, 'DE', '18566'));
-        $this->assertTrue(AddressPostalCodeChecker::match($type, 'DE', '18565', $nextDay));
-        $this->assertFalse(AddressPostalCodeChecker::match($type, 'DE', '18565', $nextMonth));
 
         $this->assertTrue(AddressPostalCodeChecker::match($type, 'EE', '88001'));
         $this->assertTrue(AddressPostalCodeChecker::match($type, 'EE', '88003'));

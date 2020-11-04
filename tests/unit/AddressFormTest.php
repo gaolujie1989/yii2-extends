@@ -50,6 +50,7 @@ class AddressFormTest extends \Codeception\Test\Unit
         ];
         $query = Address::find();
         $addressForm = new AddressForm();
+        $addressForm->identifyBySignature = true;
         $addressForm->setAttributes($aliasData);
         $this->assertEquals($aliasData, $addressForm->getAttributes(array_keys($aliasData)));
 

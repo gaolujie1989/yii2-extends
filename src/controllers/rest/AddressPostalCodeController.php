@@ -20,8 +20,6 @@ class AddressPostalCodeController extends ActiveController
 {
     public $modelClass = AddressPostalCode::class;
 
-    public $formClass = AddressPostalCodeCreateForm::class;
-
     public $uploadPath = '@uploads/temp';
 
     /**
@@ -32,7 +30,7 @@ class AddressPostalCodeController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        unset($actions['update']);
+        $actions['create']['modelClass'] = AddressPostalCodeCreateForm::class;
         return array_merge($actions, [
             'batch-update' => [
                 'class' => BatchAction::class,

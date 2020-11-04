@@ -12,16 +12,13 @@ use lujie\common\address\models\AddressPostalCodeQuery;
  */
 class AddressPostalCodeSearch extends AddressPostalCode
 {
-    public $activeAt;
-
     /**
      * {@inheritdoc}
      */
     public function rules(): array
     {
         return [
-            [['country', 'postal_code', 'type'], 'safe'],
-            [['activeAt'], 'date'],
+            [['country', 'postal_code', 'type', 'status'], 'safe'],
         ];
     }
 
@@ -37,10 +34,6 @@ class AddressPostalCodeSearch extends AddressPostalCode
             'country' => $this->country,
         ]);
         $query->andFilterWhere(['LIKE', 'postal_code', $this->postal_code]);
-        if ($this->activeAt) {
-            $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
-                ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);
-        }
         return $query;
     }
 }

@@ -31,5 +31,6 @@ class m190523_210633_data_source extends Migration
         ]);
 
         $this->createIndex('idx_data_account_id', $this->tableName, ['data_account_id']);
+        $this->createIndex('idx_exec_status', $this->tableName, ['last_exec_status']);
     }
 }

@@ -26,5 +26,6 @@ class m201106_170405_account extends Migration
         ]);
 
         $this->createIndex('uk_model_type_name', $this->tableName, ['model_type', 'name'], true);
+        $this->createIndex('uk_model_type_username', $this->tableName, ['model_type', 'type', 'username'], true);
     }
 }

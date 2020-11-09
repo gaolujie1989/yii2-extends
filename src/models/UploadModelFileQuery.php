@@ -2,7 +2,9 @@
 
 namespace lujie\upload\models;
 
+use lujie\common\account\models\Account;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use yii\db\ActiveQuery;
 
 /**
  * This is the ActiveQuery class for [[UploadedFile]].
@@ -48,5 +50,16 @@ class UploadModelFileQuery extends \yii\db\ActiveQuery
                 ]
             ]
         ]);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function clearWhereAppendOnCondition(): ActiveQuery
+    {
+        /** @var Account $modelClass */
+        $modelClass = $this->modelClass;
+        return $this->where([])->andOnCondition(['model_type' => $modelClass::MODEL_TYPE]);
     }
 }

@@ -4,16 +4,17 @@ use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
-class m190708_112313_fulfillment_account extends Migration
+class m201106_170405_account extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 
-    public $tableName = '{{%fulfillment_account}}';
+    public $tableName = '{{%account}}';
 
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'fulfillment_account_id' => $this->bigPrimaryKey(),
+            'account_id' => $this->bigPrimaryKey(),
+            'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'name' => $this->string(100)->notNull()->defaultValue(''),
             'type' => $this->string(50)->notNull()->defaultValue(''),
             'url' => $this->string()->notNull()->defaultValue(''),
@@ -24,6 +25,6 @@ class m190708_112313_fulfillment_account extends Migration
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('idx_name', $this->tableName, ['name']);
+        $this->createIndex('uk_model_type_name', $this->tableName, ['model_type', 'name'], true);
     }
 }

@@ -16,8 +16,9 @@
   ],
   "autoload": {
     "psr-4": {
-      "lujie\\common\\address\\": "src",
-      "lujie\\common\\address\\tests\\": "tests"
+      "lujie\\common\\account\\": "src\\account",
+      "lujie\\common\\address\\": "src\\address",
+      "lujie\\common\\tests\\": "tests"
     }
   },
   "repositories": [

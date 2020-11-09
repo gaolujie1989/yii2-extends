@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\common\address\tests\unit;
+namespace lujie\common\tests\unit\address;
 
 
 use lujie\common\address\forms\AddressForm;

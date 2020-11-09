@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\common\address\tests\unit\fixtures;
+namespace lujie\common\tests\unit\fixtures;
 
 
 use lujie\common\address\models\AddressPostalCode;

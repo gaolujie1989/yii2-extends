@@ -3,13 +3,11 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\common\address\tests\unit;
+namespace lujie\common\tests\unit\address;
 
 
 use lujie\common\address\AddressPostalCodeChecker;
-use lujie\common\address\forms\AddressForm;
-use lujie\common\address\models\Address;
-use lujie\common\address\tests\unit\fixtures\AddressPostalCodeFixture;
+use lujie\common\tests\unit\fixtures\AddressPostalCodeFixture;
 
 class AddressPostalCodeCheckerTest extends \Codeception\Test\Unit
 {

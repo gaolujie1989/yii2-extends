@@ -176,7 +176,9 @@ class Task extends \lujie\project\base\db\ActiveRecord
      */
     public function getAttachments(): ActiveQuery
     {
-        return $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
+        /** @var UploadModelFileQuery $query */
+        $query = $this->hasMany(TaskAttachment::class, ['model_id' => 'task_id']);
+        return $query->clearWhereAppendOnCondition();
     }
 
     /**

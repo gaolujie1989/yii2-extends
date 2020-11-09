@@ -52,6 +52,7 @@ class Account extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 100],
             [['url', 'username', 'password'], 'string', 'max' => 255],
             [['name'], 'unique', 'targetAttribute' => ['name']],
+            [['type', 'username'], 'unique', 'targetAttribute' => ['type', 'username']],
         ];
     }
 

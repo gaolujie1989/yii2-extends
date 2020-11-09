@@ -62,4 +62,14 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
         $warehouses = $this->select(['warehouse_id', 'external_warehouse_id'])->asArray()->all();
         return ArrayHelper::map($warehouses, 'external_warehouse_id', 'warehouse_id');
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getWarehouseIdsIndexByExternalWarehouseName(): array
+    {
+        $warehouses = $this->select(['warehouse_id', 'external_warehouse_name'])->asArray()->all();
+        return ArrayHelper::map($warehouses, 'external_warehouse_name', 'warehouse_id');
+    }
 }

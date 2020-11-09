@@ -2,7 +2,6 @@
 
 namespace lujie\ar\history\models;
 
-use lujie\common\account\models\Account;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 use yii\db\ActiveQuery;
 
@@ -53,7 +52,7 @@ class ModelHistoryQuery extends \yii\db\ActiveQuery
      */
     public function clearWhereAppendOnCondition(): ActiveQuery
     {
-        /** @var Account $modelClass */
+        /** @var ModelHistory $modelClass */
         $modelClass = $this->modelClass;
         return $this->where([])->andOnCondition(['model_type' => $modelClass::MODEL_TYPE]);
     }

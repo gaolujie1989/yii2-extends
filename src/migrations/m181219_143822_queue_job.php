@@ -25,5 +25,6 @@ class m181219_143822_queue_job extends Migration
         ]);
 
         $this->createIndex('idx_job_id_queue', $this->tableName, ['job_id', 'queue']);
+        $this->createIndex('idx_exec_at_status_queue', $this->tableName, ['last_exec_at', 'last_exec_status', 'queue']);
     }
 }

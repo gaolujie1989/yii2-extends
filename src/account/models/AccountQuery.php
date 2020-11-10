@@ -3,6 +3,7 @@
 namespace lujie\common\account\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 use yii\db\ActiveQuery;
 
 /**
@@ -17,6 +18,9 @@ use yii\db\ActiveQuery;
  * @method AccountQuery modelType($modelType)
  * @method AccountQuery type($type)
  * @method AccountQuery status($status)
+ *
+ * @method AccountQuery active()
+ * @method AccountQuery inActive()
  *
  * @method array|Account[] all($db = null)
  * @method array|Account|null one($db = null)
@@ -40,6 +44,10 @@ class AccountQuery extends \yii\db\ActiveQuery
                     'modelType' => 'model_type',
                     'type' => 'type',
                     'status' => 'status',
+                ],
+                'queryConditions' => [
+                    'active' => ['status' => StatusConst::STATUS_ACTIVE],
+                    'inActive' => ['status' => StatusConst::STATUS_INACTIVE],
                 ]
             ]
         ];

@@ -68,7 +68,7 @@ class ProgressHelper
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public static function update(int $done, int $total, ?string $prefix = 'null')
+    public static function update(int $done, int $total, ?string $prefix = null)
     {
         if (static::isUserConsole()) {
             Console::updateProgress($done, $total, $prefix);

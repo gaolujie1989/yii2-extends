@@ -35,11 +35,6 @@ class PlentyMarketsAdminClientTest extends \Codeception\Test\Unit
             'plentyId' => Yii::$app->params['pm.plentyId'],
             'username' => Yii::$app->params['pm.username'],
             'password' => Yii::$app->params['pm.password'],
-            'requestOptions' => [
-                CURLOPT_PROXY => 'https://outhk.skylinktools.com',
-                CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_TIMEOUT => 120,
-            ],
         ]);
 
         $fileContent = $pmAdminClient->dynamicExport('OrderComplete_101645', 0, 10);

@@ -108,6 +108,7 @@ class UploadModelFile extends ActiveRecord
     }
 
     /**
+     * because upload model file need to be managed at same location, so if not set model type, query all
      * @return UploadModelFileQuery
      * @inheritdoc
      */

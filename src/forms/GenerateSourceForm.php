@@ -9,6 +9,7 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\BaseDataSourceGenerator;
 use yii\base\Model;
 use yii\di\Instance;
+use yii\helpers\VarDumper;
 
 /**
  * Class GenerateSourceForm
@@ -82,6 +83,7 @@ class GenerateSourceForm extends Model
         $dataAccount = $this->dataAccountLoader->get($this->dataAccountId);
         if ($dataAccount === null) {
             $this->addError('dataAccountId', 'Invalid dataAccountId, Null DataAccount');
+            return false;
         }
         $this->sourceGeneratorLoader = Instance::ensure($this->sourceGeneratorLoader, DataLoaderInterface::class);
         $sourceGenerator = $this->sourceGeneratorLoader->get($dataAccount['type']);

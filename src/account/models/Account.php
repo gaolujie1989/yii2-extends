@@ -30,6 +30,17 @@ class Account extends \yii\db\ActiveRecord
     public const MODEL_TYPE = 'DEFAULT';
 
     /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        if (empty($this->model_type)) {
+            $this->model_type = static::MODEL_TYPE;
+        }
+        parent::init();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName(): string

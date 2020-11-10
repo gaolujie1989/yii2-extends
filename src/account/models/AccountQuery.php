@@ -48,7 +48,7 @@ class AccountQuery extends \yii\db\ActiveQuery
                 'queryConditions' => [
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],
                     'inActive' => ['status' => StatusConst::STATUS_INACTIVE],
-                ]
+                ],
             ]
         ];
     }

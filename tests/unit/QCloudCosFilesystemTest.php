@@ -5,7 +5,6 @@
 
 namespace lujie\flysystem\tests\unit;
 
-use lujie\flysystem\AliyunOssFilesystem;
 use lujie\flysystem\QCloudCosFilesystem;
 use yii\di\Instance;
 
@@ -35,7 +34,7 @@ class QCloudCosFilesystemTest extends \Codeception\Test\Unit
         $path = 'test/testdata_525354.bin';
 
         /** @var QCloudCosFilesystem $filesystem */
-        $filesystem = Instance::ensure('qCloudOss', QCloudCosFilesystem::class);
+        $filesystem = Instance::ensure('qCloudCos', QCloudCosFilesystem::class);
         $this->assertTrue($filesystem->write($path, $contents));
         $readContent = $filesystem->read($path);
         $this->assertEquals($contents, $readContent);

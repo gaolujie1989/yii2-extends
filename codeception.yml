@@ -1,4 +1,4 @@
-namespace: lujie\common\address
+namespace: lujie\common\models
 paths:
   tests: tests
   output: tests/_output

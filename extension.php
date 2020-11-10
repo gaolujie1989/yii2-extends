@@ -4,8 +4,8 @@
  */
 
 return [
-    'lujie/yii2-common-address' => [
-        'name' => 'lujie/yii2-common-address',
+    'lujie/yii2-common-models' => [
+        'name' => 'lujie/yii2-common-models',
         'version' => 'dev-master',
         'alias' => [
             '@lujie/common/account' => __DIR__ . '/src/account',

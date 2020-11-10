@@ -1,4 +1,4 @@
-namespace: lujie\extend\tests
+namespace: lujie\extend
 paths:
   tests: tests
   output: tests/_output

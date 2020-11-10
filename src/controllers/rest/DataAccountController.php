@@ -5,6 +5,8 @@
 
 namespace lujie\data\recording\controllers\rest;
 
+use lujie\common\account\forms\AccountForm;
+use lujie\common\account\searches\AccountSearch;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\forms\GenerateSourceForm;
 use lujie\data\recording\forms\ProxyRequestForm;

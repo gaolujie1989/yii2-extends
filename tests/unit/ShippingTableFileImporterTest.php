@@ -58,7 +58,10 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'length_mm_limit' => '400',
                 'width_mm_limit' => '280',
                 'height_mm_limit' => '50',
+                'height_mm_min_limit' => '0',
+                'volume_mm3_limit' => '150000000',
                 'l2wh_mm_limit' => '1180',
+                'lwh_mm_limit' => '0',
                 'lh_mm_limit' => '0',
                 'price_cent' => '279',
                 'currency' => 'EUR',
@@ -70,7 +73,10 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'length_mm_limit' => '1200',
                 'width_mm_limit' => '800',
                 'height_mm_limit' => '600',
+                'height_mm_min_limit' => '0',
+                'volume_mm3_limit' => '150000000',
                 'l2wh_mm_limit' => '3000',
+                'lwh_mm_limit' => '0',
                 'lh_mm_limit' => '0',
                 'price_cent' => '419',
                 'currency' => 'EUR',
@@ -82,7 +88,10 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'length_mm_limit' => '15',
                 'width_mm_limit' => '700',
                 'height_mm_limit' => '400',
+                'height_mm_min_limit' => '0',
+                'volume_mm3_limit' => '200000000',
                 'l2wh_mm_limit' => '3000',
+                'lwh_mm_limit' => '0',
                 'lh_mm_limit' => '0',
                 'price_cent' => '349',
                 'currency' => 'EUR',
@@ -90,9 +99,9 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
         ];
         $expected = array_map(static function ($item) use ($startedAt, $endedAt) {
             return array_merge($item, [
-                'started_at' => $startedAt,
-                'ended_at' => $endedAt,
-                'owner_id' => 11,
+                'started_at' => (string)$startedAt,
+                'ended_at' => (string)$endedAt,
+                'owner_id' => '11',
                 'departure' => 'DE',
             ]);
         }, $expected);

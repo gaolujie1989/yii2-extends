@@ -24,15 +24,16 @@ class ShippingTableForm extends ShippingTable
     {
         $rules = parent::rules();
         $attributes = [
-            'price_cent', 'weight_g_limit',
-            'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'l2wh_mm_limit', 'lh_mm_limit',
+            'price_cent', 'weight_g_limit', 'volume_mm3_limit',
+            'length_mm_limit', 'width_mm_limit', 'height_mm_limit',
+            'l2wh_mm_limit', 'lwh_mm_limit', 'lh_mm_limit',
             'started_at', 'ended_at',
         ];
         ModelHelper::removeAttributesRules($rules, $attributes);
         return array_merge($rules, [
-            [['price', 'weight_kg_limit',
+            [['price', 'weight_kg_limit', 'volume_l_limit',
                 'length_cm_limit', 'width_cm_limit', 'height_cm_limit',
-                'l2wh_cm_limit', 'lh_cm_limit'], 'number'],
+                'l2wh_cm_limit', 'lwh_cm_limit', 'lh_cm_limit',], 'number'],
             [['started_time', 'ended_time'], 'safe']
         ]);
     }

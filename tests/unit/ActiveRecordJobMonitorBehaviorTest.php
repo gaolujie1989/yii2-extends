@@ -72,13 +72,7 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
         $expected = [
             'queue' => 'testQueue',
             'job_id' => $jobId,
-            'job' => json_encode([
-                'class' => TestJob::class,
-                'yKey' => 'xxx',
-                'yValue' => 'xxx',
-                'sleep' => 0,
-                'throwEx' => false,
-            ]),
+            'job' => $queue->serializer->serialize($job),
             'ttr' => 300,
             'delay' => 0,
             'last_exec_at' => 0,

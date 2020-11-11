@@ -6,12 +6,15 @@
 namespace lujie\queuing\monitor\tests\unit;
 
 use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\helpers\ComponentHelper;
 use lujie\queuing\monitor\behaviors\ActiveRecordJobMonitorBehavior;
 use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
 use lujie\queuing\monitor\tests\unit\mocks\TestJob;
 use Yii;
+use yii\base\Component;
 use yii\console\Request;
+use yii\helpers\VarDumper;
 use yii\queue\file\Queue;
 use yii\queue\serializers\JsonSerializer;
 
@@ -29,6 +32,8 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
+        QueueJob::deleteAll([]);
+        QueueJobExec::deleteAll([]);
     }
 
     protected function _after()
@@ -85,6 +90,33 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
     }
 
     /**
+     * @param $jobId
+     * @param $status
+     * @param $startedAt
+     * @inheritdoc
+     */
+    protected function assertJobExecuted($jobId, $status, $startedAt, $queue = 'testQueue')
+    {
+        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
+        $this->assertNotNull($queueJobExec);
+        $attributes = $queueJobExec->getAttributes(['queue', 'job_id', 'worker_pid', 'attempt', 'status']);
+        $expected = [
+            'queue' => $queue,
+            'job_id' => $jobId,
+            'worker_pid' => getmypid(),
+            'attempt' => 1,
+            'status' => $status,
+        ];
+        $this->assertEquals($expected, $attributes);
+        $this->assertTrue($queueJobExec->started_at >= $startedAt);
+        $this->assertTrue($queueJobExec->finished_at >= $queueJobExec->started_at);
+
+        $queueJob = QueueJob::findOne(['job_id' => $jobId]);
+        $this->assertEquals($queueJobExec->finished_at, $queueJob->last_exec_at);
+        $this->assertEquals($queueJobExec->status, $queueJob->last_exec_status);
+    }
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -99,24 +131,10 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
         $queue->run(false);
         $this->assertEquals('xxx', Yii::$app->params['xxx']);
 
-        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
-        $this->assertNotNull($queueJobExec);
-        $attributes = $queueJobExec->getAttributes(['queue', 'job_id', 'worker_pid', 'attempt', 'status']);
-        $expected = [
-            'queue' => 'testQueue',
-            'job_id' => $jobId,
-            'worker_pid' => getmypid(),
-            'attempt' => 1,
-            'status' => ExecStatusConst::EXEC_STATUS_SUCCESS,
-        ];
-        $this->assertEquals($expected, $attributes);
-        $this->assertTrue($queueJobExec->started_at >= $now);
-        $this->assertTrue($queueJobExec->finished_at >= $queueJobExec->started_at);
-        $this->assertEmpty($queueJobExec->error);
+        $this->assertJobExecuted($jobId, ExecStatusConst::EXEC_STATUS_SUCCESS, $now);
 
-        $queueJob = QueueJob::findOne(['job_id' => $jobId]);
-        $this->assertEquals($queueJobExec->finished_at, $queueJob->last_exec_at);
-        $this->assertEquals($queueJobExec->status, $queueJob->last_exec_status);
+        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
+        $this->assertEmpty($queueJobExec->error);
     }
 
     /**
@@ -136,24 +154,10 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
         $queue->run(false);
         $this->assertNull(Yii::$app->params['xxx']);
 
-        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
-        $this->assertNotNull($queueJobExec);
-        $attributes = $queueJobExec->getAttributes(['queue', 'job_id', 'worker_pid', 'attempt', 'status']);
-        $expected = [
-            'queue' => 'testQueue',
-            'job_id' => $jobId,
-            'worker_pid' => getmypid(),
-            'attempt' => 1,
-            'status' => ExecStatusConst::EXEC_STATUS_FAILED,
-        ];
-        $this->assertEquals($expected, $attributes);
-        $this->assertTrue($queueJobExec->started_at >= $now);
-        $this->assertTrue($queueJobExec->finished_at >= $queueJobExec->started_at);
-        $this->assertNotEmpty($queueJobExec->error);
+        $this->assertJobExecuted($jobId, ExecStatusConst::EXEC_STATUS_FAILED, $now);
 
-        $queueJob = QueueJob::findOne(['job_id' => $jobId]);
-        $this->assertEquals($queueJobExec->finished_at, $queueJob->last_exec_at);
-        $this->assertEquals($queueJobExec->status, $queueJob->last_exec_status);
+        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
+        $this->assertNotEmpty($queueJobExec->error);
     }
 
     public function testExecTimeout(): void
@@ -175,8 +179,6 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
         $_SERVER['SCRIPT_FILENAME'] = 'apps/yii_test';
         Yii::$app->handleRequest(new Request(['params' => ['queue/run']]));
 
-        $count = QueueJobExec::find()->andWhere(['job_id' => $jobId])->count();
-        $this->assertEquals(1, $count);
         $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
         $this->assertNotNull($queueJobExec);
         $attributes = $queueJobExec->getAttributes(['queue', 'job_id', 'worker_pid', 'attempt', 'status']);
@@ -188,13 +190,14 @@ class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
             'status' => ExecStatusConst::EXEC_STATUS_FAILED,
         ];
         $this->assertEquals($expected, $attributes);
-//        $this->assertTrue($queueJobExec->started_at >= $now);
         $this->assertTrue($queueJobExec->finished_at >= $queueJobExec->started_at);
-        $this->assertNotEmpty($queueJobExec->error);
 
         $queueJob = QueueJob::findOne(['job_id' => $jobId]);
         $this->assertEquals($queueJobExec->finished_at, $queueJob->last_exec_at);
         $this->assertEquals($queueJobExec->status, $queueJob->last_exec_status);
+
+        $queueJobExec = QueueJobExec::findOne(['job_id' => $jobId]);
+        $this->assertNotEmpty($queueJobExec->error);
     }
 
     /**

@@ -36,6 +36,11 @@ class ExecutableJob extends BaseObject implements JobInterface, RetryableJobInte
     public $ttr = 900;
 
     /**
+     * @var int
+     */
+    public $attempts = 1;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

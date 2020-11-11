@@ -159,11 +159,11 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
                     ],
                 ],
                 'newValue' => [
-                    'Item2' => [
+                    [
                         'item_no' => 'Item2',
                         'ordered_qty' => 1
                     ],
-                    'Item3' => [
+                    [
                         'item_no' => 'Item3',
                         'ordered_qty' => 1
                     ],

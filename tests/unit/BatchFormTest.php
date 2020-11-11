@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\upload\tests\unit;
+namespace lujie\batch\tests\unit;
 
 use lujie\batch\tests\unit\fixtures\Migration;
 use lujie\batch\tests\unit\mocks\MigrationBatchForm;

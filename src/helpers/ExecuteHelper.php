@@ -8,6 +8,8 @@ namespace lujie\extend\helpers;
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\db\BaseActiveRecord;
+use yii\queue\JobInterface;
+use yii\queue\Queue;
 
 /**
  * Class ExecuteHelper
@@ -16,6 +18,42 @@ use yii\db\BaseActiveRecord;
  */
 class ExecuteHelper
 {
+    /**
+     * @param Queue $queue
+     * @param JobInterface $job
+     * @param BaseActiveRecord $model
+     * @param string $timeAttribute
+     * @param string $statusAttribute
+     * @param string $resultAttribute
+     * @param int $queuedDuration
+     * @return bool
+     * @inheritdoc
+     */
+    public static function pushJob(
+        Queue $queue,
+        JobInterface $job,
+        BaseActiveRecord $model,
+        string $timeAttribute = 'execute_at',
+        string $statusAttribute = 'execute_status',
+        string $resultAttribute = 'execute_result',
+        int $queuedDuration = 3600): bool
+    {
+        $statusValue = $model->getAttribute($statusAttribute);
+        if ($statusValue === ExecStatusConst::EXEC_STATUS_QUEUED) {
+            $time = $model->getAttribute($timeAttribute);
+            if (time() - $time < $queuedDuration) {
+                return false;
+            }
+        }
+        if ($jobId = $queue->push($job)) {
+            $model->setAttribute($timeAttribute, time());
+            $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_QUEUED);
+            $model->setAttribute($resultAttribute, ['jobId' => $jobId]);
+            return $model->save(false);
+        }
+        return false;
+    }
+
     /**
      * @param callable $callable
      * @param BaseActiveRecord $model

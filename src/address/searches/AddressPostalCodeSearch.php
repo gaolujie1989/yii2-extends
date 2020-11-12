@@ -18,7 +18,7 @@ class AddressPostalCodeSearch extends AddressPostalCode
     public function rules(): array
     {
         return [
-            [['country', 'postal_code', 'type', 'status'], 'safe'],
+            [['country', 'postal_code', 'type', 'status', 'note'], 'safe'],
         ];
     }
 
@@ -34,6 +34,7 @@ class AddressPostalCodeSearch extends AddressPostalCode
             'country' => $this->country,
         ]);
         $query->andFilterWhere(['LIKE', 'postal_code', $this->postal_code]);
+        $query->andFilterWhere(['LIKE', 'note', $this->note]);
         return $query;
     }
 }

@@ -17,6 +17,7 @@ class m190708_113921_fulfillment_warehouse extends Migration
             'fulfillment_account_id' =>  $this->bigInteger()->notNull()->defaultValue(0),
             'warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
+            'external_warehouse_additional' => $this->json(),
             'additional' => $this->json(),
         ]);
 

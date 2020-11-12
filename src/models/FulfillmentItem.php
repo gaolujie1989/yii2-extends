@@ -2,7 +2,6 @@
 
 namespace lujie\fulfillment\models;
 
-use lujie\alias\behaviors\JsonAliasBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -17,18 +16,15 @@ use Yii;
  * @property int $fulfillment_account_id
  * @property int $item_id
  * @property int $item_updated_at
- * @property int $external_item_id
- * @property string $external_item_no
- * @property int $external_item_parent_id for some system, support variation must link item
+ * @property string $external_item_key
+ * @property array|null $external_item_additional
  * @property int $external_created_at
  * @property int $external_updated_at
- * @property array|null $item_pushed_options
- * @property array|null $item_pushed_errors
- * @property int $item_pushed_status
  * @property int $item_pushed_at
+ * @property int $item_pushed_status
+ * @property array|null $item_pushed_result
  * @property int $stock_pulled_at
- *
- * @property FulfillmentAccount $fulfillmentAccount
+ * @property array|null $additional
  */
 class FulfillmentItem extends \yii\db\ActiveRecord
 {
@@ -49,31 +45,14 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id'], 'required'],
-            [['fulfillment_account_id', 'item_id', 'item_updated_at',
-                'external_item_id', 'external_item_parent_id',
-                'external_created_at', 'external_updated_at',
-                'item_pushed_status', 'item_pushed_at', 'stock_pulled_at'], 'integer'],
-            [['fulfillment_account_id', 'item_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'item_id']],
-            [['external_item_no'], 'string', 'max' => 50],
-            [['item_pushed_options', 'item_pushed_errors'], 'safe']
+            [['fulfillment_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pulled_at'], 'default', 'value' => 0],
+            [['external_item_key'], 'default', 'value' => ''],
+            [['external_item_additional', 'item_pushed_result', 'additional'], 'default', 'value' => []],
+            [['fulfillment_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pulled_at'], 'integer'],
+            [['external_item_additional', 'item_pushed_result', 'additional'], 'safe'],
+            [['external_item_key'], 'string', 'max' => 50],
+            [['item_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['item_id', 'fulfillment_account_id']],
         ];
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
-            'jsonAlias' => [
-                'class' => JsonAliasBehavior::class,
-                'aliasProperties' => [
-                    'item_error_summary' => 'item_pushed_errors'
-                ],
-            ]
-        ]);
     }
 
     /**
@@ -82,41 +61,28 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'fulfillment_item_id' => Yii::t('lujie/fulfillment', 'Fulfillment Item ID'),
-            'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
-            'item_id' => Yii::t('lujie/fulfillment', 'Item ID'),
-            'item_updated_at' => Yii::t('lujie/fulfillment', 'Item Updated At'),
-            'external_item_id' => Yii::t('lujie/fulfillment', 'External Item ID'),
-            'external_item_no' => Yii::t('lujie/fulfillment', 'External Item No'),
-            'external_item_parent_id' => Yii::t('lujie/fulfillment', 'External Item Parent ID'),
-            'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
-            'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
-            'item_pushed_options' => Yii::t('lujie/fulfillment', 'Item Pushed Options'),
-            'item_pushed_errors' => Yii::t('lujie/fulfillment', 'Item Pushed Errors'),
-            'item_pushed_status' => Yii::t('lujie/fulfillment', 'Item Pushed Status'),
-            'item_pushed_at' => Yii::t('lujie/fulfillment', 'Item Pushed At'),
-            'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
+            'fulfillment_item_id' => Yii::t('lujie/common', 'Fulfillment Item ID'),
+            'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
+            'item_id' => Yii::t('lujie/common', 'Item ID'),
+            'item_updated_at' => Yii::t('lujie/common', 'Item Updated At'),
+            'external_item_key' => Yii::t('lujie/common', 'External Item Key'),
+            'external_item_additional' => Yii::t('lujie/common', 'External Item Additional'),
+            'external_created_at' => Yii::t('lujie/common', 'External Created At'),
+            'external_updated_at' => Yii::t('lujie/common', 'External Updated At'),
+            'item_pushed_at' => Yii::t('lujie/common', 'Item Pushed At'),
+            'item_pushed_status' => Yii::t('lujie/common', 'Item Pushed Status'),
+            'item_pushed_result' => Yii::t('lujie/common', 'Item Pushed Result'),
+            'stock_pulled_at' => Yii::t('lujie/common', 'Stock Pulled At'),
+            'additional' => Yii::t('lujie/common', 'Additional'),
         ];
     }
 
     /**
-     * @return FulfillmentItemQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return FulfillmentItemQuery the active query used by this AR class.
      */
     public static function find(): FulfillmentItemQuery
     {
         return new FulfillmentItemQuery(static::class);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'id',
-            'item_error_summary'
-        ]);
     }
 }

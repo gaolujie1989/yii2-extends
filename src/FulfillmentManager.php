@@ -122,10 +122,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         /** @var FulfillmentItemForm $fulfillmentItemForm */
         $fulfillmentItemForm = $event->sender;
+        //FulfillmentItem will trigger event, FulfillmentItem use instead
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->setAttributes($fulfillmentItemForm->attributes, false);
         $fulfillmentItem->setIsNewRecord(false);
-        if ($fulfillmentItem->external_item_id && $fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
+        if ($fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
             Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} not updated, skip", __METHOD__);
             return;
         }
@@ -136,18 +137,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentItem $fulfillmentItem
      * @inheritdoc
      */
-    protected function pushFulfillmentItemJob(FulfillmentItem $fulfillmentItem)
+    protected function pushFulfillmentItemJob(FulfillmentItem $fulfillmentItem): bool
     {
-//        if ($fulfillmentItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
-//            return;
-//        }
         $job = new PushFulfillmentItemJob();
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
-        if ($this->queue->push($job)) {
-            $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
-            $fulfillmentItem->save(false);
-        }
+        return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentItem,
+            'updated_at', 'item_pushed_status', 'item_pushed_result');
     }
 
     /**
@@ -192,10 +188,12 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentOrder->setAttributes($fulfillmentOrderForm->attributes, false);
         $fulfillmentOrder->setIsNewRecord(false);
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if (empty($fulfillmentOrder->external_order_id)) {
+        if (empty($fulfillmentOrder->external_order_key)) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
             Yii::info("{$name} push update job", __METHOD__);
+            return;
         }
+
         switch ($fulfillmentOrder->fulfillment_status) {
             case FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING:
                 $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
@@ -210,6 +208,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 Yii::info("{$name} push cancel job", __METHOD__);
                 break;
             default;
+                $this->pushFulfillmentOrderJob($fulfillmentOrder);
+                Yii::info("{$name} push update job", __METHOD__);
                 break;
         }
     }
@@ -250,19 +250,15 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, array $jobConfig = []): void
+    protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, array $jobConfig = []): bool
     {
-//        if ($fulfillmentOrder->order_pushed_status === ExecStatusConst::EXEC_STATUS_QUEUED) {
-//            return;
-//        }
         /** @var BaseFulfillmentOrderJob $job */
         $job = Instance::ensure($jobConfig, BaseFulfillmentOrderJob::class);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
-        if ($this->queue->push($job)) {
-            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_QUEUED;
-            $fulfillmentOrder->save(false);
-        }
+        //always push job because order may be change multi times with different data, so need to push different job
+        return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentOrder,
+            'updated_at', 'order_pushed_status', 'order_pushed_result', -1);
     }
 
     #endregion
@@ -279,7 +275,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentItem(FulfillmentItem $fulfillmentItem): bool
     {
         $name = "FulfillmentItem {$fulfillmentItem->fulfillment_item_id} of item {$fulfillmentItem->item_id}";
-        if ($fulfillmentItem->external_updated_at > $fulfillmentItem->item_updated_at) {
+        if ($fulfillmentItem->item_pushed_at > $fulfillmentItem->item_updated_at) {
             Yii::info("{$name} already pushed, skip", __METHOD__);
             $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentItem->mustSave(false);
@@ -293,7 +289,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentItem, $name) {
                     $fulfillmentService->pushItem($fulfillmentItem);
                     Yii::info("{$name} pushed success", __METHOD__);
-                }, $fulfillmentItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_errors', true);
+                }, $fulfillmentItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result', true);
             } catch (\Throwable $ex) {
                 $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
                 Yii::error("{$name} pushed error: {$message}", __METHOD__);
@@ -315,10 +311,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if ($fulfillmentOrder->external_updated_at > $fulfillmentOrder->order_updated_at
-            && $fulfillmentOrder->fulfillment_status !== FulfillmentConst::FULFILLMENT_STATUS_CANCELLED) {
+        if ($fulfillmentOrder->order_pushed_at > $fulfillmentOrder->order_updated_at) {
             Yii::info("{$name} already pushed, skip", __METHOD__);
-            $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentOrder->order_pushed_at = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $fulfillmentOrder->mustSave(false);
             return false;
         }
@@ -520,12 +515,17 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentItems(): void
     {
         $accountIds = FulfillmentAccount::find()->active()->column();
-        $fulfillmentItems = FulfillmentItem::find()
+        $query = FulfillmentItem::find()
             ->fulfillmentAccountId($accountIds)
             ->newUpdatedItems()
-            ->notQueued()
-            ->all();
-        foreach ($fulfillmentItems as $fulfillmentItem) {
+            ->notQueued();
+        foreach ($query->each() as $fulfillmentItem) {
+            $this->pushFulfillmentItemJob($fulfillmentItem);
+        }
+        $query = FulfillmentItem::find()
+            ->fulfillmentAccountId($accountIds)
+            ->queuedButNotExecuted();
+        foreach ($query->each() as $fulfillmentItem) {
             $this->pushFulfillmentItemJob($fulfillmentItem);
         }
     }
@@ -537,39 +537,35 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public function pushFulfillmentOrders(): void
     {
         $accountIds = FulfillmentAccount::find()->active()->column();
-        $fulfillmentOrders = FulfillmentOrder::find()
+        $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->pending()
-            ->notQueued()
-            ->all();
-        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            ->notQueued();
+        foreach ($query->each() as $fulfillmentOrder) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
         }
 
-        $fulfillmentOrders = FulfillmentOrder::find()
+        $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toHolding()
-            ->notQueued()
-            ->all();
-        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            ->notQueued();
+        foreach ($query->each() as $fulfillmentOrder) {
             $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
         }
 
-        $fulfillmentOrders = FulfillmentOrder::find()
+        $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toShipping()
-            ->notQueued()
-            ->all();
-        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            ->notQueued();
+        foreach ($query->each() as $fulfillmentOrder) {
             $this->pushShipFulfillmentOrderJob($fulfillmentOrder);
         }
 
-        $fulfillmentOrders = FulfillmentOrder::find()
+        $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toCancelling()
-            ->notQueued()
-            ->all();
-        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            ->notQueued();
+        foreach ($query->each() as $fulfillmentOrder) {
             $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
         }
     }

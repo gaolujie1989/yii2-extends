@@ -19,12 +19,10 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery fulfillmentStatus($fulfillmentStatus)
  * @method FulfillmentOrderQuery orderId($orderId)
  * @method FulfillmentOrderQuery orderStatus($orderStatus)
- * @method FulfillmentOrderQuery externalOrderId($externalOrderId)
- * @method FulfillmentOrderQuery externalOrderNo($externalOrderNo)
+ * @method FulfillmentOrderQuery externalOrderKey($externalOrderKey)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
  * @method FulfillmentOrderQuery orderPushedStatus($orderPushedStatus)
  *
- * @method FulfillmentOrderQuery accountId($accountId)
  * @method FulfillmentOrderQuery externalUpdatedAtFrom($externalUpdatedAtFrom)
  * @method FulfillmentOrderQuery externalUpdatedAtTo($externalUpdatedAtTo)
  * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
@@ -34,13 +32,11 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery pending()
  * @method FulfillmentOrderQuery processing()
  * @method FulfillmentOrderQuery shipped()
+ * @method FulfillmentOrderQuery cancelled()
  * @method FulfillmentOrderQuery toHolding()
  * @method FulfillmentOrderQuery toShipping()
  * @method FulfillmentOrderQuery toCancelling()
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
- *
- * @method int maxExternalUpdatedAt()
- * @method array getExternalOrderIds()
  *
  * @method array|FulfillmentOrder[] all($db = null)
  * @method array|FulfillmentOrder|null one($db = null)
@@ -50,13 +46,14 @@ use lujie\fulfillment\constants\FulfillmentConst;
  */
 class FulfillmentOrderQuery extends \yii\db\ActiveQuery
 {
+
     /**
      * @return array
      * @inheritdoc
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
@@ -65,14 +62,12 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'fulfillmentStatus' => 'fulfillment_status',
                     'orderId' => 'order_id',
                     'orderStatus' => 'order_status',
-                    'externalOrderId' => 'external_order_id',
-                    'externalOrderNo' => 'external_order_no',
+                    'externalOrderKey' => 'external_order_key',
                     'externalOrderStatus' => 'external_order_status',
                     'orderPushedStatus' => 'order_pushed_status',
 
-                    'accountId' => 'fulfillment_account_id',
-                    'externalUpdatedAtFrom' => ['order_pulled_at' => '>='],
-                    'externalUpdatedAtTo' => ['order_pulled_at' => '<='],
+                    'externalUpdatedAtFrom' => ['external_updated_at' => '>='],
+                    'externalUpdatedAtTo' => ['external_updated_at' => '<='],
                     'orderPulledAtFrom' => ['order_pulled_at' => '>='],
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
@@ -98,6 +93,11 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                             FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
                         ]
                     ],
+                    'cancelled' => [
+                        'fulfillment_status' => [
+                            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+                        ]
+                    ],
                     'toHolding' => [
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING,
@@ -117,11 +117,19 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                 'querySorts' => [
                     'orderByOrderPulledAt' => ['order_pulled_at']
                 ],
-                'queryReturns' => [
-                    'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX],
-                    'getExternalOrderIds' => ['external_order_id', FieldQueryBehavior::RETURN_COLUMN],
-                ]
             ]
+        ];
+    }
+
+    /**
+     * @return $this
+     * @inheritdoc
+     */
+    public function queuedButNotExecuted($queuedDuration = 3600): self
+    {
+        return $this->andWhere(['AND',
+            ['order_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['<=', 'order_pushed_at', time() - $queuedDuration],
         ]);
     }
 }

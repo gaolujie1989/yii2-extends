@@ -25,6 +25,7 @@ class m190708_122250_fulfillment_item extends Migration
             'item_pushed_status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'item_pushed_result' => $this->json(),
             'stock_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'additional' => $this->json(),
         ]);
 
         $this->createIndex('uk_item_account', $this->tableName, ['item_id', 'fulfillment_account_id'], true);

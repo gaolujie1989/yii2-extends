@@ -15,12 +15,12 @@ use yii\helpers\ArrayHelper;
  *
  * @method FulfillmentWarehouseStockQuery fulfillmentWarehouseStockId($fulfillmentWarehouseStockId)
  * @method FulfillmentWarehouseStockQuery fulfillmentAccountId($fulfillmentAccountId)
- * @method FulfillmentWarehouseStockQuery warehouseId($warehouseId)
- * @method FulfillmentWarehouseStockQuery externalWarehouseId($externalWarehouseId)
+ * @method FulfillmentWarehouseStockQuery fulfillmentItemId($fulfillmentItemId)
+ * @method FulfillmentWarehouseStockQuery fulfillmentWarehouseId($fulfillmentWarehouseId)
  * @method FulfillmentWarehouseStockQuery itemId($itemId)
- * @method FulfillmentWarehouseStockQuery externalItemId($externalItemId)
- *
- * @method FulfillmentWarehouseStockQuery accountId($accountId)
+ * @method FulfillmentWarehouseStockQuery warehouseId($warehouseId)
+ * @method FulfillmentWarehouseStockQuery externalItemKey($externalItemKey)
+ * @method FulfillmentWarehouseStockQuery externalWarehouseKey($externalWarehouseKey)
  *
  * @method array|FulfillmentWarehouseStock[] all($db = null)
  * @method array|FulfillmentWarehouseStock|null one($db = null)
@@ -30,27 +30,28 @@ use yii\helpers\ArrayHelper;
  */
 class FulfillmentWarehouseStockQuery extends \yii\db\ActiveQuery
 {
+
     /**
      * @return array
      * @inheritdoc
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'fulfillmentWarehouseStockId' => 'fulfillment_warehouse_stock_id',
                     'fulfillmentAccountId' => 'fulfillment_account_id',
-                    'warehouseId' => 'warehouse_id',
-                    'externalWarehouseId' => 'external_warehouse_id',
+                    'fulfillmentItemId' => 'fulfillment_item_id',
+                    'fulfillmentWarehouseId' => 'fulfillment_warehouse_id',
                     'itemId' => 'item_id',
-                    'externalItemId' => 'external_item_id',
-
-                    'accountId' => 'fulfillment_account_id',
+                    'warehouseId' => 'warehouse_id',
+                    'externalItemKey' => 'external_item_key',
+                    'externalWarehouseKey' => 'external_warehouse_key',
                 ]
             ]
-        ]);
+        ];
     }
 
     /**

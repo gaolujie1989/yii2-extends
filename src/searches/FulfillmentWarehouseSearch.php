@@ -22,7 +22,7 @@ class FulfillmentWarehouseSearch extends FulfillmentWarehouse
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_id', 'external_warehouse_name'], 'safe']
+            [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_key'], 'safe']
         ];
     }
 
@@ -33,11 +33,10 @@ class FulfillmentWarehouseSearch extends FulfillmentWarehouse
     public function query(): FulfillmentWarehouseQuery
     {
         return static::find()
-            ->andFilterWhere(['LIKE', 'external_warehouse_name', $this->external_warehouse_name])
             ->andFilterWhere([
                 'fulfillment_account_id' => $this->fulfillment_account_id,
                 'warehouse_id' => $this->warehouse_id,
-                'external_warehouse_id' => $this->external_warehouse_id
+                'external_warehouse_key' => $this->external_warehouse_key
             ]);
     }
 }

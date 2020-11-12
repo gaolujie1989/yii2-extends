@@ -28,6 +28,7 @@ class m190708_132647_fulfillment_order extends Migration
             'order_pushed_status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'order_pushed_result' => $this->json(),
             'order_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+            'additional' => $this->json(),
         ]);
 
         $this->createIndex('uk_order_account', $this->tableName, ['order_id', 'fulfillment_account_id'], true);

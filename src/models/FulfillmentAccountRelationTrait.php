@@ -5,17 +5,23 @@
 
 namespace lujie\fulfillment\models;
 
+use lujie\common\account\models\Account;
+use lujie\common\account\models\AccountQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
 /**
  * Trait FulfillmentAccountRelationTrait
+ *
+ * @property Account $fulfillmentAccount
+ *
  * @package lujie\fulfillment\models
+ * @author Lujie Zhou <gao_lujie@live.cn>
  */
 trait FulfillmentAccountRelationTrait
 {
     /**
-     * @return ActiveQueryInterface|FulfillmentAccountQuery
+     * @return ActiveQueryInterface|AccountQuery
      * @inheritdoc
      */
     public function getFulfillmentAccount(): ActiveQueryInterface

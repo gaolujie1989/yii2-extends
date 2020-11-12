@@ -22,8 +22,9 @@ class FulfillmentOrderSearch extends FulfillmentOrder
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'order_id', 'external_order_id', 'external_order_no',
-                'fulfillment_status', 'order_status', 'external_order_status'], 'safe']
+            [['fulfillment_account_id', 'fulfillment_status',
+                'order_id', 'order_status',
+                'external_order_key', 'external_order_status'], 'safe']
         ];
     }
 
@@ -34,13 +35,12 @@ class FulfillmentOrderSearch extends FulfillmentOrder
     public function query(): FulfillmentOrderQuery
     {
         return static::find()
-            ->andFilterWhere(['LIKE', 'external_order_no', $this->external_order_no])
             ->andFilterWhere([
                 'fulfillment_account_id' => $this->fulfillment_account_id,
-                'order_id' => $this->order_id,
-                'external_order_id' => $this->external_order_id,
                 'fulfillment_status' => $this->fulfillment_status,
+                'order_id' => $this->order_id,
                 'order_status' => $this->order_status,
+                'external_order_key' => $this->external_order_key,
                 'external_order_status' => $this->external_order_status,
             ]);
     }

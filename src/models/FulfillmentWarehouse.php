@@ -15,17 +15,13 @@ use Yii;
  * @property int $fulfillment_warehouse_id
  * @property int $fulfillment_account_id
  * @property int $warehouse_id
- * @property int $external_warehouse_id
- * @property string $external_warehouse_name
+ * @property string $external_warehouse_key
+ * @property array|null $external_warehouse_additional
  * @property array|null $additional
- * @property int $status
- *
- * @property FulfillmentAccount $fulfillmentAccount
  */
 class FulfillmentWarehouse extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-    use FulfillmentAccountRelationTrait;
 
     /**
      * {@inheritdoc}
@@ -41,9 +37,13 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_id', 'status'], 'integer'],
-            [['fulfillment_account_id', 'external_warehouse_id'], 'unique', 'targetAttribute' => ['fulfillment_account_id', 'external_warehouse_id']],
-            [['external_warehouse_name'], 'string', 'max' => 100],
+            [['fulfillment_account_id', 'warehouse_id'], 'default', 'value' => 0],
+            [['external_warehouse_key'], 'default', 'value' => ''],
+            [['external_warehouse_additional', 'additional'], 'default', 'value' => []],
+            [['fulfillment_account_id', 'warehouse_id'], 'integer'],
+            [['external_warehouse_additional', 'additional'], 'safe'],
+            [['external_warehouse_key'], 'string', 'max' => 50],
+            [['external_warehouse_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_warehouse_key', 'fulfillment_account_id']],
         ];
     }
 
@@ -53,19 +53,18 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'fulfillment_warehouse_id' => Yii::t('lujie/fulfillment', 'Fulfillment Warehouse ID'),
-            'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
-            'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
-            'external_warehouse_id' => Yii::t('lujie/fulfillment', 'External Warehouse ID'),
-            'external_warehouse_name' => Yii::t('lujie/fulfillment', 'External Warehouse Name'),
-            'additional' => Yii::t('lujie/fulfillment', 'Additional'),
-            'status' => Yii::t('lujie/fulfillment', 'Status'),
+            'fulfillment_warehouse_id' => Yii::t('lujie/common', 'Fulfillment Warehouse ID'),
+            'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
+            'warehouse_id' => Yii::t('lujie/common', 'Warehouse ID'),
+            'external_warehouse_key' => Yii::t('lujie/common', 'External Warehouse Key'),
+            'external_warehouse_additional' => Yii::t('lujie/common', 'External Warehouse Additional'),
+            'additional' => Yii::t('lujie/common', 'Additional'),
         ];
     }
 
     /**
-     * @return FulfillmentWarehouseQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return FulfillmentWarehouseQuery the active query used by this AR class.
      */
     public static function find(): FulfillmentWarehouseQuery
     {

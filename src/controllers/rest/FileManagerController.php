@@ -118,6 +118,7 @@ class FileManagerController extends Controller
         if ($metadata['type'] !== 'file') {
             return;
         }
-        Yii::$app->getResponse()->sendStreamAsFile($this->fs->readStream($path), basename($path));
+        //php7.4 bug, fread(): read of 8192 bytes failed with errno=21 Is a directory, stream read on closed stream
+        Yii::$app->getResponse()->sendContentAsFile($this->fs->read($path), basename($path));
     }
 }

@@ -29,14 +29,12 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         'appErrorEmail' => [
             'class' => EmailTarget::class,
             'levels' => ['error'],
-            'logVars' => [],
             'except' => ['yii\*'],
         ],
 
         'appErrorDb' => [
             'class' => DbTarget::class,
             'levels' => ['error'],
-            'logVars' => [],
             'except' => ['yii\*'],
         ],
         'appWarningDb' => [
@@ -56,7 +54,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'class' => FileTarget::class,
             'logFile' => '@runtime/logs/app-error.log',
             'levels' => ['error'],
-            'logVars' => [],
             'except' => ['yii\*'],
         ],
         'appWarningFile' => [
@@ -91,7 +88,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         'yiiErrorEmail' => [
             'class' => EmailTarget::class,
             'levels' => ['error'],
-            'logVars' => [],
             'categories' => ['yii\*'],
             'except' => ['yii\web\HttpException:4*', 'yii\console\UnknownCommandException*'], //4xx httpCode not need send mail
         ],
@@ -99,7 +95,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         'yiiErrorDb' => [
             'class' => DbTarget::class,
             'levels' => ['error'],
-            'logVars' => [],
             'categories' => ['yii\*'],
             'except' => ['yii\web\HttpException:4*', 'yii\console\UnknownCommandException*'], //4xx httpCode not need send mail
         ],
@@ -114,7 +109,6 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'class' => FileTarget::class,
             'logFile' => '@runtime/logs/yii-error.log',
             'levels' => ['error'],
-            'logVars' => [],
             'categories' => ['yii\*'],
         ],
         'yiiWarningFile' => [

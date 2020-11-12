@@ -33,7 +33,7 @@ class ExecuteHelper
         Queue $queue,
         JobInterface $job,
         BaseActiveRecord $model,
-        string $timeAttribute = 'execute_at',
+        string $timeAttribute = 'updated_at',
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
         int $queuedDuration = 3600): bool

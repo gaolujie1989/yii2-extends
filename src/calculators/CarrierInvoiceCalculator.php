@@ -87,6 +87,8 @@ class CarrierInvoiceCalculator extends BaseObject implements ChargeCalculatorInt
         $chargePrice->note = implode(';', array_filter(ArrayHelper::getColumn($carrierPackages, 'note')));
         $chargePrice->additional = [
             'additionalServices' => ArrayHelper::getColumn($carrierPackages, 'additional_services'),
+            'packagePrices' => ArrayHelper::getColumn($carrierPackages, 'package_price_cent'),
+            'additionPrices' => ArrayHelper::getColumn($carrierPackages, 'additional_price_cent'),
         ];
         return $chargePrice;
     }

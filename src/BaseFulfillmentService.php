@@ -43,6 +43,11 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     /**
      * @var string
      */
+    public $externalItemKeyField = 'id';
+
+    /**
+     * @var string
+     */
     public $externalOrderKeyField = 'id';
 
     /**
@@ -131,8 +136,9 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * update fulfillment item info, like external item_id, item_no, extra...
      * @param FulfillmentItem $fulfillmentItem
      * @param array $externalItem
+     * @return bool
      */
-    abstract protected function updateFulfillmentItem(FulfillmentItem $fulfillmentItem, array $externalItem): void;
+    abstract protected function updateFulfillmentItem(FulfillmentItem $fulfillmentItem, array $externalItem): bool;
 
     #endregion
 
@@ -191,8 +197,13 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * update fulfillment order info, like external order_id, order_no, extra...
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
+     * @return bool
      */
-    abstract protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): void;
+    abstract protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool;
+
+    #endregion
+
+    #region Order Action hold/ship/cancel
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
@@ -343,10 +354,10 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     }
 
     /**
-     * @param array $externalItemIds
+     * @param array $externalItemKeys
      * @return array
      */
-    abstract protected function getExternalWarehouseStocks(array $externalItemIds): array;
+    abstract protected function getExternalWarehouseStocks(array $externalItemKeys): array;
 
     /**
      * @param FulfillmentWarehouseStock $fulfillmentWarehouseStock

@@ -35,24 +35,9 @@ use yii\helpers\ArrayHelper;
 class PmFulfillmentService extends BaseFulfillmentService
 {
     /**
-     * @var FulfillmentAccount
-     */
-    public $account;
-
-    /**
      * @var PlentyMarketsRestClient
      */
     public $client;
-
-    /**
-     * @var DataLoaderInterface
-     */
-    public $itemLoader;
-
-    /**
-     * @var DataLoaderInterface
-     */
-    public $orderLoader;
 
     /**
      * @var string

@@ -14,8 +14,6 @@ use Yii;
  *
  * @property int $fulfillment_warehouse_stock_id
  * @property int $fulfillment_account_id
- * @property int $fulfillment_item_id
- * @property int $fulfillment_warehouse_id
  * @property int $item_id
  * @property int $warehouse_id
  * @property int $external_item_key
@@ -45,13 +43,12 @@ class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'fulfillment_item_id', 'fulfillment_warehouse_id', 'item_id', 'warehouse_id', 'external_item_key', 'external_warehouse_key', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'external_item_key', 'external_warehouse_key', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'default', 'value' => 0],
             [['stock_additional', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'fulfillment_item_id', 'fulfillment_warehouse_id', 'item_id', 'warehouse_id', 'external_item_key', 'external_warehouse_key', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'integer'],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'external_item_key', 'external_warehouse_key', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'integer'],
             [['stock_additional', 'additional'], 'safe'],
             [['item_id', 'warehouse_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['item_id', 'warehouse_id', 'fulfillment_account_id']],
             [['external_item_key', 'external_warehouse_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_item_key', 'external_warehouse_key', 'fulfillment_account_id']],
-            [['fulfillment_item_id', 'fulfillment_warehouse_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['fulfillment_item_id', 'fulfillment_warehouse_id', 'fulfillment_account_id']],
         ];
     }
 
@@ -63,8 +60,6 @@ class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
         return [
             'fulfillment_warehouse_stock_id' => Yii::t('lujie/common', 'Fulfillment Warehouse Stock ID'),
             'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
-            'fulfillment_item_id' => Yii::t('lujie/common', 'Fulfillment Item ID'),
-            'fulfillment_warehouse_id' => Yii::t('lujie/common', 'Fulfillment Warehouse ID'),
             'item_id' => Yii::t('lujie/common', 'Item ID'),
             'warehouse_id' => Yii::t('lujie/common', 'Warehouse ID'),
             'external_item_key' => Yii::t('lujie/common', 'External Item Key'),

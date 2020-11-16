@@ -15,6 +15,26 @@ use yii\httpclient\Response;
 
 /**
  * Class F4pxClient
+ *
+ * @method JsonRpcResponse getSkuList(array $data)
+ * @method JsonRpcResponse editSkuPicture(array $data)
+ * @method JsonRpcResponse uploadSkuReport(array $data)
+ * @method JsonRpcResponse createSku(array $data)
+ * @method JsonRpcResponse getInventory(array $data)
+ * @method JsonRpcResponse getInventoryLog(array $data)
+ * @method JsonRpcResponse getInventoryDetail(array $data)
+ * @method JsonRpcResponse getInboundList(array $data)
+ * @method JsonRpcResponse createInbound(array $data)
+ * @method JsonRpcResponse cancelInbound(array $data)
+ * @method JsonRpcResponse getInboundLabel(array $data)
+ * @method JsonRpcResponse uploadInboundInvoiceFile(array $data)
+ * @method JsonRpcResponse getOutboundList(array $data)
+ * @method JsonRpcResponse createOutbound(array $data)
+ * @method JsonRpcResponse cancelOutbound(array $data)
+ * @method JsonRpcResponse getShipmentLabel(array $data)
+ * @method JsonRpcResponse createShipment(array $data)
+ * @method JsonRpcResponse cancelShipment(array $data)
+ *
  * @package lujie\fulfillment\f4px
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
@@ -39,6 +59,66 @@ class F4pxClient extends BaseJsonRpcClient
      * @var string
      */
     public $language = 'en';
+
+    /**
+     * @var array
+     */
+    public $methods = [
+        'getSkuList' => [
+            'method' => 'fu.wms.sku.getlist',
+        ],
+        'editSkuPicture' => [
+            'method' => 'fu.wms.sku.editpicture',
+        ],
+        'uploadSkuReport' => [
+            'method' => 'fu.wms.sku.uploadsreport',
+        ],
+        'createSku' => [
+            'method' => 'fu.wms.sku.create',
+        ],
+        'getInventory' => [
+            'method' => 'fu.wms.inventory.get',
+        ],
+        'getInventoryLog' => [
+            'method' => 'fu.wms.inventory.getlog',
+        ],
+        'getInventoryDetail' => [
+            'method' => 'fu.wms.inventory.getdetail',
+        ],
+        'getInboundList' => [
+            'method' => 'fu.wms.inbound.getlist',
+        ],
+        'createInbound' => [
+            'method' => 'fu.wms.inbound.create',
+        ],
+        'cancelInbound' => [
+            'method' => 'fu.wms.inbound.cancel',
+        ],
+        'getInboundLabel' => [
+            'method' => 'fu.wms.inbound.getinboundlabel',
+        ],
+        'uploadInboundInvoiceFile' => [
+            'method' => 'fu.wms.inbound.uploadinvoicefile',
+        ],
+        'getOutboundList' => [
+            'method' => 'fu.wms.outbound.getlist',
+        ],
+        'createOutbound' => [
+            'method' => 'fu.wms.outbound.create',
+        ],
+        'cancelOutbound' => [
+            'method' => 'fu.wms.outbound.cancel',
+        ],
+        'getShipmentLabel' => [
+            'method' => 'fu.wms.shipment.getlabel',
+        ],
+        'createShipment' => [
+            'method' => 'fu.wms.shipment.create',
+        ],
+        'cancelShipment' => [
+            'method' => 'fu.wms.shipment.cancel',
+        ],
+    ];
 
     /**
      * @var array

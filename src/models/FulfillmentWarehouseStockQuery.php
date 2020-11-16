@@ -15,8 +15,6 @@ use yii\helpers\ArrayHelper;
  *
  * @method FulfillmentWarehouseStockQuery fulfillmentWarehouseStockId($fulfillmentWarehouseStockId)
  * @method FulfillmentWarehouseStockQuery fulfillmentAccountId($fulfillmentAccountId)
- * @method FulfillmentWarehouseStockQuery fulfillmentItemId($fulfillmentItemId)
- * @method FulfillmentWarehouseStockQuery fulfillmentWarehouseId($fulfillmentWarehouseId)
  * @method FulfillmentWarehouseStockQuery itemId($itemId)
  * @method FulfillmentWarehouseStockQuery warehouseId($warehouseId)
  * @method FulfillmentWarehouseStockQuery externalItemKey($externalItemKey)
@@ -42,8 +40,6 @@ class FulfillmentWarehouseStockQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'fulfillmentWarehouseStockId' => 'fulfillment_warehouse_stock_id',
-                    'fulfillmentAccountId' => 'fulfillment_account_id',
-                    'fulfillmentItemId' => 'fulfillment_item_id',
                     'fulfillmentWarehouseId' => 'fulfillment_warehouse_id',
                     'itemId' => 'item_id',
                     'warehouseId' => 'warehouse_id',

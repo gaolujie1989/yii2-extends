@@ -56,6 +56,11 @@ class Item extends Model
     public $heightMM;
 
     /**
+     * @var array
+     */
+    public $imageUrls = [];
+
+    /**
      * @var ItemBarcode[]
      */
     public $itemBarcodes;

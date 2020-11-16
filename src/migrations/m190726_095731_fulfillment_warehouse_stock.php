@@ -15,8 +15,6 @@ class m190726_095731_fulfillment_warehouse_stock extends Migration
         $this->createTable($this->tableName, [
             'fulfillment_warehouse_stock_id' => $this->bigPrimaryKey(),
             'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'fulfillment_item_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'fulfillment_warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_item_key' => $this->bigInteger()->notNull()->defaultValue(0),

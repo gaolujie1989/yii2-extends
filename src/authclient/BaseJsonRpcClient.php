@@ -9,6 +9,7 @@ use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\BaseClient;
 use yii\base\InvalidCallException;
 use yii\base\NotSupportedException;
+use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
@@ -79,6 +80,7 @@ abstract class BaseJsonRpcClient extends BaseClient
     public function createRpcRequest(): Request
     {
         $request = $this->createRequest()
+            ->setFormat(Client::FORMAT_JSON)
             ->setMethod('POST')
             ->setUrl($this->url);
         $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeRpcRequestSend']);

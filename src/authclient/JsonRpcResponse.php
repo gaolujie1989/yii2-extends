@@ -5,8 +5,6 @@
 
 namespace lujie\extend\authclient;
 
-use yii\base\InvalidCallException;
-
 /**
  * Class JsonRpcResponse
  * @package lujie\extend\authclient
@@ -37,13 +35,14 @@ class JsonRpcResponse
     /**
      * @param bool $throwException
      * @return array|null
+     * @throws JsonRpcException
      * @inheritdoc
      */
     public function getData(bool $throwException = true): ?array
     {
         if (!$this->success) {
             if ($throwException) {
-                throw new InvalidCallException('JsonRpc error');
+                throw new JsonRpcException($this, 'JsonRpc error');
             }
             return null;
         }

@@ -72,7 +72,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     /**
      * @var string
      */
-    public $stockItemKeyField = 'itemId';
+    public $stockItemKeyField = 'variationId';
 
     /**
      * @var string

@@ -10,6 +10,7 @@ class FulfillmentConst
 {
     public const ACCOUNT_TYPE_AMAZON = 'AMAZON';
     public const ACCOUNT_TYPE_PM = 'PM';
+    public const ACCOUNT_TYPE_F4PX = 'F4PX';
 
     public const FULFILLMENT_STATUS_PENDING = 0;
     public const FULFILLMENT_STATUS_PROCESSING = 20;

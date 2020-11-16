@@ -59,8 +59,8 @@ class F4pxClient extends BaseJsonRpcClient
     public function init(): void
     {
         parent::init();
-        if ($this->httpClientOptions) {
-            $this->setHttpClient($this->httpClientOptions);
+        if (empty($this->url)) {
+            $this->url = $this->productionUrl;
         }
     }
 
@@ -72,6 +72,15 @@ class F4pxClient extends BaseJsonRpcClient
     protected function initUserAttributes()
     {
         throw new NotSupportedException('');
+    }
+
+    /**
+     * @param bool $sandbox
+     * @inheritdoc
+     */
+    public function setSandbox($sandbox = true)
+    {
+        $this->url = $sandbox ? $this->sandboxUrl : $this->productionUrl;
     }
 
     /**

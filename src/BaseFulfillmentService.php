@@ -43,32 +43,22 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     /**
      * @var string
      */
-    public $externalWarehouseIdField = 'id';
+    public $externalOrderKeyField = 'id';
 
     /**
      * @var string
      */
-    public $externalWarehouseCodeField;
+    public $externalWarehouseKeyField = 'id';
 
     /**
      * @var string
      */
-    public $externalItemIdField = 'id';
+    public $stockItemKeyField = 'itemId';
 
     /**
      * @var string
      */
-    public $externalItemNoField;
-
-    /**
-     * @var string
-     */
-    public $externalOrderIdField = 'id';
-
-    /**
-     * @var string
-     */
-    public $externalOrderNoField;
+    public $stockWarehouseKeyField = 'warehouseId';
 
     /**
      * @throws InvalidConfigException
@@ -93,7 +83,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      */
     public function pushItem(FulfillmentItem $fulfillmentItem): bool
     {
-        if ($fulfillmentItem->fulfillment_account_id !== $this->account->fulfillment_account_id) {
+        if ($fulfillmentItem->fulfillment_account_id !== $this->account->account_id) {
             return false;
         }
 
@@ -101,8 +91,8 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
         $item = $this->itemLoader->get($fulfillmentItem->item_id);
         if (empty($item) || empty($item->itemBarcodes)) {
             return false;
-
         }
+
         if (empty($fulfillmentItem->item_pushed_at) && $externalItem = $this->getExternalItem($item)) {
             $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
         }
@@ -155,7 +145,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        if ($fulfillmentOrder->fulfillment_account_id !== $this->account->fulfillment_account_id) {
+        if ($fulfillmentOrder->fulfillment_account_id !== $this->account->account_id) {
             return false;
         }
 
@@ -229,10 +219,26 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
 
     #region Order Pull
 
+    /**
+     * @param array $fulfillmentOrders
+     * @inheritdoc
+     */
     public function pullFulfillmentOrders(array $fulfillmentOrders): void
     {
-        // TODO: Implement pullFulfillmentOrders() method.
+        $fulfillmentOrders = ArrayHelper::index($fulfillmentOrders, 'external_order_key');
+        $externalOrderKeys = array_keys($fulfillmentOrders);
+        $externalOrders = $this->getExternalOrders($externalOrderKeys);
+        foreach ($externalOrders as $externalOrder) {
+            $externalOrderKey = $externalOrder[$this->externalOrderKeyField];
+            $this->updateFulfillmentOrder($fulfillmentOrders[$externalOrderKey], $externalOrder);
+        }
     }
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     */
+    abstract protected function getExternalOrders(array $externalOrderKeys): array;
 
     #endregion
 
@@ -247,24 +253,16 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     {
         $externalWarehouses = $this->getExternalWarehouses($condition);
         foreach ($externalWarehouses as $externalWarehouse) {
-            $query = FulfillmentWarehouse::find()
-                ->fulfillmentAccountId($this->account->fulfillment_account_id);
-            if ($this->externalWarehouseIdField) {
-                $query->externalWarehouseId($externalWarehouse[$this->externalWarehouseIdField]);
-            } else if ($this->externalWarehouseCodeField) {
-                $query->externalWarehouseName($externalWarehouse[$this->externalWarehouseCodeField]);
-            } else {
-                throw new InvalidConfigException('Missing external warehouse unique key field');
-            }
-            $fulfillmentWarehouse = $query->one();
+            $externalWarehouseKey = $externalWarehouse[$this->externalWarehouseKeyField];
+            $fulfillmentWarehouse = FulfillmentWarehouse::find()
+                ->fulfillmentAccountId($this->account->account_id)
+                ->externalWarehouseKey($externalWarehouseKey)
+                ->one();
+
             if ($fulfillmentWarehouse === null) {
                 $fulfillmentWarehouse = new FulfillmentWarehouse();
-                $fulfillmentWarehouse->fulfillment_account_id = $this->account->fulfillment_account_id;
-                if ($this->externalWarehouseIdField) {
-                    $fulfillmentWarehouse->external_warehouse_id = $externalWarehouse[$this->externalWarehouseIdField];
-                } else if ($this->externalWarehouseCodeField) {
-                    $fulfillmentWarehouse->external_warehouse_name = $externalWarehouse[$this->externalWarehouseCodeField];
-                }
+                $fulfillmentWarehouse->fulfillment_account_id = $this->account->account_id;
+                $fulfillmentWarehouse->external_warehouse_key = $externalWarehouseKey;
             }
             $this->updateFulfillmentWarehouse($fulfillmentWarehouse, $externalWarehouse);
         }
@@ -290,65 +288,57 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      */
     public function pullWarehouseStocks(array $fulfillmentItems): void
     {
-        $query = FulfillmentWarehouse::find()
-            ->fulfillmentAccountId($this->account->fulfillment_account_id);
+        $warehouseIds = FulfillmentWarehouse::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->getWarehouseIdsIndexByExternalWarehouseKey();
+        $externalWarehouseKeys = array_keys($warehouseIds);
+        $itemIds = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'item_id');
+        $externalItemKeys = array_keys($itemIds);
 
-        if ($this->externalWarehouseIdField) {
-            $warehouseIds = $query->getWarehouseIdsIndexByExternalWarehouseId();
-            $externalWarehouseIds = array_keys($warehouseIds);
-            $externalItemId2ItemIds = ArrayHelper::map($fulfillmentItems, 'external_item_id', 'item_id');
-            $externalItemIds = array_keys($externalItemId2ItemIds);
-
-            $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
-                ->fulfillmentAccountId($this->account->fulfillment_account_id)
-                ->externalWarehouseId($externalWarehouseIds)
-                ->externalItemId($externalItemIds)
-                ->indexBy(static function ($model) {
-                    /** @var FulfillmentWarehouseStock $model */
-                    return $model->external_warehouse_id . '-' . $model->external_item_id;
-                })
-                ->all();
-
-        } else if ($this->externalWarehouseCodeField) {
-            $warehouseIds = $query->getWarehouseIdsIndexByExternalWarehouseName();
-            $externalWarehouseCodes = array_keys($warehouseIds);
-        }
-
-        $now = time();
-        $externalItemId2ItemIds = ArrayHelper::map($fulfillmentItems, 'external_item_id', 'item_id');
-        $externalItemIds = array_keys($externalItemId2ItemIds);
         $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
-            ->fulfillmentAccountId($this->account->fulfillment_account_id)
-            ->externalWarehouseId($externalWarehouseIds)
-            ->externalItemId($externalItemIds)
+            ->fulfillmentAccountId($this->account->account_id)
+            ->externalWarehouseKey($externalWarehouseKeys)
+            ->externalItemKey($externalItemKeys)
             ->indexBy(static function ($model) {
                 /** @var FulfillmentWarehouseStock $model */
-                return $model->external_warehouse_id . '-' . $model->external_item_id;
+                return $model->external_warehouse_key . '-' . $model->external_item_key;
             })
             ->all();
 
-        $externalWarehouseStocks = $this->getExternalWarehouseStocks($externalItemIds);
+        $now = time();
+        $externalWarehouseStocks = $this->getExternalWarehouseStocks($externalItemKeys);
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
-            if (empty($warehouseIds[$externalWarehouseStock['warehouseId']])) {
+            $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
+            $externalItemKey = $externalWarehouseStock[$this->stockItemKeyField];
+            if (empty($warehouseIds[$externalWarehouseKey])) {
                 continue;
             }
-            $key = $externalWarehouseStock['warehouseId'] . '-' . $externalWarehouseStock['variationId'];
-            $fulfillmentWarehouseStock = $fulfillmentWarehouseStocks[$key] ?? new FulfillmentWarehouseStock();
+
+            $stockKey = $externalWarehouseKey . '-' . $externalItemKey;
+            $fulfillmentWarehouseStock = $fulfillmentWarehouseStocks[$stockKey] ?? new FulfillmentWarehouseStock();
+            if ($fulfillmentWarehouseStock->getIsNewRecord()) {
+                $fulfillmentWarehouseStock->fulfillment_account_id = $this->account->account_id;
+                $fulfillmentWarehouseStock->external_warehouse_key = $externalWarehouseKey;
+                $fulfillmentWarehouseStock->external_item_key = $externalItemKey;
+                $fulfillmentWarehouseStock->warehouse_id = $warehouseIds[$externalWarehouseKey];
+                $fulfillmentWarehouseStock->item_id = $itemIds[$externalItemKey];
+            }
+            $fulfillmentWarehouseStock->stock_pulled_at = $now;
             $this->updateFulfillmentWarehouseStock($fulfillmentWarehouseStock, $externalWarehouseStock);
         }
-        $pulledExternalItemIds = ArrayHelper::getColumn($externalWarehouseStocks, 'variationId');
-        $notPulledExternalItemIds = array_diff($externalItemIds, $pulledExternalItemIds);
+        $pulledExternalItemKeys = ArrayHelper::getColumn($externalWarehouseStocks, $this->stockItemKeyField);
+        $notPulledExternalItemKeys = array_diff($externalItemKeys, $pulledExternalItemKeys);
 
-        if ($notPulledExternalItemIds) {
+        if ($notPulledExternalItemKeys) {
             FulfillmentWarehouseStock::deleteAll([
-                'fulfillment_account_id' => $this->account->fulfillment_account_id,
-                'external_warehouse_id' => $externalWarehouseIds,
-                'external_item_id' => $notPulledExternalItemIds,
+                'fulfillment_account_id' => $this->account->account_id,
+                'external_warehouse_key' => $externalWarehouseKeys,
+                'external_item_key' => $notPulledExternalItemKeys,
             ]);
         }
         FulfillmentItem::updateAll(['stock_pulled_at' => $now], [
-            'fulfillment_account_id' => $this->account->fulfillment_account_id,
-            'external_item_id' => $externalItemIds
+            'fulfillment_account_id' => $this->account->account_id,
+            'external_item_key' => $externalItemKeys
         ]);
     }
 

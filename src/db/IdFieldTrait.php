@@ -8,8 +8,12 @@ namespace lujie\extend\db;
 use yii\db\BaseActiveRecord;
 
 /**
- * Trait IdFieldsTrait
+ * Trait IdFieldTrait
+ *
+ * @property int|string $id
+ *
  * @package lujie\extend\db
+ * @author Lujie Zhou <gao_lujie@live.cn>
  */
 trait IdFieldTrait
 {

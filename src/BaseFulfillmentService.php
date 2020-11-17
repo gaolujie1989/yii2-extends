@@ -108,8 +108,9 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
 
         $externalItem = $this->formatExternalItemData($item, $fulfillmentItem);
         if ($externalItem = $this->saveExternalItem($externalItem, $fulfillmentItem)) {
-            $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
+            return $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
         }
+        return false;
     }
 
     /**
@@ -142,7 +143,11 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @param array $externalItem
      * @return bool
      */
-    abstract protected function updateFulfillmentItem(FulfillmentItem $fulfillmentItem, array $externalItem): bool;
+    protected function updateFulfillmentItem(FulfillmentItem $fulfillmentItem, array $externalItem): bool
+    {
+        $fulfillmentItem->external_item_key = $externalItem[$this->externalItemKeyField];
+        return $fulfillmentItem->save(false);
+    }
 
     #endregion
 

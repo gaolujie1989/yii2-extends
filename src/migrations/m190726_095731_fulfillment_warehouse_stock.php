@@ -32,7 +32,5 @@ class m190726_095731_fulfillment_warehouse_stock extends Migration
             ['item_id', 'warehouse_id', 'fulfillment_account_id'], true);
         $this->createIndex('uk_external_item_warehouse_account', $this->tableName,
             ['external_item_key', 'external_warehouse_key', 'fulfillment_account_id'], true);
-        $this->createIndex('uk_fulfillment_item_warehouse_account', $this->tableName,
-            ['fulfillment_item_id', 'fulfillment_warehouse_id', 'fulfillment_account_id'], true);
     }
 }

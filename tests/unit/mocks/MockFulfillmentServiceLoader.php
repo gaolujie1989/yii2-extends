@@ -12,6 +12,6 @@ class MockFulfillmentServiceLoader extends BaseDataLoader
 {
     public function get($key)
     {
-        return new MockFulfillmentService2();
+        return new MockFulfillmentService();
     }
 }

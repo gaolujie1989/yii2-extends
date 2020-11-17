@@ -26,7 +26,7 @@ use yii\helpers\VarDumper;
 use yii\queue\PushEvent;
 use yii\queue\Queue;
 
-class FulfillmentManagerTest extends \Codeception\Test\Unit
+class FulfillmentManagerTtt extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester

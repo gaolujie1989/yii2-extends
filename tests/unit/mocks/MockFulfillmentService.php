@@ -8,12 +8,14 @@ namespace lujie\fulfillment\tests\unit\mocks;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
+use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
+use function Qcloud\Cos\startWith;
 
 /**
  * Class MockFulfillmentService
@@ -24,13 +26,46 @@ class MockFulfillmentService extends BaseFulfillmentService
 {
     public static $EXTERNAL_ITEM_DATA = [];
 
-    public static $GENERATE_ITEM_KEYS = [];
+    public static $GENERATE_ITEM_KEYS = ['ITEM_K1'];
 
     public static $EXTERNAL_ORDER_DATA = [];
 
-    public static $GENERATE_ORDER_KEYS = [];
+    public static $GENERATE_ORDER_KEYS = ['ORDER_K2'];
 
-    public static $EXTERNAL_STOCK_DATA = [];
+    public static $EXTERNAL_WAREHOUSE_DATA = [
+        [
+            'id' => 'W01',
+            'name' => 'WarehouseDE'
+        ],
+        [
+            'id' => 'W02',
+            'name' => 'WarehouseES'
+        ]
+    ];
+
+    public static $EXTERNAL_STOCK_DATA = [
+        [
+            'itemId' => 'ITEM_K1',
+            'warehouseId' => 'W01',
+            'stock_qty' => 1
+        ],
+        [
+            'itemId' => 'ITEM_K1',
+            'warehouseId' => 'W02',
+            'stock_qty' => 2
+        ]
+    ];
+
+    /**
+     * @var array
+     */
+    public $fulfillmentStatusMap = [
+        'HOLDING' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+        'SHIPPING' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        'ERROR' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        'SHIPPED' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+        'CANCELLED' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+    ];
 
     #region Item Push
 
@@ -166,7 +201,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             }
             $externalOrder['created_at'] = $now;
             $externalOrder['updated_at'] = $now;
-            $externalOrder['order_status'] = 'READY';
+            $externalOrder['order_status'] = 'SHIPPING';
         }
         $externalOrder[$this->externalOrderKeyField] = $externalOrderKey;
         static::$EXTERNAL_ORDER_DATA[$externalOrderKey] = $externalOrder;
@@ -184,6 +219,11 @@ class MockFulfillmentService extends BaseFulfillmentService
         $fulfillmentOrder->external_order_status = $externalOrder['order_status'];
         $fulfillmentOrder->external_created_at = $externalOrder['created_at'];
         $fulfillmentOrder->external_updated_at = $externalOrder['updated_at'];
+        if ($fulfillmentOrder->external_order_status === 'SHIPPED') {
+            $fulfillmentOrder->external_order_additional = [
+                'trackingNumbers' => $externalOrder['trackingNumbers'] ?? []
+            ];
+        }
         return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
@@ -191,75 +231,81 @@ class MockFulfillmentService extends BaseFulfillmentService
 
     #region Order Action hold/ship/cancel
 
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @inheritdoc
+     */
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        $now = time();
-        $fulfillmentOrder->external_order_status = 'HOLDING';
-        $fulfillmentOrder->external_order_additional = ['HH' => 'HH'];
-        $fulfillmentOrder->external_updated_at = $now;
-        return $fulfillmentOrder->save(false);
+        $externalOrder = $this->saveExternalOrder([
+            'order_status' => 'HOLDING',
+        ], $fulfillmentOrder);
+        return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @inheritdoc
+     */
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        $now = time();
-        $fulfillmentOrder->external_order_status = 'SHIPPING';
-        $fulfillmentOrder->external_order_additional = ['SS' => 'SS'];
-        $fulfillmentOrder->external_updated_at = $now;
-        return $fulfillmentOrder->save(false);
+        $externalOrder = $this->saveExternalOrder([
+            'order_status' => 'SHIPPING',
+        ], $fulfillmentOrder);
+        return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @inheritdoc
+     */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        $now = time();
-        $fulfillmentOrder->external_order_status = 'CANCELLED';
-        $fulfillmentOrder->external_order_additional = ['CC' => 'DD'];
-        $fulfillmentOrder->external_updated_at = $now;
-        return $fulfillmentOrder->save(false);
+        $externalOrder = $this->saveExternalOrder([
+            'order_status' => 'CANCELLED',
+        ], $fulfillmentOrder);
+        return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
     #endregion
 
     #region Order Pull
 
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
-        $now = time();
-        $externalOrders = [];
-        foreach ($externalOrderKeys as $externalOrderKey) {
-            $externalOrders[$externalOrderKey] = [
-                'order_status' => 'PROCESSING',
-                'order_additional' => ['AA' => 'BB'],
-                'created_at' => $now - 10,
-                'updated_at' => $now,
-            ];
-        }
-        return $externalOrders;
+        return array_intersect_key(static::$EXTERNAL_ORDER_DATA, array_flip($externalOrderKeys));
     }
 
     #endregion
 
     #region Warehouse Stock Pull
 
+    /**
+     * @param array $condition
+     * @return array
+     * @inheritdoc
+     */
     protected function getExternalWarehouses(array $condition = []): array
     {
-        return [];
-    }
-
-    protected function updateFulfillmentWarehouse(FulfillmentWarehouse $fulfillmentWarehouse, array $externalWarehouse): bool
-    {
-        $fulfillmentWarehouse->external_warehouse_key = 'W-XXX';
-        return $fulfillmentWarehouse->save(false);
+        return static::$EXTERNAL_WAREHOUSE_DATA;
     }
 
     protected function getExternalWarehouseStocks(array $externalItemKeys): array
     {
-        return [];
+        return static::$EXTERNAL_STOCK_DATA;
     }
 
     protected function updateFulfillmentWarehouseStock(FulfillmentWarehouseStock $fulfillmentWarehouseStock, array $externalWarehouseStock): bool
     {
-        $fulfillmentWarehouseStock->stock_qty = 1;
+        $fulfillmentWarehouseStock->stock_qty = $externalWarehouseStock['stock_qty'];
         return $fulfillmentWarehouseStock->save(false);
     }
 

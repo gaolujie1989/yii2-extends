@@ -8,6 +8,7 @@ namespace lujie\fulfillment;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
+use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
@@ -66,6 +67,11 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @var string
      */
     public $stockWarehouseKeyField = 'warehouseId';
+
+    /**
+     * @var array
+     */
+    public $fulfillmentStatusMap = [];
 
     #endregion
 
@@ -212,6 +218,16 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
+
+        $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->external_order_status] ?? null;
+        if ($newFulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED
+            && empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
+            $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
+        }
+        if ($newFulfillmentStatus) {
+            $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
+        }
+
         return $fulfillmentOrder->save(false);
     }
 

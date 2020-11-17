@@ -40,7 +40,7 @@ class FulfillmentWarehouseStockQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'fulfillmentWarehouseStockId' => 'fulfillment_warehouse_stock_id',
-                    'fulfillmentWarehouseId' => 'fulfillment_warehouse_id',
+                    'fulfillmentAccountId' => 'fulfillment_account_id',
                     'itemId' => 'item_id',
                     'warehouseId' => 'warehouse_id',
                     'externalItemKey' => 'external_item_key',

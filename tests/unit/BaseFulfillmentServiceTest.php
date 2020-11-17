@@ -15,6 +15,7 @@ use lujie\fulfillment\common\Order;
 use lujie\fulfillment\common\OrderItem;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
+use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 
 class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
@@ -147,7 +148,33 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
      */
     public function testPushFulfillmentOrder(): void
     {
+        $fulfillmentService = $this->getFulfillmentService();
 
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->save(false);
+        $fulfillmentOrder->fulfillment_account_id = 2;
+        $this->assertFalse($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'Account not equal, should return false');
+
+        $fulfillmentOrder->fulfillment_account_id = 1;
+        $fulfillmentOrder->order_id = 2;
+        $this->assertFalse($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'Order not found, should return false');
+
+        MockFulfillmentService::$GENERATE_ORDER_KEYS = [11, 22];
+        $fulfillmentOrder->order_id = 1;
+        $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'create');
+        $this->assertEquals('11', $fulfillmentOrder->external_order_key);
+        $this->assertTrue($fulfillmentOrder->external_created_at >= time());
+        $this->assertTrue($fulfillmentOrder->external_updated_at === $fulfillmentOrder->external_created_at);
+
+        $fulfillmentOrder->delete();
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->save(false);
+        $fulfillmentOrder->fulfillment_account_id = 1;
+        $fulfillmentOrder->order_id = 1;
+        $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'already exists, link and update');
+        $this->assertEquals('11', $fulfillmentOrder->external_order_key);
+        $this->assertTrue($fulfillmentOrder->external_created_at >= time());
+        $this->assertTrue($fulfillmentOrder->external_updated_at > $fulfillmentOrder->external_created_at);
     }
 
     /**

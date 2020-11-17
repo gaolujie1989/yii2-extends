@@ -112,36 +112,79 @@ class MockFulfillmentService extends BaseFulfillmentService
 
     #region Order Push
 
+    /**
+     * @param Order $order
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return array
+     * @inheritdoc
+     */
     protected function formatExternalOrderData(Order $order, FulfillmentOrder $fulfillmentOrder): array
     {
-        $now = time();
-        return [
-            'order_key' => 'order_key',
-            'order_status' => 'PUSHED',
-            'order_additional' => ['AA' => 'BB'],
-            'created_at' => $now,
-            'updated_at' => $now,
-        ];
+        $orderData = ArrayHelper::toArray($order);
+        unset($orderData['orderId']);
+        return $orderData;
     }
 
+    /**
+     * @param Order $order
+     * @return array|null
+     * @inheritdoc
+     */
     protected function getExternalOrder(Order $order): ?array
     {
+        foreach (static::$EXTERNAL_ORDER_DATA as $externalOrderData) {
+            if ($externalOrderData['orderNo'] === $order->orderNo) {
+                return $externalOrderData;
+            }
+        }
         return null;
     }
 
+    /**
+     * @param array $externalOrder
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return string[]|null
+     * @inheritdoc
+     */
     protected function saveExternalOrder(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
     {
-        return ['SUCCESS'];
+        $now = time();
+        if ($fulfillmentOrder->external_order_key) {
+            if (empty(static::$EXTERNAL_ORDER_DATA[$fulfillmentOrder->external_order_key])) {
+                throw new InvalidArgumentException('External Order already exists.');
+            }
+            $externalOrderKey = $fulfillmentOrder->external_order_key;
+            $externalOrder = array_merge(static::$EXTERNAL_ORDER_DATA[$fulfillmentOrder->external_order_key], $externalOrder);
+            $externalOrder['updated_at'] = $now;
+            if ($externalOrder['updated_at'] <= $externalOrder['created_at']) {
+                $externalOrder['updated_at'] = $externalOrder['created_at'] + 1;
+            }
+        } else {
+            $externalOrderKey = array_shift(static::$GENERATE_ORDER_KEYS);
+            if (isset(static::$EXTERNAL_ORDER_DATA[$externalOrderKey])) {
+                throw new InvalidArgumentException('External Order already exists.');
+            }
+            $externalOrder['created_at'] = $now;
+            $externalOrder['updated_at'] = $now;
+            $externalOrder['order_status'] = 'READY';
+        }
+        $externalOrder[$this->externalOrderKeyField] = $externalOrderKey;
+        static::$EXTERNAL_ORDER_DATA[$externalOrderKey] = $externalOrder;
+        return $externalOrder;
     }
 
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @param array $externalOrder
+     * @return bool
+     * @inheritdoc
+     */
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
-        $fulfillmentOrder->external_order_key = $externalOrder['order_key'];
         $fulfillmentOrder->external_order_status = $externalOrder['order_status'];
-        $fulfillmentOrder->external_order_additional = $externalOrder['order_additional'];
         $fulfillmentOrder->external_created_at = $externalOrder['created_at'];
         $fulfillmentOrder->external_updated_at = $externalOrder['updated_at'];
-        return $fulfillmentOrder->save(false);
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
     #endregion
@@ -151,7 +194,7 @@ class MockFulfillmentService extends BaseFulfillmentService
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $now = time();
-        $fulfillmentOrder->external_order_status = 'HOLD';
+        $fulfillmentOrder->external_order_status = 'HOLDING';
         $fulfillmentOrder->external_order_additional = ['HH' => 'HH'];
         $fulfillmentOrder->external_updated_at = $now;
         return $fulfillmentOrder->save(false);

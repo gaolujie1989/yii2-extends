@@ -175,8 +175,9 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
 
         $externalOrder = $this->formatExternalOrderData($order, $fulfillmentOrder);
         if ($externalOrder = $this->saveExternalOrder($externalOrder, $fulfillmentOrder)) {
-            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
         }
+        return false;
     }
 
     /**
@@ -208,7 +209,11 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @param array $externalOrder
      * @return bool
      */
-    abstract protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool;
+    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    {
+        $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
+        return $fulfillmentOrder->save(false);
+    }
 
     #endregion
 

@@ -17,8 +17,8 @@ class m190726_095731_fulfillment_warehouse_stock extends Migration
             'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'external_item_key' => $this->bigInteger()->notNull()->defaultValue(0),
-            'external_warehouse_key' => $this->bigInteger()->notNull()->defaultValue(0),
+            'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
+            'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
 
             'stock_qty' => $this->integer()->notNull()->defaultValue(0),
             'reserved_qty' => $this->integer()->notNull()->defaultValue(0),

@@ -126,7 +126,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->setAttributes($fulfillmentItemForm->attributes, false);
         $fulfillmentItem->setIsNewRecord(false);
-        if ($fulfillmentItem->item_pushed_at >= $fulfillmentItem->item_updated_at) {
+        if ($fulfillmentItem->item_pushed_at > $fulfillmentItem->item_updated_at) {
             Yii::info("FulfillmentItem {$fulfillmentItem->fulfillment_item_id} not updated, skip", __METHOD__);
             return;
         }
@@ -166,16 +166,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
-     * @param FulfillmentOrder $fulfillmentOrder
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
-    {
-        $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => PushFulfillmentOrderJob::class]);
-    }
-
-    /**
      * @param AfterSaveEvent $event
      * @throws InvalidConfigException
      * @inheritdoc
@@ -212,6 +202,16 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 Yii::info("{$name} push update job", __METHOD__);
                 break;
         }
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
+    {
+        $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => PushFulfillmentOrderJob::class]);
     }
 
     /**
@@ -263,7 +263,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region push and holding/shipping/cancelling
+    #region Item/Order Push
 
     /**
      * @param FulfillmentItem $fulfillmentItem
@@ -301,6 +301,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         return false;
     }
 
+
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
@@ -325,7 +326,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} pushed success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
                 $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
                 Yii::error("{$name} pushed error: {$message}", __METHOD__);
@@ -336,6 +337,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
         return false;
     }
+
+    #endregion
+
+    #region Order Action hold/ship/cancel
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
@@ -361,7 +366,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->holdFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} to holding success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
                 $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
                 Yii::error("{$name} to holding error: {$message}", __METHOD__);
@@ -397,7 +402,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->shipFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} to shipping success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
                 $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
                 Yii::error("{$name} to shipping error: {$message}", __METHOD__);
@@ -433,7 +438,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} cancelled success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_errors', true);
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
                 $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
                 Yii::error("{$name} cancelled error: {$message}", __METHOD__);
@@ -447,7 +452,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region pull and update
+    #region Order/Stock Pull
 
     /**
      * @param int $accountId
@@ -507,7 +512,8 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region Recheck and Push
+
+    #region Recheck and Retry To Push
 
     /**
      * @inheritdoc

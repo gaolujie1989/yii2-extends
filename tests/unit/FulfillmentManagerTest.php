@@ -9,6 +9,8 @@ namespace lujie\fulfillment\tests\unit;
 use lujie\data\loader\ChainedDataLoader;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
+use lujie\fulfillment\forms\FulfillmentItemForm;
+use lujie\fulfillment\forms\FulfillmentOrderForm;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\jobs\CancelFulfillmentOrderJob;
 use lujie\fulfillment\jobs\HoldFulfillmentOrderJob;
@@ -19,6 +21,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentServiceLoader;
 use Yii;
 use yii\di\Instance;
@@ -26,7 +29,7 @@ use yii\helpers\VarDumper;
 use yii\queue\PushEvent;
 use yii\queue\Queue;
 
-class FulfillmentManagerTtt extends \Codeception\Test\Unit
+class FulfillmentManagerTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -59,6 +62,10 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         ]);
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
     public function testEvents(): void
     {
         $fulfillmentManager = $this->getFulfillmentManager();
@@ -75,7 +82,7 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         });
 
         //test fulfillment item
-        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem = new FulfillmentItemForm();
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
         $this->assertTrue($fulfillmentItem->save(), VarDumper::dumpAsString($fulfillmentItem->getErrors()));
@@ -86,13 +93,13 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         ]);
         $this->assertEquals($expectedJob, array_shift($pushedJobs));
 
-        $fulfillmentItem->external_item_id = 1;
+        $fulfillmentItem->external_item_key = 1;
         $fulfillmentItem->item_pushed_at = 2;
         $fulfillmentItem->save();
         $this->assertCount(0, $pushedJobs, VarDumper::dumpAsString($pushedJobs));
 
         //test fulfillment order
-        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder = new FulfillmentOrderForm();
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
@@ -104,9 +111,14 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         ]);
         $this->assertEquals($expectedJob, array_shift($pushedJobs));
 
-        $fulfillmentOrder->external_order_id = 1;
+        $fulfillmentOrder->external_order_key = 1;
         $fulfillmentOrder->save();
-        $this->assertCount(0, $pushedJobs, VarDumper::dumpAsString($pushedJobs));
+        $this->assertCount(1, $pushedJobs);
+        $expectedJob = new PushFulfillmentOrderJob([
+            'fulfillmentManager' => 'fulfillmentManager',
+            'fulfillmentOrderId' => $fulfillmentOrder->fulfillment_order_id,
+        ]);
+        $this->assertEquals($expectedJob, array_shift($pushedJobs));
 
         $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING;
         $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
@@ -139,6 +151,11 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         $this->assertEquals($expectedJob, array_shift($pushedJobs));
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
     public function testPushItem(): void
     {
         $fulfillmentItem = new FulfillmentItem();
@@ -146,9 +163,14 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         $fulfillmentItem->item_id = 1;
         $this->getFulfillmentManager()->pushFulfillmentItem($fulfillmentItem);
         $this->assertFalse($fulfillmentItem->getIsNewRecord());
-        $this->assertEquals(1, $fulfillmentItem->external_item_id);
+        $this->assertEquals('ITEM_K1', $fulfillmentItem->external_item_key);
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
     public function testPushOrder(): void
     {
         $fulfillmentOrder = new FulfillmentOrder();
@@ -156,43 +178,69 @@ class FulfillmentManagerTtt extends \Codeception\Test\Unit
         $fulfillmentOrder->order_id = 1;
         $this->getFulfillmentManager()->pushFulfillmentOrder($fulfillmentOrder);
         $this->assertFalse($fulfillmentOrder->getIsNewRecord());
-        $this->assertEquals(1, $fulfillmentOrder->external_order_id);
+        $this->assertEquals('ORDER_K2', $fulfillmentOrder->external_order_key);
     }
 
-    public function testPullWarehouses(): void
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function te1stPullWarehouses(): void
     {
         $query = FulfillmentWarehouse::find();
         $this->assertEquals(0, $query->count());
         $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
-        $this->assertEquals(1, $query->count());
+        $this->assertEquals(2, $query->count());
         $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
-        $this->assertEquals(1, $query->count());
+        $this->assertEquals(2, $query->count());
     }
 
-    public function testPullStocks(): void
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function te1stPullStocks(): void
     {
+        $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
+        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('W01')->one();
+        $fulfillmentWarehouse->warehouse_id = 1;
+        $fulfillmentWarehouse->save(false);
+
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
-        $fulfillmentItem->external_item_id = 1;
+        $fulfillmentItem->external_item_key = 'ITEM_K1';
         $fulfillmentItem->item_pushed_at = 1;
-        $fulfillmentItem->mustSave(false);
+        $fulfillmentItem->save(false);
         $query = FulfillmentWarehouseStock::find();
         $this->assertEquals(0, $query->count());
         $this->getFulfillmentManager()->pullFulfillmentWarehouseStocks(1);
         $this->assertEquals(1, $query->count());
         $this->getFulfillmentManager()->pullFulfillmentWarehouseStocks(1);
         $this->assertEquals(1, $query->count());
+        $fulfillmentItem->refresh();
+        $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
     public function testPullOrders(): void
     {
         $fulfillmentOrder = new FulfillmentOrder();
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
-        $fulfillmentOrder->external_order_id = 1;
+        $fulfillmentOrder->external_order_key = 'ORDER_K1';
         $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
         $fulfillmentOrder->mustSave(false);
+        MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
+            'id' => 'ORDER_K1',
+            'order_status' => 'SHIPPING',
+            'created_at' => time() - 86400,
+            'updated_at' => time(),
+        ]];
         $this->getFulfillmentManager()->pullFulfillmentOrders(1);
         $fulfillmentOrder->refresh();
         $this->assertTrue($fulfillmentOrder->order_pulled_at > 0, VarDumper::dumpAsString($fulfillmentOrder->attributes));

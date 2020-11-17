@@ -217,6 +217,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      */
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
+        $fulfillmentOrder->order_pulled_at = time();
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
 
         $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->external_order_status] ?? null;
@@ -351,6 +352,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
 
         $now = time();
         $externalWarehouseStocks = $this->getExternalWarehouseStocks($externalItemKeys);
+
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
             $externalItemKey = $externalWarehouseStock[$this->stockItemKeyField];
@@ -367,6 +369,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
                 $fulfillmentWarehouseStock->warehouse_id = $warehouseIds[$externalWarehouseKey];
                 $fulfillmentWarehouseStock->item_id = $itemIds[$externalItemKey];
             }
+
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
             $this->updateFulfillmentWarehouseStock($fulfillmentWarehouseStock, $externalWarehouseStock);
         }

@@ -229,6 +229,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         MockFulfillmentService::$EXTERNAL_ORDER_DATA['ORDER_K2']['trackingNumbers'] = ['01524814864'];
         $fulfillmentService->pullFulfillmentOrders([$fulfillmentOrder]);
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_SHIPPED, $fulfillmentOrder->fulfillment_status);
+        $this->assertTrue($fulfillmentOrder->order_pulled_at > 0);
     }
 
     /**
@@ -265,7 +266,16 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $query = FulfillmentWarehouseStock::find()->itemId($fulfillmentItem->item_id);
         $this->assertEquals(1, $query->count());
         $warehouseStock = $query->one();
-        $this->assertEquals(1, $warehouseStock->stock_qty);
-        $this->assertEquals(1, $warehouseStock->warehouse_id);
+        $expectedStock = [
+            'fulfillment_account_id' => 1,
+            'item_id' => 1,
+            'warehouse_id' => 1,
+            'external_item_key' => 'ITEM_K1',
+            'external_warehouse_key' => 'W01',
+            'stock_qty' => 1,
+        ];
+        $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
+        $fulfillmentItem->refresh();
+        $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
     }
 }

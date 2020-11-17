@@ -34,6 +34,9 @@ use yii\httpclient\Response;
  * @method JsonRpcResponse getShipmentLabel(array $data)
  * @method JsonRpcResponse createShipment(array $data)
  * @method JsonRpcResponse cancelShipment(array $data)
+ * @method JsonRpcResponse getWarehouseList(array $data)
+ * @method JsonRpcResponse getLogisticsList(array $data)
+ * @method JsonRpcResponse getBilling(array $data)
  *
  * @package lujie\fulfillment\f4px
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -117,6 +120,15 @@ class F4pxClient extends BaseJsonRpcClient
         ],
         'cancelShipment' => [
             'method' => 'fu.wms.shipment.cancel',
+        ],
+        'getWarehouseList' => [
+            'method' => 'com.basis.warehouse.getlist',
+        ],
+        'getLogisticsList' => [
+            'method' => 'com.basis.logistics_product.getlist',
+        ],
+        'getBilling' => [
+            'method' => 'com.basis.billing.getbilling',
         ],
     ];
 

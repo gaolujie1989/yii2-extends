@@ -40,6 +40,8 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      */
     public $orderLoader;
 
+    #region External Model Key Field
+
     /**
      * @var string
      */
@@ -64,6 +66,8 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @var string
      */
     public $stockWarehouseKeyField = 'warehouseId';
+
+    #endregion
 
     /**
      * @throws InvalidConfigException
@@ -253,7 +257,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
 
     #endregion
 
-    #region Warehouse Stock Pull
+    #region Stock Pull
 
     /**
      * @param array $condition
@@ -291,7 +295,10 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @return bool
      * @inheritdoc
      */
-    abstract protected function updateFulfillmentWarehouse(FulfillmentWarehouse $fulfillmentWarehouse, array $externalWarehouse): bool;
+    protected function updateFulfillmentWarehouse(FulfillmentWarehouse $fulfillmentWarehouse, array $externalWarehouse): bool
+    {
+        return $fulfillmentWarehouse->save(false);
+    }
 
     /**
      * @param FulfillmentItem $fulfillmentItems

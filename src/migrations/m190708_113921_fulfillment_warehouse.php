@@ -21,7 +21,6 @@ class m190708_113921_fulfillment_warehouse extends Migration
             'additional' => $this->json(),
         ]);
 
-        $this->createIndex('uk_warehouse_id', $this->tableName, ['warehouse_id']);
         $this->createIndex('uk_external_warehouse_account', $this->tableName, ['external_warehouse_key', 'fulfillment_account_id'], true);
     }
 }

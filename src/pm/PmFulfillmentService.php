@@ -39,6 +39,8 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public $client;
 
+    #region External Model Key Field
+
     /**
      * @var string
      */
@@ -63,6 +65,8 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @var string
      */
     public $stockWarehouseKeyField = 'warehouseId';
+
+    #endregion
 
     #region PM custom push field
 
@@ -678,16 +682,6 @@ class PmFulfillmentService extends BaseFulfillmentService
     #region Warehouse Stock Pull
 
     /**
-     * @param array $condition
-     * @return array
-     */
-    protected function getExternalWarehouses(array $condition = []): array
-    {
-        $eachWarehouse = $this->client->eachWarehouse($condition);
-        return iterator_to_array($eachWarehouse, false);
-    }
-
-    /**
      * @param FulfillmentWarehouse $fulfillmentWarehouse
      * @param array $externalWarehouse
      * @return bool
@@ -695,7 +689,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouse(FulfillmentWarehouse $fulfillmentWarehouse, array $externalWarehouse): bool
     {
-        $fulfillmentWarehouse->external_warehouse_additional['name'] = $externalWarehouse['name'];
+        $fulfillmentWarehouse->external_warehouse_additional = ['name' => $externalWarehouse['name']];
         return $fulfillmentWarehouse->save(false);
     }
 

@@ -27,6 +27,35 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     public $client;
 
+    #region External Model Key Field
+
+    /**
+     * @var string
+     */
+    public $externalItemKeyField = 'sku_id';
+
+    /**
+     * @var string
+     */
+    public $externalOrderKeyField = 'consignment_no';
+
+    /**
+     * @var string
+     */
+    public $externalWarehouseKeyField = 'warehouse_code';
+
+    /**
+     * @var string
+     */
+    public $stockItemKeyField = 'sku_id';
+
+    /**
+     * @var string
+     */
+    public $stockWarehouseKeyField = 'warehouse_code';
+
+    #endregion
+
     public $orderProcessingStatus = 'S';
     public $orderCancelledStatus = 'X';
     public $orderErrorStatus = 'E';
@@ -345,24 +374,29 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param array $condition
      * @return array
-     * @throws NotSupportedException
+     * @throws \lujie\extend\authclient\JsonRpcException
      * @inheritdoc
      */
     protected function getExternalWarehouses(array $condition = []): array
     {
-        throw new NotSupportedException('F4px not support get warehouse');
+        return $this->client->getWarehouseList($condition)->getData();
     }
 
     /**
      * @param FulfillmentWarehouse $fulfillmentWarehouse
      * @param array $externalWarehouse
      * @return bool
-     * @throws NotSupportedException
      * @inheritdoc
      */
     protected function updateFulfillmentWarehouse(FulfillmentWarehouse $fulfillmentWarehouse, array $externalWarehouse): bool
     {
-        throw new NotSupportedException('F4px not support get warehouse');
+        $fulfillmentWarehouse->external_warehouse_additional = [
+            'name_cn' => $externalWarehouse['warehouse_name_cn'],
+            'name_en' => $externalWarehouse['warehouse_name_en'],
+            'country' => $externalWarehouse['country'],
+            'service_code' => $externalWarehouse['service_code'],
+        ];
+        return $fulfillmentWarehouse->save(false);
     }
 
     /**

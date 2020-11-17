@@ -43,6 +43,9 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
             [['fulfillment_account_id', 'warehouse_id'], 'integer'],
             [['external_warehouse_additional', 'additional'], 'safe'],
             [['external_warehouse_key'], 'string', 'max' => 50],
+            [['warehouse_id'], 'unique', 'when' => static function($model) {
+                return $model->warehouse_id > 0;
+            }],
             [['external_warehouse_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_warehouse_key', 'fulfillment_account_id']],
         ];
     }

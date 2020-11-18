@@ -14,6 +14,7 @@ use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use yii\base\NotSupportedException;
+use yii\di\Instance;
 
 /**
  * Class PmFulfillmentService
@@ -54,6 +55,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     public $stockWarehouseKeyField = 'warehouse_code';
 
+    /**
+     * @var array
+     */
+    public $fulfillmentStatusMap = [
+        'S' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        'X' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        'E' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        'C' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+    ];
+
     #endregion
 
     public $orderProcessingStatus = 'S';
@@ -61,6 +72,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public $orderErrorStatus = 'E';
     public $orderHoldStatus = 'NONE';
     public $orderShippedStatus = 'C';
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->client = Instance::ensure($this->client, F4pxClient::class);
+    }
 
     #region Item Push
 

@@ -7,6 +7,7 @@ namespace lujie\fulfillment\f4px;
 
 use lujie\extend\authclient\BaseJsonRpcClient;
 use lujie\extend\authclient\JsonRpcResponse;
+use Yii;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;
 use yii\httpclient\CurlTransport;
@@ -56,7 +57,7 @@ class F4pxClient extends BaseJsonRpcClient
     /**
      * @var string
      */
-    public $version = '1.0.0';
+    public $version = '1.0';
 
     /**
      * @var string
@@ -217,11 +218,13 @@ class F4pxClient extends BaseJsonRpcClient
         ksort($data);
         $signString = '';
         foreach ($data as $key => $value) {
-            if (in_array($key, ['access_token', 'language'], true)) {
+            if (in_array($key, ['access_token', 'language', 'body'], true)) {
                 continue;
             }
             $signString .= $key . $value;
         }
+        $signString .= $data['body'] . $this->appSecret;
+        Yii::debug([$data, $signString], __METHOD__);
         return md5($signString);
     }
 

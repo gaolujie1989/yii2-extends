@@ -33,8 +33,9 @@ class RemoteUser extends BaseObject implements IdentityInterface
      * @param string $token
      * @param string|null $type
      * @return array|null
-     * @throws InvalidConfigException
      * @throws Exception
+     * @throws InvalidConfigException
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     protected static function getUserData(string $token, string $type = null): ?array

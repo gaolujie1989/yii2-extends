@@ -6,6 +6,7 @@
 namespace lujie\remote\user;
 
 
+use lujie\extend\helpers\HttpClientHelper;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -56,8 +57,9 @@ class RemoteUserClient extends BaseObject
 
     /**
      * @param string $token
-     * @param null $type
+     * @param string|null $type
      * @return array|null
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -68,11 +70,7 @@ class RemoteUserClient extends BaseObject
         if ($this->tokenHeader) {
             $request->addHeaders([$this->tokenHeader => $token]);
         }
-        $response = $request->send();
-        if ($response->getIsOk()) {
-            $data = $response->getData();
-            return $this->dataKey ? ArrayHelper::getValue($data, $this->dataKey) : $data;
-        }
-        return null;
+        $data = HttpClientHelper::sendRequest($request)->getData();
+        return $this->dataKey ? ArrayHelper::getValue($data, $this->dataKey) : $data;
     }
 }

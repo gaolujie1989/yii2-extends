@@ -132,4 +132,13 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
             ['<=', 'order_pushed_at', time() - $queuedDuration],
         ]);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getExternalOrderIds(): array
+    {
+        return $this->select(['external_order_id'])->indexBy('order_id')->column();
+    }
 }

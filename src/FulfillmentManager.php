@@ -285,6 +285,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentItem $fulfillmentItem
      * @return bool
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -305,10 +306,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentItem, $name) {
                     $fulfillmentService->pushItem($fulfillmentItem);
                     Yii::info("{$name} pushed success", __METHOD__);
-                }, $fulfillmentItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result', true);
-            } catch (\Throwable $ex) {
-                $this->handlePushedError($ex, "{$name} pushed");
-                return false;
+                }, $fulfillmentItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result');
             } finally {
                 $this->mutex->release($lockName);
             }
@@ -321,6 +319,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -341,10 +340,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->pushFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} pushed success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
-            } catch (\Throwable $ex) {
-                $this->handlePushedError($ex, "{$name} pushed");
-                return false;
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
             } finally {
                 $this->mutex->release($lockName);
             }
@@ -360,6 +356,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -380,10 +377,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->holdFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} to holding success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
-            } catch (\Throwable $ex) {
-                $this->handlePushedError($ex, "{$name} to holding");
-                return false;
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
             } finally {
                 $this->mutex->release($lockName);
             }
@@ -395,6 +389,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -415,10 +410,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->shipFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} to shipping success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
-            } catch (\Throwable $ex) {
-                $this->handlePushedError($ex, "{$name} to shipping");
-                return false;
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
             } finally {
                 $this->mutex->release($lockName);
             }
@@ -430,6 +422,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -450,10 +443,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 return ExecuteHelper::execute(static function () use ($fulfillmentService, $fulfillmentOrder, $name) {
                     $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
                     Yii::info("{$name} cancelled success", __METHOD__);
-                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
-            } catch (\Throwable $ex) {
-                $this->handlePushedError($ex, "{$name} to cancelled");
-                return false;
+                }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
             } finally {
                 $this->mutex->release($lockName);
             }

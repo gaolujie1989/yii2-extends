@@ -29,20 +29,22 @@ class HttpClientHelper
 
     /**
      * @param Request $request
+     * @param int|null $retry
      * @return Response
      * @throws Exception
      * @inheritdoc
      */
-    public static function tryRequest(Request $request): Response
+    public static function tryRequest(Request $request, ?int $retry = null): Response
     {
-        $retry = 0;
+        $retry = $retry ?: static::$retry;
+        $try = 0;
         while (true) {
             try {
                 return $request->send();
             } catch (Exception $exception) {
-                $retry++;
-                if ($retry <= static::$retry) {
-                    Yii::warning("HttpRequest failed and retry {$retry}... Message: {$exception->getMessage()}");
+                $try++;
+                if ($try <= $retry) {
+                    Yii::warning("HttpRequest failed and retry {$try}... Message: {$exception->getMessage()}");
                 } else {
                     throw $exception;
                 }
@@ -53,22 +55,42 @@ class HttpClientHelper
     /**
      * @param Request $request
      * @param array $allowedStatusCodes
+     * @param int|null $retry
      * @return Response
      * @throws Exception
      * @throws InvalidResponseException
      * @inheritdoc
      */
-    public static function sendRequest(Request $request, $allowedStatusCodes = []): Response
+    public static function sendRequest(Request $request, array $allowedStatusCodes = [], ?int $retry = null): Response
     {
-        $response = static::tryRequest($request);
+        $response = static::tryRequest($request, $retry);
 
-        if (!$response->getIsOk() && !in_array($response->getStatusCode(), $allowedStatusCodes)) {
+        if (!$response->getIsOk() && !static::isAllowedStatusCodes($response->getStatusCode(), $allowedStatusCodes)) {
             //not append content because content maybe not utf8 encode, it will cause error
             $message = 'Request failed with code: ' . $response->getStatusCode(); // . ', message: ' . $response->getContent();
             throw new InvalidResponseException($response, $message);
         }
 
         return $response;
+    }
+
+    /**
+     * @param $statusCode
+     * @param array $allowedStatusCodes
+     * @return bool
+     * @inheritdoc
+     */
+    public static function isAllowedStatusCodes($statusCode, array $allowedStatusCodes = []): bool
+    {
+        if (in_array($statusCode, $allowedStatusCodes)) {
+            return true;
+        }
+        foreach ($allowedStatusCodes as $allowedStatusCode) {
+            if (ValueHelper::isMatch($statusCode, $allowedStatusCode)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

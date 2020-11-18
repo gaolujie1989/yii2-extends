@@ -5,6 +5,7 @@
 
 namespace lujie\extend\authclient;
 
+use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\BaseClient;
 use yii\authclient\CacheStateStorage;
 use yii\httpclient\CurlTransport;
@@ -183,13 +184,14 @@ abstract class BaseCookieClient extends BaseClient
      * @param array $data
      * @param array $headers
      * @return Response
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function request(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Response
     {
         $request = $this->createReadyRequest($callSubUrl, $method, $data, $headers);
-        return $request->send();
+        return HttpClientHelper::sendRequest($request);
     }
 
     /**

@@ -8,6 +8,7 @@ namespace lujie\extend\helpers;
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\db\BaseActiveRecord;
+use yii\httpclient\Exception;
 use yii\queue\JobInterface;
 use yii\queue\Queue;
 
@@ -70,7 +71,8 @@ class ExecuteHelper
         string $timeAttribute = 'execute_at',
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
-        bool $throwException = false): bool
+        bool $throwException = false,
+        array $warningExceptions = [Exception::class]): bool
     {
         $timeAttribute && $model->setAttribute($timeAttribute, time());
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
@@ -87,6 +89,12 @@ class ExecuteHelper
             $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);
+            foreach ($warningExceptions as $warningException) {
+                if ($exception instanceof $warningException) {
+                    Yii::warning($message, __METHOD__);
+                    return false;
+                }
+            }
             if ($throwException) {
                 throw $exception;
             }

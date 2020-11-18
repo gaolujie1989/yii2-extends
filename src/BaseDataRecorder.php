@@ -16,6 +16,8 @@ use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\recording\pipelines\RecordPipeline;
 use lujie\data\recording\transformers\RecordTransformer;
 use lujie\extend\helpers\ExecuteHelper;
+use Yii;
+use yii\httpclient\Exception;
 
 /**
  * Class DataRecorder
@@ -70,19 +72,31 @@ abstract class BaseDataRecorder extends DataExchanger
     public function execute(): bool
     {
         $dataSource = $this->dataSource;
-        return ExecuteHelper::execute(function() use ($dataSource) {
-            parent::execute();
-            if ($this->pipeline instanceof DbPipelineInterface) {
-                $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
-            } else if ($this->pipeline instanceof CombinedPipeline) {
-                foreach ($this->pipeline->pipelines as $pipeline) {
-                    if ($pipeline instanceof DbPipelineInterface) {
-                        $dataSource->last_exec_result = $pipeline->getAffectedRowCounts();
-                        break;
+        try {
+            return ExecuteHelper::execute(function() use ($dataSource) {
+                parent::execute();
+                if ($this->pipeline instanceof DbPipelineInterface) {
+                    $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
+                } else if ($this->pipeline instanceof CombinedPipeline) {
+                    foreach ($this->pipeline->pipelines as $pipeline) {
+                        if ($pipeline instanceof DbPipelineInterface) {
+                            $dataSource->last_exec_result = $pipeline->getAffectedRowCounts();
+                            break;
+                        }
                     }
                 }
+                return true;
+            }, $dataSource, 'last_exec_at', 'last_exec_status', 'last_exec_result', true);
+        } catch (\Throwable $ex) {
+            $name = "Recording DataSource {$dataSource->data_source_id}";
+            if ($ex instanceof Exception) {
+                $message = $ex->getMessage();
+                Yii::warning("$name error: {$message}", __METHOD__);
+            } else {
+                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
+                Yii::error("{$name} error: {$message}", __METHOD__);
             }
-            return true;
-        }, $dataSource, 'last_exec_at', 'last_exec_status', 'last_exec_status');
+            return false;
+        }
     }
 }

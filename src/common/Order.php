@@ -34,4 +34,9 @@ class Order extends Model
      * @var OrderItem[]
      */
     public $orderItems;
+
+    /**
+     * @var array
+     */
+    public $additional = [];
 }

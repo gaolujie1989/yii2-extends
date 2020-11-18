@@ -31,6 +31,7 @@ use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
+use yii\httpclient\Exception;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
 
@@ -266,6 +267,21 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region Item/Order Push
 
     /**
+     * @param $exception
+     * @inheritdoc
+     */
+    protected function handlePushedError($exception, string $name): void
+    {
+        if ($exception instanceof Exception) {
+            $message = $exception->getMessage();
+            Yii::warning("{$name} error: {$message}", __METHOD__);
+            return;
+        }
+        $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
+        Yii::error("{$name} error: {$message}", __METHOD__);
+    }
+
+    /**
      * @param FulfillmentItem $fulfillmentItem
      * @return bool
      * @throws InvalidConfigException
@@ -291,8 +307,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                     Yii::info("{$name} pushed success", __METHOD__);
                 }, $fulfillmentItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result', true);
             } catch (\Throwable $ex) {
-                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
-                Yii::error("{$name} pushed error: {$message}", __METHOD__);
+                $this->handlePushedError($ex, "{$name} pushed");
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -328,8 +343,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                     Yii::info("{$name} pushed success", __METHOD__);
                 }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
-                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
-                Yii::error("{$name} pushed error: {$message}", __METHOD__);
+                $this->handlePushedError($ex, "{$name} pushed");
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -368,8 +382,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                     Yii::info("{$name} to holding success", __METHOD__);
                 }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
-                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
-                Yii::error("{$name} to holding error: {$message}", __METHOD__);
+                $this->handlePushedError($ex, "{$name} to holding");
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -404,8 +417,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                     Yii::info("{$name} to shipping success", __METHOD__);
                 }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
-                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
-                Yii::error("{$name} to shipping error: {$message}", __METHOD__);
+                $this->handlePushedError($ex, "{$name} to shipping");
                 return false;
             } finally {
                 $this->mutex->release($lockName);
@@ -440,8 +452,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                     Yii::info("{$name} cancelled success", __METHOD__);
                 }, $fulfillmentOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result', true);
             } catch (\Throwable $ex) {
-                $message = $ex->getMessage() . "\n" . $ex->getTraceAsString();
-                Yii::error("{$name} cancelled error: {$message}", __METHOD__);
+                $this->handlePushedError($ex, "{$name} to cancelled");
                 return false;
             } finally {
                 $this->mutex->release($lockName);

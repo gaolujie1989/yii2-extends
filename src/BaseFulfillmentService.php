@@ -14,6 +14,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -99,23 +100,28 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     public function pushItem(FulfillmentItem $fulfillmentItem): bool
     {
         if ($fulfillmentItem->fulfillment_account_id !== $this->account->account_id) {
+            Yii::info("FulfillmentItem account {$fulfillmentItem->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
             return false;
         }
 
         /** @var Item $item */
         $item = $this->itemLoader->get($fulfillmentItem->item_id);
         if (empty($item) || empty($item->itemBarcodes)) {
+            Yii::info("Empty Item or ItemBarcodes", __METHOD__);
             return false;
         }
 
         if (empty($fulfillmentItem->item_pushed_at) && $externalItem = $this->getExternalItem($item)) {
+            Yii::info("Item not pushed, but exist in external, update FulfillmentItem", __METHOD__);
             $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
         }
 
         $externalItem = $this->formatExternalItemData($item, $fulfillmentItem);
         if ($externalItem = $this->saveExternalItem($externalItem, $fulfillmentItem)) {
+            Yii::info("Item pushed success, update FulfillmentItem", __METHOD__);
             return $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
         }
+        Yii::warning("Item pushed failed, skip update FulfillmentItem", __METHOD__);
         return false;
     }
 
@@ -167,22 +173,27 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         if ($fulfillmentOrder->fulfillment_account_id !== $this->account->account_id) {
+            Yii::info("FulfillmentOrder account {$fulfillmentOrder->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
             return false;
         }
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder->order_id);
         if (empty($order) || empty($order->orderItems)) {
+            Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
         }
         if (empty($fulfillmentOrder->order_pushed_at) && $externalOrder = $this->getExternalOrder($order)) {
+            Yii::info("Order not pushed, but exist in external, update FulfillmentOrder", __METHOD__);
             $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
         }
 
         $externalOrder = $this->formatExternalOrderData($order, $fulfillmentOrder);
         if ($externalOrder = $this->saveExternalOrder($externalOrder, $fulfillmentOrder)) {
+            Yii::info("Order pushed success, update FulfillmentOrder", __METHOD__);
             return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
         }
+        Yii::warning("Order pushed failed, skip update FulfillmentOrder", __METHOD__);
         return false;
     }
 
@@ -223,6 +234,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
         $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->external_order_status] ?? null;
         if ($newFulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED
             && empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
+            Yii::info("ExternalOrder shipped, but no trackingNumbers, set FulfillmentStatus to PICKING", __METHOD__);
             $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
         }
         if ($newFulfillmentStatus) {

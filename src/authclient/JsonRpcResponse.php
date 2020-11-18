@@ -6,7 +6,6 @@
 namespace lujie\extend\authclient;
 
 use yii\helpers\Json;
-use yii\helpers\VarDumper;
 
 /**
  * Class JsonRpcResponse
@@ -45,7 +44,7 @@ class JsonRpcResponse
     {
         if (!$this->success) {
             if ($throwException) {
-                throw new JsonRpcException($this, 'JsonRpc error: ' . Json::encode($this->errors));
+                throw new JsonRpcException($this, 'JsonRpc error: ' . $this->message . Json::encode($this->errors));
             }
             return null;
         }

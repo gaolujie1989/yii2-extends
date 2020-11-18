@@ -19,6 +19,7 @@ use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\plentyMarkets\PlentyMarketAddressFormatter;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
+use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
@@ -64,6 +65,35 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public $stockWarehouseKeyField = 'warehouseId';
 
+    /**
+     * @var array
+     */
+    public $fulfillmentStatusMap = [
+        //global
+        '4' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+        '5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '6' => FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+        '7' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+        '7.1' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+        '8' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        '8.1' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        //custom
+        '4.1' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+        '4.2' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+        '5.1' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '5.2' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '5.4' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '5.5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '5.6' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '5.7' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+        '15.9' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        '5.31' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        '5.33' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        '6.5' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        '6.7' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        '6.8' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+    ];
+
     #endregion
 
     #region PM custom push field
@@ -94,9 +124,9 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @var array
      */
     public $barcodeIds = [
-        'ean' => 1,
-        'fnSku' => 5,
-        'ownSku' => 8,
+        'EAN' => 1,
+        'FNSKU' => 5,
+        'OWN_SKU' => 8,
     ];
 
     public $shippingProfiles = [
@@ -173,10 +203,11 @@ class PmFulfillmentService extends BaseFulfillmentService
     protected function getExternalItem(Item $item): ?array
     {
         foreach ($this->barcodeIds as $barcodeKey => $barcodeId) {
-            $barcode = $item->getBarcode($barcodeKey);
-            $eachVariation = $this->client->eachVariation(['barcode' => $barcode]);
-            if ($pmVariation = $eachVariation->current()) {
-                return $pmVariation;
+            if ($barcode = $item->getBarcode($barcodeKey)) {
+                $eachVariation = $this->client->eachVariation(['barcode' => $barcode]);
+                if ($pmVariation = $eachVariation->current()) {
+                    return $pmVariation;
+                }
             }
         }
         return null;
@@ -211,7 +242,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     {
         $fulfillmentItem->external_item_key = $externalItem['id'];
         $fulfillmentItem->external_created_at = strtotime($externalItem['createdAt']);
-        $fulfillmentItem->external_updated_at = $externalItem['updatedAt'];
+        $fulfillmentItem->external_updated_at = strtotime($externalItem['updatedAt']);
         $fulfillmentItem->external_item_additional = [
             'itemId' => $externalItem['itemId'],
             'variationNo' => $externalItem['number'],
@@ -232,16 +263,20 @@ class PmFulfillmentService extends BaseFulfillmentService
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         if ($fulfillmentOrder->fulfillment_account_id !== $this->account->account_id) {
+            Yii::info("FulfillmentOrder account {$fulfillmentOrder->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
             return false;
         }
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder->order_id);
         if (empty($order->orderItems)) {
+            Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
         }
         if (empty($fulfillmentOrder->order_pushed_at) && $externalOrder = $this->getExternalOrder($order)) {
-            if ($externalOrder['statusId'] === $this->orderCancelledStatus) {  //if order is cancelled, set to ship
+            Yii::info("Order not pushed, but exist in external, update FulfillmentOrder", __METHOD__);
+            if ($externalOrder['statusId'] === $this->orderCancelledStatus) {
+                Yii::info('External Order is exist, but cancelled, set to ship', __METHOD__);
                 $externalOrder = $this->client->updateOrder(['id' => $externalOrder['id'], 'statusId' => $this->orderProcessingStatus]);
             }
             $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
@@ -249,14 +284,17 @@ class PmFulfillmentService extends BaseFulfillmentService
 
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
         if (empty($externalOrderAdditional) || empty($externalOrderAdditional['customerId'])) {
+            Yii::info('Create External Order Customer', __METHOD__);
             $pmCustomer = $this->pushPmCustomer($order->address);
             $externalOrderAdditional['customerId'] = $pmCustomer['id'];
             $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
             $fulfillmentOrder->mustSave(false);
         }
         if (empty($externalOrderAdditional) || empty($externalOrderAdditional['addressId'])) {
+            Yii::info('Create External Order Address', __METHOD__);
             $pmAddress = $this->pushPmCustomerAddress((int)$externalOrderAdditional['customerId'], $order->address);
         } else {
+            Yii::info('Update External Order Address', __METHOD__);
             $pmAddress = $this->pushPmCustomerAddress((int)$externalOrderAdditional['customerId'], $order->address, (int)$externalOrderAdditional['addressId']);
         }
         $externalOrderAdditional['addressId'] = $pmAddress['id'];
@@ -265,8 +303,11 @@ class PmFulfillmentService extends BaseFulfillmentService
 
         $externalOrder = $this->formatExternalOrderData($order, $fulfillmentOrder);
         if ($externalOrder = $this->saveExternalOrder($externalOrder, $fulfillmentOrder)) {
-            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            Yii::info("Order pushed success, update FulfillmentOrder", __METHOD__);
+            return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
         }
+        Yii::warning("Order pushed failed, skip update FulfillmentOrder", __METHOD__);
+        return false;
     }
 
     /**
@@ -533,41 +574,23 @@ class PmFulfillmentService extends BaseFulfillmentService
         $fulfillmentOrder->external_order_status = $externalOrderStatus;
         $fulfillmentOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $fulfillmentOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
-        $externalOrderAdditional['external_order_no'] = $pmOrderProperties[7] ?? '';
+        $externalOrderAdditional['externalOrderNo'] = $pmOrderProperties[7] ?? '';
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
 
-        if ($externalOrderStatus === $this->orderCancelledStatus) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
-        } else if ($externalOrderStatus === $this->orderErrorStatus) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
-        } else if ($externalOrderStatus >= 4 && $externalOrderStatus < 5) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_HOLDING;
-        } else if ($externalOrderStatus >= 5 && $externalOrderStatus < 6) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
-        } else if ($externalOrderStatus >= 6 && $externalOrderStatus < 6.5) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
-        } else if ($externalOrderStatus >= 6.5 && $externalOrderStatus < 7) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING;
-        } else if ($externalOrderStatus >= 7 && $externalOrderStatus < 8) {
-            $packageNumbers = $externalOrder['packageNumbers'] ?? [];
-            if (empty($packageNumbers)) {
-                $packageNumbers = $this->client->getOrderPackageNumbers(['orderId' => $externalOrder['id']]);
-            }
-            if ($packageNumbers) {
-                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
-            }
-            $externalOrderAdditional['packageNumbers'] = $packageNumbers;
+        if ($externalOrderStatus >= 7 && $externalOrderStatus < 8) {
             $externalOrderAdditional['shippingProfileId'] = $pmOrderProperties[2] ?? 0;
             $externalOrderAdditional['carrier'] = $this->shippingProfiles[$externalOrderAdditional['shippingProfileId']] ?? '';
             $externalOrderAdditional['shippingAt'] = isset($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']])
                 ? strtotime($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']]) : 0;
-            $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
-        } else if (($externalOrderStatus >= 8 && $externalOrderStatus < 9)) {
-            $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_CANCELLED;
-        }
 
-        $fulfillmentOrder->order_pulled_at = time();
-        return $fulfillmentOrder->save(false);
+            $packageNumbers = $externalOrder['packageNumbers'] ?? [];
+            if (empty($packageNumbers)) {
+                $packageNumbers = $this->client->getOrderPackageNumbers(['orderId' => $externalOrder['id']]);
+            }
+            $externalOrderAdditional['trackingNumbers'] = $packageNumbers;
+            $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
+        }
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
     #endregion

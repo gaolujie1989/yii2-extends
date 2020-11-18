@@ -150,6 +150,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @param int $offset
      * @param int $rowCount
      * @return string
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -177,6 +178,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     /**
      * @param int $orderId
      * @return Response
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -201,6 +203,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     /**
      * @param int $orderId
      * @return Response
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -226,6 +229,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @param int $orderId
      * @param int $orderItemId
      * @return Response
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -252,6 +256,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @param int $orderId
      * @param int $orderItemId
      * @return Response
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -279,6 +284,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @param int $variationId
      * @param int $warehouseId
      * @return Response
+     * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */

@@ -6,8 +6,10 @@
 namespace lujie\extend\authclient;
 
 use Iterator;
+use lujie\extend\helpers\HttpClientHelper;
 use Throwable;
 use yii\authclient\CacheStateStorage;
+use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -237,5 +239,17 @@ trait RestClientTrait
             }
         }
         return implode("\n", $apiMethodDocs);
+    }
+
+    /**
+     * @param $request
+     * @return mixed
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    protected function sendRequest($request)
+    {
+        return HttpClientHelper::sendRequest($request)->getData();
     }
 }

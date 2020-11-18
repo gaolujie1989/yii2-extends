@@ -66,8 +66,7 @@ class HttpClientHelper
         $response = static::tryRequest($request, $retry);
 
         if (!$response->getIsOk() && !static::isAllowedStatusCodes($response->getStatusCode(), $allowedStatusCodes)) {
-            //not append content because content maybe not utf8 encode, it will cause error
-            $message = 'Request failed with code: ' . $response->getStatusCode(); // . ', message: ' . $response->getContent();
+            $message = 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent();
             throw new InvalidResponseException($response, $message);
         }
 

@@ -18,6 +18,7 @@ use yii\db\ActiveQuery;
  * @method AccountQuery modelType($modelType)
  * @method AccountQuery type($type)
  * @method AccountQuery status($status)
+ * @method AccountQuery name($name)
  *
  * @method AccountQuery active()
  * @method AccountQuery inActive()
@@ -44,6 +45,7 @@ class AccountQuery extends \yii\db\ActiveQuery
                     'modelType' => 'model_type',
                     'type' => 'type',
                     'status' => 'status',
+                    'name' => 'name',
                 ],
                 'queryConditions' => [
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],

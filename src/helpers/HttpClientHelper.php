@@ -11,6 +11,7 @@ use yii\authclient\InvalidResponseException;
 use yii\helpers\FileHelper;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
+use yii\httpclient\Exception;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
 
@@ -22,16 +23,44 @@ use yii\httpclient\Response;
 class HttpClientHelper
 {
     /**
+     * @var int
+     */
+    public static $retry = 1;
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     * @inheritdoc
+     */
+    public static function tryRequest(Request $request): Response
+    {
+        $retry = 0;
+        while (true) {
+            try {
+                return $request->send();
+            } catch (Exception $exception) {
+                $retry++;
+                if ($retry <= static::$retry) {
+                    Yii::warning("HttpRequest failed and retry {$retry}... Message: {$exception->getMessage()}");
+                } else {
+                    throw $exception;
+                }
+            }
+        }
+    }
+
+    /**
      * @param Request $request
      * @param array $allowedStatusCodes
      * @return Response
+     * @throws Exception
      * @throws InvalidResponseException
-     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public static function sendRequest(Request $request, $allowedStatusCodes = []): Response
     {
-        $response = $request->send();
+        $response = static::tryRequest($request);
 
         if (!$response->getIsOk() && !in_array($response->getStatusCode(), $allowedStatusCodes)) {
             //not append content because content maybe not utf8 encode, it will cause error

@@ -11,11 +11,9 @@ use lujie\fulfillment\common\Order;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
-use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
-use function Qcloud\Cos\startWith;
 
 /**
  * Class MockFulfillmentService
@@ -30,7 +28,7 @@ class MockFulfillmentService extends BaseFulfillmentService
 
     public static $EXTERNAL_ORDER_DATA = [];
 
-    public static $GENERATE_ORDER_KEYS = ['ORDER_K2'];
+    public static $GENERATE_ORDER_KEYS = ['ORDER_K1'];
 
     public static $EXTERNAL_WAREHOUSE_DATA = [
         [

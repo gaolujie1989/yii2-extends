@@ -6,14 +6,12 @@
 namespace lujie\fulfillment\pm;
 
 
-use lujie\data\loader\DataLoaderInterface;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
 use lujie\fulfillment\common\OrderItem;
 use lujie\fulfillment\constants\FulfillmentConst;
-use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
@@ -116,7 +114,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     #endregion
 
     public $variationNoPrefix = 'DIB-';
-    public $orderNoPrefix = '';
+    public $orderNoPrefix = 'DIB-';
     public $plentyId = 30389;
     public $referrerId = 10;
 
@@ -680,6 +678,17 @@ class PmFulfillmentService extends BaseFulfillmentService
     #endregion
 
     #region Warehouse Stock Pull
+
+    /**
+     * @param array $condition
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExternalWarehouses(array $condition = []): array
+    {
+        $eachWarehouse = $this->client->eachWarehouse($condition);
+        return iterator_to_array($eachWarehouse, false);
+    }
 
     /**
      * @param FulfillmentWarehouse $fulfillmentWarehouse

@@ -178,7 +178,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->order_id = 1;
         $this->getFulfillmentManager()->pushFulfillmentOrder($fulfillmentOrder);
         $this->assertFalse($fulfillmentOrder->getIsNewRecord());
-        $this->assertEquals('ORDER_K2', $fulfillmentOrder->external_order_key);
+        $this->assertEquals('ORDER_K1', $fulfillmentOrder->external_order_key);
     }
 
     /**

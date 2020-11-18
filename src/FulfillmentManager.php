@@ -275,10 +275,10 @@ class FulfillmentManager extends Component implements BootstrapInterface
         if ($exception instanceof Exception) {
             $message = $exception->getMessage();
             Yii::warning("{$name} error: {$message}", __METHOD__);
-            return;
+        } else {
+            $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
+            Yii::error("{$name} error: {$message}", __METHOD__);
         }
-        $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
-        Yii::error("{$name} error: {$message}", __METHOD__);
     }
 
     /**

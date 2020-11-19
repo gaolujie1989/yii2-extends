@@ -40,7 +40,7 @@ class  DataSourceController extends ActiveController
      * @throws \yii\web\NotFoundHttpException
      * @inheritdoc
      */
-    public function actionRecording($id): void
+    public function actionRecording($id): array
     {
         /** @var DataSource $model */
         $model = $this->findModel($id);
@@ -49,7 +49,8 @@ class  DataSourceController extends ActiveController
         /** @var RecordingJob $job */
         $job = Instance::ensure($this->jobConfig, RecordingJob::class);
         $job->dataSourceId = $model->data_source_id;
-        ExecuteHelper::pushJob($this->queue, $job, $model,
-            'updated_at', 'last_exec_status', 'last_exec_result');
+        $result = ExecuteHelper::pushJob($this->queue, $job, $model,
+            'updated_at', 'last_exec_status', 'last_exec_result', 0);
+        return ['success' => $result];
     }
 }

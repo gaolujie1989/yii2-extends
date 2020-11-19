@@ -79,11 +79,11 @@ class ExecuteHelper
     {
         $timeAttribute && $model->setAttribute($timeAttribute, time());
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
-        $resultAttribute && $model->setAttribute($resultAttribute, []);
         $model->save(false);
 
         try {
             $callable();
+            $resultAttribute && $model->setAttribute($resultAttribute, ['error' => '']);
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             $model->save(false);
             return true;

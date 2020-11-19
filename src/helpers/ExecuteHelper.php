@@ -40,9 +40,9 @@ class ExecuteHelper
         int $queuedDuration = 3600): bool
     {
         $statusValue = $model->getAttribute($statusAttribute);
+        $resultValue = $model->getAttribute($resultAttribute) ?: [];
         if ($statusValue === ExecStatusConst::EXEC_STATUS_QUEUED) {
-            $result = $model->getAttribute($resultAttribute);
-            if (!empty($result['jobId'])) {
+            if (!empty($resultValue['jobId'])) {
                 $time = $model->getAttribute($timeAttribute);
                 if (time() - $time < $queuedDuration) {
                     return false;
@@ -52,7 +52,7 @@ class ExecuteHelper
         if ($jobId = $queue->push($job)) {
             $model->setAttribute($timeAttribute, time());
             $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_QUEUED);
-            $model->setAttribute($resultAttribute, ['jobId' => $jobId]);
+            $model->setAttribute($resultAttribute, array_merge($resultValue, ['jobId' => $jobId]));
             return $model->save(false);
         }
         return false;

@@ -22,7 +22,15 @@ use yii\helpers\ArrayHelper;
  */
 class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInterface
 {
-    public $allowDefault = true;
+    /**
+     * @var ?int
+     */
+    public $defaultOwnerId = 0;
+
+    /**
+     * @var ?string
+     */
+    public $defaultCarrier = 'DEFAULT';
 
     /**
      * @var DataLoaderInterface
@@ -85,15 +93,27 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             ->activeAt($shippingItem->shippedAt ?: time())
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)
-            ->carrier($shippingItem->carrier)
             ->weightGLimit($shippingItem->weightG)
             ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
             ->orderByPrice(SORT_ASC);
-        $ownerId = $shippingItem->additional['owner_id'] ?? 0;
-        $shippingTable = (clone $query)->ownerId($ownerId)->one();
-        if ($shippingTable === null && $ownerId > 0 && $this->allowDefault) {
-            $shippingTable = (clone $query)->ownerId(0)->one();
+        $shippingOwnerId = $shippingItem->additional['ownerId'] ?? $shippingItem->additional['owner_id'] ?? 0;
+
+        $carriers = [$shippingItem->carrier];
+        if ($this->defaultCarrier !== null && $this->defaultCarrier !== $shippingItem->carrier) {
+            $carriers[] = $this->defaultCarrier;
         }
-        return $shippingTable;
+        $ownerIds = [$shippingOwnerId];
+        if ($this->defaultOwnerId !== null && $this->defaultOwnerId !== $shippingOwnerId) {
+            $ownerIds[] = $this->defaultOwnerId;
+        }
+        foreach ($ownerIds as $ownerId) {
+            foreach ($carriers as $carrier) {
+                $shippingTable = (clone $query)->carrier($carrier)->ownerId($ownerId)->one();
+                if ($shippingTable !== null) {
+                    return $shippingTable;
+                }
+            }
+        }
+        return null;
     }
 }

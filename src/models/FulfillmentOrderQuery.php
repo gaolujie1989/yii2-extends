@@ -137,8 +137,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function getExternalOrderIds(): array
+    public function getExternalOrderKeys(): array
     {
-        return $this->select(['external_order_id'])->indexBy('order_id')->column();
+        return $this->select(['external_order_key'])->indexBy('order_id')->column();
     }
 }

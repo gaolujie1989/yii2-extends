@@ -48,7 +48,6 @@ class RecordingTask extends CronTask
     public function execute(): bool
     {
         $this->queue = Instance::ensure($this->queue, Queue::class);
-        /** @var DataSource[] $eachSource */
         $dataSources = DataSource::find()->active()->execStatus($this->execStatus)->each();
         foreach ($dataSources as $dataSource) {
             /** @var RecordingJob $job */

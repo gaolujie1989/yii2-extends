@@ -73,7 +73,12 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     /**
      * @var string
      */
-    public $stockMovementKeyField = 'id';
+    public $externalMovementKeyField = 'id';
+
+    /**
+     * @var string
+     */
+    public $externalMovementTimeField = 'createdAt';
 
     /**
      * @var array
@@ -462,10 +467,17 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
             Yii::info("FulfillmentWarehouse account {$fulfillmentWarehouse->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
             return;
         }
+        if (!$fulfillmentWarehouse->support_movement) {
+            Yii::info("FulfillmentWarehouse {$fulfillmentWarehouse->external_warehouse_key} not support movement", __METHOD__);
+            return;
+        }
 
-        $stockMovements = $this->getExternalWarehouseStockMovements($fulfillmentWarehouse, $movementAtFrom, $movementAtTo, $fulfillmentItem);
-        $stockMovements = ArrayHelper::index($stockMovements, $this->stockMovementKeyField);
-        $stockMovementKeys = array_keys($stockMovements);
+        $externalMovements = $this->getExternalWarehouseStockMovements($fulfillmentWarehouse, $movementAtFrom, $movementAtTo, $fulfillmentItem);
+        if (empty($externalMovements)) {
+            return;
+        }
+        $externalMovements = ArrayHelper::index($externalMovements, $this->externalMovementKeyField);
+        $stockMovementKeys = array_keys($externalMovements);
         $existMovementKeys = FulfillmentWarehouseStockMovement::find()
             ->fulfillmentAccountId($this->account->account_id)
             ->externalMovementKey($stockMovementKeys)
@@ -477,7 +489,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
 
         $externalItemKeys = [];
         foreach ($newMovementKeys as $newMovementKey) {
-            $externalItemKey = $stockMovements[$newMovementKey][$this->stockItemKeyField];
+            $externalItemKey = $externalMovements[$newMovementKey][$this->stockItemKeyField];
             $externalItemKeys[$externalItemKey] = $externalItemKey;
         }
         $itemIds = FulfillmentItem::find()
@@ -485,7 +497,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
             ->externalItemKey($externalItemKeys)
             ->getItemIds(true);
         foreach ($newMovementKeys as $newMovementKey) {
-            $newStockMovement = $stockMovements[$newMovementKey];
+            $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
             $fulfillmentWarehouseStockMovement = new FulfillmentWarehouseStockMovement();
             $fulfillmentWarehouseStockMovement->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
@@ -496,6 +508,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
             $fulfillmentWarehouseStockMovement->item_id = $itemIds[$externalItemKey];
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentWarehouseStockMovement, $newStockMovement);
         }
+        $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);
     }
 
     /**
@@ -512,6 +525,26 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @inheritdoc
      */
     abstract protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement, array $externalWarehouseStockMovement): bool;
+
+    /**
+     * @param FulfillmentWarehouse $fulfillmentWarehouse
+     * @param array $externalMovements
+     * @return bool
+     * @inheritdoc
+     */
+    protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements): bool
+    {
+        $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField));
+        if (is_numeric($newestMovementTime)) {
+            if (strlen($newestMovementTime) > 10) {
+                $newestMovementTime = substr($newestMovementTime, 0, 10);
+            }
+        } else {
+            $newestMovementTime = strtotime($newestMovementTime);
+        }
+        $fulfillmentWarehouse->external_movement_at = $newestMovementTime;
+        return $fulfillmentWarehouse->save(false);
+    }
 
     #endregion
 }

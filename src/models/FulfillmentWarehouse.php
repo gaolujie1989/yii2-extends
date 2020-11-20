@@ -17,6 +17,8 @@ use Yii;
  * @property int $warehouse_id
  * @property string $external_warehouse_key
  * @property array|null $external_warehouse_additional
+ * @property int $support_movement
+ * @property int $external_movement_at
  * @property array|null $additional
  */
 class FulfillmentWarehouse extends \yii\db\ActiveRecord
@@ -37,10 +39,10 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'warehouse_id'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'warehouse_id', 'support_movement', 'external_movement_at'], 'default', 'value' => 0],
             [['external_warehouse_key'], 'default', 'value' => ''],
             [['external_warehouse_additional', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'warehouse_id'], 'integer'],
+            [['fulfillment_account_id', 'warehouse_id', 'support_movement', 'external_movement_at'], 'integer'],
             [['external_warehouse_additional', 'additional'], 'safe'],
             [['external_warehouse_key'], 'string', 'max' => 50],
             [['warehouse_id'], 'unique', 'when' => static function($model) {
@@ -61,6 +63,8 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
             'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
             'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
             'external_warehouse_additional' => Yii::t('lujie/fulfillment', 'External Warehouse Additional'),
+            'support_movement' => Yii::t('lujie/fulfillment', 'Support Movement'),
+            'external_movement_at' => Yii::t('lujie/fulfillment', 'External Movement At'),
             'additional' => Yii::t('lujie/fulfillment', 'Additional'),
         ];
     }

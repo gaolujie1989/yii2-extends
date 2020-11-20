@@ -65,6 +65,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             'reason' => 'INBOUND',
             'related_type' => 'INBOUND_ORDER',
             'related_id' => '15267',
+            'createdAt' => 1577808000123
         ],
         [
             'id' => 'M002',

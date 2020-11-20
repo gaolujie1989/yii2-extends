@@ -21,6 +21,7 @@ use lujie\fulfillment\jobs\ShipFulfillmentOrderJob;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
+use lujie\fulfillment\models\FulfillmentWarehouse;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
@@ -437,19 +438,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region Order/Stock Pull
-
-    /**
-     * @param int $accountId
-     * @param array $condition
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function pullFulfillmentWarehouses(int $accountId, array $condition = []): void
-    {
-        $fulfillmentService = $this->getFulfillmentService($accountId);
-        $fulfillmentService->pullWarehouses($condition);
-    }
+    #region Order/Warehouse/Stock/Movement Pull
 
     /**
      * @param int $accountId
@@ -475,6 +464,18 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param array $condition
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullFulfillmentWarehouses(int $accountId, array $condition = []): void
+    {
+        $fulfillmentService = $this->getFulfillmentService($accountId);
+        $fulfillmentService->pullWarehouses($condition);
+    }
+
+    /**
+     * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -495,8 +496,21 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
     }
 
-    #endregion
+    /**
+     * @param int $accountId
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullFulfillmentWarehouseStockMovements(int $accountId): void
+    {
+        $fulfillmentWarehouses = FulfillmentWarehouse::find()->fulfillmentAccountId($accountId)->all();
+        $fulfillmentService = $this->getFulfillmentService($accountId);
+        foreach ($fulfillmentWarehouses as $fulfillmentWarehouse) {
+            $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse);
+        }
+    }
 
+    #endregion
 
     #region Recheck and Retry To Push
 

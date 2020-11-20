@@ -297,8 +297,12 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentItem->save(false);
         $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem));
 
-        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, 0, 0);
         $query = FulfillmentWarehouseStockMovement::find()->itemId($fulfillmentItem->item_id);
+        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, 0, 0);
+        $this->assertEquals(0, $query->count());
+
+        $fulfillmentWarehouse->support_movement = 1;
+        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, 0, 0);
         $this->assertEquals(1, $query->count());
         $stockMovement = $query->one();
         $expectedStock = [
@@ -311,5 +315,10 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
             'moved_qty' => 1,
         ];
         $this->assertEquals($expectedStock, $stockMovement->getAttributes(array_keys($expectedStock)));
+        $this->assertEquals(1577808000, $fulfillmentWarehouse->external_movement_at);
+
+        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, 0, 0);
+        $this->assertEquals(1, $query->count());
+        $this->assertEquals(1577808000, $fulfillmentWarehouse->external_movement_at);
     }
 }

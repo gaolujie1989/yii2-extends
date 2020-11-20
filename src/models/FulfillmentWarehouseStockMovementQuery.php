@@ -54,7 +54,7 @@ class FulfillmentWarehouseStockMovementQuery extends \yii\db\ActiveQuery
                     'relatedKey' => 'related_key',
                 ],
                 'queryReturns' => [
-                    'getExternalMovementKey' => ['external_item_key', FieldQueryBehavior::RETURN_COLUMN],
+                    'getExternalMovementKey' => ['external_movement_key', FieldQueryBehavior::RETURN_COLUMN],
                 ]
             ]
         ];

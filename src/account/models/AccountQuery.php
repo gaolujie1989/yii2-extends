@@ -9,19 +9,19 @@ use yii\db\ActiveQuery;
 /**
  * This is the ActiveQuery class for [[Account]].
  *
- * @method AccountQuery id($id)
- * @method AccountQuery orderById($sort = SORT_ASC)
+ * @method static id($id)
+ * @method static orderById($sort = SORT_ASC)
  * @method int getId()
  * @method array getIds()
  *
- * @method AccountQuery accountId($accountId)
- * @method AccountQuery modelType($modelType)
- * @method AccountQuery type($type)
- * @method AccountQuery status($status)
- * @method AccountQuery name($name)
+ * @method static accountId($accountId)
+ * @method static modelType($modelType)
+ * @method static type($type)
+ * @method static status($status)
+ * @method static name($name)
  *
- * @method AccountQuery active()
- * @method AccountQuery inActive()
+ * @method static active()
+ * @method static inActive()
  *
  * @method array|Account[] all($db = null)
  * @method array|Account|null one($db = null)

@@ -20,7 +20,7 @@ use yii\di\Instance;
 class DbMonitorBehavior extends BaseMonitorBehavior
 {
     /**
-     * @var int
+     * @var int|mixed
      */
     private $executableExecId;
 

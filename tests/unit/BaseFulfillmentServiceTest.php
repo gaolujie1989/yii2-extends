@@ -19,6 +19,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 use yii\helpers\ArrayHelper;
 
@@ -279,5 +280,36 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
         $fulfillmentItem->refresh();
         $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
+    }
+
+    public function testPullWarehouseStockMovements(): void
+    {
+        $fulfillmentService = $this->getFulfillmentService();
+        $fulfillmentService->pullWarehouses();
+
+        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('W01')->one();
+        $fulfillmentWarehouse->warehouse_id = 1;
+        $fulfillmentWarehouse->save(false);
+
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->save(false);
+        $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem));
+
+        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, 0, 0);
+        $query = FulfillmentWarehouseStockMovement::find()->itemId($fulfillmentItem->item_id);
+        $this->assertEquals(1, $query->count());
+        $stockMovement = $query->one();
+        $expectedStock = [
+            'fulfillment_account_id' => 1,
+            'item_id' => 1,
+            'warehouse_id' => 1,
+            'external_item_key' => 'ITEM_K1',
+            'external_warehouse_key' => 'W01',
+            'external_movement_key' => 'M001',
+            'moved_qty' => 1,
+        ];
+        $this->assertEquals($expectedStock, $stockMovement->getAttributes(array_keys($expectedStock)));
     }
 }

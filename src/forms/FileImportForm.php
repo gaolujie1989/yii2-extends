@@ -10,8 +10,8 @@ use lujie\executing\Executor;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\base\NotSupportedException;
 use yii\di\Instance;
+use yii\helpers\Json;
 
 /**
  * Class OwnerProductImportForm
@@ -162,7 +162,6 @@ class FileImportForm extends Model
     /**
      * @return bool
      * @throws InvalidConfigException
-     * @throws NotSupportedException
      * @inheritdoc
      */
     public function import(): bool
@@ -179,9 +178,9 @@ class FileImportForm extends Model
                 ? $this->executor->execute($fileImporter)
                 : $fileImporter->execute();
             if ($fileImporter->getErrors()) {
-                $this->addError($this->fileAttribute, ['file' => $fileImporter->getErrors()]);
+                $this->addError($this->fileAttribute, "File {$file} Error:" . Json::encode($fileImporter->getErrors()));
             } else if ($executed === false) {
-                $this->addError($this->fileAttribute, ['file' => 'Unknown Error']);
+                $this->addError($this->fileAttribute, "File {$file} Unknown Error");
             } else {
                 $this->affectedRowCounts[$file] = $fileImporter->getAffectedRowCounts();
             }

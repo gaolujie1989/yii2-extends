@@ -1,11 +1,12 @@
 <?php
 
+use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
 class m190819_175955_barcode extends Migration
 {
-    use TraceableColumnTrait;
+    use TraceableColumnTrait, DropTableTrait;
 
     public $tableName = '{{%barcode}}';
 

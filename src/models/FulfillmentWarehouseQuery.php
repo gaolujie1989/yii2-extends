@@ -3,6 +3,7 @@
 namespace lujie\fulfillment\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\StatusConst;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentWarehouse]].
@@ -16,6 +17,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentWarehouseQuery fulfillmentAccountId($fulfillmentAccountId)
  * @method FulfillmentWarehouseQuery warehouseId($warehouseId)
  * @method FulfillmentWarehouseQuery externalWarehouseKey($externalWarehouseKey)
+ * @method FulfillmentWarehouseQuery externalMovementAtBefore($externalMovementAtBefore)
+ *
+ * @method FulfillmentWarehouseQuery supportMovement()
  *
  * @method array|FulfillmentWarehouse[] all($db = null)
  * @method array|FulfillmentWarehouse|null one($db = null)
@@ -40,7 +44,11 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
                     'fulfillmentAccountId' => 'fulfillment_account_id',
                     'warehouseId' => 'warehouse_id',
                     'externalWarehouseKey' => 'external_warehouse_key',
-                ]
+                    'externalMovementAtBefore' => ['external_movement_at' => '<='],
+                ],
+                'queryConditions' => [
+                    'supportMovement' => ['support_movement' => StatusConst::STATUS_ACTIVE]
+                ],
             ]
         ];
     }

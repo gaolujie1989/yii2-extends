@@ -65,12 +65,17 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @var int
      */
-    public $batchLimit = 100;
+    public $pullOrderLimit = 100;
 
     /**
      * @var int
      */
-    public $batchSize = 20;
+    public $pullOrderBatchSize = 20;
+
+    /**
+     * @var int
+     */
+    public $pullMovementTimePeriod = 3600;
 
     /**
      * @throws InvalidConfigException
@@ -451,13 +456,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->fulfillmentAccountId($accountId)
             ->processing()
             ->orderByOrderPulledAt()
-            ->limit($this->batchLimit);
+            ->limit($this->pullOrderLimit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->batchSize) as $batch) {
+        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
             $fulfillmentService->pullFulfillmentOrders($batch);
         }
     }
@@ -485,13 +490,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->fulfillmentAccountId($accountId)
             ->itemPushed()
             ->orderByStockPulledAt()
-            ->limit($this->batchLimit);
+            ->limit($this->pullOrderLimit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->batchSize) as $batch) {
+        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
             $fulfillmentService->pullWarehouseStocks($batch);
         }
     }
@@ -503,10 +508,16 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pullFulfillmentWarehouseStockMovements(int $accountId): void
     {
-        $fulfillmentWarehouses = FulfillmentWarehouse::find()->fulfillmentAccountId($accountId)->all();
+        $fulfillmentWarehouses = FulfillmentWarehouse::find()
+            ->fulfillmentAccountId($accountId)
+            ->supportMovement()
+            ->externalMovementAtBefore(time() - $this->pullMovementTimePeriod)
+            ->all();
         $fulfillmentService = $this->getFulfillmentService($accountId);
         foreach ($fulfillmentWarehouses as $fulfillmentWarehouse) {
-            $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse);
+            $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse,
+                $fulfillmentWarehouse->external_movement_at - 10,
+                $fulfillmentWarehouse->external_movement_at + $this->pullMovementTimePeriod);
         }
     }
 

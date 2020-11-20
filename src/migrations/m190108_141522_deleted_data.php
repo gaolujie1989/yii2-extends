@@ -1,11 +1,12 @@
 <?php
 
+use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
 class m190108_141522_deleted_data extends \yii\db\Migration
 {
-    use TraceableColumnTrait;
+    use TraceableColumnTrait, DropTableTrait;
 
     public $tableName = '{{%deleted_data}}';
 

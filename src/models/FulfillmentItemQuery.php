@@ -73,4 +73,16 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
         ]);
     }
 
+    /**
+     * @param bool $indexByExternalItemKey
+     * @return array
+     * @inheritdoc
+     */
+    public function getItemIds(bool $indexByExternalItemKey = true): array
+    {
+        if ($indexByExternalItemKey) {
+            $this->indexBy('external_item_key');
+        }
+        return $this->select(['item_id'])->column();
+    }
 }

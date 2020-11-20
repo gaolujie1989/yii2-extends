@@ -7,6 +7,7 @@ namespace lujie\fulfillment;
 
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
+use lujie\fulfillment\models\FulfillmentWarehouse;
 
 interface FulfillmentServiceInterface
 {
@@ -52,6 +53,15 @@ interface FulfillmentServiceInterface
     public function pullFulfillmentOrders(array $fulfillmentOrders): void;
 
     /**
+     * for some fulfillment service, it can query fulfilled order by shipped time
+     * use this query for better performance
+     * @param int $shippedAtFrom
+     * @param int $shippedAtTo
+     * @inheritdoc
+     */
+    public function pullShippedFulfillmentOrders(int $shippedAtFrom, int $shippedAtTo): void;
+
+    /**
      * @param array $condition
      * @inheritdoc
      */
@@ -64,10 +74,13 @@ interface FulfillmentServiceInterface
     public function pullWarehouseStocks(array $fulfillmentItems): void;
 
     /**
-     * @param array $fulfillmentItems
-     * @param int $startedAt
-     * @param int $endedAt
+     * for some warehouse may not support movement log
+     * base on fulfillmentItem to fetch movement log is so much, base on warehouse is better
+     * @param FulfillmentWarehouse $fulfillmentWarehouse
+     * @param int $movementAtFrom
+     * @param int $movementAtTo
+     * @param FulfillmentItem|null $fulfillmentItem
      * @inheritdoc
      */
-    public function pullWarehouseStockMovements(array $fulfillmentItems, int $startedAt, int $endedAt): void;
+    public function pullWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): void;
 }

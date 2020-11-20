@@ -46,11 +46,15 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param bool $indexByExternalWarehouseKey
      * @return array
      * @inheritdoc
      */
-    public function getWarehouseIdsIndexByExternalWarehouseKey(): array
+    public function getWarehouseIds(bool $indexByExternalWarehouseKey = true): array
     {
-        return $this->select(['warehouse_id'])->indexBy('external_warehouse_key')->asArray()->column();
+        if ($indexByExternalWarehouseKey) {
+            $this->indexBy('external_warehouse_key');
+        }
+        return $this->select(['warehouse_id'])->column();
     }
 }

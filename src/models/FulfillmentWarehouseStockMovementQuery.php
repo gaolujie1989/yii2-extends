@@ -22,6 +22,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentWarehouseStockMovementQuery relatedType($relatedType)
  * @method FulfillmentWarehouseStockMovementQuery relatedKey($relatedKey)
  *
+ * @method array getExternalMovementKey()
+ *
  * @method array|FulfillmentWarehouseStockMovement[] all($db = null)
  * @method array|FulfillmentWarehouseStockMovement|null one($db = null)
  * @method array|FulfillmentWarehouseStockMovement[] each($batchSize = 100, $db = null)
@@ -50,6 +52,9 @@ class FulfillmentWarehouseStockMovementQuery extends \yii\db\ActiveQuery
                     'externalMovementKey' => 'external_movement_key',
                     'relatedType' => 'related_type',
                     'relatedKey' => 'related_key',
+                ],
+                'queryReturns' => [
+                    'getExternalMovementKey' => ['external_item_key', FieldQueryBehavior::RETURN_COLUMN],
                 ]
             ]
         ];

@@ -14,6 +14,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
@@ -68,6 +69,11 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @var string
      */
     public $stockWarehouseKeyField = 'warehouseId';
+
+    /**
+     * @var string
+     */
+    public $stockMovementKeyField = 'id';
 
     /**
      * @var array
@@ -130,7 +136,6 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @param Item $item
      * @param FulfillmentItem $fulfillmentItem
      * @return array
-     * @inheritdoc
      */
     abstract protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array;
 
@@ -294,13 +299,33 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      */
     abstract protected function getExternalOrders(array $externalOrderKeys): array;
 
+    /**
+     * @param int $shippedAtFrom
+     * @param int $shippedAtTo
+     * @return mixed|void
+     * @inheritdoc
+     */
+    public function pullShippedFulfillmentOrders(int $shippedAtFrom, int $shippedAtTo): void
+    {
+        $externalOrders = $this->getShippedExternalOrders($shippedAtFrom, $shippedAtTo);
+        $externalOrders = ArrayHelper::index($externalOrders, $this->externalOrderKeyField);
+        $externalOrderKeys = array_keys($externalOrders);
+        $query = FulfillmentOrder::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->externalOrderKey($externalOrderKeys);
+        foreach ($query->each() as $fulfillmentOrder) {
+            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrders[$fulfillmentOrder->external_order_key]);
+        }
+    }
+
+    abstract protected function getShippedExternalOrders(int $shippedAtFrom, int $shippedAtTo): array;
+
     #endregion
 
-    #region Stock Pull
+    #region Warehouse Pull
 
     /**
      * @param array $condition
-     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pullWarehouses(array $condition = []): void
@@ -332,12 +357,15 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @param FulfillmentWarehouse $fulfillmentWarehouse
      * @param array $externalWarehouse
      * @return bool
-     * @inheritdoc
      */
     protected function updateFulfillmentWarehouse(FulfillmentWarehouse $fulfillmentWarehouse, array $externalWarehouse): bool
     {
         return $fulfillmentWarehouse->save(false);
     }
+
+    #endregion
+
+    #region Stock Pull
 
     /**
      * @param FulfillmentItem[] $fulfillmentItems
@@ -347,7 +375,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     {
         $warehouseIds = FulfillmentWarehouse::find()
             ->fulfillmentAccountId($this->account->account_id)
-            ->getWarehouseIdsIndexByExternalWarehouseKey();
+            ->getWarehouseIds();
         $externalWarehouseKeys = array_keys($warehouseIds);
         $itemIds = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'item_id');
         $externalItemKeys = array_keys($itemIds);
@@ -413,6 +441,74 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
      * @return bool
      */
     abstract protected function updateFulfillmentWarehouseStock(FulfillmentWarehouseStock $fulfillmentWarehouseStock, array $externalWarehouseStock): bool;
+
+    #endregion
+
+    #region Stock Movement Pull
+
+    /**
+     * @param FulfillmentWarehouse $fulfillmentWarehouse
+     * @param int $movementAtFrom
+     * @param int $movementAtTo
+     * @param FulfillmentItem|null $fulfillmentItem
+     * @inheritdoc
+     */
+    public function pullWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): void
+    {
+        if ($fulfillmentWarehouse->fulfillment_account_id !== $this->account->account_id) {
+            Yii::info("FulfillmentWarehouse account {$fulfillmentWarehouse->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
+            return;
+        }
+
+        $stockMovements = $this->getExternalWarehouseStockMovements($fulfillmentWarehouse, $movementAtFrom, $movementAtTo, $fulfillmentItem);
+        $stockMovements = ArrayHelper::index($stockMovements, $this->stockMovementKeyField);
+        $stockMovementKeys = array_keys($stockMovements);
+        $existMovementKeys = FulfillmentWarehouseStockMovement::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->externalMovementKey($stockMovementKeys)
+            ->getExternalMovementKey();
+        $newMovementKeys = array_diff($stockMovementKeys, $existMovementKeys);
+        if (empty($newMovementKeys)) {
+            return;
+        }
+
+        $externalItemKeys = [];
+        foreach ($newMovementKeys as $newMovementKey) {
+            $externalItemKey = $stockMovements[$newMovementKey][$this->stockItemKeyField];
+            $externalItemKeys[$externalItemKey] = $externalItemKey;
+        }
+        $itemIds = FulfillmentItem::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->externalItemKey($externalItemKeys)
+            ->getItemIds(true);
+        foreach ($newMovementKeys as $newMovementKey) {
+            $newStockMovement = $stockMovements[$newMovementKey];
+            $externalItemKey = $newStockMovement[$this->stockItemKeyField];
+            $fulfillmentWarehouseStockMovement = new FulfillmentWarehouseStockMovement();
+            $fulfillmentWarehouseStockMovement->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
+            $fulfillmentWarehouseStockMovement->external_movement_key = $newMovementKey;
+            $fulfillmentWarehouseStockMovement->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
+            $fulfillmentWarehouseStockMovement->external_item_key = $externalItemKey;
+            $fulfillmentWarehouseStockMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
+            $fulfillmentWarehouseStockMovement->item_id = $itemIds[$externalItemKey];
+            $this->updateFulfillmentWarehouseStockMovements($fulfillmentWarehouseStockMovement, $newStockMovement);
+        }
+    }
+
+    /**
+     * @param FulfillmentWarehouse $fulfillmentWarehouse
+     * @return array
+     * @inheritdoc
+     */
+    abstract protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array;
+
+    /**
+     * @param FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement
+     * @param array $externalWarehouseStockMovement
+     * @return bool
+     * @inheritdoc
+     */
+    abstract protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement, array $externalWarehouseStockMovement): bool;
 
     #endregion
 }

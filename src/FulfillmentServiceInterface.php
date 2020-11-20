@@ -62,4 +62,12 @@ interface FulfillmentServiceInterface
      * @inheritdoc
      */
     public function pullWarehouseStocks(array $fulfillmentItems): void;
+
+    /**
+     * @param array $fulfillmentItems
+     * @param int $startedAt
+     * @param int $endedAt
+     * @inheritdoc
+     */
+    public function pullWarehouseStockMovements(array $fulfillmentItems, int $startedAt, int $endedAt): void;
 }

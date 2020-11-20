@@ -31,7 +31,6 @@ use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
-use yii\httpclient\Exception;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
 
@@ -265,21 +264,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #endregion
 
     #region Item/Order Push
-
-    /**
-     * @param $exception
-     * @inheritdoc
-     */
-    protected function handlePushedError($exception, string $name): void
-    {
-        if ($exception instanceof Exception) {
-            $message = $exception->getMessage();
-            Yii::warning("{$name} error: {$message}", __METHOD__);
-        } else {
-            $message = $exception->getMessage() . "\n" . $exception->getTraceAsString();
-            Yii::error("{$name} error: {$message}", __METHOD__);
-        }
-    }
 
     /**
      * @param FulfillmentItem $fulfillmentItem

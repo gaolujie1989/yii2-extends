@@ -237,7 +237,7 @@ class F4pxClient extends BaseJsonRpcClient
     {
         $data = $response->data;
         $jsonRpcResponse = new JsonRpcResponse();
-        $jsonRpcResponse->success = $data['result'] && true;
+        $jsonRpcResponse->success = (bool)$data['result'];
         $jsonRpcResponse->message = $data['msg'];
         $jsonRpcResponse->data = $data['data'] ?? [];
         $jsonRpcResponse->errors = $data['errors'] ?? [];

@@ -52,6 +52,12 @@ interface FulfillmentServiceInterface
     public function pullFulfillmentOrders(array $fulfillmentOrders): void;
 
     /**
+     * @param array $condition
+     * @inheritdoc
+     */
+    public function pullWarehouses(array $condition = []): void;
+
+    /**
      * @param FulfillmentItem[] $fulfillmentItems
      * @inheritdoc
      */

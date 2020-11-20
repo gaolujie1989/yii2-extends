@@ -340,7 +340,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     }
 
     /**
-     * @param FulfillmentItem $fulfillmentItems
+     * @param FulfillmentItem[] $fulfillmentItems
      * @inheritdoc
      */
     public function pullWarehouseStocks(array $fulfillmentItems): void

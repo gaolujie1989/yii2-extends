@@ -42,7 +42,7 @@ class ModelHelper
      * @param array|string|int $ids
      * @param string|ActiveRecordInterface $modelClass
      * @param string $separator
-     * @return array|string[]|null
+     * @return array|null
      * @inheritdoc
      */
     public static function getCondition($ids, string $modelClass, string $separator = ','): ?array

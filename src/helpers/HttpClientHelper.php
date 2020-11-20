@@ -74,7 +74,7 @@ class HttpClientHelper
     }
 
     /**
-     * @param $statusCode
+     * @param string|int $statusCode
      * @param array $allowedStatusCodes
      * @return bool
      * @inheritdoc

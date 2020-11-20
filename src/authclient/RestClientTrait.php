@@ -13,6 +13,7 @@ use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use yii\httpclient\Request;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -242,7 +243,7 @@ trait RestClientTrait
     }
 
     /**
-     * @param $request
+     * @param Request $request
      * @return mixed
      * @throws InvalidResponseException
      * @throws \yii\httpclient\Exception

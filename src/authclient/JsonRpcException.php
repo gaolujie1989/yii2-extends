@@ -5,9 +5,7 @@
 
 namespace lujie\extend\authclient;
 
-use yii\authclient\InvalidResponseException;
 use yii\base\Exception;
-use yii\base\InvalidCallException;
 
 /**
  * Class JsonRpcResponse
@@ -23,12 +21,12 @@ class JsonRpcException extends Exception
 
     /**
      * JsonRpcException constructor.
-     * @param $response
-     * @param null $message
+     * @param JsonRpcResponse $response
+     * @param string|null $message
      * @param int $code
      * @param \Exception|null $previous
      */
-    public function __construct($response, $message = null, $code = 0, \Exception $previous = null)
+    public function __construct(JsonRpcResponse $response, $message = null, $code = 0, \Exception $previous = null)
     {
         $this->response = $response;
         parent::__construct($message, $code, $previous);

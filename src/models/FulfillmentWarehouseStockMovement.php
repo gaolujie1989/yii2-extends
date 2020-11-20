@@ -19,7 +19,7 @@ use Yii;
  * @property string $external_item_key
  * @property string $external_warehouse_key
  * @property string $external_movement_key
- * @property int $movement_qty
+ * @property int $moved_qty
  * @property int $balance_qty
  * @property string $reason
  * @property string $related_type
@@ -46,10 +46,10 @@ class FulfillmentWarehouseStockMovement extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'balance_qty', 'external_created_at'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'moved_qty', 'balance_qty', 'external_created_at'], 'default', 'value' => 0],
             [['external_item_key', 'external_warehouse_key', 'external_movement_key', 'reason', 'related_type', 'related_key'], 'default', 'value' => ''],
             [['movement_additional', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'balance_qty', 'external_created_at'], 'integer'],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'moved_qty', 'balance_qty', 'external_created_at'], 'integer'],
             [['movement_additional', 'additional'], 'safe'],
             [['external_item_key', 'external_warehouse_key', 'external_movement_key', 'related_key'], 'string', 'max' => 50],
             [['reason', 'related_type'], 'string', 'max' => 20],
@@ -69,7 +69,7 @@ class FulfillmentWarehouseStockMovement extends \yii\db\ActiveRecord
             'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
             'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
             'external_movement_key' => Yii::t('lujie/fulfillment', 'External Movement Key'),
-            'movement_qty' => Yii::t('lujie/fulfillment', 'Movement Qty'),
+            'moved_qty' => Yii::t('lujie/fulfillment', 'Moved Qty'),
             'balance_qty' => Yii::t('lujie/fulfillment', 'Balance Qty'),
             'reason' => Yii::t('lujie/fulfillment', 'Reason'),
             'related_type' => Yii::t('lujie/fulfillment', 'Related Type'),

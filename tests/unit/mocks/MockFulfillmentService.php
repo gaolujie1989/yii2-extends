@@ -11,7 +11,9 @@ use lujie\fulfillment\common\Order;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
+use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 
@@ -51,6 +53,25 @@ class MockFulfillmentService extends BaseFulfillmentService
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W02',
             'stock_qty' => 2
+        ]
+    ];
+
+    public static $EXTERNAL_MOVEMENT_DATA = [
+        [
+            'id' => 'M001',
+            'itemId' => 'ITEM_K1',
+            'warehouseId' => 'W01',
+            'moved_qty' => 1,
+            'reason' => 'INBOUND',
+            'related_type' => 'INBOUND_ORDER',
+            'related_id' => '15267',
+        ],
+        [
+            'id' => 'M002',
+            'itemId' => 'ITEM_K1',
+            'warehouseId' => 'W02',
+            'moved_qty' => 2,
+            'reason' => 'CORRECT'
         ]
     ];
 
@@ -282,9 +303,20 @@ class MockFulfillmentService extends BaseFulfillmentService
         return array_intersect_key(static::$EXTERNAL_ORDER_DATA, array_flip($externalOrderKeys));
     }
 
+    /**
+     * @param int $shippedAtFrom
+     * @param int $shippedAtTo
+     * @return array
+     * @inheritdoc
+     */
+    protected function getShippedExternalOrders(int $shippedAtFrom, int $shippedAtTo): array
+    {
+        return static::$EXTERNAL_ORDER_DATA;
+    }
+
     #endregion
 
-    #region Warehouse Stock Pull
+    #region
 
     /**
      * @param array $condition
@@ -295,6 +327,10 @@ class MockFulfillmentService extends BaseFulfillmentService
     {
         return static::$EXTERNAL_WAREHOUSE_DATA;
     }
+
+    #endregion
+
+    #region Stock Pull
 
     protected function getExternalWarehouseStocks(array $externalItemKeys): array
     {
@@ -308,5 +344,38 @@ class MockFulfillmentService extends BaseFulfillmentService
     }
 
     #endregion
+
+    #region Stock Movement Pull
+
+    /**
+     * @param FulfillmentWarehouse $fulfillmentWarehouse
+     * @param int $movementAtFrom
+     * @param int $movementAtTo
+     * @param FulfillmentItem|null $fulfillmentItem
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
+    {
+        return array_filter(static::$EXTERNAL_MOVEMENT_DATA, static function($movement) use ($fulfillmentWarehouse) {
+            return $movement['warehouseId'] === $fulfillmentWarehouse->external_warehouse_key;
+        });
+    }
+
+    /**
+     * @param FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement
+     * @param array $externalWarehouseStockMovement
+     * @return bool
+     * @inheritdoc
+     */
+    protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement, array $externalWarehouseStockMovement): bool
+    {
+        $fulfillmentWarehouseStockMovement->moved_qty = $externalWarehouseStockMovement['moved_qty'];
+        $fulfillmentWarehouseStockMovement->related_type = $externalWarehouseStockMovement['related_type'] ?? '';
+        $fulfillmentWarehouseStockMovement->related_key = $externalWarehouseStockMovement['related_id'] ?? '';
+        return $fulfillmentWarehouseStockMovement->save(false);
+    }
+
+    #region
 
 }

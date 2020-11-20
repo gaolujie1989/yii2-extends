@@ -308,6 +308,9 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     public function pullShippedFulfillmentOrders(int $shippedAtFrom, int $shippedAtTo): void
     {
         $externalOrders = $this->getShippedExternalOrders($shippedAtFrom, $shippedAtTo);
+        if (empty($externalOrders)) {
+            return;
+        }
         $externalOrders = ArrayHelper::index($externalOrders, $this->externalOrderKeyField);
         $externalOrderKeys = array_keys($externalOrders);
         $query = FulfillmentOrder::find()

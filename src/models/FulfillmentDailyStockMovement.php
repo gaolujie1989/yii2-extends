@@ -18,9 +18,9 @@ use Yii;
  * @property int $warehouse_id
  * @property string $external_item_key
  * @property string $external_warehouse_key
- * @property int $movement_qty
- * @property int $movement_count
- * @property string $movement_date
+ * @property int $moved_qty
+ * @property int $moved_count
+ * @property string $moved_date
  * @property int $balance_qty
  * @property string $reason
  */
@@ -42,11 +42,11 @@ class FulfillmentDailyStockMovement extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'movement_count', 'balance_qty'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'moved_qty', 'moved_count', 'balance_qty'], 'default', 'value' => 0],
             [['external_item_key', 'external_warehouse_key', 'reason'], 'default', 'value' => ''],
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'movement_count', 'balance_qty'], 'integer'],
-            [['movement_date'], 'required'],
-            [['movement_date'], 'safe'],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'moved_qty', 'moved_count', 'balance_qty'], 'integer'],
+            [['moved_date'], 'required'],
+            [['moved_date'], 'safe'],
             [['external_item_key', 'external_warehouse_key'], 'string', 'max' => 50],
             [['reason'], 'string', 'max' => 20],
         ];
@@ -64,9 +64,9 @@ class FulfillmentDailyStockMovement extends \yii\db\ActiveRecord
             'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
             'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
             'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
-            'movement_qty' => Yii::t('lujie/fulfillment', 'Movement Qty'),
-            'movement_count' => Yii::t('lujie/fulfillment', 'Movement Count'),
-            'movement_date' => Yii::t('lujie/fulfillment', 'Movement Date'),
+            'moved_qty' => Yii::t('lujie/fulfillment', 'Moved Qty'),
+            'moved_count' => Yii::t('lujie/fulfillment', 'Moved Count'),
+            'moved_date' => Yii::t('lujie/fulfillment', 'Moved Date'),
             'balance_qty' => Yii::t('lujie/fulfillment', 'Balance Qty'),
             'reason' => Yii::t('lujie/fulfillment', 'Reason'),
         ];

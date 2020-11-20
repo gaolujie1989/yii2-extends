@@ -499,14 +499,14 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
         foreach ($newMovementKeys as $newMovementKey) {
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
-            $fulfillmentWarehouseStockMovement = new FulfillmentWarehouseStockMovement();
-            $fulfillmentWarehouseStockMovement->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
-            $fulfillmentWarehouseStockMovement->external_movement_key = $newMovementKey;
-            $fulfillmentWarehouseStockMovement->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
-            $fulfillmentWarehouseStockMovement->external_item_key = $externalItemKey;
-            $fulfillmentWarehouseStockMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
-            $fulfillmentWarehouseStockMovement->item_id = $itemIds[$externalItemKey];
-            $this->updateFulfillmentWarehouseStockMovements($fulfillmentWarehouseStockMovement, $newStockMovement);
+            $fulfillmentMovement = new FulfillmentWarehouseStockMovement();
+            $fulfillmentMovement->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
+            $fulfillmentMovement->external_movement_key = $newMovementKey;
+            $fulfillmentMovement->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
+            $fulfillmentMovement->external_item_key = $externalItemKey;
+            $fulfillmentMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
+            $fulfillmentMovement->item_id = $itemIds[$externalItemKey];
+            $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
         $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);
     }
@@ -519,12 +519,12 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     abstract protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array;
 
     /**
-     * @param FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement
-     * @param array $externalWarehouseStockMovement
+     * @param FulfillmentWarehouseStockMovement $fulfillmentStockMovement
+     * @param array $externalStockMovement
      * @return bool
      * @inheritdoc
      */
-    abstract protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement, array $externalWarehouseStockMovement): bool;
+    abstract protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool;
 
     /**
      * @param FulfillmentWarehouse $fulfillmentWarehouse

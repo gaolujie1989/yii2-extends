@@ -364,17 +364,17 @@ class MockFulfillmentService extends BaseFulfillmentService
     }
 
     /**
-     * @param FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement
-     * @param array $externalWarehouseStockMovement
+     * @param FulfillmentWarehouseStockMovement $fulfillmentStockMovement
+     * @param array $externalStockMovement
      * @return bool
      * @inheritdoc
      */
-    protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentWarehouseStockMovement, array $externalWarehouseStockMovement): bool
+    protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
-        $fulfillmentWarehouseStockMovement->moved_qty = $externalWarehouseStockMovement['moved_qty'];
-        $fulfillmentWarehouseStockMovement->related_type = $externalWarehouseStockMovement['related_type'] ?? '';
-        $fulfillmentWarehouseStockMovement->related_key = $externalWarehouseStockMovement['related_id'] ?? '';
-        return $fulfillmentWarehouseStockMovement->save(false);
+        $fulfillmentStockMovement->moved_qty = $externalStockMovement['moved_qty'];
+        $fulfillmentStockMovement->related_type = $externalStockMovement['related_type'] ?? '';
+        $fulfillmentStockMovement->related_key = $externalStockMovement['related_id'] ?? '';
+        return $fulfillmentStockMovement->save(false);
     }
 
     #region

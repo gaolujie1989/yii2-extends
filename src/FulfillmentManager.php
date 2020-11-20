@@ -32,6 +32,7 @@ use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
 

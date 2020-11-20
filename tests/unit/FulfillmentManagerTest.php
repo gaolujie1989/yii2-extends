@@ -8,6 +8,7 @@ namespace lujie\fulfillment\tests\unit;
 
 use lujie\data\loader\ChainedDataLoader;
 use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\constants\StatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\forms\FulfillmentItemForm;
 use lujie\fulfillment\forms\FulfillmentOrderForm;
@@ -21,6 +22,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentServiceLoader;
 use Yii;
@@ -183,9 +185,33 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
 
     /**
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function te1stPullWarehouses(): void
+    public function testPullOrders(): void
+    {
+        $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_account_id = 1;
+        $fulfillmentOrder->order_id = 1;
+        $fulfillmentOrder->external_order_key = 'ORDER_K1';
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
+        $fulfillmentOrder->mustSave(false);
+        MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
+            'id' => 'ORDER_K1',
+            'order_status' => 'SHIPPING',
+            'created_at' => time() - 86400,
+            'updated_at' => time(),
+        ]];
+        $this->getFulfillmentManager()->pullFulfillmentOrders(1);
+        $fulfillmentOrder->refresh();
+        $this->assertTrue($fulfillmentOrder->order_pulled_at > 0, VarDumper::dumpAsString($fulfillmentOrder->attributes));
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function testPullWarehouses(): void
     {
         $query = FulfillmentWarehouse::find();
         $this->assertEquals(0, $query->count());
@@ -199,7 +225,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function te1stPullStocks(): void
+    public function testPullStocks(): void
     {
         $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
         $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('W01')->one();
@@ -224,25 +250,29 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
 
     /**
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function testPullOrders(): void
+    public function testPullStockMovements(): void
     {
-        $fulfillmentOrder = new FulfillmentOrder();
-        $fulfillmentOrder->fulfillment_account_id = 1;
-        $fulfillmentOrder->order_id = 1;
-        $fulfillmentOrder->external_order_key = 'ORDER_K1';
-        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
-        $fulfillmentOrder->mustSave(false);
-        MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
-            'id' => 'ORDER_K1',
-            'order_status' => 'SHIPPING',
-            'created_at' => time() - 86400,
-            'updated_at' => time(),
-        ]];
-        $this->getFulfillmentManager()->pullFulfillmentOrders(1);
-        $fulfillmentOrder->refresh();
-        $this->assertTrue($fulfillmentOrder->order_pulled_at > 0, VarDumper::dumpAsString($fulfillmentOrder->attributes));
+        $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
+        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('W01')->one();
+        $fulfillmentWarehouse->warehouse_id = 1;
+        $fulfillmentWarehouse->support_movement = StatusConst::STATUS_ACTIVE;
+        $fulfillmentWarehouse->save(false);
+
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->external_item_key = 'ITEM_K1';
+        $fulfillmentItem->item_pushed_at = 1;
+        $fulfillmentItem->save(false);
+        $query = FulfillmentWarehouseStockMovement::find();
+        $this->assertEquals(0, $query->count());
+        $this->getFulfillmentManager()->pullFulfillmentWarehouseStockMovements(1);
+        $this->assertEquals(1, $query->count());
+        $this->getFulfillmentManager()->pullFulfillmentWarehouseStockMovements(1);
+        $this->assertEquals(1, $query->count());
+        $fulfillmentWarehouse->refresh();
+        $this->assertTrue($fulfillmentWarehouse->external_movement_at > 0);
     }
 }

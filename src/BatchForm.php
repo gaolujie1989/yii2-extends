@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
  * @package lujie\core\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BatchForm extends Model
+class BatchForm extends Model
 {
     use ModelAttributeTrait;
 

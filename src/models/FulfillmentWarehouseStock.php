@@ -60,18 +60,18 @@ class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'fulfillment_warehouse_stock_id' => Yii::t('lujie/common', 'Fulfillment Warehouse Stock ID'),
-            'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
-            'item_id' => Yii::t('lujie/common', 'Item ID'),
-            'warehouse_id' => Yii::t('lujie/common', 'Warehouse ID'),
-            'external_item_key' => Yii::t('lujie/common', 'External Item Key'),
-            'external_warehouse_key' => Yii::t('lujie/common', 'External Warehouse Key'),
-            'stock_qty' => Yii::t('lujie/common', 'Stock Qty'),
-            'reserved_qty' => Yii::t('lujie/common', 'Reserved Qty'),
-            'stock_additional' => Yii::t('lujie/common', 'Stock Additional'),
-            'external_updated_at' => Yii::t('lujie/common', 'External Updated At'),
-            'stock_pulled_at' => Yii::t('lujie/common', 'Stock Pulled At'),
-            'additional' => Yii::t('lujie/common', 'Additional'),
+            'fulfillment_warehouse_stock_id' => Yii::t('lujie/fulfillment', 'Fulfillment Warehouse Stock ID'),
+            'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
+            'item_id' => Yii::t('lujie/fulfillment', 'Item ID'),
+            'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
+            'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
+            'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
+            'stock_qty' => Yii::t('lujie/fulfillment', 'Stock Qty'),
+            'reserved_qty' => Yii::t('lujie/fulfillment', 'Reserved Qty'),
+            'stock_additional' => Yii::t('lujie/fulfillment', 'Stock Additional'),
+            'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
+            'additional' => Yii::t('lujie/fulfillment', 'Additional'),
         ];
     }
 

@@ -65,22 +65,22 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'fulfillment_order_id' => Yii::t('lujie/common', 'Fulfillment Order ID'),
-            'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
-            'fulfillment_status' => Yii::t('lujie/common', 'Fulfillment Status'),
-            'order_id' => Yii::t('lujie/common', 'Order ID'),
-            'order_status' => Yii::t('lujie/common', 'Order Status'),
-            'order_updated_at' => Yii::t('lujie/common', 'Order Updated At'),
-            'external_order_key' => Yii::t('lujie/common', 'External Order Key'),
-            'external_order_status' => Yii::t('lujie/common', 'External Order Status'),
-            'external_order_additional' => Yii::t('lujie/common', 'External Order Additional'),
-            'external_created_at' => Yii::t('lujie/common', 'External Created At'),
-            'external_updated_at' => Yii::t('lujie/common', 'External Updated At'),
-            'order_pushed_at' => Yii::t('lujie/common', 'Order Pushed At'),
-            'order_pushed_status' => Yii::t('lujie/common', 'Order Pushed Status'),
-            'order_pushed_result' => Yii::t('lujie/common', 'Order Pushed Result'),
-            'order_pulled_at' => Yii::t('lujie/common', 'Order Pulled At'),
-            'additional' => Yii::t('lujie/common', 'Additional'),
+            'fulfillment_order_id' => Yii::t('lujie/fulfillment', 'Fulfillment Order ID'),
+            'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
+            'fulfillment_status' => Yii::t('lujie/fulfillment', 'Fulfillment Status'),
+            'order_id' => Yii::t('lujie/fulfillment', 'Order ID'),
+            'order_status' => Yii::t('lujie/fulfillment', 'Order Status'),
+            'order_updated_at' => Yii::t('lujie/fulfillment', 'Order Updated At'),
+            'external_order_key' => Yii::t('lujie/fulfillment', 'External Order Key'),
+            'external_order_status' => Yii::t('lujie/fulfillment', 'External Order Status'),
+            'external_order_additional' => Yii::t('lujie/fulfillment', 'External Order Additional'),
+            'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
+            'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'order_pushed_at' => Yii::t('lujie/fulfillment', 'Order Pushed At'),
+            'order_pushed_status' => Yii::t('lujie/fulfillment', 'Order Pushed Status'),
+            'order_pushed_result' => Yii::t('lujie/fulfillment', 'Order Pushed Result'),
+            'order_pulled_at' => Yii::t('lujie/fulfillment', 'Order Pulled At'),
+            'additional' => Yii::t('lujie/fulfillment', 'Additional'),
         ];
     }
 

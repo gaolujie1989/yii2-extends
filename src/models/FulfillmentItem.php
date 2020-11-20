@@ -29,7 +29,6 @@ use Yii;
 class FulfillmentItem extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-    use FulfillmentAccountRelationTrait;
 
     /**
      * {@inheritdoc}
@@ -61,19 +60,19 @@ class FulfillmentItem extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'fulfillment_item_id' => Yii::t('lujie/common', 'Fulfillment Item ID'),
-            'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
-            'item_id' => Yii::t('lujie/common', 'Item ID'),
-            'item_updated_at' => Yii::t('lujie/common', 'Item Updated At'),
-            'external_item_key' => Yii::t('lujie/common', 'External Item Key'),
-            'external_item_additional' => Yii::t('lujie/common', 'External Item Additional'),
-            'external_created_at' => Yii::t('lujie/common', 'External Created At'),
-            'external_updated_at' => Yii::t('lujie/common', 'External Updated At'),
-            'item_pushed_at' => Yii::t('lujie/common', 'Item Pushed At'),
-            'item_pushed_status' => Yii::t('lujie/common', 'Item Pushed Status'),
-            'item_pushed_result' => Yii::t('lujie/common', 'Item Pushed Result'),
-            'stock_pulled_at' => Yii::t('lujie/common', 'Stock Pulled At'),
-            'additional' => Yii::t('lujie/common', 'Additional'),
+            'fulfillment_item_id' => Yii::t('lujie/fulfillment', 'Fulfillment Item ID'),
+            'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
+            'item_id' => Yii::t('lujie/fulfillment', 'Item ID'),
+            'item_updated_at' => Yii::t('lujie/fulfillment', 'Item Updated At'),
+            'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
+            'external_item_additional' => Yii::t('lujie/fulfillment', 'External Item Additional'),
+            'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
+            'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'item_pushed_at' => Yii::t('lujie/fulfillment', 'Item Pushed At'),
+            'item_pushed_status' => Yii::t('lujie/fulfillment', 'Item Pushed Status'),
+            'item_pushed_result' => Yii::t('lujie/fulfillment', 'Item Pushed Result'),
+            'stock_pulled_at' => Yii::t('lujie/fulfillment', 'Stock Pulled At'),
+            'additional' => Yii::t('lujie/fulfillment', 'Additional'),
         ];
     }
 

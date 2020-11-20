@@ -56,12 +56,12 @@ class FulfillmentWarehouse extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'fulfillment_warehouse_id' => Yii::t('lujie/common', 'Fulfillment Warehouse ID'),
-            'fulfillment_account_id' => Yii::t('lujie/common', 'Fulfillment Account ID'),
-            'warehouse_id' => Yii::t('lujie/common', 'Warehouse ID'),
-            'external_warehouse_key' => Yii::t('lujie/common', 'External Warehouse Key'),
-            'external_warehouse_additional' => Yii::t('lujie/common', 'External Warehouse Additional'),
-            'additional' => Yii::t('lujie/common', 'Additional'),
+            'fulfillment_warehouse_id' => Yii::t('lujie/fulfillment', 'Fulfillment Warehouse ID'),
+            'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
+            'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
+            'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
+            'external_warehouse_additional' => Yii::t('lujie/fulfillment', 'External Warehouse Additional'),
+            'additional' => Yii::t('lujie/fulfillment', 'Additional'),
         ];
     }
 

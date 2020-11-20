@@ -3,12 +3,13 @@
  * @copyright Copyright (c) 2019
  */
 
+use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
 class m191211_101749_user_app extends Migration
 {
-    use TraceableColumnTrait;
+    use TraceableColumnTrait, DropTableTrait;
 
     public $tableName = '{{%user_app}}';
 

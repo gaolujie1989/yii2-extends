@@ -10,6 +10,11 @@ class m201023_213454_model_price extends Migration
 
     public $tableName = '{{%model_price}}';
 
+    /**
+     * @return bool|void
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
     public function safeUp()
     {
         $this->createTable($this->tableName, [

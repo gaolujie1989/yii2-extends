@@ -47,7 +47,7 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
             ->type($this->type)
             ->country($this->country)
             ->postalCode($postalCodes)
-            ->indexBy(['postal_code'])
+            ->indexBy('postal_code')
             ->all();
 
         foreach ($postalCodes as $postalCode) {

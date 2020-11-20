@@ -602,7 +602,7 @@ class PlentyMarketsRestClient extends OAuth2
         parent::init();
         $this->initRest();
         //connect time out is 90s, so set max_execution_time 100
-        ini_set('max_execution_time', 100);
+        ini_set('max_execution_time', '100');
     }
 
     /**

@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\f4px;
 
+use Iterator;
 use lujie\extend\authclient\BaseJsonRpcClient;
 use lujie\extend\authclient\JsonRpcResponse;
 use Yii;
@@ -38,6 +39,17 @@ use yii\httpclient\Response;
  * @method array getWarehouseList(array $data)
  * @method array getLogisticsList(array $data)
  * @method array getBilling(array $data)
+ *
+ * @method \Generator eachSkuList(array $data)
+ * @method \Generator batchSkuList(array $data)
+ * @method \Generator eachInboundList(array $data)
+ * @method \Generator batchInboundList(array $data)
+ * @method \Generator eachOutboundList(array $data)
+ * @method \Generator batchOutboundList(array $data)
+ * @method \Generator eachInventoryLog(array $data)
+ * @method \Generator batchInventoryLog(array $data)
+ * @method \Generator eachInventoryDetail(array $data)
+ * @method \Generator batchInventoryDetail(array $data)
  *
  * @package lujie\fulfillment\f4px
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -147,6 +159,22 @@ class F4pxClient extends BaseJsonRpcClient
     ];
 
     /**
+     * @var bool
+     */
+    public $reverse = false;
+
+    /**
+     * @param bool $reverse
+     * @return $this
+     * @inheritdoc
+     */
+    public function reverse($reverse = true): self
+    {
+        $this->reverse = $reverse;
+        return $this;
+    }
+
+    /**
      * @inheritdoc
      */
     public function init(): void
@@ -242,5 +270,57 @@ class F4pxClient extends BaseJsonRpcClient
         $jsonRpcResponse->data = $data['data'] ?? [];
         $jsonRpcResponse->errors = $data['errors'] ?? [];
         return $jsonRpcResponse;
+    }
+
+    /**
+     * @param string $resource
+     * @param array $condition
+     * @param int $batchSize
+     * @return Iterator
+     * @throws NotSupportedException
+     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws \yii\authclient\InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
+    {
+        $listMethod = 'get' . $resource;
+        if ($this->reverse) {
+            $rpcResponse = $this->call($listMethod, $condition);
+            $responseData = $this->getResponseData($rpcResponse);
+
+            $firstPageItems = $responseData['data'] ?? [];
+
+            $firstPage = $responseData['page_no'] ?? 1;
+            $condition['page_no'] = (int)ceil($responseData['total'] / $responseData['page_size']);
+
+            while ($condition['page_no'] > $firstPage) {
+                $rpcResponse = $this->call($listMethod, $condition);
+                $responseData = $this->getResponseData($rpcResponse);
+
+                $items = $responseData['data'] ?? [];
+
+                $items = array_reverse($items);
+                yield $items;
+
+                $condition['page_no']--;
+            }
+
+            $firstPageItems = array_reverse($firstPageItems);
+            yield $firstPageItems;
+        } else {
+            do {
+                $rpcResponse = $this->call($listMethod, $condition);
+                $responseData = $this->getResponseData($rpcResponse);
+
+                $items = $responseData['data'] ?? [];
+                yield $items;
+
+                $pageCount = (int)ceil($responseData['total'] / $responseData['page_size']);
+                $condition['page_no'] =  $responseData['page_no'] ?? 1;
+                $condition['page_no']++;
+            } while ($condition['page_no'] <= $pageCount);
+        }
     }
 }

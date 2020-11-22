@@ -404,7 +404,8 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
             $externalItemKey = $externalWarehouseStock[$this->stockItemKeyField];
-            if (empty($warehouseIds[$externalWarehouseKey])) {
+            if (empty($warehouseIds[$externalWarehouseKey]) || empty($itemIds[$externalItemKey])) {
+                Yii::debug("Empty warehouseId or itemId, skip", __METHOD__);
                 continue;
             }
 

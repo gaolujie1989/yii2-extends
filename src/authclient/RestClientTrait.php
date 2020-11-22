@@ -230,7 +230,7 @@ trait RestClientTrait
         $apiMethodDocs = [];
         foreach ($this->apiMethods as $method => [$httpMethod, $url]) {
             if (strpos($method, 'list') === 0) {
-                $name = Inflector::singularize(substr($method, 4));
+                $name = substr($method, 4);
                 $apiMethodDocs[] = " * ";
                 $apiMethodDocs[] = " * @method array {$method}(\$data = [])";
                 $apiMethodDocs[] = " * @method \Generator each{$name}(\$condition = [], \$batchSize = 100)";

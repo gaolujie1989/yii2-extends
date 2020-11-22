@@ -21,6 +21,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -135,9 +136,10 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentItem->item_id = 1;
 
         $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem), 'create');
-        $this->assertEquals('ITEM_K1', $fulfillmentItem->external_item_key);
+        $this->assertNotEmpty($fulfillmentItem->external_item_key);
+        $this->assertEquals('ITEM-1', $fulfillmentItem->external_item_additional['sku_code']);
         $this->assertTrue($fulfillmentItem->external_created_at > 0);
-        $this->assertTrue($fulfillmentItem->external_updated_at > $fulfillmentItem->external_created_at);
+        $this->assertTrue($fulfillmentItem->external_updated_at >= $fulfillmentItem->external_created_at);
 
         $fulfillmentItem->delete();
         $fulfillmentItem = new FulfillmentItem();
@@ -145,7 +147,8 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
         $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem), 'already exists, link and update');
-        $this->assertEquals('ITEM_K1', $fulfillmentItem->external_item_key);
+        $this->assertNotEmpty($fulfillmentItem->external_item_key);
+        $this->assertEquals('ITEM-1', $fulfillmentItem->external_item_additional['sku_code']);
         $this->assertTrue($fulfillmentItem->external_created_at > 0);
         $this->assertTrue($fulfillmentItem->external_updated_at > $fulfillmentItem->external_created_at);
     }
@@ -159,29 +162,35 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
 
         $fulfillmentOrder = new FulfillmentOrder();
         $fulfillmentOrder->save(false);
-        $fulfillmentOrder->fulfillment_account_id = 2;
-        $this->assertFalse($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'Account not equal, should return false');
-
         $fulfillmentOrder->fulfillment_account_id = 1;
-        $fulfillmentOrder->order_id = 2;
-        $this->assertFalse($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'Order not found, should return false');
-
         $fulfillmentOrder->order_id = 1;
-        $now = time();
+
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->external_item_key = 'xxx';
+        $fulfillmentItem->external_item_additional = ['sku_code' => 'ITEM-1'];
+        $fulfillmentItem->save(false);
+
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'create');
-        $this->assertEquals('ORDER_K1', $fulfillmentOrder->external_order_key);
-        $this->assertTrue($fulfillmentOrder->external_created_at >= $now);
-        $this->assertTrue($fulfillmentOrder->external_updated_at === $fulfillmentOrder->external_created_at);
+        $this->assertNotEmpty($fulfillmentOrder->external_order_key);
+        $this->assertEquals('O-1', $fulfillmentOrder->external_order_additional['ref_no']);
+        $this->assertEquals('ORDER-1', $fulfillmentOrder->external_order_additional['sales_no']);
+        $this->assertTrue($fulfillmentOrder->external_created_at > 0);
+        $this->assertTrue($fulfillmentOrder->external_updated_at >= $fulfillmentOrder->external_created_at);
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
 
+        sleep(1);
         $fulfillmentOrder->delete();
         $fulfillmentOrder = new FulfillmentOrder();
         $fulfillmentOrder->save(false);
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'already exists, link and update');
-        $this->assertEquals('ORDER_K1', $fulfillmentOrder->external_order_key);
-        $this->assertTrue($fulfillmentOrder->external_created_at >= $now);
+        $this->assertNotEmpty($fulfillmentOrder->external_order_key);
+        $this->assertEquals('O-1', $fulfillmentOrder->external_order_additional['ref_no']);
+        $this->assertEquals('ORDER-1', $fulfillmentOrder->external_order_additional['sales_no']);
+        $this->assertTrue($fulfillmentOrder->external_created_at > 0);
         $this->assertTrue($fulfillmentOrder->external_updated_at > $fulfillmentOrder->external_created_at);
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
     }
@@ -189,7 +198,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
     /**
      * @inheritdoc
      */
-    public function te1stHoldShipCancelFulfillmentOrder(): void
+    public function te1stCancelFulfillmentOrder(): void
     {
         $fulfillmentService = $this->getFulfillmentService();
 
@@ -200,17 +209,8 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder));
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
 
-        $fulfillmentService->holdFulfillmentOrder($fulfillmentOrder);
-        $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_HOLDING, $fulfillmentOrder->fulfillment_status);
-
-        $fulfillmentService->shipFulfillmentOrder($fulfillmentOrder);
-        $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
-
         $fulfillmentService->cancelFulfillmentOrder($fulfillmentOrder);
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_CANCELLED, $fulfillmentOrder->fulfillment_status);
-
-        $fulfillmentService->shipFulfillmentOrder($fulfillmentOrder);
-        $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
     }
 
     /**
@@ -218,23 +218,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
      */
     public function te1stPullFulfillmentOrders(): void
     {
-        $fulfillmentService = $this->getFulfillmentService();
 
-        $fulfillmentOrder = new FulfillmentOrder();
-        $fulfillmentOrder->fulfillment_account_id = 1;
-        $fulfillmentOrder->order_id = 1;
-        $fulfillmentOrder->save(false);
-        $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder));
-        $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
-
-        MockFulfillmentService::$EXTERNAL_ORDER_DATA['ORDER_K1']['order_status'] = 'SHIPPED';
-        $fulfillmentService->pullFulfillmentOrders([$fulfillmentOrder]);
-        $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PICKING, $fulfillmentOrder->fulfillment_status);
-
-        MockFulfillmentService::$EXTERNAL_ORDER_DATA['ORDER_K1']['trackingNumbers'] = ['01524814864'];
-        $fulfillmentService->pullFulfillmentOrders([$fulfillmentOrder]);
-        $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_SHIPPED, $fulfillmentOrder->fulfillment_status);
-        $this->assertTrue($fulfillmentOrder->order_pulled_at > 0);
     }
 
     /**
@@ -257,15 +241,16 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
         $fulfillmentService->pullWarehouses();
 
-        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('W01')->one();
+        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('CNHKGB')->one();
         $fulfillmentWarehouse->warehouse_id = 1;
         $fulfillmentWarehouse->save(false);
 
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->external_item_key = 'xxx';
+        $fulfillmentItem->external_item_additional = ['sku_code' => 'ITEM-1'];
         $fulfillmentItem->save(false);
-        $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem));
 
         $fulfillmentService->pullWarehouseStocks([$fulfillmentItem]);
         $query = FulfillmentWarehouseStock::find()->itemId($fulfillmentItem->item_id);
@@ -275,12 +260,58 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
             'fulfillment_account_id' => 1,
             'item_id' => 1,
             'warehouse_id' => 1,
-            'external_item_key' => 'ITEM_K1',
-            'external_warehouse_key' => 'W01',
-            'stock_qty' => 1,
+            'external_item_key' => 'xxx',
+            'external_warehouse_key' => 'CNHKGB',
+            'stock_qty' => 123,
         ];
         $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
         $fulfillmentItem->refresh();
         $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function te1stPullWarehouseStockMovements(): void
+    {
+        $fulfillmentService = $this->getFulfillmentService();
+        $fulfillmentService->pullWarehouses();
+
+        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('108')->one();
+        $fulfillmentWarehouse->warehouse_id = 1;
+        $fulfillmentWarehouse->support_movement = 1;
+        $fulfillmentWarehouse->save(false);
+
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->external_item_key = 'xxx';
+        $fulfillmentItem->external_item_additional = ['sku_code' => 'ITEM-1'];
+        $fulfillmentItem->save(false);
+
+        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, strtotime('2020-05-14 16:14:00'), strtotime('2020-05-14 16:14:59'));
+        $query = FulfillmentWarehouseStockMovement::find()->itemId($fulfillmentItem->item_id);
+        $this->assertEquals(1, $query->count());
+        $stockMovement = $query->one();
+        $expectedMovement = [
+            'fulfillment_account_id' => 1,
+            'item_id' => 1,
+            'warehouse_id' => 1,
+            'external_item_key' => 'xxx',
+            'external_warehouse_key' => 'CNHKGB',
+            'external_movement_key' => 'xxxxxx',
+            'moved_qty' => 123,
+            'balance_qty' => 0,
+            'reason' => 'I',
+            'related_type' => 'P',
+            'related_key' => 'IC90027818042620',
+            'external_created_at' => 1589444083,
+        ];
+        $this->assertEquals($expectedMovement, $stockMovement->getAttributes(array_keys($expectedMovement)));
+        $fulfillmentItem->refresh();
+        $fulfillmentWarehouse->refresh();
+        $this->assertEquals(1589444096, $fulfillmentWarehouse->external_movement_at);
+
+//        $this->cleanItem = true;
     }
 }

@@ -40,8 +40,6 @@ use yii\httpclient\Response;
  * @method array getLogisticsList(array $data)
  * @method array getBilling(array $data)
  *
- * @method \Generator eachSkuList(array $data)
- * @method \Generator batchSkuList(array $data)
  * @method \Generator eachInboundList(array $data)
  * @method \Generator batchInboundList(array $data)
  * @method \Generator eachOutboundList(array $data)

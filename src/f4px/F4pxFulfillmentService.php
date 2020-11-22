@@ -181,6 +181,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function updateFulfillmentItem(FulfillmentItem $fulfillmentItem, array $externalItem): bool
     {
         $fulfillmentItem->external_item_key = $externalItem['sku_id'];
+        $fulfillmentItem->external_item_additional = ['sku_code' => $externalItem['sku_code']];
         if (empty($fulfillmentItem->external_created_at)) {
             $fulfillmentItem->external_created_at = time();
         }
@@ -215,7 +216,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $address = $order->address;
         return [
             'customer_code' => '',
-            'ref_no' => $order->orderId,
+            'ref_no' => 'O-' . $order->orderId,
             'from_warehouse_code' => '', //@TODO
             'consignment_type' => 'S',
             'logistics_service_info' => [
@@ -317,6 +318,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $fulfillmentOrder->external_order_status = $externalOrderStatus;
         $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
         $fulfillmentOrder->external_updated_at = (int)($externalOrder['update_time'] / 1000);
+        $externalOrderAdditional['ref_no'] = $externalOrder['ref_no'];
+        $externalOrderAdditional['sales_no'] = $externalOrder['sales_no'];
         $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'];
         $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;

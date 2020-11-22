@@ -318,6 +318,42 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
         $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
         $fulfillmentItem->refresh();
         $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function testPullWarehouseStockMovements(): void
+    {
+        $fulfillmentService = $this->getFulfillmentService();
+        $fulfillmentService->pullWarehouses();
+
+        $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('108')->one();
+        $fulfillmentWarehouse->warehouse_id = 1;
+        $fulfillmentWarehouse->save(false);
+
+        $fulfillmentItem = new FulfillmentItem();
+        $fulfillmentItem->fulfillment_account_id = 1;
+        $fulfillmentItem->item_id = 1;
+        $fulfillmentItem->external_item_key = 3508;
+        $fulfillmentItem->external_item_additional = ['itemId' => 10475, 'variationNo' => 'TEST_ABC'];
+        $fulfillmentItem->save(false);
+
+        $fulfillmentService->pullWarehouseStockMovements([$fulfillmentItem]);
+        $query = FulfillmentWarehouseStock::find()->itemId($fulfillmentItem->item_id);
+        $this->assertEquals(1, $query->count());
+        $warehouseStock = $query->one();
+        $expectedStock = [
+            'fulfillment_account_id' => 1,
+            'item_id' => 1,
+            'warehouse_id' => 1,
+            'external_item_key' => '3508',
+            'external_warehouse_key' => '108',
+            'stock_qty' => 123,
+        ];
+        $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
+        $fulfillmentItem->refresh();
+        $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
 
         $this->cleanItem = true;
     }

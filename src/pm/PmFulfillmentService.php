@@ -16,6 +16,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\plentyMarkets\PlentyMarketAddressFormatter;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
@@ -204,7 +205,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     {
         foreach ($this->barcodeIds as $barcodeKey => $barcodeId) {
             if ($barcode = $item->getBarcode($barcodeKey)) {
-                $eachVariation = $this->client->eachVariation(['barcode' => $barcode]);
+                $eachVariation = $this->client->eachVariations(['barcode' => $barcode]);
                 if ($pmVariation = $eachVariation->current()) {
                     return $pmVariation;
                 }
@@ -425,7 +426,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     protected function getExternalOrder(Order $order): ?array
     {
         $externalOrderId = $this->orderNoPrefix . $order->orderNo;
-        $eachOrder = $this->client->eachOrder([
+        $eachOrder = $this->client->eachOrders([
             'externalOrderId' => $externalOrderId,
             'plentyId' => $this->plentyId,
             'with' => 'addresses'
@@ -460,13 +461,13 @@ class PmFulfillmentService extends BaseFulfillmentService
     protected function pushPmCustomer(Address $address): array
     {
         if ($address->phone) {
-            $customers = $this->client->eachCustomer(['privatePhone' => $address->phone]);
+            $customers = $this->client->eachCustomers(['privatePhone' => $address->phone]);
             if ($customer = $customers->current()) {
                 return $customer;
             }
         }
         if ($address->email) {
-            $customers = $this->client->eachCustomer(['email' => $address->email]);
+            $customers = $this->client->eachCustomers(['email' => $address->email]);
             if ($customer = $customers->current()) {
                 return $customer;
             }
@@ -687,6 +688,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     /**
      * @param array $externalOrderKeys
      * @return array
+     * @inheritdoc
      */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
@@ -698,9 +700,27 @@ class PmFulfillmentService extends BaseFulfillmentService
         return $pmOrders;
     }
 
+    /**
+     * @param int $shippedAtFrom
+     * @param int $shippedAtTo
+     * @return array
+     * @inheritdoc
+     */
+    protected function getShippedExternalOrders(int $shippedAtFrom, int $shippedAtTo): array
+    {
+        $condition = [
+            'outgoingItemsBookedAtFrom' => date('c', $shippedAtFrom),
+            'outgoingItemsBookedAtTo' => date('c', $shippedAtTo),
+            'statusFrom' => '7',
+            'statusTo' => '7.1',
+        ];
+        $eachOrders = $this->client->eachOrders($condition);
+        return iterator_to_array($eachOrders, false);
+    }
+
     #endregion
 
-    #region Warehouse Stock Pull
+    #region Warehouse Pull
 
     /**
      * @param array $condition
@@ -709,8 +729,8 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouses(array $condition = []): array
     {
-        $eachWarehouse = $this->client->eachWarehouse($condition);
-        return iterator_to_array($eachWarehouse, false);
+        $eachWarehouses = $this->client->eachWarehouses($condition);
+        return iterator_to_array($eachWarehouses, false);
     }
 
     /**
@@ -724,6 +744,10 @@ class PmFulfillmentService extends BaseFulfillmentService
         $fulfillmentWarehouse->external_warehouse_additional = ['name' => $externalWarehouse['name']];
         return $fulfillmentWarehouse->save(false);
     }
+
+    #endregion
+
+    #region Stock Pull
 
     /**
      * @param array $externalItemKeys
@@ -748,6 +772,49 @@ class PmFulfillmentService extends BaseFulfillmentService
         $fulfillmentWarehouseStock->external_updated_at = is_numeric($externalWarehouseStock['updatedAt']) ? $externalWarehouseStock['updatedAt'] : strtotime($externalWarehouseStock['updatedAt']);
         $fulfillmentWarehouseStock->stock_additional = $externalWarehouseStock;
         return $fulfillmentWarehouseStock->save(false);
+    }
+
+    #endregion
+
+    #region Stock Movement Pull
+
+    /**
+     * @param FulfillmentWarehouse $fulfillmentWarehouse
+     * @param int $movementAtFrom
+     * @param int $movementAtTo
+     * @param FulfillmentItem|null $fulfillmentItem
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
+    {
+        $condition = ['warehouseId' => $fulfillmentWarehouse->external_warehouse_key];
+        if ($fulfillmentItem !== null) {
+            $condition['variationId'] = $fulfillmentItem->external_item_key;
+        }
+        $eachWarehouseStockMovements = $this->client->eachWarehouseStockMovements($condition);
+        return iterator_to_array($eachWarehouseStockMovements, false);
+    }
+
+    /**
+     * @param FulfillmentWarehouseStockMovement $fulfillmentStockMovement
+     * @param array $externalStockMovement
+     * @return bool
+     * @inheritdoc
+     */
+    protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
+    {
+        $fulfillmentStockMovement->reason = $externalStockMovement['reason'];
+        $fulfillmentStockMovement->moved_qty = $externalStockMovement['quantity'];
+        $fulfillmentStockMovement->related_type = $externalStockMovement['processRowType'];
+        $fulfillmentStockMovement->related_key = $externalStockMovement['processRowId'];
+        $fulfillmentStockMovement->movement_additional = [
+            'reasonName' => $externalStockMovement['reasonString'],
+            'warehouseName' => $externalStockMovement['warehouseName'],
+            'itemId' => $externalStockMovement['itemId'],
+            'storageLocationName' => $externalStockMovement['storageLocationName'],
+        ];
+        return $fulfillmentStockMovement->save(false);
     }
 
     #endregion

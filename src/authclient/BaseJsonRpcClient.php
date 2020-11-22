@@ -7,8 +7,8 @@ namespace lujie\extend\authclient;
 
 use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\BaseClient;
-use yii\base\InvalidCallException;
 use yii\base\NotSupportedException;
+use yii\helpers\Json;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
@@ -146,9 +146,23 @@ abstract class BaseJsonRpcClient extends BaseClient
     }
 
     /**
+     * @param JsonRpcResponse $response
+     * @return array|null
+     * @throws JsonRpcException
+     */
+    public function getResponseData(JsonRpcResponse $response)
+    {
+        if (!$response->success) {
+            throw new JsonRpcException($response, 'JsonRpc error: ' . $response->message . Json::encode($response->errors));
+        }
+        return $response->data;
+    }
+
+    /**
      * @param string $name
      * @param array $params
-     * @return JsonRpcResponse|mixed
+     * @return array|mixed|null
+     * @throws JsonRpcException
      * @throws NotSupportedException
      * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
@@ -157,7 +171,8 @@ abstract class BaseJsonRpcClient extends BaseClient
     public function __call($name, $params)
     {
         if (isset($this->methods[$name])) {
-            return $this->call($name, $params[0]);
+            $jsonRpcResponse = $this->call($name, $params[0]);
+            return $this->getResponseData($jsonRpcResponse);
         }
         return parent::__call($name, $params);
     }

@@ -5,14 +5,14 @@
 
 namespace lujie\extend\authclient;
 
-use yii\helpers\Json;
+use yii\base\BaseObject;
 
 /**
  * Class JsonRpcResponse
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class JsonRpcResponse
+class JsonRpcResponse extends BaseObject
 {
     /**
      * @var bool
@@ -27,27 +27,10 @@ class JsonRpcResponse
     /**
      * @var array
      */
-    public $data;
+    public $errors;
 
     /**
      * @var array
      */
-    public $errors;
-
-    /**
-     * @param bool $throwException
-     * @return array|null
-     * @throws JsonRpcException
-     * @inheritdoc
-     */
-    public function getData(bool $throwException = true): ?array
-    {
-        if (!$this->success) {
-            if ($throwException) {
-                throw new JsonRpcException($this, 'JsonRpc error: ' . $this->message . Json::encode($this->errors));
-            }
-            return null;
-        }
-        return $this->data;
-    }
+    public $data;
 }

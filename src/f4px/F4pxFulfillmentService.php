@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\f4px;
 
+use lujie\extend\authclient\JsonRpcException;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
@@ -13,6 +14,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 
@@ -54,6 +56,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @var string
      */
     public $stockWarehouseKeyField = 'warehouse_code';
+
+    /**
+     * @var string
+     */
+    public $externalMovementKeyField = 'inventory_flow_id';
+
+    /**
+     * @var string
+     */
+    public $externalMovementTimeField = 'create_time';
 
     /**
      * @var array
@@ -135,12 +147,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param Item $item
      * @return array|null
-     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function getExternalItem(Item $item): ?array
     {
-        $skuList = $this->client->getSkuList(['lstsku' => [$item->itemNo]])->getData();
+        $skuList = $this->client->getSkuList(['lstsku' => [$item->itemNo]]);
         return $skuList['skulist'][0] ?? null;
     }
 
@@ -148,15 +160,15 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @param array $externalItem
      * @param FulfillmentItem $fulfillmentItem
      * @return array|null
-     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function saveExternalItem(array $externalItem, FulfillmentItem $fulfillmentItem): ?array
     {
         if ($fulfillmentItem->external_item_key) {
-            return $this->client->editSkuPicture($externalItem)->getData();
+            return $this->client->editSkuPicture($externalItem);
         } else {
-            return $this->client->createSku($externalItem)->getData();
+            return $this->client->createSku($externalItem);
         }
     }
 
@@ -266,12 +278,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param Order $order
      * @return array|null
-     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function getExternalOrder(Order $order): ?array
     {
-        $outboundList = $this->client->getOutboundList(['sales_no' => $order->orderNo])->getData();
+        $outboundList = $this->client->getOutboundList(['sales_no' => $order->orderNo]);
         return $outboundList['data'][0] ?? null;
     }
 
@@ -279,7 +291,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @param array $externalOrder
      * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
-     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function saveExternalOrder(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
@@ -287,7 +299,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if ($fulfillmentOrder->external_order_key) {
             return null;
         } else {
-            return $this->client->createOutbound($externalOrder)->getData();
+            return $this->client->createOutbound($externalOrder);
         }
     }
 
@@ -362,12 +374,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
-     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws JsonRpcException
      * @inheritdoc
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        return $this->client->cancelOutbound(['consignment_no' => $fulfillmentOrder->external_order_key])->success;
+        $cancelOutbound = $this->client->cancelOutbound(['consignment_no' => $fulfillmentOrder->external_order_key]);
+        return $cancelOutbound['status'] === 'X';
     }
 
     #endregion
@@ -377,15 +390,35 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param array $externalOrderKeys
      * @return array
+     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
         $externalOrders = [];
         foreach ($externalOrderKeys as $externalOrderKey) {
-            $externalOrders[$externalOrderKey] = $this->client->getOutboundList(['consignment_no' => $externalOrderKeys])->data['data'];
+            $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKeys]);
+            $externalOrders[$externalOrderKey] = $data['data'];
         }
         return $externalOrders;
+    }
+
+    /**
+     * @param int $shippedAtFrom
+     * @param int $shippedAtTo
+     * @return array
+     * @throws JsonRpcException
+     * @inheritdoc
+     */
+    protected function getShippedExternalOrders(int $shippedAtFrom, int $shippedAtTo): array
+    {
+        $condition = [
+            'status' => 'C',
+            'complete_time_start' => $shippedAtFrom * 1000,
+            'complete_time_end' => $shippedAtTo * 1000,
+        ];
+        $data = $this->client->getOutboundList($condition);
+        return $data['data'];
     }
 
     #endregion
@@ -395,12 +428,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param array $condition
      * @return array
-     * @throws \lujie\extend\authclient\JsonRpcException
+     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function getExternalWarehouses(array $condition = []): array
     {
-        return $this->client->getWarehouseList($condition)->getData();
+        return $this->client->getWarehouseList($condition);
     }
 
     /**
@@ -427,7 +460,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouseStocks(array $externalItemKeys): array
     {
-        $data = $this->client->getInventory(['lstsku' => $externalItemKeys])->getData();
+        $data = $this->client->getInventory(['lstsku' => $externalItemKeys]);
         return $data['data'];
     }
 
@@ -447,6 +480,46 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'batch_no' => $externalWarehouseStock['batch_no'],
         ];
         return $fulfillmentWarehouseStock->save(false);
+    }
+
+    #endregion
+
+    #region Stock Movement Pull
+
+    protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
+    {
+        $condition = [
+            'warehouse_code' => $fulfillmentWarehouse->external_warehouse_key,
+            'create_time_start' => $fulfillmentWarehouse->external_warehouse_key,
+            'create_time_end' => $fulfillmentWarehouse->external_warehouse_key,
+        ];
+        if ($fulfillmentItem !== null) {
+            $condition['sku_code'] = $fulfillmentItem->external_item_key;
+
+        }
+        $inventoryLog = $this->client->getInventoryLog($condition);
+        return $inventoryLog['data'];
+    }
+
+    /**
+     * @param FulfillmentWarehouseStockMovement $fulfillmentStockMovement
+     * @param array $externalStockMovement
+     * @return bool
+     * @inheritdoc
+     */
+    protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
+    {
+        $fulfillmentStockMovement->external_created_at = substr($externalStockMovement['create_time'], 0, 10);
+        $fulfillmentStockMovement->reason = $externalStockMovement['journal_type'];
+        $fulfillmentStockMovement->moved_qty = $externalStockMovement['io_qty'];
+        $fulfillmentStockMovement->balance_qty = $externalStockMovement['balance_stock'];
+        $fulfillmentStockMovement->related_type = $externalStockMovement['business_type'];
+        $fulfillmentStockMovement->related_key = $externalStockMovement['business_ref_no'];
+        $fulfillmentStockMovement->movement_additional = [
+            'batch_no' => $externalStockMovement['batch_no'],
+            'stock_quality' => $externalStockMovement['stock_quality'],
+        ];
+        return $fulfillmentStockMovement->save(false);
     }
 
     #endregion

@@ -67,6 +67,16 @@ class PmFulfillmentService extends BaseFulfillmentService
     public $stockWarehouseKeyField = 'warehouseId';
 
     /**
+     * @var string
+     */
+    public $externalMovementKeyField = 'id';
+
+    /**
+     * @var string
+     */
+    public $externalMovementTimeField = 'createdAt';
+
+    /**
      * @var array
      */
     public $fulfillmentStatusMap = [
@@ -788,7 +798,14 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
     {
-        $condition = ['warehouseId' => $fulfillmentWarehouse->external_warehouse_key];
+        $condition = [
+            'warehouseId' => $fulfillmentWarehouse->external_warehouse_key,
+            'createdAtFrom' => $movementAtFrom,
+            'createdAtTo' => $movementAtTo,
+        ];
+        if (time() - $movementAtFrom > 86400 * 90) {
+            $condition['year'] = date('Y', $movementAtFrom);
+        }
         if ($fulfillmentItem !== null) {
             $condition['variationId'] = $fulfillmentItem->external_item_key;
         }
@@ -804,6 +821,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
+        $fulfillmentStockMovement->external_created_at = strtotime($externalStockMovement['createdAt']);
         $fulfillmentStockMovement->reason = $externalStockMovement['reason'];
         $fulfillmentStockMovement->moved_qty = $externalStockMovement['quantity'];
         $fulfillmentStockMovement->related_type = $externalStockMovement['processRowType'];

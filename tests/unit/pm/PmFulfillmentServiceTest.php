@@ -18,6 +18,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
+use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\fulfillment\pm\PmFulfillmentService;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use Yii;
@@ -330,6 +331,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
 
         $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('108')->one();
         $fulfillmentWarehouse->warehouse_id = 1;
+        $fulfillmentWarehouse->support_movement = 1;
         $fulfillmentWarehouse->save(false);
 
         $fulfillmentItem = new FulfillmentItem();
@@ -339,22 +341,29 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentItem->external_item_additional = ['itemId' => 10475, 'variationNo' => 'TEST_ABC'];
         $fulfillmentItem->save(false);
 
-        $fulfillmentService->pullWarehouseStockMovements([$fulfillmentItem]);
-        $query = FulfillmentWarehouseStock::find()->itemId($fulfillmentItem->item_id);
+        $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse, strtotime('2020-05-14 16:14:00'), strtotime('2020-05-14 16:14:59'));
+        $query = FulfillmentWarehouseStockMovement::find()->itemId($fulfillmentItem->item_id);
         $this->assertEquals(1, $query->count());
-        $warehouseStock = $query->one();
-        $expectedStock = [
+        $stockMovement = $query->one();
+        $expectedMovement = [
             'fulfillment_account_id' => 1,
             'item_id' => 1,
             'warehouse_id' => 1,
             'external_item_key' => '3508',
             'external_warehouse_key' => '108',
-            'stock_qty' => 123,
+            'external_movement_key' => '1209027',
+            'moved_qty' => 123,
+            'balance_qty' => 0,
+            'reason' => '300',
+            'related_type' => '1',
+            'related_key' => '556840',
+            'external_created_at' => 1589444083,
         ];
-        $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
+        $this->assertEquals($expectedMovement, $stockMovement->getAttributes(array_keys($expectedMovement)));
         $fulfillmentItem->refresh();
-        $this->assertTrue($fulfillmentItem->stock_pulled_at > 0);
+        $fulfillmentWarehouse->refresh();
+        $this->assertEquals(1589444096, $fulfillmentWarehouse->external_movement_at);
 
-        $this->cleanItem = true;
+//        $this->cleanItem = true;
     }
 }

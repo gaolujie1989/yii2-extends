@@ -800,8 +800,8 @@ class PmFulfillmentService extends BaseFulfillmentService
     {
         $condition = [
             'warehouseId' => $fulfillmentWarehouse->external_warehouse_key,
-            'createdAtFrom' => $movementAtFrom,
-            'createdAtTo' => $movementAtTo,
+            'createdAtFrom' => date('c', $movementAtFrom),
+            'createdAtTo' => date('c', $movementAtTo),
         ];
         if (time() - $movementAtFrom > 86400 * 90) {
             $condition['year'] = date('Y', $movementAtFrom);
@@ -827,9 +827,6 @@ class PmFulfillmentService extends BaseFulfillmentService
         $fulfillmentStockMovement->related_type = $externalStockMovement['processRowType'];
         $fulfillmentStockMovement->related_key = $externalStockMovement['processRowId'];
         $fulfillmentStockMovement->movement_additional = [
-            'reasonName' => $externalStockMovement['reasonString'],
-            'warehouseName' => $externalStockMovement['warehouseName'],
-            'itemId' => $externalStockMovement['itemId'],
             'storageLocationName' => $externalStockMovement['storageLocationName'],
         ];
         return $fulfillmentStockMovement->save(false);

@@ -499,6 +499,10 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
         foreach ($newMovementKeys as $newMovementKey) {
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
+            if (empty($itemIds[$externalItemKey])) {
+                Yii::debug('Empty itemId of externalItemKey, skip', __METHOD__);
+                continue;
+            }
             $fulfillmentMovement = new FulfillmentWarehouseStockMovement();
             $fulfillmentMovement->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
             $fulfillmentMovement->external_movement_key = $newMovementKey;

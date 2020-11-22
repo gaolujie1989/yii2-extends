@@ -8,6 +8,7 @@
 
 namespace lujie\db\fieldQuery\behaviors;
 
+use Yii;
 use yii\base\Behavior;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
@@ -269,6 +270,9 @@ class FieldQueryBehavior extends Behavior
                 throw new InvalidArgumentException("{$paramName} must be set");
             }
             $value = array_shift($params);
+            if ($value === []) {
+                Yii::error('Query condition value is empty array', __METHOD__);
+            }
             $field = $this->buildAliasField($field);
             if ($op) {
                 $owner->andWhere([$op, $field, $value]);

@@ -208,7 +208,7 @@ trait RestClientTrait
         }
 
         if (strpos($name, 'batch') === 0) {
-            return $this->batch(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
+            return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
         }
 
         if (strpos($name, 'each') === 0) {

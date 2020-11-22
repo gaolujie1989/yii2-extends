@@ -5,6 +5,7 @@
 
 namespace lujie\extend\authclient;
 
+use Iterator;
 use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\BaseClient;
 use yii\base\NotSupportedException;
@@ -174,6 +175,37 @@ abstract class BaseJsonRpcClient extends BaseClient
             $jsonRpcResponse = $this->call($name, $params[0]);
             return $this->getResponseData($jsonRpcResponse);
         }
+
+        if (strpos($name, 'batch') === 0) {
+            return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
+        } else if (strpos($name, 'each') === 0) {
+            return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
+        }
+
         return parent::__call($name, $params);
+    }
+
+    /**
+     * @param string $resource
+     * @param array $condition
+     * @param int $batchSize
+     * @return Iterator
+     * @inheritdoc
+     */
+    abstract public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator;
+
+    /**
+     * @param string $resource
+     * @param array $condition
+     * @param int $batchSize
+     * @return Iterator
+     * @inheritdoc
+     */
+    public function each(string $resource, array $condition = [], int $batchSize = 100): Iterator
+    {
+        $iterator = $this->batch($resource, $condition, $batchSize);
+        foreach ($iterator as $items) {
+            yield from $items;
+        }
     }
 }

@@ -95,8 +95,8 @@ class DailyStockGenerator extends BaseObject
     }
 
     /**
-     * @param $dateFrom
-     * @param $dateTo
+     * @param string|int $dateFrom
+     * @param string|int $dateTo
      * @return bool
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

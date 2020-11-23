@@ -41,7 +41,9 @@ class GenerateDailyStockTask extends CronTask
     public function execute(): bool
     {
         $this->dailyStockGenerator = Instance::ensure($this->dailyStockGenerator, DailyStockGenerator::class);
-        $this->dailyStockGenerator->generateDailyStockMovements($this->stockDateFrom, $this->stockDateTo);
-        $this->dailyStockGenerator->generateDailyStocks($this->stockDateFrom, $this->stockDateTo);
+        if ($this->dailyStockGenerator->generateDailyStockMovements($this->stockDateFrom, $this->stockDateTo)) {
+            return $this->dailyStockGenerator->generateDailyStocks($this->stockDateFrom, $this->stockDateTo);
+        }
+        return false;
     }
 }

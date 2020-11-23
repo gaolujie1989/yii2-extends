@@ -520,7 +520,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
-        $fulfillmentStockMovement->external_created_at = substr($externalStockMovement['create_time'], 0, 10);
+        $fulfillmentStockMovement->external_created_at = (int)substr($externalStockMovement['create_time'], 0, 10);
         $fulfillmentStockMovement->reason = $externalStockMovement['journal_type'];
         $fulfillmentStockMovement->moved_qty = $externalStockMovement['io_qty'];
         $fulfillmentStockMovement->balance_qty = $externalStockMovement['balance_stock'];

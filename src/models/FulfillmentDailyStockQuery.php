@@ -3,6 +3,7 @@
 namespace lujie\fulfillment\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use PHPStan\Rules\Comparison\StrictComparisonOfDifferentTypesRule;
 
 /**
  * This is the ActiveQuery class for [[FulfillmentDailyStock]].
@@ -18,6 +19,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentDailyStockQuery warehouseId($warehouseId)
  * @method FulfillmentDailyStockQuery externalItemKey($externalItemKey)
  * @method FulfillmentDailyStockQuery externalWarehouseKey($externalWarehouseKey)
+ * @method FulfillmentDailyStockQuery stockDate($stockDate)
+ *
+ * @method string maxStockDate()
  *
  * @method array|FulfillmentDailyStock[] all($db = null)
  * @method array|FulfillmentDailyStock|null one($db = null)
@@ -44,7 +48,11 @@ class FulfillmentDailyStockQuery extends \yii\db\ActiveQuery
                     'warehouseId' => 'warehouse_id',
                     'externalItemKey' => 'external_item_key',
                     'externalWarehouseKey' => 'external_warehouse_key',
-                ]
+                    'stockDate' => 'stock_date',
+                ],
+                'queryReturns' => [
+                    'maxStockDate' => ['stock_date', FieldQueryBehavior::RETURN_MAX],
+                ],
             ]
         ];
     }

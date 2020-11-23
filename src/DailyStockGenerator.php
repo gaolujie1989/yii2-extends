@@ -8,11 +8,14 @@ namespace lujie\fulfillment;
 use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\QuerySource;
+use lujie\data\exchange\transformers\ChainedTransformer;
+use lujie\extend\helpers\QueryHelper;
 use lujie\fulfillment\models\FulfillmentDailyStock;
 use lujie\fulfillment\models\FulfillmentDailyStockMovement;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use Yii;
 use yii\base\BaseObject;
+use yii\db\Expression;
 use yii\helpers\Json;
 
 /**
@@ -77,10 +80,12 @@ class DailyStockGenerator extends BaseObject
             'pipeline' => [
                 'class' => DbPipeline::class,
                 'modelClass' => FulfillmentDailyStockMovement::class,
-                'indexKeys' => $commonFields
+                'indexKeys' => array_merge($commonFields, ['moved_date'])
             ]
         ]);
         if ($dataExchanger->execute()) {
+            Yii::info('Generate Daily Stock Movements Success,'
+                . ' AffectedRowCounts: ' . Json::encode($dataExchanger->getAffectedRowCounts()), __METHOD__);
             return true;
         }
         Yii::error('Generate Daily Stock Movements Failed,'
@@ -108,22 +113,34 @@ class DailyStockGenerator extends BaseObject
             'external_item_key',
             'external_warehouse_key',
         ];
-        $dailyStockFields = array_map(static function($field) {
+        $dailyStockFields = array_map(static function ($field) {
             return "ds.{$field}";
         }, $commonFields);
-        $dailyMovementFields = array_map(static function($field) {
+        $dailyMovementFields = array_map(static function ($field) {
             return "dsm.{$field}";
         }, $commonFields);
-        $joinCondition = array_map(static function($field) {
+        $joinCondition = array_map(static function ($field) {
             return "ds.{$field} = dsm.{$field}";
         }, $commonFields);
         $joinCondition = implode(' AND ', $joinCondition);
 
         $dataExchanger = new DataExchanger([
+            'transformer' => [
+                'class' => ChainedTransformer::class,
+                'transformers' => [
+                    static function ($data) {
+                        return array_map(static function($values) {
+                            $values['stock_qty'] = ($values['prev_stock_qty'] ?? 0) + ($values['moved_qty'] ?: 0);
+                            unset($values['prev_stock_qty'], $values['moved_qty']);
+                            return $values;
+                        }, $data);
+                    }
+                ],
+            ],
             'pipeline' => [
                 'class' => DbPipeline::class,
                 'modelClass' => FulfillmentDailyStock::class,
-                'indexKeys' => $commonFields
+                'indexKeys' => array_merge($commonFields, ['stock_date'])
             ]
         ]);
 
@@ -133,19 +150,20 @@ class DailyStockGenerator extends BaseObject
 
             //Generate Daily Stock Of Prev Daily Stock Exists.
             $dailyStockQuery = FulfillmentDailyStock::find()->alias('ds')
-                ->leftJoin(['dsm' => FulfillmentDailyStockMovement::tableName()], $joinCondition . " AND dsm.moved_date = {$stockDate}")
+                ->leftJoin(['dsm' => FulfillmentDailyStockMovement::tableName()], $joinCondition . " AND dsm.moved_date = '{$stockDate}'")
                 ->andWhere(['ds.stock_date' => $prevStockDate])
                 ->addSelect($dailyStockFields)
-                ->addSelect(['ds.stock_qty - IFNULL(SUM(moved_qty), 0) as stock_qty'])
-                ->addSelect(["'{$stockDate}' as stock_date"])
+                ->addSelect(['SUM(moved_qty) as moved_qty'])
+                ->addSelect(['ds.stock_qty as prev_stock_qty', new Expression("'{$stockDate}' as stock_date")])
                 ->addGroupBy($dailyStockFields)
+                ->addGroupBy(['prev_stock_qty'])
                 ->asArray();
 
             $dataExchanger->source = new QuerySource([
                 'query' => $dailyStockQuery,
             ]);
             if (!$dataExchanger->execute()) {
-                Yii::error('Generate Daily Stock Movements Failed,'
+                Yii::error('Generate Daily Stocks Failed,'
                     . ' AffectedRowCounts: ' . Json::encode($dataExchanger->getAffectedRowCounts())
                     . ' Errors: ' . Json::encode($dataExchanger->getErrors()), __METHOD__);
                 return false;
@@ -153,19 +171,20 @@ class DailyStockGenerator extends BaseObject
 
             //Generate Daily Stock Of Prev Daily Stock Not Exists. Item Stock is first movement
             $dailyMovementQuery = FulfillmentDailyStockMovement::find()->alias('dsm')
-                ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date <= {$prevStockDate}")
+                ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date <= '{$prevStockDate}'")
                 ->andWhere(['dsm.moved_date' => $stockDate])
                 ->andWhere('ds.stock_date IS NULL')
                 ->addSelect($dailyMovementFields)
-                ->addSelect(['SUM(moved_qty) as stock_qty'])
-                ->addSelect(["'{$stockDate}' as stock_date"])
+                ->addSelect(['SUM(moved_qty) as moved_qty'])
+                ->addSelect([new Expression("'{$stockDate}' as stock_date")])
+                ->addGroupBy($dailyMovementFields)
                 ->asArray();
 
             $dataExchanger->source = new QuerySource([
                 'query' => $dailyMovementQuery,
             ]);
             if (!$dataExchanger->execute()) {
-                Yii::error('Generate Daily Stock Movements Failed,'
+                Yii::error('Generate Daily Stocks Failed,'
                     . ' AffectedRowCounts: ' . Json::encode($dataExchanger->getAffectedRowCounts())
                     . ' Errors: ' . Json::encode($dataExchanger->getErrors()), __METHOD__);
                 return false;
@@ -188,6 +207,7 @@ class DailyStockGenerator extends BaseObject
                 return false;
             }
         }
+        Yii::info('Generate Daily Stocks Success, AffectedRowCounts: ' . Json::encode($dataExchanger->getAffectedRowCounts()), __METHOD__);
         return true;
     }
 }

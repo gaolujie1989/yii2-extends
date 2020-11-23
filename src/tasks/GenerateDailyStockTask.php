@@ -6,11 +6,10 @@
 namespace lujie\fulfillment\tasks;
 
 
-use lujie\fulfillment\models\FulfillmentAccount;
-use lujie\fulfillment\models\FulfillmentItem;
-use lujie\fulfillment\models\FulfillmentWarehouse;
+use lujie\fulfillment\DailyStockGenerator;
 use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
+use yii\di\Instance;
 
 /**
  * Class GenerateDailyStockTask
@@ -30,9 +29,9 @@ class GenerateDailyStockTask extends CronTask
     public $stockDateTo = '-1 days';
 
     /**
-     * @var string
+     * @var DailyStockGenerator
      */
-    public $dailyTimeFormat = 'Y-m-d 23:59:59';
+    public $dailyStockGenerator = DailyStockGenerator::class;
 
     /**
      * @return bool
@@ -41,18 +40,8 @@ class GenerateDailyStockTask extends CronTask
      */
     public function execute(): bool
     {
-        $stockDateFromTime = strtotime(date($this->dailyTimeFormat, strtotime($this->stockDateFrom)));
-        $stockDateToTime = strtotime(date($this->dailyTimeFormat, strtotime($this->stockDateTo)));
-
-        $accountIds = FulfillmentAccount::find()->active()->column();
-        foreach ($accountIds as $accountId) {
-            $warehouseIds = FulfillmentWarehouse::find()
-                ->fulfillmentAccountId($accountId)
-                ->getWarehouseIds();
-            $itemQuery = FulfillmentItem::find()
-                ->fulfillmentAccountId($accountId)
-                ->itemPushed();
-
-        }
+        $this->dailyStockGenerator = Instance::ensure($this->dailyStockGenerator, DailyStockGenerator::class);
+        $this->dailyStockGenerator->generateDailyStockMovements($this->stockDateFrom, $this->stockDateTo);
+        $this->dailyStockGenerator->generateDailyStocks($this->stockDateFrom, $this->stockDateTo);
     }
 }

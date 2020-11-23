@@ -38,7 +38,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function te1stGenerateDailyStockMovements()
+    public function testGenerateDailyStockMovements()
     {
         $dailyStockGenerator = new DailyStockGenerator();
         $this->assertTrue($dailyStockGenerator->generateDailyStockMovements('2020-11-14', '2020-11-15'));

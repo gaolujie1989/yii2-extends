@@ -64,4 +64,22 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         });
         return $data;
     }
+
+    /**
+     * @param string $columnABC
+     * @return int
+     * @inheritdoc
+     */
+    public static function abc2Int(string $columnABC): int
+    {
+        $ten = 0;
+        $columnABC = strtoupper($columnABC);
+        $len = strlen($columnABC);
+        for ($i = 1; $i <= $len; $i++) {
+            $char = substr($columnABC, $i - 1, 1);
+            $int = ord($char);
+            $ten += ($int - 64) * pow(26, $len - $i);
+        }
+        return $ten;
+    }
 }

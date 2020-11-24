@@ -8,6 +8,7 @@ namespace lujie\extend\tests\unit\file;
 
 use lujie\extend\file\readers\ExcelReader;
 use lujie\extend\file\writers\ExcelWriter;
+use lujie\fulfillment\tasks\PullFulfillmentWarehouseStockMovementTask;
 use Yii;
 use yii\helpers\FileHelper;
 
@@ -77,5 +78,16 @@ class ExcelReaderWriterTest extends \Codeception\Test\Unit
         $reader = new ExcelReader();
         $readData = $reader->read($file);
         $this->assertEquals($data, $readData);
+    }
+
+    public function testAbc2int()
+    {
+        $this->assertEquals(1, ExcelReader::abc2Int('A'));
+        $this->assertEquals(10, ExcelReader::abc2Int('J'));
+        $this->assertEquals(26, ExcelReader::abc2Int('Z'));
+        $this->assertEquals(27, ExcelReader::abc2Int('AA'));
+        $this->assertEquals(256, ExcelReader::abc2Int('IV'));
+        $this->assertEquals(702, ExcelReader::abc2Int('ZZ'));
+        $this->assertEquals(703, ExcelReader::abc2Int('AAA'));
     }
 }

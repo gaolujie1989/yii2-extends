@@ -102,7 +102,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         foreach ($sheet->getDrawingCollection() as $drawing) {
             [$startColumn, $startRow] = Coordinate::coordinateFromString($drawing->getCoordinates());
             $extension = $drawing->getExtension();
-            $imagePath = rtrim($this->imageDir, '/') . '/' . $drawing->getCoordinates() . '.' . $extension;
+            $imagePath = rtrim($this->imageDir, '/') . '/' . $sheet->getTitle() . '-' . $drawing->getCoordinates() . '.' . $extension;
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }

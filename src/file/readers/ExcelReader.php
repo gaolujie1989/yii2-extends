@@ -6,9 +6,11 @@
 namespace lujie\extend\file\readers;
 
 use lujie\extend\file\FileReaderInterface;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use yii\base\BaseObject;
+use yii\base\InvalidValueException;
 
 /**
  * Class ExcelReader
@@ -17,15 +19,25 @@ use yii\base\BaseObject;
  */
 class ExcelReader extends BaseObject implements FileReaderInterface
 {
+    /**
+     * @var bool 
+     */
     public $firstLineIsHeader = true;
 
+    /**
+     * @var bool 
+     */
     public $multiSheet = false;
+
+    /**
+     * @var string|null
+     */
+    public $imageDir;
 
     /**
      * @param string $file
      * @return array
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @inheritdoc
      */
     public function read(string $file): array
@@ -34,12 +46,25 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         if ($this->multiSheet) {
             $data = [];
             foreach ($spreadsheet->getAllSheets() as $sheet) {
-                $data[$sheet->getTitle()] = $this->getSheetData($sheet);
+                if ($this->imageDir) {
+                    $data[$sheet->getTitle()] = [
+                        'data' => $this->getSheetData($sheet),
+                        'images' => $this->getSheetImages($sheet),
+                    ];
+                } else {
+                    $data[$sheet->getTitle()] = $this->getSheetData($sheet);
+                }
             }
             return $data;
         }
 
-        return $this->getSheetData($spreadsheet->getActiveSheet());
+        $sheet = $spreadsheet->getActiveSheet();
+        return $this->imageDir
+            ? [
+                'data' => $this->getSheetData($sheet),
+                'images' => $this->getSheetImages($sheet),
+            ]
+            : $this->getSheetData($sheet);
     }
 
     /**
@@ -63,6 +88,43 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             }
         });
         return $data;
+    }
+
+    /**
+     * @param Worksheet $sheet
+     * @return array
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @inheritdoc
+     */
+    public function getSheetImages(Worksheet $sheet): array
+    {
+        $images = [];
+        foreach ($sheet->getDrawingCollection() as $drawing) {
+            [$startColumn, $startRow] = Coordinate::coordinateFromString($drawing->getCoordinates());
+            $extension = $drawing->getExtension();
+            $imagePath = rtrim($this->imageDir, '/') . '/' . $drawing->getCoordinates() . '.' . $extension;
+            if (file_exists($imagePath))
+            switch ($extension) {
+                case 'jpg':
+                case 'jpeg':
+                    $source = imagecreatefromjpeg($drawing->getPath());
+                    imagejpeg($source, $imagePath, 100);
+                    break;
+                case 'gif':
+                    $source = imagecreatefromgif($drawing->getPath());
+                    imagegif($source, $imagePath);
+                    break;
+                case 'png':
+                    $source = imagecreatefrompng($drawing->getPath());
+                    imagepng($source, $imagePath);
+                    break;
+                default:
+                    throw new InvalidValueException('Invalid drawing extension: ' . $extension);
+            }
+            $startColumn = ExcelReader::abc2Int($startColumn);
+            $images[$startRow - 1][$startColumn - 1] = $imagePath;
+        }
+        return $images;
     }
 
     /**

@@ -39,7 +39,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
     /**
      * @var string|null
      */
-    public $imagePathTemplate = '@runtime/excel_images/{title}_{coordinates}_{random}.{ext}';
+    public $imagePathTemplate = '@runtime/excel_images/{title}_{coordinates}_{datetime}_{random}.{ext}';
 
     /**
      * @throws \yii\base\Exception

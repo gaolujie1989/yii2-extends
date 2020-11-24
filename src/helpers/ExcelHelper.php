@@ -19,17 +19,22 @@ class ExcelHelper
      * @param string $file
      * @param bool $firstLineIsHeader
      * @param bool $multiSheet
-     * @param string|null $imageDir
+     * @param bool $readImage
+     * @param string|null $imagePath
      * @return array
+     * @throws \ImagickException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
-    public static function readExcel(string $file, bool $firstLineIsHeader = true, bool $multiSheet = false, ?string $imageDir = null): array
+    public static function readExcel(string $file, bool $firstLineIsHeader = true, bool $multiSheet = false, bool $readImage = true, ?string $imagePathTemplate = null): array
     {
         $excelReader = new ExcelReader();
         $excelReader->firstLineIsHeader = $firstLineIsHeader;
         $excelReader->multiSheet = $multiSheet;
-        $excelReader->imageDir = $imageDir;
+        $excelReader->readImage = $readImage;
+        if ($imagePathTemplate) {
+            $excelReader->imagePathTemplate = $imagePathTemplate;
+        }
         return $excelReader->read($file);
     }
 

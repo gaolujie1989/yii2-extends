@@ -122,12 +122,12 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         foreach ($sheet->getDrawingCollection() as $drawing) {
             [$startColumn, $startRow] = Coordinate::coordinateFromString($drawing->getCoordinates());
             $imagePath = strtr($this->imagePathTemplate, [
-                'title' => $sheet->getTitle(),
-                'coordinates' => $drawing->getCoordinates(),
-                'ext' => $drawing->getExtension(),
-                'date' => date('Ymd'),
-                'datetime' => date('YmdHis'),
-                'random' => random_int(1000, 9999),
+                '{title}' => $sheet->getTitle(),
+                '{coordinates}' => $drawing->getCoordinates(),
+                '{ext}' => $drawing->getExtension(),
+                '{date}' => date('Ymd'),
+                '{datetime}' => date('YmdHis'),
+                '{random}' => random_int(1000, 9999),
             ]);
             if (file_exists($imagePath)) {
                 unlink($imagePath);

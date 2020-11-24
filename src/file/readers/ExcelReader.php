@@ -10,8 +10,9 @@ use lujie\extend\file\FileReaderInterface;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Yii;
 use yii\base\BaseObject;
-use yii\base\InvalidValueException;
+use yii\helpers\FileHelper;
 
 /**
  * Class ExcelReader
@@ -31,13 +32,30 @@ class ExcelReader extends BaseObject implements FileReaderInterface
     public $multiSheet = false;
 
     /**
+     * @var bool
+     */
+    public $readImage = false;
+
+    /**
      * @var string|null
      */
-    public $imageDir;
+    public $imagePathTemplate = '@runtime/excel_images/{title}_{coordinates}_{random}.{ext}';
+
+    /**
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->imagePathTemplate = Yii::getAlias($this->imagePathTemplate);
+        FileHelper::createDirectory($this->imagePathTemplate);
+    }
 
     /**
      * @param string $file
      * @return array
+     * @throws \ImagickException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
@@ -47,7 +65,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         if ($this->multiSheet) {
             $data = [];
             foreach ($spreadsheet->getAllSheets() as $sheet) {
-                if ($this->imageDir) {
+                if ($this->readImage) {
                     $data[$sheet->getTitle()] = [
                         'data' => $this->getSheetData($sheet),
                         'images' => $this->getSheetImages($sheet),
@@ -60,7 +78,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         }
 
         $sheet = $spreadsheet->getActiveSheet();
-        return $this->imageDir
+        return $this->readImage
             ? [
                 'data' => $this->getSheetData($sheet),
                 'images' => $this->getSheetImages($sheet),
@@ -103,8 +121,14 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         $images = [];
         foreach ($sheet->getDrawingCollection() as $drawing) {
             [$startColumn, $startRow] = Coordinate::coordinateFromString($drawing->getCoordinates());
-            $extension = $drawing->getExtension();
-            $imagePath = rtrim($this->imageDir, '/') . '/' . $sheet->getTitle() . '-' . $drawing->getCoordinates() . '.' . $extension;
+            $imagePath = strtr($this->imagePathTemplate, [
+                'title' => $sheet->getTitle(),
+                'coordinates' => $drawing->getCoordinates(),
+                'ext' => $drawing->getExtension(),
+                'date' => date('Ymd'),
+                'datetime' => date('YmdHis'),
+                'random' => random_int(1000, 9999),
+            ]);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }

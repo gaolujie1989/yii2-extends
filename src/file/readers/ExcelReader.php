@@ -103,7 +103,9 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             [$startColumn, $startRow] = Coordinate::coordinateFromString($drawing->getCoordinates());
             $extension = $drawing->getExtension();
             $imagePath = rtrim($this->imageDir, '/') . '/' . $drawing->getCoordinates() . '.' . $extension;
-            if (file_exists($imagePath))
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
             switch ($extension) {
                 case 'jpg':
                 case 'jpeg':

@@ -83,7 +83,11 @@ class ExecuteHelper
 
         try {
             $callable();
-            $resultAttribute && $model->setAttribute($resultAttribute, ['error' => '']);
+            if ($resultAttribute) {
+                $resultValue = $model->getAttribute($resultAttribute);
+                unset($resultValue['error']);
+                $model->setAttribute($resultAttribute, $resultValue);
+            }
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             $model->save(false);
             return true;

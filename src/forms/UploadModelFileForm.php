@@ -106,4 +106,17 @@ class UploadModelFileForm extends UploadModelFile
             [['model_type'], 'in', 'range' => $this->allowedModelTypes],
         ] : []);
     }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeSave($insert): bool
+    {
+        if (empty($this->model_type)) {
+            $this->model_type = reset($this->allowedModelTypes);
+        }
+        return parent::beforeSave($insert);
+    }
 }

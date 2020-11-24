@@ -5,6 +5,7 @@
 
 namespace lujie\extend\file\readers;
 
+use Imagick;
 use lujie\extend\file\FileReaderInterface;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -93,6 +94,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
     /**
      * @param Worksheet $sheet
      * @return array
+     * @throws \ImagickException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
@@ -106,23 +108,9 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
-            switch ($extension) {
-                case 'jpg':
-                case 'jpeg':
-                    $source = imagecreatefromjpeg($drawing->getPath());
-                    imagejpeg($source, $imagePath, 100);
-                    break;
-                case 'gif':
-                    $source = imagecreatefromgif($drawing->getPath());
-                    imagegif($source, $imagePath);
-                    break;
-                case 'png':
-                    $source = imagecreatefrompng($drawing->getPath());
-                    imagepng($source, $imagePath);
-                    break;
-                default:
-                    throw new InvalidValueException('Invalid drawing extension: ' . $extension);
-            }
+            $imagick = new Imagick();
+            $imagick->readImage($drawing->getPath());
+            $imagick->writeImage($imagePath);
             $startColumn = ExcelReader::abc2Int($startColumn);
             $images[$startRow - 1][$startColumn - 1] = $imagePath;
         }

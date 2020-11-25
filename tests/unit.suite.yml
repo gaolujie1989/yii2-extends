@@ -8,3 +8,5 @@ modules:
     - Asserts
     - Yii2:
         configFile: 'tests/unit/_config.php'
+#        cleanup: false
+#        transaction: false

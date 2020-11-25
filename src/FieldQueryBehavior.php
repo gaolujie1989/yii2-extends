@@ -271,13 +271,15 @@ class FieldQueryBehavior extends Behavior
             }
             $value = array_shift($params);
             if ($value === []) {
-                Yii::error("Query {$name} of {$this->owner->modelClass} condition value is empty array", __METHOD__);
-            }
-            $field = $this->buildAliasField($field);
-            if ($op) {
-                $owner->andWhere([$op, $field, $value]);
+                Yii::error("Query {$name} of {$this->owner->modelClass} condition value is empty array, set condition 1=2", __METHOD__);
+                $owner->andWhere('1=2');
             } else {
-                $owner->andWhere([$field => $value]);
+                $field = $this->buildAliasField($field);
+                if ($op) {
+                    $owner->andWhere([$op, $field, $value]);
+                } else {
+                    $owner->andWhere([$field => $value]);
+                }
             }
         }
         return $owner;

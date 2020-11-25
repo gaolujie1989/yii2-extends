@@ -59,7 +59,7 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             [['name2'], 'validateName'],
-            [['country', 'city', 'name2', 'address1'], 'required'],
+            [['country', 'city', 'postal_code', 'name2', 'address1'], 'required'],
             [['state', 'city', 'name1', 'name2', 'name3', 'address1', 'address2', 'address3',
                 'postal_code', 'email', 'phone'], 'default', 'value' => ''],
             [['country'], 'string', 'max' => 2],

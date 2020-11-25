@@ -692,7 +692,7 @@ class PlentyMarketsRestClient extends OAuth2
      */
     public function applyAccessTokenToRequest($request, $accessToken): void
     {
-        $request->addHeaders(['Authorization' => 'Bearer ' . $accessToken->getToken()]);
+        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
     }
 
     /**

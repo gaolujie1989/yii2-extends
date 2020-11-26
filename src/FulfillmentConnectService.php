@@ -184,6 +184,7 @@ abstract class FulfillmentConnectService extends Component implements BootstrapI
      */
     public function afterOutboundOrderSaved(AfterSaveEvent $event): void
     {
+        /** @var BaseActiveRecord $outboundOrder */
         $outboundOrder = $event->sender;
         if (!$this->isOrderNeedPush($outboundOrder)) {
             return;

@@ -6,7 +6,6 @@
 namespace lujie\extend\db;
 
 use Yii;
-use yii\base\InvalidValueException;
 
 /**
  * Class OffsetBatchQueryResult

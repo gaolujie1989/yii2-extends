@@ -4,11 +4,11 @@
  */
 
 return [
-    'lujie/yii2-sales-order-center' => [
-        'name' => 'lujie/yii2-sales-order-center',
+    'lujie/yii2-sales-channel' => [
+        'name' => 'lujie/yii2-channel',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/sales/order/center' => __DIR__ . '/src',
+            '@lujie/sales/channel' => __DIR__ . '/src',
         ]
     ],
 ];

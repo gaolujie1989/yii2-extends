@@ -3,10 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\sales\order\center;
-
-use Yii;
-use yii\helpers\ArrayHelper;
+namespace lujie\sales\channel;
 
 /**
  * Class Module
@@ -15,12 +12,4 @@ use yii\helpers\ArrayHelper;
  */
 class Module extends \lujie\extend\base\Module
 {
-    /**
-     * @return string
-     * @inheritdoc
-     */
-    public static function getSystemCurrency(): string
-    {
-        return ArrayHelper::getValue(Yii::$app->params, 'sales.systemCurrency', 'EUR');
-    }
 }

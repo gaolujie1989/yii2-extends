@@ -6,7 +6,6 @@
 namespace lujie\fulfillment;
 
 use lujie\extend\constants\StatusConst;
-use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\forms\FulfillmentItemForm;
@@ -18,11 +17,9 @@ use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
 use yii\base\InvalidArgumentException;
-use yii\base\InvalidValueException;
 use yii\base\ModelEvent;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
-use yii\db\Exception;
 
 /**
  * Class FulfillmentConnectService

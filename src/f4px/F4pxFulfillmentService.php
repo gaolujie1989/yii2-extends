@@ -45,6 +45,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @var string
      */
+    public $externalOrderStatusField = 'status';
+
+    /**
+     * @var string
+     */
     public $externalWarehouseKeyField = 'warehouse_code';
 
     /**
@@ -324,28 +329,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
 
-        $statusMap = [
-            $this->orderProcessingStatus => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-            $this->orderCancelledStatus => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-            $this->orderErrorStatus => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-            $this->orderHoldStatus => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-            $this->orderShippedStatus => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
-        ];
-        if (isset($statusMap[$externalOrderStatus])) {
-            $fulfillmentOrder->fulfillment_status = $statusMap[$externalOrderStatus];
-        }
-        if ($fulfillmentOrder->fulfillment_status === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED) {
-            $externalOrderAdditional['packageNumbers'] = [$externalOrder['shipping_no']];
+        if ($externalOrderStatus === $this->orderShippedStatus) {
+            $externalOrderAdditional['trackingNumbers'] = [$externalOrder['shipping_no']];
             $externalOrderAdditional['carrier'] = $externalOrder['logistics_product_code'];
             $externalOrderAdditional['shippingAt'] = (int)($externalOrder['complete_time'] / 1000);
             $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
-            if (empty($externalOrderAdditional['packageNumbers'])) {
-                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
-            }
         }
-
-        $fulfillmentOrder->order_pulled_at = time();
-        return $fulfillmentOrder->save(false);
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
     #endregion

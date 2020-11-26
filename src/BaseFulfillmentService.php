@@ -81,6 +81,9 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     public $externalMovementTimeField = 'createdAt';
 
     /**
+     * [
+     *      'external_order_status' => 'fulfillment_status'
+     * ]
      * @var array
      */
     public $fulfillmentStatusMap = [];

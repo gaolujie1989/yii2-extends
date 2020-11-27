@@ -270,7 +270,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullNewFulfillmentOrders(int $accountId, ?int $createdAtFrom = null, ?int $createdAtTo = null): void
+    public function pullNewSalesChannelOrders(int $accountId, ?int $createdAtFrom = null, ?int $createdAtTo = null): void
     {
         $salesChannel = $this->getSalesChannel($accountId);
         if ($createdAtFrom === null) {
@@ -292,7 +292,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pushFulfillmentOrders(): void
+    public function pushSalesChannelOrders(): void
     {
         $accountIds = SalesChannelAccount::find()->active()->column();
 

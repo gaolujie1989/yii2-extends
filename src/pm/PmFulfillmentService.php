@@ -54,6 +54,11 @@ class PmFulfillmentService extends BaseFulfillmentService
     /**
      * @var string
      */
+    public $externalOrderStatusField = 'statusId';
+
+    /**
+     * @var string
+     */
     public $externalWarehouseKeyField = 'id';
 
     /**

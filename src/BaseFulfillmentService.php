@@ -58,6 +58,11 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     /**
      * @var string
      */
+    public $externalOrderStatusField = 'status';
+
+    /**
+     * @var string
+     */
     public $externalWarehouseKeyField = 'id';
 
     /**
@@ -81,6 +86,9 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     public $externalMovementTimeField = 'createdAt';
 
     /**
+     * [
+     *      'external_order_status' => 'fulfillment_status'
+     * ]
      * @var array
      */
     public $fulfillmentStatusMap = [];
@@ -240,6 +248,7 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
     {
         $fulfillmentOrder->order_pulled_at = time();
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
+        $fulfillmentOrder->external_order_status = $externalOrder[$this->externalOrderStatusField];
 
         $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->external_order_status] ?? null;
         if ($newFulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED

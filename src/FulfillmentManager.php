@@ -470,6 +470,28 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param int|null $shippedAtFrom
+     * @param int|null $shippedAtTo
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullShippedFulfillmentOrders(int $accountId, ?int $shippedAtFrom = null, ?int $shippedAtTo = null): void
+    {
+        $fulfillmentService = $this->getFulfillmentService($accountId);
+        if ($shippedAtFrom === null) {
+            $shippedAtFrom = FulfillmentOrder::find()
+                ->fulfillmentAccountId($accountId)
+                ->shipped()
+                ->maxExternalUpdatedAt() ?: 0;
+        }
+        if ($shippedAtTo === null) {
+            $shippedAtTo = time();
+        }
+        $fulfillmentService->pullShippedFulfillmentOrders($shippedAtFrom, $shippedAtTo);
+    }
+
+    /**
+     * @param int $accountId
      * @param array $condition
      * @throws InvalidConfigException
      * @inheritdoc
@@ -535,13 +557,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentItem::find()
             ->fulfillmentAccountId($accountIds)
             ->newUpdatedItems()
-            ->notQueued();
-        foreach ($query->each() as $fulfillmentItem) {
-            $this->pushFulfillmentItemJob($fulfillmentItem);
-        }
-        $query = FulfillmentItem::find()
-            ->fulfillmentAccountId($accountIds)
-            ->queuedButNotExecuted();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentItem) {
             $this->pushFulfillmentItemJob($fulfillmentItem);
         }
@@ -557,7 +573,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->pending()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
         }
@@ -565,7 +581,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toHolding()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
         }
@@ -573,7 +589,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toShipping()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushShipFulfillmentOrderJob($fulfillmentOrder);
         }
@@ -581,7 +597,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toCancelling()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
         }

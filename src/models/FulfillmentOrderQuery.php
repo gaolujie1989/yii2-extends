@@ -28,7 +28,6 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
  * @method FulfillmentOrderQuery orderPulledAtTo($orderPulledAtTo)
  *
- * @method FulfillmentOrderQuery notQueued()
  * @method FulfillmentOrderQuery pending()
  * @method FulfillmentOrderQuery processing()
  * @method FulfillmentOrderQuery shipped()
@@ -37,6 +36,8 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery toShipping()
  * @method FulfillmentOrderQuery toCancelling()
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
+ *
+ * @method int maxExternalUpdatedAt()
  *
  * @method array|FulfillmentOrder[] all($db = null)
  * @method array|FulfillmentOrder|null one($db = null)
@@ -72,9 +73,6 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
                 'queryConditions' => [
-                    'notQueued' => [
-                        '!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED
-                    ],
                     'pending' => [
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_PENDING,
@@ -114,6 +112,9 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                         ]
                     ],
                 ],
+                'queryReturns' => [
+                    'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX]
+                ],
                 'querySorts' => [
                     'orderByOrderPulledAt' => ['order_pulled_at']
                 ],
@@ -122,14 +123,18 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param int $queuedDuration
      * @return $this
      * @inheritdoc
      */
-    public function queuedButNotExecuted($queuedDuration = 3600): self
+    public function notQueuedOrQueuedButNotExecuted($queuedDuration = 3600): self
     {
-        return $this->andWhere(['AND',
-            ['order_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
-            ['<=', 'order_pushed_at', time() - $queuedDuration],
+        return $this->andWhere(['OR',
+            ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['AND',
+                ['order_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
+                ['<=', 'updated_at', time() - $queuedDuration],
+            ]
         ]);
     }
 

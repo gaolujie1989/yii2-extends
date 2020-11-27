@@ -7,6 +7,7 @@ namespace lujie\project\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use lujie\extend\helpers\ModelHelper;
 use lujie\project\models\Task;
 
 /**
@@ -21,17 +22,16 @@ class TaskForm extends Task
      */
     public function rules(): array
     {
-        return [
-            [['task_group_id', 'parent_task_id',
-                'priority', 'status', 'owner_id', 'executor_id'], 'default', 'value' => 0],
-            [['project_id', 'task_group_id', 'name', 'owner_id'], 'required'],
-            [['project_id', 'task_group_id', 'parent_task_id',
-                'priority', 'status', 'owner_id', 'executor_id'], 'integer'],
-            [['name'], 'string', 'max' => 250],
-            [['description'], 'string', 'max' => 1000],
+        $rules = parent::rules();
+        ModelHelper::removeAttributesRules($rules, [
+            'due_at', 'started_at', 'finished_at',
+            'archived_at', 'archived_by',
+            'deleted_at', 'deleted_by'
+        ]);
+        return array_merge(parent::rules(), [
             [['due_time', 'started_time', 'finished_time'], 'date'],
             [['attachments'], 'safe'],
-        ];
+        ]);
     }
 
     /**

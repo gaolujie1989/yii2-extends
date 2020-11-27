@@ -70,6 +70,28 @@ class Task extends \lujie\project\base\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'dateAlias' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'due_time' => 'due_at',
+                    'started_time' => 'started_at',
+                    'finished_time' => 'finished_at'
+                ]
+            ],
+            'position' => [
+                'class' => PositionBehavior::class,
+                'groupAttributes' => ['project_id', 'task_group_id']
+            ]
+        ]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array

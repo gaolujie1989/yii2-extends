@@ -19,7 +19,7 @@ class m191010_095025_task extends Migration
             'parent_task_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'name' => $this->string(250)->notNull()->defaultValue(''),
-            'description' => $this->string(1000)->notNull()->defaultValue(''),
+            'description' => $this->text()->notNull(),
             'additional' => $this->json(),
             'priority' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),

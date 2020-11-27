@@ -11,23 +11,25 @@ use yii2tech\ar\position\PositionBehavior;
 /**
  * This is the model class for table "{{%task}}".
  *
- * @property string $task_id
- * @property string $project_id
- * @property string $task_group_id
- * @property string $parent_task_id
+ * @property int $task_id
+ * @property int $project_id
+ * @property int $task_group_id
+ * @property int $parent_task_id
  * @property int $position
  * @property string $name
- * @property string $description
- * @property array $additional
+ * @property string|null $description
+ * @property array|null $additional
  * @property int $priority
  * @property int $status
- * @property string $owner_id
- * @property string $executor_id
+ * @property int $owner_id
+ * @property int $executor_id
  * @property int $due_at
  * @property int $started_at
  * @property int $finished_at
  * @property int $archived_at
+ * @property int $archived_by
  * @property int $deleted_at
+ * @property int $deleted_by
  *
  * @property string $due_time
  * @property string $started_time
@@ -55,37 +57,16 @@ class Task extends \lujie\project\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['project_id', 'task_group_id', 'parent_task_id',
-                'position', 'priority', 'status', 'owner_id', 'executor_id',
-                'due_at', 'started_at', 'finished_at', 'archived_at', 'deleted_at'], 'default', 'value' => 0],
-            [['project_id', 'task_group_id', 'parent_task_id',
-                'position', 'priority', 'status', 'owner_id', 'executor_id',
-                'due_at', 'started_at', 'finished_at', 'archived_at', 'deleted_at'], 'integer'],
+            [['project_id', 'task_group_id', 'parent_task_id', 'position', 'priority', 'status', 'owner_id', 'executor_id',
+                'due_at', 'started_at', 'finished_at', 'archived_at', 'archived_by', 'deleted_at', 'deleted_by'], 'default', 'value' => 0],
+            [['name', 'description'], 'default', 'value' => ''],
+            [['additional'], 'default', 'value' => []],
+            [['project_id', 'task_group_id', 'parent_task_id', 'position', 'priority', 'status', 'owner_id', 'executor_id',
+                'due_at', 'started_at', 'finished_at', 'archived_at', 'archived_by', 'deleted_at', 'deleted_by'], 'integer'],
+            [['description'], 'string'],
+            [['additional'], 'safe'],
             [['name'], 'string', 'max' => 250],
-            [['description'], 'string', 'max' => 1000],
         ];
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'dateAlias' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'due_time' => 'due_at',
-                    'started_time' => 'started_at',
-                    'finished_time' => 'finished_at'
-                ]
-            ],
-            'position' => [
-                'class' => PositionBehavior::class,
-                'groupAttributes' => ['project_id', 'task_group_id']
-            ]
-        ]);
     }
 
     /**
@@ -110,7 +91,9 @@ class Task extends \lujie\project\base\db\ActiveRecord
             'started_at' => Yii::t('lujie/project', 'Started At'),
             'finished_at' => Yii::t('lujie/project', 'Finished At'),
             'archived_at' => Yii::t('lujie/project', 'Archived At'),
+            'archived_by' => Yii::t('lujie/project', 'Archived By'),
             'deleted_at' => Yii::t('lujie/project', 'Deleted At'),
+            'deleted_by' => Yii::t('lujie/project', 'Deleted By'),
         ];
     }
 

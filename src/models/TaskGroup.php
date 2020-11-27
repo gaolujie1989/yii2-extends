@@ -10,7 +10,7 @@ use yii2tech\ar\position\PositionBehavior;
  * This is the model class for table "{{%task_group}}".
  *
  * @property int $task_group_id
- * @property string $project_id
+ * @property int $project_id
  * @property int $position
  * @property string $name
  * @property string $description
@@ -34,6 +34,8 @@ class TaskGroup extends \lujie\project\base\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['project_id', 'position'], 'default', 'value' => 0],
+            [['name', 'description'], 'default', 'value' => ''],
             [['project_id', 'position'], 'integer'],
             [['name'], 'string', 'max' => 250],
             [['description'], 'string', 'max' => 1000],
@@ -67,7 +69,7 @@ class TaskGroup extends \lujie\project\base\db\ActiveRecord
             'description' => Yii::t('lujie/project', 'Description'),
         ];
     }
-
+    
     /**
      * {@inheritdoc}
      * @return TaskGroupQuery the active query used by this AR class.

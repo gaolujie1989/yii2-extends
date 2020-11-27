@@ -299,7 +299,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
         $query = SalesChannelOrder::find()
             ->salesChannelAccountId($accountIds)
             ->toShipped()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $salesChannelOrder) {
             $this->pushShipSalesChannelOrderJob($salesChannelOrder);
         }
@@ -307,7 +307,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
         $query = SalesChannelOrder::find()
             ->salesChannelAccountId($accountIds)
             ->toCancelled()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $salesChannelOrder) {
             $this->pushCancelSalesChannelOrderJob($salesChannelOrder);
         }

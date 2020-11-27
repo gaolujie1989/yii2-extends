@@ -5,6 +5,7 @@ namespace lujie\sales\channel\models;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
+use lujie\fulfillment\models\FulfillmentItemQuery;
 use lujie\fulfillment\models\FulfillmentOrderQuery;
 use lujie\sales\channel\constants\SalesChannelConst;
 
@@ -25,7 +26,6 @@ use lujie\sales\channel\constants\SalesChannelConst;
  * @method SalesChannelOrderQuery externalOrderStatus($externalOrderStatus)
  * @method SalesChannelOrderQuery orderPushedStatus($orderPushedStatus)
  *
- * @method SalesChannelOrderQuery notQueued()
  * @method SalesChannelOrderQuery pending()
  * @method SalesChannelOrderQuery processing()
  * @method SalesChannelOrderQuery pendingOrProcessing()
@@ -66,42 +66,39 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
                     'orderPushedStatus' => 'order_pushed_status',
                 ],
                 'queryConditions' => [
-                    'notQueued' => [
-                        '!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED
-                    ],
                     'pending' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
                         ]
                     ],
                     'processing' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_PAID,
                         ]
                     ],
                     'pendingOrProcessing' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
                             SalesChannelConst::CHANNEL_STATUS_PAID,
                         ]
                     ],
                     'shipped' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_SHIPPED,
                         ]
                     ],
                     'cancelled' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_CANCELLED,
                         ]
                     ],
                     'toShipped' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED,
                         ]
                     ],
                     'toCancelled' => [
-                        'fulfillment_status' => [
+                        'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED,
                         ]
                     ],
@@ -116,4 +113,19 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
         ];
     }
 
+    /**
+     * @param int $queuedDuration
+     * @return $this
+     * @inheritdoc
+     */
+    public function notQueuedOrQueuedButNotExecuted($queuedDuration = 3600): self
+    {
+        return $this->andWhere(['OR',
+            ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['AND',
+                ['order_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
+                ['<=', 'updated_at', time() - $queuedDuration],
+            ]
+        ]);
+    }
 }

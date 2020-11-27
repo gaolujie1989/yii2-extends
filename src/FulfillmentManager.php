@@ -470,6 +470,28 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param int|null $shippedAtFrom
+     * @param int|null $shippedAtTo
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullShippedFulfillmentOrders(int $accountId, ?int $shippedAtFrom = null, ?int $shippedAtTo = null): void
+    {
+        $fulfillmentService = $this->getFulfillmentService($accountId);
+        if ($shippedAtFrom === null) {
+            $shippedAtFrom = FulfillmentOrder::find()
+                ->fulfillmentAccountId($accountId)
+                ->shipped()
+                ->maxExternalUpdatedAt() ?: 0;
+        }
+        if ($shippedAtTo === null) {
+            $shippedAtTo = time();
+        }
+        $fulfillmentService->pullShippedFulfillmentOrders($shippedAtFrom, $shippedAtTo);
+    }
+
+    /**
+     * @param int $accountId
      * @param array $condition
      * @throws InvalidConfigException
      * @inheritdoc

@@ -38,6 +38,8 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery toCancelling()
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
+ * @method int maxExternalUpdatedAt()
+ *
  * @method array|FulfillmentOrder[] all($db = null)
  * @method array|FulfillmentOrder|null one($db = null)
  * @method array|FulfillmentOrder[] each($batchSize = 100, $db = null)
@@ -113,6 +115,9 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                             FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING,
                         ]
                     ],
+                ],
+                'queryReturns' => [
+                    'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX]
                 ],
                 'querySorts' => [
                     'orderByOrderPulledAt' => ['order_pulled_at']

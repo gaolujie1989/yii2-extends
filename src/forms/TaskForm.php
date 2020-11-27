@@ -25,10 +25,10 @@ class TaskForm extends Task
         $rules = parent::rules();
         ModelHelper::removeAttributesRules($rules, [
             'due_at', 'started_at', 'finished_at',
-            'archived_at', 'archived_by',
-            'deleted_at', 'deleted_by'
+            'archived_at', 'archived_by', 'deleted_at', 'deleted_by',
+            'additional'
         ]);
-        return array_merge(parent::rules(), [
+        return array_merge($rules, [
             [['due_time', 'started_time', 'finished_time'], 'date'],
             [['attachments'], 'safe'],
         ]);

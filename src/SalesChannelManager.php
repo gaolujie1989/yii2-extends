@@ -9,12 +9,12 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\ExecuteHelper;
-use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\jobs\BaseSalesChannelOrderJob;
 use lujie\sales\channel\jobs\CancelSalesChannelOrderJob;
 use lujie\sales\channel\jobs\ShipSalesChannelOrderJob;
+use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
 use yii\base\Application;
@@ -54,6 +54,16 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @var string
      */
     public $mutexNamePrefix = 'salesChannel:';
+
+    /**
+     * @var int
+     */
+    public $pullOrderLimit = 100;
+
+    /**
+     * @var int
+     */
+    public $pullOrderBatchSize = 20;
 
     /**
      * @throws InvalidConfigException
@@ -231,6 +241,77 @@ class SalesChannelManager extends Component implements BootstrapInterface
     #endregion
 
     #region Order Pull
+
+    /**
+     * @param int $accountId
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullSalesChannelOrders(int $accountId): void
+    {
+        $query = SalesChannelOrder::find()
+            ->salesChannelOrderId($accountId)
+            ->pendingOrProcessing()
+            ->orderByOrderPulledAt()
+            ->limit($this->pullOrderLimit);
+        if (!$query->exists()) {
+            return;
+        }
+        $salesChannel = $this->getSalesChannel($accountId);
+        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
+            $salesChannel->pullSalesOrders($batch);
+        }
+    }
+
+    /**
+     * @param int $accountId
+     * @param int|null $createdAtFrom
+     * @param int|null $shippedAtTo
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullNewFulfillmentOrders(int $accountId, ?int $createdAtFrom = null, ?int $createdAtTo = null): void
+    {
+        $salesChannel = $this->getSalesChannel($accountId);
+        if ($createdAtFrom === null) {
+            $createdAtFrom = SalesChannelOrder::find()
+                ->salesChannelAccountId($accountId)
+                ->maxExternalCreatedAt() ?: 0;
+        }
+        if ($createdAtTo === null) {
+            $createdAtTo = time();
+        }
+        $salesChannel->pullNewSalesOrders($createdAtFrom, $createdAtTo);
+    }
+
+    #endregion
+
+    #region Recheck and Retry To Push
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushFulfillmentOrders(): void
+    {
+        $accountIds = SalesChannelAccount::find()->active()->column();
+
+        $query = SalesChannelOrder::find()
+            ->salesChannelAccountId($accountIds)
+            ->toShipped()
+            ->notQueued();
+        foreach ($query->each() as $salesChannelOrder) {
+            $this->pushShipSalesChannelOrderJob($salesChannelOrder);
+        }
+
+        $query = SalesChannelOrder::find()
+            ->salesChannelAccountId($accountIds)
+            ->toCancelled()
+            ->notQueued();
+        foreach ($query->each() as $salesChannelOrder) {
+            $this->pushCancelSalesChannelOrderJob($salesChannelOrder);
+        }
+    }
 
     #endregion
 }

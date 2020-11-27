@@ -7,8 +7,6 @@ namespace lujie\sales\channel;
 
 
 use lujie\data\loader\DataLoaderInterface;
-use lujie\fulfillment\models\FulfillmentAccount;
-use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\BaseObject;
@@ -27,11 +25,6 @@ abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterf
      * @var SalesChannelAccount
      */
     public $account;
-
-    /**
-     * @var DataLoaderInterface
-     */
-    public $productLoader;
 
     #region External Model Key Field
 
@@ -65,7 +58,6 @@ abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterf
         if ($this->account === null || !($this->account instanceof SalesChannelAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be SalesChannelAccount');
         }
-        $this->productLoader = Instance::ensure($this->productLoader, DataLoaderInterface::class);
     }
 
     #region Order Pull

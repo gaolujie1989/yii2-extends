@@ -15,4 +15,13 @@ use lujie\common\account\models\Account;
 class SalesChannelAccount extends Account
 {
     public const MODEL_TYPE = 'SALES_CHANNEL';
+
+    /**
+     * @return SalesChannelAccountQuery
+     * @inheritdoc
+     */
+    public static function find(): SalesChannelAccountQuery
+    {
+        return (new SalesChannelAccountQuery(static::class))->modelType(static::MODEL_TYPE);
+    }
 }

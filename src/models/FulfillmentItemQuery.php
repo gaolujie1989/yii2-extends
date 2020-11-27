@@ -19,7 +19,6 @@ use lujie\extend\constants\ExecStatusConst;
  * @method FulfillmentItemQuery externalItemKey($externalItemKey)
  * @method FulfillmentItemQuery itemPushedStatus($itemPushedStatus)
  *
- * @method FulfillmentItemQuery notQueued()
  * @method FulfillmentItemQuery itemPushed()
  * @method FulfillmentItemQuery newUpdatedItems()
  * @method FulfillmentItemQuery orderByStockPulledAt($sort = SORT_ASC)
@@ -50,7 +49,6 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
                     'itemPushedStatus' => 'item_pushed_status',
                 ],
                 'queryConditions' => [
-                    'notQueued' => ['!=', 'item_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
                     'itemPushed' => ['>', 'item_pushed_at', 0],
                     'newUpdatedItems' => 'item_updated_at > item_pushed_at',
                 ],
@@ -62,14 +60,18 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param int $queuedDuration
      * @return $this
      * @inheritdoc
      */
-    public function queuedButNotExecuted($queuedDuration = 3600): self
+    public function notQueuedOrQueuedButNotExecuted($queuedDuration = 3600): self
     {
-        return $this->andWhere(['AND',
-            ['item_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
-            ['<=', 'item_pushed_at', time() - $queuedDuration],
+        return $this->andWhere(['OR',
+            ['!=', 'item_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['AND',
+                ['item_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
+                ['<=', 'updated_at', time() - $queuedDuration],
+            ]
         ]);
     }
 

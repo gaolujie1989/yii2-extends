@@ -557,13 +557,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentItem::find()
             ->fulfillmentAccountId($accountIds)
             ->newUpdatedItems()
-            ->notQueued();
-        foreach ($query->each() as $fulfillmentItem) {
-            $this->pushFulfillmentItemJob($fulfillmentItem);
-        }
-        $query = FulfillmentItem::find()
-            ->fulfillmentAccountId($accountIds)
-            ->queuedButNotExecuted();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentItem) {
             $this->pushFulfillmentItemJob($fulfillmentItem);
         }
@@ -579,7 +573,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->pending()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
         }
@@ -587,7 +581,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toHolding()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
         }
@@ -595,7 +589,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toShipping()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushShipFulfillmentOrderJob($fulfillmentOrder);
         }
@@ -603,7 +597,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
             ->toCancelling()
-            ->notQueued();
+            ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
         }

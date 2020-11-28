@@ -43,4 +43,13 @@ class ModelDataQuery extends \yii\db\ActiveQuery
         ];
     }
 
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getDataTexts(): array
+    {
+        return $this->select(['data_text'])->indexBy('model_id')->column();
+    }
+
 }

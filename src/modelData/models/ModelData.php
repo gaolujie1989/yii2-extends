@@ -2,6 +2,7 @@
 
 namespace lujie\common\modelData\models;
 
+use lujie\extend\compressors\GzCompressor;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -15,7 +16,7 @@ use Yii;
  * @property int $model_data_id
  * @property string $model_type
  * @property int $model_id
- * @property resource|null $data_text
+ * @property resource|null|string $data_text
  */
 class ModelData extends \yii\db\ActiveRecord
 {
@@ -65,4 +66,53 @@ class ModelData extends \yii\db\ActiveRecord
     {
         return (new ModelDataQuery(static::class))->modelType(static::MODEL_TYPE);
     }
+
+    #region Helpful Functions
+
+    /**
+     * @param int $modelId
+     * @return static|null
+     * @inheritdoc
+     */
+    public static function findByModelId(int $modelId): ?self
+    {
+        return static::find()->modelId($modelId)->one();
+    }
+
+    /**
+     * @param array $modelIds
+     * @param null $compressor
+     * @return array
+     * @inheritdoc
+     */
+    public static function getDataTextsByModelIds(array $modelIds, $compressor = null): array
+    {
+        $dataTexts = static::find()
+            ->modelId($modelIds)
+            ->getDataTexts();
+        if ($compressor === false) {
+            return $dataTexts;
+        }
+        if ($compressor === null) {
+            $compressor = new GzCompressor();
+        }
+        foreach ($dataTexts as $key => $dataText) {
+            $dataTexts[$key] = $compressor->unCompress($dataText);
+        }
+        return $dataTexts;
+    }
+
+    /**
+     * @param int $modelId
+     * @param null $compressor
+     * @return string|null
+     * @inheritdoc
+     */
+    public static function getDataTextByModelId(int $modelId, $compressor = null): ?string
+    {
+        $dataTexts = static::getDataTextsByModelIds([$modelId], $compressor);
+        return $dataTexts[$modelId] ?? null;
+    }
+
+    #endregion
 }

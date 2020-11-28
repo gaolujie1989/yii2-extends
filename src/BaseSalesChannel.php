@@ -6,12 +6,12 @@
 namespace lujie\sales\channel;
 
 
-use lujie\data\loader\DataLoaderInterface;
+use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelOrder;
+use Yii;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
-use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -44,7 +44,12 @@ abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterf
      * ]
      * @var array
      */
-    public $salesChannelStatusMap = [];
+    public $salesChannelStatusMap = [
+        'wait_payment' => SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
+        'paid' => SalesChannelConst::CHANNEL_STATUS_PAID,
+        'shipped' => SalesChannelConst::CHANNEL_STATUS_SHIPPED,
+        'cancelled' => SalesChannelConst::CHANNEL_STATUS_CANCELLED,
+    ];
 
     #endregion
 

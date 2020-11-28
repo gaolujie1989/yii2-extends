@@ -138,7 +138,6 @@ class PmSalesChannelTest extends \Codeception\Test\Unit
      */
     public function testShipSalesOrder(): void
     {
-
     }
 
     /**
@@ -146,6 +145,5 @@ class PmSalesChannelTest extends \Codeception\Test\Unit
      */
     public function testCancelSalesOrder(): void
     {
-
     }
 }

@@ -49,15 +49,16 @@ trait PlentyMarketsBatchRestTrait
 
     /**
      * @param array $orderIds
+     * @param array $with
      * @return array
      * @inheritdoc
      */
-    public function getOrdersByOrderIds(array $orderIds): array
+    public function getOrdersByOrderIds(array $orderIds, array $with = []): array
     {
         /** @var PlentyMarketBatchRequest $batchRequest */
         $batchRequest = $this->createBatchRequest();
         foreach ($orderIds as $orderId) {
-            $batchRequest->getOrder(['id' => $orderId]);
+            $batchRequest->getOrder(['id' => $orderId, 'with' => $with]);
         }
         $batchResponses = $batchRequest->send();
         return ArrayHelper::map($batchResponses, 'content.id', 'content');

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\pm;
+namespace lujie\sales\channel\pm;
 
 use lujie\data\loader\BaseDataLoader;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
@@ -14,7 +14,7 @@ use yii\base\NotSupportedException;
 
 /**
  * Class PmSalesChannelLoader
- * @package lujie\fulfillment\pm
+ * @package lujie\sales\channel\pm
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class PmSalesChannelLoader extends BaseDataLoader
@@ -31,7 +31,7 @@ class PmSalesChannelLoader extends BaseDataLoader
 
     /**
      * @param int|mixed|string $key
-     * @return PmFulfillmentService|null
+     * @return PmSalesChannel|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

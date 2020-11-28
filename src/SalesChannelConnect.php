@@ -6,19 +6,11 @@
 namespace lujie\sales\channel;
 
 
-use lujie\extend\constants\StatusConst;
 use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\fulfillment\constants\FulfillmentConst;
-use lujie\fulfillment\forms\FulfillmentOrderForm;
-use lujie\fulfillment\models\FulfillmentAccount;
-use lujie\fulfillment\models\FulfillmentOrder;
-use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
-use yii\base\InvalidArgumentException;
-use yii\base\ModelEvent;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
@@ -54,7 +46,7 @@ class SalesChannelConnect extends Component implements BootstrapInterface
 
     /**
      * [
-     *      'fulfillment_status' => 'order_status'
+     *      'sales_channel_status' => 'order_status'
      * ]
      * @var array
      */
@@ -69,8 +61,8 @@ class SalesChannelConnect extends Component implements BootstrapInterface
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
-        Event::on(SalesChannelOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderSaved']);
-        Event::on(SalesChannelOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderSaved']);
+        Event::on(SalesChannelOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterSalesChannelOrderSaved']);
+        Event::on(SalesChannelOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterSalesChannelOrderSaved']);
     }
 
     #region Outbound Order Trigger
@@ -163,11 +155,11 @@ class SalesChannelConnect extends Component implements BootstrapInterface
 
     /**
      * @param BaseActiveRecord $outboundOrder
-     * @param SalesChannelOrder $fulfillmentOrder
+     * @param SalesChannelOrder $salesChannelOrder
      * @return mixed
      * @inheritdoc
      */
-    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $fulfillmentOrder);
+    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder);
 
     #endregion
 }

@@ -11,8 +11,8 @@ use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
 /**
- * Class PushPendingFulfillmentOrderTask
- * @package lujie\fulfillment\tasks
+ * Class PushSalesChannelOrderTask
+ * @package lujie\sales\channel\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class PushSalesChannelOrderTask extends CronTask

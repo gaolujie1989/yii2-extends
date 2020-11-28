@@ -3,9 +3,10 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\pm;
+namespace lujie\sales\channel\pm;
 
 
+use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
@@ -17,7 +18,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Class PmSalesChannel
- * @package lujie\fulfillment\pm
+ * @package lujie\sales\channel\pm
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class PmSalesChannel extends BaseSalesChannel
@@ -163,6 +164,27 @@ class PmSalesChannel extends BaseSalesChannel
         ];
         $eachOrders = $this->client->eachOrders($condition);
         return iterator_to_array($eachOrders, false);
+    }
+
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @param array $externalOrder
+     * @inheritdoc
+     */
+    protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, array $externalOrder): void
+    {
+        $salesChannelOrder->external_created_at = strtotime($externalOrder['createdAt']);
+        $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
+        $orderDates = ArrayHelper::map( $externalOrder['dates'], 'typeId', 'date');
+        $orderProperties = ArrayHelper::map( $externalOrder['properties'], 'typeId', 'value');
+        $salesChannelOrder->external_order_additional = [
+            'CreatedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']],
+            'PaidOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['PaidOn']],
+            'OutgoingItemsBookedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']],
+            'external_order_no' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']],
+            'orderItems' => $externalOrder['orderItems'],
+            'shippingAddress' => [],
+        ];
     }
 
     #endregion

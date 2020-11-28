@@ -13,7 +13,7 @@ use yii\di\Instance;
 
 /**
  * Class PullSalesChannelOrderTask
- * @package lujie\fulfillment\tasks
+ * @package lujie\sales\channel\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class PullSalesChannelOrderTask extends CronTask

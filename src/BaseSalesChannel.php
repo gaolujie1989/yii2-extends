@@ -140,8 +140,16 @@ abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterf
         if ($newSalesChannelStatus) {
             $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
         }
+        $this->updateSalesChannelOrderAdditional($salesChannelOrder, $externalOrder);
         return $salesChannelOrder->save(false);
     }
+
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @param array $externalOrder
+     * @inheritdoc
+     */
+    abstract protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, array $externalOrder): void;
 
     #endregion
 

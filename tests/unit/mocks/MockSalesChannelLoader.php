@@ -11,7 +11,7 @@ use lujie\sales\channel\models\SalesChannelAccount;
 
 /**
  * Class MockSalesChannelLoader
- * @package lujie\fulfillment\tests\unit\mocks
+ * @package lujie\sales\channel\tests\unit\mocks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class MockSalesChannelLoader extends BaseDataLoader

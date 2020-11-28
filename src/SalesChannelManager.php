@@ -132,23 +132,23 @@ class SalesChannelManager extends Component implements BootstrapInterface
     }
 
     /**
-     * @param SalesChannelOrder $fulfillmentOrder
+     * @param SalesChannelOrder $salesChannelOrder
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushShipSalesChannelOrderJob(SalesChannelOrder $fulfillmentOrder): void
+    protected function pushShipSalesChannelOrderJob(SalesChannelOrder $salesChannelOrder): void
     {
-        $this->pushSalesChannelOrderActionJob($fulfillmentOrder, ['class' => ShipSalesChannelOrderJob::class]);
+        $this->pushSalesChannelOrderActionJob($salesChannelOrder, ['class' => ShipSalesChannelOrderJob::class]);
     }
 
     /**
-     * @param SalesChannelOrder $fulfillmentOrder
+     * @param SalesChannelOrder $salesChannelOrder
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushCancelSalesChannelOrderJob(SalesChannelOrder $fulfillmentOrder): void
+    protected function pushCancelSalesChannelOrderJob(SalesChannelOrder $salesChannelOrder): void
     {
-        $this->pushSalesChannelOrderActionJob($fulfillmentOrder, ['class' => CancelSalesChannelOrderJob::class]);
+        $this->pushSalesChannelOrderActionJob($salesChannelOrder, ['class' => CancelSalesChannelOrderJob::class]);
     }
 
     /**

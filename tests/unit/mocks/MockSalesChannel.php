@@ -11,8 +11,8 @@ use lujie\sales\channel\models\SalesChannelOrder;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class MockFulfillmentService
- * @package lujie\fulfillment\tests\unit\mocks
+ * Class MockSalesChannel
+ * @package lujie\sales\channel\tests\unit\mocks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class MockSalesChannel extends BaseSalesChannel

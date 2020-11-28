@@ -177,13 +177,15 @@ class PmSalesChannel extends BaseSalesChannel
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
         $orderDates = ArrayHelper::map( $externalOrder['dates'], 'typeId', 'date');
         $orderProperties = ArrayHelper::map( $externalOrder['properties'], 'typeId', 'value');
+        $orderAddresses = ArrayHelper::index( $externalOrder['addresses'], 'pivot.typeId');
+        $orderItems = ArrayHelper::filter($externalOrder['orderItems'], ['!orderItemName', '!properties', '!dates', '!amounts']);
         $salesChannelOrder->external_order_additional = [
-            'CreatedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']],
-            'PaidOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['PaidOn']],
-            'OutgoingItemsBookedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']],
-            'external_order_no' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']],
-            'orderItems' => $externalOrder['orderItems'],
-            'shippingAddress' => [],
+            'CreatedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']] ?? '',
+            'PaidOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['PaidOn']] ?? '',
+            'OutgoingItemsBookedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']] ?? '',
+            'external_order_no' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
+            'orderItems' => $orderItems,
+            'shippingAddress' => $orderAddresses[PlentyMarketsConst::ADDRESS_TYPE_IDS['delivery']] ?? [],
         ];
     }
 

@@ -110,7 +110,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function afterFulfillmentItemSaved(AfterSaveEvent $event): void
+    public function afterChannelOrderUpdated(AfterSaveEvent $event): void
     {
         /** @var SalesChannelOrderForm $channelOrderForm */
         $channelOrderForm = $event->sender;

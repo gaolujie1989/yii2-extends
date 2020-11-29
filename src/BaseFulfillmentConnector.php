@@ -231,7 +231,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
             return $fulfillmentOrder->save(false);
         }
-        if (empty($this->order2fulfillmentStatusMap[$orderStatus])) {
+        if (empty($this->fulfillmentStatusMap[$orderStatus])) {
             return null;
         }
         $fulfillmentOrder->order_status = $orderStatus;

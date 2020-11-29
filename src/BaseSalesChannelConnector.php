@@ -19,7 +19,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\sales\channel
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class SalesChannelConnect extends Component implements BootstrapInterface
+class BaseSalesChannelConnector extends Component implements BootstrapInterface
 {
     /**
      * @var BaseActiveRecord
@@ -108,7 +108,7 @@ class SalesChannelConnect extends Component implements BootstrapInterface
 
         $salesChannelOrder->order_status = $orderStatus;
         $salesChannelOrder->order_updated_at = $outboundOrder->updated_at;
-        $salesChannelOrder->sales_channel_status =$this->salesChannelStatusMap[$orderStatus];
+        $salesChannelOrder->sales_channel_status = $this->salesChannelStatusMap[$orderStatus];
         return $salesChannelOrder->save(false);
     }
 

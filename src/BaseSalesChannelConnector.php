@@ -19,7 +19,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\sales\channel
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class BaseSalesChannelConnector extends Component implements BootstrapInterface
+abstract class BaseSalesChannelConnector extends Component implements BootstrapInterface
 {
     /**
      * @var BaseActiveRecord

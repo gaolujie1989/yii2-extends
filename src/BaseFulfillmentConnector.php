@@ -26,7 +26,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class FulfillmentConnectService extends Component implements BootstrapInterface
+abstract class BaseFulfillmentConnector extends Component implements BootstrapInterface
 {
     /**
      * @var BaseActiveRecord

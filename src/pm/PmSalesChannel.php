@@ -177,16 +177,106 @@ class PmSalesChannel extends BaseSalesChannel
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
         $orderDates = ArrayHelper::map( $externalOrder['dates'], 'typeId', 'date');
         $orderProperties = ArrayHelper::map( $externalOrder['properties'], 'typeId', 'value');
-        $orderAddresses = ArrayHelper::index( $externalOrder['addresses'], 'pivot.typeId');
-        $orderItems = ArrayHelper::filter($externalOrder['orderItems'], ['!orderItemName', '!properties', '!dates', '!amounts']);
+
         $salesChannelOrder->external_order_additional = [
             'CreatedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']] ?? '',
             'PaidOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['PaidOn']] ?? '',
             'OutgoingItemsBookedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']] ?? '',
             'external_order_no' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
-            'orderItems' => $orderItems,
-            'shippingAddress' => $orderAddresses[PlentyMarketsConst::ADDRESS_TYPE_IDS['delivery']] ?? [],
+            'orderItems' => $this->transformPmOrderItems($externalOrder),
+            'shippingAddress' => $this->transformPmShippingAddresses($externalOrder),
         ];
+    }
+
+    /**
+     * @param array $addressData
+     * @return array
+     * @inheritdoc
+     */
+    protected function transformPmShippingAddresses(array $externalOrder)
+    {
+        $orderAddresses = ArrayHelper::index($externalOrder['addresses'], 'pivot.typeId');
+        $addressData = $orderAddresses[PlentyMarketsConst::ADDRESS_TYPE_IDS['delivery']] ?? [];
+        if (empty($addressData)) {
+            return [];
+        }
+        $addressOptionValues = ArrayHelper::map($addressData['options'], 'typeId', 'value');
+        $countryCode = PlentyMarketsConst::COUNTRY_CODES[$addressData['countryId'] ?: 0] ?? '';
+
+        if (empty($addressData['address2']) && preg_match('/\d+/', $addressData['address1'], $matches, PREG_OFFSET_CAPTURE)) {
+            $prefixLength = $matches[0][1];
+            $streetNoLength = strlen($matches[0][0]);
+            if ($countryCode === 'UK' || $countryCode === 'GB') {
+                $addressData['address2'] = substr($addressData['address1'], 0, $prefixLength + $streetNoLength);
+                $addressData['address1'] = substr($addressData['address1'], $prefixLength + $streetNoLength);
+            } else {
+                $addressData['address2'] = substr($addressData['address1'], $prefixLength);
+                $addressData['address1'] = substr($addressData['address1'], 0, $prefixLength);
+            }
+        }
+
+        return [
+            'address_id' => $addressData['id'],
+
+            'name1' => $addressData['name1'],
+            'name2' => $addressData['name2'],
+            'name3' => $addressData['name3'],
+            'address1' => $addressData['address1'],
+            'address2' => $addressData['address2'],
+            'address3' => $addressData['address3'],
+
+            'postal_code' => $addressData['postalCode'],
+            'town' => $addressData['town'],
+            'country' => $countryCode,
+            'country_id' => $addressData['countryId'] ?: 0,
+            'state_id' => $addressData['stateId'] ?: 0,
+            'phone' => $addressOptionValues[PlentyMarketsConst::ADDRESS_OPTION_TYPE_IDS['Telephone']] ?? '',
+            'email' => $addressOptionValues[PlentyMarketsConst::ADDRESS_OPTION_TYPE_IDS['Email']] ?? '',
+
+            'pm_created_at' => strtotime($addressData['createdAt']),
+            'pm_updated_at' => strtotime($addressData['updatedAt']),
+        ];
+    }
+
+    /**
+     * @param array $pmOrderData
+     * @return array
+     * @inheritdoc
+     */
+    protected function transformPmOrderItems(array $pmOrderData): array
+    {
+        $pmOrderItems = [];
+        foreach ($pmOrderData['orderItems'] as $orderItemData) {
+            $orderItemReferenceIds = ArrayHelper::map($orderItemData['references'], 'referenceType', 'referenceOrderItemId');
+            $orderItemPropertiesValues = ArrayHelper::map($orderItemData['properties'], 'typeId', 'value');
+            $pmOrderItems[$orderItemData['id']] = [
+                'order_item_id' => $orderItemData['id'],
+                'order_id' => $orderItemData['orderId'],
+                'variation_id' => $orderItemData['itemVariationId'],
+                'item_id' => $orderItemData['variation']['itemId'] ?? 0,
+
+                'variation_no' => $orderItemData['variation']['number'] ?? '',
+                'shipping_profile_id' => $orderItemData['shippingProfileId'],
+                'shipping_profile_name' => $this->shippingProfiles[$orderItemData['shippingProfileId']] ?? '',
+                'quantity' => $orderItemData['quantity'],
+
+                'bundle_type' => isset($orderItemReferenceIds['bundle']) ? 'bundle_item' : '',
+                'bundle_order_item_id' => $orderItemReferenceIds['bundle'] ?? 0,
+                'parent_order_item_id' => $orderItemReferenceIds['parent'] ?? 0,
+
+                'properties' => $orderItemPropertiesValues,
+
+                'pm_created_at' => strtotime($orderItemData['createdAt']),
+                'pm_updated_at' => strtotime($orderItemData['updatedAt']),
+            ];
+        }
+        $bundleOrderItemIds = ArrayHelper::getColumn($pmOrderItems, 'bundle_order_item_id');
+        foreach ($bundleOrderItemIds as $bundleOrderItemId) {
+            if (isset($pmOrderItems[$bundleOrderItemId])) {
+                $pmOrderItems[$bundleOrderItemId]['bundle_type'] = 'bundle';
+            }
+        }
+        return $pmOrderItems;
     }
 
     #endregion

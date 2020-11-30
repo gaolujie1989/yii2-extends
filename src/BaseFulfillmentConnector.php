@@ -26,7 +26,7 @@ use yii\db\BaseActiveRecord;
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class FulfillmentConnectService extends Component implements BootstrapInterface
+abstract class BaseFulfillmentConnector extends Component implements BootstrapInterface
 {
     /**
      * @var BaseActiveRecord
@@ -231,7 +231,7 @@ abstract class FulfillmentConnectService extends Component implements BootstrapI
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
             return $fulfillmentOrder->save(false);
         }
-        if (empty($this->order2fulfillmentStatusMap[$orderStatus])) {
+        if (empty($this->fulfillmentStatusMap[$orderStatus])) {
             return null;
         }
         $fulfillmentOrder->order_status = $orderStatus;

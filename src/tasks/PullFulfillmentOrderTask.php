@@ -34,6 +34,11 @@ class PullFulfillmentOrderTask extends CronTask
     public $shippedAtTo;
 
     /**
+     * @var int
+     */
+    public $timeStep = 43200;
+
+    /**
      * @return bool
      * @throws InvalidConfigException
      * @inheritdoc
@@ -45,7 +50,10 @@ class PullFulfillmentOrderTask extends CronTask
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
         $accountIds = FulfillmentAccount::find()->active()->column();
         foreach ($accountIds as $accountId) {
-            $this->fulfillmentManager->pullShippedFulfillmentOrders($accountId, $this->shippedAtFrom, $this->shippedAtTo);
+            for ($timeFrom = $this->shippedAtFrom; $timeFrom <= $this->shippedAtTo; $timeFrom += $this->timeStep) {
+                $timeTo = min($timeFrom + $this->timeStep, $this->shippedAtTo);
+                $this->fulfillmentManager->pullShippedFulfillmentOrders($accountId, $timeFrom, $timeTo);
+            }
             $this->fulfillmentManager->pullFulfillmentOrders($accountId);
         }
         return true;

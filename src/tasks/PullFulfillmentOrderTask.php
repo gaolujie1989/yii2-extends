@@ -26,12 +26,12 @@ class PullFulfillmentOrderTask extends CronTask
     /**
      * @var ?string
      */
-    public $shippedAtFrom;
+    public $shippedAtFrom = '-1 days';
 
     /**
      * @var ?string
      */
-    public $shippedAtTo;
+    public $shippedAtTo = 'now';
 
     /**
      * @var int
@@ -45,8 +45,8 @@ class PullFulfillmentOrderTask extends CronTask
      */
     public function execute(): bool
     {
-        $this->shippedAtFrom = $this->shippedAtFrom ? strtotime($this->shippedAtFrom) : $this->shippedAtFrom;
-        $this->shippedAtTo = $this->shippedAtTo ? strtotime($this->shippedAtTo) : $this->shippedAtTo;
+        $this->shippedAtFrom = is_string($this->shippedAtFrom) ? strtotime($this->shippedAtFrom) : $this->shippedAtFrom;
+        $this->shippedAtTo = is_string($this->shippedAtTo) ? strtotime($this->shippedAtTo) : $this->shippedAtTo;
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
         $accountIds = FulfillmentAccount::find()->active()->column();
         foreach ($accountIds as $accountId) {

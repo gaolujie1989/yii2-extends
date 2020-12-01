@@ -14,6 +14,7 @@ use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
+use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
@@ -65,6 +66,18 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
         Event::on(BaseSalesChannel::class, BaseSalesChannel::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED, [$this, 'afterSalesChannelOrderUpdate']);
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (empty($this->outboundOrderClass)) {
+            throw new InvalidConfigException('The property `outboundOrderClass` must be set.');
+        }
     }
 
     #region Outbound Order Trigger

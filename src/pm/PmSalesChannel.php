@@ -256,6 +256,7 @@ class PmSalesChannel extends BaseSalesChannel
                 'item_id' => $orderItemData['variation']['itemId'] ?? 0,
 
                 'variation_no' => $orderItemData['variation']['number'] ?? '',
+//                'order_item_name' => $orderItemData['orderItemName'],
                 'shipping_profile_id' => $orderItemData['shippingProfileId'],
                 'shipping_profile_name' => $this->shippingProfiles[$orderItemData['shippingProfileId']] ?? '',
                 'quantity' => $orderItemData['quantity'],
@@ -264,7 +265,7 @@ class PmSalesChannel extends BaseSalesChannel
                 'bundle_order_item_id' => $orderItemReferenceIds['bundle'] ?? 0,
                 'parent_order_item_id' => $orderItemReferenceIds['parent'] ?? 0,
 
-                'properties' => $orderItemPropertiesValues,
+//                'properties' => $orderItemPropertiesValues,
 
                 'pm_created_at' => strtotime($orderItemData['createdAt']),
                 'pm_updated_at' => strtotime($orderItemData['updatedAt']),

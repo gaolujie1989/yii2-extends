@@ -34,6 +34,11 @@ class PullSalesChannelOrderTask extends CronTask
     public $createdAtTo;
 
     /**
+     * @var int
+     */
+    public $timeStep = 43200;
+
+    /**
      * @return bool
      * @throws InvalidConfigException
      * @inheritdoc
@@ -45,7 +50,11 @@ class PullSalesChannelOrderTask extends CronTask
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountIds = SalesChannelAccount::find()->active()->column();
         foreach ($accountIds as $accountId) {
-            $this->salesChannelManager->pullNewSalesChannelOrders($accountId, $this->createdAtFrom, $this->createdAtTo);
+            for ($timeFrom = $this->createdAtFrom; $timeFrom <= $this->createdAtTo; $timeFrom += $this->timeStep) {
+                $timeTo = min($timeFrom + $this->timeStep, $this->createdAtTo);
+                $this->salesChannelManager->pullNewSalesChannelOrders($accountId, $timeFrom, $timeTo);
+            }
+
             $this->salesChannelManager->pullSalesChannelOrders($accountId);
         }
         return true;

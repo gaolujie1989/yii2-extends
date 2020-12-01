@@ -23,7 +23,7 @@ use yii\db\BaseActiveRecord;
 abstract class BaseSalesChannelConnector extends Component implements BootstrapInterface
 {
     /**
-     * @var BaseActiveRecord
+     * @var string|BaseActiveRecord
      */
     public $outboundOrderClass;
 

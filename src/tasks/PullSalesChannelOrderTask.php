@@ -24,12 +24,12 @@ class PullSalesChannelOrderTask extends CronTask
     public $salesChannelManager = 'salesChannelManager';
 
     /**
-     * @var ?string
+     * @var int|string
      */
     public $createdAtFrom = '-1 days';
 
     /**
-     * @var ?string
+     * @var int|string
      */
     public $createdAtTo = 'now';
 

@@ -182,9 +182,9 @@ class PmSalesChannel extends BaseSalesChannel
             'CreatedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']] ?? '',
             'PaidOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['PaidOn']] ?? '',
             'OutgoingItemsBookedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']] ?? '',
-            'external_order_no' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
-            'orderItems' => $this->transformPmOrderItems($externalOrder),
-            'shippingAddress' => $this->transformPmShippingAddresses($externalOrder),
+            'ExternalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
+//            'OrderItems' => $this->transformPmOrderItems($externalOrder),
+//            'ShippingAddress' => $this->transformPmShippingAddresses($externalOrder),
         ];
     }
 

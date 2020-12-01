@@ -225,7 +225,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder));
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
 
-        MockFulfillmentService::$EXTERNAL_ORDER_DATA['ORDER_K1']['order_status'] = 'SHIPPED';
+        MockFulfillmentService::$EXTERNAL_ORDER_DATA['ORDER_K1']['status'] = 'SHIPPED';
         $fulfillmentService->pullFulfillmentOrders([$fulfillmentOrder]);
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PICKING, $fulfillmentOrder->fulfillment_status);
 

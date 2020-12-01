@@ -246,6 +246,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @inheritdoc
      */
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
@@ -262,12 +265,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         if ($newFulfillmentStatus) {
             $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
         }
-
-        if ($fulfillmentOrder->save(false)) {
-            $this->triggerFulfillmentOrderEvent($fulfillmentOrder, $externalOrder);
-            return true;
-        }
-        return false;
+        return FulfillmentOrder::getDb()->transaction(function() use ($fulfillmentOrder, $externalOrder) {
+            if ($fulfillmentOrder->save(false)) {
+                $this->triggerFulfillmentOrderEvent($fulfillmentOrder, $externalOrder);
+                return true;
+            }
+            return false;
+        });
     }
 
     /**

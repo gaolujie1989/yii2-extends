@@ -145,7 +145,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if ($newSalesChannelStatus) {
             $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
         }
-        $this->updateSalesChannelOrderAdditional($salesChannelOrder, $externalOrder);
         return SalesChannelOrder::getDb()->transaction(function() use ($salesChannelOrder, $externalOrder) {
             if ($salesChannelOrder->save(false)) {
                 $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
@@ -154,13 +153,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         });
     }
-
-    /**
-     * @param SalesChannelOrder $salesChannelOrder
-     * @param array $externalOrder
-     * @inheritdoc
-     */
-    abstract protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, array $externalOrder): void;
 
     /**
      * @param SalesChannelOrder $salesChannelOrder

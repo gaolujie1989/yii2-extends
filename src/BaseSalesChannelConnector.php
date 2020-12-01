@@ -8,6 +8,7 @@ namespace lujie\sales\channel;
 
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
+use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -39,19 +40,23 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
 
     /**
      * [
-     *      'order_status' => 'sales_channel_status'
+     *      'order_status' => [
+     *          'from_sales_channel_status' => 'to_sales_channel_status'
+     *      ]
      * ]
      * @var array
      */
-    public $salesChannelStatusMap = [];
+    public $salesChannelStatusTransitions = [];
 
     /**
      * [
-     *      'sales_channel_status' => 'order_status'
+     *      'sales_channel_status' => [
+     *          'from_order_status' => 'to_order_status'
+     *      ]
      * ]
      * @var array
      */
-    public $orderStatusMap = [];
+    public $orderStatusTransitions = [];
 
     /**
      * @param \yii\base\Application $app
@@ -96,19 +101,18 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     public function updateSalesChannelOrder(BaseActiveRecord $outboundOrder): ?bool
     {
         $orderId = $outboundOrder->primaryKey;
-        $salesChannelOrder = SalesChannelOrder::find()->orderId($orderId)->one();
+        $salesChannelOrder = SalesChannelOrderForm::find()->orderId($orderId)->one();
         if ($salesChannelOrder === null) {
             return null;
         }
 
         $orderStatus = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
-        if (empty($this->salesChannelStatusMap[$orderStatus])) {
-            return null;
-        }
-
         $salesChannelOrder->order_status = $orderStatus;
         $salesChannelOrder->order_updated_at = $outboundOrder->updated_at;
-        $salesChannelOrder->sales_channel_status = $this->salesChannelStatusMap[$orderStatus];
+        $newSalesChannelStatus = $this->salesChannelStatusTransitions[$orderStatus][$salesChannelOrder->sales_channel_status] ?? null;
+        if ($newSalesChannelStatus) {
+            $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+        }
         return $salesChannelOrder->save(false);
     }
 
@@ -137,19 +141,15 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         if ($outboundOrder === null) {
             $outboundOrder = $this->createOutboundOrder($salesChannelOrder, $externalOrder);
         }
-        if (empty($this->orderStatusMap[$salesChannelOrder->sales_channel_status])) {
-            return null;
+        $orderStatus = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
+        $newOrderStatus = $this->orderStatusTransitions[$salesChannelOrder->sales_channel_status][$orderStatus] ?? null;
+        if ($newOrderStatus) {
+            $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
+            $salesChannelOrder->order_status = $newOrderStatus;
         }
 
-        $orderStatus = $this->orderStatusMap[$salesChannelOrder->sales_channel_status];
-        $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $orderStatus);
         $this->updateOutboundOrderAdditional($outboundOrder, $salesChannelOrder, $externalOrder);
-        if ($outboundOrder->save(false)) {
-            //skip trigger event
-            $salesChannelOrder->updateAttributes(['order_status' => $orderStatus]);
-            return true;
-        }
-        return false;
+        return $outboundOrder->save(false) && $salesChannelOrder->save(false);
     }
 
     /**

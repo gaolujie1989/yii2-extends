@@ -6,6 +6,7 @@
 namespace lujie\sales\channel;
 
 
+use lujie\extend\helpers\TransactionHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
@@ -130,6 +131,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): bool
@@ -143,11 +146,13 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
         }
         $this->updateSalesChannelOrderAdditional($salesChannelOrder, $externalOrder);
-        if ($salesChannelOrder->save(false)) {
-            $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
-            return true;
-        }
-        return false;
+        return SalesChannelOrder::getDb()->transaction(function() use ($salesChannelOrder, $externalOrder) {
+            if ($salesChannelOrder->save(false)) {
+                $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
+                return true;
+            }
+            return false;
+        });
     }
 
     /**

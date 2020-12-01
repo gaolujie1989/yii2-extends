@@ -9,6 +9,7 @@ use Imagick;
 use lujie\extend\file\FileReaderInterface;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Yii;
 use yii\base\BaseObject;
@@ -114,11 +115,11 @@ class ExcelReader extends BaseObject implements FileReaderInterface
      * @return array
      * @throws \ImagickException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @inheritdoc
      */
     public function getSheetImages(Worksheet $sheet): array
     {
         $images = [];
+        /** @var Drawing $drawing */
         foreach ($sheet->getDrawingCollection() as $drawing) {
             [$startColumn, $startRow] = Coordinate::coordinateFromString($drawing->getCoordinates());
             $imagePath = strtr($this->imagePathTemplate, [
@@ -136,7 +137,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             $imagick->readImage($drawing->getPath());
             $imagick->writeImage($imagePath);
             $startColumn = ExcelReader::abc2Int($startColumn);
-            $images[$startRow - 1][$startColumn - 1] = $imagePath;
+            $images[(int)$startRow - 1][$startColumn - 1] = $imagePath;
         }
         return $images;
     }

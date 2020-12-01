@@ -7,10 +7,10 @@ namespace lujie\sales\channel;
 
 
 use lujie\sales\channel\constants\SalesChannelConst;
+use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelOrder;
-use Yii;
-use yii\base\BaseObject;
+use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 
@@ -19,8 +19,10 @@ use yii\helpers\ArrayHelper;
  * @package lujie\sales\channel
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterface
+abstract class BaseSalesChannel extends Component implements SalesChannelInterface
 {
+    public const EVENT_SALES_CHANNEL_ORDER_UPDATED = 'SALES_CHANNEL_ORDER_UPDATED';
+
     /**
      * @var SalesChannelAccount
      */
@@ -141,7 +143,11 @@ abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterf
             $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
         }
         $this->updateSalesChannelOrderAdditional($salesChannelOrder, $externalOrder);
-        return $salesChannelOrder->save(false);
+        if ($salesChannelOrder->save(false)) {
+            $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -150,6 +156,19 @@ abstract class BaseSalesChannel extends BaseObject implements SalesChannelInterf
      * @inheritdoc
      */
     abstract protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, array $externalOrder): void;
+
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @param array $externalOrder
+     * @inheritdoc
+     */
+    protected function triggerSalesChannelOrderEvent(SalesChannelOrder $salesChannelOrder, array $externalOrder): void
+    {
+        $event = new SalesChannelOrderEvent();
+        $event->salesChannelOrder = $salesChannelOrder;
+        $event->externalOrder = $externalOrder;
+        $this->trigger(self::EVENT_SALES_CHANNEL_ORDER_UPDATED, $event);
+    }
 
     #endregion
 

@@ -9,6 +9,7 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
 use lujie\fulfillment\constants\FulfillmentConst;
+use lujie\fulfillment\events\FulfillmentOrderEvent;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
@@ -16,7 +17,7 @@ use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use Yii;
-use yii\base\BaseObject;
+use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -26,8 +27,10 @@ use yii\helpers\ArrayHelper;
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BaseFulfillmentService extends BaseObject implements FulfillmentServiceInterface
+abstract class BaseFulfillmentService extends Component implements FulfillmentServiceInterface
 {
+    public const EVENT_FULFILLMENT_ORDER_UPDATED = 'FULFILLMENT_ORDER_UPDATED';
+
     /**
      * @var FulfillmentAccount
      */
@@ -260,7 +263,24 @@ abstract class BaseFulfillmentService extends BaseObject implements FulfillmentS
             $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
         }
 
-        return $fulfillmentOrder->save(false);
+        if ($fulfillmentOrder->save(false)) {
+            $this->triggerFulfillmentOrderEvent($fulfillmentOrder, $externalOrder);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @param array $externalOrder
+     * @inheritdoc
+     */
+    protected function triggerFulfillmentOrderEvent(FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
+    {
+        $event = new FulfillmentOrderEvent();
+        $event->fulfillmentOrder = $fulfillmentOrder;
+        $event->externalOrder = $externalOrder;
+        $this->trigger(self::EVENT_FULFILLMENT_ORDER_UPDATED, $event);
     }
 
     #endregion

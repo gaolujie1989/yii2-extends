@@ -266,7 +266,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
     /**
      * @param int $accountId
      * @param int|null $createdAtFrom
-     * @param int|null $shippedAtTo
+     * @param int|null $createdAtTo
      * @throws InvalidConfigException
      * @inheritdoc
      */

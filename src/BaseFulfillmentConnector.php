@@ -18,6 +18,7 @@ use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\base\ModelEvent;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
@@ -88,6 +89,21 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
         Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated']);
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (empty($this->itemClass)) {
+            throw new InvalidConfigException('The property `itemClass` must be set.');
+        }
+        if (empty($this->outboundOrderClass)) {
+            throw new InvalidConfigException('The property `outboundOrderClass` must be set.');
+        }
     }
 
     #region Item Trigger

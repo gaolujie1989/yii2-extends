@@ -26,12 +26,12 @@ class PullSalesChannelOrderTask extends CronTask
     /**
      * @var ?string
      */
-    public $createdAtFrom;
+    public $createdAtFrom = '-1 days';
 
     /**
      * @var ?string
      */
-    public $createdAtTo;
+    public $createdAtTo = 'now';
 
     /**
      * @var int
@@ -45,8 +45,8 @@ class PullSalesChannelOrderTask extends CronTask
      */
     public function execute(): bool
     {
-        $this->createdAtFrom = $this->createdAtFrom ? strtotime($this->createdAtFrom) : $this->createdAtFrom;
-        $this->createdAtTo = $this->createdAtTo ? strtotime($this->createdAtTo) : $this->createdAtTo;
+        $this->createdAtFrom = is_string($this->createdAtFrom) ? strtotime($this->createdAtFrom) : $this->createdAtFrom;
+        $this->createdAtTo = is_string($this->createdAtTo) ? strtotime($this->createdAtTo) : $this->createdAtTo;
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountIds = SalesChannelAccount::find()->active()->column();
         foreach ($accountIds as $accountId) {

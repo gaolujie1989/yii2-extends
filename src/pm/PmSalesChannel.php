@@ -182,9 +182,9 @@ class PmSalesChannel extends BaseSalesChannel
             'CreatedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']] ?? '',
             'PaidOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['PaidOn']] ?? '',
             'OutgoingItemsBookedOn' => $orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']] ?? '',
-            'external_order_no' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
-            'orderItems' => $this->transformPmOrderItems($externalOrder),
-            'shippingAddress' => $this->transformPmShippingAddresses($externalOrder),
+            'ExternalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
+//            'OrderItems' => $this->transformPmOrderItems($externalOrder),
+//            'ShippingAddress' => $this->transformPmShippingAddresses($externalOrder),
         ];
     }
 
@@ -256,6 +256,7 @@ class PmSalesChannel extends BaseSalesChannel
                 'item_id' => $orderItemData['variation']['itemId'] ?? 0,
 
                 'variation_no' => $orderItemData['variation']['number'] ?? '',
+//                'order_item_name' => $orderItemData['orderItemName'],
                 'shipping_profile_id' => $orderItemData['shippingProfileId'],
                 'shipping_profile_name' => $this->shippingProfiles[$orderItemData['shippingProfileId']] ?? '',
                 'quantity' => $orderItemData['quantity'],
@@ -264,7 +265,7 @@ class PmSalesChannel extends BaseSalesChannel
                 'bundle_order_item_id' => $orderItemReferenceIds['bundle'] ?? 0,
                 'parent_order_item_id' => $orderItemReferenceIds['parent'] ?? 0,
 
-                'properties' => $orderItemPropertiesValues,
+//                'properties' => $orderItemPropertiesValues,
 
                 'pm_created_at' => strtotime($orderItemData['createdAt']),
                 'pm_updated_at' => strtotime($orderItemData['updatedAt']),

@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
  */
 abstract class BaseSalesChannel extends Component implements SalesChannelInterface
 {
-    public const EVENT_SALES_CHANNEL_ORDER_UPDATED = 'SALES_CHANNEL_ORDER_UPDATED';
+    public const EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED = 'SALES_CHANNEL_ORDER_UPDATED';
 
     /**
      * @var SalesChannelAccount
@@ -167,7 +167,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $event = new SalesChannelOrderEvent();
         $event->salesChannelOrder = $salesChannelOrder;
         $event->externalOrder = $externalOrder;
-        $this->trigger(self::EVENT_SALES_CHANNEL_ORDER_UPDATED, $event);
+        $this->trigger(self::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED, $event);
     }
 
     #endregion

@@ -7,6 +7,7 @@ namespace lujie\sales\channel;
 
 
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -61,8 +62,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
-        Event::on(SalesChannelOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterSalesChannelOrderSaved']);
-        Event::on(SalesChannelOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterSalesChannelOrderSaved']);
+        Event::on(BaseSalesChannel::class, BaseSalesChannel::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED, [$this, 'afterSalesChannelOrderUpdate']);
     }
 
     #region Outbound Order Trigger
@@ -117,22 +117,21 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     #region Fulfillment Order Trigger
 
     /**
-     * @param AfterSaveEvent $event
+     * @param SalesChannelOrderEvent $event
      * @inheritdoc
      */
-    public function afterSalesChannelOrderSaved(AfterSaveEvent $event): void
+    public function afterSalesChannelOrderUpdate(SalesChannelOrderEvent $event): void
     {
-        /** @var SalesChannelOrder $salesChannelOrder */
-        $salesChannelOrder = $event->sender;
-        $this->updateOutboundOrder($salesChannelOrder);
+        $this->updateOutboundOrder($event->salesChannelOrder, $event->externalOrder);
     }
 
     /**
      * @param SalesChannelOrder $salesChannelOrder
+     * @param array $externalOrder
      * @return bool|null
      * @inheritdoc
      */
-    public function updateOutboundOrder(SalesChannelOrder $salesChannelOrder): ?bool
+    public function updateOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?bool
     {
         $outboundOrder = $this->outboundOrderClass::findOne($salesChannelOrder->order_id);
         if ($outboundOrder === null) {

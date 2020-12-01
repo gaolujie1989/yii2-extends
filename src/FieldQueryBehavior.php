@@ -29,7 +29,7 @@ use yii\helpers\Inflector;
  * @method int getId()
  * @method array getIds()
  *
- * @property Query|ActiveQuery $owner
+ * @property ActiveQuery $owner
  *
  * @package lujie\db\fieldQuery\behaviors
  * @author Lujie Zhou <gao_lujie@live.cn>

@@ -143,7 +143,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
 
         $orderStatus = $this->orderStatusMap[$salesChannelOrder->sales_channel_status];
         $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $orderStatus);
-        $this->updateOutboundOrderAdditional($outboundOrder, $salesChannelOrder);
+        $this->updateOutboundOrderAdditional($outboundOrder, $salesChannelOrder, $externalOrder);
         if ($outboundOrder->save(false)) {
             //skip trigger event
             $salesChannelOrder->updateAttributes(['order_status' => $orderStatus]);
@@ -158,7 +158,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @return mixed
      * @inheritdoc
      */
-    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder);
+    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder);
 
     /**
      * @param SalesChannelOrder $salesChannelOrder

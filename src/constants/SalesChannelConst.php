@@ -9,7 +9,6 @@ namespace lujie\sales\channel\constants;
 class SalesChannelConst
 {
     public const ACCOUNT_TYPE_PM = 'PM';
-    public const ACCOUNT_TYPE_F4PX = 'F4PX';
 
     public const CHANNEL_STATUS_WAIT_PAYMENT = 0;
     public const CHANNEL_STATUS_PAID = 10;

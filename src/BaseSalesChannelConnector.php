@@ -130,7 +130,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
 
     #endregion
 
-    #region Fulfillment Order Trigger
+    #region Sales Channel Order Trigger
 
     /**
      * @param SalesChannelOrderEvent $event

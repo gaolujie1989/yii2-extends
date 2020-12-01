@@ -30,5 +30,9 @@ class m201126_161715_sales_channel_order extends Migration
             'order_pulled_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'additional' => $this->json(),
         ]);
+
+        $this->createIndex('uk_external_order_account', $this->tableName, ['external_order_key', 'sales_channel_account_id'], true);
+        $this->createIndex('idx_order_id', $this->tableName, ['order_id']);
+        $this->createIndex('idx_status_account', $this->tableName, ['sales_channel_status', 'sales_channel_account_id']);
     }
 }

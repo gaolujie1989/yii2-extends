@@ -24,12 +24,12 @@ class PullFulfillmentOrderTask extends CronTask
     public $fulfillmentManager = 'fulfillmentManager';
 
     /**
-     * @var ?string
+     * @var int|string
      */
     public $shippedAtFrom = '-1 days';
 
     /**
-     * @var ?string
+     * @var int|string
      */
     public $shippedAtTo = 'now';
 

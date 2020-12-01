@@ -3,6 +3,7 @@
 namespace lujie\fulfillment\models;
 
 use lujie\common\account\models\Account;
+use lujie\common\account\models\AccountQuery;
 
 /**
  * Class FulfillmentAccount
@@ -15,9 +16,9 @@ class FulfillmentAccount extends Account
 
     /**
      * {@inheritdoc}
-     * @return FulfillmentAccountQuery the active query used by this AR class.
+     * @return AccountQuery|FulfillmentAccountQuery the active query used by this AR class.
      */
-    public static function find(): FulfillmentAccountQuery
+    public static function find(): AccountQuery
     {
         return (new FulfillmentAccountQuery(static::class))->modelType(static::MODEL_TYPE);
     }

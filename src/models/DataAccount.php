@@ -3,6 +3,7 @@
 namespace lujie\data\recording\models;
 
 use lujie\common\account\models\Account;
+use lujie\common\account\models\AccountQuery;
 
 /**
  * Class DataAccount
@@ -15,9 +16,9 @@ class DataAccount extends Account
 
     /**
      * {@inheritdoc}
-     * @return DataAccountQuery the active query used by this AR class.
+     * @return AccountQuery|DataAccountQuery the active query used by this AR class.
      */
-    public static function find(): DataAccountQuery
+    public static function find(): AccountQuery
     {
         return (new DataAccountQuery(static::class))->modelType(static::MODEL_TYPE);
     }

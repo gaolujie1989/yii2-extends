@@ -51,23 +51,19 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
 
     /**
      * [
-     *      'order_status' => [
-     *          'from_fulfillment_status' => 'to_fulfillment_status'
-     *      ]
+     *      'order_status' => 'fulfillment_status'
      * ]
      * @var array
      */
-    public $fulfillmentStatusTransitions = [];
+    public $fulfillmentStatusMap = [];
 
     /**
      * [
-     *      'fulfillment_status' => [
-     *          'from_order_status' => 'to_order_status'
-     *      ]
+     *      'fulfillment_status' => 'order_status'
      * ]
      * @var array
      */
-    public $orderStatusTransitions = [];
+    public $orderStatusMap = [];
 
     /**
      * @var array
@@ -236,12 +232,12 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
             return $fulfillmentOrder->save(false);
         }
 
+        if (empty($this->fulfillmentStatusMap[$orderStatus])) {
+            return null;
+        }
         $fulfillmentOrder->order_status = $orderStatus;
         $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
-        $newFulfillmentStatus = $this->fulfillmentStatusTransitions[$orderStatus][$fulfillmentOrder->fulfillment_status] ?? null;
-        if ($newFulfillmentStatus) {
-            $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
-        }
+        $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$orderStatus];
         return $fulfillmentOrder->save(false);
     }
 
@@ -265,20 +261,17 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      */
     public function updateOutboundOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): ?bool
     {
+        if (empty($this->orderStatusMap[$fulfillmentOrder->fulfillment_status])) {
+            return null;
+        }
         $outboundOrder = $this->outboundOrderClass::findOne($fulfillmentOrder->order_id);
         if ($outboundOrder === null) {
             return null;
         }
-        if (empty($this->orderStatusMap[$fulfillmentOrder->fulfillment_status])) {
-            return null;
-        }
 
-        $orderStatus = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
-        $newOrderStatus = $this->orderStatusTransitions[$fulfillmentOrder->fulfillment_status][$orderStatus] ?? null;
-        if ($newOrderStatus) {
-            $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
-            $fulfillmentOrder->order_status = $newOrderStatus;
-        }
+        $newOrderStatus = $this->orderStatusMap[$fulfillmentOrder->fulfillment_status];
+        $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
+        $fulfillmentOrder->order_status = $newOrderStatus;
 
         $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
         return $outboundOrder->save(false) && $fulfillmentOrder->save(false);

@@ -20,7 +20,7 @@ class ExcelHelper
      * @param bool $firstLineIsHeader
      * @param bool $multiSheet
      * @param bool $readImage
-     * @param string|null $imagePath
+     * @param string|null $imagePathTemplate
      * @return array
      * @throws \ImagickException
      * @throws \PhpOffice\PhpSpreadsheet\Exception

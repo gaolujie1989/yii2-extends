@@ -332,7 +332,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if ($externalOrderStatus === $this->orderShippedStatus) {
             $externalOrderAdditional['trackingNumbers'] = [$externalOrder['shipping_no']];
             $externalOrderAdditional['carrier'] = $externalOrder['logistics_product_code'];
-            $externalOrderAdditional['shippingAt'] = (int)($externalOrder['complete_time'] / 1000);
+            $externalOrderAdditional['shippedAt'] = (int)($externalOrder['complete_time'] / 1000);
             $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
         }
 

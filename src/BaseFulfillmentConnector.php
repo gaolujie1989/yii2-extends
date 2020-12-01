@@ -8,6 +8,7 @@ namespace lujie\fulfillment;
 use lujie\extend\constants\StatusConst;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\fulfillment\constants\FulfillmentConst;
+use lujie\fulfillment\events\FulfillmentOrderEvent;
 use lujie\fulfillment\forms\FulfillmentItemForm;
 use lujie\fulfillment\forms\FulfillmentOrderForm;
 use lujie\fulfillment\models\FulfillmentAccount;
@@ -86,8 +87,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
-        Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterFulfillmentOrderSaved']);
-        Event::on(FulfillmentOrder::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterFulfillmentOrderSaved']);
+        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated']);
     }
 
     #region Item Trigger
@@ -245,14 +245,12 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
     #region Fulfillment Order Trigger
 
     /**
-     * @param AfterSaveEvent $event
+     * @param FulfillmentOrderEvent $event
      * @inheritdoc
      */
-    public function afterFulfillmentOrderSaved(AfterSaveEvent $event): void
+    public function afterFulfillmentOrderUpdated(FulfillmentOrderEvent $event): void
     {
-        /** @var FulfillmentOrder $fulfillmentOrder */
-        $fulfillmentOrder = $event->sender;
-        $this->updateOutboundOrder($fulfillmentOrder);
+        $this->updateOutboundOrder($event->fulfillmentOrder, $event->externalOrder);
     }
 
     /**
@@ -260,7 +258,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      * @return bool|null
      * @inheritdoc
      */
-    public function updateOutboundOrder(FulfillmentOrder $fulfillmentOrder): ?bool
+    public function updateOutboundOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): ?bool
     {
         $outboundOrder = $this->outboundOrderClass::findOne($fulfillmentOrder->order_id);
         if ($outboundOrder === null) {
@@ -272,7 +270,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
 
         $orderStatus = $this->orderStatusMap[$fulfillmentOrder->fulfillment_status];
         $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $orderStatus);
-        $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder);
+        $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
         if ($outboundOrder->save(false)) {
             //skip trigger event
             $fulfillmentOrder->updateAttributes(['order_status' => $orderStatus]);
@@ -284,10 +282,10 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
     /**
      * @param BaseActiveRecord $outboundOrder
      * @param FulfillmentOrder $fulfillmentOrder
-     * @return mixed
+     * @param array $externalOrder
      * @inheritdoc
      */
-    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, FulfillmentOrder $fulfillmentOrder);
+    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void;
 
     #endregion
 }

@@ -152,6 +152,12 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         $outboundOrder = $this->outboundOrderClass::findOne($salesChannelOrder->order_id);
         if ($outboundOrder === null) {
             $outboundOrder = $this->createOutboundOrder($salesChannelOrder, $externalOrder);
+            if (!$outboundOrder->save(false)) {
+                return false;
+            }
+            $salesChannelOrder->order_id = $outboundOrder->primaryKey;
+            $salesChannelOrder->order_status = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
+            $salesChannelOrder->save(false);
         }
 
         if (empty($this->orderStatusMap[$salesChannelOrder->sales_channel_status])) {

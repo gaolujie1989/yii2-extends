@@ -221,7 +221,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             }
             $externalOrder['created_at'] = $now;
             $externalOrder['updated_at'] = $now;
-            $externalOrder['order_status'] = 'SHIPPING';
+            $externalOrder['status'] = 'SHIPPING';
         }
         $externalOrder[$this->externalOrderKeyField] = $externalOrderKey;
         static::$EXTERNAL_ORDER_DATA[$externalOrderKey] = $externalOrder;
@@ -232,11 +232,12 @@ class MockFulfillmentService extends BaseFulfillmentService
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
-        $fulfillmentOrder->external_order_status = $externalOrder['order_status'];
         $fulfillmentOrder->external_created_at = $externalOrder['created_at'];
         $fulfillmentOrder->external_updated_at = $externalOrder['updated_at'];
         if ($fulfillmentOrder->external_order_status === 'SHIPPED') {
@@ -259,7 +260,7 @@ class MockFulfillmentService extends BaseFulfillmentService
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $externalOrder = $this->saveExternalOrder([
-            'order_status' => 'HOLDING',
+            'status' => 'HOLDING',
         ], $fulfillmentOrder);
         return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
@@ -272,7 +273,7 @@ class MockFulfillmentService extends BaseFulfillmentService
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $externalOrder = $this->saveExternalOrder([
-            'order_status' => 'SHIPPING',
+            'status' => 'SHIPPING',
         ], $fulfillmentOrder);
         return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
@@ -285,7 +286,7 @@ class MockFulfillmentService extends BaseFulfillmentService
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $externalOrder = $this->saveExternalOrder([
-            'order_status' => 'CANCELLED',
+            'status' => 'CANCELLED',
         ], $fulfillmentOrder);
         return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }

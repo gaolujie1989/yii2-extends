@@ -198,7 +198,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->mustSave(false);
         MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
             'id' => 'ORDER_K1',
-            'order_status' => 'SHIPPING',
+            'status' => 'SHIPPING',
             'created_at' => time() - 86400,
             'updated_at' => time(),
         ]];

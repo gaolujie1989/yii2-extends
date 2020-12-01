@@ -586,8 +586,6 @@ class PmFulfillmentService extends BaseFulfillmentService
         $externalOrderStatus = $externalOrder['statusId'];
         $pmOrderProperties = ArrayHelper::map($externalOrder['properties'], 'typeId', 'value');
         $pmOrderDates = ArrayHelper::map($externalOrder['dates'], 'typeId', 'value');
-        $fulfillmentOrder->external_order_key = $externalOrder['id'];
-        $fulfillmentOrder->external_order_status = $externalOrderStatus;
         $fulfillmentOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $fulfillmentOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
         $externalOrderAdditional['externalOrderNo'] = $pmOrderProperties[7] ?? '';
@@ -606,6 +604,7 @@ class PmFulfillmentService extends BaseFulfillmentService
             $externalOrderAdditional['trackingNumbers'] = $packageNumbers;
             $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
         }
+
         return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 

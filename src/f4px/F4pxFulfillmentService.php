@@ -313,14 +313,14 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
         $externalOrderStatus = $externalOrder['status'];
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
-        $fulfillmentOrder->external_order_key = $externalOrder['consignment_no'];
-        $fulfillmentOrder->external_order_status = $externalOrderStatus;
         $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
         $fulfillmentOrder->external_updated_at = (int)($externalOrder['update_time'] / 1000);
         $externalOrderAdditional['ref_no'] = $externalOrder['ref_no'];
@@ -335,6 +335,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $externalOrderAdditional['shippingAt'] = (int)($externalOrder['complete_time'] / 1000);
             $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
         }
+
         return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 

@@ -29,7 +29,7 @@ use yii\helpers\Inflector;
  * @method int getId()
  * @method array getIds()
  *
- * @property ActiveQuery $owner
+ * @property Query|ActiveQuery $owner
  *
  * @package lujie\db\fieldQuery\behaviors
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -271,7 +271,8 @@ class FieldQueryBehavior extends Behavior
             }
             $value = array_shift($params);
             if ($value === []) {
-                Yii::info("Query {$name} of {$this->owner->modelClass} condition value is empty array, set condition 1=2", __METHOD__);
+                $ownerClass = get_class($this->owner);
+                Yii::info("Query {$name} of {$ownerClass} condition value is empty array, set condition 1=2", __METHOD__);
                 $owner->andWhere('1=2');
             } else {
                 $field = $this->buildAliasField($field);

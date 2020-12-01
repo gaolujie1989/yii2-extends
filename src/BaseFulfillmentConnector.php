@@ -30,12 +30,12 @@ use yii\db\BaseActiveRecord;
 abstract class BaseFulfillmentConnector extends Component implements BootstrapInterface
 {
     /**
-     * @var BaseActiveRecord
+     * @var string|BaseActiveRecord
      */
     public $itemClass;
 
     /**
-     * @var BaseActiveRecord
+     * @var string|BaseActiveRecord
      */
     public $outboundOrderClass;
 
@@ -206,7 +206,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      */
     public function updateFulfillmentOrder(BaseActiveRecord $outboundOrder): ?bool
     {
-        $warehouseId = $outboundOrder->getAttributes($this->outboundOrderWarehouseIdAttribute);
+        $warehouseId = $outboundOrder->getAttribute($this->outboundOrderWarehouseIdAttribute);
         $fulfillmentWarehouse = FulfillmentWarehouse::find()->warehouseId($warehouseId)->one();
         if ($fulfillmentWarehouse === null) {
             return null;

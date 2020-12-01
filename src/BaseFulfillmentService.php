@@ -29,7 +29,7 @@ use yii\helpers\ArrayHelper;
  */
 abstract class BaseFulfillmentService extends Component implements FulfillmentServiceInterface
 {
-    public const EVENT_FULFILLMENT_ORDER_UPDATED = 'FULFILLMENT_ORDER_UPDATED';
+    public const EVENT_AFTER_FULFILLMENT_ORDER_UPDATED = 'AFTER_FULFILLMENT_ORDER_UPDATED';
 
     /**
      * @var FulfillmentAccount
@@ -280,7 +280,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $event = new FulfillmentOrderEvent();
         $event->fulfillmentOrder = $fulfillmentOrder;
         $event->externalOrder = $externalOrder;
-        $this->trigger(self::EVENT_FULFILLMENT_ORDER_UPDATED, $event);
+        $this->trigger(self::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, $event);
     }
 
     #endregion

@@ -87,7 +87,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
         Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
-        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated']);
+        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated']);
     }
 
     #region Item Trigger

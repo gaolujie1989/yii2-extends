@@ -77,6 +77,8 @@ class PmSalesChannel extends BaseSalesChannel
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
@@ -119,6 +121,8 @@ class PmSalesChannel extends BaseSalesChannel
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
@@ -169,9 +173,12 @@ class PmSalesChannel extends BaseSalesChannel
     /**
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
-    protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, array $externalOrder): void
+    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): bool
     {
         $salesChannelOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
@@ -187,6 +194,8 @@ class PmSalesChannel extends BaseSalesChannel
                 ? '' : strtotime($orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']]),
             'externalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
         ];
+
+        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
     }
 
     #endregion

@@ -51,19 +51,23 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
 
     /**
      * [
-     *      'order_status' => 'fulfillment_status'
+     *      'order_status' => [
+     *          'from_fulfillment_status' => 'to_fulfillment_status'
+     *      ]
      * ]
      * @var array
      */
-    public $fulfillmentStatusMap = [];
+    public $fulfillmentStatusTransitions = [];
 
     /**
      * [
-     *      'fulfillment_status' => 'order_status'
+     *      'fulfillment_status' => [
+     *          'from_order_status' => 'to_order_status'
+     *      ]
      * ]
      * @var array
      */
-    public $orderStatusMap = [];
+    public $orderStatusTransitions = [];
 
     /**
      * @var array
@@ -231,12 +235,13 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
             return $fulfillmentOrder->save(false);
         }
-        if (empty($this->fulfillmentStatusMap[$orderStatus])) {
-            return null;
-        }
+
         $fulfillmentOrder->order_status = $orderStatus;
         $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
-        $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$orderStatus];
+        $newFulfillmentStatus = $this->fulfillmentStatusTransitions[$orderStatus][$fulfillmentOrder->fulfillment_status] ?? null;
+        if ($newFulfillmentStatus) {
+            $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
+        }
         return $fulfillmentOrder->save(false);
     }
 
@@ -268,15 +273,15 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
             return null;
         }
 
-        $orderStatus = $this->orderStatusMap[$fulfillmentOrder->fulfillment_status];
-        $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $orderStatus);
-        $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
-        if ($outboundOrder->save(false)) {
-            //skip trigger event
-            $fulfillmentOrder->updateAttributes(['order_status' => $orderStatus]);
-            return true;
+        $orderStatus = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
+        $newOrderStatus = $this->orderStatusTransitions[$fulfillmentOrder->fulfillment_status][$orderStatus] ?? null;
+        if ($newOrderStatus) {
+            $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
+            $fulfillmentOrder->order_status = $newOrderStatus;
         }
-        return false;
+
+        $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
+        return $outboundOrder->save(false) && $fulfillmentOrder->save(false);
     }
 
     /**

@@ -10,6 +10,7 @@ return [
         'alias' => [
             '@lujie/common/account' => __DIR__ . '/src/account',
             '@lujie/common/address' => __DIR__ . '/src/address',
+            '@lujie/common/item' => __DIR__ . '/src/item',
             '@lujie/common/modelData' => __DIR__ . '/src/modelData',
             '@lujie/common/tests' => __DIR__ . '/tests',
         ]

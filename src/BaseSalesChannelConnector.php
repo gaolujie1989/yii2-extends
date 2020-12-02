@@ -7,10 +7,12 @@ namespace lujie\sales\channel;
 
 
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\helpers\ClassHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\models\SalesChannelOrder;
+use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
@@ -62,10 +64,11 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      */
     public function bootstrap($app)
     {
-        Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
-        Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
+        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass);
+        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
+        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
-        Event::on(BaseSalesChannel::class, BaseSalesChannel::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED, [$this, 'afterSalesChannelOrderUpdate']);
+        Event::on(BaseSalesChannel::class, BaseSalesChannel::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED, [$this, 'afterSalesChannelOrderUpdate'], null, false);
     }
 
     /**

@@ -7,6 +7,7 @@ namespace lujie\fulfillment;
 
 use lujie\extend\constants\StatusConst;
 use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\helpers\ClassHelper;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\events\FulfillmentOrderEvent;
 use lujie\fulfillment\forms\FulfillmentItemForm;
@@ -80,15 +81,17 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      */
     public function bootstrap($app)
     {
-        Event::on($this->itemClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterItemSaved']);
-        Event::on($this->itemClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterItemSaved']);
+        $itemFormClass = ClassHelper::getFormClass($this->itemClass);
+        Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterItemSaved']);
+        Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterItemSaved']);
 
-        Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_BEFORE_DELETE, [$this, 'beforeOutboundOrderDeleted']);
-        Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'afterOutboundOrderDeleted']);
-        Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
-        Event::on($this->outboundOrderClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
+        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass);
+        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_BEFORE_DELETE, [$this, 'beforeOutboundOrderDeleted']);
+        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'afterOutboundOrderDeleted']);
+        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
+        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
-        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated']);
+        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated'], null, false);
     }
 
     /**

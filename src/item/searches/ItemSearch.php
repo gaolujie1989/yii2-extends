@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\common\item\models\searches;
+namespace lujie\common\item\searches;
 
 use Codeception\PHPUnit\Constraint\Page;
 use lujie\common\item\models\Item;

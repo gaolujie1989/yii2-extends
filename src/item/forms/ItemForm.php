@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\common\item\models\forms;
+namespace lujie\common\item\forms;
 
 use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
@@ -29,7 +29,7 @@ class ItemForm extends Item
      */
     public $barcodeConfig = [
         'ean' => ['EAN', 'EAN13'],
-        'ownSKU' => ['OWN', 'CODE128'],
+//        'ownSKU' => ['OWN', 'CODE128'],
     ];
 
     /**
@@ -42,7 +42,7 @@ class ItemForm extends Item
         ModelHelper::removeAttributesRules($rules, ['weight_g', 'length_mm', 'width_mm', 'height_mm']);
         return array_merge($rules, [
             [['weight_kg', 'length_cm', 'width_cm', 'height_cm'], 'number', 'min' => 0],
-            [[array_keys($this->barcodeConfig)], 'validateBarcode'],
+            [array_keys($this->barcodeConfig), 'validateBarcode'],
         ]);
     }
 
@@ -85,7 +85,11 @@ class ItemForm extends Item
         ]);
     }
 
-    public function validateBarcodes(string $attribute): void
+    /**
+     * @param string $attribute
+     * @inheritdoc
+     */
+    public function validateBarcode(string $attribute): void
     {
         $itemBarcodeQuery = ItemBarcode::find()->codeText($this->{$attribute});
         if (!$this->getIsNewRecord()) {
@@ -143,7 +147,6 @@ class ItemForm extends Item
      * @param bool $insert
      * @param array $changedAttributes
      * @throws \Throwable
-     * @throws \yii\db\Exception
      * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
@@ -156,6 +159,8 @@ class ItemForm extends Item
     /**
      * if barcode is null, client may not update, so do nothing
      * if barcode is empty, delete barcode, else update it
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     protected function updateBarcodes(): void
@@ -185,7 +190,7 @@ class ItemForm extends Item
      */
     protected function saveBarcode(ItemBarcode $itemBarcode): ItemBarcode
     {
-        $saveBarcode = $this->itemBarcodes[$itemBarcode->code_name] ?? $itemBarcode;
+        $saveBarcode = $this->barcodes[$itemBarcode->code_name] ?? $itemBarcode;
         if ($saveBarcode !== $itemBarcode) {
             $saveBarcode->code_type = $itemBarcode->code_type;
             $saveBarcode->code_text = $itemBarcode->code_text;
@@ -197,11 +202,13 @@ class ItemForm extends Item
     /**
      * @param string $codeName
      * @return int
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     protected function removeBarcode(string $codeName): int
     {
-        $existBarcode = $this->itemBarcodes[$codeName] ?? null;
+        $existBarcode = $this->barcodes[$codeName] ?? null;
         if ($existBarcode !== null) {
             return $existBarcode->delete();
         }

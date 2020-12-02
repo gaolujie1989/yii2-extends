@@ -1,0 +1,253 @@
+{
+  "id": 1375033,
+  "referrerId": 10,
+  "roundTotalsOnly": true,
+  "numberOfDecimals": 4,
+  "statusName": "",
+  "plentyId": 30389,
+  "typeId": 1,
+  "lockStatus": "unlocked",
+  "locationId": "2",
+  "createdAt": "2020-11-18T09:11:00+01:00",
+  "updatedAt": "2020-12-01T09:07:46+01:00",
+  "statusId": 8,
+  "ownerId": "22",
+  "relations": [
+    {
+      "orderId": 1375033,
+      "referenceType": "warehouse",
+      "referenceId": 108,
+      "relation": "sender"
+    },
+    {
+      "orderId": 1375033,
+      "referenceType": "contact",
+      "referenceId": 1125575,
+      "relation": "receiver"
+    }
+  ],
+  "properties": [
+    {
+      "orderId": 1375033,
+      "typeId": 3,
+      "value": "14"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 6,
+      "value": "it"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 7,
+      "value": "DIB-TEST-ORDER-1"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 68,
+      "value": "rest"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 1,
+      "value": "108"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 4,
+      "value": "fullyPaid"
+    }
+  ],
+  "dates": [
+    {
+      "orderId": 1375033,
+      "typeId": 2,
+      "date": "2020-11-18T09:11:00+01:00"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 4,
+      "date": "2020-12-01T09:07:46+01:00"
+    },
+    {
+      "orderId": 1375033,
+      "typeId": 3,
+      "date": "2020-11-18T09:11:00+01:00"
+    }
+  ],
+  "amounts": [
+    {
+      "id": 1471685,
+      "orderId": 1375033,
+      "isSystemCurrency": true,
+      "isNet": false,
+      "currency": "EUR",
+      "exchangeRate": 1,
+      "netTotal": 0,
+      "grossTotal": 0,
+      "vatTotal": 0,
+      "invoiceTotal": 0,
+      "paidAmount": 0,
+      "giftCardAmount": 0,
+      "createdAt": "2020-11-18T09:11:00+01:00",
+      "updatedAt": "2020-11-18T09:11:00+01:00",
+      "shippingCostsGross": 0,
+      "shippingCostsNet": 0,
+      "prepaidAmount": 0,
+      "vats": [
+        {
+          "id": 1474945,
+          "orderAmountId": 1471685,
+          "countryVatId": 20,
+          "vatField": 0,
+          "vatRate": 16,
+          "value": 0,
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00",
+          "netTotal": 0,
+          "grossTotal": 0
+        }
+      ]
+    }
+  ],
+  "orderReferences": [],
+  "orderItems": [
+    {
+      "id": 1923895,
+      "orderId": 1375033,
+      "typeId": 1,
+      "referrerId": 10,
+      "itemVariationId": 3508,
+      "quantity": 1,
+      "orderItemName": "ITEM-1-NAME",
+      "attributeValues": null,
+      "shippingProfileId": 0,
+      "countryVatId": 20,
+      "vatField": 0,
+      "vatRate": 16,
+      "position": "0",
+      "createdAt": "2020-11-18T09:11:00+01:00",
+      "updatedAt": "2020-11-18T09:11:00+01:00",
+      "warehouseId": 108,
+      "orderProperties": [],
+      "properties": [
+        {
+          "id": 14590829,
+          "orderItemId": 1923895,
+          "typeId": 1,
+          "value": "108",
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00"
+        },
+        {
+          "id": 14590830,
+          "orderItemId": 1923895,
+          "typeId": 11,
+          "value": "23060",
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00"
+        },
+        {
+          "id": 14590832,
+          "orderItemId": 1923895,
+          "typeId": 21,
+          "value": "1",
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00"
+        },
+        {
+          "id": 14590831,
+          "orderItemId": 1923895,
+          "typeId": 29,
+          "value": "Aufblasbarer Schneemann -240cm",
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00"
+        },
+        {
+          "id": 15110854,
+          "orderItemId": 1923895,
+          "typeId": 30,
+          "value": "1",
+          "createdAt": "2020-12-01T09:07:37+01:00",
+          "updatedAt": "2020-12-01T09:07:37+01:00"
+        }
+      ],
+      "dates": [],
+      "amounts": [
+        {
+          "id": 2062632,
+          "orderItemId": 1923895,
+          "isSystemCurrency": true,
+          "currency": "EUR",
+          "exchangeRate": 1,
+          "purchasePrice": 0,
+          "priceOriginalGross": 0,
+          "priceOriginalNet": 0,
+          "priceGross": 0,
+          "priceNet": 0,
+          "surcharge": 0,
+          "discount": 0,
+          "isPercentage": true,
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00"
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": 1923896,
+      "orderId": 1375033,
+      "typeId": 6,
+      "referrerId": 10,
+      "itemVariationId": 0,
+      "quantity": 1,
+      "orderItemName": "Versandkosten",
+      "attributeValues": null,
+      "shippingProfileId": 0,
+      "countryVatId": 20,
+      "vatField": 0,
+      "vatRate": 16,
+      "position": "0",
+      "createdAt": "2020-11-18T09:11:00+01:00",
+      "updatedAt": "2020-11-18T09:11:00+01:00",
+      "warehouseId": null,
+      "orderProperties": [],
+      "properties": [],
+      "dates": [],
+      "amounts": [
+        {
+          "id": 2062633,
+          "orderItemId": 1923896,
+          "isSystemCurrency": true,
+          "currency": "EUR",
+          "exchangeRate": 1,
+          "purchasePrice": 0,
+          "priceOriginalGross": 0,
+          "priceOriginalNet": 0,
+          "priceGross": 0,
+          "priceNet": 0,
+          "surcharge": 0,
+          "discount": 0,
+          "isPercentage": true,
+          "createdAt": "2020-11-18T09:11:00+01:00",
+          "updatedAt": "2020-11-18T09:11:00+01:00"
+        }
+      ],
+      "references": []
+    }
+  ],
+  "addressRelations": [
+    {
+      "id": 2753828,
+      "orderId": 1375033,
+      "typeId": 1,
+      "addressId": 2470667
+    },
+    {
+      "id": 2753829,
+      "orderId": 1375033,
+      "typeId": 2,
+      "addressId": 2470667
+    }
+  ]
+}

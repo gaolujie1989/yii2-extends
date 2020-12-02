@@ -1,0 +1,450 @@
+[
+  {
+    "id": 102,
+    "name": "Reserve Lager 4",
+    "note": "",
+    "typeId": 7,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Reserve Lager 4",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 103,
+    "name": "Lager WW",
+    "note": "",
+    "typeId": 5,
+    "onStockAvailability": 1,
+    "outOfStockAvailability": 5,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Lager WW",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 105,
+    "name": "Amazon",
+    "note": "",
+    "typeId": 0,
+    "onStockAvailability": 7,
+    "outOfStockAvailability": 5,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "amazon",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2020-04-06T16:24:00+02:00",
+    "allocationReferrerIds": [
+      "-1"
+    ],
+    "address": {
+      "name1": "Amazon",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 106,
+    "name": "Sperrlager",
+    "note": "",
+    "typeId": 1,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Sperrlager",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 108,
+    "name": "Vertriebslager EU",
+    "note": "",
+    "typeId": 0,
+    "onStockAvailability": 1,
+    "outOfStockAvailability": 5,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2020-10-29T10:06:22+01:00",
+    "allocationReferrerIds": [
+      "-1"
+    ],
+    "address": {
+      "name1": "Vertriebslager EU",
+      "address1": "Barentsstr. ",
+      "address2": "15",
+      "postalCode": "53881",
+      "town": "Euskirchen",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": "info@online.cclife.de"
+        },
+        {
+          "typeId": 4,
+          "value": "+492251773890"
+        }
+      ]
+    }
+  },
+  {
+    "id": 109,
+    "name": "Verschrottung-3",
+    "note": "",
+    "typeId": 6,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Verschrottung-3",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 110,
+    "name": "Verschrottung-1",
+    "note": "",
+    "typeId": 6,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Verschrottung-1",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 111,
+    "name": "Transit",
+    "note": "",
+    "typeId": 5,
+    "onStockAvailability": 1,
+    "outOfStockAvailability": 5,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Transit",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 113,
+    "name": "Reserve Lager 1",
+    "note": "",
+    "typeId": 7,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Reserve Lager 1",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 116,
+    "name": "Reserve Lager 2",
+    "note": "",
+    "typeId": 7,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Reserve Lager 2",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 119,
+    "name": "Reserve Lager 3",
+    "note": "",
+    "typeId": 7,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Reserve Lager 3",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": 120,
+    "name": "Verschrottung-2",
+    "note": "",
+    "typeId": 6,
+    "onStockAvailability": 10,
+    "outOfStockAvailability": 10,
+    "splitByShippingProfile": false,
+    "storageLocationType": "none",
+    "storageLocationZone": 0,
+    "repairWarehouseId": 0,
+    "isInventoryModeActive": false,
+    "logisticsType": "own",
+    "average_price_source": "0",
+    "reorder_level_dynamic": "0",
+    "createdAt": "2019-03-06T13:42:50+01:00",
+    "updatedAt": "2019-03-06T13:42:50+01:00",
+    "allocationReferrerIds": null,
+    "address": {
+      "name1": "Verschrottung-2",
+      "address1": "",
+      "address2": "",
+      "postalCode": "",
+      "town": "",
+      "countryId": 1,
+      "options": [
+        {
+          "typeId": 5,
+          "value": ""
+        },
+        {
+          "typeId": 4,
+          "value": ""
+        }
+      ]
+    }
+  }
+]

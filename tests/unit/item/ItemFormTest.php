@@ -39,7 +39,8 @@ class ItemFormTest extends \Codeception\Test\Unit
             'width_cm' => '64',
             'height_cm' => '42',
             'note' => 'TEST',
-            'ean' => '4758468123521'
+            'ean' => '4758468123521',
+            'ownSKU' => 'OWN_123'
         ], '');
         $this->assertTrue($itemForm->save(false));
         $item = Item::find()->itemNo('TEST-1')->one();
@@ -52,8 +53,10 @@ class ItemFormTest extends \Codeception\Test\Unit
             'note' => 'TEST',
         ];
         $this->assertEquals($expected, $item->getAttributes(array_keys($expected)));
-        $itemBarcodeQuery = ItemBarcode::find()->codeText('4758468123521');
-        $this->assertTrue($itemBarcodeQuery->exists());
+        $eanQuery = ItemBarcode::find()->codeText('4758468123521');
+        $ownSKUQuery = ItemBarcode::find()->codeText('OWN_123');
+        $this->assertTrue($eanQuery->exists());
+        $this->assertTrue($ownSKUQuery->exists());
 
         //test barcode validate
         $itemForm = new ItemForm();
@@ -73,10 +76,12 @@ class ItemFormTest extends \Codeception\Test\Unit
         $itemForm = ItemForm::findOne($item->item_id);
         $itemForm->ean = null;
         $this->assertTrue($itemForm->save());
-        $this->assertTrue($itemBarcodeQuery->exists());
+        $this->assertTrue($eanQuery->exists());
+        $this->assertTrue($ownSKUQuery->exists());
 
         $itemForm->ean = '';
         $this->assertTrue($itemForm->save());
-        $this->assertFalse($itemBarcodeQuery->exists(), VarDumper::dumpAsString($itemBarcodeQuery->asArray()->all()));
+        $this->assertFalse($eanQuery->exists());
+        $this->assertTrue($ownSKUQuery->exists());
     }
 }

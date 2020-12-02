@@ -21,6 +21,8 @@ class ItemForm extends Item
 {
     public $ean;
 
+    public $ownSKU;
+
     /**
      * [
      *      'attribute' => ['code_name', 'code_type']
@@ -29,7 +31,7 @@ class ItemForm extends Item
      */
     public $barcodeConfig = [
         'ean' => ['EAN', 'EAN13'],
-//        'ownSKU' => ['OWN', 'CODE128'],
+        'ownSKU' => ['OWN', 'CODE128'],
     ];
 
     /**
@@ -176,7 +178,7 @@ class ItemForm extends Item
                     'item_id' => $this->item_id,
                     'code_name' => $codeName,
                     'code_type' => $codeType,
-                    'code_text' => $this->ean,
+                    'code_text' => $value,
                 ]);
                 $this->saveBarcode($itemBarcode);
             }

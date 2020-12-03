@@ -594,7 +594,7 @@ class PmFulfillmentService extends BaseFulfillmentService
         if ($externalOrderStatus >= 7 && $externalOrderStatus < 8) {
             $externalOrderAdditional['shippingProfileId'] = $pmOrderProperties[2] ?? 0;
             $externalOrderAdditional['carrier'] = $this->shippingProfiles[$externalOrderAdditional['shippingProfileId']] ?? '';
-            $externalOrderAdditional['shippingAt'] = isset($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']])
+            $externalOrderAdditional['shippedAt'] = isset($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']])
                 ? strtotime($pmOrderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']]) : 0;
 
             $packageNumbers = $externalOrder['packageNumbers'] ?? [];
@@ -615,7 +615,8 @@ class PmFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -632,6 +633,8 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws Exception
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -648,7 +651,8 @@ class PmFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool

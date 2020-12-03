@@ -14,6 +14,7 @@ use yii\db\ActiveQuery;
  * @property int $order_amount
  * @property int $paid_amount
  * @property string $status
+ * @property string $updated_at
  *
  * @property TestOrderItem[] $orderItems
  * @property TestOrderPayment[] $orderPayments

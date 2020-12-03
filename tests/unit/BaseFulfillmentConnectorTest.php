@@ -107,6 +107,38 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING, $fulfillmentOrder->fulfillment_status);
     }
 
+    public function testOutboundOrderConnectDelete(): void
+    {
+        $connector = new BaseFulfillmentConnector([
+            'itemClass' => TestItem::class,
+            'outboundOrderClass' => TestOrder::class,
+        ]);
+        $connector->bootstrap(Yii::$app);
+
+        $order = new TestOrder([
+            'order_no' => '',
+            'warehouse_id' => 1,
+            'status' => 10,
+            'updated_at' => time(),
+        ]);
+        $order->save(false);
+        $fulfillmentOrder = new FulfillmentOrder([
+            'fulfillment_account_id' => 1,
+            'order_id' => $order->test_order_id,
+            'external_order_key' => 'ORDER_K1',
+            'fulfillment_status' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING
+        ]);
+        $fulfillmentOrder->save(false);
+
+        $this->assertFalse(false, $order->delete());
+        $this->assertTrue($fulfillmentOrder->refresh());
+
+        $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
+        $fulfillmentOrder->save(false);
+        $this->assertTrue(true, $order->delete());
+        $this->assertFalse($fulfillmentOrder->refresh());
+    }
+
     public function testOrderFulfillmentConnect(): void
     {
         $connector = new BaseFulfillmentConnector([
@@ -117,20 +149,6 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
             ]
         ]);
         $connector->bootstrap(Yii::$app);
-
-        MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
-            'id' => 'ORDER_K1',
-            'status' => 'SHIPPING',
-            'created_at' => time() - 10,
-            'updated_at' => time(),
-        ]];
-        $fulfillmentService = new MockFulfillmentService([
-            'account' => new FulfillmentAccount([
-                'account_id' => 1
-            ]),
-            'itemLoader' => new ArrayDataLoader(),
-            'orderLoader' => new ArrayDataLoader(),
-        ]);
 
         $order = new TestOrder([
             'order_no' => '',
@@ -146,7 +164,21 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         ]);
         $fulfillmentOrder->save(false);
 
+        $fulfillmentService = new MockFulfillmentService([
+            'account' => new FulfillmentAccount([
+                'account_id' => 1
+            ]),
+            'itemLoader' => new ArrayDataLoader(),
+            'orderLoader' => new ArrayDataLoader(),
+        ]);
+        MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
+            'id' => 'ORDER_K1',
+            'status' => 'SHIPPING',
+            'created_at' => time() - 10,
+            'updated_at' => time(),
+        ]];
         $fulfillmentService->pullFulfillmentOrders([$fulfillmentOrder]);
+
         $fulfillmentOrder->refresh();
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
         $order->refresh();

@@ -25,7 +25,7 @@ use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
 /**
- * Class FulfillmentConnectService
+ * Class BaseFulfillmentConnector
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

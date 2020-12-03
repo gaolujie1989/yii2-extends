@@ -104,6 +104,6 @@ class Item extends \yii\db\ActiveRecord
      */
     public function getBarcodes(): ActiveQuery
     {
-        return $this->hasMany(static::ITEM_BARCODE_CLASS, ['item_id' => 'item_id'])->indexBy(['code_name']);
+        return $this->hasMany(static::ITEM_BARCODE_CLASS, ['item_id' => 'item_id'])->indexBy('code_name');
     }
 }

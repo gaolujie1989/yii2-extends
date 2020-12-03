@@ -7,14 +7,15 @@ use yii\db\ActiveQuery;
 /**
  * This is the model class for table "test_order".
  *
- * @property string $test_order_id
+ * @property int $test_order_id
  * @property string $order_no
  * @property string $customer_email
- * @property string $shipping_address_id
+ * @property int $shipping_address_id
+ * @property int $warehouse_id
  * @property int $order_amount
  * @property int $paid_amount
- * @property string $status
- * @property string $updated_at
+ * @property int $status
+ * @property int $updated_at
  *
  * @property TestOrderItem[] $orderItems
  * @property TestOrderPayment[] $orderPayments
@@ -37,7 +38,7 @@ class TestOrder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shipping_address_id', 'order_amount', 'paid_amount', 'status'], 'integer'],
+            [['shipping_address_id', 'warehouse_id', 'order_amount', 'paid_amount', 'status'], 'integer'],
             [['order_no', 'customer_email'], 'string', 'max' => 255],
             [['customer_email'], 'email'],
         ];
@@ -53,6 +54,7 @@ class TestOrder extends \yii\db\ActiveRecord
             'order_no' => 'Order No',
             'customer_email' => 'Customer Email',
             'shipping_address_id' => 'Shipping Address ID',
+            'warehouse_id' => 'Warehouse ID ID',
             'order_amount' => 'Order Amount',
             'paid_amount' => 'Paid Amount',
             'status' => 'Status',

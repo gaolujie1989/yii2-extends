@@ -11,6 +11,7 @@ class m190606_143824_test_relation_models extends Migration
             'order_no' => $this->string()->notNull()->defaultValue(''),
             'customer_email' => $this->string()->notNull()->defaultValue(''),
             'shipping_address_id' => $this->bigInteger()->notNull()->defaultValue(0),
+            'warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'order_amount' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'paid_amount' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),

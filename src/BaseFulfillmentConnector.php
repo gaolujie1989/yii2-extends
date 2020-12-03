@@ -25,11 +25,11 @@ use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
 /**
- * Class FulfillmentConnectService
+ * Class BaseFulfillmentConnector
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BaseFulfillmentConnector extends Component implements BootstrapInterface
+class BaseFulfillmentConnector extends Component implements BootstrapInterface
 {
     /**
      * @var string|BaseActiveRecord
@@ -81,11 +81,11 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      */
     public function bootstrap($app)
     {
-        $itemFormClass = ClassHelper::getFormClass($this->itemClass);
+        $itemFormClass = ClassHelper::getFormClass($this->itemClass) ?: $this->itemClass;
         Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterItemSaved']);
         Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterItemSaved']);
 
-        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass);
+        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass) ?: $this->outboundOrderClass;
         Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_BEFORE_DELETE, [$this, 'beforeOutboundOrderDeleted']);
         Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'afterOutboundOrderDeleted']);
         Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
@@ -133,7 +133,10 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      * @return bool
      * @inheritdoc
      */
-    abstract public function isItemNeedPush(BaseActiveRecord $item, int $accountId): bool;
+    public function isItemNeedPush(BaseActiveRecord $item, int $accountId): bool
+    {
+        return true;
+    }
 
     /**
      * @param BaseActiveRecord|TraceableBehaviorTrait $item
@@ -216,7 +219,10 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      * @return bool
      * @inheritdoc
      */
-    abstract public function isOrderNeedPush(BaseActiveRecord $outboundOrder): bool;
+    public function isOrderNeedPush(BaseActiveRecord $outboundOrder): bool
+    {
+        return true;
+    }
 
     /**
      * @param BaseActiveRecord|TraceableBehaviorTrait $outboundOrder
@@ -283,6 +289,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
         if (empty($this->orderStatusMap[$fulfillmentOrder->fulfillment_status])) {
             return null;
         }
+        /** @var BaseActiveRecord|TraceableBehaviorTrait $outboundOrder */
         $outboundOrder = $this->outboundOrderClass::findOne($fulfillmentOrder->order_id);
         if ($outboundOrder === null) {
             return null;
@@ -291,6 +298,7 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
         $newOrderStatus = $this->orderStatusMap[$fulfillmentOrder->fulfillment_status];
         $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
         $fulfillmentOrder->order_status = $newOrderStatus;
+        $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
 
         $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
         return $outboundOrder->save(false) && $fulfillmentOrder->save(false);
@@ -302,7 +310,10 @@ abstract class BaseFulfillmentConnector extends Component implements BootstrapIn
      * @param array $externalOrder
      * @inheritdoc
      */
-    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void;
+    protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
+    {
+
+    }
 
     #endregion
 }

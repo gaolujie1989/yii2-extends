@@ -189,6 +189,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -340,7 +342,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     /**
      * @param int $shippedAtFrom
      * @param int $shippedAtTo
-     * @return mixed|void
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pullShippedFulfillmentOrders(int $shippedAtFrom, int $shippedAtTo): void

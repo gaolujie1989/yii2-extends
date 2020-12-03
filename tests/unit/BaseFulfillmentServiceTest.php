@@ -149,6 +149,9 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
     }
 
     /**
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     public function testPushFulfillmentOrder(): void

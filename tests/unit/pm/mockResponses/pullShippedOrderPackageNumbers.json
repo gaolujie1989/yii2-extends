@@ -1,0 +1,7 @@
+[
+  {
+    "resource": "rest\/orders\/1375033\/packagenumbers?orderId=1375033",
+    "method": "GET",
+    "content": "[\"TEST154856245\"]"
+  }
+]

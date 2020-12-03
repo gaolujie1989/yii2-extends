@@ -1,0 +1,45 @@
+{
+  "id": 2470667,
+  "gender": null,
+  "name1": "",
+  "name2": "tanzillo",
+  "name3": "salvatore",
+  "name4": null,
+  "address1": "via dei grossi",
+  "address2": "6",
+  "address3": "",
+  "address4": null,
+  "postalCode": "18019",
+  "town": "vallecrosia alta",
+  "countryId": 15,
+  "stateId": null,
+  "readOnly": false,
+  "checkedAt": null,
+  "createdAt": "2020-11-18T08:50:20+01:00",
+  "updatedAt": "2020-11-18T08:50:20+01:00",
+  "pivot": {
+    "orderId": "1375033",
+    "addressId": 2470667,
+    "typeId": 1
+  },
+  "options": [
+    {
+      "id": 4448085,
+      "addressId": 2470667,
+      "typeId": 4,
+      "value": "3484035259",
+      "position": 0,
+      "createdAt": "2020-11-18T08:50:20+01:00",
+      "updatedAt": "2020-11-18T08:50:20+01:00"
+    },
+    {
+      "id": 4448086,
+      "addressId": 2470667,
+      "typeId": 5,
+      "value": "74684c24ca049e0c2e13@members.ebay.com",
+      "position": 0,
+      "createdAt": "2020-11-18T08:50:20+01:00",
+      "updatedAt": "2020-11-18T08:50:20+01:00"
+    }
+  ]
+}

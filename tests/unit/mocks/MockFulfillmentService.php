@@ -255,6 +255,8 @@ class MockFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -268,6 +270,8 @@ class MockFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -281,6 +285,8 @@ class MockFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool

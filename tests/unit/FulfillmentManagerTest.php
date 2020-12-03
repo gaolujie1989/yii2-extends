@@ -52,6 +52,57 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
      */
     public function getFulfillmentManager(): FulfillmentManager
     {
+        MockFulfillmentService::$EXTERNAL_ITEM_DATA = [];
+
+        MockFulfillmentService::$GENERATE_ITEM_KEYS = ['ITEM_K1'];
+
+        MockFulfillmentService::$EXTERNAL_ORDER_DATA = [];
+
+        MockFulfillmentService::$GENERATE_ORDER_KEYS = ['ORDER_K1'];
+
+        MockFulfillmentService::$EXTERNAL_WAREHOUSE_DATA = [
+            [
+                'id' => 'W01',
+                'name' => 'WarehouseDE'
+            ],
+            [
+                'id' => 'W02',
+                'name' => 'WarehouseES'
+            ]
+        ];
+
+        MockFulfillmentService::$EXTERNAL_STOCK_DATA = [
+            [
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W01',
+                'stock_qty' => 1
+            ],
+            [
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W02',
+                'stock_qty' => 2
+            ]
+        ];
+
+        MockFulfillmentService::$EXTERNAL_MOVEMENT_DATA = [
+            [
+                'id' => 'M001',
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W01',
+                'moved_qty' => 1,
+                'reason' => 'INBOUND',
+                'related_type' => 'INBOUND_ORDER',
+                'related_id' => '15267',
+                'createdAt' => 1577808000123
+            ],
+            [
+                'id' => 'M002',
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W02',
+                'moved_qty' => 2,
+                'reason' => 'CORRECT'
+            ]
+        ];
         return new FulfillmentManager([
             'fulfillmentServiceLoader' => [
                 'class' => ChainedDataLoader::class,
@@ -196,13 +247,14 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentOrder->external_order_key = 'ORDER_K1';
         $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
         $fulfillmentOrder->mustSave(false);
+        $fulfillmentManager = $this->getFulfillmentManager();
         MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
             'id' => 'ORDER_K1',
             'status' => 'SHIPPING',
             'created_at' => time() - 86400,
             'updated_at' => time(),
         ]];
-        $this->getFulfillmentManager()->pullFulfillmentOrders(1);
+        $fulfillmentManager->pullFulfillmentOrders(1);
         $fulfillmentOrder->refresh();
         $this->assertTrue($fulfillmentOrder->order_pulled_at > 0, VarDumper::dumpAsString($fulfillmentOrder->attributes));
     }

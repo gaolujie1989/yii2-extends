@@ -14,6 +14,7 @@ class m190606_143824_test_relation_models extends Migration
             'order_amount' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'paid_amount' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
+            'updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
         $this->createTable('test_order_item', [

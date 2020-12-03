@@ -181,11 +181,7 @@ $querySearchFields = implode("\n", $querySearchFields);
         return {
           <?= implode("\n", $fields) ?>
         }
-      },
-      fetchTemp(row) {
-        this.temp = Object.assign({}, this.temp, row)
-        return Promise.resolve()
-      },
+      }
     }
   }
 </script>

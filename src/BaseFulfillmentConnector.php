@@ -289,6 +289,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         if (empty($this->orderStatusMap[$fulfillmentOrder->fulfillment_status])) {
             return null;
         }
+        /** @var BaseActiveRecord|TraceableBehaviorTrait $outboundOrder */
         $outboundOrder = $this->outboundOrderClass::findOne($fulfillmentOrder->order_id);
         if ($outboundOrder === null) {
             return null;
@@ -297,6 +298,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $newOrderStatus = $this->orderStatusMap[$fulfillmentOrder->fulfillment_status];
         $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
         $fulfillmentOrder->order_status = $newOrderStatus;
+        $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
 
         $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
         return $outboundOrder->save(false) && $fulfillmentOrder->save(false);

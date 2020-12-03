@@ -9,6 +9,7 @@ namespace lujie\state\machine\tests\unit\fixtures;
  * @property string $order_no
  * @property string $customer_email
  * @property string $shipping_address_id
+ * @property string $warehouse_id
  * @property string $status
  */
 class TestOrder extends \yii\db\ActiveRecord
@@ -38,7 +39,7 @@ class TestOrder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shipping_address_id', 'status'], 'integer'],
+            [['shipping_address_id', 'warehouse_id', 'status'], 'integer'],
             [['order_no', 'customer_email'], 'string', 'max' => 255],
             [['customer_email'], 'email'],
         ];
@@ -54,6 +55,7 @@ class TestOrder extends \yii\db\ActiveRecord
             'order_no' => 'Order No',
             'customer_email' => 'Customer Email',
             'shipping_address_id' => 'Shipping Address ID',
+            'warehouse_id' => 'Warehouse ID',
             'status' => 'Status',
         ];
     }

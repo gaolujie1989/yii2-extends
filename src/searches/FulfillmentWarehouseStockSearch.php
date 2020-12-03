@@ -22,7 +22,9 @@ class FulfillmentWarehouseStockSearch extends FulfillmentWarehouseStock
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'external_item_key', 'external_warehouse_key'], 'safe']
+            [['fulfillment_account_id',
+                'item_id', 'warehouse_id',
+                'external_item_key', 'external_warehouse_key'], 'safe']
         ];
     }
 

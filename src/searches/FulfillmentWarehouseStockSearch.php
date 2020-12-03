@@ -22,7 +22,9 @@ class FulfillmentWarehouseStockSearch extends FulfillmentWarehouseStock
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'external_item_key', 'external_warehouse_key'], 'safe']
+            [['fulfillment_account_id',
+                'item_id', 'warehouse_id',
+                'external_item_key', 'external_warehouse_key'], 'safe']
         ];
     }
 
@@ -32,13 +34,13 @@ class FulfillmentWarehouseStockSearch extends FulfillmentWarehouseStock
      */
     public function query(): FulfillmentWarehouseStockQuery
     {
-        return static::find()->alias('fws')
+        return static::find()
             ->andFilterWhere([
-                'fws.fulfillment_account_id' => $this->fulfillment_account_id,
-                'fws.item_id' => $this->item_id,
-                'fws.warehouse_id' => $this->warehouse_id,
-                'fws.external_item_key' => $this->external_item_key,
-                'fws.external_warehouse_key' => $this->external_warehouse_key,
+                'fulfillment_account_id' => $this->fulfillment_account_id,
+                'item_id' => $this->item_id,
+                'warehouse_id' => $this->warehouse_id,
+                'external_item_key' => $this->external_item_key,
+                'external_warehouse_key' => $this->external_warehouse_key,
             ]);
     }
 }

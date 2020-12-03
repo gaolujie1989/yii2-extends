@@ -12,7 +12,6 @@ use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\models\SalesChannelOrder;
-use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
@@ -21,7 +20,7 @@ use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
 /**
- * Class SalesChannelConnect
+ * Class BaseSalesChannelConnector
  * @package lujie\sales\channel
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
@@ -64,7 +63,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      */
     public function bootstrap($app)
     {
-        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass);
+        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass) ?: $this->outboundOrderClass;
         Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
         Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
 
@@ -104,7 +103,10 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @return bool
      * @inheritdoc
      */
-    abstract public function isOrderNeedPush(BaseActiveRecord $outboundOrder): bool;
+    public function isOrderNeedPush(BaseActiveRecord $outboundOrder): bool
+    {
+        return true;
+    }
 
     /**
      * @param BaseActiveRecord|TraceableBehaviorTrait $outboundOrder
@@ -152,6 +154,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      */
     public function updateOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?bool
     {
+        /** @var BaseActiveRecord|TraceableBehaviorTrait $outboundOrder */
         $outboundOrder = $this->outboundOrderClass::findOne($salesChannelOrder->order_id);
         if ($outboundOrder === null) {
             $outboundOrder = $this->createOutboundOrder($salesChannelOrder, $externalOrder);
@@ -160,6 +163,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
             }
             $salesChannelOrder->order_id = $outboundOrder->primaryKey;
             $salesChannelOrder->order_status = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
+            $salesChannelOrder->order_updated_at = $outboundOrder->updated_at;
             $salesChannelOrder->save(false);
         }
 
@@ -169,6 +173,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         $newOrderStatus = $this->orderStatusMap[$salesChannelOrder->sales_channel_status];
         $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
         $salesChannelOrder->order_status = $newOrderStatus;
+        $salesChannelOrder->order_updated_at = $outboundOrder->updated_at;
 
         $this->updateOutboundOrderAdditional($outboundOrder, $salesChannelOrder, $externalOrder);
         return $outboundOrder->save(false) && $salesChannelOrder->save(false);
@@ -177,10 +182,13 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     /**
      * @param BaseActiveRecord $outboundOrder
      * @param SalesChannelOrder $salesChannelOrder
-     * @return mixed
+     * @param array $externalOrder
      * @inheritdoc
      */
-    abstract protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder);
+    protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder)
+    {
+
+    }
 
     /**
      * @param SalesChannelOrder $salesChannelOrder

@@ -284,8 +284,10 @@ class RelationSavableBehavior extends Behavior
      */
     public function validateRelations(?array $relationAttributeNames = null, bool $clearErrors = true): bool
     {
-        /** @var BaseActiveRecord $owner */
         $owner = $this->owner;
+        if ($owner->hasErrors()) {
+            return false;
+        }
         foreach ($this->savedRelations as $name => $relationModels) {
             $attributeNames = $relationAttributeNames[$name] ?? null;
             if (is_array($relationModels)) {

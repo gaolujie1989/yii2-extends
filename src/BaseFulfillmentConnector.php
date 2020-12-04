@@ -253,6 +253,8 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             $fulfillmentOrder->order_id = $orderId;
             $fulfillmentOrder->order_status = $orderStatus;
             $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
+            $fulfillmentOrder->warehouse_id = $fulfillmentWarehouse->warehouse_id;
+            $fulfillmentOrder->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
             return $fulfillmentOrder->save(false);
         }
@@ -292,6 +294,10 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         /** @var BaseActiveRecord|TraceableBehaviorTrait $outboundOrder */
         $outboundOrder = $this->outboundOrderClass::findOne($fulfillmentOrder->order_id);
         if ($outboundOrder === null) {
+            return null;
+        }
+        $warehouseId = $outboundOrder->getAttribute($this->outboundOrderWarehouseIdAttribute);
+        if ($warehouseId !== $fulfillmentOrder->warehouse_id) {
             return null;
         }
 

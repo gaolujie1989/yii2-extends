@@ -246,6 +246,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $fulfillmentOrder = FulfillmentOrderForm::find()
             ->fulfillmentAccountId($fulfillmentWarehouse->fulfillment_account_id)
             ->orderId($orderId)
+            ->warehouseId($warehouseId)
             ->one();
         if ($fulfillmentOrder === null) {
             $fulfillmentOrder = new FulfillmentOrderForm();

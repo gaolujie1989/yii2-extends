@@ -19,8 +19,10 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery fulfillmentStatus($fulfillmentStatus)
  * @method FulfillmentOrderQuery orderId($orderId)
  * @method FulfillmentOrderQuery orderStatus($orderStatus)
+ * @method FulfillmentOrderQuery warehouseId($warehouseId)
  * @method FulfillmentOrderQuery externalOrderKey($externalOrderKey)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
+ * @method FulfillmentOrderQuery externalWarehouseKey($externalWarehouseKey)
  * @method FulfillmentOrderQuery orderPushedStatus($orderPushedStatus)
  *
  * @method FulfillmentOrderQuery externalUpdatedAtFrom($externalUpdatedAtFrom)
@@ -63,8 +65,10 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'fulfillmentStatus' => 'fulfillment_status',
                     'orderId' => 'order_id',
                     'orderStatus' => 'order_status',
+                    'warehouseId' => 'warehouse_id',
                     'externalOrderKey' => 'external_order_key',
                     'externalOrderStatus' => 'external_order_status',
+                    'externalWarehouseKey' => 'external_warehouse_key',
                     'orderPushedStatus' => 'order_pushed_status',
 
                     'externalUpdatedAtFrom' => ['external_updated_at' => '>='],

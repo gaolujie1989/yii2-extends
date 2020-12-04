@@ -112,12 +112,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     {
         if ($fulfillmentItem->external_item_key) {
             return [
-                'sku_code' => $item->itemNo,
+                'sku_code' => strtoupper($item->itemNo),
                 'picture_url' => $item->imageUrls,
             ];
         } else {
             return [
-                'sku_code' => $item->itemNo,
+                'sku_code' => strtoupper($item->itemNo),
                 'product_code' => '', //$item->getBarcode('EAN'), //@TODO
                 'sku_name' => $item->itemName,
                 'uom' => 'TAI',

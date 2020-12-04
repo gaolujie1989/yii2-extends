@@ -216,6 +216,7 @@ class F4pxClient extends BaseJsonRpcClient
 
         $signData['body'] = Json::encode($data);
         $signData['sign'] = $this->getSign($signData);
+        unset($signData['body']);
         $request->setUrl(array_merge([$this->url], $signData));
     }
 

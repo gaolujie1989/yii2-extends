@@ -16,13 +16,15 @@ use Yii;
  * @property int $fulfillment_account_id
  * @property int $fulfillment_status
  * @property int $order_id
- * @property int $order_status
+ * @property string $order_status
  * @property int $order_updated_at
+ * @property int $warehouse_id
  * @property string $external_order_key
  * @property string $external_order_status
  * @property array|null $external_order_additional
  * @property int $external_created_at
  * @property int $external_updated_at
+ * @property string $external_warehouse_key
  * @property int $order_pushed_at
  * @property int $order_pushed_status
  * @property array|null $order_pushed_result
@@ -47,13 +49,13 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_status', 'order_updated_at', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'default', 'value' => 0],
-            [['external_order_key', 'external_order_status'], 'default', 'value' => ''],
+            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_updated_at', 'warehouse_id', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'default', 'value' => 0],
+            [['order_status', 'external_order_key', 'external_order_status', 'external_warehouse_key'], 'default', 'value' => ''],
             [['external_order_additional', 'order_pushed_result', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_status', 'order_updated_at', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'integer'],
+            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_updated_at', 'warehouse_id', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'integer'],
             [['external_order_additional', 'order_pushed_result', 'additional'], 'safe'],
-            [['external_order_key'], 'string', 'max' => 50],
-            [['external_order_status'], 'string', 'max' => 20],
+            [['order_status', 'external_order_status'], 'string', 'max' => 20],
+            [['external_order_key', 'external_warehouse_key'], 'string', 'max' => 50],
             [['order_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['order_id', 'fulfillment_account_id']],
             [['external_order_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_order_key', 'fulfillment_account_id']],
         ];
@@ -71,11 +73,13 @@ class FulfillmentOrder extends \yii\db\ActiveRecord
             'order_id' => Yii::t('lujie/fulfillment', 'Order ID'),
             'order_status' => Yii::t('lujie/fulfillment', 'Order Status'),
             'order_updated_at' => Yii::t('lujie/fulfillment', 'Order Updated At'),
+            'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
             'external_order_key' => Yii::t('lujie/fulfillment', 'External Order Key'),
             'external_order_status' => Yii::t('lujie/fulfillment', 'External Order Status'),
             'external_order_additional' => Yii::t('lujie/fulfillment', 'External Order Additional'),
             'external_created_at' => Yii::t('lujie/fulfillment', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
+            'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
             'order_pushed_at' => Yii::t('lujie/fulfillment', 'Order Pushed At'),
             'order_pushed_status' => Yii::t('lujie/fulfillment', 'Order Pushed Status'),
             'order_pushed_result' => Yii::t('lujie/fulfillment', 'Order Pushed Result'),

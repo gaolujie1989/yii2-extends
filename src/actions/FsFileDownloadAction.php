@@ -5,7 +5,6 @@
 
 namespace lujie\upload\actions;
 
-
 use creocoder\flysystem\Filesystem;
 use Yii;
 use yii\di\Instance;
@@ -13,6 +12,11 @@ use yii\helpers\FileHelper;
 use yii\rest\Action;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Class FsFileDownloadAction
+ * @package lujie\upload\actions
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class FsFileDownloadAction extends Action
 {
     /**
@@ -59,6 +63,7 @@ class FsFileDownloadAction extends Action
             Yii::$app->getResponse()->sendFile($tmpFilePath, $attachmentName, $this->options);
         } else {
             $mimeTypeByExtension = FileHelper::getMimeTypeByExtension($path);
+            //php7.4 bug, fread(): read of 8192 bytes failed with errno=21 Is a directory, stream read on closed stream
             Yii::$app->getResponse()->sendContentAsFile(
                 $this->fs->read($path),
                 $attachmentName,

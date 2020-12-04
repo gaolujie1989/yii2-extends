@@ -105,6 +105,22 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'customer_code' => '',
     ];
 
+    public $defaultOrderData = [
+        'customer_code' => '',
+        'consignment_type' => 'S',
+        'logistics_service_info' => [
+            'logistics_product_code' => '',
+            'return_service' => 'N',
+            'signature_service' => 'N',
+        ],
+    ];
+
+    public $defaultOrderItemData = [
+        'stock_quality' => 'G',
+//        'batch_no' => '',
+//        'unit_price' => '',
+    ];
+
     #endregion
 
     public $orderProcessingStatus = 'S';
@@ -139,7 +155,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'picture_url' => $item->imageUrls,
             ];
         } else {
-            return [
+            return array_merge($this->defaultItemData, [
                 'sku_code' => strtoupper($item->itemNo),
                 'product_code' => $item->getBarcode('EAN') ?: $item->getBarcode('OWN') ?: '',
                 'sku_name' => $item->itemName,
@@ -148,7 +164,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'width' => $item->widthMM / 10,
                 'height' => $item->heightMM / 10,
                 'picture_url' => $item->imageUrls,
-            ];
+            ]);
         }
     }
 
@@ -213,38 +229,17 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     {
         $orderItems = [];
         foreach ($order->orderItems as $orderItem) {
-            $orderItems[] = [
+            $orderItems[] = array_merge($this->defaultOrderItemData, [
                 'sku_code' => $orderItem->itemNo,
                 'qty' => $orderItem->orderedQty,
-                'stock_quality' => 'G',
-//                'batch_no' => '',
-//                'unit_price' => '',
-            ];
+            ]);
         }
         $address = $order->address;
-        return [
+        return array_merge($this->defaultOrderData, [
             'customer_code' => '',
             'ref_no' => 'O-' . $order->orderId,
-            'from_warehouse_code' => '', //@TODO
-            'consignment_type' => 'S',
-            'logistics_service_info' => [
-                'logistics_product_code' => '',
-                'return_service' => 'N', //@TODO
-                'signature_service' => 'N',
-            ],
-//            'shipping_no' => '',
-//            'shippinglabel' => '',
-//            'invoice' => '',
-//            'msds' => '',
-//            'oda' => '',
-//            'sales_platform' => '',
-//            'seller_id' => '',
+            'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
             'sales_no' => $order->orderNo,
-//            'shop_id' => '',
-//            'shop_name' => '',
-//            'insure_services' => '',
-//            'currency' => '',
-//            'insure_value' => '',
             'remark' => $address->additional,
             'oconsignment_desc' => [
                 'country' => $address->country,
@@ -260,28 +255,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'phone' => $address->phone,
                 'email' => $address->email,
             ],
-//            'identity_info' => [
-//                'id_type' => '',
-//                'id_card' => '',
-//                'id_front_pic' => '',
-//                'id_back_pic' => '',
-//            ],
             'oconsignment_sku' => $orderItems,
-//            'icustoms_service' => '',
-//            'ocustoms_service' => '',
-//            'fba_shipment_id' => '',
-//            'oconsignment_fba' => [
-//                'fba_box_code' => '',
-//                'im_code' => '',
-//                'fba_im_quantity' => '',
-//                'fba_im_code' => '',
-//                'fba_item_label_sign' => '',
-//                'fba_label_quantity' => '',
-//                'fba_inspect_company' => '',
-//                'fba_inspect_company_address' => '',
-//                'fba_inspection_logo' => '',
-//            ],
-        ];
+        ]);
     }
 
     /**

@@ -84,6 +84,29 @@ class F4pxFulfillmentService extends BaseFulfillmentService
 
     #endregion
 
+    #region F4PX custom push field
+
+    /**
+     * @var array
+     */
+    public $defaultItemData = [
+        'uom' => 'EAH',
+        'wrapping' => 'H',
+        'appearance' => 'RS',
+        'logistics_package' => 'Y',
+        'package_material' => 'PA',
+        'sn_rule_code' => '',
+        'expired_date' => 'N',
+        'sales_link' => '',
+        'include_batch' => 'N',
+        'include_battery' => 'N',
+        'remark' => '',
+        'release_flag' => 'Y',
+        'customer_code' => '',
+    ];
+
+    #endregion
+
     public $orderProcessingStatus = 'S';
     public $orderCancelledStatus = 'X';
     public $orderErrorStatus = 'E';
@@ -118,33 +141,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         } else {
             return [
                 'sku_code' => strtoupper($item->itemNo),
-                'product_code' => '', //$item->getBarcode('EAN'), //@TODO
+                'product_code' => $item->getBarcode('EAN') ?: $item->getBarcode('OWN') ?: '',
                 'sku_name' => $item->itemName,
-                'uom' => 'EAH',
-//                'single_sku_code' => '',
-//                'pcs' => '',
-                'wrapping' => 'H',
-                'appearance' => 'RS',
                 'weight' => $item->weightG,
                 'length' => $item->lengthMM / 10,
                 'width' => $item->widthMM / 10,
                 'height' => $item->heightMM / 10,
-                'logistics_package' => 'Y',
-                'package_material' => 'PA',
-                'sn_rule_code' => '',
-                'expired_date' => 'N',
-                'sales_link' => '',
-                'include_batch' => 'N',
-                'include_battery' => 'N',
-//                'battery_config' => '',
-//                'battery_type' => '',
-//                'battery_power' => '',
-//                'battery_number' => '',
-//                'battery_resource' => '',
                 'picture_url' => $item->imageUrls,
-                'remark' => '',
-                'release_flag' => 'Y',
-                'customer_code' => '',
             ];
         }
     }

@@ -161,6 +161,7 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
             'fulfillment_account_id' => 1,
             'order_id' => $order->test_order_id,
             'external_order_key' => 'ORDER_K1',
+            'warehouse_id' => 1,
         ]);
         $fulfillmentOrder->save(false);
 

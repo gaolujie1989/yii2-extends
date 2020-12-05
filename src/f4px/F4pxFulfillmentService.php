@@ -150,6 +150,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
     {
         $pictureUrls = array_slice($item->imageUrls, 0, 6);
+        $pictureUrls = array_map(static function($url) {
+            return $url . '#xxx.jpg';
+        }, $pictureUrls);
         if ($fulfillmentItem->external_item_key) {
             return [
                 'sku_code' => strtoupper($item->itemNo),
@@ -191,7 +194,10 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function saveExternalItem(array $externalItem, FulfillmentItem $fulfillmentItem): ?array
     {
         if ($fulfillmentItem->external_item_key) {
-            return $this->client->editSkuPicture($externalItem);
+            if ($this->client->editSkuPicture($externalItem)) {
+                $skuList = $this->client->getSkuList(['lstsku' => [$externalItem['sku_code']]]);
+                return $skuList['skulist'][0] ?? null;
+            }
         } else {
             return $this->client->createSku($externalItem);
         }

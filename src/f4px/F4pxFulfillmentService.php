@@ -149,10 +149,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
     {
+        $pictureUrls = array_slice($item->imageUrls, 0, 6);
         if ($fulfillmentItem->external_item_key) {
             return [
                 'sku_code' => strtoupper($item->itemNo),
-                'picture_url' => $item->imageUrls,
+                'picture_url' => $pictureUrls,
             ];
         } else {
             return array_merge($this->defaultItemData, [
@@ -163,7 +164,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'length' => $item->lengthMM / 10,
                 'width' => $item->widthMM / 10,
                 'height' => $item->heightMM / 10,
-                'picture_url' => $item->imageUrls,
+                'picture_url' => $pictureUrls,
             ]);
         }
     }
@@ -346,7 +347,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
-     * @throws JsonRpcException
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool

@@ -214,7 +214,8 @@ class F4pxClient extends BaseJsonRpcClient
         unset($data['method']);
         $request->setData($data);
 
-        $signData['body'] = Json::encode($data);
+        //yii default json option will cause wrong sign
+        $signData['body'] = Json::encode($data, 0);
         $signData['sign'] = $this->getSign($signData);
         unset($signData['body']);
         $request->setUrl(array_merge([$this->url], $signData));

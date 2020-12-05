@@ -133,7 +133,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             return false;
         }
 
-        if (empty($fulfillmentItem->item_pushed_at) && $externalItem = $this->getExternalItem($item)) {
+        if (empty($fulfillmentItem->external_item_key) && $externalItem = $this->getExternalItem($item)) {
             Yii::info("Item not pushed, but exist in external, update FulfillmentItem", __METHOD__);
             $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
         }
@@ -206,7 +206,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
         }
-        if (empty($fulfillmentOrder->order_pushed_at) && $externalOrder = $this->getExternalOrder($order)) {
+        if (empty($fulfillmentOrder->external_order_key) && $externalOrder = $this->getExternalOrder($order)) {
             Yii::info("Order not pushed, but exist in external, update FulfillmentOrder", __METHOD__);
             $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
         }
@@ -320,6 +320,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
     /**
      * @param array $fulfillmentOrders
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pullFulfillmentOrders(array $fulfillmentOrders): void

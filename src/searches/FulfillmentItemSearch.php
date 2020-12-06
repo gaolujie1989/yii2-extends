@@ -22,7 +22,7 @@ class FulfillmentItemSearch extends FulfillmentItem
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'external_item_key'], 'safe']
+            [['fulfillment_account_id', 'item_id', 'external_item_key', 'item_pushed_status'], 'safe']
         ];
     }
 
@@ -36,7 +36,8 @@ class FulfillmentItemSearch extends FulfillmentItem
             ->andFilterWhere([
                 'fulfillment_account_id' => $this->fulfillment_account_id,
                 'item_id' => $this->item_id,
-                'external_item_key' => $this->external_item_key
+                'external_item_key' => $this->external_item_key,
+                'item_pushed_status' => $this->item_pushed_status
             ]);
     }
 }

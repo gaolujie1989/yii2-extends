@@ -443,7 +443,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouseStocks(array $externalItemKeys): array
     {
-        $eachInboundList = $this->client->eachInboundList(['lstsku' => $externalItemKeys]);
+        $eachInboundList = $this->client->eachInventory(['lstsku' => $externalItemKeys]);
         return iterator_to_array($eachInboundList, false);
     }
 

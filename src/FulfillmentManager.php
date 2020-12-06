@@ -32,7 +32,6 @@ use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
 
@@ -150,7 +149,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
         return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentItem,
-            'updated_at', 'item_pushed_status', 'item_pushed_result');
+            'item_pushed_status', 'item_pushed_result');
     }
 
     /**
@@ -265,7 +264,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         //always push job because order may be change multi times with different data, so need to push different job
         return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentOrder,
-            'updated_at', 'order_pushed_status', 'order_pushed_result', -1);
+            'order_pushed_status', 'order_pushed_result', -1);
     }
 
     #endregion

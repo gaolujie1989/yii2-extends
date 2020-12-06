@@ -24,9 +24,8 @@ use Yii;
  * @property int $balance_qty
  * @property string $reason
  */
-class FulfillmentDailyStockMovement extends \yii\db\ActiveRecord
+class FulfillmentDailyStockMovement extends \lujie\fulfillment\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

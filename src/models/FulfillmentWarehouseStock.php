@@ -25,9 +25,8 @@ use Yii;
  * @property int $stock_pulled_at
  * @property array|null $additional
  */
-class FulfillmentWarehouseStock extends \yii\db\ActiveRecord
+class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

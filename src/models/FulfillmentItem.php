@@ -8,6 +8,7 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%fulfillment_item}}".
@@ -26,9 +27,8 @@ use Yii;
  * @property int $stock_pulled_at
  * @property array|null $additional
  */
-class FulfillmentItem extends \yii\db\ActiveRecord
+class FulfillmentItem extends \lujie\fulfillment\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

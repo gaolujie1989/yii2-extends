@@ -29,7 +29,7 @@ use Yii;
  * @property array|null $additional
  */
 class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\ActiveRecord
-
+{
     /**
      * {@inheritdoc}
      */

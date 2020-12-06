@@ -24,7 +24,8 @@ class FulfillmentOrderSearch extends FulfillmentOrder
         return [
             [['fulfillment_account_id', 'fulfillment_status',
                 'order_id', 'order_status',
-                'external_order_key', 'external_order_status'], 'safe']
+                'external_order_key', 'external_order_status',
+                'order_pushed_status'], 'safe']
         ];
     }
 
@@ -42,6 +43,7 @@ class FulfillmentOrderSearch extends FulfillmentOrder
                 'order_status' => $this->order_status,
                 'external_order_key' => $this->external_order_key,
                 'external_order_status' => $this->external_order_status,
+                'order_pushed_status' => $this->order_pushed_status,
             ]);
     }
 }

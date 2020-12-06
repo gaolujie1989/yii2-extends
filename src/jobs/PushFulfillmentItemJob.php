@@ -7,6 +7,7 @@ namespace lujie\fulfillment\jobs;
 
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentItem;
+use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -34,18 +35,46 @@ class PushFulfillmentItemJob extends BaseObject implements JobInterface
     /**
      * @param Queue $queue
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function execute($queue): void
     {
+        $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
+        $this->fulfillmentManager->pushFulfillmentItem($this->getFulfillmentItem());
+    }
+
+    /**
+     * @return FulfillmentItem
+     * @inheritdoc
+     */
+    protected function getFulfillmentItem(): FulfillmentItem
+    {
         /** @var ?FulfillmentItem $fulfillmentItem */
         $fulfillmentItem = FulfillmentItem::findOne($this->fulfillmentItemId);
         if ($fulfillmentItem === null) {
-            throw new InvalidArgumentException('Invalid fulfillmentItemId');
+            throw new InvalidArgumentException("Invalid fulfillmentItemId {$this->fulfillmentItemId}");
         }
+        return $fulfillmentItem;
+    }
 
-        $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $this->fulfillmentManager->pushFulfillmentItem($fulfillmentItem);
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getRateLimitKey(): string
+    {
+        $fulfillmentOrder = $this->getFulfillmentItem();
+        return 'FulfillmentAccountItem' . $fulfillmentOrder->fulfillment_account_id;
+    }
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getRateLimitDelay(): int
+    {
+        return 5;
     }
 }

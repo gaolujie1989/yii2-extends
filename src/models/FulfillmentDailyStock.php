@@ -22,9 +22,8 @@ use Yii;
  * @property int $reserved_qty
  * @property string $stock_date
  */
-class FulfillmentDailyStock extends \yii\db\ActiveRecord
+class FulfillmentDailyStock extends \lujie\fulfillment\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

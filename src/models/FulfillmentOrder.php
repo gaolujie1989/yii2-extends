@@ -31,9 +31,8 @@ use Yii;
  * @property int $order_pulled_at
  * @property array|null $additional
  */
-class FulfillmentOrder extends \yii\db\ActiveRecord
+class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

@@ -28,9 +28,7 @@ use Yii;
  * @property int $external_created_at
  * @property array|null $additional
  */
-class FulfillmentWarehouseStockMovement extends \yii\db\ActiveRecord
-{
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\ActiveRecord
 
     /**
      * {@inheritdoc}

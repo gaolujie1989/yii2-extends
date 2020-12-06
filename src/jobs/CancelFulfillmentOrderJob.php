@@ -20,6 +20,7 @@ class CancelFulfillmentOrderJob extends BaseFulfillmentOrderJob
     /**
      * @param Queue $queue
      * @throws InvalidConfigException
+     * @throws \Throwable
      * @throws \yii\db\Exception
      * @inheritdoc
      */

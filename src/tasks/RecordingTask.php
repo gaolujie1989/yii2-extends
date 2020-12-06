@@ -54,7 +54,7 @@ class RecordingTask extends CronTask
             $job = Instance::ensure($this->jobConfig, RecordingJob::class);
             $job->dataSourceId = $dataSource->data_source_id;
             ExecuteHelper::pushJob($this->queue, $job, $dataSource,
-                'updated_at', 'last_exec_status', 'last_exec_result');
+                'last_exec_status', 'last_exec_result');
         }
         return true;
     }

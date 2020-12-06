@@ -50,7 +50,7 @@ class  DataSourceController extends ActiveController
         $job = Instance::ensure($this->jobConfig, RecordingJob::class);
         $job->dataSourceId = $model->data_source_id;
         $result = ExecuteHelper::pushJob($this->queue, $job, $model,
-            'updated_at', 'last_exec_status', 'last_exec_result', 0);
+            'last_exec_status', 'last_exec_result', 'updated_at', 0);
         return ['success' => $result];
     }
 }

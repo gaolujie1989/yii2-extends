@@ -34,9 +34,9 @@ class ExecuteHelper
         Queue $queue,
         JobInterface $job,
         BaseActiveRecord $model,
-        string $timeAttribute = 'updated_at',
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
+        string $timeAttribute = 'updated_at',
         int $queuedDuration = 3600): bool
     {
         $statusValue = $model->getAttribute($statusAttribute);
@@ -77,7 +77,6 @@ class ExecuteHelper
         bool $throwException = false,
         array $warningExceptions = [Exception::class]): bool
     {
-        $timeAttribute && $model->setAttribute($timeAttribute, time());
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
         $model->save(false);
 
@@ -88,6 +87,8 @@ class ExecuteHelper
                 unset($resultValue['error']);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
+            //time attribute only update on success
+            $timeAttribute && $model->setAttribute($timeAttribute, time());
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             $model->save(false);
             return true;

@@ -50,7 +50,7 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
                 ],
                 'queryConditions' => [
                     'itemPushed' => ['>', 'item_pushed_at', 0],
-                    'newUpdatedItems' => 'item_updated_at > external_updated_at',
+                    'newUpdatedItems' => 'item_updated_at > item_pushed_at',
                 ],
                 'querySorts' => [
                     'orderByStockPulledAt' => ['stock_pulled_at']

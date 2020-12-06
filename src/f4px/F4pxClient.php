@@ -44,6 +44,8 @@ use yii\httpclient\Response;
  * @method \Generator batchInboundList(array $data)
  * @method \Generator eachOutboundList(array $data)
  * @method \Generator batchOutboundList(array $data)
+ * @method \Generator eachInventory(array $data)
+ * @method \Generator batchInventory(array $data)
  * @method \Generator eachInventoryLog(array $data)
  * @method \Generator batchInventoryLog(array $data)
  * @method \Generator eachInventoryDetail(array $data)

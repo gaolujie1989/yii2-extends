@@ -45,8 +45,8 @@ class PullFulfillmentOrderTask extends CronTask
      */
     public function execute(): bool
     {
-        $this->shippedAtFrom = is_string($this->shippedAtFrom) ? strtotime($this->shippedAtFrom) : $this->shippedAtFrom;
-        $this->shippedAtTo = is_string($this->shippedAtTo) ? strtotime($this->shippedAtTo) : $this->shippedAtTo;
+        $this->shippedAtFrom = is_numeric($this->shippedAtFrom) ? $this->shippedAtFrom : strtotime($this->shippedAtFrom);
+        $this->shippedAtTo = is_numeric($this->shippedAtTo) ? $this->shippedAtTo : strtotime($this->shippedAtTo);
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
         $accountIds = FulfillmentAccount::find()->active()->column();
         foreach ($accountIds as $accountId) {

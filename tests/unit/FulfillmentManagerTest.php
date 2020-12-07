@@ -222,6 +222,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
     /**
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
+     * @throws \Throwable
      * @inheritdoc
      */
     public function testPushOrder(): void

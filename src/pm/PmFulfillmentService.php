@@ -586,8 +586,8 @@ class PmFulfillmentService extends BaseFulfillmentService
         $externalOrderStatus = $externalOrder['statusId'];
         $pmOrderProperties = ArrayHelper::map($externalOrder['properties'], 'typeId', 'value');
         $pmOrderDates = ArrayHelper::map($externalOrder['dates'], 'typeId', 'value');
-        $fulfillmentOrder->external_created_at = strtotime($externalOrder['createdAt']);
-        $fulfillmentOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
+        $fulfillmentOrder->external_created_at = is_numeric($externalOrder['createdAt']) ? $externalOrder['createdAt'] : strtotime($externalOrder['createdAt']);
+        $fulfillmentOrder->external_updated_at = is_numeric($externalOrder['updatedAt']) ? $externalOrder['updatedAt'] : strtotime($externalOrder['updatedAt']);
         $externalOrderAdditional['externalOrderNo'] = $pmOrderProperties[7] ?? '';
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
 
@@ -834,7 +834,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
-        $fulfillmentStockMovement->external_created_at = strtotime($externalStockMovement['createdAt']);
+        $fulfillmentStockMovement->external_created_at = is_numeric($externalStockMovement['createdAt']) ? $externalStockMovement['createdAt'] : strtotime($externalStockMovement['createdAt']);
         $fulfillmentStockMovement->reason = $externalStockMovement['reason'];
         $fulfillmentStockMovement->moved_qty = $externalStockMovement['quantity'];
         $fulfillmentStockMovement->related_type = $externalStockMovement['processRowType'];

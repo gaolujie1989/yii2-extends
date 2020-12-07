@@ -53,6 +53,16 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public $queue = 'queue';
 
     /**
+     * @var array
+     */
+    public $fulfillmentItemJob = [];
+
+    /**
+     * @var array
+     */
+    public $fulfillmentOrderJob = [];
+
+    /**
      * @var Mutex
      */
     public $mutex = 'mutex';
@@ -141,11 +151,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param FulfillmentItem $fulfillmentItem
+     * @return bool
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function pushFulfillmentItemJob(FulfillmentItem $fulfillmentItem): bool
     {
-        $job = new PushFulfillmentItemJob();
+        /** @var PushFulfillmentItemJob $job */
+        $job = Instance::ensure($this->fulfillmentItemJob, PushFulfillmentItemJob::class);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
         return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentItem,
@@ -259,7 +272,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, array $jobConfig = []): bool
     {
         /** @var BaseFulfillmentOrderJob $job */
-        $job = Instance::ensure($jobConfig, BaseFulfillmentOrderJob::class);
+        $job = Instance::ensure(array_merge($this->fulfillmentOrderJob, $jobConfig), BaseFulfillmentOrderJob::class);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         //always push job because order may be change multi times with different data, so need to push different job

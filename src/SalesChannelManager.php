@@ -46,6 +46,11 @@ class SalesChannelManager extends Component implements BootstrapInterface
     public $queue = 'queue';
 
     /**
+     * @var array
+     */
+    public $salesChannelOrderJob = [];
+
+    /**
      * @var Mutex
      */
     public $mutex = 'mutex';
@@ -160,7 +165,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
     protected function pushSalesChannelOrderActionJob(SalesChannelOrder $channelOrder, array $jobConfig = []): bool
     {
         /** @var BaseSalesChannelOrderJob $job */
-        $job = Instance::ensure($jobConfig, BaseSalesChannelOrderJob::class);
+        $job = Instance::ensure(array_merge($this->salesChannelOrderJob, $jobConfig), BaseSalesChannelOrderJob::class);
         $job->salesChannelManager = ComponentHelper::getName($this);
         $job->salesChannelOrderId = $channelOrder->sales_channel_order_id;
         //always push job because order may be change multi times with different data, so need to push different job

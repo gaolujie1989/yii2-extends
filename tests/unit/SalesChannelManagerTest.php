@@ -129,7 +129,7 @@ class SalesChannelManagerTest extends \Codeception\Test\Unit
 
         $salesChannelOrder = new SalesChannelOrder([
             'sales_channel_account_id' => 1,
-            'external_order_key' => 2,
+            'external_order_key' => 1,
         ]);
         $this->assertFalse($salesChannelManager->cancelSalesChannelOrder($salesChannelOrder));
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_SKIPPED, $salesChannelOrder->order_pushed_status);

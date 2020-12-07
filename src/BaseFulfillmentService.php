@@ -267,7 +267,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         if ($newFulfillmentStatus) {
             $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
         }
-        return FulfillmentOrder::getDb()->transaction(function() use ($fulfillmentOrder, $externalOrder) {
+        return FulfillmentOrder::getDb()->transaction(function () use ($fulfillmentOrder, $externalOrder) {
             if ($fulfillmentOrder->save(false)) {
                 $this->triggerFulfillmentOrderEvent($fulfillmentOrder, $externalOrder);
                 return true;
@@ -549,7 +549,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $fulfillmentMovement->external_item_key = $externalItemKey;
             $fulfillmentMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
             $fulfillmentMovement->item_id = $itemIds[$externalItemKey];
-            $fulfillmentMovement->external_created_at = $itemIds[$this->externalMovementTimeField];
+            $fulfillmentMovement->external_created_at = is_numeric($newStockMovement[$this->externalMovementTimeField])
+                ? $newStockMovement[$this->externalMovementTimeField] : strtotime($newStockMovement[$this->externalMovementTimeField]);
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
         $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);

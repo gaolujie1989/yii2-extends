@@ -549,6 +549,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $fulfillmentMovement->external_item_key = $externalItemKey;
             $fulfillmentMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
             $fulfillmentMovement->item_id = $itemIds[$externalItemKey];
+            $fulfillmentMovement->external_created_at = $itemIds[$this->externalMovementTimeField];
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
         $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);

@@ -455,7 +455,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStock(FulfillmentWarehouseStock $fulfillmentWarehouseStock, array $externalWarehouseStock): bool
     {
-        $fulfillmentWarehouseStock->stock_qty = $externalWarehouseStock['available_stock'];
+        $fulfillmentWarehouseStock->available_qty = $externalWarehouseStock['available_stock'];
         $fulfillmentWarehouseStock->reserved_qty = $externalWarehouseStock['pending_stock'];
         $fulfillmentWarehouseStock->stock_additional = [
             'onway_stock' => $externalWarehouseStock['onway_stock'],

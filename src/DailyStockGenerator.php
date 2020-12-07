@@ -130,8 +130,8 @@ class DailyStockGenerator extends BaseObject
                 'transformers' => [
                     static function ($data) {
                         return array_map(static function($values) {
-                            $values['stock_qty'] = ($values['prev_stock_qty'] ?? 0) + ($values['moved_qty'] ?: 0);
-                            unset($values['prev_stock_qty'], $values['moved_qty']);
+                            $values['available_qty'] = ($values['prev_available_qty'] ?? 0) + ($values['moved_qty'] ?: 0);
+                            unset($values['prev_available_qty'], $values['moved_qty']);
                             return $values;
                         }, $data);
                     }
@@ -154,9 +154,9 @@ class DailyStockGenerator extends BaseObject
                 ->andWhere(['ds.stock_date' => $prevStockDate])
                 ->addSelect($dailyStockFields)
                 ->addSelect(['SUM(moved_qty) as moved_qty'])
-                ->addSelect(['ds.stock_qty as prev_stock_qty', new Expression("'{$stockDate}' as stock_date")])
+                ->addSelect(['ds.available_qty as prev_available_qty', new Expression("'{$stockDate}' as stock_date")])
                 ->addGroupBy($dailyStockFields)
-                ->addGroupBy(['prev_stock_qty'])
+                ->addGroupBy(['prev_available_qty'])
                 ->asArray();
 
             $dataExchanger->source = new QuerySource([

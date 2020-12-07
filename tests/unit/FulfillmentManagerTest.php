@@ -75,12 +75,12 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
             [
                 'itemId' => 'ITEM_K1',
                 'warehouseId' => 'W01',
-                'stock_qty' => 1
+                'available_qty' => 1
             ],
             [
                 'itemId' => 'ITEM_K1',
                 'warehouseId' => 'W02',
-                'stock_qty' => 2
+                'available_qty' => 2
             ]
         ];
 

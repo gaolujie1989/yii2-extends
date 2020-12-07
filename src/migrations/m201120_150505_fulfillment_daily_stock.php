@@ -20,7 +20,7 @@ class m201120_150505_fulfillment_daily_stock extends Migration
             'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
 
-            'stock_qty' => $this->integer()->notNull()->defaultValue(0),
+            'available_qty' => $this->integer()->notNull()->defaultValue(0),
             'reserved_qty' => $this->integer()->notNull()->defaultValue(0),
             'stock_date' => $this->date()->notNull(),
         ]);

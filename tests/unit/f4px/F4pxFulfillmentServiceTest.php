@@ -378,7 +378,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
             'warehouse_id' => 1,
             'external_item_key' => '922000000127',
             'external_warehouse_key' => 'CNSZXB',
-            'stock_qty' => 123,
+            'available_qty' => 123,
         ];
         $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
         $fulfillmentItem->refresh();

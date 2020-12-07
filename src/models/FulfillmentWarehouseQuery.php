@@ -47,7 +47,7 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
                     'externalMovementAtBefore' => ['external_movement_at' => '<='],
                 ],
                 'queryConditions' => [
-                    'supportMovement' => ['support_movement' => StatusConst::STATUS_ACTIVE]
+                    'supportMovement' => ['support_movement' => 1]
                 ],
             ]
         ];

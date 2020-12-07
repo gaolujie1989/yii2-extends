@@ -232,6 +232,9 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
     public function updateFulfillmentOrder(BaseActiveRecord $outboundOrder): ?bool
     {
         $warehouseId = $outboundOrder->getAttribute($this->outboundOrderWarehouseIdAttribute);
+        if (empty($warehouseId)) {
+            return null;
+        }
         $fulfillmentWarehouse = FulfillmentWarehouse::find()->warehouseId($warehouseId)->one();
         if ($fulfillmentWarehouse === null) {
             return null;

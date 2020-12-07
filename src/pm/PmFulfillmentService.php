@@ -733,7 +733,12 @@ class PmFulfillmentService extends BaseFulfillmentService
             'statusTo' => '7.1',
         ];
         $eachOrders = $this->client->eachOrders($condition);
-        return iterator_to_array($eachOrders, false);
+        $pmOrders = iterator_to_array($eachOrders, false);
+        $pmOrderPackageNumbers = $this->client->getOrderPackageNumbersByOrderIds(ArrayHelper::getColumn($pmOrders, 'id'));
+        foreach ($pmOrders as $pmOrderId => $pmOrder) {
+            $pmOrders[$pmOrderId]['packageNumbers'] = $pmOrderPackageNumbers[$pmOrderId] ?? [];
+        }
+        return $pmOrders;
     }
 
     #endregion

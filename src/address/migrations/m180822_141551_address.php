@@ -23,7 +23,7 @@ class m180822_141551_address extends Migration
             'address1' => $this->string()->notNull()->defaultValue('')->comment('street|pack station|post filiale'),
             'address2' => $this->string()->notNull()->defaultValue('')->comment('house no|pack station id'),
             'address3' => $this->string()->notNull()->defaultValue('')->comment('additional'),
-            'postal_code' => $this->string(20)->notNull()->defaultValue(''),
+            'postal_code' => $this->string(50)->notNull()->defaultValue(''),
             'email' => $this->string(100)->notNull()->defaultValue(''),
             'phone' => $this->string(50)->notNull()->defaultValue(''),
             'signature' => $this->string(32)->notNull(),

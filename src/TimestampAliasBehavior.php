@@ -13,12 +13,25 @@ namespace lujie\alias\behaviors;
  */
 class TimestampAliasBehavior extends AliasPropertyBehavior
 {
+    /**
+     * @var string
+     */
     public $format = 'c';
 
+    /**
+     * @var string|null
+     */
     public $timezone = null;
 
+    /**
+     * @var string
+     */
     public $timestampSuffix = '_at';
 
+    /**
+     * @var string
+     * @deprecated
+     */
     public $datetimeSuffix = '_time';
 
     /**
@@ -32,11 +45,9 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
         $value = parent::getAliasProperty($name);
         if (substr($name, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
             return $this->getTimestamp($value);
-        }
-        if (substr($name, -strlen($this->datetimeSuffix)) === $this->datetimeSuffix) {
+        } else {
             return $this->getDatetime($value);
         }
-        return $value;
     }
 
     /**
@@ -50,8 +61,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
         $property = $this->aliasProperties[$name];
         if (substr($property, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
             $value = $this->getTimestamp($value);
-        }
-        if (substr($property, -strlen($this->datetimeSuffix)) === $this->datetimeSuffix) {
+        } else {
             $value = $this->getDatetime($value);
         }
         parent::setAliasProperty($name, $value);

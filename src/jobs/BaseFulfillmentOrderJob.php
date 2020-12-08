@@ -31,6 +31,11 @@ abstract class BaseFulfillmentOrderJob extends BaseObject implements JobInterfac
     public $fulfillmentOrderId;
 
     /**
+     * @var int
+     */
+    public $rateLimitDelay = 2;
+
+    /**
      * @return FulfillmentOrder
      * @inheritdoc
      */
@@ -60,6 +65,6 @@ abstract class BaseFulfillmentOrderJob extends BaseObject implements JobInterfac
      */
     public function getRateLimitDelay(): int
     {
-        return 2;
+        return $this->rateLimitDelay;
     }
 }

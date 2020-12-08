@@ -13,6 +13,7 @@ use yii\di\Instance;
  * Class ChainedCache
  * @package lujie\extend\caching
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated will cause bug
  */
 class ChainedCache extends Cache
 {

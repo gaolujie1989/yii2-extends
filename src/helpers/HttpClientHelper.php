@@ -63,7 +63,7 @@ class HttpClientHelper
      */
     public static function sendRequest(Request $request, array $allowedStatusCodes = [], ?int $retry = null): Response
     {
-        Yii::info("Send {$request->method} request to {$request->fullUrl}", __METHOD__);
+        Yii::debug("Send {$request->method} request to {$request->fullUrl}", __METHOD__);
         $response = static::tryRequest($request, $retry);
 
         if (!$response->getIsOk() && !static::isAllowedStatusCodes($response->getStatusCode(), $allowedStatusCodes)) {
@@ -104,7 +104,7 @@ class HttpClientHelper
      */
     public static function downloadFile(Request $request, string $outputFile, $throwException = true): bool
     {
-        Yii::info("Download file from {$request->fullUrl} save to {$outputFile}", __METHOD__);
+        Yii::debug("Download file from {$request->fullUrl} save to {$outputFile}", __METHOD__);
         $request->client->setTransport(CurlTransport::class);
         $request->setFormat(Client::FORMAT_URLENCODED);
 

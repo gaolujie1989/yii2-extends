@@ -12,6 +12,9 @@ use yii\di\Instance;
 
 /**
  * Class BehaviorAttachment
+ *
+ * Global attach behavior to model classes
+ *
  * @package lujie\extend\base
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

@@ -16,6 +16,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentItemValueQuery fulfillmentDailyStockMovementId($fulfillmentDailyStockMovementId)
  * @method FulfillmentItemValueQuery itemId($itemId)
  * @method FulfillmentItemValueQuery warehouseId($warehouseId)
+ * @method FulfillmentItemValueQuery valueDate($valueDate)
  *
  * @method array|FulfillmentItemValue[] all($db = null)
  * @method array|FulfillmentItemValue|null one($db = null)
@@ -40,9 +41,20 @@ class FulfillmentItemValueQuery extends \yii\db\ActiveQuery
                     'fulfillmentDailyStockMovementId' => 'fulfillment_daily_stock_movement_id',
                     'itemId' => 'item_id',
                     'warehouseId' => 'warehouse_id',
+                    'valueDate' => 'value_date',
                 ]
             ]
         ];
     }
 
+    /**
+     * @param string $date
+     * @return $this
+     * @inheritdoc
+     */
+    public function valueDateBefore(string $date): self
+    {
+        //for calculate average item value or other, the inbound day should not use the new item value
+        return $this->andWhere(['<', 'value_date', $date])->orderBy(['value_date' => SORT_DESC]);
+    }
 }

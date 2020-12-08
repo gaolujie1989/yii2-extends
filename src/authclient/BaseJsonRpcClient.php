@@ -7,6 +7,7 @@ namespace lujie\extend\authclient;
 
 use Iterator;
 use lujie\extend\helpers\HttpClientHelper;
+use Yii;
 use yii\authclient\BaseClient;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;
@@ -105,6 +106,7 @@ abstract class BaseJsonRpcClient extends BaseClient
     {
         $data = array_merge($request->getData(), $this->getCommonData());
         $data['sign'] = $this->getSign($data);
+        Yii::info('');
         $request->setData($data);
     }
 

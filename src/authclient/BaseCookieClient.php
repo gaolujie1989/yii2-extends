@@ -6,6 +6,7 @@
 namespace lujie\extend\authclient;
 
 use lujie\extend\helpers\HttpClientHelper;
+use Yii;
 use yii\authclient\BaseClient;
 use yii\authclient\CacheStateStorage;
 use yii\httpclient\CurlTransport;
@@ -99,6 +100,7 @@ abstract class BaseCookieClient extends BaseClient
             'password' => $this->password,
         ]);
 
+        Yii::info("Login to {$this->loginUrl} with username {$this->username}", __METHOD__);
         $response = $this->createRequest()
             ->setUrl($this->loginUrl)
             ->setMethod('POST')
@@ -122,6 +124,7 @@ abstract class BaseCookieClient extends BaseClient
                 $cookie->expire = $defaultExpireAt;
             }
         }
+        Yii::info("Set Cookies", __METHOD__);
         $this->_cookies = $cookies;
         $this->setState('cookies', $cookies);
     }
@@ -134,11 +137,13 @@ abstract class BaseCookieClient extends BaseClient
     public function getCookies(): ?CookieCollection
     {
         if (empty($this->_cookies)) {
+            Yii::info("Get Cookies", __METHOD__);
             $this->_cookies = $this->getState('cookies') ?: $this->login();
             $now = time();
             /** @var Cookie $cookie */
             foreach ($this->_cookies as $cookie) {
                 if ($cookie->expire <= $now) {
+                    Yii::info("Cookies expired, login again", __METHOD__);
                     $this->_cookies = $this->login();
                 }
             }
@@ -175,6 +180,7 @@ abstract class BaseCookieClient extends BaseClient
      */
     public function applyCookiesToRequest(Request $request, CookieCollection $cookies): void
     {
+        Yii::info('AddCookies to request', __METHOD__);
         $request->addCookies($cookies->toArray());
     }
 

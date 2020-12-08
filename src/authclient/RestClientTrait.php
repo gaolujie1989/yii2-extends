@@ -8,6 +8,7 @@ namespace lujie\extend\authclient;
 use Iterator;
 use lujie\extend\helpers\HttpClientHelper;
 use Throwable;
+use Yii;
 use yii\authclient\CacheStateStorage;
 use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
@@ -67,6 +68,7 @@ trait RestClientTrait
      */
     protected function initRest(): void
     {
+        Yii::info('Init rest config and api methods', __METHOD__);
         $this->setStateStorage($this->cacheStorage ?? CacheStateStorage::class);
         $this->setHttpClient($this->httpClientOptions ?? [
                 'requestConfig' => [

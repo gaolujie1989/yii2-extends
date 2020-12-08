@@ -49,10 +49,10 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => 1,
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'moved_qty' => '-4',
-                'moved_count' => '1',
+                'movement_qty' => '-4',
+                'movement_count' => '1',
                 'reason' => 'OUTBOUND',
-                'moved_date' => '2020-11-14'
+                'movement_date' => '2020-11-14'
             ],
             [
                 'fulfillment_account_id' => 1,
@@ -60,10 +60,10 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => 1,
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'moved_qty' => '50',
-                'moved_count' => '2',
+                'movement_qty' => '50',
+                'movement_count' => '2',
                 'reason' => 'INBOUND',
-                'moved_date' => '2020-11-15'
+                'movement_date' => '2020-11-15'
             ],
             [
                 'fulfillment_account_id' => 1,
@@ -71,10 +71,10 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => 1,
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'moved_qty' => '-11',
-                'moved_count' => '2',
+                'movement_qty' => '-11',
+                'movement_count' => '2',
                 'reason' => 'OUTBOUND',
-                'moved_date' => '2020-11-15'
+                'movement_date' => '2020-11-15'
             ],
         ];
         $dailyStockMovements = FulfillmentDailyStockMovement::find()
@@ -82,7 +82,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
             ->asArray()
             ->all();
         $indexClosure = static function ($values) {
-            return $values['moved_date'] . $values['reason'];
+            return $values['movement_date'] . $values['reason'];
         };
         $expected = ArrayHelper::index($expected, $indexClosure);
         $dailyStockMovements = ArrayHelper::index($dailyStockMovements, $indexClosure);

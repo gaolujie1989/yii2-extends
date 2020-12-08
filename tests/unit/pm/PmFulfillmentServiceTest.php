@@ -502,7 +502,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
             'external_item_key' => '3508',
             'external_warehouse_key' => '108',
             'external_movement_key' => '1576093',
-            'moved_qty' => 1,
+            'movement_qty' => 1,
             'balance_qty' => 0,
             'reason' => '113',
             'related_type' => '2',

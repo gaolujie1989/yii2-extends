@@ -19,9 +19,8 @@ use Yii;
  * @property string $external_item_key
  * @property string $external_warehouse_key
  * @property string $external_movement_key
- * @property int $moved_qty
- * @property int $balance_qty
- * @property string $reason
+ * @property string $movement_type
+ * @property int $movement_qty
  * @property string $related_type
  * @property string $related_key
  * @property array|null $movement_additional
@@ -30,6 +29,7 @@ use Yii;
  */
 class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -44,13 +44,13 @@ class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\Activ
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'moved_qty', 'balance_qty', 'external_created_at'], 'default', 'value' => 0],
-            [['external_item_key', 'external_warehouse_key', 'external_movement_key', 'reason', 'related_type', 'related_key'], 'default', 'value' => ''],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'external_created_at'], 'default', 'value' => 0],
+            [['external_item_key', 'external_warehouse_key', 'external_movement_key', 'movement_type', 'related_type', 'related_key'], 'default', 'value' => ''],
             [['movement_additional', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'moved_qty', 'balance_qty', 'external_created_at'], 'integer'],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'external_created_at'], 'integer'],
             [['movement_additional', 'additional'], 'safe'],
             [['external_item_key', 'external_warehouse_key', 'external_movement_key', 'related_key'], 'string', 'max' => 50],
-            [['reason', 'related_type'], 'string', 'max' => 20],
+            [['movement_type', 'related_type'], 'string', 'max' => 20],
         ];
     }
 
@@ -67,9 +67,8 @@ class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\Activ
             'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
             'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
             'external_movement_key' => Yii::t('lujie/fulfillment', 'External Movement Key'),
-            'moved_qty' => Yii::t('lujie/fulfillment', 'Moved Qty'),
-            'balance_qty' => Yii::t('lujie/fulfillment', 'Balance Qty'),
-            'reason' => Yii::t('lujie/fulfillment', 'Reason'),
+            'movement_type' => Yii::t('lujie/fulfillment', 'Movement Type'),
+            'movement_qty' => Yii::t('lujie/fulfillment', 'Movement Qty'),
             'related_type' => Yii::t('lujie/fulfillment', 'Related Type'),
             'related_key' => Yii::t('lujie/fulfillment', 'Related Key'),
             'movement_additional' => Yii::t('lujie/fulfillment', 'Movement Additional'),
@@ -80,10 +79,10 @@ class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\Activ
 
     /**
      * {@inheritdoc}
-     * @return FulfillmentWarehouseStockMovementQuery the active query used by this AR class.
+     * @return FulfillmentDailyStockMovementQuery the active query used by this AR class.
      */
-    public static function find(): FulfillmentWarehouseStockMovementQuery
+    public static function find(): FulfillmentDailyStockMovementQuery
     {
-        return new FulfillmentWarehouseStockMovementQuery(static::class);
+        return new FulfillmentDailyStockMovementQuery(static::class);
     }
 }

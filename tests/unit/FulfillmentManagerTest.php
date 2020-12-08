@@ -89,7 +89,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
                 'id' => 'M001',
                 'itemId' => 'ITEM_K1',
                 'warehouseId' => 'W01',
-                'moved_qty' => 1,
+                'movement_qty' => 1,
                 'reason' => 'INBOUND',
                 'related_type' => 'INBOUND_ORDER',
                 'related_id' => '15267',
@@ -99,7 +99,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
                 'id' => 'M002',
                 'itemId' => 'ITEM_K1',
                 'warehouseId' => 'W02',
-                'moved_qty' => 2,
+                'movement_qty' => 2,
                 'reason' => 'CORRECT'
             ]
         ];

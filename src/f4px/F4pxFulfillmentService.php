@@ -498,14 +498,21 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
         $fulfillmentStockMovement->external_created_at = (int)substr($externalStockMovement['create_time'], 0, 10);
-        $fulfillmentStockMovement->reason = $externalStockMovement['journal_type'];
-        $fulfillmentStockMovement->moved_qty = $externalStockMovement['io_qty'];
-        $fulfillmentStockMovement->balance_qty = $externalStockMovement['balance_stock'];
+        if ($externalStockMovement['journal_type'] === 'I') {
+            $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_INBOUND;
+        } else if ($externalStockMovement['journal_type'] === 'O') {
+            $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_OUTBOUND;
+        } else {
+            $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_CORRECTION;
+        }
+        $fulfillmentStockMovement->movement_qty = $externalStockMovement['io_qty'];
         $fulfillmentStockMovement->related_type = $externalStockMovement['business_type'];
         $fulfillmentStockMovement->related_key = $externalStockMovement['business_ref_no'];
         $fulfillmentStockMovement->movement_additional = [
             'batch_no' => $externalStockMovement['batch_no'],
+            'balance_stock' => $externalStockMovement['balance_stock'],
             'stock_quality' => $externalStockMovement['stock_quality'],
+            'journal_type' => $externalStockMovement['journal_type'],
         ];
         return $fulfillmentStockMovement->save(false);
     }

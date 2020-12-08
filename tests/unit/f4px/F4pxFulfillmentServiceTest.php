@@ -460,7 +460,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
             'external_item_key' => '922000000127',
             'external_warehouse_key' => 'CNSZXB',
             'external_movement_key' => 'SLBA1566384313f8248b223c6e9e2dc9',
-            'moved_qty' => 123,
+            'movement_qty' => 123,
             'balance_qty' => 3541,
             'reason' => 'I',
             'related_type' => 'P',

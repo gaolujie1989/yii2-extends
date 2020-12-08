@@ -61,7 +61,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             'id' => 'M001',
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W01',
-            'moved_qty' => 1,
+            'movement_qty' => 1,
             'reason' => 'INBOUND',
             'related_type' => 'INBOUND_ORDER',
             'related_id' => '15267',
@@ -71,7 +71,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             'id' => 'M002',
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W02',
-            'moved_qty' => 2,
+            'movement_qty' => 2,
             'reason' => 'CORRECT'
         ]
     ];
@@ -378,7 +378,7 @@ class MockFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
-        $fulfillmentStockMovement->moved_qty = $externalStockMovement['moved_qty'];
+        $fulfillmentStockMovement->movement_qty = $externalStockMovement['movement_qty'];
         $fulfillmentStockMovement->related_type = $externalStockMovement['related_type'] ?? '';
         $fulfillmentStockMovement->related_key = $externalStockMovement['related_id'] ?? '';
         return $fulfillmentStockMovement->save(false);

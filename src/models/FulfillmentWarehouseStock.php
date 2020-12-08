@@ -8,6 +8,10 @@ use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii\db\ActiveRecord as DbActiveRecord;
+use yii\db\BaseActiveRecord;
+use yii\mongodb\ActiveRecord as MongodbActiveRecord;
+use yii\redis\ActiveRecord as RedisActiveRecord;
 
 /**
  * This is the model class for table "{{%fulfillment_warehouse_stock}}".
@@ -92,5 +96,24 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
         return array_merge(parent::fields(), [
             'stock_qty' => 'available_qty'  //for compatible
         ]);
+    }
+
+    /**
+     * @param BaseActiveRecord $record
+     * @return string
+     * @inheritdoc
+     */
+    protected function getTableName(BaseActiveRecord $record): string
+    {
+        if ($record instanceof DbActiveRecord) {
+            return $record::tableName();
+        }
+        if ($record instanceof MongodbActiveRecord) {
+            return $record::collectionName();
+        }
+        if ($record instanceof RedisActiveRecord) {
+            return $record::keyPrefix();
+        }
+        return '';
     }
 }

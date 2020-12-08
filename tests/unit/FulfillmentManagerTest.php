@@ -310,7 +310,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $this->getFulfillmentManager()->pullFulfillmentWarehouses(1);
         $fulfillmentWarehouse = FulfillmentWarehouse::find()->externalWarehouseKey('W01')->one();
         $fulfillmentWarehouse->warehouse_id = 1;
-        $fulfillmentWarehouse->support_movement = StatusConst::STATUS_ACTIVE;
+        $fulfillmentWarehouse->support_movement = 1;
         $fulfillmentWarehouse->save(false);
 
         $fulfillmentItem = new FulfillmentItem();

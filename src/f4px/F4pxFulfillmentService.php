@@ -479,8 +479,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     {
         $condition = [
             'warehouse_code' => $fulfillmentWarehouse->external_warehouse_key,
-            'create_time_start' => $fulfillmentWarehouse->external_warehouse_key,
-            'create_time_end' => $fulfillmentWarehouse->external_warehouse_key,
+            'create_time_start' => $movementAtFrom * 1000,
+            'create_time_end' => $movementAtTo * 1000,
         ];
         if ($fulfillmentItem !== null) {
             $condition['sku_code'] = $fulfillmentItem->external_item_key;

@@ -550,7 +550,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $fulfillmentMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
             $fulfillmentMovement->item_id = $itemIds[$externalItemKey];
             $fulfillmentMovement->external_created_at = is_numeric($newStockMovement[$this->externalMovementTimeField])
-                ? $newStockMovement[$this->externalMovementTimeField] : strtotime($newStockMovement[$this->externalMovementTimeField]);
+                ? substr($newStockMovement[$this->externalMovementTimeField], 0, 10)
+                : strtotime($newStockMovement[$this->externalMovementTimeField]);
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
         $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);
@@ -580,14 +581,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements): bool
     {
         $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField));
-        if (is_numeric($newestMovementTime)) {
-            if (strlen($newestMovementTime) > 10) {
-                $newestMovementTime = substr($newestMovementTime, 0, 10);
-            }
-        } else {
-            $newestMovementTime = strtotime($newestMovementTime);
-        }
-        $fulfillmentWarehouse->external_movement_at = $newestMovementTime;
+        $fulfillmentWarehouse->external_movement_at = is_numeric($newestMovementTime)
+            ? substr($newestMovementTime, 0, 10)
+            : strtotime($newestMovementTime);
         return $fulfillmentWarehouse->save(false);
     }
 

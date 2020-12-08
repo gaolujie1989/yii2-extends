@@ -33,6 +33,11 @@ class PushFulfillmentItemJob extends BaseObject implements JobInterface
     public $fulfillmentItemId;
 
     /**
+     * @var int
+     */
+    public $rateLimitDelay = 2;
+
+    /**
      * @param Queue $queue
      * @throws InvalidConfigException
      * @throws \Throwable
@@ -75,6 +80,6 @@ class PushFulfillmentItemJob extends BaseObject implements JobInterface
      */
     public function getRateLimitDelay(): int
     {
-        return 5;
+        return $this->rateLimitDelay;
     }
 }

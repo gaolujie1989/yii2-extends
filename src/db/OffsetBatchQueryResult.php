@@ -87,7 +87,7 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
         $this->_fetchCount += $offsetDataCount;
         if ($this->_fetchCount > $this->_queryCount
             || ($offsetDataCount === 0 && $this->_fetchCount < $this->_queryCount)) {
-            Yii::error("OffsetBatchQueryResult query count {$this->_queryCount} is not equal with real fetched count {$this->_fetchCount}.", __METHOD__);
+            Yii::warning("OffsetBatchQueryResult query count {$this->_queryCount} is not equal with real fetched count {$this->_fetchCount}.", __METHOD__);
         }
         if ($offsetDataCount === 0) {
             return [];

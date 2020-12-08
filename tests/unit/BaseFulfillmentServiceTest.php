@@ -44,6 +44,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
      */
     protected function getFulfillmentService(): BaseFulfillmentService
     {
+        MockFulfillmentService::initData();
         return new MockFulfillmentService([
             'account' => new FulfillmentAccount([
                 'account_id' => 1

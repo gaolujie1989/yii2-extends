@@ -52,57 +52,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
      */
     public function getFulfillmentManager(): FulfillmentManager
     {
-        MockFulfillmentService::$EXTERNAL_ITEM_DATA = [];
-
-        MockFulfillmentService::$GENERATE_ITEM_KEYS = ['ITEM_K1'];
-
-        MockFulfillmentService::$EXTERNAL_ORDER_DATA = [];
-
-        MockFulfillmentService::$GENERATE_ORDER_KEYS = ['ORDER_K1'];
-
-        MockFulfillmentService::$EXTERNAL_WAREHOUSE_DATA = [
-            [
-                'id' => 'W01',
-                'name' => 'WarehouseDE'
-            ],
-            [
-                'id' => 'W02',
-                'name' => 'WarehouseES'
-            ]
-        ];
-
-        MockFulfillmentService::$EXTERNAL_STOCK_DATA = [
-            [
-                'itemId' => 'ITEM_K1',
-                'warehouseId' => 'W01',
-                'available_qty' => 1
-            ],
-            [
-                'itemId' => 'ITEM_K1',
-                'warehouseId' => 'W02',
-                'available_qty' => 2
-            ]
-        ];
-
-        MockFulfillmentService::$EXTERNAL_MOVEMENT_DATA = [
-            [
-                'id' => 'M001',
-                'itemId' => 'ITEM_K1',
-                'warehouseId' => 'W01',
-                'movement_qty' => 1,
-                'reason' => 'INBOUND',
-                'related_type' => 'INBOUND_ORDER',
-                'related_id' => '15267',
-                'createdAt' => 1577808000123
-            ],
-            [
-                'id' => 'M002',
-                'itemId' => 'ITEM_K1',
-                'warehouseId' => 'W02',
-                'movement_qty' => 2,
-                'reason' => 'CORRECT'
-            ]
-        ];
+        MockFulfillmentService::initData();
         return new FulfillmentManager([
             'fulfillmentServiceLoader' => [
                 'class' => ChainedDataLoader::class,

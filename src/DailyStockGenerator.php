@@ -58,7 +58,7 @@ class DailyStockGenerator extends BaseObject
             'warehouse_id',
             'external_item_key',
             'external_warehouse_key',
-            'reason'
+            'movement_type',
         ];
         $query = FulfillmentWarehouseStockMovement::find()
             ->addSelect($commonFields)

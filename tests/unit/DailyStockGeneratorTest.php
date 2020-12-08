@@ -51,7 +51,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'external_warehouse_key' => 'W-1',
                 'movement_qty' => '-4',
                 'movement_count' => '1',
-                'reason' => 'OUTBOUND',
+                'movement_type' => 'OUTBOUND',
                 'movement_date' => '2020-11-14'
             ],
             [
@@ -62,7 +62,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'external_warehouse_key' => 'W-1',
                 'movement_qty' => '50',
                 'movement_count' => '2',
-                'reason' => 'INBOUND',
+                'movement_type' => 'INBOUND',
                 'movement_date' => '2020-11-15'
             ],
             [
@@ -73,7 +73,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'external_warehouse_key' => 'W-1',
                 'movement_qty' => '-11',
                 'movement_count' => '2',
-                'reason' => 'OUTBOUND',
+                'movement_type' => 'OUTBOUND',
                 'movement_date' => '2020-11-15'
             ],
         ];
@@ -82,7 +82,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
             ->asArray()
             ->all();
         $indexClosure = static function ($values) {
-            return $values['movement_date'] . $values['reason'];
+            return $values['movement_date'] . $values['movement_type'];
         };
         $expected = ArrayHelper::index($expected, $indexClosure);
         $dailyStockMovements = ArrayHelper::index($dailyStockMovements, $indexClosure);

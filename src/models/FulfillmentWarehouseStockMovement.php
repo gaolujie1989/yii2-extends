@@ -79,10 +79,10 @@ class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\Activ
 
     /**
      * {@inheritdoc}
-     * @return FulfillmentDailyStockMovementQuery the active query used by this AR class.
+     * @return FulfillmentWarehouseStockMovement the active query used by this AR class.
      */
-    public static function find(): FulfillmentDailyStockMovementQuery
+    public static function find(): FulfillmentWarehouseStockMovement
     {
-        return new FulfillmentDailyStockMovementQuery(static::class);
+        return new FulfillmentWarehouseStockMovement(static::class);
     }
 }

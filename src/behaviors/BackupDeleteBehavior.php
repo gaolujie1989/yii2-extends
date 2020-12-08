@@ -7,6 +7,7 @@ namespace lujie\ar\backup\delete\behaviors;
 
 use lujie\ar\backup\delete\models\DeletedData;
 use yii\base\Behavior;
+use yii\base\Event;
 use yii\db\ActiveRecord as DbActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Exception;
@@ -41,18 +42,20 @@ class BackupDeleteBehavior extends Behavior
     }
 
     /**
+     * @param Event $event
      * @throws Exception
      * @inheritdoc
      */
-    public function backupModelData(): void
+    public function backupModelData(Event $event): void
     {
-        $owner = $this->owner;
+        /** @var BaseActiveRecord $sender */
+        $sender = $event->sender;
         /** @var BaseActiveRecord $backupModel */
         $backupModel = new $this->backupModelClass();
         $backupModel->setAttributes([
-            'table_name' => $this->getTableName($owner),
-            'row_id' => $owner->getPrimaryKey(),
-            'row_data' => $owner->getAttributes(),
+            'table_name' => $this->getTableName($sender),
+            'row_id' => $sender->getPrimaryKey(),
+            'row_data' => $sender->getAttributes(),
         ]);
         if (!$backupModel->save(false)) {
             throw new Exception('Backup model data failed.');

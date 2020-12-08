@@ -82,4 +82,15 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
     {
         return new FulfillmentWarehouseStockQuery(static::class);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'stock_qty' => 'available_qty'  //for compatible
+        ]);
+    }
 }

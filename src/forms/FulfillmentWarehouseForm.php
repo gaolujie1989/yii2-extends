@@ -3,18 +3,18 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\searches;
+namespace lujie\fulfillment\forms;
 
 use lujie\alias\behaviors\TimestampAliasBehavior;
+use lujie\extend\helpers\ModelHelper;
 use lujie\fulfillment\models\FulfillmentWarehouse;
-use lujie\fulfillment\models\FulfillmentWarehouseQuery;
 
 /**
- * Class FulfillmentItemSearch
- * @package lujie\fulfillment\searches
+ * Class FulfillmentWarehouseForm
+ * @package lujie\fulfillment\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FulfillmentWarehouseSearch extends FulfillmentWarehouse
+class FulfillmentWarehouseForm extends FulfillmentWarehouse
 {
     /**
      * @return array
@@ -22,23 +22,11 @@ class FulfillmentWarehouseSearch extends FulfillmentWarehouse
      */
     public function rules(): array
     {
-        return [
-            [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_key'], 'safe']
-        ];
-    }
-
-    /**
-     * @return FulfillmentWarehouseQuery
-     * @inheritdoc
-     */
-    public function query(): FulfillmentWarehouseQuery
-    {
-        return static::find()
-            ->andFilterWhere([
-                'fulfillment_account_id' => $this->fulfillment_account_id,
-                'warehouse_id' => $this->warehouse_id,
-                'external_warehouse_key' => $this->external_warehouse_key
-            ]);
+        $rules = parent::rules();
+        ModelHelper::removeAttributesRules($rules, 'external_movement_at');
+        return array_merge($rules, [
+            [['external_movement_time'], 'safe']
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\tests\unit\mocks;
 
+use lujie\extend\constants\StatusConst;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
@@ -61,7 +62,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             'id' => 'M001',
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W01',
-            'moved_qty' => 1,
+            'movement_qty' => 1,
             'reason' => 'INBOUND',
             'related_type' => 'INBOUND_ORDER',
             'related_id' => '15267',
@@ -71,7 +72,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             'id' => 'M002',
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W02',
-            'moved_qty' => 2,
+            'movement_qty' => 2,
             'reason' => 'CORRECT'
         ]
     ];
@@ -86,6 +87,61 @@ class MockFulfillmentService extends BaseFulfillmentService
         'SHIPPED' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
         'CANCELLED' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
     ];
+
+    public static function initData()
+    {
+        MockFulfillmentService::$EXTERNAL_ITEM_DATA = [];
+
+        MockFulfillmentService::$GENERATE_ITEM_KEYS = ['ITEM_K1'];
+
+        MockFulfillmentService::$EXTERNAL_ORDER_DATA = [];
+
+        MockFulfillmentService::$GENERATE_ORDER_KEYS = ['ORDER_K1'];
+
+        MockFulfillmentService::$EXTERNAL_WAREHOUSE_DATA = [
+            [
+                'id' => 'W01',
+                'name' => 'WarehouseDE'
+            ],
+            [
+                'id' => 'W02',
+                'name' => 'WarehouseES'
+            ]
+        ];
+
+        MockFulfillmentService::$EXTERNAL_STOCK_DATA = [
+            [
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W01',
+                'available_qty' => 1
+            ],
+            [
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W02',
+                'available_qty' => 2
+            ]
+        ];
+
+        MockFulfillmentService::$EXTERNAL_MOVEMENT_DATA = [
+            [
+                'id' => 'M001',
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W01',
+                'movement_qty' => 1,
+                'reason' => 'INBOUND',
+                'related_type' => 'INBOUND_ORDER',
+                'related_id' => '15267',
+                'createdAt' => 1577808000123
+            ],
+            [
+                'id' => 'M002',
+                'itemId' => 'ITEM_K1',
+                'warehouseId' => 'W02',
+                'movement_qty' => 2,
+                'reason' => 'CORRECT'
+            ]
+        ];
+    }
 
     #region Item Push
 
@@ -378,7 +434,7 @@ class MockFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
-        $fulfillmentStockMovement->moved_qty = $externalStockMovement['moved_qty'];
+        $fulfillmentStockMovement->movement_qty = $externalStockMovement['movement_qty'];
         $fulfillmentStockMovement->related_type = $externalStockMovement['related_type'] ?? '';
         $fulfillmentStockMovement->related_key = $externalStockMovement['related_id'] ?? '';
         return $fulfillmentStockMovement->save(false);

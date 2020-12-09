@@ -19,6 +19,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentWarehouseStockMovementQuery externalItemKey($externalItemKey)
  * @method FulfillmentWarehouseStockMovementQuery externalWarehouseKey($externalWarehouseKey)
  * @method FulfillmentWarehouseStockMovementQuery externalMovementKey($externalMovementKey)
+ * @method FulfillmentWarehouseStockMovementQuery movementType($movementType)
  * @method FulfillmentWarehouseStockMovementQuery relatedType($relatedType)
  * @method FulfillmentWarehouseStockMovementQuery relatedKey($relatedKey)
  *
@@ -50,6 +51,7 @@ class FulfillmentWarehouseStockMovementQuery extends \yii\db\ActiveQuery
                     'externalItemKey' => 'external_item_key',
                     'externalWarehouseKey' => 'external_warehouse_key',
                     'externalMovementKey' => 'external_movement_key',
+                    'movementType' => 'movement_type',
                     'relatedType' => 'related_type',
                     'relatedKey' => 'related_key',
                 ],

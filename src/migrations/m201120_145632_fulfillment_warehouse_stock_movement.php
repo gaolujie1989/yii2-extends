@@ -21,9 +21,8 @@ class m201120_145632_fulfillment_warehouse_stock_movement extends Migration
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_movement_key' => $this->string(50)->notNull()->defaultValue(''),
 
-            'moved_qty' => $this->integer()->notNull()->defaultValue(0),
-            'balance_qty' => $this->integer()->notNull()->defaultValue(0),
-            'reason' => $this->string(20)->notNull()->defaultValue(''),
+            'movement_type' => $this->string(20)->notNull()->defaultValue(''),
+            'movement_qty' => $this->integer()->notNull()->defaultValue(0),
             'related_type' => $this->string(20)->notNull()->defaultValue(''),
             'related_key' => $this->string(50)->notNull()->defaultValue(''),
             'movement_additional' => $this->json(),

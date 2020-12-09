@@ -18,11 +18,12 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentDailyStockMovementQuery warehouseId($warehouseId)
  * @method FulfillmentDailyStockMovementQuery externalItemKey($externalItemKey)
  * @method FulfillmentDailyStockMovementQuery externalWarehouseKey($externalWarehouseKey)
- * @method FulfillmentDailyStockMovementQuery movedDate($movedDate)
- * @method FulfillmentDailyStockMovementQuery movedDateFrom($movedDateFrom)
- * @method FulfillmentDailyStockMovementQuery movedDateTo($movedDateTo)
+ * @method FulfillmentDailyStockMovementQuery movementType($movementType)
+ * @method FulfillmentDailyStockMovementQuery movementDate($movementDate)
+ * @method FulfillmentDailyStockMovementQuery movementDateFrom($movementDateFrom)
+ * @method FulfillmentDailyStockMovementQuery movementDateTo($movementDateTo)
  *
- * @method string maxMovedDate()
+ * @method string maxMovementDate()
  *
  * @method array|FulfillmentDailyStockMovement[] all($db = null)
  * @method array|FulfillmentDailyStockMovement|null one($db = null)
@@ -49,12 +50,13 @@ class FulfillmentDailyStockMovementQuery extends \yii\db\ActiveQuery
                     'warehouseId' => 'warehouse_id',
                     'externalItemKey' => 'external_item_key',
                     'externalWarehouseKey' => 'external_warehouse_key',
-                    'movedDate' => 'moved_date',
-                    'movedDateFrom' => ['moved_date' => '>='],
-                    'movedDateTo' => ['moved_date' => '<='],
+                    'movementType' => 'movement_type',
+                    'movementDate' => 'movement_date',
+                    'movementDateFrom' => ['movement_date' => '>='],
+                    'movementDateTo' => ['movement_date' => '<='],
                 ],
                 'queryReturns' => [
-                    'maxMovedDate' => ['moved_date', FieldQueryBehavior::RETURN_MAX],
+                    'maxMovementDate' => ['movement_date', FieldQueryBehavior::RETURN_MAX],
                 ],
             ]
         ];

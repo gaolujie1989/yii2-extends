@@ -20,17 +20,16 @@ class m201120_151239_fulfillment_daily_stock_movement extends Migration
             'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
 
-            'moved_qty' => $this->integer()->notNull()->defaultValue(0),
-            'moved_count' => $this->integer()->notNull()->defaultValue(0),
-            'moved_date' => $this->date()->notNull(),
-            'balance_qty' => $this->integer()->notNull()->defaultValue(0),
-            'reason' => $this->string(20)->notNull()->defaultValue(''),
+            'movement_type' => $this->string(20)->notNull()->defaultValue(''),
+            'movement_qty' => $this->integer()->notNull()->defaultValue(0),
+            'movement_count' => $this->integer()->notNull()->defaultValue(0),
+            'movement_date' => $this->date()->notNull(),
         ]);
 
-        $this->createIndex('idx_item_moved_date_warehouse_account', $this->tableName,
-            ['item_id', 'moved_date', 'warehouse_id', 'fulfillment_account_id']);
-        $this->createIndex('idx_external_item_moved_date_warehouse_account', $this->tableName,
-            ['external_item_key', 'moved_date', 'external_warehouse_key', 'fulfillment_account_id']);
-        $this->createIndex('idx_moved_date', $this->tableName, ['moved_date']);
+        $this->createIndex('idx_item_movement_date_warehouse_account', $this->tableName,
+            ['item_id', 'movement_date', 'warehouse_id', 'fulfillment_account_id']);
+        $this->createIndex('idx_external_item_movement_date_warehouse_account', $this->tableName,
+            ['external_item_key', 'movement_date', 'external_warehouse_key', 'fulfillment_account_id']);
+        $this->createIndex('idx_movement_date', $this->tableName, ['movement_date']);
     }
 }

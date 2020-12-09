@@ -835,12 +835,19 @@ class PmFulfillmentService extends BaseFulfillmentService
     protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
     {
         $fulfillmentStockMovement->external_created_at = is_numeric($externalStockMovement['createdAt']) ? $externalStockMovement['createdAt'] : strtotime($externalStockMovement['createdAt']);
-        $fulfillmentStockMovement->reason = $externalStockMovement['reason'];
-        $fulfillmentStockMovement->moved_qty = $externalStockMovement['quantity'];
+        if ($externalStockMovement['reason'] < 200) {
+            $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_INBOUND;
+        } else if ($externalStockMovement['reason'] < 300) {
+            $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_OUTBOUND;
+        } else {
+            $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_CORRECTION;
+        }
+        $fulfillmentStockMovement->movement_qty = $externalStockMovement['quantity'];
         $fulfillmentStockMovement->related_type = $externalStockMovement['processRowType'];
         $fulfillmentStockMovement->related_key = $externalStockMovement['processRowId'];
         $fulfillmentStockMovement->movement_additional = [
             'storageLocationName' => $externalStockMovement['storageLocationName'],
+            'reason' => $externalStockMovement['reason'],
         ];
         return $fulfillmentStockMovement->save(false);
     }

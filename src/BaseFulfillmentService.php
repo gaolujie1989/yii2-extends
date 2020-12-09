@@ -329,6 +329,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $fulfillmentOrders = ArrayHelper::index($fulfillmentOrders, 'external_order_key');
         $externalOrderKeys = array_keys($fulfillmentOrders);
         $externalOrders = $this->getExternalOrders($externalOrderKeys);
+        $orderCount = count($externalOrders);
+        Yii::info("Pulled {$orderCount} FulfillmentOrders", __METHOD__);
+
         foreach ($externalOrders as $externalOrder) {
             $externalOrderKey = $externalOrder[$this->externalOrderKeyField];
             $this->updateFulfillmentOrder($fulfillmentOrders[$externalOrderKey], $externalOrder);
@@ -351,6 +354,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     public function pullShippedFulfillmentOrders(int $shippedAtFrom, int $shippedAtTo): void
     {
         $externalOrders = $this->getShippedExternalOrders($shippedAtFrom, $shippedAtTo);
+        $orderCount = count($externalOrders);
+        Yii::info("Pulled {$orderCount} ShippedExternalOrders", __METHOD__);
+
         if (empty($externalOrders)) {
             return;
         }
@@ -377,6 +383,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     public function pullWarehouses(array $condition = []): void
     {
         $externalWarehouses = $this->getExternalWarehouses($condition);
+        $count = count($externalWarehouses);
+        Yii::info("Pulled {$count} ExternalWarehouses", __METHOD__);
+
         foreach ($externalWarehouses as $externalWarehouse) {
             $externalWarehouseKey = $externalWarehouse[$this->externalWarehouseKeyField];
             $fulfillmentWarehouse = FulfillmentWarehouse::find()
@@ -438,6 +447,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
         $now = time();
         $externalWarehouseStocks = $this->getExternalWarehouseStocks($externalItemKeys);
+        $count = count($externalWarehouseStocks);
+        Yii::info("Pulled {$count} ExternalWarehouseStocks", __METHOD__);
 
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
@@ -464,12 +475,14 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $notPulledExternalItemKeys = array_diff($externalItemKeys, $pulledExternalItemKeys);
 
         if ($notPulledExternalItemKeys) {
+            Yii::info("Delete not pulled item stocks", __METHOD__);
             FulfillmentWarehouseStock::deleteAll([
                 'fulfillment_account_id' => $this->account->account_id,
                 'external_warehouse_key' => $externalWarehouseKeys,
                 'external_item_key' => $notPulledExternalItemKeys,
             ]);
         }
+        Yii::info("Update fulfillmentItem stock pulled time", __METHOD__);
         FulfillmentItem::updateAll(['stock_pulled_at' => $now], [
             'fulfillment_account_id' => $this->account->account_id,
             'external_item_key' => $externalItemKeys
@@ -512,6 +525,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         $externalMovements = $this->getExternalWarehouseStockMovements($fulfillmentWarehouse, $movementAtFrom, $movementAtTo, $fulfillmentItem);
+        $count = count($externalMovements);
+        Yii::info("Pulled {$count} ExternalWarehouseStockMovements", __METHOD__);
         if (empty($externalMovements)) {
             return;
         }
@@ -523,9 +538,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             ->getExternalMovementKey();
         $newMovementKeys = array_diff($stockMovementKeys, $existMovementKeys);
         if (empty($newMovementKeys)) {
+            Yii::info("No new movements, skip", __METHOD__);
             return;
         }
-
         $externalItemKeys = [];
         foreach ($newMovementKeys as $newMovementKey) {
             $externalItemKey = $externalMovements[$newMovementKey][$this->stockItemKeyField];
@@ -539,7 +554,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
             if (empty($itemIds[$externalItemKey])) {
-                Yii::debug('Empty itemId of externalItemKey, skip', __METHOD__);
+                Yii::info("Empty itemId of externalItemKey {$externalItemKey}, skip", __METHOD__);
                 continue;
             }
             $fulfillmentMovement = new FulfillmentWarehouseStockMovement();
@@ -550,7 +565,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $fulfillmentMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
             $fulfillmentMovement->item_id = $itemIds[$externalItemKey];
             $fulfillmentMovement->external_created_at = is_numeric($newStockMovement[$this->externalMovementTimeField])
-                ? $newStockMovement[$this->externalMovementTimeField] : strtotime($newStockMovement[$this->externalMovementTimeField]);
+                ? substr($newStockMovement[$this->externalMovementTimeField], 0, 10)
+                : strtotime($newStockMovement[$this->externalMovementTimeField]);
+
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
         $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);
@@ -580,14 +597,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements): bool
     {
         $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField));
-        if (is_numeric($newestMovementTime)) {
-            if (strlen($newestMovementTime) > 10) {
-                $newestMovementTime = substr($newestMovementTime, 0, 10);
-            }
-        } else {
-            $newestMovementTime = strtotime($newestMovementTime);
-        }
-        $fulfillmentWarehouse->external_movement_at = $newestMovementTime;
+        $fulfillmentWarehouse->external_movement_at = is_numeric($newestMovementTime)
+            ? substr($newestMovementTime, 0, 10)
+            : strtotime($newestMovementTime);
         return $fulfillmentWarehouse->save(false);
     }
 

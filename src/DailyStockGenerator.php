@@ -58,17 +58,17 @@ class DailyStockGenerator extends BaseObject
             'warehouse_id',
             'external_item_key',
             'external_warehouse_key',
-            'reason'
+            'movement_type',
         ];
         $query = FulfillmentWarehouseStockMovement::find()
             ->addSelect($commonFields)
             ->addSelect([
-                "SUM(moved_qty) AS moved_qty",
-                "COUNT(moved_qty) AS moved_count",
-                "DATE_FORMAT(FROM_UNIXTIME(external_created_at), '%Y-%m-%d') AS moved_date"
+                "SUM(movement_qty) AS movement_qty",
+                "COUNT(movement_qty) AS movement_count",
+                "DATE_FORMAT(FROM_UNIXTIME(external_created_at), '%Y-%m-%d') AS movement_date"
             ])
             ->addGroupBy($commonFields)
-            ->addGroupBy(['moved_date'])
+            ->addGroupBy(['movement_date'])
             ->andWhere(['BETWEEN', 'external_created_at', $movementAtFrom, $movementAtTo])
             ->asArray();
 
@@ -80,7 +80,7 @@ class DailyStockGenerator extends BaseObject
             'pipeline' => [
                 'class' => DbPipeline::class,
                 'modelClass' => FulfillmentDailyStockMovement::class,
-                'indexKeys' => array_merge($commonFields, ['moved_date'])
+                'indexKeys' => array_merge($commonFields, ['movement_date'])
             ]
         ]);
         if ($dataExchanger->execute()) {
@@ -130,8 +130,8 @@ class DailyStockGenerator extends BaseObject
                 'transformers' => [
                     static function ($data) {
                         return array_map(static function($values) {
-                            $values['available_qty'] = ($values['prev_available_qty'] ?? 0) + ($values['moved_qty'] ?: 0);
-                            unset($values['prev_available_qty'], $values['moved_qty']);
+                            $values['available_qty'] = ($values['prev_available_qty'] ?? 0) + ($values['movement_qty'] ?: 0);
+                            unset($values['prev_available_qty'], $values['movement_qty']);
                             return $values;
                         }, $data);
                     }
@@ -150,10 +150,10 @@ class DailyStockGenerator extends BaseObject
 
             //Generate Daily Stock if Prev Daily Stock Exists.
             $dailyStockQuery = FulfillmentDailyStock::find()->alias('ds')
-                ->leftJoin(['dsm' => FulfillmentDailyStockMovement::tableName()], $joinCondition . " AND dsm.moved_date = '{$stockDate}'")
+                ->leftJoin(['dsm' => FulfillmentDailyStockMovement::tableName()], $joinCondition . " AND dsm.movement_date = '{$stockDate}'")
                 ->andWhere(['ds.stock_date' => $prevStockDate])
                 ->addSelect($dailyStockFields)
-                ->addSelect(['SUM(moved_qty) as moved_qty'])
+                ->addSelect(['SUM(movement_qty) as movement_qty'])
                 ->addSelect(['ds.available_qty as prev_available_qty', new Expression("'{$stockDate}' as stock_date")])
                 ->addGroupBy($dailyStockFields)
                 ->addGroupBy(['prev_available_qty'])
@@ -172,10 +172,10 @@ class DailyStockGenerator extends BaseObject
             //Generate Daily Stock if Prev Daily Stock Not Exists. Item Stock is first movement
             $dailyMovementQuery = FulfillmentDailyStockMovement::find()->alias('dsm')
                 ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date <= '{$prevStockDate}'")
-                ->andWhere(['dsm.moved_date' => $stockDate])
+                ->andWhere(['dsm.movement_date' => $stockDate])
                 ->andWhere('ds.stock_date IS NULL')
                 ->addSelect($dailyMovementFields)
-                ->addSelect(['SUM(moved_qty) as moved_qty'])
+                ->addSelect(['SUM(movement_qty) as movement_qty'])
                 ->addSelect([new Expression("'{$stockDate}' as stock_date")])
                 ->addGroupBy($dailyMovementFields)
                 ->asArray();
@@ -194,7 +194,7 @@ class DailyStockGenerator extends BaseObject
             $missingPrevDailyStockQuery = FulfillmentDailyStockMovement::find()->alias('dsm')
                 ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date = {$prevStockDate}")
                 ->leftJoin(['ds2' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds2.stock_date <= {$prev2StockDate}")
-                ->andWhere(['dsm.moved_date' => $stockDate])
+                ->andWhere(['dsm.movement_date' => $stockDate])
                 ->andWhere('ds.stock_date IS NULL')
                 ->andWhere('ds2.stock_date IS NOT NULL')
                 ->addSelect($dailyMovementFields)

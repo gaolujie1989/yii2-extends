@@ -44,6 +44,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
      */
     protected function getFulfillmentService(): BaseFulfillmentService
     {
+        MockFulfillmentService::initData();
         return new MockFulfillmentService([
             'account' => new FulfillmentAccount([
                 'account_id' => 1
@@ -315,7 +316,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
             'external_item_key' => 'ITEM_K1',
             'external_warehouse_key' => 'W01',
             'external_movement_key' => 'M001',
-            'moved_qty' => 1,
+            'movement_qty' => 1,
         ];
         $this->assertEquals($expectedStock, $stockMovement->getAttributes(array_keys($expectedStock)));
         $this->assertEquals(1577808000, $fulfillmentWarehouse->external_movement_at);

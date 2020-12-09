@@ -35,7 +35,7 @@ class FulfillmentWarehouseForm extends FulfillmentWarehouse
      */
     public function behaviors(): array
     {
-        return array_merge(parent::fields(), [
+        return array_merge(parent::behaviors(), [
             'tsAlias' => [
                 'class' => TimestampAliasBehavior::class,
                 'aliasProperties' => [

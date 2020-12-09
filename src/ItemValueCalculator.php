@@ -89,7 +89,7 @@ abstract class ItemValueCalculator extends BaseObject
         $newItemValue->old_item_value_cent = $oldItemValue === null ? 0 : $oldItemValue->new_item_value_cent;
 
         $newItemValue->new_item_qty = $dailyStock->available_qty;
-        if ($newItemValue->old_item_value_cent && $newItemValue->inbound_item_value_cent) {
+        if ($newItemValue->old_item_value_cent && $newItemValue->inbound_item_value_cent && $newItemValue->new_item_qty > 0) {
             $newItemValue->new_item_value_cent = (int)round((
                     ($newItemValue->old_item_value_cent * $newItemValue->old_item_qty)
                     + ($newItemValue->inbound_item_value_cent * $newItemValue->inbound_item_qty)

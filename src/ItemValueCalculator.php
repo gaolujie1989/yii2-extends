@@ -22,12 +22,12 @@ abstract class ItemValueCalculator extends BaseObject
     public $currency = 'EUR';
 
     /**
-     * @param $warehouseId
-     * @param $dateFrom
+     * @param int $warehouseId
+     * @param string $dateFrom
      * @throws Exception
      * @inheritdoc
      */
-    public function calculateMovementsItemValues($warehouseId, $dateFrom): void
+    public function calculateMovementsItemValues(int $warehouseId, string $dateFrom): void
     {
         $movementQuery = FulfillmentDailyStockMovement::find()
             ->warehouseId($warehouseId)

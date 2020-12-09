@@ -23,6 +23,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentDailyStockMovementQuery movementDateFrom($movementDateFrom)
  * @method FulfillmentDailyStockMovementQuery movementDateTo($movementDateTo)
  *
+ * @method FulfillmentDailyStockMovementQuery orderByMovementDate()
+ *
  * @method string maxMovementDate()
  *
  * @method array|FulfillmentDailyStockMovement[] all($db = null)
@@ -54,6 +56,9 @@ class FulfillmentDailyStockMovementQuery extends \yii\db\ActiveQuery
                     'movementDate' => 'movement_date',
                     'movementDateFrom' => ['movement_date' => '>='],
                     'movementDateTo' => ['movement_date' => '<='],
+                ],
+                'querySorts' => [
+                    'orderByMovementDate' => ['movement_date']
                 ],
                 'queryReturns' => [
                     'maxMovementDate' => ['movement_date', FieldQueryBehavior::RETURN_MAX],

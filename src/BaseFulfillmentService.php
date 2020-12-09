@@ -538,7 +538,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             ->getExternalMovementKey();
         $newMovementKeys = array_diff($stockMovementKeys, $existMovementKeys);
         if (empty($newMovementKeys)) {
-            Yii::info("No new movements, skip", __METHOD__);
+            Yii::debug("No new movements, skip", __METHOD__);
             return;
         }
         $externalItemKeys = [];
@@ -554,7 +554,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
             if (empty($itemIds[$externalItemKey])) {
-                Yii::info("Empty itemId of externalItemKey {$externalItemKey}, skip", __METHOD__);
+                Yii::debug("Empty itemId of externalItemKey {$externalItemKey}, skip", __METHOD__);
                 continue;
             }
             $fulfillmentMovement = new FulfillmentWarehouseStockMovement();

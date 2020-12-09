@@ -41,7 +41,7 @@ class ItemValueCalculatorTest extends \Codeception\Test\Unit
     public function testMe()
     {
         $itemValueCalculator = new MockItemValueCalculator();
-        $itemValueCalculator->calculateMovementsItemValues(1, '2020-12-01');
+        $itemValueCalculator->calculateMovementsItemValues(1, '2020-12-01', '2020-12-05');
         $query = FulfillmentItemValue::find()->itemId(1)->warehouseId(1);
         $this->assertEquals(2, $query->count());
         $expected = [

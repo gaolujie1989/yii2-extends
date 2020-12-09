@@ -149,6 +149,7 @@ class DailyStockGenerator extends BaseObject
             $prev2StockDate = date($this->stockDateFormat, strtotime($stockDate) - 86400 * 2);
 
             //Generate Daily Stock if Prev Daily Stock Exists.
+            //Query from daily stock because movement maybe not exist at that day
             $dailyStockQuery = FulfillmentDailyStock::find()->alias('ds')
                 ->leftJoin(['dsm' => FulfillmentDailyStockMovement::tableName()], $joinCondition . " AND dsm.movement_date = '{$stockDate}'")
                 ->andWhere(['ds.stock_date' => $prevStockDate])

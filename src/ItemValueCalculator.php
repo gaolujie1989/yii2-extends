@@ -29,7 +29,10 @@ abstract class ItemValueCalculator extends BaseObject
      */
     public function calculateMovementsItemValues($warehouseId, $dateFrom): void
     {
-        $movementQuery = FulfillmentDailyStockMovement::find()->warehouseId($warehouseId)->movementDateFrom($dateFrom);
+        $movementQuery = FulfillmentDailyStockMovement::find()
+            ->warehouseId($warehouseId)
+            ->movementDateFrom($dateFrom)
+            ->orderByMovementDate();
         foreach ($movementQuery->each() as $dailyStockMovement) {
             $this->calculateItemValue($dailyStockMovement);
         }
@@ -66,6 +69,8 @@ abstract class ItemValueCalculator extends BaseObject
             $newItemValue->fulfillment_daily_stock_movement_id = $dailyStockMovement->fulfillment_daily_stock_movement_id;
             $newItemValue->warehouse_id = $dailyStockMovement->warehouse_id;
             $newItemValue->item_id = $dailyStockMovement->item_id;
+            $newItemValue->external_warehouse_key = $dailyStockMovement->external_warehouse_key;
+            $newItemValue->external_item_key = $dailyStockMovement->external_item_key;
             $newItemValue->value_date = $dailyStockMovement->movement_date;
             $newItemValue->currency = $this->currency;
         }
@@ -77,6 +82,7 @@ abstract class ItemValueCalculator extends BaseObject
             ->warehouseId($dailyStockMovement->warehouse_id)
             ->itemId($dailyStockMovement->item_id)
             ->valueDateBefore($dailyStockMovement->movement_date)
+            ->orderByValueDate(SORT_DESC)
             ->one();
         $newItemValue->old_item_value_cent = $oldItemValue === null ? 0 : $oldItemValue->new_item_value_cent;
 

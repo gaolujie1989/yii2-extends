@@ -64,7 +64,7 @@ class FulfillmentWarehouseSearch extends FulfillmentWarehouse
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'external_fulfillment_time' => 'external_fulfillment_time',
+            'external_movement_time' => 'external_movement_time',
         ]);
     }
 }

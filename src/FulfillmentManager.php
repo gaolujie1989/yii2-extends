@@ -90,7 +90,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @var int
      */
-    public $pullStockBatchSize = 100;
+    public $pullStockBatchSize = 50;
 
     /**
      * @var int
@@ -537,13 +537,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->fulfillmentAccountId($accountId)
             ->itemPushed()
             ->orderByStockPulledAt()
-            ->limit($this->pullOrderLimit);
+            ->limit($this->pullStockLimit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
+        foreach ($query->batch($this->pullStockBatchSize) as $batch) {
             $fulfillmentService->pullWarehouseStocks($batch);
         }
     }

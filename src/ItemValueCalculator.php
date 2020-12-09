@@ -24,14 +24,16 @@ abstract class ItemValueCalculator extends BaseObject
     /**
      * @param int $warehouseId
      * @param string $dateFrom
+     * @param string $dateTo
      * @throws Exception
      * @inheritdoc
      */
-    public function calculateMovementsItemValues(int $warehouseId, string $dateFrom): void
+    public function calculateMovementsItemValues(int $warehouseId, string $dateFrom, string $dateTo): void
     {
         $movementQuery = FulfillmentDailyStockMovement::find()
             ->warehouseId($warehouseId)
             ->movementDateFrom($dateFrom)
+            ->movementDateTo($dateTo)
             ->orderByMovementDate();
         foreach ($movementQuery->each() as $dailyStockMovement) {
             $this->calculateItemValue($dailyStockMovement);

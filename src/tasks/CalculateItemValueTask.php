@@ -24,6 +24,11 @@ class CalculateItemValueTask extends CronTask
     public $movementDateFrom = '-2 days';
 
     /**
+     * @var string
+     */
+    public $movementDateTo = '-1 days';
+
+    /**
      * @var ItemValueCalculator
      */
     public $itemValueCalculator;
@@ -37,14 +42,15 @@ class CalculateItemValueTask extends CronTask
     public function execute(): bool
     {
         $this->itemValueCalculator = Instance::ensure($this->itemValueCalculator, ItemValueCalculator::class);
-        $dateFrom = date('Y-m-d', strtotime($this->movementDateFrom));
+        $movementDateFrom = date('Y-m-d', strtotime($this->movementDateFrom));
+        $movementDateTo = date('Y-m-d', strtotime($this->movementDateTo));
         $fulfillmentWarehouses = FulfillmentWarehouse::find()->supportMovement()->all();
         foreach ($fulfillmentWarehouses as $fulfillmentWarehouse) {
             $warehouseId = $fulfillmentWarehouse->warehouse_id;
             if (empty($warehouseId)) {
                 continue;
             }
-            $this->itemValueCalculator->calculateMovementsItemValues($warehouseId, $dateFrom);
+            $this->itemValueCalculator->calculateMovementsItemValues($warehouseId, $movementDateFrom, $movementDateTo);
         }
         return true;
     }

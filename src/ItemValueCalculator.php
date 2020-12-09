@@ -69,6 +69,8 @@ abstract class ItemValueCalculator extends BaseObject
             $newItemValue->fulfillment_daily_stock_movement_id = $dailyStockMovement->fulfillment_daily_stock_movement_id;
             $newItemValue->warehouse_id = $dailyStockMovement->warehouse_id;
             $newItemValue->item_id = $dailyStockMovement->item_id;
+            $newItemValue->external_warehouse_key = $dailyStockMovement->external_warehouse_key;
+            $newItemValue->external_item_key = $dailyStockMovement->external_item_key;
             $newItemValue->value_date = $dailyStockMovement->movement_date;
             $newItemValue->currency = $this->currency;
         }

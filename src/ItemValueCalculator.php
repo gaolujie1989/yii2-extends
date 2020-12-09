@@ -81,13 +81,19 @@ abstract class ItemValueCalculator extends BaseObject
         $newItemValue->old_item_value_cent = $oldItemValue === null ? 0 : $oldItemValue->new_item_value_cent;
 
         $newItemValue->new_item_qty = $dailyStock->available_qty;
-        $newItemValue->new_item_value_cent = (
+        $newItemValue->new_item_value_cent = (int)round((
                 ($newItemValue->old_item_value_cent * $newItemValue->old_item_qty)
                 + ($newItemValue->inbound_item_value_cent * $newItemValue->inbound_item_qty)
-            ) / $newItemValue->new_item_qty;
+            ) / $newItemValue->new_item_qty);
 
         return $newItemValue->save(false);
     }
 
-    abstract public function getItemValue(int $itemId, string $date): array;
+    /**
+     * @param int $itemId
+     * @param string $date
+     * @return int
+     * @inheritdoc
+     */
+    abstract public function getItemValue(int $itemId, string $date): int;
 }

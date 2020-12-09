@@ -20,7 +20,9 @@ class FieldQueryBehaviorTest extends \Codeception\Test\Unit
     {
     }
 
-    // tests
+    /**
+     * @inheritdoc
+     */
     public function testQueryFields(): void
     {
         $query = Migration::find();
@@ -30,6 +32,7 @@ class FieldQueryBehaviorTest extends \Codeception\Test\Unit
                 'fieldAEq' => ['fieldA'],
                 'fieldBIn' => ['fieldB' => 'in'],
                 'fieldCGtDLt' => ['fieldC' => '>', 'fieldD' => '<'],
+                'fieldDBetween' => ['fieldD' => 'between'],
             ]
         ]);
         $query->where = null;
@@ -47,6 +50,10 @@ class FieldQueryBehaviorTest extends \Codeception\Test\Unit
         $query->where = null;
         $query->fieldCGtDLt(1, 2);
         $this->assertEquals(['and', ['>', 'fieldC', 1], ['<', 'fieldD', 2]], $query->where);
+
+        $query->where = null;
+        $query->fieldDBetween(1, 2);
+        $this->assertEquals(['between', 'fieldD', 1, 2], $query->where);
 
 
         //test with alias
@@ -74,6 +81,10 @@ class FieldQueryBehaviorTest extends \Codeception\Test\Unit
         $query->where = null;
         $query->fieldCGtDLt(1, 2);
         $this->assertEquals(['and', ['>', 'mt.fieldC', 1], ['<', 'mt.fieldD', 2]], $query->where);
+
+        $query->where = null;
+        $query->fieldDBetween(1, 2);
+        $this->assertEquals(['between', 'mt.fieldD', 1, 2], $query->where);
     }
 
     // tests

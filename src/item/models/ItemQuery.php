@@ -51,7 +51,7 @@ class ItemQuery extends \yii\db\ActiveQuery
      */
     public function getItemIds(): array
     {
-        $this->select(['item_id'])->indexBy('item_no')->column();
+        return $this->select(['item_id'])->indexBy('item_no')->column();
     }
 
     /**
@@ -60,6 +60,6 @@ class ItemQuery extends \yii\db\ActiveQuery
      */
     public function getItemNos(): array
     {
-        $this->select(['item_no'])->indexBy('item_id')->column();
+        return $this->select(['item_no'])->indexBy('item_id')->column();
     }
 }

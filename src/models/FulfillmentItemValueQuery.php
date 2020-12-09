@@ -21,6 +21,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method FulfillmentItemValueQuery valueDate($valueDate)
  * @method FulfillmentItemValueQuery valueDateBefore($valueDate)
  *
+ * @method FulfillmentItemValueQuery latest()
+ *
  * @method FulfillmentItemValueQuery orderByValueDate($sort = SORT_ASC)
  *
  * @method array|FulfillmentItemValue[] all($db = null)
@@ -50,6 +52,9 @@ class FulfillmentItemValueQuery extends \yii\db\ActiveQuery
                     'externalWarehouseKey' => 'external_warehouse_key',
                     'valueDate' => 'value_date',
                     'valueDateBefore' => ['value_date' => '<'],
+                ],
+                'queryConditions' => [
+                    'latest' => ['latest' => 1],
                 ],
                 'querySorts' => [
                     'orderByValueDate' => ['value_date']

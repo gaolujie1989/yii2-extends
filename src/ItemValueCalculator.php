@@ -99,6 +99,11 @@ abstract class ItemValueCalculator extends BaseObject
             $newItemValue->new_item_value_cent = max($newItemValue->old_item_value_cent, $newItemValue->inbound_item_value_cent);
         }
 
+        if ($oldItemValue !== null && $oldItemValue->latest) {
+            $oldItemValue->latest = 0;
+            $oldItemValue->save(false);
+        }
+        $newItemValue->latest = 1;
         return $newItemValue->save(false);
     }
 

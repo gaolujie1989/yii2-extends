@@ -301,6 +301,24 @@ use yii\httpclient\Request;
  * @method array updateOrderShippingPackageItem($data)
  * @method array deleteOrderShippingPackageItem($data)
  *
+ * @method array deleteOrderItem($data)
+ *
+ * @method array listOrderItemProperties($data)
+ * @method Generator eachOrderItemProperties($condition = [], $batchSize = 100)
+ * @method Generator batchOrderItemProperties($condition = [], $batchSize = 100)
+ * @method array getOrderItemProperty($data)
+ * @method array createOrderItemProperty($data)
+ * @method array updateOrderItemProperty($data)
+ * @method array deleteOrderItemProperty($data)
+ *
+ * @method array listOrderItemTransactions($data)
+ * @method Generator eachOrderItemTransactions($condition = [], $batchSize = 100)
+ * @method Generator batchOrderItemTransactions($condition = [], $batchSize = 100)
+ * @method array getOrderItemTransaction($data)
+ * @method array createOrderItemTransaction($data)
+ * @method array updateOrderItemTransaction($data)
+ * @method array deleteOrderItemTransaction($data)
+ *
  * @method array listPayments($data = [])
  * @method Generator eachPayments($condition = [], $batchSize = 100)
  * @method Generator batchPayments($condition = [], $batchSize = 100)
@@ -437,6 +455,9 @@ class PlentyMarketsRestClient extends OAuth2
         'OrderShippingPallet' => 'orders/{orderId}/shipping/pallets',
         'OrderShippingPalletPackages' => 'orders/{orderId}/shipping/pallets/{palletId}/packages',
         'OrderShippingPackageItem' => 'orders/shipping/packages', //see extra action
+        'OrderItem' => 'orders/{orderId}/items',
+        'OrderItemProperty' => 'orders/items/{orderItemId}/properties',
+        'OrderItemTransaction' => 'orders/items/{orderItemId}/transactions',
         'Payment' => 'payments',
         'PaymentProperty' => 'payments/{paymentId}/properties',
 
@@ -514,6 +535,11 @@ class PlentyMarketsRestClient extends OAuth2
             'create' => ['PUT', '{packageId}/items'],
             'update' => ['PUT', 'items/{id}'],
             'delete' => ['DELETE', 'items/{id}'],
+        ],
+        'OrderItemProperty' => [
+            'get' => ['GET', '{typeId}'],
+            'update' => ['PUT', '{typeId}'],
+            'delete' => ['DELETE', '{typeId}'],
         ],
     ];
 

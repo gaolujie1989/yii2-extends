@@ -168,7 +168,7 @@ class RelationSavableBehavior extends Behavior
     public function setRelation(string $name, $data): void
     {
         if (isset($this->relationFilters[$name]) && is_callable($this->relationFilters[$name])) {
-            $data = call_user_func($this->relationFilters[$name], $name, $data);
+            $data = call_user_func($this->relationFilters[$name], $data);
         }
         $owner = $this->owner;
         /** @var ActiveQuery $relation */

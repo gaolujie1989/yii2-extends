@@ -47,6 +47,11 @@ class RelationSavableBehavior extends Behavior
     public $linkUnlinkRelations = [];
 
     /**
+     * @var array
+     */
+    public $relationFilters;
+
+    /**
      * @var array [relationName => scenariosMap]
      */
     public $scenarioMaps = [];
@@ -162,6 +167,9 @@ class RelationSavableBehavior extends Behavior
      */
     public function setRelation(string $name, $data): void
     {
+        if (isset($this->relationFilters[$name]) && is_callable($this->relationFilters[$name])) {
+            $data = call_user_func($this->relationFilters[$name], $name, $data);
+        }
         $owner = $this->owner;
         /** @var ActiveQuery $relation */
         $relation = $owner->getRelation($name);

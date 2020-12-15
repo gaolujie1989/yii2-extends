@@ -45,7 +45,7 @@ class Configuration extends Component implements BootstrapInterface
     /**
      * @var array
      */
-    public $sortConfig = ['permissions' => [['groups', 'permissions']]];
+    public $sortConfig = ['permissions' => ['groups', 'permissions']];
 
     /**
      * @var string[]

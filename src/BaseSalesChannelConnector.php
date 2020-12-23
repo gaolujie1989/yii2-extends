@@ -158,6 +158,9 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         $outboundOrder = $this->outboundOrderClass::findOne($salesChannelOrder->order_id);
         if ($outboundOrder === null) {
             $outboundOrder = $this->createOutboundOrder($salesChannelOrder, $externalOrder);
+            if ($outboundOrder === null) {
+                return false;
+            }
             if (!$outboundOrder->save(false)) {
                 return false;
             }
@@ -193,10 +196,10 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     /**
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
-     * @return mixed
+     * @return BaseActiveRecord|null
      * @inheritdoc
      */
-    abstract protected function createOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): BaseActiveRecord;
+    abstract protected function createOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?BaseActiveRecord;
 
     #endregion
 }

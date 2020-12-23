@@ -289,7 +289,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         //always push job because order may be change multi times with different data, so need to push different job
         return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentOrder,
-            'order_pushed_status', 'order_pushed_result', -1);
+            'order_pushed_status', 'order_pushed_result', 'updated_at', 0);
     }
 
     #endregion

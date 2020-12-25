@@ -127,7 +127,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         /** @var Item $item */
-        $item = $this->itemLoader->get($fulfillmentItem->item_id);
+        $item = $this->itemLoader->get($fulfillmentItem);
         if (empty($item) || empty($item->itemBarcodes)) {
             Yii::info("Empty Item or ItemBarcodes", __METHOD__);
             return false;
@@ -201,7 +201,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         /** @var Order $order */
-        $order = $this->orderLoader->get($fulfillmentOrder->order_id);
+        $order = $this->orderLoader->get($fulfillmentOrder);
         if (empty($order) || empty($order->orderItems)) {
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;

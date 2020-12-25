@@ -23,9 +23,11 @@ use lujie\plentyMarkets\PlentyMarketsRestClient;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\base\NotSupportedException;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use function Qcloud\Cos\startWith;
 
 /**
  * Class PmFulfillmentService
@@ -274,6 +276,9 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws Exception
+     * @throws InvalidConfigException
+     * @throws NotSupportedException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -283,8 +288,12 @@ class PmFulfillmentService extends BaseFulfillmentService
             return false;
         }
 
+        if ($fulfillmentOrder->fulfillment_type !== FulfillmentConst::FULFILLMENT_TYPE_SHIPPING) {
+            throw new NotSupportedException("Fulfillment Type {$fulfillmentOrder->fulfillment_type} not supported by PM");
+        }
+
         /** @var Order $order */
-        $order = $this->orderLoader->get($fulfillmentOrder->order_id);
+        $order = $this->orderLoader->get($fulfillmentOrder);
         if (empty($order->orderItems)) {
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;

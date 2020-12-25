@@ -17,6 +17,7 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery fulfillmentOrderId($fulfillmentOrderId)
  * @method FulfillmentOrderQuery fulfillmentAccountId($fulfillmentAccountId)
  * @method FulfillmentOrderQuery fulfillmentStatus($fulfillmentStatus)
+ * @method FulfillmentOrderQuery fulfillmentType($fulfillmentType)
  * @method FulfillmentOrderQuery orderId($orderId)
  * @method FulfillmentOrderQuery orderStatus($orderStatus)
  * @method FulfillmentOrderQuery warehouseId($warehouseId)
@@ -30,13 +31,21 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
  * @method FulfillmentOrderQuery orderPulledAtTo($orderPulledAtTo)
  *
- * @method FulfillmentOrderQuery pending()
- * @method FulfillmentOrderQuery processing()
- * @method FulfillmentOrderQuery shipped()
- * @method FulfillmentOrderQuery cancelled()
- * @method FulfillmentOrderQuery toHolding()
- * @method FulfillmentOrderQuery toShipping()
- * @method FulfillmentOrderQuery toCancelling()
+ * @method FulfillmentOrderQuery inboundFulfillment()
+ * @method FulfillmentOrderQuery shippingFulfillment()
+ *
+ * @method FulfillmentOrderQuery inboundFulfillmentPending()
+ * @method FulfillmentOrderQuery inboundFulfillmentProcessing()
+ * @method FulfillmentOrderQuery inboundFulfillmentInbounded()
+ * @method FulfillmentOrderQuery inboundFulfillmentToCancelling()
+ *
+ * @method FulfillmentOrderQuery shippingFulfillmentPending()
+ * @method FulfillmentOrderQuery shippingFulfillmentProcessing()
+ * @method FulfillmentOrderQuery shippingFulfillmentShipped()
+ * @method FulfillmentOrderQuery shippingFulfillmentToHolding()
+ * @method FulfillmentOrderQuery shippingFulfillmentToShipping()
+ * @method FulfillmentOrderQuery shippingFulfillmentToCancelling()
+ *
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
  * @method int maxExternalUpdatedAt()
@@ -63,6 +72,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'fulfillmentOrderId' => 'fulfillment_order_id',
                     'fulfillmentAccountId' => 'fulfillment_account_id',
                     'fulfillmentStatus' => 'fulfillment_status',
+                    'fulfillmentType' => 'fulfillment_type',
                     'orderId' => 'order_id',
                     'orderStatus' => 'order_status',
                     'warehouseId' => 'warehouse_id',
@@ -77,12 +87,43 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
                 'queryConditions' => [
-                    'pending' => [
+                    //Inbound Fulfillment Status
+                    'inboundFulfillmentPending' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],
+                        'fulfillment_status' => [
+                            FulfillmentConst::INBOUND_STATUS_PENDING,
+                        ]
+                    ],
+                    'inboundFulfillmentProcessing' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],
+                        'fulfillment_status' => [
+                            FulfillmentConst::INBOUND_STATUS_PROCESSING,
+                            FulfillmentConst::INBOUND_STATUS_SHIPPED,
+                            FulfillmentConst::INBOUND_STATUS_ARRIVED,
+                            FulfillmentConst::INBOUND_STATUS_RECEIVED,
+                        ]
+                    ],
+                    'inboundFulfillmentInbounded' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],
+                        'fulfillment_status' => [
+                            FulfillmentConst::INBOUND_STATUS_INBOUNDED,
+                        ]
+                    ],
+                    'inboundFulfillmentToCancelling' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],
+                        'fulfillment_status' => [
+                            FulfillmentConst::INBOUND_STATUS_TO_CANCELLING,
+                        ]
+                    ],
+                    //Shipping Fulfillment Status
+                    'shippingFulfillmentPending' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_PENDING,
                         ]
                     ],
-                    'processing' => [
+                    'shippingFulfillmentProcessing' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
                             FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
@@ -90,27 +131,26 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                             FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
                         ]
                     ],
-                    'shipped' => [
+                    'shippingFulfillmentShipped' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
                         ]
                     ],
-                    'cancelled' => [
-                        'fulfillment_status' => [
-                            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-                        ]
-                    ],
-                    'toHolding' => [
+                    'shippingFulfillmentToHolding' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING,
                         ]
                     ],
-                    'toShipping' => [
+                    'shippingFulfillmentToShipping' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING,
                         ]
                     ],
-                    'toCancelling' => [
+                    'shippingFulfillmentToCancelling' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
                             FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING,
                         ]

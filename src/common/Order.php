@@ -26,6 +26,11 @@ class Order extends Model
     public $orderNo;
 
     /**
+     * @var string FulfillmentType
+     */
+    public $orderType;
+
+    /**
      * @var Address
      */
     public $address;
@@ -34,6 +39,16 @@ class Order extends Model
      * @var OrderItem[]
      */
     public $orderItems;
+
+    /**
+     * @var int
+     */
+    public $totalWeightG;
+
+    /**
+     * @var int
+     */
+    public $totalVolumeMM3;
 
     /**
      * @var array

@@ -19,7 +19,7 @@ class FulfillmentConst
     public const FULFILLMENT_STATUS_PROCESSING = 20;
     public const FULFILLMENT_STATUS_HOLDING = 30;
     public const FULFILLMENT_STATUS_PICKING = 50;
-    public const FULFILLMENT_STATUS_SHIP_PENDING = 60;
+    public const FULFILLMENT_STATUS_SHIP_ERROR = 80;
     public const FULFILLMENT_STATUS_SHIPPED = 100;
     public const FULFILLMENT_STATUS_CANCELLED = 110;
     public const FULFILLMENT_STATUS_TO_CANCELLING = 210;
@@ -35,6 +35,7 @@ class FulfillmentConst
     public const INBOUND_STATUS_SHIPPED = 20;
     public const INBOUND_STATUS_ARRIVED = 50;
     public const INBOUND_STATUS_RECEIVED = 60;
+    public const INBOUND_STATUS_INBOUND_ERROR = 80;
     public const INBOUND_STATUS_INBOUNDED = 100;
     public const INBOUND_STATUS_CANCELLED = 110;
     public const INBOUND_STATUS_TO_CANCELLING = 210;

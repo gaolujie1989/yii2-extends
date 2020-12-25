@@ -17,6 +17,7 @@ use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class PmFulfillmentService
@@ -38,14 +39,20 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public $externalItemKeyField = 'sku_id';
 
     /**
-     * @var string
+     * @var array
      */
-    public $externalOrderKeyField = 'consignment_no';
+    public $externalOrderKeyField = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'consignment_no',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'consignment_no',
+    ];
 
     /**
-     * @var string
+     * @var array
      */
-    public $externalOrderStatusField = 'status';
+    public $externalOrderStatusField = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'status',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'status',
+    ];
 
     /**
      * @var string
@@ -76,10 +83,21 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @var array
      */
     public $fulfillmentStatusMap = [
-        'S' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        'X' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-        'E' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-        'C' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+            'S' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            'X' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+            'E' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            'C' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+        ],
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => [
+            'G' => FulfillmentConst::INBOUND_STATUS_ARRIVED,
+            'V' => FulfillmentConst::INBOUND_STATUS_RECEIVED,
+            'K' => FulfillmentConst::INBOUND_STATUS_RECEIVED,
+            'P' => FulfillmentConst::INBOUND_STATUS_RECEIVED,
+            'C' => FulfillmentConst::INBOUND_STATUS_INBOUNDED,
+            'E' => FulfillmentConst::INBOUND_STATUS_INBOUND_ERROR,
+            'X' => FulfillmentConst::INBOUND_STATUS_CANCELLED,
+        ],
     ];
 
     #endregion
@@ -121,6 +139,27 @@ class F4pxFulfillmentService extends BaseFulfillmentService
 //        'unit_price' => '',
     ];
 
+    public $defaultInboundData = [
+        'customer_code' => '',
+        'business_type' => 'F',
+        'is_pickup' => 'N',
+        'transport_type' => 'S',
+        'tracking_no' => '',
+        'logistics_service_info' => [
+            'logistics_product_code' => '',
+            'signature_service' => 'N',
+            'insure_services' => '',
+        ],
+        'ocustoms_service' => 'D1',
+        'icustoms_service' => 'D3',
+        'currency' => 'EUR',
+        'print_box_no' => 'N',
+        'print_box_type' => '',
+    ];
+
+    public $defaultInboundItemData = [
+    ];
+
     #endregion
 
     public $orderProcessingStatus = 'S';
@@ -150,7 +189,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
     {
         $pictureUrls = array_slice($item->imageUrls, 0, 6);
-        $pictureUrls = array_map(static function($url) {
+        $pictureUrls = array_map(static function ($url) {
             return $url . '#xxx.jpg';
         }, $pictureUrls);
         if ($fulfillmentItem->external_item_key) {
@@ -234,6 +273,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function formatExternalOrderData(Order $order, FulfillmentOrder $fulfillmentOrder): array
     {
+        if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
+            return $this->formatExternalInboundData($order, $fulfillmentOrder);
+        }
         $orderItems = [];
         foreach ($order->orderItems as $orderItem) {
             $orderItems[] = array_merge($this->defaultOrderItemData, [
@@ -242,8 +284,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ]);
         }
         $address = $order->address;
-        return array_merge($this->defaultOrderData, [
-            'customer_code' => '',
+        return ArrayHelper::merge($this->defaultOrderData, [
             'ref_no' => 'O-' . $order->orderId,
             'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
             'sales_no' => $order->orderNo,
@@ -274,6 +315,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalOrder(Order $order): ?array
     {
+        if ($order->orderType === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
+            return $this->getExternalInbound($order);
+        }
         $outboundList = $this->client->getOutboundList(['sales_no' => $order->orderNo]);
         return $outboundList['data'][0] ?? null;
     }
@@ -287,6 +331,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function saveExternalOrder(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
     {
+        if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
+            return $this->saveExternalInbound($externalOrder, $fulfillmentOrder);
+        }
         if ($fulfillmentOrder->external_order_key) {
             return null;
         } else {
@@ -304,6 +351,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
+        if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
+            return $this->updateFulfillmentInbound($fulfillmentOrder, $externalOrder);
+        }
         $externalOrderStatus = $externalOrder['status'];
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
         $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
@@ -519,4 +569,120 @@ class F4pxFulfillmentService extends BaseFulfillmentService
 
     #endregion
 
+    #region Inbound Push
+
+    /**
+     * @param Order $order
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return array
+     * @inheritdoc
+     */
+    protected function formatExternalInboundData(Order $order, FulfillmentOrder $fulfillmentOrder): array
+    {
+        $orderItems = [];
+        foreach ($order->orderItems as $orderItem) {
+            $orderItems[] = array_merge($this->defaultInboundItemData, [
+                'sku_code' => $orderItem->itemNo,
+                'plan_qty' => $orderItem->orderedQty,
+            ]);
+        }
+        return ArrayHelper::merge($this->defaultInboundData, [
+            'ref_no' => 'I-' . $order->orderId,
+            'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
+            'to_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
+            'total_volume' => round($order->totalVolumeMM3 / 1000000) / 1000,
+            'total_weight' => $order->totalWeightG / 1000,
+            'remark' => $order->additional['note'] ?? '',
+            'iconsignment_sku' => $orderItems
+        ]);
+    }
+
+    /**
+     * @param Order $order
+     * @return array|null
+     * @throws JsonRpcException
+     * @inheritdoc
+     */
+    protected function getExternalInbound(Order $order): ?array
+    {
+        $outboundList = $this->client->getInboundList(['ref_no' => 'I-' . $order->orderId]);
+        return $outboundList['data'][0] ?? null;
+    }
+
+    /**
+     * @param array $externalOrder
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return array|null
+     * @throws JsonRpcException
+     * @inheritdoc
+     */
+    protected function saveExternalInbound(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
+    {
+        if ($fulfillmentOrder->external_order_key) {
+            return null;
+        } else {
+            return $this->client->createInbound($externalOrder);
+        }
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @param array $externalOrder
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function updateFulfillmentInbound(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    {
+        $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
+        $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
+        $fulfillmentOrder->external_updated_at = (int)($externalOrder['update_time'] / 1000);
+        $externalOrderAdditional['ref_no'] = $externalOrder['ref_no'];
+        $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'];
+        $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
+        $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
+
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+    }
+
+    #endregion
+
+    #region Inbound Action hold/ship/cancel
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function cancelFulfillmentInbound(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        $cancelOutbound = $this->client->cancelInbound(['consignment_no' => $fulfillmentOrder->external_order_key]);
+        $this->updateFulfillmentOrder($fulfillmentOrder, $cancelOutbound);
+        return $cancelOutbound['status'] === 'X';
+    }
+
+    #endregion
+
+    #region Inbound Pull
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @throws JsonRpcException
+     * @inheritdoc
+     */
+    protected function getExternalInbounds(array $externalOrderKeys): array
+    {
+        $externalOrders = [];
+        foreach ($externalOrderKeys as $externalOrderKey) {
+            $data = $this->client->getInboundList(['consignment_no' => $externalOrderKeys]);
+            $externalOrders[$externalOrderKey] = $data['data'];
+        }
+        return $externalOrders;
+    }
+
+    #endregion
 }

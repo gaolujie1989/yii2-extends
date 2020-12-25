@@ -14,6 +14,10 @@ class FulfillmentConst
 
     public const FULFILLMENT_TYPE_INBOUND = 'INBOUND';
     public const FULFILLMENT_TYPE_SHIPPING = 'SHIPPING';
+    public const FULFILLMENT_TYPES = [
+        self::FULFILLMENT_TYPE_INBOUND,
+        self::FULFILLMENT_TYPE_SHIPPING,
+    ];
 
     public const FULFILLMENT_STATUS_PENDING = 0;
     public const FULFILLMENT_STATUS_PROCESSING = 20;

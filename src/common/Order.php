@@ -28,7 +28,7 @@ class Order extends Model
     /**
      * @var string FulfillmentType
      */
-    public $orderType;
+    public $fulfillmentType;
 
     /**
      * @var Address

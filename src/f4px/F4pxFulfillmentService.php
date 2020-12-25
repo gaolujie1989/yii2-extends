@@ -315,7 +315,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalOrder(Order $order): ?array
     {
-        if ($order->orderType === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
+        if ($order->fulfillmentType === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
             return $this->getExternalInbound($order);
         }
         $outboundList = $this->client->getOutboundList(['sales_no' => $order->orderNo]);

@@ -91,4 +91,18 @@ class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
     {
         return new FulfillmentOrderQuery(static::class);
     }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (!in_array($this->fulfillment_type, FulfillmentConst::FULFILLMENT_TYPES)) {
+            $this->addError('fulfillment_type', 'Invalid fulfillment type');
+            return false;
+        }
+        return parent::beforeSave($insert);
+    }
 }

@@ -15,6 +15,7 @@ use lujie\fulfillment\forms\FulfillmentOrderForm;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
+use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
@@ -37,23 +38,38 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
     public $itemClass;
 
     /**
-     * @var string|BaseActiveRecord
+     * [
+     *      'fulfillment_type' => 'orderClass'
+     * ]
+     * @var array|BaseActiveRecord[]
      */
-    public $outboundOrderClass;
-
-    /**
-     * @var string
-     */
-    public $outboundOrderStatusAttribute = 'status';
-
-    /**
-     * @var string
-     */
-    public $outboundOrderWarehouseIdAttribute = 'warehouse_id';
+    public $orderClasses = [];
 
     /**
      * [
-     *      'order_status' => 'fulfillment_status'
+     *      'fulfillment_type' => 'status_attribute'
+     * ]
+     * @var array
+     */
+    public $orderStatusAttribute = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'status',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'status',
+    ];
+
+    /**
+     * [
+     *      'fulfillment_type' => 'warehouse_id_attribute'
+     * ]
+     * @var array
+     */
+    public $orderWarehouseIdAttribute = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'warehouse_id',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'warehouse_id',
+    ];
+
+    /**
+     * [
+     *      'fulfillment_type' => ['order_status' => 'fulfillment_status']
      * ]
      * @var array
      */
@@ -61,7 +77,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
 
     /**
      * [
-     *      'fulfillment_status' => 'order_status'
+     *      'fulfillment_type' => ['fulfillment_status' => 'order_status']
      * ]
      * @var array
      */
@@ -71,8 +87,14 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @var array
      */
     public $allowedDeletedFulfillmentStatus = [
-        FulfillmentConst::FULFILLMENT_STATUS_PENDING,
-        FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+            FulfillmentConst::FULFILLMENT_STATUS_PENDING,
+            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ],
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => [
+            FulfillmentConst::INBOUND_STATUS_PENDING,
+            FulfillmentConst::INBOUND_STATUS_CANCELLED,
+        ]
     ];
 
     /**
@@ -85,11 +107,14 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterItemSaved']);
         Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterItemSaved']);
 
-        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass) ?: $this->outboundOrderClass;
-        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_BEFORE_DELETE, [$this, 'beforeOutboundOrderDeleted']);
-        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'afterOutboundOrderDeleted']);
-        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
-        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
+        foreach ($this->orderClasses as $fulfillmentType => $orderClass) {
+            $orderFormClass = ClassHelper::getFormClass($orderClass) ?: $orderClass;
+            Event::on($orderFormClass, BaseActiveRecord::EVENT_BEFORE_DELETE, [$this, 'beforeOrderDeleted'], ['fulfillmentType' => $fulfillmentType]);
+            Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'afterOrderDeleted'], ['fulfillmentType' => $fulfillmentType]);
+            Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOrderSaved'], ['fulfillmentType' => $fulfillmentType]);
+            Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOrderSaved'], ['fulfillmentType' => $fulfillmentType]);
+            Yii::info("Listen fulfillment $fulfillmentType of $orderFormClass events", __METHOD__);
+        }
 
         Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated'], null, false);
     }
@@ -103,9 +128,6 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         parent::init();
         if (empty($this->itemClass)) {
             throw new InvalidConfigException('The property `itemClass` must be set.');
-        }
-        if (empty($this->outboundOrderClass)) {
-            throw new InvalidConfigException('The property `outboundOrderClass` must be set.');
         }
     }
 
@@ -167,14 +189,15 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @param ModelEvent $event
      * @inheritdoc
      */
-    public function beforeOutboundOrderDeleted(ModelEvent $event): void
+    public function beforeOrderDeleted(ModelEvent $event): void
     {
-        /** @var BaseActiveRecord $outboundOrder */
-        $outboundOrder = $event->sender;
-        $orderId = $outboundOrder->primaryKey;
-        $fulfillmentOrder = FulfillmentOrderForm::find()->orderId($orderId)->one();
-        if ($fulfillmentOrder !== null && !in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus)) {
-            $outboundOrder->addError('fulfillment_status', 'Fulfillment Status not allowed to delete');
+        $fulfillmentType = $event->data['fulfillmentType'] ?? '';
+        /** @var BaseActiveRecord $order */
+        $order = $event->sender;
+        $orderId = $order->primaryKey;
+        $fulfillmentOrder = FulfillmentOrderForm::find()->fulfillmentType($fulfillmentType)->orderId($orderId)->one();
+        if ($fulfillmentOrder !== null && !in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus[$fulfillmentType])) {
+            $order->addError('fulfillment_status', 'Fulfillment Status not allowed to delete');
             $event->isValid = false;
         }
     }
@@ -185,14 +208,15 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
-    public function afterOutboundOrderDeleted(Event $event): void
+    public function afterOrderDeleted(Event $event): void
     {
-        /** @var BaseActiveRecord $outboundOrder */
-        $outboundOrder = $event->sender;
-        $orderId = $outboundOrder->primaryKey;
-        $fulfillmentOrder = FulfillmentOrderForm::find()->orderId($orderId)->one();
-        if ($fulfillmentOrder !== null) {
-            if (in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus)) {
+        $fulfillmentType = $event->data['fulfillmentType'] ?? '';
+        /** @var BaseActiveRecord $order */
+        $order = $event->sender;
+        $orderId = $order->primaryKey;
+        $fulfillmentOrders = FulfillmentOrderForm::find()->fulfillmentType($fulfillmentType)->orderId($orderId)->all();
+        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            if (in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus[$fulfillmentType])) {
                 $fulfillmentOrder->delete();
             } else {
                 throw new InvalidArgumentException('Fulfillment Status not allowed to delete');
@@ -204,34 +228,38 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @param AfterSaveEvent $event
      * @inheritdoc
      */
-    public function afterOutboundOrderSaved(AfterSaveEvent $event): void
+    public function afterOrderSaved(AfterSaveEvent $event): void
     {
-        /** @var BaseActiveRecord $outboundOrder */
-        $outboundOrder = $event->sender;
-        if (!$this->isOrderNeedPush($outboundOrder)) {
+        $fulfillmentType = $event->data['fulfillmentType'] ?? '';
+        /** @var BaseActiveRecord $order */
+        $order = $event->sender;
+        if (!$this->isOrderNeedPush($order, $fulfillmentType)) {
             return;
         }
-        $this->updateFulfillmentOrder($outboundOrder);
+        $this->updateFulfillmentOrder($order, $fulfillmentType);
     }
 
     /**
-     * @param BaseActiveRecord $outboundOrder
+     * @param BaseActiveRecord $order
+     * @param string $fulfillmentType
      * @return bool
      * @inheritdoc
      */
-    public function isOrderNeedPush(BaseActiveRecord $outboundOrder): bool
+    public function isOrderNeedPush(BaseActiveRecord $order, string $fulfillmentType): bool
     {
-        return true;
+        //SHIPPING Fulfillment auto push, others manually
+        return $fulfillmentType === FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
     }
 
     /**
-     * @param BaseActiveRecord|TraceableBehaviorTrait $outboundOrder
+     * @param BaseActiveRecord|TraceableBehaviorTrait $order
+     * @param string $fulfillmentType
      * @return bool|null
      * @inheritdoc
      */
-    public function updateFulfillmentOrder(BaseActiveRecord $outboundOrder): ?bool
+    public function updateFulfillmentOrder(BaseActiveRecord $order, string $fulfillmentType): ?bool
     {
-        $warehouseId = $outboundOrder->getAttribute($this->outboundOrderWarehouseIdAttribute);
+        $warehouseId = $order->getAttribute($this->orderWarehouseIdAttribute[$fulfillmentType]);
         if (empty($warehouseId)) {
             return null;
         }
@@ -244,31 +272,33 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             return null;
         }
 
-        $orderStatus = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
-        $orderId = $outboundOrder->primaryKey;
+        $orderStatus = $order->getAttribute($this->orderStatusAttribute[$fulfillmentType]);
+        $orderId = $order->primaryKey;
         $fulfillmentOrder = FulfillmentOrderForm::find()
             ->fulfillmentAccountId($fulfillmentWarehouse->fulfillment_account_id)
+            ->fulfillmentType($fulfillmentType)
             ->orderId($orderId)
             ->warehouseId($warehouseId)
             ->one();
         if ($fulfillmentOrder === null) {
             $fulfillmentOrder = new FulfillmentOrderForm();
+            $fulfillmentOrder->fulfillment_type = $fulfillmentType;
             $fulfillmentOrder->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
             $fulfillmentOrder->order_id = $orderId;
             $fulfillmentOrder->order_status = $orderStatus;
-            $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
+            $fulfillmentOrder->order_updated_at = $order->updated_at;
             $fulfillmentOrder->warehouse_id = $fulfillmentWarehouse->warehouse_id;
             $fulfillmentOrder->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
             return $fulfillmentOrder->save(false);
         }
 
-        if (empty($this->fulfillmentStatusMap[$orderStatus])) {
+        if (empty($this->fulfillmentStatusMap[$fulfillmentType][$orderStatus])) {
             return null;
         }
         $fulfillmentOrder->order_status = $orderStatus;
-        $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
-        $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$orderStatus];
+        $fulfillmentOrder->order_updated_at = $order->updated_at;
+        $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$fulfillmentType][$orderStatus];
         return $fulfillmentOrder->save(false);
     }
 
@@ -282,7 +312,8 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      */
     public function afterFulfillmentOrderUpdated(FulfillmentOrderEvent $event): void
     {
-        $this->updateOutboundOrder($event->fulfillmentOrder, $event->externalOrder);
+        $fulfillmentOrder = $event->fulfillmentOrder;
+        $this->updateOrder($fulfillmentOrder, $event->externalOrder);
     }
 
     /**
@@ -290,37 +321,39 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @return bool|null
      * @inheritdoc
      */
-    public function updateOutboundOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): ?bool
+    public function updateOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): ?bool
     {
-        if (empty($this->orderStatusMap[$fulfillmentOrder->fulfillment_status])) {
+        $fulfillmentType = $fulfillmentOrder->fulfillment_type;
+        if (empty($this->orderStatusMap[$fulfillmentType][$fulfillmentOrder->fulfillment_status])) {
             return null;
         }
-        /** @var BaseActiveRecord|TraceableBehaviorTrait $outboundOrder */
-        $outboundOrder = $this->outboundOrderClass::findOne($fulfillmentOrder->order_id);
-        if ($outboundOrder === null) {
+        $orderClass = $this->orderClasses[$fulfillmentType];
+        /** @var BaseActiveRecord|TraceableBehaviorTrait $order */
+        $order = $orderClass::findOne($fulfillmentOrder->order_id);
+        if ($order === null) {
             return null;
         }
-        $warehouseId = $outboundOrder->getAttribute($this->outboundOrderWarehouseIdAttribute);
+        $warehouseId = $order->getAttribute($this->orderWarehouseIdAttribute[$fulfillmentType]);
         if ($warehouseId !== $fulfillmentOrder->warehouse_id) {
             return null;
         }
 
-        $newOrderStatus = $this->orderStatusMap[$fulfillmentOrder->fulfillment_status];
-        $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
+        $newOrderStatus = $this->orderStatusMap[$fulfillmentType][$fulfillmentOrder->fulfillment_status];
+        $order->setAttribute($this->orderStatusAttribute[$fulfillmentType], $newOrderStatus);
         $fulfillmentOrder->order_status = $newOrderStatus;
-        $fulfillmentOrder->order_updated_at = $outboundOrder->updated_at;
+        $fulfillmentOrder->order_updated_at = $order->updated_at;
 
-        $this->updateOutboundOrderAdditional($outboundOrder, $fulfillmentOrder, $externalOrder);
-        return $outboundOrder->save(false) && $fulfillmentOrder->save(false);
+        $this->updateOrderAdditional($order, $fulfillmentOrder, $externalOrder);
+        return $order->save(false) && $fulfillmentOrder->save(false);
     }
 
     /**
-     * @param BaseActiveRecord $outboundOrder
+     * @param BaseActiveRecord $order
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
      * @inheritdoc
      */
-    protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
+    protected function updateOrderAdditional(BaseActiveRecord $order, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
     {
 
     }

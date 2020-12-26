@@ -2,11 +2,7 @@
 
 namespace lujie\fulfillment\models;
 
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
+use lujie\fulfillment\constants\FulfillmentConst;
 use Yii;
 
 /**
@@ -15,6 +11,7 @@ use Yii;
  * @property int $fulfillment_order_id
  * @property int $fulfillment_account_id
  * @property int $fulfillment_status
+ * @property int $fulfillment_type
  * @property int $order_id
  * @property string $order_status
  * @property int $order_updated_at
@@ -33,7 +30,6 @@ use Yii;
  */
 class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
 {
-
     /**
      * {@inheritdoc}
      */
@@ -68,6 +64,7 @@ class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
             'fulfillment_order_id' => Yii::t('lujie/fulfillment', 'Fulfillment Order ID'),
             'fulfillment_account_id' => Yii::t('lujie/fulfillment', 'Fulfillment Account ID'),
             'fulfillment_status' => Yii::t('lujie/fulfillment', 'Fulfillment Status'),
+            'fulfillment_type' => Yii::t('lujie/fulfillment', 'Fulfillment Type'),
             'order_id' => Yii::t('lujie/fulfillment', 'Order ID'),
             'order_status' => Yii::t('lujie/fulfillment', 'Order Status'),
             'order_updated_at' => Yii::t('lujie/fulfillment', 'Order Updated At'),
@@ -93,5 +90,19 @@ class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
     public static function find(): FulfillmentOrderQuery
     {
         return new FulfillmentOrderQuery(static::class);
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeSave($insert): bool
+    {
+        if (!in_array($this->fulfillment_type, FulfillmentConst::FULFILLMENT_TYPES)) {
+            $this->addError('fulfillment_type', 'Invalid fulfillment type');
+            return false;
+        }
+        return parent::beforeSave($insert);
     }
 }

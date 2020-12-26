@@ -477,9 +477,42 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pullFulfillmentOrders(int $accountId): void
     {
+        $this->pullShippingFulfillmentOrders($accountId);
+        $this->pullInboundFulfillmentOrders($accountId);
+    }
+
+    /**
+     * @param int $accountId
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pullShippingFulfillmentOrders(int $accountId): void
+    {
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountId)
-            ->processing()
+            ->shippingFulfillmentProcessing()
+            ->orderByOrderPulledAt()
+            ->limit($this->pullOrderLimit);
+        if (!$query->exists()) {
+            return;
+        }
+
+        $fulfillmentService = $this->getFulfillmentService($accountId);
+        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
+            $fulfillmentService->pullFulfillmentOrders($batch);
+        }
+    }
+
+    /**
+     * @param int $accountId
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pullInboundFulfillmentOrders(int $accountId): void
+    {
+        $query = FulfillmentOrder::find()
+            ->fulfillmentAccountId($accountId)
+            ->inboundFulfillmentProcessing()
             ->orderByOrderPulledAt()
             ->limit($this->pullOrderLimit);
         if (!$query->exists()) {
@@ -505,7 +538,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         if ($shippedAtFrom === null) {
             $shippedAtFrom = FulfillmentOrder::find()
                 ->fulfillmentAccountId($accountId)
-                ->shipped()
+                ->shippingFulfillmentShipped()
                 ->maxExternalUpdatedAt() ?: 0;
         }
         if ($shippedAtTo === null) {
@@ -573,6 +606,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region Recheck and Retry To Push
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pushFulfillmentItems(): void
@@ -593,10 +627,20 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     public function pushFulfillmentOrders(): void
     {
+        $this->pushShippingFulfillmentOrders();
+        $this->pushInboundFulfillmentOrders();
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pushShippingFulfillmentOrders(): void
+    {
         $accountIds = FulfillmentAccount::find()->active()->column();
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
-            ->pending()
+            ->shippingFulfillmentPending()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushFulfillmentOrderJob($fulfillmentOrder);
@@ -604,7 +648,15 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
-            ->toHolding()
+            ->shippingFulfillmentToCancelling()
+            ->notQueuedOrQueuedButNotExecuted();
+        foreach ($query->each() as $fulfillmentOrder) {
+            $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
+        }
+
+        $query = FulfillmentOrder::find()
+            ->fulfillmentAccountId($accountIds)
+            ->shippingFulfillmentToHolding()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushHoldFulfillmentOrderJob($fulfillmentOrder);
@@ -612,15 +664,31 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
-            ->toShipping()
+            ->shippingFulfillmentToShipping()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushShipFulfillmentOrderJob($fulfillmentOrder);
         }
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function pushInboundFulfillmentOrders(): void
+    {
+        $accountIds = FulfillmentAccount::find()->active()->column();
+        $query = FulfillmentOrder::find()
+            ->fulfillmentAccountId($accountIds)
+            ->inboundFulfillmentPending()
+            ->notQueuedOrQueuedButNotExecuted();
+        foreach ($query->each() as $fulfillmentOrder) {
+            $this->pushFulfillmentOrderJob($fulfillmentOrder);
+        }
 
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountIds)
-            ->toCancelling()
+            ->inboundFulfillmentToCancelling()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
             $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);

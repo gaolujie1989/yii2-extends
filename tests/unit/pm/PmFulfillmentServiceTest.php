@@ -20,6 +20,7 @@ use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\fulfillment\pm\PmFulfillmentService;
+use lujie\fulfillment\tests\unit\mocks\MockFulfillmentDataLoader;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use Yii;
 use yii\httpclient\MockTransport;
@@ -55,7 +56,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
                 'account_id' => 1
             ]),
             'itemLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Item([
                         'itemId' => 1,
@@ -84,7 +85,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
                 ]
             ],
             'orderLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Order([
                         'orderId' => 1,
@@ -201,6 +202,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService->client->httpClient->setTransport($mockTransport);
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->save(false);
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
@@ -264,6 +266,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
 
         $fulfillmentOrder->delete();
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->save(false);
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
@@ -323,6 +326,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService->client->httpClient->setTransport($mockTransport);
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->external_order_key = 1375033;
@@ -369,6 +373,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService->client->httpClient->setTransport($mockTransport);
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->external_order_key = 1375033;

@@ -54,14 +54,20 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     public $externalItemKeyField = 'id';
 
     /**
-     * @var string
+     * @var array
      */
-    public $externalOrderKeyField = 'id';
+    public $externalOrderKeyField = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'id',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'id',
+    ];
 
     /**
-     * @var string
+     * @var array
      */
-    public $externalOrderStatusField = 'status';
+    public $externalOrderStatusField = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'status',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'status',
+    ];
 
     /**
      * @var string
@@ -90,7 +96,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
     /**
      * [
-     *      'external_order_status' => 'fulfillment_status'
+     *      'fulfillment_type' => ['external_order_status' => 'fulfillment_status']
      * ]
      * @var array
      */
@@ -127,7 +133,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         /** @var Item $item */
-        $item = $this->itemLoader->get($fulfillmentItem->item_id);
+        $item = $this->itemLoader->get($fulfillmentItem);
         if (empty($item) || empty($item->itemBarcodes)) {
             Yii::info("Empty Item or ItemBarcodes", __METHOD__);
             return false;
@@ -201,7 +207,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         /** @var Order $order */
-        $order = $this->orderLoader->get($fulfillmentOrder->order_id);
+        $order = $this->orderLoader->get($fulfillmentOrder);
         if (empty($order) || empty($order->orderItems)) {
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
@@ -255,11 +261,12 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
     {
         $fulfillmentOrder->order_pulled_at = time();
-        $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
-        $fulfillmentOrder->external_order_status = $externalOrder[$this->externalOrderStatusField];
+        $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField[$fulfillmentOrder->fulfillment_type]];
+        $fulfillmentOrder->external_order_status = $externalOrder[$this->externalOrderStatusField[$fulfillmentOrder->fulfillment_type]];
 
-        $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->external_order_status] ?? null;
-        if ($newFulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED
+        $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;
+        if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_SHIPPING
+            && $newFulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED
             && empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
             Yii::info("ExternalOrder shipped, but no trackingNumbers, set FulfillmentStatus to PICKING", __METHOD__);
             $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
@@ -319,13 +326,15 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     #region Order Pull
 
     /**
-     * @param array $fulfillmentOrders
+     * @param FulfillmentOrder[] $fulfillmentOrders
      * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
     public function pullFulfillmentOrders(array $fulfillmentOrders): void
     {
+        $fulfillmentOrder = reset($fulfillmentOrders);
+        $fulfillmentType = $fulfillmentOrder->fulfillment_type;
         $fulfillmentOrders = ArrayHelper::index($fulfillmentOrders, 'external_order_key');
         $externalOrderKeys = array_keys($fulfillmentOrders);
         $externalOrders = $this->getExternalOrders($externalOrderKeys);
@@ -333,7 +342,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         Yii::info("Pulled {$orderCount} FulfillmentOrders", __METHOD__);
 
         foreach ($externalOrders as $externalOrder) {
-            $externalOrderKey = $externalOrder[$this->externalOrderKeyField];
+            $externalOrderKey = $externalOrder[$this->externalOrderKeyField[$fulfillmentType]];
             $this->updateFulfillmentOrder($fulfillmentOrders[$externalOrderKey], $externalOrder);
         }
     }
@@ -360,7 +369,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         if (empty($externalOrders)) {
             return;
         }
-        $externalOrders = ArrayHelper::index($externalOrders, $this->externalOrderKeyField);
+        $externalOrders = ArrayHelper::index($externalOrders, $this->externalOrderKeyField[FulfillmentConst::FULFILLMENT_TYPE_SHIPPING]);
         $externalOrderKeys = array_keys($externalOrders);
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($this->account->account_id)

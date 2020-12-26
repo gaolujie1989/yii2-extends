@@ -103,6 +103,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
 
         //test fulfillment order
         $fulfillmentOrder = new FulfillmentOrderForm();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_PENDING;
@@ -155,6 +156,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
     }
 
     /**
+     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
@@ -166,7 +168,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         $fulfillmentItem->item_id = 1;
         $this->getFulfillmentManager()->pushFulfillmentItem($fulfillmentItem);
         $this->assertFalse($fulfillmentItem->getIsNewRecord());
-        $this->assertEquals('ITEM_K1', $fulfillmentItem->external_item_key);
+        $this->assertEquals('ITEM_K1', $fulfillmentItem->external_item_key, VarDumper::dumpAsString($fulfillmentItem->attributes));
     }
 
     /**
@@ -178,6 +180,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
     public function testPushOrder(): void
     {
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $this->getFulfillmentManager()->pushFulfillmentOrder($fulfillmentOrder);
@@ -193,11 +196,12 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
     public function testPullOrders(): void
     {
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->external_order_key = 'ORDER_K1';
         $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PROCESSING;
-        $fulfillmentOrder->mustSave(false);
+        $this->assertTrue($fulfillmentOrder->save(false));
         $fulfillmentManager = $this->getFulfillmentManager();
         MockFulfillmentService::$EXTERNAL_ORDER_DATA = ['ORDER_K1' => [
             'id' => 'ORDER_K1',

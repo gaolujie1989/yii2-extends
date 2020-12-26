@@ -23,9 +23,11 @@ use lujie\plentyMarkets\PlentyMarketsRestClient;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\base\NotSupportedException;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use function Qcloud\Cos\startWith;
 
 /**
  * Class PmFulfillmentService
@@ -47,14 +49,18 @@ class PmFulfillmentService extends BaseFulfillmentService
     public $externalItemKeyField = 'id';
 
     /**
-     * @var string
+     * @var array
      */
-    public $externalOrderKeyField = 'id';
+    public $externalOrderKeyField = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING=> 'id'
+    ];
 
     /**
-     * @var string
+     * @var array
      */
-    public $externalOrderStatusField = 'statusId';
+    public $externalOrderStatusField = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING=> 'statusId'
+    ];
 
     /**
      * @var string
@@ -85,29 +91,31 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @var array
      */
     public $fulfillmentStatusMap = [
-        //global
-        '4' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-        '5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '6' => FulfillmentConst::FULFILLMENT_STATUS_PICKING,
-        '7' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
-        '7.1' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
-        '8' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-        '8.1' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-        //custom
-        '4.1' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-        '4.2' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-        '5.1' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '5.2' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '5.4' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '5.5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '5.6' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '5.7' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        '15.9' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-        '5.31' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-        '5.33' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-        '6.5' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-        '6.7' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-        '6.8' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+            //global
+            '4' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '6' => FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+            '7' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            '7.1' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            '8' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+            '8.1' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+            //custom
+            '4.1' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '4.2' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '5.1' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '5.2' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '5.4' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '5.5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '5.6' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '5.7' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            '15.9' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+            '5.31' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            '5.33' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            '6.5' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            '6.7' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            '6.8' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+        ]
     ];
 
     #endregion
@@ -274,6 +282,9 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
      * @throws Exception
+     * @throws InvalidConfigException
+     * @throws NotSupportedException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -283,8 +294,12 @@ class PmFulfillmentService extends BaseFulfillmentService
             return false;
         }
 
+        if ($fulfillmentOrder->fulfillment_type !== FulfillmentConst::FULFILLMENT_TYPE_SHIPPING) {
+            throw new NotSupportedException("Fulfillment Type {$fulfillmentOrder->fulfillment_type} not supported by PM");
+        }
+
         /** @var Order $order */
-        $order = $this->orderLoader->get($fulfillmentOrder->order_id);
+        $order = $this->orderLoader->get($fulfillmentOrder);
         if (empty($order->orderItems)) {
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;

@@ -81,11 +81,13 @@ class MockFulfillmentService extends BaseFulfillmentService
      * @var array
      */
     public $fulfillmentStatusMap = [
-        'HOLDING' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-        'SHIPPING' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        'ERROR' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_PENDING,
-        'SHIPPED' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
-        'CANCELLED' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+            'HOLDING' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            'SHIPPING' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            'ERROR' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            'SHIPPED' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            'CANCELLED' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ]
     ];
 
     public static function initData()
@@ -279,7 +281,7 @@ class MockFulfillmentService extends BaseFulfillmentService
             $externalOrder['updated_at'] = $now;
             $externalOrder['status'] = 'SHIPPING';
         }
-        $externalOrder[$this->externalOrderKeyField] = $externalOrderKey;
+        $externalOrder[$this->externalOrderKeyField[$fulfillmentOrder->fulfillment_type]] = $externalOrderKey;
         static::$EXTERNAL_ORDER_DATA[$externalOrderKey] = $externalOrder;
         return $externalOrder;
     }

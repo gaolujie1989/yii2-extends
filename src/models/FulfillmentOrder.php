@@ -97,7 +97,7 @@ class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
      * @return bool
      * @inheritdoc
      */
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         if (!in_array($this->fulfillment_type, FulfillmentConst::FULFILLMENT_TYPES)) {
             $this->addError('fulfillment_type', 'Invalid fulfillment type');

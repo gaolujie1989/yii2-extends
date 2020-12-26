@@ -87,6 +87,12 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderPulledAtTo' => ['order_pulled_at' => '<='],
                 ],
                 'queryConditions' => [
+                    'inboundFulfillment' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],
+                    ],
+                    'shippingFulfillment' => [
+                        'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
+                    ],
                     //Inbound Fulfillment Status
                     'inboundFulfillmentPending' => [
                         'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],

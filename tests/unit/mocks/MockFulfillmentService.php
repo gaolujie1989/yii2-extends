@@ -81,11 +81,13 @@ class MockFulfillmentService extends BaseFulfillmentService
      * @var array
      */
     public $fulfillmentStatusMap = [
-        'HOLDING' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-        'SHIPPING' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-        'ERROR' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
-        'SHIPPED' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
-        'CANCELLED' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+            'HOLDING' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            'SHIPPING' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            'ERROR' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            'SHIPPED' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            'CANCELLED' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ]
     ];
 
     public static function initData()

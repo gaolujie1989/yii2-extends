@@ -15,6 +15,7 @@ use lujie\fulfillment\forms\FulfillmentOrderForm;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
+use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
@@ -50,7 +51,10 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * ]
      * @var array
      */
-    public $orderStatusAttribute = [];
+    public $orderStatusAttribute = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'status',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'status',
+    ];
 
     /**
      * [
@@ -58,7 +62,10 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * ]
      * @var array
      */
-    public $orderWarehouseIdAttribute = [];
+    public $orderWarehouseIdAttribute = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'warehouse_id',
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'warehouse_id',
+    ];
 
     /**
      * [
@@ -106,6 +113,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_DELETE, [$this, 'afterOrderDeleted'], ['fulfillmentType' => $fulfillmentType]);
             Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOrderSaved'], ['fulfillmentType' => $fulfillmentType]);
             Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOrderSaved'], ['fulfillmentType' => $fulfillmentType]);
+            Yii::info("Listen fulfillment $fulfillmentType of $orderFormClass events", __METHOD__);
         }
 
         Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated'], null, false);
@@ -268,11 +276,13 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $orderId = $order->primaryKey;
         $fulfillmentOrder = FulfillmentOrderForm::find()
             ->fulfillmentAccountId($fulfillmentWarehouse->fulfillment_account_id)
+            ->fulfillmentType($fulfillmentType)
             ->orderId($orderId)
             ->warehouseId($warehouseId)
             ->one();
         if ($fulfillmentOrder === null) {
             $fulfillmentOrder = new FulfillmentOrderForm();
+            $fulfillmentOrder->fulfillment_type = $fulfillmentType;
             $fulfillmentOrder->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
             $fulfillmentOrder->order_id = $orderId;
             $fulfillmentOrder->order_status = $orderStatus;
@@ -283,12 +293,12 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             return $fulfillmentOrder->save(false);
         }
 
-        if (empty($this->outboundFulfillmentStatusMap[$orderStatus])) {
+        if (empty($this->fulfillmentStatusMap[$fulfillmentType][$orderStatus])) {
             return null;
         }
         $fulfillmentOrder->order_status = $orderStatus;
         $fulfillmentOrder->order_updated_at = $order->updated_at;
-        $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$fulfillmentType][$orderStatus] ?? $fulfillmentOrder->fulfillment_status;
+        $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$fulfillmentType][$orderStatus];
         return $fulfillmentOrder->save(false);
     }
 
@@ -333,7 +343,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $fulfillmentOrder->order_status = $newOrderStatus;
         $fulfillmentOrder->order_updated_at = $order->updated_at;
 
-        $this->updateOutboundOrderAdditional($order, $fulfillmentOrder, $externalOrder);
+        $this->updateOrderAdditional($order, $fulfillmentOrder, $externalOrder);
         return $order->save(false) && $fulfillmentOrder->save(false);
     }
 
@@ -343,7 +353,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @param array $externalOrder
      * @inheritdoc
      */
-    protected function updateOutboundOrderAdditional(BaseActiveRecord $order, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
+    protected function updateOrderAdditional(BaseActiveRecord $order, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
     {
 
     }

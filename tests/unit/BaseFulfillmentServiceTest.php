@@ -6,7 +6,6 @@
 namespace lujie\fulfillment\tests\unit;
 
 
-use lujie\data\loader\ArrayDataLoader;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -20,6 +19,7 @@ use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
+use lujie\fulfillment\tests\unit\mocks\MockFulfillmentDataLoader;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 use yii\helpers\ArrayHelper;
 
@@ -50,7 +50,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
                 'account_id' => 1
             ]),
             'itemLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Item([
                         'itemId' => 1,
@@ -79,7 +79,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
                 ]
             ],
             'orderLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Order([
                         'orderId' => 1,
@@ -123,7 +123,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
 
         $fulfillmentItem = new FulfillmentItem();
-        $fulfillmentItem->save(false);
+        $this->assertTrue($fulfillmentItem->save(false));
         $fulfillmentItem->fulfillment_account_id = 2;
         $this->assertFalse($fulfillmentService->pushItem($fulfillmentItem), 'Account not equal, should return false');
 
@@ -160,7 +160,8 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
 
         $fulfillmentOrder = new FulfillmentOrder();
-        $fulfillmentOrder->save(false);
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
+        $this->assertTrue($fulfillmentOrder->save(false));
         $fulfillmentOrder->fulfillment_account_id = 2;
         $this->assertFalse($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'Account not equal, should return false');
 
@@ -178,7 +179,8 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
 
         $fulfillmentOrder->delete();
         $fulfillmentOrder = new FulfillmentOrder();
-        $fulfillmentOrder->save(false);
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
+        $this->assertTrue($fulfillmentOrder->save(false));
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder), 'already exists, link and update');
@@ -196,9 +198,10 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
-        $fulfillmentOrder->save(false);
+        $this->assertTrue($fulfillmentOrder->save(false));
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder));
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
 
@@ -223,9 +226,10 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
-        $fulfillmentOrder->save(false);
+        $this->assertTrue($fulfillmentOrder->save(false));
         $this->assertTrue($fulfillmentService->pushFulfillmentOrder($fulfillmentOrder));
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_PROCESSING, $fulfillmentOrder->fulfillment_status);
 
@@ -266,7 +270,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
-        $fulfillmentItem->save(false);
+        $this->assertTrue($fulfillmentItem->save(false));
         $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem));
 
         $fulfillmentService->pullWarehouseStocks([$fulfillmentItem]);
@@ -298,7 +302,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->fulfillment_account_id = 1;
         $fulfillmentItem->item_id = 1;
-        $fulfillmentItem->save(false);
+        $this->assertTrue($fulfillmentItem->save(false));
         $this->assertTrue($fulfillmentService->pushItem($fulfillmentItem));
 
         $query = FulfillmentWarehouseStockMovement::find()->itemId($fulfillmentItem->item_id);

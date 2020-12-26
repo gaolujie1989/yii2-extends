@@ -17,7 +17,6 @@ use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\tests\unit\mocks\MockFulfillmentService;
 use Yii;
-use yii\db\AfterSaveEvent;
 
 class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
 {
@@ -38,7 +37,9 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
     {
         $connector = new BaseFulfillmentConnector([
             'itemClass' => TestItem::class,
-            'outboundOrderClass' => TestOrder::class,
+            'orderClasses' => [
+                FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => TestOrder::class
+            ],
         ]);
         $connector->bootstrap(Yii::$app);
 
@@ -62,13 +63,17 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $this->assertEquals($item->updated_at, $fulfillmentItem->item_updated_at);
     }
 
-    public function testOutboundOrderConnect(): void
+    public function testOrderConnect(): void
     {
         $connector = new BaseFulfillmentConnector([
             'itemClass' => TestItem::class,
-            'outboundOrderClass' => TestOrder::class,
+            'orderClasses' => [
+                FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => TestOrder::class
+            ],
             'fulfillmentStatusMap' => [
-                '230' => FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING
+                FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+                    '230' => FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING
+                ]
             ]
         ]);
         $connector->bootstrap(Yii::$app);
@@ -93,6 +98,7 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $order->save(false);
 
         $fulfillmentOrder = FulfillmentOrder::find()
+            ->shippingFulfillment()
             ->fulfillmentAccountId($account->account_id)
             ->orderId($order->test_order_id)
             ->one();
@@ -107,11 +113,13 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $this->assertEquals(FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING, $fulfillmentOrder->fulfillment_status);
     }
 
-    public function testOutboundOrderConnectDelete(): void
+    public function testOrderConnectDelete(): void
     {
         $connector = new BaseFulfillmentConnector([
             'itemClass' => TestItem::class,
-            'outboundOrderClass' => TestOrder::class,
+            'orderClasses' => [
+                FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => TestOrder::class
+            ],
         ]);
         $connector->bootstrap(Yii::$app);
 
@@ -124,11 +132,12 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $order->save(false);
         $fulfillmentOrder = new FulfillmentOrder([
             'fulfillment_account_id' => 1,
+            'fulfillment_type' => FulfillmentConst::FULFILLMENT_TYPE_SHIPPING,
             'order_id' => $order->test_order_id,
             'external_order_key' => 'ORDER_K1',
             'fulfillment_status' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING
         ]);
-        $fulfillmentOrder->save(false);
+       $this->assertTrue( $fulfillmentOrder->save(false));
 
         $this->assertFalse(false, $order->delete());
         $this->assertTrue($fulfillmentOrder->refresh());
@@ -139,13 +148,17 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $this->assertFalse($fulfillmentOrder->refresh());
     }
 
-    public function testOrderFulfillmentConnect(): void
+    public function te1stOrderFulfillmentConnect(): void
     {
         $connector = new BaseFulfillmentConnector([
             'itemClass' => TestItem::class,
-            'outboundOrderClass' => TestOrder::class,
+            'orderClasses' => [
+                FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => TestOrder::class
+            ],
             'orderStatusMap' => [
-                FulfillmentConst::FULFILLMENT_STATUS_PROCESSING => '20'
+                FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+                    FulfillmentConst::FULFILLMENT_STATUS_PROCESSING => '20'
+                ]
             ]
         ]);
         $connector->bootstrap(Yii::$app);
@@ -159,11 +172,12 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
         $order->save(false);
         $fulfillmentOrder = new FulfillmentOrder([
             'fulfillment_account_id' => 1,
+            'fulfillment_type' => FulfillmentConst::FULFILLMENT_TYPE_SHIPPING,
             'order_id' => $order->test_order_id,
             'external_order_key' => 'ORDER_K1',
             'warehouse_id' => 1,
         ]);
-        $fulfillmentOrder->save(false);
+        $this->assertTrue( $fulfillmentOrder->save(false));
 
         $fulfillmentService = new MockFulfillmentService([
             'account' => new FulfillmentAccount([

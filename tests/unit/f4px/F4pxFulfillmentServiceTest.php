@@ -22,6 +22,7 @@ use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use lujie\fulfillment\tests\unit\mocks\MockF4pxClient;
+use lujie\fulfillment\tests\unit\mocks\MockFulfillmentDataLoader;
 use Yii;
 
 class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
@@ -56,7 +57,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
                 'account_id' => 1
             ]),
             'itemLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Item([
                         'itemId' => 1,
@@ -85,7 +86,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
                 ]
             ],
             'orderLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Order([
                         'orderId' => 1,
@@ -173,6 +174,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->save(false);
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
@@ -207,6 +209,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         sleep(1);
         $fulfillmentOrder->delete();
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->save(false);
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
@@ -245,6 +248,7 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
         $fulfillmentService = $this->getFulfillmentService();
 
         $fulfillmentOrder = new FulfillmentOrder();
+        $fulfillmentOrder->fulfillment_type = FulfillmentConst::FULFILLMENT_TYPE_SHIPPING;
         $fulfillmentOrder->fulfillment_account_id = 1;
         $fulfillmentOrder->order_id = 1;
         $fulfillmentOrder->save(false);

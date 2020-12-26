@@ -6,7 +6,6 @@
 namespace lujie\fulfillment\tests\unit\mocks;
 
 
-use lujie\data\loader\ArrayDataLoader;
 use lujie\data\loader\BaseDataLoader;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -26,7 +25,7 @@ class MockFulfillmentServiceLoader extends BaseDataLoader
                 'account_id' => $this->accountId
             ]),
             'itemLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Item([
                         'itemId' => 1,
@@ -55,7 +54,7 @@ class MockFulfillmentServiceLoader extends BaseDataLoader
                 ]
             ],
             'orderLoader' => [
-                'class' => ArrayDataLoader::class,
+                'class' => MockFulfillmentDataLoader::class,
                 'data' => [
                     1 => new Order([
                         'orderId' => 1,

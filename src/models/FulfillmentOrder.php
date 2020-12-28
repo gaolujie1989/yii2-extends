@@ -11,7 +11,7 @@ use Yii;
  * @property int $fulfillment_order_id
  * @property int $fulfillment_account_id
  * @property int $fulfillment_status
- * @property int $fulfillment_type
+ * @property string $fulfillment_type
  * @property int $order_id
  * @property string $order_status
  * @property int $order_updated_at

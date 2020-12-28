@@ -237,6 +237,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 $skuList = $this->client->getSkuList(['lstsku' => [$externalItem['sku_code']]]);
                 return $skuList['skulist'][0] ?? null;
             }
+            return null;
         } else {
             return $this->client->createSku($externalItem);
         }

@@ -27,8 +27,8 @@ class FulfillmentConst
     public const FULFILLMENT_STATUS_SHIPPED = 100;
     public const FULFILLMENT_STATUS_CANCELLED = 110;
     public const FULFILLMENT_STATUS_TO_CANCELLING = 210;
-    public const FULFILLMENT_STATUS_TO_HOLDING = 220;
-    public const FULFILLMENT_STATUS_TO_SHIPPING = 230;
+    public const FULFILLMENT_STATUS_TO_SHIPPING = 220;
+    public const FULFILLMENT_STATUS_TO_HOLDING = 230;
 
     public const MOVEMENT_TYPE_INBOUND = 'INBOUND';
     public const MOVEMENT_TYPE_OUTBOUND = 'OUTBOUND';

@@ -584,6 +584,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $orderItems = [];
         foreach ($order->orderItems as $orderItem) {
             $orderItems[] = array_merge($this->defaultInboundItemData, [
+                'box_barcode' => '',
                 'sku_code' => $orderItem->itemNo,
                 'plan_qty' => $orderItem->orderedQty,
             ]);

@@ -41,7 +41,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * [
      *      'fulfillment_type' => 'orderClass'
      * ]
-     * @var array|BaseActiveRecord[]
+     * @var array|string[]|BaseActiveRecord[]
      */
     public $orderClasses = [];
 

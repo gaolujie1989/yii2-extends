@@ -281,9 +281,9 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushFulfillmentOrderActionJob(FulfillmentOrder $fulfillmentOrder, array $jobConfig = []): bool
     {
-        /** @var BaseFulfillmentOrderJob $job */
         $jobClass = $jobConfig['class'] ?? BaseFulfillmentOrderJob::class;
         unset($jobConfig['class']);
+        /** @var BaseFulfillmentOrderJob $job */
         $job = Instance::ensure(array_merge($this->fulfillmentOrderJob, $jobConfig), $jobClass);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;

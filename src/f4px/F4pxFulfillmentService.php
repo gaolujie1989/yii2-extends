@@ -233,11 +233,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function saveExternalItem(array $externalItem, FulfillmentItem $fulfillmentItem): ?array
     {
         if ($fulfillmentItem->external_item_key) {
-            if ($this->client->editSkuPicture($externalItem)) {
-                $skuList = $this->client->getSkuList(['lstsku' => [$externalItem['sku_code']]]);
-                return $skuList['skulist'][0] ?? null;
+            $skuList = $this->client->getSkuList(['lstsku' => [$fulfillmentItem->external_item_additional['sku_code']]]);
+            $sku = $skuList['skulist'][0] ?? null;
+            if (empty($sku['picture_url'])) {
+                $this->client->editSkuPicture($externalItem);
             }
-            return null;
+            return $sku;
         } else {
             return $this->client->createSku($externalItem);
         }

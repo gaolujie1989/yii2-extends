@@ -84,7 +84,7 @@ class PmSalesChannel extends BaseSalesChannel
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
     {
         $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
-        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']];
+        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
             throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is cancelled, can not be shipped");
         }
@@ -128,7 +128,7 @@ class PmSalesChannel extends BaseSalesChannel
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
     {
         $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
-        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']];
+        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
             throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is shipped, can not be cancelled");
         }

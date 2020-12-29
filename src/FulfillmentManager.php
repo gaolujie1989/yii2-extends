@@ -115,7 +115,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getFulfillmentService(int $fulfillmentAccountId): FulfillmentServiceInterface
+    public function getFulfillmentService(int $fulfillmentAccountId): FulfillmentServiceInterface
     {
         /** @var ?FulfillmentServiceInterface $fulfillmentService */
         $fulfillmentService = $this->fulfillmentServiceLoader->get($fulfillmentAccountId);

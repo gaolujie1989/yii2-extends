@@ -154,7 +154,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'icustoms_service' => 'D3',
         'currency' => 'EUR',
         'print_box_no' => 'N',
-        'print_box_type' => '',
+        'print_box_type' => 'Z',
     ];
 
     public $defaultInboundItemData = [
@@ -584,6 +584,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $orderItems = [];
         foreach ($order->orderItems as $orderItem) {
             $orderItems[] = array_merge($this->defaultInboundItemData, [
+                'box_barcode' => '',
                 'sku_code' => $orderItem->itemNo,
                 'plan_qty' => $orderItem->orderedQty,
             ]);

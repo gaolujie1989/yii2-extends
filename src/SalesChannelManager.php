@@ -88,7 +88,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getSalesChannel(int $channelAccountId): SalesChannelInterface
+    public function getSalesChannel(int $channelAccountId): SalesChannelInterface
     {
         /** @var ?SalesChannelInterface $salesChannel */
         $salesChannel = $this->salesChannelLoader->get($channelAccountId);

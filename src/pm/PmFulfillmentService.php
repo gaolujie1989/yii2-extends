@@ -27,7 +27,6 @@ use yii\base\NotSupportedException;
 use yii\db\Exception;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use function Qcloud\Cos\startWith;
 
 /**
  * Class PmFulfillmentService

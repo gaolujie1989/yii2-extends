@@ -183,8 +183,8 @@ class PmSalesChannel extends BaseSalesChannel
     {
         $salesChannelOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
-        $orderDates = ArrayHelper::map( $externalOrder['dates'], 'typeId', 'date');
-        $orderProperties = ArrayHelper::map( $externalOrder['properties'], 'typeId', 'value');
+        $orderDates = ArrayHelper::map($externalOrder['dates'], 'typeId', 'date');
+        $orderProperties = ArrayHelper::map($externalOrder['properties'], 'typeId', 'value');
 
         $salesChannelOrder->external_order_additional = [
             'orderedAt' => empty($orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['CreatedOn']])
@@ -195,6 +195,22 @@ class PmSalesChannel extends BaseSalesChannel
                 ? '' : strtotime($orderDates[PlentyMarketsConst::ORDER_DATE_TYPE_IDS['OutgoingItemsBookedOn']]),
             'externalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
         ];
+
+        if (empty($this->salesChannelStatusMap[$salesChannelOrder->external_order_status])) {
+            $newSalesChannelStatus = null;
+            if ($salesChannelOrder->external_order_status < 4) {
+                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT;
+            } else if ($salesChannelOrder->external_order_status >= 4 && $salesChannelOrder->external_order_status < 7) {
+                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_PAID;
+            } else if ($salesChannelOrder->external_order_status >= 7 && $salesChannelOrder->external_order_status < 8) {
+                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_SHIPPED;
+            } else if ($salesChannelOrder->external_order_status >= 8 && $salesChannelOrder->external_order_status < 9) {
+                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_CANCELLED;
+            }
+            if ($newSalesChannelStatus) {
+                $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+            }
+        }
 
         return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
     }

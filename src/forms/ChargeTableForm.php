@@ -36,7 +36,7 @@ class ChargeTableForm extends ChargeTable
             'price_cent', 'over_limit_price_cent',
             'limit_unit', 'min_limit', 'max_limit', 'per_limit',
             'min_over_limit', 'max_over_limit',
-            'started_at', 'ended_at',
+            'started_at', 'ended_at', 'additional'
         ];
         ModelHelper::removeAttributesRules($rules, $attributes);
         return $rules;

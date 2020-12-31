@@ -589,7 +589,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ]);
         }
         return ArrayHelper::merge($this->defaultInboundData, [
-            'ref_no' => 'I-' . $order->orderId,
+            'ref_no' => $order->orderNo,
             'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
             'to_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
             'total_volume' => round($order->totalVolumeMM3 / 1000000) / 1000,

@@ -16,6 +16,7 @@ use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\rest\ActiveController;
 use lujie\upload\actions\UploadAction;
 use lujie\upload\forms\UploadForm;
+use Yii;
 
 /**
  * Class ShippingTableController
@@ -74,5 +75,15 @@ class ShippingTableController extends ActiveController
                 'method' => 'batchDelete'
             ],
         ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actionDownloadTemplate(): void
+    {
+        $file = '@lujie/charging/templates/ShippingTableTemplate.xlsx';
+        $fileName = 'ShippingTableTemplate.xlsx';
+        Yii::$app->getResponse()->sendFile(Yii::getAlias($file), $fileName);
     }
 }

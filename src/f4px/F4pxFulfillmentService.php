@@ -151,9 +151,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'insure_services' => '',
         ],
         'ocustoms_service' => 'D1',
-        'icustoms_service' => 'D3',
+        'icustoms_service' => 'D4',
         'currency' => 'EUR',
-        'print_box_no' => 'N',
+        'print_box_no' => 'Y',
         'print_box_type' => 'Z',
     ];
 

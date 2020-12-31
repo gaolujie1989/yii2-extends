@@ -219,7 +219,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalItem(Item $item): ?array
     {
-        $skuList = $this->client->getSkuList(['lstsku' => [$item->itemNo]]);
+        $skuList = $this->client->getSkuList(['lstsku' => [strtoupper($item->itemNo)]]);
         return $skuList['skulist'][0] ?? null;
     }
 
@@ -281,7 +281,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $orderItems = [];
         foreach ($order->orderItems as $orderItem) {
             $orderItems[] = array_merge($this->defaultOrderItemData, [
-                'sku_code' => $orderItem->itemNo,
+                'sku_code' => strtoupper($orderItem->itemNo),
                 'qty' => $orderItem->orderedQty,
             ]);
         }
@@ -584,8 +584,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $orderItems = [];
         foreach ($order->orderItems as $orderItem) {
             $orderItems[] = array_merge($this->defaultInboundItemData, [
-                'box_barcode' => '',
-                'sku_code' => $orderItem->itemNo,
+                'sku_code' => strtoupper($orderItem->itemNo),
                 'plan_qty' => $orderItem->orderedQty,
             ]);
         }

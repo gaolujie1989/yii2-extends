@@ -1,71 +1,55 @@
 <?php
+/**
+ * @copyright Copyright (c) 2019
+ */
 
-namespace lujie\common\item\models;
+namespace lujie\common\item\searches;
 
-use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use Codeception\PHPUnit\Constraint\Page;
+use lujie\common\item\models\Item;
+use lujie\common\item\models\ItemQuery;
 
 /**
- * This is the ActiveQuery class for [[Item]].
- *
- * @method ItemQuery id($id)
- * @method ItemQuery orderById($sort = SORT_ASC)
- * @method int getId()
- * @method array getIds()
- *
- * @method ItemQuery itemId($itemId)
- * @method ItemQuery itemNo($itemNo)
- * @method ItemQuery itemType($itemType)
- * @method ItemQuery status($status)
- *
- * @method array|Item[] all($db = null)
- * @method array|Item|null one($db = null)
- * @method array|Item[] each($batchSize = 100, $db = null)
- *
- * @see Item
+ * Class ItemSearch
+ * @package lujie\common\item\models\searches
+ * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ItemQuery extends \yii\db\ActiveQuery
+class ItemSearch extends Item
 {
+    /**
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var string
+     */
+    public $barcode;
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function behaviors(): array
+    public function rules(): array
     {
         return [
-            'fieldQuery' => [
-                'class' => FieldQueryBehavior::class,
-                'queryFields' => [
-                    'itemId' => 'item_id',
-                    'itemNo' => 'item_no',
-                    'itemType' => 'item_type',
-                    'status' => 'status',
-                ]
-            ]
+            [['item_no', 'item_type', 'status'], 'safe'],
+            [['name', 'barcode'], 'safe'],
         ];
     }
 
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getItemIds(bool $indexByItemNo = true): array
+    public function query(): ItemQuery
     {
-        if ($indexByItemNo) {
-            $this->indexBy('item_no');
+        $query = static::find()
+            ->andFilterWhere([
+                'item_type' => $this->item_type,
+                'status' => $this->status,
+            ])
+            ->andFilterWhere(['LIKE', 'item_no', $this->item_no])
+            ->andFilterWhere(['LIKE', 'names', $this->name]);
+        if ($this->barcode) {
+            $query->innerJoinWith(['barcodes b'], false)->andOnCondition(['LIKE', 'b.code_text', $this->barcode]);
         }
-        return $this->select(['item_id'])->column();
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function getItemNos(bool $indexByItemId = true): array
-    {
-        if ($indexByItemId) {
-            $this->indexBy('item_id');
-        }
-        return $this->select(['item_no'])->column();
+        return $query;
     }
 }

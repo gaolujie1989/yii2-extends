@@ -183,6 +183,7 @@ class PmSalesChannel extends BaseSalesChannel
     {
         $salesChannelOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
+        $salesChannelOrder->external_order_status = $externalOrder['statusId'];
         $orderDates = ArrayHelper::map($externalOrder['dates'], 'typeId', 'date');
         $orderProperties = ArrayHelper::map($externalOrder['properties'], 'typeId', 'value');
 

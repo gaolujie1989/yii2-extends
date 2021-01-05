@@ -493,8 +493,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouseStocks(array $externalItemKeys): array
     {
-        $eachInboundList = $this->client->eachInventory(['lstsku' => $externalItemKeys]);
-        return iterator_to_array($eachInboundList, false);
+        $fulfillmentItems = FulfillmentItem::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->externalItemKey($externalItemKeys)
+            ->all();
+        $skuCodes = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'external_item_additional.sku_code');
+        $eachInventory = $this->client->eachInventory(['lstsku' => array_values($skuCodes)]);
+        return iterator_to_array($eachInventory, false);
     }
 
     /**

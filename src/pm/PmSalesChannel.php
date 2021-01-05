@@ -196,6 +196,18 @@ class PmSalesChannel extends BaseSalesChannel
             'externalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
         ];
 
+        $this->updateSalesChannelOrderStatus($salesChannelOrder);
+        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
+    }
+
+    #endregion
+
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @inheritdoc
+     */
+    protected function updateSalesChannelOrderStatus(SalesChannelOrder $salesChannelOrder): void
+    {
         if (empty($this->salesChannelStatusMap[$salesChannelOrder->external_order_status])) {
             $newSalesChannelStatus = null;
             if ($salesChannelOrder->external_order_status < 4) {
@@ -211,9 +223,5 @@ class PmSalesChannel extends BaseSalesChannel
                 $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
             }
         }
-
-        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
     }
-
-    #endregion
 }

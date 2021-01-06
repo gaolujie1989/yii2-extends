@@ -430,7 +430,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     {
         $externalOrders = [];
         foreach ($externalOrderKeys as $externalOrderKey) {
-            $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKeys]);
+            $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
             $externalOrders[$externalOrderKey] = $data['data'];
         }
         return $externalOrders;

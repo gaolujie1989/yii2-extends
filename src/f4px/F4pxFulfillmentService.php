@@ -286,6 +286,10 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ]);
         }
         $address = $order->address;
+        if (empty($address->firstName)) {
+            $address->firstName = $address->lastName;
+            $address->lastName = '';
+        }
         return ArrayHelper::merge($this->defaultOrderData, [
             'ref_no' => 'O-' . $order->orderId,
             'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,

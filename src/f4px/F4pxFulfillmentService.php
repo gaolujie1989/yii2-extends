@@ -356,7 +356,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
             return $this->updateFulfillmentInbound($fulfillmentOrder, $externalOrder);
         }
-        $externalOrderStatus = $externalOrder['status'];
+        $externalOrderStatus = $externalOrder['status'] ?? null;
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
         $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
         $fulfillmentOrder->external_updated_at = (int)($externalOrder['update_time'] / 1000);

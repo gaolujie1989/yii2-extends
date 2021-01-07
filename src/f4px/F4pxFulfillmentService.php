@@ -362,8 +362,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         }
         $externalOrderStatus = $externalOrder['status'] ?? null;
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
-        $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] ?? 0 / 1000);
-        $fulfillmentOrder->external_updated_at = (int)($externalOrder['update_time'] ?? 0 / 1000);
+        $fulfillmentOrder->external_created_at = (int)(($externalOrder['create_time'] ?? 0) / 1000);
+        $fulfillmentOrder->external_updated_at = (int)(($externalOrder['update_time'] ?? 0) / 1000);
         $externalOrderAdditional['ref_no'] = $externalOrder['ref_no'] ?? '';
         $externalOrderAdditional['sales_no'] = $externalOrder['sales_no'] ?? '';
         $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'] ?? '';

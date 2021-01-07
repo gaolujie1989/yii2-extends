@@ -286,6 +286,10 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ]);
         }
         $address = $order->address;
+        if (empty($address->firstName)) {
+            $address->firstName = $address->lastName;
+            $address->lastName = '';
+        }
         return ArrayHelper::merge($this->defaultOrderData, [
             'ref_no' => 'O-' . $order->orderId,
             'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
@@ -358,12 +362,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         }
         $externalOrderStatus = $externalOrder['status'] ?? null;
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
-        $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
-        $fulfillmentOrder->external_updated_at = (int)($externalOrder['update_time'] / 1000);
-        $externalOrderAdditional['ref_no'] = $externalOrder['ref_no'];
-        $externalOrderAdditional['sales_no'] = $externalOrder['sales_no'];
-        $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'];
-        $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
+        $fulfillmentOrder->external_created_at = (int)(($externalOrder['create_time'] ?? 0) / 1000);
+        $fulfillmentOrder->external_updated_at = (int)(($externalOrder['update_time'] ?? 0) / 1000);
+        $externalOrderAdditional['ref_no'] = $externalOrder['ref_no'] ?? '';
+        $externalOrderAdditional['sales_no'] = $externalOrder['sales_no'] ?? '';
+        $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'] ?? '';
+        $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'] ?? '';
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
 
         if ($externalOrderStatus === $this->orderShippedStatus) {

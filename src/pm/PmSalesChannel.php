@@ -83,10 +83,11 @@ class PmSalesChannel extends BaseSalesChannel
      */
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
     {
-        $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
+        $orderId = $channelOrder->external_order_key;
+        $pmOrder = $this->client->getOrder(['id' => $orderId]);
         $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
-            throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is cancelled, can not be shipped");
+            throw new InvalidArgumentException("Sales order {$orderId} is cancelled, can not be shipped");
         }
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
             return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
@@ -95,28 +96,9 @@ class PmSalesChannel extends BaseSalesChannel
         if (empty($trackingNumbers)) {
             throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
         }
-        $orderShippingPackages = $this->client->eachOrderShippingPackages(['orderId' => $channelOrder->external_order_key]);
-        $orderShippingPackages = iterator_to_array($orderShippingPackages, false);
-        $orderShippingPackages = ArrayHelper::index($orderShippingPackages, 'packageNumber');
-        $existTrackingNumbers = array_keys($orderShippingPackages);
-        $toCreateTrackingNumbers = array_diff($trackingNumbers, $existTrackingNumbers);
-        $toDeleteTrackingNumbers = array_diff($existTrackingNumbers, $trackingNumbers);
-        if ($toCreateTrackingNumbers) {
-            foreach ($toCreateTrackingNumbers as $trackingNumber) {
-                $this->client->createOrderShippingPackage([
-                    'orderId' => $channelOrder->external_order_key,
-                    'packageNumber' => $trackingNumber,
-                    'packageId' => 2,
-                    'packageType' => 0,
-                ]);
-            }
-        }
-        if ($toDeleteTrackingNumbers) {
-            foreach ($toDeleteTrackingNumbers as $trackingNumber) {
-                $this->client->deleteOrderShippingPackage($orderShippingPackages[$trackingNumber]);
-            }
-        }
-        $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
+        $this->client->updateOrderWarehouse($orderId, 121);
+        $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
+        $pmOrder = $this->client->getOrder(['id' => $orderId]);
         return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
     }
 

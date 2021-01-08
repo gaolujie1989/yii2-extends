@@ -130,7 +130,17 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         $salesChannelOrder->order_status = $orderStatus;
         $salesChannelOrder->order_updated_at = $outboundOrder->updated_at;
         $salesChannelOrder->sales_channel_status = $this->salesChannelStatusMap[$orderStatus];
+        $this->updateSalesChannelOrderAdditional($salesChannelOrder, $outboundOrder);
         return $salesChannelOrder->save(false);
+    }
+
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @param BaseActiveRecord $outboundOrder
+     * @inheritdoc
+     */
+    protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, BaseActiveRecord $outboundOrder)
+    {
     }
 
     #endregion

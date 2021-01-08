@@ -106,6 +106,8 @@ class PmSalesChannel extends BaseSalesChannel
                 $this->client->createOrderShippingPackage([
                     'orderId' => $channelOrder->external_order_key,
                     'packageNumber' => $trackingNumber,
+                    'packageId' => 2,
+                    'packageType' => 0,
                 ]);
             }
         }

@@ -113,7 +113,7 @@ class PmSalesChannel extends BaseSalesChannel
         }
         if ($toDeleteTrackingNumbers) {
             foreach ($toDeleteTrackingNumbers as $trackingNumber) {
-                $this->client->deleteOrderShippingPackage($existTrackingNumbers[$trackingNumber]);
+                $this->client->deleteOrderShippingPackage($orderShippingPackages[$trackingNumber]);
             }
         }
         $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);

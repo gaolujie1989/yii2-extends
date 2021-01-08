@@ -12,6 +12,7 @@ use lujie\extend\httpclient\RateLimitCheckerBehavior;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
@@ -798,4 +799,94 @@ class PlentyMarketsRestClient extends OAuth2
     {
         return new PlentyMarketBatchRequest(['client' => $this]);
     }
+
+    #region Additional
+
+    /**
+     * @param int $orderId
+     * @param int $warehouseId
+     * @inheritdoc
+     */
+    public function updateOrderWarehouse(int $orderId, int $warehouseId)
+    {
+        $order = $this->getOrder([
+            'id' => $orderId,
+        ]);
+
+        $orderRelations = ArrayHelper::index($order['relations'], 'referenceType');
+        $orderRelations['warehouse']['referenceId'] = $warehouseId;
+
+        $batchRequest = $this->createBatchRequest();
+        $batchRequest->updateOrder([
+            'id' => $orderId,
+            'relations' => array_values($orderRelations),
+        ]);
+        foreach ($order['orderItems'] as $orderItem) {
+            if (empty($orderItem['variation_id'])) {
+                continue;
+            }
+            $orderItemProperties = ArrayHelper::index($orderItem['properties'], 'typeId');
+            if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']])) {
+                $batchRequest->updateOrderItemProperty([
+                    'orderItemId' => $orderItem['id'],
+                    'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
+                    'value' => $warehouseId
+                ]);
+            }
+            if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED']])) {
+                $batchRequest->deleteOrderItemProperty([
+                    'orderItemId' => $orderItem['id'],
+                    'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED'],
+                ]);
+            }
+        }
+        $batchRequest->send();
+
+        $this->updateOrder([
+            'id' => $orderId,
+            'statusId' => 5.8
+        ]);
+        if ($order['statusId'] !== 5) {
+            $this->updateOrder([
+                'id' => $orderId,
+                'statusId' => $order['statusId']
+            ]);
+        }
+    }
+
+    /**
+     * @param int $orderId
+     * @param array $packageNumbers
+     * @inheritdoc
+     */
+    public function updateOrderShippingPackages(int $orderId, array $packageNumbers)
+    {
+        $batchRequest = $this->createBatchRequest();
+        $orderShippingPackages = $this->eachOrderShippingPackages(['orderId' => $orderId]);
+        $orderShippingPackages = iterator_to_array($orderShippingPackages, false);
+        foreach ($packageNumbers as $packageNumber) {
+            if ($orderShippingPackages) {
+                $orderShippingPackage = array_shift($orderShippingPackages);
+                if ($orderShippingPackage['packageNumber'] !== $packageNumber) {
+                    $orderShippingPackage['packageNumber'] = $packageNumber;
+                    $batchRequest->updateOrderShippingPackage($orderShippingPackage);
+                }
+            } else {
+                $batchRequest->createOrderShippingPackage([
+                    'orderId' => $orderId,
+                    'packageNumber' => $packageNumber,
+                    'packageId' => 2,
+                    'packageType' => 0,
+                ]);
+            }
+        }
+        if ($orderShippingPackages) {
+            foreach ($orderShippingPackages as $orderShippingPackage) {
+                $batchRequest->deleteOrderShippingPackage($orderShippingPackage);
+            }
+        }
+        $batchRequest->send();
+    }
+
+    #region
 }

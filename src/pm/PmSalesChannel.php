@@ -62,6 +62,8 @@ class PmSalesChannel extends BaseSalesChannel
 
     public $orderCancelledStatus = 8;
 
+    public $orderShippedWarehouseId = 121;
+
     /**
      * @throws InvalidConfigException
      * @inheritdoc
@@ -96,7 +98,9 @@ class PmSalesChannel extends BaseSalesChannel
         if (empty($trackingNumbers)) {
             throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
         }
-        $this->client->updateOrderWarehouse($orderId, 121);
+        if ($this->orderShippedWarehouseId) {
+            $this->client->updateOrderWarehouse($orderId, $this->orderShippedWarehouseId);
+        }
         $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
         $pmOrder = $this->client->getOrder(['id' => $orderId]);
         return $this->updateSalesChannelOrder($channelOrder, $pmOrder);

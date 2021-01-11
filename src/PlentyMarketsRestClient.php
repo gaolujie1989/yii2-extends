@@ -815,7 +815,7 @@ class PlentyMarketsRestClient extends OAuth2
 
         $batchRequest = $this->createBatchRequest();
         foreach ($order['orderItems'] as $orderItem) {
-            if (empty($orderItem['variationId'])) {
+            if (empty($orderItem['itemVariationId'])) {
                 continue;
             }
             $orderItemProperties = ArrayHelper::index($orderItem['properties'], 'typeId');

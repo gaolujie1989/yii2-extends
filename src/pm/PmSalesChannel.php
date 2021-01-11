@@ -146,8 +146,8 @@ class PmSalesChannel extends BaseSalesChannel
     protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
     {
         $condition = [
-            'createdAtFrom' => date('c', $createdAtFrom),
-            'createdAtTo' => date('c', $createdAtTo),
+            'updatedAtFrom' => date('c', $createdAtFrom),
+            'updatedAtTo' => date('c', $createdAtTo),
             'statusFrom' => '3',
             'statusTo' => '7.1',
         ];

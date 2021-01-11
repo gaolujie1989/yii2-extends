@@ -264,7 +264,11 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField[$fulfillmentOrder->fulfillment_type]];
         $fulfillmentOrder->external_order_status = $externalOrder[$this->externalOrderStatusField[$fulfillmentOrder->fulfillment_type]];
 
-        $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;
+        if (empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
+            $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;
+        } else {
+            $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
+        }
         if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_SHIPPING
             && $newFulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_SHIPPED
             && empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
@@ -274,6 +278,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         if ($newFulfillmentStatus) {
             $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
         }
+
         return FulfillmentOrder::getDb()->transaction(function () use ($fulfillmentOrder, $externalOrder) {
             if ($fulfillmentOrder->save(false)) {
                 $this->triggerFulfillmentOrderEvent($fulfillmentOrder, $externalOrder);

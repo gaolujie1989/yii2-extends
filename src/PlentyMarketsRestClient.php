@@ -813,37 +813,31 @@ class PlentyMarketsRestClient extends OAuth2
             'id' => $orderId,
         ]);
 
-        $orderRelations = ArrayHelper::index($order['relations'], 'referenceType');
-        $orderRelations['warehouse']['referenceId'] = $warehouseId;
-
-        $batchRequest = $this->createBatchRequest();
-        $batchRequest->updateOrder([
-            'id' => $orderId,
-            'relations' => array_values($orderRelations),
-        ]);
         foreach ($order['orderItems'] as $orderItem) {
             if (empty($orderItem['variation_id'])) {
                 continue;
             }
             $orderItemProperties = ArrayHelper::index($orderItem['properties'], 'typeId');
             if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']])) {
-                $batchRequest->updateOrderItemProperty([
+                $this->updateOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
                     'value' => $warehouseId
                 ]);
             }
             if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED']])) {
-                $batchRequest->deleteOrderItemProperty([
+                $this->deleteOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED'],
                 ]);
             }
         }
-        $batchRequest->send();
 
+        $orderRelations = ArrayHelper::index($order['relations'], 'referenceType');
+        $orderRelations['warehouse']['referenceId'] = $warehouseId;
         $this->updateOrder([
             'id' => $orderId,
+            'relations' => array_values($orderRelations),
             'statusId' => 5.8
         ]);
         if ($order['statusId'] !== 5) {

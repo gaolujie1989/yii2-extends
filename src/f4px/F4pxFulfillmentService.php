@@ -374,15 +374,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $externalOrderAdditional['sales_no'] = $externalOrder['sales_no'];
         $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'];
         $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
-        $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
-
-        if ($externalOrderStatus === $this->orderShippedStatus) {
+        $externalOrderAdditional['carrier'] = $externalOrder['logistics_product_code'];
+        if ($externalOrder['shipping_no']) {
             $externalOrderAdditional['trackingNumbers'] = [$externalOrder['shipping_no']];
-            $externalOrderAdditional['carrier'] = $externalOrder['logistics_product_code'];
-            $externalOrderAdditional['shippedAt'] = (int)($externalOrder['complete_time'] / 1000);
-            $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
         }
 
+        if ($externalOrderStatus === $this->orderShippedStatus) {
+            $externalOrderAdditional['shippedAt'] = (int)($externalOrder['complete_time'] / 1000);
+        }
+
+        $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
         return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
     }
 
@@ -438,12 +439,33 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
-        $externalOrders = [];
-        foreach ($externalOrderKeys as $externalOrderKey) {
-            $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
-            $externalOrders[$externalOrderKey] = $data['data'][0] ?? [];
-        }
-        return $externalOrders;
+        $one = FulfillmentOrder::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->externalOrderKey($externalOrderKeys)
+            ->select([
+                'MIN(external_created_at) AS min_created_at',
+                'MAX(external_created_at) AS max_created_at',
+                'MIN(order_pushed_at) AS min_pushed_at',
+                'MAX(order_pushed_at) AS max_pushed_at',
+            ])
+            ->asArray()
+            ->one();
+        $createdAtFrom = $one['min_created_at'] ? $one['min_created_at'] : $one['min_pushed_at'];
+        $createdAtTo = $one['min_created_at'] ? $one['max_created_at'] : ($one['max_pushed_at'] + 2);
+        $data = $this->client->eachOutboundList([
+            'create_time_start' => $createdAtFrom * 1000,
+            'create_time_end' => $createdAtTo * 1000,
+        ]);
+        $externalOrders = iterator_to_array($data, false);
+        $externalOrders = ArrayHelper::index($externalOrders, 'consignment_no');
+        return array_intersect_key($externalOrders, array_flip($externalOrderKeys));
+        //code above will cause api rate limit
+//        $externalOrders = [];
+//        foreach ($externalOrderKeys as $externalOrderKey) {
+//            $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
+//            $externalOrders[$externalOrderKey] = $data['data'][0] ?? [];
+//        }
+//        return $externalOrders;
     }
 
     /**

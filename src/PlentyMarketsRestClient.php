@@ -813,25 +813,27 @@ class PlentyMarketsRestClient extends OAuth2
             'id' => $orderId,
         ]);
 
+        $batchRequest = $this->createBatchRequest();
         foreach ($order['orderItems'] as $orderItem) {
-            if (empty($orderItem['variation_id'])) {
+            if (empty($orderItem['variationId'])) {
                 continue;
             }
             $orderItemProperties = ArrayHelper::index($orderItem['properties'], 'typeId');
             if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']])) {
-                $this->updateOrderItemProperty([
+                $batchRequest->updateOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
                     'value' => $warehouseId
                 ]);
             }
             if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED']])) {
-                $this->deleteOrderItemProperty([
+                $batchRequest->deleteOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED'],
                 ]);
             }
         }
+        $batchRequest->send();
 
         $orderRelations = ArrayHelper::index($order['relations'], 'referenceType');
         $orderRelations['warehouse']['referenceId'] = $warehouseId;

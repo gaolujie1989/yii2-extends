@@ -361,7 +361,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         } catch (JsonRpcException $exception) {
             if (strpos($exception->getMessage(), '当前产品的目的地不支持该邮编') !== false) {
                 $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR;
-                $fulfillmentOrder->additional['error'] = '当前产品的目的地不支持该邮编';
+                $fulfillmentOrder->additional = array_merge($fulfillmentOrder->additional ?: [], ['error' => '当前产品的目的地不支持该邮编']);
                 return $fulfillmentOrder->save(false);
             }
             throw $exception;

@@ -475,8 +475,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ])
             ->asArray()
             ->one();
-        $createdAtFrom = $one['min_created_at'] ? $one['min_created_at'] : $one['min_pushed_at'];
         $createdAtTo = $one['min_created_at'] ? $one['max_created_at'] : ($one['max_pushed_at'] + 2);
+        $createdAtFrom = $one['min_created_at'] ? $one['min_created_at'] : $one['min_pushed_at'];
+        if ($createdAtFrom <= $createdAtTo - 86400 * 30) {
+            $createdAtFrom = $createdAtTo - 86400 * 30;
+        }
         $data = $this->client->eachOutboundList([
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,

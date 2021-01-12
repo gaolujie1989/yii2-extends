@@ -349,6 +349,27 @@ class F4pxFulfillmentService extends BaseFulfillmentService
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
+    {
+        try {
+            parent::pushFulfillmentOrder($fulfillmentOrder);
+        } catch (JsonRpcException $exception) {
+            if (strpos($exception->getMessage(), '当前产品的目的地不支持该邮编') !== false) {
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR;
+                $fulfillmentOrder->additional['error'] = '当前产品的目的地不支持该邮编';
+                return $fulfillmentOrder->save(false);
+            }
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
      * @return bool
      * @throws \Throwable

@@ -54,6 +54,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         'cancelled' => SalesChannelConst::CHANNEL_STATUS_CANCELLED,
     ];
 
+    /**
+     * @var array
+     */
+    public $actionStatus = [
+        SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED,
+        SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED,
+    ];
+
     #endregion
 
     /**
@@ -141,9 +149,11 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $salesChannelOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
         $salesChannelOrder->external_order_status = $externalOrder[$this->externalOrderStatusField];
 
-        $newSalesChannelStatus = $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
-        if ($newSalesChannelStatus) {
-            $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+        if (!in_array($salesChannelOrder->sales_channel_status, $this->actionStatus, true)) {
+            $newSalesChannelStatus = $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
+            if ($newSalesChannelStatus) {
+                $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+            }
         }
         return SalesChannelOrder::getDb()->transaction(function() use ($salesChannelOrder, $externalOrder) {
             if ($salesChannelOrder->save(false)) {

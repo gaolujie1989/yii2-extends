@@ -197,6 +197,9 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function updateSalesChannelOrderStatus(SalesChannelOrder $salesChannelOrder): void
     {
+        if (in_array($salesChannelOrder->sales_channel_status, $this->actionStatus, true)) {
+            return;
+        }
         if (empty($this->salesChannelStatusMap[$salesChannelOrder->external_order_status])) {
             $newSalesChannelStatus = null;
             if ($salesChannelOrder->external_order_status < 4) {

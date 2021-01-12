@@ -301,7 +301,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'city' => $address->city,
                 'district' => '',
                 'post_code' => $address->postalCode,
-                'street' => $address->street,
+                'street' => $address->street ?: $address->companyName,
                 'house_number' => $address->houseNo,
                 'company' => $address->companyName,
                 'last_name' => $address->lastName,

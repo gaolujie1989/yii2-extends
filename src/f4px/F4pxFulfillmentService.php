@@ -480,11 +480,26 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if ($createdAtFrom <= $createdAtTo - 86400 * 25) {
             $createdAtFrom = $createdAtTo - 86400 * 25;
         }
-        $data = $this->client->eachOutboundList([
+        $processingOutbounds = $this->client->eachOutboundList([
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,
+            'status' => 'S',
         ]);
-        $externalOrders = iterator_to_array($data, false);
+        $cancelledOutbounds = $this->client->eachOutboundList([
+            'create_time_start' => $createdAtFrom * 1000,
+            'create_time_end' => $createdAtTo * 1000,
+            'status' => 'X',
+        ]);
+        $errorOutbounds = $this->client->eachOutboundList([
+            'create_time_start' => $createdAtFrom * 1000,
+            'create_time_end' => $createdAtTo * 1000,
+            'status' => 'E',
+        ]);
+        $externalOrders = array_merge(
+            iterator_to_array($processingOutbounds, false),
+            iterator_to_array($cancelledOutbounds, false),
+            iterator_to_array($errorOutbounds, false),
+        );
         $externalOrders = ArrayHelper::index($externalOrders, 'consignment_no');
         return array_intersect_key($externalOrders, array_flip($externalOrderKeys));
         //code above will cause api rate limit

@@ -85,6 +85,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public $fulfillmentStatusMap = [
         FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
             'S' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            'P' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
             'X' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
             'E' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
             'C' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
@@ -485,6 +486,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'create_time_end' => $createdAtTo * 1000,
             'status' => 'S',
         ]);
+        $pickingOutbounds = $this->client->eachOutboundList([
+            'create_time_start' => $createdAtFrom * 1000,
+            'create_time_end' => $createdAtTo * 1000,
+            'status' => 'P',
+        ]);
         $cancelledOutbounds = $this->client->eachOutboundList([
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,
@@ -497,6 +503,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         ]);
         $externalOrders = array_merge(
             iterator_to_array($processingOutbounds, false),
+            iterator_to_array($pickingOutbounds, false),
             iterator_to_array($cancelledOutbounds, false),
             iterator_to_array($errorOutbounds, false),
         );

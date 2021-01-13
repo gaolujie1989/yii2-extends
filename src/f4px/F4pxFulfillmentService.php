@@ -357,7 +357,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         try {
-            parent::pushFulfillmentOrder($fulfillmentOrder);
+            return parent::pushFulfillmentOrder($fulfillmentOrder);
         } catch (JsonRpcException $exception) {
             if (strpos($exception->getMessage(), '当前产品的目的地不支持该邮编') !== false) {
                 $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR;

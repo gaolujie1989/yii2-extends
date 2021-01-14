@@ -6,7 +6,6 @@
 namespace lujie\sales\channel;
 
 
-use lujie\extend\helpers\TransactionHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
@@ -55,11 +54,17 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     ];
 
     /**
-     * @var array
+     * @var array[]
      */
-    public $actionStatus = [
-        SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED,
-        SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED,
+    public $salesChannelStatusActionTransitions = [
+        SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED => [
+            SalesChannelConst::CHANNEL_STATUS_SHIPPED,
+            SalesChannelConst::CHANNEL_STATUS_CANCELLED,
+        ],
+        SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED => [
+            SalesChannelConst::CHANNEL_STATUS_SHIPPED,
+            SalesChannelConst::CHANNEL_STATUS_CANCELLED,
+        ],
     ];
 
     #endregion
@@ -104,7 +109,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @param int $createdAtTo
      * @inheritdoc
      */
-    public function pullNewSalesOrders(int $createdAtFrom,int $createdAtTo): void
+    public function pullNewSalesOrders(int $createdAtFrom, int $createdAtTo): void
     {
         $externalOrders = $this->getNewExternalOrders($createdAtFrom, $createdAtTo);
         if (empty($externalOrders)) {
@@ -151,9 +156,12 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
         $newSalesChannelStatus = $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
         if ($newSalesChannelStatus) {
-            $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+            $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
+            if ($statusTransitions === null || in_array($newSalesChannelStatus, $statusTransitions)) {
+                $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+            }
         }
-        return SalesChannelOrder::getDb()->transaction(function() use ($salesChannelOrder, $externalOrder) {
+        return SalesChannelOrder::getDb()->transaction(function () use ($salesChannelOrder, $externalOrder) {
             if ($salesChannelOrder->save(false)) {
                 $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
                 return true;

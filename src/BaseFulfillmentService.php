@@ -100,7 +100,39 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * ]
      * @var array
      */
-    public $fulfillmentStatusMap = [];
+    public $fulfillmentStatusMap = [
+        'DropShipping' => [
+            'processing' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            'holding' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            'picking' => FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+            'shipError' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            'shipped' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            'cancelled' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ]
+    ];
+
+    /**
+     * @var array[]
+     */
+    public $fulfillmentStatusActionTransitions = [
+        FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING => [
+            FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+            FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ],
+        FulfillmentConst::FULFILLMENT_STATUS_TO_SHIPPING => [
+            FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+            FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+            FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ],
+        FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING => [
+            FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+            FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
+            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ],
+    ];
 
     #endregion
 
@@ -276,7 +308,10 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_PICKING;
         }
         if ($newFulfillmentStatus) {
-            $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
+            $statusTransitions = $this->fulfillmentStatusActionTransitions[$fulfillmentOrder->fulfillment_status] ?? null;
+            if ($statusTransitions === null || in_array($newFulfillmentStatus, $statusTransitions)) {
+                $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
+            }
         }
 
         return FulfillmentOrder::getDb()->transaction(function () use ($fulfillmentOrder, $externalOrder) {

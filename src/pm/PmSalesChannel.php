@@ -91,12 +91,13 @@ class PmSalesChannel extends BaseSalesChannel
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
             throw new InvalidArgumentException("Sales order {$orderId} is cancelled, can not be shipped");
         }
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
-        }
         $trackingNumbers = $channelOrder->additional['trackingNumbers'] ?? [];
         if (empty($trackingNumbers)) {
             throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
+        }
+        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
+            $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
+            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
         }
         if ($this->orderShippedWarehouseId) {
             $this->client->updateOrderWarehouse($orderId, $this->orderShippedWarehouseId);

@@ -47,9 +47,16 @@ class ValueHelper
         if (is_array($condition)) {
             return in_array($value, $condition, $strict);
         }
-        if (substr($condition, 0, 1) === '!') {
+        $first = substr($condition, 0, 1);
+        if ($first === '!') {
             $condition = substr($condition, 1);
             return !self::isMatch($value, $condition, $strict);
+        } else if ($first === '>') {
+            $condition = substr($condition, 1);
+            return $value > $condition;
+        } else if ($first === '<') {
+            $condition = substr($condition, 1);
+            return $value < $condition;
         }
         if (strpos($condition, '*') !== false || strpos($condition, '?') !== false) {
             return StringHelper::matchWildcard($condition, $value);

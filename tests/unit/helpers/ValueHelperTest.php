@@ -35,5 +35,9 @@ class ValueHelperTest extends \Codeception\Test\Unit
         $this->assertTrue(ValueHelper::isMatch('targetValue', 'targetValue'));
         $this->assertTrue(ValueHelper::isMatch('targetValue', 'target*'));
         $this->assertFalse(ValueHelper::isMatch('targetValue', '!target*'));
+        $this->assertTrue(ValueHelper::isMatch('B', '>A'));
+        $this->assertTrue(ValueHelper::isMatch('2', '>1'));
+        $this->assertTrue(ValueHelper::isMatch('A', '<B'));
+        $this->assertTrue(ValueHelper::isMatch('1', '<2'));
     }
 }

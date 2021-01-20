@@ -8,6 +8,7 @@ namespace lujie\extend\helpers;
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\db\BaseActiveRecord;
+use yii\db\Query;
 use yii\httpclient\Exception;
 use yii\queue\JobInterface;
 use yii\queue\Queue;
@@ -109,5 +110,27 @@ class ExecuteHelper
             Yii::error($message, __METHOD__);
             return false;
         }
+    }
+
+    /**
+     * @param Query $query
+     * @param string $statusAttribute
+     * @param int $queuedDuration
+     * @param string $updateAtAttribute
+     * @inheritdoc
+     */
+    public static function queryNotQueuedOrQueuedButNotExecuted(
+        Query $query,
+        string $statusAttribute = 'execute_status',
+        int $queuedDuration = 3600,
+        string $updateAtAttribute = 'updated_at'): void
+    {
+        $query->andWhere(['OR',
+            ['!=', $statusAttribute, ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['AND',
+                [$statusAttribute => ExecStatusConst::EXEC_STATUS_QUEUED],
+                ['<=', $updateAtAttribute, time() - $queuedDuration],
+            ]
+        ]);
     }
 }

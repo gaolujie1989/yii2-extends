@@ -367,7 +367,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                     'consignment_no' => '',
                     'status' => '',
                 ];
-                return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+                return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
             }
             throw $exception;
         }
@@ -381,15 +381,15 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
-            return $this->updateFulfillmentInbound($fulfillmentOrder, $externalOrder);
+            return $this->updateFulfillmentInbound($fulfillmentOrder, $externalOrder, $changeActionStatus);
         }
 
         if (empty($externalOrder['status'])) {
             $externalOrder['status'] = 'S';
-            return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, $changeActionStatus);
         }
 
         $externalOrderStatus = $externalOrder['status'];
@@ -410,7 +410,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         }
 
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
-        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, $changeActionStatus);
     }
 
     #endregion
@@ -449,7 +449,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         $cancelOutbound = $this->client->cancelOutbound(['consignment_no' => $fulfillmentOrder->external_order_key]);
-        $this->updateFulfillmentOrder($fulfillmentOrder, $cancelOutbound);
+        $this->updateFulfillmentOrder($fulfillmentOrder, $cancelOutbound, true);
         return $cancelOutbound['status'] === 'X';
     }
 
@@ -717,12 +717,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
+     * @param bool $changeActionStatus
      * @return bool
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function updateFulfillmentInbound(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    protected function updateFulfillmentInbound(FulfillmentOrder $fulfillmentOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
         $fulfillmentOrder->external_created_at = (int)($externalOrder['create_time'] / 1000);
@@ -732,7 +733,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
         $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
 
-        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, $changeActionStatus);
     }
 
     #endregion
@@ -749,7 +750,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public function cancelFulfillmentInbound(FulfillmentOrder $fulfillmentOrder): bool
     {
         $cancelOutbound = $this->client->cancelInbound(['consignment_no' => $fulfillmentOrder->external_order_key]);
-        $this->updateFulfillmentOrder($fulfillmentOrder, $cancelOutbound);
+        $this->updateFulfillmentOrder($fulfillmentOrder, $cancelOutbound, true);
         return $cancelOutbound['status'] === 'X';
     }
 

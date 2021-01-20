@@ -309,7 +309,7 @@ class PmFulfillmentService extends BaseFulfillmentService
                 Yii::info('External Order is exist, but not to ship, set to ship', __METHOD__);
                 $externalOrder = $this->client->updateOrder(['id' => $externalOrder['id'], 'statusId' => $this->orderProcessingStatus]);
             }
-            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
         }
 
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
@@ -334,7 +334,7 @@ class PmFulfillmentService extends BaseFulfillmentService
         $externalOrder = $this->formatExternalOrderData($order, $fulfillmentOrder);
         if ($externalOrder = $this->saveExternalOrder($externalOrder, $fulfillmentOrder)) {
             Yii::info("Order pushed success, update FulfillmentOrder", __METHOD__);
-            return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
         }
         Yii::warning("Order pushed failed, skip update FulfillmentOrder", __METHOD__);
         return false;
@@ -412,7 +412,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function formatExternalOrderItemData(OrderItem $orderItem)
+    protected function formatExternalOrderItemData(OrderItem $orderItem): array
     {
         $fulfillmentItem = FulfillmentItem::find()
             ->fulfillmentAccountId($this->account->account_id)
@@ -594,7 +594,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @return bool
      * @inheritdoc
      */
-    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];
         $externalOrderStatus = $externalOrder['statusId'];
@@ -619,7 +619,7 @@ class PmFulfillmentService extends BaseFulfillmentService
             $fulfillmentOrder->external_order_additional = $externalOrderAdditional;
         }
 
-        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+        return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, $changeActionStatus);
     }
 
     #endregion
@@ -639,7 +639,7 @@ class PmFulfillmentService extends BaseFulfillmentService
         if ($this->isOrderAllowHolding($pmOrder)) {
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderHoldStatus]);
         }
-        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
         return $pmOrder['statusId'] === $this->orderHoldStatus;
     }
 
@@ -658,7 +658,7 @@ class PmFulfillmentService extends BaseFulfillmentService
             $this->pushFulfillmentOrder($fulfillmentOrder);
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderProcessingStatus]);
         }
-        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
         return $pmOrder['statusId'] === $this->orderProcessingStatus;
     }
 
@@ -675,7 +675,7 @@ class PmFulfillmentService extends BaseFulfillmentService
         if ($this->isOrderAllowCancelled($pmOrder)) {
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderCancelledStatus]);
         }
-        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder);
+        $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
         return $pmOrder['statusId'] === $this->orderCancelledStatus
             || ($pmOrder['statusId'] >= 8 && $pmOrder['statusId'] < 9);
     }

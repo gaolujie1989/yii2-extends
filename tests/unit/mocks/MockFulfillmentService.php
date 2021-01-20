@@ -294,7 +294,7 @@ class MockFulfillmentService extends BaseFulfillmentService
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $fulfillmentOrder->external_created_at = $externalOrder['created_at'];
         $fulfillmentOrder->external_updated_at = $externalOrder['updated_at'];

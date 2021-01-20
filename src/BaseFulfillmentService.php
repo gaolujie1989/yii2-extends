@@ -246,13 +246,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
         if (empty($fulfillmentOrder->external_order_key) && $externalOrder = $this->getExternalOrder($order)) {
             Yii::info("Order not pushed, but exist in external, update FulfillmentOrder", __METHOD__);
-            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
         }
 
         $externalOrder = $this->formatExternalOrderData($order, $fulfillmentOrder);
         if ($externalOrder = $this->saveExternalOrder($externalOrder, $fulfillmentOrder)) {
             Yii::info("Order pushed success, update FulfillmentOrder", __METHOD__);
-            return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder);
+            return $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
         }
         Yii::warning("Order pushed failed, skip update FulfillmentOrder", __METHOD__);
         return false;
@@ -285,12 +285,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * update fulfillment order info, like external order_id, order_no, extra...
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
+     * @param false $changeActionStatus
      * @return bool
      * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
-    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): bool
+    protected function updateFulfillmentOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $fulfillmentOrder->order_pulled_at = time();
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField[$fulfillmentOrder->fulfillment_type]];
@@ -309,7 +310,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
         if ($newFulfillmentStatus) {
             $statusTransitions = $this->fulfillmentStatusActionTransitions[$fulfillmentOrder->fulfillment_status] ?? null;
-            if ($statusTransitions === null || in_array($newFulfillmentStatus, $statusTransitions)) {
+            if ($statusTransitions === null ||
+                ($changeActionStatus && in_array($newFulfillmentStatus, $statusTransitions, true))) {
                 $fulfillmentOrder->fulfillment_status = $newFulfillmentStatus;
             }
         }

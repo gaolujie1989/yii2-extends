@@ -85,6 +85,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
     /**
      * @param array $salesChannelOrders
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pullSalesOrders(array $salesChannelOrders): void
@@ -143,12 +145,13 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * update sales channel order info, like external order_id, order_no, extra...
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
+     * @param bool $changeActionStatus
      * @return bool
      * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
-    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): bool
+    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $salesChannelOrder->order_pulled_at = time();
         $salesChannelOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
@@ -157,7 +160,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $newSalesChannelStatus = $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
         if ($newSalesChannelStatus) {
             $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
-            if ($statusTransitions === null || in_array($newSalesChannelStatus, $statusTransitions)) {
+            if ($statusTransitions === null
+                ||($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions))) {
                 $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
             }
         }

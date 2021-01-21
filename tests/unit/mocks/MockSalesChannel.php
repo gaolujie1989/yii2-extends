@@ -83,7 +83,7 @@ class MockSalesChannel extends BaseSalesChannel
     {
         static::$EXTERNAL_ORDERS = ArrayHelper::index(static::$EXTERNAL_ORDERS, 'id');
         static::$EXTERNAL_ORDERS[$channelOrder->external_order_key]['status'] = 'shipped';
-        return $this->updateSalesChannelOrder($channelOrder, static::$EXTERNAL_ORDERS[$channelOrder->external_order_key]);
+        return $this->updateSalesChannelOrder($channelOrder, static::$EXTERNAL_ORDERS[$channelOrder->external_order_key], true);
     }
 
     /**
@@ -95,10 +95,10 @@ class MockSalesChannel extends BaseSalesChannel
     {
         static::$EXTERNAL_ORDERS = ArrayHelper::index(static::$EXTERNAL_ORDERS, 'id');
         static::$EXTERNAL_ORDERS[$channelOrder->external_order_key]['status'] = 'cancelled';
-        return $this->updateSalesChannelOrder($channelOrder, static::$EXTERNAL_ORDERS[$channelOrder->external_order_key]);
+        return $this->updateSalesChannelOrder($channelOrder, static::$EXTERNAL_ORDERS[$channelOrder->external_order_key], true);
     }
 
-    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): bool
+    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $salesChannelOrder->external_created_at = $externalOrder['createdAt'];
         $salesChannelOrder->external_updated_at = $externalOrder['paidAt'] ?: $externalOrder['createdAt'];

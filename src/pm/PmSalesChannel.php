@@ -97,14 +97,14 @@ class PmSalesChannel extends BaseSalesChannel
         }
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
             $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+            return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
         }
         if ($this->orderShippedWarehouseId) {
             $this->client->updateOrderWarehouse($orderId, $this->orderShippedWarehouseId);
         }
         $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
         $pmOrder = $this->client->getOrder(['id' => $orderId]);
-        return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+        return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
     }
 
     /**
@@ -163,12 +163,13 @@ class PmSalesChannel extends BaseSalesChannel
     /**
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
+     * @param bool $changeActionStatus
      * @return bool
      * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
-    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): bool
+    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
         $salesChannelOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
@@ -187,7 +188,7 @@ class PmSalesChannel extends BaseSalesChannel
         ];
 
         $this->updateSalesChannelOrderStatus($salesChannelOrder);
-        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
+        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder, $changeActionStatus);
     }
 
     #endregion
@@ -196,7 +197,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param SalesChannelOrder $salesChannelOrder
      * @inheritdoc
      */
-    protected function updateSalesChannelOrderStatus(SalesChannelOrder $salesChannelOrder): void
+    protected function updateSalesChannelOrderStatus(SalesChannelOrder $salesChannelOrder, bool $changeActionStatus = false): void
     {
         if (empty($this->salesChannelStatusMap[$salesChannelOrder->external_order_status])) {
             $newSalesChannelStatus = null;
@@ -210,7 +211,11 @@ class PmSalesChannel extends BaseSalesChannel
                 $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_CANCELLED;
             }
             if ($newSalesChannelStatus) {
-                $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+                $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
+                if ($statusTransitions === null
+                    ||($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions))) {
+                    $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
+                }
             }
         }
     }

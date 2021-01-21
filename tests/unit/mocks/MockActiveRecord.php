@@ -27,6 +27,8 @@ class MockActiveRecord extends BaseActiveRecord
 
     public static $columns = ['mock_id', 'mock_value', 'created_by', 'created_at', 'updated_by', 'updated_at'];
 
+    public static $rules = [];
+
     public static function primaryKey(): array
     {
         return ['mock_id'];
@@ -56,6 +58,15 @@ class MockActiveRecord extends BaseActiveRecord
     public function attributes(): array
     {
         return static::$columns;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function rules(): array
+    {
+        return static::$rules;
     }
 
     /**

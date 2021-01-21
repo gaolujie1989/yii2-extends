@@ -41,7 +41,7 @@ class ItemForm extends Item
     public function rules(): array
     {
         $rules = parent::rules();
-        ModelHelper::removeAttributesRules($rules, ['weight_g', 'length_mm', 'width_mm', 'height_mm']);
+        ModelHelper::removeAttributesRules($rules, ['weight_g', 'length_mm', 'width_mm', 'height_mm', 'additional']);
         return array_merge($rules, [
             [['weight_kg', 'length_cm', 'width_cm', 'height_cm'], 'number', 'min' => 0],
             [array_keys($this->barcodeConfig), 'validateBarcode'],

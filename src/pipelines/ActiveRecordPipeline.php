@@ -152,7 +152,10 @@ class ActiveRecordPipeline extends BaseDbPipeline
                 if ($this->modelScenario) {
                     $model->setScenario($this->modelScenario);
                 }
-                $model->setAttributes($values, $this->safeOnly);
+                $model->setAttributes($values);
+                if ($this->safeOnly === false) {
+                    $model->setAttributes($values, false);
+                }
                 $models[] = $model;
             }
         }

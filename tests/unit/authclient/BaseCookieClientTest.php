@@ -56,6 +56,9 @@ class BaseCookieClientTest extends \Codeception\Test\Unit
         $this->assertEquals($expected, $requests[0]->getData());
 
         $actionResponse = new Response([
+            'headers' => [
+                'http-code' => 200,
+            ],
             'content' => 'Mocked Content'
         ]);
         $mockTransport->appendResponse($actionResponse);

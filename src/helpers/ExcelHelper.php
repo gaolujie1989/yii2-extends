@@ -26,7 +26,7 @@ class ExcelHelper
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
-    public static function readExcel(string $file, bool $firstLineIsHeader = true, bool $multiSheet = false, bool $readImage = true, ?string $imagePathTemplate = null): array
+    public static function readExcel(string $file, bool $firstLineIsHeader = true, bool $multiSheet = false, bool $readImage = false, ?string $imagePathTemplate = null): array
     {
         $excelReader = new ExcelReader();
         $excelReader->firstLineIsHeader = $firstLineIsHeader;

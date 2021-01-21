@@ -61,6 +61,11 @@ class Item extends Model
     public $imageUrls = [];
 
     /**
+     * @var string
+     */
+    public $salesUrl;
+
+    /**
      * @var ItemBarcode[]
      */
     public $itemBarcodes;

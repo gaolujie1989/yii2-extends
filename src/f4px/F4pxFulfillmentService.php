@@ -207,6 +207,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'length' => $item->lengthMM / 10,
                 'width' => $item->widthMM / 10,
                 'height' => $item->heightMM / 10,
+                'sales_link' => $item->salesUrl,
                 'picture_url' => $pictureUrls,
             ]);
         }

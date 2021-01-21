@@ -37,11 +37,5 @@ class OffsetBatchQueryResultTest extends \Codeception\Test\Unit
         $batchFetchedData = iterator_to_array($each, false);
         $queryData = $query->all();
         $this->assertEquals($queryData, $batchFetchedData);
-
-        $this->expectException(InvalidValueException::class);
-        $each = QueryHelper::each($query, 10, 3);
-        foreach ($each as $item) {
-            $flag = isset($flag) || Migration::deleteAll(['version' => 'm000000_000000_base']);
-        }
     }
 }

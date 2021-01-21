@@ -50,6 +50,11 @@ class LinkerValidator extends Validator
     public $forceMasterDb = true;
 
     /**
+     * @var int
+     */
+    public $defaultValue = '';
+
+    /**
      * @var bool
      */
     public $checkExists = true;
@@ -80,8 +85,11 @@ class LinkerValidator extends Validator
             $targetAttribute = $this->targetAttribute ?: $attribute;
             if (is_array($targetAttribute)) {
                 $condition = [];
-                foreach ($targetAttribute as $k => $v) {
-                    $condition[$v] = is_int($k) ? $model->$v : $model->$k;
+                foreach ($targetAttribute as $modelAttr => $targetAttr) {
+                    if (is_int($modelAttr)) {
+                        $modelAttr = $targetAttr;
+                    }
+                    $condition[$targetAttr] = $model->$modelAttr;
                 }
             } else {
                 $condition = [$targetAttribute => $model->$attribute];
@@ -95,11 +103,16 @@ class LinkerValidator extends Validator
         $this->filterQuery($activeQuery);
         $queryData = $this->queryData($activeQuery);
         if ($queryData) {
-            foreach ($this->linkAttributes as $targetAttribute => $modelAttribute) {
-                $model->{$modelAttribute} = $queryData[$targetAttribute] ?? null;
+            foreach ($this->linkAttributes as $targetAttr => $modelAttr) {
+                if (is_int($targetAttr)) {
+                    $targetAttr = $modelAttr;
+                }
+                $model->{$modelAttr} = $queryData[$targetAttr];
             }
         } else if ($this->checkExists) {
             $this->addError($model, $attribute, $this->message);
+        } else {
+            $model->{$modelAttr} = $this->defaultValue;
         }
     }
 

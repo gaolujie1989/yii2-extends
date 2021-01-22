@@ -60,6 +60,11 @@ class LinkerValidator extends Validator
     public $checkExists = true;
 
     /**
+     * @var bool
+     */
+    public $skipOnEmpty = false;
+
+    /**
      * @inheritdoc
      */
     public function init(): void

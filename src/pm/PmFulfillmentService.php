@@ -306,8 +306,8 @@ class PmFulfillmentService extends BaseFulfillmentService
         if (empty($fulfillmentOrder->order_pushed_at) && $externalOrder = $this->getExternalOrder($order)) {
             Yii::info("Order not pushed, but exist in external, update FulfillmentOrder", __METHOD__);
             $fulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$externalOrder['statusId']] ?? null;
-            if ($fulfillmentStatus !== FulfillmentConst::FULFILLMENT_STATUS_PROCESSING) {
-                Yii::info('External Order is exist, but not to ship, set to ship', __METHOD__);
+            if ($fulfillmentStatus === FulfillmentConst::FULFILLMENT_STATUS_CANCELLED) {
+                Yii::info('External Order is exist, but cancelled, set to ship', __METHOD__);
                 $externalOrder = $this->client->updateOrder(['id' => $externalOrder['id'], 'statusId' => $this->orderProcessingStatus]);
             }
             $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);

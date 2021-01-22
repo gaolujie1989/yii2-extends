@@ -165,7 +165,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     public function updateOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?bool
     {
         /** @var BaseActiveRecord|TraceableBehaviorTrait $outboundOrder */
-        $outboundOrder = $this->outboundOrderClass::findOne($salesChannelOrder->order_id);
+        $outboundOrder = $salesChannelOrder->order_id ? $this->outboundOrderClass::findOne($salesChannelOrder->order_id) : null;
         if ($outboundOrder === null) {
             $outboundOrder = $this->createOutboundOrder($salesChannelOrder, $externalOrder);
             if ($outboundOrder === null) {

@@ -86,6 +86,18 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
     /**
      * @var array
      */
+    public $cancelledFulfillmentStatus = [
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
+            FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+        ],
+        FulfillmentConst::FULFILLMENT_TYPE_INBOUND => [
+            FulfillmentConst::INBOUND_STATUS_CANCELLED,
+        ]
+    ];
+
+    /**
+     * @var array
+     */
     public $allowedDeletedFulfillmentStatus = [
         FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
             FulfillmentConst::FULFILLMENT_STATUS_PENDING,
@@ -280,7 +292,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             ->orderId($orderId)
             ->warehouseId($warehouseId)
             ->one();
-        if ($fulfillmentOrder === null) {
+        if ($fulfillmentOrder === null || in_array($fulfillmentOrder->fulfillment_status, $this->cancelledFulfillmentStatus[$fulfillmentType] ?? [], true)) {
             $fulfillmentOrder = new FulfillmentOrderForm();
             $fulfillmentOrder->fulfillment_type = $fulfillmentType;
             $fulfillmentOrder->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;

@@ -33,7 +33,7 @@ class m190708_132647_fulfillment_order extends Migration
             'additional' => $this->json(),
         ]);
 
-        $this->createIndex('uk_order_account', $this->tableName, ['order_id', 'fulfillment_account_id'], true);
+        $this->createIndex('idx_order_account', $this->tableName, ['order_id', 'fulfillment_account_id']);
         $this->createIndex('idx_external_order_account', $this->tableName, ['external_order_key', 'fulfillment_account_id']);
         $this->createIndex('idx_status_account', $this->tableName, ['fulfillment_status', 'fulfillment_account_id']);
     }

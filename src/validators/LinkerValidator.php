@@ -76,8 +76,14 @@ class LinkerValidator extends Validator
      * @throws \Throwable
      * @inheritdoc
      */
-    public function validateAttribute($model, $attribute)
+    public function validateAttribute($model, $attribute): void
     {
+        if (empty($model->$attribute)) {
+            foreach ($this->linkAttributes as $targetAttr => $modelAttr) {
+                $model->{$modelAttr} = $this->defaultValue;
+            }
+            return;
+        }
         if ($this->targetRelation) {
             /** @var ActiveQuery $activeQuery */
             $activeQuery = $model->{'get' . ucfirst($this->targetRelation)}();
@@ -102,17 +108,15 @@ class LinkerValidator extends Validator
 
         $this->filterQuery($activeQuery);
         $queryData = $this->queryData($activeQuery);
-        if ($queryData) {
-            foreach ($this->linkAttributes as $targetAttr => $modelAttr) {
-                if (is_int($targetAttr)) {
-                    $targetAttr = $modelAttr;
-                }
-                $model->{$modelAttr} = $queryData[$targetAttr];
-            }
-        } else if ($this->checkExists) {
+        if (empty($queryData) && $this->checkExists) {
             $this->addError($model, $attribute, $this->message);
-        } else {
-            $model->{$modelAttr} = $this->defaultValue;
+            return;
+        }
+        foreach ($this->linkAttributes as $targetAttr => $modelAttr) {
+            if (is_int($targetAttr)) {
+                $targetAttr = $modelAttr;
+            }
+            $model->{$modelAttr} = $queryData[$targetAttr] ?? $this->defaultValue;
         }
     }
 

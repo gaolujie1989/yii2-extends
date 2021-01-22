@@ -51,7 +51,6 @@ class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
             [['external_order_additional', 'order_pushed_result', 'additional'], 'safe'],
             [['order_status', 'external_order_status'], 'string', 'max' => 20],
             [['external_order_key', 'external_warehouse_key'], 'string', 'max' => 50],
-            [['order_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['order_id', 'fulfillment_account_id']],
         ];
     }
 

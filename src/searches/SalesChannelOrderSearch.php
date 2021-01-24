@@ -24,7 +24,8 @@ class SalesChannelOrderSearch extends SalesChannelOrder
         return [
             [['sales_channel_account_id', 'sales_channel_status',
                 'order_id', 'order_status',
-                'external_order_key', 'external_order_status'], 'safe'],
+                'external_order_key', 'external_order_status',
+                'order_pushed_status'], 'safe'],
         ];
     }
 
@@ -40,7 +41,8 @@ class SalesChannelOrderSearch extends SalesChannelOrder
             'order_id' => $this->order_id,
             'order_status' => $this->order_status,
             'external_order_key' => $this->external_order_key,
-            'external_order_status' => $this->external_order_status
+            'external_order_status' => $this->external_order_status,
+            'order_pushed_status' => $this->order_pushed_status,
         ]);
     }
 }

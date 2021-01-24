@@ -154,7 +154,7 @@ class PmSalesChannel extends BaseSalesChannel
             'updatedAtFrom' => date('c', $createdAtFrom),
             'updatedAtTo' => date('c', $createdAtTo),
             'statusFrom' => '3',
-            'statusTo' => '7.1',
+            'statusTo' => '8.9',
         ];
         $eachOrders = $this->client->eachOrders($condition);
         return iterator_to_array($eachOrders, false);

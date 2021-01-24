@@ -295,7 +295,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     {
         $fulfillmentOrder->order_pulled_at = time();
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField[$fulfillmentOrder->fulfillment_type]];
-        $fulfillmentOrder->external_order_status = $externalOrder[$this->externalOrderStatusField[$fulfillmentOrder->fulfillment_type]];
+        $fulfillmentOrder->external_order_status = (string)$externalOrder[$this->externalOrderStatusField[$fulfillmentOrder->fulfillment_type]];
 
         if (empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
             $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;

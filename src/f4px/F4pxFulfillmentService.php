@@ -392,6 +392,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $externalOrder['status'] = 'S';
             return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, $changeActionStatus);
         }
+        if (empty($externalOrder['create_time'])) {
+            return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, $changeActionStatus);
+        }
 
         $externalOrderStatus = $externalOrder['status'];
         $externalOrderAdditional = $fulfillmentOrder->external_order_additional ?: [];

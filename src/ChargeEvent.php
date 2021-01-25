@@ -40,5 +40,5 @@ class ChargeEvent extends Event
     /**
      * @var ChargePrice[]
      */
-    public $chargePrices;
+    public $chargePrices = [];
 }

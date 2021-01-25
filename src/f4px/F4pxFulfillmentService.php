@@ -158,8 +158,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'print_box_type' => 'Z',
     ];
 
-    public $defaultInboundItemData = [
-    ];
+    public $defaultInboundItemData = [];
 
     #endregion
 
@@ -168,6 +167,21 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public $orderErrorStatus = 'E';
     public $orderHoldStatus = 'NONE';
     public $orderShippedStatus = 'C';
+
+    /**
+     * @var array
+     */
+    public $logisticsCarriers = [
+        'F040' => 'TR72',
+        'F307' => 'GLS-BIG',
+        'F319' => 'GLS-SMALL',
+        'F341' => 'GRS-FB4-IMS',
+        'F414' => 'ES-GLS-ASM',
+        'F430' => 'ES-ASM-FBA',
+        'F431' => 'ES-ASM-24',
+        'F474' => 'ES-UPS',
+        'F475' => 'ES-UPS-FBA',
+    ];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -404,7 +418,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $externalOrderAdditional['sales_no'] = $externalOrder['sales_no'];
         $externalOrderAdditional['consignment_no'] = $externalOrder['consignment_no'];
         $externalOrderAdditional['4px_tracking_no'] = $externalOrder['4px_tracking_no'];
-        $externalOrderAdditional['carrier'] = $externalOrder['logistics_product_code'];
+        $externalOrderAdditional['logistics_product_code'] = $externalOrder['logistics_product_code'];
+        $externalOrderAdditional['carrier'] = $this->logisticsCarriers[$externalOrder['logistics_product_code']] ?? '';
         if ($externalOrder['shipping_no']) {
             $externalOrderAdditional['trackingNumbers'] = [$externalOrder['shipping_no']];
         }

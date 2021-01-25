@@ -453,7 +453,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         if ($fulfillmentOrder->external_order_key) {
-            $cancelOutbound = $this->client->cancelOutbound(['consignment_no' => $fulfillmentOrder->external_order_key, 'cancel_type' => 'BC']);
+            $outboundList = $this->client->getOutboundList(['consignment_no' => $fulfillmentOrder->external_order_key]);
+            $cancelOutbound = $outboundList['data'][0];
+            if ($cancelOutbound['status'] !== 'X') {
+                $cancelOutbound = $this->client->cancelOutbound(['consignment_no' => $fulfillmentOrder->external_order_key, 'cancel_type' => 'BC']);
+            }
         } else {
             $cancelOutbound = [
                 'consignment_no' => '',

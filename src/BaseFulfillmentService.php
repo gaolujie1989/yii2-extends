@@ -297,9 +297,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $fulfillmentOrder->external_order_key = $externalOrder[$this->externalOrderKeyField[$fulfillmentOrder->fulfillment_type]];
         $fulfillmentOrder->external_order_status = (string)$externalOrder[$this->externalOrderStatusField[$fulfillmentOrder->fulfillment_type]];
 
-        if (empty($fulfillmentOrder->external_order_additional['trackingNumbers'])) {
-            $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;
-        } else {
+        $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;
+        if (!empty($fulfillmentOrder->external_order_additional['trackingNumbers']) && $newFulfillmentStatus !== FulfillmentConst::FULFILLMENT_STATUS_CANCELLED) {
             $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
         }
         if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_SHIPPING

@@ -207,11 +207,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $fulfillmentOrder->setAttributes($fulfillmentOrderForm->attributes, false);
         $fulfillmentOrder->setIsNewRecord(false);
         $name = "FulfillmentOrder {$fulfillmentOrder->fulfillment_order_id} of order {$fulfillmentOrder->order_id}";
-        if (empty($fulfillmentOrder->external_order_key)) {
-            $this->pushFulfillmentOrderJob($fulfillmentOrder);
-            Yii::info("{$name} push update job", __METHOD__);
-            return;
-        }
 
         switch ($fulfillmentOrder->fulfillment_status) {
             case FulfillmentConst::FULFILLMENT_STATUS_TO_HOLDING:

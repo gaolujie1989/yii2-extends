@@ -51,14 +51,14 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @var array
      */
     public $externalOrderKeyField = [
-        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING=> 'id'
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'id'
     ];
 
     /**
      * @var array
      */
     public $externalOrderStatusField = [
-        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING=> 'statusId'
+        FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'statusId'
     ];
 
     /**
@@ -636,6 +636,15 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function holdFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
+        if (empty($fulfillmentOrder->external_order_key)) {
+            $pmOrder = [
+                'id' => '',
+                'statusId' => $this->orderHoldStatus
+            ];
+            parent::updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
+            return true;
+        }
+
         $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_key]);
         if ($this->isOrderAllowHolding($pmOrder)) {
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderHoldStatus]);
@@ -654,6 +663,12 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
+        if (empty($fulfillmentOrder->external_order_key)) {
+            $this->pushFulfillmentOrder($fulfillmentOrder);
+        }
+        if (empty($fulfillmentOrder->external_order_key)) {
+            return false;
+        }
         $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_key]);
         if ($this->isOrderAllowShipping($pmOrder)) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
@@ -672,6 +687,15 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
+        if (empty($fulfillmentOrder->external_order_key)) {
+            $pmOrder = [
+                'id' => '',
+                'statusId' => $this->orderCancelledStatus
+            ];
+            parent::updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
+            return true;
+        }
+
         $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_key]);
         if ($this->isOrderAllowCancelled($pmOrder)) {
             $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderCancelledStatus]);

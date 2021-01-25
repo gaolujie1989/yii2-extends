@@ -176,11 +176,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'F307' => 'GLS-BIG',
         'F319' => 'GLS-SMALL',
         'F341' => 'GRS-FB4-IMS',
-        'F414' => 'ES-GLS-ASM',
-        'F430' => 'ES-ASM-FBA',
-        'F431' => 'ES-ASM-24',
-        'F474' => 'ES-UPS',
-        'F475' => 'ES-UPS-FBA',
+        'F414' => 'GLS-ASM',
+        'F430' => 'ASM-FBA',
+        'F431' => 'ASM-24',
+        'F474' => 'UPS',
+        'F475' => 'UPS-FBA',
     ];
 
     /**

@@ -24,7 +24,8 @@ class ShippingTableBatchForm extends BatchForm
         return [
             'price', 'weight_kg_limit',
             'length_cm_limit', 'width_cm_limit', 'height_cm_limit',
-            'l2wh_cm_limit', 'lh_cm_limit',
+            'l2wh_cm_limit', 'lwh_cm_limit', 'lh_cm_limit',
+            'volume_l_limit',
             'started_time', 'ended_time'
         ];
     }
@@ -36,7 +37,10 @@ class ShippingTableBatchForm extends BatchForm
     public function rules(): array
     {
         return [
-            [['price', 'weight_kg_limit', 'length_cm_limit', 'width_cm_limit', 'height_cm_limit', 'l2wh_cm_limit', 'lh_cm_limit'], 'number'],
+            [['price', 'weight_kg_limit',
+                'length_cm_limit', 'width_cm_limit', 'height_cm_limit',
+                'l2wh_cm_limit', 'lwh_cm_limit', 'lh_cm_limit',
+                'volume_l_limit'], 'number'],
             [['started_time', 'ended_time'], 'string'],
         ];
     }

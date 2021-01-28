@@ -15,6 +15,8 @@ use yii\db\ActiveQuery;
  */
 class OptionSearch extends Option
 {
+    public $parentKey;
+
     /**
      * @return array
      * @inheritdoc
@@ -23,6 +25,7 @@ class OptionSearch extends Option
     {
         return [
             [['parent_id', 'key', 'name'], 'safe'],
+            [['parentKey'], 'safe'],
         ];
     }
 
@@ -32,10 +35,15 @@ class OptionSearch extends Option
      */
     public function query(): ActiveQuery
     {
-        return static::find()
+        $query = static::find()
             ->andFilterWhere(['parent_id' => $this->parent_id])
             ->andFilterWhere(['LIKE', 'key', $this->key])
             ->andFilterWhere(['LIKE', 'name', $this->name]);
+        if ($this->parentKey) {
+            $parentIds = static::find()->parentId(0)->key($this->parentKey)->getIds();
+            $query->andFilterWhere(['parent_id' => $parentIds]);
+        }
+        return $query;
     }
 
     /**
@@ -43,7 +51,7 @@ class OptionSearch extends Option
      * @return array
      * @inheritdoc
      */
-    public function prepareArray(array $row): array
+    public static function prepareArray(array $row): array
     {
         return $row;
     }

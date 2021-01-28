@@ -11,7 +11,7 @@ return [
             '@lujie/common/account' => __DIR__ . '/src/account',
             '@lujie/common/address' => __DIR__ . '/src/address',
             '@lujie/common/item' => __DIR__ . '/src/item',
-            '@lujie/common/modelData' => __DIR__ . '/src/modelData',
+            '@lujie/common/option' => __DIR__ . '/src/option',
             '@lujie/common/tests' => __DIR__ . '/tests',
         ]
     ],

@@ -18,6 +18,8 @@
     "psr-4": {
       "lujie\\common\\account\\": "src\\account",
       "lujie\\common\\address\\": "src\\address",
+      "lujie\\common\\item\\": "src\\item",
+      "lujie\\common\\option\\": "src\\option",
       "lujie\\common\\tests\\": "tests"
     }
   },

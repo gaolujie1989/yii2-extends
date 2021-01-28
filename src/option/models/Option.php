@@ -30,7 +30,7 @@ class Option extends \yii\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%model_option}}';
+        return '{{%option}}';
     }
 
     /**

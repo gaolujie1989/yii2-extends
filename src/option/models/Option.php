@@ -14,7 +14,7 @@ use yii\db\ActiveQuery;
  * This is the model class for table "{{%model_option}}".
  *
  * @property int $option_id
- * @property string $parent_id
+ * @property int $parent_id
  * @property int $position
  * @property string $key
  * @property string $name
@@ -39,12 +39,12 @@ class Option extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['parent_id', 'key', 'name'], 'default', 'value' => ''],
-            [['position'], 'default', 'value' => 0],
+            [['parent_id', 'position'], 'default', 'value' => 0],
+            [['key', 'name'], 'default', 'value' => ''],
             [['labels', 'additional'], 'default', 'value' => []],
-            [['position'], 'integer'],
+            [['parent_id', 'position'], 'integer'],
             [['labels', 'additional'], 'safe'],
-            [['parent_id', 'key'], 'string', 'max' => 50],
+            [['key'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 255],
             [['parent_id', 'key'], 'unique', 'targetAttribute' => ['parent_id', 'key']],
         ];

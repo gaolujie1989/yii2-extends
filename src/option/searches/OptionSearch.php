@@ -15,7 +15,7 @@ use yii\db\ActiveQuery;
  */
 class OptionSearch extends Option
 {
-    public $parentKey;
+    public $parent_key;
 
     /**
      * @return array
@@ -36,12 +36,13 @@ class OptionSearch extends Option
     public function query(): ActiveQuery
     {
         $query = static::find()
+            ->innerJoinWith(['parentOption'])
             ->andFilterWhere(['parent_id' => $this->parent_id])
             ->andFilterWhere(['LIKE', 'key', $this->key])
             ->andFilterWhere(['LIKE', 'name', $this->name]);
-        if ($this->parentKey) {
-            $parentIds = static::find()->parentId(0)->key($this->parentKey)->getIds();
-            $query->andFilterWhere(['parent_id' => $parentIds]);
+        if ($this->parent_key) {
+            $parentIds = static::find()->key($this->parent_key)->getIds();
+            $query->joinWith(['parent_id' => $parentIds]);
         }
         return $query;
     }
@@ -53,6 +54,11 @@ class OptionSearch extends Option
      */
     public static function prepareArray(array $row): array
     {
+        $row['id'] = $row['option_id'];
+        if (isset($row['parentOption'])) {
+            $row['parent_key'] = $row['parentOption']['key'];
+            unset($row['parentOption']);
+        }
         return $row;
     }
 }

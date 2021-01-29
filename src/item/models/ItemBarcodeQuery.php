@@ -54,27 +54,36 @@ class ItemBarcodeQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function getItemIds(): array
+    public function getItemIds(bool $indexByCodeText = true): array
     {
-        return $this->select(['item_id'])->indexBy('code_text')->column();
+        if ($indexByCodeText) {
+            $this->indexBy('code_text');
+        }
+        return $this->select(['item_id'])->column();
     }
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function getItemNos(): array
+    public function getItemNos(bool $indexByCodeText = true): array
     {
-        return $this->innerJoinWith(['item'])->select(['item_no'])->indexBy('code_text')->column();
+        if ($indexByCodeText) {
+            $this->indexBy('code_text');
+        }
+        return $this->innerJoinWith(['item'])->select(['item_no'])->column();
     }
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function getCodeTexts(): array
+    public function getCodeTexts(bool $indexByItemId = true): array
     {
-        return $this->select(['code_text'])->indexBy('item_id')->column();
+        if ($indexByItemId) {
+            $this->indexBy('item_id');
+        }
+        return $this->select(['code_text'])->column();
     }
 
     /**

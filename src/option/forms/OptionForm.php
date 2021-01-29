@@ -19,6 +19,8 @@ class OptionForm extends Option
 {
     public $readOnlyOnUpdateAttributes = [];
 
+    public $parent_key;
+
     /**
      * @return array
      * @inheritdoc
@@ -29,7 +31,13 @@ class OptionForm extends Option
         if ($this->readOnlyOnUpdateAttributes && !$this->getIsNewRecord()) {
             ModelHelper::removeAttributesRules($rules, $this->readOnlyOnUpdateAttributes);
         }
-        return $rules;
+
+        ModelHelper::removeAttributesRules($rules, ['parent_id']);
+        return array_merge($rules, [
+            [['parent_key'], 'linker',
+                'targetAttribute' => ['parentKey' => 'key'],
+                'linkAttributes' => ['option_id' => 'parent_id']]
+        ]);
     }
 
     /**

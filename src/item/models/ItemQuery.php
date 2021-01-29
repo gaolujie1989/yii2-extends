@@ -49,17 +49,23 @@ class ItemQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function getItemIds(): array
+    public function getItemIds(bool $indexByItemNo = true): array
     {
-        return $this->select(['item_id'])->indexBy('item_no')->column();
+        if ($indexByItemNo) {
+            $this->indexBy('item_no');
+        }
+        return $this->select(['item_id'])->column();
     }
 
     /**
      * @return array
      * @inheritdoc
      */
-    public function getItemNos(): array
+    public function getItemNos(bool $indexByItemId = true): array
     {
-        return $this->select(['item_no'])->indexBy('item_id')->column();
+        if ($indexByItemId) {
+            $this->indexBy('item_id');
+        }
+        return $this->select(['item_no'])->column();
     }
 }

@@ -38,7 +38,7 @@ class OptionForm extends Option
      */
     public function behaviors(): array
     {
-        return array_merge(parent::rules(), [
+        return array_merge(parent::behaviors(), [
             'position' => [
                 'class' => PositionBehavior::class,
                 'groupAttributes' => ['parent_id'],

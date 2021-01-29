@@ -23,7 +23,7 @@ class m200911_104910_option extends Migration
     {
         $this->createTable($this->tableName, [
             'option_id' => $this->bigPrimaryKey(),
-            'parent_id' => $this->string(50)->notNull()->defaultValue(''),
+            'parent_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->smallInteger()->notNull()->defaultValue(0),
             'key' => $this->string(50)->notNull()->defaultValue(''),
             'name' => $this->string()->notNull()->defaultValue(''),

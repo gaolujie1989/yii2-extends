@@ -46,13 +46,13 @@ class BatchForm extends Model
      */
     public function batchUpdate(bool $runValidation = true, ?array $attributeNames = null): bool
     {
+        if ($runValidation && !$this->validate()) {
+            return false;
+        }
+
         $attributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
         if (empty($attributes)) {
             return true;
-        }
-
-        if ($runValidation && !$this->validate()) {
-            return false;
         }
 
         $models = $this->findModels();

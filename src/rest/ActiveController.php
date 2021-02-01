@@ -5,6 +5,7 @@
 
 namespace lujie\extend\rest;
 
+use lujie\batch\BatchAction;
 use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
 use Yii;
@@ -36,6 +37,11 @@ class ActiveController extends \yii\rest\ActiveController
     public $searchClass;
 
     /**
+     * @var string
+     */
+    public $batchFormClass;
+
+    /**
      * @var bool
      */
     public $indexTypecast = true;
@@ -60,6 +66,9 @@ class ActiveController extends \yii\rest\ActiveController
         }
         if (empty($this->searchClass)) {
             $this->searchClass = ClassHelper::getSearchClass($this->modelClass) ?: $this->modelClass;
+        }
+        if (empty($this->batchFormClass)) {
+            $this->batchFormClass = ClassHelper::getBatchFormClass($this->modelClass);
         }
     }
 
@@ -114,12 +123,22 @@ class ActiveController extends \yii\rest\ActiveController
             }
         }
 
-        if ($this->modelClass) {
+        if ($this->formClass) {
             /** @var BaseActiveRecord $model */
-            $model = new $this->modelClass();
+            $model = new $this->formClass();
             if ($model->getBehavior('position')) {
                 $actions = array_merge($actions, $this->positionActions());
             }
+        }
+
+        if ($this->batchFormClass) {
+            $actions = array_merge($actions, [
+                'class' => BatchAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'batchFormClass' => $this->batchFormClass,
+                'method' => 'batchUpdate'
+            ]);
         }
 
         return $actions;

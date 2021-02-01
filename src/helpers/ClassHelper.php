@@ -54,6 +54,25 @@ class ClassHelper
     }
 
     /**
+     * @param string $modelClass
+     * @return string|null
+     * @inheritdoc
+     */
+    public static function getBatchFormClass(string $modelClass): ?string
+    {
+        $batchFormClasses = [
+            strtr($modelClass, ['models' => 'forms']) . 'BatchForm',
+            $modelClass . 'BatchForm',
+        ];
+        foreach ($batchFormClasses as $formClass) {
+            if (class_exists($formClass)) {
+                return $formClass;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param BaseActiveRecord|string $modelOrClass
      * @return string|null
      * @inheritdoc

@@ -83,7 +83,8 @@ class LinkerValidator extends Validator
      */
     public function validateAttribute($model, $attribute): void
     {
-        if (empty($model->$attribute)) {
+        $attributeValue = $model->$attribute;
+        if (empty($attributeValue)) {
             foreach ($this->linkAttributes as $targetAttr => $modelAttr) {
                 $model->{$modelAttr} = $this->defaultValue;
             }
@@ -103,7 +104,7 @@ class LinkerValidator extends Validator
                     $condition[$targetAttr] = $model->$modelAttr;
                 }
             } else {
-                $condition = [$targetAttribute => $model->$attribute];
+                $condition = [$targetAttribute => $attributeValue];
             }
 
             /** @var BaseActiveRecord $targetClass */

@@ -38,6 +38,11 @@ class BatchForm extends Model
     public $validateModels = false;
 
     /**
+     * @var bool
+     */
+    public $modelSafeOnly = true;
+
+    /**
      * @param bool $runValidation
      * @param array|null $attributeNames
      * @return bool
@@ -61,7 +66,7 @@ class BatchForm extends Model
         }
 
         foreach ($models as $model) {
-            $model->setAttributes($attributes);
+            $model->setAttributes($attributes, $this->modelSafeOnly);
         }
 
         if ($this->validateModels && !Model::validateMultiple($models, $attributeNames)) {

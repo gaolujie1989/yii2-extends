@@ -133,11 +133,13 @@ class ActiveController extends \yii\rest\ActiveController
 
         if ($this->batchFormClass) {
             $actions = array_merge($actions, [
-                'class' => BatchAction::class,
-                'modelClass' => $this->formClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'batchFormClass' => $this->batchFormClass,
-                'method' => 'batchUpdate'
+                'batch-update' => [
+                    'class' => BatchAction::class,
+                    'modelClass' => $this->formClass,
+                    'checkAccess' => [$this, 'checkAccess'],
+                    'batchFormClass' => $this->batchFormClass,
+                    'method' => 'batchUpdate'
+                ]
             ]);
         }
 

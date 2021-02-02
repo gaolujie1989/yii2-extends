@@ -235,6 +235,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
      */
     protected function pushFulfillmentOrderJob(FulfillmentOrder $fulfillmentOrder): void
     {
+        if ($fulfillmentOrder->fulfillment_status === FulfillmentConst::FULFILLMENT_STATUS_PENDING) {
+            $delay = $fulfillmentOrder->account->options['delay'] ?? 0;
+            if ($delay && $fulfillmentOrder->created_at + $delay < time()) {
+                Yii::debug("Fulfillment Order {$fulfillmentOrder->fulfillment_order_id} delay", __METHOD__);
+                return;
+            }
+        }
         $this->pushFulfillmentOrderActionJob($fulfillmentOrder, ['class' => PushFulfillmentOrderJob::class]);
     }
 

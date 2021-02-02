@@ -237,7 +237,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
     {
         if ($fulfillmentOrder->fulfillment_status === FulfillmentConst::FULFILLMENT_STATUS_PENDING) {
             $delay = $fulfillmentOrder->account->additional['delay'] ?? 0;
-            if ($delay && $fulfillmentOrder->created_at + $delay < time()) {
+            if ($delay && $fulfillmentOrder->created_at + $delay > time()) {
                 Yii::debug("Fulfillment Order {$fulfillmentOrder->fulfillment_order_id} delay", __METHOD__);
                 return;
             }

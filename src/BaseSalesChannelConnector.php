@@ -124,7 +124,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         if ($salesChannelOrder === null) {
             return null;
         }
-        if (in_array($salesChannelOrder->sales_channel_status, [SalesChannelConst::CHANNEL_STATUS_SHIPPED, SalesChannelConst::CHANNEL_STATUS_CANCELLED])) {
+        if (in_array($salesChannelOrder->sales_channel_status, [SalesChannelConst::CHANNEL_STATUS_SHIPPED, SalesChannelConst::CHANNEL_STATUS_CANCELLED], true)) {
             return null;
         }
         $salesChannelOrder->order_status = $orderStatus;
@@ -139,7 +139,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @param BaseActiveRecord $outboundOrder
      * @inheritdoc
      */
-    protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, BaseActiveRecord $outboundOrder)
+    protected function updateSalesChannelOrderAdditional(SalesChannelOrder $salesChannelOrder, BaseActiveRecord $outboundOrder): void
     {
     }
 
@@ -198,7 +198,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @param array $externalOrder
      * @inheritdoc
      */
-    protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder)
+    protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder): void
     {
 
     }

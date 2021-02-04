@@ -352,6 +352,14 @@ use yii\httpclient\Request;
  * @method array updateListingMarketTexts($data)
  * @method array deleteListingMarketTexts($data)
  *
+ * @method array listComments($data = [])
+ * @method Generator eachComments($condition = [], $batchSize = 100)
+ * @method Generator batchComments($condition = [], $batchSize = 100)
+ * @method array getComment($data)
+ * @method array createComment($data)
+ * @method array updateComment($data)
+ * @method array deleteComment($data)
+ *
  * @method array batchRequest($data)
  * @method array searchItemVariations($data)
  * @method array listVariations($data)
@@ -463,7 +471,9 @@ class PlentyMarketsRestClient extends OAuth2
         'PaymentProperty' => 'payments/{paymentId}/properties',
 
         'ListingMarket' => 'listings/markets',
-        'ListingMarketTexts' => 'listings/markets/texts'
+        'ListingMarketTexts' => 'listings/markets/texts',
+
+        'Comment' => 'comments',
     ];
 
     /**
@@ -636,7 +646,7 @@ class PlentyMarketsRestClient extends OAuth2
      * @return array HTTP request options.
      * @since 2.1
      */
-    protected function defaultRequestOptions()
+    protected function defaultRequestOptions(): array
     {
         if ($this->httpClient->transport instanceof CurlTransport) {
             return [

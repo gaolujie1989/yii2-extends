@@ -93,7 +93,7 @@ class PmSalesChannel extends BaseSalesChannel
         if ($notes && (empty($pmOrder['comments']) || !in_array(96, ArrayHelper::getColumn($pmOrder['comments'], 'userId'), true))) {
             $this->client->createComment([
                 'referenceValue' => $channelOrder->external_order_key,
-                'text' => '<p>'. strtr($notes, ["\n" => '<br />']) .'</p>',
+                'text' => '<p>'. strtr($notes[0], ["\n" => '<br />']) .'</p>',
                 'referenceType' => 'order',
                 'isVisibleForContact' => false,
             ]);

@@ -96,6 +96,7 @@ class PmSalesChannel extends BaseSalesChannel
                 'text' => '<p>'. strtr($notes[0], ["\n" => '<br />']) .'</p>',
                 'referenceType' => 'order',
                 'isVisibleForContact' => false,
+                'userId' => 96,
             ]);
         }
 

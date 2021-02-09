@@ -40,10 +40,10 @@ class UploadModelFileQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'uploadModelFileId' => 'upload_model_file_id',
-                    'modelType' => ['model_type'],
-                    'modelId' => ['model_id'],
-                    'modelParentId' => ['model_parent_id'],
-                    'file' => ['file'],
+                    'modelType' => 'model_type',
+                    'modelId' => 'model_id',
+                    'modelParentId' => 'model_parent_id',
+                    'file' => 'file',
                     'ext' => ['ext'],
                     'nameLike' => ['name' => 'LIKE'],
                 ]

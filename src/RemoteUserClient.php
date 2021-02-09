@@ -70,7 +70,7 @@ class RemoteUserClient extends BaseObject
         if ($this->tokenHeader) {
             $request->addHeaders([$this->tokenHeader => $token]);
         }
-        $data = HttpClientHelper::sendRequest($request)->getData();
+        $data = HttpClientHelper::sendRequest($request, [], 1)->getData();
         return $this->dataKey ? ArrayHelper::getValue($data, $this->dataKey) : $data;
     }
 }

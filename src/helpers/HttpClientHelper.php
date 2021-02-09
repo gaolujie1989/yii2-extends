@@ -36,7 +36,7 @@ class HttpClientHelper
      */
     public static function tryRequest(Request $request, ?int $retry = null): Response
     {
-        $retry = $retry ?: static::$retry;
+        $retry = $retry ?? static::$retry;
         $try = 0;
         while (true) {
             try {
@@ -61,7 +61,7 @@ class HttpClientHelper
      * @throws InvalidResponseException
      * @inheritdoc
      */
-    public static function sendRequest(Request $request, array $allowedStatusCodes = [], ?int $retry = null): Response
+    public static function sendRequest(Request $request, array $allowedStatusCodes = [], ?int $retry = 0): Response
     {
         Yii::debug("Send {$request->method} request to {$request->fullUrl}", __METHOD__);
         $response = static::tryRequest($request, $retry);

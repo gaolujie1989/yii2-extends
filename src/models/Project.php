@@ -40,7 +40,10 @@ class Project extends \lujie\project\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['owner_id', 'archived_at', 'deleted_at'], 'integer'],
+            [['name', 'description', 'visibility'], 'default', 'value' => ''],
+            [['owner_id'], 'default', 'value' => 0],
+            [['options'], 'default', 'value' => []],
+            [['owner_id'], 'integer'],
             [['options'], 'safe'],
             [['name'], 'string', 'max' => 250],
             [['description'], 'string', 'max' => 1000],

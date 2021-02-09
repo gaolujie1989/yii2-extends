@@ -123,7 +123,7 @@ class QueryHelper
                 continue;
             }
 
-            $values = preg_split($splitPattern, $value);
+            $values = preg_split($splitPattern, $value, -1, PREG_SPLIT_NO_EMPTY);
             $values = array_filter(array_map('trim', $values));
             if (empty($values)) {
                 continue;

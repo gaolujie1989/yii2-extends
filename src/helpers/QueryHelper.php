@@ -112,7 +112,7 @@ class QueryHelper
      * @inheritdoc
      */
     public static function filterValue(Query $query, array $attributeValues,
-                                       $like = true, string $alias = '',
+                                       $like = false, string $alias = '',
                                        string $splitPattern = '/[,;\s]/'): void
     {
         $alias = $alias ? $alias . '.' : '';

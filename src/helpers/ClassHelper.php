@@ -20,11 +20,11 @@ class ClassHelper
      * @return string|null
      * @inheritdoc
      */
-    public static function getFormClass(string $modelClass): ?string
+    protected static function getModelClass(string $modelClass, $replaces = ['models' => 'forms'], $suffix = 'Form'): ?string
     {
         $formClasses = [
-            strtr($modelClass, ['models' => 'forms']) . 'Form',
-            $modelClass . 'Form',
+            strtr($modelClass, $replaces) . $suffix,
+            $modelClass . $suffix,
         ];
         foreach ($formClasses as $formClass) {
             if (class_exists($formClass)) {
@@ -39,18 +39,19 @@ class ClassHelper
      * @return string|null
      * @inheritdoc
      */
+    public static function getFormClass(string $modelClass): ?string
+    {
+        return static::getModelClass($modelClass, ['models' => 'forms'], 'Form');
+    }
+
+    /**
+     * @param string $modelClass
+     * @return string|null
+     * @inheritdoc
+     */
     public static function getSearchClass(string $modelClass): ?string
     {
-        $searchClasses = [
-            strtr($modelClass, ['models' => 'searches']) . 'Search',
-            $modelClass . 'Search',
-        ];
-        foreach ($searchClasses as $searchClass) {
-            if (class_exists($searchClass)) {
-                return $searchClass;
-            }
-        }
-        return null;
+        return static::getModelClass($modelClass, ['models' => 'searches'], 'Search');
     }
 
     /**
@@ -60,16 +61,17 @@ class ClassHelper
      */
     public static function getBatchFormClass(string $modelClass): ?string
     {
-        $batchFormClasses = [
-            strtr($modelClass, ['models' => 'forms']) . 'BatchForm',
-            $modelClass . 'BatchForm',
-        ];
-        foreach ($batchFormClasses as $formClass) {
-            if (class_exists($formClass)) {
-                return $formClass;
-            }
-        }
-        return null;
+        return static::getModelClass($modelClass, ['models' => 'forms'], 'BatchForm');
+    }
+
+    /**
+     * @param string $modelClass
+     * @return string|null
+     * @inheritdoc
+     */
+    public static function getImportFormClass(string $modelClass): ?string
+    {
+        return static::getModelClass($modelClass, ['models' => 'forms'], 'FileImportForm');
     }
 
     /**

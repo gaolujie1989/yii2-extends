@@ -6,8 +6,12 @@
 namespace lujie\extend\rest;
 
 use lujie\batch\BatchAction;
+use lujie\data\exchange\actions\FileExportAction;
+use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
+use lujie\upload\actions\UploadAction;
+use lujie\upload\forms\UploadForm;
 use Yii;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
@@ -40,6 +44,26 @@ class ActiveController extends \yii\rest\ActiveController
      * @var string
      */
     public $batchFormClass;
+
+    /**
+     * @var string
+     */
+    public $uploadPath;
+
+    /**
+     * @var string
+     */
+    public $importFormClass;
+
+    /**
+     * @var string
+     */
+    public $importerClass;
+
+    /**
+     * @var string
+     */
+    public $exporterClass;
 
     /**
      * @var bool
@@ -132,15 +156,52 @@ class ActiveController extends \yii\rest\ActiveController
         }
 
         if ($this->batchFormClass) {
-            $actions = array_merge($actions, [
-                'batch-update' => [
-                    'class' => BatchAction::class,
-                    'modelClass' => $this->formClass,
-                    'checkAccess' => [$this, 'checkAccess'],
-                    'batchFormClass' => $this->batchFormClass,
-                    'method' => 'batchUpdate'
+            $actions['batch-update'] = [
+                'class' => BatchAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'batchFormClass' => $this->batchFormClass,
+                'method' => 'batchUpdate'
+            ];
+        }
+
+        if ($this->uploadPath) {
+            $actions['upload'] = [
+                'class' => UploadAction::class,
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'uploadModel' => [
+                    'class' => UploadForm::class,
+                    'path' => $this->uploadPath
                 ]
-            ]);
+            ];
+        }
+
+        if ($this->importFormClass) {
+            $actions['upload'] = [
+                'class' => FileImportAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'importModel' => [
+                    'class' => $this->importFormClass,
+                    'path' => $this->uploadPath
+                ]
+            ];
+            if ($this->importerClass) {
+                $actions['upload']['importModel']['fileImporter'] = $this->importerClass;
+            }
+        }
+
+        if ($this->exporterClass) {
+            $actions[] = [
+                'class' => FileExportAction::class,
+                'modelClass' => $this->searchClass,
+                'queryPreparer' => [
+                    'asArray' => true,
+                ],
+                'fileExporter' => $this->exporterClass,
+                'exportFileName' => ClassHelper::getClassShortName($this->modelClass) . '.xlsx'
+            ];
         }
 
         return $actions;

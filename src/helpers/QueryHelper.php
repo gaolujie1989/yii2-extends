@@ -84,8 +84,9 @@ class QueryHelper
         $alias = $alias ? $alias . '.' : '';
         foreach ($attributeValues as $attribute => $value) {
             if ($value && is_array($value)) {
-                $query->andFilterWhere(['>=', $alias . $attribute, $value[0] ?? ''])
-                    ->andFilterWhere(['<=', $alias . $attribute, $value[1] ?? '']);
+                $aliasAttribute = $alias . $attribute;
+                $query->andFilterWhere(['>=', $aliasAttribute, $value[0] ?? ''])
+                    ->andFilterWhere(['<=', $aliasAttribute, $value[1] ?? '']);
             }
         }
     }
@@ -99,5 +100,51 @@ class QueryHelper
     public static function filterTimestampRange(Query $query, array $timeAttributeValues, string $alias = ''): void
     {
         static::filterRange($query, $timeAttributeValues, $alias);
+    }
+
+    /**
+     * @param Query $query
+     * @param array $attributeValues
+     * @param bool $like
+     * @param false $orLike
+     * @param string $alias
+     * @param string $splitPattern
+     * @inheritdoc
+     */
+    public static function filterValue(Query $query, array $attributeValues,
+                                       $like = true, string $alias = '',
+                                       string $splitPattern = '/[,;\s]/'): void
+    {
+        $alias = $alias ? $alias . '.' : '';
+        foreach ($attributeValues as $attribute => $value) {
+            $aliasAttribute = $alias . $attribute;
+            if (is_array($value)) {
+                $query->andFilterWhere([$aliasAttribute => $value]);
+                continue;
+            }
+
+            $values = preg_split($splitPattern, $value);
+            $values = array_filter(array_map('trim', $values));
+            if (empty($values)) {
+                continue;
+            }
+            if ($like) {
+                if ($like === 'L') {
+                    $values = array_map(static function($v) {
+                        return '%'. $v;
+                    }, $values);
+                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
+                } else if ($like === 'R') {
+                    $values = array_map(static function($v) {
+                        return $v . '%';
+                    }, $values);
+                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
+                } else {
+                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values]);
+                }
+            } else {
+                $query->andFilterWhere([$aliasAttribute => $values]);
+            }
+        }
     }
 }

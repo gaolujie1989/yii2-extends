@@ -43,7 +43,7 @@ class HttpClientHelper
                 return $request->send();
             } catch (Exception $exception) {
                 $try++;
-                if ($try <= $retry) {
+                if ($try <= $retry && strtoupper($request->method) === 'GET') { //only GET method can retry
                     Yii::warning("Http {$request->method} request to {$request->fullUrl} failed and retry {$try}... Message: {$exception->getMessage()}");
                 } else {
                     throw $exception;
@@ -61,7 +61,7 @@ class HttpClientHelper
      * @throws InvalidResponseException
      * @inheritdoc
      */
-    public static function sendRequest(Request $request, array $allowedStatusCodes = [], ?int $retry = 0): Response
+    public static function sendRequest(Request $request, array $allowedStatusCodes = [], ?int $retry = null): Response
     {
         Yii::debug("Send {$request->method} request to {$request->fullUrl}", __METHOD__);
         $response = static::tryRequest($request, $retry);

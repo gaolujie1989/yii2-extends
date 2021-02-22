@@ -815,9 +815,10 @@ class PlentyMarketsRestClient extends OAuth2
     /**
      * @param int $orderId
      * @param int $warehouseId
+     * @param bool $refreshLocationAssignment
      * @inheritdoc
      */
-    public function updateOrderWarehouse(int $orderId, int $warehouseId)
+    public function updateOrderWarehouse(int $orderId, int $warehouseId, bool $refreshLocationAssignment = true): void
     {
         $order = $this->getOrder([
             'id' => $orderId,
@@ -845,18 +846,20 @@ class PlentyMarketsRestClient extends OAuth2
         }
         $batchRequest->send();
 
-        $orderRelations = ArrayHelper::index($order['relations'], 'referenceType');
-        $orderRelations['warehouse']['referenceId'] = $warehouseId;
-        $this->updateOrder([
-            'id' => $orderId,
-            'relations' => array_values($orderRelations),
-            'statusId' => 5.8
-        ]);
-        if ($order['statusId'] !== 5) {
+        if ($refreshLocationAssignment) {
+            $orderRelations = ArrayHelper::index($order['relations'], 'referenceType');
+            $orderRelations['warehouse']['referenceId'] = $warehouseId;
             $this->updateOrder([
                 'id' => $orderId,
-                'statusId' => $order['statusId']
+                'relations' => array_values($orderRelations),
+                'statusId' => 5.8
             ]);
+            if ($order['statusId'] !== 5) {
+                $this->updateOrder([
+                    'id' => $orderId,
+                    'statusId' => $order['statusId']
+                ]);
+            }
         }
     }
 

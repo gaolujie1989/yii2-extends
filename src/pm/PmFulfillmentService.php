@@ -173,6 +173,7 @@ class PmFulfillmentService extends BaseFulfillmentService
 
     public $orderProcessingStatus = 5;
     public $orderCancelledStatus = 8;
+    public $orderCancelledWarehouseId = 0;
     public $orderErrorStatus = 5.33;
     public $orderHoldStatus = 4;
 
@@ -687,7 +688,8 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        if (empty($fulfillmentOrder->external_order_key)) {
+        $pmOrderId = $fulfillmentOrder->external_order_key;
+        if (empty($pmOrderId)) {
             $pmOrder = [
                 'id' => '',
                 'statusId' => $this->orderCancelledStatus
@@ -696,9 +698,12 @@ class PmFulfillmentService extends BaseFulfillmentService
             return true;
         }
 
-        $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_key]);
+        $pmOrder = $this->client->getOrder(['id' => $pmOrderId]);
         if ($this->isOrderAllowCancelled($pmOrder)) {
-            $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderCancelledStatus]);
+            $pmOrder = $this->client->updateOrder(['id' => $pmOrderId, 'statusId' => $this->orderCancelledStatus]);
+            if ($pmOrder['statusId'] === $this->orderCancelledStatus && $this->orderCancelledWarehouseId) {
+                $this->client->updateOrderWarehouse($pmOrderId, $this->orderCancelledWarehouseId, false);
+            }
         }
         $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
         return $pmOrder['statusId'] === $this->orderCancelledStatus

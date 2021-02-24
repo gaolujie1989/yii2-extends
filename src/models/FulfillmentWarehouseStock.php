@@ -22,7 +22,7 @@ use yii\redis\ActiveRecord as RedisActiveRecord;
  * @property int $warehouse_id
  * @property string $external_item_key
  * @property string $external_warehouse_key
- * @property int $available_qty
+ * @property int $stock_qty
  * @property int $reserved_qty
  * @property array|null $stock_additional
  * @property int $external_updated_at
@@ -46,10 +46,10 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'available_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'default', 'value' => 0],
             [['external_item_key', 'external_warehouse_key'], 'default', 'value' => ''],
             [['stock_additional', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'available_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'integer'],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'integer'],
             [['stock_additional', 'additional'], 'safe'],
             [['external_item_key', 'external_warehouse_key'], 'string', 'max' => 50],
             [['item_id', 'warehouse_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['item_id', 'warehouse_id', 'fulfillment_account_id']],
@@ -69,7 +69,7 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
             'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
             'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
             'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
-            'available_qty' => Yii::t('lujie/fulfillment', 'Available Qty'),
+            'stock_qty' => Yii::t('lujie/fulfillment', 'Available Qty'),
             'reserved_qty' => Yii::t('lujie/fulfillment', 'Reserved Qty'),
             'stock_additional' => Yii::t('lujie/fulfillment', 'Stock Additional'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),
@@ -94,7 +94,7 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
     public function fields(): array
     {
         return array_merge(parent::fields(), [
-            'stock_qty' => 'available_qty'  //for compatible
+            'stock_qty' => 'stock_qty'  //for compatible
         ]);
     }
 

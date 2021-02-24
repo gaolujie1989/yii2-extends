@@ -283,7 +283,7 @@ class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
             'warehouse_id' => 1,
             'external_item_key' => 'ITEM_K1',
             'external_warehouse_key' => 'W01',
-            'available_qty' => 1,
+            'stock_qty' => 1,
         ];
         $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
         $fulfillmentItem->refresh();

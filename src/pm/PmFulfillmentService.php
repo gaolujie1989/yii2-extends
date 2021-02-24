@@ -834,7 +834,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentWarehouseStock(FulfillmentWarehouseStock $fulfillmentWarehouseStock, array $externalWarehouseStock): bool
     {
-        $fulfillmentWarehouseStock->available_qty = $externalWarehouseStock['stockPhysical'];
+        $fulfillmentWarehouseStock->stock_qty = $externalWarehouseStock['stockPhysical'];
         $fulfillmentWarehouseStock->reserved_qty = $externalWarehouseStock['reservedStock'];
         $fulfillmentWarehouseStock->external_updated_at = is_numeric($externalWarehouseStock['updatedAt']) ? $externalWarehouseStock['updatedAt'] : strtotime($externalWarehouseStock['updatedAt']);
         $fulfillmentWarehouseStock->stock_additional = $externalWarehouseStock;

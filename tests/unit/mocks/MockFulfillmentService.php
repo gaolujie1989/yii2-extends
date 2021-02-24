@@ -48,12 +48,12 @@ class MockFulfillmentService extends BaseFulfillmentService
         [
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W01',
-            'available_qty' => 1
+            'stock_qty' => 1
         ],
         [
             'itemId' => 'ITEM_K1',
             'warehouseId' => 'W02',
-            'available_qty' => 2
+            'stock_qty' => 2
         ]
     ];
 
@@ -115,12 +115,12 @@ class MockFulfillmentService extends BaseFulfillmentService
             [
                 'itemId' => 'ITEM_K1',
                 'warehouseId' => 'W01',
-                'available_qty' => 1
+                'stock_qty' => 1
             ],
             [
                 'itemId' => 'ITEM_K1',
                 'warehouseId' => 'W02',
-                'available_qty' => 2
+                'stock_qty' => 2
             ]
         ];
 
@@ -405,7 +405,7 @@ class MockFulfillmentService extends BaseFulfillmentService
 
     protected function updateFulfillmentWarehouseStock(FulfillmentWarehouseStock $fulfillmentWarehouseStock, array $externalWarehouseStock): bool
     {
-        $fulfillmentWarehouseStock->available_qty = $externalWarehouseStock['available_qty'];
+        $fulfillmentWarehouseStock->stock_qty = $externalWarehouseStock['stock_qty'];
         return $fulfillmentWarehouseStock->save(false);
     }
 

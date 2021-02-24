@@ -20,7 +20,7 @@ class m190726_095731_fulfillment_warehouse_stock extends Migration
             'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
 
-            'available_qty' => $this->integer()->notNull()->defaultValue(0),
+            'stock_qty' => $this->integer()->notNull()->defaultValue(0),
             'reserved_qty' => $this->integer()->notNull()->defaultValue(0),
             'stock_additional' => $this->json(),
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),

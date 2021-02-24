@@ -459,7 +459,7 @@ class PmFulfillmentServiceTest extends \Codeception\Test\Unit
             'warehouse_id' => 1,
             'external_item_key' => '3508',
             'external_warehouse_key' => '108',
-            'available_qty' => 123,
+            'stock_qty' => 123,
         ];
         $this->assertEquals($expectedStock, $warehouseStock->getAttributes(array_keys($expectedStock)));
         $fulfillmentItem->refresh();

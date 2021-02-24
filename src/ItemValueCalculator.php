@@ -80,7 +80,7 @@ abstract class ItemValueCalculator extends BaseObject
         $newItemValue->inbound_item_qty = $dailyStockMovement->movement_qty;
         $newItemValue->inbound_item_value_cent = $this->getItemValue($dailyStockMovement->item_id, $dailyStockMovement->movement_date);
 
-        $newItemValue->old_item_qty = max($dailyStock->available_qty - $dailyStockMovement->movement_qty, 0);
+        $newItemValue->old_item_qty = max($dailyStock->stock_qty - $dailyStockMovement->movement_qty, 0);
         $oldItemValue = FulfillmentItemValue::find()
             ->warehouseId($dailyStockMovement->warehouse_id)
             ->itemId($dailyStockMovement->item_id)
@@ -89,7 +89,7 @@ abstract class ItemValueCalculator extends BaseObject
             ->one();
         $newItemValue->old_item_value_cent = $oldItemValue === null ? 0 : $oldItemValue->new_item_value_cent;
 
-        $newItemValue->new_item_qty = $dailyStock->available_qty;
+        $newItemValue->new_item_qty = $dailyStock->stock_qty;
         if ($newItemValue->old_item_value_cent && $newItemValue->inbound_item_value_cent && $newItemValue->new_item_qty > 0) {
             $newItemValue->new_item_value_cent = (int)round((
                     ($newItemValue->old_item_value_cent * $newItemValue->old_item_qty)

@@ -105,7 +105,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => '1',
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'available_qty' => '99',
+                'stock_qty' => '99',
                 'stock_date' => '2020-11-11',
             ],
             [
@@ -114,7 +114,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => '1',
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'available_qty' => '94',
+                'stock_qty' => '94',
                 'stock_date' => '2020-11-12',
             ],
             [
@@ -123,7 +123,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => '1',
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'available_qty' => '94',
+                'stock_qty' => '94',
                 'stock_date' => '2020-11-13',
             ],
             [
@@ -132,7 +132,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => '1',
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'available_qty' => '90',
+                'stock_qty' => '90',
                 'stock_date' => '2020-11-14',
             ],
             [
@@ -141,7 +141,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
                 'warehouse_id' => '1',
                 'external_item_key' => 'ITEM-1',
                 'external_warehouse_key' => 'W-1',
-                'available_qty' => '129',
+                'stock_qty' => '129',
                 'stock_date' => '2020-11-15',
             ],
         ];

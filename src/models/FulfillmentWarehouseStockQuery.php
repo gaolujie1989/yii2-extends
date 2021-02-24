@@ -56,7 +56,7 @@ class FulfillmentWarehouseStockQuery extends \yii\db\ActiveQuery
      */
     public function getWarehouseStocks(): array
     {
-        $barcodes = $this->select(['item_id', 'warehouse_id', 'available_qty'])->asArray()->all();
-        return ArrayHelper::map($barcodes, 'warehouse_id', 'available_qty', 'item_id');
+        $barcodes = $this->select(['item_id', 'warehouse_id', 'stock_qty'])->asArray()->all();
+        return ArrayHelper::map($barcodes, 'warehouse_id', 'stock_qty', 'item_id');
     }
 }

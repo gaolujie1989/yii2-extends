@@ -69,7 +69,7 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
             'warehouse_id' => Yii::t('lujie/fulfillment', 'Warehouse ID'),
             'external_item_key' => Yii::t('lujie/fulfillment', 'External Item Key'),
             'external_warehouse_key' => Yii::t('lujie/fulfillment', 'External Warehouse Key'),
-            'stock_qty' => Yii::t('lujie/fulfillment', 'Available Qty'),
+            'stock_qty' => Yii::t('lujie/fulfillment', 'Stock Qty'),
             'reserved_qty' => Yii::t('lujie/fulfillment', 'Reserved Qty'),
             'stock_additional' => Yii::t('lujie/fulfillment', 'Stock Additional'),
             'external_updated_at' => Yii::t('lujie/fulfillment', 'External Updated At'),

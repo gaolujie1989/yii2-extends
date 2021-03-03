@@ -13,6 +13,7 @@ use lujie\extend\helpers\ModelHelper;
 use lujie\upload\actions\UploadAction;
 use lujie\upload\forms\UploadForm;
 use Yii;
+use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 use yii\rest\IndexAction;
@@ -178,7 +179,7 @@ class ActiveController extends \yii\rest\ActiveController
         }
 
         if ($this->importFormClass) {
-            $actions['upload'] = [
+            $actions['import'] = [
                 'class' => FileImportAction::class,
                 'modelClass' => $this->formClass,
                 'checkAccess' => [$this, 'checkAccess'],
@@ -193,7 +194,7 @@ class ActiveController extends \yii\rest\ActiveController
         }
 
         if ($this->exporterClass) {
-            $actions[] = [
+            $actions['export'] = [
                 'class' => FileExportAction::class,
                 'modelClass' => $this->searchClass,
                 'queryPreparer' => [

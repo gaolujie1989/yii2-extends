@@ -25,6 +25,11 @@ class UploadModelFileController extends ActiveController
     public $modelClass = UploadModelFile::class;
 
     /**
+     * @var string
+     */
+    public $formClass = UploadModelFile::class;
+
+    /**
      * @var array
      */
     public $allowedModelTypes = [];

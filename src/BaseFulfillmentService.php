@@ -269,9 +269,10 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     /**
      * get external order by order with order_no
      * @param Order $order
+     * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
      */
-    abstract protected function getExternalOrder(Order $order): ?array;
+    abstract protected function getExternalOrder(Order $order, FulfillmentOrder $fulfillmentOrder): ?array;
 
     /**
      * save external order

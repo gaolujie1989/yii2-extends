@@ -451,10 +451,11 @@ class PmFulfillmentService extends BaseFulfillmentService
 
     /**
      * @param Order $order
+     * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
      * @inheritdoc
      */
-    protected function getExternalOrder(Order $order): ?array
+    protected function getExternalOrder(Order $order, FulfillmentOrder $fulfillmentOrder): ?array
     {
         $externalOrderId = $this->orderNoPrefix . $order->orderNo;
         $eachOrder = $this->client->eachOrders([

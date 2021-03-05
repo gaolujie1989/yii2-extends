@@ -307,7 +307,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $address->lastName = '';
         }
         return ArrayHelper::merge($this->defaultOrderData, [
-            'ref_no' => 'O-' . $order->orderId,
+            'ref_no' => 'FO-' . $fulfillmentOrder->fulfillment_order_id,
             'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
             'sales_no' => $order->orderNo,
             'remark' => $address->additional,
@@ -331,16 +331,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
 
     /**
      * @param Order $order
+     * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
-     * @throws JsonRpcException
      * @inheritdoc
      */
-    protected function getExternalOrder(Order $order): ?array
+    protected function getExternalOrder(Order $order, FulfillmentOrder $fulfillmentOrder): ?array
     {
         if ($order->fulfillmentType === FulfillmentConst::FULFILLMENT_TYPE_INBOUND) {
             return $this->getExternalInbound($order);
         }
-        $outboundList = $this->client->getOutboundList(['ref_no' => 'O-' . $order->orderId]);
+        $outboundList = $this->client->getOutboundList(['ref_no' => 'FO-' . $fulfillmentOrder->fulfillment_order_id]);
         return $outboundList['data'][0] ?? null;
     }
 

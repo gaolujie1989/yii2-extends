@@ -240,10 +240,11 @@ class MockFulfillmentService extends BaseFulfillmentService
 
     /**
      * @param Order $order
+     * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
      * @inheritdoc
      */
-    protected function getExternalOrder(Order $order): ?array
+    protected function getExternalOrder(Order $order, FulfillmentOrder $fulfillmentOrder): ?array
     {
         foreach (static::$EXTERNAL_ORDER_DATA as $externalOrderData) {
             if ($externalOrderData['orderNo'] === $order->orderNo) {

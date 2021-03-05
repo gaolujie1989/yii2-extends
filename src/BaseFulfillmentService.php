@@ -244,7 +244,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
         }
-        if (empty($fulfillmentOrder->external_order_key) && $externalOrder = $this->getExternalOrder($order)) {
+        if (empty($fulfillmentOrder->external_order_key) && $externalOrder = $this->getExternalOrder($order, $fulfillmentOrder)) {
             Yii::info("Order not pushed, but exist in external, update FulfillmentOrder", __METHOD__);
             $this->updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
         }

@@ -109,17 +109,20 @@ class QueryHelper
     /**
      * @param QueryInterface $query
      * @param array $attributeValues
-     * @param false $like
+     * @param bool $like
      * @param string $alias
      * @param string $splitPattern
      * @inheritdoc
      */
     public static function filterValue(QueryInterface $query, array $attributeValues,
-                                       $like = false, string $alias = '',
+                                       bool $like = false, string $alias = '',
                                        string $splitPattern = '/[,;\s]/'): void
     {
         $alias = $alias ? $alias . '.' : '';
         foreach ($attributeValues as $attribute => $value) {
+            if (ValueHelper::isEmpty($value)) {
+                continue;
+            }
             $aliasAttribute = $alias . $attribute;
             if (is_array($value)) {
                 $query->andFilterWhere([$aliasAttribute => $value]);
@@ -148,6 +151,64 @@ class QueryHelper
             } else {
                 $query->andFilterWhere([$aliasAttribute => $values]);
             }
+        }
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param array $attributes
+     * @param $value
+     * @param false $like
+     * @param string $alias
+     * @param string $splitPattern
+     * @inheritdoc
+     */
+    public static function filterKey(QueryInterface $query, array $attributes, $value,
+                                        $like = false, string $alias = '',
+                                        string $splitPattern = '/[,;\s]/'): void
+    {
+        if (ValueHelper::isEmpty($value)) {
+            return;
+        }
+        $alias = $alias ? $alias . '.' : '';
+        $condition = ['OR'];
+        if (is_array($value)) {
+            foreach ($attributes as $attribute) {
+                $aliasAttribute = $alias . $attribute;
+                $condition[] = [$aliasAttribute => $value];
+            }
+            $query->andFilterWhere($condition);
+            return;
+        }
+        $values = preg_split($splitPattern, $value, -1, PREG_SPLIT_NO_EMPTY);
+        $values = array_filter(array_map('trim', $values));
+        if (empty($values)) {
+            return;
+        }
+        if ($like) {
+            foreach ($attributes as $attribute) {
+                $aliasAttribute = $alias . $attribute;
+                if ($like === 'L') {
+                    $values = array_map(static function ($v) {
+                        return '%' . $v;
+                    }, $values);
+                    $condition[] = ['OR LIKE', $aliasAttribute, $values, false];
+                } else if ($like === 'R') {
+                    $values = array_map(static function ($v) {
+                        return $v . '%';
+                    }, $values);
+                    $condition[] = ['OR LIKE', $aliasAttribute, $values, false];
+                } else {
+                    $condition[] = ['OR LIKE', $aliasAttribute, $values];
+                }
+            }
+            $query->andFilterWhere($condition);
+        } else {
+            foreach ($attributes as $attribute) {
+                $aliasAttribute = $alias . $attribute;
+                $condition[] = [$aliasAttribute => $value];
+            }
+            $query->andFilterWhere($condition);
         }
     }
 }

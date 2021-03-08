@@ -6,8 +6,10 @@
 namespace lujie\scheduling\monitor\searches;
 
 
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
 use lujie\scheduling\monitor\models\ScheduleTask;
-use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class ScheduleTaskSearch
@@ -16,26 +18,15 @@ use yii\db\ActiveQuery;
  */
 class ScheduleTaskSearch extends ScheduleTask
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        return [
-            [['task_code', 'task_group', 'status'], 'safe']
-        ];
-    }
+    use SearchTrait;
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQueryInterface
      * @inheritdoc
      */
-    public function query(): ActiveQuery
+    public function query(): ActiveQueryInterface
     {
-        return static::find()->andFilterWhere([
-            'task_code' => $this->task_code,
-            'task_group' => $this->task_group,
-            'status' => $this->status,
-        ])->addOrderBy(['position' => SORT_ASC]);
+        $query = ModelHelper::query($this);
+        return $query->addOrderBy(['position' => SORT_ASC]);
     }
 }

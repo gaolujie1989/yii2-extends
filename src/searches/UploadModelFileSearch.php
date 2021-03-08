@@ -2,8 +2,12 @@
 
 namespace lujie\upload\searches;
 
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
 use lujie\upload\models\UploadModelFile;
 use lujie\upload\models\UploadModelFileQuery;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class UploadSavedFileSearch
@@ -12,29 +16,26 @@ use lujie\upload\models\UploadModelFileQuery;
  */
 class UploadModelFileSearch extends UploadModelFile
 {
+    use SearchTrait;
+
     /**
      * @return array
      * @inheritdoc
      */
     public function rules(): array
     {
-        return [
-            [['model_id', 'model_parent_id', 'name', 'ext'], 'safe'],
-        ];
+        return array_merge(ModelHelper::searchRules($this), [
+            [['ext'], 'safe'],
+        ]);
     }
 
     /**
-     * @return UploadModelFileQuery
-     * @inheritdoc
+     * @return ActiveQueryInterface|UploadModelFileQuery
      */
-    public function query(): UploadModelFileQuery
+    public function query(): ActiveQueryInterface
     {
-        return static::find()
-            ->andFilterWhere(['LIKE', 'name', $this->name])
-            ->andFilterWhere([
-                'model_id' => $this->model_id,
-                'model_parent_id' => $this->model_parent_id,
-                'ext' => $this->ext
-            ]);
+        $query = ModelHelper::query($this);
+        QueryHelper::filterValue($query, $this->getAttributes(['ext']));
+        return $query;
     }
 }

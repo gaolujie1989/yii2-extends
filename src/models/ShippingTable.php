@@ -2,9 +2,6 @@
 
 namespace lujie\charging\models;
 
-use lujie\alias\behaviors\MoneyAliasBehavior;
-use lujie\alias\behaviors\TimestampAliasBehavior;
-use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -66,59 +63,6 @@ class ShippingTable extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'money' => [
-                'class' => MoneyAliasBehavior::class,
-                'aliasProperties' => [
-                    'price' => 'price_cent',
-                ]
-            ],
-            'unitWeight' => [
-                'class' => UnitAliasBehavior::class,
-                'baseUnit' => 'g',
-                'displayUnit' => 'kg',
-                'aliasProperties' => [
-                    'weight_kg_limit' => 'weight_g_limit',
-                ]
-            ],
-            'unitSize' => [
-                'class' => UnitAliasBehavior::class,
-                'baseUnit' => 'mm',
-                'displayUnit' => 'cm',
-                'aliasProperties' => [
-                    'length_cm_limit' => 'length_mm_limit',
-                    'width_cm_limit' => 'width_mm_limit',
-                    'height_cm_limit' => 'height_mm_limit',
-                    'height_cm_min_limit' => 'height_mm_min_limit',
-                    'l2wh_cm_limit' => 'l2wh_mm_limit',
-                    'lwh_cm_limit' => 'lwh_mm_limit',
-                    'lh_cm_limit' => 'lh_mm_limit',
-                ]
-            ],
-            'unitVolume' => [
-                'class' => UnitAliasBehavior::class,
-                'baseUnit' => 'mm3',
-                'displayUnit' => 'dm3',
-                'aliasProperties' => [
-                    'volume_l_limit' => 'volume_mm3_limit',
-                ]
-            ],
-            'timestamp' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'started_time' => 'started_at',
-                    'ended_time' => 'ended_at',
-                ]
-            ]
-        ]);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -152,28 +96,5 @@ class ShippingTable extends \yii\db\ActiveRecord
     public static function find(): ShippingTableQuery
     {
         return new ShippingTableQuery(static::class);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'id' => 'id',
-            'price' => 'price',
-            'weight_kg_limit' => 'weight_kg_limit',
-            'length_cm_limit' => 'length_cm_limit',
-            'width_cm_limit' => 'width_cm_limit',
-            'height_cm_limit' => 'height_cm_limit',
-            'height_cm_min_limit' => 'height_cm_min_limit',
-            'l2wh_cm_limit' => 'l2wh_cm_limit',
-            'lwh_cm_limit' => 'lwh_cm_limit',
-            'lh_cm_limit' => 'lh_cm_limit',
-            'volume_l_limit' => 'volume_l_limit',
-            'started_time' => 'started_time',
-            'ended_time' => 'ended_time',
-        ]);
     }
 }

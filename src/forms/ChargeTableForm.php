@@ -6,16 +6,30 @@
 namespace lujie\charging\forms;
 
 
+use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\alias\behaviors\MoneyAliasBehavior;
+use lujie\alias\behaviors\TimestampAliasBehavior;
+use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\charging\models\ChargeTable;
+use lujie\extend\base\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 
 /**
  * Class ChargeTableForm
+ *
+ * @property int $display_min_limit
+ * @property int $display_max_limit
+ * @property int $display_per_limit
+ * @property int $display_min_over_limit
+ * @property int $display_max_over_limit
+ *
  * @package lujie\charging\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class ChargeTableForm extends ChargeTable
 {
+    use FormTrait;
+
     /**
      * @var array
      */
@@ -31,15 +45,54 @@ class ChargeTableForm extends ChargeTable
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        $attributes = [
-            'price_cent', 'over_limit_price_cent',
-            'limit_unit', 'min_limit', 'max_limit', 'per_limit',
-            'min_over_limit', 'max_over_limit',
-            'started_at', 'ended_at', 'additional'
-        ];
-        ModelHelper::removeAttributesRules($rules, $attributes);
+        $rules = ModelHelper::formRules($this, parent::rules());
+        ModelHelper::removeAttributesRules($rules, ['limit_unit']);
         return $rules;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'money' => [
+                'class' => MoneyAliasBehavior::class,
+                'aliasProperties' => [
+                    'price' => 'price_cent',
+                    'over_limit_price' => 'over_limit_price_cent',
+                ]
+            ],
+            'alias' => [
+                'class' => AliasPropertyBehavior::class,
+                'aliasProperties' => [
+                    'discountPercent' => 'additional.discountPercent',
+                ],
+                'aliasDefaults' => [
+                    'discountPercent' => 0,
+                ]
+            ],
+            'unit' => [
+                'class' => UnitAliasBehavior::class,
+                'baseUnitAttribute' => 'limit_unit',
+                'displayUnitAttribute' => 'display_limit_unit',
+                'aliasProperties' => [
+                    'display_min_limit' => 'min_limit',
+                    'display_max_limit' => 'max_limit',
+                    'display_per_limit' => 'per_limit',
+                    'display_min_over_limit' => 'min_over_limit',
+                    'display_max_over_limit' => 'max_over_limit',
+                ]
+            ],
+            'timestamp' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'started_time' => 'started_at',
+                    'ended_time' => 'ended_at',
+                ]
+            ]
+        ]);
     }
 
     /**

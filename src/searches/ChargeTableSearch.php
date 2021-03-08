@@ -5,9 +5,12 @@
 
 namespace lujie\charging\searches;
 
-
+use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\charging\models\ChargeTable;
 use lujie\charging\models\ChargeTableQuery;
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class ChargeTableSearch
@@ -16,6 +19,11 @@ use lujie\charging\models\ChargeTableQuery;
  */
 class ChargeTableSearch extends ChargeTable
 {
+    use SearchTrait;
+
+    /**
+     * @var string
+     */
     public $activeAt;
 
     /**
@@ -24,28 +32,50 @@ class ChargeTableSearch extends ChargeTable
      */
     public function rules(): array
     {
-        return [
-            [['charge_group', 'charge_type', 'custom_type', 'owner_id'], 'safe'],
+        return array_merge(ModelHelper::searchRules($this), [
             [['activeAt'], 'date'],
-        ];
+        ]);
     }
 
     /**
-     * @return ChargeTableQuery
+     * @return ActiveQueryInterface|ChargeTableQuery
      * @inheritdoc
      */
-    public function query(): ChargeTableQuery
+    public function query(): ActiveQueryInterface
     {
-        $query = static::find()->andFilterWhere([
-            'charge_group' => $this->charge_group,
-            'charge_type' => $this->charge_type,
-            'custom_type' => $this->custom_type,
-            'owner_id' => $this->owner_id,
-        ]);
+        $query = ModelHelper::query($this);
         if ($this->activeAt) {
             $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
                 ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);
         }
         return $query;
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row): array
+    {
+        $alias = [
+            'price' => 'price_cent',
+            'over_limit_price' => 'over_limit_price_cent',
+            'discountPercent' => 'additional.discountPercent',
+            'started_time' => 'started_at',
+            'ended_time' => 'ended_at',
+        ];
+        $unitAlias = [
+            'display_min_limit' => 'min_limit',
+            'display_max_limit' => 'max_limit',
+            'display_per_limit' => 'per_limit',
+            'display_min_over_limit' => 'min_over_limit',
+            'display_max_over_limit' => 'max_over_limit',
+        ];
+        $row = ModelHelper::prepareArray($row, static::class, $alias);
+        foreach ($unitAlias as $to => $from) {
+            $row[$to] = UnitAliasBehavior::convert($row[$from], $row['limit_unit'], $row['display_limit_unit']);
+        }
+        return $row;
     }
 }

@@ -9,6 +9,7 @@ use lujie\extend\db\OffsetBatchQueryResult;
 use Yii;
 use yii\db\BatchQueryResult;
 use yii\db\Query;
+use yii\db\QueryInterface;
 
 /**
  * Class QueryHelper
@@ -26,7 +27,9 @@ class QueryHelper
     {
         [$sql, $params] = Yii::$app->getDb()->getQueryBuilder()->build($query);
         foreach ($params as $key => $param) {
-            $params[$key] = '\'' . $param . '\'';
+            if (is_string($param)) {
+                $params[$key] = '\'' . $param . '\'';
+            }
         }
         $params = array_merge($params, ['{{%' => '', '{{' => '', '}}' => '', '[[' => '', ']]' => '']);
         return strtr($sql, $params);
@@ -75,11 +78,12 @@ class QueryHelper
     }
 
     /**
-     * @param Query $query
+     * @param QueryInterface $query
      * @param array $attributeValues
      * @param string $alias
+     * @inheritdoc
      */
-    public static function filterRange(Query $query, array $attributeValues, string $alias = ''): void
+    public static function filterRange(QueryInterface $query, array $attributeValues, string $alias = ''): void
     {
         $alias = $alias ? $alias . '.' : '';
         foreach ($attributeValues as $attribute => $value) {
@@ -95,7 +99,7 @@ class QueryHelper
      * @param Query $query
      * @param array $timeAttributeValues
      * @param string $alias
-     * @deprecated
+     * @deprecated use filterRange instead
      */
     public static function filterTimestampRange(Query $query, array $timeAttributeValues, string $alias = ''): void
     {
@@ -103,15 +107,14 @@ class QueryHelper
     }
 
     /**
-     * @param Query $query
+     * @param QueryInterface $query
      * @param array $attributeValues
-     * @param bool $like
-     * @param false $orLike
+     * @param false $like
      * @param string $alias
      * @param string $splitPattern
      * @inheritdoc
      */
-    public static function filterValue(Query $query, array $attributeValues,
+    public static function filterValue(QueryInterface $query, array $attributeValues,
                                        $like = false, string $alias = '',
                                        string $splitPattern = '/[,;\s]/'): void
     {
@@ -130,12 +133,12 @@ class QueryHelper
             }
             if ($like) {
                 if ($like === 'L') {
-                    $values = array_map(static function($v) {
-                        return '%'. $v;
+                    $values = array_map(static function ($v) {
+                        return '%' . $v;
                     }, $values);
                     $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
                 } else if ($like === 'R') {
-                    $values = array_map(static function($v) {
+                    $values = array_map(static function ($v) {
                         return $v . '%';
                     }, $values);
                     $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);

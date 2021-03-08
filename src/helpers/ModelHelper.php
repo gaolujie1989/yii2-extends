@@ -6,7 +6,12 @@
 namespace lujie\extend\helpers;
 
 
+use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
+use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
+use yii\db\BaseActiveRecord;
+use yii\db\Query;
 
 class ModelHelper
 {
@@ -94,5 +99,95 @@ class ModelHelper
             return $modelClass::findOne($id);
         }
         return null;
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @param ActiveQueryInterface|null $query
+     * @param string $alias
+     * @param array|string[] $filterKeySuffixes
+     * @param array|string[] $likeKeySuffixes
+     * @param array|string[] $rangeKeySuffixes
+     * @return ActiveQueryInterface
+     * @inheritdoc
+     */
+    public static function query(BaseActiveRecord $model,
+                                 ActiveQueryInterface $query = null,
+                                 string $alias = '',
+                                 array $filterKeySuffixes = ['id', 'type', 'status'],
+                                 array $likeKeySuffixes = ['no', 'key', 'code', 'name', 'title'],
+                                 array $rangeKeySuffixes = ['at', 'date', 'time']): ActiveQueryInterface
+    {
+        $filterAttributes = [];
+        $likeAttributes = [];
+        $rangeAttributes = [];
+        foreach ($model->attributes() as $attribute) {
+            foreach ($filterKeySuffixes as $keySuffix) {
+                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
+                    $filterAttributes[] = $attribute;
+                    continue;
+                }
+            }
+            foreach ($likeKeySuffixes as $keySuffix) {
+                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
+                    $likeAttributes[] = $attribute;
+                    continue;
+                }
+            }
+            foreach ($rangeKeySuffixes as $keySuffix) {
+                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
+                    $rangeAttributes[] = $attribute;
+                    continue;
+                }
+            }
+        }
+        $query = $query ?: $model::find();
+        if ($filterAttributes) {
+            QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), false, $alias);
+        }
+        if ($likeAttributes) {
+            QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), true, $alias);
+        }
+        if ($rangeAttributes) {
+            QueryHelper::filterRange($query, $model->getAttributes($rangeAttributes), $alias);
+        }
+        return $query;
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @param array|string[] $filterKeySuffixes
+     * @param array|string[] $datetimeKeySuffixes
+     * @return array
+     * @inheritdoc
+     */
+    public static function searchRules(BaseActiveRecord $model,
+                                       array $filterKeySuffixes = ['id', 'type', 'status', 'no', 'key', 'code', 'name', 'title'],
+                                       array $datetimeKeySuffixes = ['at', 'date', 'time']): array
+    {
+        $filterAttributes = [];
+        $datetimeAttributes = [];
+        foreach ($model->attributes() as $attribute) {
+            foreach ($filterKeySuffixes as $keySuffix) {
+                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
+                    $filterAttributes[] = $attribute;
+                    continue;
+                }
+            }
+            foreach ($datetimeKeySuffixes as $keySuffix) {
+                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
+                    $datetimeAttributes[] = $attribute;
+                    continue;
+                }
+            }
+        }
+        $rules = [];
+        if ($filterAttributes) {
+            $rules[] = [$filterAttributes, 'safe'];
+        }
+        if ($datetimeAttributes) {
+            $rules[] = [$datetimeAttributes, 'each', 'rule' => ['date']];
+        }
+        return $rules;
     }
 }

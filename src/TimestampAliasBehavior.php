@@ -6,6 +6,8 @@
 namespace lujie\alias\behaviors;
 
 
+use yii\helpers\StringHelper;
+
 /**
  * Class TimestampAliasBehavior
  * @package lujie\core\behaviors
@@ -43,7 +45,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty(string $name)
     {
         $value = parent::getAliasProperty($name);
-        if (substr($name, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
+        if (StringHelper::endsWith($name, $this->timestampSuffix)) {
             return $this->getTimestamp($value);
         } else {
             return $this->getDatetime($value);
@@ -59,7 +61,7 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     public function setAliasProperty(string $name, $value): void
     {
         $property = $this->aliasProperties[$name];
-        if (substr($property, -strlen($this->timestampSuffix)) === $this->timestampSuffix) {
+        if (StringHelper::endsWith($property, $this->timestampSuffix)) {
             $value = $this->getTimestamp($value);
         } else {
             $value = $this->getDatetime($value);

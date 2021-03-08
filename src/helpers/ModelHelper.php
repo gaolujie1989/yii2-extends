@@ -14,6 +14,7 @@ use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
 /**
@@ -118,7 +119,7 @@ class ModelHelper
      */
     private static function filterAttributes(BaseActiveRecord $model, array $keys, bool $prefix = true): array
     {
-        return array_filter($model->attributes(), static function($attribute) use ($keys, $prefix) {
+        return array_filter($model->attributes(), static function ($attribute) use ($keys, $prefix) {
             foreach ($keys as $key) {
                 if ($attribute === $key
                     || ($prefix && StringHelper::startsWith($attribute, $key . '_', true))
@@ -144,7 +145,7 @@ class ModelHelper
     public static function query(BaseActiveRecord $model,
                                  ActiveQueryInterface $query = null,
                                  string $alias = '',
-                                 array $filterKeySuffixes = ['id', 'type', 'status'],
+                                 array $filterKeySuffixes = ['id', 'type', 'group', 'status'],
                                  array $likeKeySuffixes = ['no', 'key', 'code', 'name', 'title'],
                                  array $rangeKeySuffixes = ['at', 'date', 'time']): ActiveQueryInterface
     {
@@ -173,7 +174,7 @@ class ModelHelper
      * @inheritdoc
      */
     public static function searchRules(BaseActiveRecord $model,
-                                       array $filterKeySuffixes = ['id', 'type', 'status', 'no', 'key', 'code', 'name', 'title'],
+                                       array $filterKeySuffixes = ['id', 'type', 'group', 'status', 'no', 'key', 'code', 'name', 'title'],
                                        array $datetimeKeySuffixes = ['at', 'date', 'time']): array
     {
         $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
@@ -196,9 +197,8 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function formRules(BaseActiveRecord $model, array $rules = [], array $removeKeySuffixes = ['at', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']): array
+    public static function formRules(BaseActiveRecord $model, array $rules, array $removeKeySuffixes = ['at', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']): array
     {
-        $rules = $rules ?: $model->rules();
         $removeRuleAttributes = static::filterAttributes($model, $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];
 
@@ -219,7 +219,7 @@ class ModelHelper
                 $aliasSafeRules[] = $behavior->relations;
             }
         }
-        if ($removeRuleAttributes){
+        if ($removeRuleAttributes) {
             static::removeAttributesRules($rules, array_merge(...$removeRuleAttributes));
         }
         if ($aliasSafeRules) {
@@ -233,5 +233,47 @@ class ModelHelper
         }
 
         return $rules;
+    }
+
+    /**
+     * @param array $row
+     * @param string|BaseActiveRecord $class
+     * @param array $aliasProperties
+     * @param array $relations
+     * @param string[] $unsetAttributes
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row, string $class,
+                                        array $aliasProperties = [], array $relations = [],
+                                        $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']): array
+    {
+        $pks = $class::primaryKey();
+        $pk = $pks[0];
+        $row['id'] = $row[$pk];
+        foreach ($unsetAttributes as $unsetAttribute) {
+            unset($row[$unsetAttribute]);
+        }
+        foreach ($aliasProperties as $alias => $attribute) {
+            $row[$alias] = ArrayHelper::getValue($row, $attribute);
+        }
+        /**
+         * @var string $relation
+         * @var BaseActiveRecord $relationClass
+         */
+        foreach ($relations as $relation => $relationClass) {
+            if (empty($row[$relation])) {
+                continue;
+            }
+            if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation
+                $row[$relation] = static::prepareArray($row[$relation], $relationClass);
+            } else {
+                foreach ($row[$relation] as $index => $value) {
+                    $row[$relation][$index] = static::prepareArray($value, $relationClass);
+                }
+            }
+        }
+        return $row;
     }
 }

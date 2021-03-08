@@ -7,7 +7,6 @@ namespace lujie\extend\base;
 
 
 use lujie\extend\helpers\ModelHelper;
-use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
@@ -35,15 +34,20 @@ trait SearchTrait
         ]);
     }
 
+    public function query(): ActiveQueryInterface
+    {
+        /** @var $this BaseActiveRecord */
+        return ModelHelper::query($this);
+    }
+
     /**
      * @param array $row
      * @return array
+     * @throws \Exception
      * @inheritdoc
      */
     public static function prepareArray(array $row): array
     {
-        $pk = static::primaryKey();
-        $row['id'] = $row[$pk[0]];
-        return $row;
+        return ModelHelper::prepareArray($row, static::class);
     }
 }

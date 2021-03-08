@@ -7,7 +7,6 @@ namespace lujie\extend\base;
 
 
 use lujie\extend\helpers\ModelHelper;
-use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -24,6 +23,6 @@ trait FormTrait
     public function rules(): array
     {
         /** @var $this BaseActiveRecord */
-        return ModelHelper::formRules($this);
+        return ModelHelper::formRules($this, parent::rules());
     }
 }

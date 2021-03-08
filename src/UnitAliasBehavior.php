@@ -134,7 +134,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
         $this->initUnit();
         $value = parent::getAliasProperty($name);
         if (is_numeric($value)) {
-            return $this->convert($value, $this->baseUnit, $this->displayUnit);
+            return static::convert($value, $this->baseUnit, $this->displayUnit);
         }
         return $value;
     }
@@ -151,7 +151,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
             $value = strtr($value, [',' => '.']);
         }
         if (is_numeric($value)) {
-            $value = $this->convert($value, $this->displayUnit, $this->baseUnit);
+            $value = static::convert($value, $this->displayUnit, $this->baseUnit);
         }
         parent::setAliasProperty($name, $value);
     }
@@ -163,7 +163,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
      * @return float|int
      * @inheritdoc
      */
-    public function convert($value, string $from, string $to)
+    public static function convert($value, string $from, string $to)
     {
         $from = strtolower($from);
         $to = strtolower($to);

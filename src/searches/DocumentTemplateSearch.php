@@ -2,8 +2,8 @@
 
 namespace lujie\template\document\searches;
 
+use lujie\extend\base\SearchTrait;
 use lujie\template\document\models\DocumentTemplate;
-use lujie\template\document\models\DocumentTemplateQuery;
 
 /**
  * Class DocumentTemplateSearch
@@ -12,23 +12,5 @@ use lujie\template\document\models\DocumentTemplateQuery;
  */
 class DocumentTemplateSearch extends DocumentTemplate
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function rules(): array
-    {
-        return [
-            [['reference_id', 'document_type'], 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function query(): DocumentTemplateQuery
-    {
-        return static::find()->andFilterWhere([
-            $this->getAttributes(['reference_id', 'document_type'])
-        ]);
-    }
+    use SearchTrait;
 }

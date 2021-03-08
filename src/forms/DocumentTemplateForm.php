@@ -2,7 +2,8 @@
 
 namespace lujie\template\document\forms;
 
-use lujie\extend\helpers\ModelRuleHelper;
+use lujie\extend\base\FormTrait;
+use lujie\extend\helpers\ModelHelper;
 use lujie\template\document\models\DocumentTemplate;
 use yii\base\InvalidArgumentException;
 use yii2tech\ar\position\PositionBehavior;
@@ -14,13 +15,15 @@ use yii2tech\ar\position\PositionBehavior;
  */
 class DocumentTemplateForm extends DocumentTemplate
 {
+    use FormTrait;
+
     /**
      * {@inheritdoc}
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        $rules = ModelRuleHelper::removeAttributesRules($rules, ['document_type', 'reference_id', 'position']);
+        $rules = ModelHelper::searchRules($this, parent::rules());
+        $rules = ModelHelper::removeAttributesRules($rules, ['document_type', 'reference_id', 'position']);
         return $rules;
     }
 

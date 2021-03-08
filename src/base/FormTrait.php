@@ -25,4 +25,13 @@ trait FormTrait
         /** @var $this BaseActiveRecord */
         return ModelHelper::formRules($this, parent::rules());
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), ModelHelper::aliasFields($this));
+    }
 }

@@ -48,6 +48,6 @@ trait SearchTrait
      */
     public static function prepareArray(array $row): array
     {
-        return ModelHelper::prepareArray($row, static::class);
+        return ModelHelper::prepareArray($row, static::class,);
     }
 }

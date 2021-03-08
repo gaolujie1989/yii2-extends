@@ -191,6 +191,56 @@ class ModelHelper
     }
 
     /**
+     * @param array $row
+     * @param string|BaseActiveRecord $class
+     * @param array $aliasProperties
+     * @param array $relations
+     * @param string[] $unsetAttributes
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row, string $class,
+                                        array $aliasProperties = [],
+                                        array $relations = [],
+                                        $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']): array
+    {
+        $pks = $class::primaryKey();
+        $pk = $pks[0];
+        $row['id'] = $row[$pk];
+        foreach ($unsetAttributes as $unsetAttribute) {
+            unset($row[$unsetAttribute]);
+        }
+        foreach ($aliasProperties as $aliasType => $properties) {
+            foreach ($properties as $property => $attribute) {
+                $row[$property] = ArrayHelper::getValue($row, $attribute);
+                if (StringHelper::endsWith($attribute, '_at')) {
+                    $row[$property] = date('Y-m-d H:i:s', $row[$property]);
+                } else if (StringHelper::endsWith($attribute, '_cent')) {
+                    $row[$property] /= 100;
+                }
+            }
+        }
+        /**
+         * @var string $relation
+         * @var BaseActiveRecord $relationClass
+         */
+        foreach ($relations as $relation => $relationClass) {
+            if (empty($row[$relation])) {
+                continue;
+            }
+            if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation
+                $row[$relation] = static::prepareArray($row[$relation], $relationClass);
+            } else {
+                foreach ($row[$relation] as $index => $value) {
+                    $row[$relation][$index] = static::prepareArray($value, $relationClass);
+                }
+            }
+        }
+        return $row;
+    }
+
+    /**
      * @param BaseActiveRecord $model
      * @param array $rules
      * @param array|string[] $removeKeySuffixes
@@ -236,44 +286,22 @@ class ModelHelper
     }
 
     /**
-     * @param array $row
-     * @param string|BaseActiveRecord $class
-     * @param array $aliasProperties
-     * @param array $relations
-     * @param string[] $unsetAttributes
+     * @param BaseActiveRecord $model
      * @return array
-     * @throws \Exception
      * @inheritdoc
      */
-    public static function prepareArray(array $row, string $class,
-                                        array $aliasProperties = [], array $relations = [],
-                                        $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']): array
+    public static function aliasFields(BaseActiveRecord $model): array
     {
-        $pks = $class::primaryKey();
-        $pk = $pks[0];
-        $row['id'] = $row[$pk];
-        foreach ($unsetAttributes as $unsetAttribute) {
-            unset($row[$unsetAttribute]);
-        }
-        foreach ($aliasProperties as $alias => $attribute) {
-            $row[$alias] = ArrayHelper::getValue($row, $attribute);
-        }
-        /**
-         * @var string $relation
-         * @var BaseActiveRecord $relationClass
-         */
-        foreach ($relations as $relation => $relationClass) {
-            if (empty($row[$relation])) {
-                continue;
-            }
-            if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation
-                $row[$relation] = static::prepareArray($row[$relation], $relationClass);
-            } else {
-                foreach ($row[$relation] as $index => $value) {
-                    $row[$relation][$index] = static::prepareArray($value, $relationClass);
-                }
+        $aliasFields = [];
+        foreach ($model->getBehaviors() as $behavior) {
+            if ($behavior instanceof AliasPropertyBehavior) {
+                $aliasProperties = array_keys($behavior->aliasProperties);
+                $aliasFields[] = array_combine($aliasProperties, $aliasProperties);
             }
         }
-        return $row;
+        if ($aliasFields) {
+            return array_merge(...$aliasFields);
+        }
+        return [];
     }
 }

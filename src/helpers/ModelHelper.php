@@ -6,13 +6,21 @@
 namespace lujie\extend\helpers;
 
 
-use yii\db\ActiveQuery;
+use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\alias\behaviors\MoneyAliasBehavior;
+use lujie\alias\behaviors\TimestampAliasBehavior;
+use lujie\alias\behaviors\UnitAliasBehavior;
+use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use yii\db\ActiveQueryInterface;
-use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
-use yii\db\Query;
+use yii\helpers\StringHelper;
 
+/**
+ * Class ModelHelper
+ * @package lujie\extend\helpers
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class ModelHelper
 {
     /**
@@ -103,6 +111,28 @@ class ModelHelper
 
     /**
      * @param BaseActiveRecord $model
+     * @param array $keys
+     * @param bool $prefix
+     * @return array
+     * @inheritdoc
+     */
+    private static function filterAttributes(BaseActiveRecord $model, array $keys, bool $prefix = true): array
+    {
+        return array_filter($model->attributes(), static function($attribute) use ($keys, $prefix) {
+            foreach ($keys as $key) {
+                if ($attribute === $key
+                    || ($prefix && StringHelper::startsWith($attribute, $key . '_', true))
+                    || (!$prefix && StringHelper::endsWith($attribute, '_' . $key, true))) {
+                    $filterAttributes[] = $attribute;
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    /**
+     * @param BaseActiveRecord $model
      * @param ActiveQueryInterface|null $query
      * @param string $alias
      * @param array|string[] $filterKeySuffixes
@@ -118,29 +148,10 @@ class ModelHelper
                                  array $likeKeySuffixes = ['no', 'key', 'code', 'name', 'title'],
                                  array $rangeKeySuffixes = ['at', 'date', 'time']): ActiveQueryInterface
     {
-        $filterAttributes = [];
-        $likeAttributes = [];
-        $rangeAttributes = [];
-        foreach ($model->attributes() as $attribute) {
-            foreach ($filterKeySuffixes as $keySuffix) {
-                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
-                    $filterAttributes[] = $attribute;
-                    continue;
-                }
-            }
-            foreach ($likeKeySuffixes as $keySuffix) {
-                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
-                    $likeAttributes[] = $attribute;
-                    continue;
-                }
-            }
-            foreach ($rangeKeySuffixes as $keySuffix) {
-                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
-                    $rangeAttributes[] = $attribute;
-                    continue;
-                }
-            }
-        }
+        $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
+        $likeAttributes = static::filterAttributes($model, $likeKeySuffixes, false);
+        $rangeAttributes = static::filterAttributes($model, $rangeKeySuffixes, false);
+
         $query = $query ?: $model::find();
         if ($filterAttributes) {
             QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), false, $alias);
@@ -165,22 +176,9 @@ class ModelHelper
                                        array $filterKeySuffixes = ['id', 'type', 'status', 'no', 'key', 'code', 'name', 'title'],
                                        array $datetimeKeySuffixes = ['at', 'date', 'time']): array
     {
-        $filterAttributes = [];
-        $datetimeAttributes = [];
-        foreach ($model->attributes() as $attribute) {
-            foreach ($filterKeySuffixes as $keySuffix) {
-                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
-                    $filterAttributes[] = $attribute;
-                    continue;
-                }
-            }
-            foreach ($datetimeKeySuffixes as $keySuffix) {
-                if ($attribute === $keySuffix || substr($attribute, -(strlen($keySuffix) + 1)) === '_' . $keySuffix) {
-                    $datetimeAttributes[] = $attribute;
-                    continue;
-                }
-            }
-        }
+        $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
+        $datetimeAttributes = static::filterAttributes($model, $datetimeKeySuffixes, false);
+
         $rules = [];
         if ($filterAttributes) {
             $rules[] = [$filterAttributes, 'safe'];
@@ -188,6 +186,52 @@ class ModelHelper
         if ($datetimeAttributes) {
             $rules[] = [$datetimeAttributes, 'each', 'rule' => ['date']];
         }
+        return $rules;
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @param array $rules
+     * @param array|string[] $removeKeySuffixes
+     * @return array
+     * @inheritdoc
+     */
+    public static function formRules(BaseActiveRecord $model, array $rules = [], array $removeKeySuffixes = ['at', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']): array
+    {
+        $rules = $rules ?: $model->rules();
+        $removeRuleAttributes = static::filterAttributes($model, $removeKeySuffixes, false);
+        $removeRuleAttributes = [$removeRuleAttributes];
+
+        $aliasSafeRules = [];
+        $aliasNumberRules = [];
+        $aliasDatetimeRules = [];
+        foreach ($model->getBehaviors() as $behavior) {
+            if ($behavior instanceof AliasPropertyBehavior) {
+                $removeRuleAttributes[] = $behavior->aliasProperties;
+                if ($behavior instanceof MoneyAliasBehavior || $behavior instanceof UnitAliasBehavior) {
+                    $aliasNumberRules[] = array_keys($behavior->aliasProperties);
+                } else if ($behavior instanceof TimestampAliasBehavior) {
+                    $aliasDatetimeRules[] = array_keys($behavior->aliasProperties);
+                } else {
+                    $aliasSafeRules[] = array_keys($behavior->aliasProperties);
+                }
+            } else if ($behavior instanceof RelationSavableBehavior) {
+                $aliasSafeRules[] = $behavior->relations;
+            }
+        }
+        if ($removeRuleAttributes){
+            static::removeAttributesRules($rules, array_merge(...$removeRuleAttributes));
+        }
+        if ($aliasSafeRules) {
+            $rules[] = [array_merge(...$aliasSafeRules), 'safe'];
+        }
+        if ($aliasNumberRules) {
+            $rules[] = [array_merge(...$aliasNumberRules), 'number'];
+        }
+        if ($aliasDatetimeRules) {
+            $rules[] = [array_merge(...$aliasDatetimeRules), 'date'];
+        }
+
         return $rules;
     }
 }

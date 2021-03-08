@@ -29,11 +29,5 @@ class CsvHelperTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $mockActiveRecord = new MockActiveRecord(['mock_id' => 1]);
-        $this->assertEquals(1, $mockActiveRecord->getId());
-        $mockActiveRecord->setId(2);
-        $this->assertEquals(2, $mockActiveRecord->getAttribute('mock_id'));
-        $toArray = $mockActiveRecord->toArray();
-        $this->assertEquals(2, $toArray['id']);
     }
 }

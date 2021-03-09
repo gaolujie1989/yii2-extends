@@ -68,10 +68,10 @@ class ItemSearch extends Item
     public static function prepareArray(array $row): array
     {
         $alias = [
-            'weight_kg' => 'weight_kg',
-            'length_cm' => 'length_cm',
-            'width_cm' => 'width_cm',
-            'height_cm' => 'height_cm',
+            'weight_kg' => 'weight_g',
+            'length_cm' => 'length_mm',
+            'width_cm' => 'width_mm',
+            'height_cm' => 'height_mm',
         ];
         $relations = [
             'barcodes' => ItemBarcode::class,

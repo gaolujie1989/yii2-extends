@@ -26,7 +26,7 @@ class FulfillmentWarehouseSearch extends FulfillmentWarehouse
      */
     public static function prepareArray(array $row): array
     {
-        $alias = ['external_movement_time' => 'external_movement_time'];
+        $alias = ['external_movement_time' => 'external_movement_at'];
         return ModelHelper::prepareArray($row, static::class, $alias);
     }
 }

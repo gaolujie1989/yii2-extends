@@ -5,9 +5,9 @@
 
 namespace lujie\fulfillment\searches;
 
-use lujie\alias\behaviors\TimestampAliasBehavior;
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
 use lujie\fulfillment\models\FulfillmentWarehouse;
-use lujie\fulfillment\models\FulfillmentWarehouseQuery;
 
 /**
  * Class FulfillmentItemSearch
@@ -16,55 +16,17 @@ use lujie\fulfillment\models\FulfillmentWarehouseQuery;
  */
 class FulfillmentWarehouseSearch extends FulfillmentWarehouse
 {
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        return [
-            [['fulfillment_account_id', 'warehouse_id', 'external_warehouse_key'], 'safe']
-        ];
-    }
+    use SearchTrait;
 
     /**
-     * @return FulfillmentWarehouseQuery
+     * @param array $row
+     * @return mixed
+     * @throws \Exception
      * @inheritdoc
      */
-    public function query(): FulfillmentWarehouseQuery
+    public static function prepareArray(array $row): array
     {
-        return static::find()
-            ->andFilterWhere([
-                'fulfillment_account_id' => $this->fulfillment_account_id,
-                'warehouse_id' => $this->warehouse_id,
-                'external_warehouse_key' => $this->external_warehouse_key
-            ]);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'tsAlias' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'external_movement_time' => 'external_movement_at',
-                ]
-            ]
-        ]);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'external_movement_time' => 'external_movement_time',
-        ]);
+        $alias = ['external_movement_time' => 'external_movement_time'];
+        return ModelHelper::prepareArray($row, static::class, $alias);
     }
 }

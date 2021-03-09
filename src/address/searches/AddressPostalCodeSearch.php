@@ -4,6 +4,10 @@ namespace lujie\common\address\searches;
 
 use lujie\common\address\models\AddressPostalCode;
 use lujie\common\address\models\AddressPostalCodeQuery;
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class AddressPostalCodeSearch
@@ -12,29 +16,27 @@ use lujie\common\address\models\AddressPostalCodeQuery;
  */
 class AddressPostalCodeSearch extends AddressPostalCode
 {
+    use SearchTrait;
+
     /**
      * {@inheritdoc}
      */
     public function rules(): array
     {
-        return [
-            [['country', 'postal_code', 'type', 'status', 'note'], 'safe'],
-        ];
+        return array_merge(ModelHelper::searchRules($this), [
+            [['country', 'note'], 'safe'],
+        ]);
     }
 
     /**
-     * @return AddressPostalCodeQuery
+     * @return ActiveQueryInterface|AddressPostalCodeQuery
      * @inheritdoc
      */
-    public function query(): AddressPostalCodeQuery
+    public function query(): ActiveQueryInterface
     {
-        $query = static::find()->andFilterWhere([
-            'type' => $this->type,
-            'status' => $this->status,
-            'country' => $this->country,
-        ]);
-        $query->andFilterWhere(['LIKE', 'postal_code', $this->postal_code]);
-        $query->andFilterWhere(['LIKE', 'note', $this->note]);
+        $query = ModelHelper::query($this);
+        QueryHelper::filterValue($query, $this->getAttributes(['country']));
+        QueryHelper::filterValue($query, $this->getAttributes(['note']), true);
         return $query;
     }
 }

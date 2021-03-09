@@ -5,9 +5,13 @@
 
 namespace lujie\common\item\searches;
 
-use Codeception\PHPUnit\Constraint\Page;
 use lujie\common\item\models\Item;
+use lujie\common\item\models\ItemBarcode;
 use lujie\common\item\models\ItemQuery;
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class ItemSearch
@@ -16,6 +20,8 @@ use lujie\common\item\models\ItemQuery;
  */
 class ItemSearch extends Item
 {
+    use SearchTrait;
+
     /**
      * @var string
      */
@@ -32,24 +38,44 @@ class ItemSearch extends Item
      */
     public function rules(): array
     {
-        return [
-            [['item_no', 'item_type', 'status'], 'safe'],
-            [['name', 'barcode'], 'safe'],
-        ];
+        return array_merge(ModelHelper::searchRules($this), [
+            [['barcode', 'name'], 'safe'],
+        ]);
     }
 
-    public function query(): ItemQuery
+    /**
+     * @return ActiveQueryInterface|ItemQuery
+     * @inheritdoc
+     */
+    public function query(): ActiveQueryInterface
     {
-        $query = static::find()
-            ->andFilterWhere([
-                'item_type' => $this->item_type,
-                'status' => $this->status,
-            ])
-            ->andFilterWhere(['LIKE', 'item_no', $this->item_no])
-            ->andFilterWhere(['LIKE', 'names', $this->name]);
+        /** @var ItemQuery $query */
+        $query = ModelHelper::query($this);
+        QueryHelper::filterValue($query, ['names' => $this->name], true);
+
         if ($this->barcode) {
-            $query->innerJoinWith(['barcodes b'], false)->andOnCondition(['LIKE', 'b.code_text', $this->barcode]);
+            $query->innerJoinWith(['barcodes b'], false);
+            QueryHelper::filterValue($query, ['b.code_text' => $this->barcode], true);
         }
         return $query;
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row): array
+    {
+        $alias = [
+            'weight_kg' => 'weight_kg',
+            'length_cm' => 'length_cm',
+            'width_cm' => 'width_cm',
+            'height_cm' => 'height_cm',
+        ];
+        $relations = [
+            'barcodes' => ItemBarcode::class,
+        ];
+        return ModelHelper::prepareArray($row, static::class, $alias, $relations);
     }
 }

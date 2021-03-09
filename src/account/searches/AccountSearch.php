@@ -7,6 +7,10 @@ namespace lujie\common\account\searches;
 
 use lujie\common\account\models\Account;
 use lujie\common\account\models\AccountQuery;
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class AccountSearch
@@ -15,28 +19,26 @@ use lujie\common\account\models\AccountQuery;
  */
 class AccountSearch extends Account
 {
+    use SearchTrait;
+
     /**
      * {@inheritdoc}
      */
     public function rules(): array
     {
-        return [
-            [['name', 'type', 'username', 'status'], 'safe'],
-        ];
+        return array_merge(ModelHelper::searchRules($this), [
+            [['username'], 'string'],
+        ]);
     }
 
     /**
-     * @return AccountQuery
+     * @return ActiveQueryInterface|AccountQuery
      * @inheritdoc
      */
-    public function query(): AccountQuery
+    public function query(): ActiveQueryInterface
     {
-        return static::find()
-            ->andFilterWhere([
-                'type' => $this->type,
-                'status' => $this->status,
-            ])
-            ->andFilterWhere(['LIKE', 'name', $this->name])
-            ->andFilterWhere(['LIKE', 'username', $this->username]);
+        $query = ModelHelper::query($this);
+        QueryHelper::filterValue($query, $this->getAttributes(['username']), true);
+        return $query;
     }
 }

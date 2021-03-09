@@ -6,8 +6,9 @@
 namespace lujie\common\option\forms;
 
 
-use lujie\extend\helpers\ModelHelper;
 use lujie\common\option\models\Option;
+use lujie\extend\base\FormTrait;
+use lujie\extend\helpers\ModelHelper;
 use yii2tech\ar\position\PositionBehavior;
 
 /**
@@ -17,8 +18,13 @@ use yii2tech\ar\position\PositionBehavior;
  */
 class OptionForm extends Option
 {
+    use FormTrait;
+
     public $readOnlyOnUpdateAttributes = [];
 
+    /**
+     * @var string
+     */
     public $parent_key;
 
     /**

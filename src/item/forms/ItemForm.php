@@ -10,6 +10,7 @@ use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\common\item\models\Item;
 use lujie\common\item\models\ItemBarcode;
+use lujie\extend\base\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 
 /**
@@ -19,6 +20,8 @@ use lujie\extend\helpers\ModelHelper;
  */
 class ItemForm extends Item
 {
+    use FormTrait;
+
     public $ean;
 
     public $ownSKU;
@@ -40,10 +43,8 @@ class ItemForm extends Item
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        ModelHelper::removeAttributesRules($rules, ['weight_g', 'length_mm', 'width_mm', 'height_mm', 'additional']);
+        $rules = ModelHelper::formRules($this, parent::rules());
         return array_merge($rules, [
-            [['weight_kg', 'length_cm', 'width_cm', 'height_cm'], 'number', 'min' => 0],
             [array_keys($this->barcodeConfig), 'validateBarcode'],
         ]);
     }
@@ -110,12 +111,7 @@ class ItemForm extends Item
     {
         $barcodeKeys = array_keys($this->barcodeConfig);
         $barcodeKeys = array_combine($barcodeKeys, $barcodeKeys);
-        return array_merge(parent::fields(), $barcodeKeys, [
-            'weight_kg' => 'weight_kg',
-            'length_cm' => 'length_cm',
-            'width_cm' => 'width_cm',
-            'height_cm' => 'height_cm',
-        ]);
+        return array_merge(parent::fields(), ModelHelper::aliasFields($this), $barcodeKeys);
     }
 
     #region CorrectSize Before Save

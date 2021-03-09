@@ -2,13 +2,13 @@
 
 namespace lujie\common\address\models;
 
-use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%address}}".
@@ -27,18 +27,6 @@ use Yii;
  * @property string $email
  * @property string $phone
  * @property string $signature
- *
- * @property string $province
- * @property string $town
- * @property string $zip_code
- * @property string $company_name
- * @property string $first_name
- * @property string $last_name
- * @property string $street
- * @property string $street_no
- * @property string $house_no
- * @property string $additional
- *
  */
 class Address extends \yii\db\ActiveRecord
 {
@@ -90,31 +78,6 @@ class Address extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
-            'alias' => [
-                'class' => AliasPropertyBehavior::class,
-                'aliasProperties' => [
-                    'province' => 'state',
-                    'town' => 'city',
-                    'zip_code' => 'postal_code',
-                    'company_name' => 'name1',
-                    'first_name' => 'name2',
-                    'last_name' => 'name3',
-                    'street' => 'address1',
-                    'street_no' => 'address2',
-                    'house_no' => 'address2',
-                    'additional' => 'address3',
-                ]
-            ]
-        ]);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -144,7 +107,7 @@ class Address extends \yii\db\ActiveRecord
     protected function generateSignature(): string
     {
         $addressData = $this->getAttributes(null, ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by']);
-        return md5(json_encode($addressData, JSON_THROW_ON_ERROR, 512));
+        return md5(Json::encode($addressData));
     }
 
     /**

@@ -6,7 +6,11 @@
 namespace lujie\common\option\searches;
 
 use lujie\common\option\models\Option;
-use yii\db\ActiveQuery;
+use lujie\common\option\models\OptionQuery;
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class OptionSearch
@@ -15,6 +19,11 @@ use yii\db\ActiveQuery;
  */
 class OptionSearch extends Option
 {
+    use SearchTrait;
+
+    /**
+     * @var string
+     */
     public $parent_key;
 
     /**
@@ -23,26 +32,22 @@ class OptionSearch extends Option
      */
     public function rules(): array
     {
-        return [
-            [['parent_id', 'key', 'name'], 'safe'],
-            [['parentKey'], 'safe'],
-        ];
+        return array_merge(ModelHelper::searchRules($this), [
+            [['parent_key'], 'safe'],
+        ]);
     }
 
     /**
-     * @return ActiveQuery
+     * @return ActiveQueryInterface
      * @inheritdoc
      */
-    public function query(): ActiveQuery
+    public function query(): ActiveQueryInterface
     {
-        $query = static::find()
-            ->innerJoinWith(['parentOption'])
-            ->andFilterWhere(['parent_id' => $this->parent_id])
-            ->andFilterWhere(['LIKE', 'key', $this->key])
-            ->andFilterWhere(['LIKE', 'name', $this->name]);
+        /** @var OptionQuery $query */
+        $query = ModelHelper::query($this);
         if ($this->parent_key) {
-            $parentIds = static::find()->key($this->parent_key)->getIds();
-            $query->joinWith(['parent_id' => $parentIds]);
+            $query = $query->innerJoinWith(['parentOption po']);
+            QueryHelper::filterValue($query, ['po.key' => $this->parent_key]);
         }
         return $query;
     }
@@ -54,11 +59,10 @@ class OptionSearch extends Option
      */
     public static function prepareArray(array $row): array
     {
-        $row['id'] = $row['option_id'];
-        if (isset($row['parentOption'])) {
-            $row['parent_key'] = $row['parentOption']['key'];
-            unset($row['parentOption']);
-        }
-        return $row;
+        $alias = [
+            'parent_key' => 'parentOption.key'
+        ];
+        $relations = ['parentOption'];
+        return ModelHelper::prepareArray($row, static::class, $alias, $relations);
     }
 }

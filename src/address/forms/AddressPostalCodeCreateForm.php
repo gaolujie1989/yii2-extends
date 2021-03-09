@@ -3,6 +3,7 @@
 namespace lujie\common\address\forms;
 
 use lujie\common\address\models\AddressPostalCode;
+use lujie\extend\base\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 
 /**
@@ -12,6 +13,8 @@ use lujie\extend\helpers\ModelHelper;
  */
 class AddressPostalCodeCreateForm extends AddressPostalCode
 {
+    use FormTrait;
+
     /**
      * @return array
      * @inheritdoc
@@ -22,8 +25,17 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
         ModelHelper::removeAttributesRules($rules, ['postal_code']);
         return array_merge($rules, [
             [['type', 'country', 'postal_code', 'status'], 'required'],
-            [['postal_code'], 'string']
+            [['postal_code'], 'string'],
+            [['postal_code'], 'validatePostalCode'],
         ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validatePostalCode(): void
+    {
+        $this->postal_code = strtr($this->postal_code, ['–' => '-', ' ' => '', "\t" => '']);
     }
 
     /**

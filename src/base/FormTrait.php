@@ -32,6 +32,7 @@ trait FormTrait
      */
     public function fields(): array
     {
+        /** @var $this BaseActiveRecord */
         return array_merge(parent::fields(), ModelHelper::aliasFields($this));
     }
 }

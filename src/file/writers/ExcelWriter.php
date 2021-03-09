@@ -47,10 +47,10 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
         if ($this->keyAsHeader) {
             if ($this->multiSheet) {
                 array_walk($data, static function (&$datum) {
-                    array_unshift($datum, array_keys($datum[0]));
+                    array_unshift($datum, array_keys(reset($datum)));
                 });
             } else {
-                array_unshift($data, array_keys($data[0]));
+                array_unshift($data, array_keys(reset($data)));
             }
         }
 

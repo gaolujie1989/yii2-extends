@@ -35,7 +35,7 @@ class CsvWriter extends BaseObject implements FileWriterInterface
         //add BOM to fix UTF-8 in Excel
         //fwrite($fp, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
         if ($this->keyAsHeader) {
-            array_unshift($data, array_keys($data[0]));
+            array_unshift($data, array_keys(reset($data)));
         }
         foreach ($data as $values) {
             fputcsv($fp, $values, $this->delimiter, $this->enclosure, $this->escape);

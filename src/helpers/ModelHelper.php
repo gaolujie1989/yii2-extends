@@ -117,7 +117,7 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    private static function filterAttributes(BaseActiveRecord $model, array $keys, bool $prefix = true): array
+    public static function filterAttributes(BaseActiveRecord $model, array $keys, bool $prefix = true): array
     {
         return array_filter($model->attributes(), static function ($attribute) use ($keys, $prefix) {
             foreach ($keys as $key) {
@@ -247,7 +247,7 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function formRules(BaseActiveRecord $model, array $rules, array $removeKeySuffixes = ['at', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']): array
+    public static function formRules(BaseActiveRecord $model, array $rules, array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']): array
     {
         $removeRuleAttributes = static::filterAttributes($model, $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];

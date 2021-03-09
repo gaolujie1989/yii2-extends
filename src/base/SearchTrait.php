@@ -8,6 +8,7 @@ namespace lujie\extend\base;
 
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
@@ -46,7 +47,7 @@ trait SearchTrait
     }
 
     /**
-     * @return ActiveQueryInterface
+     * @return ActiveQueryInterface|ActiveQuery
      * @inheritdoc
      */
     public function query(): ActiveQueryInterface

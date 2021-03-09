@@ -2,11 +2,9 @@
 
 namespace lujie\project\models;
 
-use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\upload\models\UploadModelFileQuery;
 use Yii;
 use yii\db\ActiveQuery;
-use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "{{%task}}".
@@ -70,28 +68,6 @@ class Task extends \lujie\project\base\db\ActiveRecord
     }
 
     /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'dateAlias' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'due_time' => 'due_at',
-                    'started_time' => 'started_at',
-                    'finished_time' => 'finished_at'
-                ]
-            ],
-            'position' => [
-                'class' => PositionBehavior::class,
-                'groupAttributes' => ['project_id', 'task_group_id']
-            ]
-        ]);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function attributeLabels(): array
@@ -126,20 +102,6 @@ class Task extends \lujie\project\base\db\ActiveRecord
     public static function find(): TaskQuery
     {
         return new TaskQuery(static::class);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'id' => 'id',
-            'due_time' => 'due_time',
-            'started_time' => 'started_time',
-            'finished_time' => 'finished_time',
-        ]);
     }
 
     /**

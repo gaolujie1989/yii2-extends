@@ -5,9 +5,13 @@
 
 namespace lujie\project\searches;
 
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Task;
 use lujie\project\models\TaskQuery;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class TaskSearch
@@ -16,6 +20,8 @@ use lujie\project\models\TaskQuery;
  */
 class TaskSearch extends Task
 {
+    use SearchTrait;
+
     /**
      * @var string
      */
@@ -32,35 +38,20 @@ class TaskSearch extends Task
      */
     public function rules(): array
     {
-        return [
-            [['project_id', 'task_group_id', 'parent_task_id',
-                'position', 'priority', 'status', 'owner_id', 'executor_id',
-                'globalStatus', 'isSubTask'], 'safe'],
-            [['due_at', 'started_at', 'finished_at'], 'each', 'rule' => ['date']],
-        ];
+        return array_merge(ModelHelper::searchRules($this), [
+            [['priority', 'globalStatus', 'isSubTask'], 'safe'],
+        ]);
     }
 
     /**
-     * @return TaskQuery
+     * @return ActiveQueryInterface|TaskQuery
      * @inheritdoc
      */
-    public function query(): TaskQuery
+    public function query(): ActiveQueryInterface
     {
-        $query = static::find()->andFilterWhere(['LIKE', 'name', $this->name])
-            ->andFilterWhere($this->getAttributes([
-                'project_id', 'task_group_id', 'parent_task_id',
-                'priority', 'status', 'owner_id', 'executor_id'
-            ]));
-
-        $timeAttributes = ['due_at', 'started_at', 'finished_at'];
-        foreach ($timeAttributes as $timeAttribute) {
-            $value = $this->getAttribute($timeAttribute);
-            if ($value && is_array($value)) {
-//                $query->andFilterWhere(['BETWEEN', $timeAttribute, $value[0], $value[1]]);
-                $query->andFilterWhere(['>=', $timeAttribute, $value[0]])
-                    ->andFilterWhere(['<=', $timeAttribute, $value[1]]);
-            }
-        }
+        /** @var TaskQuery $query */
+        $query = ModelHelper::query($this);
+        QueryHelper::filterValue($query, $this->getAttributes(['priority']));
 
         switch ($this->globalStatus) {
             case GlobalStatusConst::STATUS_NORMAL:
@@ -79,5 +70,21 @@ class TaskSearch extends Task
         }
 
         return $query;
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row): array
+    {
+        $alias = [
+            'due_time' => 'due_at',
+            'started_time' => 'started_at',
+            'finished_time' => 'finished_at'
+        ];
+        $relations = ['attachments', 'taskGroup', 'subTasks', 'parentTask'];
+        return ModelHelper::prepareArray($row, static::class, $alias, $relations);
     }
 }

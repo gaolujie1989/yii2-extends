@@ -6,9 +6,8 @@
 namespace lujie\project\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
+use lujie\extend\base\FormTrait;
 use lujie\project\models\TaskGroup;
-use lujie\project\models\TaskQuery;
-use yii\db\ActiveQuery;
 
 /**
  * Class TaskGroupForm
@@ -17,17 +16,7 @@ use yii\db\ActiveQuery;
  */
 class TaskGroupForm extends TaskGroup
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function rules(): array
-    {
-        return [
-            [['project_id'], 'integer'],
-            [['name'], 'string', 'max' => 250],
-            [['description'], 'string', 'max' => 1000],
-        ];
-    }
+    use FormTrait;
 
     /**
      * @return array
@@ -41,14 +30,5 @@ class TaskGroupForm extends TaskGroup
                 'relations' => ['tasks']
             ]
         ]);
-    }
-
-    /**
-     * @return ActiveQuery|TaskQuery
-     * @inheritdoc
-     */
-    public function getTasks(): ActiveQuery
-    {
-        return $this->hasMany(TaskForm::class, ['task_group_id' => 'task_group_id']);
     }
 }

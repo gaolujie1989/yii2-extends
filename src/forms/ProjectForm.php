@@ -7,6 +7,8 @@ namespace lujie\project\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use lujie\extend\base\FormTrait;
+use lujie\extend\helpers\ModelHelper;
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Project;
 use lujie\project\models\TaskQuery;
@@ -19,6 +21,8 @@ use yii\db\ActiveQuery;
  */
 class ProjectForm extends Project
 {
+    use FormTrait;
+
     /**
      * @var array
      */
@@ -55,17 +59,15 @@ class ProjectForm extends Project
      */
     public function rules(): array
     {
-        return [
-            [['owner_id'], 'integer'],
-            [['options'], 'safe'],
-            [['name'], 'string', 'max' => 250],
-            [['description'], 'string', 'max' => 1000],
+        $rules = ModelHelper::formRules($this, parent::rules());
+        ModelHelper::removeAttributesRules($rules, ['taskGroups']);
+        return array_merge($rules, [
             [['visibility'], 'in', 'range' => GlobalStatusConst::STATUS_LIST],
             [['template'], 'in', 'range' => array_keys($this->groupTemplates), 'when' => static function ($model) {
                 /** @var self $model */
                 return $model->getIsNewRecord();
             }],
-        ];
+        ]);
     }
 
     /**
@@ -93,7 +95,7 @@ class ProjectForm extends Project
      */
     public function beforeSave($insert): bool
     {
-        if ($insert && $this->template) {
+        if ($insert && $this->template && isset($this->groupTemplates[$this->template])) {
             $groupTemplate = $this->groupTemplates[$this->template];
             $this->taskGroups = $groupTemplate['taskGroups'];
         }

@@ -5,10 +5,12 @@
 
 namespace lujie\project\forms;
 
+use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
-use lujie\extend\helpers\ModelHelper;
+use lujie\extend\base\FormTrait;
 use lujie\project\models\Task;
+use yii2tech\ar\position\PositionBehavior;
 
 /**
  * Class TaskForm
@@ -17,22 +19,7 @@ use lujie\project\models\Task;
  */
 class TaskForm extends Task
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function rules(): array
-    {
-        $rules = parent::rules();
-        ModelHelper::removeAttributesRules($rules, [
-            'due_at', 'started_at', 'finished_at',
-            'archived_at', 'archived_by', 'deleted_at', 'deleted_by',
-            'additional'
-        ]);
-        return array_merge($rules, [
-            [['due_time', 'started_time', 'finished_time'], 'date'],
-            [['attachments'], 'safe'],
-        ]);
-    }
+    use FormTrait;
 
     /**
      * @return array
@@ -50,6 +37,18 @@ class TaskForm extends Task
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,
                 'relations' => ['attachments']
+            ],
+            'tsAlias' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'due_time' => 'due_at',
+                    'started_time' => 'started_at',
+                    'finished_time' => 'finished_at'
+                ]
+            ],
+            'position' => [
+                'class' => PositionBehavior::class,
+                'groupAttributes' => ['project_id', 'task_group_id']
             ]
         ]);
     }

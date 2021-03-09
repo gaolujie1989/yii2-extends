@@ -5,9 +5,13 @@
 
 namespace lujie\project\searches;
 
+use lujie\extend\base\SearchTrait;
+use lujie\extend\helpers\ModelHelper;
+use lujie\extend\helpers\QueryHelper;
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Project;
 use lujie\project\models\ProjectQuery;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class ProjectSearch
@@ -16,6 +20,8 @@ use lujie\project\models\ProjectQuery;
  */
 class ProjectSearch extends Project
 {
+    use SearchTrait;
+
     public $globalStatus;
 
     /**
@@ -31,15 +37,15 @@ class ProjectSearch extends Project
     }
 
     /**
-     * @return ProjectQuery
+     * @return ActiveQueryInterface|ProjectQuery
      * @inheritdoc
      */
-    public function query(): ProjectQuery
+    public function query(): ActiveQueryInterface
     {
-        $query = static::find()
-            ->notSystem()
-            ->andFilterWhere(['LIKE', 'name', $this->name])
-            ->andFilterWhere(['visibility' => $this->visibility, 'owner_id' => $this->owner_id]);
+        $query = static::find()->notSystem();
+
+        QueryHelper::filterValue($query, $this->getAttributes(['name']), true);
+        QueryHelper::filterValue($query, $this->getAttributes(['visibility', 'owner_id']));
 
         switch ($this->globalStatus) {
             case GlobalStatusConst::STATUS_NORMAL:
@@ -54,5 +60,16 @@ class ProjectSearch extends Project
         }
 
         return $query;
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row): array
+    {
+        return ModelHelper::prepareArray($row, static::class, [], ['taskGroups', 'tasks']);
     }
 }

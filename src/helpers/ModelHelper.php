@@ -218,6 +218,15 @@ class ModelHelper
                     $row[$property] = date('Y-m-d H:i:s', $row[$property]);
                 } else if (StringHelper::endsWith($attribute, '_cent')) {
                     $row[$property] /= 100;
+                } else if (StringHelper::endsWith($attribute, '_g')
+                    || StringHelper::endsWith($attribute, '_mm')
+                    || StringHelper::endsWith($attribute, '_mm2')
+                    || StringHelper::endsWith($attribute, '_mm3')) {
+                    $row[$property] = UnitAliasBehavior::convert(
+                        $row[$property],
+                        substr($attribute, strrpos($attribute, '_') + 1),
+                        substr($property, strrpos($property, '_') + 1)
+                    );
                 }
             }
         }

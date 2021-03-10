@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /**
  * This is the template for generating the ActiveQuery class.
  */

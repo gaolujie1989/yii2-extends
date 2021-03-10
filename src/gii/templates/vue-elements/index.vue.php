@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection ALL */
+
 /**
  * @copyright Copyright (c) 2019
  */
@@ -144,26 +145,26 @@ $querySearchFields = implode("\n", $querySearchFields);
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex'
-  import List from '@/exts/common/mixins/list'
-  import Search from '@/exts/common/mixins/search'
-  import Download from '@/exts/common/mixins/download'
-  import Save from '@/exts/common/mixins/save'
-  import Delete from '@/exts/common/mixins/delete'
-  import Upload from '@/exts/common/mixins/upload'
-  import BatchUpdate from '@/exts/common/mixins/batchUpdate'
-  import Pagination from '@/components/Pagination'
-  import waves from '@/directive/waves'
+    import {mapActions, mapGetters} from 'vuex'
+    import List from '@/exts/common/mixins/list'
+    import Search from '@/exts/common/mixins/search'
+    import Download from '@/exts/common/mixins/download'
+    import Save from '@/exts/common/mixins/save'
+    import Delete from '@/exts/common/mixins/delete'
+    import Upload from '@/exts/common/mixins/upload'
+    import BatchUpdate from '@/exts/common/mixins/batchUpdate'
+    import Pagination from '@/components/Pagination'
+    import waves from '@/directive/waves'
 
-  export default {
-    name: 'XXXIndex',
-    components: {Pagination},
-    directives: {waves},
-    mixins: [Save, Delete, Upload, BatchUpdate, List, Search, Download],
-    data() {
-      return {
-        listQuery: {
-          <?= trim($querySearchFields, ',') ?>
+    export default {
+        name: 'XXXIndex',
+        components: {Pagination},
+        directives: {waves},
+        mixins: [Save, Delete, Upload, BatchUpdate, List, Search, Download],
+        data() {
+            return {
+                listQuery: {
+                    <?= trim($querySearchFields, ',') ?>
         }
       }
     },

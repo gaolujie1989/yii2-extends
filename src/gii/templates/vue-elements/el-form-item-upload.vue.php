@@ -1,3 +1,4 @@
+<?php /** @noinspection ALL */ ?>
 <template>
   <div>
     <el-upload
@@ -16,45 +17,45 @@
 </template>
 
 <script>
-  import Upload from 'common/mixins/upload'
-  import Download from 'common/mixins/download'
+    import Upload from 'common/mixins/upload'
+    import Download from 'common/mixins/download'
 
-  export default {
-    name: 'xxxModelUpload',
-    mixins: [Upload, Download],
-    props: {
-      xxxModel: {
-        type: Object,
-        default: function () {
-          return {}
+    export default {
+        name: 'xxxModelUpload',
+        mixins: [Upload, Download],
+        props: {
+            xxxModel: {
+                type: Object,
+                default: function () {
+                    return {}
+                }
+            }
+        },
+        data() {
+            return {}
+        },
+        computed: {
+            additionalData() {
+                return {
+                    model_id: this.xxxModel.id
+                }
+            }
+        },
+        watch: {
+            'xxxModel.xxxField': function () {
+                this.uploadFileList = this.xxxModel.xxxField
+            },
+            'lastUploadedFileList': function () {
+                this.xxxModel.xxxField = this.lastUploadedFileList
+            }
+        },
+        methods: {
+            getService() {
+                return xxxApi
+            },
+            handlePreview(file) {
+                this.download(xxxApi.url + '/' + file.id + '/download')
+            }
         }
-      }
-    },
-    data() {
-      return {}
-    },
-    computed: {
-      additionalData() {
-        return {
-          model_id: this.xxxModel.id
-        }
-      }
-    },
-    watch: {
-      'xxxModel.xxxField': function () {
-        this.uploadFileList = this.xxxModel.xxxField
-      },
-      'lastUploadedFileList': function () {
-        this.xxxModel.xxxField = this.lastUploadedFileList
-      }
-    },
-    methods: {
-      getService() {
-        return xxxApi
-      },
-      handlePreview(file) {
-        this.download(xxxApi.url + '/' + file.id + '/download')
-      }
     }
-  }
 </script>

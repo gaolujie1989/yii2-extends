@@ -208,29 +208,21 @@ class ModelHelper
         array $relations = [],
         $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']
     ): array {
-        $pks = $class::primaryKey();
-        $pk = $pks[0];
-        $row['id'] = $row[$pk];
-        foreach ($unsetAttributes as $unsetAttribute) {
-            unset($row[$unsetAttribute]);
-        }
-        foreach ($aliasProperties as $aliasType => $properties) {
-            foreach ($properties as $property => $attribute) {
-                $row[$property] = ArrayHelper::getValue($row, $attribute);
-                if (StringHelper::endsWith($attribute, '_at')) {
-                    $row[$property] = date('Y-m-d H:i:s', $row[$property]);
-                } elseif (StringHelper::endsWith($attribute, '_cent')) {
-                    $row[$property] /= 100;
-                } elseif (StringHelper::endsWith($attribute, '_g')
-                    || StringHelper::endsWith($attribute, '_mm')
-                    || StringHelper::endsWith($attribute, '_mm2')
-                    || StringHelper::endsWith($attribute, '_mm3')) {
-                    $row[$property] = UnitAliasBehavior::convert(
-                        $row[$property],
-                        substr($attribute, strrpos($attribute, '_') + 1),
-                        substr($property, strrpos($property, '_') + 1)
-                    );
-                }
+        foreach ($aliasProperties as $aliasProperty => $attribute) {
+            $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
+            if (StringHelper::endsWith($attribute, '_at')) {
+                $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
+            } elseif (StringHelper::endsWith($attribute, '_cent')) {
+                $row[$aliasProperty] /= 100;
+            } elseif (StringHelper::endsWith($attribute, '_g')
+                || StringHelper::endsWith($attribute, '_mm')
+                || StringHelper::endsWith($attribute, '_mm2')
+                || StringHelper::endsWith($attribute, '_mm3')) {
+                $row[$aliasProperty] = UnitAliasBehavior::convert(
+                    $row[$aliasProperty],
+                    substr($attribute, strrpos($attribute, '_') + 1),
+                    substr($aliasProperty, strrpos($aliasProperty, '_') + 1)
+                );
             }
         }
         /**
@@ -248,6 +240,12 @@ class ModelHelper
                     $row[$relation][$index] = static::prepareArray($value, $relationClass);
                 }
             }
+        }
+        $pks = $class::primaryKey();
+        $pk = $pks[0];
+        $row['id'] = $row[$pk];
+        foreach ($unsetAttributes as $unsetAttribute) {
+            unset($row[$unsetAttribute]);
         }
         return $row;
     }
@@ -305,18 +303,29 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function aliasFields(BaseActiveRecord $model): array
+    public static function aliasProperties(BaseActiveRecord $model): array
     {
-        $aliasFields = [];
+        $aliasProperties = [];
         foreach ($model->getBehaviors() as $behavior) {
             if ($behavior instanceof AliasPropertyBehavior) {
-                $aliasProperties = array_keys($behavior->aliasProperties);
-                $aliasFields[] = array_combine($aliasProperties, $aliasProperties);
+                $aliasProperties[] = $behavior->aliasProperties;
             }
         }
-        if ($aliasFields) {
-            return array_merge(...$aliasFields);
+        if ($aliasProperties) {
+            return array_merge(...$aliasProperties);
         }
         return [];
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return array
+     * @inheritdoc
+     */
+    public static function aliasFields(BaseActiveRecord $model): array
+    {
+        $aliasProperties = static::aliasProperties($model);
+        $aliasFields = array_keys($aliasProperties);
+        return array_combine($aliasFields, $aliasFields);
     }
 }

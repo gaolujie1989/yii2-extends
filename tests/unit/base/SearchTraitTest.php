@@ -46,10 +46,33 @@ class SearchTraitTest extends \Codeception\Test\Unit
     }
 
     /**
+     * @throws \Exception
      * @inheritdoc
      */
     public function testPrepareArray(): void
     {
-        //@TODO
+        $expected = [
+            'id' => 1,
+            'mock_id' => 1,
+            'mock_key' => '123',
+            'mock_no' => 'xxx_ooo',
+            'created_time' => '2021-01-01 00:00:00',
+            'updated_time' => '',
+            'mock_price' => 12.3,
+            'additional' => [
+                'mock_price' => 12.3,
+            ]
+        ];
+        $prepareArray = MockActiveRecordSearch::prepareArray([
+            'mock_id' => 1,
+            'mock_key' => '123',
+            'mock_no' => 'xxx_ooo',
+            'created_at' => 1609430400,
+            'updated_at' => 0,
+            'additional' => [
+                'mock_price' => 12.3,
+            ]
+        ]);
+        $this->assertEquals($expected, $prepareArray);
     }
 }

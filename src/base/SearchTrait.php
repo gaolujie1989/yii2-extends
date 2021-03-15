@@ -99,8 +99,8 @@ trait SearchTrait
      */
     private static function prepareSearchArray(array $row): array
     {
-        [$alias, $relations] = static::getSearchAliasRelations();
-        return ModelHelper::prepareArray($row, static::class, $alias, $relations);
+        [$aliasProperties, $relations] = static::getSearchAliasRelations();
+        return ModelHelper::prepareArray($row, static::class, $aliasProperties, $relations);
     }
 
     /**
@@ -115,9 +115,9 @@ trait SearchTrait
             if ($formClass) {
                 /** @var BaseActiveRecord $form */
                 $form = new $formClass();
-                $alias = ModelHelper::aliasFields($form);
+                $aliasProperties = ModelHelper::aliasProperties($form);
                 $relations = $form->extraFields();
-                Yii::$app->params['prepareArray'][static::class] = [$alias, $relations];
+                Yii::$app->params['prepareArray'][static::class] = [$aliasProperties, $relations];
             } else {
                 Yii::$app->params['prepareArray'][static::class] = [[], []];
             }

@@ -7,6 +7,7 @@ namespace lujie\extend\helpers;
 
 use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
+use yii\helpers\StringHelper;
 
 /**
  * Class ClassHelper
@@ -85,7 +86,7 @@ class ClassHelper
             throw new InvalidArgumentException('Model or class not subclass of BaseActiveRecord');
         }
         $parentClass = get_parent_class($modelOrClass);
-        if (strpos($parentClass, 'ActiveRecord') !== false) {
+        if ($parentClass === BaseActiveRecord::class || StringHelper::endsWith($parentClass, '\\ActiveRecord')) {
             return is_object($modelOrClass) ? get_class($modelOrClass) : $modelOrClass;
         }
         return static::getBaseRecordClass($parentClass);

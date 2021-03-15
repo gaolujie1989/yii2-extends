@@ -9,7 +9,6 @@ namespace lujie\extend\base;
  * Trait ModelAttributeTrait
  * @package lujie\extend\base
  * @author Lujie Zhou <gao_lujie@live.cn>
- * @deprecated useless, no need to use, defined property better
  */
 trait ModelAttributeTrait
 {

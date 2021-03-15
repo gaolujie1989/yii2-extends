@@ -70,13 +70,13 @@ class MockActiveRecord extends BaseActiveRecord
     }
 
     /**
-     * @param $model
+     * @param $row
      * @inheritdoc
      */
-    public function prepareArray($model): array
+    public static function prepareArray(array $row): array
     {
-        $model['prepared'] = 1;
-        return $model;
+        $row['prepared'] = 1;
+        return $row;
     }
 
     /**
@@ -90,5 +90,21 @@ class MockActiveRecord extends BaseActiveRecord
         $transactions = $this->transactions();
 
         return isset($transactions[$scenario]) && ($transactions[$scenario] & $operation);
+    }
+
+    public function getMockCopy()
+    {
+        return $this->hasOne(MockActiveRecord::class, ['mock_id' => 'mock_id']);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields()
+    {
+        return array_merge(parent::extraFields(), [
+            'mockCopy' => 'mockCopy'
+        ]);
     }
 }

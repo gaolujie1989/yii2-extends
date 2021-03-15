@@ -5,7 +5,6 @@
 
 namespace lujie\extend\helpers;
 
-
 use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\alias\behaviors\TimestampAliasBehavior;
@@ -39,7 +38,7 @@ class ModelHelper
             if ($rule === null || $rule === $ruleName) {
                 if (is_string($ruleAttributes) && in_array($ruleAttributes, $attributes, true)) {
                     unset($rules[$key]);
-                } else if (is_array($ruleAttributes) && array_intersect($attributes, $ruleAttributes)) {
+                } elseif (is_array($ruleAttributes) && array_intersect($attributes, $ruleAttributes)) {
                     $ruleAttributes = array_diff($ruleAttributes, $attributes);
                     if ($ruleAttributes) {
                         $rules[$key][0] = $ruleAttributes;
@@ -119,7 +118,7 @@ class ModelHelper
      */
     public static function filterAttributes(BaseActiveRecord $model, array $keys, bool $prefix = true): array
     {
-        return array_filter($model->attributes(), static function ($attribute) use ($keys, $prefix) {
+        return array_values(array_filter($model->attributes(), static function ($attribute) use ($keys, $prefix) {
             foreach ($keys as $key) {
                 if ($attribute === $key
                     || ($prefix && StringHelper::startsWith($attribute, $key . '_', true))
@@ -129,7 +128,7 @@ class ModelHelper
                 }
             }
             return false;
-        });
+        }));
     }
 
     /**
@@ -142,13 +141,14 @@ class ModelHelper
      * @return ActiveQueryInterface
      * @inheritdoc
      */
-    public static function query(BaseActiveRecord $model,
-                                 ActiveQueryInterface $query = null,
-                                 string $alias = '',
-                                 array $filterKeySuffixes = ['id', 'type', 'group', 'status'],
-                                 array $likeKeySuffixes = ['no', 'key', 'code', 'name', 'title'],
-                                 array $rangeKeySuffixes = ['at', 'date', 'time']): ActiveQueryInterface
-    {
+    public static function query(
+        BaseActiveRecord $model,
+        ActiveQueryInterface $query = null,
+        string $alias = '',
+        array $filterKeySuffixes = ['id', 'type', 'group', 'status'],
+        array $likeKeySuffixes = ['no', 'key', 'code', 'name', 'title'],
+        array $rangeKeySuffixes = ['at', 'date', 'time']
+    ): ActiveQueryInterface {
         $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
         $likeAttributes = static::filterAttributes($model, $likeKeySuffixes, false);
         $rangeAttributes = static::filterAttributes($model, $rangeKeySuffixes, false);
@@ -173,10 +173,11 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function searchRules(BaseActiveRecord $model,
-                                       array $filterKeySuffixes = ['id', 'type', 'group', 'status', 'no', 'key', 'code', 'name', 'title'],
-                                       array $datetimeKeySuffixes = ['at', 'date', 'time']): array
-    {
+    public static function searchRules(
+        BaseActiveRecord $model,
+        array $filterKeySuffixes = ['id', 'type', 'group', 'status', 'no', 'key', 'code', 'name', 'title'],
+        array $datetimeKeySuffixes = ['at', 'date', 'time']
+    ): array {
         $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
         $datetimeAttributes = static::filterAttributes($model, $datetimeKeySuffixes, false);
 
@@ -200,11 +201,13 @@ class ModelHelper
      * @throws \Exception
      * @inheritdoc
      */
-    public static function prepareArray(array $row, string $class,
-                                        array $aliasProperties = [],
-                                        array $relations = [],
-                                        $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']): array
-    {
+    public static function prepareArray(
+        array $row,
+        string $class,
+        array $aliasProperties = [],
+        array $relations = [],
+        $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']
+    ): array {
         $pks = $class::primaryKey();
         $pk = $pks[0];
         $row['id'] = $row[$pk];
@@ -216,9 +219,9 @@ class ModelHelper
                 $row[$property] = ArrayHelper::getValue($row, $attribute);
                 if (StringHelper::endsWith($attribute, '_at')) {
                     $row[$property] = date('Y-m-d H:i:s', $row[$property]);
-                } else if (StringHelper::endsWith($attribute, '_cent')) {
+                } elseif (StringHelper::endsWith($attribute, '_cent')) {
                     $row[$property] /= 100;
-                } else if (StringHelper::endsWith($attribute, '_g')
+                } elseif (StringHelper::endsWith($attribute, '_g')
                     || StringHelper::endsWith($attribute, '_mm')
                     || StringHelper::endsWith($attribute, '_mm2')
                     || StringHelper::endsWith($attribute, '_mm3')) {
@@ -256,8 +259,11 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function formRules(BaseActiveRecord $model, array $rules, array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']): array
-    {
+    public static function formRules(
+        BaseActiveRecord $model,
+        array $rules,
+        array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']
+    ): array {
         $removeRuleAttributes = static::filterAttributes($model, $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];
 
@@ -269,12 +275,12 @@ class ModelHelper
                 $removeRuleAttributes[] = $behavior->aliasProperties;
                 if ($behavior instanceof MoneyAliasBehavior || $behavior instanceof UnitAliasBehavior) {
                     $aliasNumberRules[] = array_keys($behavior->aliasProperties);
-                } else if ($behavior instanceof TimestampAliasBehavior) {
+                } elseif ($behavior instanceof TimestampAliasBehavior) {
                     $aliasDatetimeRules[] = array_keys($behavior->aliasProperties);
                 } else {
                     $aliasSafeRules[] = array_keys($behavior->aliasProperties);
                 }
-            } else if ($behavior instanceof RelationSavableBehavior) {
+            } elseif ($behavior instanceof RelationSavableBehavior) {
                 $aliasSafeRules[] = $behavior->relations;
             }
         }

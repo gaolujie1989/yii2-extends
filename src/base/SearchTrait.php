@@ -5,9 +5,10 @@
 
 namespace lujie\extend\base;
 
-
+use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
+use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
@@ -30,6 +31,15 @@ trait SearchTrait
      */
     public function rules(): array
     {
+        return $this->searchRules();
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    private function searchRules(): array
+    {
         /** @var $this BaseActiveRecord */
         return array_merge(ModelHelper::searchRules($this), [
             [['key'], 'string'],
@@ -47,13 +57,22 @@ trait SearchTrait
     }
 
     /**
-     * @return ActiveQueryInterface|ActiveQuery
+     * @return ActiveQueryInterface
      * @inheritdoc
      */
     public function query(): ActiveQueryInterface
     {
+        return $this->searchQuery();
+    }
+
+    /**
+     * @return ActiveQueryInterface|ActiveQuery
+     * @inheritdoc
+     */
+    private function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
+    {
         /** @var $this BaseActiveRecord */
-        $query = ModelHelper::query($this);
+        $query = ModelHelper::query($this, $query, $alias);
         $keyAttributes = $this->searchKeyAttributes();
         if ($this->key && $keyAttributes) {
             QueryHelper::filterKey($query, $keyAttributes, $this->key, true);
@@ -69,6 +88,40 @@ trait SearchTrait
      */
     public static function prepareArray(array $row): array
     {
-        return ModelHelper::prepareArray($row, static::class);
+        return static::prepareSearchArray($row);
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    private static function prepareSearchArray(array $row): array
+    {
+        [$alias, $relations] = static::getSearchAliasRelations();
+        return ModelHelper::prepareArray($row, static::class, $alias, $relations);
+    }
+
+    /**
+     * @return mixed
+     * @inheritdoc
+     */
+    private static function getSearchAliasRelations(): array
+    {
+        if (empty(Yii::$app->params['prepareArray'][static::class])) {
+            $modelClass = ClassHelper::getBaseRecordClass(static::class);
+            $formClass = ClassHelper::getFormClass($modelClass);
+            if ($formClass) {
+                /** @var BaseActiveRecord $form */
+                $form = new $formClass();
+                $alias = ModelHelper::aliasFields($form);
+                $relations = $form->extraFields();
+                Yii::$app->params['prepareArray'][static::class] = [$alias, $relations];
+            } else {
+                Yii::$app->params['prepareArray'][static::class] = [[], []];
+            }
+        }
+        return Yii::$app->params['prepareArray'][static::class];
     }
 }

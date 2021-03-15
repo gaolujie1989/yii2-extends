@@ -20,7 +20,7 @@ class ActiveRecordFixture extends BaseActiveFixture
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function load()
+    public function load(): void
     {
         $this->data = [];
         foreach ($this->getData() as $alias => $row) {
@@ -37,7 +37,7 @@ class ActiveRecordFixture extends BaseActiveFixture
      * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
-    public function unload()
+    public function unload(): void
     {
         /** @var BaseActiveRecord $modelClass */
         $modelClass = $this->modelClass;

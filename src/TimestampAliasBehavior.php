@@ -6,6 +6,7 @@
 namespace lujie\alias\behaviors;
 
 
+use Yii;
 use yii\helpers\StringHelper;
 
 /**
@@ -37,6 +38,11 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
     public $datetimeSuffix = '_time';
 
     /**
+     * @var string
+     */
+    public $message = 'The format of {attribute} is invalid.';
+
+    /**
      * @param string $name
      * @return int|mixed|string
      * @throws \Exception
@@ -60,11 +66,15 @@ class TimestampAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty(string $name, $value): void
     {
-        $property = $this->aliasProperties[$name];
-        if (StringHelper::endsWith($property, $this->timestampSuffix)) {
-            $value = $this->getTimestamp($value);
-        } else {
-            $value = $this->getDatetime($value);
+        try {
+            $property = $this->aliasProperties[$name];
+            if (StringHelper::endsWith($property, $this->timestampSuffix)) {
+                $value = $this->getTimestamp($value);
+            } else {
+                $value = $this->getDatetime($value);
+            }
+        } catch (\Exception $exception) {
+            Yii::info($exception->getMessage(), __METHOD__);
         }
         parent::setAliasProperty($name, $value);
     }

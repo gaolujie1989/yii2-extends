@@ -2,7 +2,7 @@
 
 namespace lujie\template\document\searches;
 
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\template\document\models\DocumentTemplate;
 
 /**

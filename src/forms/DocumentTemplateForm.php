@@ -2,7 +2,7 @@
 
 namespace lujie\template\document\forms;
 
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\template\document\models\DocumentTemplate;
 use yii\base\InvalidArgumentException;

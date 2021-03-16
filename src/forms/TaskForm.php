@@ -8,7 +8,7 @@ namespace lujie\project\forms;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\project\models\Task;
 use yii2tech\ar\position\PositionBehavior;
 

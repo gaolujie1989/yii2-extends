@@ -7,7 +7,7 @@ namespace lujie\project\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\project\constants\GlobalStatusConst;
 use lujie\project\models\Project;
@@ -59,7 +59,7 @@ class ProjectForm extends Project
      */
     public function rules(): array
     {
-        $rules = ModelHelper::formRules($this, parent::rules());
+        $rules = $this->formRules();
         ModelHelper::removeAttributesRules($rules, ['taskGroups']);
         return array_merge($rules, [
             [['visibility'], 'in', 'range' => GlobalStatusConst::STATUS_LIST],

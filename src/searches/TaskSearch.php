@@ -5,7 +5,7 @@
 
 namespace lujie\project\searches;
 
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use lujie\project\constants\GlobalStatusConst;

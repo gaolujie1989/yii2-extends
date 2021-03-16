@@ -6,7 +6,7 @@
 namespace lujie\project\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\project\models\TaskGroup;
 
 /**

@@ -3,7 +3,7 @@
 namespace lujie\executing\monitor\searches;
 
 use lujie\executing\monitor\models\ExecutableExec;
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;

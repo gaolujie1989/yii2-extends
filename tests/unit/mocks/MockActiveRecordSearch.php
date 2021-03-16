@@ -5,7 +5,7 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 
 /**
  * Class MockActiveQuery

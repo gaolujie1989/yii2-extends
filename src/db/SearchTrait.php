@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\extend\base;
+namespace lujie\extend\db;
 
 use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
@@ -38,7 +38,7 @@ trait SearchTrait
      * @return array
      * @inheritdoc
      */
-    private function searchRules(): array
+    protected function searchRules(): array
     {
         /** @var $this BaseActiveRecord */
         return array_merge(ModelHelper::searchRules($this), [
@@ -69,7 +69,7 @@ trait SearchTrait
      * @return ActiveQueryInterface|ActiveQuery
      * @inheritdoc
      */
-    private function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
+    protected function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
     {
         /** @var $this BaseActiveRecord */
         $query = ModelHelper::query($this, $query, $alias);
@@ -97,7 +97,7 @@ trait SearchTrait
      * @throws \Exception
      * @inheritdoc
      */
-    private static function prepareSearchArray(array $row): array
+    protected static function prepareSearchArray(array $row): array
     {
         [$aliasProperties, $relations] = static::getSearchAliasRelations();
         return ModelHelper::prepareArray($row, static::class, $aliasProperties, $relations);
@@ -107,7 +107,7 @@ trait SearchTrait
      * @return mixed
      * @inheritdoc
      */
-    private static function getSearchAliasRelations(): array
+    protected static function getSearchAliasRelations(): array
     {
         if (empty(Yii::$app->params['prepareArray'][static::class])) {
             $modelClass = ClassHelper::getBaseRecordClass(static::class);

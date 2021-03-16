@@ -15,9 +15,8 @@ use yii\db\BaseActiveRecord;
  *
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
- * @deprecated
  */
-trait IdFieldTrait
+trait AliasFieldTrait
 {
     /**
      * @return array

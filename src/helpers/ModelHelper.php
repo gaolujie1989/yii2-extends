@@ -148,8 +148,7 @@ class ModelHelper
         array $filterKeySuffixes = [],
         array $likeKeySuffixes = [],
         array $rangeKeySuffixes = []
-    ): ActiveQueryInterface
-    {
+    ): ActiveQueryInterface {
         $filterKeySuffixes = array_merge($filterKeySuffixes, [
             'id', 'type', 'group', 'status',
             'country', 'currency', 'language',
@@ -185,8 +184,7 @@ class ModelHelper
         BaseActiveRecord $model,
         array $filterKeySuffixes = [],
         array $datetimeKeySuffixes = []
-    ): array
-    {
+    ): array {
         $filterKeySuffixes = array_merge($filterKeySuffixes, [
             'id', 'type', 'group', 'status',
             'country', 'currency', 'language',
@@ -284,9 +282,13 @@ class ModelHelper
         $aliasSafeRules = [];
         $aliasNumberRules = [];
         $aliasDatetimeRules = [];
+        $aliasDefaultRules = [];
         foreach ($model->getBehaviors() as $behavior) {
             if ($behavior instanceof AliasPropertyBehavior) {
                 $removeRuleAttributes[] = $behavior->aliasProperties;
+                foreach ($behavior->aliasDefaults as $aliasProperty => $defaultValue) {
+                    $aliasDefaultRules[$defaultValue ][] = $aliasProperty;
+                }
                 if ($behavior instanceof MoneyAliasBehavior || $behavior instanceof UnitAliasBehavior) {
                     $aliasNumberRules[] = array_keys($behavior->aliasProperties);
                 } elseif ($behavior instanceof TimestampAliasBehavior) {
@@ -300,6 +302,11 @@ class ModelHelper
         }
         if ($removeRuleAttributes) {
             static::removeAttributesRules($rules, array_merge(...$removeRuleAttributes));
+        }
+        if ($aliasDefaultRules) {
+            foreach ($aliasDefaultRules as $defaultValue => $aliasProperties) {
+                $rules[] = [$aliasProperties, 'default', 'value' => $defaultValue];
+            }
         }
         if ($aliasSafeRules) {
             $rules[] = [array_merge(...$aliasSafeRules), 'safe'];

@@ -8,7 +8,7 @@ namespace lujie\extend\tests\unit\mocks;
 use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 
 /**
  * Class MockActiveQuery

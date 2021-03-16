@@ -37,7 +37,7 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        return array_map(function($values) {
+        return array_map(function ($values) {
             if (is_object($values)) {
                 $values = ArrayHelper::toArray($values);
             }

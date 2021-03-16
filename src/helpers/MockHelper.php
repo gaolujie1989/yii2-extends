@@ -21,17 +21,25 @@ class MockHelper
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public static function mockValues(array $rules, bool $valid = true): array
+    public static function mockData(array $rules, bool $valid = true, array $config = []): array
     {
         $mockValues = [];
         foreach ($rules as $rule) {
             $attributes = (array)$rule[0];
             $type = $rule[1];
+            $typeValues = [];
             foreach ($attributes as $attribute) {
-                $mockValues[$attribute] = static::mockValue($type, $rule, $valid);
+                $typeValues[$attribute] = static::mockValue($type, $rule, $valid, $config);
             }
+            //For date/time values, mock value increment by attribute sort
+            if (in_array($type, ['date', 'datetime', 'time'], true)) {
+                $typeAttributes = array_keys($typeValues);
+                sort($typeValues);
+                $typeValues = array_combine($typeAttributes, $typeValues);
+            }
+            $mockValues[] = $typeValues;
         }
-        return $mockValues;
+        return array_merge(...$mockValues);
     }
 
     /**
@@ -43,7 +51,7 @@ class MockHelper
      * @throws \Exception
      * @inheritdoc
      */
-    public static function mockValue(string $type, array $rule, bool $valid = true)
+    public static function mockValue(string $type, array $rule, bool $valid = true, array $config = [])
     {
         if ($valid) {
             switch ($type) {
@@ -53,10 +61,11 @@ class MockHelper
                 case 'datetime':
                 case 'time':
                     $ts = random_int(strtotime('2020-01-01'), strtotime('2022-01-01'));
-                    return date('Y-m-d H:i:s', $ts);
+                    return date($config['dateFormat'] ?? 'c', $ts);
                 case 'double':
                 case 'number':
-                    return random_int($rule['min'] ?? 0, ($rule['max'] ?? 999) * 100) / 100;
+                    $x = 10 ** ($config['decimalLength'] ?? 2);
+                    return random_int($rule['min'] ?? 0, ($rule['max'] ?? 999) * $x) / $x;
                 case 'integer':
                     return random_int($rule['min'] ?? 0, $rule['max'] ?? 999);
                 case 'in':

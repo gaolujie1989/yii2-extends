@@ -53,7 +53,7 @@ trait SearchTrait
     protected function searchKeyAttributes(): array
     {
         /** @var $this BaseActiveRecord */
-        return ModelHelper::filterAttributes($this, ['no', 'key', 'code', 'name', 'title']);
+        return ModelHelper::filterAttributes($this->attributes(), ['no', 'key', 'code', 'name', 'title']);
     }
 
     /**

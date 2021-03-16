@@ -110,15 +110,15 @@ class ModelHelper
     }
 
     /**
-     * @param BaseActiveRecord $model
+     * @param array $attributes
      * @param array $keys
      * @param bool $prefix
      * @return array
      * @inheritdoc
      */
-    public static function filterAttributes(BaseActiveRecord $model, array $keys, bool $prefix = true): array
+    public static function filterAttributes(array $attributes, array $keys, bool $prefix = true): array
     {
-        return array_values(array_filter($model->attributes(), static function ($attribute) use ($keys, $prefix) {
+        return array_values(array_filter($attributes, static function ($attribute) use ($keys, $prefix) {
             foreach ($keys as $key) {
                 if ($attribute === $key
                     || ($prefix && StringHelper::startsWith($attribute, $key . '_', true))
@@ -145,13 +145,21 @@ class ModelHelper
         BaseActiveRecord $model,
         ActiveQueryInterface $query = null,
         string $alias = '',
-        array $filterKeySuffixes = ['id', 'type', 'group', 'status'],
-        array $likeKeySuffixes = ['no', 'key', 'code', 'name', 'title'],
-        array $rangeKeySuffixes = ['at', 'date', 'time']
-    ): ActiveQueryInterface {
-        $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
-        $likeAttributes = static::filterAttributes($model, $likeKeySuffixes, false);
-        $rangeAttributes = static::filterAttributes($model, $rangeKeySuffixes, false);
+        array $filterKeySuffixes = [],
+        array $likeKeySuffixes = [],
+        array $rangeKeySuffixes = []
+    ): ActiveQueryInterface
+    {
+        $filterKeySuffixes = array_merge($filterKeySuffixes, [
+            'id', 'type', 'group', 'status',
+            'country', 'currency', 'language',
+            'carrier', 'departure', 'destination',
+        ]);
+        $likeKeySuffixes = array_merge($likeKeySuffixes, ['no', 'key', 'code', 'name', 'title']);
+        $rangeKeySuffixes = array_merge($rangeKeySuffixes, ['at', 'date', 'time']);
+        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
+        $likeAttributes = static::filterAttributes($model->attributes(), $likeKeySuffixes, false);
+        $rangeAttributes = static::filterAttributes($model->attributes(), $rangeKeySuffixes, false);
 
         $query = $query ?: $model::find();
         if ($filterAttributes) {
@@ -175,11 +183,19 @@ class ModelHelper
      */
     public static function searchRules(
         BaseActiveRecord $model,
-        array $filterKeySuffixes = ['id', 'type', 'group', 'status', 'no', 'key', 'code', 'name', 'title'],
-        array $datetimeKeySuffixes = ['at', 'date', 'time']
-    ): array {
-        $filterAttributes = static::filterAttributes($model, $filterKeySuffixes, false);
-        $datetimeAttributes = static::filterAttributes($model, $datetimeKeySuffixes, false);
+        array $filterKeySuffixes = [],
+        array $datetimeKeySuffixes = []
+    ): array
+    {
+        $filterKeySuffixes = array_merge($filterKeySuffixes, [
+            'id', 'type', 'group', 'status',
+            'country', 'currency', 'language',
+            'carrier', 'departure', 'destination',
+            'no', 'key', 'code', 'name', 'title',
+        ]);
+        $datetimeKeySuffixes = array_merge($datetimeKeySuffixes, ['at', 'date', 'time']);
+        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
+        $datetimeAttributes = static::filterAttributes($model->attributes(), $datetimeKeySuffixes, false);
 
         $rules = [];
         if ($filterAttributes) {
@@ -262,7 +278,7 @@ class ModelHelper
         array $rules,
         array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']
     ): array {
-        $removeRuleAttributes = static::filterAttributes($model, $removeKeySuffixes, false);
+        $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];
 
         $aliasSafeRules = [];

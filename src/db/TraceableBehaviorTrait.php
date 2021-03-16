@@ -46,14 +46,14 @@ trait TraceableBehaviorTrait
         $behaviors = [];
         /** @var BaseActiveRecord $this */
         if ($this->hasAttribute('created_at') || $this->hasAttribute('updated_at')) {
-            $behaviors['timestamp'] = [
+            $behaviors['timestampTrace'] = [
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => $this->hasAttribute('created_at') ? 'created_at' : false,
                 'updatedAtAttribute' => $this->hasAttribute('updated_at') ? 'updated_at' : false,
             ];
         }
         if ($this->hasAttribute('created_by') || $this->hasAttribute('updated_by')) {
-            $behaviors['blameable'] = [
+            $behaviors['blameableTrace'] = [
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => $this->hasAttribute('created_by') ? 'created_by' : false,
                 'updatedByAttribute' => $this->hasAttribute('updated_by') ? 'updated_by' : false,

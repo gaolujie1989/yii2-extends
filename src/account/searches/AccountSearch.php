@@ -7,7 +7,7 @@ namespace lujie\common\account\searches;
 
 use lujie\common\account\models\Account;
 use lujie\common\account\models\AccountQuery;
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;

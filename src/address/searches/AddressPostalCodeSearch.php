@@ -4,7 +4,7 @@ namespace lujie\common\address\searches;
 
 use lujie\common\address\models\AddressPostalCode;
 use lujie\common\address\models\AddressPostalCodeQuery;
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;

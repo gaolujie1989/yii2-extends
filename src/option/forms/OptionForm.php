@@ -7,7 +7,7 @@ namespace lujie\common\option\forms;
 
 
 use lujie\common\option\models\Option;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 use yii2tech\ar\position\PositionBehavior;
 

@@ -10,8 +10,7 @@ use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\common\item\models\Item;
 use lujie\common\item\models\ItemBarcode;
-use lujie\extend\base\FormTrait;
-use lujie\extend\helpers\ModelHelper;
+use lujie\extend\db\FormTrait;
 
 /**
  * Class ItemForm
@@ -43,7 +42,7 @@ class ItemForm extends Item
      */
     public function rules(): array
     {
-        $rules = ModelHelper::formRules($this, parent::rules());
+        $rules = $this->formRules();
         return array_merge($rules, [
             [array_keys($this->barcodeConfig), 'validateBarcode'],
         ]);
@@ -111,7 +110,7 @@ class ItemForm extends Item
     {
         $barcodeKeys = array_keys($this->barcodeConfig);
         $barcodeKeys = array_combine($barcodeKeys, $barcodeKeys);
-        return array_merge(parent::fields(), ModelHelper::aliasFields($this), $barcodeKeys);
+        return array_merge($this->aliasFields(), $barcodeKeys);
     }
 
     #region CorrectSize Before Save

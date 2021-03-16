@@ -3,7 +3,7 @@
 namespace lujie\common\address\forms;
 
 use lujie\common\address\models\AddressPostalCode;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 
 /**

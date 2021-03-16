@@ -3,8 +3,8 @@
 namespace lujie\common\address\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\extend\db\AliasFieldTrait;
 use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
@@ -42,7 +42,7 @@ use yii\helpers\Json;
  */
 class Address extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}

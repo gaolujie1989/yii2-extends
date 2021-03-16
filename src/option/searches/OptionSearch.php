@@ -7,7 +7,7 @@ namespace lujie\common\option\searches;
 
 use lujie\common\option\models\Option;
 use lujie\common\option\models\OptionQuery;
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;

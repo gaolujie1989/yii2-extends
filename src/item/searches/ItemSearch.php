@@ -8,7 +8,7 @@ namespace lujie\common\item\searches;
 use lujie\common\item\models\Item;
 use lujie\common\item\models\ItemBarcode;
 use lujie\common\item\models\ItemQuery;
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;

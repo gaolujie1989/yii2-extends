@@ -5,7 +5,7 @@
 
 namespace lujie\sales\channel\searches;
 
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\sales\channel\models\SalesChannelOrder;
 
 /**

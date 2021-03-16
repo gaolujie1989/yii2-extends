@@ -28,6 +28,17 @@ use yii\helpers\Json;
  * @property string $email
  * @property string $phone
  * @property string $signature
+ *
+ * @property string $province
+ * @property string $town
+ * @property string $zip_code
+ * @property string $company_name
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $street
+ * @property string $street_no
+ * @property string $house_no
+ * @property string $additional
  */
 class Address extends \yii\db\ActiveRecord
 {

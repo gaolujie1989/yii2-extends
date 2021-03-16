@@ -2,6 +2,7 @@
 
 namespace lujie\common\address\models;
 
+use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -62,6 +63,31 @@ class Address extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'alias' => [
+                'class' => AliasPropertyBehavior::class,
+                'aliasProperties' => [
+                    'province' => 'state',
+                    'town' => 'city',
+                    'zip_code' => 'postal_code',
+                    'company_name' => 'name1',
+                    'first_name' => 'name2',
+                    'last_name' => 'name3',
+                    'street' => 'address1',
+                    'street_no' => 'address2',
+                    'house_no' => 'address2',
+                    'additional' => 'address3',
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * @inheritdoc
      */
     public function validateName(): void
@@ -70,7 +96,7 @@ class Address extends \yii\db\ActiveRecord
             if (trim($this->name3)) {
                 $this->name2 = $this->name3;
                 $this->name3 = '';
-            } else if (trim($this->name1)) {
+            } elseif (trim($this->name1)) {
                 $this->name2 = $this->name1;
                 $this->name1 = '';
             }
@@ -106,7 +132,8 @@ class Address extends \yii\db\ActiveRecord
      */
     protected function generateSignature(): string
     {
-        $addressData = $this->getAttributes(null, ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by']);
+        $except = ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by'];
+        $addressData = $this->getAttributes(null, $except);
         return md5(Json::encode($addressData));
     }
 

@@ -5,7 +5,6 @@
 
 namespace lujie\common\address\forms;
 
-use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\common\address\models\Address;
 
 /**
@@ -34,31 +33,6 @@ class AddressForm extends Address
      * @var bool
      */
     public $identifyBySignature = false;
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'alias' => [
-                'class' => AliasPropertyBehavior::class,
-                'aliasProperties' => [
-                    'province' => 'state',
-                    'town' => 'city',
-                    'zip_code' => 'postal_code',
-                    'company_name' => 'name1',
-                    'first_name' => 'name2',
-                    'last_name' => 'name3',
-                    'street' => 'address1',
-                    'street_no' => 'address2',
-                    'house_no' => 'address2',
-                    'additional' => 'address3',
-                ]
-            ]
-        ]);
-    }
 
     /**
      * @param bool $runValidation

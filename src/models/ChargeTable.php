@@ -2,8 +2,12 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\alias\behaviors\MoneyAliasBehavior;
+use lujie\alias\behaviors\TimestampAliasBehavior;
+use lujie\alias\behaviors\UnitAliasBehavior;
+use lujie\extend\db\AliasFieldTrait;
 use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
@@ -29,10 +33,16 @@ use Yii;
  * @property int $started_at
  * @property int $ended_at
  * @property int $owner_id
+ *
+ * @property int $display_min_limit
+ * @property int $display_max_limit
+ * @property int $display_per_limit
+ * @property int $display_min_over_limit
+ * @property int $display_max_over_limit
  */
 class ChargeTable extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}
@@ -61,6 +71,51 @@ class ChargeTable extends \yii\db\ActiveRecord
             [['currency'], 'string', 'max' => 3],
             [['additional'], 'safe'],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+            'money' => [
+                'class' => MoneyAliasBehavior::class,
+                'aliasProperties' => [
+                    'price' => 'price_cent',
+                    'over_limit_price' => 'over_limit_price_cent',
+                ]
+            ],
+            'alias' => [
+                'class' => AliasPropertyBehavior::class,
+                'aliasProperties' => [
+                    'discountPercent' => 'additional.discountPercent',
+                ],
+                'aliasDefaults' => [
+                    'discountPercent' => 0,
+                ]
+            ],
+            'unit' => [
+                'class' => UnitAliasBehavior::class,
+                'baseUnitAttribute' => 'limit_unit',
+                'displayUnitAttribute' => 'display_limit_unit',
+                'aliasProperties' => [
+                    'display_min_limit' => 'min_limit',
+                    'display_max_limit' => 'max_limit',
+                    'display_per_limit' => 'per_limit',
+                    'display_min_over_limit' => 'min_over_limit',
+                    'display_max_over_limit' => 'max_over_limit',
+                ]
+            ],
+            'timestamp' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'started_time' => 'started_at',
+                    'ended_time' => 'ended_at',
+                ]
+            ]
+        ]);
     }
 
     /**

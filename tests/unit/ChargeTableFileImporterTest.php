@@ -174,16 +174,22 @@ class ChargeTableFileImporterTest extends \Codeception\Test\Unit
         ];
         $expected = array_map(static function ($item) use ($startedAt, $endedAt) {
             return array_merge($item, [
-                'started_at' => $startedAt,
-                'ended_at' => $endedAt,
-                'owner_id' => 11,
+                'started_at' => (string)$startedAt,
+                'ended_at' => (string)$endedAt,
+                'owner_id' => '11',
             ]);
         }, $expected);
         $chargeTables = ChargeTable::find()->asArray()->all();
         $chargeTables = array_map(static function ($item) {
-            unset($item['charge_table_id'], $item['created_at'], $item['created_by'], $item['updated_at'], $item['updated_by']);
+            unset(
+                $item['charge_table_id'],
+                $item['created_at'],
+                $item['created_by'],
+                $item['updated_at'],
+                $item['updated_by']
+            );
             return $item;
         }, $chargeTables);
-        $this->assertEquals($expected, $chargeTables, VarDumper::export($chargeTables));
+        $this->assertEquals($expected, $chargeTables);
     }
 }

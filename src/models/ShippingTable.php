@@ -2,8 +2,11 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\MoneyAliasBehavior;
+use lujie\alias\behaviors\TimestampAliasBehavior;
+use lujie\alias\behaviors\UnitAliasBehavior;
+use lujie\extend\db\AliasFieldTrait;
 use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
@@ -30,10 +33,23 @@ use Yii;
  * @property int $started_at
  * @property int $ended_at
  * @property int $owner_id
+ *
+ * @property float $price
+ * @property float $weight_kg_limit
+ * @property float $length_cm_limit
+ * @property float $width_cm_limit
+ * @property float $height_cm_limit
+ * @property float $height_cm_min_limit
+ * @property float $l2wh_cm_limit
+ * @property float $lwh_cm_limit
+ * @property float $lh_cm_limit
+ * @property float $volume_l_limit
+ * @property float $started_time
+ * @property float $ended_time
  */
 class ShippingTable extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}
@@ -60,6 +76,59 @@ class ShippingTable extends \yii\db\ActiveRecord
             [['departure', 'destination'], 'string', 'max' => 2],
             [['currency'], 'string', 'max' => 3],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+            'money' => [
+                'class' => MoneyAliasBehavior::class,
+                'aliasProperties' => [
+                    'price' => 'price_cent',
+                ]
+            ],
+            'unitWeight' => [
+                'class' => UnitAliasBehavior::class,
+                'baseUnit' => 'g',
+                'displayUnit' => 'kg',
+                'aliasProperties' => [
+                    'weight_kg_limit' => 'weight_g_limit',
+                ]
+            ],
+            'unitSize' => [
+                'class' => UnitAliasBehavior::class,
+                'baseUnit' => 'mm',
+                'displayUnit' => 'cm',
+                'aliasProperties' => [
+                    'length_cm_limit' => 'length_mm_limit',
+                    'width_cm_limit' => 'width_mm_limit',
+                    'height_cm_limit' => 'height_mm_limit',
+                    'height_cm_min_limit' => 'height_mm_min_limit',
+                    'l2wh_cm_limit' => 'l2wh_mm_limit',
+                    'lwh_cm_limit' => 'lwh_mm_limit',
+                    'lh_cm_limit' => 'lh_mm_limit',
+                ]
+            ],
+            'unitVolume' => [
+                'class' => UnitAliasBehavior::class,
+                'baseUnit' => 'mm3',
+                'displayUnit' => 'dm3',
+                'aliasProperties' => [
+                    'volume_l_limit' => 'volume_mm3_limit',
+                ]
+            ],
+            'timestamp' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'started_time' => 'started_at',
+                    'ended_time' => 'ended_at',
+                ]
+            ]
+        ]);
     }
 
     /**

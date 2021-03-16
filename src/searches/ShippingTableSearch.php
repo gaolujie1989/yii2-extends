@@ -9,7 +9,7 @@ namespace lujie\charging\searches;
 use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\models\ShippingTableQuery;
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use yii\db\ActiveQueryInterface;
 

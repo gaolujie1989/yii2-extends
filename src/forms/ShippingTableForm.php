@@ -64,7 +64,7 @@ class ShippingTableForm extends ShippingTable
                     'volume_l_limit' => 'volume_mm3_limit',
                 ]
             ],
-            'timestamp' => [
+            'timestampAlias' => [
                 'class' => TimestampAliasBehavior::class,
                 'aliasProperties' => [
                     'started_time' => 'started_at',

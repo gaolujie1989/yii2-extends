@@ -11,7 +11,6 @@ use lujie\charging\models\ShippingTable;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\extend\base\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
-use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;
 
 /**
@@ -34,8 +33,7 @@ class ShippingTableSearch extends ShippingTable
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
-            [['carrier', 'departure', 'destination'], 'safe'],
+        return array_merge($this->searchRules(), [
             [['activeAt'], 'date'],
         ]);
     }
@@ -46,8 +44,7 @@ class ShippingTableSearch extends ShippingTable
      */
     public function query(): ActiveQueryInterface
     {
-        $query = ModelHelper::query($this);
-        QueryHelper::filterValue($query, $this->getAttributes(['carrier', 'departure', 'destination']));
+        $query = $this->searchQuery();
         if ($this->activeAt) {
             $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
                 ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);

@@ -85,7 +85,7 @@ class ChargeTableForm extends ChargeTable
                     'display_max_over_limit' => 'max_over_limit',
                 ]
             ],
-            'timestamp' => [
+            'timestampAlias' => [
                 'class' => TimestampAliasBehavior::class,
                 'aliasProperties' => [
                     'started_time' => 'started_at',

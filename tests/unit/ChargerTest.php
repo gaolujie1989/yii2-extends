@@ -76,7 +76,7 @@ class ChargerTest extends \Codeception\Test\Unit
             'paid_amount' => 12.3,
             'status' => 0,
         ]);
-        $this->assertTrue($testOrder->save(false));
+        self::assertTrue($testOrder->save(false));
         $query = ChargePrice::find()
             ->modelType('TEST_ORDER')
             ->modelId($testOrder->test_order_id);

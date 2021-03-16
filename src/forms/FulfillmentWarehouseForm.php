@@ -6,7 +6,7 @@
 namespace lujie\fulfillment\forms;
 
 use lujie\alias\behaviors\TimestampAliasBehavior;
-use lujie\extend\base\FormTrait;
+use lujie\extend\db\FormTrait;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 
 /**

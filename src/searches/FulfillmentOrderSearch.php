@@ -5,7 +5,7 @@
 
 namespace lujie\fulfillment\searches;
 
-use lujie\extend\base\SearchTrait;
+use lujie\extend\db\SearchTrait;
 use lujie\fulfillment\models\FulfillmentOrder;
 
 /**

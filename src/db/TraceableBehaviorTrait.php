@@ -70,7 +70,9 @@ trait TraceableBehaviorTrait
      */
     public function getActionByDefault(Event $event): int
     {
-        return (isset($this->saveEmptyOnUpdateBy) && $this->saveEmptyOnUpdateBy) ? 0 : ($event->sender->updated_by ?? 0);
+        return (isset($this->saveEmptyOnUpdateBy) && $this->saveEmptyOnUpdateBy)
+            ? 0
+            : ($event->sender->updated_by ?? 0);
     }
 
     /**

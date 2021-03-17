@@ -22,7 +22,7 @@ class StringValidator extends \yii\validators\StringValidator
      */
     public function validateAttribute($model, $attribute): void
     {
-        if ($this->trim) {
+        if ($this->trim && is_string($model->{$attribute})) {
             $model->{$attribute} = trim($model->{$attribute});
         }
         parent::validateAttribute($model, $attribute);

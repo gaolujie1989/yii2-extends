@@ -6,6 +6,8 @@
 namespace lujie\common\address\forms;
 
 use lujie\common\address\models\Address;
+use lujie\extend\db\FormTrait;
+use lujie\extend\helpers\ModelHelper;
 
 /**
  * Class AddressForm
@@ -15,6 +17,8 @@ use lujie\common\address\models\Address;
  */
 class AddressForm extends Address
 {
+    use FormTrait;
+
     /**
      * if identify by signature,
      * no update for exists address, create address instead

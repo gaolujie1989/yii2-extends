@@ -68,6 +68,7 @@ class Address extends \yii\db\ActiveRecord
             [['postal_code', 'phone'], 'string', 'max' => 50],
             [['email'], 'string', 'max' => 100],
             [['email'], 'email'],
+            [['additional'], 'safe'],
             [['province', 'town', 'zip_code', 'company_name', 'first_name', 'last_name',
                 'street', 'street_no', 'house_no', 'additional'], 'safe'],
         ];
@@ -133,6 +134,7 @@ class Address extends \yii\db\ActiveRecord
             'postal_code' => Yii::t('lujie/common', 'Postal Code'),
             'email' => Yii::t('lujie/common', 'Email'),
             'phone' => Yii::t('lujie/common', 'Phone'),
+            'additional' => Yii::t('lujie/common', 'Additional'),
             'signature' => Yii::t('lujie/common', 'Signature'),
         ];
     }

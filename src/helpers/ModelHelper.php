@@ -276,7 +276,7 @@ class ModelHelper
     public static function formRules(
         BaseActiveRecord $model,
         array $rules,
-        array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional'],
+        array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'options', 'additional'],
         array $skipBehaviors = []
     ): array {
         $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);

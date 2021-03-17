@@ -27,6 +27,7 @@ use yii\helpers\Json;
  * @property string $postal_code
  * @property string $email
  * @property string $phone
+ * @property string $options
  * @property string $signature
  *
  * @property string $province
@@ -68,7 +69,7 @@ class Address extends \yii\db\ActiveRecord
             [['postal_code', 'phone'], 'string', 'max' => 50],
             [['email'], 'string', 'max' => 100],
             [['email'], 'email'],
-            [['additional'], 'safe'],
+            [['options'], 'safe'],
         ];
     }
 
@@ -132,7 +133,7 @@ class Address extends \yii\db\ActiveRecord
             'postal_code' => Yii::t('lujie/common', 'Postal Code'),
             'email' => Yii::t('lujie/common', 'Email'),
             'phone' => Yii::t('lujie/common', 'Phone'),
-            'additional' => Yii::t('lujie/common', 'Additional'),
+            'options' => Yii::t('lujie/common', 'Options'),
             'signature' => Yii::t('lujie/common', 'Signature'),
         ];
     }

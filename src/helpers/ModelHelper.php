@@ -269,6 +269,7 @@ class ModelHelper
      * @param BaseActiveRecord $model
      * @param array $rules
      * @param array|string[] $removeKeySuffixes
+     * @param array $skipBehaviors
      * @return array
      * @inheritdoc
      */

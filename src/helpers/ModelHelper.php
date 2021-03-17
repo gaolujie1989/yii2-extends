@@ -15,6 +15,7 @@ use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
+use function PHPUnit\Framework\containsOnlyInstancesOf;
 
 /**
  * Class ModelHelper
@@ -274,7 +275,8 @@ class ModelHelper
     public static function formRules(
         BaseActiveRecord $model,
         array $rules,
-        array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional']
+        array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'additional'],
+        array $skipBehaviors = []
     ): array {
         $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];
@@ -283,7 +285,10 @@ class ModelHelper
         $aliasNumberRules = [];
         $aliasDatetimeRules = [];
         $aliasDefaultRules = [];
-        foreach ($model->getBehaviors() as $behavior) {
+        foreach ($model->getBehaviors() as $behaviorName => $behavior) {
+            if (in_array($behaviorName, $skipBehaviors, true)) {
+                continue;
+            }
             if ($behavior instanceof AliasPropertyBehavior) {
                 $removeRuleAttributes[] = $behavior->aliasProperties;
                 foreach ($behavior->aliasDefaults as $aliasProperty => $defaultValue) {

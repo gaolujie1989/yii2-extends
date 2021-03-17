@@ -6,8 +6,6 @@ use yii\db\Migration;
 
 class m210317_115040_address_add_additional extends Migration
 {
-    use DropTableTrait, TraceableColumnTrait;
-
     public $tableName = '{{%address}}';
 
     /**

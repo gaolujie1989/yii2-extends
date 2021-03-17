@@ -30,6 +30,11 @@ class RechargeTask extends CronTask
     ];
 
     /**
+     * @var string
+     */
+    public $createdAtFrom = '-60 days';
+
+    /**
      * @return bool
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
@@ -40,7 +45,9 @@ class RechargeTask extends CronTask
     public function execute(): bool
     {
         $this->charger = Instance::ensure($this->charger, Charger::class);
-        $query = ChargePrice::find()->andWhere($this->rechargePriceCondition);
+        $query = ChargePrice::find()
+            ->andWhere(['>', 'created_at', strtotime($this->createdAtFrom)])
+            ->andWhere($this->rechargePriceCondition);
         /** @var ChargePrice $chargePrice */
         foreach ($query->each() as $chargePrice) {
             $recalculate = $this->charger->recalculate($chargePrice);

@@ -37,8 +37,8 @@ class CsvReader extends BaseObject implements FileReaderInterface
             foreach ($rows as $row) {
                 $data[] = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
             }
-        } else if (($handle = fopen($file, 'rb')) !== FALSE) {
-            while (($row = fgetcsv($handle, $this->bufferLength, $this->delimiter, $this->enclosure, $this->escape)) !== FALSE) {
+        } elseif (($handle = fopen($file, 'rb')) !== false) {
+            while (($row = fgetcsv($handle, $this->bufferLength, $this->delimiter, $this->enclosure, $this->escape)) !== false) {
                 $data[] = $row;
             }
             fclose($handle);
@@ -71,10 +71,10 @@ class CsvReader extends BaseObject implements FileReaderInterface
      * @param array $data
      * @inheritdoc
      */
-    protected function formatData(array &$data)
+    protected function formatData(array &$data): void
     {
         array_walk($data, function (&$a) use ($data) {
-            if (count($data[0]) == count($a)) {
+            if (count($data[0]) === count($a)) {
                 $a = array_combine($data[0], $a);
             } else {
                 Yii::warning('Data row not match columns: ' . implode($this->delimiter, $a), __METHOD__);

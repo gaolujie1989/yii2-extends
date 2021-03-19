@@ -37,7 +37,12 @@ class m191121_161905_charge_price extends \yii\db\Migration
             'owner_id' => $this->bigInteger()->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('uk_model_id_model_type_charge_type', $this->tableName, ['model_id', 'model_type', 'charge_type'], true);
+        $this->createIndex(
+            'uk_model_id_model_type_charge_type',
+            $this->tableName,
+            ['model_id', 'model_type', 'charge_type'],
+            true
+        );
         $this->createIndex('idx_parent_model_id_model_type', $this->tableName, ['parent_model_id', 'model_type']);
         $this->createIndex('idx_owner_id_charge_type', $this->tableName, ['owner_id', 'charge_type']);
         $this->createIndex('idx_created_at_status', $this->tableName, ['created_at', 'status']);

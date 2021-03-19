@@ -73,7 +73,7 @@ class ChargeTableFileImporterTest extends \Codeception\Test\Unit
                 'per_limit' => '0',
                 'min_over_limit' => '0',
                 'max_over_limit' => '0',
-                'additional' => '{"discountPercent": 0}',
+                'additional' => null,
             ],
             [
                 'charge_group' => 'Storage',
@@ -89,7 +89,7 @@ class ChargeTableFileImporterTest extends \Codeception\Test\Unit
                 'per_limit' => '0',
                 'min_over_limit' => '0',
                 'max_over_limit' => '0',
-                'additional' => '{"discountPercent": 0}',
+                'additional' => null,
             ],
             [
                 'charge_group' => 'Storage',
@@ -105,7 +105,7 @@ class ChargeTableFileImporterTest extends \Codeception\Test\Unit
                 'per_limit' => '0',
                 'min_over_limit' => '0',
                 'max_over_limit' => '0',
-                'additional' => '{"discountPercent": 0}',
+                'additional' => null,
             ],
             [
                 'charge_group' => 'Outbound',
@@ -121,7 +121,7 @@ class ChargeTableFileImporterTest extends \Codeception\Test\Unit
                 'per_limit' => '0',
                 'min_over_limit' => '0',
                 'max_over_limit' => '0',
-                'additional' => '{"discountPercent": 0}',
+                'additional' => null,
             ],
             [
                 'charge_group' => 'Outbound',
@@ -137,7 +137,7 @@ class ChargeTableFileImporterTest extends \Codeception\Test\Unit
                 'per_limit' => '0',
                 'min_over_limit' => '0',
                 'max_over_limit' => '0',
-                'additional' => '{"discountPercent": 0}',
+                'additional' => null,
             ],
             [
                 'charge_group' => 'Outbound',

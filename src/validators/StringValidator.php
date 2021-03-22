@@ -6,6 +6,8 @@
 namespace lujie\extend\validators;
 
 
+use function PHPUnit\Framework\stringContains;
+
 /**
  * Class StringValidator
  * @package lujie\extend\validators
@@ -15,6 +17,8 @@ class StringValidator extends \yii\validators\StringValidator
 {
     public $trim = true;
 
+    public $convert = true;
+
     /**
      * @param \yii\base\Model $model
      * @param string $attribute
@@ -22,9 +26,14 @@ class StringValidator extends \yii\validators\StringValidator
      */
     public function validateAttribute($model, $attribute): void
     {
-        if ($this->trim && is_string($model->{$attribute})) {
-            $model->{$attribute} = trim($model->{$attribute});
+        $value = $model->{$attribute};
+        if ($this->trim && is_string($value)) {
+            $value = trim($value);
         }
+        if ($this->convert && !is_string($value)) {
+            $value = (string)$value;
+        }
+        $model->{$attribute} = $value;
         parent::validateAttribute($model, $attribute);
     }
 

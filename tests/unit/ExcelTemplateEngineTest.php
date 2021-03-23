@@ -21,16 +21,36 @@ class ExcelTemplateEngineTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $templateEngine = new ExcelTemplateEngine([
-            'output' => dirname(__DIR__) . '/_output/template.xlsx'
+            'output' => dirname(__DIR__) . '/_output/template_generated.xlsx'
         ]);
         $template = __DIR__ . '/fixtures/template.xlsx';
         $templateEngine->render($template, [
             'subtitle' => 'TEST',
             'valueA' => 'xxxA',
             'valueB' => 'xxxB',
-            'itemNo' => 'Item-XXA',
-            'qty' => 12,
-            'price' => 12.3,
+            'amount' => 1234.4,
+            'items' => [
+                [
+                    'itemNo' => 'Item-AAA',
+                    'qty' => 12,
+                    'price' => 12.3,
+                ],
+                [
+                    'itemNo' => 'Item-BBB',
+                    'qty' => 21,
+                    'price' => 23.1,
+                ],
+                [
+                    'itemNo' => 'Item-CC',
+                    'qty' => 21,
+                    'price' => 23.1,
+                ],
+                [
+                    'itemNo' => 'Item-DD',
+                    'qty' => 21,
+                    'price' => 23.1,
+                ]
+            ]
         ]);
     }
 }

@@ -96,8 +96,9 @@ class ExcelTemplateEngine extends BaseObject implements TemplateEngineInterface
      */
     public function extractForTemplates(array $data, array $params): array
     {
-        $forTagFrom = $this->tag[0] . 'for:';
-        $forTagTo = $this->tag[1];
+        $forTagPrefix = $this->tag[0] . 'for:';
+        $forTagSuffix = $this->tag[1];
+        $forTagEnd = $this->tag[0] . 'end' . $this->tag[1];
         $isInFor = false;
         $forTemplates = [];
         foreach ($data as $i => $row) {
@@ -105,15 +106,15 @@ class ExcelTemplateEngine extends BaseObject implements TemplateEngineInterface
                 if (empty($value)) {
                     continue;
                 }
-                if (StringHelper::startsWith($value, $forTagFrom)
-                    && StringHelper::endsWith($value, $forTagTo)) {
-                    $forKey = substr($value, strlen($forTagFrom), -strlen($forTagTo));
+                if (StringHelper::startsWith($value, $forTagPrefix)
+                    && StringHelper::endsWith($value, $forTagSuffix)) {
+                    $forKey = substr($value, strlen($forTagPrefix), -strlen($forTagSuffix));
                     $forValues = ArrayHelper::getValue($params, $forKey);
                     $isInFor = true;
                     $forTemplate = [$forValues, $i];
                     break;
                 }
-                if ($isInFor && $value === '{end}') {
+                if ($isInFor && $value === $forTagEnd) {
                     $isInFor = false;
                     $forTemplate[] = $i;
                     $forTemplates[] = $forTemplate;

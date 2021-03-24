@@ -78,8 +78,21 @@ class ValueHelper
      * @throws \Exception
      * @inheritdoc
      */
-    public static function matchAll($data, array $condition, bool $strict = false): bool
+    public static function match($data, array $condition, bool $strict = false): bool
     {
+        if (isset($condition[0])) {
+            $op = strtolower($condition[0]);
+            if ($op === 'and' || $op === 'or') {
+                $opResult = $op === 'or';
+                array_shift($condition);
+                foreach ($condition as $subCondition) {
+                    if (static::match($data, $subCondition) === $opResult) {
+                        return $opResult;
+                    }
+                }
+                return !$opResult;
+            }
+        }
         foreach ($condition as $key => $item) {
             $value = ArrayHelper::getValue($data, $key);
             if (!static::isMatch($value, $item, $strict)) {
@@ -87,24 +100,5 @@ class ValueHelper
             }
         }
         return true;
-    }
-
-    /**
-     * @param $data
-     * @param array $condition
-     * @param bool $strict
-     * @return bool
-     * @throws \Exception
-     * @inheritdoc
-     */
-    public static function matchOne($data, array $condition, bool $strict = false): bool
-    {
-        foreach ($condition as $key => $item) {
-            $value = ArrayHelper::getValue($data, $key);
-            if (static::isMatch($value, $item, $strict)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -48,6 +48,9 @@ class ValueHelper
         if (is_array($condition)) {
             return in_array($value, $condition, $strict);
         }
+        if (strtolower($condition) === 'empty') {
+            return empty($value);
+        }
         $first = substr($condition, 0, 1);
         if ($first === '!') {
             $condition = substr($condition, 1);

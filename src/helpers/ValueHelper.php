@@ -5,6 +5,7 @@
 
 namespace lujie\extend\helpers;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
 /**
@@ -64,5 +65,43 @@ class ValueHelper
             return StringHelper::matchWildcard($condition, $value);
         }
         return $strict ? $value === $condition : $value == $condition;
+    }
+
+    /**
+     * @param $data
+     * @param array $conditions
+     * @param bool $strict
+     * @return bool
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function matchAll($data, array $conditions, bool $strict = false): bool
+    {
+        foreach ($conditions as $key => $item) {
+            $value = ArrayHelper::getValue($data, $key);
+            if (!static::isMatch($value, $item, $strict)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param $data
+     * @param array $conditions
+     * @param bool $strict
+     * @return bool
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function matchOne($data, array $conditions, bool $strict = false): bool
+    {
+        foreach ($conditions as $key => $item) {
+            $value = ArrayHelper::getValue($data, $key);
+            if (static::isMatch($value, $item, $strict)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

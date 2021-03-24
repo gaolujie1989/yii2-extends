@@ -8,6 +8,7 @@ namespace lujie\charging;
 
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\helpers\ValueHelper;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -134,7 +135,7 @@ class Charger extends Component implements BootstrapInterface
      * @param bool $force
      * @return array
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws \Exception
      * @inheritdoc
      */
     public function calculate(BaseActiveRecord $model, bool $force = false): array
@@ -223,15 +224,36 @@ class Charger extends Component implements BootstrapInterface
     /**
      * @param BaseActiveRecord $model
      * @return array
+     * @throws \Exception
      * @inheritdoc
      */
     protected function getModelChargeTypes(BaseActiveRecord $model): array
     {
         foreach ($this->chargeConfig as $modelType => [$modelClass, $chargeTypes]) {
             if ($model instanceof $modelClass) {
-                return [$modelType, $chargeTypes];
+                return [$modelType, $this->filterChangeTypes($chargeTypes, $model)];
             }
         }
         throw new InvalidArgumentException('Invalid model, no matched modelClass, charge type not found');
+    }
+
+    /**
+     * @param array $chargeTypes
+     * @param $model
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function filterChangeTypes(array $chargeTypes, $model): array
+    {
+        $filteredChargeTypes = [];
+        foreach ($chargeTypes as $chargeType => $condition) {
+            if (is_int($chargeType)) {
+                $filteredChargeTypes[] = $condition;
+            } elseif (ValueHelper::match($model, $condition)) {
+                $filteredChargeTypes[] = $chargeType;
+            }
+        }
+        return $filteredChargeTypes;
     }
 }

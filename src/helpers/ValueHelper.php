@@ -72,15 +72,15 @@ class ValueHelper
 
     /**
      * @param $data
-     * @param array $conditions
+     * @param array $condition
      * @param bool $strict
      * @return bool
      * @throws \Exception
      * @inheritdoc
      */
-    public static function matchAll($data, array $conditions, bool $strict = false): bool
+    public static function matchAll($data, array $condition, bool $strict = false): bool
     {
-        foreach ($conditions as $key => $item) {
+        foreach ($condition as $key => $item) {
             $value = ArrayHelper::getValue($data, $key);
             if (!static::isMatch($value, $item, $strict)) {
                 return false;
@@ -91,15 +91,15 @@ class ValueHelper
 
     /**
      * @param $data
-     * @param array $conditions
+     * @param array $condition
      * @param bool $strict
      * @return bool
      * @throws \Exception
      * @inheritdoc
      */
-    public static function matchOne($data, array $conditions, bool $strict = false): bool
+    public static function matchOne($data, array $condition, bool $strict = false): bool
     {
-        foreach ($conditions as $key => $item) {
+        foreach ($condition as $key => $item) {
             $value = ArrayHelper::getValue($data, $key);
             if (static::isMatch($value, $item, $strict)) {
                 return true;

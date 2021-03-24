@@ -85,6 +85,10 @@ class ChargeTable extends \yii\db\ActiveRecord
                 'aliasProperties' => [
                     'price' => 'price_cent',
                     'over_limit_price' => 'over_limit_price_cent',
+                ],
+                'aliasDefaults' => [
+                    'price' => 0,
+                    'over_limit_price' => 0,
                 ]
             ],
             'alias' => [
@@ -106,6 +110,13 @@ class ChargeTable extends \yii\db\ActiveRecord
                     'display_per_limit' => 'per_limit',
                     'display_min_over_limit' => 'min_over_limit',
                     'display_max_over_limit' => 'max_over_limit',
+                ],
+                'aliasDefaults' => [
+                    'display_min_limit' => 0,
+                    'display_max_limit' => 0,
+                    'display_per_limit' => 0,
+                    'display_min_over_limit' => 0,
+                    'display_max_over_limit' => 0,
                 ]
             ],
             'timestamp' => [

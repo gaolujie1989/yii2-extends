@@ -51,10 +51,12 @@ class ValueHelper
         if ($first === '!') {
             $condition = substr($condition, 1);
             return !self::isMatch($value, $condition, $strict);
-        } else if ($first === '>') {
+        }
+        if ($first === '>') {
             $condition = substr($condition, 1);
             return $value > $condition;
-        } else if ($first === '<') {
+        }
+        if ($first === '<') {
             $condition = substr($condition, 1);
             return $value < $condition;
         }

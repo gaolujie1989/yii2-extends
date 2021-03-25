@@ -239,7 +239,7 @@ class Charger extends Component implements BootstrapInterface
 
     /**
      * @param array $chargeTypes
-     * @param $model
+     * @param object|array $model
      * @return array
      * @throws \Exception
      * @inheritdoc

@@ -134,8 +134,9 @@ class Charger extends Component implements BootstrapInterface
      * @param BaseActiveRecord $model
      * @param bool $force
      * @return array
+     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
-     * @throws \Exception
+     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     public function calculate(BaseActiveRecord $model, bool $force = false): array
@@ -150,11 +151,12 @@ class Charger extends Component implements BootstrapInterface
 
         $chargePrices = [];
         $modelType = $chargeEvent->modelType;
+        $modelId = $model->getPrimaryKey();
         foreach ($chargeEvent->chargeTypes as $chargeType) {
             /** @var ChargePrice $chargePriceModelClass */
             $chargePriceModelClass = $this->chargePriceModelClasses[$chargeType] ?? ChargePrice::class;
             $chargePrice = $chargePriceModelClass::find()
-                ->modelId($model->getPrimaryKey())
+                ->modelId($modelId)
                 ->modelType($modelType)
                 ->chargeType($chargeType)
                 ->one();
@@ -163,13 +165,20 @@ class Charger extends Component implements BootstrapInterface
                 $chargePrice->charge_type = $chargeType;
                 $chargePrice->charge_group = $this->chargeGroups[$chargeType] ?? '';
                 $chargePrice->model_type = $modelType;
-                $chargePrice->model_id = $model->getPrimaryKey();
+                $chargePrice->model_id = $modelId;
             }
             if ($force || $chargePrice->getIsNewRecord()
                 || in_array($chargePrice->status, [ChargePrice::STATUS_ESTIMATE, ChargePrice::STATUS_FAILED], true)) {
                 $this->calculateInternal($chargePrice, $model);
             }
             $chargePrices[$chargeType] = $chargePrice;
+        }
+        $toDeleteChargePriceQuery = ChargePrice::find()->modelType($modelType)->modelId($modelId);
+        if ($chargeEvent->chargeTypes) {
+            $toDeleteChargePriceQuery->notChargeType($chargeEvent->chargeTypes);
+        }
+        foreach ($toDeleteChargePriceQuery->all() as $chargePrice) {
+            $chargePrice->delete();
         }
 
         $chargeEvent->chargePrices = $chargePrices;

@@ -14,6 +14,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method ChargePriceQuery chargePriceId($chargePriceId)
  * @method ChargePriceQuery chargeType($chargeType)
+ * @method ChargePriceQuery notChargeType($chargeType)
  * @method ChargePriceQuery customType($customType)
  * @method ChargePriceQuery modelType($modelType)
  * @method ChargePriceQuery modelId($modelId)
@@ -49,6 +50,7 @@ class ChargePriceQuery extends \yii\db\ActiveQuery
                     'priceTableId' => 'price_table_id',
                     'status' => 'status',
                     'ownerId' => 'owner_id',
+                    'notChargeType' => ['charge_type' => 'NOT IN']
                 ],
             ]
         ]);

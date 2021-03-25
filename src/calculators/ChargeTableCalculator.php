@@ -26,6 +26,11 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     public $chargeableItemLoader = 'chargeableItemLoader';
 
     /**
+     * @var bool
+     */
+    public $cheapFirst = true;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -88,7 +93,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
             ->chargeType($chargeType)
             ->customType($chargeableItem->customType)
             ->limitValue($chargeableItem->limitValue)
-            ->orderByPrice(SORT_ASC);
+            ->orderByPrice($this->cheapFirst ? SORT_ASC : SORT_DESC);
         $ownerId = $chargeableItem->additional['owner_id'] ?? 0;
         $chargeTable = (clone $query)->ownerId($ownerId)->one();
         if ($chargeTable === null && $ownerId > 0) {

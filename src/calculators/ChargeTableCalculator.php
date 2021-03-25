@@ -60,7 +60,9 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
             return $chargePrice;
         }
 
-        $chargePrice->custom_type = $chargeableItem->customType;
+        $chargePrice->custom_type = is_array($chargeableItem->customType)
+            ? implode(',', $chargeableItem->customType)
+            : $chargeableItem->customType;
         $chargePrice->setAttributes($chargeableItem->additional);
 
         $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);

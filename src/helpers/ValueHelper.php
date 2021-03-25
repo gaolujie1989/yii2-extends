@@ -41,6 +41,7 @@ class ValueHelper
      * @param string|array|mixed $condition
      * @param bool $strict
      * @return bool
+     * @throws \Exception
      * @inheritdoc
      */
     public static function isMatch($value, $condition, bool $strict = false): bool
@@ -64,6 +65,15 @@ class ValueHelper
             $condition = substr($condition, 1);
             return $value < $condition;
         }
+        $first = substr($condition, 0, 2);
+        if ($first === '>=') {
+            $condition = substr($condition, 2);
+            return $value >= $condition;
+        }
+        if ($first === '<=') {
+            $condition = substr($condition, 2);
+            return $value <= $condition;
+        }
         if (strpos($condition, '*') !== false || strpos($condition, '?') !== false) {
             return StringHelper::matchWildcard($condition, $value);
         }
@@ -81,9 +91,9 @@ class ValueHelper
     public static function match($data, array $condition, bool $strict = false): bool
     {
         if (isset($condition[0])) {
-            $op = strtolower($condition[0]);
-            if ($op === 'and' || $op === 'or') {
-                $opResult = $op === 'or';
+            $op = strtoupper($condition[0]);
+            if ($op === 'AND' || $op === 'OR') {
+                $opResult = $op === 'OR';
                 array_shift($condition);
                 foreach ($condition as $subCondition) {
                     if (static::match($data, $subCondition) === $opResult) {

@@ -281,14 +281,14 @@ class ModelHelper
      */
     public static function prepareSearchArray(array $row, string $class): array
     {
-        if (empty(Yii::$app->params['prepareArray'][static::class])) {
+        if (empty(Yii::$app->params['prepareArray'][$class])) {
             $model = new $class();
             $aliasProperties = static::aliasProperties($model);
             $extraRelations = static::extraRelations($model);
-            Yii::$app->params['prepareArray'][static::class] = [$aliasProperties, $extraRelations];
+            Yii::$app->params['prepareArray'][$class] = [$aliasProperties, $extraRelations];
         }
-        [$aliasProperties, $relations] = Yii::$app->params['prepareArray'][static::class];
-        return static::prepareArray($row, static::class, $aliasProperties, $relations);
+        [$aliasProperties, $relations] = Yii::$app->params['prepareArray'][$class];
+        return static::prepareArray($row, $class, $aliasProperties, $relations);
     }
 
     #endregion

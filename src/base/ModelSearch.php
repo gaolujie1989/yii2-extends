@@ -92,6 +92,6 @@ class ModelSearch extends Model
      */
     public static function prepareArray(array $row): array
     {
-        ModelHelper::prepareSearchArray($row, static::class);
+        return ModelHelper::prepareSearchArray($row, static::class);
     }
 }

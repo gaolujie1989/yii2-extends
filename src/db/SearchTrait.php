@@ -99,6 +99,6 @@ trait SearchTrait
      */
     protected static function prepareSearchArray(array $row): array
     {
-        ModelHelper::prepareSearchArray($row, static::class);
+        return ModelHelper::prepareSearchArray($row, static::class);
     }
 }

@@ -10,6 +10,7 @@ use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use Yii;
 use yii\base\Model;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
@@ -91,29 +92,6 @@ class ModelSearch extends Model
      */
     public static function prepareArray(array $row): array
     {
-        [$aliasProperties, $relations] = static::getSearchAliasRelations();
-        return ModelHelper::prepareArray($row, static::$modelClass, $aliasProperties, $relations);
-    }
-
-    /**
-     * @return mixed
-     * @inheritdoc
-     */
-    protected static function getSearchAliasRelations(): array
-    {
-        if (empty(Yii::$app->params['prepareArray'][static::$modelClass])) {
-            $modelClass = ClassHelper::getBaseRecordClass(static::$modelClass);
-            $formClass = ClassHelper::getFormClass($modelClass);
-            if ($formClass) {
-                /** @var BaseActiveRecord $form */
-                $form = new $formClass();
-                $aliasProperties = ModelHelper::aliasProperties($form);
-                $relations = $form->extraFields();
-                Yii::$app->params['prepareArray'][static::$modelClass] = [$aliasProperties, $relations];
-            } else {
-                Yii::$app->params['prepareArray'][static::$modelClass] = [[], []];
-            }
-        }
-        return Yii::$app->params['prepareArray'][static::$modelClass];
+        ModelHelper::prepareSearchArray($row, static::class);
     }
 }

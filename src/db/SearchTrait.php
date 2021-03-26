@@ -99,29 +99,6 @@ trait SearchTrait
      */
     protected static function prepareSearchArray(array $row): array
     {
-        [$aliasProperties, $relations] = static::getSearchAliasRelations();
-        return ModelHelper::prepareArray($row, static::class, $aliasProperties, $relations);
-    }
-
-    /**
-     * @return mixed
-     * @inheritdoc
-     */
-    protected static function getSearchAliasRelations(): array
-    {
-        if (empty(Yii::$app->params['prepareArray'][static::class])) {
-            $modelClass = ClassHelper::getBaseRecordClass(static::class);
-            $formClass = ClassHelper::getFormClass($modelClass);
-            if ($formClass) {
-                /** @var BaseActiveRecord $form */
-                $form = new $formClass();
-                $aliasProperties = ModelHelper::aliasProperties($form);
-                $relations = $form->extraFields();
-                Yii::$app->params['prepareArray'][static::class] = [$aliasProperties, $relations];
-            } else {
-                Yii::$app->params['prepareArray'][static::class] = [[], []];
-            }
-        }
-        return Yii::$app->params['prepareArray'][static::class];
+        ModelHelper::prepareSearchArray($row, static::class);
     }
 }

@@ -10,12 +10,13 @@ use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
-use function PHPUnit\Framework\containsOnlyInstancesOf;
 
 /**
  * Class ModelHelper
@@ -51,6 +52,8 @@ class ModelHelper
         }
         return $rules;
     }
+
+    #region find
 
     /**
      * @param array|string|int $ids
@@ -109,6 +112,10 @@ class ModelHelper
         }
         return null;
     }
+
+    #endregion
+
+    #region query and search
 
     /**
      * @param array $attributes
@@ -266,6 +273,29 @@ class ModelHelper
     }
 
     /**
+     * @param array $row
+     * @param string $class
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function prepareSearchArray(array $row, string $class): array
+    {
+        if (empty(Yii::$app->params['prepareArray'][static::class])) {
+            $model = new $class();
+            $aliasProperties = static::aliasProperties($model);
+            $extraRelations = static::extraRelations($model);
+            Yii::$app->params['prepareArray'][static::class] = [$aliasProperties, $extraRelations];
+        }
+        [$aliasProperties, $relations] = Yii::$app->params['prepareArray'][static::class];
+        return static::prepareArray($row, static::class, $aliasProperties, $relations);
+    }
+
+    #endregion
+
+    #region form
+
+    /**
      * @param BaseActiveRecord $model
      * @param array $rules
      * @param array|string[] $removeKeySuffixes
@@ -327,6 +357,10 @@ class ModelHelper
         return $rules;
     }
 
+    #endregion
+
+    #region fields and extraFields
+
     /**
      * @param BaseActiveRecord $model
      * @return array
@@ -357,4 +391,26 @@ class ModelHelper
         $aliasFields = array_keys($aliasProperties);
         return array_combine($aliasFields, $aliasFields);
     }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return array
+     * @inheritdoc
+     */
+    public static function extraRelations(BaseActiveRecord $model): array
+    {
+        $relations = $model->extraFields();
+        foreach ($relations as $key => $relation) {
+            $getRelation = 'get' . ucfirst($relation);
+            $relationQuery = $model->{$getRelation}();
+            if ($relationQuery instanceof ActiveQuery) {
+                $relations[$key] = $relationQuery->modelClass;
+            } else {
+                unset($relations[$key]);
+            }
+        }
+        return $relations;
+    }
+
+    #endregion
 }

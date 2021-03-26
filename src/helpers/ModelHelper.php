@@ -221,7 +221,7 @@ class ModelHelper
         string $class,
         array $aliasProperties = [],
         array $relations = [],
-        $unsetAttributes = ['created_at', 'created_by', 'updated_at', 'updated_by']
+        $unsetAttributes = ['created_by', 'updated_by']
     ): array {
         foreach ($aliasProperties as $aliasProperty => $attribute) {
             $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);

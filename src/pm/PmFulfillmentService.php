@@ -420,6 +420,9 @@ class PmFulfillmentService extends BaseFulfillmentService
             ->fulfillmentAccountId($this->account->account_id)
             ->itemId($orderItem->itemId)
             ->one();
+        if ($fulfillmentItem === null) {
+            throw new InvalidArgumentException('FulfillmentItem not exist');
+        }
         return [
             'typeId' => 1,
             'referrerId' => $this->referrerId,

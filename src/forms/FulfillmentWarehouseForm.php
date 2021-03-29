@@ -6,7 +6,7 @@
 namespace lujie\fulfillment\forms;
 
 use lujie\alias\behaviors\TimestampAliasBehavior;
-use lujie\extend\helpers\ModelHelper;
+use lujie\extend\db\FormTrait;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 
 /**
@@ -16,18 +16,7 @@ use lujie\fulfillment\models\FulfillmentWarehouse;
  */
 class FulfillmentWarehouseForm extends FulfillmentWarehouse
 {
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        $rules = parent::rules();
-        ModelHelper::removeAttributesRules($rules, 'external_movement_at');
-        return array_merge($rules, [
-            [['external_movement_time'], 'safe']
-        ]);
-    }
+    use FormTrait;
 
     /**
      * @return array
@@ -42,17 +31,6 @@ class FulfillmentWarehouseForm extends FulfillmentWarehouse
                     'external_movement_time' => 'external_movement_at',
                 ]
             ]
-        ]);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'external_movement_time' => 'external_movement_time',
         ]);
     }
 }

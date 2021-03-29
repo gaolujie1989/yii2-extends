@@ -2,11 +2,6 @@
 
 namespace lujie\fulfillment\models;
 
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\IdFieldTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**

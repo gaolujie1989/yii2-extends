@@ -15,6 +15,7 @@ use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
+use yii\base\InvalidArgumentException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -295,9 +296,18 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             return $this->formatExternalInboundData($order, $fulfillmentOrder);
         }
         $orderItems = [];
+        $fulfillmentItems = FulfillmentItem::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->itemId(ArrayHelper::getColumn($order->orderItems, 'itemId'))
+            ->indexBy('item_id')
+            ->all();
         foreach ($order->orderItems as $orderItem) {
+            if (empty($fulfillmentItems[$orderItem->itemId])) {
+                throw new InvalidArgumentException('FulfillmentItem not exist');
+            }
+            $fulfillmentItem = $fulfillmentItems[$orderItem->itemId];
             $orderItems[] = array_merge($this->defaultOrderItemData, [
-                'sku_code' => strtoupper($orderItem->itemNo),
+                'sku_code' => $fulfillmentItem->external_item_additional['sku_code'],
                 'qty' => $orderItem->orderedQty,
             ]);
         }

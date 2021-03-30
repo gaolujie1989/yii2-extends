@@ -5,7 +5,6 @@
 
 namespace lujie\stock;
 
-
 use yii\db\BaseActiveRecord;
 
 interface StockManagerInterface

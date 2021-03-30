@@ -5,7 +5,6 @@
 
 namespace lujie\stock;
 
-
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;

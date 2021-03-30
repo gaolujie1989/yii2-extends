@@ -5,7 +5,6 @@
 
 namespace lujie\stock;
 
-
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;

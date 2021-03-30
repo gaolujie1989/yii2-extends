@@ -8,7 +8,6 @@
 
 namespace lujie\stock;
 
-
 use yii\base\ModelEvent;
 use yii\db\BaseActiveRecord;
 

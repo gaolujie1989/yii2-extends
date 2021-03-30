@@ -5,7 +5,6 @@
 
 namespace lujie\stock\tests\unit;
 
-
 use lujie\stock\ActiveRecordStockManager;
 use lujie\stock\BaseStockManager;
 use lujie\stock\models\Stock;

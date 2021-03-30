@@ -15,10 +15,7 @@ use Yii;
 
 class ProxyRequestFormTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     /**
      * @throws \yii\base\InvalidConfigException

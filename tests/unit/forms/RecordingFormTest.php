@@ -17,10 +17,7 @@ use yii\helpers\Json;
 
 class RecordingFormTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     /**
      * @throws \yii\base\InvalidConfigException

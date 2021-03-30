@@ -16,10 +16,7 @@ use yii\queue\sync\Queue;
 
 class RecordingTaskTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     /**
      * @throws \yii\base\InvalidConfigException

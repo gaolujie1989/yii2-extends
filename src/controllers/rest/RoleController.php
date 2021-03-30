@@ -5,7 +5,6 @@
 
 namespace lujie\auth\controllers\rest;
 
-
 /**
  * Class RoleController
  * @package lujie\auth\controllers\rest

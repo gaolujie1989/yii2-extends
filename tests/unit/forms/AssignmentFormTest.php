@@ -5,7 +5,6 @@
 
 namespace lujie\auth\tests\unit;
 
-
 use lujie\auth\forms\AssignmentForm;
 use lujie\auth\tests\unit\fixtures\TestUser;
 use yii\helpers\ArrayHelper;

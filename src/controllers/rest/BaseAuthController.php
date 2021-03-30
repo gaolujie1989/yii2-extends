@@ -5,7 +5,6 @@
 
 namespace lujie\auth\controllers\rest;
 
-
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\rbac\ManagerInterface;

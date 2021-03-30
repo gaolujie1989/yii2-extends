@@ -5,7 +5,6 @@
 
 namespace lujie\auth\tests\unit\fixtures;
 
-
 use yii\base\BaseObject;
 
 class TestModel extends BaseObject

@@ -44,10 +44,12 @@ class FulfillmentOrder extends \lujie\fulfillment\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_updated_at', 'warehouse_id', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_updated_at', 'warehouse_id',
+                'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'default', 'value' => 0],
             [['order_status', 'external_order_key', 'external_order_status', 'external_warehouse_key'], 'default', 'value' => ''],
             [['external_order_additional', 'order_pushed_result', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_updated_at', 'warehouse_id', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'integer'],
+            [['fulfillment_account_id', 'fulfillment_status', 'order_id', 'order_updated_at', 'warehouse_id',
+                'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'integer'],
             [['external_order_additional', 'order_pushed_result', 'additional'], 'safe'],
             [['order_status', 'external_order_status'], 'string', 'max' => 20],
             [['external_order_key', 'external_warehouse_key'], 'string', 'max' => 50],

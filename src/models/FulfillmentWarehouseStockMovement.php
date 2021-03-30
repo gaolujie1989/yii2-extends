@@ -40,7 +40,8 @@ class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\Activ
     {
         return [
             [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'external_created_at'], 'default', 'value' => 0],
-            [['external_item_key', 'external_warehouse_key', 'external_movement_key', 'movement_type', 'related_type', 'related_key'], 'default', 'value' => ''],
+            [['external_item_key', 'external_warehouse_key', 'external_movement_key',
+                'movement_type', 'related_type', 'related_key'], 'default', 'value' => ''],
             [['movement_additional', 'additional'], 'default', 'value' => []],
             [['fulfillment_account_id', 'item_id', 'warehouse_id', 'movement_qty', 'external_created_at'], 'integer'],
             [['movement_additional', 'additional'], 'safe'],

@@ -116,7 +116,13 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             Yii::info("Listen fulfillment $fulfillmentType of $orderFormClass events", __METHOD__);
         }
 
-        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated'], null, false);
+        Event::on(
+            BaseFulfillmentService::class,
+            BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED,
+            [$this, 'afterFulfillmentOrderUpdated'],
+            null,
+            false
+        );
     }
 
     /**

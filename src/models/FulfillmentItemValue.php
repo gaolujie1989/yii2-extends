@@ -40,9 +40,13 @@ class FulfillmentItemValue extends \lujie\fulfillment\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_daily_stock_movement_id', 'item_id', 'warehouse_id', 'old_item_value_cent', 'old_item_qty', 'inbound_item_value_cent', 'inbound_item_qty', 'new_item_value_cent', 'new_item_qty', 'latest'], 'default', 'value' => 0],
+            [['fulfillment_daily_stock_movement_id', 'item_id', 'warehouse_id',
+                'old_item_value_cent', 'old_item_qty', 'inbound_item_value_cent', 'inbound_item_qty',
+                'new_item_value_cent', 'new_item_qty', 'latest'], 'default', 'value' => 0],
             [['external_item_key', 'external_warehouse_key', 'currency'], 'default', 'value' => ''],
-            [['fulfillment_daily_stock_movement_id', 'item_id', 'warehouse_id', 'old_item_value_cent', 'old_item_qty', 'inbound_item_value_cent', 'inbound_item_qty', 'new_item_value_cent', 'new_item_qty', 'latest'], 'integer'],
+            [['fulfillment_daily_stock_movement_id', 'item_id', 'warehouse_id',
+                'old_item_value_cent', 'old_item_qty', 'inbound_item_value_cent', 'inbound_item_qty',
+                'new_item_value_cent', 'new_item_qty', 'latest'], 'integer'],
             [['value_date'], 'required'],
             [['value_date'], 'safe'],
             [['external_item_key', 'external_warehouse_key'], 'string', 'max' => 50],

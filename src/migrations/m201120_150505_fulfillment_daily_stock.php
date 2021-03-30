@@ -25,10 +25,16 @@ class m201120_150505_fulfillment_daily_stock extends Migration
             'stock_date' => $this->date()->notNull(),
         ]);
 
-        $this->createIndex('idx_item_stock_date_warehouse_account', $this->tableName,
-            ['item_id', 'stock_date', 'warehouse_id', 'fulfillment_account_id']);
-        $this->createIndex('idx_external_item_stock_date_warehouse_account', $this->tableName,
-            ['external_item_key', 'stock_date', 'external_warehouse_key', 'fulfillment_account_id']);
+        $this->createIndex(
+            'idx_item_stock_date_warehouse_account',
+            $this->tableName,
+            ['item_id', 'stock_date', 'warehouse_id', 'fulfillment_account_id']
+        );
+        $this->createIndex(
+            'idx_external_item_stock_date_warehouse_account',
+            $this->tableName,
+            ['external_item_key', 'stock_date', 'external_warehouse_key', 'fulfillment_account_id']
+        );
         $this->createIndex('idx_stock_date', $this->tableName, ['stock_date']);
     }
 }

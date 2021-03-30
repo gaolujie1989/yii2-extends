@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\mocks;
 
-
 use lujie\fulfillment\ItemValueCalculator;
 
 class MockItemValueCalculator extends ItemValueCalculator

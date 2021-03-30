@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\pm;
 
-
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -885,7 +884,7 @@ class PmFulfillmentService extends BaseFulfillmentService
         $fulfillmentStockMovement->external_created_at = is_numeric($externalStockMovement['createdAt']) ? $externalStockMovement['createdAt'] : strtotime($externalStockMovement['createdAt']);
         if ($externalStockMovement['reason'] < 200) {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_INBOUND;
-        } else if ($externalStockMovement['reason'] < 300) {
+        } elseif ($externalStockMovement['reason'] < 300) {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_OUTBOUND;
         } else {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_CORRECTION;

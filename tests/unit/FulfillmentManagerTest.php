@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\data\loader\ChainedDataLoader;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\constants\StatusConst;
@@ -79,7 +78,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         /** @var Queue $queue */
         $queue = Instance::ensure('queue');
         $pushedJobs = [];
-        $queue->on(Queue::EVENT_BEFORE_PUSH, static function(PushEvent $event) use (&$pushedJobs) {
+        $queue->on(Queue::EVENT_BEFORE_PUSH, static function (PushEvent $event) use (&$pushedJobs) {
             $pushedJobs[] = $event->job;
             $event->handled = true;
         });

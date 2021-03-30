@@ -39,7 +39,7 @@ class FulfillmentWarehouse extends \lujie\fulfillment\base\db\ActiveRecord
             [['fulfillment_account_id', 'warehouse_id', 'support_movement', 'external_movement_at'], 'integer'],
             [['external_warehouse_additional', 'additional'], 'safe'],
             [['external_warehouse_key'], 'string', 'max' => 50],
-            [['warehouse_id'], 'unique', 'when' => static function($model) {
+            [['warehouse_id'], 'unique', 'when' => static function ($model) {
                 return $model->warehouse_id > 0;
             }],
             [['external_warehouse_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_warehouse_key', 'fulfillment_account_id']],

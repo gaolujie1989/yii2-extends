@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\f4px;
 
-
 use lujie\data\loader\ArrayDataLoader;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
@@ -285,7 +284,6 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
      */
     public function te1stPullFulfillmentOrders(): void
     {
-
     }
 
     /**

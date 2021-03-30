@@ -61,5 +61,4 @@ class FulfillmentWarehouseStockMovementQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

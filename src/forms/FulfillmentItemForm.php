@@ -14,5 +14,4 @@ use lujie\fulfillment\models\FulfillmentItem;
  */
 class FulfillmentItemForm extends FulfillmentItem
 {
-
 }

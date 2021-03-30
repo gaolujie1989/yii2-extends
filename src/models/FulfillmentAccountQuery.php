@@ -33,5 +33,4 @@ use lujie\common\account\models\AccountQuery;
  */
 class FulfillmentAccountQuery extends AccountQuery
 {
-
 }

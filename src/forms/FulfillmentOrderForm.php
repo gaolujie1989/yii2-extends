@@ -14,5 +14,4 @@ use lujie\fulfillment\models\FulfillmentOrder;
  */
 class FulfillmentOrderForm extends FulfillmentOrder
 {
-
 }

@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\fulfillment\models\FulfillmentItemValue;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentDailyStockFixture;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentDailyStockMovementFixture;

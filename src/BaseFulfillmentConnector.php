@@ -355,7 +355,6 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      */
     protected function updateOrderAdditional(BaseActiveRecord $order, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
     {
-
     }
 
     #endregion

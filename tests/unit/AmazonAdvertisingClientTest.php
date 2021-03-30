@@ -9,10 +9,7 @@ use lujie\amazon\advertising\AmazonAdvertisingClient;
 
 class AmazonAdvertisingClientTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

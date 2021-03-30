@@ -123,7 +123,8 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         if ($salesChannelOrder === null) {
             return null;
         }
-        if (in_array($salesChannelOrder->sales_channel_status, [SalesChannelConst::CHANNEL_STATUS_SHIPPED, SalesChannelConst::CHANNEL_STATUS_CANCELLED], true)) {
+        $finishedStatus = [SalesChannelConst::CHANNEL_STATUS_SHIPPED, SalesChannelConst::CHANNEL_STATUS_CANCELLED];
+        if (in_array($salesChannelOrder->sales_channel_status, $finishedStatus, true)) {
             return null;
         }
         $salesChannelOrder->order_status = $orderStatus;

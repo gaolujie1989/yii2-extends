@@ -15,8 +15,6 @@ use yii\base\InvalidArgumentException;
 
 class DbStockManagerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -7,10 +7,7 @@ use lujie\data\exchange\transformers\KeyMapTransformer;
 
 class ChainedTransformerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

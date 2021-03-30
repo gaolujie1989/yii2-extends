@@ -7,10 +7,7 @@ use lujie\extend\file\writers\CsvWriter;
 
 class CsvExporterTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

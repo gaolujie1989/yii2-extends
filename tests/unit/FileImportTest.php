@@ -13,10 +13,7 @@ use yii\helpers\FileHelper;
 
 class FileImportTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

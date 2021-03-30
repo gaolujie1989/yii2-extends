@@ -9,10 +9,7 @@ use lujie\data\exchange\sources\DbSource;
 
 class DbSourceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

@@ -6,10 +6,7 @@ use lujie\extend\file\readers\CsvReader;
 
 class CsvParserTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

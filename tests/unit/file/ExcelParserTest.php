@@ -6,10 +6,7 @@ use lujie\extend\file\readers\ExcelReader;
 
 class ExcelParserTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

@@ -5,7 +5,6 @@
 
 namespace lujie\remote\user;
 
-
 use lujie\extend\helpers\HttpClientHelper;
 use yii\base\BaseObject;
 use yii\di\Instance;

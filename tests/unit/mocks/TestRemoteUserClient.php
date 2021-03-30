@@ -5,7 +5,6 @@
 
 namespace lujie\remote\user\tests\unit\mocks;
 
-
 use lujie\remote\user\RemoteUserClient;
 
 /**

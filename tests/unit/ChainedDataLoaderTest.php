@@ -12,10 +12,7 @@ use lujie\data\loader\ChainedDataLoader;
  */
 class ChainedDataLoaderTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

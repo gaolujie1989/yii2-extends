@@ -9,10 +9,7 @@ use lujie\plentyMarkets\PlentyMarketAddressFormatter;
 
 class PlentyMarketsAddressFormatterTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

@@ -183,5 +183,4 @@ abstract class BaseMonitorBehavior extends Behavior
      * @inheritdoc
      */
     abstract protected function deleteExec(array $condition): void;
-
 }

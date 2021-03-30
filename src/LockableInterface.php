@@ -5,7 +5,6 @@
 
 namespace lujie\executing;
 
-
 use yii\mutex\Mutex;
 
 interface LockableInterface

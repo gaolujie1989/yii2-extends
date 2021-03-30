@@ -5,7 +5,6 @@
 
 namespace lujie\executing\tests\unit\mocks;
 
-
 use lujie\executing\ExecutableInterface;
 use lujie\executing\ExecutableTrait;
 use lujie\executing\LockableInterface;

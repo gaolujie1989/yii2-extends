@@ -5,7 +5,6 @@
 
 namespace lujie\executing\monitor\behaviors;
 
-
 use lujie\executing\ExecutableInterface;
 use lujie\extend\constants\ExecStatusConst;
 use yii\db\Connection;

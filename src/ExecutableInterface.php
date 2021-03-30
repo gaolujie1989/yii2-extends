@@ -5,7 +5,6 @@
 
 namespace lujie\executing;
 
-
 interface ExecutableInterface
 {
     /**

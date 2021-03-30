@@ -10,10 +10,7 @@ use lujie\data\exchange\tests\unit\fixtures\Migration;
 
 class ActiveRecordSourceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

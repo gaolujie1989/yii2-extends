@@ -7,10 +7,7 @@ use lujie\extend\file\writers\ExcelWriter;
 
 class ExcelExporterTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

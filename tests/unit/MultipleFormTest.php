@@ -9,10 +9,7 @@ use yii\base\ModelEvent;
 
 class MultipleFormTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

@@ -8,12 +8,9 @@ namespace lujie\common\models\tests\unit\item;
 use lujie\common\item\forms\ItemForm;
 use lujie\common\item\models\Item;
 use lujie\common\item\models\ItemBarcode;
-use yii\helpers\VarDumper;
 
 class ItemFormTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

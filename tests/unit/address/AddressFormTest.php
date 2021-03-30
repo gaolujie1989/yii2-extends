@@ -10,8 +10,6 @@ use lujie\common\address\models\Address;
 
 class AddressFormTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

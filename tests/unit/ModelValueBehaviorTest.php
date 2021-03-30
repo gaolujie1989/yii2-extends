@@ -11,8 +11,6 @@ use yii\helpers\VarDumper;
 
 class ModelValueBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

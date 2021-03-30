@@ -6,8 +6,6 @@ use lujie\data\exchange\transformers\FillPreValueTransformer;
 
 class FillPreValueTransformerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

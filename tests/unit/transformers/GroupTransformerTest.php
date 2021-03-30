@@ -6,8 +6,6 @@ use lujie\data\exchange\transformers\GroupTransformer;
 
 class GroupTransformerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

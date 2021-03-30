@@ -14,8 +14,6 @@ use lujie\extend\file\writers\CsvWriter;
 
 class FileExportTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

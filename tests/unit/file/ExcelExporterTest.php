@@ -7,8 +7,6 @@ use lujie\extend\file\writers\ExcelWriter;
 
 class ExcelExporterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

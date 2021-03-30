@@ -10,8 +10,6 @@ use lujie\extend\tests\unit\mocks\MockRestClient;
 
 class RestClientSourceTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -6,8 +6,6 @@ use lujie\extend\file\readers\ExcelReader;
 
 class ExcelParserTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

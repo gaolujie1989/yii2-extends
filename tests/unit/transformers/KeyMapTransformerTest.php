@@ -6,8 +6,6 @@ use lujie\data\exchange\transformers\KeyMapTransformer;
 
 class KeyMapTransformerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

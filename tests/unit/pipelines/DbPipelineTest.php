@@ -12,8 +12,6 @@ use yii\di\Instance;
 
 class DbPipelineTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

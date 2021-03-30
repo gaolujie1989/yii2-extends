@@ -10,8 +10,6 @@ use lujie\data\exchange\tests\unit\fixtures\Migration;
 
 class ActiveRecordPipelineTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

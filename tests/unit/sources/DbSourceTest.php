@@ -9,8 +9,6 @@ use lujie\data\exchange\sources\DbSource;
 
 class DbSourceTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

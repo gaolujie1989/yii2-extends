@@ -5,7 +5,6 @@
 
 namespace lujie\ar\history\behaviors;
 
-
 use lujie\ar\history\handlers\ArrayAttributeHistoryHandler;
 use lujie\ar\history\handlers\AttributeHistoryHandlerInterface;
 use lujie\ar\history\handlers\BaseAttributeHistoryHandler;

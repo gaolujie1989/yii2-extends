@@ -11,10 +11,7 @@ use Yii;
 
 class DbMonitorBehaviorTest extends ActiveRecordMonitorBehaviorTest
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

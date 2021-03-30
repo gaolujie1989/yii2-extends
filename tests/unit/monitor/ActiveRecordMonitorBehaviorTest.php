@@ -18,10 +18,7 @@ use yii\queue\Queue;
 
 class ActiveRecordMonitorBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

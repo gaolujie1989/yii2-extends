@@ -5,7 +5,6 @@
 
 namespace lujie\data\loader;
 
-
 interface DataLoaderInterface
 {
     /**

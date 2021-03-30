@@ -55,7 +55,7 @@ class CachedDataLoader extends BaseDataLoader
      */
     public function get($key)
     {
-        return $this->getOrSet($key, function() use ($key) {
+        return $this->getOrSet($key, function () use ($key) {
             return $this->dataLoader->get($key);
         });
     }
@@ -69,7 +69,7 @@ class CachedDataLoader extends BaseDataLoader
     public function multiGet(array $keys): array
     {
         $cacheKey = implode(';', $keys);
-        return $this->getOrSet($cacheKey, function() use ($keys) {
+        return $this->getOrSet($cacheKey, function () use ($keys) {
             return parent::multiGet($keys);
         });
     }
@@ -81,7 +81,7 @@ class CachedDataLoader extends BaseDataLoader
      */
     public function all(): ?array
     {
-        return $this->getOrSet($this->cacheAllKey, function() {
+        return $this->getOrSet($this->cacheAllKey, function () {
             return $this->dataLoader->all();
         });
     }

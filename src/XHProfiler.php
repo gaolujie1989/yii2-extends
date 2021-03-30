@@ -71,12 +71,12 @@ class XHProfiler
         $extension = Xhgui_Config::read('extension');
         if ($extension === 'uprofiler' && extension_loaded('uprofiler')) {
             uprofiler_enable(UPROFILER_FLAGS_CPU | UPROFILER_FLAGS_MEMORY);
-        } else if ($extension === 'tideways_xhprof' && extension_loaded('tideways_xhprof')) {
+        } elseif ($extension === 'tideways_xhprof' && extension_loaded('tideways_xhprof')) {
             tideways_xhprof_enable(TIDEWAYS_XHPROF_FLAGS_MEMORY | TIDEWAYS_XHPROF_FLAGS_MEMORY_MU | TIDEWAYS_XHPROF_FLAGS_MEMORY_PMU | TIDEWAYS_XHPROF_FLAGS_CPU);
-        } else if ($extension === 'tideways' && extension_loaded('tideways')) {
+        } elseif ($extension === 'tideways' && extension_loaded('tideways')) {
             tideways_enable(TIDEWAYS_FLAGS_CPU | TIDEWAYS_FLAGS_MEMORY);
             tideways_span_create('sql');
-        } else if (function_exists('xhprof_enable')) {
+        } elseif (function_exists('xhprof_enable')) {
             if (PHP_MAJOR_VERSION === 5 && PHP_MINOR_VERSION > 4) {
                 xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY | XHPROF_FLAGS_NO_BUILTINS);
             } else {
@@ -96,17 +96,17 @@ class XHProfiler
         $extension = Xhgui_Config::read('extension');
         if ($extension === 'uprofiler' && extension_loaded('uprofiler')) {
             $data['profile'] = uprofiler_disable();
-        } else if ($extension === 'tideways_xhprof' && extension_loaded('tideways_xhprof')) {
+        } elseif ($extension === 'tideways_xhprof' && extension_loaded('tideways_xhprof')) {
             $data['profile'] = tideways_xhprof_disable();
-        } else if ($extension === 'tideways' && extension_loaded('tideways')) {
+        } elseif ($extension === 'tideways' && extension_loaded('tideways')) {
             $data['profile'] = tideways_disable();
             $sqlData = tideways_get_spans();
             $data['sql'] = array();
-            if(isset($sqlData[1])){
-                foreach($sqlData as $val){
-                    if(isset($val['n'], $val['a']['sql']) && $val['n'] === 'sql'){
-                        $_time_tmp = isset($val['b'][0], $val['e'][0]) ?($val['e'][0]-$val['b'][0]):0;
-                        if(!empty($val['a']['sql'])){
+            if (isset($sqlData[1])) {
+                foreach ($sqlData as $val) {
+                    if (isset($val['n'], $val['a']['sql']) && $val['n'] === 'sql') {
+                        $_time_tmp = isset($val['b'][0], $val['e'][0]) ? ($val['e'][0] - $val['b'][0]) : 0;
+                        if (!empty($val['a']['sql'])) {
                             $data['sql'][] = [
                                 'time' => $_time_tmp,
                                 'sql' => $val['a']['sql']

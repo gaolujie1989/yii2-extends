@@ -169,7 +169,7 @@ class Yii2WebServer extends WebServer
                 if (strpos($urlPath, $urlPrefix) === 0) {
                     return false;
                 }
-            } else if (strpos($urlPath, $urlPrefix) === 0) {
+            } elseif (strpos($urlPath, $urlPrefix) === 0) {
                 return true;
             }
         }

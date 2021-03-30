@@ -5,7 +5,6 @@
 
 namespace lujie\workerman\db;
 
-
 use Yii;
 use yii\db\Connection;
 use yii\db\Exception;

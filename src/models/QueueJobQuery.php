@@ -42,5 +42,4 @@ class QueueJobQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

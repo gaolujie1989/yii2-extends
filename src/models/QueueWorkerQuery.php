@@ -38,5 +38,4 @@ class QueueWorkerQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

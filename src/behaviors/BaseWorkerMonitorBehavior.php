@@ -5,7 +5,6 @@
 
 namespace lujie\queuing\monitor\behaviors;
 
-
 use lujie\extend\helpers\ComponentHelper;
 use yii\base\Behavior;
 use yii\queue\cli\Queue as CliQueue;

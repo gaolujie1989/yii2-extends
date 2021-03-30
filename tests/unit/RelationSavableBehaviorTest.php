@@ -13,8 +13,6 @@ use yii\helpers\ArrayHelper;
 
 class RelationSavableBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

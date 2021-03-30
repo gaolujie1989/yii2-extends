@@ -11,8 +11,6 @@ use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderItem;
 
 class RelationDeletableBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

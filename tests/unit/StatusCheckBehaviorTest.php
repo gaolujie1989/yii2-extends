@@ -7,8 +7,6 @@ use lujie\state\machine\tests\unit\fixtures\TestOrder;
 
 class StatusCheckBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

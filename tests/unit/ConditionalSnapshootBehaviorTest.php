@@ -9,10 +9,7 @@ use lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models\TestItemSnapshoot;
 
 class ConditionalSnapshootBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

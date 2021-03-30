@@ -5,7 +5,6 @@
 
 namespace lujie\currency\exchanging\tests\unit\mocks;
 
-
 use lujie\currency\exchanging\CurrencyExchangeRateLoader;
 use yii\base\BaseObject;
 
@@ -43,5 +42,3 @@ class MockCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
         return $this->rates[$from . '/' . $to] ?? 0;
     }
 }
-
-

@@ -5,7 +5,6 @@
 
 namespace lujie\currency\exchanging;
 
-
 interface CurrencyExchangeRateLoader
 {
     /**

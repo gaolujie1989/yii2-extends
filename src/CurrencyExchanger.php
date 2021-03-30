@@ -38,7 +38,7 @@ class CurrencyExchanger extends BaseObject
 
         if (empty($date)) {
             $date = date('Y-m-d');
-        } else if (is_int($date)) {
+        } elseif (is_int($date)) {
             $date = date('Y-m-d', $date);
         }
 

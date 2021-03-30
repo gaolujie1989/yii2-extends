@@ -5,7 +5,6 @@
 
 namespace lujie\currency\exchanging;
 
-
 use lujie\currency\exchanging\models\CurrencyExchangeRate;
 use lujie\extend\caching\CachingTrait;
 use yii\base\BaseObject;

@@ -5,7 +5,6 @@
 
 namespace lujie\currency\exchanging\swap\services;
 
-
 use DateTime;
 use Exchanger\Contract\ExchangeRate as ExchangeRateContract;
 use Exchanger\Contract\ExchangeRateQuery;

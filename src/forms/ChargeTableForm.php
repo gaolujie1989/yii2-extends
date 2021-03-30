@@ -5,7 +5,6 @@
 
 namespace lujie\charging\forms;
 
-
 use lujie\charging\models\ChargeTable;
 use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;

@@ -5,7 +5,6 @@
 
 namespace lujie\charging\forms;
 
-
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\ShippingTableFileImporter;
 use lujie\data\exchange\forms\FileImportForm;

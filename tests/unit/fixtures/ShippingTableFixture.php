@@ -5,7 +5,6 @@
 
 namespace lujie\charging\tests\unit\fixtures;
 
-
 use lujie\charging\models\ShippingTable;
 use yii\test\ActiveFixture;
 

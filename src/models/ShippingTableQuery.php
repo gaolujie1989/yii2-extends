@@ -68,7 +68,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      * @return $this
      * @inheritdoc
      */
-    public function sizeMMLimit(int $lengthMM,int $widthMM,int $heightMM): self
+    public function sizeMMLimit(int $lengthMM, int $widthMM, int $heightMM): self
     {
         $l2whMM = $lengthMM + 2 * ($widthMM + $heightMM);
         $lwhMM = $lengthMM + $widthMM + $heightMM;

@@ -5,7 +5,6 @@
 
 namespace lujie\charging\tests\unit\mocks;
 
-
 use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use yii\base\BaseObject;

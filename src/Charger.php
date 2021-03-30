@@ -5,7 +5,6 @@
 
 namespace lujie\charging;
 
-
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\ValueHelper;

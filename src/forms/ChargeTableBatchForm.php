@@ -5,7 +5,6 @@
 
 namespace lujie\charging\forms;
 
-
 use lujie\batch\BatchForm;
 
 /**

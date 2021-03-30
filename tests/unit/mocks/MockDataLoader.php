@@ -5,7 +5,6 @@
 
 namespace lujie\charging\tests\unit\mocks;
 
-
 use lujie\data\loader\ArrayDataLoader;
 use yii\db\BaseActiveRecord;
 

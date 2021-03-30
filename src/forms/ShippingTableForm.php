@@ -5,7 +5,6 @@
 
 namespace lujie\charging\forms;
 
-
 use lujie\charging\models\ShippingTable;
 use lujie\extend\db\FormTrait;
 

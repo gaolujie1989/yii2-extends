@@ -5,7 +5,6 @@
 
 namespace lujie\charging\tests\unit\fixtures;
 
-
 use lujie\charging\models\ChargeTable;
 use yii\test\ActiveFixture;
 

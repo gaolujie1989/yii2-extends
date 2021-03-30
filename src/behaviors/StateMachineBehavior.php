@@ -8,7 +8,6 @@
 
 namespace lujie\state\machine\behaviors;
 
-
 use lujie\state\machine\StatusEvent;
 use yii\base\Behavior;
 use yii\base\InvalidCallException;

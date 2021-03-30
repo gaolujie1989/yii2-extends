@@ -8,7 +8,6 @@
 
 namespace lujie\state\machine;
 
-
 use yii\base\Event;
 
 /**

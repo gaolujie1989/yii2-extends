@@ -13,5 +13,4 @@ namespace lujie\state\machine\tests\unit\fixtures;
  */
 class TestOrderStatusTransition extends \yii\db\ActiveRecord
 {
-
 }

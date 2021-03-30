@@ -20,8 +20,6 @@ use yii\httpclient\Response;
  */
 class PmSalesChannelTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

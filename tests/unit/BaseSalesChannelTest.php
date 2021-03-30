@@ -13,8 +13,6 @@ use lujie\sales\channel\tests\unit\mocks\MockSalesChannel;
 
 class BaseSalesChannelTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

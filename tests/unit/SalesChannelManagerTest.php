@@ -17,14 +17,11 @@ use lujie\sales\channel\models\SalesChannelOrder;
 use lujie\sales\channel\SalesChannelManager;
 use lujie\sales\channel\tests\unit\mocks\MockSalesChannelLoader;
 use Yii;
-use yii\helpers\VarDumper;
 use yii\queue\PushEvent;
 use yii\queue\Queue;
 
 class SalesChannelManagerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

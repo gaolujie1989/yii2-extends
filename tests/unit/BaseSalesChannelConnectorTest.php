@@ -15,8 +15,6 @@ use Yii;
 
 class BaseSalesChannelConnectorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

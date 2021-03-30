@@ -11,8 +11,6 @@ use lujie\project\models\TaskGroup;
 
 class ProjectFormTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

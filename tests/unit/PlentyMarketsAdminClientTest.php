@@ -10,8 +10,6 @@ use Yii;
 
 class PlentyMarketsAdminClientTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

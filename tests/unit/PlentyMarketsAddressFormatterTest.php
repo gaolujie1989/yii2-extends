@@ -9,8 +9,6 @@ use lujie\plentyMarkets\PlentyMarketAddressFormatter;
 
 class PlentyMarketsAddressFormatterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

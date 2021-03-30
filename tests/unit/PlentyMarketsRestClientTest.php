@@ -11,8 +11,6 @@ use yii\helpers\ArrayHelper;
 
 class PlentyMarketsRestClientTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

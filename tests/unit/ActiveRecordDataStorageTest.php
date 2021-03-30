@@ -12,10 +12,7 @@ use lujie\data\storage\tests\unit\fixtures\Migration;
  */
 class ActiveRecordDataStorageTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

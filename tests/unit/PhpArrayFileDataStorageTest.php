@@ -11,10 +11,7 @@ use lujie\data\storage\FileDataStorage;
  */
 class PhpArrayFileDataStorageTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

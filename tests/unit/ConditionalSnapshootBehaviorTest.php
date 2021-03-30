@@ -9,8 +9,6 @@ use lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models\TestItemSnapshoot;
 
 class ConditionalSnapshootBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

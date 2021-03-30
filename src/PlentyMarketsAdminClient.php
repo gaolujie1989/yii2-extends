@@ -129,8 +129,10 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         $sessionRequestData = ['request' => Json::encode($sessionRequestData)];
         $header = [
             'Authorization' => 'Bearer ' . $this->getAuthorization(),
-            'Referer' => strtr('https://{domainHash}.plentymarkets-cloud-de.com/plenty/gwt/productive/2a28ee69/admin.html',
-                ['{domainHash}' => $this->getDomainHash()]),
+            'Referer' => strtr(
+                'https://{domainHash}.plentymarkets-cloud-de.com/plenty/gwt/productive/2a28ee69/admin.html',
+                ['{domainHash}' => $this->getDomainHash()]
+            ),
         ];
         $sessionUrl = strtr($this->apiUiUrl, ['{domainHash}' => $this->getDomainHash()]);
         $response = $this->createRequest()
@@ -333,7 +335,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      */
     public function regenerateOrderInvoice(array $orderIds)
     {
-        $data = array_map(static function($orderId) {
+        $data = array_map(static function ($orderId) {
             return [
                 'Object' => 'mod_order@GuiOrderDetails',
                 'Params' => [

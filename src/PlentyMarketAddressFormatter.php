@@ -71,7 +71,7 @@ class PlentyMarketAddressFormatter
      */
     public static function extractNumberFromAddress(string $address, bool $numberInLeft = true): array
     {
-        if (preg_match('/\w*\d+(\S*\s+(\S{1,2}\s)?)?/', $address , $matches, PREG_OFFSET_CAPTURE)) {
+        if (preg_match('/\w*\d+(\S*\s+(\S{1,2}\s)?)?/', $address, $matches, PREG_OFFSET_CAPTURE)) {
             $addressLength = strlen($address);
             $numberPos = $matches[0][1];
             $numberLength = strlen($matches[0][0]);
@@ -132,7 +132,7 @@ class PlentyMarketAddressFormatter
             if (strlen($address['address3']) >= $minAddress1Length) {
                 $address['address1'] = $address['address3'];
                 $address['address3'] = $address1;
-            } else if (strlen($address['address2']) >= $minAddress1Length) {
+            } elseif (strlen($address['address2']) >= $minAddress1Length) {
                 $address['address1'] = $address['address2'];
                 $address['address2'] = $address1;
             }

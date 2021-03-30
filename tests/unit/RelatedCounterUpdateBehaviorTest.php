@@ -8,10 +8,7 @@ use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderPayment;
 
 class RelatedCounterUpdateBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

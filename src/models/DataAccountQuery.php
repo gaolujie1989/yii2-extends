@@ -22,5 +22,4 @@ use lujie\common\account\models\AccountQuery;
  */
 class DataAccountQuery extends AccountQuery
 {
-
 }

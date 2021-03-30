@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording;
 
-
 use lujie\data\loader\BaseDataLoader;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataRecordData;

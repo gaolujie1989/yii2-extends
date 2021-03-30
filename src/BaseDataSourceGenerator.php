@@ -86,8 +86,13 @@ abstract class BaseDataSourceGenerator extends BaseObject
      * @return DataSource
      * @inheritdoc
      */
-    protected function createRecordSource(int $dataAccountId, string $type,
-                                          int $fromTime, int $toTime, string $timeField = 'data_updated_at'): DataSource
+    protected function createRecordSource(
+        int $dataAccountId,
+        string $type,
+        int $fromTime,
+        int $toTime,
+        string $timeField = 'data_updated_at'
+    ): DataSource
     {
         $exportSource = new DataSource();
         $exportSource->data_account_id = $dataAccountId;

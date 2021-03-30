@@ -71,7 +71,7 @@ class ProxyRequestForm extends Model
             [['dataAccountId'], 'integer'],
             [['url', 'method'], 'string'],
             [['data'], 'safe'],
-            [['method'], 'in', 'range' => ['GET', 'POST', 'PUT', 'DELETE'], 'when' => function() {
+            [['method'], 'in', 'range' => ['GET', 'POST', 'PUT', 'DELETE'], 'when' => function () {
                 return $this->url;
             }],
         ];
@@ -99,7 +99,7 @@ class ProxyRequestForm extends Model
         try {
             if ($this->url) {
                 $this->responseData = $client->api($this->url, $this->method, $this->data);
-            } else if ($this->method) {
+            } elseif ($this->method) {
                 $this->responseData = $client->{$this->method}($this->data);
             } else {
                 return false;

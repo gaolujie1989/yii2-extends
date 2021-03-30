@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\tests\unit\transformers;
 
-
 use lujie\data\recording\transformers\RecordTransformer;
 
 class RecordTransformerTest extends \Codeception\Test\Unit

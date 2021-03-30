@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\base\db;
 
-
 use lujie\extend\db\AliasFieldTrait;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\SaveTrait;

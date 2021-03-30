@@ -90,7 +90,7 @@ class RecordTransformer extends BaseObject implements TransformerInterface
                     } else {
                         $record[$attribute] = $value;
                     }
-                } else if (is_array($item)) {
+                } elseif (is_array($item)) {
                     foreach ($item as $k => $v) {
                         if (is_int($k)) {
                             $k = $v;

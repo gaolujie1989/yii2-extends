@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\tests\unit\forms;
 
-
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\forms\GenerateSourceForm;
 use lujie\data\recording\models\DataSource;

@@ -17,7 +17,7 @@ use yii\queue\Queue;
  * @package kiwi\data\recording\controllers\backend
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class  DataSourceController extends ActiveController
+class DataSourceController extends ActiveController
 {
     /**
      * @var string|DataSource
@@ -49,8 +49,15 @@ class  DataSourceController extends ActiveController
         /** @var RecordingJob $job */
         $job = Instance::ensure($this->jobConfig, RecordingJob::class);
         $job->dataSourceId = $model->data_source_id;
-        $result = ExecuteHelper::pushJob($this->queue, $job, $model,
-            'last_exec_status', 'last_exec_result', 'updated_at', 0);
+        $result = ExecuteHelper::pushJob(
+            $this->queue,
+            $job,
+            $model,
+            'last_exec_status',
+            'last_exec_result',
+            'updated_at',
+            0
+        );
         return ['success' => $result];
     }
 }

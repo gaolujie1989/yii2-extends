@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\tests\unit\mocks;
 
-
 use lujie\data\exchange\sources\ArraySource;
 use lujie\data\exchange\sources\SourceInterface;
 use lujie\data\recording\BaseDataRecorder;

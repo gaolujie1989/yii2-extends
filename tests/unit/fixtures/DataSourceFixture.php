@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\tests\unit\fixtures;
 
-
 use lujie\data\recording\models\DataSource;
 use yii\test\ActiveFixture;
 

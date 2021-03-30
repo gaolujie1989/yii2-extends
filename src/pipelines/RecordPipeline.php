@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\pipelines;
 
-
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\recording\models\DataRecord;
 use lujie\data\recording\models\DataSource;

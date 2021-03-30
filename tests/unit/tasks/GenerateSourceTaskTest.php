@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\tests\unit\tasks;
 
-
 use lujie\data\loader\ArrayDataLoader;
 use lujie\data\recording\models\DataSource;
 use lujie\data\recording\tasks\GenerateSourceTask;

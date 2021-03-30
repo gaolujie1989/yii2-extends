@@ -5,7 +5,6 @@
 
 namespace lujie\data\recording\searches;
 
-
 use lujie\common\account\searches\AccountSearch;
 use lujie\data\recording\models\DataAccount;
 

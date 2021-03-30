@@ -10,8 +10,6 @@ use yii\helpers\VarDumper;
 
 class SwapCurrencyExchangeRateLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

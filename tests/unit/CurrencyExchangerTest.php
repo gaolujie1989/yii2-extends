@@ -10,8 +10,6 @@ use lujie\currency\exchanging\tests\unit\fixtures\CurrencyExchangeRateFixture;
 
 class CurrencyExchangerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

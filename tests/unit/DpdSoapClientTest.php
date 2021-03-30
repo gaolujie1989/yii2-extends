@@ -17,8 +17,6 @@ use Yii;
 
 class DpdSoapClientTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

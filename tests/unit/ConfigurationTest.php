@@ -15,8 +15,6 @@ use yii\db\BaseActiveRecord;
 
 class ConfigurationTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

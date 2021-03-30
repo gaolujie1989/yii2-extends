@@ -11,10 +11,7 @@ use lujie\data\recording\pipelines\RecordPipeline;
 
 class DataRecordPipelineTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

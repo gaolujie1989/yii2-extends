@@ -13,10 +13,7 @@ use Yii;
 
 class GenerateSourceTaskTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     /**
      * @throws \yii\base\InvalidConfigException

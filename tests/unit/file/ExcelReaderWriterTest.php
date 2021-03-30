@@ -7,7 +7,6 @@ namespace lujie\extend\tests\unit\file;
 
 use lujie\extend\file\readers\ExcelReader;
 use lujie\extend\file\writers\ExcelWriter;
-use lujie\fulfillment\tasks\PullFulfillmentWarehouseStockMovementTask;
 use Yii;
 use yii\helpers\FileHelper;
 
@@ -50,7 +49,7 @@ class ExcelReaderWriterTest extends \Codeception\Test\Unit
             unlink($file);
         }
         $writer = new ExcelWriter();
-        $writer->adapter = ExcelWriter::ADAPTER_PhpSpreadsheet;
+        $writer->adapter = ExcelWriter::ADAPTER_PHPSPREADSHEET;
         $writer->write($file, $data);
 
         $reader = new ExcelReader();
@@ -58,7 +57,7 @@ class ExcelReaderWriterTest extends \Codeception\Test\Unit
         $this->assertEquals($data, $readData);
 
         $writer = new ExcelWriter();
-        $writer->adapter = ExcelWriter::ADAPTER_XLSXWriter;
+        $writer->adapter = ExcelWriter::ADAPTER_XLSXWRITER;
         $writer->write($file, $data);
 
         $data = [

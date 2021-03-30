@@ -51,7 +51,7 @@ abstract class BaseCookieClient extends BaseClient
     /**
      * @var ?CookieCollection
      */
-    private $_cookies;
+    private $cookies;
 
     /**
      * @var string
@@ -125,7 +125,7 @@ abstract class BaseCookieClient extends BaseClient
             }
         }
         Yii::debug("Set Cookies", __METHOD__);
-        $this->_cookies = $cookies;
+        $this->cookies = $cookies;
         $this->setState('cookies', $cookies);
     }
 
@@ -136,19 +136,19 @@ abstract class BaseCookieClient extends BaseClient
      */
     public function getCookies(): ?CookieCollection
     {
-        if (empty($this->_cookies)) {
+        if (empty($this->cookies)) {
             Yii::debug("Get Cookies", __METHOD__);
-            $this->_cookies = $this->getState('cookies') ?: $this->login();
+            $this->cookies = $this->getState('cookies') ?: $this->login();
             $now = time();
             /** @var Cookie $cookie */
-            foreach ($this->_cookies as $cookie) {
+            foreach ($this->cookies as $cookie) {
                 if ($cookie->expire <= $now) {
                     Yii::debug("Cookies expired, login again", __METHOD__);
-                    $this->_cookies = $this->login();
+                    $this->cookies = $this->login();
                 }
             }
         }
-        return $this->_cookies;
+        return $this->cookies;
     }
 
     /**

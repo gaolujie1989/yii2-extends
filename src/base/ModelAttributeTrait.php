@@ -15,7 +15,7 @@ trait ModelAttributeTrait
     /**
      * @var array attribute values indexed by attribute names
      */
-    private $_attributes = [];
+    private $attributes = [];
 
     /**
      * @param string $name
@@ -23,7 +23,7 @@ trait ModelAttributeTrait
      */
     public function hasAttribute(string $name): bool
     {
-        return isset($this->_attributes[$name]) || in_array($name, $this->attributes(), true);
+        return isset($this->attributes[$name]) || in_array($name, $this->attributes(), true);
     }
 
     /**
@@ -34,8 +34,8 @@ trait ModelAttributeTrait
      */
     public function __get($name)
     {
-        if (isset($this->_attributes[$name]) || array_key_exists($name, $this->_attributes)) {
-            return $this->_attributes[$name];
+        if (isset($this->attributes[$name]) || array_key_exists($name, $this->attributes)) {
+            return $this->attributes[$name];
         }
         if ($this->hasAttribute($name)) {
             return null;
@@ -52,7 +52,7 @@ trait ModelAttributeTrait
     public function __set($name, $value)
     {
         if ($this->hasAttribute($name)) {
-            $this->_attributes[$name] = $value;
+            $this->attributes[$name] = $value;
         } else {
             parent::__set($name, $value);
         }

@@ -20,8 +20,9 @@ use yii\base\BaseObject;
  */
 class ExcelWriter extends BaseObject implements FileWriterInterface
 {
-    public const ADAPTER_XLSXWriter = 'XLSXWriter';
-    public const ADAPTER_PhpSpreadsheet = 'PhpSpreadsheet';
+    public const ADAPTER_XLSX_WRITER = 'XLSXWriter';
+
+    public const ADAPTER_PHP_SPREAD_SHEET = 'PhpSpreadsheet';
 
     public $keyAsHeader = true;
 
@@ -54,7 +55,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             }
         }
 
-        if ($this->adapter === self::ADAPTER_XLSXWriter) {
+        if ($this->adapter === self::ADAPTER_XLSX_WRITER) {
             $this->writeByXLSXWriter($file, $data);
         } else {
             $this->writeByPhpSpreadsheet($file, $data);

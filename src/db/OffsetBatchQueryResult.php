@@ -6,13 +6,14 @@
 namespace lujie\extend\db;
 
 use Yii;
+use yii\db\BatchQueryResult;
 
 /**
  * Class OffsetBatchQueryResult
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
+class OffsetBatchQueryResult extends BatchQueryResult
 {
     /**
      * @var int
@@ -22,22 +23,22 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
     /**
      * @var int
      */
-    private $_offset = 0;
+    private $offset = 0;
 
     /**
      * @var array
      */
-    private $_offsetData = [];
+    private $offsetData = [];
 
     /**
      * @var int
      */
-    private $_queryCount;
+    private $queryCount;
 
     /**
      * @var int
      */
-    private $_fetchCount;
+    private $fetchCount;
 
     /**
      * @inheritdoc
@@ -45,7 +46,7 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
     public function init(): void
     {
         parent::init();
-        $this->_queryCount = $this->query->count();
+        $this->queryCount = $this->query->count();
         Yii::debug('Using OffsetBatchQueryResult, be sure that condition result and sort will not be changed in query', __METHOD__);
     }
 
@@ -64,7 +65,7 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
     public function reset(): void
     {
         parent::reset();
-        $this->_offset = 0;
+        $this->offset = 0;
     }
 
     /**
@@ -72,22 +73,22 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
      */
     protected function fetchOffsetData(): array
     {
-        if ($this->_offsetData) {
-            return array_shift($this->_offsetData);
+        if ($this->offsetData) {
+            return array_shift($this->offsetData);
         }
 
-        $offset = $this->_offset;
-        $this->_offset += $this->limit;
+        $offset = $this->offset;
+        $this->offset += $this->limit;
         $offsetData = (clone $this->query)
             ->offset($this->batchSize * $offset)
             ->limit($this->batchSize * $this->limit)
             ->all($this->db);
 
         $offsetDataCount = count($offsetData);
-        $this->_fetchCount += $offsetDataCount;
-        if ($this->_fetchCount > $this->_queryCount
-            || ($offsetDataCount === 0 && $this->_fetchCount < $this->_queryCount)) {
-            Yii::warning("OffsetBatchQueryResult query count {$this->_queryCount} is not equal with real fetched count {$this->_fetchCount}.", __METHOD__);
+        $this->fetchCount += $offsetDataCount;
+        if ($this->fetchCount > $this->queryCount
+            || ($offsetDataCount === 0 && $this->fetchCount < $this->queryCount)) {
+            Yii::warning("OffsetBatchQueryResult query count {$this->queryCount} is not equal with real fetched count {$this->fetchCount}.", __METHOD__);
         }
         if ($offsetDataCount === 0) {
             return [];
@@ -96,8 +97,8 @@ class OffsetBatchQueryResult extends \yii\db\BatchQueryResult
         if ($this->limit === 1) {
             return $offsetData;
         } else {
-            $this->_offsetData = array_chunk($offsetData, $this->batchSize);
-            return array_shift($this->_offsetData);
+            $this->offsetData = array_chunk($offsetData, $this->batchSize);
+            return array_shift($this->offsetData);
         }
     }
 }

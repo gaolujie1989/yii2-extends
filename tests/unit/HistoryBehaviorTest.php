@@ -13,8 +13,6 @@ use yii\helpers\VarDumper;
 
 class HistoryBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -2,14 +2,11 @@
 
 namespace lujie\ar\history\behaviors\tests\unit;
 
-use lujie\ar\history\handlers\BaseAttributeHistoryHandler;
 use lujie\ar\history\handlers\MapAttributeHistoryHandler;
 use lujie\data\loader\ArrayDataLoader;
 
 class MapAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

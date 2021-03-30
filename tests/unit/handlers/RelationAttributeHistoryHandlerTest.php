@@ -9,8 +9,6 @@ use yii\helpers\VarDumper;
 
 class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

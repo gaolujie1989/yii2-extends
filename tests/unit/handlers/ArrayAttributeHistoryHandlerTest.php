@@ -7,8 +7,6 @@ use yii\helpers\VarDumper;
 
 class ArrayAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

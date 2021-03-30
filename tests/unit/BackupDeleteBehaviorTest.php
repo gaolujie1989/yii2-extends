@@ -7,10 +7,7 @@ use lujie\ar\backup\delete\models\DeletedData;
 
 class BackupDeleteBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

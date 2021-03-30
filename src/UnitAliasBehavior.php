@@ -5,7 +5,6 @@
 
 namespace lujie\alias\behaviors;
 
-
 use yii\base\InvalidValueException;
 
 /**

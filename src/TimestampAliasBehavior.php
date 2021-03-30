@@ -5,7 +5,6 @@
 
 namespace lujie\alias\behaviors;
 
-
 use Yii;
 use yii\helpers\StringHelper;
 

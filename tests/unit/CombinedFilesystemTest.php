@@ -13,8 +13,6 @@ use yii\di\Instance;
 
 class CombinedFilesystemTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

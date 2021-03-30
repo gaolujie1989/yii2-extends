@@ -8,15 +8,12 @@ namespace lujie\flysystem\tests\unit;
 use creocoder\flysystem\Filesystem;
 use creocoder\flysystem\LocalFilesystem;
 use League\Flysystem\FileNotFoundException;
-use lujie\flysystem\AliyunOssFilesystem;
 use lujie\flysystem\ChainedFilesystem;
 use Yii;
 use yii\di\Instance;
 
 class ChainedFilesystemTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

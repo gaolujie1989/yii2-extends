@@ -10,8 +10,6 @@ use yii\di\Instance;
 
 class QCloudCosFilesystemTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

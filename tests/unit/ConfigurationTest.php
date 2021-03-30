@@ -5,7 +5,6 @@
 
 namespace lujie\configuration\tests\unit;
 
-
 use lujie\configuration\Configuration;
 use lujie\configuration\tests\unit\fixtures\TestModel;
 use lujie\data\loader\TypedFileDataLoader;

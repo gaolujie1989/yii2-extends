@@ -5,7 +5,6 @@
 
 namespace lujie\configuration;
 
-
 use lujie\data\loader\BaseDataLoader;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;

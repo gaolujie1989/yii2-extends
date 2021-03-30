@@ -5,7 +5,6 @@
 
 namespace lujie\configuration\tests\unit\fixtures;
 
-
 use yii\base\Model;
 
 class TestModel extends Model

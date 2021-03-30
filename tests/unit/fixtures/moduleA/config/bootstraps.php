@@ -4,7 +4,8 @@
  */
 
 if (!function_exists('xxxSetParams')) {
-    function xxxSetParams() {
+    function xxxSetParams()
+    {
         Yii::$app->params['xxxSetParams'] = 'executed';
     }
 }

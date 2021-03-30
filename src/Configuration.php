@@ -135,7 +135,7 @@ class Configuration extends Component implements BootstrapInterface
         foreach ($modules as $name => $module) {
             if (is_object($module)) {
                 $moduleClass = get_class($module);
-            } else if (is_array($module)) {
+            } elseif (is_array($module)) {
                 $moduleClass = $module['class'];
             } else {
                 $moduleClass = $module;
@@ -259,7 +259,7 @@ class Configuration extends Component implements BootstrapInterface
     public function getConfig(string $configType) : array
     {
         $key = $configType;
-        return $this->getOrSetCacheValue($key, function() use ($configType) {
+        return $this->getOrSetCacheValue($key, function () use ($configType) {
             $config = $this->configLoader->get($configType) ?: [];
             $config = $this->filterConfig($configType, $config);
             return $this->sortConfig($configType, $config);
@@ -274,7 +274,7 @@ class Configuration extends Component implements BootstrapInterface
     public function getAllConfig() : array
     {
         $key = 'all';
-        return $this->getOrSetCacheValue($key, function() {
+        return $this->getOrSetCacheValue($key, function () {
             $all = $this->configLoader->all();
             foreach ($all as $configType => $config) {
                 $config = $this->filterConfig($configType, $config);

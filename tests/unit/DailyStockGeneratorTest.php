@@ -13,8 +13,6 @@ use yii\helpers\ArrayHelper;
 
 class DailyStockGeneratorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\f4px;
 
-use lujie\data\loader\ArrayDataLoader;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -26,8 +25,6 @@ use Yii;
 
 class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

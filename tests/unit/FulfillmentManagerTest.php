@@ -7,7 +7,6 @@ namespace lujie\fulfillment\tests\unit;
 
 use lujie\data\loader\ChainedDataLoader;
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\constants\StatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\forms\FulfillmentItemForm;
 use lujie\fulfillment\forms\FulfillmentOrderForm;
@@ -32,8 +31,6 @@ use yii\queue\Queue;
 
 class FulfillmentManagerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

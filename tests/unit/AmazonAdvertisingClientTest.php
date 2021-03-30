@@ -9,8 +9,6 @@ use lujie\amazon\advertising\AmazonAdvertisingClient;
 
 class AmazonAdvertisingClientTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

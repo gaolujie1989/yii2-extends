@@ -9,10 +9,7 @@ use lujie\auth\rbac\StaticUserAccessChecker;
 
 class StaticUserAccessCheckerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

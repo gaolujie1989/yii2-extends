@@ -17,10 +17,7 @@ use lujie\auth\tests\unit\fixtures\TestUser;
  */
 class UserPermissionAccessCheckerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

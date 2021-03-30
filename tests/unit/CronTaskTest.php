@@ -14,10 +14,7 @@ use yii\base\InvalidConfigException;
 
 class CronTaskTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

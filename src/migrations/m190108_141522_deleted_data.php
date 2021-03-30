@@ -10,10 +10,10 @@ class m190108_141522_deleted_data extends \yii\db\Migration
 
     public $tableName = '{{%deleted_data}}';
 
-        /**
-         * @return array
-         * @inheritdoc
-         */
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function getDefaultTableColumns(): array
     {
         /** @var Migration $this */

@@ -24,4 +24,3 @@ class m201202_160524_item_barcode extends Migration
         $this->createIndex('uk_code_text', $this->tableName, ['code_text'], true);
     }
 }
-

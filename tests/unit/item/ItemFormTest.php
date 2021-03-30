@@ -5,7 +5,6 @@
 
 namespace lujie\common\models\tests\unit\item;
 
-
 use lujie\common\item\forms\ItemForm;
 use lujie\common\item\models\Item;
 use lujie\common\item\models\ItemBarcode;

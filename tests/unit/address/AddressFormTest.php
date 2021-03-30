@@ -5,7 +5,6 @@
 
 namespace lujie\common\tests\unit\address;
 
-
 use lujie\common\address\forms\AddressForm;
 use lujie\common\address\models\Address;
 

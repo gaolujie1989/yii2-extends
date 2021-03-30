@@ -26,7 +26,7 @@ class AccountForm extends Account
             [['status'], 'default', 'value' => 0],
             [['options', 'additional'], 'safe'],
             [['status'], 'integer'],
-            [['type'], 'string', 'max' => 50, 'when' => function() {
+            [['type'], 'string', 'max' => 50, 'when' => function () {
                 return $this->getIsNewRecord();
             }],
             [['name'], 'string', 'max' => 100],

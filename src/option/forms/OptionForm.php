@@ -5,7 +5,6 @@
 
 namespace lujie\common\option\forms;
 
-
 use lujie\common\option\models\Option;
 use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;

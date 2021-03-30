@@ -5,7 +5,6 @@
 
 namespace lujie\common\tests\unit\address;
 
-
 use lujie\common\address\AddressPostalCodeChecker;
 use lujie\common\tests\unit\fixtures\AddressPostalCodeFixture;
 

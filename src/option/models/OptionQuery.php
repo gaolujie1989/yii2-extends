@@ -47,5 +47,4 @@ class OptionQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

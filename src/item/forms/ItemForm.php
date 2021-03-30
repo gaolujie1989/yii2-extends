@@ -166,9 +166,9 @@ class ItemForm extends Item
             $value = $this->{$attribute};
             if ($value === null) {
                 continue;
-            } else if ($value === '') {
+            } elseif ($value === '') {
                 $this->removeBarcode($codeName);
-            } else if ($value) {
+            } elseif ($value) {
                 $itemBarcode = new ItemBarcode([
                     'item_id' => $this->item_id,
                     'code_name' => $codeName,

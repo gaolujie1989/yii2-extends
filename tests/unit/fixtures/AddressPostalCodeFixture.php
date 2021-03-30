@@ -5,7 +5,6 @@
 
 namespace lujie\common\tests\unit\fixtures;
 
-
 use lujie\common\address\models\AddressPostalCode;
 use yii\test\ActiveFixture;
 

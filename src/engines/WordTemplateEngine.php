@@ -23,6 +23,5 @@ class WordTemplateEngine extends BaseObject implements TemplateEngineInterface
      */
     public function render(string $template, array $params = []): string
     {
-
     }
 }

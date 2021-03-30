@@ -54,5 +54,4 @@ class DocumentTemplateQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

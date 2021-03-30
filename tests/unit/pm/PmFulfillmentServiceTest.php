@@ -27,10 +27,7 @@ use yii\httpclient\Response;
 
 class PmFulfillmentServiceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

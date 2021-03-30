@@ -32,10 +32,7 @@ use yii\queue\Queue;
 
 class FulfillmentManagerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

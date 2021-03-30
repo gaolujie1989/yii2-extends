@@ -12,10 +12,7 @@ use lujie\fulfillment\tests\unit\mocks\MockItemValueCalculator;
 
 class ItemValueCalculatorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

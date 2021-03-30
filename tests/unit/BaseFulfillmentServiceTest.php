@@ -24,10 +24,7 @@ use yii\helpers\ArrayHelper;
 
 class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

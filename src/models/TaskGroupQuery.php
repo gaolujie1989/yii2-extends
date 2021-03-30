@@ -40,5 +40,4 @@ class TaskGroupQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

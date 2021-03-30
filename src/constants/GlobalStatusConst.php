@@ -5,7 +5,6 @@
 
 namespace lujie\project\constants;
 
-
 class GlobalStatusConst
 {
     public const STATUS_NORMAL = 'NORMAL';

@@ -5,7 +5,6 @@
 
 namespace lujie\project\models;
 
-
 use lujie\alias\behaviors\AliasPropertyBehavior;
 use lujie\upload\models\UploadModelFile;
 use Yii;

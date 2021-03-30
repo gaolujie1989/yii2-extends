@@ -190,10 +190,10 @@ class FieldQueryBehavior extends Behavior
             $owner = $this->owner;
             if (empty($owner->from)) {
                 $this->_alias = '';
-            } else if (count($owner->from) === 1) {
+            } elseif (count($owner->from) === 1) {
                 $alias = array_keys($owner->from)[0];
                 $this->_alias = is_string($alias) ? $alias : '';
-            } else if ($owner instanceof ActiveQueryInterface && count($owner->from) > 1) {
+            } elseif ($owner instanceof ActiveQueryInterface && count($owner->from) > 1) {
                 /** @var ActiveRecord $modelClass */
                 $modelClass = $owner->modelClass;
                 foreach ($owner->from as $alias => $tableName) {
@@ -237,10 +237,10 @@ class FieldQueryBehavior extends Behavior
                 $newCondition[$this->buildAliasField($field)] = $value;
             }
             $condition = $newCondition;
-        } else if (is_array($condition)) {
+        } elseif (is_array($condition)) {
             if (isset($condition[1]) && is_string($condition[1])) {
                 $condition[1] = $this->buildAliasField($condition[1]);
-            } else if (isset($condition[0])
+            } elseif (isset($condition[0])
                 && in_array(strtoupper($condition[0]), ['AND', 'OR'], true)) {
                 for ($i = count($condition) - 1; $i > 0; $i--) {
                     $condition[$i] = $this->buildAliasCondition($condition[$i]);

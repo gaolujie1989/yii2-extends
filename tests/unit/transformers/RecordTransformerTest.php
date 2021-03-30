@@ -9,8 +9,6 @@ use lujie\data\recording\transformers\RecordTransformer;
 
 class RecordTransformerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -14,8 +14,6 @@ use yii\queue\serializers\JsonSerializer;
 
 class ActiveRecordDataRecordPipelineTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

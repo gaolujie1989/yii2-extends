@@ -13,8 +13,6 @@ use yii\queue\serializers\JsonSerializer;
 
 class FileDataRecordPipelineTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

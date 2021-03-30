@@ -10,10 +10,7 @@ use lujie\common\tests\unit\fixtures\AddressPostalCodeFixture;
 
 class AddressPostalCodeCheckerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

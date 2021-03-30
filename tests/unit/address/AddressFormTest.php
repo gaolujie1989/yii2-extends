@@ -10,10 +10,7 @@ use lujie\common\address\models\Address;
 
 class AddressFormTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

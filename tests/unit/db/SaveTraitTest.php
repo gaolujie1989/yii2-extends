@@ -12,10 +12,7 @@ use yii\db\Exception;
 
 class SaveTraitTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

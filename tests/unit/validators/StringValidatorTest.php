@@ -11,10 +11,7 @@ use yii\validators\StringValidator as YiiStringValidator;
 
 class StringValidatorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

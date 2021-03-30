@@ -17,10 +17,7 @@ use yii\web\TooManyRequestsHttpException;
 
 class RateLimitTraitTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

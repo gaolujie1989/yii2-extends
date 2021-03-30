@@ -9,10 +9,7 @@ use lujie\extend\helpers\ModelRuleHelper;
 
 class ModelRuleHelperTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

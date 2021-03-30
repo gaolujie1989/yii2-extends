@@ -9,11 +9,6 @@ use lujie\extend\compressors\GzCompressor;
 
 class GzCompressorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }

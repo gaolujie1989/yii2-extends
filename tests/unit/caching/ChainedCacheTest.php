@@ -16,10 +16,7 @@ use yii\caching\FileCache;
  */
 class ChainedCacheTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

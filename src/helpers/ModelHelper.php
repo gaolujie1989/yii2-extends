@@ -192,7 +192,8 @@ class ModelHelper
         BaseActiveRecord $model,
         array $filterKeySuffixes = [],
         array $datetimeKeySuffixes = []
-    ): array {
+    ): array
+    {
         $filterKeySuffixes = array_merge($filterKeySuffixes, [
             'id', 'type', 'group', 'status',
             'country', 'currency', 'language',
@@ -229,7 +230,8 @@ class ModelHelper
         array $aliasProperties = [],
         array $relations = [],
         $unsetAttributes = ['created_by', 'updated_by']
-    ): array {
+    ): array
+    {
         foreach ($aliasProperties as $aliasProperty => $attribute) {
             $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
             if (StringHelper::endsWith($attribute, '_at')) {
@@ -308,7 +310,8 @@ class ModelHelper
         array $rules,
         array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'options', 'additional'],
         array $skipBehaviors = []
-    ): array {
+    ): array
+    {
         $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];
 

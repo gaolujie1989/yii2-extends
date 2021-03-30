@@ -10,10 +10,7 @@ use yii\web\Response;
 
 class RestResponseBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

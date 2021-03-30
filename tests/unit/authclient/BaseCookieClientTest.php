@@ -8,10 +8,7 @@ use yii\httpclient\Response;
 
 class BaseCookieClientTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

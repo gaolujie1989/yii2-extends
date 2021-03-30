@@ -12,8 +12,6 @@ use yii\web\ServerErrorHttpException;
 
 class MultipleActionTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

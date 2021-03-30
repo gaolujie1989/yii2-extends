@@ -13,8 +13,6 @@ use yii\web\ServerErrorHttpException;
 
 class BatchActionTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

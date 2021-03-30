@@ -14,6 +14,4 @@ class AmazonAdvertisingConst
     public const SCOPE_CPC = 'cpc_advertising:campaign_management';
     public const SCOPE_DATA_PROVIDER = 'advertising::audiences';
     public const SCOPE_DSP = 'advertising::campaign_management';
-
-
 }

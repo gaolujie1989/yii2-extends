@@ -11,10 +11,7 @@ use lujie\currency\exchanging\tests\unit\mocks\MockCurrencyExchangeRateLoader;
 
 class CurrencyExchangeRateUpdaterTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

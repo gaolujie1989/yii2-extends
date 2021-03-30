@@ -8,10 +8,7 @@ use yii\base\InvalidCallException;
 
 class StateMachineBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

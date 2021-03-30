@@ -7,10 +7,7 @@ use lujie\state\machine\tests\unit\fixtures\TestOrder;
 
 class StatusCheckBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

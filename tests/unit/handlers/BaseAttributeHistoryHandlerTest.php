@@ -6,10 +6,7 @@ use lujie\ar\history\handlers\BaseAttributeHistoryHandler;
 
 class BaseAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

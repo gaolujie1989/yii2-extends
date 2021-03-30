@@ -7,10 +7,7 @@ use yii\helpers\VarDumper;
 
 class ArrayAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

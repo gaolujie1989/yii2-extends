@@ -11,8 +11,6 @@ use Yii;
 
 class RemoteUserTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

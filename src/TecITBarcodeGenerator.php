@@ -5,7 +5,6 @@
 
 namespace lujie\barcode\generating;
 
-
 use yii\base\BaseObject;
 
 /**

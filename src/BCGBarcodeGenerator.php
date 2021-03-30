@@ -5,7 +5,6 @@
 
 namespace lujie\barcode\generating;
 
-
 use BarcodeBakery\Barcode\BCGcode128;
 use BarcodeBakery\Barcode\BCGean13;
 use BarcodeBakery\Common\BCGArgumentException;

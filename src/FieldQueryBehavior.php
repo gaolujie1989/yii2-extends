@@ -85,7 +85,7 @@ class FieldQueryBehavior extends Behavior
     /**
      * @var ?string
      */
-    private $_alias;
+    private $alias;
 
     /**
      * @inheritdoc
@@ -185,25 +185,25 @@ class FieldQueryBehavior extends Behavior
      */
     protected function getAlias(): string
     {
-        if ($this->_alias === null) {
-            $this->_alias = '';
+        if ($this->alias === null) {
+            $this->alias = '';
             $owner = $this->owner;
             if (empty($owner->from)) {
-                $this->_alias = '';
+                $this->alias = '';
             } elseif (count($owner->from) === 1) {
                 $alias = array_keys($owner->from)[0];
-                $this->_alias = is_string($alias) ? $alias : '';
+                $this->alias = is_string($alias) ? $alias : '';
             } elseif ($owner instanceof ActiveQueryInterface && count($owner->from) > 1) {
                 /** @var ActiveRecord $modelClass */
                 $modelClass = $owner->modelClass;
                 foreach ($owner->from as $alias => $tableName) {
                     if (is_string($alias) && $tableName === $modelClass::tableName()) {
-                        $this->_alias = $alias;
+                        $this->alias = $alias;
                     }
                 }
             }
         }
-        return $this->_alias;
+        return $this->alias;
     }
 
     /**

@@ -10,10 +10,7 @@ use lujie\barcode\generating\TCBarcodeGenerator;
 
 class TCBarcodeGeneratorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

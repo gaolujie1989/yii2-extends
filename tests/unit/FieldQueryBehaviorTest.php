@@ -7,8 +7,6 @@ use lujie\db\fieldQuery\behaviors\tests\unit\fixtures\Migration;
 
 class FieldQueryBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

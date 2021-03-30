@@ -68,9 +68,9 @@ class AppLoginForm extends Model
             $userApp = $this->getUserApp();
             if ($userApp === null) {
                 $this->addError('secret', Yii::t('lujie/userApp', 'Incorrect key or secret.'));
-            } else if ($userApp->status === StatusConst::STATUS_INACTIVE) {
+            } elseif ($userApp->status === StatusConst::STATUS_INACTIVE) {
                 $this->addError('key', Yii::t('lujie/userApp', 'App account is disabled.'));
-            } else if ($userApp->user->status === StatusConst::STATUS_INACTIVE) {
+            } elseif ($userApp->user->status === StatusConst::STATUS_INACTIVE) {
                 $this->addError('key', Yii::t('lujie/userApp', 'User account is disabled.'));
             }
         }

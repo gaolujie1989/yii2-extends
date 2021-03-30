@@ -5,7 +5,6 @@
 
 namespace lujie\user\tests\unit;
 
-
 use lujie\extend\constants\StatusConst;
 use lujie\user\forms\UserForm;
 use lujie\user\models\User;

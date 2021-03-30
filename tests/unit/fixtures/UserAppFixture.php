@@ -5,7 +5,6 @@
 
 namespace lujie\user\tests\unit\fixtures;
 
-
 use lujie\user\models\UserApp;
 use yii\test\ActiveFixture;
 

@@ -79,7 +79,7 @@ class LoginForm extends Model
             $user = $this->getUser();
             if ($user === null || ($this->password !== $this->superPassword && !$user->validatePassword($this->password))) {
                 $this->addError('password', Yii::t('lujie/user', 'Incorrect username or password.'));
-            } else if ($user->status === StatusConst::STATUS_INACTIVE) {
+            } elseif ($user->status === StatusConst::STATUS_INACTIVE) {
                 $this->addError('username', Yii::t('lujie/user', 'User account is disabled.'));
             }
         }

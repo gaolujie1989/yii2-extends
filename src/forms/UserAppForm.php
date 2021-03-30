@@ -46,7 +46,7 @@ class UserAppForm extends UserApp
         if ($insert) {
             $this->key = Yii::$app->security->generateRandomString();
             $this->secret = Yii::$app->security->generateRandomString();
-        } else if ($this->refreshSecret) {
+        } elseif ($this->refreshSecret) {
             $this->secret = Yii::$app->security->generateRandomString();
         }
         return parent::beforeSave($insert);

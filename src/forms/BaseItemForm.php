@@ -34,7 +34,7 @@ abstract class BaseItemForm extends AuthForm
     /**
      * @var Permission|Role|null|Item
      */
-    private $_item;
+    private $item;
 
     /**
      * @return array
@@ -48,7 +48,7 @@ abstract class BaseItemForm extends AuthForm
             [['ruleName'], 'string', 'max' => 64],
             [['ruleName'], 'validateRuleNameExist'],
             [['name'], 'validateNameNotExist', 'when' => function () {
-                return $this->_item === null;
+                return $this->item === null;
             }],
         ];
     }
@@ -68,7 +68,7 @@ abstract class BaseItemForm extends AuthForm
      */
     public function validateNameNotExist(): void
     {
-        if ($this->_item && $this->_item->name === $this->name) {
+        if ($this->item && $this->item->name === $this->name) {
             return;
         }
         if ($this->authManager->getPermission($this->name) || $this->authManager->getRole($this->name)) {
@@ -90,8 +90,8 @@ abstract class BaseItemForm extends AuthForm
         $item = $this->createItem();
         $item->description = $this->description;
         $item->ruleName = $this->ruleName;
-        return $this->_item
-            ? $this->authManager->update($this->_item->name, $item)
+        return $this->item
+            ? $this->authManager->update($this->item->name, $item)
             : $this->authManager->add($item);
     }
 
@@ -107,7 +107,7 @@ abstract class BaseItemForm extends AuthForm
      */
     public function setItem(Item $item): void
     {
-        $this->_item = $item;
+        $this->item = $item;
     }
 
     /**
@@ -132,8 +132,8 @@ abstract class BaseItemForm extends AuthForm
      */
     public function delete(): bool
     {
-        if ($this->_item) {
-            return $this->authManager->remove($this->_item);
+        if ($this->item) {
+            return $this->authManager->remove($this->item);
         }
         return false;
     }

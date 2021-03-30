@@ -39,7 +39,7 @@ class AssignmentForm extends AuthForm
     /**
      * @var Permission[]|Role[]
      */
-    private $_items;
+    private $items;
 
     /**
      * @return array
@@ -64,10 +64,10 @@ class AssignmentForm extends AuthForm
      */
     protected function getItem(string $itemName): ?Item
     {
-        if (empty($this->_items[$itemName])) {
-            $this->_items[$itemName] = $this->authManager->getRole($itemName) ?: $this->authManager->getPermission($itemName);
+        if (empty($this->items[$itemName])) {
+            $this->items[$itemName] = $this->authManager->getRole($itemName) ?: $this->authManager->getPermission($itemName);
         }
-        return $this->_items[$itemName];
+        return $this->items[$itemName];
     }
 
     /**

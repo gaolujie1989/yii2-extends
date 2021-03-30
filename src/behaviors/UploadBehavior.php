@@ -82,7 +82,7 @@ class UploadBehavior extends Behavior
     /**
      * @var UploadedFile
      */
-    private $_uploadedFile;
+    private $uploadedFile;
 
     /**
      * @throws \yii\base\Exception
@@ -125,14 +125,14 @@ class UploadBehavior extends Behavior
 
         $file = $model->{$this->attribute};
         if ($file instanceof UploadedFile) {
-            $this->_uploadedFile = $file;
+            $this->uploadedFile = $file;
         } elseif ($this->inputName) {
-            $this->_uploadedFile = UploadedFile::getInstanceByName($this->inputName);
+            $this->uploadedFile = UploadedFile::getInstanceByName($this->inputName);
         } else {
-            $this->_uploadedFile = UploadedFile::getInstance($model, $this->attribute);
+            $this->uploadedFile = UploadedFile::getInstance($model, $this->attribute);
         }
-        if ($this->_uploadedFile instanceof UploadedFile) {
-            $model->{$this->attribute} = $this->_uploadedFile;
+        if ($this->uploadedFile instanceof UploadedFile) {
+            $model->{$this->attribute} = $this->uploadedFile;
         }
     }
 
@@ -150,18 +150,18 @@ class UploadBehavior extends Behavior
             return;
         }
 
-        if ($this->_uploadedFile instanceof UploadedFile) {
-            $fileName = $this->getFileName($this->_uploadedFile);
-            if ($this->saveUploadedFile($fileName, $this->_uploadedFile, $this->deleteTempFile)) {
+        if ($this->uploadedFile instanceof UploadedFile) {
+            $fileName = $this->getFileName($this->uploadedFile);
+            if ($this->saveUploadedFile($fileName, $this->uploadedFile, $this->deleteTempFile)) {
                 $model->{$this->attribute} = $fileName;
                 if ($this->nameAttribute) {
-                    $model->{$this->nameAttribute} = $this->_uploadedFile->getBaseName() . '.' . $this->_uploadedFile->getExtension();
+                    $model->{$this->nameAttribute} = $this->uploadedFile->getBaseName() . '.' . $this->uploadedFile->getExtension();
                 }
                 if ($this->sizeAttribute) {
-                    $model->{$this->sizeAttribute} = $this->_uploadedFile->size;
+                    $model->{$this->sizeAttribute} = $this->uploadedFile->size;
                 }
                 if ($this->extAttribute) {
-                    $model->{$this->extAttribute} = $this->_uploadedFile->getExtension();
+                    $model->{$this->extAttribute} = $this->uploadedFile->getExtension();
                 }
             } else {
                 $event->isValid = false;

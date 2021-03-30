@@ -22,7 +22,7 @@ class UpdatePasswordForm extends Model
     /**
      * @var User
      */
-    protected $_user;
+    protected $user;
 
     /**
      * @return array
@@ -57,12 +57,12 @@ class UpdatePasswordForm extends Model
      */
     protected function getUser(): ?User
     {
-        if ($this->_user === null) {
+        if ($this->user === null) {
             /** @var User $identityClass */
             $identityClass = Yii::$app->getUser()->identityClass;
-            $this->_user = $identityClass::findOne(Yii::$app->getUser()->getId());
+            $this->user = $identityClass::findOne(Yii::$app->getUser()->getId());
         }
-        return $this->_user;
+        return $this->user;
     }
 
     /**

@@ -30,7 +30,7 @@ class AppLoginForm extends Model
     /**
      * @var UserApp
      */
-    protected $_userApp;
+    protected $userApp;
 
     /**
      * @var UserApp
@@ -94,10 +94,10 @@ class AppLoginForm extends Model
      */
     protected function getUserApp(): ?UserApp
     {
-        if ($this->_userApp === null) {
-            $this->_userApp = $this->userAppClass::find()->key($this->key)->secret($this->secret)->one();
+        if ($this->userApp === null) {
+            $this->userApp = $this->userAppClass::find()->key($this->key)->secret($this->secret)->one();
         }
-        return $this->_userApp;
+        return $this->userApp;
     }
 
     /**

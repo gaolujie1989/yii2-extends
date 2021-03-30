@@ -33,7 +33,7 @@ class ResetPasswordByEmailForm extends ResetPasswordForm
     /**
      * @var User
      */
-    protected $_user;
+    protected $user;
 
     /**
      * @return array
@@ -66,12 +66,12 @@ class ResetPasswordByEmailForm extends ResetPasswordForm
      */
     protected function getUser(): ?User
     {
-        if ($this->_user === null) {
+        if ($this->user === null) {
             /** @var User $identityClass */
             $identityClass = Yii::$app->getUser()->identityClass;
-            $this->_user = $identityClass::find()->email($this->email)->one();
+            $this->user = $identityClass::find()->email($this->email)->one();
         }
-        return $this->_user;
+        return $this->user;
     }
 
     /**

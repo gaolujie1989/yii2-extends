@@ -39,7 +39,7 @@ class LoginForm extends Model
     /**
      * @var User
      */
-    protected $_user;
+    protected $user;
 
     /**
      * @var string
@@ -91,12 +91,12 @@ class LoginForm extends Model
      */
     protected function getUser(): ?User
     {
-        if ($this->_user === null) {
+        if ($this->user === null) {
             /** @var User $identityClass */
             $identityClass = Yii::$app->user->identityClass;
-            $this->_user = $identityClass::find()->username($this->username)->one();
+            $this->user = $identityClass::find()->username($this->username)->one();
         }
-        return $this->_user;
+        return $this->user;
     }
 
     /**

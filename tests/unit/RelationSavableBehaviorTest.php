@@ -147,8 +147,10 @@ class RelationSavableBehaviorTest extends \Codeception\Test\Unit
         $testOrder->orderItems = $orderItemData;
         $this->assertTrue($testOrder->save());
         $testOrder->refresh();
-        $savedOrderItems = ArrayHelper::toArray($testOrder->orderItems,
-            [TestOrderItem::class => ['item_no', 'ordered_qty']]);
+        $savedOrderItems = ArrayHelper::toArray(
+            $testOrder->orderItems,
+            [TestOrderItem::class => ['item_no', 'ordered_qty']]
+        );
         $this->assertEquals($orderItemData, array_values($savedOrderItems));
 
         //test update order items
@@ -173,8 +175,10 @@ class RelationSavableBehaviorTest extends \Codeception\Test\Unit
         $testOrder->order_no = 'TEST_WITH_UPDATE_ORDER_ITEMS';
         $this->assertTrue($testOrder->save());
         $testOrder->refresh();
-        $savedOrderItems = ArrayHelper::toArray($testOrder->orderItems,
-            [TestOrderItem::class => ['item_no', 'ordered_qty']]);
+        $savedOrderItems = ArrayHelper::toArray(
+            $testOrder->orderItems,
+            [TestOrderItem::class => ['item_no', 'ordered_qty']]
+        );
         $this->assertEquals($orderItemData, array_values($savedOrderItems));
     }
 
@@ -353,10 +357,14 @@ class RelationSavableBehaviorTest extends \Codeception\Test\Unit
 
         $this->assertTrue($testOrder->save());
         $testOrder->refresh();
-        $savedPayments = ArrayHelper::toArray($testOrder->orderPayments,
-            [TestOrderPayment::class => ['test_order_payment_id', 'transaction_no']]);
-        $existPayments = ArrayHelper::toArray($existPayments,
-            [TestOrderPayment::class => ['test_order_payment_id', 'transaction_no']]);
+        $savedPayments = ArrayHelper::toArray(
+            $testOrder->orderPayments,
+            [TestOrderPayment::class => ['test_order_payment_id', 'transaction_no']]
+        );
+        $existPayments = ArrayHelper::toArray(
+            $existPayments,
+            [TestOrderPayment::class => ['test_order_payment_id', 'transaction_no']]
+        );
         $this->assertEquals($existPayments, $savedPayments);
     }
 }

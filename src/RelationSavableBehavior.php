@@ -184,8 +184,8 @@ class RelationSavableBehavior extends Behavior
             $primaryKeys = $model::primaryKey();
             if (count($primaryKeys) === 1) {
                 $indexKey = $primaryKeys[0];
-            } else if (count($primaryKeys) > 1) {
-                $indexKey = static function($v) use ($primaryKeys) {
+            } elseif (count($primaryKeys) > 1) {
+                $indexKey = static function ($v) use ($primaryKeys) {
                     $pkValues = array_intersect_key($v, array_flip($primaryKeys));
                     return implode('_', $pkValues);
                 };
@@ -210,10 +210,10 @@ class RelationSavableBehavior extends Behavior
                 if ($indexValue !== null && isset($oldRelations[$indexValue])) {
                     $model = $oldRelations[$indexValue];
                     unset($oldRelations[$indexValue]);
-                } else if ($indexValue !== null && isset($unlinkModels[$indexValue])) {
+                } elseif ($indexValue !== null && isset($unlinkModels[$indexValue])) {
                     $model = $unlinkModels[$indexValue];
                     unset($unlinkModels[$indexValue]);
-                } else if ($values instanceof BaseActiveRecord) {
+                } elseif ($values instanceof BaseActiveRecord) {
                     $model = $values;
                 } else {
                     $model = new $relation->modelClass();
@@ -244,7 +244,7 @@ class RelationSavableBehavior extends Behavior
             } else {
                 if ($data instanceof BaseActiveRecord) {
                     $model = $data;
-                } else if ($model === null) {
+                } elseif ($model === null) {
                     $model = new $relation->modelClass();
                 }
                 if (isset($this->scenarioMaps[$name][$owner->getScenario()])) {
@@ -332,7 +332,7 @@ class RelationSavableBehavior extends Behavior
             $saveMode = $this->saveModes[$name] ?? static::SAVE_MODE_MODEL;
             if ($saveMode === static::SAVE_MODE_MODEL) {
                 $this->saveRelationByModel($name, $models);
-            } else if ($saveMode === static::SAVE_MODE_LINK) {
+            } elseif ($saveMode === static::SAVE_MODE_LINK) {
                 $relation = $owner->getRelation($name);
                 if (!is_array($models)) {
                     $models = [$models];
@@ -387,7 +387,7 @@ class RelationSavableBehavior extends Behavior
                         throw new Exception($message, $model->getErrors());
                     }
                 }
-            } else if ($deleteMode === static::DELETE_MODE_SQL) {
+            } elseif ($deleteMode === static::DELETE_MODE_SQL) {
                 /** @var BaseActiveRecord $modelClass */
                 $modelClass = $relation->modelClass;
                 $condition = ['AND'];
@@ -396,7 +396,7 @@ class RelationSavableBehavior extends Behavior
                     foreach ($pks as $pk) {
                         $condition[] = [$pk => ArrayHelper::getColumn($models, $pk)];
                     }
-                } else if (isset($this->indexKeys[$name]) && is_string($this->indexKeys[$name])) {
+                } elseif (isset($this->indexKeys[$name]) && is_string($this->indexKeys[$name])) {
                     $indexKey = $this->indexKeys[$name];
                     $condition[] = [$indexKey => ArrayHelper::getColumn($models, $indexKey)];
                     foreach ($relation->link as $from => $to) {
@@ -406,7 +406,7 @@ class RelationSavableBehavior extends Behavior
                     throw new InvalidConfigException('Model must have a primaryKey');
                 }
                 $modelClass::deleteAll($condition);
-            } else if ($deleteMode === static::DELETE_MODE_UNLINK) {
+            } elseif ($deleteMode === static::DELETE_MODE_UNLINK) {
                 foreach ($models as $model) {
                     $delete = $relation->multiple;
                     $owner->unlink($name, $model, $delete);
@@ -473,5 +473,4 @@ class RelationSavableBehavior extends Behavior
     }
 
     #endregion
-
 }

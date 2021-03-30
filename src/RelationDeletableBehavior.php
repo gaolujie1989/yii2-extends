@@ -71,9 +71,9 @@ class RelationDeletableBehavior extends Behavior
             $deleteMode = $this->deleteModes[$name] ?? static::DELETE_MODE_MODEL;
             if ($deleteMode === static::DELETE_MODE_MODEL) {
                 $this->deleteRelationByModel($name);
-            } else if ($deleteMode === static::DELETE_MODE_SQL) {
+            } elseif ($deleteMode === static::DELETE_MODE_SQL) {
                 $this->deleteRelationBySql($name);
-            } else if ($deleteMode === static::DELETE_MODE_UNLINK) {
+            } elseif ($deleteMode === static::DELETE_MODE_UNLINK) {
                 $this->owner->unlinkAll($name, true);
             } else {
                 throw new InvalidConfigException('Invalid delete mode');

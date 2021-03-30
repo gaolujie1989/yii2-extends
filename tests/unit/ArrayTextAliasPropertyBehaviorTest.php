@@ -7,10 +7,7 @@ use lujie\alias\behaviors\tests\unit\fixtures\TestAliasComponent;
 
 class ArrayTextAliasPropertyBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

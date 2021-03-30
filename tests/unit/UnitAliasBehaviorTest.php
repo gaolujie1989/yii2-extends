@@ -7,10 +7,7 @@ use lujie\alias\behaviors\UnitAliasBehavior;
 
 class UnitAliasBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

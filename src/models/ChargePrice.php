@@ -62,7 +62,9 @@ class ChargePrice extends \yii\db\ActiveRecord
         return [
             [['charge_type', 'model_type', 'model_id'], 'required'],
             [['charge_group', 'custom_type', 'currency', 'note'], 'default', 'value' => ''],
-            [['parent_model_id', 'price_table_id', 'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent', 'status', 'owner_id'], 'default', 'value' => 0],
+            [['parent_model_id', 'price_table_id', 'price_cent', 'qty',
+                'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
+                'status', 'owner_id'], 'default', 'value' => 0],
             [['additional'], 'default', 'value' => []],
             [['model_id', 'parent_model_id', 'price_table_id',
                 'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',

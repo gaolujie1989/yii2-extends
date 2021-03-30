@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
-
 use lujie\extend\filters\RateLimitTrait;
 use yii\filters\RateLimitInterface;
 

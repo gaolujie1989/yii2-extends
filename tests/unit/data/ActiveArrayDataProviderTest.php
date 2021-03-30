@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\data;
 
-
 use lujie\extend\data\ActiveArrayDataProvider;
 use lujie\extend\tests\unit\mocks\MockActiveQuery;
 use lujie\extend\tests\unit\mocks\MockActiveRecord;

@@ -180,7 +180,7 @@ abstract class BaseJsonRpcClient extends BaseClient
 
         if (strpos($name, 'batch') === 0) {
             return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
-        } else if (strpos($name, 'each') === 0) {
+        } elseif (strpos($name, 'each') === 0) {
             return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
         }
 

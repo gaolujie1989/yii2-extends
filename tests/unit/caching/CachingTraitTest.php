@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\caching;
 
-
 use lujie\extend\tests\unit\mocks\MockCacheObject;
 use Yii;
 use yii\caching\TagDependency;

@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\file;
 
-
 use lujie\extend\file\readers\TextReader;
 use lujie\extend\file\writers\TextWriter;
 use Yii;

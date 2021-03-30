@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\ValueHelper;
 
 class ValueHelperTest extends \Codeception\Test\Unit

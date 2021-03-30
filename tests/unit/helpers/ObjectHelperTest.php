@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\ObjectHelper;
 use lujie\extend\tests\unit\mocks\MockIdentity;
 

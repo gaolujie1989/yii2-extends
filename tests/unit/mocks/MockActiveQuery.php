@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
-
 use yii\db\ActiveQuery;
 
 /**

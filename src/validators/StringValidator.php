@@ -5,7 +5,6 @@
 
 namespace lujie\extend\validators;
 
-
 use function PHPUnit\Framework\stringContains;
 
 /**

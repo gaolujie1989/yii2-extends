@@ -5,7 +5,6 @@
 
 namespace lujie\extend\console\controllers;
 
-
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;

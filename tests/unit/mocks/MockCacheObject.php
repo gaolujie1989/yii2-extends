@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
-
 use lujie\extend\caching\CachingTrait;
 use yii\base\BaseObject;
 use yii\caching\Dependency;

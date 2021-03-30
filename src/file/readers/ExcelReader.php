@@ -24,12 +24,12 @@ use yii\helpers\VarDumper;
 class ExcelReader extends BaseObject implements FileReaderInterface
 {
     /**
-     * @var bool 
+     * @var bool
      */
     public $firstLineIsHeader = true;
 
     /**
-     * @var bool 
+     * @var bool
      */
     public $multiSheet = false;
 

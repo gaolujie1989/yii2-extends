@@ -38,7 +38,8 @@ class ExecuteHelper
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
         string $timeAttribute = 'updated_at',
-        int $queuedDuration = 3600): bool
+        int $queuedDuration = 3600
+    ): bool
     {
         $statusValue = $model->getAttribute($statusAttribute);
         $resultValue = $model->getAttribute($resultAttribute) ?: [];
@@ -76,7 +77,8 @@ class ExecuteHelper
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
         bool $throwException = false,
-        array $warningExceptions = [Exception::class]): bool
+        array $warningExceptions = [Exception::class]
+    ): bool
     {
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
         $model->save(false);
@@ -123,7 +125,8 @@ class ExecuteHelper
         Query $query,
         string $statusAttribute = 'execute_status',
         int $queuedDuration = 3600,
-        string $updateAtAttribute = 'updated_at'): void
+        string $updateAtAttribute = 'updated_at'
+    ): void
     {
         $query->andWhere(['OR',
             ['!=', $statusAttribute, ExecStatusConst::EXEC_STATUS_QUEUED],

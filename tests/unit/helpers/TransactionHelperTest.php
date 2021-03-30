@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\TransactionHelper;
 use lujie\extend\tests\unit\fixtures\models\Migration;
 use yii\db\Exception;

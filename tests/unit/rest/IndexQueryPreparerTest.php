@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\rest;
 
-
 class IndexQueryPreparerTest extends \Codeception\Test\Unit
 {
     /**

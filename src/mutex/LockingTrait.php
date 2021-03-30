@@ -85,7 +85,7 @@ trait LockingTrait
                 } finally {
                     $this->mutex->release($name);
                 }
-            } else if ($onFailure && is_callable($onFailure)) {
+            } elseif ($onFailure && is_callable($onFailure)) {
                 return $onFailure();
             }
         }

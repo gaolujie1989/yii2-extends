@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\TemplateHelper;
 
 class TemplateHelperTest extends \Codeception\Test\Unit

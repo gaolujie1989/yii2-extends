@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\filters\auth\HttpCookieAuth;
 use lujie\extend\tests\unit\mocks\MockIdentity;
 use yii\web\Cookie;

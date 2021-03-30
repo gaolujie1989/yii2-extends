@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\file;
 
-
 use lujie\extend\file\readers\CompressReader;
 use lujie\extend\file\writers\CompressWriter;
 use Yii;

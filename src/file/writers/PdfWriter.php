@@ -5,7 +5,6 @@
 
 namespace lujie\extend\file\writers;
 
-
 use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
 use yii\di\Instance;

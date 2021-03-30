@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
-
 use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;

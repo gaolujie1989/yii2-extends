@@ -74,7 +74,6 @@ class ConsoleTarget extends Target
      */
     public function formatMessage($message): string
     {
-
         $label = $this->generateLabel($message);
         $text = $this->generateText($message);
 

@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\ComponentHelper;
 use Yii;
 use yii\base\Component;

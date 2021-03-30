@@ -5,7 +5,6 @@
 
 namespace lujie\extend\validators;
 
-
 use Yii;
 use yii\base\InvalidConfigException;
 

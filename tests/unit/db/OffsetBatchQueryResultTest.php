@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\QueryHelper;
 use lujie\extend\tests\unit\fixtures\models\Migration;
 use lujie\extend\tests\unit\fixtures\searches\MigrationSearch;

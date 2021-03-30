@@ -5,7 +5,6 @@
 
 namespace lujie\extend\debug;
 
-
 use Yii;
 use yii\console\Application as ConsoleApplication;
 use yii\console\Request;

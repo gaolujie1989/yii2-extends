@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\helpers\ModelRuleHelper;
 
 class ModelRuleHelperTest extends \Codeception\Test\Unit

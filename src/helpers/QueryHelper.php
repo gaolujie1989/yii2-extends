@@ -114,9 +114,13 @@ class QueryHelper
      * @param string $splitPattern
      * @inheritdoc
      */
-    public static function filterValue(QueryInterface $query, array $attributeValues,
-                                       bool $like = false, string $alias = '',
-                                       string $splitPattern = '/[,;\s]/'): void
+    public static function filterValue(
+        QueryInterface $query,
+        array $attributeValues,
+        bool $like = false,
+        string $alias = '',
+        string $splitPattern = '/[,;\s]/'
+    ): void
     {
         $alias = $alias ? $alias . '.' : '';
         foreach ($attributeValues as $attribute => $value) {
@@ -140,7 +144,7 @@ class QueryHelper
                         return '%' . $v;
                     }, $values);
                     $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
-                } else if ($like === 'R') {
+                } elseif ($like === 'R') {
                     $values = array_map(static function ($v) {
                         return $v . '%';
                     }, $values);
@@ -163,9 +167,14 @@ class QueryHelper
      * @param string $splitPattern
      * @inheritdoc
      */
-    public static function filterKey(QueryInterface $query, array $attributes, $value,
-                                        $like = false, string $alias = '',
-                                        string $splitPattern = '/[,;\s]/'): void
+    public static function filterKey(
+        QueryInterface $query,
+        array $attributes,
+        $value,
+        $like = false,
+        string $alias = '',
+        string $splitPattern = '/[,;\s]/'
+    ): void
     {
         if (ValueHelper::isEmpty($value)) {
             return;
@@ -193,7 +202,7 @@ class QueryHelper
                         return '%' . $v;
                     }, $values);
                     $condition[] = ['OR LIKE', $aliasAttribute, $values, false];
-                } else if ($like === 'R') {
+                } elseif ($like === 'R') {
                     $values = array_map(static function ($v) {
                         return $v . '%';
                     }, $values);

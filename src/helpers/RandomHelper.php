@@ -5,7 +5,6 @@
 
 namespace lujie\extend\helpers;
 
-
 use yii\base\InvalidValueException;
 
 class RandomHelper

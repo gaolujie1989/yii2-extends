@@ -25,9 +25,15 @@ class CsvHelper
      * @return array
      * @inheritdoc
      */
-    public static function readCsv(string $file, bool $firstLineIsHeader = true, int $length = 0,
-                                   string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
-                                   bool $flag = true): array
+    public static function readCsv(
+        string $file,
+        bool $firstLineIsHeader = true,
+        int $length = 0,
+        string $delimiter = ',',
+        string $enclosure = '"',
+        string $escape = '\\',
+        bool $flag = true
+    ): array
     {
         $csvReader = new CsvReader();
         $csvReader->firstLineIsHeader = $firstLineIsHeader;
@@ -48,8 +54,14 @@ class CsvHelper
      * @param string $escape
      * @inheritdoc
      */
-    public static function writeCsv(string $file, array $data, bool $keyAsHeader = true,
-                                    string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): void
+    public static function writeCsv(
+        string $file,
+        array $data,
+        bool $keyAsHeader = true,
+        string $delimiter = ',',
+        string $enclosure = '"',
+        string $escape = '\\'
+    ): void
     {
         $csvWriter = new CsvWriter();
         $csvWriter->keyAsHeader = $keyAsHeader;
@@ -70,9 +82,15 @@ class CsvHelper
      * @return array
      * @inheritdoc
      */
-    public static function readContent(string $content, bool $firstLineIsHeader = true, int $length = 0,
-                                       string $delimiter = ',', string $enclosure = '"', string $escape = '\\',
-                                       bool $flag = true): array
+    public static function readContent(
+        string $content,
+        bool $firstLineIsHeader = true,
+        int $length = 0,
+        string $delimiter = ',',
+        string $enclosure = '"',
+        string $escape = '\\',
+        bool $flag = true
+    ): array
     {
         $csvReader = new CsvReader();
         $csvReader->firstLineIsHeader = $firstLineIsHeader;

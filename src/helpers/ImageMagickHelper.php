@@ -14,6 +14,5 @@ class ImageMagickHelper
 {
     public static function xxx()
     {
-
     }
 }

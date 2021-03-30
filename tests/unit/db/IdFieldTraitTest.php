@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\tests\unit\mocks\MockActiveRecord;
 
 class IdFieldTraitTest extends \Codeception\Test\Unit

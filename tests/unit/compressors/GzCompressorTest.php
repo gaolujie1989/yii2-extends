@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\compressors;
 
-
 use lujie\extend\compressors\GzCompressor;
 
 class GzCompressorTest extends \Codeception\Test\Unit

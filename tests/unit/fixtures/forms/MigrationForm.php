@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\fixtures\forms;
 
-
 use lujie\extend\tests\unit\fixtures\models\Migration;
 
 /**
@@ -15,5 +14,4 @@ use lujie\extend\tests\unit\fixtures\models\Migration;
  */
 class MigrationForm extends Migration
 {
-
 }

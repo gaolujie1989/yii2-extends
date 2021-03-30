@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\mutex;
 
-
 use lujie\extend\tests\unit\mocks\MockMutexObject;
 use Yii;
 use yii\base\Exception;

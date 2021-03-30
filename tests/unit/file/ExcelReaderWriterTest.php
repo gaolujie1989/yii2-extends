@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\file;
 
-
 use lujie\extend\file\readers\ExcelReader;
 use lujie\extend\file\writers\ExcelWriter;
 use lujie\fulfillment\tasks\PullFulfillmentWarehouseStockMovementTask;

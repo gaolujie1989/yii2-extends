@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\tests\unit\mocks\MockRateLimitIdentity;
 use Yii;
 use yii\base\Action;
@@ -110,9 +109,13 @@ class RateLimitTraitTest extends \Codeception\Test\Unit
      * @throws TooManyRequestsHttpException
      * @inheritdoc
      */
-    protected function checkRateLimit(RateLimitInterface $identity,
-                                      int $rateLimit, int $rateWindow,
-                                      $controllerId = 'testController', $actionId = 'testAction')
+    protected function checkRateLimit(
+        RateLimitInterface $identity,
+        int $rateLimit,
+        int $rateWindow,
+        $controllerId = 'testController',
+        $actionId = 'testAction'
+    )
     {
         $rateLimiter = new RateLimiter([
             'enableRateLimitHeaders' => false,

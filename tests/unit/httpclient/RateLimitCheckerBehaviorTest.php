@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test\unit\db;
 
-
 use lujie\extend\httpclient\RateLimitCheckerBehavior;
 use lujie\extend\tests\unit\mocks\MockTransport;
 use yii\httpclient\Client;

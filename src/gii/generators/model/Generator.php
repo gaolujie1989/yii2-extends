@@ -54,13 +54,14 @@ class Generator extends \yii\gii\generators\model\Generator
             }
             if ($column->defaultValue !== null && !($column->defaultValue instanceof Expression)) {
                 $defaults[$column->defaultValue][] = $column->name;
-            } else if ($column->allowNull) {
+            } elseif ($column->allowNull) {
                 switch ($column->type) {
                     case Schema::TYPE_JSON:
                         $defaults['EMPTY_ARRAY'][] = $column->name;
                         break;
                     case Schema::TYPE_TEXT:
                         $defaults[''][] = $column->name;
+                    // no break
                     default:
                 }
             }

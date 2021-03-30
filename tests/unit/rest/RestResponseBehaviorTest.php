@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\rest;
 
-
 use lujie\extend\rest\RestResponseBehavior;
 use yii\web\Response;
 

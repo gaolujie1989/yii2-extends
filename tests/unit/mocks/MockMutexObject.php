@@ -5,7 +5,6 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
-
 use lujie\extend\mutex\LockingTrait;
 use yii\base\BaseObject;
 

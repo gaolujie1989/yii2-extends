@@ -5,7 +5,6 @@
 
 namespace lujie\extend\test;
 
-
 use yii\db\BaseActiveRecord;
 use yii\test\BaseActiveFixture;
 

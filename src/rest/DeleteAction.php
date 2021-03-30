@@ -5,7 +5,6 @@
 
 namespace lujie\extend\rest;
 
-
 use Yii;
 use yii\base\Exception;
 use yii\db\BaseActiveRecord;

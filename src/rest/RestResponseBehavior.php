@@ -65,7 +65,7 @@ class RestResponseBehavior extends Behavior
             $response->data = [
                 'data' => $data,
             ];
-        } else if ($response->statusCode === 422) {  //if model return errors
+        } elseif ($response->statusCode === 422) {  //if model return errors
             $firstError = reset($data);
             $response->data = [
                 'message' => $firstError['message'] ?: 'Data Validation Failed.',

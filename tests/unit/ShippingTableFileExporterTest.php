@@ -12,8 +12,6 @@ use lujie\extend\helpers\ExcelHelper;
 
 class ShippingTableFileExporterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

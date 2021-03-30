@@ -14,8 +14,6 @@ use lujie\charging\tests\unit\mocks\MockDataLoader;
 
 class ChargeTableCalculatorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

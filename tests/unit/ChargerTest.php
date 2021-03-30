@@ -14,8 +14,6 @@ use Yii;
 
 class ChargerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

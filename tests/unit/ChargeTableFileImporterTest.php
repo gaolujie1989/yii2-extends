@@ -15,8 +15,6 @@ use yii\helpers\VarDumper;
 
 class ChargeTableFileImporterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

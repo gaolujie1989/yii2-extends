@@ -14,8 +14,6 @@ use yii\helpers\VarDumper;
 
 class ShippingTableFileImporterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

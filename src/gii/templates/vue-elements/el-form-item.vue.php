@@ -26,44 +26,57 @@ $errorField = strtr($modelName ?? 'temp', ['temp' => 'errors']) . '.' . $field;
 ?>
 <el-form-item :error="<?= $errorField ?>" :label="<?= $fieldLabelName ?>">
     <?php switch ($type) {
-        case VueViewGenerator::INPUT_TYPE_TEXT: ?>
+        case VueViewGenerator::INPUT_TYPE_TEXT:
+            ?>
           <el-input v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>"/>
-            <?php break;
-        case VueViewGenerator::INPUT_TYPE_TEXTAREA: ?>
+            <?php
+            break;
+        case VueViewGenerator::INPUT_TYPE_TEXTAREA:
+            ?>
           <el-input
               v-model="<?= $modelField ?>"
               :placeholder="<?= $fieldLabelName ?>"
               :autosize="{ minRows: 2, maxRows: 8}"
               type="textarea"/>
-            <?php break;
+            <?php
+            break;
         case VueViewGenerator::INPUT_TYPE_DATE:
-        case VueViewGenerator::INPUT_TYPE_DATETIME: ?>
-        <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($type) ?>"/>
-            <?php break;
+        case VueViewGenerator::INPUT_TYPE_DATETIME:
+            ?>
+          <el-date-picker v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" type="<?= strtolower($type) ?>"/>
+            <?php
+            break;
         case VueViewGenerator::INPUT_TYPE_SELECT:
             $multipleProp = isset($multiple) && $multiple ? ' multiple' : ''; ?>
           <el-select v-model="<?= $modelField ?>" :placeholder="<?= $fieldLabelName ?>" filterable <?= $multipleProp ?>>
             <el-option v-for="item in <?= $optionsName ?>" :key="item.key" :value="item.key" :label="item.label"/>
           </el-select>
-            <?php break;
-        case VueViewGenerator::INPUT_TYPE_CHECKBOX: ?>
+            <?php
+            break;
+        case VueViewGenerator::INPUT_TYPE_CHECKBOX:
+            ?>
             <?php if (isset($optionsName)) { ?>
-            <el-checkbox-group v-model="<?= $modelField ?>">
-              <el-checkbox v-for="item in <?= $optionsName ?>" :key="item.key" :label="item.key">
-                {{ item.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-            <?php } else { ?>
-            <el-checkbox v-model="<?= $modelField ?>"><?= $fieldLabelName ?></el-checkbox>
-            <?php } ?>
-            <?php break;
-        case VueViewGenerator::INPUT_TYPE_RADIO: ?>
+          <el-checkbox-group v-model="<?= $modelField ?>">
+            <el-checkbox v-for="item in <?= $optionsName ?>" :key="item.key" :label="item.key">
+              {{ item.label }}
+            </el-checkbox>
+          </el-checkbox-group>
+        <?php } else { ?>
+          <el-checkbox v-model="<?= $modelField ?>"><?= $fieldLabelName ?></el-checkbox>
+        <?php } ?>
+            <?php
+            break;
+        case VueViewGenerator::INPUT_TYPE_RADIO:
+            ?>
           <el-radio v-for="item in <?= $optionsName ?>" v-model="<?= $modelField ?>" :key="item.key" :label="item.key">
             {{ item.label }}
           </el-radio>
-            <?php break;
-        case VueViewGenerator::INPUT_TYPE_UPLOAD: ?>
+            <?php
+            break;
+        case VueViewGenerator::INPUT_TYPE_UPLOAD:
+            ?>
           <xxx-upload :xxxModel="temp"/>
-            <?php break;
+            <?php
+            break;
     } ?>
 </el-form-item>

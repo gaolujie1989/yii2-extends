@@ -214,7 +214,7 @@ abstract class BaseCookieClient extends BaseClient
     {
         $requests = [];
         foreach ($data as $item) {
-            $requests[] = $request = $this->createReadyRequest($callSubUrl, $method, $item, $headers);;
+            $requests[] = $this->createReadyRequest($callSubUrl, $method, $item, $headers);
         }
         return $this->httpClient->batchSend($requests);
     }

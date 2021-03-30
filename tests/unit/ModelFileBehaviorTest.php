@@ -9,10 +9,7 @@ use lujie\upload\tests\unit\fixtures\UploadModelFileFixture;
 
 class ModelFileBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _after()
     {

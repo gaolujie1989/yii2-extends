@@ -10,8 +10,6 @@ use yii\base\InvalidConfigException;
 
 class HeartBeatTaskTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

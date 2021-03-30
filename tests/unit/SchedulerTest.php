@@ -15,8 +15,6 @@ use Yii;
 
 class SchedulerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

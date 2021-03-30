@@ -11,8 +11,6 @@ use lujie\scheduling\tasks\CleanSchedulerMonitorTask;
 
 class CleanSchedulerMonitorTaskTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

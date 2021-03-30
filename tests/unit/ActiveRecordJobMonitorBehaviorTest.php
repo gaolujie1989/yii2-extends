@@ -6,15 +6,12 @@
 namespace lujie\queuing\monitor\tests\unit;
 
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\helpers\ComponentHelper;
 use lujie\queuing\monitor\behaviors\ActiveRecordJobMonitorBehavior;
 use lujie\queuing\monitor\models\QueueJob;
 use lujie\queuing\monitor\models\QueueJobExec;
 use lujie\queuing\monitor\tests\unit\mocks\TestJob;
 use Yii;
-use yii\base\Component;
 use yii\console\Request;
-use yii\helpers\VarDumper;
 use yii\queue\file\Queue;
 use yii\queue\serializers\JsonSerializer;
 
@@ -25,8 +22,6 @@ use yii\queue\serializers\JsonSerializer;
  */
 class ActiveRecordJobMonitorBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
         QueueJob::deleteAll([]);

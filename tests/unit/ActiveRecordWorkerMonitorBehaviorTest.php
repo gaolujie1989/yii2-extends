@@ -20,8 +20,6 @@ use yii\queue\serializers\JsonSerializer;
  */
 class ActiveRecordWorkerMonitorBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

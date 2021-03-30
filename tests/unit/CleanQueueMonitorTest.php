@@ -19,8 +19,6 @@ use yii\queue\serializers\JsonSerializer;
  */
 class CleanQueueMonitorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

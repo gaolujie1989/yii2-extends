@@ -9,8 +9,6 @@ use yii\web\UploadedFile;
 
 class FileTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
         $this->initTestFiles();

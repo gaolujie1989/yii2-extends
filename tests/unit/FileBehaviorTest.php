@@ -8,8 +8,6 @@ use Yii;
 
 class FileBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
         $this->initTestFiles();

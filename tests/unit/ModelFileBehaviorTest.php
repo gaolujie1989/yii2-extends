@@ -9,8 +9,6 @@ use lujie\upload\tests\unit\fixtures\UploadModelFileFixture;
 
 class ModelFileBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _after()
     {
     }

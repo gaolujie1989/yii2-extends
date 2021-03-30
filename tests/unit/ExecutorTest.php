@@ -18,8 +18,6 @@ use yii\queue\Queue;
  */
 class ExecutorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

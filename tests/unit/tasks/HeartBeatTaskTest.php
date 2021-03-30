@@ -33,5 +33,4 @@ class HeartBeatTaskTest extends \Codeception\Test\Unit
         $task->execute();
         $this->assertEquals('HeatBeatTask:' . date('Y-m-d H:i:s'), $task->cache->get($task->cacheKey));
     }
-
 }

@@ -5,7 +5,6 @@
 
 namespace lujie\scheduling\monitor\searches;
 
-
 use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\scheduling\monitor\models\ScheduleTask;

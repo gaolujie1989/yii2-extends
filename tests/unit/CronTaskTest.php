@@ -5,7 +5,6 @@
 
 namespace lujie\scheduling\tests\unit;
 
-
 use lujie\executing\tests\unit\mocks\TestExecutable;
 use lujie\scheduling\CronTask;
 use lujie\scheduling\tests\unit\mocks\InvalidTestTask;

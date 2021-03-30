@@ -5,7 +5,6 @@
 
 namespace lujie\scheduling;
 
-
 interface ScheduleInterface
 {
     /**

@@ -39,7 +39,7 @@ class SchedulerTest extends \Codeception\Test\Unit
      */
     public function testGetTasks(): void
     {
-        $testTask = static function() {
+        $testTask = static function () {
             Yii::$app->params['xxx'] = 'xxx';
         };
         $scheduler = new Scheduler([

@@ -77,7 +77,7 @@ class ShardingActiveRecord extends ActiveRecord
             $rule = array_shift($config);
             if ($rule === self::SHARDING_RULE_MAP) {
                 $tableParts[] = $config['map'][$value] ?? $config['default'];
-            } else if ($rule === self::SHARDING_RULE_HASH) {
+            } elseif ($rule === self::SHARDING_RULE_HASH) {
                 $tableParts[] = $value % $config['count'];
             } else {
                 throw new InvalidConfigException('Invalid sharding rule');

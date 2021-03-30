@@ -11,8 +11,6 @@ use yii\log\FileTarget;
 
 class LogTargetAdjusterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

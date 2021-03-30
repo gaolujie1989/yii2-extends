@@ -12,8 +12,6 @@ use yii\behaviors\TimestampBehavior;
 
 class TraceableBehaviorTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

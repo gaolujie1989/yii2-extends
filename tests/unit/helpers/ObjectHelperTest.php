@@ -10,8 +10,6 @@ use lujie\extend\tests\unit\mocks\MockIdentity;
 
 class ObjectHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -10,8 +10,6 @@ use lujie\extend\tests\unit\fixtures\models\Migration;
 
 class ActiveDataHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

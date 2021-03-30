@@ -10,8 +10,6 @@ use lujie\extend\validators\DateValidator;
 
 class DateValidatorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

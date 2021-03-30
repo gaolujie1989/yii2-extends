@@ -9,8 +9,6 @@ use lujie\extend\helpers\ValueHelper;
 
 class ValueHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

@@ -10,8 +10,6 @@ use Yii;
 
 class DbConnectionTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
         Yii::$app->set('testDB', [

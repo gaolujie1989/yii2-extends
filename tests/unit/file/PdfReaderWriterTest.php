@@ -12,8 +12,6 @@ use yii\helpers\FileHelper;
 
 class PdfReaderWriterTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

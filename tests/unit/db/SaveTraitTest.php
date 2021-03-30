@@ -12,8 +12,6 @@ use yii\db\Exception;
 
 class SaveTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

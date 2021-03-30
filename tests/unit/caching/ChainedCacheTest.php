@@ -16,8 +16,6 @@ use yii\caching\FileCache;
  */
 class ChainedCacheTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

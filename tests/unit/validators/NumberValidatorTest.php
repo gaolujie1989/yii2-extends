@@ -11,8 +11,6 @@ use yii\validators\NumberValidator as YiiNumberValidator;
 
 class NumberValidatorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

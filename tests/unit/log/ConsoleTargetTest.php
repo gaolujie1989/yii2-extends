@@ -10,8 +10,6 @@ use yii\log\Logger;
 
 class ConsoleTargetTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

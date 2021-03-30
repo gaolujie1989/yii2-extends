@@ -11,8 +11,6 @@ use yii\db\Exception;
 
 class TransactionHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

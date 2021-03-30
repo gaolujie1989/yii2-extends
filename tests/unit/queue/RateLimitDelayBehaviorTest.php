@@ -13,8 +13,6 @@ use yii\queue\sync\Queue;
 
 class RateLimitDelayBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

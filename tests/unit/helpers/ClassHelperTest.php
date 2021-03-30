@@ -15,8 +15,6 @@ use yii\base\InvalidArgumentException;
 
 class ClassHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

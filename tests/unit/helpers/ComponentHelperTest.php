@@ -11,8 +11,6 @@ use yii\base\Component;
 
 class ComponentHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

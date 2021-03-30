@@ -12,8 +12,6 @@ use yii\httpclient\Response;
 
 class RateLimitCheckerBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

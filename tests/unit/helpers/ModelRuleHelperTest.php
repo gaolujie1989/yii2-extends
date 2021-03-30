@@ -9,8 +9,6 @@ use lujie\extend\helpers\ModelRuleHelper;
 
 class ModelRuleHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

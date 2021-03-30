@@ -9,8 +9,6 @@ use lujie\extend\helpers\TemplateHelper;
 
 class TemplateHelperTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

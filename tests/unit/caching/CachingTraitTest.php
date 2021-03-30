@@ -11,8 +11,6 @@ use yii\caching\TagDependency;
 
 class CachingTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

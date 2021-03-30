@@ -9,8 +9,6 @@ use lujie\extend\tests\unit\mocks\MockActiveRecord;
 
 class IdFieldTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

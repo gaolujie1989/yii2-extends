@@ -12,8 +12,6 @@ use yii\mutex\Mutex;
 
 class LockingTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

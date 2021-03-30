@@ -16,8 +16,6 @@ use yii\web\UserEvent;
 
 class HttpCookieAuthTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

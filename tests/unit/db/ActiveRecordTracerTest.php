@@ -12,8 +12,6 @@ use Yii;
 
 class ActiveRecordTracerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

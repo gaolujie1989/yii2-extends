@@ -10,8 +10,6 @@ use yii\db\ActiveRecord;
 
 class TransactionTraitTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

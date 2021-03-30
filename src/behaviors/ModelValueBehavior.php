@@ -150,7 +150,7 @@ class ModelValueBehavior extends Behavior
     {
         if ($this->isValueName($name)) {
             return $this->getValues();
-        } else if ($this->isRelationName($name)) {
+        } elseif ($this->isRelationName($name)) {
             return $this->getModelValues();
         }
         return parent::__get($name);

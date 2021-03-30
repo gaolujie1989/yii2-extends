@@ -44,5 +44,4 @@ class ModelValueQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

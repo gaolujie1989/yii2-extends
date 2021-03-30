@@ -109,4 +109,3 @@ class ActiveRecordPipelineTest extends \Codeception\Test\Unit
         $this->assertTrue(isset($errors[2]['apply_time']));
     }
 }
-

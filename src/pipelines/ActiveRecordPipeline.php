@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\pipelines;
 
-
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\helpers\ArrayHelper;
@@ -74,7 +73,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
     {
         if ($this->filterNull) {
             $data = array_map(static function ($values) {
-                return array_filter($values, static function($value) {
+                return array_filter($values, static function ($value) {
                     return $value !== null;
                 });
             }, $data);
@@ -103,7 +102,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
                 $createOrUpdate = $model->getIsNewRecord() ? self::AFFECTED_CREATED : self::AFFECTED_UPDATED;
                 if ($this->skipOnUnChanged && empty($model->getDirtyAttributes())) {
                     $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
-                } else if ($model->save(false)) {
+                } elseif ($model->save(false)) {
                     $this->affectedRowCounts[$createOrUpdate]++;
                 } else {
                     $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;

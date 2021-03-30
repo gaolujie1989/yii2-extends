@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\tests\unit\sources;
 
-
 use lujie\data\exchange\sources\RestClientSource;
 use lujie\extend\tests\unit\mocks\MockRestClient;
 

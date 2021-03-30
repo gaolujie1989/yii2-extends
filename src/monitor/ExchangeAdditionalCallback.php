@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\monitor;
 
-
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\DbPipelineInterface;
@@ -32,7 +31,7 @@ class ExchangeAdditionalCallback
             if ($executable->pipeline instanceof DbPipelineInterface) {
                 $additional['importRowCounts'] = $executable->pipeline->getAffectedRowCounts();
             }
-        } else if ($executable instanceof FileExporter) {
+        } elseif ($executable instanceof FileExporter) {
             $additional['exportFile'] = $executable->pipeline->getFilePath();
             if ($executable->source instanceof QuerySource) {
                 $additional['exportConditions'] = json_encode($executable->source->query->where);

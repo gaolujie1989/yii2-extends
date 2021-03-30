@@ -26,7 +26,7 @@ class OptionTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        return array_map(function($values) {
+        return array_map(function ($values) {
             foreach ($this->options as $key => $options) {
                 if (isset($values[$key], $options[$values[$key]])) {
                     $values[$key] = $options[$values[$key]];

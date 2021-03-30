@@ -82,4 +82,3 @@ class DbPipelineTest extends \Codeception\Test\Unit
         $this->assertEquals($data, $all);
     }
 }
-

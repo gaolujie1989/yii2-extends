@@ -40,7 +40,7 @@ class FillPreValueTransformer extends BaseObject implements TransformerInterface
         $preValues = [];
         $flipOnlyKeys = array_flip($this->onlyKeys);
         $flipExcludeKeys = array_flip($this->excludeKeys);
-        return array_map(function($values) use (&$preValues, $flipOnlyKeys, $flipExcludeKeys) {
+        return array_map(function ($values) use (&$preValues, $flipOnlyKeys, $flipExcludeKeys) {
             if (!$this->isOneGroup($values, $preValues)) {
                 $preValues = $values;
                 return $values;

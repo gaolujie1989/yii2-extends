@@ -179,7 +179,7 @@ class FileImportForm extends Model
                 : $fileImporter->execute();
             if ($fileImporter->getErrors()) {
                 $this->addError($this->fileAttribute, "File {$file} Error:" . Json::encode($fileImporter->getErrors()));
-            } else if ($executed === false) {
+            } elseif ($executed === false) {
                 $this->addError($this->fileAttribute, "File {$file} Unknown Error");
             } else {
                 $this->affectedRowCounts[$file] = $fileImporter->getAffectedRowCounts();

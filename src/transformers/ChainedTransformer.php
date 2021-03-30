@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\transformers;
 
-
 use yii\base\BaseObject;
 use yii\di\Instance;
 

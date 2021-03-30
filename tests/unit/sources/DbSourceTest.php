@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\tests\unit\sources;
 
-
 use lujie\data\exchange\sources\DbSource;
 
 class DbSourceTest extends \Codeception\Test\Unit

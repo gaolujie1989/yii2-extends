@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\pipelines;
 
-
 interface PipelineInterface
 {
     /**

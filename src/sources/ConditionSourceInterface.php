@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\sources;
 
-
 interface ConditionSourceInterface extends SourceInterface
 {
     /**

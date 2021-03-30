@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\tests\unit;
 
-
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\pipelines\FilePipeline;
 use lujie\data\exchange\sources\DbSource;

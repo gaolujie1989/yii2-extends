@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\sources;
 
-
 use Iterator;
 use lujie\extend\authclient\RestClientTrait;
 use yii\base\BaseObject;

@@ -31,7 +31,7 @@ class TypeFormatTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        return array_map(function($values) {
+        return array_map(function ($values) {
             foreach ($values as $key => $value) {
                 $dateType = $this->keyTypes[$key] ?? $this->defaultType;
                 $values[$key] = $this->convertType($dateType, $value);

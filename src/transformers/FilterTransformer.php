@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\transformers;
 
-
 use lujie\extend\helpers\ValueHelper;
 use yii\base\BaseObject;
 
@@ -28,7 +27,7 @@ class FilterTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        return array_filter($data, function($values) {
+        return array_filter($data, function ($values) {
             return !ValueHelper::isEmpty($values[$this->filterKey] ?? null);
         });
     }

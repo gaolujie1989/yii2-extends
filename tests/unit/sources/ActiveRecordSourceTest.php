@@ -5,7 +5,6 @@
 
 namespace lujie\data\exchange\tests\unit\sources;
 
-
 use lujie\data\exchange\sources\ActiveRecordSource;
 use lujie\data\exchange\tests\unit\fixtures\Migration;
 

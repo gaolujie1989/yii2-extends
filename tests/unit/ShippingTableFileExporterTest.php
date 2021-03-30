@@ -12,10 +12,7 @@ use lujie\extend\helpers\ExcelHelper;
 
 class ShippingTableFileExporterTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

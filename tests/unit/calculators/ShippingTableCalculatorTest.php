@@ -14,10 +14,7 @@ use lujie\charging\tests\unit\mocks\MockDataLoader;
 
 class ShippingTableCalculatorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

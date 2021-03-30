@@ -62,7 +62,7 @@ class UploadAction extends Action
             if ($model->saveUploadedFile() === false && !$model->hasErrors()) {
                 throw new ServerErrorHttpException('Failed to save upload file for unknown reason.');
             }
-        } else if ($model instanceof BaseActiveRecord) {
+        } elseif ($model instanceof BaseActiveRecord) {
             if ($model instanceof UploadModelFile && $modelTypeKey) {
                 if (empty($this->allowedModelTypes[$modelTypeKey])) {
                     throw new InvalidArgumentException("Invalid model type of {$modelTypeKey}, not allowed");

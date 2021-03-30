@@ -59,7 +59,7 @@ class UploadModelFileForm extends UploadModelFile
     {
         if ($this->model_type) {
             $this->allowedModelTypes[] = $this->model_type;
-        } else if ($this->allowedModelTypes) {
+        } elseif ($this->allowedModelTypes) {
             $this->model_type = reset($this->allowedModelTypes);
         } else {
             throw new InvalidConfigException('The property `allowedModelTypes` must be set.');

@@ -5,7 +5,6 @@
 
 namespace lujie\upload\tests\unit\fixtures;
 
-
 use lujie\upload\models\UploadModelFile;
 use yii\test\ActiveFixture;
 

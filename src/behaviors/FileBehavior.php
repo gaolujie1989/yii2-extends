@@ -5,7 +5,6 @@
 
 namespace lujie\upload\behaviors;
 
-
 use creocoder\flysystem\Filesystem;
 use Yii;
 use yii\base\Behavior;

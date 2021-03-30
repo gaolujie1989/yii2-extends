@@ -126,7 +126,7 @@ class UploadBehavior extends Behavior
         $file = $model->{$this->attribute};
         if ($file instanceof UploadedFile) {
             $this->_uploadedFile = $file;
-        } else if ($this->inputName) {
+        } elseif ($this->inputName) {
             $this->_uploadedFile = UploadedFile::getInstanceByName($this->inputName);
         } else {
             $this->_uploadedFile = UploadedFile::getInstance($model, $this->attribute);

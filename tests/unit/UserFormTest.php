@@ -11,8 +11,6 @@ use lujie\user\models\User;
 
 class UserFormTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

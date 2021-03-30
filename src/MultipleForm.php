@@ -5,7 +5,6 @@
 
 namespace lujie\batch;
 
-
 use lujie\extend\helpers\TransactionHelper;
 use Yii;
 use yii\base\Model;

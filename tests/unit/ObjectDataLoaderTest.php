@@ -13,8 +13,6 @@ use lujie\data\loader\tests\unit\mocks\MockObject;
  */
 class ObjectDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

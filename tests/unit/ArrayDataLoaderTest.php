@@ -11,8 +11,6 @@ use lujie\data\loader\ArrayDataLoader;
  */
 class ArrayDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

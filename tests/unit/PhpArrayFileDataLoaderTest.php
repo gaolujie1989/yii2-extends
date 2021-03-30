@@ -11,8 +11,6 @@ use lujie\data\loader\FileDataLoader;
  */
 class PhpArrayFileDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

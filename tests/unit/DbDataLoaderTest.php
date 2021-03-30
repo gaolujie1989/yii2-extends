@@ -11,8 +11,6 @@ use lujie\data\loader\DbDataLoader;
  */
 class DbDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

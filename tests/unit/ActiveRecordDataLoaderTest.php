@@ -12,8 +12,6 @@ use lujie\data\loader\tests\unit\fixtures\Migration;
  */
 class ActiveRecordDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

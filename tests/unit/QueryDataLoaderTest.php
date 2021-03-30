@@ -12,8 +12,6 @@ use yii\db\Query;
  */
 class QueryDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

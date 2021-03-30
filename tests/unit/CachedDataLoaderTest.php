@@ -12,8 +12,6 @@ use lujie\data\loader\CachedDataLoader;
  */
 class CachedDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

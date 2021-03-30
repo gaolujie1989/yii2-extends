@@ -12,8 +12,6 @@ use lujie\data\loader\ChainedDataLoader;
  */
 class ChainedDataLoaderTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

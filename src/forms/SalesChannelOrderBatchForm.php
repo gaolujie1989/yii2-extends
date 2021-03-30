@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\forms;
 
-
 use lujie\batch\BatchForm;
 
 /**

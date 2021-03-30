@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\tests\unit;
 
-
 use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
@@ -142,5 +141,4 @@ class BaseSalesChannelTest extends \Codeception\Test\Unit
         ];
         $this->assertEquals($expected, $salesChannelOrder->getAttributes(array_keys($expected)));
     }
-
 }

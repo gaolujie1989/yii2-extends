@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\forms;
 
-
 use lujie\common\account\forms\AccountForm;
 use lujie\sales\channel\models\SalesChannelAccount;
 

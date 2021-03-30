@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\pm;
 
-
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use lujie\sales\channel\BaseSalesChannel;
@@ -216,17 +215,17 @@ class PmSalesChannel extends BaseSalesChannel
             $newSalesChannelStatus = null;
             if ($salesChannelOrder->external_order_status < 4) {
                 $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT;
-            } else if ($salesChannelOrder->external_order_status >= 4 && $salesChannelOrder->external_order_status < 7) {
+            } elseif ($salesChannelOrder->external_order_status >= 4 && $salesChannelOrder->external_order_status < 7) {
                 $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_PAID;
-            } else if ($salesChannelOrder->external_order_status >= 7 && $salesChannelOrder->external_order_status < 8) {
+            } elseif ($salesChannelOrder->external_order_status >= 7 && $salesChannelOrder->external_order_status < 8) {
                 $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_SHIPPED;
-            } else if ($salesChannelOrder->external_order_status >= 8 && $salesChannelOrder->external_order_status < 9) {
+            } elseif ($salesChannelOrder->external_order_status >= 8 && $salesChannelOrder->external_order_status < 9) {
                 $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_CANCELLED;
             }
             if ($newSalesChannelStatus) {
                 $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
                 if ($statusTransitions === null
-                    ||($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions))) {
+                    || ($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions))) {
                     $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
                 }
             }

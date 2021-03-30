@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\forms;
 
-
 use lujie\extend\db\FormTrait;
 use lujie\sales\channel\models\SalesChannelOrder;
 

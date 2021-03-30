@@ -169,8 +169,15 @@ class SalesChannelManager extends Component implements BootstrapInterface
         $job->salesChannelManager = ComponentHelper::getName($this);
         $job->salesChannelOrderId = $channelOrder->sales_channel_order_id;
         //always push job because order may be change multi times with different data, so need to push different job
-        return ExecuteHelper::pushJob($this->queue, $job, $channelOrder,
-            'order_pushed_status', 'order_pushed_result', 'updated_at', 0);
+        return ExecuteHelper::pushJob(
+            $this->queue,
+            $job,
+            $channelOrder,
+            'order_pushed_status',
+            'order_pushed_result',
+            'updated_at',
+            0
+        );
     }
 
     #endregion

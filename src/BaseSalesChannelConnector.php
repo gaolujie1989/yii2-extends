@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel;
 
-
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\helpers\ClassHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
@@ -200,7 +199,6 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      */
     protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder): void
     {
-
     }
 
     /**

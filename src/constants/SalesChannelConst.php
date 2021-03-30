@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\constants;
 
-
 class SalesChannelConst
 {
     public const ACCOUNT_TYPE_PM = 'PM';

@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\searches;
 
-
 use lujie\common\account\searches\AccountSearch;
 use lujie\sales\channel\models\SalesChannelAccount;
 

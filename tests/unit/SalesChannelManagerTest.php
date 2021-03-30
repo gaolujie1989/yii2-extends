@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\tests\unit;
 
-
 use lujie\data\loader\ChainedDataLoader;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\constants\StatusConst;

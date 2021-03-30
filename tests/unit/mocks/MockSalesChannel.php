@@ -56,7 +56,7 @@ class MockSalesChannel extends BaseSalesChannel
      */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
-        return array_filter(static::$EXTERNAL_ORDERS, static function($order) use ($externalOrderKeys) {
+        return array_filter(static::$EXTERNAL_ORDERS, static function ($order) use ($externalOrderKeys) {
             return in_array($order['id'], $externalOrderKeys);
         });
     }
@@ -69,7 +69,7 @@ class MockSalesChannel extends BaseSalesChannel
      */
     protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
     {
-        return array_filter(static::$EXTERNAL_ORDERS, static function($order) use ($createdAtFrom, $createdAtTo) {
+        return array_filter(static::$EXTERNAL_ORDERS, static function ($order) use ($createdAtFrom, $createdAtTo) {
             return $createdAtFrom <= $order['createdAt'] && $order['createdAt'] <= $createdAtTo;
         });
     }

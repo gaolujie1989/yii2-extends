@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\tests\unit;
 
-
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;

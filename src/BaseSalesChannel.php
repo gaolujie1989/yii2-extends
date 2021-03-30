@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel;
 
-
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;

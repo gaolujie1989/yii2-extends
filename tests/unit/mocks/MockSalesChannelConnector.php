@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\tests\unit\mocks;
 
-
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\sales\channel\BaseSalesChannelConnector;
 use lujie\sales\channel\models\SalesChannelOrder;

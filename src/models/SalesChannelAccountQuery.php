@@ -32,5 +32,4 @@ use lujie\common\account\models\AccountQuery;
  */
 class SalesChannelAccountQuery extends AccountQuery
 {
-
 }

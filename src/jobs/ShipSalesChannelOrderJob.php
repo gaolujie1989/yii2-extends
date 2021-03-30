@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\jobs;
 
-
 use lujie\sales\channel\SalesChannelManager;
 use yii\di\Instance;
 use yii\queue\Queue;

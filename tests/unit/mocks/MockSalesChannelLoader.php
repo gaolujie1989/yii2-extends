@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\tests\unit\mocks;
 
-
 use lujie\data\loader\BaseDataLoader;
 use lujie\sales\channel\models\SalesChannelAccount;
 

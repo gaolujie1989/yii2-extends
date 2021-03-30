@@ -5,7 +5,6 @@
 
 namespace lujie\ar\snapshoot\behaviors;
 
-
 use yii\base\Behavior;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;

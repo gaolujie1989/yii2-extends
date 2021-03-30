@@ -7,8 +7,6 @@ use lujie\alias\behaviors\UnitAliasBehavior;
 
 class UnitAliasBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

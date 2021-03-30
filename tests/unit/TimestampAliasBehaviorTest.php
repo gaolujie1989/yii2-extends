@@ -7,8 +7,6 @@ use lujie\alias\behaviors\TimestampAliasBehavior;
 
 class TimestampAliasBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

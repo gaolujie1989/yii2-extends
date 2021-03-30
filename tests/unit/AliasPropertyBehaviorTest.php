@@ -7,8 +7,6 @@ use lujie\alias\behaviors\tests\unit\fixtures\TestAliasComponent;
 
 class AliasPropertyBehaviorTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

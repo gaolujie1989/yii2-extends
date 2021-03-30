@@ -10,8 +10,6 @@ use lujie\auth\rbac\StaticUserAccessChecker;
 
 class ChainedAccessCheckerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

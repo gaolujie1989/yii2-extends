@@ -9,8 +9,6 @@ use lujie\auth\forms\RoleForm;
 
 class RoleFormTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

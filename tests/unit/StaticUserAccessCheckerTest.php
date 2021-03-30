@@ -9,8 +9,6 @@ use lujie\auth\rbac\StaticUserAccessChecker;
 
 class StaticUserAccessCheckerTest extends \Codeception\Test\Unit
 {
-
-
     protected function _before()
     {
     }

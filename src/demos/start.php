@@ -12,12 +12,9 @@ defined('YII_APP_BASE_PATH') or define('YII_APP_BASE_PATH', '/app/apps');
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', false);
 defined('WORKERMAN_UPLOAD_FILENAME_PREFIX') or define('WORKERMAN_UPLOAD_FILENAME_PREFIX', 'wkm_upd_');
 defined('XHGUI_BASH_PATH') or define('XHGUI_BASH_PATH', '/app/devtools/xhgui-branch');
-
 require_once YII_APP_BASE_PATH . '/vendor/autoload.php';
-
 Worker::$logFile = '/var/log/workerman.log';
 Worker::$pidFile = '/var/run/workerman.pid';
-
 if (isset($_ENV['ENABLE_FILE_MONITOR'])) {
     $fileMonitor = new FileMonitor();
     $fileMonitor->checkInterval = $_ENV['FILE_MONITOR_INTERVAL'] ?? 2;
@@ -34,5 +31,4 @@ $webServer->user = 'www-data';
 $webServer->group = 'www-data';
 $webServer->count = 4;
 $webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
-
 Worker::runAll();

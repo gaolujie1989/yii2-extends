@@ -95,7 +95,4 @@ class ContentItem implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -473,7 +473,4 @@ class GeneralShipmentData implements RequestInterface
 
         return $new;
     }
-
-
 }
-

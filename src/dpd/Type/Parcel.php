@@ -608,7 +608,4 @@ class Parcel implements RequestInterface
 
         return $new;
     }
-
-
 }
-

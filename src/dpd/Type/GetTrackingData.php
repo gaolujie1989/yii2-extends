@@ -41,7 +41,4 @@ class GetTrackingData implements RequestInterface
 
         return $new;
     }
-
-
 }
-

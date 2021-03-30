@@ -68,7 +68,4 @@ class Fault implements RequestInterface
 
         return $new;
     }
-
-
 }
-

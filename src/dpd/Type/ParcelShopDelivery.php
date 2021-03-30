@@ -68,7 +68,4 @@ class ParcelShopDelivery implements RequestInterface
 
         return $new;
     }
-
-
 }
-

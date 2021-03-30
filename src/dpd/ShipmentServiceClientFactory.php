@@ -8,7 +8,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ShipmentServiceClientFactory
 {
-
     public static function factory(string $wsdl) : \dpd\ShipmentServiceClient
     {
         $engine = ExtSoapEngineFactory::fromOptions(
@@ -19,7 +18,4 @@ class ShipmentServiceClientFactory
 
         return new ShipmentServiceClient($engine, $eventDispatcher);
     }
-
-
 }
-

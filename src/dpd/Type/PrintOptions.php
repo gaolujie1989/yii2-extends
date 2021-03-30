@@ -122,7 +122,4 @@ class PrintOptions implements RequestInterface
 
         return $new;
     }
-
-
 }
-

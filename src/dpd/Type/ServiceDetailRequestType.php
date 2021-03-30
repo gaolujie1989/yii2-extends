@@ -41,7 +41,4 @@ class ServiceDetailRequestType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

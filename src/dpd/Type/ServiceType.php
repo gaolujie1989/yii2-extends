@@ -122,7 +122,4 @@ class ServiceType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

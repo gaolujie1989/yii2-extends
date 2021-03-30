@@ -31,7 +31,4 @@ class GetTrackingDataResponse implements ResultInterface
 
         return $new;
     }
-
-
 }
-

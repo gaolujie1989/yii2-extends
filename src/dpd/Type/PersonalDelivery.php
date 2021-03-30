@@ -203,7 +203,4 @@ class PersonalDelivery implements RequestInterface
 
         return $new;
     }
-
-
 }
-

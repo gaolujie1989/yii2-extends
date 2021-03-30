@@ -8,7 +8,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ParcelLifeCycleServiceClientFactory
 {
-
     public static function factory(string $wsdl) : \dpd\ParcelLifeCycleServiceClient
     {
         $engine = ExtSoapEngineFactory::fromOptions(
@@ -19,7 +18,4 @@ class ParcelLifeCycleServiceClientFactory
 
         return new ParcelLifeCycleServiceClient($engine, $eventDispatcher);
     }
-
-
 }
-

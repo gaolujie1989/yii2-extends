@@ -8,7 +8,6 @@ use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
 
 class ShipmentServiceClassmap
 {
-
     public static function getCollection() : \Phpro\SoapClient\Soap\ClassMap\ClassMapCollection
     {
         return new ClassMapCollection([
@@ -39,7 +38,4 @@ class ShipmentServiceClassmap
             new ClassMap('authenticationFault', Type\AuthenticationFault::class),
         ]);
     }
-
-
 }
-

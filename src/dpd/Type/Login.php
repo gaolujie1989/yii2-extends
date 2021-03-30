@@ -122,7 +122,4 @@ class Login implements RequestInterface
 
         return $new;
     }
-
-
 }
-

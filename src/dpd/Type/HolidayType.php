@@ -68,7 +68,4 @@ class HolidayType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

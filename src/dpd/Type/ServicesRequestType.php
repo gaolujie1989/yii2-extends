@@ -41,7 +41,4 @@ class ServicesRequestType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

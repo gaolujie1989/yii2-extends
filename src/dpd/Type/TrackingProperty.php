@@ -68,7 +68,4 @@ class TrackingProperty implements RequestInterface
 
         return $new;
     }
-
-
 }
-

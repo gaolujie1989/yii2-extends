@@ -68,7 +68,4 @@ class HigherInsurance implements RequestInterface
 
         return $new;
     }
-
-
 }
-

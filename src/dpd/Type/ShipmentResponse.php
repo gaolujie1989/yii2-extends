@@ -106,7 +106,4 @@ class ShipmentResponse implements ResultInterface
 
         return $new;
     }
-
-
 }
-

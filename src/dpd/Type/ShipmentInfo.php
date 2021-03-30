@@ -149,7 +149,4 @@ class ShipmentInfo implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -95,7 +95,4 @@ class Notification implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -49,7 +49,4 @@ class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
     {
         return $this->call('getAvailableServices', $parameters);
     }
-
-
 }
-

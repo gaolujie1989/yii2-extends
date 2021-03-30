@@ -149,7 +149,4 @@ class Delivery implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -338,7 +338,4 @@ class Hazardous implements RequestInterface
 
         return $new;
     }
-
-
 }
-

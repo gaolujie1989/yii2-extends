@@ -8,7 +8,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class LoginServiceClientFactory
 {
-
     public static function factory(string $wsdl) : \dpd\LoginServiceClient
     {
         $engine = ExtSoapEngineFactory::fromOptions(
@@ -19,7 +18,4 @@ class LoginServiceClientFactory
 
         return new LoginServiceClient($engine, $eventDispatcher);
     }
-
-
 }
-

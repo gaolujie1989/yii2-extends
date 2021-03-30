@@ -311,7 +311,4 @@ class StatusInfo implements RequestInterface
 
         return $new;
     }
-
-
 }
-

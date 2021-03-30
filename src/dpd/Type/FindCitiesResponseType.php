@@ -41,7 +41,4 @@ class FindCitiesResponseType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

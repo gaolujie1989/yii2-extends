@@ -19,7 +19,4 @@ class LoginServiceClient extends \Phpro\SoapClient\Client
     {
         return $this->call('getAuth', $parameters);
     }
-
-
 }
-

@@ -284,7 +284,4 @@ class Cod implements RequestInterface
 
         return $new;
     }
-
-
 }
-

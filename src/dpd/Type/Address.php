@@ -446,7 +446,4 @@ class Address implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -392,7 +392,4 @@ class ProductAndServiceData implements RequestInterface
 
         return $new;
     }
-
-
 }
-

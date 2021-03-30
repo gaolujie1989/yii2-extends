@@ -13,7 +13,4 @@ class DataFault implements RequestInterface
     public function __construct()
     {
     }
-
-
 }
-

@@ -41,7 +41,4 @@ class GetParcelLabelNumberForWebNumber implements RequestInterface
 
         return $new;
     }
-
-
 }
-

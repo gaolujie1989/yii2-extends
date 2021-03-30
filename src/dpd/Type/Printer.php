@@ -203,7 +203,4 @@ class Printer implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -284,7 +284,4 @@ class Pickup implements RequestInterface
 
         return $new;
     }
-
-
 }
-

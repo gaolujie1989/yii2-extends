@@ -95,7 +95,4 @@ class TrackingResult implements RequestInterface
 
         return $new;
     }
-
-
 }
-

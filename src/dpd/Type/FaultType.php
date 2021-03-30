@@ -311,7 +311,4 @@ class FaultType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

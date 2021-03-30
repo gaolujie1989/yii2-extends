@@ -2,7 +2,6 @@
 
 namespace dpd\Type;
 
-
 use Phpro\SoapClient\Type\RequestInterface;
 
 class Authentication implements RequestInterface
@@ -96,7 +95,4 @@ class Authentication implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -716,7 +716,4 @@ class ParcelShopType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

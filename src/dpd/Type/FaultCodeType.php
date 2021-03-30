@@ -68,7 +68,4 @@ class FaultCodeType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

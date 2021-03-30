@@ -41,7 +41,4 @@ class GetAvailableServicesResponseType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -311,7 +311,4 @@ class LoginException implements RequestInterface
 
         return $new;
     }
-
-
 }
-

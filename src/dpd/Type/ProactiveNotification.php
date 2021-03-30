@@ -122,7 +122,4 @@ class ProactiveNotification implements RequestInterface
 
         return $new;
     }
-
-
 }
-

@@ -19,7 +19,4 @@ class ShipmentServiceClient extends \Phpro\SoapClient\Client
     {
         return $this->call('storeOrders', $parameters);
     }
-
-
 }
-

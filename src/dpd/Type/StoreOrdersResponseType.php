@@ -68,7 +68,4 @@ class StoreOrdersResponseType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

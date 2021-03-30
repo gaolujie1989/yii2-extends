@@ -107,7 +107,8 @@ class DpdSoapClient extends Component
             $dpdAuthMiddleware = new DpdAuthMiddleware(
                 $this->getDpdLogin()->getDelisId(),
                 $this->getDpdLogin()->getAuthToken(),
-                $this->language);
+                $this->language
+            );
             $handler->addMiddleware($dpdAuthMiddleware);
         }
 
@@ -128,7 +129,7 @@ class DpdSoapClient extends Component
     public function getDpdLogin(): Login
     {
         $key = $this->baseUrl . $this->username;
-        return $this->cache->getOrSet($key, function() {
+        return $this->cache->getOrSet($key, function () {
             $authResponse = $this->getAuth(new GetAuth($this->username, $this->password, $this->language));
             return $authResponse->getReturn();
         });

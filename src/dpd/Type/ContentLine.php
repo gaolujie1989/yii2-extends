@@ -95,7 +95,4 @@ class ContentLine implements RequestInterface
 
         return $new;
     }
-
-
 }
-

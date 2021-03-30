@@ -13,7 +13,4 @@ class DataFaultType implements RequestInterface
     public function __construct()
     {
     }
-
-
 }
-

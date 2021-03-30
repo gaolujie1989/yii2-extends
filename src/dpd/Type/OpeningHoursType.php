@@ -149,7 +149,4 @@ class OpeningHoursType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

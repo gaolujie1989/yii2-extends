@@ -149,7 +149,4 @@ class CityType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

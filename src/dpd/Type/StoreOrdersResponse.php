@@ -31,7 +31,4 @@ class StoreOrdersResponse implements ResultInterface
 
         return $new;
     }
-
-
 }
-

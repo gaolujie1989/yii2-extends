@@ -29,7 +29,4 @@ class ParcelLifeCycleServiceClient extends \Phpro\SoapClient\Client
     {
         return $this->call('getParcelLabelNumberForWebNumber', $parameters);
     }
-
-
 }
-

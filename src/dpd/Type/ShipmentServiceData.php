@@ -95,7 +95,4 @@ class ShipmentServiceData implements RequestInterface
 
         return $new;
     }
-
-
 }
-

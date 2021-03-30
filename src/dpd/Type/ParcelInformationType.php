@@ -68,7 +68,4 @@ class ParcelInformationType implements RequestInterface
 
         return $new;
     }
-
-
 }
-

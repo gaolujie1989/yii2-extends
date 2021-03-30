@@ -8,7 +8,6 @@ use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
 
 class LoginServiceClassmap
 {
-
     public static function getCollection() : \Phpro\SoapClient\Soap\ClassMap\ClassMapCollection
     {
         return new ClassMapCollection([
@@ -20,7 +19,4 @@ class LoginServiceClassmap
             new ClassMap('authenticationFault', Type\AuthenticationFault::class),
         ]);
     }
-
-
 }
-

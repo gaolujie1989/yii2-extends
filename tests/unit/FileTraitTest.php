@@ -9,10 +9,7 @@ use yii\web\UploadedFile;
 
 class FileTraitTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

@@ -14,10 +14,7 @@ use yii\helpers\VarDumper;
 
 class UploadBehaviorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+
 
     protected function _before()
     {

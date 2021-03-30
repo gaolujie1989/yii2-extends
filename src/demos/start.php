@@ -3,6 +3,7 @@
 /**
  * @copyright Copyright (c) 2019
  */
+// phpcs:ignoreFile
 
 use lujie\workerman\FileMonitor;
 use lujie\workerman\Yii2WebServer;

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2019
  */
+// phpcs:ignoreFile
 
 namespace lujie\workerman;
 

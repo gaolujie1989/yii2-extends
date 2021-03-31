@@ -89,7 +89,7 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param bool $indexByExternalItemKey
+     * @param bool $indexByItemId
      * @return array
      * @inheritdoc
      */

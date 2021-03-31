@@ -161,7 +161,7 @@ class QueryHelper
     /**
      * @param QueryInterface $query
      * @param array $attributes
-     * @param $value
+     * @param mixed $value
      * @param bool|string $like
      * @param string $alias
      * @param string $splitPattern

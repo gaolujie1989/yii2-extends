@@ -44,10 +44,9 @@ class FsFileDownloadAction extends Action
      * @throws \yii\web\RangeNotSatisfiableHttpException
      * @inheritdoc
      */
-    public function actionDownload($path)
+    public function actionDownload($path): void
     {
         $path = base64_decode($path);
-        /** @var Filesystem $fileSystem */
         $this->fs = Instance::ensure($this->fs);
         if (!$this->fs->has($path)) {
             throw new NotFoundHttpException("File {$path} Not Found");

@@ -691,7 +691,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        $pmOrderId = $fulfillmentOrder->external_order_key;
+        $pmOrderId = (int)$fulfillmentOrder->external_order_key;
         if (empty($pmOrderId)) {
             $pmOrder = [
                 'id' => '',

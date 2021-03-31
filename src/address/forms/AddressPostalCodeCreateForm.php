@@ -40,7 +40,7 @@ class AddressPostalCodeCreateForm extends AddressPostalCode
 
     /**
      * @param bool $runValidation
-     * @param null $attributeNames
+     * @param array $attributeNames
      * @return bool
      * @throws \yii\db\Exception
      * @inheritdoc

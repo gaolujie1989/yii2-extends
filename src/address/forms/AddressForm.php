@@ -28,7 +28,7 @@ class AddressForm extends Address
 
     /**
      * @param bool $runValidation
-     * @param null $attributeNames
+     * @param array $attributeNames
      * @return bool
      * @inheritdoc
      */

@@ -59,5 +59,6 @@ class ZipReader extends BaseObject implements FileReaderInterface
             $zipArchive->extractTo($this->destination);
         }
         $zipArchive->close();
+        return $this->entries;
     }
 }

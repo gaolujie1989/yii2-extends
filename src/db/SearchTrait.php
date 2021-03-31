@@ -69,9 +69,9 @@ trait SearchTrait
      */
     protected function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
     {
+        $keyAttributes = $this->searchKeyAttributes();
         /** @var BaseActiveRecord $this */
         $query = ModelHelper::query($this, $query, $alias);
-        $keyAttributes = $this->searchKeyAttributes();
         if ($this->key && $keyAttributes) {
             QueryHelper::filterKey($query, $keyAttributes, $this->key, true);
         }

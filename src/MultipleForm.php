@@ -46,7 +46,7 @@ class MultipleForm extends Model
     }
 
     /**
-     * @param null $attributeNames
+     * @param array $attributeNames
      * @param bool $clearErrors
      * @return bool
      * @inheritdoc

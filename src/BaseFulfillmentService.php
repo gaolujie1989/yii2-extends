@@ -240,7 +240,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder);
-        if (empty($order) || empty($order->orderItems)) {
+        if ($order === null || empty($order->orderItems)) {
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
         }
@@ -286,7 +286,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * update fulfillment order info, like external order_id, order_no, extra...
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
-     * @param false $changeActionStatus
+     * @param bool $changeActionStatus
      * @return bool
      * @throws InvalidConfigException
      * @throws \Throwable

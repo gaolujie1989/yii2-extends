@@ -66,7 +66,7 @@ class DocumentTemplateForm extends DocumentTemplate
         }, $defaultTemplates);
         return DocumentTemplate::getDb()
             ->createCommand()
-            ->batchInsert(DocumentTemplate::tableName(), array_keys($docTemplates[0]), $docTemplates)
+            ->batchInsert(DocumentTemplate::tableName(), array_keys(reset($docTemplates)), $docTemplates)
             ->execute();
     }
 }

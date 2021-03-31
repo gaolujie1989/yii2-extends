@@ -206,7 +206,7 @@ class Yii2WebServer extends WebServer
             if ($exception->getMessage() !== 'jump_exit') {
                 $yii2App->getErrorHandler()->handleException($exception);
             }
-        } catch (\Error $error) {
+        } catch (\Throwable $error) {
             $yii2App->getErrorHandler()->handleException($error);
         } finally {
             XHProfiler::end();

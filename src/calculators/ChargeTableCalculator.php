@@ -75,7 +75,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         $chargePrice->price_cent = $chargeTablePrice->price_cent;
         $chargePrice->currency = $chargeTablePrice->currency;
         if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-            $chargePrice->price_cent += ceil(($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit)
+            $chargePrice->price_cent += ((int)ceil(($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit))
                 * $chargeTablePrice->over_limit_price_cent;
         }
         $chargePrice->setAttributes($chargeTablePrice->additional);

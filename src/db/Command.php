@@ -5,7 +5,6 @@
 
 namespace lujie\workerman\db;
 
-use Yii;
 use yii\db\Exception;
 
 /**
@@ -17,7 +16,7 @@ class Command extends \yii\db\Command
 {
     /**
      * @param string $method
-     * @param null $fetchMode
+     * @param int $fetchMode
      * @return mixed
      * @throws Exception
      * @inheritdoc

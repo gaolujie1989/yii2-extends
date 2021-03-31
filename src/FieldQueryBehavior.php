@@ -193,7 +193,7 @@ class FieldQueryBehavior extends Behavior
             } elseif (count($owner->from) === 1) {
                 $alias = array_keys($owner->from)[0];
                 $this->alias = is_string($alias) ? $alias : '';
-            } elseif ($owner instanceof ActiveQueryInterface && count($owner->from) > 1) {
+            } elseif ($owner instanceof ActiveQueryInterface) {
                 /** @var ActiveRecord $modelClass */
                 $modelClass = $owner->modelClass;
                 foreach ($owner->from as $alias => $tableName) {

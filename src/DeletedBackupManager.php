@@ -119,7 +119,7 @@ class DeletedBackupManager extends BaseObject implements BootstrapInterface
             return (bool)$execute;
         }
         if ($model instanceof MongodbActiveRecord) {
-            $execute = $model::getDb()->createCommand()->insert($model::getCollection(), $deletedData->row_data);
+            $execute = $model::getDb()->createCommand()->insert($model::getCollection()->name, $deletedData->row_data);
             if ($execute && $deleteBackup) {
                 $deletedData->delete();
             }

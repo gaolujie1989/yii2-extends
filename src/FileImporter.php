@@ -7,7 +7,6 @@ namespace lujie\data\exchange;
 
 use lujie\data\exchange\sources\FileSource;
 use lujie\extend\file\readers\ExcelReader;
-use Yii;
 use yii\di\Instance;
 
 /**
@@ -50,7 +49,6 @@ class FileImporter extends DataExchanger
         if (is_array($this->fileSource) && empty($this->fileSource['class'])) {
             $this->fileSource['class'] = FileSource::class;
         }
-        /** @var FileSource $source */
         $this->source = Instance::ensure($this->fileSource, FileSource::class);
         $this->source->file = $file;
     }

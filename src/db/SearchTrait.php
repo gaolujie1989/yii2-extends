@@ -5,10 +5,8 @@
 
 namespace lujie\extend\db;
 
-use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
-use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
@@ -40,7 +38,7 @@ trait SearchTrait
      */
     protected function searchRules(): array
     {
-        /** @var $this BaseActiveRecord */
+        /** @var BaseActiveRecord $this */
         return array_merge(ModelHelper::searchRules($this), [
             [['key'], 'string'],
         ]);
@@ -52,7 +50,7 @@ trait SearchTrait
      */
     protected function searchKeyAttributes(): array
     {
-        /** @var $this BaseActiveRecord */
+        /** @var BaseActiveRecord $this */
         return ModelHelper::filterAttributes($this->attributes(), ['no', 'key', 'code', 'name', 'title']);
     }
 
@@ -71,7 +69,7 @@ trait SearchTrait
      */
     protected function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
     {
-        /** @var $this BaseActiveRecord */
+        /** @var BaseActiveRecord $this */
         $query = ModelHelper::query($this, $query, $alias);
         $keyAttributes = $this->searchKeyAttributes();
         if ($this->key && $keyAttributes) {

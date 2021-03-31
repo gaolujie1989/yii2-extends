@@ -33,7 +33,7 @@ trait AliasFieldTrait
      */
     protected function aliasFields(): array
     {
-        /** @var $this BaseActiveRecord */
+        /** @var BaseActiveRecord $this */
         return array_merge(parent::fields(), ModelHelper::aliasFields($this), ['id' => 'id']);
     }
 

@@ -162,7 +162,7 @@ class QueryHelper
      * @param QueryInterface $query
      * @param array $attributes
      * @param $value
-     * @param false $like
+     * @param bool $like
      * @param string $alias
      * @param string $splitPattern
      * @inheritdoc
@@ -171,7 +171,7 @@ class QueryHelper
         QueryInterface $query,
         array $attributes,
         $value,
-        $like = false,
+        bool $like = false,
         string $alias = '',
         string $splitPattern = '/[,;\s]/'
     ): void

@@ -7,6 +7,7 @@ namespace lujie\extend\caching;
 
 use yii\base\NotSupportedException;
 use yii\caching\Cache;
+use yii\caching\Dependency;
 use yii\di\Instance;
 
 /**
@@ -96,8 +97,8 @@ class ChainedCache extends Cache
     /**
      * @param mixed $key
      * @param mixed $value
-     * @param null $duration
-     * @param null $dependency
+     * @param int $duration
+     * @param Dependency $dependency
      * @return bool
      * @inheritdoc
      */
@@ -114,7 +115,7 @@ class ChainedCache extends Cache
     /**
      * @param array $items
      * @param int $duration
-     * @param null $dependency
+     * @param Dependency $dependency
      * @return array
      * @inheritdoc
      */
@@ -132,7 +133,7 @@ class ChainedCache extends Cache
     /**
      * @param array $items
      * @param int $duration
-     * @param null $dependency
+     * @param Dependency $dependency
      * @return array
      * @inheritdoc
      */
@@ -150,7 +151,7 @@ class ChainedCache extends Cache
      * @param mixed $key
      * @param mixed $value
      * @param int $duration
-     * @param null $dependency
+     * @param Dependency $dependency
      * @return bool
      * @inheritdoc
      */

@@ -30,7 +30,7 @@ trait FormTrait
      */
     protected function formRules(): array
     {
-        /** @var $this BaseActiveRecord */
+        /** @var BaseActiveRecord $this */
         return ModelHelper::formRules($this, parent::rules());
     }
 }

@@ -5,12 +5,9 @@
 
 namespace lujie\extend\base;
 
-use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
-use Yii;
 use yii\base\Model;
-use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 
@@ -64,7 +61,7 @@ class ModelSearch extends Model
      */
     protected function searchKeyAttributes(): array
     {
-        /** @var $this BaseActiveRecord */
+        /** @var BaseActiveRecord $this */
         return ModelHelper::filterAttributes($this->attributes(), ['no', 'key', 'code', 'name', 'title']);
     }
 

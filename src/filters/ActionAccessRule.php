@@ -53,7 +53,7 @@ class ActionAccessRule extends AccessRule
 
     /**
      * @param Action $action
-     * @param false|\yii\web\User $user
+     * @param bool|\yii\web\User $user
      * @param \yii\web\Request $request
      * @return bool|null
      * @inheritdoc

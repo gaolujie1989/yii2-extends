@@ -81,7 +81,7 @@ class ValueHelper
     }
 
     /**
-     * @param $data
+     * @param array|object $data
      * @param array $condition
      * @param bool $strict
      * @return bool

@@ -7,6 +7,7 @@ namespace lujie\extend\validators;
 
 use Yii;
 use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\validators\Validator;
@@ -24,7 +25,7 @@ class LinkerValidator extends Validator
     public $targetClass;
 
     /**
-     * @var string
+     * @var string|array
      */
     public $targetAttribute;
 
@@ -127,10 +128,10 @@ class LinkerValidator extends Validator
     }
 
     /**
-     * @param ActiveQuery $query
+     * @param ActiveQueryInterface $query
      * @inheritdoc
      */
-    protected function filterQuery(ActiveQuery $query): void
+    protected function filterQuery(ActiveQueryInterface $query): void
     {
         if (empty($this->filter)) {
             return;
@@ -143,12 +144,12 @@ class LinkerValidator extends Validator
     }
 
     /**
-     * @param ActiveQuery $query
+     * @param ActiveQueryInterface $query
      * @return array|null
      * @throws \Throwable
      * @inheritdoc
      */
-    protected function queryData(ActiveQuery $query): ?array
+    protected function queryData(ActiveQueryInterface $query): ?array
     {
         /** @var BaseActiveRecord $modelClass */
         $modelClass = $query->modelClass;

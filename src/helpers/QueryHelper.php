@@ -109,7 +109,7 @@ class QueryHelper
     /**
      * @param QueryInterface $query
      * @param array $attributeValues
-     * @param bool $like
+     * @param bool|string $like
      * @param string $alias
      * @param string $splitPattern
      * @inheritdoc
@@ -117,7 +117,7 @@ class QueryHelper
     public static function filterValue(
         QueryInterface $query,
         array $attributeValues,
-        bool $like = false,
+        $like = false,
         string $alias = '',
         string $splitPattern = '/[,;\s]/'
     ): void
@@ -162,7 +162,7 @@ class QueryHelper
      * @param QueryInterface $query
      * @param array $attributes
      * @param $value
-     * @param bool $like
+     * @param bool|string $like
      * @param string $alias
      * @param string $splitPattern
      * @inheritdoc
@@ -171,7 +171,7 @@ class QueryHelper
         QueryInterface $query,
         array $attributes,
         $value,
-        bool $like = false,
+        $like = false,
         string $alias = '',
         string $splitPattern = '/[,;\s]/'
     ): void

@@ -60,7 +60,7 @@ class IndexQueryPreparer extends BaseObject
      */
     public function prepare(string $modelClass, array $params): QueryInterface
     {
-        /** @var BaseActiveRecord $modelClass */
+        /** @var BaseActiveRecord|string $modelClass */
         $searchClass = $this->searchClass ?: ClassHelper::getSearchClass($modelClass) ?: $modelClass;
         /* @var $searchModel BaseActiveRecord */
         $searchModel = Yii::createObject($searchClass);

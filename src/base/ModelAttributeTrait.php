@@ -59,7 +59,7 @@ trait ModelAttributeTrait
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      * @inheritdoc
      */

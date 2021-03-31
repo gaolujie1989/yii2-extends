@@ -254,7 +254,7 @@ class ModelHelper
          * @var BaseActiveRecord $relationClass
          */
         foreach ($relations as $relation => $relationClass) {
-            if (empty($row[$relation])) {
+            if (empty($row[$relation]) || !is_array($row[$relation])) {
                 continue;
             }
             if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation

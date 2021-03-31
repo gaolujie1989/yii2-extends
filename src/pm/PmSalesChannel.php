@@ -84,15 +84,15 @@ class PmSalesChannel extends BaseSalesChannel
      */
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
     {
-        $orderId = $channelOrder->external_order_key;
+        $orderId = (int)$channelOrder->external_order_key;
         $pmOrder = $this->client->getOrder(['id' => $orderId, 'with' => 'comments']);
 
         $notes = $channelOrder->additional['notes'] ?? [];
         //kiwi data userId 96, if kiwi data already commented, skip
         if ($notes && (empty($pmOrder['comments']) || !in_array(96, ArrayHelper::getColumn($pmOrder['comments'], 'userId'), true))) {
             $this->client->createComment([
-                'referenceValue' => $channelOrder->external_order_key,
-                'text' => '<p>'. strtr($notes[0], ["\n" => '<br />']) .'</p>',
+                'referenceValue' => $orderId,
+                'text' => '<p>' . strtr($notes[0], ["\n" => '<br />']) . '</p>',
                 'referenceType' => 'order',
                 'isVisibleForContact' => false,
                 'userId' => 96,

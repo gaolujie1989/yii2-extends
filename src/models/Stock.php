@@ -32,6 +32,7 @@ class Stock extends \lujie\stock\base\db\ActiveRecord
             [['item_id', 'location_id'], 'required'],
             [['item_id', 'location_id', 'stock_qty'], 'integer'],
             [['stock_item_value'], 'number'],
+            [['item_id', 'location_id'], 'unique', 'targetAttribute' => ['item_id', 'location_id']],
         ];
     }
 

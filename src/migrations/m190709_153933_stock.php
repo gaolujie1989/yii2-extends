@@ -20,7 +20,7 @@ class m190709_153933_stock extends Migration
             'stock_item_value' => $this->decimal(10, 2)->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('idx_item_id_location_id', $this->tableName, ['item_id', 'location_id']);
+        $this->createIndex('uk_item_id_location_id', $this->tableName, ['item_id', 'location_id'], true);
         $this->createIndex('idx_location_id', $this->tableName, ['location_id']);
     }
 }

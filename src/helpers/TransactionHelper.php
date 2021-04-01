@@ -20,21 +20,27 @@ class TransactionHelper
 {
     /**
      * @param callable $callable
-     * @param string|object|Connection|\yii\mongodb\Connection $db
-     * @return bool
+     * @param mixed|string|Connection $db
+     * @param mixed|bool $rollBackResult
+     * @return mixed
      * @throws InvalidConfigException
      * @throws Throwable
+     * @throws \yii\db\Exception
+     * @inheritdoc
      */
-    public static function transaction(callable $callable, $db): bool
+    public static function transaction(callable $callable, $db, $rollBackResult = false)
     {
         if (is_string($db)) {
             $db = Instance::ensure($db);
         }
         if ($db instanceof Connection) {
             $transaction = $db->beginTransaction();
+            if ($transaction === null) {
+                return $callable();
+            }
             try {
                 $result = $callable();
-                if ($result === false) {
+                if ($result === $rollBackResult) {
                     $transaction->rollBack();
                 } else {
                     $transaction->commit();

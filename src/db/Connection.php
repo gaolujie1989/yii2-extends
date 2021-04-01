@@ -18,12 +18,12 @@ class Connection extends \yii\db\Connection
 {
     /**
      * @param null $isolationLevel
-     * @return Transaction|null
-     * @throws NotSupportedException
+     * @return Transaction
      * @throws Exception
+     * @throws NotSupportedException
      * @inheritdoc
      */
-    public function beginTransaction($isolationLevel = null)
+    public function beginTransaction($isolationLevel = null): Transaction
     {
         try {
             return parent::beginTransaction($isolationLevel);

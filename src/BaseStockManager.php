@@ -8,7 +8,6 @@ namespace lujie\stock;
 use lujie\extend\helpers\TransactionHelper;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
-use yii\console\Exception;
 use yii\db\Connection;
 use yii\helpers\ArrayHelper;
 
@@ -19,8 +18,8 @@ use yii\helpers\ArrayHelper;
  */
 abstract class BaseStockManager extends Component implements StockManagerInterface
 {
-    public const EVENT_BEFORE_STOCK_MOVEMENT = 'beforeStockMovement';
-    public const EVENT_AFTER_STOCK_MOVEMENT = 'afterStockMovement';
+    public const EVENT_BEFORE_MOVEMENT = 'beforeMovement';
+    public const EVENT_AFTER_MOVEMENT = 'afterMovement';
 
     public $itemIdAttribute = 'item_id';
     public $locationIdAttribute = 'location_id';
@@ -28,89 +27,74 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     public $movedQtyAttribute = 'moved_qty';
     public $reasonAttribute = 'reason';
 
-    /**
-     * @return Connection|mixed
-     * @inheritdoc
-     */
-    abstract protected function getDb();
+    #region Base common methods
 
     /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param array $extraData
-     * @return bool
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    public function inbound(int $itemId, int $locationId, int $qty, $extraData = []): bool
-    {
-        if ($qty <= 0) {
-            return false;
-        }
-        return $this->moveStock($itemId, $locationId, $qty, StockConst::MOVEMENT_REASON_INBOUND, $extraData);
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @param int $qty
-     * @param array $extraData
-     * @return bool
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    public function outbound(int $itemId, int $locationId, int $qty, $extraData = []): bool
-    {
-        if ($qty <= 0) {
-            return false;
-        }
-        return $this->moveStock($itemId, $locationId, -$qty, StockConst::MOVEMENT_REASON_OUTBOUND, $extraData);
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $fromLocationId
-     * @param int $toLocationId
-     * @param int $qty
-     * @param array $extraData
-     * @return bool
+     * @param string $reason
+     * @param array $data
+     * @return mixed
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function transfer(int $itemId, int $fromLocationId, int $toLocationId, int $qty, array $extraData = []): bool
+    protected function moveStock(int $itemId, int $locationId, int $qty, string $reason, array $data = [])
     {
-        if ($qty <= 0) {
-            return false;
+        $stockQty = $this->getStockQty($itemId, $locationId);
+        if ($qty < 0 && $stockQty + $qty < 0) {
+            $message = "Stocks of {$itemId} in {$locationId} is {$stockQty} less then {$qty}";
+            throw new InvalidArgumentException($message);
         }
 
-        return TransactionHelper::transaction(function () use ($itemId, $fromLocationId, $toLocationId, $qty, $extraData) {
-            return $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $extraData)
-                && $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $extraData);
-        }, $this->getDb());
+        return TransactionHelper::transaction(function () use ($itemId, $locationId, $qty, $reason, $data) {
+            return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $data);
+        }, $this->getDb(), null);
     }
 
     /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param array $extraData
-     * @return bool
-     * @throws \Throwable
+     * @param string $reason
+     * @param array $data
+     * @return mixed|null
+     * @throws \Exception
      * @inheritdoc
      */
-    public function correct(int $itemId, int $locationId, int $qty, array $extraData = []): bool
+    protected function moveStockInternal(int $itemId, int $locationId, int $qty, string $reason, array $data = [])
     {
         $stockQty = $this->getStockQty($itemId, $locationId);
-        $moveQty = $qty - $stockQty;
-        return $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $extraData);
+
+        $event = new StockMovementEvent();
+        $event->itemId = $itemId;
+        $event->locationId = $locationId;
+        $event->stockQty = $stockQty;
+        $event->moveQty = $qty;
+        $event->reason = $reason;
+        $event->data = $data;
+        $this->trigger(self::EVENT_BEFORE_MOVEMENT, $event);
+        if (!$event->isValid) {
+            return null;
+        }
+
+        if (!$this->updateStockQty($itemId, $locationId, $qty)) {
+            return null;
+        }
+
+        $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $event->data);
+        $event->stockMovement = $createdMovement;
+        $this->trigger(self::EVENT_AFTER_MOVEMENT, $event);
+        return $createdMovement;
     }
 
     /**
      * @param int $itemId
      * @param int $locationId
      * @return int
+     * @throws \Exception
      * @inheritdoc
      */
     protected function getStockQty(int $itemId, int $locationId): int
@@ -122,76 +106,117 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         return ArrayHelper::getValue($stock, $this->stockQtyAttribute);
     }
 
+    #endregion
+
+    #region Interface implements
+
     /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param string $reason
-     * @param array $extraData
-     * @return bool
-     * @throws Exception
+     * @param array $data
+     * @return mixed|null
      * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    protected function moveStock(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []): bool
+    public function inbound(int $itemId, int $locationId, int $qty, $data = [])
     {
-        $stockQty = $this->getStockQty($itemId, $locationId);
-        if ($qty < 0 && $stockQty + $qty < 0) {
-            $message = "Not enough stocks of {$itemId} in {$locationId}, only exist {$stockQty}, can not move {$qty}";
-            throw new InvalidArgumentException($message);
+        if ($qty <= 0) {
+            return null;
         }
-
-        return TransactionHelper::transaction(function () use ($itemId, $locationId, $qty, $reason, $extraData) {
-            return $this->moveStockInternal($itemId, $locationId, $qty, $reason, $extraData);
-        }, $this->getDb());
+        return $this->moveStock($itemId, $locationId, $qty, StockConst::MOVEMENT_REASON_INBOUND, $data);
     }
 
     /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param string $reason
-     * @param array $extraData
-     * @return bool
+     * @param array $data
+     * @return mixed|null
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    protected function moveStockInternal(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []): bool
+    public function outbound(int $itemId, int $locationId, int $qty, $data = [])
     {
-        $stockQty = $this->getStockQty($itemId, $locationId);
-        $event = new StockMovementEvent([
-            'itemId' => $itemId,
-            'locationId' => $locationId,
-            'stockQty' => $stockQty,
-            'moveQty' => $qty,
-            'reason' => $reason,
-            'extraData' => $extraData,
-        ]);
-        $this->trigger(self::EVENT_BEFORE_STOCK_MOVEMENT, $event);
-        if (!$event->isValid) {
-            return false;
+        if ($qty <= 0) {
+            return null;
+        }
+        return $this->moveStock($itemId, $locationId, -$qty, StockConst::MOVEMENT_REASON_OUTBOUND, $data);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $fromLocationId
+     * @param int $toLocationId
+     * @param int $qty
+     * @param array $data
+     * @return mixed|null
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function transfer(int $itemId, int $fromLocationId, int $toLocationId, int $qty, array $data = []): ?array
+    {
+        if ($qty <= 0) {
+            return null;
         }
 
-        $result = false;
-        $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $event->extraData);
-        if ($createdMovement) {
-            $result = $this->updateStockQty($itemId, $locationId, $qty);
-        }
-
-        $event->stockMovement = $createdMovement;
-        $this->trigger(self::EVENT_AFTER_STOCK_MOVEMENT, $event);
-        return $result;
+        return TransactionHelper::transaction(function () use ($itemId, $fromLocationId, $toLocationId, $qty, $data) {
+            $fromMovement = $this->moveStock($itemId, $fromLocationId, -$qty, StockConst::MOVEMENT_REASON_TRANSFER_OUT, $data);
+            if ($fromMovement === null) {
+                return null;
+            }
+            $toMovement = $this->moveStock($itemId, $toLocationId, $qty, StockConst::MOVEMENT_REASON_TRANSFER_IN, $data);
+            if ($toMovement === null) {
+                return null;
+            }
+            return [$fromMovement, $toMovement];
+        }, $this->getDb(), null);
     }
 
     /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
-     * @param string $reason
-     * @param array $extraData
-     * @return mixed
+     * @param array $data
+     * @return mixed|null
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    abstract protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []);
+    public function correct(int $itemId, int $locationId, int $qty, array $data = [])
+    {
+        $stockQty = $this->getStockQty($itemId, $locationId);
+        $moveQty = $qty - $stockQty;
+        return $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $data);
+    }
+
+    #endregion
+
+    #region Need children implements
+
+    /**
+     * @return Connection|mixed
+     * @inheritdoc
+     */
+    abstract protected function getDb();
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @param int $qty
+     * @param string $reason
+     * @param array $data
+     * @return mixed|null
+     * @inheritdoc
+     */
+    abstract protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []);
 
     /**
      * @param int $itemId
@@ -210,4 +235,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @inheritdoc
      */
     abstract public function updateStock(int $itemId, int $locationId, array $data): bool;
+
+    #endregion
+
 }

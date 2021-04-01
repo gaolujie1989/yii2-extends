@@ -46,8 +46,8 @@ class StockValueBehavior extends Behavior
     public function events(): array
     {
         return [
-            ActiveRecordStockManager::EVENT_BEFORE_STOCK_MOVEMENT => 'beforeStockMovement',
-            ActiveRecordStockManager::EVENT_AFTER_STOCK_MOVEMENT => 'afterStockMovement',
+            ActiveRecordStockManager::EVENT_BEFORE_MOVEMENT => 'beforeStockMovement',
+            ActiveRecordStockManager::EVENT_AFTER_MOVEMENT => 'afterStockMovement',
         ];
     }
 
@@ -69,7 +69,7 @@ class StockValueBehavior extends Behavior
                 throw new InvalidArgumentException('Transfer out item value must be set');
             }
             //set move item value, so it will save in stock movement
-            $event->extraData[$this->movedItemValueAttribute] = $this->transferOutItemValue;
+            $event->data[$this->movedItemValueAttribute] = $this->transferOutItemValue;
             $this->transferOutItemValue = null;
         }
     }
@@ -87,11 +87,11 @@ class StockValueBehavior extends Behavior
         }
 
         if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
-            && !is_numeric($event->extraData[$this->movedItemValueAttribute] ?? 0)) {
+            && !is_numeric($event->data[$this->movedItemValueAttribute] ?? 0)) {
             throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} should be a number");
         }
 
-        $movedStockValue = $event->extraData[$this->movedItemValueAttribute];
+        $movedStockValue = $event->data[$this->movedItemValueAttribute];
         $movedQty = $event->moveQty;
         $oldStockValue = $this->getStockValue($event->itemId, $event->locationId);
         $oldStockQty = $event->stockQty;

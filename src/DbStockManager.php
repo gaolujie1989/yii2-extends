@@ -102,15 +102,15 @@ class DbStockManager extends BaseStockManager
      * @param int $locationId
      * @param int $qty
      * @param string $reason
-     * @param array $extraData
+     * @param array $data
      * @return array
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []): array
+    protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []): array
     {
         $columns = $this->db->getTableSchema($this->stockMovementTable)->columns;
-        $extraData = array_intersect_key($extraData, $columns);
+        $data = array_intersect_key($data, $columns);
 
         $data = [
             $this->itemIdAttribute => $itemId,
@@ -118,7 +118,7 @@ class DbStockManager extends BaseStockManager
             $this->movedQtyAttribute => $qty,
             $this->reasonAttribute => $reason,
         ];
-        $stockMovement = array_merge($extraData, $data);
+        $stockMovement = array_merge($data, $data);
         $stockMovement = array_intersect_key($stockMovement, $columns);
         $this->db->createCommand()
             ->insert($this->stockMovementTable, $stockMovement)

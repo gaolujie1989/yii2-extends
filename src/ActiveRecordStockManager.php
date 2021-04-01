@@ -79,11 +79,11 @@ class ActiveRecordStockManager extends BaseStockManager
      * @param int $locationId
      * @param int $qty
      * @param string $reason
-     * @param array $extraData
+     * @param array $data
      * @return BaseActiveRecord
      * @inheritdoc
      */
-    protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $extraData = []): BaseActiveRecord
+    protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []): BaseActiveRecord
     {
         $data = [
             $this->itemIdAttribute => $itemId,
@@ -93,7 +93,7 @@ class ActiveRecordStockManager extends BaseStockManager
         ];
         /** @var BaseActiveRecord $stockMovement */
         $stockMovement = new $this->stockMovementClass();
-        $stockMovement->setAttributes($extraData);
+        $stockMovement->setAttributes($data);
         $stockMovement->setAttributes($data);
         $stockMovement->save(false);
         return $stockMovement;

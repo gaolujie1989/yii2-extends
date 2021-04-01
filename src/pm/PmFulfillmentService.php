@@ -744,7 +744,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     protected function isOrderAllowCancelled(array $pmOrder): bool
     {
         $pmStatusId = $pmOrder['statusId'];
-        return $pmStatusId >= 4 && $pmStatusId < 6;
+        return ($pmStatusId >= 4 && $pmStatusId < 6) || in_array($pmStatusId, [6.5, 6.7, 6.8], true);
     }
 
     #endregion

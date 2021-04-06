@@ -7,9 +7,9 @@ use Yii;
 /**
  * This is the model class for table "{{%stock_movement}}".
  *
- * @property string $stock_movement_id
- * @property string $item_id
- * @property string $location_id
+ * @property int $stock_movement_id
+ * @property int $item_id
+ * @property int $location_id
  * @property int $moved_qty
  * @property int $moved_item_value
  * @property string $reason

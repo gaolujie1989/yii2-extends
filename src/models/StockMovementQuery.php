@@ -12,7 +12,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method StockMovementQuery locationId($locationId)
  * @method StockMovementQuery reason($reason)
  *
- * @method int orderByMovementId($order = SORT_ASC)
+ * @method StockMovementQuery orderByMovementId($order = SORT_ASC)
  *
  * @method int getTotalMovedQty()
  *

@@ -10,6 +10,7 @@ use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\db\Connection;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
  * Class BaseStockManager
@@ -74,7 +75,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         $event->stockQty = $stockQty;
         $event->moveQty = $qty;
         $event->reason = $reason;
-        $event->data = $data;
+        $event->additional = $data;
         $this->trigger(self::EVENT_BEFORE_MOVEMENT, $event);
         if (!$event->isValid) {
             return null;
@@ -84,7 +85,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
             return null;
         }
 
-        $createdMovement = $this->createStockMovement($itemId, $locationId, $qty, $reason, $event->data);
+        $createdMovement = $this->createStockMovement($event->itemId, $event->locationId, $event->moveQty, $event->reason, $event->additional);
         $event->stockMovement = $createdMovement;
         $this->trigger(self::EVENT_AFTER_MOVEMENT, $event);
         return $createdMovement;
@@ -121,7 +122,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function inbound(int $itemId, int $locationId, int $qty, $data = [])
+    public function inbound(int $itemId, int $locationId, int $qty, array $data = [])
     {
         if ($qty <= 0) {
             return null;
@@ -140,7 +141,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function outbound(int $itemId, int $locationId, int $qty, $data = [])
+    public function outbound(int $itemId, int $locationId, int $qty, array $data = [])
     {
         if ($qty <= 0) {
             return null;

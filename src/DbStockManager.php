@@ -42,6 +42,8 @@ class DbStockManager extends BaseStockManager
         $this->db = Instance::ensure($this->db);
     }
 
+    #region Abstract functions implements
+
     /**
      * @return mixed|Connection
      * @inheritdoc
@@ -54,76 +56,26 @@ class DbStockManager extends BaseStockManager
     /**
      * @param int $itemId
      * @param int $locationId
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function calculateStock(int $itemId, int $locationId): void
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-        $query = (new Query())->from($this->stockMovementTable)->andWhere($condition);
-        $stockQty = $query->sum($this->movedQtyAttribute);
-
-        $stock = $this->getStock($itemId, $locationId);
-        $update = [$this->stockQtyAttribute => $stockQty];
-        if ($stock) {
-            $this->db->createCommand()
-                ->update($this->stockTable, $update, $condition)
-                ->execute();
-        } else {
-            $this->db->createCommand()
-                ->insert($this->stockTable, array_merge($condition, $update))
-                ->execute();
-        }
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return array
-     * @inheritdoc
-     */
-    public function getStock(int $itemId, int $locationId): ?array
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-
-        $query = (new Query())->from($this->stockTable)->andWhere($condition);
-        return $query->one() ?: null;
-    }
-
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
      * @param int $qty
      * @param string $reason
      * @param array $data
      * @return array
-     * @throws \yii\db\Exception
+     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
     protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []): array
     {
-        $columns = $this->db->getTableSchema($this->stockMovementTable)->columns;
+        $columns = $this->getDb()->getTableSchema($this->stockMovementTable)->columns;
         $data = array_intersect_key($data, $columns);
 
-        $data = [
+        $movementData = array_merge($data, [
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,
             $this->movedQtyAttribute => $qty,
             $this->reasonAttribute => $reason,
-        ];
-        $stockMovement = array_merge($data, $data);
-        $stockMovement = array_intersect_key($stockMovement, $columns);
-        $this->db->createCommand()
-            ->insert($this->stockMovementTable, $stockMovement)
-            ->execute();
-        return $stockMovement;
+        ]);
+        $result = $this->getDb()->getSchema()->insert($this->stockMovementTable, $movementData);
+        return array_merge($movementData, $result);
     }
 
     /**
@@ -141,18 +93,15 @@ class DbStockManager extends BaseStockManager
             $this->locationIdAttribute => $locationId,
         ];
         $stock = $this->getStock($itemId, $locationId);
+        $command = $this->getDb()->createCommand();
         if ($stock) {
             $update = [$this->stockQtyAttribute => new Expression("{$this->stockQtyAttribute} + {$moveQty}")];
-            $this->db->createCommand()
-                ->update($this->stockTable, $update, $condition)
-                ->execute();
-            return true;
+            $execute = $command->update($this->stockTable, $update, $condition)->execute();
+        } else {
+            $insert = array_merge($condition, [$this->stockQtyAttribute => $moveQty]);
+            $execute = $command->insert($this->stockTable, $insert)->execute();
         }
-        $insert = array_merge($condition, [$this->stockQtyAttribute => $moveQty]);
-        $this->db->createCommand()
-            ->insert($this->stockTable, $insert)
-            ->execute();
-        return true;
+        return (bool)$execute;
     }
 
     /**
@@ -165,7 +114,7 @@ class DbStockManager extends BaseStockManager
      */
     public function updateStock(int $itemId, int $locationId, array $data): bool
     {
-        $columns = $this->db->getTableSchema($this->stockTable)->columns;
+        $columns = $this->getDb()->getTableSchema($this->stockTable)->columns;
         $data = array_intersect_key($data, $columns);
 
         $condition = [
@@ -173,15 +122,63 @@ class DbStockManager extends BaseStockManager
             $this->locationIdAttribute => $locationId,
         ];
         $stock = $this->getStock($itemId, $locationId);
+        $command = $this->getDb()->createCommand();
         if ($stock) {
-            $this->db->createCommand()
-                ->update($this->stockTable, $data, $condition)
-                ->execute();
+            $execute = $command->update($this->stockTable, $data, $condition)->execute();
         } else {
-            $this->db->createCommand()
-                ->insert($this->stockTable, array_merge($condition, $data))
-                ->execute();
+            $execute = $command->insert($this->stockTable, array_merge($condition, $data))->execute();
         }
-        return true;
+        return (bool)$execute;
+    }
+
+    #endregion
+
+    #region Interface implements
+
+    #endregion
+
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return int
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function calculateStock(int $itemId, int $locationId): int
+    {
+        $condition = [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+        ];
+        $query = (new Query())->from($this->stockMovementTable)->andWhere($condition);
+        $stockQty = $query->sum($this->movedQtyAttribute);
+
+        $stock = $this->getStock($itemId, $locationId);
+        $update = [$this->stockQtyAttribute => $stockQty];
+        $command = $this->getDb()->createCommand();
+        if ($stock) {
+            $command->update($this->stockTable, $update, $condition)->execute();
+        } else {
+            $command->insert($this->stockTable, array_merge($condition, $update))->execute();
+        }
+        return $stockQty;
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return array
+     * @inheritdoc
+     */
+    public function getStock(int $itemId, int $locationId): ?array
+    {
+        $condition = [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+        ];
+
+        $query = (new Query())->from($this->stockTable)->andWhere($condition);
+        return $query->one() ?: null;
     }
 }

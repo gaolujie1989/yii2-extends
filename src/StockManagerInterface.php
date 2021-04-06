@@ -56,10 +56,10 @@ interface StockManagerInterface
     /**
      * @param int $itemId
      * @param int $locationId
-     * @return int|null
+     * @return int
      * @inheritdoc
      */
-    public function calculateStock(int $itemId, int $locationId): ?int;
+    public function calculateStock(int $itemId, int $locationId): int;
 
     /**
      * @param int $itemId

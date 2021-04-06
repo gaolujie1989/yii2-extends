@@ -25,6 +25,8 @@ class ActiveRecordStockManager extends BaseStockManager
      */
     public $stockMovementClass;
 
+    #region Abstract functions implements
+
     /**
      * @return mixed|Connection
      * @inheritdoc
@@ -32,46 +34,6 @@ class ActiveRecordStockManager extends BaseStockManager
     protected function getDb()
     {
         return $this->stockClass::getDb();
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @inheritdoc
-     */
-    public function calculateStock(int $itemId, int $locationId): void
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-        /** @var Query $query */
-        $query = $this->stockMovementClass::find()->andWhere($condition);
-        $stockQty = $query->sum($this->movedQtyAttribute);
-
-        $stock = $this->getStock($itemId, $locationId);
-        $stock->setAttribute($this->stockQtyAttribute, $stockQty);
-        $stock->save(false);
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return BaseActiveRecord
-     * @inheritdoc
-     */
-    public function getStock(int $itemId, int $locationId): BaseActiveRecord
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-        /** @var BaseActiveRecord $stock */
-        $stock = $this->stockClass::findOne($condition) ?: new $this->stockClass($condition);
-        if ($stock->getIsNewRecord()) {
-            $stock->setAttribute($this->stockQtyAttribute, 0);
-        }
-        return $stock;
     }
 
     /**
@@ -85,16 +47,15 @@ class ActiveRecordStockManager extends BaseStockManager
      */
     protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []): BaseActiveRecord
     {
-        $data = [
+        $movementData = array_merge($data, [
             $this->itemIdAttribute => $itemId,
             $this->locationIdAttribute => $locationId,
             $this->movedQtyAttribute => $qty,
             $this->reasonAttribute => $reason,
-        ];
+        ]);
         /** @var BaseActiveRecord $stockMovement */
         $stockMovement = new $this->stockMovementClass();
-        $stockMovement->setAttributes($data);
-        $stockMovement->setAttributes($data);
+        $stockMovement->setAttributes($movementData);
         $stockMovement->save(false);
         return $stockMovement;
     }
@@ -129,4 +90,50 @@ class ActiveRecordStockManager extends BaseStockManager
         $stock->setAttributes($data);
         return $stock->save(false);
     }
+
+    #endregion
+
+    #region Interface implements
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return int
+     * @inheritdoc
+     */
+    public function calculateStock(int $itemId, int $locationId): int
+    {
+        $condition = [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+        ];
+        /** @var Query $query */
+        $query = $this->stockMovementClass::find()->andWhere($condition);
+        $stockQty = $query->sum($this->movedQtyAttribute);
+
+        $this->updateStock($itemId, $locationId, [$this->stockQtyAttribute => $stockQty]);
+        return $stockQty;
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return BaseActiveRecord
+     * @inheritdoc
+     */
+    public function getStock(int $itemId, int $locationId): BaseActiveRecord
+    {
+        $condition = [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+        ];
+        /** @var BaseActiveRecord $stock */
+        $stock = $this->stockClass::findOne($condition) ?: new $this->stockClass($condition);
+        if ($stock->getIsNewRecord()) {
+            $stock->setAttribute($this->stockQtyAttribute, 0);
+        }
+        return $stock;
+    }
+
+    #endregion
 }

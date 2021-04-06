@@ -50,5 +50,5 @@ class StockMovementEvent extends ModelEvent
     /**
      * @var array
      */
-    public $data;
+    public $additional = [];
 }

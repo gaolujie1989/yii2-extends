@@ -54,6 +54,7 @@ class StockValueBehavior extends Behavior
     /**
      * set Transfer out item value, for transfer in to average item value
      * @param StockMovementEvent $event
+     * @throws \Exception
      * @inheritdoc
      */
     public function beforeStockMovement(StockMovementEvent $event): void
@@ -69,7 +70,7 @@ class StockValueBehavior extends Behavior
                 throw new InvalidArgumentException('Transfer out item value must be set');
             }
             //set move item value, so it will save in stock movement
-            $event->data[$this->movedItemValueAttribute] = $this->transferOutItemValue;
+            $event->additional[$this->movedItemValueAttribute] = $this->transferOutItemValue;
             $this->transferOutItemValue = null;
         }
     }
@@ -77,6 +78,7 @@ class StockValueBehavior extends Behavior
     /**
      * Average item value, for transfer in, the item value has validate in beforeStockMovement, only check inbound
      * @param StockMovementEvent $event
+     * @throws \Exception
      * @inheritdoc
      */
     public function afterStockMovement(StockMovementEvent $event): void
@@ -87,11 +89,11 @@ class StockValueBehavior extends Behavior
         }
 
         if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
-            && !is_numeric($event->data[$this->movedItemValueAttribute] ?? 0)) {
+            && !is_numeric($event->additional[$this->movedItemValueAttribute] ?? 0)) {
             throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} should be a number");
         }
 
-        $movedStockValue = $event->data[$this->movedItemValueAttribute];
+        $movedStockValue = $event->additional[$this->movedItemValueAttribute];
         $movedQty = $event->moveQty;
         $oldStockValue = $this->getStockValue($event->itemId, $event->locationId);
         $oldStockQty = $event->stockQty;
@@ -105,10 +107,11 @@ class StockValueBehavior extends Behavior
     /**
      * @param int $itemId
      * @param int $locationId
-     * @return float
+     * @return float|int
+     * @throws \Exception
      * @inheritdoc
      */
-    protected function getStockValue(int $itemId, int $locationId): float
+    protected function getStockValue(int $itemId, int $locationId)
     {
         $stock = $this->owner->getStock($itemId, $locationId);
         if (empty($stock)) {

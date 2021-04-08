@@ -26,25 +26,6 @@ class ActiveRecordStockManager extends BaseStockManager
      */
     public $movementClass;
 
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return BaseActiveRecord
-     * @inheritdoc
-     */
-    public function getStock(int $itemId, int $locationId): BaseActiveRecord
-    {
-        $stock = parent::getStock($itemId, $locationId);
-        if (empty($stock)) {
-            $stock = new $this->stockClass();
-            $stock->setAttributes([
-                $this->itemIdAttribute => $itemId,
-                $this->locationIdAttribute => $locationId,
-            ]);
-        }
-        return $stock;
-    }
-
     #region Abstract functions implements
 
     /**
@@ -107,7 +88,13 @@ class ActiveRecordStockManager extends BaseStockManager
     {
         $counters = [$this->stockQtyAttribute => $moveQty];
         $stock = $this->getStock($itemId, $locationId);
-        if ($stock->getIsNewRecord()) {
+        if (empty($stock)) {
+            /** @var BaseActiveRecord $stock */
+            $stock = new $this->stockClass();
+            $stock->setAttributes([
+                $this->itemIdAttribute => $itemId,
+                $this->locationIdAttribute => $locationId,
+            ]);
             $stock->setAttributes($counters);
             return $stock->save(false);
         }
@@ -132,6 +119,14 @@ class ActiveRecordStockManager extends BaseStockManager
     public function updateStock(int $itemId, int $locationId, array $data): bool
     {
         $stock = $this->getStock($itemId, $locationId);
+        if (empty($stock)) {
+            /** @var BaseActiveRecord $stock */
+            $stock = new $this->stockClass();
+            $stock->setAttributes([
+                $this->itemIdAttribute => $itemId,
+                $this->locationIdAttribute => $locationId,
+            ]);
+        }
         $stock->setAttributes($data);
         return $stock->save(false);
     }

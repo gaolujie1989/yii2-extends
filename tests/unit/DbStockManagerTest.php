@@ -33,7 +33,7 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $stockManager = new DbStockManager([
             'db' => 'db',
             'stockTable' => Stock::tableName(),
-            'stockMovementTable' => StockMovement::tableName(),
+            'movementTable' => StockMovement::tableName(),
             'as stockValue' => [
                 'class' => StockValueBehavior::class
             ]
@@ -52,40 +52,40 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $locationId = 2;
         $inboundQty = 5;
         $extraData = [
-            'moved_item_value' => 1.5
+            'item_value_cent' => 150
         ];
 
         Assert::assertNotNull($stockManager->inbound($itemId, $locationId, $inboundQty, $extraData));
         $stock = Stock::find()->itemId($itemId)->locationId($locationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 5, 'stock_item_value' => 1.5];
+        $expected = ['stock_qty' => 5, 'item_value_cent' => 150];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => 5, 'moved_item_value' => 1.5, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
+        $expected = ['moved_qty' => 5, 'item_value_cent' => 150, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
         Assert::assertEquals($expected, $movement);
 
         //transfer again
         $inboundQty = 15;
         $extraData = [
-            'moved_item_value' => 2.5
+            'item_value_cent' => 250
         ];
         Assert::assertNotNull($stockManager->inbound($itemId, $locationId, $inboundQty, $extraData));
         $stock = Stock::find()->itemId($itemId)->locationId($locationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 20, 'stock_item_value' => 2.25];
+        $expected = ['stock_qty' => 20, 'item_value_cent' => 225];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => 15, 'moved_item_value' => 2.5, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
+        $expected = ['moved_qty' => 15, 'item_value_cent' => 250, 'reason' => StockConst::MOVEMENT_REASON_INBOUND];
         Assert::assertEquals($expected, $movement);
     }
 
@@ -99,7 +99,7 @@ class DbStockManagerTest extends \Codeception\Test\Unit
             'item_id' => 1,
             'location_id' => 2,
             'stock_qty' => 20,
-            'stock_item_value' => 10
+            'item_value_cent' => 10
         ]))->save(false);
 
         $stockManager = $this->getStockManager();
@@ -107,21 +107,21 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $locationId = 2;
         $outboundQty = 5;
         $extraData = [
-            'moved_item_value' => 20
+            'item_value_cent' => 20
         ];
 
         Assert::assertNotNull($stockManager->outbound($itemId, $locationId, $outboundQty, $extraData));
         $stock = Stock::find()->itemId($itemId)->locationId($locationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 15, 'stock_item_value' => 10];
+        $expected = ['stock_qty' => 15, 'item_value_cent' => 10];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => -5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_OUTBOUND];
+        $expected = ['moved_qty' => -5, 'item_value_cent' => 20, 'reason' => StockConst::MOVEMENT_REASON_OUTBOUND];
         Assert::assertEquals($expected, $movement);
 
         $outboundQty = 16;
@@ -143,13 +143,13 @@ class DbStockManagerTest extends \Codeception\Test\Unit
             'item_id' => 1,
             'location_id' => 2,
             'stock_qty' => 20,
-            'stock_item_value' => 20
+            'item_value_cent' => 20
         ]))->save(false);
         (new Stock([
             'item_id' => 1,
             'location_id' => 3,
             'stock_qty' => 10,
-            'stock_item_value' => 10
+            'item_value_cent' => 10
         ]))->save(false);
 
         $stockManager = $this->getStockManager();
@@ -159,57 +159,57 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $transfer = 5;
         Assert::assertNotNull($stockManager->transfer($itemId, $fromLocationId, $toLocationId, $transfer));
         $stock = Stock::find()->itemId($itemId)->locationId($fromLocationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 15, 'stock_item_value' => 20];
+        $expected = ['stock_qty' => 15, 'item_value_cent' => 20];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($fromLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => -5, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
+        $expected = ['moved_qty' => -5, 'item_value_cent' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
         Assert::assertEquals($expected, $movement);
 
         $stock = Stock::find()->itemId($itemId)->locationId($toLocationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 15, 'stock_item_value' => 13.33];
+        $expected = ['stock_qty' => 15, 'item_value_cent' => 13];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($toLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => 5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
+        $expected = ['moved_qty' => 5, 'item_value_cent' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
         Assert::assertEquals($expected, $movement);
 
         //transfer again
         Assert::assertNotNull($stockManager->transfer($itemId, $fromLocationId, $toLocationId, $transfer));
         $stock = Stock::find()->itemId($itemId)->locationId($fromLocationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 10, 'stock_item_value' => 20];
+        $expected = ['stock_qty' => 10, 'item_value_cent' => 20];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($fromLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => -5, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
+        $expected = ['moved_qty' => -5, 'item_value_cent' => 0, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_OUT];
         Assert::assertEquals($expected, $movement);
 
         $stock = Stock::find()->itemId($itemId)->locationId($toLocationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => 20, 'stock_item_value' => 15];
+        $expected = ['stock_qty' => 20, 'item_value_cent' => 15];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($toLocationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => 5, 'moved_item_value' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
+        $expected = ['moved_qty' => 5, 'item_value_cent' => 20, 'reason' => StockConst::MOVEMENT_REASON_TRANSFER_IN];
         Assert::assertEquals($expected, $movement);
     }
 
@@ -223,7 +223,7 @@ class DbStockManagerTest extends \Codeception\Test\Unit
             'item_id' => 1,
             'location_id' => 2,
             'stock_qty' => 20,
-            'stock_item_value' => 20
+            'item_value_cent' => 20
         ]))->save(false);
 
         $stockManager = $this->getStockManager();
@@ -232,16 +232,16 @@ class DbStockManagerTest extends \Codeception\Test\Unit
         $correctQty = 5;
         Assert::assertNotNull($stockManager->correct($itemId, $locationId, $correctQty));
         $stock = Stock::find()->itemId($itemId)->locationId($locationId)
-            ->select(['stock_qty', 'stock_item_value'])
+            ->select(['stock_qty', 'item_value_cent'])
             ->asArray()
             ->one();
-        $expected = ['stock_qty' => $correctQty, 'stock_item_value' => 20];
+        $expected = ['stock_qty' => $correctQty, 'item_value_cent' => 20];
         Assert::assertEquals($expected, $stock);
         $movement = StockMovement::find()->itemId($itemId)->locationId($locationId)->orderByMovementId(SORT_DESC)
-            ->select(['moved_qty', 'moved_item_value', 'reason'])
+            ->select(['moved_qty', 'item_value_cent', 'reason'])
             ->asArray()
             ->one();
-        $expected = ['moved_qty' => -15, 'moved_item_value' => 0, 'reason' => StockConst::MOVEMENT_REASON_CORRECT];
+        $expected = ['moved_qty' => -15, 'item_value_cent' => 0, 'reason' => StockConst::MOVEMENT_REASON_CORRECT];
         Assert::assertEquals($expected, $movement);
     }
 }

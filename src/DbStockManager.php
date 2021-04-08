@@ -8,6 +8,7 @@ namespace lujie\stock;
 use yii\db\Connection;
 use yii\db\Expression;
 use yii\db\Query;
+use yii\db\QueryInterface;
 use yii\di\Instance;
 
 /**
@@ -30,7 +31,7 @@ class DbStockManager extends BaseStockManager
     /**
      * @var string
      */
-    public $stockMovementTable;
+    public $movementTable;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -54,6 +55,24 @@ class DbStockManager extends BaseStockManager
     }
 
     /**
+     * @return QueryInterface
+     * @inheritdoc
+     */
+    protected function stockQuery(): QueryInterface
+    {
+        return (new Query())->from($this->stockTable);
+    }
+
+    /**
+     * @return QueryInterface
+     * @inheritdoc
+     */
+    protected function movementQuery(): QueryInterface
+    {
+        return (new Query())->from($this->movementTable);
+    }
+
+    /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
@@ -61,20 +80,17 @@ class DbStockManager extends BaseStockManager
      * @param array $data
      * @return array
      * @throws \yii\base\NotSupportedException
+     * @throws \Exception
      * @inheritdoc
      */
     protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []): array
     {
-        $columns = $this->getDb()->getTableSchema($this->stockMovementTable)->columns;
-        $data = array_intersect_key($data, $columns);
+        $movementData = array_merge($data, $this->getMovementData($itemId, $locationId, $qty, $reason));
 
-        $movementData = array_merge($data, [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-            $this->movedQtyAttribute => $qty,
-            $this->reasonAttribute => $reason,
-        ]);
-        $result = $this->getDb()->getSchema()->insert($this->stockMovementTable, $movementData);
+        $columns = $this->getDb()->getTableSchema($this->movementTable)->columns;
+        $movementData = array_intersect_key($movementData, $columns);
+
+        $result = $this->getDb()->getSchema()->insert($this->movementTable, $movementData);
         return array_merge($movementData, $result);
     }
 
@@ -95,13 +111,16 @@ class DbStockManager extends BaseStockManager
         $stock = $this->getStock($itemId, $locationId);
         $command = $this->getDb()->createCommand();
         if ($stock) {
-            $update = [$this->stockQtyAttribute => new Expression("{$this->stockQtyAttribute} + {$moveQty}")];
-            $execute = $command->update($this->stockTable, $update, $condition)->execute();
+            if ($moveQty < 0) {
+                $condition = ['AND', $condition, ['>=', $this->stockQtyAttribute, -$moveQty]];
+            }
+            $update = [$this->stockQtyAttribute => new Expression("[[$this->stockQtyAttribute]]+:bp0", ['bp0' => $moveQty])];
+            $n = $command->update($this->stockTable, $update, $condition)->execute();
         } else {
             $insert = array_merge($condition, [$this->stockQtyAttribute => $moveQty]);
-            $execute = $command->insert($this->stockTable, $insert)->execute();
+            $n = $command->insert($this->stockTable, $insert)->execute();
         }
-        return (bool)$execute;
+        return $n > 0;
     }
 
     /**
@@ -124,61 +143,12 @@ class DbStockManager extends BaseStockManager
         $stock = $this->getStock($itemId, $locationId);
         $command = $this->getDb()->createCommand();
         if ($stock) {
-            $execute = $command->update($this->stockTable, $data, $condition)->execute();
+            $n = $command->update($this->stockTable, $data, $condition)->execute();
         } else {
-            $execute = $command->insert($this->stockTable, array_merge($condition, $data))->execute();
+            $n = $command->insert($this->stockTable, array_merge($condition, $data))->execute();
         }
-        return (bool)$execute;
+        return $n > 0;
     }
 
     #endregion
-
-    #region Interface implements
-
-    #endregion
-
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return int
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function calculateStock(int $itemId, int $locationId): int
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-        $query = (new Query())->from($this->stockMovementTable)->andWhere($condition);
-        $stockQty = $query->sum($this->movedQtyAttribute);
-
-        $stock = $this->getStock($itemId, $locationId);
-        $update = [$this->stockQtyAttribute => $stockQty];
-        $command = $this->getDb()->createCommand();
-        if ($stock) {
-            $command->update($this->stockTable, $update, $condition)->execute();
-        } else {
-            $command->insert($this->stockTable, array_merge($condition, $update))->execute();
-        }
-        return $stockQty;
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return array
-     * @inheritdoc
-     */
-    public function getStock(int $itemId, int $locationId): ?array
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-
-        $query = (new Query())->from($this->stockTable)->andWhere($condition);
-        return $query->one() ?: null;
-    }
 }

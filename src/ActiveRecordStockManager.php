@@ -8,6 +8,7 @@ namespace lujie\stock;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
+use yii\db\QueryInterface;
 
 /**
  * Class ActiveRecordStockManager
@@ -17,13 +18,32 @@ use yii\db\Query;
 class ActiveRecordStockManager extends BaseStockManager
 {
     /**
-     * @var BaseActiveRecord
+     * @var string|BaseActiveRecord
      */
     public $stockClass;
     /**
-     * @var BaseActiveRecord
+     * @var string|BaseActiveRecord
      */
-    public $stockMovementClass;
+    public $movementClass;
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return BaseActiveRecord
+     * @inheritdoc
+     */
+    public function getStock(int $itemId, int $locationId): BaseActiveRecord
+    {
+        $stock = parent::getStock($itemId, $locationId);
+        if (empty($stock)) {
+            $stock = new $this->stockClass();
+            $stock->setAttributes([
+                $this->itemIdAttribute => $itemId,
+                $this->locationIdAttribute => $locationId,
+            ]);
+        }
+        return $stock;
+    }
 
     #region Abstract functions implements
 
@@ -37,24 +57,38 @@ class ActiveRecordStockManager extends BaseStockManager
     }
 
     /**
+     * @return QueryInterface
+     * @inheritdoc
+     */
+    protected function stockQuery(): QueryInterface
+    {
+        return $this->stockClass::find();
+    }
+
+    /**
+     * @return QueryInterface
+     * @inheritdoc
+     */
+    protected function movementQuery(): QueryInterface
+    {
+        return $this->movementClass::find();
+    }
+
+    /**
      * @param int $itemId
      * @param int $locationId
      * @param int $qty
      * @param string $reason
      * @param array $data
      * @return BaseActiveRecord
+     * @throws \Exception
      * @inheritdoc
      */
     protected function createStockMovement(int $itemId, int $locationId, int $qty, string $reason, array $data = []): BaseActiveRecord
     {
-        $movementData = array_merge($data, [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-            $this->movedQtyAttribute => $qty,
-            $this->reasonAttribute => $reason,
-        ]);
+        $movementData = array_merge($data, $this->getMovementData($itemId, $locationId, $qty, $reason));
         /** @var BaseActiveRecord $stockMovement */
-        $stockMovement = new $this->stockMovementClass();
+        $stockMovement = new $this->movementClass();
         $stockMovement->setAttributes($movementData);
         $stockMovement->save(false);
         return $stockMovement;
@@ -65,16 +99,27 @@ class ActiveRecordStockManager extends BaseStockManager
      * @param int $locationId
      * @param int $moveQty
      * @return bool
+     * @throws \yii\base\NotSupportedException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     protected function updateStockQty(int $itemId, int $locationId, int $moveQty): bool
     {
+        $counters = [$this->stockQtyAttribute => $moveQty];
         $stock = $this->getStock($itemId, $locationId);
         if ($stock->getIsNewRecord()) {
-            $stock->setAttribute($this->stockQtyAttribute, $moveQty);
+            $stock->setAttributes($counters);
             return $stock->save(false);
         }
-        return $stock->updateCounters([$this->stockQtyAttribute => $moveQty]);
+
+        if ($moveQty < 0) {
+            $condition = ['>=', $this->stockQtyAttribute, -$moveQty];
+            $condition = ['AND', $stock->getOldPrimaryKey(true), $condition];
+            $n = $this->stockClass::updateAllCounters($counters, $condition);
+            return $n > 0;
+        }
+
+        return $stock->updateCounters($counters);
     }
 
     /**
@@ -89,50 +134,6 @@ class ActiveRecordStockManager extends BaseStockManager
         $stock = $this->getStock($itemId, $locationId);
         $stock->setAttributes($data);
         return $stock->save(false);
-    }
-
-    #endregion
-
-    #region Interface implements
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return int
-     * @inheritdoc
-     */
-    public function calculateStock(int $itemId, int $locationId): int
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-        /** @var Query $query */
-        $query = $this->stockMovementClass::find()->andWhere($condition);
-        $stockQty = $query->sum($this->movedQtyAttribute);
-
-        $this->updateStock($itemId, $locationId, [$this->stockQtyAttribute => $stockQty]);
-        return $stockQty;
-    }
-
-    /**
-     * @param int $itemId
-     * @param int $locationId
-     * @return BaseActiveRecord
-     * @inheritdoc
-     */
-    public function getStock(int $itemId, int $locationId): BaseActiveRecord
-    {
-        $condition = [
-            $this->itemIdAttribute => $itemId,
-            $this->locationIdAttribute => $locationId,
-        ];
-        /** @var BaseActiveRecord $stock */
-        $stock = $this->stockClass::findOne($condition) ?: new $this->stockClass($condition);
-        if ($stock->getIsNewRecord()) {
-            $stock->setAttribute($this->stockQtyAttribute, 0);
-        }
-        return $stock;
     }
 
     #endregion

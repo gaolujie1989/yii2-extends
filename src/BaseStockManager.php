@@ -8,9 +8,10 @@ namespace lujie\stock;
 use lujie\extend\helpers\TransactionHelper;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
+use yii\db\BaseActiveRecord;
 use yii\db\Connection;
+use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 /**
  * Class BaseStockManager
@@ -25,6 +26,8 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     public $itemIdAttribute = 'item_id';
     public $locationIdAttribute = 'location_id';
     public $stockQtyAttribute = 'stock_qty';
+
+    public $movementIdAttribute = 'stock_movement_id';
     public $movedQtyAttribute = 'moved_qty';
     public $reasonAttribute = 'reason';
 
@@ -36,7 +39,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $qty
      * @param string $reason
      * @param array $data
-     * @return mixed
+     * @return array|BaseActiveRecord|null
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -61,7 +64,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $qty
      * @param string $reason
      * @param array $data
-     * @return mixed|null
+     * @return array|BaseActiveRecord|null
      * @throws \Exception
      * @inheritdoc
      */
@@ -82,6 +85,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         }
 
         if (!$this->updateStockQty($itemId, $locationId, $qty)) {
+            $this->trigger(self::EVENT_AFTER_MOVEMENT, $event);
             return null;
         }
 
@@ -107,6 +111,25 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         return ArrayHelper::getValue($stock, $this->stockQtyAttribute);
     }
 
+    /**
+     * @param int $accountId
+     * @param string $transactionType
+     * @param int $amount
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function getMovementData(int $itemId, int $locationId, int $qty, string $reason): array
+    {
+        return [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+            $this->movedQtyAttribute => $qty,
+            $this->stockQtyAttribute => $this->getStockQty($itemId, $locationId),
+            $this->reasonAttribute => $reason,
+        ];
+    }
+
     #endregion
 
     #region Interface implements
@@ -116,7 +139,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $locationId
      * @param int $qty
      * @param array $data
-     * @return mixed|null
+     * @return array|mixed|BaseActiveRecord|null
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -135,7 +158,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $locationId
      * @param int $qty
      * @param array $data
-     * @return mixed|null
+     * @return array|mixed|BaseActiveRecord|null
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -155,7 +178,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $toLocationId
      * @param int $qty
      * @param array $data
-     * @return mixed|null
+     * @return array|null
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -185,7 +208,7 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      * @param int $locationId
      * @param int $qty
      * @param array $data
-     * @return mixed|null
+     * @return array|mixed|BaseActiveRecord|null
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -198,15 +221,70 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         return $this->moveStock($itemId, $locationId, $moveQty, StockConst::MOVEMENT_REASON_CORRECT, $data);
     }
 
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @param int $fromMovementId
+     * @return int
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function calculateStock(int $itemId, int $locationId, int $fromMovementId = 0): int
+    {
+        $condition = [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+        ];
+        $query = $this->movementQuery()
+            ->andWhere($condition)
+            ->andWhere(['>', $this->movementIdAttribute, $fromMovementId]);
+        $totalStockQty = $query->sum($this->movedQtyAttribute);
+
+        if ($fromMovementId <= 0) {
+            return $totalStockQty;
+        }
+
+        $movement = $this->movementQuery()->andWhere([$this->movementIdAttribute => $fromMovementId])->one();
+        $movementStockQty = ArrayHelper::getValue($movement, $this->stockQtyAttribute);
+        return $movementStockQty + $totalStockQty;
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $locationId
+     * @return array|BaseActiveRecord|null
+     * @inheritdoc
+     */
+    public function getStock(int $itemId, int $locationId)
+    {
+        $condition = [
+            $this->itemIdAttribute => $itemId,
+            $this->locationIdAttribute => $locationId,
+        ];
+        return $this->stockQuery()->andWhere($condition)->one() ?: null;
+    }
+
     #endregion
 
-    #region Need children implements
+    #region Abstract functions
 
     /**
      * @return Connection|mixed
      * @inheritdoc
      */
     abstract protected function getDb();
+
+    /**
+     * @return QueryInterface
+     * @inheritdoc
+     */
+    abstract protected function stockQuery(): QueryInterface;
+
+    /**
+     * @return QueryInterface
+     * @inheritdoc
+     */
+    abstract protected function movementQuery(): QueryInterface;
 
     /**
      * @param int $itemId

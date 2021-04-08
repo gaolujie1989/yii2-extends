@@ -17,6 +17,7 @@ class m190709_154433_stock_movement extends Migration
             'item_id' => $this->bigInteger()->notNull(),
             'location_id' => $this->bigInteger()->notNull(),
             'moved_qty' => $this->integer()->notNull()->defaultValue(0),
+            'stock_qty' => $this->integer()->notNull()->defaultValue(0),
             'reason' => $this->string(20)->notNull()->defaultValue(''),
             'moved_item_value' => $this->decimal(10, 2)->notNull()->defaultValue(0),
         ]);

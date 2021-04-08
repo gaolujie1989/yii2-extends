@@ -40,6 +40,23 @@ class StockValueBehavior extends Behavior
     private $transferOutItemValue;
 
     /**
+     * @var array
+     */
+    public $logValueReasons = [
+        StockConst::MOVEMENT_REASON_OUTBOUND,
+        StockConst::MOVEMENT_REASON_TRANSFER_OUT,
+        StockConst::MOVEMENT_REASON_CORRECT,
+    ];
+
+    /**
+     * @var array
+     */
+    public $averageValueReasons = [
+        StockConst::MOVEMENT_REASON_INBOUND,
+        StockConst::MOVEMENT_REASON_TRANSFER_IN,
+    ];
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -59,9 +76,13 @@ class StockValueBehavior extends Behavior
      */
     public function beforeStockMovement(StockMovementEvent $event): void
     {
+        $stockValue = $this->getStockValue($event->itemId, $event->locationId);
+        if (in_array($event->reason, $this->logValueReasons, true)) {
+            $event->additional[$this->movedItemValueAttribute] = $stockValue;
+        }
         //set transferOut stock item value, using in transferIn
         if ($event->reason === StockConst::MOVEMENT_REASON_TRANSFER_OUT) {
-            $this->transferOutItemValue = $this->getStockValue($event->itemId, $event->locationId);
+            $this->transferOutItemValue = $stockValue;
             return;
         }
         if ($event->reason === StockConst::MOVEMENT_REASON_TRANSFER_IN) {
@@ -83,13 +104,11 @@ class StockValueBehavior extends Behavior
      */
     public function afterStockMovement(StockMovementEvent $event): void
     {
-        $effectValueReasons = [StockConst::MOVEMENT_REASON_INBOUND, StockConst::MOVEMENT_REASON_TRANSFER_IN];
-        if (empty($event->stockMovement) || !in_array($event->reason, $effectValueReasons, true)) {
+        if (empty($event->stockMovement) || !in_array($event->reason, $this->averageValueReasons, true)) {
             return;
         }
 
-        if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
-            && !is_numeric($event->additional[$this->movedItemValueAttribute] ?? 0)) {
+        if (!is_numeric($event->additional[$this->movedItemValueAttribute] ?? 0)) {
             throw new InvalidArgumentException("Movement additional data {$this->movedItemValueAttribute} should be a number");
         }
 

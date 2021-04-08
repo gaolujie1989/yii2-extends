@@ -6,8 +6,8 @@
 namespace lujie\stock;
 
 use lujie\extend\helpers\TransactionHelper;
+use Yii;
 use yii\base\Component;
-use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\QueryInterface;
@@ -47,10 +47,17 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
      */
     protected function moveStock(int $itemId, int $locationId, int $qty, string $reason, array $data = [])
     {
+        $message = "Move quantity {$qty} of item {$itemId} in location {$locationId} by {$reason}";
+        Yii::info($message, __METHOD__);
         $stockQty = $this->getStockQty($itemId, $locationId);
         if ($qty < 0 && $stockQty + $qty < 0) {
-            $message = "Stocks of {$itemId} in {$locationId} is {$stockQty} less then {$qty}";
-            throw new InvalidArgumentException($message);
+            $message = "Move quantity {$qty} of {$itemId} in {$locationId} more than available stock {$stockQty}";
+            $exception = new MovementException($message);
+            $exception->itemId = $itemId;
+            $exception->locationId = $locationId;
+            $exception->stockQty = $stockQty;
+            $exception->movedQty = $qty;
+            throw $exception;
         }
 
         return TransactionHelper::transaction(function () use ($itemId, $locationId, $qty, $reason, $data) {
@@ -72,6 +79,8 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
     {
         $stockQty = $this->getStockQty($itemId, $locationId);
 
+        $messagePrefix = "Move quantity {$qty} of item {$itemId} in location {$locationId} by {$reason}";
+        Yii::info($messagePrefix . ', trigger beforeMovement event', __METHOD__);
         $event = new StockMovementEvent();
         $event->itemId = $itemId;
         $event->locationId = $locationId;
@@ -81,16 +90,22 @@ abstract class BaseStockManager extends Component implements StockManagerInterfa
         $event->additional = $data;
         $this->trigger(self::EVENT_BEFORE_MOVEMENT, $event);
         if (!$event->isValid) {
+            Yii::info($messagePrefix . ', beforeMovement event valid', __METHOD__);
             return null;
         }
 
+        Yii::info($messagePrefix . ', update stock quantity', __METHOD__);
         if (!$this->updateStockQty($itemId, $locationId, $qty)) {
+            Yii::warning($messagePrefix . ', update stock quantity failed', __METHOD__);
             $this->trigger(self::EVENT_AFTER_MOVEMENT, $event);
             return null;
         }
 
+        Yii::info($messagePrefix . ', create movement', __METHOD__);
         $createdMovement = $this->createStockMovement($event->itemId, $event->locationId, $event->moveQty, $event->reason, $event->additional);
         $event->stockMovement = $createdMovement;
+
+        Yii::info($messagePrefix . ', trigger afterMovement event', __METHOD__);
         $this->trigger(self::EVENT_AFTER_MOVEMENT, $event);
         return $createdMovement;
     }

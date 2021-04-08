@@ -22,17 +22,17 @@ class StockValueBehavior extends Behavior
     /**
      * @var string
      */
-    public $movedItemValueAttribute = 'moved_item_value';
+    public $movedItemValueAttribute = 'item_value_cent';
 
     /**
      * @var string
      */
-    public $stockItemValueAttribute = 'stock_item_value';
+    public $stockItemValueAttribute = 'item_value_cent';
 
     /**
      * @var int
      */
-    public $itemValueRoundPrecision = 2;
+    public $itemValueRoundPrecision = 0;
 
     /**
      * @var float
@@ -90,7 +90,7 @@ class StockValueBehavior extends Behavior
 
         if ($event->reason === StockConst::MOVEMENT_REASON_INBOUND
             && !is_numeric($event->additional[$this->movedItemValueAttribute] ?? 0)) {
-            throw new InvalidArgumentException("Move extra data {$this->movedItemValueAttribute} should be a number");
+            throw new InvalidArgumentException("Movement additional data {$this->movedItemValueAttribute} should be a number");
         }
 
         $movedStockValue = $event->additional[$this->movedItemValueAttribute];

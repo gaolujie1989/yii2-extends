@@ -26,12 +26,12 @@ class DbStockManager extends BaseStockManager
     /**
      * @var string
      */
-    public $stockTable;
+    public $stockTable = '{{%stock}}';
 
     /**
      * @var string
      */
-    public $movementTable;
+    public $movementTable = '{{%stock_movement}}';
 
     /**
      * @throws \yii\base\InvalidConfigException

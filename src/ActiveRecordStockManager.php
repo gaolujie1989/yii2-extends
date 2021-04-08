@@ -5,6 +5,8 @@
 
 namespace lujie\stock;
 
+use lujie\stock\models\Stock;
+use lujie\stock\models\StockMovement;
 use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
@@ -20,11 +22,12 @@ class ActiveRecordStockManager extends BaseStockManager
     /**
      * @var string|BaseActiveRecord
      */
-    public $stockClass;
+    public $stockClass = Stock::class;
+
     /**
      * @var string|BaseActiveRecord
      */
-    public $movementClass;
+    public $movementClass = StockMovement::class;
 
     #region Abstract functions implements
 

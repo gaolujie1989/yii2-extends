@@ -23,8 +23,6 @@ class ActiveRecordStockManagerTest extends \Codeception\Test\Unit
     protected function getStockManager(): BaseStockManager
     {
         return new ActiveRecordStockManager([
-            'stockClass' => Stock::class,
-            'movementClass' => StockMovement::class,
             'as stockValue' => [
                 'class' => StockValueBehavior::class
             ]

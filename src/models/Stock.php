@@ -11,7 +11,7 @@ use Yii;
  * @property int $item_id
  * @property int $location_id
  * @property int $stock_qty
- * @property int $stock_item_value
+ * @property int $item_value_cent
  */
 class Stock extends \lujie\stock\base\db\ActiveRecord
 {
@@ -29,9 +29,9 @@ class Stock extends \lujie\stock\base\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['stock_qty', 'item_value_cent'], 'default', 'value' => 0],
             [['item_id', 'location_id'], 'required'],
-            [['item_id', 'location_id', 'stock_qty'], 'integer'],
-            [['stock_item_value'], 'number'],
+            [['item_id', 'location_id', 'stock_qty', 'item_value_cent'], 'integer'],
             [['item_id', 'location_id'], 'unique', 'targetAttribute' => ['item_id', 'location_id']],
         ];
     }
@@ -46,13 +46,13 @@ class Stock extends \lujie\stock\base\db\ActiveRecord
             'item_id' => Yii::t('lujie/stock', 'Item ID'),
             'location_id' => Yii::t('lujie/stock', 'Location ID'),
             'stock_qty' => Yii::t('lujie/stock', 'Stock Qty'),
-            'stock_item_value' => Yii::t('lujie/stock', 'Stock Item Value'),
+            'item_value_cent' => Yii::t('lujie/stock', 'Item Value Cent'),
         ];
     }
 
     /**
-     * @return StockQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return StockQuery the active query used by this AR class.
      */
     public static function find(): StockQuery
     {

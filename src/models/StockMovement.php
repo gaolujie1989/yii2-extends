@@ -11,8 +11,9 @@ use Yii;
  * @property int $item_id
  * @property int $location_id
  * @property int $moved_qty
- * @property int $moved_item_value
+ * @property int $stock_qty
  * @property string $reason
+ * @property int $item_value_cent
  */
 class StockMovement extends \lujie\stock\base\db\ActiveRecord
 {
@@ -30,9 +31,10 @@ class StockMovement extends \lujie\stock\base\db\ActiveRecord
     public function rules(): array
     {
         return [
+            [['moved_qty', 'stock_qty', 'item_value_cent'], 'default', 'value' => 0],
+            [['reason'], 'default', 'value' => ''],
             [['item_id', 'location_id'], 'required'],
-            [['item_id', 'location_id', 'moved_qty'], 'integer'],
-            [['moved_item_value'], 'number'],
+            [['item_id', 'location_id', 'moved_qty', 'stock_qty', 'item_value_cent'], 'integer'],
             [['reason'], 'string', 'max' => 20],
         ];
     }
@@ -46,15 +48,16 @@ class StockMovement extends \lujie\stock\base\db\ActiveRecord
             'stock_movement_id' => Yii::t('lujie/stock', 'Stock Movement ID'),
             'item_id' => Yii::t('lujie/stock', 'Item ID'),
             'location_id' => Yii::t('lujie/stock', 'Location ID'),
-            'moved_qty' => Yii::t('lujie/stock', 'Move Qty'),
-            'moved_item_value' => Yii::t('lujie/stock', 'Move Item Value'),
+            'moved_qty' => Yii::t('lujie/stock', 'Moved Qty'),
+            'stock_qty' => Yii::t('lujie/stock', 'Stock Qty'),
             'reason' => Yii::t('lujie/stock', 'Reason'),
+            'item_value_cent' => Yii::t('lujie/stock', 'Item Value Cent'),
         ];
     }
 
     /**
-     * @return StockMovementQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return StockMovementQuery the active query used by this AR class.
      */
     public static function find(): StockMovementQuery
     {

@@ -17,7 +17,7 @@ class m190709_153933_stock extends Migration
             'item_id' => $this->bigInteger()->notNull(),
             'location_id' => $this->bigInteger()->notNull(),
             'stock_qty' => $this->integer()->notNull()->defaultValue(0),
-            'stock_item_value' => $this->decimal(10, 2)->notNull()->defaultValue(0),
+            'item_value_cent' => $this->integer()->notNull()->defaultValue(0),
         ]);
 
         $this->createIndex('uk_item_id_location_id', $this->tableName, ['item_id', 'location_id'], true);

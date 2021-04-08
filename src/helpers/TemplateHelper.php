@@ -38,11 +38,37 @@ class TemplateHelper
     }
 
     /**
+     * @param string $template
+     * @param array $data
+     * @return string
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function generate(string $template, array $data = []): string
+    {
+        $replaces = array_merge([
+            '{timestamp}' => time(),
+            '{microSecond}' => microtime(true) * 1000 % 1000,
+            '{datetime}' => date('YmdHis'),
+            '{date}' => date('Ymd'),
+            '{time}' => date('His'),
+            '{rand1}' => random_int(0, 9),
+            '{rand2}' => random_int(10, 99),
+            '{rand3}' => random_int(100, 999),
+            '{rand4}' => random_int(1000, 9999),
+            '{rand5}' => random_int(10000, 99999),
+            '{rand6}' => random_int(100000, 999999),
+        ], $data);
+        return strtr($template, $replaces);
+    }
+
+    /**
      * @param string $suffix
      * @param string $prefix
      * @param string $template
      * @return string
      * @throws \Exception
+     * @deprecated
      * @inheritdoc
      */
     public static function generateRandomFileName(

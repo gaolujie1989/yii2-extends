@@ -18,6 +18,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method ChargePriceQuery customType($customType)
  * @method ChargePriceQuery modelType($modelType)
  * @method ChargePriceQuery modelId($modelId)
+ * @method ChargePriceQuery modelNo($modelNo)
  * @method ChargePriceQuery parentModelId($parentModelId)
  * @method ChargePriceQuery priceTableId($priceTableId)
  * @method ChargePriceQuery status($status)
@@ -46,6 +47,7 @@ class ChargePriceQuery extends \yii\db\ActiveQuery
                     'customType' => 'custom_type',
                     'modelType' => 'model_type',
                     'modelId' => 'model_id',
+                    'modelNo' => 'model_no',
                     'parentModelId' => 'parent_model_id',
                     'priceTableId' => 'price_table_id',
                     'status' => 'status',

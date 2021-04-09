@@ -21,6 +21,7 @@ use yii\db\ActiveQuery;
  * @property string $custom_type
  * @property string $model_type
  * @property int $model_id
+ * @property string $model_no
  * @property int $parent_model_id
  * @property int $price_table_id
  * @property int $price_cent
@@ -61,7 +62,7 @@ class ChargePrice extends \yii\db\ActiveRecord
     {
         return [
             [['charge_type', 'model_type', 'model_id'], 'required'],
-            [['charge_group', 'custom_type', 'currency', 'note'], 'default', 'value' => ''],
+            [['charge_group', 'custom_type', 'model_no', 'currency', 'note'], 'default', 'value' => ''],
             [['parent_model_id', 'price_table_id', 'price_cent', 'qty',
                 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
                 'status', 'owner_id'], 'default', 'value' => 0],
@@ -70,7 +71,7 @@ class ChargePrice extends \yii\db\ActiveRecord
                 'price_cent', 'qty', 'subtotal_cent', 'discount_cent', 'surcharge_cent', 'grand_total_cent',
                 'status', 'owner_id'], 'integer'],
             [['additional'], 'safe'],
-            [['charge_group', 'charge_type', 'custom_type', 'model_type'], 'string', 'max' => 50],
+            [['charge_group', 'charge_type', 'custom_type', 'model_type', 'model_no'], 'string', 'max' => 50],
             [['currency'], 'string', 'max' => 3],
             [['note'], 'string', 'max' => 1000],
             [['model_id', 'model_type', 'charge_type'], 'unique', 'targetAttribute' => ['model_id', 'model_type', 'charge_type']],
@@ -116,6 +117,7 @@ class ChargePrice extends \yii\db\ActiveRecord
             'custom_type' => Yii::t('lujie/charging', 'Custom Type'),
             'model_type' => Yii::t('lujie/charging', 'Model Type'),
             'model_id' => Yii::t('lujie/charging', 'Model ID'),
+            'model_no' => Yii::t('lujie/charging', 'Model No'),
             'parent_model_id' => Yii::t('lujie/charging', 'Parent Model ID'),
             'price_table_id' => Yii::t('lujie/charging', 'Price Table ID'),
             'price_cent' => Yii::t('lujie/charging', 'Price Cent'),

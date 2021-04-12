@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\mocks;
 
-
 use lujie\data\loader\BaseDataLoader;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;

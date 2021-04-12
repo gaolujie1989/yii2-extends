@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\mocks;
 
-
 use lujie\extend\authclient\JsonRpcResponse;
 use lujie\fulfillment\f4px\F4pxClient;
 

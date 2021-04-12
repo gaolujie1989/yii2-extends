@@ -30,12 +30,21 @@ class m201120_145632_fulfillment_warehouse_stock_movement extends Migration
             'additional' => $this->json(),
         ]);
 
-        $this->createIndex('uk_external_movement_account', $this->tableName,
-            ['external_movement_key', 'fulfillment_account_id']);
-        $this->createIndex('idx_item_warehouse_account', $this->tableName,
-            ['item_id', 'warehouse_id', 'fulfillment_account_id']);
-        $this->createIndex('idx_external_item_warehouse_account', $this->tableName,
-            ['external_item_key', 'external_warehouse_key', 'fulfillment_account_id']);
+        $this->createIndex(
+            'uk_external_movement_account',
+            $this->tableName,
+            ['external_movement_key', 'fulfillment_account_id']
+        );
+        $this->createIndex(
+            'idx_item_warehouse_account',
+            $this->tableName,
+            ['item_id', 'warehouse_id', 'fulfillment_account_id']
+        );
+        $this->createIndex(
+            'idx_external_item_warehouse_account',
+            $this->tableName,
+            ['external_item_key', 'external_warehouse_key', 'fulfillment_account_id']
+        );
         $this->createIndex('idx_external_created_at', $this->tableName, ['external_created_at']);
     }
 }

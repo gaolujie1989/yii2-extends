@@ -171,8 +171,13 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job = Instance::ensure($this->fulfillmentItemJob, PushFulfillmentItemJob::class);
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentItemId = $fulfillmentItem->fulfillment_item_id;
-        return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentItem,
-            'item_pushed_status', 'item_pushed_result');
+        return ExecuteHelper::pushJob(
+            $this->queue,
+            $job,
+            $fulfillmentItem,
+            'item_pushed_status',
+            'item_pushed_result'
+        );
     }
 
     /**
@@ -221,7 +226,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $this->pushCancelFulfillmentOrderJob($fulfillmentOrder);
                 Yii::info("{$name} push cancel job", __METHOD__);
                 break;
-            default;
+            default:
                 $this->pushFulfillmentOrderJob($fulfillmentOrder);
                 Yii::info("{$name} push update job", __METHOD__);
                 break;
@@ -290,8 +295,15 @@ class FulfillmentManager extends Component implements BootstrapInterface
         $job->fulfillmentManager = ComponentHelper::getName($this);
         $job->fulfillmentOrderId = $fulfillmentOrder->fulfillment_order_id;
         //always push job because order may be change multi times with different data, so need to push different job
-        return ExecuteHelper::pushJob($this->queue, $job, $fulfillmentOrder,
-            'order_pushed_status', 'order_pushed_result', 'updated_at', 0);
+        return ExecuteHelper::pushJob(
+            $this->queue,
+            $job,
+            $fulfillmentOrder,
+            'order_pushed_status',
+            'order_pushed_result',
+            'updated_at',
+            0
+        );
     }
 
     #endregion
@@ -597,9 +609,11 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->all();
         $fulfillmentService = $this->getFulfillmentService($accountId);
         foreach ($fulfillmentWarehouses as $fulfillmentWarehouse) {
-            $fulfillmentService->pullWarehouseStockMovements($fulfillmentWarehouse,
+            $fulfillmentService->pullWarehouseStockMovements(
+                $fulfillmentWarehouse,
                 $fulfillmentWarehouse->external_movement_at - 10,
-                $fulfillmentWarehouse->external_movement_at + $this->pullMovementTimePeriod);
+                $fulfillmentWarehouse->external_movement_at + $this->pullMovementTimePeriod
+            );
         }
     }
 

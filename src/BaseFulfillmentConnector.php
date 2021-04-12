@@ -116,7 +116,13 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             Yii::info("Listen fulfillment $fulfillmentType of $orderFormClass events", __METHOD__);
         }
 
-        Event::on(BaseFulfillmentService::class, BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED, [$this, 'afterFulfillmentOrderUpdated'], null, false);
+        Event::on(
+            BaseFulfillmentService::class,
+            BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED,
+            [$this, 'afterFulfillmentOrderUpdated'],
+            null,
+            false
+        );
     }
 
     /**
@@ -328,7 +334,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             return null;
         }
         $orderClass = $this->orderClasses[$fulfillmentType];
-        /** @var BaseActiveRecord|TraceableBehaviorTrait $order */
+        /** @var BaseActiveRecord $order */
         $order = $orderClass::findOne($fulfillmentOrder->order_id);
         if ($order === null) {
             return null;
@@ -341,7 +347,9 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $newOrderStatus = $this->orderStatusMap[$fulfillmentType][$fulfillmentOrder->fulfillment_status];
         $order->setAttribute($this->orderStatusAttribute[$fulfillmentType], $newOrderStatus);
         $fulfillmentOrder->order_status = $newOrderStatus;
-        $fulfillmentOrder->order_updated_at = $order->updated_at;
+        if ($order->hasAttribute('updated_at')) {
+            $fulfillmentOrder->order_updated_at = $order->getAttribute('updated_at');
+        }
 
         $this->updateOrderAdditional($order, $fulfillmentOrder, $externalOrder);
         return $order->save(false) && $fulfillmentOrder->save(false);
@@ -355,7 +363,6 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      */
     protected function updateOrderAdditional(BaseActiveRecord $order, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
     {
-
     }
 
     #endregion

@@ -5,8 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\f4px;
 
-
-use lujie\data\loader\ArrayDataLoader;
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -27,11 +25,6 @@ use Yii;
 
 class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }
@@ -285,7 +278,6 @@ class F4pxFulfillmentServiceTest extends \Codeception\Test\Unit
      */
     public function te1stPullFulfillmentOrders(): void
     {
-
     }
 
     /**

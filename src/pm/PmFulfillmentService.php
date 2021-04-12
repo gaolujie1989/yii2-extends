@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\pm;
 
-
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -290,7 +289,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         if ($fulfillmentOrder->fulfillment_account_id !== $this->account->account_id) {
-            Yii::info("FulfillmentOrder account {$fulfillmentOrder->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
+            Yii::info("FulfillmentOrder account {$fulfillmentOrder->fulfillment_account_id} != account {$this->account->account_id}", __METHOD__);
             return false;
         }
 
@@ -692,7 +691,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function cancelFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        $pmOrderId = $fulfillmentOrder->external_order_key;
+        $pmOrderId = (int)$fulfillmentOrder->external_order_key;
         if (empty($pmOrderId)) {
             $pmOrder = [
                 'id' => '',
@@ -840,7 +839,9 @@ class PmFulfillmentService extends BaseFulfillmentService
     {
         $fulfillmentWarehouseStock->stock_qty = $externalWarehouseStock['stockPhysical'];
         $fulfillmentWarehouseStock->reserved_qty = $externalWarehouseStock['reservedStock'];
-        $fulfillmentWarehouseStock->external_updated_at = is_numeric($externalWarehouseStock['updatedAt']) ? $externalWarehouseStock['updatedAt'] : strtotime($externalWarehouseStock['updatedAt']);
+        $fulfillmentWarehouseStock->external_updated_at = is_numeric($externalWarehouseStock['updatedAt'])
+            ? $externalWarehouseStock['updatedAt']
+            : strtotime($externalWarehouseStock['updatedAt']);
         $fulfillmentWarehouseStock->stock_additional = $externalWarehouseStock;
         return $fulfillmentWarehouseStock->save(false);
     }
@@ -857,7 +858,12 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
+    protected function getExternalWarehouseStockMovements(
+        FulfillmentWarehouse $fulfillmentWarehouse,
+        int $movementAtFrom,
+        int $movementAtTo,
+        ?FulfillmentItem $fulfillmentItem = null
+    ): array
     {
         $condition = [
             'warehouseId' => $fulfillmentWarehouse->external_warehouse_key,
@@ -880,12 +886,17 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @return bool
      * @inheritdoc
      */
-    protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool
+    protected function updateFulfillmentWarehouseStockMovements(
+        FulfillmentWarehouseStockMovement $fulfillmentStockMovement,
+        array $externalStockMovement
+    ): bool
     {
-        $fulfillmentStockMovement->external_created_at = is_numeric($externalStockMovement['createdAt']) ? $externalStockMovement['createdAt'] : strtotime($externalStockMovement['createdAt']);
+        $fulfillmentStockMovement->external_created_at = is_numeric($externalStockMovement['createdAt'])
+            ? $externalStockMovement['createdAt']
+            : strtotime($externalStockMovement['createdAt']);
         if ($externalStockMovement['reason'] < 200) {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_INBOUND;
-        } else if ($externalStockMovement['reason'] < 300) {
+        } elseif ($externalStockMovement['reason'] < 300) {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_OUTBOUND;
         } else {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_CORRECTION;

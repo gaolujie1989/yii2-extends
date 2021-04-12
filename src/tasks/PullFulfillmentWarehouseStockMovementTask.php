@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tasks;
 
-
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\scheduling\CronTask;

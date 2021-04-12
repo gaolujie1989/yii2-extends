@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models\TestItem;
 use lujie\data\loader\ArrayDataLoader;
@@ -20,11 +19,6 @@ use Yii;
 
 class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }
@@ -137,7 +131,7 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
             'external_order_key' => 'ORDER_K1',
             'fulfillment_status' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING
         ]);
-       $this->assertTrue( $fulfillmentOrder->save(false));
+        $this->assertTrue($fulfillmentOrder->save(false));
 
         $this->assertFalse(false, $order->delete());
         $this->assertTrue($fulfillmentOrder->refresh());
@@ -177,7 +171,7 @@ class BaseFulfillmentConnectorTest extends \Codeception\Test\Unit
             'external_order_key' => 'ORDER_K1',
             'warehouse_id' => 1,
         ]);
-        $this->assertTrue( $fulfillmentOrder->save(false));
+        $this->assertTrue($fulfillmentOrder->save(false));
 
         $fulfillmentService = new MockFulfillmentService([
             'account' => new FulfillmentAccount([

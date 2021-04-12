@@ -654,7 +654,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
+    protected function getExternalWarehouseStockMovements(
+        FulfillmentWarehouse $fulfillmentWarehouse,
+        int $movementAtFrom,
+        int $movementAtTo,
+        ?FulfillmentItem $fulfillmentItem = null
+    ): array
     {
         $condition = [
             'warehouse_code' => $fulfillmentWarehouse->external_warehouse_key,
@@ -679,7 +684,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $fulfillmentStockMovement->external_created_at = (int)substr($externalStockMovement['create_time'], 0, 10);
         if ($externalStockMovement['journal_type'] === 'I') {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_INBOUND;
-        } else if ($externalStockMovement['journal_type'] === 'O') {
+        } elseif ($externalStockMovement['journal_type'] === 'O') {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_OUTBOUND;
         } else {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_CORRECTION;

@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tasks;
 
-
 use lujie\fulfillment\DailyStockGenerator;
 use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;

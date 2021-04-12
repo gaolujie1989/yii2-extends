@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\constants;
 
-
 class FulfillmentConst
 {
     public const ACCOUNT_TYPE_AMAZON = 'AMAZON';

@@ -201,7 +201,6 @@ class MockFulfillmentService extends BaseFulfillmentService
             }
             $externalItem['created_at'] = $now;
             $externalItem['updated_at'] = $now;
-
         }
         $externalItem[$this->externalItemKeyField] = $externalItemKey;
         static::$EXTERNAL_ITEM_DATA[$externalItemKey] = $externalItem;
@@ -424,7 +423,7 @@ class MockFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array
     {
-        return array_filter(static::$EXTERNAL_MOVEMENT_DATA, static function($movement) use ($fulfillmentWarehouse) {
+        return array_filter(static::$EXTERNAL_MOVEMENT_DATA, static function ($movement) use ($fulfillmentWarehouse) {
             return $movement['warehouseId'] === $fulfillmentWarehouse->external_warehouse_key;
         });
     }
@@ -444,5 +443,4 @@ class MockFulfillmentService extends BaseFulfillmentService
     }
 
     #region
-
 }

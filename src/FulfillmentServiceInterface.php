@@ -82,5 +82,10 @@ interface FulfillmentServiceInterface
      * @param FulfillmentItem|null $fulfillmentItem
      * @inheritdoc
      */
-    public function pullWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): void;
+    public function pullWarehouseStockMovements(
+        FulfillmentWarehouse $fulfillmentWarehouse,
+        int $movementAtFrom,
+        int $movementAtTo,
+        ?FulfillmentItem $fulfillmentItem = null
+    ): void;
 }

@@ -5,10 +5,8 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\data\loader\ChainedDataLoader;
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\constants\StatusConst;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\forms\FulfillmentItemForm;
 use lujie\fulfillment\forms\FulfillmentOrderForm;
@@ -33,11 +31,6 @@ use yii\queue\Queue;
 
 class FulfillmentManagerTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }
@@ -79,7 +72,7 @@ class FulfillmentManagerTest extends \Codeception\Test\Unit
         /** @var Queue $queue */
         $queue = Instance::ensure('queue');
         $pushedJobs = [];
-        $queue->on(Queue::EVENT_BEFORE_PUSH, static function(PushEvent $event) use (&$pushedJobs) {
+        $queue->on(Queue::EVENT_BEFORE_PUSH, static function (PushEvent $event) use (&$pushedJobs) {
             $pushedJobs[] = $event->job;
             $event->handled = true;
         });

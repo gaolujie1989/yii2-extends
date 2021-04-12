@@ -56,5 +56,4 @@ class FulfillmentDailyStockQuery extends \yii\db\ActiveQuery
             ]
         ];
     }
-
 }

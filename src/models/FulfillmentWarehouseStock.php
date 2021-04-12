@@ -41,14 +41,18 @@ class FulfillmentWarehouseStock extends \lujie\fulfillment\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'stock_qty', 'reserved_qty',
+                'external_updated_at', 'stock_pulled_at'], 'default', 'value' => 0],
             [['external_item_key', 'external_warehouse_key'], 'default', 'value' => ''],
             [['stock_additional', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'stock_qty', 'reserved_qty', 'external_updated_at', 'stock_pulled_at'], 'integer'],
+            [['fulfillment_account_id', 'item_id', 'warehouse_id', 'stock_qty', 'reserved_qty',
+                'external_updated_at', 'stock_pulled_at'], 'integer'],
             [['stock_additional', 'additional'], 'safe'],
             [['external_item_key', 'external_warehouse_key'], 'string', 'max' => 50],
-            [['item_id', 'warehouse_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['item_id', 'warehouse_id', 'fulfillment_account_id']],
-            [['external_item_key', 'external_warehouse_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_item_key', 'external_warehouse_key', 'fulfillment_account_id']],
+            [['item_id', 'warehouse_id', 'fulfillment_account_id'], 'unique',
+                'targetAttribute' => ['item_id', 'warehouse_id', 'fulfillment_account_id']],
+            [['external_item_key', 'external_warehouse_key', 'fulfillment_account_id'], 'unique',
+                'targetAttribute' => ['external_item_key', 'external_warehouse_key', 'fulfillment_account_id']],
         ];
     }
 

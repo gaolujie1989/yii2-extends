@@ -5,8 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\pm;
 
-
-use lujie\data\loader\ArrayDataLoader;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\ItemBarcode;
@@ -28,11 +26,6 @@ use yii\httpclient\Response;
 
 class PmFulfillmentServiceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }

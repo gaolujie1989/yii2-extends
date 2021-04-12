@@ -160,13 +160,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     public function pushItem(FulfillmentItem $fulfillmentItem): bool
     {
         if ($fulfillmentItem->fulfillment_account_id !== $this->account->account_id) {
-            Yii::info("FulfillmentItem account {$fulfillmentItem->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
+            Yii::info("FulfillmentItem account {$fulfillmentItem->fulfillment_account_id} != account {$this->account->account_id}", __METHOD__);
             return false;
         }
 
         /** @var Item $item */
         $item = $this->itemLoader->get($fulfillmentItem);
-        if (empty($item) || empty($item->itemBarcodes)) {
+        if ($item === null || empty($item->itemBarcodes)) {
             Yii::info("Empty Item or ItemBarcodes", __METHOD__);
             return false;
         }
@@ -234,13 +234,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
         if ($fulfillmentOrder->fulfillment_account_id !== $this->account->account_id) {
-            Yii::info("FulfillmentOrder account {$fulfillmentOrder->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
+            Yii::info("FulfillmentOrder account {$fulfillmentOrder->fulfillment_account_id} != account {$this->account->account_id}", __METHOD__);
             return false;
         }
 
         /** @var Order $order */
         $order = $this->orderLoader->get($fulfillmentOrder);
-        if (empty($order) || empty($order->orderItems)) {
+        if ($order === null || empty($order->orderItems)) {
             Yii::info("Empty Order or OrderItems", __METHOD__);
             return false;
         }
@@ -286,7 +286,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * update fulfillment order info, like external order_id, order_no, extra...
      * @param FulfillmentOrder $fulfillmentOrder
      * @param array $externalOrder
-     * @param false $changeActionStatus
+     * @param bool $changeActionStatus
      * @return bool
      * @throws InvalidConfigException
      * @throws \Throwable
@@ -299,7 +299,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $fulfillmentOrder->external_order_status = (string)$externalOrder[$this->externalOrderStatusField[$fulfillmentOrder->fulfillment_type]];
 
         $newFulfillmentStatus = $this->fulfillmentStatusMap[$fulfillmentOrder->fulfillment_type][$fulfillmentOrder->external_order_status] ?? null;
-        if (!empty($fulfillmentOrder->external_order_additional['trackingNumbers']) && $newFulfillmentStatus !== FulfillmentConst::FULFILLMENT_STATUS_CANCELLED) {
+        if (!empty($fulfillmentOrder->external_order_additional['trackingNumbers'])
+            && $newFulfillmentStatus !== FulfillmentConst::FULFILLMENT_STATUS_CANCELLED) {
             $newFulfillmentStatus = FulfillmentConst::FULFILLMENT_STATUS_SHIPPED;
         }
         if ($fulfillmentOrder->fulfillment_type === FulfillmentConst::FULFILLMENT_TYPE_SHIPPING
@@ -564,10 +565,15 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @param FulfillmentItem|null $fulfillmentItem
      * @inheritdoc
      */
-    public function pullWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): void
+    public function pullWarehouseStockMovements(
+        FulfillmentWarehouse $fulfillmentWarehouse,
+        int $movementAtFrom,
+        int $movementAtTo,
+        ?FulfillmentItem $fulfillmentItem = null
+    ): void
     {
         if ($fulfillmentWarehouse->fulfillment_account_id !== $this->account->account_id) {
-            Yii::info("FulfillmentWarehouse account {$fulfillmentWarehouse->fulfillment_account_id} is not equal with service account {$this->account->account_id}", __METHOD__);
+            Yii::info("FulfillmentWarehouse account {$fulfillmentWarehouse->fulfillment_account_id} != account {$this->account->account_id}", __METHOD__);
             return;
         }
         if (!$fulfillmentWarehouse->support_movement) {
@@ -629,7 +635,12 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @return array
      * @inheritdoc
      */
-    abstract protected function getExternalWarehouseStockMovements(FulfillmentWarehouse $fulfillmentWarehouse, int $movementAtFrom, int $movementAtTo, ?FulfillmentItem $fulfillmentItem = null): array;
+    abstract protected function getExternalWarehouseStockMovements(
+        FulfillmentWarehouse $fulfillmentWarehouse,
+        int $movementAtFrom,
+        int $movementAtTo,
+        ?FulfillmentItem $fulfillmentItem = null
+    ): array;
 
     /**
      * @param FulfillmentWarehouseStockMovement $fulfillmentStockMovement
@@ -637,7 +648,10 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @return bool
      * @inheritdoc
      */
-    abstract protected function updateFulfillmentWarehouseStockMovements(FulfillmentWarehouseStockMovement $fulfillmentStockMovement, array $externalStockMovement): bool;
+    abstract protected function updateFulfillmentWarehouseStockMovements(
+        FulfillmentWarehouseStockMovement $fulfillmentStockMovement,
+        array $externalStockMovement
+    ): bool;
 
     /**
      * @param FulfillmentWarehouse $fulfillmentWarehouse

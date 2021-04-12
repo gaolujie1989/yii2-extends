@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\fulfillment\DailyStockGenerator;
 use lujie\fulfillment\models\FulfillmentDailyStock;
 use lujie\fulfillment\models\FulfillmentDailyStockMovement;
@@ -14,11 +13,6 @@ use yii\helpers\ArrayHelper;
 
 class DailyStockGeneratorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }

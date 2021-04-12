@@ -129,7 +129,7 @@ class DailyStockGenerator extends BaseObject
                 'class' => ChainedTransformer::class,
                 'transformers' => [
                     static function ($data) {
-                        return array_map(static function($values) {
+                        return array_map(static function ($values) {
                             $values['stock_qty'] = ($values['prev_stock_qty'] ?? 0) + ($values['movement_qty'] ?: 0);
                             unset($values['prev_stock_qty'], $values['movement_qty']);
                             return $values;

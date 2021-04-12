@@ -57,7 +57,8 @@ abstract class ItemValueCalculator extends BaseObject
             ->stockDate($dailyStockMovement->movement_date)
             ->one();
         if ($dailyStock === null) {
-            $message = "Item {$dailyStockMovement->item_id} of warehouse {$dailyStockMovement->warehouse_id} Daily stock movement with null daily stock at {$dailyStockMovement->movement_date}";
+            $message = "Null daily stock of Item {$dailyStockMovement->item_id}"
+                . " in warehouse {$dailyStockMovement->warehouse_id} at {$dailyStockMovement->movement_date}";
             throw new Exception($message);
         }
 

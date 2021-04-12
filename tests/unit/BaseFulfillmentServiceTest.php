@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;
 use lujie\fulfillment\common\Item;
@@ -25,11 +24,6 @@ use yii\helpers\ArrayHelper;
 
 class BaseFulfillmentServiceTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }

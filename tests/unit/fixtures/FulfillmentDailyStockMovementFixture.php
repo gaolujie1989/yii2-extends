@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\fixtures;
 
-
 use lujie\fulfillment\models\FulfillmentDailyStockMovement;
 use yii\test\ActiveFixture;
 

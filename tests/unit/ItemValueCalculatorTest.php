@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-
 use lujie\fulfillment\models\FulfillmentItemValue;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentDailyStockFixture;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentDailyStockMovementFixture;
@@ -13,11 +12,6 @@ use lujie\fulfillment\tests\unit\mocks\MockItemValueCalculator;
 
 class ItemValueCalculatorTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }

@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\tests\unit\mocks;
 
-
 use lujie\data\loader\ArrayDataLoader;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;

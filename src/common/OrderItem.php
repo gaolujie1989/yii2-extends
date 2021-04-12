@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\common;
 
-
 use yii\base\Model;
 
 /**

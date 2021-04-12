@@ -34,7 +34,8 @@ class Charger extends Component implements BootstrapInterface
 
     /**
      * [
-     *     'modelType'  => ['modelClass', ['chargeTypes']]
+     *     'modelType'  => ['modelClass', ['chargeType1', 'chargeType2']]
+     *     'modelType'  => ['modelClass', ['chargeType1' => $condition1]]
      * ]
      * @var array
      */
@@ -93,8 +94,9 @@ class Charger extends Component implements BootstrapInterface
 
     /**
      * @param AfterSaveEvent $event
+     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
      * @inheritdoc
      */
     public function triggerChargeOnModelSaved(AfterSaveEvent $event): void

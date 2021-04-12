@@ -173,7 +173,7 @@ class ModelHelper
             QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), false, $alias);
         }
         if ($likeAttributes) {
-            QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), true, $alias);
+            QueryHelper::filterValue($query, $model->getAttributes($likeAttributes), true, $alias);
         }
         if ($rangeAttributes) {
             QueryHelper::filterRange($query, $model->getAttributes($rangeAttributes), $alias);

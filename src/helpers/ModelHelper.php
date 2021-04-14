@@ -253,15 +253,16 @@ class ModelHelper
          * @var string $relation
          * @var BaseActiveRecord|string $relationClass
          */
-        foreach ($relations as $relation => $relationClass) {
+        foreach ($relations as $relation => $relationConfig) {
             if (empty($row[$relation])) {
                 continue;
             }
+            $relationConfig = (array)$relationConfig;
             if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation
-                $row[$relation] = static::prepareArray($row[$relation], $relationClass);
+                $row[$relation] = static::prepareArray($row[$relation], $relationConfig[0], $relationConfig[1] ?? [], $relationConfig[2] ?? []);
             } else {
                 foreach ($row[$relation] as $index => $value) {
-                    $row[$relation][$index] = static::prepareArray($value, $relationClass);
+                    $row[$relation][$index] = static::prepareArray($value, $relationConfig[0], $relationConfig[1] ?? [], $relationConfig[2] ?? []);
                 }
             }
         }

@@ -97,15 +97,16 @@ class ExcelReader extends BaseObject implements FileReaderInterface
     {
         $data = $sheet->toArray();
         if ($this->firstLineIsHeader) {
-            array_walk($data, static function (&$values) use ($data) {
-                $values = array_combine($data[0], $values);
+            $firstRow = (array)reset($data);
+            array_walk($data, static function (&$row) use ($firstRow) {
+                $row = array_combine($firstRow, $row);
             });
             array_shift($data);
         }
         //fix load end null value
-        array_walk($data, static function (&$values) {
-            while (end($values) === null) {
-                array_pop($values);
+        array_walk($data, static function (&$row) {
+            while (end($row) === null) {
+                array_pop($row);
             }
         });
         return $data;

@@ -73,11 +73,18 @@ class CsvReader extends BaseObject implements FileReaderInterface
      */
     protected function formatData(array &$data): void
     {
-        array_walk($data, function (&$a) use ($data) {
-            if (count($data[0]) === count($a)) {
-                $a = array_combine($data[0], $a);
+        $firstRow = (array)reset($data);
+        $firstRowColumnCount = count($firstRow);
+        array_walk($data, static function (&$row) use ($firstRow, $firstRowColumnCount) {
+            $rowColumnCount = count($row);
+            if ($firstRowColumnCount === $rowColumnCount) {
+                $row = array_combine($firstRow, $row);
+            } else if ($firstRowColumnCount > $rowColumnCount) {
+                $keys = array_slice($firstRow, 0, $rowColumnCount);
+                $row = array_combine($keys, $row);
             } else {
-                Yii::warning('Data row not match columns: ' . implode($this->delimiter, $a), __METHOD__);
+                $values = array_slice($row, 0, $firstRowColumnCount);
+                $row = array_merge(array_combine($firstRow, $values), array_slice($row, $firstRowColumnCount));
             }
         });
         array_shift($data);

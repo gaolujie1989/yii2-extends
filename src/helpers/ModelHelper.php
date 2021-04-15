@@ -25,6 +25,9 @@ use yii\helpers\StringHelper;
  */
 class ModelHelper
 {
+
+    #region rule
+
     /**
      * @param array $rules
      * @param array|string $attributes
@@ -52,6 +55,8 @@ class ModelHelper
         }
         return $rules;
     }
+
+    #endregion
 
     #region find
 
@@ -131,7 +136,6 @@ class ModelHelper
                 if ($attribute === $key
                     || ($prefix && StringHelper::startsWith($attribute, $key . '_', true))
                     || (!$prefix && StringHelper::endsWith($attribute, '_' . $key, true))) {
-                    $filterAttributes[] = $attribute;
                     return true;
                 }
             }
@@ -236,7 +240,9 @@ class ModelHelper
             $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
             if (StringHelper::endsWith($attribute, '_at')) {
                 $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
-            } elseif (StringHelper::endsWith($attribute, '_cent')) {
+            } elseif (StringHelper::endsWith($attribute, '_micro_cent')) {
+                $row[$aliasProperty] /= 10000;
+            }  elseif (StringHelper::endsWith($attribute, '_cent')) {
                 $row[$aliasProperty] /= 100;
             } elseif (StringHelper::endsWith($attribute, '_g')
                 || StringHelper::endsWith($attribute, '_mm')
@@ -258,11 +264,14 @@ class ModelHelper
                 continue;
             }
             $relationConfig = (array)$relationConfig;
+            $relationClass = $relationConfig[0];
+            $relationAlias = $relationConfig[1] ?? [];
+            $relationRelations = $relationConfig[2] ?? [];
             if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation
-                $row[$relation] = static::prepareArray($row[$relation], $relationConfig[0], $relationConfig[1] ?? [], $relationConfig[2] ?? []);
+                $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations);
             } else {
                 foreach ($row[$relation] as $index => $value) {
-                    $row[$relation][$index] = static::prepareArray($value, $relationConfig[0], $relationConfig[1] ?? [], $relationConfig[2] ?? []);
+                    $row[$relation][$index] = static::prepareArray($value, $relationClass, $relationAlias, $relationRelations);
                 }
             }
         }

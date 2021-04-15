@@ -160,14 +160,22 @@ class ModelHelper
         array $filterKeySuffixes = [],
         array $likeKeySuffixes = [],
         array $rangeKeySuffixes = []
-    ): ActiveQueryInterface {
-        $filterKeySuffixes = array_merge($filterKeySuffixes, [
+    ): ActiveQueryInterface
+    {
+        $defaultFilterKeySuffixes = [
             'id', 'type', 'group', 'status',
             'country', 'currency', 'language',
             'carrier', 'departure', 'destination',
-        ]);
-        $likeKeySuffixes = array_merge($likeKeySuffixes, ['no', 'key', 'code', 'name', 'title']);
-        $rangeKeySuffixes = array_merge($rangeKeySuffixes, ['at', 'date', 'time']);
+        ];
+        $defaultLikeKeySuffixes = ['no', 'key', 'code', 'name', 'title'];
+        $defaultRangeKeySuffixes = ['at', 'date', 'time'];
+        $defaultFilterKeySuffixes = array_combine($defaultFilterKeySuffixes, $defaultFilterKeySuffixes);
+        $defaultLikeKeySuffixes = array_combine($defaultLikeKeySuffixes, $defaultLikeKeySuffixes);
+        $defaultRangeKeySuffixes = array_combine($defaultRangeKeySuffixes, $defaultRangeKeySuffixes);
+
+        $filterKeySuffixes = array_filter(array_merge($defaultFilterKeySuffixes, $filterKeySuffixes));
+        $likeKeySuffixes = array_filter(array_merge($defaultLikeKeySuffixes, $likeKeySuffixes));
+        $rangeKeySuffixes = array_filter(array_merge($defaultRangeKeySuffixes, $rangeKeySuffixes));
         $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
         $likeAttributes = static::filterAttributes($model->attributes(), $likeKeySuffixes, false);
         $rangeAttributes = static::filterAttributes($model->attributes(), $rangeKeySuffixes, false);
@@ -192,19 +200,20 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function searchRules(
-        BaseActiveRecord $model,
-        array $filterKeySuffixes = [],
-        array $datetimeKeySuffixes = []
-    ): array
+    public static function searchRules(BaseActiveRecord $model, array $filterKeySuffixes = [], array $datetimeKeySuffixes = []): array
     {
-        $filterKeySuffixes = array_merge($filterKeySuffixes, [
+        $defaultFilterKeySuffixes = [
             'id', 'type', 'group', 'status',
             'country', 'currency', 'language',
             'carrier', 'departure', 'destination',
             'no', 'key', 'code', 'name', 'title',
-        ]);
-        $datetimeKeySuffixes = array_merge($datetimeKeySuffixes, ['at', 'date', 'time']);
+        ];
+        $defaultDateTimeKeySuffixes = ['at', 'date', 'time'];
+        $defaultFilterKeySuffixes = array_combine($defaultFilterKeySuffixes, $defaultFilterKeySuffixes);
+        $defaultDateTimeKeySuffixes = array_combine($defaultDateTimeKeySuffixes, $defaultDateTimeKeySuffixes);
+
+        $filterKeySuffixes = array_merge($defaultFilterKeySuffixes, $filterKeySuffixes);
+        $datetimeKeySuffixes = array_merge($defaultDateTimeKeySuffixes, $datetimeKeySuffixes);
         $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
         $datetimeAttributes = static::filterAttributes($model->attributes(), $datetimeKeySuffixes, false);
 
@@ -223,7 +232,7 @@ class ModelHelper
      * @param string|BaseActiveRecord $class
      * @param array $aliasProperties
      * @param array $relations
-     * @param string[] $unsetAttributes
+     * @param array $unsetAttributes
      * @return array
      * @throws \Exception
      * @inheritdoc
@@ -233,7 +242,7 @@ class ModelHelper
         string $class,
         array $aliasProperties = [],
         array $relations = [],
-        $unsetAttributes = ['created_by', 'updated_by']
+        array $unsetAttributes = ['created_by', 'updated_by']
     ): array
     {
         foreach ($aliasProperties as $aliasProperty => $attribute) {
@@ -242,7 +251,7 @@ class ModelHelper
                 $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
             } elseif (StringHelper::endsWith($attribute, '_micro_cent')) {
                 $row[$aliasProperty] /= 10000;
-            }  elseif (StringHelper::endsWith($attribute, '_cent')) {
+            } elseif (StringHelper::endsWith($attribute, '_cent')) {
                 $row[$aliasProperty] /= 100;
             } elseif (StringHelper::endsWith($attribute, '_g')
                 || StringHelper::endsWith($attribute, '_mm')
@@ -278,6 +287,7 @@ class ModelHelper
         $pks = $class::primaryKey();
         $pk = $pks[0];
         $row['id'] = $row[$pk];
+
         foreach ($unsetAttributes as $unsetAttribute) {
             unset($row[$unsetAttribute]);
         }
@@ -315,13 +325,12 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function formRules(
-        BaseActiveRecord $model,
-        array $rules,
-        array $removeKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'options', 'additional'],
-        array $skipBehaviors = []
-    ): array
+    public static function formRules(BaseActiveRecord $model, array $rules, array $removeKeySuffixes = [], array $skipBehaviors = []): array
     {
+        $defaultRemoveKeySuffixes = ['at', 'by', 'cent', 'g', 'mm', 'mm3', 'mm3', 'options', 'additional'];
+        $defaultRemoveKeySuffixes = array_combine($defaultRemoveKeySuffixes, $defaultRemoveKeySuffixes);
+
+        $removeKeySuffixes = array_filter(array_merge($defaultRemoveKeySuffixes, $removeKeySuffixes));
         $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);
         $removeRuleAttributes = [$removeRuleAttributes];
 
@@ -336,7 +345,7 @@ class ModelHelper
             if ($behavior instanceof AliasPropertyBehavior) {
                 $removeRuleAttributes[] = $behavior->aliasProperties;
                 foreach ($behavior->aliasDefaults as $aliasProperty => $defaultValue) {
-                    $aliasDefaultRules[$defaultValue ][] = $aliasProperty;
+                    $aliasDefaultRules[$defaultValue][] = $aliasProperty;
                 }
                 if ($behavior instanceof MoneyAliasBehavior || $behavior instanceof UnitAliasBehavior) {
                     $aliasNumberRules[] = array_keys($behavior->aliasProperties);

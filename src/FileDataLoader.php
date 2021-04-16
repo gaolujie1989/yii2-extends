@@ -81,8 +81,7 @@ class FileDataLoader extends ArrayDataLoader
             $files = glob($filePath);
             $loadedFiles[] = $files;
         }
-        $loadedFiles = array_unique(array_merge(...$loadedFiles));
-        return $loadedFiles;
+        return array_unique(array_merge(...$loadedFiles));
     }
 
     /**
@@ -97,7 +96,6 @@ class FileDataLoader extends ArrayDataLoader
             $fileData = $this->fileReader->read($loadedFile);
             $data[] = $fileData;
         }
-        $data = ArrayHelper::merge(...$data);
-        return $data;
+        return ArrayHelper::merge(...$data);
     }
 }

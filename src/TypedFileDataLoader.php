@@ -28,6 +28,7 @@ class TypedFileDataLoader extends FileDataLoader
      * @param int|string $key
      * @return array|mixed|null
      * @inheritdoc
+     * @throws \Exception
      */
     public function get($key)
     {
@@ -61,7 +62,6 @@ class TypedFileDataLoader extends FileDataLoader
             $fileName = pathinfo($loadedFile, PATHINFO_FILENAME);
             $data[] = [$fileName => $this->fileReader->read($loadedFile)];
         }
-        $data = ArrayHelper::merge(...$data);
-        return $data;
+        return ArrayHelper::merge(...$data);
     }
 }

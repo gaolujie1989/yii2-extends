@@ -5,8 +5,6 @@
 
 namespace lujie\extend\helpers;
 
-use lujie\extend\file\readers\ExcelReader;
-use lujie\extend\file\writers\ExcelWriter;
 use lujie\extend\file\writers\ZipWriter;
 
 /**
@@ -19,8 +17,6 @@ class ZipHelper
     /**
      * @param string $file
      * @param array $data
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @inheritdoc
      */
     public static function writeZip(string $file, array $data): void

@@ -52,30 +52,32 @@ class ValueHelper
         if (strtolower($condition) === 'empty') {
             return empty($value);
         }
-        $first = substr($condition, 0, 1);
-        if ($first === '!') {
-            $condition = substr($condition, 1);
-            return !self::isMatch($value, $condition, $strict);
-        }
-        if ($first === '>') {
-            $condition = substr($condition, 1);
-            return $value > $condition;
-        }
-        if ($first === '<') {
-            $condition = substr($condition, 1);
-            return $value < $condition;
-        }
-        $first = substr($condition, 0, 2);
-        if ($first === '>=') {
-            $condition = substr($condition, 2);
-            return $value >= $condition;
-        }
-        if ($first === '<=') {
-            $condition = substr($condition, 2);
-            return $value <= $condition;
-        }
-        if (strpos($condition, '*') !== false || strpos($condition, '?') !== false) {
-            return StringHelper::matchWildcard($condition, $value);
+        if (is_string($condition)) {
+            $first = $condition[0];
+            if ($first === '!') {
+                $condition = substr($condition, 1);
+                return !self::isMatch($value, $condition, $strict);
+            }
+            if ($first === '>') {
+                $condition = substr($condition, 1);
+                return $value > $condition;
+            }
+            if ($first === '<') {
+                $condition = substr($condition, 1);
+                return $value < $condition;
+            }
+            $first = substr($condition, 0, 2);
+            if ($first === '>=') {
+                $condition = substr($condition, 2);
+                return $value >= $condition;
+            }
+            if ($first === '<=') {
+                $condition = substr($condition, 2);
+                return $value <= $condition;
+            }
+            if (strpos($condition, '*') !== false || strpos($condition, '?') !== false) {
+                return StringHelper::matchWildcard($condition, $value);
+            }
         }
         return $strict ? $value === $condition : $value == $condition;
     }

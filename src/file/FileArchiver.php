@@ -33,13 +33,20 @@ class FileArchiver extends BaseObject
      * @var array
      */
     public $logPathPatterns = [
-        '@common/../*/runtime/logs/*.log.?'
+        'backend-' => '@backend/runtime/logs/*.log.?',
+        'console-' => '@console/runtime/logs/*.log.?',
+        'frontend-' => '@frontend/runtime/logs/*.log.?',
     ];
 
     /**
      * @var callable, return two names, zip file path and local file name in zip
      */
     public $namesCallback = 'logFileNames';
+
+    /**
+     * @var bool
+     */
+    public $removeArchived = true;
 
     /**
      * @return Filesystem|object
@@ -61,22 +68,29 @@ class FileArchiver extends BaseObject
         foreach ($files as $file) {
             if (is_callable($this->namesCallback)) {
                 [$zipFilePath, $localName] = call_user_func($this->namesCallback, $file);
-            } else if ($this->hasMethod($this->namesCallback)) {
+            } else if (is_string($this->namesCallback) && $this->hasMethod($this->namesCallback)) {
                 [$zipFilePath, $localName] = $this->{$this->namesCallback}($file);
             } else {
                 $pathInfo = pathinfo($file);
                 $localName = $pathInfo['basename'];
                 $zipFilePath = $pathInfo['dirname']  . '/' . $pathInfo['filename'] . '.zip';
             }
+            codecept_debug([$zipFilePath, $localName]);continue;
             Yii::info("Zip log file {$file} to {$zipFilePath}", __METHOD__);
             ZipHelper::writeZip($zipFilePath, [$localName => $file]);
-            unlink($file);
+            if ($this->removeArchived) {
+                unlink($file);
+            }
             $filesystem = $this->getFilesystem();
             if ($filesystem) {
                 $zipFileName = pathinfo($zipFilePath, PATHINFO_BASENAME);
                 $archivePath = $this->archivePath . $zipFileName;
                 Yii::info("Archive log file {$zipFileName} to fs:{$archivePath}", __METHOD__);
-                $filesystem->write($archivePath, file_get_contents($zipFilePath));
+                if ($filesystem->has($archivePath)) {
+                    $filesystem->put($archivePath, file_get_contents($zipFilePath));
+                } else {
+                    $filesystem->write($archivePath, file_get_contents($zipFilePath));
+                }
                 unlink($zipFilePath);
             }
         }
@@ -128,8 +142,13 @@ class FileArchiver extends BaseObject
             codecept_debug($file);
         }
         $pathInfo = pathinfo($file);
-        $newFileName = $pathInfo['filename'] . '-' . date('ymdHi', $startAt) . '.' . $pathInfo['extension'];
-        $zipFilePath = $pathInfo['dirname']  . '/' . $pathInfo['filename'] . '-' . date('ymdHi', $startAt) . '.zip';
-        return [$zipFilePath, $newFileName];
+        if (preg_match('/\/(\w+)\/runtime\//', $file, $matches)) {
+            $prefix = $matches[1] . '-';
+        } else {
+            $prefix = '';
+        }
+        $localFileName = $prefix . $pathInfo['filename'] . '-' . date('ymdHi', $startAt) . '.' . $pathInfo['extension'];
+        $zipFilePath = $pathInfo['dirname']  . '/' . $prefix . $pathInfo['filename'] . '-' . date('ymdHi', $startAt) . '.zip';
+        return [$zipFilePath, $localFileName];
     }
 }

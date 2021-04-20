@@ -36,11 +36,17 @@ use yii\db\ActiveQuery;
  * @property array|null $additional
  * @property int $owner_id
  *
- * @property string $error;
+ * @property float $price
+ * @property float $subtotal
+ * @property float $discount
+ * @property float $surcharge
+ * @property float $grand_total
+ * @property string $error
  */
 class ChargePrice extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
+    use ChargePriceTrait;
 
     public const STATUS_ESTIMATE = 0;
     public const STATUS_GENERATED = 10;
@@ -141,85 +147,5 @@ class ChargePrice extends \yii\db\ActiveRecord
     public static function find(): ActiveQuery
     {
         return new ChargePriceQuery(static::class);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function fields(): array
-    {
-        return array_merge(parent::fields(), [
-            'id' => 'id',
-            'price' => 'price',
-            'subtotal' => 'subtotal',
-            'discount' => 'discount',
-            'surcharge' => 'surcharge',
-            'grand_total' => 'grand_total',
-        ]);
-    }
-
-    /**
-     * @param bool $insert
-     * @return bool
-     * @inheritdoc
-     */
-    public function beforeSave($insert): bool
-    {
-        $this->calculateTotal();
-        $this->setChargePriceStatus();
-        return parent::beforeSave($insert);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function calculateTotal(): void
-    {
-        if (empty($this->discount_cent)) {
-            $this->discount_cent = 0;
-        }
-        if (empty($this->surcharge_cent)) {
-            $this->surcharge_cent = 0;
-        }
-        $this->subtotal_cent = $this->price_cent * $this->qty;
-        $this->grand_total_cent = $this->subtotal_cent - $this->discount_cent + $this->surcharge_cent;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setChargePriceStatus(): void
-    {
-        if (empty($this->price_table_id)) {
-            $this->status = self::STATUS_FAILED;
-            $this->price_table_id = 0;
-            $this->price_cent = 0;
-            $this->currency = '';
-        } elseif ($this->status === self::STATUS_FAILED) {
-            $this->status = self::STATUS_ESTIMATE;
-        }
-    }
-
-    /**
-     * @param int $priceCent
-     * @inheritdoc
-     */
-    public function setDiscountPriceCent($priceCent): void
-    {
-        if (is_numeric($priceCent)) {
-            $this->discount_cent = $priceCent * $this->qty;
-        }
-    }
-
-    /**
-     * @param int $percent
-     * @inheritdoc
-     */
-    public function setDiscountPercent($percent): void
-    {
-        if (is_numeric($percent)) {
-            $this->discount_cent = (int)round($this->price_cent * $this->qty * $percent / 100, 0, PHP_ROUND_HALF_DOWN);
-        }
     }
 }

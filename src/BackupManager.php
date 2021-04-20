@@ -91,9 +91,7 @@ class BackupManager extends Component
     {
         parent::init();
         foreach ($this->databases as $key => $config) {
-            if (is_string($config)) {
-                $this->databases[$key] = $this->getDatabaseConfig($config);
-            }
+            $this->databases[$key] = $this->getDatabaseConfig($config);
         }
         foreach ($this->storages as $key => $config) {
             if (is_string($config)) {
@@ -217,14 +215,17 @@ class BackupManager extends Component
      */
     protected function getDatabaseConfig($config): array
     {
-        if (is_array($config) && (isset($config['db']) || isset($config[0]))) {
-            $db = Instance::ensure($config['db'] ?? $config[0], Connection::class);
-            unset($config['db'], $config[0]);
-        } else {
+        if (is_string($config)) {
             /** @var Connection $db */
             $db = Instance::ensure($config, Connection::class);
             $config = [];
+        } else if (is_array($config) && (isset($config['db']) || isset($config[0]))) {
+            $db = Instance::ensure($config['db'] ?? $config[0], Connection::class);
+            unset($config['db'], $config[0]);
+        } else {
+            return $config;
         }
+
         $driverName = $db->getDriverName();
         if (!in_array($driverName, ['mysql', 'pgsql'], true)) {
             throw new InvalidArgumentException('Invalid db');

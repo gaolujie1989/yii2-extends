@@ -7,6 +7,7 @@ namespace lujie\backup\manager\tests;
 
 use lujie\backup\manager\BackupManager;
 use Yii;
+use yii\helpers\FileHelper;
 
 /**
  * Class BackupManagerTest
@@ -24,10 +25,11 @@ class BackupManagerTest extends \Codeception\Test\Unit
         return new BackupManager([
             'databases' => [
                 'db' => 'db',
-                'db2' => ['db', [
+                'db2' => [
+                    'db',
                     'singleTransaction' => false,
                     'ignoreTables' => ['data_record', 'data_record_data', 'data_source'],
-                ]],
+                ],
             ],
             'storages' => [
                 'local' => [
@@ -45,7 +47,7 @@ class BackupManagerTest extends \Codeception\Test\Unit
                     'compression' => 'gzip'
                 ],
                 'db2' => [
-                    'database' => 'db',
+                    'database' => 'db2',
                     'destinations' => [
                         'fs:backup/yii2ext/db2_{date}_{time}.sql',
                     ],

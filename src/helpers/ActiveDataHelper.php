@@ -6,6 +6,7 @@
 namespace lujie\extend\helpers;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ActiveDataHelper
@@ -25,14 +26,18 @@ class ActiveDataHelper
     {
         if (is_subclass_of($modelClass, ActiveRecord::class)) {
             $columns = $modelClass::getTableSchema()->columns;
-            return array_map(static function ($row) use ($columns) {
+            $closure = static function ($row) use ($columns) {
                 foreach ($row as $name => $value) {
                     if (isset($columns[$name])) {
                         $row[$name] = $columns[$name]->phpTypecast($value);
                     }
                 }
                 return $row;
-            }, $data);
+            };
+            if (ArrayHelper::isAssociative($data, false)) {
+                return $closure($data);
+            }
+            return array_map($closure, $data);
         }
         return $data;
     }

@@ -255,6 +255,7 @@ class ModelHelper
         $aliasProperties = array_merge($modelAliasProperties, $aliasProperties);
         $relations = array_merge($extraRelations, $relations);
 
+        $row = ActiveDataHelper::typecast($class, $row);
         foreach ($aliasProperties as $aliasProperty => $attribute) {
             $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
             if (StringHelper::endsWith($attribute, '_at')) {
@@ -286,7 +287,7 @@ class ModelHelper
             $relationClass = $relationConfig[0];
             $relationAlias = $relationConfig[1] ?? [];
             $relationRelations = $relationConfig[2] ?? [];
-            if (ArrayHelper::isAssociative($row[$relation])) { //mean is one relation, else is many relation
+            if (ArrayHelper::isAssociative($row[$relation], false)) { //mean is one relation, else is many relation
                 $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations);
             } else {
                 foreach ($row[$relation] as $index => $value) {

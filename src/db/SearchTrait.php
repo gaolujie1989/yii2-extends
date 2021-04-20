@@ -86,7 +86,7 @@ trait SearchTrait
      */
     public static function prepareArray(array $row): array
     {
-        self::prepareSearchArray($row);
+        return self::prepareSearchArray($row);
     }
 
     /**

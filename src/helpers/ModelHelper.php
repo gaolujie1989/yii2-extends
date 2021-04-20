@@ -245,6 +245,16 @@ class ModelHelper
         array $unsetAttributes = ['created_by', 'updated_by']
     ): array
     {
+        if (empty(Yii::$app->params['prepareArray'][$class])) {
+            $model = new $class();
+            $modelAliasProperties = static::aliasProperties($model);
+            $extraRelations = static::extraRelations($model);
+            Yii::$app->params['prepareArray'][$class] = [$modelAliasProperties, $extraRelations];
+        }
+        [$modelAliasProperties, $extraRelations] = Yii::$app->params['prepareArray'][$class];
+        $aliasProperties = array_merge($modelAliasProperties, $aliasProperties);
+        $relations = array_merge($extraRelations, $relations);
+
         foreach ($aliasProperties as $aliasProperty => $attribute) {
             $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
             if (StringHelper::endsWith($attribute, '_at')) {
@@ -292,25 +302,6 @@ class ModelHelper
             unset($row[$unsetAttribute]);
         }
         return $row;
-    }
-
-    /**
-     * @param array $row
-     * @param string $class
-     * @return array
-     * @throws \Exception
-     * @inheritdoc
-     */
-    public static function prepareSearchArray(array $row, string $class): array
-    {
-        if (empty(Yii::$app->params['prepareArray'][$class])) {
-            $model = new $class();
-            $aliasProperties = static::aliasProperties($model);
-            $extraRelations = static::extraRelations($model);
-            Yii::$app->params['prepareArray'][$class] = [$aliasProperties, $extraRelations];
-        }
-        [$aliasProperties, $relations] = Yii::$app->params['prepareArray'][$class];
-        return static::prepareArray($row, $class, $aliasProperties, $relations);
     }
 
     #endregion

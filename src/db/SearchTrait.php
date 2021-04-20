@@ -86,17 +86,19 @@ trait SearchTrait
      */
     public static function prepareArray(array $row): array
     {
-        return static::prepareSearchArray($row);
+        self::prepareSearchArray($row);
     }
 
     /**
-     * @param array $row
+     * @param $row
+     * @param array $aliasProperties
+     * @param array $relations
      * @return array
      * @throws \Exception
      * @inheritdoc
      */
-    protected static function prepareSearchArray(array $row): array
+    protected static function prepareSearchArray($row, array $aliasProperties = [], array $relations = []): array
     {
-        return ModelHelper::prepareSearchArray($row, static::class);
+        return ModelHelper::prepareArray($row, static::class, $aliasProperties, $relations);
     }
 }

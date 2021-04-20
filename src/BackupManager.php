@@ -210,52 +210,57 @@ class BackupManager extends Component
     }
 
     /**
-     * @param string|Connection|object $db
+     * @param string|array $config
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getDatabaseConfig($db): array
+    protected function getDatabaseConfig($config): array
     {
-        /** @var Connection $db */
-        $db = Instance::ensure($db, Connection::class);
+        if (is_array($config) && (isset($config['db']) || isset($config[0]))) {
+            $db = Instance::ensure($config['db'] ?? $config[0], Connection::class);
+            unset($config['db'], $config[0]);
+        } else {
+            /** @var Connection $db */
+            $db = Instance::ensure($config, Connection::class);
+            $config = [];
+        }
         $driverName = $db->getDriverName();
         if (!in_array($driverName, ['mysql', 'pgsql'], true)) {
             throw new InvalidArgumentException('Invalid db');
         }
 
-        $dbConfig = [];
         $dsn = substr($db->dsn, strpos($db->dsn, ':') + 1);
         $dsnParts = explode(';', $dsn);
         foreach ($dsnParts as $dsnPart) {
             [$k, $v] = explode('=', $dsnPart);
-            $dbConfig[$k] = $v;
+            $config[$k] = $v;
         }
 
         return [
             'type' => $driverName,
-            'host' => $dbConfig['host'],
-            'port' => $dbConfig['port'] ?? ($driverName === 'mysql' ? 3306 : 5432),
+            'host' => $config['host'],
+            'port' => $config['port'] ?? ($driverName === 'mysql' ? 3306 : 5432),
             'user' => $db->username,
             'pass' => $db->password,
-            'database' => $dbConfig['dbname'],
-            'singleTransaction' => true,
+            'database' => $config['dbname'],
+            'singleTransaction' => $config['singleTransaction'] ?? true,
             // ignore tables only support mysql
-            'ignoreTables' => null,
+            'ignoreTables' => $config['ignoreTables'] ?? null,
             // add additional options to dump-command (like '--max-allowed-packet')
-            'extraParams' => '',
+            'extraParams' => $config['extraParams'] ?? '',
         ];
     }
 
     /**
-     * @param string|Filesystem|object $filesystem
+     * @param string|array $config
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getStorageConfig($filesystem): array
+    protected function getStorageConfig($config): array
     {
-        $filesystem = Instance::ensure($filesystem, Filesystem::class);
+        $filesystem = Instance::ensure($config, Filesystem::class);
         if ($filesystem instanceof \creocoder\flysystem\LocalFilesystem) {
             return [
                 'type' => 'Local',

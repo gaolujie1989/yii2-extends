@@ -261,9 +261,9 @@ class ModelHelper
             if (StringHelper::endsWith($attribute, '_at')) {
                 $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
             } elseif (StringHelper::endsWith($attribute, '_micro_cent')) {
-                $row[$aliasProperty] /= 10000;
+                $row[$aliasProperty] = number_format($row[$aliasProperty] / 10000, 4, '.', '');
             } elseif (StringHelper::endsWith($attribute, '_cent')) {
-                $row[$aliasProperty] /= 100;
+                $row[$aliasProperty] = number_format($row[$aliasProperty] / 100, 2, '.', '');
             } elseif (StringHelper::endsWith($attribute, '_g')
                 || StringHelper::endsWith($attribute, '_mm')
                 || StringHelper::endsWith($attribute, '_mm2')

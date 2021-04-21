@@ -73,9 +73,8 @@ class ShippingTable extends \yii\db\ActiveRecord
             [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'height_mm_min_limit',
                 'l2wh_mm_limit', 'lwh_mm_limit', 'lh_mm_limit', 'volume_mm3_limit',
                 'price_cent', 'started_at', 'ended_at', 'owner_id'], 'integer'],
-            [['carrier'], 'string', 'max' => 10],
+            [['carrier', 'zone'], 'string', 'max' => 10],
             [['departure', 'destination'], 'string', 'max' => 2],
-            [['zone'], 'string', 'max' => 20],
             [['currency'], 'string', 'max' => 3],
         ];
     }

@@ -14,7 +14,7 @@ class m210421_131323_country_zone extends \yii\db\Migration
         $this->createTable($this->tableName, [
             'country_zone_id' => $this->bigPrimaryKey(),
             'carrier' => $this->string(10)->notNull()->defaultValue(''),
-            'zone' => $this->string(20)->notNull()->defaultValue(''),
+            'zone' => $this->string(10)->notNull()->defaultValue(''),
             'country' => $this->char(2)->notNull()->defaultValue(''),
             'postal_code_from' => $this->string(20)->notNull()->defaultValue(''),
             'postal_code_to' => $this->string(20)->notNull()->defaultValue(0),

@@ -43,8 +43,8 @@ class CountryZone extends \yii\db\ActiveRecord
             [['carrier', 'zone', 'country', 'postal_code_from'], 'default', 'value' => ''],
             [['postal_code_to', 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
             [['started_at', 'ended_at', 'owner_id'], 'integer'],
-            [['carrier'], 'string', 'max' => 10],
-            [['zone', 'postal_code_from', 'postal_code_to'], 'string', 'max' => 20],
+            [['carrier', 'zone'], 'string', 'max' => 10],
+            [['postal_code_from', 'postal_code_to'], 'string', 'max' => 20],
             [['country'], 'string', 'max' => 2],
         ];
     }

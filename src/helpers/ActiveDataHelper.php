@@ -28,7 +28,7 @@ class ActiveDataHelper
             $columns = $modelClass::getTableSchema()->columns;
             $closure = static function ($row) use ($columns) {
                 foreach ($row as $name => $value) {
-                    if (isset($columns[$name])) {
+                    if (isset($columns[$name]) && !is_array($value)) {
                         $row[$name] = $columns[$name]->phpTypecast($value);
                     }
                 }

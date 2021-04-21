@@ -17,10 +17,10 @@ use yii\db\Migration;
 trait DropTableTrait
 {
     /**
-     * @return bool|void
+     * @return bool
      * @inheritdoc
      */
-    public function safeDown(): void
+    public function safeDown()
     {
         if ($this->tableName) {
             /** @var Migration|DropTableTrait $this */

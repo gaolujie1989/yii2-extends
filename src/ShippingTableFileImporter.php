@@ -30,7 +30,9 @@ class ShippingTableFileImporter extends FileImporter
                 'class' => KeyMapTransformer::class,
                 'keyMap' => [
                     'Carrier' => 'carrier',
+                    'Departure' => 'departure',
                     'Destination' => 'destination',
+                    'Zone' => 'zone',
                     'WeightLimit(KG)' => 'weight_kg_limit',
                     'LengthLimit(CM)' => 'length_cm_limit',
                     'WidthLimit(CM)' => 'width_cm_limit',

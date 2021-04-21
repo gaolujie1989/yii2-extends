@@ -28,7 +28,7 @@ class ActiveDataHelper
             $columns = $modelClass::getTableSchema()->columns;
             $closure = static function ($row) use ($columns) {
                 foreach ($row as $name => $value) {
-                    if (isset($columns[$name]) && !is_string($value)) { //avoid phpTypecast twice cause error
+                    if (isset($columns[$name]) && is_string($value)) { //only string need phpTypecast, avoid phpTypecast twice cause error
                         $row[$name] = $columns[$name]->phpTypecast($value);
                     }
                 }

@@ -19,6 +19,7 @@ use Yii;
  * @property string $carrier
  * @property string $departure
  * @property string $destination
+ * @property string $zone
  * @property int $weight_g_limit
  * @property int $length_mm_limit
  * @property int $width_mm_limit
@@ -65,7 +66,7 @@ class ShippingTable extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['carrier', 'departure', 'destination', 'currency'], 'default', 'value' => ''],
+            [['carrier', 'departure', 'destination', 'zone', 'currency'], 'default', 'value' => ''],
             [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'height_mm_min_limit',
                 'l2wh_mm_limit', 'lwh_mm_limit', 'lh_mm_limit', 'volume_mm3_limit',
                 'price_cent', 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
@@ -74,6 +75,7 @@ class ShippingTable extends \yii\db\ActiveRecord
                 'price_cent', 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['carrier'], 'string', 'max' => 10],
             [['departure', 'destination'], 'string', 'max' => 2],
+            [['zone'], 'string', 'max' => 20],
             [['currency'], 'string', 'max' => 3],
         ];
     }
@@ -141,6 +143,7 @@ class ShippingTable extends \yii\db\ActiveRecord
             'carrier' => Yii::t('lujie/charging', 'Carrier'),
             'departure' => Yii::t('lujie/charging', 'Departure'),
             'destination' => Yii::t('lujie/charging', 'Destination'),
+            'zone' => Yii::t('lujie/charging', 'Zone'),
             'weight_g_limit' => Yii::t('lujie/charging', 'Weight G Limit'),
             'length_mm_limit' => Yii::t('lujie/charging', 'Length Mm Limit'),
             'width_mm_limit' => Yii::t('lujie/charging', 'Width Mm Limit'),

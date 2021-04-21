@@ -17,6 +17,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method ShippingTableQuery carrier($carrier);
  * @method ShippingTableQuery departure($departure);
  * @method ShippingTableQuery destination($destination);
+ * @method ShippingTableQuery zone($zone);
  *
  * @method ShippingTableQuery orderByPrice($order = SORT_ASC)
  *
@@ -41,8 +42,9 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
                     'shippingTableId' => 'shipping_table_id',
                     'ownerId' => 'owner_id',
                     'carrier' => 'carrier',
-                    'departure' => ['departure'],
-                    'destination' => ['destination'],
+                    'departure' => 'departure',
+                    'destination' => 'destination',
+                    'zone' => 'zone',
                 ],
                 'querySorts' => [
                     'orderByPrice' => ['price_cent']

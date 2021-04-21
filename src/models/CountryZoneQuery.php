@@ -3,6 +3,7 @@
 namespace lujie\charging\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use phpDocumentor\Reflection\Types\True_;
 
 /**
  * This is the ActiveQuery class for [[CountryZone]].
@@ -16,8 +17,6 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method CountryZoneQuery ownerId($ownerId)
  * @method CountryZoneQuery carrier($carrier)
  * @method CountryZoneQuery country($country)
- *
- * @method string|null|false getZone()
  *
  * @method array|CountryZone[] all($db = null)
  * @method array|CountryZone|null one($db = null)
@@ -43,9 +42,6 @@ class CountryZoneQuery extends \yii\db\ActiveQuery
                     'carrier' => 'carrier',
                     'country' => 'country',
                 ],
-                'queryReturn' => [
-                    'getZone' => ['zone', FieldQueryBehavior::RETURN_SCALAR]
-                ]
             ]
         ];
     }
@@ -68,5 +64,14 @@ class CountryZoneQuery extends \yii\db\ActiveQuery
     public function postalCode(string $postalCode): self
     {
         return $this->andWhere(['<=', 'postal_code_from', $postalCode])->andWhere(['>=', 'postal_code_to', $postalCode]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getZones(): array
+    {
+        return $this->addSelect(['zone'])->indexBy('carrier')->column();
     }
 }

@@ -11,7 +11,7 @@ class m210421_133618_shipping_table_add_zone extends \yii\db\Migration
 
     public function safeUp(): void
     {
-        $this->addColumn($this->tableName, 'zone', $this->integer()->notNull()->defaultValue(0)->after('country'));
+        $this->addColumn($this->tableName, 'zone', $this->integer()->notNull()->defaultValue(0)->after('destination'));
     }
 
     public function safeDown(): void

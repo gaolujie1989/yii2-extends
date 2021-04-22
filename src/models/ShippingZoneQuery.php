@@ -3,28 +3,29 @@
 namespace lujie\charging\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
-use phpDocumentor\Reflection\Types\True_;
 
 /**
- * This is the ActiveQuery class for [[CountryZone]].
+ * This is the ActiveQuery class for [[ShippingZone]].
  *
- * @method CountryZoneQuery id($id)
- * @method CountryZoneQuery orderById($sort = SORT_ASC)
+ * @method ShippingZoneQuery id($id)
+ * @method ShippingZoneQuery orderById($sort = SORT_ASC)
  * @method int getId()
  * @method array getIds()
  *
- * @method CountryZoneQuery countryZoneId($countryZoneId)
- * @method CountryZoneQuery ownerId($ownerId)
- * @method CountryZoneQuery carrier($carrier)
- * @method CountryZoneQuery country($country)
+ * @method ShippingZoneQuery shippingZoneId($shippingZoneId)
+ * @method ShippingZoneQuery ownerId($ownerId)
+ * @method ShippingTableQuery carrier($carrier);
+ * @method ShippingTableQuery departure($departure);
+ * @method ShippingTableQuery destination($destination);
+ * @method ShippingTableQuery zone($zone);
  *
- * @method array|CountryZone[] all($db = null)
- * @method array|CountryZone|null one($db = null)
- * @method array|CountryZone[] each($batchSize = 100, $db = null)
+ * @method array|ShippingZone[] all($db = null)
+ * @method array|ShippingZone|null one($db = null)
+ * @method array|ShippingZone[] each($batchSize = 100, $db = null)
  *
- * @see CountryZone
+ * @see ShippingZone
  */
-class CountryZoneQuery extends \yii\db\ActiveQuery
+class ShippingZoneQuery extends \yii\db\ActiveQuery
 {
 
     /**
@@ -37,11 +38,13 @@ class CountryZoneQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'countryZoneId' => 'country_zone_id',
+                    'shippingZoneId' => 'shipping_zone_id',
                     'ownerId' => 'owner_id',
                     'carrier' => 'carrier',
-                    'country' => 'country',
-                ],
+                    'departure' => 'departure',
+                    'destination' => 'destination',
+                    'zone' => 'zone',
+                ]
             ]
         ];
     }
@@ -70,8 +73,8 @@ class CountryZoneQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function getZones(): array
+    public function getCarrierZones(): array
     {
-        return $this->addSelect(['zone'])->indexBy('carrier')->column();
+        return $this->select(['zone'])->indexBy('carrier')->column();
     }
 }

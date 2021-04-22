@@ -6,6 +6,7 @@
 namespace lujie\charging;
 
 use lujie\charging\forms\ShippingTableForm;
+use lujie\charging\forms\ShippingZoneForm;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\transformers\ChainedTransformer;
@@ -13,11 +14,11 @@ use lujie\data\exchange\transformers\FilterTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
 
 /**
- * Class ShippingTableImporter
+ * Class ShippingZoneFileImporter
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingTableFileImporter extends FileImporter
+class ShippingZoneFileImporter extends FileImporter
 {
     /**
      * @var string[]
@@ -32,17 +33,8 @@ class ShippingTableFileImporter extends FileImporter
                     'Departure' => 'departure',
                     'Destination' => 'destination',
                     'Zone' => 'zone',
-                    'WeightLimit(KG)' => 'weight_kg_limit',
-                    'LengthLimit(CM)' => 'length_cm_limit',
-                    'WidthLimit(CM)' => 'width_cm_limit',
-                    'HeightLimit(CM)' => 'height_cm_limit',
-                    'HeightMinLimit(CM)' => 'height_cm_min_limit',
-                    'Volume(L)' => 'volume_l_limit',
-                    'L+2(W+H)Limit(CM)' => 'l2wh_cm_limit',
-                    '(L+W+H)Limit(CM)' => 'lwh_cm_limit',
-                    '(L+H)Limit(CM)' => 'lh_cm_limit',
-                    'Price' => 'price',
-                    'Currency' => 'currency',
+                    'PostalCodeFrom' => 'postal_code_from',
+                    'PostalCodeTo' => 'postal_code_to',
                 ]
             ],
             'filter' => [
@@ -57,7 +49,7 @@ class ShippingTableFileImporter extends FileImporter
      */
     public $pipeline = [
         'class' => ActiveRecordPipeline::class,
-        'modelClass' => ShippingTableForm::class,
+        'modelClass' => ShippingZoneForm::class,
         'runValidation' => true,
     ];
 }

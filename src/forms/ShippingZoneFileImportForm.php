@@ -7,16 +7,17 @@ namespace lujie\charging\forms;
 
 use lujie\charging\ChargeTableFileImporter;
 use lujie\charging\ShippingTableFileImporter;
+use lujie\charging\ShippingZoneFileImporter;
 use lujie\data\exchange\forms\FileImportForm;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 
 /**
- * Class ShippingTableImportForm
+ * Class ShippingZoneFileImportForm
  * @package lujie\charging\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingTableFileImportForm extends FileImportForm
+class ShippingZoneFileImportForm extends FileImportForm
 {
     public $ownerId;
 
@@ -27,9 +28,9 @@ class ShippingTableFileImportForm extends FileImportForm
     public $departure = 'DE';
 
     /**
-     * @var ShippingTableFileImporter
+     * @var ShippingZoneFileImporter
      */
-    public $fileImporter = ShippingTableFileImporter::class;
+    public $fileImporter = ShippingZoneFileImporter::class;
 
     /**
      * @return array

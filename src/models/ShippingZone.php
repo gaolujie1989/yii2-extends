@@ -10,19 +10,20 @@ use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
- * This is the model class for table "{{%country_zone}}".
+ * This is the model class for table "{{%shipping_zone}}".
  *
- * @property int $country_zone_id
+ * @property int $shipping_zone_id
  * @property string $carrier
+ * @property string $departure
+ * @property string $destination
  * @property string $zone
- * @property string $country
  * @property string $postal_code_from
  * @property string $postal_code_to
  * @property int $started_at
  * @property int $ended_at
  * @property int $owner_id
  */
-class CountryZone extends \yii\db\ActiveRecord
+class ShippingZone extends \yii\db\ActiveRecord
 {
     use TraceableBehaviorTrait, IdFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 
@@ -31,7 +32,7 @@ class CountryZone extends \yii\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%country_zone}}';
+        return '{{%shipping_zone}}';
     }
 
     /**
@@ -40,12 +41,12 @@ class CountryZone extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['carrier', 'zone', 'country', 'postal_code_from'], 'default', 'value' => ''],
+            [['carrier', 'departure', 'destination', 'zone', 'postal_code_from'], 'default', 'value' => ''],
             [['postal_code_to', 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
             [['started_at', 'ended_at', 'owner_id'], 'integer'],
             [['carrier', 'zone'], 'string', 'max' => 10],
+            [['departure', 'destination'], 'string', 'max' => 2],
             [['postal_code_from', 'postal_code_to'], 'string', 'max' => 20],
-            [['country'], 'string', 'max' => 2],
         ];
     }
 
@@ -55,10 +56,11 @@ class CountryZone extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'country_zone_id' => Yii::t('lujie/charging', 'Country Zone ID'),
+            'shipping_zone_id' => Yii::t('lujie/charging', 'Shipping Zone ID'),
             'carrier' => Yii::t('lujie/charging', 'Carrier'),
+            'departure' => Yii::t('lujie/charging', 'Departure'),
+            'destination' => Yii::t('lujie/charging', 'Destination'),
             'zone' => Yii::t('lujie/charging', 'Zone'),
-            'country' => Yii::t('lujie/charging', 'Country'),
             'postal_code_from' => Yii::t('lujie/charging', 'Postal Code From'),
             'postal_code_to' => Yii::t('lujie/charging', 'Postal Code To'),
             'started_at' => Yii::t('lujie/charging', 'Started At'),
@@ -69,10 +71,10 @@ class CountryZone extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return CountryZoneQuery the active query used by this AR class.
+     * @return ShippingZoneQuery the active query used by this AR class.
      */
-    public static function find(): CountryZoneQuery
+    public static function find(): ShippingZoneQuery
     {
-        return new CountryZoneQuery(static::class);
+        return new ShippingZoneQuery(static::class);
     }
 }

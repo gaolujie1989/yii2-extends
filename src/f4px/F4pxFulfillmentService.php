@@ -182,6 +182,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'F431' => 'ASM-24',
         'F474' => 'UPS',
         'F475' => 'UPS-FBA',
+        'F532' => 'DHL',
     ];
 
     /**

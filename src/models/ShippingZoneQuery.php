@@ -14,10 +14,10 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method ShippingZoneQuery shippingZoneId($shippingZoneId)
  * @method ShippingZoneQuery ownerId($ownerId)
- * @method ShippingTableQuery carrier($carrier);
- * @method ShippingTableQuery departure($departure);
- * @method ShippingTableQuery destination($destination);
- * @method ShippingTableQuery zone($zone);
+ * @method ShippingZoneQuery carrier($carrier);
+ * @method ShippingZoneQuery departure($departure);
+ * @method ShippingZoneQuery destination($destination);
+ * @method ShippingZoneQuery zone($zone);
  *
  * @method array|ShippingZone[] all($db = null)
  * @method array|ShippingZone|null one($db = null)

@@ -81,6 +81,20 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getShippingPrices(): array
+    {
+        return $this->select(['price_cent'])
+            ->orderByPrice(SORT_DESC)
+            ->indexBy('carrier')
+            ->column();
+    }
+
+    #region Limit Condition
+
+    /**
      * @param int $lengthMM
      * @param int $widthMM
      * @param int $heightMM
@@ -222,4 +236,6 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     {
         return $this->minLimitCondition('height_mm_min_limit', $heightMM);
     }
+
+    #endregion
 }

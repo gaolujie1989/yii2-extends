@@ -64,6 +64,23 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param array $carrierZones
+     * @return $this
+     * @inheritdoc
+     */
+    public function carrierZones(array $carrierZones): self
+    {
+        if (empty($carrierZones)) {
+            return $this->andWhere('1=2');
+        }
+        $condition = ['OR'];
+        foreach ($carrierZones as $carrier => $zone) {
+            $condition[] = ['carrier' => $carrier, 'zone' => $zone];
+        }
+        return $this->andWhere($condition);
+    }
+
+    /**
      * @param int $lengthMM
      * @param int $widthMM
      * @param int $heightMM

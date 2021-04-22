@@ -70,11 +70,19 @@ class ShippingZoneQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param false $fillEmpty
      * @return array
      * @inheritdoc
      */
-    public function getCarrierZones(): array
+    public function getCarrierZones(array $carriers = [], bool $keepEmpty = false): array
     {
-        return $this->select(['zone'])->indexBy('carrier')->column();
+        $carrierZones = $this->andFilterWhere(['carrier' => $carriers])
+            ->select(['zone'])
+            ->indexBy('carrier')
+            ->column();
+        if ($carriers && $keepEmpty) {
+            $carrierZones = array_merge(array_fill_keys($carriers, ''), $carrierZones);
+        }
+        return $carrierZones;
     }
 }

@@ -74,7 +74,7 @@ class ShippingZoneQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function getCarrierZones(array $carriers = [], bool $keepEmpty = false): array
+    public function getCarrierZones(array $carriers = [], bool $keepEmpty = true): array
     {
         $carrierZones = $this->andFilterWhere(['carrier' => $carriers])
             ->select(['zone'])

@@ -54,6 +54,8 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
         }
         if (is_numeric($value)) {
             $value = round($value * 10 ** $this->decimalLength);
+        } else {
+            $value = 0;
         }
         parent::setAliasProperty($name, $value);
     }

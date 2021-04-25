@@ -343,6 +343,7 @@ class ModelHelper
                 }
                 if ($behavior instanceof MoneyAliasBehavior || $behavior instanceof UnitAliasBehavior) {
                     $aliasNumberRules[] = array_keys($behavior->aliasProperties);
+                    $aliasDefaultRules[0] = array_merge($aliasDefaultRules[0] ?? [], array_keys($behavior->aliasProperties));
                 } elseif ($behavior instanceof TimestampAliasBehavior) {
                     $aliasDatetimeRules[] = array_keys($behavior->aliasProperties);
                 } else {

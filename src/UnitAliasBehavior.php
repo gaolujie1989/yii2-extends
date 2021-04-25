@@ -151,6 +151,8 @@ class UnitAliasBehavior extends AliasPropertyBehavior
         }
         if (is_numeric($value)) {
             $value = static::convert($value, $this->displayUnit, $this->baseUnit);
+        } else {
+            $value = 0;
         }
         parent::setAliasProperty($name, $value);
     }

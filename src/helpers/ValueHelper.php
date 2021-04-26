@@ -104,6 +104,9 @@ class ValueHelper
                 }
                 return !$opResult;
             }
+            if ($op === 'NOT' && isset($condition[1])) {
+                return !static::match($data, $condition[1]);
+            }
         }
         foreach ($condition as $key => $item) {
             $value = ArrayHelper::getValue($data, $key);

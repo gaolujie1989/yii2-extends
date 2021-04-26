@@ -35,7 +35,7 @@ class AliasPropertyBehavior extends Behavior
     /**
      * @var mixed
      */
-    public $aliasDefaultValue;
+    public $aliasDefaultValue = '';
 
     #region overwrite for magic get/set
 

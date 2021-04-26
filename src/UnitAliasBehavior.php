@@ -5,6 +5,7 @@
 
 namespace lujie\alias\behaviors;
 
+use Yii;
 use yii\base\InvalidValueException;
 
 /**
@@ -31,6 +32,11 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     public const UNIT_VOLUME_CM = 'cm3';
     public const UNIT_VOLUME_DM = 'dm3';
     public const UNIT_VOLUME_M = 'm3';
+
+    /**
+     * @var int
+     */
+    public $aliasDefaultValue = 0;
 
     /**
      * @var array
@@ -152,7 +158,10 @@ class UnitAliasBehavior extends AliasPropertyBehavior
         if (is_numeric($value)) {
             $value = static::convert($value, $this->displayUnit, $this->baseUnit);
         } else {
-            $value = 0;
+            if ($value) {
+                Yii::warning("Unit value {$value} is not a number, set with default", __METHOD__);
+            }
+            $value = $this->aliasDefaultValue;
         }
         parent::setAliasProperty($name, $value);
     }

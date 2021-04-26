@@ -5,6 +5,7 @@
 
 namespace lujie\alias\behaviors;
 
+use Yii;
 use yii\base\InvalidConfigException;
 
 /**
@@ -14,6 +15,14 @@ use yii\base\InvalidConfigException;
  */
 class MoneyAliasBehavior extends AliasPropertyBehavior
 {
+    /**
+     * @var int
+     */
+    public $aliasDefaultValue = 0;
+
+    /**
+     * @var int
+     */
     public $decimalLength = 2;
 
     /**
@@ -55,7 +64,10 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
         if (is_numeric($value)) {
             $value = round($value * 10 ** $this->decimalLength);
         } else {
-            $value = 0;
+            if ($value) {
+                Yii::warning("Money value {$value} is not a number, set with default", __METHOD__);
+            }
+            $value = $this->aliasDefaultValue;
         }
         parent::setAliasProperty($name, $value);
     }

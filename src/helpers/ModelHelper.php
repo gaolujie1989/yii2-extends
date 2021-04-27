@@ -419,11 +419,15 @@ class ModelHelper
         $relations = $model->extraFields();
         foreach ($relations as $key => $relation) {
             $getRelation = 'get' . ucfirst($relation);
-            $relationQuery = $model->{$getRelation}();
-            if ($relationQuery instanceof ActiveQuery) {
-                $relations[$key] = $relationQuery->modelClass;
-            } else {
+            if ($model->hasMethod($getRelation)) {
                 unset($relations[$key]);
+            } else {
+                $relationQuery = $model->{$getRelation}();
+                if ($relationQuery instanceof ActiveQuery) {
+                    $relations[$key] = $relationQuery->modelClass;
+                } else {
+                    unset($relations[$key]);
+                }
             }
         }
         return $relations;

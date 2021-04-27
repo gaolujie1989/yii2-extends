@@ -32,9 +32,9 @@ class FileArchiver extends BaseObject
      * @var array
      */
     public $logPathPatterns = [
-        'backend-' => '@backend/runtime/logs/*.log.?',
-        'console-' => '@console/runtime/logs/*.log.?',
-        'frontend-' => '@frontend/runtime/logs/*.log.?',
+        '@backend/runtime/logs/*.log.?',
+        '@console/runtime/logs/*.log.?',
+        '@frontend/runtime/logs/*.log.?',
     ];
 
     /**

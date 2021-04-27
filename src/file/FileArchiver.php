@@ -6,6 +6,7 @@
 namespace lujie\extend\file;
 
 use creocoder\flysystem\Filesystem;
+use lujie\executing\ExecutableInterface;
 use lujie\extend\helpers\ZipHelper;
 use Yii;
 use yii\base\BaseObject;
@@ -75,7 +76,6 @@ class FileArchiver extends BaseObject
                 $localName = $pathInfo['basename'];
                 $zipFilePath = $pathInfo['dirname']  . '/' . $pathInfo['filename'] . '.zip';
             }
-            codecept_debug([$zipFilePath, $localName]);continue;
             Yii::info("Zip log file {$file} to {$zipFilePath}", __METHOD__);
             ZipHelper::writeZip($zipFilePath, [$localName => $file]);
             if ($this->removeArchived) {
@@ -139,7 +139,6 @@ class FileArchiver extends BaseObject
         }
         while (is_numeric(substr($file, -1))) {
             $file = substr($file, 0, strrpos($file, '.'));
-            codecept_debug($file);
         }
         $pathInfo = pathinfo($file);
         if (preg_match('/\/(\w+)\/runtime\//', $file, $matches)) {

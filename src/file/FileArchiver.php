@@ -65,6 +65,10 @@ class FileArchiver extends BaseObject
     {
         $files = $this->findFiles();
         foreach ($files as $file) {
+            if (!filesize($file)) {
+                unlink($file);
+                continue;
+            }
             if (is_callable($this->namesCallback)) {
                 [$zipFilePath, $localName] = call_user_func($this->namesCallback, $file);
             } else if (is_string($this->namesCallback) && $this->hasMethod($this->namesCallback)) {

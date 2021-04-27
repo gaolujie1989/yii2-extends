@@ -6,12 +6,10 @@
 namespace lujie\extend\file;
 
 use creocoder\flysystem\Filesystem;
-use lujie\executing\ExecutableInterface;
 use lujie\extend\helpers\ZipHelper;
 use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
-use function PHPUnit\Framework\containsOnlyInstancesOf;
 
 /**
  * Class FileLogArchiver

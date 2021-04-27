@@ -43,6 +43,11 @@ class FileArchiver extends BaseObject
     public $namesCallback = 'logFileNames';
 
     /**
+     * @var string
+     */
+    public $logFileTemplate = '{app}-{filename}-{startTime}.{ext}';
+
+    /**
      * @var bool
      */
     public $removeArchived = true;
@@ -144,12 +149,19 @@ class FileArchiver extends BaseObject
         }
         $pathInfo = pathinfo($file);
         if (preg_match('/\/(\w+)\/runtime\//', $file, $matches)) {
-            $prefix = $matches[1] . '-';
+            $app = $matches[1];
         } else {
-            $prefix = '';
+            $app = '';
         }
-        $localFileName = $prefix . $pathInfo['filename'] . '-' . date('ymdHi', $startAt) . '.' . $pathInfo['extension'];
-        $zipFilePath = $pathInfo['dirname']  . '/' . $prefix . $pathInfo['filename'] . '-' . date('ymdHi', $startAt) . '.zip';
+        $data = [
+            '{app}' => $app,
+            '{filename}' => $pathInfo['filename'],
+            '{ext}' => $pathInfo['extension'],
+            '{startTime}' => date('ymdHis', $startAt),
+        ];
+        $localFileName = strtr($this->logFileTemplate, $data);
+        $data['{ext}'] = 'zip';
+        $zipFilePath = $pathInfo['dirname']  . '/' . strtr($this->logFileTemplate, $data);
         return [$zipFilePath, $localFileName];
     }
 }

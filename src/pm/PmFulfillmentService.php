@@ -171,6 +171,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     public $referrerId = 10;
 
     public $orderProcessingStatus = 5;
+    public $orderProcessingWarehouseId = 0;
     public $orderCancelledStatus = 8;
     public $orderCancelledWarehouseId = 0;
     public $orderErrorStatus = 5.33;
@@ -667,16 +668,20 @@ class PmFulfillmentService extends BaseFulfillmentService
      */
     public function shipFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
     {
-        if (empty($fulfillmentOrder->external_order_key)) {
+        $pmOrderId = $fulfillmentOrder->external_order_key;
+        if (empty($pmOrderId)) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
         }
-        if (empty($fulfillmentOrder->external_order_key)) {
+        if (empty($pmOrderId)) {
             return false;
         }
-        $pmOrder = $this->client->getOrder(['id' => $fulfillmentOrder->external_order_key]);
+        $pmOrder = $this->client->getOrder(['id' => $pmOrderId]);
         if ($this->isOrderAllowShipping($pmOrder)) {
             $this->pushFulfillmentOrder($fulfillmentOrder);
-            $pmOrder = $this->client->updateOrder(['id' => $fulfillmentOrder->external_order_key, 'statusId' => $this->orderProcessingStatus]);
+            $pmOrder = $this->client->updateOrder(['id' => $pmOrderId, 'statusId' => $this->orderProcessingStatus]);
+            if ($pmOrder['statusId'] === $this->orderProcessingStatus && $this->orderProcessingWarehouseId) {
+                $this->client->updateOrderWarehouse($pmOrderId, $this->orderCancelledWarehouseId, false);
+            }
         }
         $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);
         return $pmOrder['statusId'] === $this->orderProcessingStatus;

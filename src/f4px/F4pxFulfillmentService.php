@@ -333,7 +333,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'company' => $address->companyName,
                 'last_name' => $address->lastName,
                 'first_name' => $address->firstName,
-                'phone' => $address->phone,
+                'phone' => $address->phone ?: '000-0000-0000',
                 'email' => $address->email,
             ],
             'oconsignment_sku' => $orderItems,

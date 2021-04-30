@@ -321,7 +321,6 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'ref_no' => 'FO-' . $fulfillmentOrder->fulfillment_order_id,
             'from_warehouse_code' => $fulfillmentOrder->external_warehouse_key,
             'sales_no' => $order->orderNo,
-            'remark' => $address->additional,
             'oconsignment_desc' => [
                 'country' => $address->country,
                 'state' => $address->state,
@@ -329,7 +328,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'district' => '',
                 'post_code' => $address->postalCode,
                 'street' => $address->street ?: $address->companyName,
-                'house_number' => $address->houseNo,
+                'house_number' => $address->houseNo . (trim($address->additional) ? ' ' . $address->additional : ''),
                 'company' => $address->companyName,
                 'last_name' => $address->lastName,
                 'first_name' => $address->firstName,

@@ -32,7 +32,7 @@ class ShippingItem extends BaseObject
     /**
      * @var string
      */
-    public $zone = '';
+    public $postalCode;
 
     /**
      * @var int

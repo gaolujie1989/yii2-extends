@@ -8,6 +8,7 @@ namespace lujie\charging\calculators;
 use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
+use lujie\charging\models\ShippingZone;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\TemplateHelper;
 use yii\base\BaseObject;
@@ -93,7 +94,6 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             ->activeAt($shippingItem->shippedAt ?: time())
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)
-            ->zone($shippingItem->zone)
             ->weightGLimit($shippingItem->weightG)
             ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
             ->orderByPrice(SORT_ASC);
@@ -108,13 +108,32 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             $ownerIds[] = $this->defaultOwnerId;
         }
         foreach ($ownerIds as $ownerId) {
+            $shippingZones = $this->getShippingZone($shippingItem, $carriers, $ownerId);
             foreach ($carriers as $carrier) {
-                $shippingTable = (clone $query)->carrier($carrier)->ownerId($ownerId)->one();
+                $shippingZone = $shippingZones[$carrier] ?? '';
+                $shippingTable = (clone $query)->carrier($carrier)->ownerId($ownerId)->zone($shippingZone)->one();
                 if ($shippingTable !== null) {
                     return $shippingTable;
                 }
             }
         }
         return null;
+    }
+
+    /**
+     * @param ShippingItem $shippingItem
+     * @param array $carriers
+     * @param int $ownerId
+     * @return array
+     * @inheritdoc
+     */
+    protected function getShippingZone(ShippingItem $shippingItem, array $carriers = [], $ownerId = 0): array
+    {
+        return ShippingZone::find()
+            ->ownerId($ownerId)
+            ->departure($shippingItem->departure)
+            ->destination($shippingItem->destination)
+            ->postalCode($shippingItem->postalCode)
+            ->getCarrierZones($carriers);
     }
 }

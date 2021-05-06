@@ -30,6 +30,11 @@ class ShippingItem extends BaseObject
     public $destination;
 
     /**
+     * @var string
+     */
+    public $zone = '';
+
+    /**
      * @var int
      */
     public $shippedAt = 0;

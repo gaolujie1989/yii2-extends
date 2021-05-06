@@ -90,6 +90,17 @@ trait SearchTrait
     }
 
     /**
+     * @param array $row
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function prepareRows(array $rows): array
+    {
+        return array_map([static::class, 'prepareArray'], $rows);
+    }
+
+    /**
      * @param $row
      * @param array $aliasProperties
      * @param array $relations

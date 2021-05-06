@@ -5,7 +5,7 @@
 
 namespace lujie\charging;
 
-use lujie\charging\transformers\ShippingTableImportTransformer;
+use lujie\charging\models\ShippingTable;
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
@@ -23,6 +23,7 @@ class ShippingTableFileExporter extends FileExporter
     public $transformer = [
         'class' => ChainedTransformer::class,
         'transformers' => [
+            'prepareRows' => [ShippingTable::class, 'prepareRows'],
             'keyMap' => [
                 'class' => KeyMapTransformer::class,
                 'unsetNotInMapKey' => true,

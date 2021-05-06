@@ -5,6 +5,7 @@
 
 namespace lujie\charging;
 
+use lujie\charging\searches\ChargeTableSearch;
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
@@ -22,6 +23,7 @@ class ChargeTableFileExporter extends FileExporter
     public $transformer = [
         'class' => ChainedTransformer::class,
         'transformers' => [
+            'prepareRows' => [ChargeTableSearch::class, 'prepareRows'],
             'keyMap' => [
                 'class' => KeyMapTransformer::class,
                 'unsetNotInMapKey' => true,

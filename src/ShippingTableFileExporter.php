@@ -29,7 +29,9 @@ class ShippingTableFileExporter extends FileExporter
                 'unsetNotInMapKey' => true,
                 'keyMap' => [
                     'carrier' => 'Carrier',
-                    'destination' => 'Destination',
+                    'Departure' => 'departure',
+                    'Destination' => 'destination',
+                    'Zone' => 'zone',
                     'weight_kg_limit' => 'WeightLimit(KG)',
                     'length_cm_limit' => 'LengthLimit(CM)',
                     'width_cm_limit' => 'WidthLimit(CM)',

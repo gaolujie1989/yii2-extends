@@ -77,7 +77,7 @@ class ShippingTableSearch extends ShippingTable
             $row[$to] = UnitAliasBehavior::convert($row[$from], 'mm', 'cm');
         }
         $row['weight_kg_limit'] = UnitAliasBehavior::convert($row['weight_g_limit'], 'g', 'kg');
-        $row['volume_l_limit'] = UnitAliasBehavior::convert($row['volume_mm3_limit'], 'mm3', 'l');
+        $row['volume_l_limit'] = UnitAliasBehavior::convert($row['volume_mm3_limit'], 'mm3', 'dm3');
         return $row;
     }
 }

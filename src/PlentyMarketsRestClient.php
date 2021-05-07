@@ -868,7 +868,7 @@ class PlentyMarketsRestClient extends OAuth2
      * @param array $packageNumbers
      * @inheritdoc
      */
-    public function updateOrderShippingNumbers(int $orderId, array $packageNumbers)
+    public function updateOrderShippingNumbers(int $orderId, array $packageNumbers): void
     {
         $batchRequest = $this->createBatchRequest();
         $orderShippingPackages = $this->eachOrderShippingPackages(['orderId' => $orderId]);
@@ -897,5 +897,5 @@ class PlentyMarketsRestClient extends OAuth2
         $batchRequest->send();
     }
 
-    #region
+    #endregion
 }

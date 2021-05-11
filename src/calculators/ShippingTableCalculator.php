@@ -91,11 +91,12 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     protected function getShippingTablePrice(ShippingItem $shippingItem): ?ShippingTable
     {
         $query = ShippingTable::find()
-            ->activeAt($shippingItem->shippedAt ?: time())
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)
+            ->activeAt($shippingItem->shippedAt ?: time())
             ->weightGLimit($shippingItem->weightG)
             ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
+            ->warehouseId($shippingItem->warehouseId)
             ->orderByPrice(SORT_ASC);
         $shippingOwnerId = $shippingItem->additional['ownerId'] ?? $shippingItem->additional['owner_id'] ?? 0;
 

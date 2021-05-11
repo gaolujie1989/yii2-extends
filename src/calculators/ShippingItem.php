@@ -14,6 +14,8 @@ use yii\base\BaseObject;
  */
 class ShippingItem extends BaseObject
 {
+    public $warehouseId = 0;
+
     /**
      * @var string
      */

@@ -16,6 +16,7 @@ use Yii;
  * This is the model class for table "{{%shipping_table}}".
  *
  * @property int $shipping_table_id
+ * @property int $warehouse_id
  * @property string $carrier
  * @property string $departure
  * @property string $destination
@@ -67,10 +68,10 @@ class ShippingTable extends \yii\db\ActiveRecord
     {
         return [
             [['carrier', 'departure', 'destination', 'zone', 'currency'], 'default', 'value' => ''],
-            [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'height_mm_min_limit',
+            [['warehouse_id', 'weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'height_mm_min_limit',
                 'l2wh_mm_limit', 'lwh_mm_limit', 'lh_mm_limit', 'volume_mm3_limit',
                 'price_cent', 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
-            [['weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'height_mm_min_limit',
+            [['warehouse_id', 'weight_g_limit', 'length_mm_limit', 'width_mm_limit', 'height_mm_limit', 'height_mm_min_limit',
                 'l2wh_mm_limit', 'lwh_mm_limit', 'lh_mm_limit', 'volume_mm3_limit',
                 'price_cent', 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['carrier', 'zone'], 'string', 'max' => 10],
@@ -139,6 +140,7 @@ class ShippingTable extends \yii\db\ActiveRecord
     {
         return [
             'shipping_table_id' => Yii::t('lujie/charging', 'Shipping Table ID'),
+            'warehouse_id' => Yii::t('lujie/charging', 'Warehouse ID'),
             'carrier' => Yii::t('lujie/charging', 'Carrier'),
             'departure' => Yii::t('lujie/charging', 'Departure'),
             'destination' => Yii::t('lujie/charging', 'Destination'),

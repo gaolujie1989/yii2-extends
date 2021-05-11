@@ -13,6 +13,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method array getIds()
  *
  * @method ShippingTableQuery shippingTableId($shippingTableId)
+ * @method ShippingTableQuery warehouseId($warehouseId)
  * @method ShippingTableQuery ownerId($ownerId)
  * @method ShippingTableQuery carrier($carrier);
  * @method ShippingTableQuery departure($departure);
@@ -40,6 +41,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'shippingTableId' => 'shipping_table_id',
+                    'warehouseId' => 'warehouse_id',
                     'ownerId' => 'owner_id',
                     'carrier' => 'carrier',
                     'departure' => 'departure',

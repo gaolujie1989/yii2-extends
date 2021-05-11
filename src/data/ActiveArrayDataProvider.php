@@ -27,6 +27,11 @@ class ActiveArrayDataProvider extends ActiveDataProvider
     public $prepareArrayMethod = 'prepareArray';
 
     /**
+     * @var string
+     */
+    public $prepareRowsMethod = 'prepareRows';
+
+    /**
      * @var bool
      */
     public $typecast = false;
@@ -47,7 +52,11 @@ class ActiveArrayDataProvider extends ActiveDataProvider
             $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
         }
         if ($isPrepareArray) {
-            $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
+            if (method_exists($this->query->modelClass, $this->prepareRowsMethod)) {
+                $models = call_user_func([$this->query->modelClass, $this->prepareRowsMethod], $models);
+            } else if (method_exists($this->query->modelClass, $this->prepareArrayMethod)) {
+                $models = array_map([$this->query->modelClass, $this->prepareArrayMethod], $models);
+            }
         }
         return $models;
     }
@@ -71,6 +80,7 @@ class ActiveArrayDataProvider extends ActiveDataProvider
      */
     public function isPrepareArray(): bool
     {
-        return $this->query instanceof ActiveQueryInterface && method_exists($this->query->modelClass, $this->prepareArrayMethod);
+        return $this->query instanceof ActiveQueryInterface
+            && (method_exists($this->query->modelClass, $this->prepareArrayMethod) || method_exists($this->query->modelClass, $this->prepareRowsMethod));
     }
 }

@@ -6,6 +6,7 @@
 namespace lujie\common\account\forms;
 
 use lujie\common\account\models\Account;
+use lujie\extend\db\FormTrait;
 
 /**
  * Class AccountForm
@@ -14,27 +15,7 @@ use lujie\common\account\models\Account;
  */
 class AccountForm extends Account
 {
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        return [
-            [['url', 'username', 'password'], 'default', 'value' => ''],
-            [['options', 'additional'], 'default', 'value' => []],
-            [['status'], 'default', 'value' => 0],
-            [['options', 'additional'], 'safe'],
-            [['status'], 'integer'],
-            [['type'], 'string', 'max' => 50, 'when' => function () {
-                return $this->getIsNewRecord();
-            }],
-            [['name'], 'string', 'max' => 100],
-            [['url', 'username', 'password'], 'string', 'max' => 255],
-            [['name'], 'unique', 'targetAttribute' => ['name']],
-            [['type', 'username'], 'unique', 'targetAttribute' => ['type', 'username']],
-        ];
-    }
+    use FormTrait;
 
     /**
      * @return bool

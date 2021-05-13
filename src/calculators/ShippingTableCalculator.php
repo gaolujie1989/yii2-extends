@@ -8,6 +8,7 @@ namespace lujie\charging\calculators;
 use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
+use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\TemplateHelper;
@@ -90,14 +91,8 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
      */
     protected function getShippingTablePrice(ShippingItem $shippingItem): ?ShippingTable
     {
-        $query = ShippingTable::find()
-            ->departure($shippingItem->departure)
-            ->destination($shippingItem->destination)
-            ->activeAt($shippingItem->shippedAt ?: time())
-            ->weightGLimit($shippingItem->weightG)
-            ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
-            ->warehouseId($shippingItem->warehouseId)
-            ->orderByPrice(SORT_ASC);
+        $query = $this->getShippingTableQuery($shippingItem);
+        $query->orderByPrice(SORT_ASC);
         $shippingOwnerId = $shippingItem->additional['ownerId'] ?? $shippingItem->additional['owner_id'] ?? 0;
 
         $carriers = [$shippingItem->carrier];
@@ -109,9 +104,9 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             $ownerIds[] = $this->defaultOwnerId;
         }
         foreach ($ownerIds as $ownerId) {
-            $shippingZones = $this->getShippingZone($shippingItem, $carriers, $ownerId);
+            $carrierZones = $this->getCarrierZones($shippingItem, $carriers, $ownerId);
             foreach ($carriers as $carrier) {
-                $shippingZone = $shippingZones[$carrier] ?? '';
+                $shippingZone = $carrierZones[$carrier] ?? '';
                 $shippingTable = (clone $query)->carrier($carrier)->ownerId($ownerId)->zone($shippingZone)->one();
                 if ($shippingTable !== null) {
                     return $shippingTable;
@@ -123,12 +118,28 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
 
     /**
      * @param ShippingItem $shippingItem
+     * @return ShippingTableQuery
+     * @inheritdoc
+     */
+    protected function getShippingTableQuery(ShippingItem $shippingItem): ShippingTableQuery
+    {
+        return ShippingTable::find()
+            ->departure($shippingItem->departure)
+            ->destination($shippingItem->destination)
+            ->activeAt($shippingItem->shippedAt ?: time())
+            ->weightGLimit($shippingItem->weightG)
+            ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
+            ->warehouseId($shippingItem->warehouseId);
+    }
+
+    /**
+     * @param ShippingItem $shippingItem
      * @param array $carriers
      * @param int $ownerId
      * @return array
      * @inheritdoc
      */
-    protected function getShippingZone(ShippingItem $shippingItem, array $carriers = [], $ownerId = 0): array
+    public function getCarrierZones(ShippingItem $shippingItem, array $carriers = [], int $ownerId = 0): array
     {
         return ShippingZone::find()
             ->ownerId($ownerId)
@@ -136,5 +147,20 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             ->destination($shippingItem->destination)
             ->postalCode($shippingItem->postalCode)
             ->getCarrierZones($carriers);
+    }
+
+    /**
+     * @param ShippingItem $shippingItem
+     * @param array $carriers
+     * @param int $ownerId
+     * @return array
+     * @inheritdoc
+     */
+    public function getShippingPrices(ShippingItem $shippingItem, array $carriers = [], int $ownerId = 0): array
+    {
+        $carrierZones = $this->getCarrierZones($shippingItem, $carriers, $ownerId);
+        $query = $this->getShippingTableQuery($shippingItem);
+        return $query->orderByPrice(SORT_DESC)
+            ->getShippingPrices($carriers);
     }
 }

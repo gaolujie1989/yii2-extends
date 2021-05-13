@@ -5,15 +5,18 @@
 
 namespace lujie\charging\calculators;
 
-use yii\base\BaseObject;
+use yii\base\Model;
 
 /**
  * Class ShippingPackage
  * @package lujie\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingItem extends BaseObject
+class ShippingItem extends Model
 {
+    /**
+     * @var int
+     */
     public $warehouseId = 0;
 
     /**

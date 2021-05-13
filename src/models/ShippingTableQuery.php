@@ -83,15 +83,21 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param array $carriers
+     * @param int $defaultPrice
      * @return array
      * @inheritdoc
      */
-    public function getShippingPrices(): array
+    public function getShippingPrices(array $carriers = [], int $defaultPrice = 99999): array
     {
-        return $this->select(['price_cent'])
+        $carrierPrices = $this->select(['price_cent'])
             ->orderByPrice(SORT_DESC)
             ->indexBy('carrier')
             ->column();
+        if ($carriers && $defaultPrice) {
+            $carrierPrices = array_merge(array_fill_keys($carriers, $defaultPrice), $carrierPrices);
+        }
+        return $carrierPrices;
     }
 
     #region Limit Condition

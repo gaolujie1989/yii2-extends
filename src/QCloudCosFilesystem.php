@@ -8,6 +8,7 @@ namespace lujie\flysystem;
 use creocoder\flysystem\Filesystem;
 use Freyo\Flysystem\QcloudCOSv5\Adapter;
 use League\Flysystem\AdapterInterface;
+use lujie\flysystem\adapters\QCloudAdapter;
 use Qcloud\Cos\Client;
 use Xxtime\Flysystem\Aliyun\OssAdapter;
 use Yii;
@@ -85,6 +86,6 @@ class QCloudCosFilesystem extends Filesystem
             'cdn_key' => '',
             'encrypt' => false,
         ];
-        return new Adapter(new Client($config), $config);
+        return new QCloudAdapter(new Client($config), $config);
     }
 }

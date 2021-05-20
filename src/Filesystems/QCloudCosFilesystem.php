@@ -6,8 +6,8 @@
 namespace lujie\backup\manager\Filesystems;
 
 use BackupManager\Filesystems\Filesystem;
-use Freyo\Flysystem\QcloudCOSv5\Adapter;
 use League\Flysystem\Filesystem as Flysystem;
+use lujie\flysystem\adapters\QCloudAdapter;
 use Qcloud\Cos\Client;
 
 /**
@@ -54,6 +54,6 @@ class QCloudCosFilesystem implements Filesystem
      */
     public function get(array $config): Flysystem
     {
-        return new Flysystem(new Adapter(new Client($config), $config));
+        return new Flysystem(new QCloudAdapter(new Client($config), $config));
     }
 }

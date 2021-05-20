@@ -31,7 +31,7 @@ class QCloudAdapter extends Adapter
             return $this->client->upload(
                 $this->getBucketWithAppId(),
                 $path,
-                stream_get_contents($resource, -1, 0),
+                $resource,
                 $this->prepareUploadConfig($config)
             );
         } catch (ServiceResponseException $e) {

@@ -28,6 +28,8 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
 
     public $multiSheet = false;
 
+    public $withImage = false;
+
     /**
      * @var string
      */
@@ -55,7 +57,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             }
         }
 
-        if ($this->adapter === self::ADAPTER_XLSX_WRITER) {
+        if ($this->adapter === self::ADAPTER_XLSX_WRITER && !$this->withImage) {
             $this->writeByXLSXWriter($file, $data);
         } else {
             $this->writeByPhpSpreadsheet($file, $data);
@@ -109,13 +111,12 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     /**
      * @param Worksheet $sheet
      * @param array $data
-     * @param bool $withImage
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @inheritdoc
      */
-    protected function setSheetData(Worksheet $sheet, array $data, bool $withImage = false): void
+    protected function setSheetData(Worksheet $sheet, array $data): void
     {
-        if ($withImage) {
+        if ($this->withImage) {
             $rowIndex = 1;
             foreach ($data as $values) {
                 $columnIndex = 'A';

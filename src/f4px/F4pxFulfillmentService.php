@@ -603,7 +603,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'name_cn' => $externalWarehouse['warehouse_name_cn'],
             'name_en' => $externalWarehouse['warehouse_name_en'],
             'country' => $externalWarehouse['country'],
-            'service_code' => $externalWarehouse['service_code'],
+            'service_code' => $externalWarehouse['service_code'] ?? '',
         ];
         return $fulfillmentWarehouse->save(false);
     }

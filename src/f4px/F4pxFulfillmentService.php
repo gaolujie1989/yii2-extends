@@ -588,7 +588,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouses(array $condition = []): array
     {
-        return $this->client->getWarehouseList($condition);
+        $externalWarehouses = $this->client->getWarehouseList($condition);
+        if (isset($condition['country'])) {
+            return array_filter($externalWarehouses, static function ($externalWarehouse) use ($condition) {
+                return $externalWarehouse['country'] === $condition['country'];
+            });
+        }
+        return $externalWarehouses;
     }
 
     /**

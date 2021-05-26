@@ -90,8 +90,8 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      */
     public function getShippingPrices(array $carriers = [], int $defaultPrice = 99999): array
     {
-        $carrierPrices = $this->select(['price_cent'])
-            ->orderByPrice(SORT_DESC)
+        $carrierPrices = $this->select(['MIN(price_cent) AS price_cent', 'carrier'])
+            ->groupBy(['carrier'])
             ->indexBy('carrier')
             ->column();
         if ($carriers && $defaultPrice) {

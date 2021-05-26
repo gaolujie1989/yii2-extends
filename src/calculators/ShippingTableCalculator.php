@@ -160,8 +160,6 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     {
         $carrierZones = $this->getCarrierZones($shippingItem, $carriers, $ownerId);
         $query = $this->getShippingTableQuery($shippingItem);
-        return $query->carrierZones($carrierZones)
-            ->orderByPrice(SORT_DESC)
-            ->getShippingPrices($carriers);
+        return $query->carrierZones($carrierZones)->getShippingPrices($carriers);
     }
 }

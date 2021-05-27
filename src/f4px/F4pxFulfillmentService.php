@@ -253,7 +253,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if ($fulfillmentItem->external_item_key) {
             $skuList = $this->client->getSkuList(['lstsku' => [$fulfillmentItem->external_item_additional['sku_code']]]);
             $sku = $skuList['skulist'][0] ?? null;
-            if (empty($sku['picture_url'])) {
+            if ($sku !== null && empty($sku['picture_url'])) {
                 $this->client->editSkuPicture($externalItem);
             }
             return $sku;

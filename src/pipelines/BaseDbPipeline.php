@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\pipelines;
 
 use yii\base\BaseObject;
+use yii\db\IntegrityException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -35,6 +36,11 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     public $chunkSize = 50;
 
     /**
+     * @var bool
+     */
+    public $filterNull = true;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -42,6 +48,41 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     {
         return $this->affectedRowCounts;
     }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws IntegrityException
+     * @inheritdoc
+     */
+    public function process(array $data): bool
+    {
+        if ($this->filterNull) {
+            $data = array_map(static function ($values) {
+                return array_filter($values, static function ($value) {
+                    return $value !== null;
+                });
+            }, $data);
+        }
+
+        if ($this->indexKeys) {
+            $data = $this->indexData($data);
+        }
+
+        try {
+            return $this->processInternal($data);
+        } catch (IntegrityException $exception) {
+            return $this->processInternal($data);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws IntegrityException
+     * @inheritdoc
+     */
+    abstract protected function processInternal(array $data): bool;
 
     /**
      * @param array $data
@@ -59,8 +100,9 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     }
 
     /**
-     * @param array|object $values
+     * @param $values
      * @return string
+     * @throws \Exception
      * @inheritdoc
      */
     protected function getIndexValue($values): string

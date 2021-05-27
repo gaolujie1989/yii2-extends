@@ -35,11 +35,6 @@ class DbPipeline extends BaseDbPipeline
     public $modelClass;
 
     /**
-     * @var bool
-     */
-    public $filterNull = true;
-
-    /**
      * @var string
      */
     public $createdAtField = 'created_at';
@@ -55,6 +50,8 @@ class DbPipeline extends BaseDbPipeline
      * @var string
      */
     public $updatedByField = 'updated_by';
+
+
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -76,23 +73,14 @@ class DbPipeline extends BaseDbPipeline
      * @throws \Throwable
      * @inheritdoc
      */
-    public function process(array $data): bool
+    protected function processInternal(array $data): bool
     {
-        if ($this->filterNull) {
-            $data = array_map(static function ($values) {
-                return array_filter($values, static function ($value) {
-                    return $value !== null;
-                });
-            }, $data);
-        }
-
         $columns = $this->db->getTableSchema($this->table)->columns;
-        $data = array_map(static function ($values) use ($columns) {
-            return array_intersect_key($values, $columns);
-        }, $data);
+        array_walk($data, static function (&$values) use ($columns) {
+            $values = array_intersect_key($values, $columns);
+        });
 
         if ($this->indexKeys) {
-            $data = $this->indexData($data);
             [$insertRows, $updateRows] = $this->createRows($data);
         } else {
             $insertRows = array_values($data);
@@ -102,22 +90,24 @@ class DbPipeline extends BaseDbPipeline
         $this->appendTraceableToRows($insertRows, $updateRows);
 
         $callable = function () use ($insertRows, $updateRows) {
+            $affectedRowCounts = $this->affectedRowCounts;
             foreach ($insertRows as $values) {
                 $n = $this->db->createCommand()->insert($this->table, $values)->execute();
                 if ($n) {
-                    $this->affectedRowCounts[self::AFFECTED_CREATED] += $n;
+                    $affectedRowCounts[self::AFFECTED_CREATED] += $n;
                 } else {
-                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
+                    $affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 }
             }
             foreach ($updateRows as [$values, $condition]) {
                 $n = $this->db->createCommand()->update($this->table, $values, $condition)->execute();
                 if ($n) {
-                    $this->affectedRowCounts[self::AFFECTED_UPDATED] += $n;
+                    $affectedRowCounts[self::AFFECTED_UPDATED] += $n;
                 } else {
-                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
+                    $affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 }
             }
+            $this->affectedRowCounts = $affectedRowCounts;
             return true;
         };
         return $this->db->transaction($callable);

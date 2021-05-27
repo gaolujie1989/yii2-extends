@@ -42,11 +42,6 @@ class ActiveRecordPipeline extends BaseDbPipeline
     public $skipOnUnChanged = true;
 
     /**
-     * @var bool
-     */
-    public $filterNull = true;
-
-    /**
      * [
      *     'lineNum' => 'line num xxx has error xxx',
      * ]
@@ -69,22 +64,11 @@ class ActiveRecordPipeline extends BaseDbPipeline
      * @throws \Throwable
      * @inheritdoc
      */
-    public function process(array $data): bool
+    protected function processInternal(array $data): bool
     {
-        if ($this->filterNull) {
-            $data = array_map(static function ($values) {
-                return array_filter($values, static function ($value) {
-                    return $value !== null;
-                });
-            }, $data);
-        }
-
         $this->errors = [];
 
         $modelClass = $this->modelClass;
-        if ($this->indexKeys) {
-            $data = $this->indexData($data);
-        }
         $models = $this->createModels($data);
         if ($this->runValidation && !$modelClass::validateMultiple($models)) {
             $line = 1;
@@ -98,16 +82,18 @@ class ActiveRecordPipeline extends BaseDbPipeline
         }
 
         $callable = function () use ($models) {
+            $affectedRowCounts = $this->affectedRowCounts;
             foreach ($models as $model) {
                 $createOrUpdate = $model->getIsNewRecord() ? self::AFFECTED_CREATED : self::AFFECTED_UPDATED;
                 if ($this->skipOnUnChanged && empty($model->getDirtyAttributes())) {
-                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
+                    $affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 } elseif ($model->save(false)) {
-                    $this->affectedRowCounts[$createOrUpdate]++;
+                    $affectedRowCounts[$createOrUpdate]++;
                 } else {
-                    $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
+                    $affectedRowCounts[self::AFFECTED_SKIPPED]++;
                 }
             }
+            $this->affectedRowCounts = $affectedRowCounts;
             return true;
         };
 

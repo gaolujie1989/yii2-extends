@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\pipelines;
 
+use Yii;
 use yii\base\BaseObject;
 use yii\db\IntegrityException;
 use yii\helpers\ArrayHelper;
@@ -72,6 +73,7 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
         try {
             return $this->processInternal($data);
         } catch (IntegrityException $exception) {
+            Yii::warning($exception->getMessage(), __METHOD__);
             return $this->processInternal($data);
         }
     }

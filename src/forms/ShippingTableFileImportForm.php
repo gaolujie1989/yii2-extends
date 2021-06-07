@@ -40,7 +40,7 @@ class ShippingTableFileImportForm extends FileImportForm
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['ownerId', 'startedTime', 'endedTime'], 'required'],
+            [['ownerId', 'warehouseId', 'startedTime', 'endedTime'], 'required'],
             [['startedTime', 'endedTime'], 'string'],
         ]);
     }

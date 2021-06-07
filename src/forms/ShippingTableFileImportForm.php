@@ -20,6 +20,8 @@ class ShippingTableFileImportForm extends FileImportForm
 {
     public $ownerId;
 
+    public $warehouseId;
+
     public $startedTime;
 
     public $endedTime;
@@ -53,6 +55,7 @@ class ShippingTableFileImportForm extends FileImportForm
     {
         $fillOwnerIdTransformer = new FillDefaultValueTransformer(['defaultValues' => [
             'owner_id' => $this->ownerId,
+            'warehouse_id' => $this->warehouseId,
             'started_time' => $this->startedTime,
             'ended_time' => $this->endedTime,
             'departure' => $this->departure,

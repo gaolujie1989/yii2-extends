@@ -67,6 +67,8 @@ class ShippingTableSearch extends ShippingTable
             'length_cm_limit' => 'length_mm_limit',
             'width_cm_limit' => 'width_mm_limit',
             'height_cm_limit' => 'height_mm_limit',
+            'length_cm_min_limit' => 'length_mm_min_limit',
+            'width_cm_min_limit' => 'width_mm_min_limit',
             'height_cm_min_limit' => 'height_mm_min_limit',
             'l2wh_cm_limit' => 'l2wh_mm_limit',
             'lwh_cm_limit' => 'lwh_mm_limit',

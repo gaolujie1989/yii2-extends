@@ -122,6 +122,8 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
             ->limitCondition('lwh_mm_limit', $lwhMM)
             ->limitCondition('lh_mm_limit', $lhMM)
             ->limitCondition('volume_mm3_limit', $volumeMM3)
+            ->minLimitCondition('length_mm_min_limit', $lengthMM)
+            ->minLimitCondition('width_mm_min_limit', $widthMM)
             ->minLimitCondition('height_mm_min_limit', $heightMM);
     }
 

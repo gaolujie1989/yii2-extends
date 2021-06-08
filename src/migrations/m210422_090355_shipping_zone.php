@@ -14,7 +14,7 @@ class m210422_090355_shipping_zone extends \yii\db\Migration
         $this->createTable($this->tableName, [
             'shipping_zone_id' => $this->bigPrimaryKey(),
             'carrier' => $this->string(10)->notNull()->defaultValue(''),
-            'departure' => $this->char(2)->notNull()->defaultValue(''),
+            'departure' => $this->string(10)->notNull()->defaultValue(''),
             'destination' => $this->char(2)->notNull()->defaultValue(''),
             'zone' => $this->string(10)->notNull()->defaultValue(''),
             'postal_code_from' => $this->string(20)->notNull()->defaultValue(''),

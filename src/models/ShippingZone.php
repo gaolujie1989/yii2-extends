@@ -44,8 +44,8 @@ class ShippingZone extends \yii\db\ActiveRecord
             [['carrier', 'departure', 'destination', 'zone', 'postal_code_from'], 'default', 'value' => ''],
             [['postal_code_to', 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
             [['started_at', 'ended_at', 'owner_id'], 'integer'],
-            [['carrier', 'zone'], 'string', 'max' => 10],
-            [['departure', 'destination'], 'string', 'max' => 2],
+            [['carrier', 'departure', 'zone'], 'string', 'max' => 10],
+            [['destination'], 'string', 'max' => 2],
             [['postal_code_from', 'postal_code_to'], 'string', 'max' => 20],
         ];
     }

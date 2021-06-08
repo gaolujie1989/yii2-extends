@@ -15,11 +15,6 @@ use yii\base\Model;
 class ShippingItem extends Model
 {
     /**
-     * @var int
-     */
-    public $warehouseId = 0;
-
-    /**
      * @var string
      */
     public $carrier;

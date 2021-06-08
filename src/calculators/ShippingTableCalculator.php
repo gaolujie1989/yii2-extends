@@ -128,8 +128,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             ->destination($shippingItem->destination)
             ->activeAt($shippingItem->shippedAt ?: time())
             ->weightGLimit($shippingItem->weightG)
-            ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM)
-            ->warehouseId($shippingItem->warehouseId);
+            ->sizeMMLimit($shippingItem->lengthMM, $shippingItem->widthMM, $shippingItem->heightMM);
     }
 
     /**

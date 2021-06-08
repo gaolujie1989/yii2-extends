@@ -12,9 +12,6 @@ class m201013_104308_shipping_table_add_lwh extends \yii\db\Migration
     public function safeUp()
     {
         $this->addColumn($this->tableName, 'lwh_mm_limit', $this->integer()->notNull()->defaultValue(0)->after('l2wh_mm_limit'));
-        $this->dropColumn($this->tableName, 'weight_volume_compare_limit');
-        $this->dropColumn($this->tableName, 'length_mm_min_limit');
-        $this->dropColumn($this->tableName, 'width_mm_min_limit');
         $this->alterColumn($this->tableName, 'carrier', $this->string(10)->notNull()->defaultValue(''));
     }
 }

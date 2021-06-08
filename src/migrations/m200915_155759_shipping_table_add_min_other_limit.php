@@ -15,8 +15,6 @@ class m200915_155759_shipping_table_add_min_other_limit extends \yii\db\Migratio
         $this->addColumn($this->tableName, 'width_mm_min_limit', $this->integer()->notNull()->defaultValue(0)->after('width_mm_limit'));
         $this->addColumn($this->tableName, 'height_mm_min_limit', $this->integer()->notNull()->defaultValue(0)->after('height_mm_limit'));
         $this->addColumn($this->tableName, 'volume_mm3_limit', $this->integer()->notNull()->defaultValue(0)->after('lh_mm_limit'));
-        $this->addColumn($this->tableName, 'weight_volume_compare_limit', $this->integer()->notNull()->defaultValue(0)->after('volume_mm3_limit')
-            ->comment('MAX(weight_g, volume_mm3 / 5000)'));
 
         $this->dropIndex('idx_carrier_departure_destination_limit_date_owner', $this->tableName);
         $this->createIndex('idx_carrier_departure_destination_date_owner', $this->tableName, [

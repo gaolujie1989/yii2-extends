@@ -36,6 +36,8 @@ class ShippingTableFileImporter extends FileImporter
                     'LengthLimit(CM)' => 'length_cm_limit',
                     'WidthLimit(CM)' => 'width_cm_limit',
                     'HeightLimit(CM)' => 'height_cm_limit',
+                    'LengthMinLimit(CM)' => 'length_cm_min_limit',
+                    'WidthMinLimit(CM)' => 'width_cm_min_limit',
                     'HeightMinLimit(CM)' => 'height_cm_min_limit',
                     'Volume(L)' => 'volume_l_limit',
                     'L+2(W+H)Limit(CM)' => 'l2wh_cm_limit',

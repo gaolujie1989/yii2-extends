@@ -29,7 +29,7 @@ class PlentyMarketAddressFormatter
         //fix company name in address
         for ($i = 1; $i <= 3; $i++) {
             $field = 'address' . $i;
-            if (strpos(strtolower($address[$field]), 'gmbh') !== false) {
+            if (stripos($address[$field], 'gmbh') !== false) {
                 $name1 = $address['name1'];
                 $address['name1'] = $address[$field];
                 $address[$field] = $name1;

@@ -12,6 +12,7 @@ use lujie\extend\httpclient\RateLimitCheckerBehavior;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
+use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\httpclient\CurlTransport;
@@ -627,7 +628,7 @@ class PlentyMarketsRestClient extends OAuth2
      * @return $this
      * @inheritdoc
      */
-    public function reverse($reverse = true): self
+    public function reverse(bool $reverse = true): self
     {
         $this->reverse = $reverse;
         return $this;
@@ -655,11 +656,10 @@ class PlentyMarketsRestClient extends OAuth2
                 CURLOPT_CONNECTTIMEOUT => 15,
                 CURLOPT_TIMEOUT => 75,
             ];
-        } else {
-            return [
-                'timeout' => 90,
-            ];
         }
+        return [
+            'timeout' => 90,
+        ];
     }
 
     #region BaseOAuth
@@ -699,6 +699,7 @@ class PlentyMarketsRestClient extends OAuth2
      * @param OAuthToken $token
      * @return OAuthToken
      * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function refreshAccessToken(OAuthToken $token): OAuthToken
@@ -780,19 +781,16 @@ class PlentyMarketsRestClient extends OAuth2
                 $responseData = $this->restApi($listMethod, $condition);
                 $items = $responseData['entries'] ?? $responseData;
 
-                $items = array_reverse($items);
-                yield $items;
+                yield array_reverse($items);
 
                 $condition['page']--;
             }
 
-            $firstPageItems = array_reverse($firstPageItems);
-            yield $firstPageItems;
+            yield array_reverse($firstPageItems);
         } else {
             do {
                 $responseData = $this->restApi($listMethod, $condition);
-                $items = $responseData['entries'] ?? $responseData;
-                yield $items;
+                yield $responseData['entries'] ?? $responseData;
 
                 $pageCount = $responseData['lastPageNumber'] ?? 1;
                 $condition['page'] = $condition['page'] ?? 1;
@@ -895,6 +893,165 @@ class PlentyMarketsRestClient extends OAuth2
             }
         }
         $batchRequest->send();
+    }
+
+    /**
+     * @param int $orderId
+     * @param array $address
+     * @param array $addressTypes
+     * @return array
+     * @inheritdoc
+     */
+    public function updateOrderAddresses(int $orderId, array $address, array $addressTypes = []): array
+    {
+        $addressTypes = $addressTypes ?: [
+            PlentyMarketsConst::ADDRESS_TYPE_IDS['billing'],
+            PlentyMarketsConst::ADDRESS_TYPE_IDS['delivery'],
+        ];
+        $customer = $this->getOrCreateOrderCustomer($orderId, $address);
+        $concatId = $customer['id'];
+        $customerAddress = $this->createOrUpdateCustomerAddress($concatId, $address, $address['id'] ?? null);
+        $addressId = $customerAddress['id'];
+        $addressOptions = [];
+        foreach ($addressTypes as $addressType) {
+            $addressOptions[] =                [
+                'typeId' => $addressType,
+                'addressId' => $addressId,
+            ];
+        }
+        $orderData = [
+            'id' => $orderId,
+            'addressRelations' => $addressOptions,
+            'relations' => [
+                [
+                    'referenceType' => 'contact',
+                    'referenceId' => $concatId,
+                    'relation' => 'receiver',
+                ],
+            ],
+        ];
+        return $this->updateOrder($orderData);
+    }
+
+    /**
+     * @param int $orderId
+     * @param array $address
+     * @return array
+     * @inheritdoc
+     */
+    protected function getOrCreateOrderCustomer(int $orderId,array $address): array
+    {
+        $order = $this->getOrder(['id' => $orderId]);
+        if (empty($order)) {
+            throw new InvalidArgumentException("Invalid order {$orderId}");
+        }
+        $phone = $address['phone'] ?? null;
+        $email = $address['email'] ?? null;
+        $customer = null;
+        if ($email && empty($customer)) {
+            $customers = $this->eachCustomers(['email' => $phone]);
+            if ($customer = $customers->current()) {
+                return $customer;
+            }
+        }
+        if ($phone && empty($customer)) {
+            $customers = $this->eachCustomers(['privatePhone' => $phone]);
+            if ($customer = $customers->current()) {
+                return $customer;
+            }
+        }
+        if (empty($customer)) {
+            $contactData = [
+                'referrerId' => $order['referrerId'],
+                'plentyId' => $order['plentyId'],
+                'typeId' => PlentyMarketsConst::CONTACT_TYPE_IDS['Customer'],
+                'firstName' => $address['name2'] ?? $address['firstName'] ?? $address['first_name'],
+                'lastName' => $address['name3'] ?? $address['lastName'] ?? $address['last_name'],
+                'email' => $email ?: '',
+            ];
+            $contactOptions = [];
+            if ($email) {
+                $contactOptions[] = [
+                    'typeId' => 2,
+                    'subTypeId' => 4,
+                    'value' => (string)$email,
+                    'priority' => 0,
+                ];
+            }
+            if ($phone) {
+                $contactOptions[] = [
+                    'typeId' => 1,
+                    'subTypeId' => 4,
+                    'value' => (string)$phone,
+                    'priority' => 0,
+                ];
+            }
+            if ($contactOptions) {
+                $contactData['options'] = $contactOptions;
+            }
+            return $this->createCustomer($contactData);
+        }
+    }
+
+    /**
+     * @param int $concatId
+     * @param array $address
+     * @param int|null $addressId
+     * @return array
+     * @inheritdoc
+     */
+    protected function createOrUpdateCustomerAddress(int $concatId, array $address, ?int $addressId = null): array
+    {
+        $countryCodeToId = array_flip(array_unique(PlentyMarketsConst::COUNTRY_CODES));
+        //fix GB to UK
+        $countryCodeToId['GB'] = $countryCodeToId['UK'];
+        $country = $address['country'] ?? 'NULL';
+        $countryId = $countryCodeToId[$country] ?? null;
+        if (empty($countryId)) {
+            throw new InvalidArgumentException('Invalid country: ' . $country);
+        }
+
+        $addressData = [
+            'contactId' => $concatId,
+            'name1' => $address['name1'] ?? $address['companyName'],
+            'name2' => $address['name2'] ?? $address['firstName'],
+            'name3' => $address['name3'] ?? $address['lastName'],
+
+            'address1' => $address['address1'] ?? $address['street'],
+            'address2' => $address['address2'] ?? $address['houseNo'],
+            'address3' => $address['address3'] ?? $address['additional'],
+            'postalCode' => $address['postalCode'] ?? $address['zipCode'],
+            'town' => $address['town'] ?? $address['city'],
+            'countryId' => $countryId,
+        ];
+
+        $addressData = PlentyMarketAddressFormatter::format($addressData);
+
+        $phone = $address['phone'] ?? null;
+        $email = $address['email'] ?? null;
+        $addressOptions = [];
+        if ($email) {
+            $addressOptions[] = [
+                'typeId' => PlentyMarketsConst::ADDRESS_OPTION_TYPE_IDS['Email'],
+                'value' => (string)$email,
+            ];
+        }
+        if ($phone) {
+            $addressOptions[] = [
+                'typeId' => PlentyMarketsConst::ADDRESS_OPTION_TYPE_IDS['Telephone'],
+                'value' => (string)$phone,
+            ];
+        }
+        if ($addressOptions) {
+            $addressData['options'] = $addressOptions;
+        }
+        if ($addressId) {
+            $addressData['id'] = $addressId;
+        }
+        if (isset($addressData['id'])) {
+            return $this->updateAddress($addressData);
+        }
+        return $this->createCustomerAddress($addressData);
     }
 
     #endregion

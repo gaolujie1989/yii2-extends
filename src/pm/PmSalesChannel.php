@@ -61,7 +61,10 @@ class PmSalesChannel extends BaseSalesChannel
 
     public $orderCancelledStatus = 8;
 
-    public $orderShippedWarehouseId = 121;
+    public $orderShippingWarehouseIds = [
+        'F4PX_ES' => 121,
+        'F4PX_DE' => 124,
+    ];
 
     /**
      * @throws InvalidConfigException
@@ -111,8 +114,9 @@ class PmSalesChannel extends BaseSalesChannel
             $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
             return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
         }
-        if ($this->orderShippedWarehouseId) {
-            $this->client->updateOrderWarehouse($orderId, $this->orderShippedWarehouseId);
+        $warehouseCode = $channelOrder->additional['warehouseCode'] ?? '';
+        if ($warehouseId = $this->orderShippingWarehouseIds[$warehouseCode] ?? null) {
+            $this->client->updateOrderWarehouse($orderId, $warehouseId);
         }
         $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
         $pmOrder = $this->client->getOrder(['id' => $orderId]);
@@ -225,7 +229,7 @@ class PmSalesChannel extends BaseSalesChannel
             if ($newSalesChannelStatus) {
                 $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
                 if ($statusTransitions === null
-                    || ($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions))) {
+                    || ($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions, true))) {
                     $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
                 }
             }

@@ -280,21 +280,23 @@ class ModelHelper
         //prepare alias
         foreach ($aliasProperties as $aliasProperty => $attribute) {
             $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
-            if (StringHelper::endsWith($attribute, '_at')) {
-                $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
-            } elseif (StringHelper::endsWith($attribute, '_micro_cent')) {
-                $row[$aliasProperty] = number_format($row[$aliasProperty] / 10000, 4, '.', '');
-            } elseif (StringHelper::endsWith($attribute, '_cent')) {
-                $row[$aliasProperty] = number_format($row[$aliasProperty] / 100, 2, '.', '');
-            } elseif (StringHelper::endsWith($attribute, '_g')
-                || StringHelper::endsWith($attribute, '_mm')
-                || StringHelper::endsWith($attribute, '_mm2')
-                || StringHelper::endsWith($attribute, '_mm3')) {
-                $row[$aliasProperty] = UnitAliasBehavior::convert(
-                    $row[$aliasProperty],
-                    substr($attribute, strrpos($attribute, '_') + 1),
-                    substr($aliasProperty, strrpos($aliasProperty, '_') + 1)
-                );
+            if (is_numeric($row[$aliasProperty])) {
+                if (StringHelper::endsWith($attribute, '_at')) {
+                    $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
+                } elseif (StringHelper::endsWith($attribute, '_micro_cent')) {
+                    $row[$aliasProperty] = number_format($row[$aliasProperty] / 10000, 4, '.', '');
+                } elseif (StringHelper::endsWith($attribute, '_cent')) {
+                    $row[$aliasProperty] = number_format($row[$aliasProperty] / 100, 2, '.', '');
+                } elseif (StringHelper::endsWith($attribute, '_g')
+                    || StringHelper::endsWith($attribute, '_mm')
+                    || StringHelper::endsWith($attribute, '_mm2')
+                    || StringHelper::endsWith($attribute, '_mm3')) {
+                    $row[$aliasProperty] = UnitAliasBehavior::convert(
+                        $row[$aliasProperty],
+                        substr($attribute, strrpos($attribute, '_') + 1),
+                        substr($aliasProperty, strrpos($aliasProperty, '_') + 1)
+                    );
+                }
             }
         }
         //prepare pk id

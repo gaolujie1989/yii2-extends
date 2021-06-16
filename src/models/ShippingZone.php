@@ -2,6 +2,7 @@
 
 namespace lujie\charging\models;
 
+use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\IdFieldTrait;
 use lujie\extend\db\SaveTrait;
@@ -48,6 +49,23 @@ class ShippingZone extends \yii\db\ActiveRecord
             [['destination'], 'string', 'max' => 2],
             [['postal_code_from', 'postal_code_to'], 'string', 'max' => 20],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+            'timestamp' => [
+                'class' => TimestampAliasBehavior::class,
+                'aliasProperties' => [
+                    'started_time' => 'started_at',
+                    'ended_time' => 'ended_at',
+                ]
+            ]
+        ]);
     }
 
     /**

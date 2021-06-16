@@ -5,11 +5,9 @@
 
 namespace lujie\charging\searches;
 
-use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
 use lujie\extend\db\SearchTrait;
-use lujie\extend\helpers\ModelHelper;
 use yii\db\ActiveQueryInterface;
 
 /**

@@ -16,4 +16,11 @@ use lujie\fulfillment\models\FulfillmentAccount;
 class FulfillmentAccountForm extends AccountForm
 {
     public const MODEL_TYPE = FulfillmentAccount::MODEL_TYPE;
+
+    public function rules(): array
+    {
+        return array_merge(parent::rules(), [
+            [['options', 'additional'], 'safe'],
+        ]);
+    }
 }

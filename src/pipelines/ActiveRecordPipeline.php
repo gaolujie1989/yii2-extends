@@ -80,6 +80,16 @@ class ActiveRecordPipeline extends BaseDbPipeline
             }
             return false;
         }
+        if (!$this->insert) {
+            $models = array_filter($models, static function($model) {
+                return !$model->getIsNewRecord();
+            });
+        }
+        if (!$this->update) {
+            $models = array_filter($models, static function($model) {
+                return $model->getIsNewRecord();
+            });
+        }
 
         $callable = function () use ($models) {
             $affectedRowCounts = $this->affectedRowCounts;

@@ -42,6 +42,16 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     public $filterNull = true;
 
     /**
+     * @var bool
+     */
+    public $insert = true;
+
+    /**
+     * @var bool
+     */
+    public $update = true;
+
+    /**
      * @return array
      * @inheritdoc
      */

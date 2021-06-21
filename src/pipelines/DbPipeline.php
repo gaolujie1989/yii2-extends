@@ -51,8 +51,6 @@ class DbPipeline extends BaseDbPipeline
      */
     public $updatedByField = 'updated_by';
 
-
-
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -84,6 +82,12 @@ class DbPipeline extends BaseDbPipeline
             [$insertRows, $updateRows] = $this->createRows($data);
         } else {
             $insertRows = array_values($data);
+            $updateRows = [];
+        }
+        if (!$this->insert) {
+            $insertRows = [];
+        }
+        if (!$this->update) {
             $updateRows = [];
         }
 

@@ -127,6 +127,8 @@ class DbPipeline extends BaseDbPipeline
         $insertRows = [];
         $updateRows = [];
         $dataChunks = array_chunk($data, $this->chunkSize, true);
+        $primaryKeys = $this->db->getTableSchema($this->table)->primaryKey;
+        $selectColumns = array_unique(array_merge($this->indexKeys, $primaryKeys));
         foreach ($dataChunks as $chunkedData) {
             $existRows = [];
             if ($this->indexKeys) {
@@ -136,14 +138,14 @@ class DbPipeline extends BaseDbPipeline
                 array_unshift($conditions, 'OR');
                 $existRows = (new Query())->from($this->table)
                     ->andWhere($conditions)
-                    ->select($this->indexKeys)
+                    ->select($selectColumns)
                     ->indexBy(function ($values) {
                         return $this->getIndexValue($values);
                     })->all($this->db);
             }
             foreach ($chunkedData as $indexValue => $values) {
                 if ($this->indexKeys && isset($existRows[$indexValue])) {
-                    $condition = array_intersect_key($values, array_flip($this->indexKeys));
+                    $condition = array_intersect_key($values, array_flip($primaryKeys));
                     $updateRows[] = [$values, $condition];
                 } else {
                     $insertRows[] = $values;

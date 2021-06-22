@@ -145,7 +145,11 @@ class DbPipeline extends BaseDbPipeline
             }
             foreach ($chunkedData as $indexValue => $values) {
                 if ($this->indexKeys && isset($existRows[$indexValue])) {
-                    $condition = array_intersect_key($values, array_flip($primaryKeys));
+                    if ($primaryKeys) {
+                        $condition = array_intersect_key($existRows[$indexValue], array_flip($primaryKeys));
+                    } else {
+                        $condition = array_intersect_key($existRows[$indexValue], array_flip($this->indexKeys));
+                    }
                     $updateRows[] = [$values, $condition];
                 } else {
                     $insertRows[] = $values;

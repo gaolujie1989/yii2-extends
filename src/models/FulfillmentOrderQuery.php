@@ -135,6 +135,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                             FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
                             FulfillmentConst::FULFILLMENT_STATUS_PICKING,
                             FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+                            FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING,
                         ]
                     ],
                     'shippingFulfillmentShipped' => [

@@ -131,9 +131,9 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'shippingFulfillmentProcessing' => [
                         'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
-                            FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
-                            FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-                            FulfillmentConst::FULFILLMENT_STATUS_PICKING,
+//                            FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
+//                            FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+//                            FulfillmentConst::FULFILLMENT_STATUS_PICKING,
                             FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
                         ]
                     ],

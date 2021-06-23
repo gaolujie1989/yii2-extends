@@ -516,10 +516,10 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ])
             ->asArray()
             ->one();
-        $createdAtTo = $one['min_created_at'] ? $one['max_created_at'] : $one['max_pushed_at'];
-        $createdAtFrom = $one['min_created_at'] ? $one['min_created_at'] : $one['min_pushed_at'];
-        $createdAtTo += 10;
+        $createdAtFrom = $one['min_created_at'] ?: $one['min_pushed_at'];
+        $createdAtTo = $one['max_created_at'] ?: $one['max_pushed_at'];
         $createdAtFrom -= 10;
+        $createdAtTo += 10;
         if ($createdAtFrom <= $createdAtTo - 86400 * 25) {
             $createdAtFrom = $createdAtTo - 86400 * 25;
         }

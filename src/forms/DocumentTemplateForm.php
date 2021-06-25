@@ -22,7 +22,7 @@ class DocumentTemplateForm extends DocumentTemplate
      */
     public function rules(): array
     {
-        $rules = ModelHelper::searchRules($this, parent::rules());
+        $rules = ModelHelper::searchRules($this);
         $rules = ModelHelper::removeAttributesRules($rules, ['document_type', 'reference_id', 'position']);
         return $rules;
     }

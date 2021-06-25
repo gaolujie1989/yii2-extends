@@ -32,6 +32,9 @@ trait DeleteTrait
         /** @var ActiveQuery $query */
         $query = static::find();
         $ids = $query->andWhere($condition, $params)->column();
+        if (empty($ids)) {
+            return 0;
+        }
         return parent::deleteAll([$pk => $ids]);
     }
 }

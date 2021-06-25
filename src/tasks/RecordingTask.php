@@ -40,6 +40,11 @@ class RecordingTask extends CronTask
     ];
 
     /**
+     * @var int
+     */
+    public $queuedDuration = 10800;
+
+    /**
      * @return bool
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
@@ -58,7 +63,9 @@ class RecordingTask extends CronTask
                 $job,
                 $dataSource,
                 'last_exec_status',
-                'last_exec_result'
+                'last_exec_result',
+                'updated_at',
+                $this->queuedDuration
             );
         }
         return true;

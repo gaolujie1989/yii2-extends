@@ -72,8 +72,8 @@ class RecordingForm extends Model
             return false;
         }
         if ($dataSource->last_exec_status === ExecStatusConst::EXEC_STATUS_SUCCESS) {
-            $this->addError('dataSourceId', "DataSourceId {$this->dataSourceId} already executed success");
-            return false;
+            Yii::info("DataSourceId {$this->dataSourceId} already executed success", __METHOD__);
+            return true;
         }
         $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
         $dataAccount = $this->dataAccountLoader->get($dataSource->data_account_id);

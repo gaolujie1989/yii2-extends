@@ -68,8 +68,8 @@ class RecordingForm extends Model
         $invalidDataSourceMessage = "Invalid dataSourceId {$this->dataSourceId}";
         $dataSource = DataSource::findOne($this->dataSourceId);
         if ($dataSource === null) {
-            $this->addError('dataSourceId', "{$invalidDataSourceMessage}, Null DataSource");
-            return false;
+            Yii::warning("{$invalidDataSourceMessage}, Null DataSource", __METHOD__);
+            return true;
         }
         if ($dataSource->last_exec_status === ExecStatusConst::EXEC_STATUS_SUCCESS) {
             Yii::info("DataSourceId {$this->dataSourceId} already executed success", __METHOD__);

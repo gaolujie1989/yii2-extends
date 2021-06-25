@@ -9,6 +9,7 @@ use lujie\data\loader\DataLoaderInterface;
 use lujie\data\recording\BaseDataRecorder;
 use lujie\data\recording\models\DataSource;
 use lujie\executing\Executor;
+use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\base\Model;
 use yii\di\Instance;
@@ -66,14 +67,17 @@ class RecordingForm extends Model
 
         $dataSource = DataSource::findOne($this->dataSourceId);
         if ($dataSource === null) {
-            $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataSource');
+            $this->addError('dataSourceId', "Invalid dataSourceId {$this->dataSourceId}, Null DataSource");
             return false;
         }
-
+        if ($dataSource->last_exec_status === ExecStatusConst::EXEC_STATUS_SUCCESS) {
+            $this->addError('dataSourceId', "DataSourceId {$this->dataSourceId} already executed success");
+            return false;
+        }
         $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
         $dataAccount = $this->dataAccountLoader->get($dataSource->data_account_id);
         if ($dataAccount === null) {
-            $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataAccount');
+            $this->addError('dataSourceId', "Invalid dataSourceId {$this->dataSourceId}, Null DataAccount");
             return false;
         }
 
@@ -81,7 +85,7 @@ class RecordingForm extends Model
         $dataRecorder = $this->dataRecorderLoader->get($dataSource->type)
             ?: $this->dataRecorderLoader->get($dataAccount['type']);
         if ($dataRecorder === null) {
-            $this->addError('dataSourceId', 'Invalid dataSourceId, Null DataRecorder');
+            $this->addError('dataSourceId', "Invalid dataSourceId {$this->dataSourceId}, Null DataRecorder");
             return false;
         }
 

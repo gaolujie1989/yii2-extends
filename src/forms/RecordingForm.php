@@ -65,9 +65,10 @@ class RecordingForm extends Model
             return false;
         }
 
+        $invalidDataSourceMessage = "Invalid dataSourceId {$this->dataSourceId}";
         $dataSource = DataSource::findOne($this->dataSourceId);
         if ($dataSource === null) {
-            $this->addError('dataSourceId', "Invalid dataSourceId {$this->dataSourceId}, Null DataSource");
+            $this->addError('dataSourceId', "{$invalidDataSourceMessage}, Null DataSource");
             return false;
         }
         if ($dataSource->last_exec_status === ExecStatusConst::EXEC_STATUS_SUCCESS) {
@@ -77,7 +78,7 @@ class RecordingForm extends Model
         $this->dataAccountLoader = Instance::ensure($this->dataAccountLoader, DataLoaderInterface::class);
         $dataAccount = $this->dataAccountLoader->get($dataSource->data_account_id);
         if ($dataAccount === null) {
-            $this->addError('dataSourceId', "Invalid dataSourceId {$this->dataSourceId}, Null DataAccount");
+            $this->addError('dataSourceId', "{$invalidDataSourceMessage}, Null DataAccount");
             return false;
         }
 
@@ -85,7 +86,7 @@ class RecordingForm extends Model
         $dataRecorder = $this->dataRecorderLoader->get($dataSource->type)
             ?: $this->dataRecorderLoader->get($dataAccount['type']);
         if ($dataRecorder === null) {
-            $this->addError('dataSourceId', "Invalid dataSourceId {$this->dataSourceId}, Null DataRecorder");
+            $this->addError('dataSourceId', "{$invalidDataSourceMessage}, Null DataRecorder");
             return false;
         }
 

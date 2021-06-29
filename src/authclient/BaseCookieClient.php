@@ -130,11 +130,11 @@ abstract class BaseCookieClient extends BaseClient
     }
 
     /**
-     * @return CookieCollection|null
+     * @return CookieCollection
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function getCookies(): ?CookieCollection
+    public function getCookies(): CookieCollection
     {
         if (empty($this->cookies)) {
             Yii::debug("Get Cookies", __METHOD__);
@@ -145,6 +145,7 @@ abstract class BaseCookieClient extends BaseClient
                 if ($cookie->expire <= $now) {
                     Yii::debug("Cookies expired, login again", __METHOD__);
                     $this->cookies = $this->login();
+                    break;
                 }
             }
         }
@@ -187,14 +188,14 @@ abstract class BaseCookieClient extends BaseClient
     /**
      * @param string $callSubUrl
      * @param string $method
-     * @param array $data
+     * @param array|string $data
      * @param array $headers
      * @return Response
      * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function request(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Response
+    public function request(string $callSubUrl, string $method = 'GET', $data = [], array $headers = []): Response
     {
         $request = $this->createReadyRequest($callSubUrl, $method, $data, $headers);
         return HttpClientHelper::sendRequest($request);
@@ -210,7 +211,7 @@ abstract class BaseCookieClient extends BaseClient
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function batchRequest(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): array
+    public function batchRequest(string $callSubUrl, string $method = 'GET', array $data = [], array $headers = []): array
     {
         $requests = [];
         foreach ($data as $item) {
@@ -227,7 +228,7 @@ abstract class BaseCookieClient extends BaseClient
      * @return Request
      * @inheritdoc
      */
-    public function createReadyRequest(string $callSubUrl, string $method = 'GET', $data = [], $headers = []): Request
+    public function createReadyRequest(string $callSubUrl, string $method = 'GET', $data = [], array $headers = []): Request
     {
         $request = $this->createAuthRequest()
             ->setMethod($method)

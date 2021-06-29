@@ -39,6 +39,13 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     public $apiUiUrl = 'https://{domainHash}.plentymarkets-cloud-de.com/plenty/api/ui.php';
 
     /**
+     * @var array
+     */
+    private $sessionData = [];
+
+    #region
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -130,7 +137,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         $header = [
             'Authorization' => 'Bearer ' . $this->getAuthorization(),
             'Referer' => strtr(
-                'https://{domainHash}.plentymarkets-cloud-de.com/plenty/gwt/productive/2a28ee69/admin.html',
+                'https://{domainHash}.plentymarkets-cloud-de.com/plenty/gwt/productive/2318cd3d/admin.html',
                 ['{domainHash}' => $this->getDomainHash()]
             ),
         ];
@@ -145,7 +152,38 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         $cookies = $this->getCookies();
         $cookies->add($sessionIDCookie);
         $this->setCookies($cookies);
+
+        $responseData = $response->getData();
+        $this->setSessionData($responseData['resultObjects'][0]['_data'][0]['_dataArray'] ?? []);
     }
+
+    /**
+     * @param array $sessionData
+     */
+    public function setSessionData(array $sessionData): void
+    {
+        $this->sessionData = $sessionData;
+        $this->setState('session', $sessionData);
+    }
+
+    /**
+     * @return array
+     * @throws InvalidConfigException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function getSessionData(): array
+    {
+        if (empty($this->sessionData)) {
+            $this->sessionData = $this->getState('session');
+        }
+        if (empty($this->sessionData)) {
+            $this->login();
+        }
+        return $this->sessionData;
+    }
+
+    #endregion
 
     /**
      * @param string $name
@@ -173,8 +211,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
             'stockBarcodeOption' => '1',
         ];
         $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]) . '?' . http_build_query($query);
-        $response = $this->request($requestUrl);
-        return $response->content;
+        return $this->request($requestUrl)->content;
     }
 
     /**
@@ -292,6 +329,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      */
     public function assignOrderItemLink(int $orderId, int $orderItemId, int $itemId, int $variationId, int $warehouseId): Response
     {
+        $sessionData = $this->getSessionData();
         $data = [
             'requests' => [
                 [
@@ -317,8 +355,8 @@ class PlentyMarketsAdminClient extends BaseCookieClient
                 ],
             ],
             'meta' => [
-                'id' => 22,
-                'token' => '4lBG21ibpUkhsUyu',
+                'id' => $sessionData['userId'],
+                'token' => $sessionData['csrfToken'],
             ],
         ];
         $data = ['request' => Json::encode($data)];

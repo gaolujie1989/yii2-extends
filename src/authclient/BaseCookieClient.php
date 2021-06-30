@@ -142,7 +142,8 @@ abstract class BaseCookieClient extends BaseClient
             $now = time();
             /** @var Cookie $cookie */
             foreach ($this->cookies as $cookie) {
-                if ($cookie->expire <= $now) {
+                $expire = is_numeric($cookie->expire) ? $cookie->expire : strtotime($cookie->expire);
+                if ($expire <= $now) {
                     Yii::debug("Cookies expired, login again", __METHOD__);
                     $this->cookies = $this->login();
                     break;

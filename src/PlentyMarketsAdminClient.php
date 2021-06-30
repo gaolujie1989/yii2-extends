@@ -185,6 +185,8 @@ class PlentyMarketsAdminClient extends BaseCookieClient
 
     #endregion
 
+    #region admin method
+
     /**
      * @param string $name
      * @param int $offset
@@ -323,6 +325,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      * @param int $variationId
      * @param int $warehouseId
      * @return Response
+     * @throws InvalidConfigException
      * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
@@ -340,7 +343,7 @@ class PlentyMarketsAdminClient extends BaseCookieClient
                     '_validateParams' => [],
                     '_commandStack' => [
                         [
-                            'type' => 'read',
+                            'type' => 'write',
                             'command' => 'assignItem',
                         ],
                     ],
@@ -390,4 +393,6 @@ class PlentyMarketsAdminClient extends BaseCookieClient
         $requestUrl = strtr($this->guiCallUrl, ['{domainHash}' => $this->getDomainHash()]);
         return $this->batchRequest($requestUrl, 'POST', $data);
     }
+
+    #endregion
 }

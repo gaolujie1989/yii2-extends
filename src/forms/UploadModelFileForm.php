@@ -5,9 +5,9 @@
 
 namespace lujie\upload\forms;
 
+use lujie\extend\helpers\ModelHelper;
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\models\UploadModelFile;
-use yii\base\InvalidConfigException;
 
 /**
  * Class UploadForm
@@ -52,7 +52,6 @@ class UploadModelFileForm extends UploadModelFile
     public $allowedModelTypes = [];
 
     /**
-     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
@@ -61,8 +60,6 @@ class UploadModelFileForm extends UploadModelFile
             $this->allowedModelTypes[] = $this->model_type;
         } elseif ($this->allowedModelTypes) {
             $this->model_type = reset($this->allowedModelTypes);
-        } else {
-            throw new InvalidConfigException('The property `allowedModelTypes` must be set.');
         }
         parent::init();
     }
@@ -94,17 +91,20 @@ class UploadModelFileForm extends UploadModelFile
      */
     public function rules(): array
     {
-        return array_merge([
-            [['position'], 'default', 'value' => 99],
+        $rules = [
             [['file', 'model_id'], 'required'],
-            [['model_id', 'model_parent_id'], 'integer'],
+            [['model_id', 'model_parent_id'], 'default', 'value' => 0],
+            [['position'], 'default', 'value' => 99],
+            [['model_id', 'model_parent_id', 'position'], 'integer'],
             [['file'], 'file',
                 'extensions' => $this->allowedExtensions,
                 'checkExtensionByMimeType' => $this->checkExtensionByMimeType
             ],
-        ], $this->allowedModelTypes ? [
-            [['model_type'], 'in', 'range' => $this->allowedModelTypes],
-        ] : []);
+        ];
+        $rules[] = $this->allowedModelTypes
+            ? [['model_type'], 'in', 'range' => $this->allowedModelTypes]
+            : [['model_type'], 'string', 'max' => 50];
+        return $rules;
     }
 
     /**
@@ -115,7 +115,7 @@ class UploadModelFileForm extends UploadModelFile
     public function beforeSave($insert): bool
     {
         if (empty($this->model_type)) {
-            $this->model_type = reset($this->allowedModelTypes);
+            $this->model_type = $this->allowedModelTypes ? reset($this->allowedModelTypes) : 'UNKNOWN';
         }
         return parent::beforeSave($insert);
     }

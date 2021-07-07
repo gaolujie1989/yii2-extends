@@ -37,11 +37,6 @@ class FileSource extends BaseObject implements SourceInterface
     /**
      * @var string
      */
-    public $fsPath = 'imports';
-
-    /**
-     * @var string
-     */
     public $localTmpPath = '/tmp/imports';
 
     /**
@@ -57,10 +52,9 @@ class FileSource extends BaseObject implements SourceInterface
     {
         parent::init();
         $this->fileReader = Instance::ensure($this->fileReader, FileReaderInterface::class);
+        $this->localTmpPath = rtrim(Yii::getAlias($this->localTmpPath), "/ \t\n\r \v") . '/';
         if ($this->fs) {
             $this->fs = Instance::ensure($this->fs, Filesystem::class);
-            $this->fsPath = rtrim($this->fsPath, "/ \t\n\r \v") . '/';
-            $this->localTmpPath = rtrim(Yii::getAlias($this->localTmpPath), "/ \t\n\r \v") . '/';
         }
     }
 
@@ -72,11 +66,11 @@ class FileSource extends BaseObject implements SourceInterface
     public function all(): array
     {
         if ($this->fs) {
-            $localFilePath = $this->localTmpPath . $this->file;
-            $fsFilePath = $this->fsPath . $this->file;
+            $fileName = pathinfo($this->file, PATHINFO_BASENAME);
+            $localFilePath = $this->localTmpPath . $fileName;
             $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
             FileHelper::createDirectory($localDir);
-            file_put_contents($localFilePath, $this->fs->read($fsFilePath));
+            file_put_contents($localFilePath, $this->fs->read($this->file));
             $data = $this->fileReader->read($localFilePath);
             if ($this->unlinkTmp) {
                 unlink($localFilePath);

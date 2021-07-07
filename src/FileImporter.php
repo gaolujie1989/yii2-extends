@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange;
 
+use creocoder\flysystem\Filesystem;
 use lujie\data\exchange\sources\FileSource;
 use lujie\extend\file\readers\ExcelReader;
 use yii\di\Instance;
@@ -28,29 +29,31 @@ class FileImporter extends DataExchanger
 
     /**
      * @param string $file
+     * @param Filesystem|null $fs
      * @return bool
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public function import(string $file): bool
+    public function import(string $file, ?Filesystem $fs = null): bool
     {
-        $this->prepare($file);
+        $this->prepare($file, $fs);
         return $this->execute();
     }
 
     /**
      * @param string $file
+     * @param Filesystem|null $fs
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function prepare(string $file): void
+    public function prepare(string $file, ?Filesystem $fs = null): void
     {
         if (is_array($this->fileSource) && empty($this->fileSource['class'])) {
             $this->fileSource['class'] = FileSource::class;
         }
         $this->source = Instance::ensure($this->fileSource, FileSource::class);
         $this->source->file = $file;
+        $this->source->fs = $fs;
     }
 
     /**

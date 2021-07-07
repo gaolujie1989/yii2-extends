@@ -124,12 +124,12 @@ class FileArchiver extends BaseObject
      */
     protected function readFileFirstLine(string $file): ?string
     {
-        if (($resource = fopen($file, 'rb')) !== false) {
-            $line = fgets($resource);
-            fclose($resource);
-            return $line ?: null;
+        if (($resource = fopen($file, 'rb')) === false) {
+            return null;
         }
-        return null;
+        $line = fgets($resource);
+        fclose($resource);
+        return $line ?: null;
     }
 
     /**

@@ -31,7 +31,9 @@ class CsvWriter extends BaseObject implements FileWriterInterface
         if (file_exists($file)) {
             unlink($file);
         }
-        $fp = fopen($file, 'wb');
+        if (($fp = fopen($file, 'wb')) === false) {
+            return;
+        }
         //add BOM to fix UTF-8 in Excel
         //fwrite($fp, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
         if ($this->keyAsHeader) {

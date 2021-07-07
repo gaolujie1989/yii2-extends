@@ -101,7 +101,7 @@ class HttpClientHelper
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public static function downloadFile(Request $request, string $outputFile, $throwException = true): bool
+    public static function downloadFile(Request $request, string $outputFile, bool $throwException = true): bool
     {
         Yii::debug("Download file from {$request->fullUrl} save to {$outputFile}", __METHOD__);
         $request->client->setTransport(CurlTransport::class);
@@ -113,7 +113,9 @@ class HttpClientHelper
             unlink($outputFile);
         }
 
-        $file = fopen($outputFile, 'wb');
+        if (($file = fopen($outputFile, 'wb')) === false) {
+            return false;
+        }
         try {
             $request->setOutputFile($file)->send();
         } catch (\Throwable $e) {

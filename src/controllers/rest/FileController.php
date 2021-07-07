@@ -20,7 +20,7 @@ use yii\rest\Controller;
  * @package backend\controllers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class FsFileController extends Controller
+class FileController extends Controller
 {
     /**
      * @var Filesystem
@@ -41,7 +41,7 @@ class FsFileController extends Controller
      * @return array
      * @inheritdoc
      */
-    public function actions()
+    public function actions(): array
     {
         return array_merge(parent::actions(), [
             'upload' => [

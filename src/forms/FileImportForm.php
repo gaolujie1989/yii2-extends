@@ -13,6 +13,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**
@@ -139,9 +140,20 @@ class FileImportForm extends Model
     public function rules(): array
     {
         return [
+            [[$this->fileAttribute], 'formatFiles'],
             [[$this->fileAttribute], 'required'],
             [[$this->fileAttribute], 'validateFilesExist'],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function formatFiles(): void
+    {
+        if ($this->files && is_array($this->files) && is_array(reset($this->files))) {
+            $this->files = ArrayHelper::getColumn($this->files, 'file');
+        }
     }
 
     /**

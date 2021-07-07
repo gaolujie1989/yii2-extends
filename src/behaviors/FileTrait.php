@@ -79,6 +79,17 @@ trait FileTrait
 
     /**
      * @param string $filePath
+     * @return bool
+     * @inheritdoc
+     */
+    public function existFile(string $filePath): bool
+    {
+        $path = $this->path . $filePath;
+        return $this->fs ? $this->fs->has($path) : file_exists($path);
+    }
+
+    /**
+     * @param string $filePath
      * @param string $source
      * @param bool $deleteFile
      * @return bool

@@ -50,7 +50,7 @@ class UploadForm extends Model
     /**
      * @var string
      */
-    public $fileNameTemplate = 'tmp_{datetime}_{rand}.{ext}';
+    public $fileNameTemplate = '{baseName}_{datetime}_{rand}.{ext}';
 
     /**
      * @return array

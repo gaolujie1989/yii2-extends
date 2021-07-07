@@ -6,7 +6,6 @@
 namespace lujie\upload\behaviors;
 
 use creocoder\flysystem\Filesystem;
-use lujie\plentyMarkets\PlentyMarketsConst;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\FileHelper;
@@ -90,7 +89,11 @@ trait FileTrait
     {
         $path = $this->path . $filePath;
         if ($this->fs) {
-            $result = $this->fs->writeStream($path, fopen($source, 'rb'));
+            if (($fp = fopen($source, 'rb')) === false) {
+                return false;
+            }
+            $result = $this->fs->writeStream($path, $fp);
+            fclose($fp);
             if ($result && $deleteFile) {
                 unlink($source);
             }

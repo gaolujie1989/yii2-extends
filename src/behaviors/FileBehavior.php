@@ -30,8 +30,14 @@ class FileBehavior extends Behavior
      */
     public $url = 'staticUrl';
 
+    /**
+     * @var bool
+     */
     public $unlinkOnUpdate = false;
 
+    /**
+     * @var bool
+     */
     public $unlinkOnDelete = true;
 
     /**
@@ -54,7 +60,11 @@ class FileBehavior extends Behavior
         parent::init();
         $this->initFsAndPath();
         $this->url = Yii::$app->params[$this->url] ?? $this->url;
-        $this->url = rtrim($this->url, '/') . '/';
+        if (strpos($this->url, 'http') === 0) {
+            $this->url = rtrim($this->url, '/') . '/';
+        } else {
+            $this->url = null;
+        }
     }
 
     #region delete old file on events
@@ -100,23 +110,36 @@ class FileBehavior extends Behavior
     #region get file path url and content
 
     /**
-     * @return string
+     * @return string|null
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
+        if ($this->url === null) {
+            return null;
+        }
         $value = $this->owner->{$this->attribute};
         return $this->url . $value;
     }
 
     /**
-     * @return string|null
+     * @return false|string|null
      * @inheritdoc
      */
-    public function getContent(): ?string
+    public function getContent()
     {
         $value = $this->owner->{$this->attribute};
         return $this->read($value);
+    }
+
+    /**
+     * @return false|resource|null
+     * @inheritdoc
+     */
+    public function getStream()
+    {
+        $value = $this->owner->{$this->attribute};
+        return $this->readStream($value);
     }
 
     #endregion

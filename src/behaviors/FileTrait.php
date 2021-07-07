@@ -6,6 +6,7 @@
 namespace lujie\upload\behaviors;
 
 use creocoder\flysystem\Filesystem;
+use lujie\plentyMarkets\PlentyMarketsConst;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\FileHelper;
@@ -29,7 +30,7 @@ trait FileTrait
     public function initFsAndPath(): void
     {
         if ($this->fs) {
-            $this->fs = Instance::ensure($this->fs);
+            $this->fs = Instance::ensure($this->fs, Filesystem::class);
             if (strpos($this->path, '@') === 0 || strpos($this->path, '/') === 0) {
                 $this->path = substr($this->path, 1);
                 $pos = strpos($this->path, '/');
@@ -43,6 +44,8 @@ trait FileTrait
         }
         if ($this->path) {
             $this->path = rtrim($this->path, '/') . '/';
+        } else {
+            $this->path = '';
         }
     }
 
@@ -73,28 +76,30 @@ trait FileTrait
         return $result;
     }
 
+    #region file actions
+
     /**
      * @param string $filePath
-     * @param string $file
+     * @param string $source
      * @param bool $deleteFile
      * @return bool
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function saveFile(string $filePath, string $file, bool $deleteFile = false): bool
+    public function saveFile(string $filePath, string $source, bool $deleteFile = false): bool
     {
         $path = $this->path . $filePath;
         if ($this->fs) {
-            $result = $this->fs->writeStream($path, fopen($file, 'rb'));
-            if ($deleteFile) {
-                unlink($file);
+            $result = $this->fs->writeStream($path, fopen($source, 'rb'));
+            if ($result && $deleteFile) {
+                unlink($source);
             }
         } else {
             $dir = pathinfo($path, PATHINFO_DIRNAME);
             if (!file_exists($dir)) {
                 FileHelper::createDirectory($this->path, 0777);
             }
-            $result = $deleteFile ? rename($file, $path) : copy($file, $path);
+            $result = $deleteFile ? rename($source, $path) : copy($source, $path);
         }
         return $result;
     }
@@ -111,10 +116,8 @@ trait FileTrait
             if ($this->fs->has($path)) {
                 return $this->fs->delete($path);
             }
-        } else {
-            if (file_exists($path)) {
-                return unlink($path);
-            }
+        } else if (file_exists($path)) {
+            return unlink($path);
         }
         return false;
     }
@@ -131,11 +134,29 @@ trait FileTrait
             if ($this->fs->has($path)) {
                 return $this->fs->read($path);
             }
-        } else {
-            if (file_exists($path)) {
-                return file_get_contents($path);
-            }
+        } else if (file_exists($path)) {
+            return file_get_contents($path);
         }
         return null;
     }
+
+    /**
+     * @param string $filePath
+     * @return false|resource|null
+     * @inheritdoc
+     */
+    public function readStream(string $filePath)
+    {
+        $path = $this->path . $filePath;
+        if ($this->fs) {
+            if ($this->fs->has($path)) {
+                return $this->fs->readStream($path);
+            }
+        } else if (file_exists($path)) {
+            return fopen($path, 'rb');
+        }
+        return null;
+    }
+
+    #endregion
 }

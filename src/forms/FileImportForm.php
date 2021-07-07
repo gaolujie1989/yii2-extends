@@ -152,7 +152,7 @@ class FileImportForm extends Model
     public function formatFiles(): void
     {
         if ($this->files && is_array($this->files) && is_array(reset($this->files))) {
-            $this->files = ArrayHelper::getColumn($this->files, 'file');
+            $this->files = array_filter(ArrayHelper::getColumn($this->files, 'file'));
         }
     }
 

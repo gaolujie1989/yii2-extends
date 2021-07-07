@@ -5,8 +5,10 @@
 
 namespace lujie\data\exchange\forms;
 
+use creocoder\flysystem\Filesystem;
 use lujie\data\exchange\FileImporter;
 use lujie\executing\Executor;
+use lujie\upload\behaviors\FileTrait;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -20,6 +22,8 @@ use yii\helpers\Json;
  */
 class FileImportForm extends Model
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -34,6 +38,11 @@ class FileImportForm extends Model
      * @var array
      */
     public $files;
+
+    /**
+     * @var ?Filesystem
+     */
+    public $fs;
 
     /**
      * @var string
@@ -57,13 +66,13 @@ class FileImportForm extends Model
 
     /**
      * @throws InvalidConfigException
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
-        $this->path = Yii::getAlias($this->path);
-        $this->path = rtrim($this->path, '/') . '/';
+        $this->initFsAndPath();
         $this->fileImporter = Instance::ensure($this->fileImporter, FileImporter::class);
         if ($this->executor && Yii::$app->has($this->executor)) {
             $this->executor = Instance::ensure($this->executor, Executor::class);
@@ -141,8 +150,7 @@ class FileImportForm extends Model
     public function validateFilesExist(): void
     {
         foreach ($this->files as $file) {
-            $filePath = $this->path . $file;
-            if (!file_exists($filePath)) {
+            if (!$this->existFile($file)) {
                 $this->addError($this->fileAttribute, Yii::t('lujie/import', 'Import file not exists.'));
             }
         }
@@ -173,7 +181,7 @@ class FileImportForm extends Model
         $fileImporter = $this->fileImporter;
         foreach ($this->files as $file) {
             $filePath = $this->path . $file;
-            $fileImporter->prepare($filePath);
+            $fileImporter->prepare($filePath, $this->fs);
             $executed = $this->executor
                 ? $this->executor->execute($fileImporter)
                 : $fileImporter->execute();

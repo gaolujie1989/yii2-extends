@@ -24,7 +24,7 @@ class ShippingTableSearch extends ShippingTable
     /**
      * @var string
      */
-    public $activeAt;
+    public $active_at;
 
     /**
      * @return array
@@ -33,7 +33,7 @@ class ShippingTableSearch extends ShippingTable
     public function rules(): array
     {
         return array_merge($this->searchRules(), [
-            [['activeAt'], 'date'],
+            [['active_at'], 'date'],
         ]);
     }
 
@@ -44,9 +44,9 @@ class ShippingTableSearch extends ShippingTable
     public function query(): ActiveQueryInterface
     {
         $query = $this->searchQuery();
-        if ($this->activeAt) {
-            $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
-                ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);
+        if ($this->active_at) {
+            $query->andFilterWhere(['<=', 'started_at', $this->active_at])
+                ->andFilterWhere(['>=', 'ended_at', $this->active_at]);
         }
         return $query;
     }

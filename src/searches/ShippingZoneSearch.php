@@ -23,12 +23,12 @@ class ShippingZoneSearch extends ShippingZone
     /**
      * @var string
      */
-    public $activeAt;
+    public $active_at;
 
     /**
      * @var string
      */
-    public $postalCode;
+    public $postal_code;
 
     /**
      * @return array
@@ -37,8 +37,8 @@ class ShippingZoneSearch extends ShippingZone
     public function rules(): array
     {
         return array_merge($this->searchRules(), [
-            [['postalCode'], 'safe'],
-            [['activeAt'], 'date'],
+            [['active_at'], 'date'],
+            [['postal_code'], 'safe'],
         ]);
     }
 
@@ -49,13 +49,13 @@ class ShippingZoneSearch extends ShippingZone
     public function query(): ActiveQueryInterface
     {
         $query = $this->searchQuery();
-        if ($this->activeAt) {
-            $query->andFilterWhere(['<=', 'started_at', $this->activeAt])
-                ->andFilterWhere(['>=', 'ended_at', $this->activeAt]);
+        if ($this->active_at) {
+            $query->andFilterWhere(['<=', 'started_at', $this->active_at])
+                ->andFilterWhere(['>=', 'ended_at', $this->active_at]);
         }
-        if ($this->postalCode) {
-            $query->andFilterWhere(['<=', 'postal_code_from', $this->postalCode])
-                ->andFilterWhere(['>=', 'postal_code_to', $this->postalCode]);
+        if ($this->postal_code) {
+            $query->andFilterWhere(['<=', 'postal_code_from', $this->postal_code])
+                ->andFilterWhere(['>=', 'postal_code_to', $this->postal_code]);
         }
         return $query;
     }

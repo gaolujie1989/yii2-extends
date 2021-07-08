@@ -44,7 +44,7 @@ class ActiveController extends \yii\rest\ActiveController
     /**
      * @var string
      */
-    public $batchFormClass = BatchForm::class;
+    public $batchFormClass;
 
     /**
      * @var string
@@ -94,6 +94,8 @@ class ActiveController extends \yii\rest\ActiveController
         }
         if (empty($this->batchFormClass)) {
             $this->batchFormClass = ClassHelper::getBatchFormClass($this->modelClass);
+        } else {
+            $this->batchFormClass = BatchForm::class;
         }
     }
 

@@ -93,9 +93,7 @@ class ActiveController extends \yii\rest\ActiveController
             $this->searchClass = ClassHelper::getSearchClass($this->modelClass) ?: $this->modelClass;
         }
         if (empty($this->batchFormClass)) {
-            $this->batchFormClass = ClassHelper::getBatchFormClass($this->modelClass);
-        } else {
-            $this->batchFormClass = BatchForm::class;
+            $this->batchFormClass = ClassHelper::getBatchFormClass($this->modelClass) ?: BatchForm::class;
         }
     }
 

@@ -88,7 +88,7 @@ class BatchForm extends Model
             [$ruleAttributes, $ruleName] = $ruleConfig;
             if (in_array($ruleName, $this->invalidRules, true)) {
                 unset($rules[$key]);
-            } else if ($this->convertRules[$ruleName]) {
+            } else if (isset($this->convertRules[$ruleName])) {
                 $rules[$key] = [$ruleAttributes, $this->convertRules[$ruleName]];
             }
         }

@@ -133,10 +133,11 @@ class FileImportForm extends Model
      */
     public function formatFiles(): void
     {
-        if ($this->files && is_array($this->files) && is_array(reset($this->files))) {
-            $this->files = array_filter(ArrayHelper::getColumn($this->files, 'file'));
-        } else if ($this->files && !is_array($this->files)) {
-            $this->files = [$this->files];
+        $files = $this->files;
+        if ($files && is_array($files) && is_array(reset($files))) {
+            $this->files = array_filter(ArrayHelper::getColumn($files, 'file'));
+        } else if ($files && !is_array($files)) {
+            $this->files = [$files];
         }
     }
 

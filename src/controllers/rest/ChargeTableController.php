@@ -21,8 +21,6 @@ class ChargeTableController extends ActiveController
 {
     public $modelClass = ChargeTable::class;
 
-    public $uploadPath = '@uploads/temp';
-
     public $importFormClass = ChargeTableFileImportForm::class;
 
     public $exporterClass = ChargeTableFileExporter::class;

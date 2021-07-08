@@ -21,8 +21,6 @@ class ShippingTableController extends ActiveController
 {
     public $modelClass = ShippingTable::class;
 
-    public $uploadPath = '@uploads/temp';
-
     public $importFormClass = ShippingTableFileImportForm::class;
 
     public $exporterClass = ShippingTableFileExporter::class;

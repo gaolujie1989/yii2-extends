@@ -49,7 +49,7 @@ class ActiveController extends \yii\rest\ActiveController
     /**
      * @var string
      */
-    public $uploadPath;
+    public $uploadPath = '@statics/uploads';
 
     /**
      * @var string

@@ -7,9 +7,13 @@ namespace lujie\data\exchange\forms;
 
 use creocoder\flysystem\Filesystem;
 use lujie\data\exchange\FileImporter;
+use lujie\data\exchange\transformers\ChainedTransformer;
+use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use lujie\executing\Executor;
+use lujie\extend\base\ModelAttributeTrait;
 use lujie\upload\behaviors\FileTrait;
 use Yii;
+use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\di\Instance;
@@ -18,12 +22,15 @@ use yii\helpers\Json;
 
 /**
  * Class OwnerProductImportForm
+ *
+ * @property array $files
+ *
  * @package ccship\common\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class FileImportForm extends Model
 {
-    use FileTrait;
+    use FileTrait, ModelAttributeTrait;
 
     /**
      * @var string
@@ -38,7 +45,7 @@ class FileImportForm extends Model
     /**
      * @var array
      */
-    public $files;
+    public $dataAttributes = [];
 
     /**
      * @var ?Filesystem
@@ -85,41 +92,12 @@ class FileImportForm extends Model
     #region model overwrites
 
     /**
-     * @param string $name
-     * @return array|mixed
-     * @throws \yii\base\UnknownPropertyException
-     * @inheritdoc
-     */
-    public function __get($name)
-    {
-        if ($name === $this->fileAttribute) {
-            return $this->files;
-        }
-        return parent::__get($name);
-    }
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     * @throws \yii\base\UnknownPropertyException
-     * @inheritdoc
-     */
-    public function __set($name, $value)
-    {
-        if ($name === $this->fileAttribute) {
-            $this->files = is_array($value) ? $value : [$value];
-        } else {
-            parent::__set($name, $value);
-        }
-    }
-
-    /**
      * @return array
      * @inheritdoc
      */
     public function attributes(): array
     {
-        return [$this->fileAttribute];
+        return array_merge([$this->fileAttribute], $this->dataAttributes);
     }
 
     /**
@@ -139,11 +117,15 @@ class FileImportForm extends Model
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             [[$this->fileAttribute], 'formatFiles'],
             [[$this->fileAttribute], 'required'],
             [[$this->fileAttribute], 'validateFilesExist'],
         ];
+        if ($this->dataAttributes) {
+            $rules[] = [$this->dataAttributes, 'required'];
+        }
+        return $rules;
     }
 
     /**
@@ -153,6 +135,8 @@ class FileImportForm extends Model
     {
         if ($this->files && is_array($this->files) && is_array(reset($this->files))) {
             $this->files = array_filter(ArrayHelper::getColumn($this->files, 'file'));
+        } else if ($this->files && !is_array($this->files)) {
+            $this->files = [$this->files];
         }
     }
 
@@ -174,7 +158,7 @@ class FileImportForm extends Model
      */
     public function fields(): array
     {
-        return [$this->fileAttribute, 'affectedRowCounts'];
+        return array_merge([$this->fileAttribute, 'affectedRowCounts'], $this->dataAttributes);
     }
 
     #endregion
@@ -190,6 +174,7 @@ class FileImportForm extends Model
             return false;
         }
 
+        $this->applyDataAttributeValues();
         $fileImporter = $this->fileImporter;
         foreach ($this->files as $file) {
             $filePath = $this->path . $file;
@@ -206,5 +191,24 @@ class FileImportForm extends Model
             }
         }
         return !$this->hasErrors();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function applyDataAttributeValues(): void
+    {
+        if ($this->dataAttributes) {
+            $dataAttributeValues = $this->getAttributes($this->dataAttributes);
+            $fillOwnerIdTransformer = new FillDefaultValueTransformer(['defaultValues' => $dataAttributeValues]);
+            $transformer = $this->fileImporter->transformer;
+            if ($transformer instanceof ChainedTransformer) {
+                array_unshift($transformer->transformers, $fillOwnerIdTransformer);
+            } else {
+                $this->fileImporter->transformer = new ChainedTransformer([
+                    'transformers' => [$fillOwnerIdTransformer, $transformer]
+                ]);
+            }
+        }
     }
 }

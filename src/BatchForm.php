@@ -43,6 +43,59 @@ class BatchForm extends Model
     public $modelSafeOnly = true;
 
     /**
+     * @var array
+     */
+    public $invalidRules = [
+        'captcha',
+        'default',
+        'file',
+        'image',
+        'required',
+        'unique',
+    ];
+
+    /**
+     * @var string[]
+     */
+    public $convertRules = [
+        'date' => 'string',
+        'datetime' => 'string',
+        'time' => 'string',
+        'each' => 'safe',
+    ];
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function attributes(): array
+    {
+        /** @var BaseActiveRecord $model */
+        $model = new $this->modelClass();
+        return $model->attributes();
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function rules(): array
+    {
+        /** @var BaseActiveRecord $model */
+        $model = new $this->modelClass();
+        $rules = $model->rules();
+        foreach ($rules as $key => $ruleConfig) {
+            [$ruleAttributes, $ruleName] = $ruleConfig;
+            if (in_array($ruleName, $this->invalidRules, true)) {
+                unset($rules[$key]);
+            } else if ($this->convertRules[$ruleName]) {
+                $rules[$key] = [$ruleAttributes, $this->convertRules[$ruleName]];
+            }
+        }
+        return $rules;
+    }
+
+    /**
      * @param bool $runValidation
      * @param array|null $attributeNames
      * @return bool

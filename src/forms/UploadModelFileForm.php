@@ -5,7 +5,6 @@
 
 namespace lujie\upload\forms;
 
-use lujie\extend\helpers\ModelHelper;
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\models\UploadModelFile;
 
@@ -34,7 +33,7 @@ class UploadModelFileForm extends UploadModelFile
     /**
      * @var string
      */
-    public $path = '@uploads';
+    public $path = '@statics/uploads';
 
     /**
      * @var string

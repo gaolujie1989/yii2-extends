@@ -40,7 +40,7 @@ class UploadForm extends Model
     /**
      * @var string
      */
-    public $path = '@uploads/temp';
+    public $path = '@statics/uploads';
 
     /**
      * @var string

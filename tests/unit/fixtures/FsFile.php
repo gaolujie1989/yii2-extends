@@ -19,7 +19,7 @@ class FsFile extends BaseObject
 
     public $fs;
 
-    public $path = '@uploads';
+    public $path = '@statics';
 
     /**
      * @throws \yii\base\Exception

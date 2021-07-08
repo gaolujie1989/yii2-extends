@@ -57,7 +57,7 @@ class UploadBehavior extends Behavior
      * not use /tmp, file may be clean by system
      * @var string
      */
-    public $path = '@uploads';
+    public $path = '@statics/uploads';
 
     /**
      * @var ?Filesystem

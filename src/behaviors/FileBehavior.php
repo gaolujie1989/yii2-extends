@@ -43,7 +43,7 @@ class FileBehavior extends Behavior
     /**
      * @var string
      */
-    public $path = '@uploads';
+    public $path = '@statics';
 
     /**
      * @var ?Filesystem

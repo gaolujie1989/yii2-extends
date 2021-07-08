@@ -22,7 +22,7 @@ class UploadBehaviorTest extends \Codeception\Test\Unit
 
     protected function _after()
     {
-        FileHelper::removeDirectory(Yii::getAlias('@uploads/tests'));
+        FileHelper::removeDirectory(Yii::getAlias('@statics/uploads/tests'));
         $files = glob(__DIR__ . '/fixtures/tmp*');
         foreach ($files as $file) {
             unlink($file);

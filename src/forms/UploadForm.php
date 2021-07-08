@@ -5,6 +5,7 @@
 
 namespace lujie\upload\forms;
 
+use creocoder\flysystem\Filesystem;
 use lujie\upload\behaviors\UploadBehavior;
 use yii\base\Model;
 use yii\base\ModelEvent;
@@ -43,9 +44,9 @@ class UploadForm extends Model
     public $path = '@statics/uploads';
 
     /**
-     * @var string
+     * @var ?Filesystem
      */
-    public $fs = false;
+    public $fs;
 
     /**
      * @var string

@@ -20,8 +20,6 @@ class AddressPostalCodeController extends ActiveController
 {
     public $modelClass = AddressPostalCode::class;
 
-    public $uploadPath = '@uploads/temp';
-
     /**
      * @return array
      * @throws \yii\base\InvalidConfigException

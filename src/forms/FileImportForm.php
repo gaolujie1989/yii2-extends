@@ -13,7 +13,6 @@ use lujie\executing\Executor;
 use lujie\extend\base\ModelAttributeTrait;
 use lujie\upload\behaviors\FileTrait;
 use Yii;
-use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\di\Instance;
@@ -55,7 +54,7 @@ class FileImportForm extends Model
     /**
      * @var string
      */
-    public $path = '/tmp/imports';
+    public $path = '@statics/uploads';
 
     /**
      * @var FileImporter

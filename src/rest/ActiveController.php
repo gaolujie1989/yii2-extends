@@ -164,6 +164,13 @@ class ActiveController extends \yii\rest\ActiveController
                 'batchFormClass' => $this->batchFormClass,
                 'method' => 'batchUpdate'
             ];
+            $actions['batch-delete'] = [
+                'class' => BatchAction::class,
+                'modelClass' => $this->formClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'batchFormClass' => $this->batchFormClass,
+                'method' => 'batchDelete'
+            ];
         }
 
         if ($this->uploadPath) {

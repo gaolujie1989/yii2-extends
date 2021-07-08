@@ -147,9 +147,7 @@ class ModelHelper
      * @param BaseActiveRecord $model
      * @param ActiveQueryInterface|null $query
      * @param string $alias
-     * @param array|string[] $filterKeySuffixes
-     * @param array|string[] $likeKeySuffixes
-     * @param array|string[] $rangeKeySuffixes
+     * @param array $filterKeySuffixes
      * @return ActiveQueryInterface
      * @inheritdoc
      */
@@ -157,38 +155,47 @@ class ModelHelper
         BaseActiveRecord $model,
         ActiveQueryInterface $query = null,
         string $alias = '',
-        array $filterKeySuffixes = [],
-        array $likeKeySuffixes = [],
-        array $rangeKeySuffixes = []
+        array $filterKeySuffixes = []
     ): ActiveQueryInterface
     {
         $defaultFilterKeySuffixes = [
-            'id', 'type', 'group', 'status',
-            'country', 'currency', 'language',
-            'carrier', 'departure', 'destination',
+            'FILTER' => [
+                'id', 'type', 'group', 'status',
+                'country', 'currency', 'language',
+                'carrier', 'departure', 'destination',
+            ],
+            'LEFT_LIKE' => ['no', 'key', 'code'],
+            'LIKE' => ['name', 'title'],
+            'RANGE' => ['at', 'date', 'time']
         ];
-        $defaultLikeKeySuffixes = ['no', 'key', 'code', 'name', 'title'];
-        $defaultRangeKeySuffixes = ['at', 'date', 'time'];
-        $defaultFilterKeySuffixes = array_combine($defaultFilterKeySuffixes, $defaultFilterKeySuffixes);
-        $defaultLikeKeySuffixes = array_combine($defaultLikeKeySuffixes, $defaultLikeKeySuffixes);
-        $defaultRangeKeySuffixes = array_combine($defaultRangeKeySuffixes, $defaultRangeKeySuffixes);
-
-        $filterKeySuffixes = array_filter(array_merge($defaultFilterKeySuffixes, $filterKeySuffixes));
-        $likeKeySuffixes = array_filter(array_merge($defaultLikeKeySuffixes, $likeKeySuffixes));
-        $rangeKeySuffixes = array_filter(array_merge($defaultRangeKeySuffixes, $rangeKeySuffixes));
-        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
-        $likeAttributes = static::filterAttributes($model->attributes(), $likeKeySuffixes, false);
-        $rangeAttributes = static::filterAttributes($model->attributes(), $rangeKeySuffixes, false);
-
+        foreach ($defaultFilterKeySuffixes as $key => $keySuffixes) {
+            $defaultFilterKeySuffixes[$key] = array_combine($keySuffixes, $keySuffixes);
+        }
+        $filterKeySuffixes = array_merge($defaultFilterKeySuffixes, $filterKeySuffixes);
+        $filterKeySuffixes = array_filter(array_map('array_filter', $filterKeySuffixes));
+        $filterKeyAttributes = [];
+        foreach ($filterKeySuffixes as $key => $keySuffixes) {
+            $filterKeyAttributes[$key] = static::filterAttributes($model->attributes(), $keySuffixes, false);
+        }
         $query = $query ?: $model::find();
-        if ($filterAttributes) {
-            QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), false, $alias);
-        }
-        if ($likeAttributes) {
-            QueryHelper::filterValue($query, $model->getAttributes($likeAttributes), true, $alias);
-        }
-        if ($rangeAttributes) {
-            QueryHelper::filterRange($query, $model->getAttributes($rangeAttributes), $alias);
+        foreach ($filterKeyAttributes as $key => $filterAttributes) {
+            switch ($key) {
+                case 'FILTER':
+                    QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), false, $alias);
+                    break;
+                case 'LEFT_LIKE':
+                    QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), 'L', $alias);
+                    break;
+                case 'RIGHT_LIKE':
+                    QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), 'R', $alias);
+                    break;
+                case 'LIKE':
+                    QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), true, $alias);
+                    break;
+                case 'RANGE':
+                    QueryHelper::filterRange($query, $model->getAttributes($filterAttributes), $alias);
+                    break;
+            }
         }
         return $query;
     }

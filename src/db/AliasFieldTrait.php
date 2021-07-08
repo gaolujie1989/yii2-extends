@@ -9,7 +9,7 @@ use lujie\extend\helpers\ModelHelper;
 use yii\db\BaseActiveRecord;
 
 /**
- * Trait IdFieldTrait
+ * Trait AliasFieldTrait
  *
  * @property int|string $id
  *

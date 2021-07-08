@@ -6,6 +6,7 @@
 namespace lujie\extend\rest;
 
 use lujie\batch\BatchAction;
+use lujie\batch\BatchForm;
 use lujie\data\exchange\actions\FileExportAction;
 use lujie\data\exchange\actions\FileImportAction;
 use lujie\extend\helpers\ClassHelper;
@@ -13,7 +14,6 @@ use lujie\extend\helpers\ModelHelper;
 use lujie\upload\actions\UploadAction;
 use lujie\upload\forms\UploadForm;
 use Yii;
-use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 use yii\rest\IndexAction;
@@ -44,7 +44,7 @@ class ActiveController extends \yii\rest\ActiveController
     /**
      * @var string
      */
-    public $batchFormClass;
+    public $batchFormClass = BatchForm::class;
 
     /**
      * @var string

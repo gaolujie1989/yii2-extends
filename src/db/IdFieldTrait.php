@@ -15,7 +15,7 @@ use yii\db\BaseActiveRecord;
  *
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
- * @deprecated
+ * @deprecated copy from AliasFieldTrait, use AliasFieldTrait instead
  */
 trait IdFieldTrait
 {

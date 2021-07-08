@@ -5,6 +5,7 @@
 
 namespace lujie\charging\searches;
 
+use lujie\alias\behaviors\AliasBehaviorTrait;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
 use lujie\extend\db\SearchTrait;
@@ -17,7 +18,7 @@ use yii\db\ActiveQueryInterface;
  */
 class ShippingZoneSearch extends ShippingZone
 {
-    use SearchTrait;
+    use AliasBehaviorTrait, SearchTrait;
 
     /**
      * @var string

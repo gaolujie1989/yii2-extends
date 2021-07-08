@@ -6,6 +6,7 @@
 namespace lujie\charging\forms;
 
 
+use lujie\alias\behaviors\AliasBehaviorTrait;
 use lujie\charging\models\ShippingZone;
 use lujie\extend\db\FormTrait;
 
@@ -16,5 +17,5 @@ use lujie\extend\db\FormTrait;
  */
 class ShippingZoneForm extends ShippingZone
 {
-    use FormTrait;
+    use AliasBehaviorTrait, FormTrait;
 }

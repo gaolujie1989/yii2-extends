@@ -72,7 +72,7 @@ class BatchForm extends Model
     {
         /** @var BaseActiveRecord $model */
         $model = new $this->modelClass();
-        return $model->attributes();
+        return $model->safeAttributes();
     }
 
     /**

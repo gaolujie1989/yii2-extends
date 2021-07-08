@@ -31,7 +31,7 @@ trait TraceableBehaviorTrait
      */
     public function behaviors(): array
     {
-        return $this->traceableBehaviors();
+        return array_merge(parent::behaviors(), $this->traceableBehaviors());
     }
 
     /**

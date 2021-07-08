@@ -34,7 +34,7 @@ class PlentyMarketsAdminClientTest extends \Codeception\Test\Unit
 
         $fileContent = $pmAdminClient->dynamicExport('OrderComplete_101645', 0, 10);
         $this->assertNotNull($fileContent);
-//        $dir = Yii::getAlias('@uploads/downloads/pm');
+//        $dir = Yii::getAlias('@statics/downloads/pm');
 //        FileHelper::createDirectory($dir);
 //        Console::startProgress($done = 0, $total = 1);
 //        for ($done = 0; $done <= $total; $done++) {

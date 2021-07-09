@@ -9,6 +9,9 @@ use lujie\batch\BatchAction;
 use lujie\batch\BatchForm;
 use lujie\data\exchange\actions\FileExportAction;
 use lujie\data\exchange\actions\FileImportAction;
+use lujie\data\exchange\forms\FileImportForm;
+use lujie\data\exchange\ModelFileExporter;
+use lujie\data\exchange\ModelFileImporter;
 use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ModelHelper;
 use lujie\upload\actions\UploadAction;
@@ -58,13 +61,25 @@ class ActiveController extends \yii\rest\ActiveController
 
     /**
      * @var string
+     * @deprecated
      */
     public $importerClass;
 
     /**
      * @var string
+     * @deprecated
      */
     public $exporterClass;
+
+    /**
+     * @var string
+     */
+    public $importer;
+
+    /**
+     * @var string
+     */
+    public $exporter;
 
     /**
      * @var bool
@@ -86,6 +101,8 @@ class ActiveController extends \yii\rest\ActiveController
     public function init(): void
     {
         parent::init();
+        $this->importer = $this->importerClass;
+        $this->exporter = $this->exporterClass;
         if (empty($this->formClass)) {
             $this->formClass = ClassHelper::getFormClass($this->modelClass) ?: $this->modelClass;
         }
@@ -94,6 +111,21 @@ class ActiveController extends \yii\rest\ActiveController
         }
         if (empty($this->batchFormClass)) {
             $this->batchFormClass = ClassHelper::getBatchFormClass($this->modelClass) ?: BatchForm::class;
+        }
+        if (empty($this->importFormClass)) {
+            $this->importFormClass = ClassHelper::getImportFormClass($this->modelClass) ?: FileImportForm::class;
+        }
+        if (empty($this->importer) && $this->importFormClass === FileImportForm::class) {
+            $this->importer = [
+                'class' => ModelFileImporter::class,
+                'modelClass' => $this->formClass,
+            ];
+        }
+        if (empty($this->exporter)) {
+            $this->exporter = [
+                'class' => ModelFileExporter::class,
+                'modelClass' => $this->searchClass,
+            ];
         }
     }
 
@@ -195,19 +227,19 @@ class ActiveController extends \yii\rest\ActiveController
                     'path' => $this->uploadPath
                 ]
             ];
-            if ($this->importerClass) {
-                $actions['upload']['importModel']['fileImporter'] = $this->importerClass;
+            if ($this->importer) {
+                $actions['upload']['importModel']['fileImporter'] = $this->importer;
             }
         }
 
-        if ($this->exporterClass) {
+        if ($this->exporter) {
             $actions['export'] = [
                 'class' => FileExportAction::class,
                 'modelClass' => $this->searchClass,
                 'queryPreparer' => [
                     'asArray' => true,
                 ],
-                'fileExporter' => $this->exporterClass,
+                'fileExporter' => $this->exporter,
                 'exportFileName' => ClassHelper::getClassShortName($this->modelClass) . '.xlsx'
             ];
         }

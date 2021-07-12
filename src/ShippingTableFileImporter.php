@@ -25,9 +25,9 @@ class ShippingTableFileImporter extends ModelFileImporter
      */
     public $keyMap = [
         'carrier' => 'Carrier',
-        'Departure' => 'departure',
-        'Destination' => 'destination',
-        'Zone' => 'zone',
+        'departure' => 'Departure',
+        'destination' => 'Destination',
+        'zone' => 'Zone',
         'weight_kg_limit' => 'WeightLimit(KG)',
         'length_cm_limit' => 'LengthLimit(CM)',
         'width_cm_limit' => 'WidthLimit(CM)',

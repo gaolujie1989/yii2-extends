@@ -12,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use XLSXWriter;
 use yii\base\BaseObject;
+use yii\helpers\FileHelper;
 
 /**
  * Class ExcelWriter
@@ -40,6 +41,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      * @param array $data
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function write(string $file, array $data): void
@@ -47,6 +49,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
         if (file_exists($file)) {
             unlink($file);
         }
+        FileHelper::createDirectory(dirname($file));
         if ($this->keyAsHeader) {
             if ($this->multiSheet) {
                 array_walk($data, static function (&$datum) {

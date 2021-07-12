@@ -7,6 +7,7 @@ namespace lujie\extend\file\writers;
 
 use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
+use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 
 /**
@@ -20,9 +21,11 @@ class PhpWriter extends BaseObject implements FileWriterInterface
      * @param string $file
      * @param array $data
      * @inheritdoc
+     * @throws \yii\base\Exception
      */
     public function write(string $file, array $data): void
     {
+        FileHelper::createDirectory(dirname($file));
         file_put_contents($file, "<?php\nreturn " . VarDumper::export($data) . ';');
     }
 }

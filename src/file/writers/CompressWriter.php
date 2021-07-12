@@ -11,6 +11,7 @@ use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
+use yii\helpers\FileHelper;
 use yii\queue\serializers\JsonSerializer;
 use yii\queue\serializers\SerializerInterface;
 
@@ -50,6 +51,7 @@ class CompressWriter extends BaseObject implements FileWriterInterface
     /**
      * @param string $file
      * @param array $data
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function write(string $file, array $data): void
@@ -58,6 +60,7 @@ class CompressWriter extends BaseObject implements FileWriterInterface
         if ($this->compressor) {
             $content = $this->compressor->compress($content);
         }
+        FileHelper::createDirectory(dirname($file));
         file_put_contents($file, $content);
     }
 }

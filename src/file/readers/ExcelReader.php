@@ -138,7 +138,7 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             $imagick = new Imagick();
             $imagick->readImage($drawing->getPath());
             $imagick->writeImage($imagePath);
-            $startColumn = ExcelReader::abc2Int($startColumn);
+            $startColumn = static::abc2Int($startColumn);
             $images[(int)$startRow - 1][$startColumn - 1] = $imagePath;
         }
         return $images;
@@ -155,9 +155,9 @@ class ExcelReader extends BaseObject implements FileReaderInterface
         $columnABC = strtoupper($columnABC);
         $len = strlen($columnABC);
         for ($i = 1; $i <= $len; $i++) {
-            $char = substr($columnABC, $i - 1, 1);
+            $char = $columnABC[$i - 1];
             $int = ord($char);
-            $ten += ($int - 64) * pow(26, $len - $i);
+            $ten += ($int - 64) * (26 ** ($len - $i));
         }
         return $ten;
     }

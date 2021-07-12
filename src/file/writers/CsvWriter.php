@@ -7,6 +7,7 @@ namespace lujie\extend\file\writers;
 
 use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
+use yii\helpers\FileHelper;
 
 /**
  * Class CsvWriter
@@ -24,6 +25,7 @@ class CsvWriter extends BaseObject implements FileWriterInterface
     /**
      * @param string $file
      * @param array $data
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function write(string $file, array $data): void
@@ -31,6 +33,7 @@ class CsvWriter extends BaseObject implements FileWriterInterface
         if (file_exists($file)) {
             unlink($file);
         }
+        FileHelper::createDirectory(dirname($file));
         if (($fp = fopen($file, 'wb')) === false) {
             return;
         }

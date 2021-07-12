@@ -8,6 +8,7 @@ namespace lujie\extend\file\writers;
 use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
 use yii\di\Instance;
+use yii\helpers\FileHelper;
 use yii2tech\html2pdf\Manager;
 
 /**
@@ -39,6 +40,7 @@ class PdfWriter extends BaseObject implements FileWriterInterface
         if (file_exists($file)) {
             unlink($file);
         }
+        FileHelper::createDirectory(dirname($file));
         $this->html2pdf = Instance::ensure($this->html2pdf, Manager::class);
         $tempFile = $this->html2pdf->convert(implode('<br />', $data), $this->options);
         $tempFile->move($file);

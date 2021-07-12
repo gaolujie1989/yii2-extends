@@ -41,9 +41,14 @@ class ZipWriter extends BaseObject implements FileWriterInterface
      * @param string $file
      * @param array $data
      * @inheritdoc
+     * @throws \yii\base\Exception
      */
     public function write(string $file, array $data): void
     {
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        FileHelper::createDirectory(dirname($file));
         $zipArchive = new ZipArchive();
         if (($errorCode = $zipArchive->open($file, $this->zipFlags)) !== true) {
             $error = $this->errorMessages[$errorCode] ?? "Unknown (Code {$errorCode})";

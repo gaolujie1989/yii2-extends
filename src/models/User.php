@@ -3,11 +3,6 @@
 namespace lujie\user\models;
 
 use lujie\extend\constants\StatusConst;
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
@@ -23,10 +18,8 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property int $status
  */
-class User extends \yii\db\ActiveRecord implements IdentityInterface
+class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     public const LOGIN_TYPE = 'Login';
 
     protected const CACHE_DURATION = 86400;

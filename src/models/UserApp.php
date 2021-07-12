@@ -3,11 +3,6 @@
 namespace lujie\user\models;
 
 use lujie\extend\constants\StatusConst;
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 use yii\caching\TagDependency;
 use yii\db\ActiveQuery;
@@ -24,10 +19,8 @@ use yii\db\ActiveQuery;
  *
  * @property User $user
  */
-class UserApp extends \yii\db\ActiveRecord
+class UserApp extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     public const LOGIN_TYPE = 'AppLogin';
 
     /**

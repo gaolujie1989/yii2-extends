@@ -5,20 +5,20 @@
 
 namespace lujie\charging;
 
-use lujie\charging\forms\ShippingZoneForm;
-use lujie\data\exchange\ModelFileImporter;
+use lujie\charging\searches\ShippingZoneSearch;
+use lujie\data\exchange\ModelFileExporter;
 
 /**
  * Class ShippingZoneFileImporter
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingZoneFileImporter extends ModelFileImporter
+class ShippingZoneFileExporter extends ModelFileExporter
 {
     /**
      * @var string
      */
-    public $modelClass = ShippingZoneForm::class;
+    public $modelClass = ShippingZoneSearch::class;
 
     /**
      * @var string[]

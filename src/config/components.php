@@ -4,7 +4,7 @@
  */
 
 use lujie\charging\calculators\ShippingTableCalculator;
-use lujie\charging\ChargeTableCalculator;
+use lujie\charging\calculators\ChargeTableCalculator;
 use lujie\data\loader\ArrayDataLoader;
 
 return [

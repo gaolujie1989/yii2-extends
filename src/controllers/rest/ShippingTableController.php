@@ -22,18 +22,4 @@ class ShippingTableController extends ActiveController
     public $modelClass = ShippingTable::class;
 
     public $importFormClass = ShippingTableFileImportForm::class;
-
-    public $exporterClass = ShippingTableFileExporter::class;
-
-    public $batchFormClass = ShippingTableBatchForm::class;
-
-    /**
-     * @inheritdoc
-     */
-    public function actionDownloadTemplate(): void
-    {
-        $file = '@lujie/charging/templates/ShippingTableTemplate.xlsx';
-        $fileName = 'ShippingTableTemplate.xlsx';
-        Yii::$app->getResponse()->sendFile(Yii::getAlias($file), $fileName);
-    }
 }

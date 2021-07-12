@@ -19,16 +19,5 @@ class ShippingZoneController extends ActiveController
 {
     public $modelClass = ShippingZone::class;
 
-
     public $importFormClass = ShippingZoneFileImportForm::class;
-
-    /**
-     * @inheritdoc
-     */
-    public function actionDownloadTemplate(): void
-    {
-        $file = '@lujie/charging/templates/ShippingZoneTemplate.xlsx';
-        $fileName = 'ShippingZoneTemplate.xlsx';
-        Yii::$app->getResponse()->sendFile(Yii::getAlias($file), $fileName);
-    }
 }

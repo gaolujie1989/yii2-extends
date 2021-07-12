@@ -22,18 +22,4 @@ class ChargeTableController extends ActiveController
     public $modelClass = ChargeTable::class;
 
     public $importFormClass = ChargeTableFileImportForm::class;
-
-    public $exporterClass = ChargeTableFileExporter::class;
-
-    public $batchFormClass = ChargeTableBatchForm::class;
-
-    /**
-     * @inheritdoc
-     */
-    public function actionDownloadTemplate(): void
-    {
-        $file = '@lujie/charging/templates/ChargeTableTemplate.xlsx';
-        $fileName = 'ChargeTableTemplate.xlsx';
-        Yii::$app->getResponse()->sendFile(Yii::getAlias($file), $fileName);
-    }
 }

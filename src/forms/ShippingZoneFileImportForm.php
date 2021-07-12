@@ -5,13 +5,8 @@
 
 namespace lujie\charging\forms;
 
-use lujie\charging\ChargeTableFileImporter;
-use lujie\charging\ShippingTableFileImporter;
 use lujie\charging\ShippingZoneFileImporter;
 use lujie\data\exchange\forms\FileImportForm;
-use lujie\data\exchange\transformers\ChainedTransformer;
-use lujie\data\exchange\transformers\FillDefaultValueTransformer;
-use lujie\extend\helpers\ModelHelper;
 
 /**
  * Class ShippingZoneFileImportForm
@@ -23,22 +18,10 @@ class ShippingZoneFileImportForm extends FileImportForm
     /**
      * @var string[]
      */
-    public $dataAttributes = ['owner_id', 'started_time', 'ended_time', 'departure'];
+    public $dataAttributes = ['owner_id', 'started_time', 'ended_time'];
 
     /**
-     * @var ShippingTableFileImporter
+     * @var ShippingZoneFileImporter
      */
-    public $fileImporter = ShippingTableFileImporter::class;
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        $rules = parent::rules();
-        ModelHelper::removeAttributesRules($rules, 'departure');
-        $rules[] = [['departure'], 'default', 'value' => 'DE'];
-        return $rules;
-    }
+    public $fileImporter = ShippingZoneFileImporter::class;
 }

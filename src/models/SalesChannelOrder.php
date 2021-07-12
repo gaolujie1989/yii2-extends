@@ -2,11 +2,6 @@
 
 namespace lujie\sales\channel\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -29,10 +24,8 @@ use Yii;
  * @property int $order_pulled_at
  * @property array|null $additional
  */
-class SalesChannelOrder extends \yii\db\ActiveRecord
+class SalesChannelOrder extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

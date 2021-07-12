@@ -32,6 +32,11 @@ class ModelFileImporter extends FileImporter
     public $keyMap = [];
 
     /**
+     * @var bool
+     */
+    public $keyMapFlip = true;
+
+    /**
      * @var string
      */
     public $filterKey = '';
@@ -62,6 +67,9 @@ class ModelFileImporter extends FileImporter
             $model = new $this->modelClass();
             $safeAttributes = $model->safeAttributes();
             $this->keyMap = array_combine($safeAttributes, $safeAttributes);
+        }
+        if ($this->keyMapFlip) {
+            $this->keyMap = array_flip($this->keyMap);
         }
         if (empty($this->filterKey)) {
             $this->filterKey = reset($this->keyMap);

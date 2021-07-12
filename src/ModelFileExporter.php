@@ -70,6 +70,7 @@ class ModelFileExporter extends FileExporter
                     'prepareRows' => [$this->modelClass, $this->dataPreparer],
                     'keyMap' => [
                         'class' => KeyMapTransformer::class,
+                        'unsetNotInMapKey' => true,
                         'keyMap' => $this->keyMap
                     ],
                 ]

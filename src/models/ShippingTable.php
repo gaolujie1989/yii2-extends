@@ -5,11 +5,6 @@ namespace lujie\charging\models;
 use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\alias\behaviors\UnitAliasBehavior;
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -50,10 +45,8 @@ use Yii;
  * @property float $started_time
  * @property float $ended_time
  */
-class ShippingTable extends \yii\db\ActiveRecord
+class ShippingTable extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

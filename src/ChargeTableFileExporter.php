@@ -25,6 +25,7 @@ class ChargeTableFileExporter extends ModelFileExporter
      */
     public $keyMap = [
         'charge_type' => 'ChargeType',
+        'custom_type' => 'CustomType',
         'display_min_limit' => 'MinLimit',
         'display_max_limit' => 'MaxLimit',
         'display_limit_unit' => 'LimitUnit',

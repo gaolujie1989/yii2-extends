@@ -5,7 +5,6 @@
 
 namespace lujie\charging\forms;
 
-use lujie\charging\ShippingZoneFileImporter;
 use lujie\data\exchange\forms\FileImportForm;
 
 /**
@@ -19,9 +18,4 @@ class ShippingZoneFileImportForm extends FileImportForm
      * @var string[]
      */
     public $dataAttributes = ['owner_id', 'started_time', 'ended_time'];
-
-    /**
-     * @var ShippingZoneFileImporter
-     */
-    public $fileImporter = ShippingZoneFileImporter::class;
 }

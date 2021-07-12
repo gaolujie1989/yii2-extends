@@ -102,6 +102,9 @@ class ActiveController extends \yii\rest\ActiveController
     public function init(): void
     {
         parent::init();
+        if (empty($this->modelClass)) {
+            return;
+        }
         if (empty($this->formClass)) {
             $this->formClass = ClassHelper::getFormClass($this->modelClass) ?: $this->modelClass;
         }

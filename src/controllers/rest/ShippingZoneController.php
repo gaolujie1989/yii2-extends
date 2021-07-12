@@ -5,10 +5,8 @@
 
 namespace lujie\charging\controllers\rest;
 
-use lujie\charging\forms\ShippingZoneFileImportForm;
 use lujie\charging\models\ShippingZone;
 use lujie\extend\rest\ActiveController;
-use Yii;
 
 /**
  * Class ShippingZoneController
@@ -18,6 +16,4 @@ use Yii;
 class ShippingZoneController extends ActiveController
 {
     public $modelClass = ShippingZone::class;
-
-    public $importFormClass = ShippingZoneFileImportForm::class;
 }

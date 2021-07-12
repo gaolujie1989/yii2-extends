@@ -5,12 +5,8 @@
 
 namespace lujie\charging\controllers\rest;
 
-use lujie\charging\forms\ShippingTableBatchForm;
-use lujie\charging\forms\ShippingTableFileImportForm;
 use lujie\charging\models\ShippingTable;
-use lujie\charging\ShippingTableFileExporter;
 use lujie\extend\rest\ActiveController;
-use Yii;
 
 /**
  * Class ShippingTableController
@@ -20,6 +16,4 @@ use Yii;
 class ShippingTableController extends ActiveController
 {
     public $modelClass = ShippingTable::class;
-
-    public $importFormClass = ShippingTableFileImportForm::class;
 }

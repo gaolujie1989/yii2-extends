@@ -2,11 +2,6 @@
 
 namespace lujie\queuing\monitor\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -21,10 +16,8 @@ use Yii;
  * @property int $success_count
  * @property int $failed_count
  */
-class QueueWorker extends \yii\db\ActiveRecord
+class QueueWorker extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

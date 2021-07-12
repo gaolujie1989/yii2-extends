@@ -2,11 +2,6 @@
 
 namespace lujie\queuing\monitor\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -22,10 +17,8 @@ use Yii;
  * @property int $last_exec_at
  * @property int $last_exec_status
  */
-class QueueJob extends \yii\db\ActiveRecord
+class QueueJob extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

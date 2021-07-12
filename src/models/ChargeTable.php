@@ -68,9 +68,9 @@ class ChargeTable extends \lujie\extend\db\ActiveRecord
      * @return array
      * @inheritdoc
      */
-    public function behaviors(): array
+    public function aliasBehaviors(): array
     {
-        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
+        return array_merge(parent::aliasBehaviors(), [
             'additionalAlias' => [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [

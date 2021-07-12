@@ -2,8 +2,6 @@
 
 namespace lujie\charging\models;
 
-use lujie\alias\behaviors\MoneyAliasBehavior;
-use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\alias\behaviors\UnitAliasBehavior;
 use Yii;
 
@@ -80,15 +78,9 @@ class ShippingTable extends \lujie\extend\db\ActiveRecord
      * @return array
      * @inheritdoc
      */
-    public function behaviors(): array
+    public function aliasBehaviors(): array
     {
-        return array_merge(parent::behaviors(), $this->traceableBehaviors(), [
-            'money' => [
-                'class' => MoneyAliasBehavior::class,
-                'aliasProperties' => [
-                    'price' => 'price_cent',
-                ]
-            ],
+        return array_merge(parent::aliasBehaviors(), [
             'unitWeight' => [
                 'class' => UnitAliasBehavior::class,
                 'baseUnit' => 'g',
@@ -121,13 +113,6 @@ class ShippingTable extends \lujie\extend\db\ActiveRecord
                     'volume_l_limit' => 'volume_mm3_limit',
                 ]
             ],
-            'timestamp' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'started_time' => 'started_at',
-                    'ended_time' => 'ended_at',
-                ]
-            ]
         ]);
     }
 

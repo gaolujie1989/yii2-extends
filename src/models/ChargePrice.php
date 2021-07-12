@@ -3,7 +3,6 @@
 namespace lujie\charging\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
-use lujie\alias\behaviors\MoneyAliasBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -83,20 +82,10 @@ class ChargePrice extends \lujie\extend\db\ActiveRecord
      * @return array
      * @inheritdoc
      */
-    public function behaviors(): array
+    public function aliasBehaviors(): array
     {
-        return array_merge(parent::behaviors(), [
-            'money' => [
-                'class' => MoneyAliasBehavior::class,
-                'aliasProperties' => [
-                    'price' => 'price_cent',
-                    'subtotal' => 'subtotal_cent',
-                    'discount' => 'discount_cent',
-                    'surcharge' => 'surcharge_cent',
-                    'grand_total' => 'grand_total_cent',
-                ]
-            ],
-            'alias' => [
+        return array_merge(parent::aliasBehaviors(), [
+            'additionalAlias' => [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [
                     'error' => 'additional.error',

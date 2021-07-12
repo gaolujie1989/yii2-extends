@@ -2,11 +2,6 @@
 
 namespace lujie\eav\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -19,10 +14,8 @@ use Yii;
  * @property mixed $value
  * @property string $channel
  */
-class ModelValue extends \yii\db\ActiveRecord
+class ModelValue extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

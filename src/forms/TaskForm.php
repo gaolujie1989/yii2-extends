@@ -5,7 +5,6 @@
 
 namespace lujie\project\forms;
 
-use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\extend\db\FormTrait;
@@ -37,14 +36,6 @@ class TaskForm extends Task
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,
                 'relations' => ['attachments']
-            ],
-            'tsAlias' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'due_time' => 'due_at',
-                    'started_time' => 'started_at',
-                    'finished_time' => 'finished_at'
-                ]
             ],
             'position' => [
                 'class' => PositionBehavior::class,

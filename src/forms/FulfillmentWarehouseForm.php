@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\forms;
 
-use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\extend\db\FormTrait;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 
@@ -17,20 +16,4 @@ use lujie\fulfillment\models\FulfillmentWarehouse;
 class FulfillmentWarehouseForm extends FulfillmentWarehouse
 {
     use FormTrait;
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'tsAlias' => [
-                'class' => TimestampAliasBehavior::class,
-                'aliasProperties' => [
-                    'external_movement_time' => 'external_movement_at',
-                ]
-            ]
-        ]);
-    }
 }

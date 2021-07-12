@@ -72,7 +72,16 @@ class Address extends \lujie\extend\db\ActiveRecord
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return array_merge(parent::behaviors(), $this->aliasBehaviors());
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function aliasBehaviors(): array
+    {
+        return array_merge(parent::aliasBehaviors(), [
             'alias' => [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => [

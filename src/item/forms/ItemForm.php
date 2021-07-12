@@ -5,7 +5,6 @@
 
 namespace lujie\common\item\forms;
 
-use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\common\item\models\Item;
@@ -65,25 +64,7 @@ class ItemForm extends Item
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,
                 'relations' => ['barcodes'],
-            ],
-            'unitG2KG' => [
-                'class' => UnitAliasBehavior::class,
-                'aliasProperties' => [
-                    'weight_kg' => 'weight_g',
-                ],
-                'baseUnit' => UnitAliasBehavior::UNIT_WEIGHT_G,
-                'displayUnit' => UnitAliasBehavior::UNIT_WEIGHT_KG,
-            ],
-            'unitMM2CM' => [
-                'class' => UnitAliasBehavior::class,
-                'aliasProperties' => [
-                    'length_cm' => 'length_mm',
-                    'width_cm' => 'width_mm',
-                    'height_cm' => 'height_mm',
-                ],
-                'baseUnit' => UnitAliasBehavior::UNIT_SIZE_MM,
-                'displayUnit' => UnitAliasBehavior::UNIT_SIZE_CM,
-            ],
+            ]
         ]);
     }
 

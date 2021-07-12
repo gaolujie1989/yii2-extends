@@ -11,6 +11,7 @@ use yii\helpers\Json;
  * Class TimestampAliasBehavior
  * @package lujie\core\behaviors
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 class JsonAliasBehavior extends AliasPropertyBehavior
 {

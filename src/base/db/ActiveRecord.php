@@ -5,18 +5,11 @@
 
 namespace lujie\data\recording\base\db;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
-
 /**
  * Class ActiveRecord
- * @package lujie\shipping\center\db
+ * @package lujie\data\recording\base\db
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ActiveRecord extends \yii\db\ActiveRecord
+class ActiveRecord extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
 }

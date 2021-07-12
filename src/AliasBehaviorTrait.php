@@ -56,7 +56,7 @@ trait AliasBehaviorTrait
     {
         $behaviors = [];
         /** @var BaseActiveRecord $this */
-        $attributes = $this->attributes();
+        $attributes = array_diff($this->attributes(), ['created_at', 'updated_at']);
         foreach ($this->getAliasDefinitions() as $name => [$behaviorConfig, $attributeAlias]) {
             $aliasProperties = [];
             foreach ($attributeAlias as $aliasSuffix => $attributeSuffix) {

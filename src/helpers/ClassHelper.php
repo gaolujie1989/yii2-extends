@@ -76,6 +76,26 @@ class ClassHelper
     }
 
     /**
+     * @param string $modelClass
+     * @return string|null
+     * @inheritdoc
+     */
+    public static function getImporterClass(string $modelClass): ?string
+    {
+        return static::getModelClass($modelClass, ['models' => 'importers'], 'FileImporter');
+    }
+
+    /**
+     * @param string $modelClass
+     * @return string|null
+     * @inheritdoc
+     */
+    public static function getExporterClass(string $modelClass): ?string
+    {
+        return static::getModelClass($modelClass, ['models' => 'exporters'], 'FileExporter');
+    }
+
+    /**
      * @param BaseActiveRecord|string $modelOrClass
      * @return string|null
      * @inheritdoc

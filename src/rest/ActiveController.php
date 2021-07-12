@@ -102,8 +102,6 @@ class ActiveController extends \yii\rest\ActiveController
     public function init(): void
     {
         parent::init();
-        $this->importer = $this->importerClass;
-        $this->exporter = $this->exporterClass;
         if (empty($this->formClass)) {
             $this->formClass = ClassHelper::getFormClass($this->modelClass) ?: $this->modelClass;
         }
@@ -116,6 +114,11 @@ class ActiveController extends \yii\rest\ActiveController
         if (empty($this->importFormClass)) {
             $this->importFormClass = ClassHelper::getImportFormClass($this->modelClass) ?: FileImportForm::class;
         }
+        $this->importer = $this->importerClass;
+        $this->exporter = $this->exporterClass;
+        if (empty($this->importer)) {
+            $this->importer = ClassHelper::getImporterClass($this->modelClass);
+        }
         if (empty($this->importer) && $this->importFormClass === FileImportForm::class) {
             $this->importer = [
                 'class' => ModelFileImporter::class,
@@ -123,7 +126,7 @@ class ActiveController extends \yii\rest\ActiveController
             ];
         }
         if (empty($this->exporter)) {
-            $this->exporter = [
+            $this->exporter = ClassHelper::getExporterClass($this->modelClass) ?: [
                 'class' => ModelFileExporter::class,
                 'modelClass' => $this->searchClass,
             ];

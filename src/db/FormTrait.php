@@ -33,4 +33,17 @@ trait FormTrait
         /** @var BaseActiveRecord $this */
         return ModelHelper::formRules($this, parent::rules());
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        $behaviors = parent::behaviors();
+        if (method_exists($this, 'aliasBehaviors')) {
+            $behaviors = array_merge($behaviors, $this->aliasBehaviors());
+        }
+        return $behaviors;
+    }
 }

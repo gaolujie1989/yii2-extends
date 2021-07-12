@@ -55,6 +55,19 @@ trait SearchTrait
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        $behaviors = parent::behaviors();
+        if (method_exists($this, 'aliasBehaviors')) {
+            $behaviors = array_merge($behaviors, $this->aliasBehaviors());
+        }
+        return $behaviors;
+    }
+
+    /**
      * @return ActiveQueryInterface
      * @inheritdoc
      */

@@ -3,11 +3,6 @@
 namespace lujie\scheduling\monitor\models;
 
 use lujie\alias\behaviors\JsonAliasBehavior;
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -30,10 +25,8 @@ use Yii;
  * @property int $attempts
  * @property int $status
  */
-class ScheduleTask extends \yii\db\ActiveRecord
+class ScheduleTask extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

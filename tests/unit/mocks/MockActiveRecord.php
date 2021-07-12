@@ -5,6 +5,7 @@
 
 namespace lujie\extend\tests\unit\mocks;
 
+use lujie\alias\behaviors\AliasBehaviorTrait;
 use lujie\extend\db\AliasFieldTrait;
 use lujie\extend\db\DbConnectionTrait;
 use lujie\extend\db\DeleteTrait;
@@ -20,7 +21,7 @@ use yii\db\ActiveRecord;
  */
 class MockActiveRecord extends ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
+    use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait, SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 
     public static $inserts = [];
 

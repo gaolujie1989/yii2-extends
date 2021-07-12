@@ -26,6 +26,7 @@ class ClassHelper
         $formClasses = [
             strtr($modelClass, $replaces) . $suffix,
             $modelClass . $suffix,
+            strtr($modelClass, ['\\models' => '']) . $suffix
         ];
         foreach ($formClasses as $formClass) {
             if (class_exists($formClass)) {

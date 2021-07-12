@@ -9,6 +9,7 @@ use lujie\batch\BatchAction;
 use lujie\batch\BatchForm;
 use lujie\data\exchange\actions\FileExportAction;
 use lujie\data\exchange\actions\FileImportAction;
+use lujie\data\exchange\actions\FileImportTemplateAction;
 use lujie\data\exchange\forms\FileImportForm;
 use lujie\data\exchange\ModelFileExporter;
 use lujie\data\exchange\ModelFileImporter;
@@ -229,6 +230,13 @@ class ActiveController extends \yii\rest\ActiveController
             ];
             if ($this->importer) {
                 $actions['upload']['importModel']['fileImporter'] = $this->importer;
+
+                $actions['template'] = [
+                    'class' => FileImportTemplateAction::class,
+                    'modelClass' => $this->searchClass,
+                    'fileImporter' => $this->importer,
+                    'templateFileName' => 'template_' . ClassHelper::getClassShortName($this->modelClass) . '.xlsx'
+                ];
             }
         }
 

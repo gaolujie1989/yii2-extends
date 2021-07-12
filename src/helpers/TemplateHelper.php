@@ -52,6 +52,7 @@ class TemplateHelper
             '{datetime}' => date('YmdHis'),
             '{date}' => date('Ymd'),
             '{time}' => date('His'),
+            '{rand}' => random_int(1000, 9999),
             '{rand1}' => random_int(0, 9),
             '{rand2}' => random_int(10, 99),
             '{rand3}' => random_int(100, 999),

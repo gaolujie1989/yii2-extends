@@ -15,15 +15,6 @@ use yii\db\BaseActiveRecord;
 trait AliasBehaviorTrait
 {
     /**
-     * @return array
-     * @inheritdoc
-     */
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), $this->aliasBehaviors());
-    }
-
-    /**
      * @return array[]
      * @inheritdoc
      */

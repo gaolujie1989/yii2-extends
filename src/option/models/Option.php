@@ -2,11 +2,6 @@
 
 namespace lujie\common\option\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -21,10 +16,8 @@ use yii\db\ActiveQuery;
  * @property array|null $labels
  * @property array|null $additional
  */
-class Option extends \yii\db\ActiveRecord
+class Option extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

@@ -2,11 +2,6 @@
 
 namespace lujie\common\shipping\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
@@ -21,10 +16,8 @@ use Yii;
  * @property int $status
  * @property int $owner_id
  */
-class ShippingRule extends \yii\db\ActiveRecord
+class ShippingRule extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

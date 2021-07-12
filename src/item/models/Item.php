@@ -2,11 +2,6 @@
 
 namespace lujie\common\item\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -27,10 +22,8 @@ use yii\db\ActiveQuery;
  *
  * @property ItemBarcode[] $barcodes
  */
-class Item extends \yii\db\ActiveRecord
+class Item extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     public const ITEM_BARCODE_CLASS = ItemBarcode::class;
 
     /**

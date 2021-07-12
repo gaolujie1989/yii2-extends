@@ -3,11 +3,6 @@
 namespace lujie\common\address\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
 use yii\helpers\Json;
 
@@ -41,10 +36,8 @@ use yii\helpers\Json;
  * @property string $house_no
  * @property string $additional
  */
-class Address extends \yii\db\ActiveRecord
+class Address extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * {@inheritdoc}
      */

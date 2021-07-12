@@ -117,7 +117,7 @@ class ModelFileImporter extends FileImporter
         if ($this->keyMapNotes) {
             $data[] = array_merge(array_fill_keys($columns, ''), $this->keyMapNotes);
         }
-        ExcelHelper::writeExcel($path, $data);
+        ExcelHelper::writeExcel($path, $data, false);
         return $path;
     }
 }

@@ -109,7 +109,12 @@ class FileExportAction extends Action
             : $fileExporter->execute();
         if ($executed) {
             $filePath = $fileExporter->getFilePath();
-            Yii::$app->getResponse()->sendFile($filePath, $this->exportFileName);
+            $response = Yii::$app->getResponse();
+            if (is_file($filePath)) {
+                $response->sendFile($filePath, $this->exportFileName);
+            } else {
+                $response->data = ['No Data'];
+            }
             ini_set('memory_limit', $memoryLimit);
             return;
         }

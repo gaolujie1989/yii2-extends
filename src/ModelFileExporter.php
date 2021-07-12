@@ -35,6 +35,7 @@ class ModelFileExporter extends FileExporter
      * @var array
      */
     public $filterAttributes = [
+        'id',
         'created_at',
         'created_by',
         'updated_at',
@@ -59,7 +60,8 @@ class ModelFileExporter extends FileExporter
         if (empty($this->keyMap)) {
             /** @var BaseActiveRecord $model */
             $model = new $this->modelClass();
-            $attributes = array_keys($model->toArray());
+            $model->setAttributes(array_fill_keys($model->attributes(), ''), false);
+            $attributes = array_keys($model->fields());
             $attributes = array_diff($attributes, $model::primaryKey(), $this->filterAttributes);
             $this->keyMap = array_combine($attributes, $attributes);
         }

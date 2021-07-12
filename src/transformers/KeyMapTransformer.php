@@ -42,6 +42,9 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
                 $values = ArrayHelper::toArray($values);
             }
             foreach ($this->keyMap as $from => $to) {
+                if ($from === $to) {
+                    continue;
+                }
                 if (isset($values[$from])) {
                     $values[$to] = &$values[$from];
                     if ($this->unsetOriginalKey) {

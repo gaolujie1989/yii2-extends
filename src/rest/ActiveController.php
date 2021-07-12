@@ -117,10 +117,7 @@ class ActiveController extends \yii\rest\ActiveController
         $this->importer = $this->importerClass;
         $this->exporter = $this->exporterClass;
         if (empty($this->importer)) {
-            $this->importer = ClassHelper::getImporterClass($this->modelClass);
-        }
-        if (empty($this->importer) && $this->importFormClass === FileImportForm::class) {
-            $this->importer = [
+            $this->importer = ClassHelper::getImporterClass($this->modelClass) ?: [
                 'class' => ModelFileImporter::class,
                 'modelClass' => $this->formClass,
             ];

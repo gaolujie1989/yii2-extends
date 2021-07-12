@@ -67,7 +67,7 @@ class ModelFileExporter extends FileExporter
             ? [
                 'class' => ChainedTransformer::class,
                 'transformers' => [
-                    'prepareRows' => [$this->modelClass, 'prepareRows'],
+                    'prepareRows' => [$this->modelClass, $this->dataPreparer],
                     'keyMap' => [
                         'class' => KeyMapTransformer::class,
                         'keyMap' => $this->keyMap

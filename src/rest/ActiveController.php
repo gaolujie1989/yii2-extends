@@ -229,7 +229,7 @@ class ActiveController extends \yii\rest\ActiveController
                 ]
             ];
             if ($this->importer) {
-                $actions['upload']['importModel']['fileImporter'] = $this->importer;
+                $actions['import']['importModel']['fileImporter'] = $this->importer;
 
                 $actions['template'] = [
                     'class' => FileImportTemplateAction::class,

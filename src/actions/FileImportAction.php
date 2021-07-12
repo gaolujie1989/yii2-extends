@@ -12,8 +12,8 @@ use yii\rest\Action;
 use yii\web\ServerErrorHttpException;
 
 /**
- * Class UploadAction
- * @package lujie\data\exchange\rest
+ * Class FileImportAction
+ * @package lujie\data\exchange\actions
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class FileImportAction extends Action

@@ -47,12 +47,7 @@ class FileExportAction extends Action
     /**
      * @var string
      */
-    public $path;
-
-    /**
-     * @var string
-     */
-    public $filePath = '/tmp/exports/{date}/tmp_{datetime}.xlsx';
+    public $filePath = '@statics/exports/{datetime}_{rand}.xlsx';
 
     /**
      * @var string

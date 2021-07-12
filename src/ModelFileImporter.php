@@ -9,6 +9,9 @@ use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FilterTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
+use lujie\extend\helpers\ExcelHelper;
+use lujie\extend\helpers\TemplateHelper;
+use Yii;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -32,6 +35,11 @@ class ModelFileImporter extends FileImporter
      * @var string
      */
     public $filterKey = '';
+
+    /**
+     * @var array
+     */
+    public $keyMapNotes = [];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -83,5 +91,25 @@ class ModelFileImporter extends FileImporter
             'modelClass' => $this->modelClass,
             'runValidation' => true,
         ];
+    }
+
+    /**
+     * @param string $filePathTemplate
+     * @return string
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function templateFile(string $filePathTemplate = '@runtime/imports/templates/{datetime}_{rand}.xlsx'): string
+    {
+        $path = Yii::getAlias(TemplateHelper::generate($filePathTemplate));
+        $columns = array_keys($this->keyMap);
+        $data = [$columns];
+        if ($this->keyMapNotes) {
+            $data[] = array_merge(array_fill_keys($columns, ''), $this->keyMapNotes);
+        }
+        ExcelHelper::writeExcel($path, $data);
+        return $path;
     }
 }

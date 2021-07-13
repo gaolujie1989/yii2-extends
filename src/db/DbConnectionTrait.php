@@ -7,6 +7,7 @@ namespace lujie\extend\db;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\db\BaseActiveRecord;
 use yii\db\Connection;
 
 /**
@@ -23,9 +24,19 @@ trait DbConnectionTrait
     public static function getDb(): Connection
     {
         $app = Yii::$app;
-        $db = $app->params['modelDBs'][static::class] ?? $app->params['modelDBs'][self::class] ?? 'db';
-        /** @var Connection $connection */
-        $connection = $app->get($db);
-        return $connection;
+        $modelDBs = $app->params['modelDBs'] ?? [];
+        $db = 'db';
+        $class = static::class;
+        while ($class) {
+            if (isset($modelDBs[$class])) {
+                $db = $modelDBs[$class];
+                break;
+            }
+            if (!($class instanceof BaseActiveRecord)) {
+                break;
+            }
+            $class = get_parent_class(static::class);
+        }
+        return $app->get($db);
     }
 }

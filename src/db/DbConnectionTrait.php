@@ -32,9 +32,6 @@ trait DbConnectionTrait
                 $db = $modelDBs[$class];
                 break;
             }
-            if (!($class instanceof BaseActiveRecord)) {
-                break;
-            }
             $class = get_parent_class($class);
         }
         return $app->get($db);

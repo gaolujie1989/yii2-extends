@@ -5,7 +5,6 @@
 
 namespace lujie\fulfillment\base\db;
 
-use lujie\extend\db\DbConnectionTrait;
 use lujie\fulfillment\models\FulfillmentAccountRelationTrait;
 
 /**
@@ -15,6 +14,5 @@ use lujie\fulfillment\models\FulfillmentAccountRelationTrait;
  */
 class ActiveRecord extends \lujie\extend\db\ActiveRecord
 {
-    use DbConnectionTrait;
     use FulfillmentAccountRelationTrait;
 }

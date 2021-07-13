@@ -5,8 +5,6 @@
 
 namespace lujie\project\base\db;
 
-use lujie\extend\db\DbConnectionTrait;
-
 /**
  * Class ActiveRecord
  * @package lujie\project\base\db
@@ -14,5 +12,4 @@ use lujie\extend\db\DbConnectionTrait;
  */
 class ActiveRecord extends \lujie\extend\db\ActiveRecord
 {
-    use DbConnectionTrait;
 }

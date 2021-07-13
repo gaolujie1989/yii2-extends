@@ -2,13 +2,7 @@
 
 namespace lujie\executing\monitor\models;
 
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%executable_exec}}".
@@ -27,10 +21,8 @@ use yii\db\ActiveRecord;
  * @property array|null $additional
  * @property int $status
  */
-class ExecutableExec extends ActiveRecord
+class ExecutableExec extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasFieldTrait, SaveTrait, TransactionTrait, DbConnectionTrait;
-
     /**
      * @inheritdoc
      */

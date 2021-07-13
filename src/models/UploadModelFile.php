@@ -2,16 +2,8 @@
 
 namespace lujie\upload\models;
 
-use lujie\alias\behaviors\AliasBehaviorTrait;
-use lujie\extend\db\AliasFieldTrait;
-use lujie\extend\db\DbConnectionTrait;
-use lujie\extend\db\DeleteTrait;
-use lujie\extend\db\SaveTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
-use lujie\extend\db\TransactionTrait;
 use lujie\upload\behaviors\FileBehavior;
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%uploaded_file}}".
@@ -32,10 +24,8 @@ use yii\db\ActiveRecord;
  * @method string getUrl()
  * @method string getContent()
  */
-class UploadModelFile extends ActiveRecord
+class UploadModelFile extends \lujie\extend\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait, SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
-
     public const MODEL_TYPE = '';
 
     /**

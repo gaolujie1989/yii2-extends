@@ -884,16 +884,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
     {
-        $billingAmounts = ArrayHelper::map($externalOrderCharges, 'billing_type', 'billing_amount');
-        $undefinedBillingAmounts = array_diff_key($billingAmounts, $this->chargeTypes);
-        if ($undefinedBillingAmounts) {
-            $undefinedBillingAmounts = Json::encode($undefinedBillingAmounts);
-            $message = "Undefined billing {$undefinedBillingAmounts} of fulfillment order {$fulfillmentOrder->external_order_key}";
-            throw new InvalidArgumentException($message);
-        }
         foreach ($externalOrderCharges as $key => $externalOrderCharge) {
             $externalOrderCharges[$key] = [
-                'charge_type' => $this->chargeTypes[$externalOrderCharge['billing_type']],
+                'charge_type' => $this->chargeTypes[$externalOrderCharge['billing_type']] ?? $externalOrderCharge['billing_type'],
                 'charged_at' => $externalOrderCharge['billing_date'] / 1000,
                 'currency' => $externalOrderCharge['currency'],
                 'price_cent' => $externalOrderCharge['billing_amount'] * 100,

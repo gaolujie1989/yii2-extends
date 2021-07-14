@@ -920,6 +920,10 @@ class PmFulfillmentService extends BaseFulfillmentService
 
     #region Charging Pull
 
+    public function pullFulfillmentCharges(array $fulfillmentOrders): void
+    {
+    }
+
     /**
      * @param array $externalOrderKeys
      * @return array

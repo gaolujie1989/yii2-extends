@@ -684,8 +684,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $fulfillmentOrders = ArrayHelper::index($fulfillmentOrders, 'external_order_key');
         $externalOrderKeys = array_keys($fulfillmentOrders);
         $externalCharges = $this->getExternalCharges($externalOrderKeys);
-        $externalCharges = count($externalCharges);
-        Yii::info("Pulled {$externalCharges} fulfillment charges", __METHOD__);
+        $chargeCount = count($externalCharges);
+        Yii::info("Pulled {$chargeCount} fulfillment charges", __METHOD__);
 
         foreach ($externalCharges as $externalOrderKey => $externalOrderCharges) {
             $this->updateFulfillmentCharge($fulfillmentOrders[$externalOrderKey], $externalOrderCharges);

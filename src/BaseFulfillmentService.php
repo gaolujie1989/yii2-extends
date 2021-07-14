@@ -723,7 +723,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $chargePrice->qty = 1;
             $chargePrice->setAttributes($chargeData, false);
             $chargePrice->save(false);
-            $updatedChargePrices[$chargePrice] = $chargePrice;
+            $updatedChargePrices[$chargeType] = $chargePrice;
             unset($chargePrices[$chargeType]);
         }
         foreach ($chargePrices as $chargePrice) {

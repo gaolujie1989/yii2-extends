@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment;
 
+use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
@@ -666,6 +667,69 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             ? substr($newestMovementTime, 0, 10)
             : strtotime($newestMovementTime);
         return $fulfillmentWarehouse->save(false);
+    }
+
+    #endregion
+
+    #region Charging Pull
+
+    /**
+     * @param FulfillmentOrder[] $fulfillmentOrders
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function pullFulfillmentCharges(array $fulfillmentOrders): void
+    {
+        $fulfillmentOrders = ArrayHelper::index($fulfillmentOrders, 'external_order_key');
+        $externalOrderKeys = array_keys($fulfillmentOrders);
+        $externalCharges = $this->getExternalCharges($externalOrderKeys);
+        $externalCharges = count($externalCharges);
+        Yii::info("Pulled {$externalCharges} fulfillment charges", __METHOD__);
+
+        foreach ($externalCharges as $externalOrderKey => $externalOrderCharges) {
+            $this->updateFulfillmentCharge($fulfillmentOrders[$externalOrderKey], $externalOrderCharges);
+        }
+    }
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
+    abstract protected function getExternalCharges(array $externalOrderKeys): array;
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @param array $externalOrderCharges
+     * @return array
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
+     */
+    protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
+    {
+        $chargePrices = ChargePrice::find()
+            ->modelId($fulfillmentOrder->fulfillment_order_id)
+            ->indexBy('charge_type')
+            ->all();
+        $updatedChargePrices = [];
+        foreach ($externalOrderCharges as $chargeType => $chargeData) {
+            $chargePrice = $chargePrices[$chargeType] ?? new ChargePrice();
+            $chargePrice->model_id = $fulfillmentOrder->fulfillment_order_id;
+            $chargePrice->parent_model_id = $fulfillmentOrder->order_id;
+            $chargePrice->qty = 1;
+            $chargePrice->setAttributes($chargeData, false);
+            $chargePrice->save(false);
+            $updatedChargePrices[$chargePrice] = $chargePrice;
+            unset($chargePrices[$chargeType]);
+        }
+        foreach ($chargePrices as $chargePrice) {
+            $chargePrice->delete();
+        }
+        $fulfillmentOrder->charge_pulled_at = time();
+        $fulfillmentOrder->save(false);
+        return $updatedChargePrices;
     }
 
     #endregion

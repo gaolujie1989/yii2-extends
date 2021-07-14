@@ -95,6 +95,16 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @var int
      */
+    public $pullChargeLimit = 200;
+
+    /**
+     * @var int
+     */
+    public $pullChargeBatchSize = 50;
+
+    /**
+     * @var int
+     */
     public $pullMovementTimePeriod = 3600;
 
     /**
@@ -122,8 +132,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         if ($fulfillmentService === null) {
             throw new InvalidArgumentException("Null fulfillmentService of {$fulfillmentAccountId}");
         }
-        $fulfillmentService = Instance::ensure($fulfillmentService, FulfillmentServiceInterface::class);
-        return $fulfillmentService;
+        return Instance::ensure($fulfillmentService, FulfillmentServiceInterface::class);
     }
 
     #region event, listen to fulfillment
@@ -482,7 +491,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region Order/Warehouse/Stock/Movement Pull
+    #region Order/Warehouse/Stock/Movement/Charging Pull
 
     /**
      * @param int $accountId
@@ -614,6 +623,29 @@ class FulfillmentManager extends Component implements BootstrapInterface
                 $fulfillmentWarehouse->external_movement_at - 10,
                 $fulfillmentWarehouse->external_movement_at + $this->pullMovementTimePeriod
             );
+        }
+    }
+
+    /**
+     * @param int $accountId
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullFulfillmentCharges(int $accountId): void
+    {
+        $query = FulfillmentOrder::find()
+            ->fulfillmentAccountId($accountId)
+            ->shippingFulfillmentShipped()
+            ->chargeNotPulled()
+            ->orderByOrderPulledAt()
+            ->limit($this->pullChargeLimit);
+        if (!$query->exists()) {
+            return;
+        }
+
+        $fulfillmentService = $this->getFulfillmentService($accountId);
+        foreach ($query->batch($this->pullChargeBatchSize) as $batch) {
+            $fulfillmentService->pullFulfillmentCharges($batch);
         }
     }
 

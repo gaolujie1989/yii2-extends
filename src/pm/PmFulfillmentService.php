@@ -917,4 +917,18 @@ class PmFulfillmentService extends BaseFulfillmentService
     }
 
     #endregion
+
+    #region Charging Pull
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExternalCharges(array $externalOrderKeys): array
+    {
+        return [];
+    }
+
+    #endregion
 }

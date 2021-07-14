@@ -16,6 +16,7 @@ use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -183,6 +184,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'F474' => 'UPS',
         'F475' => 'UPS-FBA',
         'F532' => 'DHL',
+    ];
+
+    /**
+     * @var array
+     */
+    public $chargeTypes = [
+
     ];
 
     /**
@@ -828,6 +836,63 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $externalOrders[$externalOrderKey] = $data['data'];
         }
         return $externalOrders;
+    }
+
+    #endregion
+
+
+    #region Charging Pull
+
+    /**
+     * @param FulfillmentOrder[] $fulfillmentOrders
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function pullFulfillmentCharges(array $fulfillmentOrders): void
+    {
+        $fulfillmentOrders = array_filter($fulfillmentOrders, static function($fulfillmentOrder) {
+            return $fulfillmentOrder->external_order_status === 'C' || $fulfillmentOrder->external_order_status === 'X';
+        });
+        if ($fulfillmentOrders) {
+            parent::pullFulfillmentCharges($fulfillmentOrders);
+        }
+    }
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExternalCharges(array $externalOrderKeys): array
+    {
+        $externalCharges = [];
+        foreach ($externalOrderKeys as $externalOrderKey) {
+            $data = ['order_no' => $externalOrderKey, 'business_type' => $externalOrderKey[0]];
+            $externalCharges[$externalOrderKey] = $this->client->getBilling($data);
+        }
+        return $externalCharges;
+    }
+
+    /**
+     * @param FulfillmentOrder $fulfillmentOrder
+     * @param array $externalOrderCharges
+     * @return array
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
+     */
+    protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
+    {
+        foreach ($externalOrderCharges as $key => $externalOrderCharge) {
+            $externalOrderCharges[$key] = [
+                'charge_type' => $externalOrderCharge['billing_type'],
+                'charged_at' => $externalOrderCharge['billing_date'] / 1000,
+                'currency' => $externalOrderCharge['currency'],
+                'price_cent' => $externalOrderCharge['billing_amount'] * 100,
+            ];
+        }
+        return parent::updateFulfillmentCharge($fulfillmentOrder, $externalOrderCharges);
     }
 
     #endregion

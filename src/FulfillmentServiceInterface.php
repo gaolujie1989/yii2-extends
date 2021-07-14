@@ -88,4 +88,10 @@ interface FulfillmentServiceInterface
         int $movementAtTo,
         ?FulfillmentItem $fulfillmentItem = null
     ): void;
+
+    /**
+     * @param array $fulfillmentOrders
+     * @inheritdoc
+     */
+    public function pullFulfillmentCharges(array $fulfillmentOrders): void;
 }

@@ -46,6 +46,8 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery shippingFulfillmentToShipping()
  * @method FulfillmentOrderQuery shippingFulfillmentToCancelling()
  *
+ * @method FulfillmentOrderQuery chargeNotPulled()
+ *
  * @method FulfillmentOrderQuery orderByOrderPulledAt()
  *
  * @method int maxExternalUpdatedAt()
@@ -93,7 +95,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'shippingFulfillment' => [
                         'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                     ],
-                    //Inbound Fulfillment Status
+                    #region Inbound Fulfillment Status
                     'inboundFulfillmentPending' => [
                         'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_INBOUND],
                         'fulfillment_status' => [
@@ -121,7 +123,8 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                             FulfillmentConst::INBOUND_STATUS_TO_CANCELLING,
                         ]
                     ],
-                    //Shipping Fulfillment Status
+                    #endregion
+                    //#region Shipping Fulfillment Status
                     'shippingFulfillmentPending' => [
                         'fulfillment_type' => [FulfillmentConst::FULFILLMENT_TYPE_SHIPPING],
                         'fulfillment_status' => [
@@ -161,12 +164,14 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                             FulfillmentConst::FULFILLMENT_STATUS_TO_CANCELLING,
                         ]
                     ],
+                    #endregion
+                    'chargeNotPulled' => ['charge_pulled_at' => 0]
                 ],
                 'queryReturns' => [
                     'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX]
                 ],
                 'querySorts' => [
-                    'orderByOrderPulledAt' => ['order_pulled_at']
+                    'orderByOrderPulledAt' => ['order_pulled_at'],
                 ],
             ]
         ];
@@ -177,7 +182,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
      * @return $this
      * @inheritdoc
      */
-    public function notQueuedOrQueuedButNotExecuted($queuedDuration = 3600): self
+    public function notQueuedOrQueuedButNotExecuted(int $queuedDuration = 3600): self
     {
         return $this->andWhere(['OR',
             ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],

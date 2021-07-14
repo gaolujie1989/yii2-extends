@@ -884,26 +884,28 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
     {
-        $charges = [];
+        $chargePrices = [];
         foreach ($externalOrderCharges as $key => $externalOrderCharge) {
             $chargeType = $this->chargeTypes[$externalOrderCharge['billing_type']] ?? $externalOrderCharge['billing_type'];
             $amount = $externalOrderCharge['billing_amount'] * 100;
-            if ($charges[$chargeType]) {
+            $chargePrice = $chargePrices[$chargeType] ?? [];
+            if ($chargePrice) {
                 if ($amount > 0) {
-                    $charges[$chargeType]['surcharge_cent'] = ($charges[$chargeType]['surcharge_cent'] ?? 0) + $amount;
+                    $chargePrice['surcharge_cent'] = ($chargePrice['surcharge_cent'] ?? 0) + $amount;
                 } else {
-                    $charges[$chargeType]['discount_cent'] = ($charges[$chargeType]['discount_cent'] ?? 0) - $amount;
+                    $chargePrice['discount_cent'] = ($chargePrice['discount_cent'] ?? 0) - $amount;
                 }
             } else {
-                $charges[$chargeType] = [
+                $chargePrice = [
                     'charge_type' => $chargeType,
                     'charged_at' => $externalOrderCharge['billing_date'] / 1000,
                     'currency' => $externalOrderCharge['currency'],
                     'price_cent' => $amount,
                 ];
             }
+            $chargePrices[$chargeType] = $chargePrice;
         }
-        return parent::updateFulfillmentCharge($fulfillmentOrder, $charges);
+        return parent::updateFulfillmentCharge($fulfillmentOrder, $chargePrices);
     }
 
     #endregion

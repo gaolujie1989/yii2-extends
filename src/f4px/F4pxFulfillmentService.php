@@ -867,7 +867,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $externalCharges = [];
         foreach ($externalOrderKeys as $externalOrderKey) {
             $data = ['order_no' => $externalOrderKey, 'business_type' => $externalOrderKey[0]];
-            $externalCharges[$externalOrderKey] = $this->client->getBilling($data);
+            $billing = $this->client->getBilling($data);
+            $externalCharges[$externalOrderKey] = $billing['billinglist'];
         }
         return $externalCharges;
     }

@@ -48,4 +48,12 @@ class F4pxClientTest extends \Codeception\Test\Unit
         Assert::assertNotNull($billing);
         codecept_debug($billing);
     }
+
+    public function testGetOutbound(): void
+    {
+        $f4pxClient = $this->getClient();
+        $outboundList = $f4pxClient->getOutboundList(['consignment_no' => 'OC9201342107140045']);
+        Assert::assertNotNull($outboundList);
+        codecept_debug($outboundList);
+    }
 }

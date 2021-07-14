@@ -710,6 +710,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
     {
         $chargePrices = ChargePrice::find()
+            ->modelType(FulfillmentConst::FULFILLMENT_CHARGE_MODEL)
             ->modelId($fulfillmentOrder->fulfillment_order_id)
             ->indexBy('charge_type')
             ->all();

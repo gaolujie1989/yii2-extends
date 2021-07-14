@@ -20,6 +20,7 @@ use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * Class PmFulfillmentService
@@ -883,11 +884,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
     {
-        $billingTypes = ArrayHelper::getColumn($externalOrderCharges, 'billing_type');
-        $undefinedBillingTypes = array_diff($billingTypes, array_keys($this->chargeTypes));
-        if ($undefinedBillingTypes) {
-            $undefinedBillingTypes = implode(',', $undefinedBillingTypes);
-            $message = "Undefined billing type {$undefinedBillingTypes} of fulfillment order {$fulfillmentOrder->external_order_key}";
+        $billingAmounts = ArrayHelper::map($externalOrderCharges, 'billing_type', 'billing_amount');
+        $undefinedBillingAmounts = array_diff_key($billingAmounts, $this->chargeTypes);
+        if ($undefinedBillingAmounts) {
+            $undefinedBillingAmounts = Json::encode($undefinedBillingAmounts);
+            $message = "Undefined billing {$undefinedBillingAmounts} of fulfillment order {$fulfillmentOrder->external_order_key}";
             throw new InvalidArgumentException($message);
         }
         foreach ($externalOrderCharges as $key => $externalOrderCharge) {

@@ -189,9 +189,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @var array
      */
-    public $chargeTypes = [
-
-    ];
+    public $chargeTypes = [];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -884,6 +882,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentCharge(FulfillmentOrder $fulfillmentOrder, array $externalOrderCharges): array
     {
+        $billingTypes = ArrayHelper::getColumn($externalOrderCharges, 'billing_type');
+        $undefinedBillingTypes = array_diff($billingTypes, array_keys($this->chargeTypes));
+        if ($undefinedBillingTypes) {
+            $undefinedBillingTypes = implode(',', $undefinedBillingTypes);
+            $message = "Undefined billing type {$undefinedBillingTypes} of fulfillment order {$fulfillmentOrder->external_order_key}";
+            throw new InvalidArgumentException($message);
+        }
         foreach ($externalOrderCharges as $key => $externalOrderCharge) {
             $externalOrderCharges[$key] = [
                 'charge_type' => $externalOrderCharge['billing_type'],

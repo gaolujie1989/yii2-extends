@@ -42,4 +42,6 @@ class FulfillmentConst
     public const INBOUND_STATUS_INBOUNDED = 100;
     public const INBOUND_STATUS_CANCELLED = 110;
     public const INBOUND_STATUS_TO_CANCELLING = 210;
+
+    public const FULFILLMENT_CHARGE_MODEL = 'FULFILLMENT_ORDER';
 }

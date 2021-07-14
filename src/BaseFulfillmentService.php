@@ -716,7 +716,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $updatedChargePrices = [];
         foreach ($externalOrderCharges as $chargeType => $chargeData) {
             $chargePrice = $chargePrices[$chargeType] ?? new ChargePrice();
+            $chargePrice->model_type = FulfillmentConst::FULFILLMENT_CHARGE_MODEL;
             $chargePrice->model_id = $fulfillmentOrder->fulfillment_order_id;
+            $chargePrice->model_no = $fulfillmentOrder->external_order_key;
             $chargePrice->parent_model_id = $fulfillmentOrder->order_id;
             $chargePrice->qty = 1;
             $chargePrice->setAttributes($chargeData, false);

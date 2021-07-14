@@ -720,6 +720,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $chargePrice->model_id = $fulfillmentOrder->fulfillment_order_id;
             $chargePrice->model_no = $fulfillmentOrder->external_order_key;
             $chargePrice->parent_model_id = $fulfillmentOrder->order_id;
+            $chargePrice->price_table_id = 1;
             $chargePrice->qty = 1;
             $chargePrice->setAttributes($chargeData, false);
             $chargePrice->save(false);

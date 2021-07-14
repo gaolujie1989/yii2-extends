@@ -853,8 +853,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $fulfillmentOrders = array_filter($fulfillmentOrders, static function($fulfillmentOrder) {
             return $fulfillmentOrder->external_order_status === 'C' || $fulfillmentOrder->external_order_status === 'X';
         });
-        if ($fulfillmentOrders) {
-            parent::pullFulfillmentCharges($fulfillmentOrders);
+        foreach ($fulfillmentOrders as $fulfillmentOrder) {
+            parent::pullFulfillmentCharges([$fulfillmentOrder]);
         }
     }
 

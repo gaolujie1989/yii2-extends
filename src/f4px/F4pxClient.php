@@ -90,7 +90,8 @@ class F4pxClient extends BaseJsonRpcClient
             'method' => 'fu.wms.sku.uploadsreport',
         ],
         'createSku' => [
-            'method' => 'fu.wms.sku.create',
+//            'method' => 'fu.wms.sku.create',
+            'method' => 'fu.wms.sku.newcreate',
         ],
         'getInventory' => [
             'method' => 'fu.wms.inventory.get',

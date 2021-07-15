@@ -127,6 +127,14 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         'customer_code' => '',
     ];
 
+    /**
+     * @var array
+     */
+    public $defaultDeclareData = [
+        'export_country' => 'CN',
+        'export_port' => 'ShangHai',
+    ];
+
     public $defaultOrderData = [
         'customer_code' => '',
         'consignment_type' => 'S',
@@ -222,16 +230,29 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'picture_url' => $pictureUrls,
             ];
         }
+        if (empty($item->itemValues)) {
+            throw new InvalidArgumentException('Invalid item, empty item values');
+        }
+        $declareCountryList = [];
+        foreach ($item->itemValues as $itemValue) {
+            $declareCountryList[] = array_merge($this->defaultDeclareData, [
+                'country' => $itemValue->warehouseCountry,
+                'declare_value' => $itemValue->valueCent / 100,
+                'currency' => $itemValue->currency,
+            ]);
+        }
         return array_merge($this->defaultItemData, [
             'sku_code' => strtoupper($item->itemNo),
-            'product_code' => $item->getBarcode('EAN') ?: $item->getBarcode('OWN') ?: '',
             'sku_name' => $item->itemName,
+//            'chinese_name' => $item->itemName,
+            'product_code' => $item->getBarcode('EAN') ?: $item->getBarcode('OWN') ?: '',
             'weight' => $item->weightG,
             'length' => $item->lengthMM / 10,
             'width' => $item->widthMM / 10,
             'height' => $item->heightMM / 10,
             'sales_link' => $item->salesUrl,
             'picture_url' => $pictureUrls,
+            'declare_country_list' => $declareCountryList
         ]);
     }
 

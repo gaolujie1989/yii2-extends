@@ -341,9 +341,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ]);
         }
         $address = $order->address;
-        if (empty($address->firstName)) {
+        if (empty($address->firstName) && $address->lastName) {
             $address->firstName = $address->lastName;
             $address->lastName = '';
+        }
+        if (empty($address->street) && $address->companyName) {
+            $address->street = $address->companyName;
+            $address->companyName = '';
         }
         return ArrayHelper::merge($this->defaultOrderData, [
             'ref_no' => 'FO-' . $fulfillmentOrder->fulfillment_order_id,
@@ -355,7 +359,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'city' => $address->city,
                 'district' => '',
                 'post_code' => $address->postalCode,
-                'street' => $address->street ?: $address->companyName,
+                'street' => $address->street,
                 'house_number' => $address->houseNo . (trim($address->additional) ? ' ' . $address->additional : ''),
                 'company' => $address->companyName,
                 'last_name' => $address->lastName,

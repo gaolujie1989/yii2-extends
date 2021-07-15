@@ -231,7 +231,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ];
         }
         if (empty($item->itemValues)) {
-            throw new InvalidArgumentException('Invalid item, empty item values');
+            throw new InvalidArgumentException("Invalid item {$item->itemNo}, empty item values");
         }
         $declareCountryList = [];
         foreach ($item->itemValues as $itemValue) {

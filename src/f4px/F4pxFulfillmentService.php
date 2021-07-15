@@ -917,18 +917,29 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $chargePrice = $chargePrices[$chargeType] ?? [];
             if ($chargePrice) {
                 if ($amount > 0) {
-                    $chargePrice['surcharge_cent'] = ($chargePrice['surcharge_cent'] ?? 0) + $amount;
+                    if ($chargePrice['price_cent'] > 0) {
+                        $chargePrice['surcharge_cent'] += $amount;
+                    } else {
+                        $chargePrice['price_cent'] = $amount;
+                    }
                 } else {
-                    $chargePrice['discount_cent'] = ($chargePrice['discount_cent'] ?? 0) - $amount;
+                    $chargePrice['discount_cent'] -= $amount;
                 }
             } else {
                 $chargePrice = [
                     'charge_type' => $chargeType,
                     'charged_at' => $externalOrderCharge['billing_date'] / 1000,
                     'currency' => $externalOrderCharge['currency'],
-                    'price_cent' => $amount,
-                    'price_table_id' => (int)$billingType ?: 1
+                    'price_table_id' => (int)$billingType ?: 1,
+                    'price_cent' => 0,
+                    'discount_cent' => 0,
+                    'surcharge_cent' => 0,
                 ];
+                if ($amount > 0) {
+                    $chargePrice['price_cent'] = $amount;
+                } else {
+                    $chargePrice['discount_cent'] = -$amount;
+                }
             }
             $chargePrices[$chargeType] = $chargePrice;
         }

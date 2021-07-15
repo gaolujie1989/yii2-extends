@@ -221,19 +221,18 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'sku_code' => strtoupper($item->itemNo),
                 'picture_url' => $pictureUrls,
             ];
-        } else {
-            return array_merge($this->defaultItemData, [
-                'sku_code' => strtoupper($item->itemNo),
-                'product_code' => $item->getBarcode('EAN') ?: $item->getBarcode('OWN') ?: '',
-                'sku_name' => $item->itemName,
-                'weight' => $item->weightG,
-                'length' => $item->lengthMM / 10,
-                'width' => $item->widthMM / 10,
-                'height' => $item->heightMM / 10,
-                'sales_link' => $item->salesUrl,
-                'picture_url' => $pictureUrls,
-            ]);
         }
+        return array_merge($this->defaultItemData, [
+            'sku_code' => strtoupper($item->itemNo),
+            'product_code' => $item->getBarcode('EAN') ?: $item->getBarcode('OWN') ?: '',
+            'sku_name' => $item->itemName,
+            'weight' => $item->weightG,
+            'length' => $item->lengthMM / 10,
+            'width' => $item->widthMM / 10,
+            'height' => $item->heightMM / 10,
+            'sales_link' => $item->salesUrl,
+            'picture_url' => $pictureUrls,
+        ]);
     }
 
     /**
@@ -258,15 +257,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function saveExternalItem(array $externalItem, FulfillmentItem $fulfillmentItem): ?array
     {
         if ($fulfillmentItem->external_item_key) {
-            $skuList = $this->client->getSkuList(['lstsku' => [$fulfillmentItem->external_item_additional['sku_code']]]);
-            $sku = $skuList['skulist'][0] ?? null;
-            if ($sku !== null && empty($sku['picture_url'])) {
-                $this->client->editSkuPicture($externalItem);
-            }
-            return $sku;
-        } else {
-            return $this->client->createSku($externalItem);
+            $externalItem['sku_id'] = $fulfillmentItem->external_item_key;
+            return $externalItem;
+//            $skuList = $this->client->getSkuList(['lstsku' => [$fulfillmentItem->external_item_additional['sku_code']]]);
+//            $sku = $skuList['skulist'][0] ?? null;
+//            if ($sku !== null && empty($sku['picture_url'])) {
+//                $this->client->editSkuPicture($externalItem);
+//            }
+//            return $sku;
         }
+        return $this->client->createSku($externalItem);
     }
 
     /**

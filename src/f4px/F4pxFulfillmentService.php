@@ -911,7 +911,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     {
         $chargePrices = [];
         foreach ($externalOrderCharges as $key => $externalOrderCharge) {
-            $chargeType = $this->chargeTypes[$externalOrderCharge['billing_type']] ?? $externalOrderCharge['billing_type'];
+            $billingType = $externalOrderCharge['billing_type'];
+            $chargeType = $this->chargeTypes[$billingType] ?? $billingType;
             $amount = $externalOrderCharge['billing_amount'] * 100;
             $chargePrice = $chargePrices[$chargeType] ?? [];
             if ($chargePrice) {
@@ -926,6 +927,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                     'charged_at' => $externalOrderCharge['billing_date'] / 1000,
                     'currency' => $externalOrderCharge['currency'],
                     'price_cent' => $amount,
+                    'price_table_id' => (int)$billingType ?: 1
                 ];
             }
             $chargePrices[$chargeType] = $chargePrice;

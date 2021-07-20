@@ -38,7 +38,6 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        var_dump(123);
         Validator::$builtInValidators['linker'] = LinkerValidator::class;
         $this->setDefinitions();
     }

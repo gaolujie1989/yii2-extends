@@ -134,7 +134,7 @@ class QueryHelper
             }
 
             $values = preg_split($splitPattern, $value, -1, PREG_SPLIT_NO_EMPTY);
-            $values = array_filter(array_map('trim', $values));
+            $values = array_filter(array_map('trim', $values), [ValueHelper::class, 'notEmpty']);
             if (empty($values)) {
                 continue;
             }

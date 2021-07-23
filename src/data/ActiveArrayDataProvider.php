@@ -7,9 +7,11 @@ namespace lujie\extend\data;
 
 use lujie\extend\helpers\ActiveDataHelper;
 use yii\base\InvalidConfigException;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
+use yii\db\BaseActiveRecord;
 
 /**
  * Class ActiveArrayDataProvider
@@ -82,5 +84,28 @@ class ActiveArrayDataProvider extends ActiveDataProvider
     {
         return $this->query instanceof ActiveQueryInterface
             && (method_exists($this->query->modelClass, $this->prepareArrayMethod) || method_exists($this->query->modelClass, $this->prepareRowsMethod));
+    }
+
+    /**
+     * @param array|bool|\yii\data\Sort $value
+     * @inheritdoc
+     */
+    public function setSort($value): void
+    {
+        parent::setSort($value);
+        if ($this->query instanceof ActiveQueryInterface && ($sort = $this->getSort()) !== false) {
+            /* @var $modelClass BaseActiveRecord */
+            $modelClass = $this->query->modelClass;
+            $primaryKey = $modelClass::primaryKey();
+            if (count($primaryKey) === 1) {
+                $model = $modelClass::instance();
+                $pk = reset($primaryKey);
+                $sort->attributes['id'] = [
+                    'asc' => [$pk => SORT_ASC],
+                    'desc' => [$pk => SORT_DESC],
+                    'label' => $model->getAttributeLabel($pk),
+                ];
+            }
+        }
     }
 }

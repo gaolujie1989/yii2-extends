@@ -40,7 +40,7 @@ trait SearchTrait
     {
         /** @var BaseActiveRecord $this */
         return array_merge(ModelHelper::searchRules($this), [
-            [['key'], 'string'],
+            [['id', 'key'], 'string'],
         ]);
     }
 

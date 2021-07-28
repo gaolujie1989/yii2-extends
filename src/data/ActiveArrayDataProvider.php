@@ -97,14 +97,17 @@ class ActiveArrayDataProvider extends ActiveDataProvider
             /* @var $modelClass BaseActiveRecord */
             $modelClass = $this->query->modelClass;
             $primaryKey = $modelClass::primaryKey();
+            $model = $modelClass::instance();
             if (count($primaryKey) === 1) {
-                $model = $modelClass::instance();
                 $pk = reset($primaryKey);
                 $sort->attributes['id'] = [
                     'asc' => [$pk => SORT_ASC],
                     'desc' => [$pk => SORT_DESC],
                     'label' => $model->getAttributeLabel($pk),
                 ];
+            }
+            if (method_exists($model, 'sorts')) {
+                $sort->attributes = array_merge($sort->attributes, $model->sorts());
             }
         }
     }

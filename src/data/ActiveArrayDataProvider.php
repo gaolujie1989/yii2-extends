@@ -106,6 +106,9 @@ class ActiveArrayDataProvider extends ActiveDataProvider
                     'label' => $model->getAttributeLabel($pk),
                 ];
             }
+            if (method_exists($modelClass, 'sorts')) {
+                $sort->attributes = array_merge($sort->attributes, $modelClass::sorts());
+            }
             if (method_exists($model, 'sorts')) {
                 $sort->attributes = array_merge($sort->attributes, $model->sorts());
             }

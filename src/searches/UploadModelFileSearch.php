@@ -3,7 +3,6 @@
 namespace lujie\upload\searches;
 
 use lujie\extend\db\SearchTrait;
-use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use lujie\upload\models\UploadModelFile;
 use lujie\upload\models\UploadModelFileQuery;
@@ -24,7 +23,7 @@ class UploadModelFileSearch extends UploadModelFile
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
+        return array_merge($this->searchRules(), [
             [['ext'], 'safe'],
         ]);
     }
@@ -34,7 +33,7 @@ class UploadModelFileSearch extends UploadModelFile
      */
     public function query(): ActiveQueryInterface
     {
-        $query = ModelHelper::query($this);
+        $query = $this->searchQuery();
         QueryHelper::filterValue($query, $this->getAttributes(['ext']));
         return $query;
     }

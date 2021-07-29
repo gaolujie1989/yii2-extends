@@ -38,7 +38,7 @@ class ItemSearch extends Item
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
+        return array_merge($this->searchRules(), [
             [['barcode', 'name'], 'safe'],
         ]);
     }
@@ -50,7 +50,7 @@ class ItemSearch extends Item
     public function query(): ActiveQueryInterface
     {
         /** @var ItemQuery $query */
-        $query = ModelHelper::query($this);
+        $query = $this->searchQuery();
         QueryHelper::filterValue($query, ['names' => $this->name], true);
 
         if ($this->barcode) {

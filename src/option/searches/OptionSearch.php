@@ -32,7 +32,7 @@ class OptionSearch extends Option
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
+        return array_merge($this->searchRules(), [
             [['parent_key'], 'safe'],
         ]);
     }
@@ -44,7 +44,7 @@ class OptionSearch extends Option
     public function query(): ActiveQueryInterface
     {
         /** @var OptionQuery $query */
-        $query = ModelHelper::query($this);
+        $query = $this->searchQuery();
         if ($this->parent_key) {
             $query = $query->innerJoinWith(['parentOption po']);
             QueryHelper::filterValue($query, ['po.key' => $this->parent_key]);

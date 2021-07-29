@@ -38,7 +38,7 @@ class TaskSearch extends Task
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
+        return array_merge($this->searchRules(), [
             [['priority', 'globalStatus', 'isSubTask'], 'safe'],
         ]);
     }
@@ -50,7 +50,7 @@ class TaskSearch extends Task
     public function query(): ActiveQueryInterface
     {
         /** @var TaskQuery $query */
-        $query = ModelHelper::query($this);
+        $query = $this->searchQuery();
         QueryHelper::filterValue($query, $this->getAttributes(['priority']));
 
         switch ($this->globalStatus) {

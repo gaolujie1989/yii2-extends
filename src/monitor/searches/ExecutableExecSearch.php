@@ -4,7 +4,6 @@ namespace lujie\executing\monitor\searches;
 
 use lujie\executing\monitor\models\ExecutableExec;
 use lujie\extend\db\SearchTrait;
-use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQueryInterface;
 
@@ -22,7 +21,7 @@ class ExecutableExecSearch extends ExecutableExec
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
+        return array_merge($this->searchRules(), [
             [['executor'], 'safe'],
         ]);
     }
@@ -33,7 +32,7 @@ class ExecutableExecSearch extends ExecutableExec
      */
     public function query(): ActiveQueryInterface
     {
-        $query = ModelHelper::query($this);
+        $query = $this->searchQuery();
         QueryHelper::filterValue($query, $this->getAttributes(['executor']));
         return $query->addOrderBy(['started_at' => SORT_DESC]);
     }

@@ -32,7 +32,7 @@ class ChargeTableSearch extends ChargeTable
      */
     public function rules(): array
     {
-        return array_merge(ModelHelper::searchRules($this), [
+        return array_merge($this->searchRules(), [
             [['active_at'], 'date'],
         ]);
     }
@@ -43,7 +43,7 @@ class ChargeTableSearch extends ChargeTable
      */
     public function query(): ActiveQueryInterface
     {
-        $query = ModelHelper::query($this);
+        $query = $this->searchQuery();
         if ($this->active_at) {
             $query->andFilterWhere(['<=', 'started_at', $this->active_at])
                 ->andFilterWhere(['>=', 'ended_at', $this->active_at]);

@@ -31,6 +31,11 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     public $cheapFirst = true;
 
     /**
+     * @var bool
+     */
+    public $integerOnly = true;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -75,8 +80,11 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         $chargePrice->price_cent = $chargeTablePrice->price_cent;
         $chargePrice->currency = $chargeTablePrice->currency;
         if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-            $chargePrice->price_cent += ((int)ceil(($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit))
-                * $chargeTablePrice->over_limit_price_cent;
+            $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
+            if ($this->integerOnly) {
+                $overLimit = (int)ceil($overLimit);
+            }
+            $chargePrice->price_cent += $overLimit * $chargeTablePrice->over_limit_price_cent;
         }
         $chargePrice->setAttributes($chargeTablePrice->additional);
         return $chargePrice;

@@ -53,7 +53,7 @@ class ItemForm extends Item
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return array_merge($this->formBehaviors(), [
             'relationSave' => [
                 'class' => RelationSavableBehavior::class,
                 'relations' => ['barcodes'],

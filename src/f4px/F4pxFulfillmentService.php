@@ -585,14 +585,16 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             iterator_to_array($errorOutbounds, false),
         );
         $externalOrders = ArrayHelper::index($externalOrders, 'consignment_no');
-        return array_intersect_key($externalOrders, array_flip($externalOrderKeys));
-        //code above will cause api rate limit
-//        $externalOrders = [];
-//        foreach ($externalOrderKeys as $externalOrderKey) {
-//            $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
-//            $externalOrders[$externalOrderKey] = $data['data'][0] ?? [];
-//        }
-//        return $externalOrders;
+        $externalOrders = array_intersect_key($externalOrders, array_flip($externalOrderKeys));
+
+        $notFetchedOrderKeys = array_diff($externalOrderKeys, array_keys($externalOrders));
+        if ($notFetchedOrderKeys) {
+            foreach ($externalOrderKeys as $externalOrderKey) {
+                $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
+                $externalOrders[$externalOrderKey] = $data['data'][0] ?? [];
+            }
+        }
+        return $externalOrders;
     }
 
     /**

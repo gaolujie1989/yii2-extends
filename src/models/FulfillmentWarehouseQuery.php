@@ -63,6 +63,6 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
         if ($indexByExternalWarehouseKey) {
             $this->indexBy('external_warehouse_key');
         }
-        return $this->select(['warehouse_id'])->column();
+        return $this->andWhere(['>', 'warehouse_id', 0])->select(['warehouse_id'])->column();
     }
 }

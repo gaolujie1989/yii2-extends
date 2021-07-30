@@ -60,6 +60,15 @@ trait SearchTrait
      */
     public function behaviors(): array
     {
+        return $this->searchBehaviors();
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function searchBehaviors(): array
+    {
         $behaviors = parent::behaviors();
         if (method_exists($this, 'aliasBehaviors')) {
             $behaviors = array_merge($behaviors, $this->aliasBehaviors());

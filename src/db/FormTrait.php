@@ -40,6 +40,15 @@ trait FormTrait
      */
     public function behaviors(): array
     {
+        return $this->formBehaviors();
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function formBehaviors(): array
+    {
         $behaviors = parent::behaviors();
         if (method_exists($this, 'aliasBehaviors')) {
             $behaviors = array_merge($behaviors, $this->aliasBehaviors());

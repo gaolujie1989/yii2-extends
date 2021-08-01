@@ -589,7 +589,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
 
         $notFetchedOrderKeys = array_diff($externalOrderKeys, array_keys($externalOrders));
         if ($notFetchedOrderKeys) {
-            foreach ($externalOrderKeys as $externalOrderKey) {
+            foreach ($notFetchedOrderKeys as $externalOrderKey) {
                 $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
                 $externalOrders[$externalOrderKey] = $data['data'][0] ?? [];
             }

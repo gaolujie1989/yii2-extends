@@ -20,7 +20,6 @@ use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 
 /**
  * Class PmFulfillmentService
@@ -587,11 +586,14 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         $externalOrders = ArrayHelper::index($externalOrders, 'consignment_no');
         $externalOrders = array_intersect_key($externalOrders, array_flip($externalOrderKeys));
 
-        $notFetchedOrderKeys = array_diff($externalOrderKeys, array_keys($externalOrders));
+        $notFetchedOrderKeys = array_filter(array_diff($externalOrderKeys, array_keys($externalOrders)));
         if ($notFetchedOrderKeys) {
             foreach ($notFetchedOrderKeys as $externalOrderKey) {
                 $data = $this->client->getOutboundList(['consignment_no' => $externalOrderKey]);
-                $externalOrders[$externalOrderKey] = $data['data'][0] ?? [];
+                $item = $data['data'][0] ?? [];
+                if ($item) {
+                    $externalOrders[$item['consignment_no']] = $item;
+                }
             }
         }
         return $externalOrders;

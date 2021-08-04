@@ -96,8 +96,12 @@ class ExecuteHelper
             $model->save(false);
             return true;
         } catch (\Throwable $exception) {
-            $message = '[' . get_class($exception) . ']' . $exception->getMessage() . "\n" . $exception->getTraceAsString();
-            $resultAttribute && $model->setAttribute($resultAttribute, ['error' => mb_substr($message, 0, 1000)]);
+            $message = '[' . get_class($exception) . ']' . "\n" . $exception->getMessage() . "\n" . $exception->getTraceAsString();
+            $resultValue = [
+                'error' => $exception->getMessage(),
+                'trace' => mb_substr($message, 0, 1000),
+            ];
+            $resultAttribute && $model->setAttribute($resultAttribute, $resultValue);
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);
             foreach ($warningExceptions as $warningException) {

@@ -7,6 +7,7 @@ namespace lujie\queuing\monitor\behaviors;
 
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
+use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
 use yii\queue\ExecEvent;
@@ -146,7 +147,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
     {
         $now = time();
         $queueName = ComponentHelper::getName($event->sender);
-        $error = $event->error->getMessage() . "\n" . $event->error->getTraceAsString();
+        $error = ExceptionHelper::getMessage($event->error);
         $data = [
             'job_id' => $event->id,
             'queue' => $queueName,
@@ -154,7 +155,7 @@ abstract class BaseJobMonitorBehavior extends Behavior
             'attempt' => $event->attempt,
             'finished_at' => $now,
             'memory_usage' => memory_get_peak_usage(),
-            'error' => mb_substr($error, 0, 1000),
+            'error' => $error,
             'retry' => $event->retry,
             'status' => ExecStatusConst::EXEC_STATUS_FAILED,
         ];

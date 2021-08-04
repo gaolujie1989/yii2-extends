@@ -11,6 +11,7 @@ use lujie\executing\Executor;
 use lujie\executing\QueuedEvent;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
+use lujie\extend\helpers\ExceptionHelper;
 use yii\base\Behavior;
 use yii\helpers\Json;
 
@@ -128,8 +129,7 @@ abstract class BaseMonitorBehavior extends Behavior
             'additional' => $this->getExecutableAdditional($event->executable),
         ];
         if ($event->error) {
-            $error = $event->error->getMessage() . "\n" . $event->error->getTraceAsString();
-            $data['error'] = mb_substr($error, 0, 1000);
+            $data['error'] = ExceptionHelper::getMessage($event->error);
         }
         $executeManagerName = ComponentHelper::getName($event->sender);
         $this->saveExec($event->executable, $executeManagerName, $data);

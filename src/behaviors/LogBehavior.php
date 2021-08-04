@@ -9,6 +9,7 @@ use lujie\executing\ExecutableInterface;
 use lujie\executing\ExecuteEvent;
 use lujie\executing\Executor;
 use lujie\executing\QueuedEvent;
+use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
 
@@ -69,7 +70,7 @@ class LogBehavior extends Behavior
         $title = $this->getExecutableTitle($event->executable);
         Yii::endProfile($title, Executor::class);
         if ($event->error) {
-            $error = $event->error->getMessage() . "\n" . $event->error->getTraceAsString();
+            $error = ExceptionHelper::getMessage($event->error);
             Yii::error("$title is finished with error: $error.", Executor::class);
         } else {
             Yii::info("$title is finished.", Executor::class);

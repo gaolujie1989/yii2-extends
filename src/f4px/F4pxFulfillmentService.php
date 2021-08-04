@@ -15,11 +15,13 @@ use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
+use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * Class PmFulfillmentService
@@ -898,7 +900,11 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         foreach ($externalOrderKeys as $externalOrderKey) {
             $data = ['order_no' => $externalOrderKey, 'business_type' => $externalOrderKey[0]];
             $billing = $this->client->getBilling($data);
-            $externalCharges[$externalOrderKey] = $billing['billinglist'];
+            if (isset($billing['billinglist'])) {
+                $externalCharges[$externalOrderKey] = $billing['billinglist'];
+            } else {
+                Yii::error("ExternalOrder {$externalOrderKey} return no billing list", __METHOD__);
+            }
         }
         return $externalCharges;
     }

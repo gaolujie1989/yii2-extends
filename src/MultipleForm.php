@@ -67,12 +67,14 @@ class MultipleForm extends Model
 
     /**
      * @param bool $runValidation
-     * @param null $attributeNames
+     * @param array|null $attributeNames
      * @return bool
      * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function save($runValidation = true, $attributeNames = null): bool
+    public function save(bool $runValidation = true, ?array $attributeNames = null): bool
     {
         if ($runValidation && !$this->validate($attributeNames)) {
             Yii::info('Model not save due to validation error.', __METHOD__);
@@ -117,7 +119,6 @@ class MultipleForm extends Model
     public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
         return array_map(static function ($model) use ($fields, $expand, $recursive) {
-            /** @var BaseActiveRecord $model */
             $model->toArray($fields, $expand, $recursive);
         }, $this->loadedModels);
     }

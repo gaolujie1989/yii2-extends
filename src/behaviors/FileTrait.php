@@ -104,7 +104,9 @@ trait FileTrait
                 return false;
             }
             $result = $this->fs->writeStream($path, $fp);
-            fclose($fp);
+            if (is_resource($fp)) {
+                fclose($fp);
+            }
             if ($result && $deleteFile) {
                 unlink($source);
             }

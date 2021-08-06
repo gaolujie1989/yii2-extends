@@ -14,6 +14,14 @@ use yii\validators\Validator;
 
 /**
  * Class LinkerValidator
+ *
+ * All config and function like ExistValidator
+ * add link extra data from link table
+ * config add linkAttributes to defined link attributes
+ *
+ * ['type_id', 'exist', 'targetClass' => ProductType::class, 'targetAttribute' => ['type_id' => 'id'], linkAttributes = ['type_code' => 'code']],
+ * ['type_id', 'exist', 'targetRelation' => 'type', linkAttributes = ['type_code' => 'code']],
+ *
  * @package lujie\extend\validators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

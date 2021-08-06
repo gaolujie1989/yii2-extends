@@ -119,14 +119,18 @@ class HttpClientHelper
         try {
             $request->setOutputFile($file)->send();
         } catch (\Throwable $e) {
-            fclose($file);
+            if (is_resource($file)) {
+                fclose($file);
+            }
             unlink($outputFile);
             if ($throwException) {
                 throw $e;
             }
             return false;
         }
-        fclose($file);
+        if (is_resource($file)) {
+            fclose($file);
+        }
         return true;
     }
 }

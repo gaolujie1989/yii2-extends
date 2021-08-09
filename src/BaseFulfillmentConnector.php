@@ -101,7 +101,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @param \yii\base\Application $app
      * @inheritdoc
      */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         $itemFormClass = ClassHelper::getFormClass($this->itemClass) ?: $this->itemClass;
         Event::on($itemFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterItemSaved']);
@@ -202,7 +202,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $order = $event->sender;
         $orderId = $order->primaryKey;
         $fulfillmentOrder = FulfillmentOrderForm::find()->fulfillmentType($fulfillmentType)->orderId($orderId)->one();
-        if ($fulfillmentOrder !== null && !in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus[$fulfillmentType])) {
+        if ($fulfillmentOrder !== null && !in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus[$fulfillmentType], true)) {
             $order->addError('fulfillment_status', 'Fulfillment Status not allowed to delete');
             $event->isValid = false;
         }
@@ -222,7 +222,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         $orderId = $order->primaryKey;
         $fulfillmentOrders = FulfillmentOrderForm::find()->fulfillmentType($fulfillmentType)->orderId($orderId)->all();
         foreach ($fulfillmentOrders as $fulfillmentOrder) {
-            if (in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus[$fulfillmentType])) {
+            if (in_array($fulfillmentOrder->fulfillment_status, $this->allowedDeletedFulfillmentStatus[$fulfillmentType], true)) {
                 $fulfillmentOrder->delete();
             } else {
                 throw new InvalidArgumentException('Fulfillment Status not allowed to delete');

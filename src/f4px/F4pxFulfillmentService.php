@@ -427,6 +427,15 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 ];
                 return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
             }
+            if (strpos($exception->getMessage(), 'AVALIABLE_STOCK_IS_NOT_ENOUGH') !== false) {
+                $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR;
+                $fulfillmentOrder->additional = array_merge($fulfillmentOrder->additional ?: [], ['error' => '可用库存不足']);
+                $externalOrder = [
+                    'consignment_no' => '',
+                    'status' => '',
+                ];
+                return parent::updateFulfillmentOrder($fulfillmentOrder, $externalOrder, true);
+            }
             throw $exception;
         }
     }

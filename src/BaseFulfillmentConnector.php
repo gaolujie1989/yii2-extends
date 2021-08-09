@@ -260,10 +260,10 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
     /**
      * @param BaseActiveRecord|TraceableBehaviorTrait $order
      * @param string $fulfillmentType
-     * @return bool|null
+     * @return FulfillmentOrderForm|null
      * @inheritdoc
      */
-    public function updateFulfillmentOrder(BaseActiveRecord $order, string $fulfillmentType): ?bool
+    public function updateFulfillmentOrder(BaseActiveRecord $order, string $fulfillmentType): ?FulfillmentOrderForm
     {
         $warehouseId = $order->getAttribute($this->orderWarehouseIdAttribute[$fulfillmentType]);
         if (empty($warehouseId)) {
@@ -280,6 +280,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
 
         $orderStatus = $order->getAttribute($this->orderStatusAttribute[$fulfillmentType]);
         $orderId = $order->primaryKey;
+        /** @var FulfillmentOrderForm $fulfillmentOrder */
         $fulfillmentOrder = FulfillmentOrderForm::find()
             ->fulfillmentAccountId($fulfillmentWarehouse->fulfillment_account_id)
             ->fulfillmentType($fulfillmentType)
@@ -296,16 +297,18 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             $fulfillmentOrder->warehouse_id = $fulfillmentWarehouse->warehouse_id;
             $fulfillmentOrder->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
             $fulfillmentOrder->fulfillment_status = FulfillmentConst::FULFILLMENT_STATUS_PENDING;
-            return $fulfillmentOrder->save(false);
+            $fulfillmentOrder->save(false);
+            return $fulfillmentOrder;
         }
 
         if (empty($this->fulfillmentStatusMap[$fulfillmentType][$orderStatus])) {
-            return null;
+            return $fulfillmentOrder;
         }
         $fulfillmentOrder->order_status = $orderStatus;
         $fulfillmentOrder->order_updated_at = $order->updated_at;
         $fulfillmentOrder->fulfillment_status = $this->fulfillmentStatusMap[$fulfillmentType][$orderStatus];
-        return $fulfillmentOrder->save(false);
+        $fulfillmentOrder->save(false);
+        return $fulfillmentOrder;
     }
 
     #endregion

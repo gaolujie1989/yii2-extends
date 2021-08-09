@@ -680,7 +680,7 @@ class PmFulfillmentService extends BaseFulfillmentService
             $this->pushFulfillmentOrder($fulfillmentOrder);
             $pmOrder = $this->client->updateOrder(['id' => $pmOrderId, 'statusId' => $this->orderProcessingStatus]);
             if ($pmOrder['statusId'] === $this->orderProcessingStatus && $this->orderProcessingWarehouseId) {
-                $this->client->updateOrderWarehouse($pmOrderId, $this->orderCancelledWarehouseId, false);
+                $this->client->updateOrderWarehouse($pmOrderId, $this->orderProcessingWarehouseId, false);
             }
         }
         $this->updateFulfillmentOrder($fulfillmentOrder, $pmOrder, true);

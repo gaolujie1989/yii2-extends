@@ -52,6 +52,11 @@ class DbPipeline extends BaseDbPipeline
     public $updatedByField = 'updated_by';
 
     /**
+     * @var bool
+     */
+    public $updateByPrimaryKey = true;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -127,7 +132,7 @@ class DbPipeline extends BaseDbPipeline
         $insertRows = [];
         $updateRows = [];
         $dataChunks = array_chunk($data, $this->chunkSize, true);
-        $primaryKeys = $this->db->getTableSchema($this->table)->primaryKey;
+        $primaryKeys = $this->updateByPrimaryKey ? $this->db->getTableSchema($this->table)->primaryKey : [];
         $selectColumns = array_unique(array_merge($this->indexKeys, $primaryKeys));
         foreach ($dataChunks as $chunkedData) {
             $existRows = [];

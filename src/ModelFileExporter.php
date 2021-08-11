@@ -7,6 +7,7 @@ namespace lujie\data\exchange;
 
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
+use lujie\data\exchange\transformers\OptionTransformer;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -25,6 +26,11 @@ class ModelFileExporter extends FileExporter
      * @var array
      */
     public $keyMap = [];
+
+    /**
+     * @var array
+     */
+    public $options = [];
 
     /**
      * @var string
@@ -65,25 +71,22 @@ class ModelFileExporter extends FileExporter
             $attributes = array_diff($attributes, $model::primaryKey(), $this->filterAttributes);
             $this->keyMap = array_combine($attributes, $attributes);
         }
-        $this->transformer = method_exists($this->modelClass, $this->dataPreparer)
-            ? [
-                'class' => ChainedTransformer::class,
-                'transformers' => [
-                    'prepareRows' => [$this->modelClass, $this->dataPreparer],
-                    'keyMap' => [
-                        'class' => KeyMapTransformer::class,
-                        'unsetNotInMapKey' => true,
-                        'keyMap' => $this->keyMap
-                    ],
-                ]
-            ] : [
-                'class' => ChainedTransformer::class,
-                'transformers' => [
-                    'keyMap' => [
-                        'class' => KeyMapTransformer::class,
-                        'keyMap' => $this->keyMap
-                    ],
-                ]
-            ];
+        $transformers = [];
+        if (method_exists($this->modelClass, $this->dataPreparer)) {
+            $transformers['prepareRows'] = [$this->modelClass, $this->dataPreparer];
+        }
+        $transformers['options'] = [
+            'class' => OptionTransformer::class,
+            'options' => $this->options
+        ];
+        $transformers['keyMap'] = [
+            'class' => KeyMapTransformer::class,
+            'unsetNotInMapKey' => true,
+            'keyMap' => $this->keyMap
+        ];
+        $this->transformer = [
+            'class' => ChainedTransformer::class,
+            'transformers' => $transformers
+        ];
     }
 }

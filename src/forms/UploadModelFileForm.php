@@ -100,9 +100,12 @@ class UploadModelFileForm extends UploadModelFile
                 'checkExtensionByMimeType' => $this->checkExtensionByMimeType
             ],
         ];
-        $rules[] = $this->allowedModelTypes
-            ? [['model_type'], 'in', 'range' => $this->allowedModelTypes]
-            : [['model_type'], 'string', 'max' => 50];
+
+        if (empty($this->allowedModelTypes)) {
+            $rules[] = [['model_type'], 'string', 'max' => 50];
+        } else if (count($this->allowedModelTypes) > 1) {
+            $rules[] = [['model_type'], 'in', 'range' => $this->allowedModelTypes];
+        }
         return $rules;
     }
 

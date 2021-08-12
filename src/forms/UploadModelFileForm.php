@@ -55,12 +55,12 @@ class UploadModelFileForm extends UploadModelFile
      */
     public function init(): void
     {
+        parent::init();
         if ($this->model_type) {
             $this->allowedModelTypes[] = $this->model_type;
         } elseif ($this->allowedModelTypes) {
             $this->model_type = reset($this->allowedModelTypes);
         }
-        parent::init();
     }
 
     /**

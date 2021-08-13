@@ -539,6 +539,7 @@ class PlentyMarketsRestClient extends OAuth2
         ],
         'OrderProperty' => [
             'get' => ['GET', '{typeId}'],
+            'create' => ['POST', '{typeId}'],
             'update' => ['PUT', '{typeId}'],
             'delete' => ['DELETE', '{typeId}'],
         ],
@@ -550,6 +551,7 @@ class PlentyMarketsRestClient extends OAuth2
         ],
         'OrderItemProperty' => [
             'get' => ['GET', '{typeId}'],
+            'create' => ['POST', '{typeId}'],
             'update' => ['PUT', '{typeId}'],
             'delete' => ['DELETE', '{typeId}'],
         ],
@@ -828,13 +830,18 @@ class PlentyMarketsRestClient extends OAuth2
                 continue;
             }
             $orderItemProperties = ArrayHelper::index($orderItem['properties'], 'typeId');
-            if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']])) {
-                $batchRequest->updateOrderItemProperty([
+            if (empty($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']])) {
+                $batchRequest->createOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
-                    'value' => $warehouseId
+                    'value' => 108
                 ]);
             }
+            $batchRequest->updateOrderItemProperty([
+                'orderItemId' => $orderItem['id'],
+                'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
+                'value' => $warehouseId
+            ]);
             if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED']])) {
                 $batchRequest->deleteOrderItemProperty([
                     'orderItemId' => $orderItem['id'],

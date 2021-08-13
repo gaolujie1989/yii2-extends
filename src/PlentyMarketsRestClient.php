@@ -834,14 +834,20 @@ class PlentyMarketsRestClient extends OAuth2
                 $batchRequest->createOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
-                    'value' => 108
+                    'value' => $orderItem['warehouseId'] ?? 108
+                ]);
+                $batchRequest->updateOrderItemProperty([
+                    'orderItemId' => $orderItem['id'],
+                    'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
+                    'value' => $warehouseId
+                ]);
+            } else if ($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']] !== $warehouseId) {
+                $batchRequest->updateOrderItemProperty([
+                    'orderItemId' => $orderItem['id'],
+                    'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
+                    'value' => $warehouseId
                 ]);
             }
-            $batchRequest->updateOrderItemProperty([
-                'orderItemId' => $orderItem['id'],
-                'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
-                'value' => $warehouseId
-            ]);
             if (isset($orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['LOCATION_RESERVED']])) {
                 $batchRequest->deleteOrderItemProperty([
                     'orderItemId' => $orderItem['id'],

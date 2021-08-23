@@ -21,6 +21,10 @@ class NumberValidator extends \yii\validators\NumberValidator
      */
     public function validateAttribute($model, $attribute): void
     {
+        $value = $model->{$attribute};
+        if (is_string($value)) {
+            $model->{$attribute} = trim($value);
+        }
         parent::validateAttribute($model, $attribute);
         if ($this->convert && !$model->hasErrors($attribute)) {
             $value = $model->{$attribute};

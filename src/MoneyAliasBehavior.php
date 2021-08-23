@@ -59,7 +59,7 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
     public function setAliasProperty(string $name, $value): void
     {
         if (!is_numeric($value)) {
-            $value = strtr($value, [',' => '.']);
+            $value = strtr(trim($value), [',' => '.']);
         }
         if (is_numeric($value)) {
             $value = round($value * 10 ** $this->decimalLength);

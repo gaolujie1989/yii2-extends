@@ -153,7 +153,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     {
         $this->initUnit();
         if (!is_numeric($value)) {
-            $value = strtr($value, [',' => '.']);
+            $value = strtr(trim($value), [',' => '.']);
         }
         if (is_numeric($value)) {
             $value = static::convert($value, $this->displayUnit, $this->baseUnit);

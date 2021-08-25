@@ -20,7 +20,7 @@ class ExceptionHelper
      * @return string
      * @inheritdoc
      */
-    public static function getMessage(Throwable $exception, int $maxLength = 1000): string
+    public static function getMessage(Throwable $exception, int $maxLength = 2000): string
     {
         $message = [
             $exception->getMessage(),

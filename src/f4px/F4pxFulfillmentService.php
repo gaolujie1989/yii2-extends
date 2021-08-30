@@ -227,7 +227,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         }, $pictureUrls);
         if ($fulfillmentItem->external_item_key) {
             return [
-                'sku_code' => strtoupper($item->itemNo),
+                'sku_code' => $fulfillmentItem->external_item_additional['sku_code'],
                 'picture_url' => $pictureUrls,
             ];
         }
@@ -772,9 +772,18 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     protected function formatExternalInboundData(Order $order, FulfillmentOrder $fulfillmentOrder): array
     {
         $orderItems = [];
+        $fulfillmentItems = FulfillmentItem::find()
+            ->fulfillmentAccountId($this->account->account_id)
+            ->itemId(ArrayHelper::getColumn($order->orderItems, 'itemId'))
+            ->indexBy('item_id')
+            ->all();
         foreach ($order->orderItems as $orderItem) {
-            $orderItems[] = array_merge($this->defaultInboundItemData, [
-                'sku_code' => strtoupper($orderItem->itemNo),
+            if (empty($fulfillmentItems[$orderItem->itemId])) {
+                throw new InvalidArgumentException('FulfillmentItem not exist');
+            }
+            $fulfillmentItem = $fulfillmentItems[$orderItem->itemId];
+            $orderItems[] = array_merge($this->defaultOrderItemData, [
+                'sku_code' => $fulfillmentItem->external_item_additional['sku_code'],
                 'plan_qty' => $orderItem->orderedQty,
             ]);
         }

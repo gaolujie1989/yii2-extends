@@ -141,12 +141,13 @@ class QueryHelper
             if ($like) {
                 if ($like === 'L') {
                     $values = array_map(static function ($v) {
-                        return '%' . $v;
+                        return $v . '%';
+
                     }, $values);
                     $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
                 } elseif ($like === 'R') {
                     $values = array_map(static function ($v) {
-                        return $v . '%';
+                        return '%' . $v;
                     }, $values);
                     $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
                 } else {

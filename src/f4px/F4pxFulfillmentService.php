@@ -21,7 +21,6 @@ use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 
 /**
  * Class PmFulfillmentService
@@ -299,8 +298,12 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function updateFulfillmentItem(FulfillmentItem $fulfillmentItem, array $externalItem): bool
     {
-        $fulfillmentItem->external_item_key = $externalItem['sku_id'];
-        $fulfillmentItem->external_item_additional = ['sku_code' => $externalItem['sku_code']];
+        if (empty($fulfillmentItem->external_item_key)) {
+            $fulfillmentItem->external_item_key = $externalItem['sku_id'];
+        }
+        if (empty($fulfillmentItem->external_item_additional)) {
+            $fulfillmentItem->external_item_additional = ['sku_code' => $externalItem['sku_code']];
+        }
         if (empty($fulfillmentItem->external_created_at)) {
             $fulfillmentItem->external_created_at = time();
         }
@@ -714,9 +717,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     protected function getExternalWarehouseStockMovements(
         FulfillmentWarehouse $fulfillmentWarehouse,
-        int $movementAtFrom,
-        int $movementAtTo,
-        ?FulfillmentItem $fulfillmentItem = null
+        int                  $movementAtFrom,
+        int                  $movementAtTo,
+        ?FulfillmentItem     $fulfillmentItem = null
     ): array
     {
         $condition = [
@@ -899,7 +902,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      */
     public function pullFulfillmentCharges(array $fulfillmentOrders): void
     {
-        $fulfillmentOrders = array_filter($fulfillmentOrders, static function($fulfillmentOrder) {
+        $fulfillmentOrders = array_filter($fulfillmentOrders, static function ($fulfillmentOrder) {
             return $fulfillmentOrder->external_order_status === 'C' || $fulfillmentOrder->external_order_status === 'X';
         });
         foreach ($fulfillmentOrders as $fulfillmentOrder) {

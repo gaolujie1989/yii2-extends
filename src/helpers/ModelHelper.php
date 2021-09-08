@@ -122,6 +122,18 @@ class ModelHelper
 
     #region query and search
 
+    public static $FILTER_KEY_SUFFIXES = [
+        'FILTER' => [
+            'id', 'type', 'group', 'status',
+            'country', 'currency', 'language',
+            'carrier', 'departure', 'destination',
+        ],
+        'LEFT_LIKE' => ['no', 'key', 'code'],
+        'LIKE' => ['name', 'title'],
+        'DATETIME_RANGE' => ['at', 'date', 'time'],
+//        'RANGE' => [],
+    ];
+
     /**
      * @param array $attributes
      * @param array $keys
@@ -158,16 +170,7 @@ class ModelHelper
         array $filterKeySuffixes = []
     ): ActiveQueryInterface
     {
-        $defaultFilterKeySuffixes = [
-            'FILTER' => [
-                'id', 'type', 'group', 'status',
-                'country', 'currency', 'language',
-                'carrier', 'departure', 'destination',
-            ],
-            'LEFT_LIKE' => ['no', 'key', 'code'],
-            'LIKE' => ['name', 'title'],
-            'RANGE' => ['at', 'date', 'time']
-        ];
+        $defaultFilterKeySuffixes = static::$FILTER_KEY_SUFFIXES;
         foreach ($defaultFilterKeySuffixes as $key => $keySuffixes) {
             $defaultFilterKeySuffixes[$key] = array_combine($keySuffixes, $keySuffixes);
         }
@@ -192,6 +195,7 @@ class ModelHelper
                 case 'LIKE':
                     QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), true, $alias);
                     break;
+                case 'DATETIME_RANGE':
                 case 'RANGE':
                     QueryHelper::filterRange($query, $model->getAttributes($filterAttributes), $alias);
                     break;
@@ -209,13 +213,13 @@ class ModelHelper
      */
     public static function searchRules(BaseActiveRecord $model, array $filterKeySuffixes = [], array $datetimeKeySuffixes = []): array
     {
-        $defaultFilterKeySuffixes = [
-            'id', 'type', 'group', 'status',
-            'country', 'currency', 'language',
-            'carrier', 'departure', 'destination',
-            'no', 'key', 'code', 'name', 'title',
-        ];
-        $defaultDateTimeKeySuffixes = ['at', 'date', 'time'];
+        $defaultFilterKeySuffixes = array_merge(
+            static::$FILTER_KEY_SUFFIXES['FILTER'] ?? [],
+            static::$FILTER_KEY_SUFFIXES['LEFT_LIKE'] ?? [],
+            static::$FILTER_KEY_SUFFIXES['LIKE'] ?? [],
+            static::$FILTER_KEY_SUFFIXES['RANGE'] ?? [],
+        );
+        $defaultDateTimeKeySuffixes = static::$FILTER_KEY_SUFFIXES['DATETIME_RANGE'];
         $defaultFilterKeySuffixes = array_combine($defaultFilterKeySuffixes, $defaultFilterKeySuffixes);
         $defaultDateTimeKeySuffixes = array_combine($defaultDateTimeKeySuffixes, $defaultDateTimeKeySuffixes);
 

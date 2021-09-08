@@ -131,7 +131,7 @@ class ModelHelper
         'LEFT_LIKE' => ['no', 'key', 'code'],
         'LIKE' => ['name', 'title'],
         'DATETIME_RANGE' => ['at', 'date', 'time'],
-//        'RANGE' => [],
+        'RANGE' => [],
     ];
 
     /**

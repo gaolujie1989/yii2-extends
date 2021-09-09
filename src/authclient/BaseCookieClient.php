@@ -29,11 +29,6 @@ abstract class BaseCookieClient extends BaseClient
     public $loginUrl;
 
     /**
-     * @var array
-     */
-    public $loginData = [];
-
-    /**
      * @var string
      */
     public $username;
@@ -46,7 +41,7 @@ abstract class BaseCookieClient extends BaseClient
     /**
      * @var int
      */
-    public $expireTime = 1800;
+    public $expireDuration = 1800;
 
     /**
      * @var ?CookieCollection
@@ -66,15 +61,6 @@ abstract class BaseCookieClient extends BaseClient
     ];
 
     /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getId(): string
-    {
-        return $this->username;
-    }
-
-    /**
      * @inheritdoc
      */
     public function init(): void
@@ -88,23 +74,37 @@ abstract class BaseCookieClient extends BaseClient
         }
     }
 
+    #region Base Auth
+
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getId(): string
+    {
+        return parent::getId() . '_' . $this->username;
+    }
+
+    /**
+     * @param array $params
      * @return CookieCollection
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function login(): CookieCollection
+    public function login(array $params = []): CookieCollection
     {
-        $loginData = array_merge($this->loginData, [
-            'username' => $this->username,
-            'password' => $this->password,
-        ]);
+        if (empty($params)) {
+            $params = [
+                'username' => $this->username,
+                'password' => $this->password,
+            ];
+        }
 
         Yii::info("Login to {$this->loginUrl} with username {$this->username}", __METHOD__);
         $response = $this->createRequest()
             ->setUrl($this->loginUrl)
             ->setMethod('POST')
-            ->setData($loginData)
+            ->setData($params)
             ->send();
 
         $cookies = $response->getCookies();
@@ -118,7 +118,7 @@ abstract class BaseCookieClient extends BaseClient
      */
     public function setCookies(CookieCollection $cookies): void
     {
-        $defaultExpireAt = time() + $this->expireTime;
+        $defaultExpireAt = time() + $this->expireDuration;
         foreach ($cookies as $cookie) {
             if (empty($cookie->expire)) {
                 $cookie->expire = $defaultExpireAt;
@@ -185,6 +185,8 @@ abstract class BaseCookieClient extends BaseClient
         Yii::debug('AddCookies to request', __METHOD__);
         $request->addCookies($cookies->toArray());
     }
+
+    #endregion
 
     /**
      * @param string $callSubUrl

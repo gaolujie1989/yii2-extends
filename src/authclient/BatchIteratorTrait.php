@@ -30,6 +30,8 @@ trait BatchIteratorTrait
 
     public $responseTotalCountKey = 'totalCount';
 
+    public $responseNextLinksKey = 'links.next';
+
     /**
      * @var bool
      */
@@ -57,6 +59,113 @@ trait BatchIteratorTrait
     }
 
     /**
+     * @param array $responseData
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function getPageData(array $responseData): array
+    {
+        return ArrayHelper::getValue($responseData, $this->responseDataKey, $responseData);
+    }
+
+    /**
+     * @param array $responseData
+     * @return int
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function getPageCount(array $responseData): int
+    {
+        return $this->responsePageCountKey
+            ? ArrayHelper::getValue($responseData, $this->responsePageCountKey, 1)
+            : (int)(ArrayHelper::getValue($responseData, $this->responseTotalCountKey, 0)
+                / ArrayHelper::getValue($responseData, $this->responsePageSizeKey, 1));
+    }
+
+    /**
+     * @param array $responseData
+     * @return array
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function getNextPageLink(array $responseData): ?string
+    {
+        return ArrayHelper::getValue($responseData, $this->responseNextLinksKey);
+    }
+
+    /**
+     * @param string $resource
+     * @param array $condition
+     * @param int $batchSize
+     * @return Iterator
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function batchByPage(string $resource, array $condition = [], int $batchSize = 100): Iterator
+    {
+        $listMethod = $this->getBatchInternalMethod($resource);
+        $pageSizeKey = $this->requestPageSizeKey;
+        if ($pageSizeKey) {
+            $condition[$pageSizeKey] = $batchSize;
+        }
+        $pageKey = $this->requestPageKey;
+        if ($this->reverse) {
+            $responseData = $this->{$listMethod}($condition);
+            $firstPageItems = $this->getPageData($responseData);
+            $firstPageNum = $condition[$pageKey] ?? 1;
+
+            $pageCount = $this->getPageCount($responseData);
+
+            $condition[$pageKey] = $pageCount;
+            while ($condition[$pageKey] > $firstPageNum) {
+                $responseData = $this->{$listMethod}($condition);
+                $items = $this->getPageData($responseData);
+
+                yield array_reverse($items);
+
+                $condition[$pageKey]--;
+            }
+
+            yield array_reverse($firstPageItems);
+        } else {
+            do {
+                $responseData = $this->{$listMethod}($condition);
+                yield $this->getPageData($responseData);
+
+                $pageCount = $this->getPageCount($responseData);
+
+                $condition[$pageKey] = $condition[$pageKey] ?? 1;
+                $condition[$pageKey]++;
+            } while ($condition[$pageKey] <= $pageCount);
+        }
+    }
+
+    /**
+     * @param string $resource
+     * @param array $condition
+     * @param int $batchSize
+     * @return \Generator
+     * @throws \Exception
+     * @inheritdoc
+     */
+    protected function batchByLinks(string $resource, array $condition = [], int $batchSize = 100): Iterator
+    {
+        $listMethod = $this->getBatchInternalMethod($resource);
+        $nextPageLink = null;
+        do {
+            if ($nextPageLink) {
+                $urlParts = parse_url($nextPageLink);
+                parse_str($urlParts['query'], $condition);
+            }
+            $responseData = $this->{$listMethod}($condition);
+            yield $this->getPageData($responseData);
+
+            $nextPageLink = $this->getNextPageLink($responseData);
+        } while ($nextPageLink);
+    }
+
+    /**
      * @param string $resource
      * @param array $condition
      * @param int $batchSize
@@ -66,45 +175,9 @@ trait BatchIteratorTrait
      */
     public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
     {
-        $listMethod = $this->getBatchInternalMethod($resource);
-        if ($this->requestPageSizeKey) {
-            $condition[$this->requestPageSizeKey] = $batchSize;
-        }
-        if ($this->reverse) {
-            $responseData = $this->{$listMethod}($condition);
-            $firstPageItems = ArrayHelper::getValue($responseData, $this->responseDataKey, $responseData);
-            $firstPageNum = $condition[$this->responsePageKey] ?? 1;
-
-            $pageCount = $this->responsePageCountKey
-                ? ArrayHelper::getValue($responseData, $this->responsePageCountKey, 1)
-                : (int)(ArrayHelper::getValue($responseData, $this->responseTotalCountKey, 0)
-                    / ArrayHelper::getValue($responseData, $this->responsePageSizeKey, $batchSize));
-
-            $condition[$this->requestPageKey] = $pageCount;
-            while ($condition[$this->requestPageKey] > $firstPageNum) {
-                $responseData = $this->{$listMethod}($condition);
-                $items = ArrayHelper::getValue($responseData, $this->responseDataKey, $responseData);
-
-                yield array_reverse($items);
-
-                $condition[$this->requestPageKey]--;
-            }
-
-            yield array_reverse($firstPageItems);
-        } else {
-            do {
-                $responseData = $this->{$listMethod}($condition);
-                yield ArrayHelper::getValue($responseData, $this->responseDataKey, $responseData);
-
-                $pageCount = $this->responsePageCountKey
-                    ? ArrayHelper::getValue($responseData, $this->responsePageCountKey, 1)
-                    : (int)(ArrayHelper::getValue($responseData, $this->responseTotalCountKey, 0)
-                        / ArrayHelper::getValue($responseData, $this->responsePageSizeKey, $batchSize));
-
-                $condition[$this->requestPageKey] = $condition[$this->requestPageKey] ?? 1;
-                $condition[$this->requestPageKey]++;
-            } while ($condition[$this->requestPageKey] <= $pageCount);
-        }
+        return $this->requestPageKey
+            ? $this->batchByPage($resource, $condition, $batchSize)
+            : $this->batchByLinks($resource, $condition, $batchSize);
     }
 
     /**

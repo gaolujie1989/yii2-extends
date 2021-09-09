@@ -30,6 +30,7 @@ use yii\web\NotFoundHttpException;
  *
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 trait RestClientTrait
 {

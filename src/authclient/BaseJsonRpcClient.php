@@ -56,23 +56,26 @@ abstract class BaseJsonRpcClient extends BaseClient
     ];
 
     /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getId(): string
-    {
-        return $this->appKey;
-    }
-
-    /**
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
+        //JsonRPC not need to storage token state
         if ($this->httpClientOptions) {
             $this->setHttpClient($this->httpClientOptions);
         }
+    }
+
+    #region Base Auth
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getId(): string
+    {
+        return parent::getId() . '_' . $this->appKey;
     }
 
     /**
@@ -128,6 +131,8 @@ abstract class BaseJsonRpcClient extends BaseClient
      */
     abstract protected function createRpcResponse(Response $response): JsonRpcResponse;
 
+    #endregion
+
     /**
      * @param string $method
      * @param array $data
@@ -137,7 +142,7 @@ abstract class BaseJsonRpcClient extends BaseClient
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function call(string $method, $data = []): JsonRpcResponse
+    public function call(string $method, array $data = []): JsonRpcResponse
     {
         if (empty($this->methods[$method])) {
             throw new NotSupportedException('Method not supported');
@@ -153,7 +158,7 @@ abstract class BaseJsonRpcClient extends BaseClient
      * @return array|null
      * @throws JsonRpcException
      */
-    public function getResponseData(JsonRpcResponse $response)
+    public function getResponseData(JsonRpcResponse $response): ?array
     {
         if (!$response->success) {
             throw new JsonRpcException($response, 'JsonRpc error: ' . $response->message . Json::encode($response->errors));
@@ -180,7 +185,8 @@ abstract class BaseJsonRpcClient extends BaseClient
 
         if (strpos($name, 'batch') === 0) {
             return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
-        } elseif (strpos($name, 'each') === 0) {
+        }
+        if (strpos($name, 'each') === 0) {
             return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
         }
 

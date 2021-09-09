@@ -109,7 +109,6 @@ class SimpleOAuth extends BaseOAuth
 
         $response = $this->sendRequest($request);
 
-
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);
 

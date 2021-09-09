@@ -5,7 +5,7 @@
 
 namespace lujie\extend\authclient;
 
-use Iterator;
+use lujie\extend\BatchIteratorTrait;
 use lujie\extend\helpers\HttpClientHelper;
 use Yii;
 use yii\authclient\BaseClient;
@@ -24,6 +24,8 @@ use yii\httpclient\Response;
  */
 abstract class BaseJsonRpcClient extends BaseClient
 {
+    use BatchIteratorTrait;
+
     /**
      * @var string
      */
@@ -169,11 +171,12 @@ abstract class BaseJsonRpcClient extends BaseClient
     /**
      * @param string $name
      * @param array $params
-     * @return array|mixed|null
+     * @return array|\Iterator|mixed|null
      * @throws JsonRpcException
      * @throws NotSupportedException
      * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
+     * @throws \Exception
      * @inheritdoc
      */
     public function __call($name, $params)
@@ -191,29 +194,5 @@ abstract class BaseJsonRpcClient extends BaseClient
         }
 
         return parent::__call($name, $params);
-    }
-
-    /**
-     * @param string $resource
-     * @param array $condition
-     * @param int $batchSize
-     * @return Iterator
-     * @inheritdoc
-     */
-    abstract public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator;
-
-    /**
-     * @param string $resource
-     * @param array $condition
-     * @param int $batchSize
-     * @return Iterator
-     * @inheritdoc
-     */
-    public function each(string $resource, array $condition = [], int $batchSize = 100): Iterator
-    {
-        $iterator = $this->batch($resource, $condition, $batchSize);
-        foreach ($iterator as $items) {
-            yield from $items;
-        }
     }
 }

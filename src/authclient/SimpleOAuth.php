@@ -5,8 +5,11 @@
 
 namespace lujie\extend\authclient;
 
+use lujie\extend\BatchIteratorTrait;
+use lujie\extend\helpers\HttpClientHelper;
 use Yii;
 use yii\authclient\BaseOAuth;
+use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\httpclient\Request;
 
@@ -17,6 +20,8 @@ use yii\httpclient\Request;
  */
 class SimpleOAuth extends BaseOAuth
 {
+    use BatchIteratorTrait, RestApiTrait;
+
     /**
      * @var string
      */
@@ -64,7 +69,8 @@ class SimpleOAuth extends BaseOAuth
 
     /**
      * @return OAuthToken
-     * @throws \yii\authclient\InvalidResponseException
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function getAccessToken(): OAuthToken
@@ -77,11 +83,10 @@ class SimpleOAuth extends BaseOAuth
     }
 
     /**
-     * @param string $username
-     * @param string $password
      * @param array $params
      * @return OAuthToken
-     * @throws \yii\authclient\InvalidResponseException
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function authenticate(array $params = []): OAuthToken
@@ -129,7 +134,8 @@ class SimpleOAuth extends BaseOAuth
     /**
      * @param OAuthToken $token
      * @return OAuthToken
-     * @throws \yii\authclient\InvalidResponseException
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function refreshAccessToken(OAuthToken $token): OAuthToken
@@ -148,4 +154,16 @@ class SimpleOAuth extends BaseOAuth
     }
 
     #endregion BaseOAuth
+
+    /**
+     * @param Request $request
+     * @return array|mixed
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    protected function sendRequest($request)
+    {
+        return HttpClientHelper::sendRequest($request)->getData();
+    }
 }

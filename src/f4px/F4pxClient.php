@@ -53,6 +53,7 @@ use yii\httpclient\Response;
  *
  * @package lujie\fulfillment\f4px
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @document http://open.4px.com/apiInfo/apiDetail?itemId=1&mainId=106#
  */
 class F4pxClient extends BaseJsonRpcClient
 {

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\extend;
+namespace lujie\extend\authclient;
 
 use Iterator;
 use yii\helpers\ArrayHelper;

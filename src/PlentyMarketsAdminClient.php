@@ -55,21 +55,26 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     }
 
     /**
+     * @param array $params
      * @return CookieCollection
      * @throws InvalidConfigException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function login(): CookieCollection
+    public function login(array $params = []): CookieCollection
     {
-        $this->loginData = [
-            'safemode' => 0,
-            'terraRoute' => '/' . $this->plentyId,
-            'queryParams' => '',
-            'language' => '',
-            'pid' => $this->plentyId,
-        ];
-        parent::login();
+        if (empty($params)) {
+            $params = [
+                'safemode' => 0,
+                'terraRoute' => '/' . $this->plentyId,
+                'queryParams' => '',
+                'language' => '',
+                'pid' => $this->plentyId,
+                'username' => $this->username,
+                'password' => $this->password,
+            ];
+        }
+        parent::login($params);
         $this->setSessionID();
         return $this->getCookies();
     }

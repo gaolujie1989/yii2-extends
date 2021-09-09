@@ -10,6 +10,7 @@ class FulfillmentConst
     public const ACCOUNT_TYPE_AMAZON = 'AMAZON';
     public const ACCOUNT_TYPE_PM = 'PM';
     public const ACCOUNT_TYPE_F4PX = 'F4PX';
+    public const ACCOUNT_TYPE_DESPATCH_CLOUD = 'DESPATCH_CLOUD';
 
     public const FULFILLMENT_TYPE_INBOUND = 'INBOUND';
     public const FULFILLMENT_TYPE_SHIPPING = 'SHIPPING';

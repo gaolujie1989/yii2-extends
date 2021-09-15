@@ -5,7 +5,6 @@
 
 namespace lujie\extend\authclient;
 
-use lujie\extend\BatchIteratorTrait;
 use lujie\extend\helpers\HttpClientHelper;
 use Yii;
 use yii\authclient\BaseClient;

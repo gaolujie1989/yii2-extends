@@ -266,7 +266,7 @@ class ModelHelper
         $aliasProperties = array_merge($modelAliasProperties, $aliasProperties);
         $relations = array_merge($extraRelations, $relations);
 
-        $row = ActiveDataHelper::typecast($class, $row);
+        $row = ActiveDataHelper::typecast($row, $class);
         //prepare relations
         /**
          * @var string $relation

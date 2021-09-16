@@ -133,8 +133,12 @@ class ValueHelper
             if (!array_key_exists($k, $a2)) {
                 return false;
             }
+            $v2 = $a2[$k];
+            if (is_array($v) && is_array($v2) && !static::isArrayEqual($v, $v2)) {
+                return false;
+            }
             /** @noinspection TypeUnsafeComparisonInspection */
-            if ($strict ? $a2[$k] !== $v : $a2[$k] != $v) {
+            if ($strict ? $v2 !== $v : $a2[$k] != $v) {
                 return false;
             }
         }

@@ -79,6 +79,7 @@ class ValueHelper
                 return StringHelper::matchWildcard($condition, $value);
             }
         }
+        /** @noinspection TypeUnsafeComparisonInspection */
         return $strict ? $value === $condition : $value == $condition;
     }
 
@@ -111,6 +112,29 @@ class ValueHelper
         foreach ($condition as $key => $item) {
             $value = ArrayHelper::getValue($data, $key);
             if (!static::isMatch($value, $item, $strict)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param array $a1
+     * @param array $a2
+     * @return bool
+     * @inheritdoc
+     */
+    public static function isArrayEqual(array $a1, array $a2, bool $strict = true): bool
+    {
+        if (count($a1) !== count($a2)) {
+            return false;
+        }
+        foreach ($a1 as $k => $v) {
+            if (!array_key_exists($k, $a2)) {
+                return false;
+            }
+            /** @noinspection TypeUnsafeComparisonInspection */
+            if ($strict ? $a2[$k] !== $v : $a2[$k] != $v) {
                 return false;
             }
         }

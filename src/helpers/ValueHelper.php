@@ -134,7 +134,10 @@ class ValueHelper
                 return false;
             }
             $v2 = $a2[$k];
-            if (is_array($v) && is_array($v2) && !static::isArrayEqual($v, $v2)) {
+            if (is_array($v) && is_array($v2)) {
+                if (static::isArrayEqual($v, $v2)) {
+                    continue;
+                }
                 return false;
             }
             /** @noinspection TypeUnsafeComparisonInspection */

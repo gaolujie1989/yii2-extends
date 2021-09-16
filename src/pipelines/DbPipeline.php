@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\pipelines;
 
+use lujie\extend\helpers\ActiveDataHelper;
 use lujie\extend\helpers\IdentityHelper;
 use lujie\extend\helpers\ValueHelper;
 use yii\db\ActiveRecord;
@@ -130,7 +131,8 @@ class DbPipeline extends BaseDbPipeline
 
     /**
      * @param array $data
-     * @return array return [$insertRows, $updateRows]
+     * @return array[] return [$insertRows, $updateRows]
+     * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
     protected function createRows(array $data): array
@@ -157,6 +159,9 @@ class DbPipeline extends BaseDbPipeline
                     $indexQuery->select($selectColumns);
                 }
                 $existRows = $indexQuery->all($this->db);
+                if ($this->skipIfEqual) {
+                    $existRows = ActiveDataHelper::phpTypecast($existRows, $this->table, $this->db, true);
+                }
             }
             foreach ($chunkedData as $indexValue => $values) {
                 if ($this->indexKeys && isset($existRows[$indexValue])) {

@@ -21,15 +21,16 @@ class ActiveDataHelper
     /**
      * @param string $modelClass
      * @param array $data
+     * @param bool|null $multi
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public static function typecast(string $modelClass, array $data): array
+    public static function typecast(array $data, string $modelClass, ?bool $multi = null): array
     {
         if (is_subclass_of($modelClass, ActiveRecord::class)) {
             $columns = $modelClass::getTableSchema()->columns;
-            return static::phpTypecastInternal($data, $columns);
+            return static::phpTypecastInternal($data, $columns, $multi);
         }
         return $data;
     }
@@ -37,10 +38,11 @@ class ActiveDataHelper
     /**
      * @param array $data
      * @param ColumnSchema[] $columns
+     * @param bool|null $multi
      * @return array
      * @inheritdoc
      */
-    protected static function phpTypecastInternal(array $data, array $columns): array
+    protected static function phpTypecastInternal(array $data, array $columns, ?bool $multi = null): array
     {
         $closure = static function ($row) use ($columns) {
             foreach ($row as $name => $value) {
@@ -50,24 +52,25 @@ class ActiveDataHelper
             }
             return $row;
         };
-        if (ArrayHelper::isAssociative($data, false)) {
-            return $closure($data);
+        if ($multi === null) {
+            $multi = !ArrayHelper::isAssociative($data, false);
         }
-        return array_map($closure, $data);
+        return $multi ? array_map($closure, $data) : $closure($data);
     }
 
     /**
      * @param array $data
      * @param string $table
      * @param Connection|null $db
+     * @param bool|null $multi
      * @return array
      * @throws \yii\base\NotSupportedException
      * @inheritdoc
      */
-    public static function phpTypecast(array $data, string $table, Connection $db = null): array
+    public static function phpTypecast(array $data, string $table, Connection $db = null, ?bool $multi = null): array
     {
         $db = $db ?: Yii::$app->getDb();
         $columns = $db->getSchema()->getTableSchema($table)->columns;
-        return static::phpTypecastInternal($data, $columns);
+        return static::phpTypecastInternal($data, $columns, $multi);
     }
 }

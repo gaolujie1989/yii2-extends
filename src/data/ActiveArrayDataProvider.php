@@ -51,7 +51,7 @@ class ActiveArrayDataProvider extends ActiveDataProvider
         }
         $models = parent::prepareModels();
         if ($this->query->asArray && $this->typecast) {
-            $models = ActiveDataHelper::typecast($this->query->modelClass, $models);
+            $models = ActiveDataHelper::typecast($models, $this->query->modelClass);
         }
         if ($isPrepareArray) {
             if (method_exists($this->query->modelClass, $this->prepareRowsMethod)) {

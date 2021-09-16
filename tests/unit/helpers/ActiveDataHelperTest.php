@@ -31,7 +31,7 @@ class ActiveDataHelperTest extends \Codeception\Test\Unit
                 'xxx' => 'xxx',
             ]
         ];
-        $typecast = ActiveDataHelper::typecast(Migration::class, $migration);
+        $typecast = ActiveDataHelper::typecast($migration, Migration::class);
         $this->assertIsString($typecast[0]['version']);
         $this->assertIsInt($typecast[0]['apply_time']);
     }

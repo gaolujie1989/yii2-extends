@@ -61,7 +61,12 @@ class DbPipeline extends BaseDbPipeline
     /**
      * @var bool
      */
-    public $skipIfEqual = false;
+    public $skipIfEqual = true;
+
+    /**
+     * @var bool
+     */
+    public $skipEqualStrict = true;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -167,7 +172,7 @@ class DbPipeline extends BaseDbPipeline
                 if ($this->indexKeys && isset($existRows[$indexValue])) {
                     if ($this->skipIfEqual) {
                         $existValues = array_intersect_key($existRows[$indexValue], $values);
-                        if (ValueHelper::isArrayEqual($existValues, $values)) {
+                        if (ValueHelper::isArrayEqual($existValues, $values, $this->skipEqualStrict)) {
                             $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
                             continue;
                         }

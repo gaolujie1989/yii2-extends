@@ -6,6 +6,7 @@
 namespace lujie\data\exchange\pipelines;
 
 use lujie\extend\helpers\IdentityHelper;
+use lujie\extend\helpers\ValueHelper;
 use yii\db\ActiveRecord;
 use yii\db\Connection;
 use yii\db\Query;
@@ -55,6 +56,11 @@ class DbPipeline extends BaseDbPipeline
      * @var bool
      */
     public $updateByPrimaryKey = true;
+
+    /**
+     * @var bool
+     */
+    public $skipIfEqual = false;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -141,15 +147,26 @@ class DbPipeline extends BaseDbPipeline
                     return array_intersect_key($values, array_flip($this->indexKeys));
                 }, false);
                 array_unshift($conditions, 'OR');
-                $existRows = (new Query())->from($this->table)
+                $indexQuery = (new Query())->from($this->table)
                     ->andWhere($conditions)
-                    ->select($selectColumns)
                     ->indexBy(function ($values) {
                         return $this->getIndexValue($values);
-                    })->all($this->db);
+                    });
+
+                if (!$this->skipIfEqual) {
+                    $indexQuery->select($selectColumns);
+                }
+                $existRows = $indexQuery->all($this->db);
             }
             foreach ($chunkedData as $indexValue => $values) {
                 if ($this->indexKeys && isset($existRows[$indexValue])) {
+                    if ($this->skipIfEqual) {
+                        $existValues = array_intersect_key($existRows[$indexValue], $values);
+                        if (ValueHelper::isArrayEqual($existValues, $values)) {
+                            $this->affectedRowCounts[self::AFFECTED_SKIPPED]++;
+                            continue;
+                        }
+                    }
                     if ($primaryKeys) {
                         $condition = array_intersect_key($existRows[$indexValue], array_flip($primaryKeys));
                     } else {

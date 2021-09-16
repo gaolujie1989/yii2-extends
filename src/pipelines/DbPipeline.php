@@ -66,7 +66,7 @@ class DbPipeline extends BaseDbPipeline
     /**
      * @var bool
      */
-    public $skipEqualStrict = true;
+    public $skipEqualStrict = false;
 
     /**
      * @throws \yii\base\InvalidConfigException

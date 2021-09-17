@@ -116,10 +116,10 @@ class QueryHelper
      */
     public static function filterValue(
         QueryInterface $query,
-        array $attributeValues,
-        $like = false,
-        string $alias = '',
-        string $splitPattern = '/[,;\s]/'
+        array          $attributeValues,
+                       $like = false,
+        string         $alias = '',
+        string         $splitPattern = '/[,;\s]/'
     ): void
     {
         $alias = $alias ? $alias . '.' : '';
@@ -133,8 +133,7 @@ class QueryHelper
                 continue;
             }
 
-            $values = preg_split($splitPattern, $value, -1, PREG_SPLIT_NO_EMPTY);
-            $values = array_filter(array_map('trim', $values), [ValueHelper::class, 'notEmpty']);
+            $values = ValueHelper::strToArray((string)$value, $splitPattern);
             if (empty($values)) {
                 continue;
             }
@@ -170,11 +169,11 @@ class QueryHelper
      */
     public static function filterKey(
         QueryInterface $query,
-        array $attributes,
-        $value,
-        $like = false,
-        string $alias = '',
-        string $splitPattern = '/[,;\s]/'
+        array          $attributes,
+                       $value,
+                       $like = false,
+        string         $alias = '',
+        string         $splitPattern = '/[,;\s]/'
     ): void
     {
         if (ValueHelper::isEmpty($value)) {

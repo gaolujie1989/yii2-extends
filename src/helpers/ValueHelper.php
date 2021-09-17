@@ -147,4 +147,16 @@ class ValueHelper
         }
         return true;
     }
+
+    /**
+     * @param string $str
+     * @param string $splitPattern
+     * @return array
+     * @inheritdoc
+     */
+    public static function strToArray(string $str, string $splitPattern = '/[,;\s]/'): array
+    {
+        $values = preg_split($splitPattern, $str, -1, PREG_SPLIT_NO_EMPTY);
+        return array_filter(array_map('trim', $values), [static::class, 'notEmpty']);
+    }
 }

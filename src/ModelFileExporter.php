@@ -66,10 +66,7 @@ class ModelFileExporter extends FileExporter
         if (empty($this->keyMap)) {
             /** @var BaseActiveRecord $model */
             $model = new $this->modelClass();
-            $model->setAttributes(array_fill_keys($model->attributes(), ''), false);
-            $attributes = array_keys($model->fields());
-            $attributes = array_diff($attributes, $model::primaryKey(), $this->filterAttributes);
-            $this->keyMap = array_combine($attributes, $attributes);
+            $this->keyMap = $this->getModelAttributesKeyMap($model);
         }
         $transformers = [];
         if (method_exists($this->modelClass, $this->dataPreparer)) {
@@ -88,5 +85,18 @@ class ModelFileExporter extends FileExporter
             'class' => ChainedTransformer::class,
             'transformers' => $transformers
         ];
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return array
+     * @inheritdoc
+     */
+    public function getModelAttributesKeyMap(BaseActiveRecord $model): array
+    {
+        $model->setAttributes(array_fill_keys($model->attributes(), ''), false);
+        $attributes = array_keys($model->fields());
+        $attributes = array_diff($attributes, $model::primaryKey(), $this->filterAttributes);
+        return array_combine($attributes, $attributes);
     }
 }

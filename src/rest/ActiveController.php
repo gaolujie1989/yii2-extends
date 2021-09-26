@@ -283,7 +283,7 @@ class ActiveController extends \yii\rest\ActiveController
      * @return ActiveRecordInterface[]
      * @inheritdoc
      */
-    public function findModels($ids, $with = []): array
+    public function findModels($ids, array $with = []): array
     {
         /* @var $modelClass ActiveRecordInterface */
         $modelClass = $this->modelClass;

@@ -58,6 +58,15 @@ trait SearchTrait
      * @return array
      * @inheritdoc
      */
+    protected function filterKeySuffixes(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function behaviors(): array
     {
         return $this->searchBehaviors();
@@ -93,7 +102,7 @@ trait SearchTrait
     {
         $keyAttributes = $this->searchKeyAttributes();
         /** @var BaseActiveRecord $this */
-        $query = ModelHelper::query($this, $query, $alias);
+        $query = ModelHelper::query($this, $query, $alias, $this->filterKeySuffixes());
         if ($this->key && $keyAttributes) {
             QueryHelper::filterKey($query, $keyAttributes, $this->key, true);
         }

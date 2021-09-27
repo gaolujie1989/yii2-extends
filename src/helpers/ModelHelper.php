@@ -174,7 +174,7 @@ class ModelHelper
         foreach ($defaultFilterKeySuffixes as $key => $keySuffixes) {
             $defaultFilterKeySuffixes[$key] = array_combine($keySuffixes, $keySuffixes);
         }
-        $filterKeySuffixes = array_merge($defaultFilterKeySuffixes, $filterKeySuffixes);
+        $filterKeySuffixes = ArrayHelper::merge($defaultFilterKeySuffixes, $filterKeySuffixes);
         $filterKeySuffixes = array_filter(array_map('array_filter', $filterKeySuffixes));
         $filterKeyAttributes = [];
         foreach ($filterKeySuffixes as $key => $keySuffixes) {

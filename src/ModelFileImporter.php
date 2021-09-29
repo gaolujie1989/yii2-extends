@@ -7,6 +7,7 @@ namespace lujie\data\exchange;
 
 use lujie\data\exchange\pipelines\ActiveRecordPipeline;
 use lujie\data\exchange\transformers\ChainedTransformer;
+use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use lujie\data\exchange\transformers\FilterTransformer;
 use lujie\data\exchange\transformers\KeyMapTransformer;
 use lujie\extend\helpers\ExcelHelper;
@@ -45,6 +46,11 @@ class ModelFileImporter extends FileImporter
      * @var array
      */
     public $keyMapNotes = [];
+
+    /**
+     * @var array
+     */
+    public $defaultValues = [];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -87,6 +93,12 @@ class ModelFileImporter extends FileImporter
                 ],
             ]
         ];
+        if ($this->defaultValues) {
+            $this->transformer['transformers']['default'] = [
+                'class' => FillDefaultValueTransformer::class,
+                'defaultValues' => $this->defaultValues
+            ];
+        }
     }
 
     public function initPipeline(): void

@@ -7,6 +7,9 @@ namespace lujie\extend\helpers;
 
 use lujie\extend\db\OffsetBatchQueryResult;
 use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
+use yii\db\ActiveRecord;
 use yii\db\BatchQueryResult;
 use yii\db\Query;
 use yii\db\QueryInterface;
@@ -33,6 +36,33 @@ class QueryHelper
         }
         $params = array_merge($params, ['{{%' => '', '{{' => '', '}}' => '', '[[' => '', ']]' => '']);
         return strtr($sql, $params);
+    }
+
+    /**
+     * @param Query $query
+     * @return string
+     * @inheritdoc
+     */
+    public static function getAlias(Query $query): string
+    {
+        if (empty($query->from)) {
+            return '';
+        }
+        if (count($query->from) === 1) {
+            $alias = array_keys($query->from)[0];
+            return is_string($alias) ? $alias : '';
+        }
+        if ($query instanceof ActiveQueryInterface && count($query->from) > 1) {
+            /** @var ActiveQuery $query */
+            /** @var ActiveRecord $modelClass */
+            $modelClass = $query->modelClass;
+            foreach ($query->from as $alias => $tableName) {
+                if (is_string($alias) && $tableName === $modelClass::tableName()) {
+                    return $alias;
+                }
+            }
+        }
+        return '';
     }
 
     /**

@@ -169,16 +169,23 @@ class QueryHelper
             }
             if ($like) {
                 if ($like === 'L') {
-                    $values = array_map(static function ($v) {
+                    $valuesL = array_map(static function ($v) {
                         return $v . '%';
-
                     }, $values);
-                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
+                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $valuesL, false]);
                 } elseif ($like === 'R') {
-                    $values = array_map(static function ($v) {
+                    $valuesR = array_map(static function ($v) {
                         return '%' . $v;
                     }, $values);
-                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values, false]);
+                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $valuesR, false]);
+                } elseif ($like === 'LR') {
+                    $valuesL = array_map(static function ($v) {
+                        return $v . '%';
+                    }, $values);
+                    $valuesR = array_map(static function ($v) {
+                        return '%' . $v;
+                    }, $values);
+                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, array_merge($valuesL, $valuesR), false]);
                 } else {
                     $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values]);
                 }

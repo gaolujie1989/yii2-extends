@@ -128,7 +128,9 @@ class ModelHelper
             'country', 'currency', 'language',
             'carrier', 'departure', 'destination',
         ],
-        'LEFT_LIKE' => ['no', 'key', 'code'],
+        'BOTH_LIKE' => ['no', 'key', 'code'],
+        'LEFT_LIKE' => [],
+        'RIGHT_LIKE' => [],
         'LIKE' => ['name', 'title'],
         'DATETIME_RANGE' => ['at', 'date', 'time'],
         'RANGE' => [],
@@ -191,6 +193,9 @@ class ModelHelper
                     break;
                 case 'RIGHT_LIKE':
                     QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), 'R', $alias);
+                    break;
+                case 'BOTH_LIKE':
+                    QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), 'LR', $alias);
                     break;
                 case 'LIKE':
                     QueryHelper::filterValue($query, $model->getAttributes($filterAttributes), true, $alias);

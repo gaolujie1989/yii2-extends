@@ -235,15 +235,23 @@ class QueryHelper
             foreach ($attributes as $attribute) {
                 $aliasAttribute = $alias . $attribute;
                 if ($like === 'L') {
-                    $values = array_map(static function ($v) {
-                        return '%' . $v;
-                    }, $values);
-                    $condition[] = ['OR LIKE', $aliasAttribute, $values, false];
-                } elseif ($like === 'R') {
-                    $values = array_map(static function ($v) {
+                    $valuesL = array_map(static function ($v) {
                         return $v . '%';
                     }, $values);
-                    $condition[] = ['OR LIKE', $aliasAttribute, $values, false];
+                    $condition[] = ['OR LIKE', $aliasAttribute, $valuesL, false];
+                } elseif ($like === 'R') {
+                    $valuesR = array_map(static function ($v) {
+                        return '%' . $v;
+                    }, $values);
+                    $condition[] = ['OR LIKE', $aliasAttribute, $valuesR, false];
+                } elseif ($like === 'LR') {
+                    $valuesL = array_map(static function ($v) {
+                        return $v . '%';
+                    }, $values);
+                    $valuesR = array_map(static function ($v) {
+                        return '%' . $v;
+                    }, $values);
+                    $condition[] = ['OR LIKE', $aliasAttribute, array_merge($valuesL, $valuesR), false];
                 } else {
                     $condition[] = ['OR LIKE', $aliasAttribute, $values];
                 }

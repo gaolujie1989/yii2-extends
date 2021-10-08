@@ -220,7 +220,9 @@ class ModelHelper
     {
         $defaultFilterKeySuffixes = array_merge(
             static::$FILTER_KEY_SUFFIXES['FILTER'] ?? [],
+            static::$FILTER_KEY_SUFFIXES['BOTH_LIKE'] ?? [],
             static::$FILTER_KEY_SUFFIXES['LEFT_LIKE'] ?? [],
+            static::$FILTER_KEY_SUFFIXES['RIGHT_LIKE'] ?? [],
             static::$FILTER_KEY_SUFFIXES['LIKE'] ?? [],
             static::$FILTER_KEY_SUFFIXES['RANGE'] ?? [],
         );

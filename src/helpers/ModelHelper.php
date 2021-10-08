@@ -218,7 +218,7 @@ class ModelHelper
      */
     public static function searchRules(BaseActiveRecord $model, array $filterKeySuffixes = [], array $datetimeKeySuffixes = []): array
     {
-        $defaultFilterKeySuffixes = array_merge(...static::$FILTER_KEY_SUFFIXES);
+        $defaultFilterKeySuffixes = array_merge(...array_values(static::$FILTER_KEY_SUFFIXES));
         $defaultDateTimeKeySuffixes = static::$FILTER_KEY_SUFFIXES['DATETIME_RANGE'] ?? [];
         $defaultFilterKeySuffixes = array_combine($defaultFilterKeySuffixes, $defaultFilterKeySuffixes);
         $defaultDateTimeKeySuffixes = array_combine($defaultDateTimeKeySuffixes, $defaultDateTimeKeySuffixes);

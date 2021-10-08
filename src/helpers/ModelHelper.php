@@ -218,15 +218,8 @@ class ModelHelper
      */
     public static function searchRules(BaseActiveRecord $model, array $filterKeySuffixes = [], array $datetimeKeySuffixes = []): array
     {
-        $defaultFilterKeySuffixes = array_merge(
-            static::$FILTER_KEY_SUFFIXES['FILTER'] ?? [],
-            static::$FILTER_KEY_SUFFIXES['BOTH_LIKE'] ?? [],
-            static::$FILTER_KEY_SUFFIXES['LEFT_LIKE'] ?? [],
-            static::$FILTER_KEY_SUFFIXES['RIGHT_LIKE'] ?? [],
-            static::$FILTER_KEY_SUFFIXES['LIKE'] ?? [],
-            static::$FILTER_KEY_SUFFIXES['RANGE'] ?? [],
-        );
-        $defaultDateTimeKeySuffixes = static::$FILTER_KEY_SUFFIXES['DATETIME_RANGE'];
+        $defaultFilterKeySuffixes = array_merge(...static::$FILTER_KEY_SUFFIXES);
+        $defaultDateTimeKeySuffixes = static::$FILTER_KEY_SUFFIXES['DATETIME_RANGE'] ?? [];
         $defaultFilterKeySuffixes = array_combine($defaultFilterKeySuffixes, $defaultFilterKeySuffixes);
         $defaultDateTimeKeySuffixes = array_combine($defaultDateTimeKeySuffixes, $defaultDateTimeKeySuffixes);
 

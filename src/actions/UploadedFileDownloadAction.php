@@ -55,17 +55,21 @@ class UploadedFileDownloadAction extends Action
             throw new NotFoundHttpException("File not allowed: $id");
         }
 
+        $content = $uploadSavedFile->getContent();
+        if (empty($content)) {
+            throw new NotFoundHttpException("File is empty: $id");
+        }
         if ($this->tmp) {
             $tmpFilePath = Yii::getAlias($this->tmp) . $uploadSavedFile->file;
-            if (!file_exists($tmpFilePath)) {
+            if (!file_exists($tmpFilePath) || empty(file_get_contents($tmpFilePath))) {
                 FileHelper::createDirectory(dirname($tmpFilePath));
-                file_put_contents($tmpFilePath, $uploadSavedFile->getContent());
+                file_put_contents($tmpFilePath, $content);
             }
             Yii::$app->getResponse()->sendFile($tmpFilePath, $uploadSavedFile->name, $this->options);
         } else {
             $mimeTypeByExtension = FileHelper::getMimeTypeByExtension($uploadSavedFile->file);
             Yii::$app->getResponse()->sendContentAsFile(
-                $uploadSavedFile->getContent(),
+                $content,
                 $uploadSavedFile->name,
                 array_merge($this->options, ['mimeType' => $mimeTypeByExtension])
             );

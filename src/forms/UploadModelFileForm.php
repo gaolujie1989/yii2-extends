@@ -33,7 +33,7 @@ class UploadModelFileForm extends UploadModelFile
     /**
      * @var string
      */
-    public $path = '@statics/uploads';
+    public $path = '@statics';
 
     /**
      * @var string

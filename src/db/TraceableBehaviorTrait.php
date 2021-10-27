@@ -31,9 +31,7 @@ trait TraceableBehaviorTrait
      */
     public function behaviors(): array
     {
-        $aliasBehaviors = method_exists($this, 'aliasBehaviors') ? $this->aliasBehaviors() : [];
-        $traceableBehaviors = method_exists($this, 'traceableBehaviors') ? $this->traceableBehaviors() : [];
-        return array_merge(parent::behaviors(), $aliasBehaviors, $traceableBehaviors);
+        return array_merge(parent::behaviors(), $this->traceableBehaviors());
     }
 
     /**

@@ -66,7 +66,7 @@ class HttpClientHelper
         $response = static::tryRequest($request, $retry);
 
         if (!$response->getIsOk() && !static::isAllowedStatusCodes($response->getStatusCode(), $allowedStatusCodes)) {
-            $message = "Request failed with code: {$response->getStatusCode()}\nResponse: {$response->toString()}\nRequest: {$request->toString()}";
+            $message = "Request failed with code: {$response->getStatusCode()}\nContent: {$response->getContent()}\nResponse: {$response->toString()}\nRequest: {$request->toString()}";
             throw new InvalidResponseException($response, $message);
         }
 

@@ -575,21 +575,25 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,
             'status' => 'S',
+            'page_size' => 100,
         ]);
         $pickingOutbounds = $this->client->eachOutboundList([
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,
             'status' => 'P',
+            'page_size' => 100,
         ]);
         $cancelledOutbounds = $this->client->eachOutboundList([
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,
             'status' => 'X',
+            'page_size' => 100,
         ]);
         $errorOutbounds = $this->client->eachOutboundList([
             'create_time_start' => $createdAtFrom * 1000,
             'create_time_end' => $createdAtTo * 1000,
             'status' => 'E',
+            'page_size' => 100,
         ]);
         $externalOrders = array_merge(
             iterator_to_array($processingOutbounds, false),
@@ -681,7 +685,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             ->externalItemKey($externalItemKeys)
             ->all();
         $skuCodes = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'external_item_additional.sku_code');
-        $eachInventory = $this->client->eachInventory(['lstsku' => array_values($skuCodes)]);
+        $eachInventory = $this->client->eachInventory(['lstsku' => array_values($skuCodes), 'page_size' => 500]);
         return iterator_to_array($eachInventory, false);
     }
 

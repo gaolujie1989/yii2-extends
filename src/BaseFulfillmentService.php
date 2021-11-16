@@ -481,15 +481,23 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      */
     public function pullWarehouseStocks(array $fulfillmentItems): void
     {
+        $fulfillmentAccountId = $this->account->account_id;
+        $fulfillmentItems = ArrayHelper::index($fulfillmentItems, 'external_item_key');
         $warehouseIds = FulfillmentWarehouse::find()
-            ->fulfillmentAccountId($this->account->account_id)
+            ->fulfillmentAccountId($fulfillmentAccountId)
             ->getWarehouseIds();
         $externalWarehouseKeys = array_keys($warehouseIds);
         $itemIds = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'item_id');
         $externalItemKeys = array_keys($itemIds);
 
+        $now = time();
+        $externalWarehouseStocks = $this->getExternalWarehouseStocks($externalItemKeys);
+        $count = count($externalWarehouseStocks);
+        Yii::info("Pulled {$count} ExternalWarehouseStocks", __METHOD__);
+        $externalWarehouseStocks = ArrayHelper::index($externalWarehouseStocks, 'external_item_key', 'external_warehouse_key');
+
         $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
-            ->fulfillmentAccountId($this->account->account_id)
+            ->fulfillmentAccountId($fulfillmentAccountId)
             ->externalWarehouseKey($externalWarehouseKeys)
             ->externalItemKey($externalItemKeys)
             ->indexBy(static function ($model) {
@@ -497,11 +505,6 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
                 return $model->external_warehouse_key . '-' . $model->external_item_key;
             })
             ->all();
-
-        $now = time();
-        $externalWarehouseStocks = $this->getExternalWarehouseStocks($externalItemKeys);
-        $count = count($externalWarehouseStocks);
-        Yii::info("Pulled {$count} ExternalWarehouseStocks", __METHOD__);
 
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
@@ -514,7 +517,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $stockKey = $externalWarehouseKey . '-' . $externalItemKey;
             $fulfillmentWarehouseStock = $fulfillmentWarehouseStocks[$stockKey] ?? new FulfillmentWarehouseStock();
             if ($fulfillmentWarehouseStock->getIsNewRecord()) {
-                $fulfillmentWarehouseStock->fulfillment_account_id = $this->account->account_id;
+                $fulfillmentWarehouseStock->fulfillment_account_id = $fulfillmentAccountId;
                 $fulfillmentWarehouseStock->external_warehouse_key = $externalWarehouseKey;
                 $fulfillmentWarehouseStock->external_item_key = $externalItemKey;
                 $fulfillmentWarehouseStock->warehouse_id = $warehouseIds[$externalWarehouseKey];
@@ -524,22 +527,6 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
             $this->updateFulfillmentWarehouseStock($fulfillmentWarehouseStock, $externalWarehouseStock);
         }
-        $pulledExternalItemKeys = ArrayHelper::getColumn($externalWarehouseStocks, $this->stockItemKeyField);
-        $notPulledExternalItemKeys = array_diff($externalItemKeys, $pulledExternalItemKeys);
-
-        if ($notPulledExternalItemKeys) {
-            Yii::info("Delete not pulled item stocks", __METHOD__);
-            FulfillmentWarehouseStock::deleteAll([
-                'fulfillment_account_id' => $this->account->account_id,
-                'external_warehouse_key' => $externalWarehouseKeys,
-                'external_item_key' => $notPulledExternalItemKeys,
-            ]);
-        }
-        Yii::info("Update fulfillmentItem stock pulled time", __METHOD__);
-        FulfillmentItem::updateAll(['stock_pulled_at' => $now], [
-            'fulfillment_account_id' => $this->account->account_id,
-            'external_item_key' => $externalItemKeys
-        ]);
     }
 
     /**

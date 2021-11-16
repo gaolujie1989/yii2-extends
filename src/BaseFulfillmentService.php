@@ -702,7 +702,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             ->indexBy('charge_type')
             ->all();
         $updatedChargePrices = [];
-        foreach ($externalOrderCharges as $chargeType => $chargeData) {
+        foreach ($externalOrderCharges as $chargeData) {
+            $chargeType = $chargeData['charge_type'];
             $chargePrice = $chargePrices[$chargeType] ?? new ChargePrice();
             $chargePrice->model_type = FulfillmentConst::FULFILLMENT_CHARGE_MODEL;
             $chargePrice->model_id = $fulfillmentOrder->fulfillment_order_id;

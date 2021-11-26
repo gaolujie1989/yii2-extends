@@ -26,7 +26,7 @@ class TaskForm extends Task
      */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return array_merge(parent::behaviors(), $this->formBehaviors(), [
             'relationSave' => [
                 'class' => RelationSavableBehavior::class,
                 'relations' => ['attachments'],

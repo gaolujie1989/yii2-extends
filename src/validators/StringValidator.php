@@ -5,8 +5,6 @@
 
 namespace lujie\extend\validators;
 
-use function PHPUnit\Framework\stringContains;
-
 /**
  * Class StringValidator
  * @package lujie\extend\validators
@@ -29,7 +27,7 @@ class StringValidator extends \yii\validators\StringValidator
         if ($this->trim && is_string($value)) {
             $value = trim($value);
         }
-        if ($this->convert && !is_string($value)) {
+        if ($this->convert && !is_string($value) && !is_array($value) && !is_object($value)) {
             $value = (string)$value;
         }
         $model->{$attribute} = $value;

@@ -40,8 +40,8 @@ trait SearchTrait
     {
         /** @var BaseActiveRecord $this */
         return array_merge(ModelHelper::searchRules($this), [
-            [[self::primaryKey()], 'safe'],
-            [['id', 'key'], 'safe'],
+            [array_merge(self::primaryKey(), ['id']), 'safe'],
+            [['key'], 'string'],
         ]);
     }
 
@@ -101,9 +101,9 @@ trait SearchTrait
      */
     protected function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
     {
-        $keyAttributes = $this->searchKeyAttributes();
         /** @var BaseActiveRecord $this */
         $query = ModelHelper::query($this, $query, $alias, $this->filterKeySuffixes());
+        $keyAttributes = $this->searchKeyAttributes();
         if ($this->key && $keyAttributes) {
             QueryHelper::filterKey($query, $keyAttributes, $this->key, true);
         }

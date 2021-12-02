@@ -69,27 +69,32 @@ class CurrencyExchangeRateUpdater extends BaseObject
         $timeTo = strtotime($this->dateRange[1]);
         for ($time = $timeFrom; $time <= $timeTo; $time += 86400) {
             $date = date('Y-m-d', $time);
-            foreach ($this->currencies as $currencyFrom) {
-                foreach ($this->currencies as $currencyTo) {
-                    if ($currencyFrom === $currencyTo) {
-                        continue;
-                    }
-                    $query = CurrencyExchangeRate::find()
-                        ->fromTo($currencyFrom, $currencyTo)
-                        ->date($date);
-                    $exchangeRate = $query->one();
-                    if ($this->skipOnExist && $exchangeRate) {
-                        continue;
-                    }
+            if (!is_array(reset($this->currencies))) {
+                $this->currencies = [$this->currencies];
+            }
+            foreach ($this->currencies as $groupCurrencies) {
+                foreach ($groupCurrencies as $currencyFrom) {
+                    foreach ($groupCurrencies as $currencyTo) {
+                        if ($currencyFrom === $currencyTo) {
+                            continue;
+                        }
+                        $query = CurrencyExchangeRate::find()
+                            ->fromTo($currencyFrom, $currencyTo)
+                            ->date($date);
+                        $exchangeRate = $query->one();
+                        if ($this->skipOnExist && $exchangeRate) {
+                            continue;
+                        }
 
-                    if ($exchangeRate === null) {
-                        $exchangeRate = new CurrencyExchangeRate();
-                        $exchangeRate->from = $currencyFrom;
-                        $exchangeRate->to = $currencyTo;
-                        $exchangeRate->date = $date;
+                        if ($exchangeRate === null) {
+                            $exchangeRate = new CurrencyExchangeRate();
+                            $exchangeRate->from = $currencyFrom;
+                            $exchangeRate->to = $currencyTo;
+                            $exchangeRate->date = $date;
+                        }
+                        $exchangeRate->rate = $this->getRate($currencyFrom, $currencyTo, $date);
+                        $exchangeRate->save(false);
                     }
-                    $exchangeRate->rate = $this->getRate($currencyFrom, $currencyTo, $date);
-                    $exchangeRate->save(false);
                 }
             }
         }

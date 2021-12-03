@@ -264,12 +264,21 @@ use yii\httpclient\Request;
  *
  * @method array listOrderProperties($data = [])
  * @method Generator eachOrderProperties($condition = [], $batchSize = 100)
- * @method Generator batchOrderPropertes($condition = [], $batchSize = 100)
+ * @method Generator batchOrderProperties($condition = [], $batchSize = 100)
  * @method array getOrderProperty($data)
  * @method array createOrderProperty($data)
  * @method array updateOrderProperty($data)
  * @method array deleteOrderProperty($data)
  * @method array cancelOrderProperty($data)
+ *
+ * @method array listOrderPropertyTypes($data = [])
+ * @method Generator eachOrderPropertyTypes($condition = [], $batchSize = 100)
+ * @method Generator batchOrderPropertyTypes($condition = [], $batchSize = 100)
+ * @method array getOrderPropertyType($data)
+ * @method array createOrderPropertyType($data)
+ * @method array updateOrderPropertyType($data)
+ * @method array deleteOrderPropertyType($data)
+ * @method array cancelOrderPropertyType($data)
  *
  * @method array listOrderShippingPackages($data)
  * @method Generator eachOrderShippingPackages($condition = [], $batchSize = 100)
@@ -462,6 +471,7 @@ class PlentyMarketsRestClient extends OAuth2
         'CustomerBanks' => 'accounts/contacts/{contactId}/banks',
         'Order' => 'orders',
         'OrderProperty' => 'orders/{orderId}/properties',
+        'OrderPropertyType' => 'orders/properties/types',
         'OrderShippingPackage' => 'orders/{orderId}/shipping/packages',
         'OrderShippingPallet' => 'orders/{orderId}/shipping/pallets',
         'OrderShippingPalletPackages' => 'orders/{orderId}/shipping/pallets/{palletId}/packages',

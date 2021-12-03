@@ -10,6 +10,7 @@ use lujie\extend\helpers\CsvHelper;
 use lujie\plentyMarkets\PlentyMarketsAdminClient;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
+use phpDocumentor\Reflection\Types\Boolean;
 use Yii;
 use yii\authclient\InvalidResponseException;
 use yii\base\InvalidConfigException;
@@ -303,19 +304,24 @@ class PmController extends Controller
     #region PM Order/OrderItem Property Types
 
     /**
+     * @param bool $format
+     * @param string $lang
      * @inheritdoc
      */
-    public function actionListOrderPropertyTypes($origin = false): void
+    public function actionListOrderPropertyTypes(bool $format = true, string $lang = 'en'): void
     {
         $orderPropertyTypes = $this->restClient->listOrderPropertyTypes();
-        if ($origin) {
+        if (!$format) {
             echo VarDumper::export($orderPropertyTypes);
             return;
         }
-        foreach ($orderPropertyTypes as $key => $orderPropertyType) {
-            $orderPropertyTypes[$key]['names'] = ArrayHelper::map($orderPropertyType['names'], 'lang', 'name');
+        $orderPropertyTypeIds = [];
+        foreach ($orderPropertyTypes as $orderPropertyType) {
+            $orderPropertyType['names'] = ArrayHelper::map($orderPropertyType['names'], 'lang', 'name');
+            $name = $orderPropertyType['names'][$lang] ?? '';
+            $name = strtr(strtoupper($name), [' ' => '_']);
+            $orderPropertyTypeIds[$name] = $orderPropertyType['id'];
         }
-        $orderPropertyTypeIds = ArrayHelper::map($orderPropertyTypes, 'names.en', 'id');
         echo VarDumper::export($orderPropertyTypeIds);
     }
 

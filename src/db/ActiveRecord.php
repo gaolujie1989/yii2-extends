@@ -14,5 +14,7 @@ use lujie\alias\behaviors\AliasBehaviorTrait;
  */
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait, SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
+    use RowPrepareTrait;
+    use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait;
+    use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 }

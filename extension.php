@@ -12,6 +12,7 @@ return [
             '@lujie/common/address' => __DIR__ . '/src/address',
             '@lujie/common/item' => __DIR__ . '/src/item',
             '@lujie/common/option' => __DIR__ . '/src/option',
+            '@lujie/common/oauth' => __DIR__ . '/src/oauth',
             '@lujie/common/shipping' => __DIR__ . '/src/shipping',
             '@lujie/common/tests' => __DIR__ . '/tests',
         ]

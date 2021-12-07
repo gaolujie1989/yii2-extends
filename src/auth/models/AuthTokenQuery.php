@@ -1,28 +1,28 @@
 <?php
 
-namespace lujie\common\oauth\models;
+namespace lujie\common\auth\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 
 /**
- * This is the ActiveQuery class for [[OauthToken]].
+ * This is the ActiveQuery class for [[AuthToken]].
  *
- * @method OauthTokenQuery id($id)
- * @method OauthTokenQuery orderById($sort = SORT_ASC)
+ * @method AuthTokenQuery id($id)
+ * @method AuthTokenQuery orderById($sort = SORT_ASC)
  * @method int getId()
  * @method array getIds()
  *
- * @method OauthTokenQuery oauthTokenId($oauthTokenId)
- * @method OauthTokenQuery userId($userId)
- * @method OauthTokenQuery sourceId($sourceId)
+ * @method AuthTokenQuery authTokenId($authTokenId)
+ * @method AuthTokenQuery userId($userId)
+ * @method AuthTokenQuery sourceId($sourceId)
  *
- * @method array|OauthToken[] all($db = null)
- * @method array|OauthToken|null one($db = null)
- * @method array|OauthToken[] each($batchSize = 100, $db = null)
+ * @method array|AuthToken[] all($db = null)
+ * @method array|AuthToken|null one($db = null)
+ * @method array|AuthToken[] each($batchSize = 100, $db = null)
  *
- * @see OauthToken
+ * @see AuthToken
  */
-class OauthTokenQuery extends \yii\db\ActiveQuery
+class AuthTokenQuery extends \yii\db\ActiveQuery
 {
 
     /**
@@ -35,7 +35,7 @@ class OauthTokenQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'oauthTokenId' => 'oauth_token_id',
+                    'authTokenId' => 'auth_token_id',
                     'userId' => 'user_id',
                     'sourceId' => 'source_id',
                 ]

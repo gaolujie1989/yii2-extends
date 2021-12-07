@@ -4,16 +4,16 @@ use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
-class m211207_171145_oauth_token extends Migration
+class m211207_171145_auth_token extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 
-    public $tableName = '{{%oauth_token}}';
+    public $tableName = '{{%auth_token}}';
 
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'oauth_token_id' => $this->bigPrimaryKey(),
+            'auth_token_id' => $this->bigPrimaryKey(),
             'user_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'source' => $this->string(50)->notNull()->defaultValue(''),
             'source_id' => $this->bigInteger()->notNull()->defaultValue(0),

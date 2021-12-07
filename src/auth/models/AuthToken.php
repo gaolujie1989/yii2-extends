@@ -1,13 +1,20 @@
 <?php
 
-namespace lujie\common\oauth\models;
+namespace lujie\common\auth\models;
 
+use lujie\alias\behaviors\AliasBehaviorTrait;
+use lujie\extend\db\AliasFieldTrait;
+use lujie\extend\db\DbConnectionTrait;
+use lujie\extend\db\DeleteTrait;
+use lujie\extend\db\SaveTrait;
+use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TransactionTrait;
 use Yii;
 
 /**
- * This is the model class for table "{{%oauth_token}}".
+ * This is the model class for table "{{%auth_token}}".
  *
- * @property int $oauth_token_id
+ * @property int $auth_token_id
  * @property int $user_id
  * @property string $source
  * @property int $source_id
@@ -16,15 +23,16 @@ use Yii;
  * @property string $refresh_token
  * @property int $expires_at
  */
-class OauthToken extends \lujie\extend\db\ActiveRecord
+class AuthToken extends \yii\db\ActiveRecord
 {
+    use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait, SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 
     /**
      * {@inheritdoc}
      */
     public static function tableName(): string
     {
-        return '{{%oauth_token}}';
+        return '{{%auth_token}}';
     }
 
     /**
@@ -48,7 +56,7 @@ class OauthToken extends \lujie\extend\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'oauth_token_id' => Yii::t('lujie/common', 'Oauth Token ID'),
+            'auth_token_id' => Yii::t('lujie/common', 'Auth Token ID'),
             'user_id' => Yii::t('lujie/common', 'User ID'),
             'source' => Yii::t('lujie/common', 'Source'),
             'source_id' => Yii::t('lujie/common', 'Source ID'),
@@ -61,10 +69,10 @@ class OauthToken extends \lujie\extend\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return OauthTokenQuery the active query used by this AR class.
+     * @return AuthTokenQuery the active query used by this AR class.
      */
-    public static function find(): OauthTokenQuery
+    public static function find(): AuthTokenQuery
     {
-        return new OauthTokenQuery(static::class);
+        return new AuthTokenQuery(static::class);
     }
 }

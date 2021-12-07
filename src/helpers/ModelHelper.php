@@ -290,20 +290,20 @@ class ModelHelper
         }
         //prepare alias
         foreach ($aliasProperties as $aliasProperty => $attribute) {
-            $row[$aliasProperty] = ArrayHelper::getValue($row, $attribute);
-            if (is_numeric($row[$aliasProperty])) {
+            $aliasRawValue = ArrayHelper::getValue($row, $attribute);
+            if (is_numeric($aliasRawValue)) {
                 if (StringHelper::endsWith($attribute, '_at')) {
-                    $row[$aliasProperty] = $row[$aliasProperty] ? date('Y-m-d H:i:s', $row[$aliasProperty]) : '';
+                    $row[$aliasProperty] = $aliasRawValue ? date('Y-m-d H:i:s', $aliasRawValue) : '';
                 } elseif (StringHelper::endsWith($attribute, '_micro_cent')) {
-                    $row[$aliasProperty] = number_format($row[$aliasProperty] / 10000, 4, '.', '');
+                    $row[$aliasProperty] = number_format($aliasRawValue / 10000, 4, '.', '');
                 } elseif (StringHelper::endsWith($attribute, '_cent')) {
-                    $row[$aliasProperty] = number_format($row[$aliasProperty] / 100, 2, '.', '');
+                    $row[$aliasProperty] = number_format($aliasRawValue / 100, 2, '.', '');
                 } elseif (StringHelper::endsWith($attribute, '_g')
                     || StringHelper::endsWith($attribute, '_mm')
                     || StringHelper::endsWith($attribute, '_mm2')
                     || StringHelper::endsWith($attribute, '_mm3')) {
                     $row[$aliasProperty] = UnitAliasBehavior::convert(
-                        $row[$aliasProperty],
+                        $aliasRawValue,
                         substr($attribute, strrpos($attribute, '_') + 1),
                         substr($aliasProperty, strrpos($aliasProperty, '_') + 1)
                     );

@@ -34,7 +34,7 @@ class UserController extends Controller
     {
 
         return array_merge(parent::actions(), [
-            'third-part-auth' => [
+            'auth' => [
                 'class' => AuthAction::class,
                 'successCallback' => [$this, 'onAuthSuccess'],
             ],

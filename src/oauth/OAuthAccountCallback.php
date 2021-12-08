@@ -89,7 +89,7 @@ class OAuthAccountCallback extends BaseObject
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function getAuthingAccount(): ?Account
+    public function getAuthingAccount(): ?Account
     {
         $accountId = $this->getCacheValue($this->authingAccountCacheKey);
         $this->deleteCacheValue($this->authingAccountCacheKey);
@@ -104,7 +104,7 @@ class OAuthAccountCallback extends BaseObject
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function setAuthingAccount(Account $account): void
+    public function setAuthingAccount(Account $account): void
     {
         $this->setCacheValue($this->authingAccountCacheKey, $account->id);
     }

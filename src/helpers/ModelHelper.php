@@ -260,9 +260,10 @@ class ModelHelper
             $model = new $class();
             $modelAliasProperties = static::aliasProperties($model);
             $extraRelations = static::extraRelations($model);
-            Yii::$app->params['prepareArray'][$class] = [$modelAliasProperties, $extraRelations];
+            $excludeFields = static::excludeFields($model);
+            Yii::$app->params['prepareArray'][$class] = [$modelAliasProperties, $extraRelations, $excludeFields];
         }
-        [$modelAliasProperties, $extraRelations] = Yii::$app->params['prepareArray'][$class];
+        [$modelAliasProperties, $extraRelations, $excludeFields] = Yii::$app->params['prepareArray'][$class];
         $aliasProperties = array_merge($modelAliasProperties, $aliasProperties);
         $relations = array_merge($extraRelations, $relations);
 
@@ -316,6 +317,9 @@ class ModelHelper
         $row['id'] = $row[$pk];
         foreach ($unsetAttributes as $unsetAttribute) {
             unset($row[$unsetAttribute]);
+        }
+        foreach ($excludeFields as $excludeField) {
+            unset($row[$excludeField]);
         }
         return $row;
     }
@@ -444,6 +448,18 @@ class ModelHelper
             }
         }
         return $relations;
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return array
+     * @inheritdoc
+     */
+    public static function excludeFields(BaseActiveRecord $model): array
+    {
+        $fields = $model->fields();
+        $attributes = $model->attributes();
+        return array_diff($attributes, $fields);
     }
 
     #endregion

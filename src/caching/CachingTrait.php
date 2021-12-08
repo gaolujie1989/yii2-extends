@@ -6,6 +6,7 @@
 namespace lujie\extend\caching;
 
 use lujie\extend\helpers\ClassHelper;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\ChainedDependency;
@@ -20,6 +21,7 @@ use yii\di\Instance;
  * @property string $cacheKeyPrefix = '';
  * @property string[] $cacheTags = [];
  * @property Dependency $cacheDependency = null;
+ * @property bool $cacheByUserLevel = false;
  *
  * @package lujie\extend\caching
  */
@@ -71,6 +73,10 @@ trait CachingTrait
         } else {
             $this->keyPrefix = ClassHelper::getClassShortName($this) . ':';
         }
+        if (isset($this->cacheByUserLevel) && $this->cacheByUserLevel) {
+            $userId = Yii::$app->getUser()->getId() ?: 0;
+            $this->keyPrefix .= $userId . ':';
+        }
         if ($this->dependency === null) {
             if (isset($this->cacheDependency) && $this->cacheDependency instanceof Dependency) {
                 $this->dependency = $this->cacheDependency;
@@ -106,7 +112,7 @@ trait CachingTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function setCacheValue(string $key, $value, $duration = true, $dependency = true)
+    public function setCacheValue(string $key, $value, $duration = true, $dependency = true): bool
     {
         if ($this->cache) {
             $this->initCache();
@@ -114,6 +120,22 @@ trait CachingTrait
             $duration = $duration === true ? $this->duration : $duration;
             $dependency = $dependency === true ? $this->dependency : $dependency;
             return $this->cache->set($key, $value, $duration, $dependency);
+        }
+        throw new InvalidConfigException('Cache not set');
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function deleteCacheValue(string $key): bool
+    {
+        if ($this->cache) {
+            $this->initCache();
+            $key = $this->keyPrefix . $key;
+            return $this->cache->delete($key);
         }
         throw new InvalidConfigException('Cache not set');
     }

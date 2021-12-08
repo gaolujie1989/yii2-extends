@@ -71,4 +71,15 @@ class AuthToken extends \lujie\extend\db\ActiveRecord
     {
         return new AuthTokenQuery(static::class);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        unset($fields['access_token'], $fields['refresh_token']);
+        return $fields;
+    }
 }

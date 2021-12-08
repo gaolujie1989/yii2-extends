@@ -2,7 +2,9 @@
 
 namespace lujie\common\account\models;
 
+use lujie\common\oauth\models\AuthToken;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%account}}".
@@ -17,6 +19,8 @@ use Yii;
  * @property array|null $options
  * @property array|null $additional
  * @property int $status
+ *
+ * @property AuthToken $authToken
  */
 class Account extends \lujie\extend\db\ActiveRecord
 {
@@ -86,5 +90,25 @@ class Account extends \lujie\extend\db\ActiveRecord
     public static function find(): AccountQuery
     {
         return (new AccountQuery(static::class))->modelType(static::MODEL_TYPE);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'authToken' => 'authToken'
+        ]);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getAuthToken(): ActiveQuery
+    {
+        return $this->hasOne(AuthToken::class, ['user_id' => 'account_id', 'auth_service' => 'type']);
     }
 }

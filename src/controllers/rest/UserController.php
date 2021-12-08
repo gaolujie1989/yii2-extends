@@ -9,7 +9,10 @@ use lujie\user\forms\LoginForm;
 use lujie\user\forms\ResetPasswordByEmailForm;
 use lujie\user\forms\UpdatePasswordForm;
 use lujie\user\models\User;
+use lujie\user\OAuthLoginCallback;
 use Yii;
+use yii\authclient\AuthAction;
+use yii\authclient\ClientInterface;
 use yii\rest\Controller;
 use yii\web\IdentityInterface;
 use yii\web\ServerErrorHttpException;
@@ -22,6 +25,32 @@ use yii\web\ServerErrorHttpException;
 class UserController extends Controller
 {
     public $loginForm = LoginForm::class;
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function actions(): array
+    {
+
+        return array_merge(parent::actions(), [
+            'third-part-auth' => [
+                'class' => AuthAction::class,
+                'successCallback' => [$this, 'onAuthSuccess'],
+            ],
+        ]);
+    }
+
+    /**
+     * @param ClientInterface $client
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function onAuthSuccess(ClientInterface $client): void
+    {
+        $OAuthLoginCallback = new OAuthLoginCallback();
+        $OAuthLoginCallback->onAuthSuccess($client);
+    }
 
     /**
      * @return LoginForm

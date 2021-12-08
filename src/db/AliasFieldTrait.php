@@ -24,7 +24,7 @@ trait AliasFieldTrait
      */
     public function fields(): array
     {
-        return array_merge(parent::fields(), $this->aliasFields());
+        return $this->aliasFields();
     }
 
     /**
@@ -34,7 +34,7 @@ trait AliasFieldTrait
     protected function aliasFields(): array
     {
         /** @var BaseActiveRecord $this */
-        return array_merge(['id' => 'id'], ModelHelper::aliasFields($this));
+        return array_merge(parent::fields(), ModelHelper::aliasFields($this), ['id' => 'id']);
     }
 
     #region ID get/set

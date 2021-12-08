@@ -457,6 +457,7 @@ class ModelHelper
      */
     public static function excludeFields(BaseActiveRecord $model): array
     {
+        $model->setAttributes(array_flip($model->attributes()), false);
         $fields = $model->fields();
         $attributes = $model->attributes();
         return array_diff($attributes, $fields);

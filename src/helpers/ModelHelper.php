@@ -436,7 +436,7 @@ class ModelHelper
         $relations = $model->extraFields();
         foreach ($relations as $key => $relation) {
             $getRelation = 'get' . ucfirst($relation);
-            if ($model->hasMethod($getRelation)) {
+            if (!$model->hasMethod($getRelation)) {
                 unset($relations[$key]);
             } else {
                 $relationQuery = $model->{$getRelation}();

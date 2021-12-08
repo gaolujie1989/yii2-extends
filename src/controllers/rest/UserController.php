@@ -13,6 +13,7 @@ use lujie\user\OAuthLoginCallback;
 use Yii;
 use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
+use yii\di\Instance;
 use yii\rest\Controller;
 use yii\web\IdentityInterface;
 use yii\web\ServerErrorHttpException;
@@ -25,6 +26,11 @@ use yii\web\ServerErrorHttpException;
 class UserController extends Controller
 {
     public $loginForm = LoginForm::class;
+
+    /**
+     * @var array
+     */
+    public $authLoginCallback = [];
 
     /**
      * @return array
@@ -43,11 +49,13 @@ class UserController extends Controller
 
     /**
      * @param ClientInterface $client
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function onAuthSuccess(ClientInterface $client): void
     {
-        $OAuthLoginCallback = new OAuthLoginCallback();
+        /** @var OAuthLoginCallback $OAuthLoginCallback */
+        $OAuthLoginCallback = Instance::ensure($this->authLoginCallback, OAuthLoginCallback::class);
         $OAuthLoginCallback->onAuthSuccess($client);
     }
 

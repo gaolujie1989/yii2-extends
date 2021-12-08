@@ -43,7 +43,6 @@ class UserController extends Controller
 
     /**
      * @param ClientInterface $client
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function onAuthSuccess(ClientInterface $client): void

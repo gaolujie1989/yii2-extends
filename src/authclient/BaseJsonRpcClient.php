@@ -53,7 +53,10 @@ abstract class BaseJsonRpcClient extends BaseClient
      * @var array
      */
     public $httpClientOptions = [
-        'transport' => CurlTransport::class
+        'transport' => CurlTransport::class,
+        'requestConfig' => [
+            'format' => 'json'
+        ],
     ];
 
     /**
@@ -86,7 +89,6 @@ abstract class BaseJsonRpcClient extends BaseClient
     public function createRpcRequest(): Request
     {
         $request = $this->createRequest()
-            ->setFormat(Client::FORMAT_JSON)
             ->setMethod('POST')
             ->setUrl($this->url);
         $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeRpcRequestSend']);

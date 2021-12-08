@@ -8,7 +8,7 @@ namespace lujie\common\account\controllers\rest;
 use lujie\common\account\models\Account;
 use lujie\common\oauth\OAuthAccountCallback;
 use lujie\extend\rest\ActiveController;
-use lujie\user\OAuthLoginCallback;
+use Yii;
 use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
 use yii\di\Instance;
@@ -28,6 +28,21 @@ class AccountController extends ActiveController
     public $authAccountCallback = [];
 
     /**
+     * @var string
+     */
+    public $accountIdGetParamName = 'id';
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->authAccountCallback['accountClass'] = $this->modelClass;
+    }
+
+    /**
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -40,6 +55,41 @@ class AccountController extends ActiveController
                 'successCallback' => [$this, 'onAuthSuccess'],
             ]
         ]);
+    }
+
+    /**
+     * @param \yii\base\Action $action
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
+     * @throws \yii\web\NotFoundHttpException
+     * @inheritdoc
+     */
+    public function beforeAction($action): bool
+    {
+        if ($action->id === 'auth') {
+            $this->setAuthingAccountBeforeAuth();
+        }
+        return parent::beforeAction($action);
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     * @inheritdoc
+     */
+    protected function setAuthingAccountBeforeAuth(): void
+    {
+        /** @var OAuthAccountCallback $OAuthLoginCallback */
+        $OAuthLoginCallback = Instance::ensure($this->authAccountCallback, OAuthAccountCallback::class);
+        $accountId = Yii::$app->getRequest()->getQueryParam($this->accountIdGetParamName);
+        if ($accountId) {
+            /** @var Account $account */
+            $account = $this->findModel($accountId);
+            $OAuthLoginCallback->setAuthingAccount($account);
+        } else {
+            $OAuthLoginCallback->setAuthingAccount(null);
+        }
     }
 
     /**

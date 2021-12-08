@@ -148,35 +148,6 @@ class F4pxClient extends BaseJsonRpcClient
     ];
 
     /**
-     * @var array
-     */
-    public $httpClientOptions = [
-        'transport' => CurlTransport::class,
-        'requestConfig' => [
-            'format' => 'json'
-        ],
-        'responseConfig' => [
-            'format' => 'json'
-        ],
-    ];
-
-    /**
-     * @var bool
-     */
-    public $reverse = false;
-
-    /**
-     * @param bool $reverse
-     * @return $this
-     * @inheritdoc
-     */
-    public function reverse($reverse = true): self
-    {
-        $this->reverse = $reverse;
-        return $this;
-    }
-
-    /**
      * @inheritdoc
      */
     public function init(): void
@@ -201,7 +172,7 @@ class F4pxClient extends BaseJsonRpcClient
      * @param bool $sandbox
      * @inheritdoc
      */
-    public function setSandbox($sandbox = true)
+    public function setSandbox(bool $sandbox = true): void
     {
         $this->url = $sandbox ? $this->sandboxUrl : $this->productionUrl;
     }

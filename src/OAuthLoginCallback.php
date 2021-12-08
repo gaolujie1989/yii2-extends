@@ -5,8 +5,8 @@
 
 namespace lujie\user;
 
-use lujie\common\auth\helpers\AuthTokenHelper;
-use lujie\common\auth\models\AuthToken;
+use lujie\common\oauth\helpers\AuthTokenHelper;
+use lujie\common\oauth\models\AuthToken;
 use lujie\user\models\User;
 use Yii;
 use yii\authclient\ClientInterface;
@@ -20,7 +20,7 @@ use yii\web\IdentityInterface;
  * @package lujie\common\auth
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class LoginAuthCallback extends BaseObject
+class OAuthLoginCallback extends BaseObject
 {
     /**
      * @var string

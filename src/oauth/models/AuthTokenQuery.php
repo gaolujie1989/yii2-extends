@@ -1,6 +1,6 @@
 <?php
 
-namespace lujie\common\auth\models;
+namespace lujie\common\oauth\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 
@@ -14,7 +14,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method AuthTokenQuery authTokenId($authTokenId)
  * @method AuthTokenQuery userId($userId)
- * @method AuthTokenQuery sourceId($sourceId)
+ * @method AuthTokenQuery authService($source)
+ * @method AuthTokenQuery authUserId($authUserId)
+ * @method AuthTokenQuery authUsername($sourceName)
  *
  * @method array|AuthToken[] all($db = null)
  * @method array|AuthToken|null one($db = null)
@@ -37,7 +39,9 @@ class AuthTokenQuery extends \yii\db\ActiveQuery
                 'queryFields' => [
                     'authTokenId' => 'auth_token_id',
                     'userId' => 'user_id',
-                    'sourceId' => 'source_id',
+                    'authService' => 'auth_service',
+                    'authUserId' => 'auth_user_id',
+                    'authUsername' => 'auth_username',
                 ]
             ]
         ];

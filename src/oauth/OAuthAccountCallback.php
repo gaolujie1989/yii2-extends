@@ -78,8 +78,9 @@ class OAuthAccountCallback extends BaseObject
         if ($client instanceof BaseOAuth) {
             $accessToken = $client->getAccessToken();
             $authToken->access_token = $accessToken->getToken();
-            $authToken->refresh_token = $accessToken->getTokenSecret();
+            $authToken->refresh_token = $accessToken->getTokenSecret() ?: '';
             $authToken->expires_at = $accessToken->getExpireDuration() + $accessToken->createTimestamp;
+            $authToken->additional = array_merge($authToken->additional ?: [], ['token' => $accessToken->getParams()]);
         }
         $authToken->save(false);
     }

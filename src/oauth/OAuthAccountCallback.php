@@ -25,6 +25,8 @@ class OAuthAccountCallback extends BaseObject
 {
     use CachingTrait;
 
+    public $cacheByUserLevel = true;
+
     /**
      * @var Account
      */

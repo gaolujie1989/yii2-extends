@@ -11,6 +11,7 @@ use lujie\extend\rest\ActiveController;
 use lujie\user\OAuthLoginCallback;
 use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
+use yii\di\Instance;
 
 /**
  * Class AccountController
@@ -20,6 +21,11 @@ use yii\authclient\ClientInterface;
 class AccountController extends ActiveController
 {
     public $modelClass = Account::class;
+
+    /**
+     * @var array
+     */
+    public $authAccountCallback = [];
 
     /**
      * @return array
@@ -43,7 +49,8 @@ class AccountController extends ActiveController
      */
     public function onAuthSuccess(ClientInterface $client): void
     {
-        $OAuthLoginCallback = new OAuthAccountCallback();
+        /** @var OAuthAccountCallback $OAuthLoginCallback */
+        $OAuthLoginCallback = Instance::ensure($this->authAccountCallback, OAuthAccountCallback::class);
         $OAuthLoginCallback->onAuthSuccess($client);
     }
 }

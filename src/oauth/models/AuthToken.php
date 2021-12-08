@@ -80,7 +80,7 @@ class AuthToken extends \lujie\extend\db\ActiveRecord
     public function fields(): array
     {
         $fields = parent::fields();
-        unset($fields['access_token'], $fields['refresh_token']);
+        unset($fields['access_token'], $fields['refresh_token'], $fields['additional']);
         return $fields;
     }
 }

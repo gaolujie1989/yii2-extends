@@ -125,8 +125,8 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     {
         $dependency = new TagDependency(['tags' => [static::CACHE_USER_TAG]]);
         $findUser = static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
-            //return false if dont want to be cached
-            return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]) ?? false;
+            //return false if not want to be cached
+            return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]) ?: false;
         }, static::CACHE_DURATION, $dependency);
         return $findUser === false ? null : $findUser;
     }

@@ -15,6 +15,7 @@ use yii\authclient\ClientInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\web\Response;
 
 /**
  * Class AccountAuthCallback
@@ -38,11 +39,17 @@ class OAuthAccountCallback extends BaseObject
     public $authingAccountCacheKey = 'authing_account';
 
     /**
+     * @var bool
+     */
+    public $returnResponse = true;
+
+    /**
      * @param ClientInterface $client
+     * @return Response|null
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function onAuthSuccess(ClientInterface $client): void
+    public function onAuthSuccess(ClientInterface $client): ?Response
     {
         $authService = $client->getId();
         $userAttributes = $client->getUserAttributes();
@@ -83,6 +90,13 @@ class OAuthAccountCallback extends BaseObject
             $authToken->additional = array_merge($authToken->additional ?: [], ['token' => $accessToken->getParams()]);
         }
         $authToken->save(false);
+
+        if ($this->returnResponse) {
+            $response = Yii::$app->getResponse();
+            $response->data = ['status' => 'success'];
+            return $response;
+        }
+        return null;
     }
 
     /**

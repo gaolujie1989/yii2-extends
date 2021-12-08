@@ -184,16 +184,15 @@ class F4pxClient extends BaseJsonRpcClient
     public function applySignToRequest(Request $request): void
     {
         $data = $request->data;
-        $signData = $this->getCommonData();
-        $signData['method'] = $data['method'];
+        $commonData = $this->getCommonData();
+        $commonData['method'] = $data['method'];
         unset($data['method']);
         $request->setData($data);
 
         //yii default json option will cause wrong sign
-        $signData['body'] = Json::encode($data, 0);
-        $signData['sign'] = $this->getSign($signData);
-        unset($signData['body']);
-        $request->setUrl(array_merge([$this->url], $signData));
+        $signData = array_merge($commonData, ['body' => Json::encode($data, 0)]);
+        $commonData['sign'] = $this->getSign($signData);
+        $request->setUrl(array_merge([$this->url], $commonData));
     }
 
     /**

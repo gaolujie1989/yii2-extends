@@ -143,6 +143,7 @@ abstract class BaseJsonRpcClient extends BaseClient
      * @return JsonRpcResponse
      * @throws NotSupportedException
      * @throws \yii\authclient\InvalidResponseException
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
@@ -151,8 +152,18 @@ abstract class BaseJsonRpcClient extends BaseClient
         if (empty($this->methods[$method])) {
             throw new NotSupportedException('Method not supported');
         }
+        $request = $this->createRpcRequest();
         $data = array_merge($this->methods[$method], $data);
-        $request = $this->createRpcRequest()->setData($data);
+        foreach ($data as $key => $value) {
+            if (strrpos($value, '@') === 0) {
+                $file = substr($value, 1);
+                $request->addFile($key, $file);
+                unset($data[$key]);
+            }
+        }
+        if ($data) {
+            $request->setData($data);
+        }
         $response = HttpClientHelper::sendRequest($request);
         return $this->createRpcResponse($response);
     }

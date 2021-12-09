@@ -34,6 +34,11 @@ class OAuthAccountCallback extends BaseObject
     public $accountClass;
 
     /**
+     * @var array
+     */
+    public $accountTypes = [];
+
+    /**
      * @var string
      */
     public $authingAccountCacheKey = 'authing_account';
@@ -67,7 +72,7 @@ class OAuthAccountCallback extends BaseObject
         $account = $this->getAuthingAccount();
         if ($account === null) {
             $account = new $this->accountClass();
-            $account->type = $authService;
+            $account->type = $this->accountTypes[$authService] ?? $authService;
             $account->name = $authService . ':' . $authUsername;
             $account->username = $authUsername;
             $account->save(false);

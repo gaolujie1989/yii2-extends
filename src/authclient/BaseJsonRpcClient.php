@@ -110,10 +110,11 @@ abstract class BaseJsonRpcClient extends BaseClient
      */
     public function applySignToRequest(Request $request): void
     {
-        $data = array_merge($request->getData(), $this->getCommonData());
-        $data['sign'] = $this->getSign($data);
-        Yii::debug(["Apply sign {$data['sign']} to request {$request->fullUrl}", $data], __METHOD__);
-        $request->setData($data);
+        $commonData = $this->getCommonData();
+        $signData = array_merge($commonData, $request->getData());
+        $commonData['sign'] = $this->getSign($signData);
+        Yii::debug(["Apply sign {$commonData['sign']} to request {$request->fullUrl}", $signData], __METHOD__);
+        $request->setUrl(array_merge([$this->url], $commonData));
     }
 
     /**

@@ -155,7 +155,7 @@ abstract class BaseJsonRpcClient extends BaseClient
         $request = $this->createRpcRequest();
         $data = array_merge($this->methods[$method], $data);
         foreach ($data as $key => $value) {
-            if (strrpos($value, '@') === 0) {
+            if (!is_array($value) && strrpos($value, '@') === 0) {
                 $file = substr($value, 1);
                 $request->addFile($key, $file);
                 unset($data[$key]);

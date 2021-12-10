@@ -194,16 +194,18 @@ abstract class BaseJsonRpcClient extends BaseClient
      */
     public function __call($name, $params)
     {
+        $param0 = (array)($params[0] ?? []);
         if (isset($this->methods[$name])) {
-            $jsonRpcResponse = $this->call($name, $params[0] ?? []);
+            $jsonRpcResponse = $this->call($name, $param0);
             return $this->getResponseData($jsonRpcResponse);
         }
 
+        $param1 = $params[1] ?? 100;
         if (strpos($name, 'batch') === 0) {
-            return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
+            return $this->batch(substr($name, 5), $param0, $param1);
         }
         if (strpos($name, 'each') === 0) {
-            return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
+            return $this->each(substr($name, 4), $param0, $param1);
         }
 
         return parent::__call($name, $params);

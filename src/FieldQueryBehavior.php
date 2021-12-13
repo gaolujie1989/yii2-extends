@@ -285,7 +285,16 @@ class FieldQueryBehavior extends Behavior
                     $owner->andWhere([$op, $field, $value]);
                 }
             } else {
-                $owner->andWhere([$field => $value]);
+                $like = $params ? array_shift($params) : null;
+                if ($like) {
+                    if (strpos($value, '%') !== false) {
+                        $owner->andWhere(['LIKE', $field, $value, false]);
+                    } else {
+                        $owner->andWhere(['LIKE', $field, $value]);
+                    }
+                } else {
+                    $owner->andWhere([$field => $value]);
+                }
             }
         }
         return $owner;

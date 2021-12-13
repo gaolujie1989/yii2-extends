@@ -49,7 +49,11 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method array getIds()
  *
 <?php foreach ($queryFields as $name => $field) {
+  if (substr($field, -3) === '_no' || substr($field, -4) === '_key' || substr($field, -5) === 'code') {
+    echo " * @method $className $name(\$$name, bool $like = false)\n";
+  } else {
     echo " * @method $className $name(\$$name)\n";
+  }
 } ?>
  *
  * @method array|<?= $modelFullClassName ?>[] all($db = null)

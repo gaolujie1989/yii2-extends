@@ -259,6 +259,7 @@ class FieldQueryBehavior extends Behavior
     protected function queryField(string $name, array $params): Query
     {
         $owner = $this->owner;
+        $allowLike = count($this->queryFields[$name]) === 1;
         foreach ($this->queryFields[$name] as $field => $op) {
             if (is_int($field)) {
                 $field = $op;
@@ -285,7 +286,7 @@ class FieldQueryBehavior extends Behavior
                     $owner->andWhere([$op, $field, $value]);
                 }
             } else {
-                $like = $params ? array_shift($params) : null;
+                $like = $allowLike && $params ? array_shift($params) : null;
                 if ($like) {
                     if (strpos($value, '%') !== false) {
                         $owner->andWhere(['LIKE', $field, $value, false]);

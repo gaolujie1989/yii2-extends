@@ -6,6 +6,7 @@
 namespace lujie\common\option\searches;
 
 use lujie\common\option\models\Option;
+use lujie\common\option\models\OptionQuery;
 use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
@@ -51,10 +52,13 @@ class OptionSearch extends Option
      */
     public function query(): ActiveQueryInterface
     {
+        /** @var OptionQuery $query */
         $query = $this->searchQuery(null, 'o');
         if ($this->type) {
-            $query = $query->innerJoinWith(['parent p']);
+            $query->innerJoinWith(['parent p']);
             QueryHelper::filterValue($query, ['p.value' => $this->type]);
+        } else {
+            $query->parentId(0);
         }
         $query->orderBy(['o.position' => SORT_ASC]);
         return $query;

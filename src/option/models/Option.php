@@ -21,9 +21,8 @@ use yii\db\ActiveQuery;
  */
 class Option extends \lujie\extend\db\ActiveRecord
 {
-    const VALUE_TYPE_STRING = 0;
-    const VALUE_TYPE_INT = 1;
-    const VALUE_TYPE_FLOAT = 2;
+    public const VALUE_TYPE_INT = 1;
+    public const VALUE_TYPE_FLOAT = 2;
 
     /**
      * {@inheritdoc}

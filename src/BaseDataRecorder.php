@@ -89,6 +89,7 @@ abstract class BaseDataRecorder extends DataExchanger
      */
     public function execute(): bool
     {
+        $this->cleanSources();
         $dataSource = $this->dataSource;
         return ExecuteHelper::execute(function () use ($dataSource) {
             parent::execute();

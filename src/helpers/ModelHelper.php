@@ -183,6 +183,9 @@ class ModelHelper
             $filterKeyAttributes[$key] = static::filterAttributes($model->attributes(), $keySuffixes, false);
         }
         $query = $query ?: $model::find();
+        if ($alias && $query instanceof ActiveQuery) {
+            $query->alias($alias);
+        }
         foreach ($filterKeyAttributes as $key => $filterAttributes) {
             switch ($key) {
                 case 'FILTER':

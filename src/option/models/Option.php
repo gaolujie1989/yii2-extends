@@ -112,7 +112,7 @@ class Option extends \lujie\extend\db\ActiveRecord
      */
     public function getChildren(): ActiveQuery
     {
-        return $this->hasOne(static::class, ['parent_id' => 'option_id']);
+        return $this->hasMany(static::class, ['parent_id' => 'option_id']);
     }
 
     /**

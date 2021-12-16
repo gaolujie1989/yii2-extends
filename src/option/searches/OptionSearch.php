@@ -84,7 +84,7 @@ class OptionSearch extends Option
         } else if ($row['value_type'] === Option::VALUE_TYPE_FLOAT) {
             $row['value'] = (float)$row['value'];
         }
-        $row['label'] = $row['labels'][Yii::$app->language] ?: '';
+        $row['label'] = $row['labels'][Yii::$app->language] ?? '';
         $row['label'] = $row['label'] ?: $row['name'];
         return $row;
     }

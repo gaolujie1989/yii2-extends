@@ -78,6 +78,17 @@ class Option extends \lujie\extend\db\ActiveRecord
      * @return array
      * @inheritdoc
      */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'label' => 'label',
+        ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function extraFields(): array
     {
         return array_merge(parent::extraFields(), [
@@ -102,5 +113,15 @@ class Option extends \lujie\extend\db\ActiveRecord
     public function getChildren(): ActiveQuery
     {
         return $this->hasOne(static::class, ['parent_id' => 'option_id']);
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getLabel(): string
+    {
+        $label = $this->labels[Yii::$app->language] ?? '';
+        return $label ?: $this->name;
     }
 }

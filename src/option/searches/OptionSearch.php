@@ -10,6 +10,7 @@ use lujie\common\option\models\OptionQuery;
 use lujie\extend\db\SearchTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\QueryHelper;
+use Yii;
 use yii\db\ActiveQueryInterface;
 
 /**
@@ -83,6 +84,8 @@ class OptionSearch extends Option
         } else if ($row['value_type'] === Option::VALUE_TYPE_FLOAT) {
             $row['value'] = (float)$row['value'];
         }
+        $row['label'] = $row['labels'][Yii::$app->language] ?: '';
+        $row['label'] = $row['label'] ?: $row['name'];
         return $row;
     }
 }

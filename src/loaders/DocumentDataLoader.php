@@ -7,9 +7,6 @@ namespace lujie\template\document\loaders;
 
 use lujie\data\loader\BaseDataLoader;
 use lujie\template\document\models\DocumentFile;
-use yii\di\Instance;
-use yii\helpers\ArrayHelper;
-use yii\httpclient\Client;
 
 /**
  * Class DocumentDataLoader

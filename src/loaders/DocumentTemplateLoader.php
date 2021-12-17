@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\template\document;
+namespace lujie\template\document\loaders;
 
 use lujie\data\loader\BaseDataLoader;
 use lujie\template\document\forms\DocumentTemplateForm;

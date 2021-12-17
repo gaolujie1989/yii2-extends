@@ -45,6 +45,7 @@ namespace <?= $generator->ns ?>;
   use lujie\extend\db\AliasFieldTrait;
   use lujie\extend\db\DbConnectionTrait;
   use lujie\extend\db\DeleteTrait;
+  use lujie\extend\db\RowPrepareTrait;
   use lujie\extend\db\SaveTrait;
   use lujie\extend\db\TraceableBehaviorTrait;
   use lujie\extend\db\TransactionTrait;
@@ -67,7 +68,9 @@ use Yii;
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
 {
 <?php if ($useTrait): ?>
-  use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait, SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
+  use RowPrepareTrait;
+  use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait;
+  use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 
 <?php endif; ?>
     /**

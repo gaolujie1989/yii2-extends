@@ -23,7 +23,7 @@ class DocumentTemplateForm extends DocumentTemplate
     public function rules(): array
     {
         $rules = $this->formRules();
-        $rules = ModelHelper::removeAttributesRules($rules, ['document_type', 'reference_id', 'position']);
+        ModelHelper::removeAttributesRules($rules, ['document_type', 'reference_id', 'position']);
         return $rules;
     }
 

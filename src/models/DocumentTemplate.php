@@ -13,7 +13,7 @@ use Yii;
  * @property int $position
  * @property string $name
  * @property string $content
- * @property string $additional
+ * @property array|null $additional
  * @property int $status
  */
 class DocumentTemplate extends \lujie\extend\db\ActiveRecord
@@ -34,8 +34,9 @@ class DocumentTemplate extends \lujie\extend\db\ActiveRecord
         return [
             [['document_type', 'name'], 'default', 'value' => ''],
             [['reference_id', 'position', 'status'], 'default', 'value' => 0],
+            [['additional'], 'default', 'value' => []],
             [['reference_id', 'position', 'status'], 'integer'],
-            [['content', 'additional'], 'required'],
+            [['content'], 'required'],
             [['content'], 'string'],
             [['additional'], 'safe'],
             [['document_type'], 'string', 'max' => 50],

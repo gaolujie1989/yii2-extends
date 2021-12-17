@@ -37,6 +37,7 @@ class HttpDataLoader extends BaseDataLoader
      * @return mixed|null
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\httpclient\Exception
+     * @throws \Exception
      * @inheritdoc
      */
     public function get($key)

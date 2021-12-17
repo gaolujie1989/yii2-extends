@@ -8,6 +8,7 @@ namespace lujie\template\document\controllers\rest;
 use lujie\extend\rest\ActiveController;
 use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
+use lujie\template\document\searches\DocumentTemplateSearch;
 use lujie\template\document\TemplateDocumentManager;
 use Yii;
 use yii\di\Instance;
@@ -58,7 +59,7 @@ class DocumentTemplateController extends ActiveController
     }
 
     /**
-     * @param int $id
+     * @param $id
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
@@ -80,7 +81,7 @@ class DocumentTemplateController extends ActiveController
      * @param int $id
      * @inheritdoc
      */
-    public function actionDownload($id): void
+    public function actionDownload(int $id): void
     {
         $generateFile = Yii::getAlias("@runtime/{$this->documentType}/{$id}.pdf");
         $this->documentManager->generate($generateFile, $id);
@@ -92,7 +93,7 @@ class DocumentTemplateController extends ActiveController
      * @return string
      * @inheritdoc
      */
-    public function actionPreview($id): string
+    public function actionPreview(int $id): string
     {
         Yii::$app->getResponse()->format = Response::FORMAT_HTML;
         return $this->documentManager->render($id);

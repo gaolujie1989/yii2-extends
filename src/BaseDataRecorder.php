@@ -16,7 +16,6 @@ use lujie\data\recording\pipelines\ActiveRecordRecordDataPipeline;
 use lujie\data\recording\pipelines\RecordPipeline;
 use lujie\data\recording\transformers\RecordTransformer;
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\ExecuteHelper;
 
 /**
@@ -93,14 +92,7 @@ abstract class BaseDataRecorder extends DataExchanger
         $dataSource = $this->dataSource;
         return ExecuteHelper::execute(function () use ($dataSource) {
             parent::execute();
-            if ($this->pipeline instanceof CombinedPipeline) {
-                foreach ($this->pipeline->pipelines as $pipeline) {
-                    if ($pipeline instanceof DbPipelineInterface) {
-                        $dataSource->last_exec_result = $pipeline->getAffectedRowCounts();
-                        break;
-                    }
-                }
-            } else if ($this->pipeline instanceof DbPipelineInterface) {
+            if ($this->pipeline instanceof DbPipelineInterface) {
                 $dataSource->last_exec_result = $this->pipeline->getAffectedRowCounts();
             }
             return true;

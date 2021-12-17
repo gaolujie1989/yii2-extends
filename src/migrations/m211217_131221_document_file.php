@@ -23,8 +23,8 @@ class m211217_131221_document_file extends Migration
             'additional' => $this->json(),
         ]);
 
-        $this->createIndex('idx_type_reference_id', $this->tableName, ['document_type', 'reference_id']);
+        $this->createIndex('uk_type_reference_id', $this->tableName, ['document_type', 'reference_id'], true);
         $this->createIndex('idx_type_reference_no', $this->tableName, ['document_type', 'reference_no']);
-        $this->createIndex('idx_type_document_no', $this->tableName, ['document_type', 'document_no']);
+        $this->createIndex('uk_type_document_no', $this->tableName, ['document_type', 'document_no'], true);
     }
 }

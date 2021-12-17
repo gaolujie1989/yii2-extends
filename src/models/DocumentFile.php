@@ -39,6 +39,8 @@ class DocumentFile extends \lujie\extend\db\ActiveRecord
             [['document_data', 'additional'], 'safe'],
             [['document_type', 'reference_no', 'document_no'], 'string', 'max' => 50],
             [['document_file'], 'string', 'max' => 255],
+            [['document_type', 'reference_id'], 'unique', 'targetAttribute' => ['document_type', 'reference_id']],
+            [['document_type', 'document_no'], 'unique', 'targetAttribute' => ['document_type', 'document_no']],
         ];
     }
 

@@ -58,7 +58,7 @@ class OptionSearch extends Option
         if ($this->type) {
             $query->innerJoinWith(['parent p']);
             QueryHelper::filterValue($query, ['p.value' => $this->type]);
-        } else {
+        } else if (empty($this->parent_id)) {
             $query->parentId(0);
         }
         $query->orderBy(['o.position' => SORT_ASC]);

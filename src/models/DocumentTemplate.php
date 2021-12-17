@@ -32,11 +32,10 @@ class DocumentTemplate extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['document_type', 'name'], 'default', 'value' => ''],
+            [['document_type', 'name', 'content'], 'default', 'value' => ''],
             [['reference_id', 'position', 'status'], 'default', 'value' => 0],
             [['additional'], 'default', 'value' => []],
             [['reference_id', 'position', 'status'], 'integer'],
-            [['content'], 'required'],
             [['content'], 'string'],
             [['additional'], 'safe'],
             [['document_type'], 'string', 'max' => 50],

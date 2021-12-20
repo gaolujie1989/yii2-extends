@@ -18,6 +18,18 @@ class AccountForm extends Account
     use FormTrait;
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function rules(): array
+    {
+        return array_merge($this->formRules(), [
+            [['additional'], 'default', 'value' => []],
+            [['additional'], 'safe'],
+        ]);
+    }
+
+    /**
      * @return bool
      * @inheritdoc
      */

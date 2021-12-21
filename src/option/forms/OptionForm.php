@@ -23,6 +23,17 @@ class OptionForm extends Option
      * @return array
      * @inheritdoc
      */
+    public function rules(): array
+    {
+        return array_merge($this->formRules(), [
+            [['value', 'name'], 'required'],
+        ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [

@@ -5,6 +5,7 @@
 
 namespace lujie\common\option\forms;
 
+use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\common\option\models\Option;
 use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;
@@ -40,6 +41,10 @@ class OptionForm extends Option
             'position' => [
                 'class' => PositionBehavior::class,
                 'groupAttributes' => ['parent_id'],
+            ],
+            'relationDelete' => [
+                'class' => RelationDeletableBehavior::class,
+                'relations' => ['children']
             ]
         ]);
     }

@@ -54,15 +54,15 @@ class Option extends \lujie\extend\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'option_id' => Yii::t('lujie/option', 'Option ID'),
-            'type' => Yii::t('lujie/option', 'Type'),
-            'value' => Yii::t('lujie/option', 'Value'),
-            'value_type' => Yii::t('lujie/option', 'Value Type'),
-            'tag' => Yii::t('lujie/option', 'Tag'),
-            'position' => Yii::t('lujie/option', 'Position'),
-            'name' => Yii::t('lujie/option', 'Name'),
-            'labels' => Yii::t('lujie/option', 'Labels'),
-            'additional' => Yii::t('lujie/option', 'Additional'),
+            'option_id' => Yii::t('lujie/common', 'Option ID'),
+            'type' => Yii::t('lujie/common', 'Type'),
+            'value' => Yii::t('lujie/common', 'Value'),
+            'value_type' => Yii::t('lujie/common', 'Value Type'),
+            'tag' => Yii::t('lujie/common', 'Tag'),
+            'position' => Yii::t('lujie/common', 'Position'),
+            'name' => Yii::t('lujie/common', 'Name'),
+            'labels' => Yii::t('lujie/common', 'Labels'),
+            'additional' => Yii::t('lujie/common', 'Additional'),
         ];
     }
 

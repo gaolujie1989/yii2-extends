@@ -101,7 +101,7 @@ class OptionHelper
             $deletedCount = 0;
             $optionTypeValues = ArrayHelper::map($updateData, 'value', 'value', 'type');
             foreach ($optionTypeValues as $type => $typeValues) {
-                $existValues = Option::find()->type($type)->value($typeValues)->getValues();
+                $existValues = Option::find()->type($type)->getValues();
                 $toDeleteValues = array_diff($existValues, $typeValues);
                 if ($toDeleteValues) {
                     $deletedCount += Option::deleteAll(['type' => $type, 'value' => $toDeleteValues]);

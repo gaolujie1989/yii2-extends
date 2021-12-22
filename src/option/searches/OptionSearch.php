@@ -26,7 +26,7 @@ class OptionSearch extends Option
      */
     public function query(): ActiveQueryInterface
     {
-        return $this->searchQuery()->orderBy(['position' => SORT_ASC]);
+        return $this->searchQuery()->orderBy(['type' => SORT_ASC, 'position' => SORT_ASC]);
     }
 
     /**

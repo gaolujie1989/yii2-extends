@@ -7,6 +7,7 @@ namespace lujie\common\category\controllers\console;
 
 use lujie\common\category\models\Category;
 use yii\console\Controller;
+use yii\helpers\VarDumper;
 
 /**
  * Class CategoryController
@@ -19,10 +20,10 @@ class CategoryController extends Controller
      * @param string $name
      * @param int $parentId
      * @param int $position
-     * @return Category
+     * @return string
      * @inheritdoc
      */
-    public function actionCreate(string $name, int $parentId = 0, int $position = 0): Category
+    public function actionCreate(string $name, int $parentId = 0, int $position = 0): string
     {
         $category = new Category();
         $category->parent_id = $parentId;
@@ -31,6 +32,6 @@ class CategoryController extends Controller
             $category->position = $position;
         }
         $category->save(false);
-        return $category;
+        return VarDumper::dumpAsString($category->attributes);
     }
 }

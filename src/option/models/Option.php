@@ -18,6 +18,7 @@ use Yii;
  */
 class Option extends \lujie\extend\db\ActiveRecord
 {
+    public const VALUE_TYPE_STRING = 0;
     public const VALUE_TYPE_INT = 1;
     public const VALUE_TYPE_FLOAT = 2;
 

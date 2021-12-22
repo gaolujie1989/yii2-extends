@@ -15,6 +15,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method OptionQuery optionId($optionId)
  * @method OptionQuery type($type)
  * @method OptionQuery valueType($valueType)
+ * @method OptionQuery value($value)
+ *
+ * @method array getValues()
  *
  * @method array|Option[] all($db = null)
  * @method array|Option|null one($db = null)
@@ -38,6 +41,10 @@ class OptionQuery extends \yii\db\ActiveQuery
                     'optionId' => 'option_id',
                     'type' => 'type',
                     'valueType' => 'value_type',
+                    'value' => 'value',
+                ],
+                'queryReturns' => [
+                    'getValues' => ['value', FieldQueryBehavior::RETURN_COLUMN]
                 ]
             ]
         ];

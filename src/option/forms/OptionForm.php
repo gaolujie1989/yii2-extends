@@ -5,10 +5,8 @@
 
 namespace lujie\common\option\forms;
 
-use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\common\option\models\Option;
 use lujie\extend\db\FormTrait;
-use lujie\extend\helpers\ModelHelper;
 use yii2tech\ar\position\PositionBehavior;
 
 /**
@@ -40,12 +38,8 @@ class OptionForm extends Option
         return array_merge(parent::behaviors(), [
             'position' => [
                 'class' => PositionBehavior::class,
-                'groupAttributes' => ['parent_id'],
+                'groupAttributes' => ['type'],
             ],
-            'relationDelete' => [
-                'class' => RelationDeletableBehavior::class,
-                'relations' => ['children']
-            ]
         ]);
     }
 }

@@ -12,11 +12,9 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method int getId()
  * @method array getIds()
  *
- * @method OptionQuery optionId($modelOptionId)
- * @method OptionQuery parentId($parentId)
- * @method OptionQuery value($value)
- *
- * @method array getValues()
+ * @method OptionQuery optionId($optionId)
+ * @method OptionQuery type($type)
+ * @method OptionQuery valueType($valueType)
  *
  * @method array|Option[] all($db = null)
  * @method array|Option|null one($db = null)
@@ -37,14 +35,12 @@ class OptionQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'OptionId' => 'option_id',
-                    'parentId' => 'parent_id',
-                    'value' => 'value',
-                ],
-                'queryReturns' => [
-                    'getValues' => ['values', FieldQueryBehavior::RETURN_COLUMN],
+                    'optionId' => 'option_id',
+                    'type' => 'type',
+                    'valueType' => 'value_type',
                 ]
             ]
         ];
     }
+
 }

@@ -23,15 +23,15 @@ class m200911_104910_option extends Migration
     {
         $this->createTable($this->tableName, [
             'option_id' => $this->bigPrimaryKey(),
-            'parent_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'position' => $this->smallInteger()->notNull()->defaultValue(0),
+            'type' => $this->string(50)->notNull()->defaultValue(''),
             'value' => $this->string(50)->notNull()->defaultValue(''),
             'value_type' => $this->tinyInteger()->notNull()->defaultValue(0),
+            'position' => $this->smallInteger()->notNull()->defaultValue(0),
             'name' => $this->string()->notNull()->defaultValue(''),
             'labels' => $this->json(),
             'additional' => $this->json(),
         ]);
 
-        $this->createIndex('uk_parent_id_value', $this->tableName, ['parent_id', 'value'], true);
+        $this->createIndex('uk_type_value', $this->tableName, ['type', 'value'], true);
     }
 }

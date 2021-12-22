@@ -3,21 +3,18 @@
 namespace lujie\common\option\models;
 
 use Yii;
-use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%option}}".
  *
  * @property int $option_id
- * @property int $parent_id
- * @property int $position
+ * @property string $type
  * @property string $value
+ * @property int $value_type
+ * @property int $position
  * @property string $name
  * @property array|null $labels
  * @property array|null $additional
- *
- * @property Option $parent
- * @property Option[] $children
  */
 class Option extends \lujie\extend\db\ActiveRecord
 {
@@ -38,14 +35,14 @@ class Option extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['parent_id', 'position'], 'default', 'value' => 0],
-            [['value', 'name'], 'default', 'value' => ''],
+            [['type', 'value', 'name'], 'default', 'value' => ''],
+            [['value_type', 'position'], 'default', 'value' => 0],
             [['labels', 'additional'], 'default', 'value' => []],
-            [['parent_id', 'position'], 'integer'],
+            [['value_type', 'position'], 'integer'],
             [['labels', 'additional'], 'safe'],
-            [['value'], 'string', 'max' => 50],
+            [['type', 'value'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 255],
-            [['parent_id', 'value'], 'unique', 'targetAttribute' => ['parent_id', 'value']],
+            [['type', 'value'], 'unique', 'targetAttribute' => ['type', 'value']],
         ];
     }
 
@@ -56,9 +53,10 @@ class Option extends \lujie\extend\db\ActiveRecord
     {
         return [
             'option_id' => Yii::t('lujie/option', 'Option ID'),
-            'parent_id' => Yii::t('lujie/option', 'Parent ID'),
+            'type' => Yii::t('lujie/option', 'Type'),
+            'value' => Yii::t('lujie/option', 'Value'),
+            'value_type' => Yii::t('lujie/option', 'Value Type'),
             'position' => Yii::t('lujie/option', 'Position'),
-            'value' => Yii::t('lujie/option', 'value'),
             'name' => Yii::t('lujie/option', 'Name'),
             'labels' => Yii::t('lujie/option', 'Labels'),
             'additional' => Yii::t('lujie/option', 'Additional'),
@@ -83,36 +81,6 @@ class Option extends \lujie\extend\db\ActiveRecord
         return array_merge(parent::fields(), [
             'label' => 'label',
         ]);
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function extraFields(): array
-    {
-        return array_merge(parent::extraFields(), [
-            'parent' => 'parent',
-            'children' => 'children',
-        ]);
-    }
-
-    /**
-     * @return ActiveQuery|OptionQuery
-     * @inheritdoc
-     */
-    public function getParent(): ActiveQuery
-    {
-        return $this->hasOne(static::class, ['option_id' => 'parent_id']);
-    }
-
-    /**
-     * @return ActiveQuery|OptionQuery
-     * @inheritdoc
-     */
-    public function getChildren(): ActiveQuery
-    {
-        return $this->hasMany(static::class, ['parent_id' => 'option_id']);
     }
 
     /**

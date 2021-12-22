@@ -36,6 +36,7 @@ class OptionSearch extends Option
      */
     public static function prepareArray(array $row): array
     {
+        $row = static::prepareSearchArray($row);
         if ($row['value_type'] === Option::VALUE_TYPE_INT) {
             $row['value'] = (int)$row['value'];
         } else if ($row['value_type'] === Option::VALUE_TYPE_FLOAT) {

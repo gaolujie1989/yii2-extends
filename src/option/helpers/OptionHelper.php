@@ -59,15 +59,20 @@ class OptionHelper
         }
         $updateData = [];
         foreach ($optionData as $type => $typeOptions) {
+            $position = 0;
             foreach ($typeOptions as $key => $optionItem) {
+                $position++;
                 if (!is_array($optionItem)) {
                     $optionItem = ['type' => $type, 'value' => $key, 'name' => $optionItem];
                 }
                 if (!isset($optionItem['value'])) {
                     $optionItem['value'] = $key;
                 }
-                if (!isset($optionItem['type'])) {
+                if (empty($optionItem['type'])) {
                     $optionItem['type'] = $type;
+                }
+                if (empty($optionItem['position'])) {
+                    $optionItem['position'] = $position;
                 }
                 if (!isset($optionItem['value_type'])) {
                     $value = $optionItem['value'];

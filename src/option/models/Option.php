@@ -35,12 +35,13 @@ class Option extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['type', 'value', 'name'], 'default', 'value' => ''],
+            [['type', 'value', 'tag', 'name'], 'default', 'value' => ''],
             [['value_type', 'position'], 'default', 'value' => 0],
             [['labels', 'additional'], 'default', 'value' => []],
             [['value_type', 'position'], 'integer'],
             [['labels', 'additional'], 'safe'],
             [['type', 'value'], 'string', 'max' => 50],
+            [['tag'], 'string', 'max' => 10],
             [['name'], 'string', 'max' => 255],
             [['type', 'value'], 'unique', 'targetAttribute' => ['type', 'value']],
         ];
@@ -56,6 +57,7 @@ class Option extends \lujie\extend\db\ActiveRecord
             'type' => Yii::t('lujie/option', 'Type'),
             'value' => Yii::t('lujie/option', 'Value'),
             'value_type' => Yii::t('lujie/option', 'Value Type'),
+            'tag' => Yii::t('lujie/option', 'Tag'),
             'position' => Yii::t('lujie/option', 'Position'),
             'name' => Yii::t('lujie/option', 'Name'),
             'labels' => Yii::t('lujie/option', 'Labels'),

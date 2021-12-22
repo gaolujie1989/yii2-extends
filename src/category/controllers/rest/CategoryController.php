@@ -6,7 +6,7 @@
 namespace lujie\common\category\controllers\rest;
 
 use lujie\common\category\models\Category;
-use yii\rest\ActiveController;
+use lujie\extend\rest\ActiveController;
 
 /**
  * Class CategoryController

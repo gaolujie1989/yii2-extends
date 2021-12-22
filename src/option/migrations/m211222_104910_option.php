@@ -8,7 +8,7 @@ use yii\db\Migration;
  * Class m200911_104910_option
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class m200911_104910_option extends Migration
+class m211222_104910_option extends Migration
 {
     use DropTableTrait, TraceableBehaviorTrait;
 

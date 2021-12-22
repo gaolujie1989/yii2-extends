@@ -13,10 +13,15 @@ use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
+/**
+ * Class OptionHelper
+ * @package lujie\common\option\helpers
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class OptionHelper
 {
     /**
-     * @param string $file
+     * @param string|array $fileOrData
      * @param bool $delete
      * @return array
      * @throws \ImagickException
@@ -24,29 +29,33 @@ class OptionHelper
      * @throws \yii\db\IntegrityException
      * @inheritdoc
      */
-    public static function updateOptions(string $file, bool $delete = false): array
+    public static function updateOptions($fileOrData, bool $delete = false): array
     {
-        $optionData = [];
-        $ext = pathinfo($file, PATHINFO_EXTENSION);
-        switch ($ext) {
-            case 'php':
-                $optionData = require $file;
-                break;
-            case 'json':
-                $optionData = Json::decode(file_get_contents($file));
-                break;
-            case 'txt':
-            case 'csv':
-                $optionData = CsvHelper::readCsv($file);
-                $optionData = ArrayHelper::index($optionData, 'value', ['type']);
-                break;
-            case 'xls':
-            case 'xlsx':
-                $optionData = ExcelHelper::readExcel($file);
-                $optionData = ArrayHelper::index($optionData, 'value', ['type']);
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid file');
+        if (is_array($fileOrData)) {
+            $optionData = $fileOrData;
+        } else {
+            $file = $fileOrData;
+            $ext = pathinfo($file, PATHINFO_EXTENSION);
+            switch ($ext) {
+                case 'php':
+                    $optionData = require $file;
+                    break;
+                case 'json':
+                    $optionData = Json::decode(file_get_contents($file));
+                    break;
+                case 'txt':
+                case 'csv':
+                    $optionData = CsvHelper::readCsv($file);
+                    $optionData = ArrayHelper::index($optionData, 'value', ['type']);
+                    break;
+                case 'xls':
+                case 'xlsx':
+                    $optionData = ExcelHelper::readExcel($file);
+                    $optionData = ArrayHelper::index($optionData, 'value', ['type']);
+                    break;
+                default:
+                    throw new InvalidArgumentException('Invalid file');
+            }
         }
         $updateData = [];
         foreach ($optionData as $type => $typeOptions) {

@@ -77,11 +77,11 @@ class OptionHelper
                 if (!isset($optionItem['value_type'])) {
                     $value = $optionItem['value'];
                     if (is_int($value)) {
-                        $optionData[$key]['value_type'] = Option::VALUE_TYPE_INT;
+                        $optionItem['value_type'] = Option::VALUE_TYPE_INT;
                     } else if (is_float($value)) {
-                        $optionData[$key]['value_type'] = Option::VALUE_TYPE_FLOAT;
+                        $optionItem['value_type'] = Option::VALUE_TYPE_FLOAT;
                     } else {
-                        $optionData[$key]['value_type'] = Option::VALUE_TYPE_STRING;
+                        $optionItem['value_type'] = Option::VALUE_TYPE_STRING;
                     }
                 }
                 $typeOptions[$key] = $optionItem;

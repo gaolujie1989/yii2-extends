@@ -5,14 +5,14 @@ use lujie\extend\db\TraceableBehaviorTrait;
 use yii\db\Migration;
 
 /**
- * Class m200911_104910_option
+ * Class m211223_110517_external_category
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class m211222_100845_category extends Migration
+class m211223_110517_external_category extends Migration
 {
     use DropTableTrait, TraceableBehaviorTrait;
 
-    public $tableName = '{{%category}}';
+    public $tableName = '{{%external_category}}';
 
     /**
      * @return bool|void
@@ -22,7 +22,9 @@ class m211222_100845_category extends Migration
     public function safeUp()
     {
         $this->createTable($this->tableName, [
-            'category_id' => $this->bigPrimaryKey(),
+            'id' => $this->bigPrimaryKey(),
+            'external_type' => $this->string(50)->notNull()->defaultValue(''),
+            'category_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'parent_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'position' => $this->smallInteger()->notNull()->defaultValue(0),
             'name' => $this->string(200)->notNull()->defaultValue(''),
@@ -30,6 +32,7 @@ class m211222_100845_category extends Migration
             'additional' => $this->json(),
         ]);
 
-        $this->createIndex('uk_parent_name', $this->tableName, ['parent_id', 'name'], true);
+        $this->createIndex('uk_external_type_id', $this->tableName, ['external_type', 'category_id'], true);
+        $this->createIndex('idx_external_type_parent_id', $this->tableName, ['external_type', 'parent_id']);
     }
 }

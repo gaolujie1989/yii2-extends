@@ -5,7 +5,7 @@
 
 namespace lujie\common\category\searches;
 
-use lujie\common\category\models\Category;
+use lujie\common\category\models\ExternalCategory;
 use lujie\extend\db\SearchTrait;
 use Yii;
 use yii\db\ActiveQueryInterface;
@@ -15,7 +15,7 @@ use yii\db\ActiveQueryInterface;
  * @package lujie\common\category\searches
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CategorySearch extends Category
+class ExternalCategorySearch extends ExternalCategory
 {
     use SearchTrait;
 

@@ -9,9 +9,9 @@ use yii\db\ActiveQuery;
  * This is the model class for table "{{%category}}".
  *
  * @property int $category_id
- * @property string $parent_id
- * @property string $name
+ * @property int $parent_id
  * @property int $position
+ * @property string $name
  * @property array|null $labels
  * @property array|null $additional
  */
@@ -31,12 +31,12 @@ class Category extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['parent_id', 'name'], 'default', 'value' => ''],
-            [['position'], 'default', 'value' => 0],
+            [['parent_id', 'position'], 'default', 'value' => 0],
+            [['name'], 'default', 'value' => ''],
             [['labels', 'additional'], 'default', 'value' => []],
-            [['position'], 'integer'],
+            [['parent_id', 'position'], 'integer'],
             [['labels', 'additional'], 'safe'],
-            [['parent_id', 'name'], 'string', 'max' => 50],
+            [['name'], 'string', 'max' => 200],
             [['parent_id', 'name'], 'unique', 'targetAttribute' => ['parent_id', 'name']],
         ];
     }
@@ -49,8 +49,8 @@ class Category extends \lujie\extend\db\ActiveRecord
         return [
             'category_id' => Yii::t('lujie/common', 'Category ID'),
             'parent_id' => Yii::t('lujie/common', 'Parent ID'),
-            'name' => Yii::t('lujie/common', 'Name'),
             'position' => Yii::t('lujie/common', 'Position'),
+            'name' => Yii::t('lujie/common', 'Name'),
             'labels' => Yii::t('lujie/common', 'Labels'),
             'additional' => Yii::t('lujie/common', 'Additional'),
         ];

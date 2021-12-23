@@ -7,6 +7,8 @@ namespace lujie\common\category\searches;
 
 use lujie\common\category\models\Category;
 use lujie\extend\db\SearchTrait;
+use Yii;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class CategorySearch
@@ -16,4 +18,26 @@ use lujie\extend\db\SearchTrait;
 class CategorySearch extends Category
 {
     use SearchTrait;
+
+    /**
+     * @return ActiveQueryInterface
+     * @inheritdoc
+     */
+    public function query(): ActiveQueryInterface
+    {
+        return $this->searchQuery()->orderBy(['parent_id' => SORT_ASC, 'position' => SORT_ASC]);
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @inheritdoc
+     */
+    public static function prepareArray(array $row): array
+    {
+        $row = static::prepareSearchArray($row);
+        $row['label'] = $row['labels'][Yii::$app->language] ?? '';
+        $row['label'] = $row['label'] ?: $row['name'];
+        return $row;
+    }
 }

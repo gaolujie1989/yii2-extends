@@ -69,6 +69,27 @@ class Category extends \lujie\extend\db\ActiveRecord
      * @return array
      * @inheritdoc
      */
+    public function fields(): array
+    {
+        return array_merge(parent::fields(), [
+            'label' => 'label',
+        ]);
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getLabel(): string
+    {
+        $label = $this->labels[Yii::$app->language] ?? '';
+        return $label ?: $this->name;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function extraFields(): array
     {
         return array_merge(parent::extraFields(), [

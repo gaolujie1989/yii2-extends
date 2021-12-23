@@ -18,6 +18,8 @@ use Yii;
  */
 class ExternalCategory extends \lujie\extend\db\ActiveRecord
 {
+    public const EXTERNAL_TYPE = '';
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +68,6 @@ class ExternalCategory extends \lujie\extend\db\ActiveRecord
      */
     public static function find(): ExternalCategoryQuery
     {
-        return new ExternalCategoryQuery(static::class);
+        return (new ExternalCategoryQuery(static::class))->andFilterWhere(['external_type' => static::EXTERNAL_TYPE]);
     }
 }

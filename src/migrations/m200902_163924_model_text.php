@@ -1,7 +1,7 @@
 <?php
 
 use lujie\extend\db\DropTableTrait;
-use lujie\extend\db\TraceableBehaviorTrait;
+use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
 /**
@@ -10,7 +10,7 @@ use yii\db\Migration;
  */
 class m200902_163924_model_text extends Migration
 {
-    use DropTableTrait, TraceableBehaviorTrait;
+    use DropTableTrait, TraceableColumnTrait;
 
     public $tableName = '{{%model_text}}';
 

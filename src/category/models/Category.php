@@ -14,6 +14,11 @@ use yii\db\ActiveQuery;
  * @property string $name
  * @property array|null $labels
  * @property array|null $additional
+ *
+ * @property Category $parent
+ * @property Category[] $children
+ * @property Category[] $leaf
+ * @property bool $isLeaf
  */
 class Category extends \lujie\extend\db\ActiveRecord
 {
@@ -95,6 +100,7 @@ class Category extends \lujie\extend\db\ActiveRecord
         return array_merge(parent::extraFields(), [
             'parent' => 'parent',
             'children' => 'children',
+            'isLeaf' => 'isLeaf'
         ]);
     }
 
@@ -114,5 +120,26 @@ class Category extends \lujie\extend\db\ActiveRecord
     public function getChildren(): ActiveQuery
     {
         return $this->hasMany(static::class, ['parent_id' => 'category_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getLeaf(): ActiveQuery
+    {
+        return $this->hasOne(static::class, ['parent_id' => 'category_id'])
+            ->select(['parent_id'])
+            ->distinct()
+            ->asArray();
+    }
+
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function getIsLeaf(): bool
+    {
+        return empty($this->leaf);
     }
 }

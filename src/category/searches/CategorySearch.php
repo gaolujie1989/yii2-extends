@@ -39,6 +39,9 @@ class CategorySearch extends Category
         $row = static::prepareSearchArray($row);
         $row['label'] = $row['labels'][Yii::$app->language] ?? '';
         $row['label'] = $row['label'] ?: $row['name'];
+        if (array_key_exists('leaf', $row)) {
+            $row['isLeaf'] = empty($row['leaf']);
+        }
         return $row;
     }
 }

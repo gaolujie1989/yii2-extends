@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $category_link_id
  * @property int $category_id
- * @property int $external_type
+ * @property string $external_type
  * @property int $external_category_id
  */
 class CategoryLink extends \lujie\extend\db\ActiveRecord
@@ -28,8 +28,10 @@ class CategoryLink extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['category_id', 'external_type', 'external_category_id'], 'default', 'value' => 0],
-            [['category_id', 'external_type', 'external_category_id'], 'integer'],
+            [['category_id', 'external_category_id'], 'default', 'value' => 0],
+            [['external_type'], 'default', 'value' => ''],
+            [['category_id', 'external_category_id'], 'integer'],
+            [['external_type'], 'string', 'max' => 50],
             [['category_id', 'external_type'], 'unique', 'targetAttribute' => ['category_id', 'external_type']],
         ];
     }

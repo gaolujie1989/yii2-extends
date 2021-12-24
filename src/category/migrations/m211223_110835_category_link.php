@@ -24,7 +24,7 @@ class m211223_110835_category_link extends Migration
         $this->createTable($this->tableName, [
             'category_link_id' => $this->bigPrimaryKey(),
             'category_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'external_type' => $this->bigInteger()->notNull()->defaultValue(0),
+            'external_type' => $this->string(50)->notNull()->defaultValue(''),
             'external_category_id' => $this->bigInteger()->notNull()->defaultValue(0),
         ]);
 

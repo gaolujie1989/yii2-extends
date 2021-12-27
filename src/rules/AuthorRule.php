@@ -15,6 +15,9 @@ use yii\rbac\Rule;
  */
 class AuthorRule extends Rule
 {
+    /**
+     * @var string
+     */
     public $name = 'isAuthor';
 
     /**
@@ -27,6 +30,7 @@ class AuthorRule extends Rule
      * @param \yii\rbac\Item $item
      * @param array $params
      * @return bool
+     * @throws \Exception
      * @inheritdoc
      */
     public function execute($user, $item, $params): bool

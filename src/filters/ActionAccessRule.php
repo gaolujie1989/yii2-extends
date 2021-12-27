@@ -52,6 +52,21 @@ class ActionAccessRule extends AccessRule
     public $actionPermissionNameCallback;
 
     /**
+     * @var string
+     */
+    public $prefix = '';
+
+    /**
+     * @var string
+     */
+    public $suffix = '';
+
+    /**
+     * @var array
+     */
+    public $replaces = [];
+
+    /**
      * @param Action $action
      * @param bool|\yii\web\User $user
      * @param \yii\web\Request $request
@@ -64,6 +79,7 @@ class ActionAccessRule extends AccessRule
         if ($this->actionPermissionNameCallback && is_callable($this->actionPermissionNameCallback)) {
             $actionId = call_user_func($this->actionPermissionNameCallback, $actionId);
         }
+        $actionId = $this->prefix . strtr($actionId, $this->replaces) . $this->suffix;
         $this->permissions = $this->permissions ?: [];
         $this->permissions[] = $actionId;
         return parent::allows($action, $user, $request);

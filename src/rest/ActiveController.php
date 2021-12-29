@@ -91,6 +91,7 @@ class ActiveController extends \yii\rest\ActiveController
      * @var array ['action' => 'method']
      */
     public $statisticsActions = [
+        'count' => 'queryCount',
         'total' => 'queryTotal',
         'statistics' => 'queryStatistics'
     ];

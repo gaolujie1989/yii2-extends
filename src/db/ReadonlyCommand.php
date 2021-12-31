@@ -7,6 +7,7 @@ namespace lujie\extend\db;
 
 use Yii;
 use yii\base\NotSupportedException;
+use yii\base\UserException;
 use yii\db\Command;
 
 /**
@@ -19,6 +20,7 @@ class ReadonlyCommand extends Command
     /**
      * @return int
      * @throws NotSupportedException
+     * @throws UserException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
@@ -27,7 +29,7 @@ class ReadonlyCommand extends Command
         $sql = $this->getSql();
         if (!$this->db->getSchema()->isReadQuery($sql)) {
             $message = Yii::t('lujie/extend', 'Readonly mode, write is not supported');
-            throw new NotSupportedException($message);
+            throw new UserException($message);
         }
         return parent::execute();
     }

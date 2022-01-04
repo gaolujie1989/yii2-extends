@@ -103,7 +103,8 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                     'POST {id}/prev' => 'move-prev',
                     'POST {id}/next' => 'move-next',
 
-                    'GET,HEAD total' => 'total',
+                    'GET,HEAD totals' => 'totals',
+                    'GET,HEAD counts' => 'counts',
                     'GET,HEAD statistics' => 'statistics',
                 ]
             ],

@@ -284,7 +284,7 @@ class ModelHelper
             $relationClass = $relationConfig[0];
             $relationAlias = $relationConfig[1] ?? [];
             $relationRelations = $relationConfig[2] ?? [];
-            if (ArrayHelper::isAssociative($row[$relation], false)) { //mean is one relation, else is many relation
+            if (isset($row['updated_at']) || empty($row[0])) { //mean is one relation, else is many relation
                 $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations);
             } else {
                 foreach ($row[$relation] as $index => $value) {

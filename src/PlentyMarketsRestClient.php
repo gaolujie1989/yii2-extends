@@ -845,11 +845,6 @@ class PlentyMarketsRestClient extends OAuth2
                 $batchRequest->createOrderItemProperty([
                     'orderItemId' => $orderItem['id'],
                     'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
-                    'value' => $orderItem['warehouseId'] ?? 108
-                ]);
-                $batchRequest->updateOrderItemProperty([
-                    'orderItemId' => $orderItem['id'],
-                    'typeId' => PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE'],
                     'value' => $warehouseId
                 ]);
             } else if ((int)$orderItemProperties[PlentyMarketsConst::ORDER_ITEM_PROPERTY_TYPE_IDS['WAREHOUSE']] !== $warehouseId) {

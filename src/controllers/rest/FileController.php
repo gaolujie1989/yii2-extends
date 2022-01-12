@@ -19,6 +19,7 @@ use yii\rest\Controller;
  * Class FileManagerController
  * @package backend\controllers
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 class FileController extends Controller
 {

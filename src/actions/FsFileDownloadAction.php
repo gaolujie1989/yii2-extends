@@ -16,6 +16,7 @@ use yii\web\NotFoundHttpException;
  * Class FsFileDownloadAction
  * @package lujie\upload\actions
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 class FsFileDownloadAction extends Action
 {

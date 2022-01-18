@@ -173,7 +173,7 @@ class FieldQueryBehavior extends Behavior
             return $this->querySort($name, $params);
         }
         if (isset($this->queryReturns[$name])) {
-            return $this->queryReturn($name);
+            return $this->queryReturn($name, $params);
         }
 
         return parent::__call($name, $params);
@@ -338,13 +338,18 @@ class FieldQueryBehavior extends Behavior
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function queryReturn(string $name)
+    protected function queryReturn(string $name, array $params)
     {
         $owner = $this->owner;
         [$field, $method] = $this->queryReturns[$name];
         $field = $this->buildAliasField($field);
         switch ($method) {
             case self::RETURN_COLUMN:
+                $indexBy = $this->queryReturns[$name][2] ?? null;
+                $isIndex = empty($params) || array_shift($params);
+                if ($indexBy && $isIndex) {
+                    $owner->indexBy($indexBy);
+                }
                 return $owner->select([$field])->column();
             case self::RETURN_SCALAR:
                 return $owner->select([$field])->scalar();

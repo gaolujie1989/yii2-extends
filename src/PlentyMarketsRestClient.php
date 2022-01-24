@@ -783,7 +783,7 @@ class PlentyMarketsRestClient extends OAuth2
         $condition['itemsPerPage'] = $batchSize;
         $listMethod = 'list' . Inflector::pluralize($resource);
         if ($this->reverse) {
-            $responseData = $this->restApi($listMethod, $condition);
+            $responseData = $this->restApi($listMethod, $condition) ?? [];
             $firstPageItems = $responseData['entries'] ?? $responseData;
             $firstPage = $condition['page'] ?? 1;
             $condition['page'] = $responseData['lastPageNumber'] ?? 1;

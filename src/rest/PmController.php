@@ -93,23 +93,26 @@ class PmController extends Controller
     public function actionUpdateOrderAddresses(): void
     {
         $orderAddresses = [
-            '2121614' => [
+            'xxx' => [
                 'companyName' => '',
-                'firstName' => 'Tiziana',
-                'lastName' => 'Saccotelli',
-                'street' => 'Lindenhöhe',
-                'houseNo' => '102',
+                'firstName' => 'xxx',
+                'lastName' => 'xxx',
+                'street' => 'xxx',
+                'houseNo' => 'xxx',
                 'additional' => '',
-                'zipCode' => '89081',
-                'city' => 'Ulm',
-                'country' => 'DE',
-                'phone' => '01735310842',
+                'zipCode' => 'xxx',
+                'city' => 'xxx',
+                'country' => 'xxx',
+                'phone' => 'xxx',
             ],
         ];
+        Console::startProgress($done = 0, $total = count($orderAddresses));
         foreach ($orderAddresses as $orderId => $address) {
             $this->restClient->updateOrderAddresses($orderId, $address);
-//            $this->pmClient->updateOrder(['id' => $orderId, 'statusId' => 5]);
+//            $this->restClient->updateOrder(['id' => $orderId, 'statusId' => 5]);
+            Console::updateProgress(++$done, $total);
         }
+        Console::endProgress();
     }
 
     /**

@@ -29,6 +29,11 @@ class DateValidator extends \yii\validators\DateValidator
     public $timestampAttribute = self::TIMESTAMP_ATTRIBUTE_SELF;
 
     /**
+     * @var string
+     */
+    public $timestampAttributeTimeZone;
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */

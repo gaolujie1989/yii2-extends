@@ -50,15 +50,24 @@ class DateValidator extends \yii\validators\DateValidator
             $this->timestampAttributeTimeZone = Yii::$app->timeZone;
         }
         if ($this->timestampAttributeFormat === self::TIMESTAMP_ATTRIBUTE_FORMAT_BY_TYPE) {
-            if ($this->type === self::TYPE_DATE) {
-                $this->timestampAttributeFormat = 'php:Y-m-d';
-            } elseif ($this->type === self::TYPE_DATETIME) {
-                $this->timestampAttributeFormat = 'php:Y-m-d H:i:s';
-            } elseif ($this->type === self::TYPE_TIME) {
-                $this->timestampAttributeFormat = 'php:H:i:s';
-            } else {
-                throw new InvalidConfigException('Unknown validation type set for DateValidator::$type: ' . $this->type);
-            }
+            $this->setTimestampAttributeFormatByType();
+        }
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    private function setTimestampAttributeFormatByType(): void
+    {
+        if ($this->type === self::TYPE_DATE) {
+            $this->timestampAttributeFormat = 'php:Y-m-d';
+        } elseif ($this->type === self::TYPE_DATETIME) {
+            $this->timestampAttributeFormat = 'php:Y-m-d H:i:s';
+        } elseif ($this->type === self::TYPE_TIME) {
+            $this->timestampAttributeFormat = 'php:H:i:s';
+        } else {
+            throw new InvalidConfigException('Unknown validation type set for DateValidator::$type: ' . $this->type);
         }
     }
 

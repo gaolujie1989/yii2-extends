@@ -64,7 +64,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
             ],
             Pagination::class => [
                 'pageSizeParam' => 'limit',
-                'pageSizeLimit' => [1, 500],
+                'pageSizeLimit' => [0, 500],
             ],
             Sort::class => [
                 'enableMultiSort' => true

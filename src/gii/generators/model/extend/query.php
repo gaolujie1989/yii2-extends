@@ -22,6 +22,9 @@ if ($generator->ns !== $generator->queryNs) {
 }
 
 $queryFields = [];
+$orderByFields = [];
+$indexByFields = [];
+$returnByFields = [];
 foreach ($labels as $name => $label) {
     if (in_array($name, ['key', 'code', 'type', 'status'], true)
         || substr($name, -4) === '_key'
@@ -30,6 +33,19 @@ foreach ($labels as $name => $label) {
         || in_array(substr($name, -3), ['_id', '_no'], true)
     ) {
         $queryFields[lcfirst(Inflector::camelize($name))] = $name;
+    }
+    if (in_array($name, ['position', 'priority'], true)
+        || in_array(substr($name, -3), ['_id', '_at'], true)
+    ) {
+        $orderByFields['orderBy' . Inflector::camelize($name)] = $name;
+    }
+    if (in_array($name, ['key', 'code'], true)
+        || substr($name, -4) === '_key'
+        || in_array(substr($name, -5), ['_code'], true)
+        || in_array(substr($name, -3), ['_id', '_no'], true)
+    ) {
+        $indexByFields['indexBy' . Inflector::camelize($name)] = $name;
+        $returnByFields['get' . Inflector::pluralize(Inflector::camelize($name))] = $name;
     }
 }
 
@@ -45,16 +61,31 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method <?= $className ?> id($id)
  * @method <?= $className ?> orderById($sort = SORT_ASC)
+ * @method <?= $className ?> indexById()
  * @method int getId()
  * @method array getIds()
  *
-<?php foreach ($queryFields as $name => $field) {
-  if (substr($field, -3) === '_no' || substr($field, -4) === '_key' || substr($field, -5) === 'code') {
-    echo " * @method $className $name(\$$name, bool \$like = false)\n";
-  } else {
-    echo " * @method $className $name(\$$name)\n";
-  }
-} ?>
+<?php
+foreach ($queryFields as $name => $field) {
+    if (substr($field, -3) === '_no' || substr($field, -4) === '_key' || substr($field, -5) === 'code') {
+        echo " * @method $className $name(\$$name, bool \$like = false)\n";
+    } else {
+        echo " * @method $className $name(\$$name)\n";
+    }
+}
+echo " *\n";
+foreach ($orderByFields as $name => $field) {
+    echo " * @method $className $name(\$sort = SORT_ASC)\n";
+}
+echo " *\n";
+foreach ($indexByFields as $name => $field) {
+    echo " * @method $className $name()\n";
+}
+echo " *\n";
+foreach ($returnByFields as $name => $field) {
+    echo " * @method $className $name()\n";
+}
+?>
  *
  * @method array|<?= $modelFullClassName ?>[] all($db = null)
  * @method array|<?= $modelFullClassName ?>|null one($db = null)
@@ -76,6 +107,22 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->queryBaseClass, '\\
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
 <?php foreach ($queryFields as $name => $field) {
+    echo "                    '{$name}' => '{$field}',\n";
+} ?>
+                ],
+                'queryConditions' => [],
+                'querySorts' => [
+<?php foreach ($orderByFields as $name => $field) {
+    echo "                    '{$name}' => '{$field}',\n";
+} ?>
+                ],
+                'queryIndexes' => [
+<?php foreach ($indexByFields as $name => $field) {
+    echo "                    '{$name}' => '{$field}',\n";
+} ?>
+                ],
+                'queryReturns' => [
+<?php foreach ($returnByFields as $name => $field) {
     echo "                    '{$name}' => '{$field}',\n";
 } ?>
                 ]

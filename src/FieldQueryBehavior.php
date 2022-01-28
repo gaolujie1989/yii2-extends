@@ -72,8 +72,17 @@ class FieldQueryBehavior extends Behavior
 
     /**
      * ex. [
+     *      'methodName' => 'attribute0'
+     *      'indexByXXXYYY' => 'attribute1'
+     * ]
+     * @var array
+     */
+    public $queryIndexes = [];
+
+    /**
+     * ex. [
      *      'methodName' => ['attribute1', self::RETURN_XXX]
-     *      'getAbcList' => ['attribute1', self::RETURN_COLUMN]
+     *      'getAbcList' => ['attribute1', self::RETURN_COLUMN, 'indexByAttribute1']
      *      'getAbc' => ['attribute1', self::RETURN_SCALAR]
      *      'maxAbc' => ['attribute1', self::RETURN_MAX]
      *      'avgAbc' => ['attribute1', self::RETURN_AVG]
@@ -118,6 +127,7 @@ class FieldQueryBehavior extends Behavior
             $primaryKey = $modelClass::primaryKey();
             $this->queryFields['id'] = $primaryKey;
             $this->querySorts['orderById'] = $primaryKey;
+            $this->querySorts['indexById'] = $primaryKey;
             $this->queryReturns['getId'] = [reset($primaryKey), self::RETURN_SCALAR];
             $this->queryReturns['getIds'] = [reset($primaryKey), self::RETURN_COLUMN];
         }
@@ -147,6 +157,9 @@ class FieldQueryBehavior extends Behavior
         if (isset($this->querySorts[$name])) {
             return true;
         }
+        if (isset($this->queryIndexes[$name])) {
+            return true;
+        }
         if (isset($this->queryReturns[$name])) {
             return true;
         }
@@ -171,6 +184,9 @@ class FieldQueryBehavior extends Behavior
         }
         if (isset($this->querySorts[$name])) {
             return $this->querySort($name, $params);
+        }
+        if (isset($this->queryIndexes[$name])) {
+            return $this->queryIndex($name);
         }
         if (isset($this->queryReturns[$name])) {
             return $this->queryReturn($name, $params);
@@ -329,6 +345,19 @@ class FieldQueryBehavior extends Behavior
             $field = $this->buildAliasField($field);
             $owner->addOrderBy([$field => $sort]);
         }
+        return $owner;
+    }
+
+    /**
+     * @param string $name
+     * @return Query
+     * @inheritdoc
+     */
+    protected function queryIndex(string $name): Query
+    {
+        /** @var Query $owner */
+        $owner = $this->owner;
+        $owner->indexBy($this->querySorts[$name]);
         return $owner;
     }
 

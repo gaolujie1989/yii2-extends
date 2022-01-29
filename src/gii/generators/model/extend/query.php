@@ -22,6 +22,7 @@ if ($generator->ns !== $generator->queryNs) {
 }
 
 $queryFields = [];
+$queryBetweenFields = [];
 $orderByFields = [];
 $indexByFields = [];
 $returnByFields = [];
@@ -34,8 +35,14 @@ foreach ($labels as $name => $label) {
     ) {
         $queryFields[lcfirst(Inflector::camelize($name))] = $name;
     }
+    if (in_array(substr($name, -3), ['_at'], true)
+        || in_array(substr($name, -5), ['_date'], true)
+    ) {
+        $queryBetweenFields[lcfirst(Inflector::camelize($name)) . 'Between'] = $name;
+    }
     if (in_array($name, ['position', 'priority'], true)
         || in_array(substr($name, -3), ['_id', '_at'], true)
+        || in_array(substr($name, -5), ['_date'], true)
     ) {
         $orderByFields['orderBy' . Inflector::camelize($name)] = $name;
     }
@@ -74,6 +81,10 @@ foreach ($queryFields as $name => $field) {
     }
 }
 echo " *\n";
+foreach ($queryBetweenFields as $name => $field) {
+    echo " * @method $className $name(\$from, \$to = null)\n";
+}
+echo " *\n";
 foreach ($orderByFields as $name => $field) {
     echo " * @method $className $name(\$sort = SORT_ASC)\n";
 }
@@ -108,6 +119,9 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->queryBaseClass, '\\
                 'queryFields' => [
 <?php foreach ($queryFields as $name => $field) {
     echo "                    '{$name}' => '{$field}',\n";
+} ?>
+<?php foreach ($queryBetweenFields as $name => $field) {
+    echo "                    '{$name}' => ['{$field}' => 'BETWEEN'],\n";
 } ?>
                 ],
                 'queryConditions' => [],

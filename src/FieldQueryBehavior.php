@@ -296,8 +296,14 @@ class FieldQueryBehavior extends Behavior
             $field = $this->buildAliasField($field);
             if ($op) {
                 if (strtoupper($op) === 'BETWEEN') {
-                    $value2 = array_shift($params);
-                    $owner->andWhere([$op, $field, $value, $value2]);
+                    $value2 = $params ? array_shift($params) : null;
+                    if ($value2 === null) {
+                        $owner->andWhere(['>=', $field, $value]);
+                    } else if ($value === null) {
+                        $owner->andWhere(['<=', $field, $value2]);
+                    } else {
+                        $owner->andWhere([$op, $field, $value, $value2]);
+                    }
                 } else {
                     $owner->andWhere([$op, $field, $value]);
                 }

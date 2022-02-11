@@ -143,6 +143,10 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             'return_service' => 'N',
             'signature_service' => 'N',
         ],
+        'oconsignment_desc' => [
+            'phone' => '000-0000-0000',
+            'email' => 'lujie.zhou@cclife.de',
+        ]
     ];
 
     public $defaultOrderItemData = [
@@ -368,8 +372,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'company' => $address->companyName,
                 'last_name' => $address->lastName,
                 'first_name' => $address->firstName,
-                'phone' => $address->phone ?: '000-0000-0000',
-                'email' => $address->email,
+                'phone' => $address->phone ?: ($this->defaultOrderData['oconsignment_desc']['phone'] ?? ''),
+                'email' => $address->email ?: ($this->defaultOrderData['oconsignment_desc']['email'] ?? ''),
             ],
             'oconsignment_sku' => $orderItems,
         ]);

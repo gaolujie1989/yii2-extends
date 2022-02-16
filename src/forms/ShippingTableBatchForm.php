@@ -25,7 +25,8 @@ class ShippingTableBatchForm extends BatchForm
             'length_cm_limit', 'width_cm_limit', 'height_cm_limit',
             'l2wh_cm_limit', 'lwh_cm_limit', 'lh_cm_limit',
             'volume_l_limit',
-            'started_time', 'ended_time'
+            'started_time', 'ended_time',
+            'owner_id'
         ];
     }
 
@@ -41,6 +42,7 @@ class ShippingTableBatchForm extends BatchForm
                 'l2wh_cm_limit', 'lwh_cm_limit', 'lh_cm_limit',
                 'volume_l_limit'], 'number'],
             [['started_time', 'ended_time'], 'string'],
+            [['owner_id'], 'integer'],
         ];
     }
 }

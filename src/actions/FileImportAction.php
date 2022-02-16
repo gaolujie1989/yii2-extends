@@ -29,6 +29,11 @@ class FileImportAction extends Action
     public $importModel;
 
     /**
+     * @var string
+     */
+    public $memoryLimit = '512M';
+
+    /**
      * @return FileImportForm
      * @throws ServerErrorHttpException
      * @throws \Throwable
@@ -38,6 +43,8 @@ class FileImportAction extends Action
      */
     public function run(): FileImportForm
     {
+        $memoryLimit = ini_get('memory_limit');
+        ini_set('memory_limit', $this->memoryLimit);
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }
@@ -46,8 +53,10 @@ class FileImportAction extends Action
         $model = Yii::createObject($this->importModel);
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($model->import() === false && !$model->hasErrors()) {
+            ini_set('memory_limit', $memoryLimit);
             throw new ServerErrorHttpException('Failed to import for unknown reason.');
         }
+        ini_set('memory_limit', $memoryLimit);
         return $model;
     }
 }

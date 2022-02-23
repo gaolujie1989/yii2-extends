@@ -15,6 +15,7 @@ use yii\rbac\Rule;
 
 /**
  * Class ModelRule
+ * 数据权限，行数据执行过滤规则，判断模型是否匹配有权限
  * @package lujie\auth\rules
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

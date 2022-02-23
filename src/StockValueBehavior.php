@@ -42,15 +42,6 @@ class StockValueBehavior extends Behavior
     /**
      * @var array
      */
-    public $logValueReasons = [
-        StockConst::MOVEMENT_REASON_OUTBOUND,
-        StockConst::MOVEMENT_REASON_TRANSFER_OUT,
-        StockConst::MOVEMENT_REASON_CORRECT,
-    ];
-
-    /**
-     * @var array
-     */
     public $averageValueReasons = [
         StockConst::MOVEMENT_REASON_INBOUND,
         StockConst::MOVEMENT_REASON_TRANSFER_IN,
@@ -63,8 +54,8 @@ class StockValueBehavior extends Behavior
     public function events(): array
     {
         return [
-            ActiveRecordStockManager::EVENT_BEFORE_MOVEMENT => 'beforeStockMovement',
-            ActiveRecordStockManager::EVENT_AFTER_MOVEMENT => 'afterStockMovement',
+            BaseStockManager::EVENT_BEFORE_MOVEMENT => 'beforeStockMovement',
+            BaseStockManager::EVENT_AFTER_MOVEMENT => 'afterStockMovement',
         ];
     }
 
@@ -77,9 +68,7 @@ class StockValueBehavior extends Behavior
     public function beforeStockMovement(StockMovementEvent $event): void
     {
         $stockValue = $this->getStockValue($event->itemId, $event->locationId);
-        if (in_array($event->reason, $this->logValueReasons, true)) {
-            $event->additional[$this->movedItemValueAttribute] = $stockValue;
-        }
+        $event->additional[$this->movedItemValueAttribute] = $stockValue;
         //set transferOut stock item value, using in transferIn
         if ($event->reason === StockConst::MOVEMENT_REASON_TRANSFER_OUT) {
             $this->transferOutItemValue = $stockValue;

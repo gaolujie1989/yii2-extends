@@ -115,7 +115,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function get<?= $name ?>(): <?= $queryClassName . "Query\n" ?>
+    public function get<?= $name ?>(): <?= $relationsClassHints[$name] . "\n" ?>
     {
         <?= $relation[0] . "\n" ?>
     }

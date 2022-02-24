@@ -11,6 +11,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\console\Controller;
 use yii\di\Instance;
+use yii\helpers\VarDumper;
 
 /**
  * Class DevController
@@ -48,7 +49,7 @@ class DevController extends Controller
         if ($this->dependencyChecker->check()) {
             echo "No Invalid Dependency\n";
         } else {
-            print_r($this->dependencyChecker->getInvalidNs());
+            VarDumper::dump($this->dependencyChecker->getInvalidNs());
         }
     }
 }

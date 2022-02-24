@@ -13,6 +13,7 @@ return [
         ],
         'require' => [
             'lujie/yii2-data-exchange',
+            'lujie/yii2-charging',
         ]
     ],
 ];

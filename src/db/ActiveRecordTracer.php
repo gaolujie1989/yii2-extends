@@ -58,7 +58,9 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
-        $this->appendUpdatedAttributes($model);
+        if ($model->getDirtyAttributes()) {
+            $this->appendUpdatedAttributes($model);
+        }
     }
 
     /**
@@ -87,7 +89,8 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
             $model->setAttribute($this->updatedAtAttribute, time());
         }
         if ($model->hasAttribute($this->updatedByAttribute)) {
-            if (($value = IdentityHelper::getId()) || $this->saveEmptyOnUpdateBy) {
+            $value = IdentityHelper::getId();
+            if ($this->saveEmptyOnUpdateBy || $value) {
                 $model->setAttribute($this->updatedByAttribute, $value);
             }
         }

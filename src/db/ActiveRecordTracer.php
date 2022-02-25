@@ -41,7 +41,7 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function beforeInsert(Event $event)
+    public function beforeInsert(Event $event): void
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
@@ -54,7 +54,7 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function beforeUpdate(Event $event)
+    public function beforeUpdate(Event $event): void
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;

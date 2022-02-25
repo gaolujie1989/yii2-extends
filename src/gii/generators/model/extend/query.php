@@ -94,7 +94,7 @@ foreach ($indexByFields as $name => $field) {
 }
 echo " *\n";
 foreach ($returnByFields as $name => $field) {
-    echo " * @method array $name()\n";
+    echo " * @method array $name(\$indexBy = null)\n";
 }
 ?>
  *

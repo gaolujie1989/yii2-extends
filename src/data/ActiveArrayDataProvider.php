@@ -108,10 +108,11 @@ class ActiveArrayDataProvider extends ActiveDataProvider
             }
             if (method_exists($modelClass, 'sorts')) {
                 $sort->attributes = array_merge($sort->attributes, $modelClass::sorts());
+                $sort->init();
             }
-            if (method_exists($model, 'sorts')) {
-                $sort->attributes = array_merge($sort->attributes, $model->sorts());
-            }
+//            if (method_exists($model, 'sorts')) {
+//                $sort->attributes = array_merge($sort->attributes, $model->sorts());
+//            }
         }
     }
 }

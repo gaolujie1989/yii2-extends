@@ -64,7 +64,7 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
      * @return $this
      * @inheritdoc
      */
-    public function notQueuedOrQueuedButNotExecuted($queuedDuration = 3600): self
+    public function notQueuedOrQueuedButNotExecuted(int $queuedDuration = 3600): self
     {
         return $this->andWhere(['OR',
             ['!=', 'item_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],

@@ -22,6 +22,7 @@ use yii\httpclient\Response;
  * @method array editSkuPicture(array $data)
  * @method array uploadSkuReport(array $data)
  * @method array createSku(array $data)
+ * @method array editSku(array $data)
  * @method array getInventory(array $data)
  * @method array getInventoryLog(array $data)
  * @method array getInventoryDetail(array $data)
@@ -93,6 +94,9 @@ class F4pxClient extends BaseJsonRpcClient
         'createSku' => [
 //            'method' => 'fu.wms.sku.create',
             'method' => 'fu.wms.sku.newcreate',
+        ],
+        'editSku' => [
+            'method' => 'fu.wms.sku.edit',
         ],
         'getInventory' => [
             'method' => 'fu.wms.inventory.get',

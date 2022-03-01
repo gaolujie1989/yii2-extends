@@ -283,7 +283,10 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     {
         if ($fulfillmentItem->external_item_key) {
             $externalItem['sku_id'] = $fulfillmentItem->external_item_key;
-//            $this->client->editSku($externalItem);
+            //4PX推送成功的, 不重新推送, 除非手动
+            if (empty($fulfillmentItem->item_pushed_at)) {
+                $this->client->editSku($externalItem);
+            }
             return $externalItem;
         }
         return $this->client->createSku($externalItem);

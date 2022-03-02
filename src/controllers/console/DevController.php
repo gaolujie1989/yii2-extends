@@ -50,6 +50,7 @@ class DevController extends Controller
             echo "No Invalid Dependency\n";
         } else {
             VarDumper::dump($this->dependencyChecker->getInvalidNs());
+            VarDumper::dump($this->dependencyChecker->getLoopRequired());
         }
     }
 }

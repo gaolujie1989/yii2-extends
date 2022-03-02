@@ -142,34 +142,26 @@ class DependencyChecker extends BaseObject
 
     /**
      * @param array $extension
-     * @inheritdoc
-     */
-    public function checkRequiredLoop(array $extension): void
-    {
-        $extensionName = $extension['name'];
-        $requiredExtensionNames = $this->getRequiredExtensionNames($extension);
-        if (in_array($extensionName, $requiredExtensionNames, true)) {
-            $this->loopRequired[] = $extensionName;
-        }
-    }
-
-    /**
-     * @param array $extension
      * @return array
      * @inheritdoc
      */
-    public function getRequiredExtensionNames(array $extension): array
+    public function checkRequiredLoop(array $extension, ?string $extensionName = null): void
     {
         $dependencyExtensionNames = $extension[$this->dependencyKey] ?? [];
         if (empty($dependencyExtensionNames)) {
-            return [];
+            return;
         }
-        $requiredNs = [$dependencyExtensionNames];
+        if ($extensionName === null) {
+            $extensionName = $extension['name'];
+        }
+        if (in_array($extensionName, $dependencyExtensionNames, true)) {
+            $this->loopRequired[] = $extensionName;
+            return;
+        }
         foreach ($dependencyExtensionNames as $dependencyExtensionName) {
             $dependencyExtension = $this->extensions[$dependencyExtensionName];
-            $requiredNs[] = $this->getRequiredExtensionNames($dependencyExtension);
+            $this->checkRequiredLoop($dependencyExtension, $extensionName);
         }
-        return array_merge(...$requiredNs);
     }
 
     /**

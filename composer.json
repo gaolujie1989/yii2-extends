@@ -1,7 +1,10 @@
 {
-  "name": "lujie/yii2-common-address",
-  "description": "Yii2 common address",
-  "keywords": ["yii2", "address"],
+  "name": "lujie/yii2-common-models",
+  "description": "Yii2 common models",
+  "keywords": [
+    "yii2",
+    "models"
+  ],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {

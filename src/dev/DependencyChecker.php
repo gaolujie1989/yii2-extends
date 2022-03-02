@@ -36,6 +36,11 @@ class DependencyChecker extends BaseObject
     private $invalidNs = [];
 
     /**
+     * @var array
+     */
+    private $loopRequired = [];
+
+    /**
      * @var string
      */
     public $dependencyKey = 'require';
@@ -47,51 +52,74 @@ class DependencyChecker extends BaseObject
     {
         $this->invalidNs = [];
         foreach ($this->extensions as $extension) {
-            if (empty($extension['alias'])) {
+            $this->checkCodeNs($extension);
+            $this->checkRequiredLoop($extension);
+        }
+        return empty($this->invalidNs) && empty($this->loopRequired);
+    }
+
+    /**
+     * @param array $extension
+     * @inheritdoc
+     */
+    public function checkCodeNs(array $extension): void
+    {
+        if (empty($extension['alias'])) {
+            return;
+        }
+        foreach ($extension['alias'] as $alias => $path) {
+            if (strpos($alias, 'test') !== false) {
                 continue;
             }
-            foreach ($extension['alias'] as $alias => $path) {
-                if (strpos($alias, 'test') !== false) {
-                    continue;
-                }
-                $extensionNs = strtr(substr($alias, 1), ['/' => '\\']);
-                $extensionFiles = glob($path . '/*.php');
-                foreach ($extensionFiles as $codeFile) {
-                    $checkNs = $this->getCheckNs($codeFile);
-                    $invalidNs = array_filter($checkNs, function ($ns) use ($extension, $extensionNs) {
-                        if (strpos($ns, $extensionNs) === 0) {
-                            return false;
-                        }
-                        if (empty($extension[$this->dependencyKey])) {
-                            return true;
-                        }
-                        foreach ($extension[$this->dependencyKey] as $dependencyExtensionName) {
-                            if (empty($this->extensions[$dependencyExtensionName]['alias'])) {
-                                continue;
-                            }
-                            foreach ($this->extensions[$dependencyExtensionName]['alias'] as $dependencyAlias => $dependencyPath) {
-                                $dependencyNs = strtr(substr($dependencyAlias, 1), ['/' => '\\']);
-                                if (strpos($ns, $dependencyNs) === 0) {
-                                    return false;
-                                }
-                            }
-                        }
-                        return true;
-                    });
-                    if ($invalidNs) {
-                        $this->invalidNs[$alias][$codeFile] = $invalidNs;
+            $extensionNs = strtr(substr($alias, 1), ['/' => '\\']);
+            $extensionFiles = glob($path . '/*.php');
+            foreach ($extensionFiles as $codeFile) {
+                $checkNs = $this->getCodeRequiredNs($codeFile);
+                $invalidNs = array_filter($checkNs, function ($ns) use ($extension, $extensionNs) {
+                    if (strpos($ns, $extensionNs) === 0) {
+                        return false;
                     }
+                    return !$this->isNsValid($ns, $extension);
+                });
+                if ($invalidNs) {
+                    $this->invalidNs[$alias][$codeFile] = $invalidNs;
                 }
             }
         }
-        return empty($this->invalidNs);
+    }
+
+    /**
+     * @param string $ns
+     * @param array $extension
+     * @return bool
+     * @inheritdoc
+     */
+    public function isNsValid(string $ns, array $extension): bool
+    {
+        $dependencyExtensionNames = $extension[$this->dependencyKey] ?? [];
+        if (empty($dependencyExtensionNames)) {
+            return false;
+        }
+        foreach ($dependencyExtensionNames as $dependencyExtensionName) {
+            $dependencyExtensionAliases = $this->extensions[$dependencyExtensionName]['alias'] ?? [];
+            if (empty($dependencyExtensionAliases)) {
+                continue;
+            }
+            foreach ($dependencyExtensionAliases as $dependencyAlias => $dependencyPath) {
+                $dependencyNs = strtr(substr($dependencyAlias, 1), ['/' => '\\']);
+                if (strpos($ns, $dependencyNs) === 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
      * @param string $codeFile
      * @return array
      */
-    public function getCheckNs(string $codeFile): array
+    public function getCodeRequiredNs(string $codeFile): array
     {
         $codeContent = file_get_contents($codeFile);
         if (preg_match_all('/use ([\w\\\]+);/', $codeContent, $matches)) {
@@ -113,11 +141,52 @@ class DependencyChecker extends BaseObject
     }
 
     /**
+     * @param array $extension
+     * @inheritdoc
+     */
+    public function checkRequiredLoop(array $extension): void
+    {
+        $extensionName = $extension['name'];
+        $requiredExtensionNames = $this->getRequiredExtensionNames($extension);
+        if (in_array($extensionName, $requiredExtensionNames, true)) {
+            $this->loopRequired[] = $extensionName;
+        }
+    }
+
+    /**
+     * @param array $extension
+     * @return array
+     * @inheritdoc
+     */
+    public function getRequiredExtensionNames(array $extension): array
+    {
+        $dependencyExtensionNames = $extension[$this->dependencyKey] ?? [];
+        if (empty($dependencyExtensionNames)) {
+            return [];
+        }
+        $requiredNs = [$dependencyExtensionNames];
+        foreach ($dependencyExtensionNames as $dependencyExtensionName) {
+            $dependencyExtension = $this->extensions[$dependencyExtensionName];
+            $requiredNs[] = $this->getRequiredExtensionNames($dependencyExtension);
+        }
+        return array_merge(...$requiredNs);
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */
     public function getInvalidNs(): array
     {
         return $this->invalidNs;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getLoopRequired(): array
+    {
+        return $this->loopRequired;
     }
 }

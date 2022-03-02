@@ -4,8 +4,8 @@
  */
 
 return [
-    'lujie/yii2-fulfillment-connect' => [
-        'name' => 'lujie/yii2-fulfillment-connect',
+    'lujie/yii2-fulfillment' => [
+        'name' => 'lujie/yii2-fulfillment',
         'version' => 'dev-master',
         'alias' => [
             '@lujie/fulfillment' => __DIR__ . '/src',

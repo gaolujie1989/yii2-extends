@@ -17,12 +17,12 @@ class DependencyChecker extends BaseObject
     /**
      * @var string[]
      */
-    public $checkNsPrefixes = ['lujie'];
+    public $checkNsPrefixes = ['lujie', 'kiwi'];
 
     /**
      * @var string[]
      */
-    public $dependencyNsPrefixes = ['lujie\extend', 'lujie\common', 'lujie\data'];
+    public $dependencyNsPrefixes = ['lujie\extend', 'lujie\common', 'lujie\data', 'kiwi\common'];
 
     /**
      * yii extension config

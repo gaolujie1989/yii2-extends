@@ -137,7 +137,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->queryBaseClass, '\\
                 ],
                 'queryReturns' => [
 <?php foreach ($returnByFields as $name => $field) {
-    echo "                    '{$name}' => '{$field}',\n";
+    echo "                    '{$name}' => ['{$field}', FieldQueryBehavior::RETURN_COLUMN],\n";
 } ?>
                 ]
             ]

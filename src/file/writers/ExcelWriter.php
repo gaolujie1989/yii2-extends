@@ -50,15 +50,6 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             unlink($file);
         }
         FileHelper::createDirectory(dirname($file));
-        if ($this->keyAsHeader) {
-            if ($this->multiSheet) {
-                array_walk($data, static function (&$datum) {
-                    array_unshift($datum, array_keys(reset($datum)));
-                });
-            } else {
-                array_unshift($data, array_keys(reset($data)));
-            }
-        }
 
         $withStyle = count($data) === 2 && isset($data['data'], $data['style']);
         if ($this->adapter === self::ADAPTER_PHP_SPREAD_SHEET || $this->withImage || $withStyle) {
@@ -78,9 +69,15 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
         $writer = new XLSXWriter();
         if ($this->multiSheet) {
             foreach ($data as $key => $datum) {
+                if ($this->keyAsHeader) {
+                    array_unshift($datum, array_keys(reset($datum)));
+                }
                 $writer->writeSheet($datum, $key);
             }
         } else {
+            if ($this->keyAsHeader) {
+                array_unshift($data, array_keys(reset($data)));
+            }
             $writer->writeSheet($data);
         }
         $writer->writeToFile($file);
@@ -125,6 +122,9 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             $this->setSheetStyle($sheet, $data['style']);
             return;
         }
+        if ($this->keyAsHeader) {
+            array_unshift($data, array_keys(reset($data)));
+        }
         if ($this->withImage) {
             $rowIndex = 1;
             foreach ($data as $values) {
@@ -155,13 +155,21 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      */
     protected function setSheetStyle(Worksheet $sheet, array $styles): void
     {
-        foreach ($styles as $cell => $style) {
-            if ($cell = $sheet->getStyle($cell)) {
+        foreach ($styles as $pos => $style) {
+            if ($cellStyle = $sheet->getStyle($pos)) {
                 foreach ($style as $key => $value) {
-                    $alignment = $cell->getAlignment();
+                    $alignment = $cellStyle->getAlignment();
                     $method = 'set' . ucfirst($key);
                     if (method_exists($alignment, $method)) {
                         $alignment->{$method}($value);
+                    }
+                }
+            }
+            if (!is_numeric($pos[strlen($pos) - 1]) && $dimension = $sheet->getColumnDimension($pos)) {
+                foreach ($style as $key => $value) {
+                    $method = 'set' . ucfirst($key);
+                    if (method_exists($dimension, $method)) {
+                        $dimension->{$method}($value);
                     }
                 }
             }

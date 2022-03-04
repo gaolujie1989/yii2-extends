@@ -144,7 +144,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
                 $rowIndex++;
             }
         } else {
-            $sheet->fromArray($data);
+            $sheet->fromArray($data, null, 'A1', true);
         }
     }
 

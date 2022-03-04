@@ -34,7 +34,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     /**
      * @var string
      */
-    public $adapter = 'XLSXWriter';
+    public $adapter = self::ADAPTER_XLSX_WRITER;
 
     /**
      * @param string $file
@@ -60,10 +60,11 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             }
         }
 
-        if ($this->adapter === self::ADAPTER_XLSX_WRITER && !$this->withImage) {
-            $this->writeByXLSXWriter($file, $data);
-        } else {
+        $withStyle = count($data) === 2 && isset($data['data'], $data['style']);
+        if ($this->adapter === self::ADAPTER_PHP_SPREAD_SHEET || $this->withImage || $withStyle) {
             $this->writeByPhpSpreadsheet($file, $data);
+        } else {
+            $this->writeByXLSXWriter($file, $data);
         }
     }
 
@@ -119,6 +120,11 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
      */
     protected function setSheetData(Worksheet $sheet, array $data): void
     {
+        if (count($data) === 2 && isset($data['data'], $data['style'])) {
+            $this->setSheetData($sheet, $data['data']);
+            $this->setSheetStyle($sheet, $data['style']);
+            return;
+        }
         if ($this->withImage) {
             $rowIndex = 1;
             foreach ($data as $values) {
@@ -139,6 +145,26 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
             }
         } else {
             $sheet->fromArray($data);
+        }
+    }
+
+    /**
+     * @param Worksheet $sheet
+     * @param array $styles
+     * @inheritdoc
+     */
+    protected function setSheetStyle(Worksheet $sheet, array $styles): void
+    {
+        foreach ($styles as $cell => $style) {
+            if ($cell = $sheet->getStyle($cell)) {
+                foreach ($style as $key => $value) {
+                    $alignment = $cell->getAlignment();
+                    $method = 'set' . ucfirst($key);
+                    if (method_exists($alignment, $method)) {
+                        $alignment->{$method}($value);
+                    }
+                }
+            }
         }
     }
 }

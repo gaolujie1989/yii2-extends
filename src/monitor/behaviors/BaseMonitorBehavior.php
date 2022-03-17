@@ -91,6 +91,7 @@ abstract class BaseMonitorBehavior extends Behavior
         }
         $this->lastProgressUpdateAt = $now;
         $data = [
+            'status' => ExecStatusConst::EXEC_STATUS_RUNNING,
             'memory_usage' => memory_get_peak_usage(),
             'additional' => $this->getExecutableAdditional($event->executable),
         ];

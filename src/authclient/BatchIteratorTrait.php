@@ -85,7 +85,7 @@ trait BatchIteratorTrait
 
     /**
      * @param array $responseData
-     * @return array
+     * @return string|null
      * @throws \Exception
      * @inheritdoc
      */

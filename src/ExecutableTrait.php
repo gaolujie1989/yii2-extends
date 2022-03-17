@@ -30,6 +30,11 @@ trait ExecutableTrait
     public $executable;
 
     /**
+     * @var string[]
+     */
+    public $executeMethods = ['handle', 'run'];
+
+    /**
      * @return int|string
      * @inheritdoc
      */
@@ -52,37 +57,33 @@ trait ExecutableTrait
     }
 
     /**
-     * @return bool
+     * @return mixed|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function execute(): bool
+    public function execute()
     {
         $executable = $this->executable;
         if ($executable) {
-            if (is_object($executable) && $executable instanceof ExecutableInterface) {
-                $executable->execute();
-                return true;
+            if ($executable instanceof ExecutableInterface) {
+                return $executable->execute();
             }
             if (is_array($executable) && isset($executable['class'])) {
                 $callbackObject = Yii::createObject($executable);
                 if ($callbackObject instanceof ExecutableInterface) {
-                    $callbackObject->execute();
-                    return false;
+                    return $callbackObject->execute();
                 }
             }
             if (is_callable($executable)) {
-                $executable();
-                return true;
+                return $executable();
             }
         }
-        $aliasMethods = ['handle', 'run'];
-        foreach ($aliasMethods as $method) {
+
+        foreach ($this->executeMethods as $method) {
             if (method_exists($this, $method)) {
-                $this->{$method}();
-                return true;
+                return $this->{$method}();
             }
         }
-        return false;
+        return null;
     }
 }

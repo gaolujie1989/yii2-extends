@@ -24,6 +24,7 @@ class Executor extends Component
     public const EVENT_BEFORE_EXEC = 'beforeExec';
     public const EVENT_AFTER_EXEC = 'afterExec';
     public const EVENT_AFTER_SKIP = 'afterSkip';
+    public const EVENT_UPDATE_PROGRESS = 'updateProgress';
 
     /**
      * @var Queue
@@ -136,7 +137,20 @@ class Executor extends Component
                 return false;
             }
 
-            $event->result = $event->executable->execute();
+            $result = $event->executable->execute();
+            if ($event->executable instanceof ProgressInterface && $result instanceof \Generator) {
+                foreach ($result as $item) {
+                    $event->result = $item;
+                    $event->progress = $event->executable->getProgress();
+                    $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
+                    if ($event->progress->break) {
+                        $event->error = 'User Break';
+                        break;
+                    }
+                }
+            } else {
+                $event->result = $result;
+            }
 
             $this->trigger(self::EVENT_AFTER_EXEC, $event);
             return true;

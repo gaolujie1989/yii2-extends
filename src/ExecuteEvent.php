@@ -34,4 +34,9 @@ class ExecuteEvent extends Event
      * @var mixed
      */
     public $result;
+
+    /**
+     * @var Progress|null
+     */
+    public $progress;
 }

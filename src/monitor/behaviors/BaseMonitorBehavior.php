@@ -13,7 +13,9 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\ExceptionHelper;
 use yii\base\Behavior;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use function PHPUnit\Framework\containsIdentical;
 
 /**
  * Class BaseMonitorBehavior
@@ -54,6 +56,16 @@ abstract class BaseMonitorBehavior extends Behavior
     public $additionalCallback;
 
     /**
+     * @var int
+     */
+    public $lastProgressUpdateAt = 0;
+
+    /**
+     * @var int
+     */
+    public $progressUpdateInterval = 2;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -64,7 +76,29 @@ abstract class BaseMonitorBehavior extends Behavior
             Executor::EVENT_BEFORE_EXEC => 'beforeExec',
             Executor::EVENT_AFTER_EXEC => 'afterExec',
             Executor::EVENT_AFTER_SKIP => 'afterSkip',
+            Executor::EVENT_UPDATE_PROGRESS => 'updateProgress',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function updateProgress(ExecuteEvent $event): void
+    {
+        $now = time();
+        if (!$event->progress->break && $now - $this->lastProgressUpdateAt <= $this->progressUpdateInterval) {
+            return;
+        }
+        $this->lastProgressUpdateAt = $now;
+        $data = [
+            'memory_usage' => memory_get_peak_usage(),
+            'additional' => $this->getExecutableAdditional($event->executable),
+        ];
+        if ($event->progress) {
+            $data['additional']['progress'] = ArrayHelper::toArray($event->progress);
+        }
+        $executeManagerName = ComponentHelper::getName($event->sender);
+        $this->saveExec($event->executable, $executeManagerName, $data);
     }
 
     /**
@@ -74,10 +108,13 @@ abstract class BaseMonitorBehavior extends Behavior
      */
     public function getExecutableAdditional(ExecutableInterface $executable): array
     {
+        $additional = [];
         if ($this->additionalCallback && is_callable($this->additionalCallback)) {
-            return call_user_func($this->additionalCallback, $executable);
+            $additional = call_user_func($this->additionalCallback, $executable);
+        } else if (method_exists($executable, 'getAdditional')) {
+            $additional = $executable->getAdditional();
         }
-        return [];
+        return $additional ?: [];
     }
 
     /**
@@ -131,6 +168,9 @@ abstract class BaseMonitorBehavior extends Behavior
         if ($event->error) {
             $data['error'] = ExceptionHelper::getMessage($event->error);
         }
+        if ($event->progress) {
+            $data['additional']['progress'] = ArrayHelper::toArray($event->progress);
+        }
         $executeManagerName = ComponentHelper::getName($event->sender);
         $this->saveExec($event->executable, $executeManagerName, $data);
         $this->cleanExec();
@@ -165,7 +205,7 @@ abstract class BaseMonitorBehavior extends Behavior
      * @throws \Exception
      * @inheritdoc
      */
-    public function cleanExec($force = false): void
+    public function cleanExec(bool $force = false): void
     {
         if ($force || random_int(0, 10000) < $this->cleanProbability) {
             $condition = ['OR'];

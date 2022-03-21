@@ -39,6 +39,11 @@ class ActiveArrayDataProvider extends ActiveDataProvider
     public $typecast = false;
 
     /**
+     * @var bool
+     */
+    public $prepareArray = true;
+
+    /**
      * @return array
      * @throws InvalidConfigException
      * @inheritdoc
@@ -82,7 +87,8 @@ class ActiveArrayDataProvider extends ActiveDataProvider
      */
     public function isPrepareArray(): bool
     {
-        return $this->query instanceof ActiveQueryInterface
+        return $this->prepareArray
+            && $this->query instanceof ActiveQueryInterface
             && (method_exists($this->query->modelClass, $this->prepareArrayMethod) || method_exists($this->query->modelClass, $this->prepareRowsMethod));
     }
 

@@ -175,6 +175,7 @@ class ActiveController extends \yii\rest\ActiveController
                         'queryMethod' => $methodName,
                         'expandParam' => false,
                         'dataProviderConfig' => [
+                            'prepareArray' => false,
                             'pagination' => false,
                             'sort' => false,
                         ]

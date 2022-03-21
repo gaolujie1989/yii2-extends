@@ -57,7 +57,7 @@ class FileExportAction extends Action
     /**
      * @var int
      */
-    public $exportLimit = 20000;
+    public $exportLimit = 0;
 
     /**
      * @var string
@@ -101,7 +101,9 @@ class FileExportAction extends Action
 
         $fileExporter = $this->fileExporter;
         $query = $this->queryPreparer->prepare($this->modelClass, $requestParams);
-        $query->limit($this->exportLimit);
+        if ($this->exportLimit) {
+            $query->limit($this->exportLimit);
+        }
         $fileExporter->source = Yii::createObject(array_merge($this->sourceConfig, ['query' => $query]));
         $fileExporter->prepare($this->filePath);
         $executed = $this->executor

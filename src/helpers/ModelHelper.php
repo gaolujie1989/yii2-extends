@@ -296,7 +296,9 @@ class ModelHelper
         //prepare alias
         foreach ($aliasProperties as $aliasProperty => $attribute) {
             $aliasRawValue = ArrayHelper::getValue($row, $attribute);
-            $row[$aliasProperty] = $aliasRawValue;
+            if (!isset($row[$aliasProperty]) && $aliasRawValue !== null) {
+                $row[$aliasProperty] = $aliasRawValue;
+            }
             if (is_numeric($aliasRawValue)) {
                 if (StringHelper::endsWith($attribute, '_at')) {
                     $row[$aliasProperty] = $aliasRawValue ? date('Y-m-d H:i:s', $aliasRawValue) : '';

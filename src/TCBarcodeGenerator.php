@@ -5,7 +5,8 @@
 
 namespace lujie\barcode\generating;
 
-use Picqer\Barcode\BarcodeGeneratorJPG;
+use Picqer\Barcode\BarcodeGenerator;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 use Picqer\Barcode\Exceptions\BarcodeException;
 use Yii;
 use yii\base\BaseObject;
@@ -19,7 +20,7 @@ use yii\base\NotSupportedException;
 class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
 {
     /**
-     * @var BarcodeGeneratorJPG
+     * @var BarcodeGenerator
      */
     private $tcBarcode;
 
@@ -27,17 +28,17 @@ class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
      * @var array
      */
     public $codeTypeMap = [
-        self::CODE128 => BarcodeGeneratorJPG::TYPE_CODE_128,
-        self::EAN13 => BarcodeGeneratorJPG::TYPE_EAN_13,
+        self::CODE128 => BarcodeGenerator::TYPE_CODE_128,
+        self::EAN13 => BarcodeGenerator::TYPE_EAN_13,
     ];
 
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
-        $this->tcBarcode = new BarcodeGeneratorJPG();
+        $this->tcBarcode = new BarcodeGeneratorPNG();
     }
 
     /**

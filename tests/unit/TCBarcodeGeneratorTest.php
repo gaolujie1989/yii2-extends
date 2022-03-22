@@ -10,14 +10,6 @@ use lujie\barcode\generating\TCBarcodeGenerator;
 
 class TCBarcodeGeneratorTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \Picqer\Barcode\Exceptions\BarcodeException
      * @throws \yii\base\NotSupportedException

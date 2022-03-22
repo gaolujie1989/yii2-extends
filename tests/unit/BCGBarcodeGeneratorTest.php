@@ -10,14 +10,6 @@ use lujie\barcode\generating\BCGBarcodeGenerator;
 
 class BCGBarcodeGeneratorTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \BarcodeBakery\Common\BCGArgumentException
      * @throws \BarcodeBakery\Common\BCGDrawException

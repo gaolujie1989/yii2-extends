@@ -15,7 +15,8 @@
     }
   ],
   "require": {
-    "picqer/php-barcode-generator": "~0.3"
+    "picqer/php-barcode-generator": "~2.2",
+    "barcode-bakery/barcode-1d": "~7.0"
   },
   "autoload": {
     "psr-4": {

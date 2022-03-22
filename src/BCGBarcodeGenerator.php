@@ -74,31 +74,31 @@ class BCGBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterfac
             throw new NotSupportedException($message);
         }
 
+        $fontPath = __DIR__ . '/fonts/' . $this->options['fontFamily'];
+        if ($this->options['fontFamily'] && file_exists($fontPath)) {
+            $font = new BCGFontFile($fontPath, $this->options['fontSize']);
+        } else {
+            $font = new BCGFontPhp($this->options['fontSize']);
+        }
         $colorBlack = new BCGColor(0, 0, 0);
         $colorWhite = new BCGColor(255, 255, 255);
 
+        // Barcode Part
         /** @var BCGcode128 $barcode */
         $barcode = new $this->codeTypeClasses[$codeType]();
         $barcode->setScale($this->options['scale']);
         $barcode->setThickness($this->options['thickness']);
-        $fontPath = __DIR__ . '/fonts/' . $this->options['fontFamily'];
-        if ($this->options['fontFamily'] && file_exists($fontPath)) {
-            $barcode->setFont(new BCGFontFile($fontPath, $this->options['fontSize']));
-        } else {
-            $barcode->setFont(new BCGFontPhp($this->options['fontSize']));
-        }
-        $barcode->setLabel($codeText);
         $barcode->setBackgroundColor($colorWhite);
         $barcode->setForegroundColor($colorBlack);
+        $barcode->setFont($font);
         $barcode->parse($codeText);
 
+        // Drawing Part
+        $drawing = new BCGDrawing($barcode, $colorWhite);
         $tmpFileName = $this->tmpPath . TemplateHelper::generateRandomFileName();
-        $drawing = new BCGDrawing($tmpFileName, $colorWhite);
-        $drawing->setBarcode($barcode);
         $drawing->setRotationAngle($this->options['rotation']);
         $drawing->setDPI($this->options['dpi']);
-        $drawing->draw();
-        $drawing->finish($this->options['fileType']);
+        $drawing->finish(BCGDrawing::IMG_FORMAT_PNG, $tmpFileName);
         $contents = file_get_contents($tmpFileName);
         unlink($tmpFileName);
         return $contents;

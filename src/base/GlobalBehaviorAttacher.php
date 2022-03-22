@@ -16,7 +16,7 @@ use yii\di\Instance;
  * @package lujie\extend\base
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class GlobalBehaviorAttachment extends BaseObject implements BootstrapInterface
+class GlobalBehaviorAttacher extends BaseObject implements BootstrapInterface
 {
     /**
      * @var array

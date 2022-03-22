@@ -19,14 +19,14 @@ use yii\di\Instance;
 class GlobalBehaviorAttacher extends BaseObject implements BootstrapInterface
 {
     /**
-     * @var array
-     */
-    public $modelClasses = [];
-
-    /**
      * @var array|Behavior[]
      */
     public $behaviors = [];
+
+    /**
+     * @var array
+     */
+    public $modelClasses = [];
 
     /**
      * @param \yii\base\Application $app
@@ -55,9 +55,10 @@ class GlobalBehaviorAttacher extends BaseObject implements BootstrapInterface
      */
     public function attach(): void
     {
-        foreach ($this->modelClasses as $modelClass) {
-            foreach ($this->behaviors as $behavior) {
-                foreach ($behavior->events() as $event => $handler) {
+        foreach ($this->behaviors as $key => $behavior) {
+            $behaviorAttachModelClasses = $this->modelClasses[$key] ?? [];
+            foreach ($behavior->events() as $event => $handler) {
+                foreach ($behaviorAttachModelClasses as $modelClass) {
                     Event::on($modelClass, $event, [$this, 'triggerBehavior'], [$behavior, $handler]);
                 }
             }

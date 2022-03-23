@@ -60,7 +60,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @param \yii\base\Application $app
      * @inheritdoc
      */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass) ?: $this->outboundOrderClass;
         Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);

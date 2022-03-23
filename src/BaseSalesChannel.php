@@ -48,6 +48,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     public $salesChannelStatusMap = [
         'wait_payment' => SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
         'paid' => SalesChannelConst::CHANNEL_STATUS_PAID,
+        'pending' => SalesChannelConst::CHANNEL_STATUS_PENDING,
         'shipped' => SalesChannelConst::CHANNEL_STATUS_SHIPPED,
         'cancelled' => SalesChannelConst::CHANNEL_STATUS_CANCELLED,
     ];
@@ -75,7 +76,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     public function init(): void
     {
         parent::init();
-        if ($this->account === null || !($this->account instanceof SalesChannelAccount)) {
+        if (!($this->account instanceof SalesChannelAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be SalesChannelAccount');
         }
     }
@@ -160,7 +161,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if ($newSalesChannelStatus) {
             $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
             if ($statusTransitions === null
-                ||($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions))) {
+                ||($changeActionStatus && in_array((int)$newSalesChannelStatus, $statusTransitions, true))) {
                 $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
             }
         }

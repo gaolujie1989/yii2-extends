@@ -54,6 +54,7 @@ class BCGBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterfac
         parent::init();
         $this->tmpPath = rtrim(Yii::getAlias($this->tmpPath), '/') . '/';
         require_once __DIR__ . '/barcode-bakery/BCGBarcode1D.php';
+        require_once __DIR__ . '/barcode-bakery/BCGDrawing.php';
     }
 
     /**

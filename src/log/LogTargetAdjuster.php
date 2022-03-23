@@ -238,6 +238,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function init(): void
     {
@@ -246,6 +247,9 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             $app = Yii::$app;
             $components = $app->getComponents(true);
             $email = $components['mailer']['transport']['username'] ?? null;
+            if (empty($email)) {
+                throw new InvalidConfigException('Missing emailTargetConfig');
+            }
             $this->emailTargetConfig = [
                 'message' => [
                     'from' => $email,

@@ -52,9 +52,9 @@ class ArrayAttributeHistoryHandler extends BaseAttributeHistoryHandler
         }
         if ($this->withKey) {
             $modified = [];
-            foreach ($newValue as $key => $i) {
+            foreach ($newValue as $key => $value) {
                 if (isset($oldValue[$key])) {
-                    $modified[$key] = $this->diffValue($oldValue[$key], $newValue[$key]);
+                    $modified[$key] = $this->diffValue($oldValue[$key], $value);
                     unset($newValue[$key], $oldValue[$key]);
                 }
             }

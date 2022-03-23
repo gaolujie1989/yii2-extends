@@ -69,6 +69,8 @@ class HistoryBehavior extends Behavior
 
     /**
      * @param ModelEvent $event
+     * @throws \Exception
+     * @inheritdoc
      */
     public function setOldAttributes(ModelEvent $event): void
     {
@@ -82,8 +84,8 @@ class HistoryBehavior extends Behavior
 
     /**
      * @param AfterSaveEvent $event
-     * @throws Exception
      * @throws InvalidConfigException
+     * @throws \Exception
      * @inheritdoc
      */
     public function handleAttributeHistory(AfterSaveEvent $event): void

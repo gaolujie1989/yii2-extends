@@ -17,6 +17,11 @@ class BaseAttributeHistoryHandler extends BaseObject implements AttributeHistory
     public $maxValueLength = 33;
 
     /**
+     * @var bool
+     */
+    public $strict = false;
+
+    /**
      * @param mixed $value
      * @return mixed
      * @inheritdoc
@@ -46,7 +51,9 @@ class BaseAttributeHistoryHandler extends BaseObject implements AttributeHistory
      */
     protected function diffValue($oldValue, $newValue): ?string
     {
-        if ($oldValue === $newValue) {
+        /** @noinspection TypeUnsafeComparisonInspection */
+        $isEqual = $this->strict ? $oldValue === $newValue : $oldValue == $newValue;
+        if ($isEqual) {
             return null;
         }
         if (strlen($oldValue) > $this->maxValueLength) {

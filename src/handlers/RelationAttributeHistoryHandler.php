@@ -55,9 +55,9 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
     {
         if ($this->multi) {
             return array_map([$this, 'extractValue'], $value);
-        } else {
-            return $this->extractValue($value);
         }
+
+        return $this->extractValue($value);
     }
 
     /**
@@ -100,12 +100,12 @@ class RelationAttributeHistoryHandler extends BaseAttributeHistoryHandler
                 'deleted' => $oldValue,
                 'modified' => $modified,
             ]) ?: null;
-        } else {
-            $oldValue = $this->extractValue($oldValue);
-            $newValue = $this->extractValue($newValue);
-            $modified = $this->diffRelationValue($oldValue, $newValue);
-            return $modified ? ['modified' => $modified] : null;
         }
+
+        $oldValue = $this->extractValue($oldValue);
+        $newValue = $this->extractValue($newValue);
+        $modified = $this->diffRelationValue($oldValue, $newValue);
+        return $modified ? ['modified' => $modified] : null;
     }
 
     /**

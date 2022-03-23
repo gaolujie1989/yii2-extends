@@ -242,6 +242,18 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
     public function init(): void
     {
         parent::init();
+        if (empty($this->emailTargetConfig)) {
+            $app = Yii::$app;
+            $components = $app->getComponents(true);
+            $email = $components['mailer']['transport']['username'] ?? null;
+            $this->emailTargetConfig = [
+                'message' => [
+                    'from' => $email,
+                    'to' => $email,
+                    'subject' => $app->name . ' Log',
+                ]
+            ];
+        }
         foreach ($this->defaultScenarioTargets as $scenario => $scenarioTargets) {
             $this->defaultScenarioTargets[$scenario] = array_combine($scenarioTargets, $scenarioTargets);
         }
@@ -294,7 +306,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             Yii::debug("Empty defaultScenarioTargets of scenario {$scenario}.");
             return null;
         }
-        foreach ($scenarioTargets as $key => $name) {
+        foreach ($scenarioTargets as $name) {
             $target = $this->targets[$name] ?? $this->defaultTargets[$name] ?? null;
             if (empty($target)) {
                 throw new InvalidConfigException("Null target {$name}");

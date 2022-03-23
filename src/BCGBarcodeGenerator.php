@@ -19,6 +19,8 @@ use Yii;
 use yii\base\BaseObject;
 use yii\base\NotSupportedException;
 
+require_once __DIR__ . '/barcode-bakery/BCGBarcode1D.php';
+
 /**
  * Class BCGBarcode
  * @package lujie\barcode\generating

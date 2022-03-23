@@ -5,6 +5,9 @@
 
 namespace lujie\barcode\generating;
 
+require_once __DIR__ . '/barcode-bakery/BCGBarcode1D.php';
+require_once __DIR__ . '/barcode-bakery/BCGDrawing.php';
+
 use BarcodeBakery\Barcode\BCGcode128;
 use BarcodeBakery\Barcode\BCGean13;
 use BarcodeBakery\Common\BCGArgumentException;
@@ -53,8 +56,6 @@ class BCGBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterfac
     {
         parent::init();
         $this->tmpPath = rtrim(Yii::getAlias($this->tmpPath), '/') . '/';
-        require_once __DIR__ . '/barcode-bakery/BCGBarcode1D.php';
-        require_once __DIR__ . '/barcode-bakery/BCGDrawing.php';
     }
 
     /**

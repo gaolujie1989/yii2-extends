@@ -10,8 +10,6 @@ return [
         'alias' => [
             '@lujie/barcode/generating' => __DIR__ . '/src',
             '@lujie/barcode/generating/tests' => __DIR__ . '/tests',
-            '@BarcodeBakery/Common' => __DIR__ . '/src/barcodegen6.0.0/packages/barcode-common/src',
-            '@BarcodeBakery/Barcode' => __DIR__ . '/src/barcodegen6.0.0/packages/barcode-1d/src',
         ]
     ],
 ];

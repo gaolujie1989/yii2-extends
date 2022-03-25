@@ -187,7 +187,7 @@ class FulfillmentController extends Controller
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function actionPushOrder(string $fulfillmentOrderIdsStr): void
+    public function actionPushOrders(string $fulfillmentOrderIdsStr): void
     {
         $fulfillmentOrderIds = explode(',', $fulfillmentOrderIdsStr);
         $query = FulfillmentOrder::find()->fulfillmentOrderId($fulfillmentOrderIds);
@@ -204,7 +204,7 @@ class FulfillmentController extends Controller
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function actionCancelOrder(string $fulfillmentOrderIdsStr): void
+    public function actionCancelOrders(string $fulfillmentOrderIdsStr): void
     {
         $fulfillmentOrderIds = explode(',', $fulfillmentOrderIdsStr);
         $query = FulfillmentOrder::find()->fulfillmentOrderId($fulfillmentOrderIds);

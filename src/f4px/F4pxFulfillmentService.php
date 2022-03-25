@@ -417,8 +417,13 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                     return $this->client->createOutbound($externalOrder);
                 } catch (JsonRpcException $exception) {
                     if (strpos($exception->getMessage(), '当前产品的目的地不支持该邮编') !== false) {
+                        $country = $externalOrder['oconsignment_desc']['country'];
+                        $postCode = $externalOrder['oconsignment_desc']['post_code'];
+                        $message = "{$logisticsProductCode} not ship to {$country} {$postCode}, try others";
+                        Yii::info($message, __METHOD__);
                         $notShippedLogisticsCodes[] = $logisticsProductCode;
                         $fulfillmentOrder->additional = array_merge($fulfillmentOrder->additional ?: [], ['NotShippedLogisticsCodes' => $notShippedLogisticsCodes]);
+                        sleep(1); //太快貌似4PX受不了，会报错
                         continue;
                     }
                     throw $exception;

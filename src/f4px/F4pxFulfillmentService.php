@@ -423,7 +423,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                         Yii::info($message, __METHOD__);
                         $notShippedLogisticsCodes[] = $logisticsProductCode;
                         $fulfillmentOrder->additional = array_merge($fulfillmentOrder->additional ?: [], ['NotShippedLogisticsCodes' => $notShippedLogisticsCodes]);
-                        sleep(1); //太快貌似4PX受不了，会报错
+                        sleep(2); //太快貌似4PX受不了，会报错
                         continue;
                     }
                     throw $exception;

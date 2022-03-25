@@ -144,7 +144,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     public function init(): void
     {
         parent::init();
-        if ($this->account === null || !($this->account instanceof FulfillmentAccount)) {
+        if (!($this->account instanceof FulfillmentAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be FulfillmentAccount');
         }
         $this->itemLoader = Instance::ensure($this->itemLoader, DataLoaderInterface::class);

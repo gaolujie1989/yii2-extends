@@ -396,8 +396,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @param array $externalOrder
      * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
-     * @throws JsonRpcException
      * @inheritdoc
+     * @throws JsonRpcException
      */
     protected function saveExternalOrder(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
     {
@@ -406,6 +406,27 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         }
         if ($fulfillmentOrder->external_order_key) {
             return null;
+        }
+        $logisticsProductCodes = $externalOrder['logistics_service_info']['logistics_product_code'];
+        if (is_array($logisticsProductCodes)) {
+            $exception = null;
+            $notShippedLogisticsCodes = [];
+            foreach ($logisticsProductCodes as $logisticsProductCode) {
+                $externalOrder['logistics_service_info']['logistics_product_code'] = $logisticsProductCode;
+                try {
+                    return $this->client->createOutbound($externalOrder);
+                } catch (JsonRpcException $exception) {
+                    if (strpos($exception->getMessage(), '当前产品的目的地不支持该邮编') !== false) {
+                        $notShippedLogisticsCodes[] = $logisticsProductCode;
+                        $fulfillmentOrder->additional = array_merge($fulfillmentOrder->additional ?: [], ['NotShippedLogisticsCodes' => $notShippedLogisticsCodes]);
+                        continue;
+                    }
+                    throw $exception;
+                }
+            }
+            if ($exception) {
+                throw $exception;
+            }
         } else {
             return $this->client->createOutbound($externalOrder);
         }
@@ -414,8 +435,8 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param FulfillmentOrder $fulfillmentOrder
      * @return bool
+     * @throws InvalidConfigException
      * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function pushFulfillmentOrder(FulfillmentOrder $fulfillmentOrder): bool
@@ -806,7 +827,6 @@ class F4pxFulfillmentService extends BaseFulfillmentService
     /**
      * @param Order $order
      * @return array|null
-     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function getExternalInbound(Order $order): ?array
@@ -819,16 +839,14 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @param array $externalOrder
      * @param FulfillmentOrder $fulfillmentOrder
      * @return array|null
-     * @throws JsonRpcException
      * @inheritdoc
      */
     protected function saveExternalInbound(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
     {
         if ($fulfillmentOrder->external_order_key) {
             return null;
-        } else {
-            return $this->client->createInbound($externalOrder);
         }
+        return $this->client->createInbound($externalOrder);
     }
 
     /**

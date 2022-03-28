@@ -55,17 +55,4 @@ class FileImporter extends DataExchanger
         $this->source->file = $file;
         $this->source->fs = $fs;
     }
-
-    /**
-     * @return string
-     * @throws \yii\base\Exception
-     * @inheritdoc
-     */
-    public function getExecUid(): string
-    {
-        if (!$this->execUid && $this->source->file) {
-            $this->execUid = $this->source->file;
-        }
-        return $this->execUid;
-    }
 }

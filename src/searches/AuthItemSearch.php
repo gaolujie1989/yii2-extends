@@ -5,16 +5,16 @@
 
 namespace lujie\auth\searches;
 
-use lujie\auth\models\NewAuthRule;
+use lujie\auth\models\AuthItem;
 use lujie\extend\db\SearchTrait;
 use yii\db\ActiveQueryInterface;
 
 /**
- * Class NewAuthRuleSearch
+ * Class AuthItemSearch
  * @package lujie\auth\searches
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class NewAuthRuleSearch extends NewAuthRule
+class AuthItemSearch extends AuthItem
 {
     use SearchTrait;
 
@@ -36,6 +36,7 @@ class NewAuthRuleSearch extends NewAuthRule
     {
         $fields = parent::fields();
         unset($fields['data']);
+        $fields['id'] = 'name';
         return $fields;
     }
 }

@@ -5,15 +5,14 @@
 
 namespace lujie\auth\forms;
 
-use lujie\auth\models\NewAuthRule;
-use lujie\extend\db\FormTrait;
+use yii\rbac\Item;
 
 /**
- * Class NewAuthRuleForm
+ * Class AuthItemForm
  * @package lujie\auth\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class NewAuthRuleForm extends NewAuthRule
+class AuthRoleForm extends AuthItemForm
 {
-    use FormTrait;
+    public const TYPE = Item::TYPE_ROLE;
 }

@@ -17,3 +17,8 @@ set Yii2 app behavior, can not config in main.php, because ActionAccessRule not 
 ],
 ```
 
+## Change RBAC tables
+    方便管理AuthRole,
+    默认AuthPermission/AuthRule不需要修改编辑
+    增加Menu类型Item,因为不是Permission类型，服务端权限验证不会加载
+    Form保存模型关系处理，依旧依赖AuthManager

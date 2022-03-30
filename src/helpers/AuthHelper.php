@@ -5,12 +5,70 @@
 
 namespace lujie\auth\helpers;
 
+use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 use yii\rbac\BaseManager;
 use yii\rbac\Permission;
 
+/**
+ * Class AuthHelper
+ * @package lujie\auth\helpers
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class AuthHelper
 {
+    /**
+     * @param string $module
+     * @return string
+     * @inheritdoc
+     */
+    public static function generatePermissions(string $module): array
+    {
+        $activeActionPermissions = [
+            'index' => [
+                'label' => 'List',
+                'sort' => 10,
+                'keys' => ['export'],
+            ],
+            'view' => [
+                'label' => 'View',
+                'sort' => 20,
+                'keys' => ['download']
+            ],
+            'edit' => [
+                'label' => 'Edit',
+                'sort' => 30,
+                'keys' => ['create', 'update', 'upload', 'import', 'batch-update'],
+            ],
+            'delete' => [
+                'label' => 'Delete',
+                'sort' => 40,
+                'keys' => ['create', 'update', 'import', 'batch-delete']
+            ],
+        ];
+        $components = Yii::$app->getComponents();
+        $controllers = $components['urlManager']['rules'][$module]['controller'];
+        $permissionGroups = [];
+        $sort = 100;
+        foreach ($controllers as $key => $controllerId) {
+            $groupName = Inflector::singularize($key);
+            $permissionGroups[$groupName] = [
+                'label' => ucfirst($groupName),
+                'sort' => $sort,
+                'permissions' => $activeActionPermissions,
+            ];
+            $sort += 100;
+        }
+        return [
+            $module => [
+                'label' => ucfirst($module),
+                'sort' => 100,
+                'groups' => $permissionGroups
+            ]
+        ];
+    }
+
     /**
      * @param $config
      * @param array $replaces

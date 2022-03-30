@@ -47,7 +47,7 @@ class AuthHelper
      * @throws \Exception
      * @inheritdoc
      */
-    public static function updatePermissions(array $permissionTree, BaseManager $manager, string $separator = '_', $replaces = []): void
+    public static function syncPermissions(array $permissionTree, BaseManager $manager, string $separator = '_', $replaces = []): void
     {
         $permissions = [];
         $childrenPermissions = [];

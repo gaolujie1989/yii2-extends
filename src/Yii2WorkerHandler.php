@@ -138,7 +138,7 @@ class Yii2WorkerHandler
      * @throws ErrorException
      * @inheritdoc
      */
-    public function handleMessage(TcpConnection $connection): bool
+    public function handleMessage(TcpConnection $connection, Http\Request $request): bool
     {
         $this->checkMaxRequestCount();
 
@@ -159,6 +159,7 @@ class Yii2WorkerHandler
             $domainRoot = is_string($serverConfig) ? $serverConfig : $serverConfig['root'];
             $workermanCwd = getcwd();
             chdir($domainRoot);
+            $GLOBALS['HTTP_RAW_POST_DATA'] = $request->rawBody();
             $content = $this->handleYii2AppRequest($yii2App);
             chdir($workermanCwd);
             if (strtolower($_SERVER['HTTP_CONNECTION']) === 'keep-alive') {

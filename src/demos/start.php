@@ -6,7 +6,7 @@
 // phpcs:ignoreFile
 
 use lujie\workerman\FileMonitor;
-use lujie\workerman\Yii2WebServer;
+use lujie\workerman\Yii2WorkerHandler;
 use Workerman\Worker;
 
 defined('YII_APP_BASE_PATH') or define('YII_APP_BASE_PATH', '/app/apps');
@@ -26,10 +26,15 @@ if (isset($_ENV['ENABLE_FILE_MONITOR'])) {
     $fileMonitorWorker->onWorkerStart = [$fileMonitor, 'startFileMonitoring'];
 }
 
-$webServer = new Yii2WebServer('http://0.0.0.0:8080');
-$webServer->name = 'Yii2WebApp';
-$webServer->user = 'www-data';
-$webServer->group = 'www-data';
-$webServer->count = 4;
-$webServer->addRoot('web', YII_APP_BASE_PATH . '/web/');
+$yii2WorkerHandler = new Yii2WorkerHandler();
+$yii2WorkerHandler->serverRoot = [
+    'web' => YII_APP_BASE_PATH . '/web/',
+];
+$yii2Worker = new Worker('http://0.0.0.0:8080');
+$yii2Worker->name = 'Yii2WebApp';
+$yii2Worker->user = 'www-data';
+$yii2Worker->group = 'www-data';
+$yii2Worker->count = 4;
+$yii2Worker->onWorkerStart = [$yii2WorkerHandler, 'initYii2Apps'];
+$yii2Worker->onMessage = [$yii2WorkerHandler, 'handleMessage'];
 Worker::runAll();

@@ -12,10 +12,23 @@ use yii\filters\AccessRule;
 
 /**
  * Class ResultAccessControl
+ *
+ * [
+ *  'as authResultControl' => [
+ *      'class' => '\lujie\auth\filters\ResultControl',
+ *      'rules' => [
+ *          [
+ *              'class' => 'lujie\auth\filters\ActionResultRule',
+ *              'allow' => true,
+ *          ],
+ *      ],
+ *  ]
+ * ]
+ *
  * @package lujie\auth\filters
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ResultAccessControl extends AccessControl
+class ResultControl extends AccessControl
 {
     /**
      * @param Action $action
@@ -30,7 +43,6 @@ class ResultAccessControl extends AccessControl
     /**
      * @param Action $action
      * @param mixed $result
-     * @return mixed
      * @inheritdoc
      */
     public function afterAction($action, $result)
@@ -41,9 +53,7 @@ class ResultAccessControl extends AccessControl
         $request = Yii::$app->getRequest();
         /* @var $rule AccessRule */
         foreach ($this->rules as $rule) {
-            if (empty($rule->roleParams)) {
-                $rule->roleParams = ['result' => $result];
-            }
+            $rule->roleParams['result'] = $result;
             $rule->allows($action, $user, $request);
         }
         return $result;

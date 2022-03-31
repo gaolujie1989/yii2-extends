@@ -21,7 +21,7 @@ class QueryRule extends Rule
     /**
      * @var string
      */
-    public $name = 'QueryFilter';
+    public $name = 'QueryResult';
 
     /**
      * @var array

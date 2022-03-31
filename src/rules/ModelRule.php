@@ -22,7 +22,7 @@ class ModelRule extends Rule
     /**
      * @var string
      */
-    public $name = 'ModelChecker';
+    public $name = 'ModelAccess';
 
     /**
      * @var BaseActiveRecord

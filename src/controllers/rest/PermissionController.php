@@ -30,6 +30,6 @@ class PermissionController extends ActiveController
      */
     public function actionTree(): array
     {
-        return Yii::$app->params['permissions'] ?: [];
+        return Yii::$app->params['permissions'] ?? [];
     }
 }

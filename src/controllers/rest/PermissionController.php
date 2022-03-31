@@ -1,0 +1,41 @@
+<?php
+/**
+ * @copyright Copyright (c) 2019
+ */
+
+namespace lujie\auth\controllers\rest;
+
+use lujie\auth\actions\rest\PermissionTreeAction;
+use lujie\auth\forms\AuthPermissionForm;
+use lujie\auth\models\AuthItem;
+use lujie\auth\searches\AuthPermissionSearch;
+use lujie\extend\rest\ActiveController;
+
+/**
+ * Class RoleController
+ * @package lujie\auth\controllers\rest
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
+class PermissionController extends ActiveController
+{
+    public $modelClass = AuthItem::class;
+
+    public $formClass = AuthPermissionForm::class;
+
+    public $searchClass = AuthPermissionSearch::class;
+
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actions(): array
+    {
+        $actions = parent::actions();
+        $actions['tree'] = [
+            'class' => PermissionTreeAction::class,
+            'checkAccess' => [$this, 'checkAccess'],
+        ];
+        return $actions;
+    }
+}

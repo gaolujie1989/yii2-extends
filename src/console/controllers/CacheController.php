@@ -10,6 +10,9 @@ use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
+use yii\mongodb\rbac\MongoDbManager;
+use yii\rbac\BaseManager;
+use yii\rbac\DbManager;
 
 /**
  * Class CacheController
@@ -29,6 +32,19 @@ class CacheController extends \yii\console\controllers\CacheController
         /** @var CacheInterface $cacheInstance */
         $cacheInstance = Instance::ensure($cache, CacheInterface::class);
         TagDependency::invalidate($cacheInstance, $tag);
+    }
+
+    /**
+     * @param string $authManagerName
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionFlushAuth(string $authManagerName = 'authManager'): void
+    {
+        $authManager = Instance::ensure($authManagerName, BaseManager::class);
+        if ($authManager instanceof DbManager || $authManager instanceof MongoDbManager) {
+            $authManager->invalidateCache();
+        }
     }
 
     /**

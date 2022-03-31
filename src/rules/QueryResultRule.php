@@ -7,6 +7,7 @@ namespace lujie\auth\rules;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\QueryInterface;
 use yii\rbac\Item;
 use yii\rbac\Rule;
 
@@ -44,6 +45,8 @@ class QueryResultRule extends Rule
         $result = $params['result'];
         if ($result instanceof ActiveDataProvider) {
             $result->query->andFilterWhere($this->condition);
+        } else if ($result instanceof QueryInterface) {
+            $result->andFilterWhere($this->condition);
         }
         return true;
     }

@@ -64,7 +64,7 @@ class ActionAccessRule extends AccessRule
     /**
      * @var array
      */
-    public $replaces = [];
+    public $replaces = ['/' => '_'];
 
     /**
      * @param Action $action

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\auth\tests\unit;
+namespace lujie\auth\tests\unit\rbac;
 
 use lujie\auth\rbac\UserPermissionAccessChecker;
 use lujie\auth\rules\AuthorRule;
@@ -17,14 +17,6 @@ use lujie\auth\tests\unit\fixtures\TestUser;
  */
 class UserPermissionAccessCheckerTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \Throwable
      * @inheritdoc

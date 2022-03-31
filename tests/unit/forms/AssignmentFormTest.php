@@ -5,11 +5,11 @@
 
 namespace lujie\auth\tests\unit;
 
-use lujie\auth\forms\AssignmentForm;
+use lujie\auth\forms\AuthAssignmentForm;
 use lujie\auth\tests\unit\fixtures\TestUser;
 use yii\helpers\ArrayHelper;
 
-class AssignmentFormTest extends \Codeception\Test\Unit
+class AuthAssignmentFormTest extends \Codeception\Test\Unit
 {
     protected function _before()
     {
@@ -25,56 +25,44 @@ class AssignmentFormTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $assignmentForm = new AssignmentForm([
+        $assignmentForm = new AuthAssignmentForm([
             'userClass' => TestUser::class
         ]);
 
         $authManager = $assignmentForm->authManager;
-        $authManager->add($authManager->createRole('TEST_ROLE1'));
-        $authManager->add($authManager->createRole('TEST_ROLE2'));
-        $authManager->add($authManager->createRole('TEST_ROLE3'));
+        $authManager->add($authManager->createRole('TEST_ROLE_1'));
+        $authManager->add($authManager->createRole('TEST_ROLE_2'));
+        $authManager->add($authManager->createRole('TEST_ROLE_3'));
 
         //test assign
         $assignmentForm->setAttributes([
             'userId' => 0,
-            'itemNames' => ['TEST_ROLE1', 'TEST_ROLE2', 'TEST_ROLE11'],
+            'roles' => ['TEST_ROLE_1', 'TEST_ROLE_2', 'TEST_ROLE_NOT_EXIST'],
         ]);
         $this->assertFalse($assignmentForm->assign());
         $this->assertTrue($assignmentForm->hasErrors('userId'));
-        $this->assertTrue($assignmentForm->hasErrors('itemNames'));
+        $this->assertTrue($assignmentForm->hasErrors('roles'));
 
         $assignmentForm->setAttributes([
             'userId' => 1,
-            'itemNames' => ['TEST_ROLE1', 'TEST_ROLE2'],
+            'roles' => ['TEST_ROLE_1', 'TEST_ROLE_2'],
         ]);
         $this->assertTrue($assignmentForm->assign());
-        $assignedItemNames = array_values(ArrayHelper::getColumn($authManager->getAssignments(1), 'roleName'));
-        $this->assertEquals(['TEST_ROLE1', 'TEST_ROLE2'], $assignedItemNames);
+        $assignedRoles = array_values(ArrayHelper::getColumn($authManager->getAssignments(1), 'roleName'));
+        $this->assertEquals(['TEST_ROLE_1', 'TEST_ROLE_2'], $assignedRoles);
 
-        //test revoke
-        $assignmentForm->setAttributes([
-            'userId' => 0,
-            'itemNames' => ['TEST_ROLE3'],
-        ]);
-        $this->assertFalse($assignmentForm->revoke());
-        $this->assertTrue($assignmentForm->hasErrors('userId'));
-        $this->assertTrue($assignmentForm->hasErrors('itemNames'));
+        $assignmentForm->roles = ['TEST_ROLE_1', 'TEST_ROLE_3'];
+        $this->assertTrue($assignmentForm->assign());
+        $assignedRoles = array_values(ArrayHelper::getColumn($authManager->getAssignments(1), 'roleName'));
+        $this->assertEquals(['TEST_ROLE_1', 'TEST_ROLE_3'], $assignedRoles);
 
-        $assignmentForm->setAttributes([
-            'userId' => 1,
-            'itemNames' => ['TEST_ROLE2'],
-        ]);
-        $this->assertTrue($assignmentForm->revoke());
-        $assignedItemNames = array_values(ArrayHelper::getColumn($authManager->getAssignments(1), 'roleName'));
-        $this->assertEquals(['TEST_ROLE1'], $assignedItemNames);
+        $assignmentForm->roles = null;
+        $this->assertTrue($assignmentForm->assign());
+        $assignedRoles = array_values(ArrayHelper::getColumn($authManager->getAssignments(1), 'roleName'));
+        $this->assertEquals(['TEST_ROLE_1', 'TEST_ROLE_3'], $assignedRoles);
 
-        //test save
-        $assignmentForm->setAttributes([
-            'userId' => 1,
-            'itemNames' => ['TEST_ROLE2', 'TEST_ROLE3'],
-        ]);
-        $this->assertTrue($assignmentForm->save());
-        $assignedItemNames = array_values(ArrayHelper::getColumn($authManager->getAssignments(1), 'roleName'));
-        $this->assertEquals(['TEST_ROLE2', 'TEST_ROLE3'], $assignedItemNames);
+        $assignmentForm->roles = [];
+        $this->assertTrue($assignmentForm->assign());
+        $this->assertEmpty($authManager->getAssignments(1));
     }
 }

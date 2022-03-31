@@ -5,8 +5,10 @@
 
 namespace lujie\auth\forms;
 
+use yii\base\UserException;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Item;
+use yii\rbac\Permission;
 
 /**
  * Class AuthItemForm
@@ -19,9 +21,14 @@ class AuthRoleForm extends AuthItemForm
 
     /**
      * 理论上不应该Role包含Role,容易造成死循环，应该用Permission包含Permission替代，Role只包含Permission
-     * @var array
+     * @var string[]
      */
     public $permissions;
+
+    /**
+     * @var Permission[]
+     */
+    public $_permissions;
 
     /**
      * @return array
@@ -31,7 +38,29 @@ class AuthRoleForm extends AuthItemForm
     {
         return array_merge($this->formRules(), [
             [['permissions'], 'each', 'rule' => ['string']],
+            [['permissions'], 'validatePermissions'],
         ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function validatePermissions(): void
+    {
+        $invalidPermissionNames = [];
+        $this->_permissions = [];
+        foreach ($this->permissions as $permissionName) {
+            $permission = $this->authManager->getPermission($permissionName);
+            if ($permission === null) {
+                $invalidPermissionNames[] = $permissionName;
+            } else {
+                $this->_permissions[$permissionName] = $permission;
+            }
+        }
+        if ($invalidPermissionNames) {
+            $this->addError('permissions', 'Invalid permissions:' . implode(',', $invalidPermissionNames));
+        }
     }
 
     /**
@@ -56,16 +85,16 @@ class AuthRoleForm extends AuthItemForm
             return;
         }
         $parent = $this->authManager->getRole($this->name);
-        if (empty($this->children)) {
+        if (empty($this->permissions)) {
             $this->authManager->removeChildren($parent);
             return;
         }
         $childPermissions = $this->authManager->getChildren($this->name);
         $childPermissions = ArrayHelper::index($childPermissions, 'name');
-        foreach ($this->permissions as $permissionName) {
+        foreach ($this->_permissions as $permissionName => $permission) {
             if (isset($childPermissions[$permissionName])) {
                 unset($childPermissions[$permissionName]);
-            } else if ($permission = $this->authManager->getPermission($permissionName)) {
+            } else {
                 $this->authManager->addChild($parent, $permission);
             }
         }

@@ -3,21 +3,13 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\auth\tests\unit;
+namespace lujie\auth\tests\unit\rules;
 
 use lujie\auth\rules\AuthorRule;
 use yii\rbac\Item;
 
 class AuthorRuleTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \Throwable
      * @inheritdoc

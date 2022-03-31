@@ -3,20 +3,12 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\auth\tests\unit;
+namespace lujie\auth\tests\unit\rbac;
 
 use lujie\auth\rbac\StaticUserAccessChecker;
 
 class StaticUserAccessCheckerTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \Throwable
      * @inheritdoc

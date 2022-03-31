@@ -17,7 +17,7 @@ use yii\rbac\Rule;
  * @package lujie\auth\rules
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ModelRule extends Rule
+class ModelAccessRule extends Rule
 {
     /**
      * @var string

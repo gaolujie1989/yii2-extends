@@ -16,7 +16,7 @@ use yii\rbac\Rule;
  * @package lujie\auth\rules
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class QueryRule extends Rule
+class QueryResultRule extends Rule
 {
     /**
      * @var string

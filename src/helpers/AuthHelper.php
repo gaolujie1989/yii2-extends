@@ -6,10 +6,12 @@
 namespace lujie\auth\helpers;
 
 use Yii;
+use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\rbac\BaseManager;
 use yii\rbac\Permission;
+use yii\rbac\Rule;
 
 /**
  * Class AuthHelper
@@ -182,6 +184,33 @@ class AuthHelper
                         echo 'Remove Child ', $name, ' -> ', $parentName, " Failed\n";
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * @param array $rules
+     * @param BaseManager $manager
+     * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function syncRules(array $rules, BaseManager $manager): void
+    {
+        foreach ($rules as $ruleName => $ruleConfig) {
+            $ruleInstance = Instance::ensure($ruleConfig, Rule::class);
+            if ($manager->getRule($ruleName)) {
+                if ($manager->update($ruleName, $ruleInstance)) {
+                    echo 'Update Rule ', $ruleName, " Success\n";
+                } else {
+                    echo 'Update Rule ', $ruleName, " Failed\n";
+                }
+                continue;
+            }
+            if ($manager->add($ruleInstance)) {
+                echo 'Add Rule ', $ruleName, " Success\n";
+            } else {
+                echo 'Add Rule ', $ruleName, " Failed\n";
             }
         }
     }

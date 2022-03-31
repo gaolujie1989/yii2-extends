@@ -22,11 +22,6 @@ class AuthItemForm extends AuthItem
     use FormTrait;
 
     /**
-     * @var string the origin name
-     */
-    public $_id;
-
-    /**
      * @var BaseManager
      */
     public $authManager = 'authManager';
@@ -39,26 +34,6 @@ class AuthItemForm extends AuthItem
     {
         parent::init();
         $this->authManager = Instance::ensure($this->authManager, BaseManager::class);
-    }
-
-    /**
-     * @param array|int|string $id
-     * @inheritdoc
-     */
-    public function setId($id): void
-    {
-        $this->_id = $id;
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        return array_merge($this->formRules(), [
-            [['id'], 'string', 'max' => 64]
-        ]);
     }
 
     /**

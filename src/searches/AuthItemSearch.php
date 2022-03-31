@@ -36,7 +36,6 @@ class AuthItemSearch extends AuthItem
     {
         $fields = parent::fields();
         unset($fields['data']);
-        $fields['id'] = 'name';
         return $fields;
     }
 }

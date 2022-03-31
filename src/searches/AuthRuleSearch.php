@@ -36,7 +36,6 @@ class AuthRuleSearch extends AuthRule
     {
         $fields = parent::fields();
         unset($fields['data']);
-        $fields['id'] = 'name';
         return $fields;
     }
 }

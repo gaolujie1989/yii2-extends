@@ -24,7 +24,7 @@ class AuthItemForm extends AuthItem
     /**
      * @var string the origin name
      */
-    public $id;
+    public $_id;
 
     /**
      * @var BaseManager
@@ -39,6 +39,15 @@ class AuthItemForm extends AuthItem
     {
         parent::init();
         $this->authManager = Instance::ensure($this->authManager, BaseManager::class);
+    }
+
+    /**
+     * @param array|int|string $id
+     * @inheritdoc
+     */
+    public function setId($id): void
+    {
+        $this->_id = $id;
     }
 
     /**

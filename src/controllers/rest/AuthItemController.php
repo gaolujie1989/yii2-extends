@@ -5,6 +5,7 @@
 
 namespace lujie\auth\controllers\rest;
 
+use lujie\auth\actions\PermissionTreeAction;
 use lujie\auth\forms\AuthPermissionForm;
 use lujie\auth\forms\AuthRoleForm;
 use lujie\auth\models\AuthItem;
@@ -50,5 +51,23 @@ class AuthItemController extends ActiveController
             $this->formClass = $typeClasses['form'];
             $this->searchClass = $typeClasses['search'];
         }
+
+    }
+
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actions(): array
+    {
+        $actions = parent::actions();
+        if ($this->itemType === Item::TYPE_PERMISSION) {
+            $actions['tree'] = [
+                'class' => PermissionTreeAction::class,
+                'checkAccess' => [$this, 'checkAccess'],
+            ];
+        }
+        return $actions;
     }
 }

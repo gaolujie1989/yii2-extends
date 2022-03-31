@@ -4,17 +4,19 @@
  */
 
 return [
-    'xxx' => [
-        'label' => 'xxx',
-        'sort' => 100,
+    'xxxModule' => [
+        'label' => 'xxxModule',
+        'sort' => 10,
         'groups' => [
-            'xxx' => [
-                'label' => 'xxx',
-                'sort' => 100,
+            'xxxController' => [
+                'label' => 'xxxController',
+                'sort' => 10,
                 'permissions' => [
-                    'xxx' => [
-                        'label' => 'xxx',
-                        'sort' => 100,
+                    'xxxAction' => [
+                        'label' => 'xxxAction',
+                        'sort' => 10,
+                        'actionKeys' => ['xxxAction2', 'xxxAction3'],
+                        'permissionsKeys' => ['xxxModule2/xxxController2/xxxAction2', 'xxxModule3/xxxController3/xxxAction3'],
                     ]
                 ]
             ]

@@ -29,28 +29,28 @@ class AuthHelper
             'index' => [
                 'label' => 'List',
                 'sort' => 10,
-                'keys' => ['export'],
+                'actionKeys' => ['export'],
             ],
             'view' => [
                 'label' => 'View',
                 'sort' => 20,
-                'keys' => ['download']
+                'actionKeys' => ['download']
             ],
             'edit' => [
                 'label' => 'Edit',
                 'sort' => 30,
-                'keys' => ['create', 'update', 'upload', 'import', 'batch-update'],
+                'actionKeys' => ['create', 'update', 'upload', 'import', 'batch-update'],
             ],
             'delete' => [
                 'label' => 'Delete',
                 'sort' => 40,
-                'keys' => ['create', 'update', 'import', 'batch-delete']
+                'actionKeys' => ['create', 'update', 'import', 'batch-delete']
             ],
         ];
         $components = Yii::$app->getComponents();
         $controllers = $components['urlManager']['rules'][$module]['controller'];
         $permissionGroups = [];
-        $sort = 100;
+        $sort = 10;
         foreach ($controllers as $key => $controllerId) {
             $groupName = Inflector::singularize($key);
             $permissionGroups[$groupName] = [
@@ -58,12 +58,12 @@ class AuthHelper
                 'sort' => $sort,
                 'permissions' => $activeActionPermissions,
             ];
-            $sort += 100;
+            $sort += 10;
         }
         return [
             $module => [
                 'label' => ucfirst($module),
-                'sort' => 100,
+                'sort' => 10,
                 'groups' => $permissionGroups
             ]
         ];
@@ -107,6 +107,7 @@ class AuthHelper
      */
     public static function syncPermissions(array $permissionTree, BaseManager $manager, string $separator = '_', $replaces = []): void
     {
+        $replaces = array_merge(array_fill_keys(['_', '.', '/'], $separator), $replaces);
         $permissions = [];
         $childrenPermissions = [];
         foreach ($permissionTree as $module => $moduleConfig) {
@@ -116,6 +117,14 @@ class AuthHelper
                     $permission = static::getPermission($permissionConfig, $replaces);
                     $permissions[$permission->name] = $permission;
 
+                    if (isset($permissionConfig['actionKeys'])) {
+                        foreach ($permissionConfig['actionKeys'] as $actionKey) {
+                            $permissionKey = implode($separator, [$module, $group, $actionKey]);
+                            $childPermission = static::getPermission($permissionKey, $replaces);
+                            $permissions[$childPermission->name] = $childPermission;
+                            $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;
+                        }
+                    }
                     if (isset($permissionConfig['permissionKeys'])) {
                         foreach ($permissionConfig['permissionKeys'] as $permissionKey) {
                             $childPermission = static::getPermission($permissionKey, $replaces);

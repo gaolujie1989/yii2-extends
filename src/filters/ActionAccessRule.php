@@ -49,7 +49,7 @@ class ActionAccessRule extends AccessRule
     /**
      * @var ?callable
      */
-    public $actionPermissionNameCallback;
+    public $actionPermissionNameCallback = 'formatActionId';
 
     /**
      * @var string
@@ -76,12 +76,28 @@ class ActionAccessRule extends AccessRule
     public function allows($action, $user, $request): ?bool
     {
         $actionId = $action->getUniqueId();
-        if ($this->actionPermissionNameCallback && is_callable($this->actionPermissionNameCallback)) {
-            $actionId = call_user_func($this->actionPermissionNameCallback, $actionId);
+        if ($this->actionPermissionNameCallback) {
+            if (method_exists($this, $this->actionPermissionNameCallback)) {
+                $actionId = $this->{$this->actionPermissionNameCallback}($actionId);
+            } else if (is_callable($this->actionPermissionNameCallback)) {
+                $actionId = call_user_func($this->actionPermissionNameCallback, $actionId);
+            }
         }
         $actionId = $this->prefix . strtr($actionId, $this->replaces) . $this->suffix;
         $this->permissions = $this->permissions ?: [];
         $this->permissions[] = $actionId;
         return parent::allows($action, $user, $request);
+    }
+
+    /**
+     * @param string $actionId
+     * @return string
+     * @inheritdoc
+     */
+    public function formatActionId(string $actionId): string
+    {
+        return preg_replace_callback('/-([a-z0-9_])/i', static function ($matches) {
+            return ucfirst($matches[1]);
+        }, $actionId);
     }
 }

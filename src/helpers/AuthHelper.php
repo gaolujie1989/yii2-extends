@@ -102,12 +102,16 @@ class AuthHelper
     /**
      * @param array $permissionTree
      * @param BaseManager $manager
+     * @param string $prefix
      * @param string $separator
+     * @param array $replaces
+     * @param array $excludePrefixes
      * @throws \yii\base\Exception
-     * @throws \Exception
      * @inheritdoc
      */
-    public static function syncPermissions(array $permissionTree, BaseManager $manager, string $separator = '_', $replaces = []): void
+    public static function syncPermissions(array  $permissionTree, BaseManager $manager,
+                                           string $prefix = '', array $excludePrefixes = [],
+                                           string $separator = '_', array $replaces = []): void
     {
         $replaces = array_merge(array_fill_keys(['_', '.', '/'], $separator), $replaces);
         $permissions = [];
@@ -115,13 +119,13 @@ class AuthHelper
         foreach ($permissionTree as $module => $moduleConfig) {
             foreach ($moduleConfig['groups'] as $group => $groupConfig) {
                 foreach ($groupConfig['permissions'] as $key => $permissionConfig) {
-                    $permissionConfig['name'] = implode($separator, [$module, $group, $key]);
+                    $permissionConfig['name'] = $prefix . implode($separator, [$module, $group, $key]);
                     $permission = static::getPermission($permissionConfig, $replaces);
                     $permissions[$permission->name] = $permission;
 
                     if (isset($permissionConfig['actionKeys'])) {
                         foreach ($permissionConfig['actionKeys'] as $actionKey) {
-                            $permissionKey = implode($separator, [$module, $group, $actionKey]);
+                            $permissionKey = $prefix . implode($separator, [$module, $group, $actionKey]);
                             $childPermission = static::getPermission($permissionKey, $replaces);
                             $permissions[$childPermission->name] = $childPermission;
                             $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;
@@ -129,6 +133,7 @@ class AuthHelper
                     }
                     if (isset($permissionConfig['permissionKeys'])) {
                         foreach ($permissionConfig['permissionKeys'] as $permissionKey) {
+                            $permissionKey = $prefix . $permissionKey;
                             $childPermission = static::getPermission($permissionKey, $replaces);
                             $permissions[$childPermission->name] = $childPermission;
                             $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;
@@ -139,6 +144,20 @@ class AuthHelper
         }
 
         $existPermissions = ArrayHelper::index($manager->getPermissions(), 'name');
+        if ($prefix) {
+            $existPermissions = array_filter($existPermissions, static function ($permission) use ($prefix) {
+                return strpos($permission->name, $prefix) === 0;
+            });
+        } else if ($excludePrefixes) {
+            $existPermissions = array_filter($existPermissions, static function ($permission) use ($excludePrefixes) {
+                foreach ($excludePrefixes as $prefix) {
+                    if (strpos($permission->name, $prefix) === 0) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
         $addPermissions = array_diff_key($permissions, $existPermissions);
         foreach ($addPermissions as $name => $permission) {
             if ($manager->add($permission)) {

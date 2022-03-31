@@ -107,6 +107,7 @@ class AuthHelper
      * @param array $replaces
      * @param array $excludePrefixes
      * @throws \yii\base\Exception
+     * @throws \Exception
      * @inheritdoc
      */
     public static function syncPermissions(array  $permissionTree, BaseManager $manager,

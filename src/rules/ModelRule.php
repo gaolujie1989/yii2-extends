@@ -5,10 +5,8 @@
 
 namespace lujie\auth\rules;
 
-use lujie\extend\helpers\ModelHelper;
 use lujie\extend\helpers\ValueHelper;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\BaseActiveRecord;
 use yii\rbac\Item;
 use yii\rbac\Rule;
@@ -56,6 +54,7 @@ class ModelRule extends Rule
      */
     public function execute($user, $item, $params): bool
     {
+        Yii::configure($this, $item->data['rule'] ?? []);
         $request = Yii::$app->getRequest();
         $id = $request->get($this->idParams);
         if (empty($id)) {

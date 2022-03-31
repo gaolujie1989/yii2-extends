@@ -7,6 +7,7 @@ namespace lujie\auth\rules;
 
 use yii\helpers\ArrayHelper;
 use yii\rbac\Rule;
+use Yii;
 
 /**
  * Class AuthorRule
@@ -35,6 +36,7 @@ class AuthorRule extends Rule
      */
     public function execute($user, $item, $params): bool
     {
+        Yii::configure($this, $item->data['rule'] ?? []);
         $createdBy = ArrayHelper::getValue($params, $this->creatorKey);
         return $createdBy && $createdBy === $user;
     }

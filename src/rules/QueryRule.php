@@ -5,6 +5,7 @@
 
 namespace lujie\auth\rules;
 
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rbac\Item;
 use yii\rbac\Rule;
@@ -36,6 +37,7 @@ class QueryRule extends Rule
      */
     public function execute($user, $item, $params): bool
     {
+        Yii::configure($this, $item->data['rule'] ?? []);
         if (empty($params['result'])) {
             return true;
         }

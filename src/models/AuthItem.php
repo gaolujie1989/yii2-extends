@@ -2,7 +2,6 @@
 
 namespace lujie\auth\models;
 
-use lujie\fulfillment\controllers\console\FulfillmentController;
 use Yii;
 use yii\db\ActiveQuery;
 

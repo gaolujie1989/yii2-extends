@@ -5,11 +5,11 @@
 
 namespace lujie\auth\controllers\rest;
 
-use lujie\auth\actions\rest\PermissionTreeAction;
 use lujie\auth\forms\AuthPermissionForm;
 use lujie\auth\models\AuthItem;
 use lujie\auth\searches\AuthPermissionSearch;
 use lujie\extend\rest\ActiveController;
+use Yii;
 
 /**
  * Class RoleController
@@ -26,16 +26,10 @@ class PermissionController extends ActiveController
 
     /**
      * @return array
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actions(): array
+    public function actionTree(): array
     {
-        $actions = parent::actions();
-        $actions['tree'] = [
-            'class' => PermissionTreeAction::class,
-            'checkAccess' => [$this, 'checkAccess'],
-        ];
-        return $actions;
+        return Yii::$app->params['permissions'] ?: [];
     }
 }

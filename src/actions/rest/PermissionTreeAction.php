@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\auth\actions;
+namespace lujie\auth\actions\rest;
 
 use Yii;
 use yii\rest\Action;

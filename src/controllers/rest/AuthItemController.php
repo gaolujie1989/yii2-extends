@@ -5,7 +5,7 @@
 
 namespace lujie\auth\controllers\rest;
 
-use lujie\auth\actions\PermissionTreeAction;
+use lujie\auth\actions\rest\PermissionTreeAction;
 use lujie\auth\forms\AuthPermissionForm;
 use lujie\auth\forms\AuthRoleForm;
 use lujie\auth\models\AuthItem;

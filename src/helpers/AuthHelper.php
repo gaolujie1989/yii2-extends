@@ -152,12 +152,14 @@ class AuthHelper
             } else {
                 echo 'Update Permission ', $name, " Failed\n";
             }
-            $manager->update($name, $permission);
         }
         $deletePermissions = array_diff_key($existPermissions, $permissions);
         foreach ($deletePermissions as $name => $permission) {
-            $manager->remove($permission);
-            echo 'Remove Permission ', $name, "\n";
+            if ($manager->remove($permission)) {
+                echo 'Remove Permission ', $name, " Success\n";
+            } else {
+                echo 'Remove Permission ', $name, " Failed\n";
+            }
         }
 
         foreach ($childrenPermissions as $parentName => $childPermissions) {

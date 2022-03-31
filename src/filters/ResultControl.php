@@ -11,7 +11,7 @@ use yii\filters\AccessControl;
 use yii\filters\AccessRule;
 
 /**
- * Class ResultAccessControl
+ * Class ResultControl
  *
  * [
  *  'as authResultControl' => [

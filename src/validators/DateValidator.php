@@ -85,6 +85,8 @@ class DateValidator extends \yii\validators\DateValidator
             $this->timestampAttributeFormat = 'php:Y-m-d H:i:s';
         } else if (substr($attribute, -5) === '_time') {
             $this->timestampAttributeFormat = 'php:H:i:s';
+        } else {
+            $this->timestampAttributeFormat = null;
         }
     }
 

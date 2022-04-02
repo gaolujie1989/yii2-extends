@@ -51,10 +51,10 @@ class ShippingTableFileExporter extends ModelFileExporter
     public function initTransformer(): void
     {
         parent::initTransformer();
-        $this->transformer = array_merge([
+        $this->transformer['transformers'] = array_merge([
             'table' => [
                 'class' => ShippingTableExportTransformer::class,
             ]
-        ], $this->transformer);
+        ], $this->transformer['transformers']);
     }
 }

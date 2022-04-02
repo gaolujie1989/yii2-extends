@@ -50,7 +50,7 @@ class ShippingTableFileImporter extends ModelFileImporter
     public function initTransformer(): void
     {
         parent::initTransformer();
-        $this->transformer = array_merge($this->transformer, [
+        $this->transformer['transformers'] = array_merge($this->transformer['transformers'], [
             'table' => [
                 'class' => ShippingTableImportTransformer::class,
             ]

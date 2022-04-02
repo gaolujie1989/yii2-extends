@@ -5,8 +5,8 @@
 
 namespace lujie\charging\tests\unit;
 
+use lujie\charging\exporters\ShippingTableFileExporter;
 use lujie\charging\models\ShippingTable;
-use lujie\charging\ShippingTableFileExporter;
 use lujie\charging\tests\unit\fixtures\ShippingTableFixture;
 use lujie\extend\helpers\ExcelHelper;
 

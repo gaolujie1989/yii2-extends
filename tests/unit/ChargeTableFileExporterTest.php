@@ -5,7 +5,7 @@
 
 namespace lujie\charging\tests\unit;
 
-use lujie\charging\ChargeTableFileExporter;
+use lujie\charging\exporters\ChargeTableFileExporter;
 use lujie\charging\models\ChargeTable;
 use lujie\charging\tests\unit\fixtures\ChargeTableFixture;
 use lujie\extend\helpers\ExcelHelper;

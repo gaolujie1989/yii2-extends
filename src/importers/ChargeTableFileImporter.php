@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\charging;
+namespace lujie\charging\importers;
 
 use lujie\charging\forms\ChargeTableForm;
 use lujie\data\exchange\ModelFileImporter;

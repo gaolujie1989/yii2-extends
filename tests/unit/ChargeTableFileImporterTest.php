@@ -5,7 +5,7 @@
 
 namespace lujie\charging\tests\unit;
 
-use lujie\charging\ChargeTableFileImporter;
+use lujie\charging\importers\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableForm;
 use lujie\charging\models\ChargeTable;
 use lujie\data\exchange\transformers\ChainedTransformer;

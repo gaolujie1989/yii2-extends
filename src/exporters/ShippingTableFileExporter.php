@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\charging;
+namespace lujie\charging\exporters;
 
 use lujie\charging\searches\ShippingTableSearch;
 use lujie\data\exchange\ModelFileExporter;

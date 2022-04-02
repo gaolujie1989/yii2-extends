@@ -6,7 +6,7 @@
 namespace lujie\charging\tests\unit;
 
 use lujie\charging\models\ShippingTable;
-use lujie\charging\ShippingTableFileImporter;
+use lujie\charging\importers\ShippingTableFileImporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use Yii;

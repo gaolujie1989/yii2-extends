@@ -55,14 +55,16 @@ class ShippingTableExportTransformer extends BaseObject implements TransformerIn
             ]);
             return implode('_', $filterValues);
         }]);
+//        print_r($data);
         $transformed = [];
         foreach ($data as $destPrices) {
             $price = reset($destPrices);
-            unset($price['destination'], $price['price'], $price['currency']);
+            unset($price['destination'], $price['price'], $price['price_cent'], $price['currency']);
             $transformed[] = array_merge(
                 $price,
                 ArrayHelper::getColumn($destPrices, static function ($price) {
-                    return $price['price'] . ' ' . $price['currency'];
+                    $priceValue = $price['price'] ?? (($price['price_cent'] ?? 0) / 100);
+                    return $priceValue . ' ' . ($price['currency'] ?? '');
                 })
             );
         }

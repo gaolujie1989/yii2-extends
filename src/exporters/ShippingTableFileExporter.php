@@ -7,7 +7,6 @@ namespace lujie\charging\exporters;
 
 use lujie\charging\searches\ShippingTableSearch;
 use lujie\charging\transformers\ShippingTableExportTransformer;
-use lujie\charging\transformers\ShippingTableImportTransformer;
 use lujie\data\exchange\ModelFileExporter;
 
 /**
@@ -56,5 +55,6 @@ class ShippingTableFileExporter extends ModelFileExporter
                 'class' => ShippingTableExportTransformer::class,
             ]
         ], $this->transformer['transformers']);
+        $this->transformer['transformers']['keyMap']['unsetNotInMapKey'] = false;
     }
 }

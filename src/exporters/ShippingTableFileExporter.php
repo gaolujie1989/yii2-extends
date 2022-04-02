@@ -5,6 +5,7 @@
 
 namespace lujie\charging\exporters;
 
+use lujie\charging\models\ShippingTable;
 use lujie\charging\searches\ShippingTableSearch;
 use lujie\charging\transformers\ShippingTableExportTransformer;
 use lujie\data\exchange\ModelFileExporter;
@@ -49,6 +50,8 @@ class ShippingTableFileExporter extends ModelFileExporter
      */
     public function initTransformer(): void
     {
+        $destinations = ShippingTable::find()->select(['destination'])->distinct()->column();
+        $this->keyMap = array_merge($this->keyMap, array_combine($destinations, $destinations));
         parent::initTransformer();
         $this->transformer['transformers'] = array_merge([
             'table' => [

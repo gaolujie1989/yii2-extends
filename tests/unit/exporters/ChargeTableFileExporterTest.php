@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\charging\tests\unit;
+namespace lujie\charging\tests\unit\exporters;
 
 use lujie\charging\exporters\ChargeTableFileExporter;
 use lujie\charging\models\ChargeTable;
@@ -13,14 +13,6 @@ use yii\helpers\VarDumper;
 
 class ChargeTableFileExporterTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     public function _fixtures(): array
     {
         return [

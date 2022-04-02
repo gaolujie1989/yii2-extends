@@ -12,14 +12,6 @@ use lujie\extend\helpers\ExcelHelper;
 
 class ShippingTableFileExporterTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     public function _fixtures(): array
     {
         return [

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\charging\tests\unit;
+namespace lujie\charging\tests\unit\importers;
 
 use lujie\charging\importers\ChargeTableFileImporter;
 use lujie\charging\forms\ChargeTableForm;
@@ -15,14 +15,6 @@ use yii\helpers\VarDumper;
 
 class ChargeTableFileImporterTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\base\NotSupportedException

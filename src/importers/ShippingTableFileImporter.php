@@ -6,6 +6,7 @@
 namespace lujie\charging\importers;
 
 use lujie\charging\forms\ShippingTableForm;
+use lujie\charging\transformers\ShippingTableImportTransformer;
 use lujie\data\exchange\ModelFileImporter;
 
 /**
@@ -42,4 +43,17 @@ class ShippingTableFileImporter extends ModelFileImporter
         'price' => 'Price',
         'currency' => 'Currency',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function initTransformer(): void
+    {
+        parent::initTransformer();
+        $this->transformer = array_merge($this->transformer, [
+            'table' => [
+                'class' => ShippingTableImportTransformer::class,
+            ]
+        ]);
+    }
 }

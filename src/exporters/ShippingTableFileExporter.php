@@ -6,6 +6,8 @@
 namespace lujie\charging\exporters;
 
 use lujie\charging\searches\ShippingTableSearch;
+use lujie\charging\transformers\ShippingTableExportTransformer;
+use lujie\charging\transformers\ShippingTableImportTransformer;
 use lujie\data\exchange\ModelFileExporter;
 
 /**
@@ -42,4 +44,17 @@ class ShippingTableFileExporter extends ModelFileExporter
         'price' => 'Price',
         'currency' => 'Currency',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function initTransformer(): void
+    {
+        parent::initTransformer();
+        $this->transformer = array_merge([
+            'table' => [
+                'class' => ShippingTableExportTransformer::class,
+            ]
+        ], $this->transformer);
+    }
 }

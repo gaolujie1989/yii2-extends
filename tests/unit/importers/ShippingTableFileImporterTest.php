@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\charging\tests\unit;
+namespace lujie\charging\tests\unit\importers;
 
 use lujie\charging\models\ShippingTable;
 use lujie\charging\importers\ShippingTableFileImporter;
@@ -14,14 +14,6 @@ use yii\helpers\VarDumper;
 
 class ShippingTableFileImporterTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\base\NotSupportedException

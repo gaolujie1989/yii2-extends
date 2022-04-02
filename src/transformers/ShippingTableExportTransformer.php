@@ -23,6 +23,8 @@ class ShippingTableExportTransformer extends BaseObject implements TransformerIn
      */
     public function transform(array $data): array
     {
+        $destinations = array_unique(ArrayHelper::getColumn($data, 'destination'));
+        $destinationDefaults = array_fill_keys($destinations, '');
         $data = ArrayHelper::index($data, 'destination', [static function (array $values) {
             $filterValues = ArrayHelper::filter($values, [
                 'carrier',
@@ -62,6 +64,7 @@ class ShippingTableExportTransformer extends BaseObject implements TransformerIn
             unset($price['destination'], $price['price'], $price['price_cent'], $price['currency']);
             $transformed[] = array_merge(
                 $price,
+                $destinationDefaults,
                 ArrayHelper::getColumn($destPrices, static function ($price) {
                     $priceValue = $price['price'] ?? (($price['price_cent'] ?? 0) / 100);
                     return $priceValue . ' ' . ($price['currency'] ?? '');

@@ -55,6 +55,5 @@ class ShippingTableFileExporter extends ModelFileExporter
                 'class' => ShippingTableExportTransformer::class,
             ]
         ], $this->transformer['transformers']);
-        $this->transformer['transformers']['keyMap']['unsetNotInMapKey'] = false;
     }
 }

@@ -15,6 +15,8 @@ use yii\base\BaseObject;
  */
 class ShippingTableImportTransformer extends BaseObject implements TransformerInterface
 {
+    public $destinationSeparators = ['/', '|', ',', ';'];
+
     /**
      * @param array $data
      * @return array
@@ -23,21 +25,36 @@ class ShippingTableImportTransformer extends BaseObject implements TransformerIn
     public function transform(array $data): array
     {
         $keys = array_keys(reset($data));
-        $destinations = array_filter($keys, static function (string $key) {
-            return strlen($key) === 2 && preg_match('/[A-Z]{2}/', $key);
-        });
-        if (empty($destinations)) {
+        $destValueKeys = [];
+        foreach ($keys as $key) {
+            if (strlen($key) === 2 && preg_match('/[A-Z]{2}/', $key)) {
+                $destValueKeys[$key] = $key;
+                continue;
+            }
+            foreach ($this->destinationSeparators as $separator) {
+                if (strpos($key, $separator) !== false) {
+                    $keyParts = explode($separator, $key);
+                    foreach ($keyParts as $keyPart) {
+                        if (strlen($keyPart) === 2 && preg_match('/[A-Z]{2}/', $keyPart)) {
+                            $destValueKeys[$keyPart] = $key;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        if (empty($destValueKeys)) {
             return $data;
         }
         $transformed = [];
         foreach ($data as $values) {
             $destinationPrices = [];
-            foreach ($destinations as $destination) {
-                if (!empty($values[$destination])) {
-                    $destinationPrices[$destination] = $values[$destination];
+            foreach ($destValueKeys as $destination => $valueKey) {
+                if (!empty($values[$valueKey])) {
+                    $destinationPrices[$destination] = $values[$valueKey];
                 }
-                unset($values[$destination]);
             }
+            $values = array_diff_key($values, array_flip($destValueKeys));
             foreach ($destinationPrices as $destination => $priceStr) {
                 if (preg_match('/(\d+[\.,]\d+)\s+([a-zA-Z]{3})/', $priceStr, $matches)) {
                     $transformed[] = array_merge($values, [

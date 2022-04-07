@@ -5,9 +5,11 @@
 
 namespace lujie\auth\rbac;
 
+use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\rbac\BaseManager;
 use yii\rbac\CheckAccessInterface;
 use yii\rbac\Permission;
 use yii\rbac\Rule;
@@ -29,6 +31,11 @@ class UserPermissionAccessChecker extends BaseObject implements CheckAccessInter
      * @var string
      */
     public $dataKey = 'permissions';
+
+    /**
+     * @var BaseManager
+     */
+    public $authManager = 'authManager';
 
     /**
      * @var array
@@ -60,13 +67,25 @@ class UserPermissionAccessChecker extends BaseObject implements CheckAccessInter
             return false;
         }
 
+        //check by auth manager
+        if (Yii::$app->has($this->authManager)) {
+            $this->authManager = Yii::$app->get($this->authManager);
+            $permission = $this->authManager->getPermission($permissionName);
+            if ($permission && $permission->ruleName) {
+                $rule = $this->authManager->getRule($permissionName);
+                if ($rule) {
+                    return $rule->execute($userId, $permission, $params);
+                }
+            }
+        }
+        //check by property
         if (isset($this->permissionRules[$permissionName])) {
             $ruleName = $this->permissionRules[$permissionName];
             /** @var Rule $rule */
             $rule = Instance::ensure($this->rules[$ruleName], Rule::class);
             $rule->name = $ruleName;
-            $item = new Permission(['name' => $permissionName]);
-            return $rule->execute($userId, $item, $params);
+            $permission = new Permission(['name' => $permissionName]);
+            return $rule->execute($userId, $permission, $params);
         }
         return true;
     }

@@ -118,15 +118,24 @@ class AuthHelper
         $permissions = [];
         $childrenPermissions = [];
         foreach ($permissionTree as $module => $moduleConfig) {
+            $permissionPrefix = $moduleConfig['prefix'] ?? $prefix;
+            $permissionConfig['name'] = $permissionPrefix . $module;
+            $permission = static::getPermission($permissionConfig, $replaces);
+            $permissions[$permission->name] = $permission;
+
             foreach ($moduleConfig['groups'] as $group => $groupConfig) {
+                $permissionConfig['name'] = $permissionPrefix . implode($separator, [$module, $group]);
+                $permission = static::getPermission($permissionConfig, $replaces);
+                $permissions[$permission->name] = $permission;
+
                 foreach ($groupConfig['permissions'] as $key => $permissionConfig) {
-                    $permissionConfig['name'] = $prefix . implode($separator, [$module, $group, $key]);
+                    $permissionConfig['name'] = $permissionPrefix . implode($separator, [$module, $group, $key]);
                     $permission = static::getPermission($permissionConfig, $replaces);
                     $permissions[$permission->name] = $permission;
 
                     if (isset($permissionConfig['actionKeys'])) {
                         foreach ($permissionConfig['actionKeys'] as $actionKey) {
-                            $permissionKey = $prefix . implode($separator, [$module, $group, $actionKey]);
+                            $permissionKey = $permissionPrefix . implode($separator, [$module, $group, $actionKey]);
                             $childPermission = static::getPermission($permissionKey, $replaces);
                             $permissions[$childPermission->name] = $childPermission;
                             $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;
@@ -134,7 +143,7 @@ class AuthHelper
                     }
                     if (isset($permissionConfig['permissionKeys'])) {
                         foreach ($permissionConfig['permissionKeys'] as $permissionKey) {
-                            $permissionKey = $prefix . $permissionKey;
+                            $permissionKey = $permissionPrefix . $permissionKey;
                             $childPermission = static::getPermission($permissionKey, $replaces);
                             $permissions[$childPermission->name] = $childPermission;
                             $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;

@@ -16,7 +16,6 @@ class ShippingTableExportTransformerTest extends \Codeception\Test\Unit
         $data = require dirname(__DIR__) . '/fixtures/data/FBA20220401Rows.php';
         $transformer = new ShippingTableExportTransformer();
         $transform = $transformer->transform($data);
-        codecept_debug($transform);
         $this->assertCount(44, $transform);
         $keyMapTransformer = new KeyMapTransformer([
             'keyMap' => [
@@ -31,7 +30,6 @@ class ShippingTableExportTransformerTest extends \Codeception\Test\Unit
             ]
         ]);
         $transform = $keyMapTransformer->transform($transform);
-        file_put_contents('/app/test.txt', VarDumper::export($transform));
         $expected = require dirname(__DIR__) . '/fixtures/data/FBA20220401Table.php';
         $this->assertEquals($expected, $transform);
     }

@@ -37,6 +37,7 @@ class ShippingTableCalculatorTest extends \Codeception\Test\Unit
         $shippingItem1->carrier = 'GLS';
         $shippingItem1->departure = 'DE';
         $shippingItem1->destination = 'DE';
+        $shippingItem1->postalCode = '9527';
         $shippingItem1->weightG = 1500;
         $shippingItem1->lengthMM = 900;
         $shippingItem1->widthMM = 500;

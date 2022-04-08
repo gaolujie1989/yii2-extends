@@ -28,12 +28,13 @@ class ChargeTableFileExporterTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $exporter = new ChargeTableFileExporter();
-        $exporter->source = ChargeTable::find();
+        $exporter->source = ChargeTable::find()->asArray();
         $this->assertTrue($exporter->export('chargeTable.xlsx'));
         $excelData = ExcelHelper::readExcel($exporter->getFilePath());
         $excepted = [
             [
                 'ChargeType' => 'MOCK_CHARGE_T1',
+                'CustomType' => 'MOCK_CHARGE_C1',
                 'MinLimit' => 1,
                 'MaxLimit' => 2,
                 'LimitUnit' => 'KG',
@@ -43,10 +44,10 @@ class ChargeTableFileExporterTest extends \Codeception\Test\Unit
                 'OverLimitPerLimit' => 0,
                 'MinOverLimit' => 0,
                 'MaxOverLimit' => 0,
-                'DiscountPercent(%)' => 0,
             ],
             [
                 'ChargeType' => 'MOCK_CHARGE_T1',
+                'CustomType' => 'MOCK_CHARGE_C1',
                 'MinLimit' => 2,
                 'MaxLimit' => 5,
                 'LimitUnit' => 'KG',
@@ -60,6 +61,7 @@ class ChargeTableFileExporterTest extends \Codeception\Test\Unit
             ],
             [
                 'ChargeType' => 'MOCK_CHARGE_T1',
+                'CustomType' => 'MOCK_CHARGE_C1',
                 'MinLimit' => 2,
                 'MaxLimit' => 5,
                 'LimitUnit' => 'KG',
@@ -73,6 +75,7 @@ class ChargeTableFileExporterTest extends \Codeception\Test\Unit
             ],
             [
                 'ChargeType' => 'MOCK_CHARGE_T1',
+                'CustomType' => 'MOCK_CHARGE_C1',
                 'MinLimit' => 2,
                 'MaxLimit' => 5,
                 'LimitUnit' => 'KG',

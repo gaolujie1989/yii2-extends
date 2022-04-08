@@ -31,8 +31,6 @@ class ShippingTableImportTransformerTest extends \Codeception\Test\Unit
                 'width_cm_limit' => 'WidthLimit(CM)',
                 'height_cm_limit' => 'HeightLimit(CM)',
                 'l2wh_cm_limit' => 'L+2(W+H)Limit(CM)',
-                'price' => 'Price',
-                'currency' => 'Currency',
             ])
         ]);
         $transform = $keyMapTransformer->transform($transform);

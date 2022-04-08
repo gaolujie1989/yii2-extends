@@ -28,7 +28,6 @@ class ShippingTableFileExporter extends ModelFileExporter
     public $keyMap = [
         'carrier' => 'Carrier',
         'departure' => 'Departure',
-        'destination' => 'Destination',
         'zone' => 'Zone',
         'weight_kg_limit' => 'WeightLimit(KG)',
         'length_cm_limit' => 'LengthLimit(CM)',
@@ -41,8 +40,6 @@ class ShippingTableFileExporter extends ModelFileExporter
         'l2wh_cm_limit' => 'L+2(W+H)Limit(CM)',
         'lwh_cm_limit' => '(L+W+H)Limit(CM)',
         'lh_cm_limit' => '(L+H)Limit(CM)',
-        'price' => 'Price',
-        'currency' => 'Currency',
     ];
 
     /**

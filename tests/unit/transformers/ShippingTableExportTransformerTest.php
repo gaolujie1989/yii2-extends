@@ -20,16 +20,15 @@ class ShippingTableExportTransformerTest extends \Codeception\Test\Unit
         $keyMapTransformer = new KeyMapTransformer([
             'keyMap' => [
                 'carrier' => 'Carrier',
-                'weight_kg_limit' => 'Weight (KG)',
-                'length_cm_limit' => 'Length (CM)',
-                'width_cm_limit' => 'Width (CM)',
-                'height_cm_limit' => 'Height (CM)',
-                'l2wh_cm_limit' => 'L+2(W+H) (CM)',
-                'price' => 'Price',
-                'currency' => 'Currency',
+                'weight_kg_limit' => 'WeightLimit(KG)',
+                'length_cm_limit' => 'LengthLimit(CM)',
+                'width_cm_limit' => 'WidthLimit(CM)',
+                'height_cm_limit' => 'HeightLimit(CM)',
+                'l2wh_cm_limit' => 'L+2(W+H)Limit(CM)',
             ]
         ]);
         $transform = $keyMapTransformer->transform($transform);
+        file_put_contents('/app/test.txt', VarDumper::export($transform));
         $expected = require dirname(__DIR__) . '/fixtures/data/FBA20220401Table.php';
         $this->assertEquals($expected, $transform);
     }

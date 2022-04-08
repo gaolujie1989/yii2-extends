@@ -10,6 +10,7 @@ use lujie\charging\importers\ShippingTableFileImporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
 class ShippingTableFileImporterTest extends \Codeception\Test\Unit
@@ -45,7 +46,9 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'length_mm_limit' => '400',
                 'width_mm_limit' => '280',
                 'height_mm_limit' => '50',
-                'height_mm_min_limit' => '0',
+                'length_mm_min_limit' => '150',
+                'width_mm_min_limit' => '110',
+                'height_mm_min_limit' => '30',
                 'volume_mm3_limit' => '150000000',
                 'l2wh_mm_limit' => '1180',
                 'lwh_mm_limit' => '0',
@@ -60,7 +63,9 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'length_mm_limit' => '1200',
                 'width_mm_limit' => '800',
                 'height_mm_limit' => '600',
-                'height_mm_min_limit' => '0',
+                'length_mm_min_limit' => '150',
+                'width_mm_min_limit' => '110',
+                'height_mm_min_limit' => '30',
                 'volume_mm3_limit' => '150000000',
                 'l2wh_mm_limit' => '3000',
                 'lwh_mm_limit' => '0',
@@ -75,12 +80,65 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'length_mm_limit' => '15',
                 'width_mm_limit' => '700',
                 'height_mm_limit' => '400',
-                'height_mm_min_limit' => '0',
+                'length_mm_min_limit' => '150',
+                'width_mm_min_limit' => '110',
+                'height_mm_min_limit' => '30',
                 'volume_mm3_limit' => '200000000',
                 'l2wh_mm_limit' => '3000',
                 'lwh_mm_limit' => '0',
                 'lh_mm_limit' => '0',
                 'price_cent' => '349',
+                'currency' => 'EUR',
+            ],
+            [
+                'carrier' => 'GLS',
+                'destination' => 'FR',
+                'weight_g_limit' => '3000',
+                'length_mm_limit' => '400',
+                'width_mm_limit' => '280',
+                'height_mm_limit' => '50',
+                'length_mm_min_limit' => '150',
+                'width_mm_min_limit' => '110',
+                'height_mm_min_limit' => '30',
+                'volume_mm3_limit' => '150000000',
+                'l2wh_mm_limit' => '1180',
+                'lwh_mm_limit' => '0',
+                'lh_mm_limit' => '0',
+                'price_cent' => '396',
+                'currency' => 'EUR',
+            ],
+            [
+                'carrier' => 'GLS',
+                'destination' => 'FR',
+                'weight_g_limit' => '31500',
+                'length_mm_limit' => '1200',
+                'width_mm_limit' => '800',
+                'height_mm_limit' => '600',
+                'length_mm_min_limit' => '150',
+                'width_mm_min_limit' => '110',
+                'height_mm_min_limit' => '30',
+                'volume_mm3_limit' => '150000000',
+                'l2wh_mm_limit' => '3000',
+                'lwh_mm_limit' => '0',
+                'lh_mm_limit' => '0',
+                'price_cent' => '588',
+                'currency' => 'EUR',
+            ],
+            [
+                'carrier' => 'DPD',
+                'destination' => 'FR',
+                'weight_g_limit' => '30000',
+                'length_mm_limit' => '15',
+                'width_mm_limit' => '700',
+                'height_mm_limit' => '400',
+                'length_mm_min_limit' => '150',
+                'width_mm_min_limit' => '110',
+                'height_mm_min_limit' => '30',
+                'volume_mm3_limit' => '200000000',
+                'l2wh_mm_limit' => '3000',
+                'lwh_mm_limit' => '0',
+                'lh_mm_limit' => '0',
+                'price_cent' => '521',
                 'currency' => 'EUR',
             ],
         ];
@@ -90,6 +148,7 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
                 'ended_at' => (string)$endedAt,
                 'owner_id' => '11',
                 'departure' => 'DE',
+                'zone' => '',
             ]);
         }, $expected);
         $shippingTables = ShippingTable::find()->asArray()->all();
@@ -97,6 +156,13 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
             unset($item['shipping_table_id'], $item['created_at'], $item['created_by'], $item['updated_at'], $item['updated_by']);
             return $item;
         }, $shippingTables);
+
+        $shippingTables = ArrayHelper::index($expected, static function($values) {
+            return $values['carrier'] . $values['destination'] . $values['price_cent'];
+        });
+        $expected = ArrayHelper::index($expected, static function($values) {
+            return $values['carrier'] . $values['destination'] . $values['price_cent'];
+        });
         $this->assertEquals($expected, $shippingTables, VarDumper::export($shippingTables));
     }
 }

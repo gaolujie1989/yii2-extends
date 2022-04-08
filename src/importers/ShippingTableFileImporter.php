@@ -8,6 +8,7 @@ namespace lujie\charging\importers;
 use lujie\charging\forms\ShippingTableForm;
 use lujie\charging\transformers\ShippingTableImportTransformer;
 use lujie\data\exchange\ModelFileImporter;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ShippingTableImporter
@@ -40,8 +41,6 @@ class ShippingTableFileImporter extends ModelFileImporter
         'l2wh_cm_limit' => 'L+2(W+H)Limit(CM)',
         'lwh_cm_limit' => '(L+W+H)Limit(CM)',
         'lh_cm_limit' => '(L+H)Limit(CM)',
-        'price' => 'Price',
-        'currency' => 'Currency',
     ];
 
     /**
@@ -50,7 +49,10 @@ class ShippingTableFileImporter extends ModelFileImporter
     public function initTransformer(): void
     {
         parent::initTransformer();
-        $this->transformer['transformers'] = array_merge($this->transformer['transformers'], [
+        $this->transformer['transformers'] = ArrayHelper::merge($this->transformer['transformers'], [
+            'keyMap' => [
+                'unsetNotInMapKey' => false
+            ],
             'table' => [
                 'class' => ShippingTableImportTransformer::class,
             ]

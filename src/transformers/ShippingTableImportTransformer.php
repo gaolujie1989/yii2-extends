@@ -35,7 +35,7 @@ class ShippingTableImportTransformer extends BaseObject implements TransformerIn
             }
             foreach ($this->destinationSeparators as $separator) {
                 if (strpos($key, $separator) !== false) {
-                    $keyParts = explode($separator, $key);
+                    $keyParts = array_map('trim', explode($separator, $key));
                     foreach ($keyParts as $keyPart) {
                         if (strlen($keyPart) === 2 && preg_match('/[A-Z]{2}/', $keyPart)) {
                             $destValueKeys[$keyPart] = $key;

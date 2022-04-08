@@ -57,7 +57,6 @@ class ShippingTableExportTransformer extends BaseObject implements TransformerIn
             ]);
             return implode('_', $filterValues);
         }]);
-//        print_r($data);
         $transformed = [];
         foreach ($data as $destPrices) {
             $price = reset($destPrices);

@@ -104,11 +104,11 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             array_shift($data);
         }
         //fix load end null value
-        array_walk($data, static function (&$row) {
-            while (end($row) === null) {
-                array_pop($row);
-            }
-        });
+//        array_walk($data, static function (&$row) {
+//            while (end($row) === null) {
+//                array_pop($row);
+//            }
+//        });
         return $data;
     }
 

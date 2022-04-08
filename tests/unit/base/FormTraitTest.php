@@ -32,7 +32,7 @@ class FormTraitTest extends \Codeception\Test\Unit
             [['mock_price', 'mockCopy'], 'safe'],
             [['created_time', 'updated_time'], 'date'],
         ];
-        $this->assertEquals($rules, array_values($form->rules()), VarDumper::dumpAsString($form->rules()));
+        $this->assertEquals($rules, array_values($form->rules()));
         $form->load([
             'mock_id' => 1,
             'mock_key' => '123',

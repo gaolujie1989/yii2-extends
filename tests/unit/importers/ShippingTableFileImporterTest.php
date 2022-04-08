@@ -157,7 +157,7 @@ class ShippingTableFileImporterTest extends \Codeception\Test\Unit
             return $item;
         }, $shippingTables);
 
-        $shippingTables = ArrayHelper::index($expected, static function($values) {
+        $shippingTables = ArrayHelper::index($shippingTables, static function($values) {
             return $values['carrier'] . $values['destination'] . $values['price_cent'];
         });
         $expected = ArrayHelper::index($expected, static function($values) {

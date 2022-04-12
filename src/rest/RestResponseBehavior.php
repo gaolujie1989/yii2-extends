@@ -28,6 +28,11 @@ class RestResponseBehavior extends Behavior
     public $enableCors = false;
 
     /**
+     * @var bool
+     */
+    public $skipOnString = true;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -61,6 +66,9 @@ class RestResponseBehavior extends Behavior
     public function formatResponse(Response $response): void
     {
         $data = $response->data;
+        if ($this->skipOnString && is_string($data)) {
+            return;
+        }
         if ($response->statusCode >= 200 && $response->statusCode < 300) {
             $response->data = [
                 'data' => $data,

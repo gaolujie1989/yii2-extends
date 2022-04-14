@@ -5,10 +5,8 @@
 
 namespace lujie\auth\helpers;
 
-use Yii;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Inflector;
 use yii\rbac\BaseManager;
 use yii\rbac\Permission;
 use yii\rbac\Rule;
@@ -21,55 +19,40 @@ use yii\rbac\Rule;
 class AuthHelper
 {
     /**
-     * @param string $module
-     * @return string
-     * @inheritdoc
+     * @var array[]
      */
-    public static function generatePermissions(string $module): array
-    {
-        $activeActionPermissions = [
-            'index' => [
-                'label' => 'List',
-                'sort' => 10,
-                'actionKeys' => ['export'],
-            ],
-            'view' => [
-                'label' => 'View',
-                'sort' => 20,
-                'actionKeys' => ['download']
-            ],
-            'edit' => [
-                'label' => 'Edit',
-                'sort' => 30,
-                'actionKeys' => ['create', 'update', 'upload', 'import', 'batch-update'],
-            ],
-            'delete' => [
-                'label' => 'Delete',
-                'sort' => 40,
-                'actionKeys' => ['create', 'update', 'import', 'batch-delete']
-            ],
-        ];
-        $components = Yii::$app->getComponents();
-        $controllers = $components['urlManager']['rules'][$module]['controller'];
-        $permissionGroups = [];
-        $sort = 10;
-        foreach ($controllers as $key => $controllerId) {
-            $groupName = Inflector::singularize($key);
-            $permissionGroups[$groupName] = [
-                'label' => ucfirst($groupName),
-                'sort' => $sort,
-                'permissions' => $activeActionPermissions,
-            ];
-            $sort += 10;
-        }
-        return [
-            $module => [
-                'label' => ucfirst($module),
-                'sort' => 10,
-                'groups' => $permissionGroups
-            ]
-        ];
-    }
+    public static $defaultActionPermissions = [
+        'index' => [
+            'label' => 'List',
+            'sort' => 10,
+            'actionKeys' => ['export'],
+        ],
+        'view' => [
+            'label' => 'View',
+            'sort' => 20,
+            'actionKeys' => ['download']
+        ],
+        'edit' => [
+            'label' => 'Edit',
+            'sort' => 30,
+            'actionKeys' => ['create', 'update', 'upload', 'import', 'batch-update'],
+        ],
+        'delete' => [
+            'label' => 'Delete',
+            'sort' => 40,
+            'actionKeys' => ['batch-delete']
+        ],
+    ];
+
+    /**
+     * @var string[]
+     */
+    public static $permissionDataKeys = ['sort', 'position', 'data', 'rule'];
+
+    /**
+     * @var string
+     */
+    private static $globalPrefix = '';
 
     /**
      * @param $config
@@ -77,26 +60,87 @@ class AuthHelper
      * @return Permission
      * @inheritdoc
      */
-    public static function getPermission($config, array $replaces = []): Permission
+    public static function createPermission($config, array $replaces = []): Permission
     {
         if (!is_array($config)) {
-            $config = [
-                'name' => $config,
-                'label' => null,
-            ];
+            return new Permission(['name' => strtr($config, $replaces)]);
         }
 
         $permission = new Permission();
-        $permission->name = $config['name'];
-        $permission->description = $config['label'];
-        if (isset($config['ruleName'])) {
-            $permission->ruleName = $config['ruleName'];
-        }
-        if (isset($config['data'])) {
-            $permission->data = $config['data'];
-        }
-        $permission->name = strtr($permission->name, $replaces);
+        $permission->name = strtr($config['name'], $replaces);
+        $permission->description = $config['label'] ?? $config['description'] ?? null;
+        $permission->ruleName = $config['ruleName'] ?? null;
+        $permission->data = ArrayHelper::filter($config, static::$permissionDataKeys);
         return $permission;
+    }
+
+    /**
+     * @param array $permissionTree
+     * @param array|string[] $childrenKeys
+     * @param string $prefix
+     * @param string $separator
+     * @param array $replaces
+     * @return array
+     * @inheritdoc
+     */
+    protected static function createPermissions(
+        array  $permissionTree,
+        array  $childrenKeys = ['items'],
+        string $prefix = '',
+        string $separator = '_',
+        array  $replaces = []
+    ): array
+    {
+        if ($prefix) {
+            $prefix = rtrim($prefix, $separator) . $separator;
+        }
+        $replaces = array_merge(array_fill_keys(['_', '.', '/'], $separator), $replaces);
+        $childrenKey = count($childrenKeys) > 1 ? array_shift($childrenKeys) : reset($childrenKeys);
+
+        $permissions = [];
+        $permissionChildren = [];
+        $treePermissions = [];
+        $treePermissionChildren = [];
+        foreach ($permissionTree as $key => $subTree) {
+            if (static::$globalPrefix = $subTree['prefix'] ?? static::$globalPrefix) {
+                static::$globalPrefix = rtrim(static::$globalPrefix, $separator) . $separator;
+            }
+            $permissionKey = $prefix . $key;
+            $subTree['name'] = $permissionKey;
+            $permission = static::createPermission($subTree, $replaces);
+            $treePermissions[$permission->name] = $permission;
+
+            if (isset($subTree['actionKeys'])) {
+                foreach ($subTree['actionKeys'] as $actionKey) {
+                    $permissionKey = $prefix . $actionKey;
+                    $childPermission = static::createPermission($permissionKey, $replaces);
+                    $treePermissions[$childPermission->name] = $childPermission;
+                    $treePermissionChildren[$permission->name][$childPermission->name] = $childPermission;
+                }
+            }
+            if (isset($subTree['permissionKeys'])) {
+                foreach ($subTree['permissionKeys'] as $permissionKey) {
+                    $permissionKey = static::$globalPrefix . $permissionKey;
+                    $childPermission = static::createPermission($permissionKey, $replaces);
+
+                    $treePermissions[$childPermission->name] = $childPermission;
+                    $treePermissionChildren[$permission->name][$childPermission->name] = $childPermission;
+                }
+            }
+
+            if ($childrenTree = $subTree[$childrenKey] ?? []) {
+                [$childPermissions, $childPermissionChildren] = static::createPermissions($childrenTree, $childrenKeys, $permission->name, $separator, $replaces);
+                $permissions[] = $childPermissions;
+                $permissionChildren[] = $childPermissionChildren;
+                foreach ($childrenTree as $childKey => $childTree) {
+                    $childPermissionKey = $permission->name . $separator . $childKey;
+                    $treePermissionChildren[$permission->name][$childPermissionKey] = $childPermissions[$childPermissionKey];
+                }
+            }
+        }
+        $permissions = array_merge($treePermissions, ...$permissions);
+        $permissionChildren = array_merge($treePermissionChildren, ...$permissionChildren);
+        return [$permissions, $permissionChildren];
     }
 
     /**
@@ -105,69 +149,20 @@ class AuthHelper
      * @param string $prefix
      * @param string $separator
      * @param array $replaces
-     * @param array $excludePrefixes
      * @throws \yii\base\Exception
      * @throws \Exception
      * @inheritdoc
      */
-    public static function syncPermissions(array  $permissionTree, BaseManager $manager,
-                                           string $prefix = '', array $excludePrefixes = [],
-                                           string $separator = '_', array $replaces = []): void
+    public static function syncPermissions(
+        array       $permissionTree,
+        BaseManager $manager,
+        array       $childrenKeys = ['modules', 'groups', 'permissions'],
+        string      $separator = '_',
+        array       $replaces = []
+    ): void
     {
-        $replaces = array_merge(array_fill_keys(['_', '.', '/'], $separator), $replaces);
-        $permissions = [];
-        $childrenPermissions = [];
-        foreach ($permissionTree as $module => $moduleConfig) {
-            $permissionPrefix = $moduleConfig['prefix'] ?? $prefix;
-            $permissionConfig['name'] = $permissionPrefix . $module;
-            $permission = static::getPermission($permissionConfig, $replaces);
-            $permissions[$permission->name] = $permission;
-
-            foreach ($moduleConfig['groups'] as $group => $groupConfig) {
-                $permissionConfig['name'] = $permissionPrefix . implode($separator, [$module, $group]);
-                $permission = static::getPermission($permissionConfig, $replaces);
-                $permissions[$permission->name] = $permission;
-
-                foreach ($groupConfig['permissions'] as $key => $permissionConfig) {
-                    $permissionConfig['name'] = $permissionPrefix . implode($separator, [$module, $group, $key]);
-                    $permission = static::getPermission($permissionConfig, $replaces);
-                    $permissions[$permission->name] = $permission;
-
-                    if (isset($permissionConfig['actionKeys'])) {
-                        foreach ($permissionConfig['actionKeys'] as $actionKey) {
-                            $permissionKey = $permissionPrefix . implode($separator, [$module, $group, $actionKey]);
-                            $childPermission = static::getPermission($permissionKey, $replaces);
-                            $permissions[$childPermission->name] = $childPermission;
-                            $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;
-                        }
-                    }
-                    if (isset($permissionConfig['permissionKeys'])) {
-                        foreach ($permissionConfig['permissionKeys'] as $permissionKey) {
-                            $permissionKey = $permissionPrefix . $permissionKey;
-                            $childPermission = static::getPermission($permissionKey, $replaces);
-                            $permissions[$childPermission->name] = $childPermission;
-                            $childrenPermissions[$permission->name][$childPermission->name] = $childPermission;
-                        }
-                    }
-                }
-            }
-        }
-
+        [$permissions, $permissionChildren] = static::createPermissions($permissionTree, $childrenKeys, '', $separator, $replaces);
         $existPermissions = ArrayHelper::index($manager->getPermissions(), 'name');
-        if ($prefix) {
-            $existPermissions = array_filter($existPermissions, static function ($permission) use ($prefix) {
-                return strpos($permission->name, $prefix) === 0;
-            });
-        } else if ($excludePrefixes) {
-            $existPermissions = array_filter($existPermissions, static function ($permission) use ($excludePrefixes) {
-                foreach ($excludePrefixes as $prefix) {
-                    if (strpos($permission->name, $prefix) === 0) {
-                        return false;
-                    }
-                }
-                return true;
-            });
-        }
         $addPermissions = array_diff_key($permissions, $existPermissions);
         foreach ($addPermissions as $name => $permission) {
             if ($manager->add($permission)) {
@@ -184,16 +179,8 @@ class AuthHelper
                 echo 'Update Permission ', $name, " Failed\n";
             }
         }
-        $deletePermissions = array_diff_key($existPermissions, $permissions);
-        foreach ($deletePermissions as $name => $permission) {
-            if ($manager->remove($permission)) {
-                echo 'Remove Permission ', $name, " Success\n";
-            } else {
-                echo 'Remove Permission ', $name, " Failed\n";
-            }
-        }
 
-        foreach ($childrenPermissions as $parentName => $childPermissions) {
+        foreach ($permissionChildren as $parentName => $childPermissions) {
             $parentPermission = $permissions[$parentName];
             $existChildren = ArrayHelper::index($manager->getChildren($parentName), 'name');
             $addChildren = array_diff_key($childPermissions, $existChildren);
@@ -204,6 +191,7 @@ class AuthHelper
                     echo 'Add Child ', $name, ' -> ', $parentName, " Failed\n";
                 }
             }
+            /** @var Permission[] $deleteChildren */
             $deleteChildren = array_diff_key($existPermissions, $permissions);
             foreach ($deleteChildren as $name => $childPermission) {
                 if ($manager->removeChild($parentPermission, $childPermission)) {
@@ -211,6 +199,13 @@ class AuthHelper
                         echo 'Remove Child ', $name, ' -> ', $parentName, " Success\n";
                     } else {
                         echo 'Remove Child ', $name, ' -> ', $parentName, " Failed\n";
+                    }
+                }
+                if (empty($permissions[$childPermission->name])) {
+                    if ($manager->remove($childPermission)) {
+                        echo 'Remove Permission ', $childPermission->name, " Success\n";
+                    } else {
+                        echo 'Remove Permission ', $childPermission->name, " Failed\n";
                     }
                 }
             }

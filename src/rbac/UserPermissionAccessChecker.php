@@ -68,8 +68,10 @@ class UserPermissionAccessChecker extends BaseObject implements CheckAccessInter
         }
 
         //check by auth manager
-        if (Yii::$app->has($this->authManager)) {
-            $this->authManager = Yii::$app->get($this->authManager);
+        if (is_string($this->authManager)) {
+            $this->authManager = Yii::$app->get($this->authManager, false);
+        }
+        if ($this->authManager) {
             $permission = $this->authManager->getPermission($permissionName);
             if ($permission && $permission->ruleName) {
                 $rule = $this->authManager->getRule($permissionName);

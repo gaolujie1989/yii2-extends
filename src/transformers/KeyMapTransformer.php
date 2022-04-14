@@ -31,6 +31,11 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
     public $unsetNotInMapKey = false;
 
     /**
+     * @var null|mixed
+     */
+    public $default;
+
+    /**
      * @param array $data
      * @return array
      * @inheritdoc
@@ -45,11 +50,13 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
                 if ($from === $to) {
                     continue;
                 }
-                if (isset($values[$from])) {
+                if (array_key_exists($from, $values)) {
                     $values[$to] = &$values[$from];
                     if ($this->unsetOriginalKey) {
                         unset($values[$from]);
                     }
+                } else if (!array_key_exists($to, $values)) {
+                    $values[$to] = $this->default;
                 }
             }
             if ($this->unsetNotInMapKey) {

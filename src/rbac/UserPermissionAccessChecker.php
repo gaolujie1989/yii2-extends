@@ -9,8 +9,8 @@ use Yii;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\rbac\BaseManager;
 use yii\rbac\CheckAccessInterface;
+use yii\rbac\ManagerInterface;
 use yii\rbac\Permission;
 use yii\rbac\Rule;
 use yii\web\IdentityInterface;
@@ -33,7 +33,7 @@ class UserPermissionAccessChecker extends BaseObject implements CheckAccessInter
     public $dataKey = 'permissions';
 
     /**
-     * @var BaseManager
+     * @var ManagerInterface
      */
     public $authManager = 'authManager';
 

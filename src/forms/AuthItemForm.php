@@ -9,8 +9,8 @@ use lujie\auth\models\AuthItem;
 use lujie\extend\db\FormTrait;
 use yii\di\Instance;
 use yii\mongodb\rbac\MongoDbManager;
-use yii\rbac\BaseManager;
 use yii\rbac\DbManager;
+use yii\rbac\ManagerInterface;
 
 /**
  * Class AuthItemForm
@@ -22,7 +22,7 @@ class AuthItemForm extends AuthItem
     use FormTrait;
 
     /**
-     * @var BaseManager
+     * @var ManagerInterface
      */
     public $authManager = 'authManager';
 
@@ -33,7 +33,7 @@ class AuthItemForm extends AuthItem
     public function init(): void
     {
         parent::init();
-        $this->authManager = Instance::ensure($this->authManager, BaseManager::class);
+        $this->authManager = Instance::ensure($this->authManager, ManagerInterface::class);
     }
 
     /**

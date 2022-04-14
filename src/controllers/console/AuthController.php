@@ -9,18 +9,17 @@ use lujie\auth\helpers\AuthHelper;
 use Yii;
 use yii\console\Controller;
 use yii\di\Instance;
-use yii\helpers\VarDumper;
-use yii\rbac\BaseManager;
+use yii\rbac\ManagerInterface;
 
 /**
- * Class PermissionController
+ * Class AuthController
  * @package lujie\auth\controllers\console
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PermissionController extends Controller
+class AuthController extends Controller
 {
     /**
-     * @var BaseManager
+     * @var ManagerInterface
      */
     public $authManager = 'authManager';
 
@@ -31,25 +30,24 @@ class PermissionController extends Controller
     public function init(): void
     {
         parent::init();
-        $this->authManager = Instance::ensure($this->authManager, BaseManager::class);
+        $this->authManager = Instance::ensure($this->authManager, ManagerInterface::class);
     }
 
     /**
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function actionSync(): void
+    public function actionSyncPermissions(): void
     {
         AuthHelper::syncPermissions(Yii::$app->params['permissions'] ?? [], $this->authManager);
     }
 
     /**
-     * @param string $module
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionGenerate(string $module): void
+    public function actionSyncRules(): void
     {
-        $permissions = AuthHelper::generatePermissions($module);
-        echo "\n", VarDumper::export($permissions), "\n";
+        AuthHelper::syncRules(Yii::$app->params['rules'] ?? [], $this->authManager);
     }
 }

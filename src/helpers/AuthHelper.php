@@ -7,7 +7,7 @@ namespace lujie\auth\helpers;
 
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\rbac\BaseManager;
+use yii\rbac\ManagerInterface;
 use yii\rbac\Permission;
 use yii\rbac\Rule;
 
@@ -145,7 +145,7 @@ class AuthHelper
 
     /**
      * @param array $permissionTree
-     * @param BaseManager $manager
+     * @param ManagerInterface $manager
      * @param string $prefix
      * @param string $separator
      * @param array $replaces
@@ -155,7 +155,7 @@ class AuthHelper
      */
     public static function syncPermissions(
         array       $permissionTree,
-        BaseManager $manager,
+        ManagerInterface $manager,
         array       $childrenKeys = ['modules', 'groups', 'permissions'],
         string      $separator = '_',
         array       $replaces = []
@@ -214,12 +214,12 @@ class AuthHelper
 
     /**
      * @param array $rules
-     * @param BaseManager $manager
+     * @param ManagerInterface $manager
      * @throws \yii\base\InvalidConfigException
      * @throws \Exception
      * @inheritdoc
      */
-    public static function syncRules(array $rules, BaseManager $manager): void
+    public static function syncRules(array $rules, ManagerInterface $manager): void
     {
         foreach ($rules as $ruleName => $ruleConfig) {
             $ruleInstance = Instance::ensure($ruleConfig, Rule::class);

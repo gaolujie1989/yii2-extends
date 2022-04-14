@@ -5,11 +5,10 @@
 
 namespace lujie\auth\forms;
 
-use lujie\auth\controllers\rest\PermissionController;
 use yii\base\Model;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
-use yii\rbac\BaseManager;
+use yii\rbac\ManagerInterface;
 use yii\rbac\Role;
 use yii\web\IdentityInterface;
 
@@ -42,7 +41,7 @@ class AuthAssignmentForm extends Model
     private $_roles;
 
     /**
-     * @var BaseManager
+     * @var ManagerInterface
      */
     public $authManager = 'authManager';
 
@@ -53,7 +52,7 @@ class AuthAssignmentForm extends Model
     public function init(): void
     {
         parent::init();
-        $this->authManager = Instance::ensure($this->authManager, BaseManager::class);
+        $this->authManager = Instance::ensure($this->authManager, ManagerInterface::class);
     }
 
     /**

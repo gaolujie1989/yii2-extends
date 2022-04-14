@@ -54,6 +54,8 @@ class AuthHelper
      */
     private static $globalPrefix = '';
 
+    public static $replaceKeys = ['_', '.'];
+
     /**
      * @param $config
      * @param array $replaces
@@ -94,7 +96,7 @@ class AuthHelper
         if ($prefix) {
             $prefix = rtrim($prefix, $separator) . $separator;
         }
-        $replaces = array_merge(array_fill_keys(['_', '.', '/'], $separator), $replaces);
+        $replaces = array_merge(array_fill_keys(static::$replaceKeys, $separator), $replaces);
         $childrenKey = count($childrenKeys) > 1 ? array_shift($childrenKeys) : reset($childrenKeys);
 
         $permissions = [];

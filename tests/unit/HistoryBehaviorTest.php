@@ -9,7 +9,6 @@ use lujie\ar\history\models\ModelHistory;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrder;
 use lujie\data\loader\ArrayDataLoader;
-use yii\helpers\VarDumper;
 
 class HistoryBehaviorTest extends \Codeception\Test\Unit
 {
@@ -183,7 +182,7 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
                 ],
             ],
         ];
-        $this->assertEquals($excepted, $history->details, VarDumper::dumpAsString($history->details));
+        $this->assertEquals($excepted, $history->details);
 
         //just update again
         $this->assertTrue($testOrder->save(false));
@@ -202,6 +201,6 @@ class HistoryBehaviorTest extends \Codeception\Test\Unit
                 'diffValue' => ['modified' => '"Processing" -> "Shipped"'],
             ],
         ];
-        $this->assertEquals($excepted, $history->details, VarDumper::dumpAsString($history->details));
+        $this->assertEquals($excepted, $history->details);
     }
 }

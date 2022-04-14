@@ -5,7 +5,6 @@ namespace lujie\ar\history\behaviors\tests\unit;
 use lujie\ar\history\handlers\RelationAttributeHistoryHandler;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestAddress;
 use lujie\ar\relation\behaviors\tests\unit\fixtures\models\TestOrderItem;
-use yii\helpers\VarDumper;
 
 class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
@@ -40,7 +39,7 @@ class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
                 'street' => '"street 1" -> "street 2"'
             ]
         ];
-        $this->assertEquals($excepted, $diff, VarDumper::dumpAsString($diff));
+        $this->assertEquals($excepted, $diff);
     }
 
     /**
@@ -96,6 +95,6 @@ class RelationAttributeHistoryHandlerTest extends \Codeception\Test\Unit
                 ]
             ],
         ];
-        $this->assertEquals($excepted, $diff, VarDumper::dumpAsString($diff));
+        $this->assertEquals($excepted, $diff);
     }
 }

@@ -3,7 +3,6 @@
 namespace lujie\ar\history\behaviors\tests\unit;
 
 use lujie\ar\history\handlers\ArrayAttributeHistoryHandler;
-use yii\helpers\VarDumper;
 
 class ArrayAttributeHistoryHandlerTest extends \Codeception\Test\Unit
 {
@@ -31,7 +30,7 @@ class ArrayAttributeHistoryHandlerTest extends \Codeception\Test\Unit
             'deleted' => ['B' => 'BBB'],
             'modified' => ['A' => '"AAA" -> "BBB"'],
         ];
-        $this->assertEquals($expected, $diff, VarDumper::dumpAsString($diff));
+        $this->assertEquals($expected, $diff);
     }
 
     /**

@@ -164,18 +164,16 @@ class ValueHelper
      * @param array $array
      * @param array|string[] $childrenKeys
      * @param string $sortKey
+     * @param bool $asc
      * @return array
      * @inheritdoc
      */
-    public static function sort(array $array, array $childrenKeys = ['items'], string $sortKey = 'sort'): array
+    public static function sort(array $array, array $childrenKeys = ['items'], string $sortKey = 'sort', bool $asc = true): array
     {
-        uasort($array, static function ($a, $b) use ($sortKey) {
+        uasort($array, static function ($a, $b) use ($sortKey, $asc) {
             $sortA = $a[$sortKey] ?? 0;
             $sortB = $b[$sortKey] ?? 0;
-            if ($sortA === $sortB) {
-                return 0;
-            }
-            return ($sortA < $sortB) ? -1 : 1;
+            return $asc ? $sortA <=> $sortB : $sortB <=> $sortA;
         });
 
         $childrenKey = count($childrenKeys) > 1 ? array_shift($childrenKeys) : reset($childrenKeys);

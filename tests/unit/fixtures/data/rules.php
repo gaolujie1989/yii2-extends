@@ -8,7 +8,7 @@ use lujie\auth\rules\ModelAccessRule;
 use lujie\auth\rules\QueryResultRule;
 
 return [
-    'isAuthor' => [
+    'Author' => [
         'class' => AuthorRule::class,
     ],
     'ModelAccess' => [

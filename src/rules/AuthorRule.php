@@ -19,7 +19,7 @@ class AuthorRule extends Rule
     /**
      * @var string
      */
-    public $name = 'isAuthor';
+    public $name = 'Author';
 
     /**
      * @var string

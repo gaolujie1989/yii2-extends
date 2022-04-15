@@ -134,6 +134,10 @@ class AuthHelper
                 [$childPermissions, $childPermissionChildren] = static::createPermissions($childrenTree, $childrenKeys, $permission->name, $separator, $replaces);
                 $permissions[] = $childPermissions;
                 $permissionChildren[] = $childPermissionChildren;
+                foreach ($childrenTree as $childKey => $childTree) {
+                    $childPermissionKey = $permission->name . $separator . $childKey;
+                    $treePermissionChildren[$permission->name][$childPermissionKey] = $childPermissions[$childPermissionKey];
+                }
             }
         }
         $permissions = array_merge($treePermissions, ...$permissions);

@@ -48,6 +48,16 @@ class AuthHelperTest extends \Codeception\Test\Unit
             'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
         ];
         $childExpected = [
+            'app' => [
+                'app_xxxModuleA' => 'app_xxxModuleA',
+            ],
+            'app_xxxModuleA' => [
+                'app_xxxModuleA_xxxControllerA' => 'app_xxxModuleA_xxxControllerA',
+            ],
+            'app_xxxModuleA_xxxControllerA' => [
+                'app_xxxModuleA_xxxControllerA_xxxAction' => 'app_xxxModuleA_xxxControllerA_xxxAction',
+                'app_xxxModuleA_xxxControllerA_xxxActionA' => 'app_xxxModuleA_xxxControllerA_xxxActionA',
+            ],
             'app_xxxModuleA_xxxControllerA_xxxAction' => [
                 'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
                 'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',
@@ -75,6 +85,16 @@ class AuthHelperTest extends \Codeception\Test\Unit
             'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
         ];
         $childExpected = [
+            'app' => [
+                'app_xxxModuleA' => 'app_xxxModuleA',
+            ],
+            'app_xxxModuleA' => [
+                'app_xxxModuleA_xxxControllerA' => 'app_xxxModuleA_xxxControllerA',
+            ],
+            'app_xxxModuleA_xxxControllerA' => [
+                'app_xxxModuleA_xxxControllerA_xxxActionA' => 'app_xxxModuleA_xxxControllerA_xxxActionA',
+                'app_xxxModuleA_xxxControllerA_xxxActionB' => 'app_xxxModuleA_xxxControllerA_xxxActionB',
+            ],
             'app_xxxModuleA_xxxControllerA_xxxActionA' => [
                 'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
                 'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',

@@ -23,12 +23,12 @@ class AuthRoleForm extends AuthItemForm
      * 理论上不应该Role包含Role,容易造成死循环，应该用Permission包含Permission替代，Role只包含Permission
      * @var string[]
      */
-    private $_permissions;
+    private $_permissionsNames;
 
     /**
      * @var Permission[]
      */
-    private $_permissionItems;
+    private $_permissions;
 
     /**
      * @return array
@@ -48,7 +48,7 @@ class AuthRoleForm extends AuthItemForm
      */
     public function validatePermissions(): void
     {
-        $permissionNames = $this->_permissions;
+        $permissionNames = $this->_permissionsNames;
         $invalidPermissionNames = [];
         $validPermissions = [];
         foreach ($permissionNames as $permissionName) {
@@ -62,7 +62,7 @@ class AuthRoleForm extends AuthItemForm
         if ($invalidPermissionNames) {
             $this->addError('permissions', 'Invalid permissions:' . implode(',', $invalidPermissionNames));
         } else {
-            $this->_permissionItems = $validPermissions;
+            $this->_permissions = $validPermissions;
         }
     }
 
@@ -84,7 +84,7 @@ class AuthRoleForm extends AuthItemForm
      */
     public function savePermissions(): void
     {
-        $permissions = $this->_permissionItems;
+        $permissions = $this->_permissions;
         $parent = $this->authManager->getRole($this->name);
         if (empty($permissions)) {
             $this->authManager->removeChildren($parent);
@@ -119,24 +119,24 @@ class AuthRoleForm extends AuthItemForm
      * @return array
      * @inheritdoc
      */
-    public function getPermissions(): array
+    public function getPermissionsNames(): array
     {
-        if ($this->_permissions === null) {
+        if ($this->_permissionsNames === null) {
             $permissions = $this->authManager->getPermissionsByRole($this->name);
             $permissions = array_filter($permissions, static function(Permission $permission) {
                 return $permission->description;
             });
-            $this->_permissions = array_values(ArrayHelper::getColumn($permissions, 'name'));
+            $this->_permissionsNames = array_values(ArrayHelper::getColumn($permissions, 'name'));
         }
-        return $this->_permissions;
+        return $this->_permissionsNames;
     }
 
     /**
      * @param array $permissions
      * @inheritdoc
      */
-    public function setPermission(array $permissions): void
+    public function setPermissions(array $permissions): void
     {
-        $this->_permissions = $permissions;
+        $this->_permissionsNames = $permissions;
     }
 }

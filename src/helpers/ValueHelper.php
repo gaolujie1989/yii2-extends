@@ -159,4 +159,32 @@ class ValueHelper
         $values = preg_split($splitPattern, $str, -1, PREG_SPLIT_NO_EMPTY);
         return array_filter(array_map('trim', $values), [static::class, 'notEmpty']);
     }
+
+    /**
+     * @param array $array
+     * @param array|string[] $childrenKeys
+     * @param string $sortKey
+     * @return array
+     * @inheritdoc
+     */
+    public static function sort(array $array, array $childrenKeys = ['items'], string $sortKey = 'sort'): array
+    {
+        uasort($array, static function ($a, $b) use ($sortKey) {
+            $sortA = $a[$sortKey] ?? 0;
+            $sortB = $b[$sortKey] ?? 0;
+            if ($sortA === $sortB) {
+                return 0;
+            }
+            return ($sortA < $sortB) ? -1 : 1;
+        });
+
+        $childrenKey = count($childrenKeys) > 1 ? array_shift($childrenKeys) : reset($childrenKeys);
+        foreach ($array as $key => $childArray) {
+            if (isset($childArray[$childrenKey])) {
+                $array[$key][$childrenKey] = static::sort($childArray[$childrenKey], $childrenKeys, $sortKey);
+            }
+        }
+
+        return $array;
+    }
 }

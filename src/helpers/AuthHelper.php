@@ -5,8 +5,12 @@
 
 namespace lujie\auth\helpers;
 
+use lujie\auth\models\AuthItem;
+use yii\db\Query;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\rbac\DbManager;
+use yii\rbac\Item;
 use yii\rbac\ManagerInterface;
 use yii\rbac\Permission;
 use yii\rbac\Rule;
@@ -239,5 +243,76 @@ class AuthHelper
                 echo 'Add Rule ', $ruleName, " Failed\n";
             }
         }
+    }
+
+    /**
+     * @param DbManager $manager
+     * @param array|string[] $childrenKeys
+     * @return array
+     * @inheritdoc
+     */
+    public static function generatePermissionTree(DbManager $manager, array $childrenKeys = ['items']): array
+    {
+        $permissions = (new Query())->from($manager->itemTable)
+            ->andWhere(['type' => Item::TYPE_PERMISSION])
+            ->andWhere(['IS NOT', 'description', null])
+            ->select(['name', 'description', 'data'])
+            ->indexBy('name')
+            ->all($manager->db);
+        foreach ($permissions as $key => $permission) {
+            $data = $permission['data'];
+            if ($data !== null) {
+                $data = is_resource($data) ? stream_get_contents($data) : $data;
+                /** @noinspection UnserializeExploitsInspection */
+                $permission['data'] = @unserialize($data);
+                $permissions[$key] = $permission;
+            }
+        }
+        $permissionNames = array_keys($permissions);
+
+        $itemChildren = (new Query())->from($manager->itemChildTable)
+            ->andWhere(['parent' => $permissionNames])
+            ->select(['parent', 'child'])
+            ->all();
+        $parentChildren = ArrayHelper::map($itemChildren, 'child', 'child', 'parent');
+
+        $childNames = array_unique(ArrayHelper::getColumn($itemChildren, 'child'));
+        $rootPermissionNames = array_diff($permissionNames, $childNames);
+        return static::createPermissionTree($rootPermissionNames, $permissions, $parentChildren, $childrenKeys);
+    }
+
+    /**
+     * @param array $parents
+     * @param array $permissions
+     * @param array $itemChildren
+     * @param array|string[] $childrenKeys
+     * @return array
+     * @inheritdoc
+     */
+    public static function createPermissionTree(array $parents, array $permissions, array $itemChildren, array $childrenKeys = ['items']): array
+    {
+        $permissionTree = [];
+        $childrenKey = count($childrenKeys) > 1 ? array_shift($childrenKeys) : reset($childrenKeys);
+        foreach ($parents as $parent) {
+            if (empty($permissions[$parent])) {
+                continue;
+            }
+            $permission = $permissions[$parent];
+            $permissionTree[$parent] = [
+                'name' => $permission['name'],
+                'label' => $permission['description'],
+                'sort' => $permission['data']['sort'] ?? $permission['data']['position'] ?? 0,
+            ];
+            if (empty($itemChildren[$parent])) {
+                continue;
+            }
+            if ($subTree = static::createPermissionTree($itemChildren[$parent], $permissions, $itemChildren, $childrenKeys)) {
+                $permissionTree[$parent][$childrenKey] = $subTree;
+            }
+        }
+        uasort($permissionTree, static function($a, $b) {
+            return $a['sort'] <=> $b['sort'];
+        });
+        return $permissionTree;
     }
 }

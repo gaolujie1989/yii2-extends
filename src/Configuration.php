@@ -8,6 +8,7 @@ namespace lujie\configuration;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\data\loader\TypedFileDataLoader;
 use lujie\extend\caching\CachingTrait;
+use lujie\extend\helpers\ValueHelper;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
@@ -316,40 +317,7 @@ class Configuration extends Component implements BootstrapInterface
         if (empty($this->sortConfig[$key])) {
             return $config;
         }
-        return static::sortByKey($config, $this->sortConfig[$key]);
-    }
-
-    /**
-     * @param array $array
-     * @param array|string|null $childKeys
-     * @param string $sortKey
-     * @return array
-     * @inheritdoc
-     */
-    public static function sortByKey(array $array, $childKeys = ['items'], string $sortKey = 'sort'): array
-    {
-        uasort($array, static function ($a, $b) use ($sortKey) {
-            if (empty($a[$sortKey]) || empty($b[$sortKey]) || $a[$sortKey] === $b[$sortKey]) {
-                return 0;
-            }
-            return ($a[$sortKey] < $b[$sortKey]) ? -1 : 1;
-        });
-
-        if ($childKeys) {
-            if (is_array($childKeys)) {
-                $childKey = array_shift($childKeys);
-            } else {
-                $childKey = $childKeys;
-            }
-
-            foreach ($array as $key => $childArray) {
-                if (isset($childArray[$childKey])) {
-                    $array[$key][$childKey] = static::sortByKey($array[$key][$childKey], $childKeys, $sortKey);
-                }
-            }
-        }
-
-        return $array;
+        return ValueHelper::sort($config, (array)$this->sortConfig[$key]);
     }
 
     #endregion

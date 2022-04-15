@@ -126,7 +126,7 @@ class AuthRoleForm extends AuthItemForm
             $permissions = array_filter($permissions, static function(Permission $permission) {
                 return $permission->description;
             });
-            $this->_permissions = ArrayHelper::getColumn($permissions, 'name');
+            $this->_permissions = array_values(ArrayHelper::getColumn($permissions, 'name'));
         }
         return $this->_permissions;
     }

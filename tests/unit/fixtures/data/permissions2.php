@@ -16,13 +16,13 @@ return [
                         'label' => 'xxxActionA',
                         'sort' => 10,
                         'actionKeys' => ['xxxAction2', 'xxxAction3'],
-                        'permissionKeys' => ['xxxModule2/xxxController2/xxxAction2', 'xxxModule3/xxxController3/xxxAction3'],
+                        'permissionKeys' => ['xxxModule2_xxxController2_xxxAction2', 'xxxModule3_xxxController3_xxxAction3'],
                     ],
                     'xxxActionB' => [
                         'label' => 'xxxActionA',
                         'sort' => 20,
                         'actionKeys' => ['xxxAction3'],
-                        'permissionKeys' => ['xxxModule3/xxxController3/xxxAction3'],
+                        'permissionKeys' => ['xxxModule3_xxxController3_xxxAction3'],
                     ],
                 ]
             ]

@@ -32,68 +32,60 @@ class AuthHelperTest extends \Codeception\Test\Unit
             'sort' => 10,
             'modules' => require __DIR__ . '/../fixtures/data/permissions2.php',
         ]];
-        $query = (new Query())->from($authManager->itemTable)->select(['name']);
+        $query = (new Query())->from($authManager->itemTable)->select(['name'])->indexBy('name');
         $childQuery = (new Query())->from($authManager->itemChildTable);
         $this->assertEquals(0, $query->count());
         AuthHelper::syncPermissions($permissions, $authManager, $childrenKeys);
+        $expected = [
+            'app' => 'app',
+            'app_xxxModuleA' => 'app_xxxModuleA',
+            'app_xxxModuleA_xxxControllerA' => 'app_xxxModuleA_xxxControllerA',
+            'app_xxxModuleA_xxxControllerA_xxxAction' => 'app_xxxModuleA_xxxControllerA_xxxAction',
+            'app_xxxModuleA_xxxControllerA_xxxActionA' => 'app_xxxModuleA_xxxControllerA_xxxActionA',
+            'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
+            'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',
+            'app_xxxModule2_xxxController2_xxxAction2' => 'app_xxxModule2_xxxController2_xxxAction2',
+            'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
+        ];
         $childExpected = [
-            'app' => [
-                'app_xxxModuleA',
-            ],
-            'app_xxxModuleA' => [
-                'app_xxxModuleA_xxxControllerA',
-            ],
-            'app_xxxModuleA_xxxControllerA' => [
-                'app_xxxModuleA_xxxControllerA_xxxAction',
-                'app_xxxModuleA_xxxControllerA_xxxActionA',
-            ],
             'app_xxxModuleA_xxxControllerA_xxxAction' => [
-                'app_xxxModuleA_xxxControllerA_xxxAction2',
-                'app_xxxModuleA_xxxControllerA_xxxAction3',
-                'app_xxxModule2_xxxController2_xxxAction2',
-                'app_xxxModule3_xxxController3_xxxAction3',
+                'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
+                'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',
+                'app_xxxModule2_xxxController2_xxxAction2' => 'app_xxxModule2_xxxController2_xxxAction2',
+                'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
             ],
             'app_xxxModuleA_xxxControllerA_xxxActionA' => [
-                'app_xxxModuleA_xxxControllerA_xxxAction2',
-                'app_xxxModule2_xxxController2_xxxAction2',
+                'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
+                'app_xxxModule2_xxxController2_xxxAction2' => 'app_xxxModule2_xxxController2_xxxAction2',
             ],
         ];
-        $expected = array_unique(array_merge(array_keys($childExpected), ...array_values($childExpected)));
-        sort($expected);
-        $childExpected = array_map(static function ($keys) {
-            return array_combine($keys, $keys);
-        }, $childExpected);
         $this->assertEquals($expected, $query->column());
         $this->assertEquals($childExpected, ArrayHelper::map($childQuery->all(), 'child', 'child', 'parent'));
         AuthHelper::syncPermissions($permissions2, $authManager, $childrenKeys);
 
+        $expected = [
+            'app' => 'app',
+            'app_xxxModuleA' => 'app_xxxModuleA',
+            'app_xxxModuleA_xxxControllerA' => 'app_xxxModuleA_xxxControllerA',
+            'app_xxxModuleA_xxxControllerA_xxxActionA' => 'app_xxxModuleA_xxxControllerA_xxxActionA',
+            'app_xxxModuleA_xxxControllerA_xxxActionB' => 'app_xxxModuleA_xxxControllerA_xxxActionB',
+            'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
+            'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',
+            'app_xxxModule2_xxxController2_xxxAction2' => 'app_xxxModule2_xxxController2_xxxAction2',
+            'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
+        ];
         $childExpected = [
-            'app' => [
-                'app_xxxModuleA',
-            ],
-            'app_xxxModuleA' => [
-                'app_xxxModuleA_xxxControllerA',
-            ],
-            'app_xxxModuleA_xxxControllerA' => [
-                'app_xxxModuleA_xxxControllerA_xxxActionA',
-                'app_xxxModuleA_xxxControllerA_xxxActionB',
-            ],
             'app_xxxModuleA_xxxControllerA_xxxActionA' => [
-                'app_xxxModuleA_xxxControllerA_xxxAction2',
-                'app_xxxModuleA_xxxControllerA_xxxAction3',
-                'app_xxxModule2_xxxController2_xxxAction2',
-                'app_xxxModule3_xxxController3_xxxAction3',
+                'app_xxxModuleA_xxxControllerA_xxxAction2' => 'app_xxxModuleA_xxxControllerA_xxxAction2',
+                'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',
+                'app_xxxModule2_xxxController2_xxxAction2' => 'app_xxxModule2_xxxController2_xxxAction2',
+                'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
             ],
             'app_xxxModuleA_xxxControllerA_xxxActionB' => [
-                'app_xxxModuleA_xxxControllerA_xxxAction3',
-                'app_xxxModule3_xxxController3_xxxAction3',
+                'app_xxxModuleA_xxxControllerA_xxxAction3' => 'app_xxxModuleA_xxxControllerA_xxxAction3',
+                'app_xxxModule3_xxxController3_xxxAction3' => 'app_xxxModule3_xxxController3_xxxAction3',
             ],
         ];
-        $expected = array_unique(array_merge(array_keys($childExpected), ...array_values($childExpected)));
-        sort($expected);
-        $childExpected = array_map(static function ($keys) {
-            return array_combine($keys, $keys);
-        }, $childExpected);
         $this->assertEquals($expected, $query->column());
         $this->assertEquals($childExpected, ArrayHelper::map($childQuery->all(), 'child', 'child', 'parent'));
     }

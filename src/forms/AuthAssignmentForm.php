@@ -33,7 +33,7 @@ class AuthAssignmentForm extends Model
      * 理论上不应该直接给特定用户直接指派权限，会造成后期权限管理混乱
      * @var string[]
      */
-    public $roles;
+    public $_roleNames;
 
     /**
      * @var Role[]
@@ -86,19 +86,21 @@ class AuthAssignmentForm extends Model
      */
     public function validateRoles(): void
     {
+        $roleNames = $this->_roleNames;
         $invalidRoleNames = [];
-        $this->_roles = [];
-        foreach ($this->roles as $roleName) {
+        $validRoles = [];
+        foreach ($roleNames as $roleName) {
             $role = $this->authManager->getRole($roleName);
             if ($role === null) {
                 $invalidRoleNames[] = $roleName;
             } else {
-                $this->_roles[$roleName] = $role;
+                $validRoles[$roleName] = $role;
             }
         }
         if ($invalidRoleNames) {
             $this->addError('roles', 'Invalid roles:' . implode(',', $invalidRoleNames));
         }
+        $this->_roles = $validRoles;
     }
 
     /**
@@ -110,16 +112,14 @@ class AuthAssignmentForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        if (!is_array($this->roles)) {
-            return true;
-        }
-        if (empty($this->roles)) {
+        $roles = $this->_roles;
+        if (empty($roles)) {
             $this->authManager->revokeAll($this->userId);
             return true;
         }
         $assignedRoles = $this->authManager->getRolesByUser($this->userId);
         $assignedRoles = ArrayHelper::index($assignedRoles, 'name');
-        foreach ($this->_roles as $roleName => $role) {
+        foreach ($roles as $roleName => $role) {
             if (isset($assignedRoles[$roleName])) {
                 unset($assignedRoles[$roleName]);
             } else {
@@ -130,5 +130,38 @@ class AuthAssignmentForm extends Model
             $this->authManager->revoke($assignedRole, $this->userId);
         }
         return true;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'roles' => 'roles',
+        ]);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getRoles(): array
+    {
+        if ($this->_roleNames === null) {
+            $roles = $this->authManager->getRolesByUser($this->userId);
+            $this->_roleNames = array_values(ArrayHelper::getColumn($roles, 'name'));
+        }
+        return $this->_roleNames;
+    }
+
+    /**
+     * @param array $permissions
+     * @inheritdoc
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->_roleNames = $roles;
     }
 }

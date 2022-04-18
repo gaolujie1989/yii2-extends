@@ -311,6 +311,6 @@ class AuthHelper
         uasort($permissionTree, static function($a, $b) {
             return $a['sort'] <=> $b['sort'];
         });
-        return $permissionTree;
+        return array_values($permissionTree);
     }
 }

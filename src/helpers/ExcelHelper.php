@@ -55,7 +55,13 @@ class ExcelHelper
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public static function writeExcel(string $file, array $data, bool $keyAsHeader = true, bool $multiSheet = false, string $adapter = ExcelWriter::ADAPTER_XLSX_WRITER): void
+    public static function writeExcel(
+        string $file,
+        array $data,
+        bool $keyAsHeader = true,
+        bool $multiSheet = false,
+        string $adapter = ExcelWriter::ADAPTER_XLSX_WRITER
+    ): void
     {
         $excelWriter = new ExcelWriter();
         $excelWriter->keyAsHeader = $keyAsHeader;

@@ -5,6 +5,7 @@
 
 namespace lujie\auth\forms;
 
+use Yii;
 use yii\base\Model;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -56,6 +57,9 @@ class AuthAssignmentForm extends Model
     {
         parent::init();
         $this->authManager = Instance::ensure($this->authManager, ManagerInterface::class);
+        if (empty($this->userClass)) {
+            $this->userClass = Yii::$app->getUser()->identityClass;
+        }
     }
 
     /**

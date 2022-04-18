@@ -13,7 +13,7 @@ use lujie\extend\rest\ActiveController;
  * @package lujie\auth\controllers\rest
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class AuthRuleController extends ActiveController
+class RuleController extends ActiveController
 {
     public $modelClass = AuthRule::class;
 

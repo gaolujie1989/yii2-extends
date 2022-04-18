@@ -14,6 +14,9 @@ use yii\web\IdentityInterface;
 
 /**
  * Class AuthAssignmentForm
+ *
+ * @property string[] $roles
+ *
  * @package lujie\auth\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

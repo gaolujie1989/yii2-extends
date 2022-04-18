@@ -49,15 +49,18 @@ class ExcelHelper
      * @param array $data
      * @param bool $keyAsHeader
      * @param bool $multiSheet
+     * @param string $adapter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public static function writeExcel(string $file, array $data, bool $keyAsHeader = true, bool $multiSheet = false): void
+    public static function writeExcel(string $file, array $data, bool $keyAsHeader = true, bool $multiSheet = false, string $adapter = ExcelWriter::ADAPTER_XLSX_WRITER): void
     {
         $excelWriter = new ExcelWriter();
         $excelWriter->keyAsHeader = $keyAsHeader;
         $excelWriter->multiSheet = $multiSheet;
+        $excelWriter->adapter = $adapter;
         $excelWriter->write($file, $data);
     }
 }

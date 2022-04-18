@@ -11,7 +11,10 @@ use yii\rbac\Item;
 use yii\rbac\Permission;
 
 /**
- * Class AuthItemForm
+ * Class AuthRoleForm
+ *
+ * @property string[] $permissions
+ *
  * @package lujie\auth\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

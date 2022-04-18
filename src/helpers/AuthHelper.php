@@ -198,14 +198,12 @@ class AuthHelper
                 }
             }
             /** @var Permission[] $deleteChildren */
-            $deleteChildren = array_diff_key($existPermissions, $permissions);
+            $deleteChildren = array_diff_key($existChildren, $childPermissions);
             foreach ($deleteChildren as $name => $childPermission) {
                 if ($manager->removeChild($parentPermission, $childPermission)) {
-                    if ($manager->addChild($parentPermission, $childPermission)) {
-                        echo 'Remove Child ', $name, ' -> ', $parentName, " Success\n";
-                    } else {
-                        echo 'Remove Child ', $name, ' -> ', $parentName, " Failed\n";
-                    }
+                    echo 'Remove Child ', $name, ' -> ', $parentName, " Success\n";
+                } else {
+                    echo 'Remove Child ', $name, ' -> ', $parentName, " Failed\n";
                 }
                 if (empty($permissions[$childPermission->name])) {
                     if ($manager->remove($childPermission)) {

@@ -125,7 +125,7 @@ class AuthRoleForm extends AuthItemForm
     public function getPermissions(): array
     {
         if ($this->_permissionsNames === null) {
-            $permissions = $this->authManager->getPermissionsByRole($this->name);
+            $permissions = $this->authManager->getChildren($this->name);
             $permissions = array_filter($permissions, static function(Permission $permission) {
                 return $permission->description;
             });

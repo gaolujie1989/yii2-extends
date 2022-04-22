@@ -8,7 +8,6 @@ namespace lujie\charging\helpers;
 use lujie\charging\models\ShippingTable;
 use lujie\extend\models\Item;
 use yii\helpers\ArrayHelper;
-use function RingCentral\Psr7\mimetype_from_extension;
 
 class ShippingTableHelper
 {
@@ -16,11 +15,20 @@ class ShippingTableHelper
      * @param Item[] $items
      * @param array $carriers
      * @param array $destinations
-     * @param array $departures
+     * @param array|string[] $departures
+     * @param string $activeDate
+     * @param array|string[] $groups
      * @return array
      * @inheritdoc
      */
-    public static function getShippingPrices(array $items, array $carriers, array $destinations, array $departures = ['DE'], string $activeDate = 'now'): array
+    public static function getShippingPrices(
+        array $items,
+        array $carriers,
+        array $destinations,
+        array $departures = ['DE'],
+        string $activeDate = 'now',
+        array $groups = ['departure', 'destination', 'carrier']
+    ): array
     {
         $activeAt = strtotime($activeDate);
         $shippingTables = ShippingTable::find()
@@ -30,7 +38,7 @@ class ShippingTableHelper
             ->departure($departures)
             ->orderByPrice(SORT_ASC)
             ->all();
-        $indexedShippingTables = ArrayHelper::index($shippingTables, null, ['departures', 'destination', 'carrier']);
+        $indexedShippingTables = ArrayHelper::index($shippingTables, null, $groups);
         $itemShippingPrices = [];
         foreach ($items as $item) {
             foreach ($indexedShippingTables as $departure => $departureShippingTables) {

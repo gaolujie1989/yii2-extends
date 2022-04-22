@@ -39,7 +39,7 @@ class ShippingTableHelper
                         /** @var ShippingTable $shippingTable */
                         foreach ($carrierShippingTables as $shippingTable) {
                             if (static::match($item, $shippingTable)) {
-                                $itemShippingPrices[$item->itemNo][$departure][$destination][$carrier] = $shippingTable;
+                                $itemShippingPrices[$item->itemId][$departure][$destination][$carrier] = $shippingTable;
                                 break;
                             }
                         }

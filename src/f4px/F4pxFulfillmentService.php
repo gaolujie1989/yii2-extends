@@ -411,7 +411,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if (is_array($logisticsProductCodes)) {
             $exception = null;
             $notShippedLogisticsCodes = [];
-            foreach ($logisticsProductCodes as $logisticsProductCode) {
+            foreach ($logisticsProductCodes as $logisticsProductKey => $logisticsProductCode) {
                 $externalOrder['logistics_service_info']['logistics_product_code'] = $logisticsProductCode;
                 try {
                     return $this->client->createOutbound($externalOrder);
@@ -419,9 +419,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                     if (strpos($exception->getMessage(), '当前产品的目的地不支持该邮编') !== false) {
                         $country = $externalOrder['oconsignment_desc']['country'];
                         $postCode = $externalOrder['oconsignment_desc']['post_code'];
-                        $message = "{$logisticsProductCode} not ship to {$country} {$postCode}, try others";
+                        $message = "{$logisticsProductKey}{$logisticsProductCode} not ship to {$country} {$postCode}, try others";
                         Yii::info($message, __METHOD__);
-                        $notShippedLogisticsCodes[] = $logisticsProductCode;
+                        $notShippedLogisticsCodes[] = $logisticsProductKey . ':' . $logisticsProductCode;
                         $fulfillmentOrder->additional = array_merge($fulfillmentOrder->additional ?: [], ['NotShippedLogisticsCodes' => $notShippedLogisticsCodes]);
                         sleep(2); //太快貌似4PX受不了，会报错
                         continue;

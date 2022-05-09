@@ -42,10 +42,10 @@ class RecordPipeline extends ActiveRecordPipeline
 
         $model = null;
         $record = $values['record'];
-        if (isset($record['data_id'])) {
+        if (!empty($record['data_id'])) {
             $model = $query->dataId($record['data_id'])
                 ->one();
-        } elseif (isset($record['data_parent_id']) && $record['data_key']) {
+        } elseif (!empty($record['data_parent_id']) && !empty($record['data_key'])) {
             $model = $query->dataParentId($record['data_parent_id'])
                 ->dataKey($record['data_key'])
                 ->one();

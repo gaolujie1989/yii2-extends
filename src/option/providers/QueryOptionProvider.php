@@ -36,6 +36,11 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     public $db;
 
     /**
+     * @var int
+     */
+    public $limit = 50;
+
+    /**
      * @var array
      */
     public $condition = [];
@@ -74,7 +79,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             $this->db = Instance::ensure($this->db);
         }
         $query = clone $this->query;
-        $query->andFilterWhere($this->condition);
+        $query->andFilterWhere($this->condition)->limit($this->limit);
         if ($this->filterKeys && $key) {
             QueryHelper::filterKey($query, $this->filterKeys, $key, $like);
         }

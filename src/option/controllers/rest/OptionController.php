@@ -6,7 +6,7 @@
 namespace lujie\common\option\controllers\rest;
 
 use lujie\common\option\models\Option;
-use lujie\common\option\providers\OptionProviderInterface;
+use lujie\common\option\OptionManager;
 use lujie\extend\rest\ActiveController;
 use yii\di\Instance;
 use yii\web\NotFoundHttpException;
@@ -18,12 +18,15 @@ use yii\web\NotFoundHttpException;
  */
 class OptionController extends ActiveController
 {
+    /**
+     * @var string
+     */
     public $modelClass = Option::class;
 
     /**
-     * @var OptionProviderInterface[]
+     * @var OptionManager
      */
-    public $optionProviders = [];
+    public $optionManager = 'optionManager';
 
     /**
      * @param string $type
@@ -36,15 +39,7 @@ class OptionController extends ActiveController
      */
     public function actionOptions(string $type, string $key = ''): array
     {
-        foreach ($this->optionProviders as $providerKey => $optionProvider) {
-            if (!($optionProvider instanceof OptionProviderInterface)) {
-                $this->optionProviders[$providerKey] = Instance::ensure($optionProvider, OptionProviderInterface::class);
-                $optionProvider = $this->optionProviders[$providerKey];
-            }
-            if ($optionProvider->hasType($type)) {
-                return $optionProvider->getOptions($type, $key);
-            }
-        }
-        throw new NotFoundHttpException("Option {$type} not found");
+        $this->optionManager = Instance::ensure($this->optionManager, OptionManager::class);
+        return $this->optionManager->getOptions($type, $key);
     }
 }

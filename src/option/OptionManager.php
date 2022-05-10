@@ -25,13 +25,13 @@ class OptionManager extends BaseObject
     /**
      * @param string $type
      * @param string $key
+     * @param bool|string|null $like
      * @return array
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
-     * @throws \Exception
      * @inheritdoc
      */
-    public function getOptions(string $type, string $key = '', bool $like = true): array
+    public function getOptions(string $type, string $key = '', $like = null): array
     {
         foreach ($this->providers as $providerKey => $optionProvider) {
             if (!($optionProvider instanceof OptionProviderInterface)) {
@@ -39,7 +39,9 @@ class OptionManager extends BaseObject
                 $optionProvider = $this->providers[$providerKey];
             }
             if ($optionProvider->hasType($type)) {
-                return $optionProvider->getOptions($type, $key);
+                return $like !== null
+                    ? $optionProvider->getOptions($type, $key, $like)
+                    : $optionProvider->getOptions($type, $key);
             }
         }
         throw new NotFoundHttpException("Option {$type} not found");

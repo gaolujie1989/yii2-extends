@@ -31,7 +31,7 @@ class OptionManager extends BaseObject
      * @throws \Exception
      * @inheritdoc
      */
-    public function getOptions(string $type, string $key = ''): array
+    public function getOptions(string $type, string $key = '', bool $like = true): array
     {
         foreach ($this->providers as $providerKey => $optionProvider) {
             if (!($optionProvider instanceof OptionProviderInterface)) {

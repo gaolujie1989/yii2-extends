@@ -30,15 +30,16 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string $key
+     * @param bool|string $like
      * @return array
-     * @throws \Exception
      * @inheritdoc
+     * @throws \Exception
      */
-    public function getOptions(string $type, string $key = ''): array
+    public function getOptions(string $type, string $key = '', $like = true): array
     {
         $query = Option::find()->type($type)->orderBy(['position' => SORT_ASC]);
         if ($key) {
-            QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key);
+            QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $like);
         }
         return OptionSearch::prepareRows($query->all());
     }

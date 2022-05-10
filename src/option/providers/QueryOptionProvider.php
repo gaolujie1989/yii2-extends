@@ -63,11 +63,12 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string $key
+     * @param bool|string $like
      * @return array
-     * @throws \Exception
      * @inheritdoc
+     * @throws \Exception
      */
-    public function getOptions(string $type, string $key = ''): array
+    public function getOptions(string $type, string $key = '', $like = true): array
     {
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
@@ -75,7 +76,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         $query = clone $this->query;
         $query->andFilterWhere($this->condition);
         if ($this->filterKeys && $key) {
-            QueryHelper::filterKey($query, $this->filterKeys, $key);
+            QueryHelper::filterKey($query, $this->filterKeys, $key, $like);
         }
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();

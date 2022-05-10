@@ -42,15 +42,16 @@ class ModelOptionProvider extends QueryOptionProvider
     /**
      * @param string $type
      * @param string $key
+     * @param bool|string $like
      * @return array
-     * @throws \Exception
      * @inheritdoc
+     * @throws \Exception
      */
-    public function getOptions(string $type, string $key = ''): array
+    public function getOptions(string $type, string $key = '', $like = true): array
     {
         $this->query = $this->modelClass::find();
         $this->condition = $this->typeConditions[$type];
         $this->filterKeys = $this->typeFilterKeys[$type];
-        return parent::getOptions($type, $key);
+        return parent::getOptions($type, $key, $like);
     }
 }

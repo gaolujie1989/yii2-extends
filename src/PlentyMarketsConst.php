@@ -754,4 +754,13 @@ class PlentyMarketsConst
         'TransactionFee' => 33,
         'TransactionLifespan' => 34,
     ];
+
+    public const WAREHOUSE_TYPE_IDS = [
+        'Sales' => 0,
+        'Repair' => 1,
+        'Storage' => 4,
+        'Transit' => 5,
+        'Distribution' => 6,
+        'Other' => 7,
+    ];
 }

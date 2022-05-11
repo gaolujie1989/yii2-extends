@@ -91,7 +91,7 @@ class PmFulfillmentService extends BaseFulfillmentService
     public $fulfillmentStatusMap = [
         FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => [
             //global
-            '4' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '4' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
             '5' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
             '6' => FulfillmentConst::FULFILLMENT_STATUS_PICKING,
             '7' => FulfillmentConst::FULFILLMENT_STATUS_SHIPPED,
@@ -99,8 +99,8 @@ class PmFulfillmentService extends BaseFulfillmentService
             '8' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
             '8.1' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
             //custom
-            '4.1' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
-            '4.2' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '4.1' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            '4.2' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
             '5.1' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
             '5.2' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
             '5.4' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
@@ -108,11 +108,12 @@ class PmFulfillmentService extends BaseFulfillmentService
             '5.6' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
             '5.7' => FulfillmentConst::FULFILLMENT_STATUS_PROCESSING,
             '15.9' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
-            '5.31' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
-            '5.33' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
-            '6.5' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
-            '6.7' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
-            '6.8' => FulfillmentConst::FULFILLMENT_STATUS_SHIP_ERROR,
+            '5.31' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+            '5.32' => FulfillmentConst::FULFILLMENT_STATUS_CANCELLED,
+            '5.33' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '6.5' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '6.7' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
+            '6.8' => FulfillmentConst::FULFILLMENT_STATUS_HOLDING,
         ]
     ];
 

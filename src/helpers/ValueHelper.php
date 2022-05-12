@@ -201,18 +201,19 @@ class ValueHelper
         }
         $prefix = '';
         $suffix = '';
-        for ($i = $fromLen; $i > 0; $i++) {
+        for ($i = $fromLen; $i > 0; $i--) {
             if (strpos($from, substr($to, 0, $i)) === 0) {
                 $prefix = substr($from, 0, $i);
                 break;
             }
         }
-        for ($i = $fromLen; $i > 0; $i++) {
+        for ($i = $fromLen; $i > 0; $i--) {
             if (substr($from, -$i) === substr($to, -$i)) {
                 $suffix = substr($from, -$i);
                 break;
             }
         }
+
         $prefixLen = strlen($prefix);
         $suffixLen = strlen($suffix);
         $valueLength = $fromLen - $prefixLen - $suffixLen;
@@ -222,7 +223,7 @@ class ValueHelper
 
         $rangeValues = [];
         $fromValue = substr($from, $prefixLen, $valueLength);
-        $toValue = substr($from, $prefixLen, $valueLength);
+        $toValue = substr($to, $prefixLen, $valueLength);
         for ($v = $fromValue; $v <= $toValue; $v++) {
             $rangeValues[] = $prefix . str_pad($v, $valueLength, '0', STR_PAD_LEFT) . $suffix;
         }

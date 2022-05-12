@@ -185,4 +185,47 @@ class ValueHelper
 
         return $array;
     }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @return array
+     * @inheritdoc
+     */
+    public static function fromRange(string $from, string $to): array
+    {
+        $fromLen = strlen($from);
+        $toLen = strlen($to);
+        if ($fromLen !== $toLen) {
+            return [];
+        }
+        $prefix = '';
+        $suffix = '';
+        for ($i = $fromLen; $i > 0; $i++) {
+            if (strpos($from, substr($to, 0, $i)) === 0) {
+                $prefix = substr($from, 0, $i);
+                break;
+            }
+        }
+        for ($i = $fromLen; $i > 0; $i++) {
+            if (substr($from, -$i) === substr($to, -$i)) {
+                $suffix = substr($from, -$i);
+                break;
+            }
+        }
+        $prefixLen = strlen($prefix);
+        $suffixLen = strlen($suffix);
+        $valueLength = $fromLen - $prefixLen - $suffixLen;
+        if ($valueLength < 0) {
+            return [$fromLen];
+        }
+
+        $rangeValues = [];
+        $fromValue = substr($from, $prefixLen, $valueLength);
+        $toValue = substr($from, $prefixLen, $valueLength);
+        for ($v = $fromValue; $v <= $toValue; $v++) {
+            $rangeValues[] = $prefix . str_pad($v, $valueLength, '0', STR_PAD_LEFT) . $suffix;
+        }
+        return $rangeValues;
+    }
 }

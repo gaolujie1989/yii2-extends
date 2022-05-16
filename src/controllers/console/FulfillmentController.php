@@ -149,7 +149,6 @@ class FulfillmentController extends Controller
             ->fulfillmentAccountId($account->account_id)
             ->shippingFulfillmentShipped()
             ->chargeNotPulled()
-            ->orderByOrderPulledAt()
             ->limit(15000);
         Console::startProgress($done = 0, $total = $query->count());
         foreach ($query->batch() as $fulfillmentOrders) {

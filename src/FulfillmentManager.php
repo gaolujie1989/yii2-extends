@@ -637,7 +637,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
             ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentShipped()
             ->chargeNotPulled()
-            ->orderByOrderPulledAt()
             ->limit($this->pullChargeLimit);
         if (!$query->exists()) {
             return;

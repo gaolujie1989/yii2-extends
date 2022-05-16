@@ -49,7 +49,7 @@ class FulfillmentWarehouseStockMovementQuery extends \yii\db\ActiveQuery
                     'itemId' => 'item_id',
                     'warehouseId' => 'warehouse_id',
                     'externalItemKey' => ['external_item_key' => FieldQueryBehavior::TYPE_STRING],
-                    'externalWarehouseKey' => 'external_warehouse_key',
+                    'externalWarehouseKey' => ['external_warehouse_key' => FieldQueryBehavior::TYPE_STRING],
                     'externalMovementKey' => 'external_movement_key',
                     'movementType' => 'movement_type',
                     'relatedType' => 'related_type',

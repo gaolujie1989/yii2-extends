@@ -43,7 +43,7 @@ class FulfillmentWarehouseQuery extends \yii\db\ActiveQuery
                     'fulfillmentWarehouseId' => 'fulfillment_warehouse_id',
                     'fulfillmentAccountId' => 'fulfillment_account_id',
                     'warehouseId' => 'warehouse_id',
-                    'externalWarehouseKey' => 'external_warehouse_key',
+                    'externalWarehouseKey' => ['external_warehouse_key' => FieldQueryBehavior::TYPE_STRING],
                     'externalMovementAtBefore' => ['external_movement_at' => '<='],
                 ],
                 'queryConditions' => [

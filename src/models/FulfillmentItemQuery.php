@@ -45,7 +45,7 @@ class FulfillmentItemQuery extends \yii\db\ActiveQuery
                     'fulfillmentItemId' => 'fulfillment_item_id',
                     'fulfillmentAccountId' => 'fulfillment_account_id',
                     'itemId' => 'item_id',
-                    'externalItemKey' => 'external_item_key',
+                    'externalItemKey' => ['external_item_key' => FieldQueryBehavior::TYPE_STRING],
                     'itemPushedStatus' => 'item_pushed_status',
                 ],
                 'queryConditions' => [

@@ -486,7 +486,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             ->getWarehouseIds();
         $externalWarehouseKeys = array_keys($warehouseIds);
         $itemIds = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'item_id');
-        $externalItemKeys = array_keys($itemIds);
+        $externalItemKeys = array_map(static function ($v) {
+            return (string)$v;
+        }, array_keys($itemIds));
 
         $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
             ->fulfillmentAccountId($this->account->account_id)
@@ -568,9 +570,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      */
     public function pullWarehouseStockMovements(
         FulfillmentWarehouse $fulfillmentWarehouse,
-        int $movementAtFrom,
-        int $movementAtTo,
-        ?FulfillmentItem $fulfillmentItem = null
+        int                  $movementAtFrom,
+        int                  $movementAtTo,
+        ?FulfillmentItem     $fulfillmentItem = null
     ): void
     {
         if ($fulfillmentWarehouse->fulfillment_account_id !== $this->account->account_id) {
@@ -638,9 +640,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      */
     abstract protected function getExternalWarehouseStockMovements(
         FulfillmentWarehouse $fulfillmentWarehouse,
-        int $movementAtFrom,
-        int $movementAtTo,
-        ?FulfillmentItem $fulfillmentItem = null
+        int                  $movementAtFrom,
+        int                  $movementAtTo,
+        ?FulfillmentItem     $fulfillmentItem = null
     ): array;
 
     /**
@@ -651,7 +653,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      */
     abstract protected function updateFulfillmentWarehouseStockMovements(
         FulfillmentWarehouseStockMovement $fulfillmentStockMovement,
-        array $externalStockMovement
+        array                             $externalStockMovement
     ): bool;
 
     /**

@@ -299,11 +299,11 @@ class FieldQueryBehavior extends Behavior
             $field = $this->buildAliasField($field);
 
             if ($op === static::TYPE_STRING) {
-                if (is_array($value)) {
+                if (is_array($value) && !is_string(reset($value))) {
                     $value = array_map(static function($v) {
                         return (string)$v;
                     }, $value);
-                } else if (is_int($value)) {
+                } else if (!is_string($value)) {
                     $value = (string)$value;
                 }
                 $op = null;

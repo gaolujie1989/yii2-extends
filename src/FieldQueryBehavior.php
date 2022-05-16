@@ -20,6 +20,7 @@ use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use function RingCentral\Psr7\str;
 
 /**
  * Class FieldQueryBehavior
@@ -43,10 +44,12 @@ class FieldQueryBehavior extends Behavior
     public const RETURN_SUM = 'SUM';
     public const RETURN_AVG = 'AVG';
 
+    public const TYPE_STRING = 'STRING';
+
     /**
      * ex. [
      *      'methodName' => 'attribute0'
-     *      'methodName' => ['attribute1' => '>', 'attribute2']
+     *      'methodName' => ['attribute1' => '>', 'attribute2' => 'INT/STRING']
      * ]
      * @var array
      */
@@ -294,6 +297,16 @@ class FieldQueryBehavior extends Behavior
                 return $owner;
             }
             $field = $this->buildAliasField($field);
+
+            if ($op === static::TYPE_STRING) {
+                if (is_array($value)) {
+                    $value = array_map(static function($v) {
+                        return (string)$v;
+                    }, $value);
+                } else if (is_int($value)) {
+                    $value = (string)$value;
+                }
+            }
             if ($op) {
                 if (strtoupper($op) === 'BETWEEN') {
                     $value2 = $params ? array_shift($params) : null;

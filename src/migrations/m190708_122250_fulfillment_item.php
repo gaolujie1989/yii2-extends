@@ -30,5 +30,6 @@ class m190708_122250_fulfillment_item extends Migration
 
         $this->createIndex('uk_item_account', $this->tableName, ['item_id', 'fulfillment_account_id'], true);
         $this->createIndex('idx_external_item_account', $this->tableName, ['external_item_key', 'fulfillment_account_id']);
+        $this->createIndex('idx_stock_pulled_at', $this->tableName, ['stock_pulled_at']);
     }
 }

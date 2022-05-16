@@ -306,6 +306,7 @@ class FieldQueryBehavior extends Behavior
                 } else if (is_int($value)) {
                     $value = (string)$value;
                 }
+                $op = null;
             }
             if ($op) {
                 if (strtoupper($op) === 'BETWEEN') {

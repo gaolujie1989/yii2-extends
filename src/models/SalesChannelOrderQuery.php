@@ -61,7 +61,7 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
                     'salesChannelStatus' => 'sales_channel_status',
                     'orderId' => 'order_id',
                     'orderStatus' => 'order_status',
-                    'externalOrderKey' => 'external_order_key',
+                    'externalOrderKey' => ['external_order_key' => FieldQueryBehavior::TYPE_STRING],
                     'externalOrderStatus' => 'external_order_status',
                     'orderPushedStatus' => 'order_pushed_status',
                 ],

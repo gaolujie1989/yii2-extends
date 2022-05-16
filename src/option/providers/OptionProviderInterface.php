@@ -27,4 +27,13 @@ interface OptionProviderInterface
      * @inheritdoc
      */
     public function getOptions(string $type, string $key = '', $like = true): array;
+
+    /**
+     * @param string $type
+     * @param string $value
+     * @param array $data
+     * @return array
+     * @inheritdoc
+     */
+    public function addOption(string $type, string $value, array $data = []): bool;
 }

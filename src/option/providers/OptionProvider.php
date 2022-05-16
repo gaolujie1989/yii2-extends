@@ -43,4 +43,25 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
         }
         return OptionSearch::prepareRows($query->all());
     }
+
+    /**
+     * @param string $type
+     * @param string $value
+     * @param array $data
+     * @return bool
+     * @inheritdoc
+     */
+    public function addOption(string $type, string $value, array $data = []): bool
+    {
+        $query = Option::find()->type($type)->value($value);
+        if ($query->exists()) {
+            return true;
+        }
+        $option = new Option();
+        $option->type = $type;
+        $option->value = $value;
+        $option->name = $value;
+        $option->setAttributes($data);
+        return $option->save(false);
+    }
 }

@@ -8,6 +8,7 @@ namespace lujie\common\option\providers;
 use lujie\data\exchange\transformers\KeyMapTransformer;
 use lujie\extend\helpers\QueryHelper;
 use yii\base\BaseObject;
+use yii\base\NotSupportedException;
 use yii\db\ActiveQueryInterface;
 use yii\db\Connection;
 use yii\db\Query;
@@ -92,5 +93,18 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             'unsetNotInMapKey' => true,
         ]);
         return $transformer->transform($query->all());
+    }
+
+    /**
+     * @param string $type
+     * @param string $value
+     * @param array $data
+     * @return bool
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function addOption(string $type, string $value, array $data = []): bool
+    {
+        throw new NotSupportedException('QueryOptionProvider not support add option');
     }
 }

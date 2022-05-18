@@ -54,8 +54,8 @@ class OptionManager extends BaseObject
     {
         foreach ($this->providers as $providerKey => $optionProvider) {
             if (!($optionProvider instanceof OptionProviderInterface)) {
-                $this->providers[$providerKey] = Instance::ensure($optionProvider, OptionProviderInterface::class);
-                $optionProvider = $this->providers[$providerKey];
+                $optionProvider = Instance::ensure($optionProvider, OptionProviderInterface::class);
+                $this->providers[$providerKey] = $optionProvider;
             }
             if ($optionProvider->hasType($type)) {
                 return $like !== null

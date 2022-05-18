@@ -37,7 +37,7 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
      */
     public function getOptions(string $type, string $key = '', $like = true): array
     {
-        $query = Option::find()->type($type)->orderBy(['position' => SORT_ASC]);
+        $query = Option::find()->type($type)->orderBy(['position' => SORT_ASC])->asArray();
         if ($key) {
             QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $like);
         }

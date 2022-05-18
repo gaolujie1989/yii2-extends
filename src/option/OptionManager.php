@@ -5,6 +5,7 @@
 
 namespace lujie\common\option;
 
+use lujie\common\option\providers\OptionProvider;
 use lujie\common\option\providers\OptionProviderInterface;
 use yii\base\BaseObject;
 use yii\di\Instance;
@@ -21,6 +22,24 @@ class OptionManager extends BaseObject
      * @var OptionProviderInterface[]
      */
     public $providers = [];
+
+    /**
+     * @var array
+     */
+    public $defaultProviders = [
+        'option' => [
+            'class' => OptionProvider::class
+        ]
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->providers = array_merge($this->defaultProviders, $this->providers);
+    }
 
     /**
      * @param string $type

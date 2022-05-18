@@ -26,15 +26,15 @@ return [
         'danger' => ['name' => 'Danger', 'tag' => 'danger' ],
     ],
     'commonStatus' => [
-        'ACTIVE' => ['name' => 'Active', 'value' => StatusConst::STATUS_ACTIVE],
-        'INACTIVE' => ['name' => 'Inactive', 'value' => StatusConst::STATUS_INACTIVE],
+        'ACTIVE' => ['name' => 'Active', 'value' => StatusConst::STATUS_ACTIVE, 'tag' => 'success'],
+        'INACTIVE' => ['name' => 'Inactive', 'value' => StatusConst::STATUS_INACTIVE, 'tag' => 'info'],
     ],
     'execStatus' => [
-        'PENDING' => ['name' => 'Pending', 'value' => ExecStatusConst::EXEC_STATUS_PENDING],
-        'RUNNING' => ['name' => 'Running', 'value' => ExecStatusConst::EXEC_STATUS_RUNNING],
-        'SUCCESS' => ['name' => 'Success', 'value' => ExecStatusConst::EXEC_STATUS_SUCCESS],
-        'FAILED' => ['name' => 'Failed', 'value' => ExecStatusConst::EXEC_STATUS_FAILED],
-        'SKIPPED' => ['name' => 'Skipped', 'value' => ExecStatusConst::EXEC_STATUS_SKIPPED],
-        'QUEUED' => ['name' => 'Queued', 'value' => ExecStatusConst::EXEC_STATUS_QUEUED],
+        'PENDING' => ['name' => 'Pending', 'value' => ExecStatusConst::EXEC_STATUS_PENDING, 'tag' => 'info'],
+        'RUNNING' => ['name' => 'Running', 'value' => ExecStatusConst::EXEC_STATUS_RUNNING, 'tag' => 'primary'],
+        'SUCCESS' => ['name' => 'Success', 'value' => ExecStatusConst::EXEC_STATUS_SUCCESS, 'tag' => 'success'],
+        'FAILED' => ['name' => 'Failed', 'value' => ExecStatusConst::EXEC_STATUS_FAILED, 'tag' => 'danger'],
+        'SKIPPED' => ['name' => 'Skipped', 'value' => ExecStatusConst::EXEC_STATUS_SKIPPED, 'tag' => 'info'],
+        'QUEUED' => ['name' => 'Queued', 'value' => ExecStatusConst::EXEC_STATUS_QUEUED, 'tag' => 'warning'],
     ],
 ];

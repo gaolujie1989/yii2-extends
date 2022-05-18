@@ -37,6 +37,16 @@ class OptionSearch extends Option
     public static function prepareArray(array $row): array
     {
         $row = static::prepareSearchArray($row);
+        return static::formatValueLabel($row);
+    }
+
+    /**
+     * @param array $row
+     * @return array
+     * @inheritdoc
+     */
+    public static function formatValueLabel(array $row): array
+    {
         if ($row['value_type'] === Option::VALUE_TYPE_INT) {
             $row['value'] = (int)$row['value'];
         } else if ($row['value_type'] === Option::VALUE_TYPE_FLOAT) {

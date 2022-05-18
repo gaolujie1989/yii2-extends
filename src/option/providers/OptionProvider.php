@@ -9,6 +9,7 @@ use lujie\common\option\models\Option;
 use lujie\common\option\searches\OptionSearch;
 use lujie\extend\helpers\QueryHelper;
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class OptionProvider
@@ -37,11 +38,20 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
      */
     public function getOptions(string $type, string $key = '', $like = true): array
     {
-        $query = Option::find()->type($type)->orderBy(['position' => SORT_ASC])->asArray();
+        $query = Option::find()
+            ->type($type)
+            ->select(['value', 'value_type', 'name', 'tag', 'labels'])
+            ->orderBy(['position' => SORT_ASC])
+            ->asArray();
         if ($key) {
             QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $like);
         }
-        return OptionSearch::prepareRows($query->all());
+        $rows = $query->all();
+        return array_map(static function($row) {
+            $row = OptionSearch::formatValueLabel($row);
+            unset($row['labels']);
+            return $row;
+        }, $rows);
     }
 
     /**

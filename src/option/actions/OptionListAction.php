@@ -5,6 +5,7 @@
 
 namespace lujie\common\option\actions;
 
+use lujie\common\option\models\Option;
 use lujie\common\option\OptionManager;
 use lujie\extend\helpers\ValueHelper;
 use yii\di\Instance;
@@ -15,8 +16,13 @@ use yii\rest\Action;
  * @package lujie\common\option\actions
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class OptionAction extends Action
+class OptionListAction extends Action
 {
+    /**
+     * @var string
+     */
+    public $modelClass = Option::class;
+
     /**
      * @var OptionManager
      */

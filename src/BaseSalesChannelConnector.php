@@ -28,17 +28,12 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     /**
      * @var string|BaseActiveRecord
      */
-    public $outboundOrderClass;
+    public $orderClass;
 
     /**
      * @var string
      */
-    public $outboundOrderStatusAttribute = 'status';
-
-    /**
-     * @var string
-     */
-    public $outboundOrderWarehouseIdAttribute = 'warehouse_id';
+    public $orderStatusAttribute = 'status';
 
     /**
      * [
@@ -62,11 +57,17 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      */
     public function bootstrap($app): void
     {
-        $outboundOrderFormClass = ClassHelper::getFormClass($this->outboundOrderClass) ?: $this->outboundOrderClass;
-        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOutboundOrderSaved']);
-        Event::on($outboundOrderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOutboundOrderSaved']);
+        $orderFormClass = ClassHelper::getFormClass($this->orderClass) ?: $this->orderClass;
+        Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterOrderSaved']);
+        Event::on($orderFormClass, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterOrderSaved']);
 
-        Event::on(BaseSalesChannel::class, BaseSalesChannel::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED, [$this, 'afterSalesChannelOrderUpdate'], null, false);
+        Event::on(
+            BaseSalesChannel::class,
+            BaseSalesChannel::EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED,
+            [$this, 'afterSalesChannelOrderUpdate'],
+            null,
+            false
+        );
     }
 
     /**
@@ -76,8 +77,8 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     public function init(): void
     {
         parent::init();
-        if (empty($this->outboundOrderClass)) {
-            throw new InvalidConfigException('The property `outboundOrderClass` must be set.');
+        if (empty($this->orderClass)) {
+            throw new InvalidConfigException('The property `orderClass` must be set.');
         }
     }
 
@@ -87,7 +88,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @param AfterSaveEvent $event
      * @inheritdoc
      */
-    public function afterOutboundOrderSaved(AfterSaveEvent $event): void
+    public function afterOrderSaved(AfterSaveEvent $event): void
     {
         /** @var BaseActiveRecord $outboundOrder */
         $outboundOrder = $event->sender;
@@ -108,17 +109,17 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     }
 
     /**
-     * @param BaseActiveRecord|TraceableBehaviorTrait $outboundOrder
+     * @param BaseActiveRecord|TraceableBehaviorTrait $order
      * @return bool|null
      * @inheritdoc
      */
-    public function updateSalesChannelOrder(BaseActiveRecord $outboundOrder): ?bool
+    public function updateSalesChannelOrder(BaseActiveRecord $order): ?bool
     {
-        $orderStatus = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
+        $orderStatus = $order->getAttribute($this->orderStatusAttribute);
         if (empty($this->salesChannelStatusMap[$orderStatus])) {
             return null;
         }
-        $orderId = $outboundOrder->primaryKey;
+        $orderId = $order->primaryKey;
         $salesChannelOrder = SalesChannelOrderForm::find()->orderId($orderId)->one();
         if ($salesChannelOrder === null) {
             return null;
@@ -128,9 +129,9 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
             return null;
         }
         $salesChannelOrder->order_status = $orderStatus;
-        $salesChannelOrder->order_updated_at = $outboundOrder->updated_at;
+        $salesChannelOrder->order_updated_at = $order->updated_at;
         $salesChannelOrder->sales_channel_status = $this->salesChannelStatusMap[$orderStatus];
-        $this->updateSalesChannelOrderAdditional($salesChannelOrder, $outboundOrder);
+        $this->updateSalesChannelOrderAdditional($salesChannelOrder, $order);
         return $salesChannelOrder->save(false);
     }
 
@@ -153,47 +154,48 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      */
     public function afterSalesChannelOrderUpdate(SalesChannelOrderEvent $event): void
     {
-        $this->updateOutboundOrder($event->salesChannelOrder, $event->externalOrder);
+        $this->updateOrder($event->salesChannelOrder, $event->externalOrder);
     }
 
     /**
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
-     * @return bool|null
+     * @return BaseActiveRecord|null
      * @inheritdoc
      */
-    public function updateOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?bool
+    public function updateOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?BaseActiveRecord
     {
-        /** @var BaseActiveRecord $outboundOrder */
-        $outboundOrder = $salesChannelOrder->order_id ? $this->outboundOrderClass::findOne($salesChannelOrder->order_id) : null;
-        if ($outboundOrder === null) {
-            $outboundOrder = $this->createOutboundOrder($salesChannelOrder, $externalOrder);
-            if ($outboundOrder === null) {
-                return false;
+        /** @var BaseActiveRecord $order */
+        $order = $salesChannelOrder->order_id ? $this->orderClass::findOne($salesChannelOrder->order_id) : null;
+        if ($order === null) {
+            $order = $this->createOrder($salesChannelOrder, $externalOrder);
+            if ($order === null) {
+                return null;
             }
-            if (!$outboundOrder->save(false)) {
-                return false;
+            if (!$order->save(false)) {
+                return null;
             }
-            $salesChannelOrder->order_id = $outboundOrder->primaryKey;
-            $salesChannelOrder->order_status = $outboundOrder->getAttribute($this->outboundOrderStatusAttribute);
-            if ($outboundOrder->hasAttribute('updated_at')) {
-                $salesChannelOrder->order_updated_at = $outboundOrder->getAttribute('updated_at');
+            $salesChannelOrder->order_id = $order->primaryKey;
+            $salesChannelOrder->order_status = $order->getAttribute($this->orderStatusAttribute);
+            if ($order->hasAttribute('updated_at')) {
+                $salesChannelOrder->order_updated_at = $order->getAttribute('updated_at');
             }
             $salesChannelOrder->save(false);
         }
 
         if (empty($this->orderStatusMap[$salesChannelOrder->sales_channel_status])) {
-            return null;
+            return $order;
         }
         $newOrderStatus = $this->orderStatusMap[$salesChannelOrder->sales_channel_status];
-        $outboundOrder->setAttribute($this->outboundOrderStatusAttribute, $newOrderStatus);
+        $order->setAttribute($this->orderStatusAttribute, $newOrderStatus);
         $salesChannelOrder->order_status = $newOrderStatus;
-        if ($outboundOrder->hasAttribute('updated_at')) {
-            $salesChannelOrder->order_updated_at = $outboundOrder->getAttribute('updated_at');
+        if ($order->hasAttribute('updated_at')) {
+            $salesChannelOrder->order_updated_at = $order->getAttribute('updated_at');
         }
 
-        $this->updateOutboundOrderAdditional($outboundOrder, $salesChannelOrder, $externalOrder);
-        return $outboundOrder->save(false) && $salesChannelOrder->save(false);
+        $this->updateOrderAdditional($order, $salesChannelOrder, $externalOrder);
+        $order->save(false) && $salesChannelOrder->save(false);
+        return $order;
     }
 
     /**
@@ -202,7 +204,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @param array $externalOrder
      * @inheritdoc
      */
-    protected function updateOutboundOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder): void
+    protected function updateOrderAdditional(BaseActiveRecord $outboundOrder, SalesChannelOrder $salesChannelOrder, array $externalOrder): void
     {
     }
 
@@ -212,7 +214,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @return BaseActiveRecord|null
      * @inheritdoc
      */
-    abstract protected function createOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?BaseActiveRecord;
+    abstract protected function createOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?BaseActiveRecord;
 
     #endregion
 }

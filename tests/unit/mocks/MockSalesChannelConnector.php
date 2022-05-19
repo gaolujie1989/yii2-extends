@@ -23,7 +23,7 @@ class MockSalesChannelConnector extends BaseSalesChannelConnector
      * @return BaseActiveRecord
      * @inheritdoc
      */
-    protected function createOutboundOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): BaseActiveRecord
+    protected function createOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): BaseActiveRecord
     {
         return new TestOrder([
             'status' => 0,

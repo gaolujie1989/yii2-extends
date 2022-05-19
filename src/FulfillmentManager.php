@@ -85,12 +85,12 @@ class FulfillmentManager extends Component implements BootstrapInterface
     /**
      * @var int
      */
-    public $pullStockLimit = 1000;
+    public $pullStockLimit = 500;
 
     /**
      * @var int
      */
-    public $pullStockBatchSize = 50;
+    public $pullStockBatchSize = 100;
 
     /**
      * @var int

@@ -45,6 +45,7 @@ class F4pxFulfillmentServiceLoader extends BaseDataLoader
             'class' => F4pxClient::class,
             'appKey' => $account->username,
             'appSecret' => $account->password,
+//            'sandbox' => true,
         ];
         /** @var F4pxFulfillmentService $pmFulfillmentService */
         $pmFulfillmentService = Yii::createObject(array_merge(

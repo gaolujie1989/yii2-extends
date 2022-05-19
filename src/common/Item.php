@@ -71,6 +71,16 @@ class Item extends Model
     public $itemBarcodes;
 
     /**
+     * @var ItemValue[]
+     */
+    public $itemValues;
+
+    /**
+     * @var array
+     */
+    public $additional = [];
+
+    /**
      * @param string $name
      * @return string|null
      * @inheritdoc

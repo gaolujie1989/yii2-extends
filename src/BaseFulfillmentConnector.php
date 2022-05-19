@@ -321,16 +321,16 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      */
     public function afterFulfillmentOrderUpdated(FulfillmentOrderEvent $event): void
     {
-        $fulfillmentOrder = $event->fulfillmentOrder;
-        $this->updateOrder($fulfillmentOrder, $event->externalOrder);
+        $this->updateOrder($event->fulfillmentOrder, $event->externalOrder);
     }
 
     /**
      * @param FulfillmentOrder $fulfillmentOrder
-     * @return bool|null
+     * @param array $externalOrder
+     * @return BaseActiveRecord|null
      * @inheritdoc
      */
-    public function updateOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): ?bool
+    public function updateOrder(FulfillmentOrder $fulfillmentOrder, array $externalOrder): ?BaseActiveRecord
     {
         $fulfillmentType = $fulfillmentOrder->fulfillment_type;
         if (empty($this->orderStatusMap[$fulfillmentType][$fulfillmentOrder->fulfillment_status])) {
@@ -344,7 +344,7 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         }
         $warehouseId = $order->getAttribute($this->orderWarehouseIdAttribute[$fulfillmentType]);
         if ($warehouseId !== $fulfillmentOrder->warehouse_id) {
-            return null;
+            return $order;
         }
 
         $newOrderStatus = $this->orderStatusMap[$fulfillmentType][$fulfillmentOrder->fulfillment_status];
@@ -355,7 +355,8 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         }
 
         $this->updateOrderAdditional($order, $fulfillmentOrder, $externalOrder);
-        return $order->save(false) && $fulfillmentOrder->save(false);
+        $order->save(false) && $fulfillmentOrder->save(false);
+        return $order;
     }
 
     /**

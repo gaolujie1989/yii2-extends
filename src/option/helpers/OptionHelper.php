@@ -11,6 +11,7 @@ use lujie\extend\helpers\CsvHelper;
 use lujie\extend\helpers\ExcelHelper;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 
 /**
@@ -89,6 +90,18 @@ class OptionHelper
             }
             $optionData[$type] = ArrayHelper::index($typeOptions, 'value');
         }
+
+        //fill option types
+        $typeOptions = [];
+        $optionTypes = array_keys($optionData);
+        foreach ($optionTypes as $optionType) {
+            $typeOptions[$optionType] = [
+                'type' => Option::TYPE_OPTION_TYPE,
+                'value' => $optionType,
+                'name' => Inflector::camel2words($optionType),
+            ];
+        }
+        $optionData[Option::TYPE_OPTION_TYPE] = array_merge($typeOptions, $optionData[Option::TYPE_OPTION_TYPE]);
 
         $dbPipeline = new DbPipeline([
             'modelClass' => Option::class,

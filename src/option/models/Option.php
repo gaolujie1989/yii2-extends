@@ -22,6 +22,10 @@ class Option extends \lujie\extend\db\ActiveRecord
     public const VALUE_TYPE_INT = 1;
     public const VALUE_TYPE_FLOAT = 2;
 
+    public const TYPE_OPTION_TYPE = 'optionType';
+    public const TYPE_OPTION_VALUE_TYPE = 'optionValueType';
+    public const TYPE_OPTION_TAG = 'optionTag';
+
     /**
      * {@inheritdoc}
      */

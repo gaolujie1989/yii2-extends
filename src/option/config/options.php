@@ -8,17 +8,17 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\constants\StatusConst;
 
 return [
-    'optionType' => [
-        'optionType' => 'Option Type',
-        'optionValueType' => 'Option Value Type',
-        'optionTag' => 'Option Tag',
+    Option::TYPE_OPTION_TYPE => [
+        Option::TYPE_OPTION_TYPE => 'Option Type',
+        Option::TYPE_OPTION_VALUE_TYPE => 'Option Value Type',
+        Option::TYPE_OPTION_TAG => 'Option Tag',
     ],
-    'optionValueType' => [
+    Option::TYPE_OPTION_VALUE_TYPE => [
         'STRING' => ['name'=>'STRING', 'value' => Option::VALUE_TYPE_STRING, 'tag' => 'info'],
         'INT' => ['name'=>'INTEGER', 'value' => Option::VALUE_TYPE_INT, 'tag' => 'success'],
         'FLOAT' => ['name'=>'FLOAT', 'value' => Option::VALUE_TYPE_FLOAT, 'tag' => 'warning'],
     ],
-    'optionTag' => [
+    Option::TYPE_OPTION_TAG => [
         'primary' => ['name' => 'Primary', 'tag' => 'primary' ],
         'info' => ['name' => 'Info', 'tag' => 'info' ],
         'success' => ['name' => 'Success', 'tag' => 'success' ],

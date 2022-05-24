@@ -346,6 +346,14 @@ use yii\httpclient\Request;
  * @method array updatePaymentProperty($data)
  * @method array deletePaymentProperty($data)
  *
+ * @method array listListings($data = [])
+ * @method Generator eachListings($condition = [], $batchSize = 100)
+ * @method Generator batchListings($condition = [], $batchSize = 100)
+ * @method array getListing($data)
+ * @method array createListing($data)
+ * @method array updateListing($data)
+ * @method array deleteListing($data)
+ *
  * @method array listListingMarkets($data = [])
  * @method Generator eachListingMarkets($condition = [], $batchSize = 100)
  * @method Generator batchListingMarkets($condition = [], $batchSize = 100)
@@ -353,6 +361,14 @@ use yii\httpclient\Request;
  * @method array createListingMarket($data)
  * @method array updateListingMarket($data)
  * @method array deleteListingMarket($data)
+ *
+ * @method array listListingMarketHistories($data = [])
+ * @method Generator eachListingMarketHistories($condition = [], $batchSize = 100)
+ * @method Generator batchListingMarketHistories($condition = [], $batchSize = 100)
+ * @method array getListingMarketHistory($data)
+ * @method array relistListingMarketHistory($data)
+ * @method array updateListingMarketHistory($data)
+ * @method array endListingMarketHistory($data)
  *
  * @method array listListingMarketTexts($data = [])
  * @method Generator eachListingMarketTexts($condition = [], $batchSize = 100)
@@ -482,7 +498,9 @@ class PlentyMarketsRestClient extends OAuth2
         'Payment' => 'payments',
         'PaymentProperty' => 'payments/{paymentId}/properties',
 
+        'Listing' => 'listings',
         'ListingMarket' => 'listings/markets',
+        'ListingMarketHistory' => 'listings/markets/histories',
         'ListingMarketTexts' => 'listings/markets/texts',
 
         'Comment' => 'comments',
@@ -565,6 +583,11 @@ class PlentyMarketsRestClient extends OAuth2
             'create' => ['POST', '{typeId}'],
             'update' => ['PUT', '{typeId}'],
             'delete' => ['DELETE', '{typeId}'],
+        ],
+        'ListingMarketHistory' => [
+            'relist' => ['POST', 'relist/{id}'],
+            'update' => ['PUT', 'update/{id}'],
+            'end' => ['DELETE', 'end/{id}'],
         ],
     ];
 
@@ -753,6 +776,22 @@ class PlentyMarketsRestClient extends OAuth2
     }
 
     #endregion BaseOAuth
+
+    /**
+     * @param array|string $apiSubUrl
+     * @param string $method
+     * @param array $data
+     * @param array $headers
+     * @return array
+     * @inheritdoc
+     */
+    public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
+    {
+        if ($method === 'PUT' && strpos($apiSubUrl, 'listings/markets/histories/update') !== false) {
+            unset($data['id']);
+        }
+        return parent::api($apiSubUrl, $method, $data, $headers);
+    }
 
     /**
      * @param string $name

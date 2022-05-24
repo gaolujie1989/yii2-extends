@@ -234,6 +234,9 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                 'picture_url' => $pictureUrls,
             ];
         }
+        if (empty($item->salesUrl)) {
+            throw new InvalidArgumentException("Item {$item->itemNo} with no sales link");
+        }
         if (empty($item->itemValues)) {
             throw new InvalidArgumentException("Invalid item {$item->itemNo}, empty item values");
         }

@@ -763,4 +763,11 @@ class PlentyMarketsConst
         'Distribution' => 6,
         'Other' => 7,
     ];
+
+    public const LISTING_MARKET_HISTORY_STATUS_IDS = [
+        'Active' => 1,
+        'Ended' => 2,
+        'Relisted' => 3,
+        'Hidden' => 4,
+    ];
 }

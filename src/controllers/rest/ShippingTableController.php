@@ -6,7 +6,9 @@
 namespace lujie\charging\controllers\rest;
 
 use lujie\charging\models\ShippingTable;
+use lujie\charging\searches\ShippingTableMatch;
 use lujie\extend\rest\ActiveController;
+use lujie\extend\rest\MethodAction;
 
 /**
  * Class ShippingTableController
@@ -16,4 +18,20 @@ use lujie\extend\rest\ActiveController;
 class ShippingTableController extends ActiveController
 {
     public $modelClass = ShippingTable::class;
+
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actions(): array
+    {
+        return array_merge(parent::actions(), [
+            'match' => [
+                'class' => MethodAction::class,
+                'modelClass' => ShippingTableMatch::class,
+                'method' => 'match'
+            ]
+        ]);
+    }
 }

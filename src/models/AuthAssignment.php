@@ -3,6 +3,7 @@
 namespace lujie\auth\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%auth_assignment}}".
@@ -19,7 +20,8 @@ class AuthAssignment extends \lujie\extend\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%auth_assignment}}';
+        $components = Yii::$app->getComponents();
+        return $components['authManager']['auth_assignment'] ?? '{{%auth_assignment}}';
     }
 
     /**

@@ -23,7 +23,8 @@ class AuthItem extends \lujie\extend\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%auth_item}}';
+        $components = Yii::$app->getComponents();
+        return $components['authManager']['auth_item'] ?? '{{%auth_item}}';
     }
 
     /**

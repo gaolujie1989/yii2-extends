@@ -17,7 +17,8 @@ class AuthRule extends \lujie\extend\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%auth_rule}}';
+        $components = Yii::$app->getComponents();
+        return $components['authManager']['auth_rule'] ?? '{{%auth_rule}}';
     }
 
     /**

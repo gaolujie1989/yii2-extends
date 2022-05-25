@@ -47,7 +47,7 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
                     'zone' => 'zone',
                 ],
                 'querySorts' => [
-                    'orderByPrice' => ['price_cent']
+                    'orderByPrice' => ['price_cent'],
                 ],
             ],
         ]);

@@ -50,9 +50,17 @@ class ShippingTableMatch extends ShippingTable
         return [
             [['item_key'], 'validateItem'],
             [['active_at'], 'date'],
-            [['length_mm_limit', 'width_mm_limit', 'height_mm_limit'], 'required'],
             [['length_cm_limit', 'width_cm_limit', 'height_cm_limit'], 'required'],
         ];
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), $this->aliasBehaviors());
     }
 
     /**
@@ -74,7 +82,8 @@ class ShippingTableMatch extends ShippingTable
     }
 
     /**
-     * @return ActiveQueryInterface|ShippingTableQuery
+     * @return bool
+     * @throws \Exception
      * @inheritdoc
      */
     public function match(): bool
@@ -97,11 +106,22 @@ class ShippingTableMatch extends ShippingTable
             ->asArray()
             ->all();
         $condition = array_merge(['OR'], $shippingPrices);
-        $shippingTables = $query->andWhere($condition)->asArray()->all();
+        $shippingTables = $query->andWhere($condition)
+            ->orderBy([
+                'departure' => SORT_ASC,
+                'carrier' => SORT_ASC,
+                'destination' => SORT_ASC,
+            ])
+            ->asArray()
+            ->all();
 
-        $this->shippingTables = ArrayHelper::index($shippingTables, 'carrier', ['destination', 'departure']);
-        $this->departureCarriers = ArrayHelper::map($shippingTables, 'departure', 'carrier');
-
+        $shippingTables = ShippingTableSearch::prepareRows($shippingTables);
+        $this->departureCarriers = ArrayHelper::map($shippingTables, 'carrier', 'carrier', 'departure');
+        $shippingTables = ArrayHelper::index($shippingTables, 'carrier', ['destination', 'departure']);
+        foreach ($shippingTables as $key => $shippingTable) {
+            $shippingTables[$key]['destination'] = $key;
+        }
+        $this->shippingTables = array_values($shippingTables);
         return true;
     }
 
@@ -112,9 +132,9 @@ class ShippingTableMatch extends ShippingTable
     public function fields(): array
     {
         $safeAttributes = $this->safeAttributes();
-        return array_merge(array_combine($safeAttributes, [
+        return array_merge(array_combine($safeAttributes, $safeAttributes), [
             'shippingTables' => 'shippingTables',
             'departureCarriers' => 'departureCarriers',
-        ]));
+        ]);
     }
 }

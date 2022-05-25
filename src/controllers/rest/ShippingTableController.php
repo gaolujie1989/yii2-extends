@@ -19,6 +19,8 @@ class ShippingTableController extends ActiveController
 {
     public $modelClass = ShippingTable::class;
 
+    public $matchClass = ShippingTableMatch::class;
+
     /**
      * @return array
      * @throws \yii\base\InvalidConfigException
@@ -29,7 +31,7 @@ class ShippingTableController extends ActiveController
         return array_merge(parent::actions(), [
             'match' => [
                 'class' => MethodAction::class,
-                'modelClass' => ShippingTableMatch::class,
+                'modelClass' => $this->matchClass,
                 'method' => 'match'
             ]
         ]);

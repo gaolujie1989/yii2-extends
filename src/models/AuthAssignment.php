@@ -21,7 +21,7 @@ class AuthAssignment extends \lujie\extend\db\ActiveRecord
     public static function tableName(): string
     {
         $components = Yii::$app->getComponents();
-        return $components['authManager']['auth_assignment'] ?? '{{%auth_assignment}}';
+        return $components['authManager']['assignmentTable'] ?? '{{%auth_assignment}}';
     }
 
     /**

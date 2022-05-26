@@ -9,9 +9,9 @@ use lujie\extend\constants\StatusConst;
 
 return [
     Option::TYPE_OPTION_TYPE => [
-        Option::TYPE_OPTION_TYPE => 'Option Type',
-        Option::TYPE_OPTION_VALUE_TYPE => 'Option Value Type',
-        Option::TYPE_OPTION_TAG => 'Option Tag',
+        Option::TYPE_OPTION_TYPE => 'OPTION_TYPE',
+        Option::TYPE_OPTION_VALUE_TYPE => 'OPTION_VALUE_TYPE',
+        Option::TYPE_OPTION_TAG => 'OPTION_TAG',
     ],
     Option::TYPE_OPTION_VALUE_TYPE => [
         'STRING' => ['name'=>'STRING', 'value' => Option::VALUE_TYPE_STRING, 'tag' => 'info'],
@@ -26,15 +26,15 @@ return [
         'danger' => ['name' => 'Danger', 'tag' => 'danger' ],
     ],
     'commonStatus' => [
-        'ACTIVE' => ['name' => 'Active', 'value' => StatusConst::STATUS_ACTIVE, 'tag' => 'success'],
-        'INACTIVE' => ['name' => 'Inactive', 'value' => StatusConst::STATUS_INACTIVE, 'tag' => 'info'],
+        'ACTIVE' => ['name' => 'ACTIVE', 'value' => StatusConst::STATUS_ACTIVE, 'tag' => 'success'],
+        'INACTIVE' => ['name' => 'INACTIVE', 'value' => StatusConst::STATUS_INACTIVE, 'tag' => 'info'],
     ],
     'execStatus' => [
-        'PENDING' => ['name' => 'Pending', 'value' => ExecStatusConst::EXEC_STATUS_PENDING, 'tag' => 'info'],
-        'RUNNING' => ['name' => 'Running', 'value' => ExecStatusConst::EXEC_STATUS_RUNNING, 'tag' => 'primary'],
-        'SUCCESS' => ['name' => 'Success', 'value' => ExecStatusConst::EXEC_STATUS_SUCCESS, 'tag' => 'success'],
-        'FAILED' => ['name' => 'Failed', 'value' => ExecStatusConst::EXEC_STATUS_FAILED, 'tag' => 'danger'],
-        'SKIPPED' => ['name' => 'Skipped', 'value' => ExecStatusConst::EXEC_STATUS_SKIPPED, 'tag' => 'info'],
-        'QUEUED' => ['name' => 'Queued', 'value' => ExecStatusConst::EXEC_STATUS_QUEUED, 'tag' => 'warning'],
+        'PENDING' => ['name' => 'PENDING', 'value' => ExecStatusConst::EXEC_STATUS_PENDING, 'tag' => 'info'],
+        'RUNNING' => ['name' => 'RUNNING', 'value' => ExecStatusConst::EXEC_STATUS_RUNNING, 'tag' => 'primary'],
+        'SUCCESS' => ['name' => 'SUCCESS', 'value' => ExecStatusConst::EXEC_STATUS_SUCCESS, 'tag' => 'success'],
+        'FAILED' => ['name' => 'FAILED', 'value' => ExecStatusConst::EXEC_STATUS_FAILED, 'tag' => 'danger'],
+        'SKIPPED' => ['name' => 'SKIPPED', 'value' => ExecStatusConst::EXEC_STATUS_SKIPPED, 'tag' => 'info'],
+        'QUEUED' => ['name' => 'QUEUED', 'value' => ExecStatusConst::EXEC_STATUS_QUEUED, 'tag' => 'warning'],
     ],
 ];

@@ -13,6 +13,7 @@ use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
+use yii\helpers\StringHelper;
 
 /**
  * Class OptionHelper
@@ -74,6 +75,10 @@ class OptionHelper
                 }
                 if (empty($optionItem['position'])) {
                     $optionItem['position'] = $position;
+                }
+                $name = $optionItem['name'];
+                if (strpos($name, '_') !== false || (strlen($name) > 4 && !preg_match('/[a-z]/', $name))) {
+                    $optionItem['name'] = Inflector::camel2words(strtolower($name));
                 }
                 if (!isset($optionItem['value_type'])) {
                     $value = $optionItem['value'];

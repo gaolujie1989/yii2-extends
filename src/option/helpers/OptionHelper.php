@@ -105,6 +105,7 @@ class OptionHelper
                 'value' => $optionType,
                 'name' => Inflector::camel2words($optionType),
             ];
+            $updateData[] = $typeOptions[$optionType];
         }
         $optionData[Option::TYPE_OPTION_TYPE] = array_merge($typeOptions, $optionData[Option::TYPE_OPTION_TYPE]);
 

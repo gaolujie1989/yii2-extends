@@ -59,6 +59,11 @@ class OptionHelper
                     throw new InvalidArgumentException('Invalid file');
             }
         }
+
+        //fill option types
+        $optionTypes = array_keys($optionData);
+        $optionData[Option::TYPE_OPTION_TYPE] = array_merge(array_combine($optionTypes, $optionTypes), $optionData[Option::TYPE_OPTION_TYPE]);
+
         $updateData = [];
         foreach ($optionData as $type => $typeOptions) {
             $position = 0;
@@ -95,19 +100,6 @@ class OptionHelper
             }
             $optionData[$type] = ArrayHelper::index($typeOptions, 'value');
         }
-
-        //fill option types
-        $typeOptions = [];
-        $optionTypes = array_keys($optionData);
-        foreach ($optionTypes as $optionType) {
-            $typeOptions[$optionType] = [
-                'type' => Option::TYPE_OPTION_TYPE,
-                'value' => $optionType,
-                'name' => Inflector::camel2words($optionType),
-            ];
-            $updateData[] = $typeOptions[$optionType];
-        }
-        $optionData[Option::TYPE_OPTION_TYPE] = array_merge($typeOptions, $optionData[Option::TYPE_OPTION_TYPE]);
 
         $dbPipeline = new DbPipeline([
             'modelClass' => Option::class,

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace kiwi\sales\channel\controllers\rest;
+namespace lujie\sales\channel\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
 use lujie\sales\channel\models\SalesChannelOrder;

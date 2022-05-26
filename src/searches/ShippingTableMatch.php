@@ -7,6 +7,7 @@ namespace lujie\charging\searches;
 
 use lujie\charging\models\ShippingTable;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\helpers\QueryHelper;
 use lujie\extend\models\Item;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -48,7 +49,7 @@ class ShippingTableMatch extends ShippingTable
     public function rules(): array
     {
         return [
-            [['weight_kg_limit'], 'safe'],
+            [['carrier', 'departure', 'destination', 'zone', 'currency', 'weight_kg_limit'], 'safe'],
             [['item_key'], 'validateItem'],
             [['active_at'], 'date'],
             [['length_cm_limit', 'width_cm_limit', 'height_cm_limit'], 'required', 'isEmpty' => static function($v) {
@@ -102,6 +103,7 @@ class ShippingTableMatch extends ShippingTable
             $query->andFilterWhere(['<=', 'started_at', $this->active_at])
                 ->andFilterWhere(['>=', 'ended_at', $this->active_at]);
         }
+        QueryHelper::filterValue($query, $this->getAttributes(['carrier', 'departure', 'destination', 'zone', 'currency']));
         $groupByColumns = ['carrier', 'departure', 'destination'];
         $shippingPrices = (clone $query)
             ->select(['MIN(price_cent) AS price_cent'])

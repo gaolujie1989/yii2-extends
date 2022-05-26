@@ -39,6 +39,8 @@ class ShippingTableMatch extends ShippingTable
      */
     public $departureCarriers;
 
+    public $item;
+
     /**
      * @return array
      * @inheritdoc
@@ -72,6 +74,7 @@ class ShippingTableMatch extends ShippingTable
             $this->itemLoader = Instance::ensure($this->itemLoader, DataLoaderInterface::class);
             $item = $this->itemLoader->get($this->item_key);
             if ($item) {
+                $this->item = $item;
                 $this->length_mm_limit = $item->lengthMM;
                 $this->width_mm_limit = $item->widthMM;
                 $this->height_mm_limit = $item->heightMM;

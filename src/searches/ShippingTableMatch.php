@@ -48,9 +48,12 @@ class ShippingTableMatch extends ShippingTable
     public function rules(): array
     {
         return [
+            [['weight_kg_limit'], 'safe'],
             [['item_key'], 'validateItem'],
             [['active_at'], 'date'],
-            [['length_cm_limit', 'width_cm_limit', 'height_cm_limit'], 'required'],
+            [['length_cm_limit', 'width_cm_limit', 'height_cm_limit'], 'required', 'isEmpty' => static function($v) {
+                return empty($v);
+            }],
         ];
     }
 

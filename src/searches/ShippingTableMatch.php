@@ -6,10 +6,8 @@
 namespace lujie\charging\searches;
 
 use lujie\charging\models\ShippingTable;
-use lujie\charging\models\ShippingTableQuery;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\models\Item;
-use yii\db\ActiveQueryInterface;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
@@ -133,6 +131,7 @@ class ShippingTableMatch extends ShippingTable
     {
         $safeAttributes = $this->safeAttributes();
         return array_merge(array_combine($safeAttributes, $safeAttributes), [
+            'item' => 'item',
             'shippingTables' => 'shippingTables',
             'departureCarriers' => 'departureCarriers',
         ]);

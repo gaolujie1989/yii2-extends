@@ -6,7 +6,7 @@
 use lujie\charging\models\ChargePrice;
 
 return [
-    'chargeType' => [
+    'chargeStatus' => [
         ChargePrice::STATUS_ESTIMATE => 'ESTIMATE',
         ChargePrice::STATUS_GENERATED => 'GENERATED',
         ChargePrice::STATUS_CANCELLED => 'CANCELLED',

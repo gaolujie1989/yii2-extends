@@ -45,10 +45,11 @@ class OptionManager extends BaseObject
     /**
      * @param string $type
      * @param string $key
-     * @param bool|string|null $like
+     * @param null $like
      * @return array
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
      * @inheritdoc
      */
     public function getOptions(string $type, string $key = '', $like = null): array

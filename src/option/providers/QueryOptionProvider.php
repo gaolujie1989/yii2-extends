@@ -6,9 +6,11 @@
 namespace lujie\common\option\providers;
 
 use lujie\data\exchange\transformers\KeyMapTransformer;
+use lujie\extend\helpers\ActiveDataHelper;
 use lujie\extend\helpers\QueryHelper;
 use yii\base\BaseObject;
 use yii\base\NotSupportedException;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\Connection;
 use yii\db\Query;
@@ -92,7 +94,12 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             'unsetOriginalKey' => true,
             'unsetNotInMapKey' => true,
         ]);
-        return $transformer->transform($query->all());
+        $data = $query->all();
+        if ($query instanceof ActiveQueryInterface) {
+            /** @var ActiveQuery $query */
+            $data = ActiveDataHelper::typecast($data, $query->modelClass);
+        }
+        return $transformer->transform($data);
     }
 
     /**

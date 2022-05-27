@@ -40,7 +40,7 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
     {
         $query = Option::find()
             ->type($type)
-            ->select(['id', 'value', 'value_type', 'name', 'tag', 'labels'])
+            ->select(['option_id', 'value', 'value_type', 'name', 'tag', 'labels'])
             ->orderBy(['position' => SORT_ASC])
             ->asArray();
         if ($key) {
@@ -49,7 +49,8 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
         $rows = $query->all();
         return array_map(static function($row) {
             $row = OptionSearch::formatValueLabel($row);
-            unset($row['value_type'], $row['labels']);
+            $row['id'] = $row['option_id'];
+            unset($row['option_id'], $row['value_type'], $row['labels']);
             return $row;
         }, $rows);
     }

@@ -7,6 +7,7 @@ namespace lujie\common\option;
 
 use lujie\common\option\providers\OptionProvider;
 use lujie\common\option\providers\OptionProviderInterface;
+use lujie\common\option\providers\QueryOptionProvider;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\web\NotFoundHttpException;
@@ -56,6 +57,9 @@ class OptionManager extends BaseObject
             if (!($optionProvider instanceof OptionProviderInterface)) {
                 $optionProvider = Instance::ensure($optionProvider, OptionProviderInterface::class);
                 $this->providers[$providerKey] = $optionProvider;
+                if ($optionProvider instanceof QueryOptionProvider && empty($optionProvider->type)) {
+                    $optionProvider->type = $providerKey;
+                }
             }
             if ($optionProvider->hasType($type)) {
                 return $like !== null

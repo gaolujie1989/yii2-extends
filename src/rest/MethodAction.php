@@ -75,7 +75,11 @@ class MethodAction extends Action
         }
 
         $model->scenario = $this->scenario;
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
+        $model->load($requestParams, '');
         $result = call_user_func_array([$model, $this->method], $this->params);
         if ($result === false && !$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to execute method for unknown reason.');

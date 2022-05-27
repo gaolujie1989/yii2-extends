@@ -47,9 +47,9 @@ class OptionSearch extends Option
      */
     public static function formatValueLabel(array $row): array
     {
-        if ($row['value_type'] === Option::VALUE_TYPE_INT) {
+        if ((int)$row['value_type'] === Option::VALUE_TYPE_INT) {
             $row['value'] = (int)$row['value'];
-        } else if ($row['value_type'] === Option::VALUE_TYPE_FLOAT) {
+        } else if ((int)$row['value_type'] === Option::VALUE_TYPE_FLOAT) {
             $row['value'] = (float)$row['value'];
         }
         $row['label'] = $row['labels'][Yii::$app->language] ?? '';

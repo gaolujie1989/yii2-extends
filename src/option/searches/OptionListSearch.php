@@ -67,7 +67,7 @@ class OptionListSearch extends Model
 
         $typeOptions  = [];
         foreach ($this->type as $type) {
-            $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key);
+            $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key ?: '');
         }
         $this->options = $typeOptions;
         return true;

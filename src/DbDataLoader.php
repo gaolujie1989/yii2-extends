@@ -46,7 +46,9 @@ class DbDataLoader extends QueryDataLoader
         $this->db = Instance::ensure($this->db, Connection::class);
         $this->initUniqueKey();
         if (empty($this->query)) {
-            $this->query = (new Query())->from($this->table);
+            $this->query = $this->modelClass
+                ? $this->modelClass::find()
+                : (new Query())->from($this->table);
         }
         parent::init();
     }

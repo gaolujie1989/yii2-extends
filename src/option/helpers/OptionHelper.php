@@ -84,7 +84,14 @@ class OptionHelper
                 }
                 $name = $optionItem['name'];
                 if (strpos($name, '_') !== false || (strlen($name) > 4 && !preg_match('/[a-z]/', $name))) {
-                    $optionItem['name'] = Inflector::camel2words(strtolower($name));
+                    $nameParts = explode('_', $name);
+                    $nameParts = array_map(static function($str) {
+                        if (strlen($str) <= 4) {
+                            return $str;
+                        }
+                        return ucfirst(strtolower($str));
+                    }, $nameParts);
+                    $optionItem['name'] = implode(' ', $nameParts);
                 }
                 if (!isset($optionItem['value_type'])) {
                     $value = $optionItem['value'];

@@ -62,7 +62,8 @@ class OptionHelper
 
         //fill option types
         $optionTypes = array_keys($optionData);
-        $optionData[Option::TYPE_OPTION_TYPE] = array_merge(array_combine($optionTypes, $optionTypes), $optionData[Option::TYPE_OPTION_TYPE]);
+        $optionTypes = array_combine($optionTypes, array_map([Inflector::class, 'camel2words'], $optionTypes));
+        $optionData[Option::TYPE_OPTION_TYPE] = array_merge($optionTypes, $optionData[Option::TYPE_OPTION_TYPE]);
 
         $updateData = [];
         foreach ($optionData as $type => $typeOptions) {

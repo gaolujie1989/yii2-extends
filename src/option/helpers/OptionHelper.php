@@ -86,7 +86,7 @@ class OptionHelper
                 if (strpos($name, '_') !== false || (strlen($name) > 4 && !preg_match('/[a-z]/', $name))) {
                     $nameParts = explode('_', $name);
                     $nameParts = array_map(static function($str) {
-                        if (strlen($str) <= 4) {
+                        if (strlen($str) <= 4 && !in_array($str, ['TAG', 'TYPE'], true)) {
                             return $str;
                         }
                         return ucfirst(strtolower($str));

@@ -18,6 +18,8 @@ use yii\helpers\ArrayHelper;
  */
 class OptionProvider extends BaseObject implements OptionProviderInterface
 {
+    public $like = true;
+
     /**
      * @param string $type
      * @return bool
@@ -36,7 +38,7 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
      * @inheritdoc
      * @throws \Exception
      */
-    public function getOptions(string $type, string $key = '', $like = true): array
+    public function getOptions(string $type, ?string $key = null): array
     {
         $query = Option::find()
             ->type($type)
@@ -44,7 +46,7 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
             ->orderBy(['position' => SORT_ASC])
             ->asArray();
         if ($key) {
-            QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $like);
+            QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $this->like);
         }
         $rows = $query->all();
         return array_map(static function($row) {

@@ -16,7 +16,7 @@ return [
         FulfillmentConst::FULFILLMENT_TYPE_INBOUND => 'INBOUND',
         FulfillmentConst::FULFILLMENT_TYPE_SHIPPING => 'SHIPPING',
     ],
-    'shippingFulfillmentStatus' => [
+    'fulfillmentStatus' => [
         FulfillmentConst::FULFILLMENT_STATUS_PENDING => 'PENDING',
         FulfillmentConst::FULFILLMENT_STATUS_PROCESSING => 'PROCESSING',
         FulfillmentConst::FULFILLMENT_STATUS_HOLDING => 'HOLDING',

@@ -73,7 +73,7 @@ class OptionHelper
             foreach ($typeOptions as $key => $optionItem) {
                 $position++;
                 if (!is_array($optionItem)) {
-                    $optionItem = ['type' => $type, 'value' => $key, 'name' => $optionItem];
+                    $optionItem = ['type' => $type, 'value' => $optionItem, 'name' => $key];
                 }
                 if (!isset($optionItem['value'])) {
                     $optionItem['value'] = $key;

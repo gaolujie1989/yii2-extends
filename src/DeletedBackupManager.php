@@ -6,6 +6,7 @@
 namespace lujie\ar\deleted\backup;
 
 use lujie\ar\deleted\backup\models\DeletedData;
+use lujie\extend\helpers\ModelHelper;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
@@ -72,6 +73,7 @@ class DeletedBackupManager extends BaseObject implements BootstrapInterface
      */
     public function backup(BaseActiveRecord $model): bool
     {
+        /** @var DeletedData $storageModel */
         $storageModel = new $this->storageModelClass();
         $storageModel->setAttributes([
             'table_name' => $this->getTableName($model),
@@ -84,6 +86,21 @@ class DeletedBackupManager extends BaseObject implements BootstrapInterface
                     $storageModel->{$key} = $model->{$attribute};
                 }
                 break;
+            }
+        }
+        if (empty($storageModel->row_key)) {
+            $keyAttributes = ModelHelper::filterAttributes($model->attributes(), ['no', 'key', 'code']);
+            if ($keyAttributes) {
+                $keyAttr = reset($keyAttributes);
+                $storageModel->row_key = $model->{$keyAttr};
+            }
+        }
+        if (empty($storageModel->row_parent_id)) {
+            $idAttributes = ModelHelper::filterAttributes($model->attributes(), ['id']);
+            $idAttributes = array_diff($idAttributes, $model::primaryKey());
+            if ($idAttributes) {
+                $keyAttr = reset($idAttributes);
+                $storageModel->row_parent_id = $model->{$keyAttr};
             }
         }
 

@@ -27,9 +27,14 @@ use yii\redis\ActiveRecord as RedisActiveRecord;
 class BackupDeleteBehavior extends Behavior
 {
     /**
-     * @var array
+     * @var string
      */
-    public $backupConfig;
+    public $keyAttribute;
+
+    /**
+     * @var string
+     */
+    public $parentIdAttribute;
 
     /**
      * @var DeletedData
@@ -42,7 +47,9 @@ class BackupDeleteBehavior extends Behavior
      */
     public function events(): array
     {
-        return [BaseActiveRecord::EVENT_AFTER_DELETE => [$this, 'backupModelData']];
+        return [
+            BaseActiveRecord::EVENT_AFTER_DELETE => [$this, 'backupModelData']
+        ];
     }
 
     /**
@@ -54,15 +61,18 @@ class BackupDeleteBehavior extends Behavior
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
-        /** @var BaseActiveRecord $storageModel */
+        /** @var DeletedData $storageModel */
         $storageModel = new $this->storageModelClass();
         $storageModel->setAttributes([
             'table_name' => $this->getTableName($model),
             'row_id' => $model->getPrimaryKey(),
             'row_data' => $model->getAttributes(),
         ]);
-        foreach ($this->backupConfig as $key => $attribute) {
-            $storageModel->{$key} = $model->{$attribute};
+        if ($this->keyAttribute) {
+            $storageModel->row_key = $model->{$this->keyAttribute};
+        }
+        if ($this->parentIdAttribute) {
+            $storageModel->row_parent_id = $model->{$this->parentIdAttribute};
         }
         if (!$storageModel->save(false)) {
             throw new Exception('Backup model data failed.');

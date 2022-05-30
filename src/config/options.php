@@ -7,15 +7,15 @@ use lujie\sales\channel\constants\SalesChannelConst;
 
 return [
     'salesChannelAccountType' => [
-        SalesChannelConst::ACCOUNT_TYPE_PM => 'PM',
+        'PM' => SalesChannelConst::ACCOUNT_TYPE_PM,
     ],
     'salesChannelStatus' => [
-        SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT => 'WAIT_PAYMENT',
-        SalesChannelConst::CHANNEL_STATUS_PAID => 'PAID',
-        SalesChannelConst::CHANNEL_STATUS_PENDING => 'PENDING',
-        SalesChannelConst::CHANNEL_STATUS_SHIPPED => 'SHIPPED',
-        SalesChannelConst::CHANNEL_STATUS_CANCELLED => 'CANCELLED',
-        SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED => 'TO_SHIPPED',
-        SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED => 'TO_CANCELLED',
+        'WAIT_PAYMENT' => SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
+        'PAID' => SalesChannelConst::CHANNEL_STATUS_PAID,
+        'PENDING' => SalesChannelConst::CHANNEL_STATUS_PENDING,
+        'SHIPPED' => SalesChannelConst::CHANNEL_STATUS_SHIPPED,
+        'CANCELLED' => SalesChannelConst::CHANNEL_STATUS_CANCELLED,
+        'TO_SHIPPED' => SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED,
+        'TO_CANCELLED' => SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED,
     ],
 ];

@@ -1,4 +1,4 @@
-namespace: lujie\ar\backup\delete
+namespace: lujie\ar\deleted\backup
 paths:
   tests: tests
   output: tests/_output

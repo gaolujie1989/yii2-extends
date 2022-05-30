@@ -1,9 +1,8 @@
 <?php
-/**
- * @copyright Copyright (c) 2017
- */
 
-namespace lujie\ar\backup\delete\models;
+namespace lujie\ar\deleted\backup\models;
+
+use Yii;
 
 /**
  * This is the model class for table "{{%deleted_data}}".
@@ -11,15 +10,14 @@ namespace lujie\ar\backup\delete\models;
  * @property int $id
  * @property string $table_name
  * @property int $row_id
+ * @property string $row_key
+ * @property int $row_parent_id
  * @property array|null $row_data
- *
- * @package lujie\backupdelete\models
- * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DeletedData extends \lujie\extend\db\ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName(): string
     {
@@ -27,35 +25,38 @@ class DeletedData extends \lujie\extend\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules(): array
     {
         return [
-            [['table_name', 'row_id', 'row_data'], 'required'],
+            [['table_name', 'row_key'], 'default', 'value' => ''],
+            [['row_id', 'row_parent_id'], 'default', 'value' => 0],
             [['row_data'], 'default', 'value' => []],
-            [['row_id'], 'integer'],
+            [['row_id', 'row_parent_id'], 'integer'],
             [['row_data'], 'safe'],
-            [['table_name'], 'string', 'max' => 50],
+            [['table_name', 'row_key'], 'string', 'max' => 50],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels(): array
     {
         return [
-            'id' => 'ID',
-            'table_name' => 'Table Name',
-            'row_id' => 'Row ID',
-            'row_data' => 'Row Data',
+            'id' => Yii::t('lujie/common', 'ID'),
+            'table_name' => Yii::t('lujie/common', 'Table Name'),
+            'row_id' => Yii::t('lujie/common', 'Row ID'),
+            'row_key' => Yii::t('lujie/common', 'Row Key'),
+            'row_parent_id' => Yii::t('lujie/common', 'Row Parent ID'),
+            'row_data' => Yii::t('lujie/common', 'Row Data'),
         ];
     }
 
     /**
-     * @return DeletedDataQuery
-     * @inheritdoc
+     * {@inheritdoc}
+     * @return DeletedDataQuery the active query used by this AR class.
      */
     public static function find(): DeletedDataQuery
     {

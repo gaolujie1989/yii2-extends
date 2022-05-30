@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2017
  */
 
-namespace lujie\ar\backup\delete\behaviors;
+namespace lujie\ar\deleted\backup\behaviors;
 
-use lujie\ar\backup\delete\models\DeletedData;
+use lujie\ar\deleted\backup\models\DeletedData;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\db\ActiveRecord as DbActiveRecord;
@@ -26,11 +26,15 @@ use yii\redis\ActiveRecord as RedisActiveRecord;
  */
 class BackupDeleteBehavior extends Behavior
 {
+    /**
+     * @var array
+     */
+    public $backupConfig;
 
     /**
      * @var DeletedData
      */
-    public $backupModelClass = DeletedData::class;
+    public $storageModelClass = DeletedData::class;
 
     /**
      * @return array
@@ -48,16 +52,19 @@ class BackupDeleteBehavior extends Behavior
      */
     public function backupModelData(Event $event): void
     {
-        /** @var BaseActiveRecord $sender */
-        $sender = $event->sender;
-        /** @var BaseActiveRecord $backupModel */
-        $backupModel = new $this->backupModelClass();
-        $backupModel->setAttributes([
-            'table_name' => $this->getTableName($sender),
-            'row_id' => $sender->getPrimaryKey(),
-            'row_data' => $sender->getAttributes(),
+        /** @var BaseActiveRecord $model */
+        $model = $event->sender;
+        /** @var BaseActiveRecord $storageModel */
+        $storageModel = new $this->storageModelClass();
+        $storageModel->setAttributes([
+            'table_name' => $this->getTableName($model),
+            'row_id' => $model->getPrimaryKey(),
+            'row_data' => $model->getAttributes(),
         ]);
-        if (!$backupModel->save(false)) {
+        foreach ($this->backupConfig as $key => $attribute) {
+            $storageModel->{$key} = $model->{$attribute};
+        }
+        if (!$storageModel->save(false)) {
             throw new Exception('Backup model data failed.');
         }
     }
@@ -92,7 +99,7 @@ class BackupDeleteBehavior extends Behavior
     public function restoreModelData(int $rowId, bool $deleteBackup = false): bool
     {
         $owner = $this->owner;
-        $deletedData = $this->backupModelClass::find()
+        $deletedData = $this->storageModelClass::find()
             ->tableName($this->getTableName($owner))
             ->rowId($rowId)
             ->one();

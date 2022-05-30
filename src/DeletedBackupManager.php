@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\ar\backup\delete;
+namespace lujie\ar\deleted\backup;
 
-use lujie\ar\backup\delete\models\DeletedData;
+use lujie\ar\deleted\backup\models\DeletedData;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
@@ -18,7 +18,7 @@ use yii\redis\ActiveRecord as RedisActiveRecord;
 
 /**
  * Class DeletedBackupManager
- * @package lujie\ar\backup\delete
+ * @package lujie\ar\deleted\backup
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class DeletedBackupManager extends BaseObject implements BootstrapInterface
@@ -67,6 +67,7 @@ class DeletedBackupManager extends BaseObject implements BootstrapInterface
     /**
      * @param BaseActiveRecord $model
      * @return bool
+     * @throws Exception
      * @inheritdoc
      */
     public function backup(BaseActiveRecord $model): bool
@@ -85,7 +86,11 @@ class DeletedBackupManager extends BaseObject implements BootstrapInterface
                 break;
             }
         }
-        return $storageModel->save(false);
+
+        if (!$storageModel->save(false)) {
+            throw new Exception('Backup model data failed.');
+        }
+        return true;
     }
 
     /**

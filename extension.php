@@ -4,12 +4,12 @@
  */
 
 return [
-    'lujie/yii2-backup-delete' => [
+    'lujie/yii2-deleted-backup' => [
         'name' => 'lujie/yii2-backup-delete',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/ar/backup/delete' => __DIR__ . '/src',
-            '@lujie/ar/backup/delete/tests' => __DIR__ . '/tests',
+            '@lujie/ar/deleted/backup' => __DIR__ . '/src',
+            '@lujie/ar/deleted/backup/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

@@ -1,20 +1,12 @@
 <?php
 
-namespace lujie\ar\backup\delete\behaviors\tests\unit;
+namespace lujie\ar\deleted\backup\behaviors\tests\unit;
 
-use lujie\ar\backup\delete\behaviors\BackupDeleteBehavior;
-use lujie\ar\backup\delete\models\DeletedData;
+use lujie\ar\deleted\backup\behaviors\BackupDeleteBehavior;
+use lujie\ar\deleted\backup\models\DeletedData;
 
 class BackupDeleteBehaviorTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException

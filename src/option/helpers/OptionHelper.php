@@ -78,6 +78,9 @@ class OptionHelper
                 if (!isset($optionItem['value'])) {
                     $optionItem['value'] = $key;
                 }
+                if (!isset($optionItem['name'])) {
+                    $optionItem['name'] = $key;
+                }
                 if (empty($optionItem['type'])) {
                     $optionItem['type'] = $type;
                 }

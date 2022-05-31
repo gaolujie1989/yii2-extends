@@ -25,14 +25,16 @@ class XmlHelper
         $result = (array) $xml;
         foreach ($xml as $key => $value) {
             if (!is_scalar($result[$key])) {
-                $result[$key] = static::toArray($value, $valueKey);
+                $result[$key] = static::toArray($result[$key], $valueKey);
             }
-            $attributes = (array)$value->attributes();
-            if (isset($attributes['@attributes'])) {
-                $result[$key] = array_merge(
-                    $attributes['@attributes'],
-                    is_array($result[$key]) ? $result[$key] : [$valueKey => $result[$key]]
-                );
+            if ($value instanceof \SimpleXMLElement) {
+                $attributes = (array)$value->attributes();
+                if (isset($attributes['@attributes'])) {
+                    $result[$key] = array_merge(
+                        $attributes['@attributes'],
+                        is_array($result[$key]) ? $result[$key] : [$valueKey => $result[$key]]
+                    );
+                }
             }
         }
         return $result;

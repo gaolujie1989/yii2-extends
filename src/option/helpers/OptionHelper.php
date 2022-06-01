@@ -22,7 +22,7 @@ use yii\helpers\StringHelper;
  */
 class OptionHelper
 {
-    public static $notUpperWords = ['TO', 'TAG', 'TYPE', 'PAID'];
+    public static $notUpperWords = ['TO', 'TAG'];
 
     /**
      * @param string|array $fileOrData
@@ -91,7 +91,7 @@ class OptionHelper
                 if (strpos($name, '_') !== false || (strlen($name) > 4 && !preg_match('/[a-z]/', $name))) {
                     $nameParts = explode('_', $name);
                     $nameParts = array_map(static function($str) {
-                        if (strlen($str) <= 4 && !in_array($str, static::$notUpperWords, true)) {
+                        if (strlen($str) <= 3 && !in_array($str, static::$notUpperWords, true)) {
                             return $str;
                         }
                         return ucfirst(strtolower($str));

@@ -39,6 +39,14 @@ use yii\helpers\Json;
 class Address extends \lujie\extend\db\ActiveRecord
 {
     /**
+     * if identify by signature,
+     * no update for exists address, create address instead
+     * if signature is same, not create address, return exist address instead
+     * @var bool
+     */
+    public $identifyBySignature = false;
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName(): string
@@ -152,6 +160,28 @@ class Address extends \lujie\extend\db\ActiveRecord
     }
 
     /**
+     * @param bool $runValidation
+     * @param array $attributeNames
+     * @return bool
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributeNames = null): bool
+    {
+        if ($this->identifyBySignature) {
+            $signature = $this->generateSignature();
+            $address = static::findBySignature($signature);
+            if ($address === null) {
+                $this->setIsNewRecord(true);
+                $this->address_id = null;
+                return parent::save($runValidation, $attributeNames);
+            }
+            $this->refreshInternal($address);
+            return true;
+        }
+        return parent::save($runValidation, $attributeNames);
+    }
+
+    /**
      * @param bool $insert
      * @return bool
      * @inheritdoc
@@ -160,6 +190,18 @@ class Address extends \lujie\extend\db\ActiveRecord
     {
         $this->signature = $this->generateSignature();
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeDelete(): bool
+    {
+        if ($this->identifyBySignature) {
+            return false;
+        }
+        return parent::beforeDelete();
     }
 
     /**

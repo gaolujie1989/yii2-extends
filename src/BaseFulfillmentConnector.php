@@ -348,6 +348,10 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
         }
 
         $newOrderStatus = $this->orderStatusMap[$fulfillmentType][$fulfillmentOrder->fulfillment_status];
+        $orderStatus = $order->getAttribute($this->orderStatusAttribute[$fulfillmentType]);
+        if ($orderStatus === $newOrderStatus) {
+            return $order;
+        }
         $order->setAttribute($this->orderStatusAttribute[$fulfillmentType], $newOrderStatus);
         $fulfillmentOrder->order_status = $newOrderStatus;
         if ($order->hasAttribute('updated_at')) {

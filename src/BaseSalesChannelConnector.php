@@ -187,6 +187,10 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
             return $order;
         }
         $newOrderStatus = $this->orderStatusMap[$salesChannelOrder->sales_channel_status];
+        $orderStatus = $order->getAttribute($this->orderStatusAttribute);
+        if ($orderStatus === $newOrderStatus) {
+            return $order;
+        }
         $order->setAttribute($this->orderStatusAttribute, $newOrderStatus);
         $salesChannelOrder->order_status = $newOrderStatus;
         if ($order->hasAttribute('updated_at')) {

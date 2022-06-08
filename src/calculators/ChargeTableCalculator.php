@@ -77,14 +77,26 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         }
 
         $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
-        $chargePrice->price_cent = $chargeTablePrice->price_cent;
-        $chargePrice->currency = $chargeTablePrice->currency;
-        if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-            $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
-            if ($this->roundUp) {
-                $overLimit = (int)ceil($overLimit);
+        if ($chargeableItem->basePriceCurrency) {
+            $chargePrice->currency = $chargeableItem->basePriceCurrency;
+            $chargePrice->price_cent = round($chargeableItem->basePriceCent * $chargeTablePrice->percent / 100);
+            $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
+                'base_price_cent' => $chargeableItem->basePriceCent,
+                'percent' => $chargeTablePrice->percent,
+            ]);
+        } else {
+            $chargePrice->price_cent = $chargeTablePrice->price_cent;
+            $chargePrice->currency = $chargeTablePrice->currency;
+            $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
+                'limit_value' => $chargeableItem->limitValue,
+            ]);
+            if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
+                $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
+                if ($this->roundUp) {
+                    $overLimit = (int)ceil($overLimit);
+                }
+                $chargePrice->price_cent += $overLimit * $chargeTablePrice->over_limit_price_cent;
             }
-            $chargePrice->price_cent += $overLimit * $chargeTablePrice->over_limit_price_cent;
         }
         $chargePrice->setAttributes($chargeTablePrice->additional);
         return $chargePrice;

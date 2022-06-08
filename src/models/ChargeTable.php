@@ -19,6 +19,7 @@ use Yii;
  * @property string $display_limit_unit
  * @property int $price_cent
  * @property string $currency
+ * @property float $percent
  * @property int $over_limit_price_cent
  * @property int $per_limit
  * @property int $max_over_limit
@@ -51,12 +52,13 @@ class ChargeTable extends \lujie\extend\db\ActiveRecord
         return [
             [['charge_type'], 'required'],
             [['charge_group', 'custom_type', 'limit_unit', 'display_limit_unit', 'currency'], 'default', 'value' => ''],
-            [['min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit',
+            [['min_limit', 'max_limit', 'price_cent', 'percent', 'over_limit_price_cent', 'per_limit',
                 'min_over_limit', 'max_over_limit',
                 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
             [['min_limit', 'max_limit', 'price_cent', 'over_limit_price_cent', 'per_limit',
                 'min_over_limit', 'max_over_limit',
                 'started_at', 'ended_at', 'owner_id'], 'integer'],
+            [['percent'], 'number'],
             [['charge_group', 'charge_type', 'custom_type'], 'string', 'max' => 50],
             [['limit_unit', 'display_limit_unit'], 'string', 'max' => 10],
             [['currency'], 'string', 'max' => 3],
@@ -111,6 +113,7 @@ class ChargeTable extends \lujie\extend\db\ActiveRecord
             'display_limit_unit' => Yii::t('lujie/charging', 'Display Limit Unit'),
             'price_cent' => Yii::t('lujie/charging', 'Price Cent'),
             'currency' => Yii::t('lujie/charging', 'Currency'),
+            'percent' => Yii::t('lujie/charging', 'Percent'),
             'over_limit_price_cent' => Yii::t('lujie/charging', 'Over Limit Price Cent'),
             'per_limit' => Yii::t('lujie/charging', 'Per Limit'),
             'min_over_limit' => Yii::t('lujie/charging', 'Min Over Limit'),

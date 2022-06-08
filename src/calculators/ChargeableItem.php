@@ -20,6 +20,11 @@ class ChargeableItem extends BaseObject
     public $customType = '';
 
     /**
+     * @var int
+     */
+    public $chargedAt;
+
+    /**
      * for matching limit
      * @var int
      */
@@ -28,7 +33,12 @@ class ChargeableItem extends BaseObject
     /**
      * @var int
      */
-    public $chargedAt;
+    public $basePriceCent;
+
+    /**
+     * @var int
+     */
+    public $basePriceCurrency;
 
     /**
      * @var array

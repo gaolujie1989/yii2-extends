@@ -70,7 +70,7 @@ class ConsoleProgressBehavior extends Behavior
      * @return string
      * @inheritdoc
      */
-    protected function updateProgress(ExecuteEvent $event): string
+    public function updateProgress(ExecuteEvent $event): string
     {
         $progress = $event->progress;
         if ($progress) {

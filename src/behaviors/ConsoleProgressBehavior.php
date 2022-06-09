@@ -22,7 +22,7 @@ use yii\helpers\Console;
  * @package lujie\executing
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ConsoleBehavior extends Behavior
+class ConsoleProgressBehavior extends Behavior
 {
     /**
      * @var bool

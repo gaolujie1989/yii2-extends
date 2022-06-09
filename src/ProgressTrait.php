@@ -18,13 +18,17 @@ trait ProgressTrait
     private $progress;
 
     /**
+     * @param int|null $total
      * @return Progress
      * @inheritdoc
      */
-    public function getProgress(): Progress
+    public function getProgress(?int $total = null): Progress
     {
         if ($this->progress === null) {
             $this->progress = new Progress();
+        }
+        if ($total) {
+            $this->progress->total = $total;
         }
         return $this->progress;
     }

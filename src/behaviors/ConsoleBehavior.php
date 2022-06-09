@@ -12,7 +12,9 @@ use lujie\executing\QueuedEvent;
 use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
+use yii\helpers\VarDumper;
 
 /**
  * Class LogBehavior
@@ -22,7 +24,7 @@ use yii\helpers\Console;
  * @package lujie\executing
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ConsoleProgressBehavior extends Behavior
+class ConsoleBehavior extends Behavior
 {
     /**
      * @var bool
@@ -62,6 +64,13 @@ class ConsoleProgressBehavior extends Behavior
         $progress = $event->progress;
         if ($progress) {
             Console::endProgress();
+        }
+        if ($event->error) {
+            Console::error($event->error->getMessage());
+            Console::output($event->error->getTraceAsString());
+        }
+        if ($event->result !== null) {
+            Console::output(VarDumper::dumpAsString($event->result));
         }
     }
 

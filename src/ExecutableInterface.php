@@ -20,6 +20,12 @@ interface ExecutableInterface
     public function getExecUid();
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getMemoryLimit(): ?string;
+
+    /**
      * @return mixed
      * @inheritdoc
      */

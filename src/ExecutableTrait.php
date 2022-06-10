@@ -57,6 +57,15 @@ trait ExecutableTrait
     }
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getMemoryLimit(): ?string
+    {
+        return null;
+    }
+
+    /**
      * @return mixed|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

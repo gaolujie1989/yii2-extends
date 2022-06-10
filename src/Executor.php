@@ -130,6 +130,10 @@ class Executor extends Component
             }
         }
 
+        if ($memoryLimit = $executable->getMemoryLimit()) {
+            $oldMemoryLimit = ini_get('memory_limit');
+            ini_set('memory_limit', $memoryLimit);
+        }
         try {
             $this->trigger(self::EVENT_BEFORE_EXEC, $event);
             if ($event->executed) {
@@ -157,12 +161,14 @@ class Executor extends Component
         } catch (\Throwable $e) {
             $event->error = $e;
             $this->trigger(self::EVENT_AFTER_EXEC, $event);
-
             return false;
         } finally {
             if (isset($mutex, $mutexName)
                 && $executable instanceof LockableInterface && $executable->shouldLocked()) {
                 $mutex->release($mutexName);
+            }
+            if (isset($oldMemoryLimit)) {
+                ini_set('memory_limit', $oldMemoryLimit);
             }
         }
     }

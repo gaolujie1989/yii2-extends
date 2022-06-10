@@ -25,6 +25,11 @@ trait ExecutableTrait
     public $execUid;
 
     /**
+     * @var ?string
+     */
+    public $memoryLimit;
+
+    /**
      * @var ?callable
      */
     public $executable;
@@ -62,7 +67,7 @@ trait ExecutableTrait
      */
     public function getMemoryLimit(): ?string
     {
-        return null;
+        return $this->memoryLimit;
     }
 
     /**

@@ -37,11 +37,11 @@ class GenerateDailyStockTask extends CronTask implements ProgressInterface
     public $dailyStockGenerator = DailyStockGenerator::class;
 
     /**
-     * @return bool|mixed|void|null
+     * @return \Generator
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): \Generator
     {
         $this->dailyStockGenerator = Instance::ensure($this->dailyStockGenerator, DailyStockGenerator::class);
         $dateAtFrom = is_numeric($this->stockDateFrom) ? $this->stockDateFrom : strtotime($this->stockDateFrom);
@@ -57,6 +57,7 @@ class GenerateDailyStockTask extends CronTask implements ProgressInterface
                 $this->dailyStockGenerator->generateDailyStocks($this->stockDateFrom, $this->stockDateTo);
             }
             $progress->done++;
+            yield true;
         }
     }
 }

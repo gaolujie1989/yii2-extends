@@ -103,9 +103,6 @@ class DailyStockGenerator extends BaseObject
      */
     public function generateDailyStocks($dateFrom, $dateTo): bool
     {
-        $stockDateFrom = date($this->stockDateFormat, is_numeric($dateFrom) ? $dateFrom : strtotime($dateFrom));
-        $stockDateTo = date($this->stockDateFormat, is_numeric($dateTo) ? $dateTo : strtotime($dateTo));
-
         $commonFields = [
             'fulfillment_account_id',
             'item_id',
@@ -147,8 +144,12 @@ class DailyStockGenerator extends BaseObject
             ]
         ]);
 
-        for ($stockDate = $stockDateFrom; $stockDate <= $stockDateTo; $stockDate = date($this->stockDateFormat, strtotime($stockDate) + 86400)) {
-            $prevStockDate = date($this->stockDateFormat, strtotime($stockDate) - 86400);
+        $dateAtFrom = is_numeric($dateFrom) ? $dateFrom : strtotime($dateFrom);
+        $dateAtTo = is_numeric($dateTo) ? $dateTo : strtotime($dateTo);
+
+        for ($stockDateAt = $dateAtFrom; $stockDateAt <= $dateAtTo; $stockDateAt += 86400) {
+            $stockDate = date($this->stockDateFormat, $stockDateAt);
+            $prevStockDate = date($this->stockDateFormat, $stockDateAt - 86400);
 
             //Generate Daily Stock if Prev Daily Stock Exists.
             //Query from daily stock because movement maybe not exist at that day

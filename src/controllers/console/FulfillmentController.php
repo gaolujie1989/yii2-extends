@@ -5,6 +5,7 @@
 
 namespace lujie\fulfillment\controllers\console;
 
+use lujie\executing\Executor;
 use lujie\extend\helpers\ValueHelper;
 use lujie\fulfillment\DailyStockGenerator;
 use lujie\fulfillment\FulfillmentManager;
@@ -13,6 +14,7 @@ use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
+use lujie\fulfillment\tasks\GenerateDailyStockTask;
 use yii\base\InvalidArgumentException;
 use yii\console\Controller;
 use yii\di\Instance;
@@ -218,19 +220,23 @@ class FulfillmentController extends Controller
     #endregion
 
     /**
-     * @param string|int|mixed $stockDateFrom
-     * @param string|int|mixed $stockDateTo
-     * @return bool
+     * @param $stockDateFrom
+     * @param $stockDateTo
+     * @param string $executorName
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionGenerateDailyStocks($stockDateFrom, $stockDateTo): void
+    public function actionGenerateDailyStocks($stockDateFrom, $stockDateTo, string $executorName = 'executor'): void
     {
-        $stockDateFrom = is_numeric($stockDateFrom) ? $stockDateFrom : strtotime($stockDateFrom);
-        $stockDateTo = is_numeric($stockDateTo) ? $stockDateTo : strtotime($stockDateTo);
-        $dailyStockGenerator = new DailyStockGenerator();
-        if ($dailyStockGenerator->generateDailyStockMovements($stockDateFrom, $stockDateTo)) {
-            $dailyStockGenerator->generateDailyStocks($stockDateFrom, $stockDateTo);
+        $dailyStockTask = new GenerateDailyStockTask();
+        $dailyStockTask->stockDateFrom = $stockDateFrom;
+        $dailyStockTask->stockDateTo = $stockDateTo;
+        if ($executorName) {
+            /** @var Executor $executor */
+            $executor = Instance::ensure($executorName, Executor::class);
+            $executor->execute($dailyStockTask);
+        } else {
+            $dailyStockTask->execute();
         }
     }
 }

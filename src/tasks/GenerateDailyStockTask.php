@@ -32,6 +32,11 @@ class GenerateDailyStockTask extends CronTask implements ProgressInterface
     public $stockDateTo = '-1 days';
 
     /**
+     * @var int
+     */
+    public $timeStep = 86400;
+
+    /**
      * @var DailyStockGenerator
      */
     public $dailyStockGenerator = DailyStockGenerator::class;
@@ -49,15 +54,17 @@ class GenerateDailyStockTask extends CronTask implements ProgressInterface
 
         $total = ceil(($dateAtTo - $dateAtFrom) / 86400);
         $progress = $this->getProgress($total);
-        for ($stockDateAt = $dateAtFrom; $stockDateAt <= $dateAtTo; $stockDateAt += 86400) {
+        for ($stockDateAt = $dateAtFrom; $stockDateAt <= $dateAtTo; $stockDateAt += $this->timeStep) {
             $date = date('Y-m-d', $stockDateAt);
             $progress->message = "[{$date}][GenerateDailyStockMovements]";
-            if ($this->dailyStockGenerator->generateDailyStockMovements($this->stockDateFrom, $this->stockDateTo)) {
+            yield true;
+            if ($this->dailyStockGenerator->generateDailyStockMovements($stockDateAt, $stockDateAt + $this->timeStep)) {
                 $progress->message = "[{$date}][GenerateDailyStocks]";
-                $this->dailyStockGenerator->generateDailyStocks($this->stockDateFrom, $this->stockDateTo);
+                yield true;
+                $this->dailyStockGenerator->generateDailyStocks($stockDateAt, $stockDateAt + $this->timeStep);
             }
             $progress->done++;
-            yield true;
         }
+        return true;
     }
 }

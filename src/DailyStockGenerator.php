@@ -127,7 +127,7 @@ class DailyStockGenerator extends BaseObject
                 'transformers' => [
                     static function ($data) {
                         $data = array_filter($data, static function($values) {
-                            return (int)$values['prev_stock_qty'] !== 0 || (int)$values['movement_count'] !== 0;
+                            return (int)($values['prev_stock_qty'] ?? 0) !== 0 || (int)$values['movement_count'] !== 0;
                         });
                         return array_map(static function ($values) {
                             $values['stock_qty'] = ($values['prev_stock_qty'] ?? 0) + ($values['movement_qty'] ?: 0);

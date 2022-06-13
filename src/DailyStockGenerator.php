@@ -129,6 +129,9 @@ class DailyStockGenerator extends BaseObject
                 'class' => ChainedTransformer::class,
                 'transformers' => [
                     static function ($data) {
+                        $data = array_filter($data, static function($values) {
+                            return (int)$values['prev_stock_qty'] !== 0 || (int)$values['movement_count'] !== 0;
+                        });
                         return array_map(static function ($values) {
                             $values['stock_qty'] = ($values['prev_stock_qty'] ?? 0) + ($values['movement_qty'] ?: 0);
                             unset($values['prev_stock_qty'], $values['movement_qty']);
@@ -146,7 +149,6 @@ class DailyStockGenerator extends BaseObject
 
         for ($stockDate = $stockDateFrom; $stockDate <= $stockDateTo; $stockDate = date($this->stockDateFormat, strtotime($stockDate) + 86400)) {
             $prevStockDate = date($this->stockDateFormat, strtotime($stockDate) - 86400);
-            $prev2StockDate = date($this->stockDateFormat, strtotime($stockDate) - 86400 * 2);
 
             //Generate Daily Stock if Prev Daily Stock Exists.
             //Query from daily stock because movement maybe not exist at that day
@@ -154,7 +156,7 @@ class DailyStockGenerator extends BaseObject
                 ->leftJoin(['dsm' => FulfillmentDailyStockMovement::tableName()], $joinCondition . " AND dsm.movement_date = '{$stockDate}'")
                 ->andWhere(['ds.stock_date' => $prevStockDate])
                 ->addSelect($dailyStockFields)
-                ->addSelect(['SUM(movement_qty) as movement_qty'])
+                ->addSelect(['SUM(movement_qty) as movement_qty', 'SUM(movement_count) AS movement_count'])
                 ->addSelect(['ds.stock_qty as prev_stock_qty', new Expression("'{$stockDate}' as stock_date")])
                 ->addGroupBy($dailyStockFields)
                 ->addGroupBy(['prev_stock_qty'])
@@ -170,13 +172,13 @@ class DailyStockGenerator extends BaseObject
                 return false;
             }
 
-            //Generate Daily Stock if Prev Daily Stock Not Exists. Item Stock is first movement
+            //Generate Daily Stock if Prev Daily Stock Not Exists. Item Stock is first movement or Prev Daily Stock is 0
             $dailyMovementQuery = FulfillmentDailyStockMovement::find()->alias('dsm')
                 ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date <= '{$prevStockDate}'")
                 ->andWhere(['dsm.movement_date' => $stockDate])
                 ->andWhere('ds.stock_date IS NULL')
                 ->addSelect($dailyMovementFields)
-                ->addSelect(['SUM(movement_qty) as movement_qty'])
+                ->addSelect(['SUM(movement_qty) as movement_qty', 'SUM(movement_count) AS movement_count'])
                 ->addSelect([new Expression("'{$stockDate}' as stock_date")])
                 ->addGroupBy($dailyMovementFields)
                 ->asArray();
@@ -188,23 +190,6 @@ class DailyStockGenerator extends BaseObject
                 Yii::error('Generate Daily Stocks Failed,'
                     . ' AffectedRowCounts: ' . Json::encode($dataExchanger->getAffectedRowCounts())
                     . ' Errors: ' . Json::encode($dataExchanger->getErrors()), __METHOD__);
-                return false;
-            }
-
-            //IF Prev 2 days stock exists, but prev day stock not exist. Error
-            $missingPrevDailyStockQuery = FulfillmentDailyStockMovement::find()->alias('dsm')
-                ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date = {$prevStockDate}")
-                ->leftJoin(['ds2' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds2.stock_date <= {$prev2StockDate}")
-                ->andWhere(['dsm.movement_date' => $stockDate])
-                ->andWhere('ds.stock_date IS NULL')
-                ->andWhere('ds2.stock_date IS NOT NULL')
-                ->addSelect($dailyMovementFields)
-                ->distinct()
-                ->asArray();
-            $count = $missingPrevDailyStockQuery->count();
-            if ($count) {
-                $missingItems = $missingPrevDailyStockQuery->all();
-                Yii::error("Missing Prev Daily Stocks {$count} of date {$stockDate}, Items: " . Json::encode($missingItems), __METHOD__);
                 return false;
             }
         }

@@ -156,6 +156,9 @@ class AuthAssignmentForm extends Model
      */
     public function getRoles(): array
     {
+        if (empty($this->userId)) {
+            return [];
+        }
         if ($this->_roleNames === null) {
             $roles = $this->authManager->getRolesByUser($this->userId);
             $this->_roleNames = array_values(ArrayHelper::getColumn($roles, 'name'));

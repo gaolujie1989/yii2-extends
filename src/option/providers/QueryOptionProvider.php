@@ -99,7 +99,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             'unsetOriginalKey' => true,
             'unsetNotInMapKey' => true,
         ]);
-        $data = $query->all();
+        $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */
             $data = ActiveDataHelper::typecast($data, $query->modelClass);

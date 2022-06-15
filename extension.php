@@ -4,12 +4,12 @@
  */
 
 return [
-    'lujie/yii2-edi' => [
-        'name' => 'lujie/yii2-edi',
+    'lujie/yii2-edi-as2' => [
+        'name' => 'lujie/yii2-edi-as2',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/edi' => __DIR__ . '/src',
-            '@lujie/edi/tests' => __DIR__ . '/tests',
+            '@lujie/edi/as2' => __DIR__ . '/src',
+            '@lujie/edi/as2/tests' => __DIR__ . '/tests',
         ],
         'require' => []
     ],

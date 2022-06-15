@@ -2,9 +2,9 @@
 
 use lujie\extend\db\Migration;
 
-class m220615_143211_edi_as2_partner extends Migration
+class m220615_143211_as2_partner extends Migration
 {
-    public $tableName = '{{%edi_as2_partner}}';
+    public $tableName = '{{%as2_partner}}';
 
     public function safeUp()
     {

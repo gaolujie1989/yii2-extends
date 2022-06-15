@@ -1,12 +1,12 @@
 {
-  "name": "lujie/yii2-edi-as2",
-  "description": "EDI AS2",
-  "keywords": ["yii2", "EDI", "AS2"],
+  "name": "lujie/yii2-as2",
+  "description": "AS2",
+  "keywords": ["yii2", "AS2"],
   "type": "yii2-extension",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://gitee.com/code4dream/yii2-edi-as2/issues",
-    "source": "https://gitee.com/code4dream/yii2-edi-as2"
+    "issues": "https://gitee.com/code4dream/yii2-as2/issues",
+    "source": "https://gitee.com/code4dream/yii2-as2"
   },
   "authors": [
     {
@@ -19,8 +19,8 @@
   },
   "autoload": {
     "psr-4": {
-      "lujie\\edi\\as2\\": "src",
-      "lujie\\edi\\as2\\tests\\": "tests"
+      "lujie\\as2\\": "src",
+      "lujie\\as2\\tests\\": "tests"
     }
   },
   "repositories": [

@@ -1,11 +1,10 @@
 <?php
 
-
 use lujie\extend\db\Migration;
 
-class m220615_145044_edi_as2_message_content extends Migration
+class m220615_145044_as2_message_content extends Migration
 {
-    public $tableName = '{{%edi_as2_message}}';
+    public $tableName = '{{%as2_message_content}}';
 
     public $traceBy = false;
 
@@ -19,6 +18,6 @@ class m220615_145044_edi_as2_message_content extends Migration
             'mdn_payload' => $this->text(),
         ]);
 
-        $this->createIndex('uk_message_id', $this->tableName, ['uk_message_id']);
+        $this->createIndex('uk_message_id', $this->tableName, ['message_id']);
     }
 }

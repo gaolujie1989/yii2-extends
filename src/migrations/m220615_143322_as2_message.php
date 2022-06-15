@@ -2,9 +2,9 @@
 
 use lujie\extend\db\Migration;
 
-class m220615_143322_edi_as2_message extends Migration
+class m220615_143322_as2_message extends Migration
 {
-    public $tableName = '{{%edi_as2_message}}';
+    public $tableName = '{{%as2_message}}';
 
     public $traceBy = false;
 
@@ -30,7 +30,7 @@ class m220615_143322_edi_as2_message extends Migration
             'compressed' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('uk_message_id', $this->tableName, ['uk_message_id']);
+        $this->createIndex('uk_message_id', $this->tableName, ['message_id']);
         $this->createIndex('idx_sender_id', $this->tableName, ['sender_id']);
         $this->createIndex('idx_receiver_id', $this->tableName, ['receiver_id']);
     }

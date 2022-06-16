@@ -41,153 +41,153 @@ class Message extends BaseObject implements MessageInterface
         return $this->as2Message->save();
     }
 
-    public function getMessageId()
+    public function getMessageId(): string
     {
         return $this->as2Message->message_id;
     }
 
-    public function setMessageId($id)
+    public function setMessageId($id): void
     {
-        // TODO: Implement setMessageId() method.
+        $this->as2Message->message_id = $id;
     }
 
-    public function getDirection()
+    public function getDirection(): int
     {
-        // TODO: Implement getDirection() method.
+        return $this->as2Message->direction;
     }
 
-    public function setDirection($dir)
+    public function setDirection($dir): void
     {
-        // TODO: Implement setDirection() method.
+        $this->as2Message->direction = $dir;
     }
 
-    public function getSender()
+    public function getSender(): Partner
     {
-        // TODO: Implement getSender() method.
+        return new Partner($this->as2Message->sender);
     }
 
-    public function setSender(PartnerInterface $partner)
+    public function setSender(PartnerInterface $partner): void
     {
-        // TODO: Implement setSender() method.
+        $this->as2Message->sender_id = $partner->getAs2Id();
     }
 
-    public function getReceiver()
+    public function getReceiver(): Partner
     {
-        // TODO: Implement getReceiver() method.
+        return new Partner($this->as2Message->receiver);
     }
 
-    public function setReceiver(PartnerInterface $partner)
+    public function setReceiver(PartnerInterface $partner): void
     {
-        // TODO: Implement setReceiver() method.
+        $this->as2Message->receiver_id = $partner->getAs2Id();
     }
 
-    public function getHeaders()
+    public function getHeaders(): ?string
     {
-        // TODO: Implement getHeaders() method.
+        return $this->as2Message->content->headers;
     }
 
-    public function setHeaders($headers)
+    public function setHeaders($headers): void
     {
-        // TODO: Implement setHeaders() method.
+        $this->as2Message->content->headers = $headers;
     }
 
-    public function getPayload()
+    public function getPayload(): ?string
     {
-        // TODO: Implement getPayload() method.
+        return $this->as2Message->content->payload;
     }
 
-    public function setPayload($payload)
+    public function setPayload($payload): void
     {
-        // TODO: Implement setPayload() method.
+        $this->as2Message->content->payload = $payload;
     }
 
-    public function getStatus()
+    public function getStatus(): string
     {
-        // TODO: Implement getStatus() method.
+        return $this->as2Message->status;
     }
 
-    public function setStatus($status)
+    public function setStatus($status): void
     {
-        // TODO: Implement setStatus() method.
+        $this->as2Message->status = $status;
     }
 
-    public function getStatusMsg()
+    public function getStatusMsg(): string
     {
-        // TODO: Implement getStatusMsg() method.
+        return $this->as2Message->status_msg;
     }
 
-    public function setStatusMsg($msg)
+    public function setStatusMsg($msg): void
     {
-        // TODO: Implement setStatusMsg() method.
+        $this->as2Message->status_msg = $msg;
     }
 
-    public function getMdnStatus()
+    public function getMdnStatus(): string
     {
-        // TODO: Implement getMdnStatus() method.
+        return $this->as2Message->mdn_status;
     }
 
-    public function setMdnStatus($status)
+    public function setMdnStatus($status): void
     {
-        // TODO: Implement setMdnStatus() method.
+        $this->as2Message->mdn_status = $status;
     }
 
-    public function getMdnPayload()
+    public function getMdnPayload(): ?string
     {
-        // TODO: Implement getMdnPayload() method.
+        return $this->as2Message->content->mdn_payload;
     }
 
-    public function setMdnPayload($mdn)
+    public function setMdnPayload($mdn): void
     {
-        // TODO: Implement setMdnPayload() method.
+        $this->as2Message->content->mdn_payload = $mdn;
     }
 
-    public function getMdnMode()
+    public function getMdnMode(): string
     {
-        // TODO: Implement getMdnMode() method.
+        return $this->as2Message->mdn_mode;
     }
 
-    public function setMdnMode($mode)
+    public function setMdnMode($mode): void
     {
-        // TODO: Implement setMdnMode() method.
+        $this->as2Message->mdn_mode = $mode;
     }
 
-    public function getMic()
+    public function getMic(): string
     {
-        // TODO: Implement getMic() method.
+        return $this->as2Message->mic;
     }
 
-    public function setMic($mic)
+    public function setMic($mic): void
     {
-        // TODO: Implement setMic() method.
+        $this->as2Message->mic = $mic;
     }
 
-    public function getSigned()
+    public function getSigned(): bool
     {
-        // TODO: Implement getSigned() method.
+        return (bool)$this->as2Message->signed;
     }
 
-    public function setSigned($val = true)
+    public function setSigned($val = true): void
     {
-        // TODO: Implement setSigned() method.
+        $this->as2Message->signed = $val ? 1 : 0;
     }
 
-    public function getEncrypted()
+    public function getEncrypted(): bool
     {
-        // TODO: Implement getEncrypted() method.
+        return (bool)$this->as2Message->encrypted;
     }
 
-    public function setEncrypted($val = true)
+    public function setEncrypted($val = true): void
     {
-        // TODO: Implement setEncrypted() method.
+        $this->as2Message->encrypted = $val ? 1 : 0;
     }
 
-    public function getCompressed()
+    public function getCompressed(): bool
     {
-        // TODO: Implement getCompressed() method.
+        return (bool)$this->as2Message->compressed;
     }
 
-    public function setCompressed($val = true)
+    public function setCompressed($val = true): void
     {
-        // TODO: Implement setCompressed() method.
+        $this->as2Message->compressed = $val ? 1 : 0;
     }
 }

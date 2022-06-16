@@ -18,17 +18,33 @@ use yii\base\NotSupportedException;
  */
 class MessageRepository extends BaseObject implements MessageRepositoryInterface
 {
-    public function findMessageById($id)
+    /**
+     * @param string $id
+     * @return MessageInterface|null
+     * @inheritdoc
+     */
+    public function findMessageById($id): ?MessageInterface
     {
         $as2Message = As2Message::find()->messageId($id)->one();
         return $as2Message ? new Message($as2Message) : null;
     }
 
-    public function createMessage($data = [])
+    /**
+     * @param array $data
+     * @return MessageInterface
+     * @inheritdoc
+     */
+    public function createMessage($data = []): MessageInterface
     {
-        return new Message(new As2Message($data));
+        return new Message(new As2Message(), $data);
     }
 
+    /**
+     * @param MessageInterface $message
+     * @return bool|void
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
     public function saveMessage(MessageInterface $message)
     {
         if ($message instanceof Message) {

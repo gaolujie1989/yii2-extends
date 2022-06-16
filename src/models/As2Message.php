@@ -3,6 +3,7 @@
 namespace lujie\as2\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%as2_message}}".
@@ -21,6 +22,10 @@ use Yii;
  * @property int $signed
  * @property int $encrypted
  * @property int $compressed
+ *
+ * @property As2MessageContent $content
+ * @property As2Partner $sender
+ * @property As2Partner $receiver
  */
 class As2Message extends \lujie\extend\db\ActiveRecord
 {
@@ -75,5 +80,28 @@ class As2Message extends \lujie\extend\db\ActiveRecord
     public static function find(): As2MessageQuery
     {
         return new As2MessageQuery(static::class);
+    }
+
+    public function getContent(): ActiveQuery
+    {
+        return $this->hasOne(As2MessageContent::class, ['message_id' => 'message_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getSender(): ActiveQuery
+    {
+        return $this->hasOne(As2Partner::class, ['as2_id' => 'sender_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getReceiver(): ActiveQuery
+    {
+        return $this->hasOne(As2Partner::class, ['as2_id' => 'receiver_id']);
     }
 }

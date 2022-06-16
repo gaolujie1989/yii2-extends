@@ -3,7 +3,6 @@
 namespace lujie\as2;
 
 use AS2\PartnerInterface;
-use lujie\as2\models\As2Message;
 use lujie\as2\models\As2Partner;
 use yii\base\BaseObject;
 
@@ -29,93 +28,93 @@ class Partner extends BaseObject implements PartnerInterface
         parent::__construct($config);
     }
 
-    public function getAs2Id()
+    public function getAs2Id(): string
     {
         return $this->as2Partner->as2_id;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
-        // TODO: Implement getEmail() method.
+        return $this->as2Partner->email;
     }
 
-    public function getTargetUrl()
+    public function getTargetUrl(): string
     {
-        // TODO: Implement getTargetUrl() method.
+        return $this->as2Partner->target_url;
     }
 
-    public function getContentType()
+    public function getContentType(): string
     {
-        // TODO: Implement getContentType() method.
+        return $this->as2Partner->content_type;
     }
 
-    public function getContentTransferEncoding()
+    public function getContentTransferEncoding(): string
     {
-        // TODO: Implement getContentTransferEncoding() method.
+        return $this->as2Partner->content_transfer_encoding;
     }
 
-    public function getSubject()
+    public function getSubject(): string
     {
-        // TODO: Implement getSubject() method.
+        return $this->as2Partner->subject;
     }
 
-    public function getAuthMethod()
+    public function getAuthMethod(): ?string
     {
-        // TODO: Implement getAuthMethod() method.
+        return $this->as2Partner->auth_method;
     }
 
-    public function getAuthUser()
+    public function getAuthUser(): string
     {
-        // TODO: Implement getAuthUser() method.
+        return $this->as2Partner->auth_user;
     }
 
-    public function getAuthPassword()
+    public function getAuthPassword(): string
     {
-        // TODO: Implement getAuthPassword() method.
+        return $this->as2Partner->auth_password;
     }
 
-    public function getSignatureAlgorithm()
+    public function getSignatureAlgorithm(): ?string
     {
-        // TODO: Implement getSignatureAlgorithm() method.
+        return $this->as2Partner->signature_algorithm;
     }
 
-    public function getEncryptionAlgorithm()
+    public function getEncryptionAlgorithm(): ?string
     {
-        // TODO: Implement getEncryptionAlgorithm() method.
+        return $this->as2Partner->encryption_algorithm;
     }
 
-    public function getCertificate()
+    public function getCertificate(): string
     {
-        // TODO: Implement getCertificate() method.
+        return $this->as2Partner->certificate;
     }
 
-    public function getPrivateKey()
+    public function getPrivateKey(): string
     {
-        // TODO: Implement getPrivateKey() method.
+        return $this->as2Partner->private_key;
     }
 
-    public function getPrivateKeyPassPhrase()
+    public function getPrivateKeyPassPhrase(): string
     {
-        // TODO: Implement getPrivateKeyPassPhrase() method.
+        return $this->as2Partner->private_key_pass_phrase;
     }
 
-    public function getCompressionType()
+    public function getCompressionType(): string
     {
-        // TODO: Implement getCompressionType() method.
+        return $this->as2Partner->compression_type;
     }
 
-    public function getMdnMode()
+    public function getMdnMode(): string
     {
-        // TODO: Implement getMdnMode() method.
+        return $this->as2Partner->mdn_mode;
     }
 
-    public function getMdnOptions()
+    public function getMdnOptions(): string
     {
-        // TODO: Implement getMdnOptions() method.
+        return $this->as2Partner->mdn_options;
     }
 
-    public function getMdnSubject()
+    public function getMdnSubject(): string
     {
-        // TODO: Implement getMdnSubject() method.
+        return $this->as2Partner->mdn_subject;
     }
 }

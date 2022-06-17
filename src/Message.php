@@ -6,6 +6,7 @@
 namespace lujie\as2;
 
 use AS2\MessageInterface;
+use AS2\MimePart;
 use AS2\PartnerInterface;
 use lujie\as2\models\As2Message;
 use lujie\as2\models\As2MessageContent;
@@ -46,10 +47,10 @@ class Message extends BaseObject implements MessageInterface
      */
     public function save(): bool
     {
-        return $this->as2MessageContent->save() && $this->as2Message->save();
+        return $this->as2MessageContent->save(false) && $this->as2Message->save(false);
     }
 
-    public function getMessageId(): string
+    public function getMessageId(): ?string
     {
         return $this->as2Message->message_id;
     }
@@ -60,7 +61,7 @@ class Message extends BaseObject implements MessageInterface
         $this->as2MessageContent->message_id = $id;
     }
 
-    public function getDirection(): int
+    public function getDirection(): ?int
     {
         return $this->as2Message->direction;
     }
@@ -70,9 +71,10 @@ class Message extends BaseObject implements MessageInterface
         $this->as2Message->direction = $dir;
     }
 
-    public function getSender(): Partner
+    public function getSender(): ?Partner
     {
-        return new Partner($this->as2Message->sender);
+        $sender = $this->as2Message->sender;
+        return $sender ? new Partner($sender) : null;
     }
 
     public function setSender(PartnerInterface $partner): void
@@ -80,9 +82,10 @@ class Message extends BaseObject implements MessageInterface
         $this->as2Message->sender_id = $partner->getAs2Id();
     }
 
-    public function getReceiver(): Partner
+    public function getReceiver(): ?Partner
     {
-        return new Partner($this->as2Message->receiver);
+        $receiver = $this->as2Message->receiver;
+        return $receiver ? new Partner($receiver) : null;
     }
 
     public function setReceiver(PartnerInterface $partner): void
@@ -107,10 +110,10 @@ class Message extends BaseObject implements MessageInterface
 
     public function setPayload($payload): void
     {
-        $this->as2MessageContent->payload = $payload;
+        $this->as2MessageContent->payload = $payload instanceof MimePart ? $payload->toString() : $payload;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->as2Message->status;
     }
@@ -120,7 +123,7 @@ class Message extends BaseObject implements MessageInterface
         $this->as2Message->status = $status;
     }
 
-    public function getStatusMsg(): string
+    public function getStatusMsg(): ?string
     {
         return $this->as2Message->status_msg;
     }
@@ -130,7 +133,7 @@ class Message extends BaseObject implements MessageInterface
         $this->as2Message->status_msg = $msg;
     }
 
-    public function getMdnStatus(): string
+    public function getMdnStatus(): ?string
     {
         return $this->as2Message->mdn_status;
     }
@@ -147,10 +150,10 @@ class Message extends BaseObject implements MessageInterface
 
     public function setMdnPayload($mdn): void
     {
-        $this->as2MessageContent->mdn_payload = $mdn;
+        $this->as2MessageContent->mdn_payload = $mdn instanceof MimePart ? $mdn->toString() : $mdn;
     }
 
-    public function getMdnMode(): string
+    public function getMdnMode(): ?string
     {
         return $this->as2Message->mdn_mode;
     }
@@ -160,7 +163,7 @@ class Message extends BaseObject implements MessageInterface
         $this->as2Message->mdn_mode = $mode;
     }
 
-    public function getMic(): string
+    public function getMic(): ?string
     {
         return $this->as2Message->mic;
     }

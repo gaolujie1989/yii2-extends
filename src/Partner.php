@@ -83,14 +83,14 @@ class Partner extends BaseObject implements PartnerInterface
         return $this->as2Partner->encryption_algorithm;
     }
 
-    public function getCertificate(): string
+    public function getCertificate(): \OpenSSLCertificate
     {
-        return $this->as2Partner->certificate;
+        return openssl_x509_read($this->as2Partner->certificate);
     }
 
-    public function getPrivateKey(): string
+    public function getPrivateKey(): \OpenSSLAsymmetricKey
     {
-        return $this->as2Partner->private_key;
+        return openssl_pkey_get_private($this->as2Partner->private_key, $this->as2Partner->private_key_pass_phrase);
     }
 
     public function getPrivateKeyPassPhrase(): string

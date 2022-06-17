@@ -49,7 +49,7 @@ class MessageRepository extends BaseObject implements MessageRepositoryInterface
     public function saveMessage(MessageInterface $message)
     {
         if ($message instanceof Message) {
-            $message->save();
+            return $message->save();
         }
         throw new NotSupportedException('Unknown message');
     }

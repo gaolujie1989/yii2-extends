@@ -29,4 +29,18 @@ return [
         'SYNC' => PartnerInterface::MDN_MODE_SYNC,
         'ASYNC' => PartnerInterface::MDN_MODE_ASYNC,
     ],
+    'as2Signature' => [
+        'SHA256' => ['value' => 'SHA256', 'name' => 'SHA256'],
+        'SHA512' => ['value' => 'SHA512', 'name' => 'SHA512'],
+    ],
+    'as2Encryption' => [
+        'AES-128' => ['value' => 'AES_128_CBC', 'name' => 'AES-128'],
+        'AES-192' => ['value' => 'AES_192_CBC', 'name' => 'AES-192'],
+        'AES-256' => ['value' => 'AES_256_CBC', 'name' => 'AES-256'],
+    ],
+    'as2Compression' => [
+        'null' => '0',
+        'zlib' => 'zlib',
+        'deflate' => 'deflate'
+    ],
 ];

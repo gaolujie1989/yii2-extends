@@ -37,4 +37,7 @@ return [
         'SKIPPED' => ['value' => ExecStatusConst::EXEC_STATUS_SKIPPED, 'tag' => 'info'],
         'QUEUED' => ['value' => ExecStatusConst::EXEC_STATUS_QUEUED, 'tag' => 'warning'],
     ],
+    'owner' => [
+        'DEFAULT' => 0,
+    ]
 ];

@@ -9,6 +9,7 @@ use AS2\Management;
 use AS2\MessageRepositoryInterface;
 use AS2\PartnerRepositoryInterface;
 use AS2\Server;
+use lujie\extend\psr\log\Yii2Logger;
 use yii\base\BaseObject;
 use yii\di\Instance;
 use yii\web\Response;
@@ -48,6 +49,7 @@ class As2Manager extends BaseObject
     {
         parent::init();
         $this->management = Instance::ensure($this->management, Management::class);
+        $this->management->setLogger(new Yii2Logger(['category' => __CLASS__]));
         $this->partnerRepository = Instance::ensure($this->partnerRepository, PartnerRepositoryInterface::class);
         $this->messageRepository = Instance::ensure($this->messageRepository, MessageRepositoryInterface::class);
     }

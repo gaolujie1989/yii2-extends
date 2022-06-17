@@ -79,7 +79,9 @@ class As2Manager extends BaseObject
         foreach ($headers as $name => $value) {
             $headerCollection->add($name, $value);
         }
-        $yiiResponse->stream = $response->getBody();
+        if ($body = $response->getBody()) {
+            $yiiResponse->content = $body->getContents();
+        }
         return $yiiResponse;
     }
 }

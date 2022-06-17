@@ -46,7 +46,7 @@ class Message extends BaseObject implements MessageInterface
      */
     public function save(): bool
     {
-        return $this->as2Message->save();
+        return $this->as2MessageContent->save() && $this->as2Message->save();
     }
 
     public function getMessageId(): string

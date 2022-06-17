@@ -46,7 +46,7 @@ class MessageRepository extends BaseObject implements MessageRepositoryInterface
      * @throws NotSupportedException
      * @inheritdoc
      */
-    public function saveMessage(MessageInterface $message)
+    public function saveMessage(MessageInterface $message): bool
     {
         if ($message instanceof Message) {
             return $message->save();

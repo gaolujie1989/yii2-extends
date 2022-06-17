@@ -8,6 +8,7 @@ namespace lujie\as2;
 use AS2\MessageInterface;
 use AS2\PartnerInterface;
 use lujie\as2\models\As2Message;
+use lujie\as2\models\As2MessageContent;
 use yii\base\BaseObject;
 
 /**
@@ -23,12 +24,19 @@ class Message extends BaseObject implements MessageInterface
     private $as2Message;
 
     /**
+     * @var As2MessageContent
+     */
+    private $as2MessageContent;
+
+    /**
      * @param As2Message $as2Message
+     * @param As2MessageContent $as2MessageContent
      * @param array $config
      */
-    public function __construct(As2Message $as2Message, array $config = [])
+    public function __construct(As2Message $as2Message, As2MessageContent $as2MessageContent, array $config = [])
     {
         $this->as2Message = $as2Message;
+        $this->as2MessageContent = $as2MessageContent;
         parent::__construct($config);
     }
 
@@ -49,6 +57,7 @@ class Message extends BaseObject implements MessageInterface
     public function setMessageId($id): void
     {
         $this->as2Message->message_id = $id;
+        $this->as2MessageContent->message_id = $id;
     }
 
     public function getDirection(): int
@@ -83,22 +92,22 @@ class Message extends BaseObject implements MessageInterface
 
     public function getHeaders(): ?string
     {
-        return $this->as2Message->content->headers;
+        return $this->as2MessageContent->headers;
     }
 
     public function setHeaders($headers): void
     {
-        $this->as2Message->content->headers = $headers;
+        $this->as2MessageContent->headers = $headers;
     }
 
     public function getPayload(): ?string
     {
-        return $this->as2Message->content->payload;
+        return $this->as2MessageContent->payload;
     }
 
     public function setPayload($payload): void
     {
-        $this->as2Message->content->payload = $payload;
+        $this->as2MessageContent->payload = $payload;
     }
 
     public function getStatus(): string
@@ -133,12 +142,12 @@ class Message extends BaseObject implements MessageInterface
 
     public function getMdnPayload(): ?string
     {
-        return $this->as2Message->content->mdn_payload;
+        return $this->as2MessageContent->mdn_payload;
     }
 
     public function setMdnPayload($mdn): void
     {
-        $this->as2Message->content->mdn_payload = $mdn;
+        $this->as2MessageContent->mdn_payload = $mdn;
     }
 
     public function getMdnMode(): string

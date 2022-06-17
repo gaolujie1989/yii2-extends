@@ -8,6 +8,7 @@ namespace lujie\as2;
 use AS2\MessageInterface;
 use AS2\MessageRepositoryInterface;
 use lujie\as2\models\As2Message;
+use lujie\as2\models\As2MessageContent;
 use yii\base\BaseObject;
 use yii\base\NotSupportedException;
 
@@ -26,7 +27,7 @@ class MessageRepository extends BaseObject implements MessageRepositoryInterface
     public function findMessageById($id): ?MessageInterface
     {
         $as2Message = As2Message::find()->messageId($id)->one();
-        return $as2Message ? new Message($as2Message) : null;
+        return $as2Message ? new Message($as2Message, $as2Message->content) : null;
     }
 
     /**
@@ -36,7 +37,7 @@ class MessageRepository extends BaseObject implements MessageRepositoryInterface
      */
     public function createMessage($data = []): MessageInterface
     {
-        return new Message(new As2Message(), $data);
+        return new Message(new As2Message(), new As2MessageContent(), $data);
     }
 
     /**

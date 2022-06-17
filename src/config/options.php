@@ -43,4 +43,9 @@ return [
         'zlib' => 'zlib',
         'deflate' => 'deflate'
     ],
+    'as2AuthMethod' => [
+        'Basic' => 'Basic',
+        'Bearer' => 'Bearer',
+        'Digest' => 'Digest',
+    ]
 ];

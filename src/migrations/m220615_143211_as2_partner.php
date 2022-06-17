@@ -23,7 +23,7 @@ class m220615_143211_as2_partner extends Migration
             'auth_password' => $this->string(50)->notNull()->defaultValue(''),
 
             'signature_algorithm' => $this->string(10)->notNull()->defaultValue(''),
-            'encryption_algorithm' => $this->string(10)->notNull()->defaultValue(''),
+            'encryption_algorithm' => $this->string(11)->notNull()->defaultValue(''),
 
             'certificate' => $this->string(50)->notNull()->defaultValue(''),
             'private_key' => $this->string(50)->notNull()->defaultValue(''),

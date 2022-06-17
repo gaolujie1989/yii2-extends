@@ -49,7 +49,8 @@ class As2Partner extends \lujie\extend\db\ActiveRecord
             [['status'], 'integer'],
             [['as2_id', 'email', 'content_type', 'auth_user', 'auth_password', 'certificate', 'private_key', 'private_key_pass_phrase', 'mdn_options'], 'string', 'max' => 50],
             [['target_url', 'subject', 'mdn_subject'], 'string', 'max' => 200],
-            [['content_transfer_encoding', 'signature_algorithm', 'encryption_algorithm', 'compression_type', 'mdn_mode'], 'string', 'max' => 10],
+            [['content_transfer_encoding', 'signature_algorithm', 'compression_type', 'mdn_mode'], 'string', 'max' => 10],
+            [['encryption_algorithm'],  'string', 'max' => 11],
             [['auth_method'], 'string', 'max' => 20],
         ];
     }

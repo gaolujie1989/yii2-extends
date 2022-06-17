@@ -34,9 +34,9 @@ return [
         'SHA512' => 'SHA512',
     ],
     'as2Encryption' => [
-        'AES-128' => OPENSSL_CIPHER_AES_128_CBC,
-        'AES-192' => OPENSSL_CIPHER_AES_192_CBC,
-        'AES-256' => OPENSSL_CIPHER_AES_256_CBC,
+        'AES-128' => 'AES_128_CBC',
+        'AES-192' => 'AES_192_CBC',
+        'AES-256' => 'AES_256_CBC',
     ],
     'as2Compression' => [
         'null' => '0',

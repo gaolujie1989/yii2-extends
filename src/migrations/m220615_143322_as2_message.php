@@ -13,17 +13,17 @@ class m220615_143322_as2_message extends Migration
         $this->createTable($this->tableName, [
             'id' => $this->bigPrimaryKey(),
             'message_id' => $this->string(50)->notNull()->defaultValue(0),
-            'message_type' => $this->string(50)->notNull()->defaultValue(0),
+            'message_type' => $this->string(50)->notNull()->defaultValue(''),
             'direction' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
-            'sender_id' => $this->string(50)->notNull()->defaultValue(0),
-            'receiver_id' => $this->string(50)->notNull()->defaultValue(0),
+            'sender_id' => $this->string(50)->notNull()->defaultValue(''),
+            'receiver_id' => $this->string(50)->notNull()->defaultValue(''),
 
-            'status' => $this->string(10)->notNull()->defaultValue(0),
-            'status_msg' => $this->string(50)->notNull()->defaultValue(0),
+            'status' => $this->string(10)->notNull()->defaultValue(''),
+            'status_msg' => $this->string(50)->notNull()->defaultValue(''),
 
-            'mdn_mode' => $this->string(50)->notNull()->defaultValue(0),
-            'mdn_status' => $this->string(50)->notNull()->defaultValue(0),
-            'mic' => $this->string(50)->notNull()->defaultValue(0),
+            'mdn_mode' => $this->string(50)->notNull()->defaultValue(''),
+            'mdn_status' => $this->string(50)->notNull()->defaultValue(''),
+            'mic' => $this->string(50)->notNull()->defaultValue(''),
 
             'signed' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'encrypted' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),

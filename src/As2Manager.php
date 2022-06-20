@@ -24,7 +24,7 @@ class As2Manager extends BaseObject
     /**
      * @var Management
      */
-    public $management = [];
+    public $management = ['class' => \lujie\as2\Management::class];
 
     /**
      * @var PartnerRepositoryInterface

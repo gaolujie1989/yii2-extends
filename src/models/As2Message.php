@@ -22,6 +22,8 @@ use yii\db\ActiveQuery;
  * @property int $signed
  * @property int $encrypted
  * @property int $compressed
+ * @property int $process_status
+ * @property string $process_status_msg
  *
  * @property As2MessageContent $content
  * @property As2Partner $sender
@@ -43,9 +45,10 @@ class As2Message extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['message_id', 'message_type', 'direction', 'sender_id', 'receiver_id', 'status', 'status_msg', 'mdn_mode', 'mdn_status', 'mic', 'signed', 'encrypted', 'compressed'], 'default', 'value' => 0],
-            [['direction', 'signed', 'encrypted', 'compressed'], 'integer'],
-            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status_msg', 'mdn_mode', 'mdn_status', 'mic'], 'string', 'max' => 50],
+            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status', 'status_msg', 'mdn_mode', 'mdn_status', 'mic', 'process_status_msg'], 'default', 'value' => ''],
+            [['direction', 'signed', 'encrypted', 'compressed', 'process_status'], 'default', 'value' => 0],
+            [['direction', 'signed', 'encrypted', 'compressed', 'process_status'], 'integer'],
+            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status_msg', 'mdn_mode', 'mdn_status', 'mic', 'process_status_msg'], 'string', 'max' => 50],
             [['status'], 'string', 'max' => 10],
         ];
     }
@@ -56,20 +59,22 @@ class As2Message extends \lujie\extend\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('lujie/edi', 'ID'),
-            'message_id' => Yii::t('lujie/edi', 'Message ID'),
-            'message_type' => Yii::t('lujie/edi', 'Message Type'),
-            'direction' => Yii::t('lujie/edi', 'Direction'),
-            'sender_id' => Yii::t('lujie/edi', 'Sender ID'),
-            'receiver_id' => Yii::t('lujie/edi', 'Receiver ID'),
-            'status' => Yii::t('lujie/edi', 'Status'),
-            'status_msg' => Yii::t('lujie/edi', 'Status Msg'),
-            'mdn_mode' => Yii::t('lujie/edi', 'Mdn Mode'),
-            'mdn_status' => Yii::t('lujie/edi', 'Mdn Status'),
-            'mic' => Yii::t('lujie/edi', 'Mic'),
-            'signed' => Yii::t('lujie/edi', 'Signed'),
-            'encrypted' => Yii::t('lujie/edi', 'Encrypted'),
-            'compressed' => Yii::t('lujie/edi', 'Compressed'),
+            'id' => Yii::t('lujie/as2', 'ID'),
+            'message_id' => Yii::t('lujie/as2', 'Message ID'),
+            'message_type' => Yii::t('lujie/as2', 'Message Type'),
+            'direction' => Yii::t('lujie/as2', 'Direction'),
+            'sender_id' => Yii::t('lujie/as2', 'Sender ID'),
+            'receiver_id' => Yii::t('lujie/as2', 'Receiver ID'),
+            'status' => Yii::t('lujie/as2', 'Status'),
+            'status_msg' => Yii::t('lujie/as2', 'Status Msg'),
+            'mdn_mode' => Yii::t('lujie/as2', 'Mdn Mode'),
+            'mdn_status' => Yii::t('lujie/as2', 'Mdn Status'),
+            'mic' => Yii::t('lujie/as2', 'Mic'),
+            'signed' => Yii::t('lujie/as2', 'Signed'),
+            'encrypted' => Yii::t('lujie/as2', 'Encrypted'),
+            'compressed' => Yii::t('lujie/as2', 'Compressed'),
+            'process_status' => Yii::t('lujie/as2', 'Process Status'),
+            'process_status_msg' => Yii::t('lujie/as2', 'Process Status Msg'),
         ];
     }
 
@@ -82,6 +87,10 @@ class As2Message extends \lujie\extend\db\ActiveRecord
         return new As2MessageQuery(static::class);
     }
 
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
     public function getContent(): ActiveQuery
     {
         return $this->hasOne(As2MessageContent::class, ['message_id' => 'message_id']);

@@ -29,8 +29,7 @@ class As2MessageContent extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['message_id'], 'default', 'value' => 0],
-            [['headers', 'payload', 'mdn_payload'], 'default', 'value' => ''],
+            [['message_id', 'headers', 'payload', 'mdn_payload'], 'default', 'value' => ''],
             [['headers', 'payload', 'mdn_payload'], 'string'],
             [['created_at'], 'integer'],
             [['message_id'], 'string', 'max' => 50],

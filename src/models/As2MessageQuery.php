@@ -19,6 +19,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method As2MessageQuery receiverId($receiverId)
  * @method As2MessageQuery status($status)
  * @method As2MessageQuery mdnStatus($mdnStatus)
+ * @method As2MessageQuery processStatus($processStatus)
  *
  * @method As2MessageQuery createdAtBetween($from, $to = null)
  * @method As2MessageQuery updatedAtBetween($from, $to = null)
@@ -62,6 +63,7 @@ class As2MessageQuery extends \yii\db\ActiveQuery
                     'receiverId' => 'receiver_id',
                     'status' => 'status',
                     'mdnStatus' => 'mdn_status',
+                    'processStatus' => 'process_status',
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],

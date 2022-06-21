@@ -13,6 +13,7 @@ use AS2\PartnerRepositoryInterface;
 use AS2\Server;
 use lujie\as2\models\As2Message;
 use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\helpers\ExecuteHelper;
 use lujie\extend\psr\log\Yii2Logger;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
@@ -137,20 +138,16 @@ class As2Manager extends BaseObject implements BootstrapInterface
     /**
      * @param As2Message $as2Message
      * @return bool
-     * @throws \yii\base\InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function processMessage(As2Message $as2Message): bool
     {
-        $messageHandler = $this->getMessageProcessor($as2Message->sender->partner_type);
-        $mimePart = MimePart::fromString($as2Message->content->payload);
-        if ($messageHandler->process($mimePart->getBody())) {
-            $as2Message->process_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
-        } else {
-            $as2Message->process_status = ExecStatusConst::EXEC_STATUS_FAILED;
-            $as2Message->process_status_msg = Json::encode($messageHandler->getErrors());
-        }
-        return $as2Message->save(false);
+        return ExecuteHelper::execute(function() use ($as2Message) {
+            $messageHandler = $this->getMessageProcessor($as2Message->sender->partner_type);
+            $mimePart = MimePart::fromString($as2Message->content->payload);
+            return $messageHandler->process($mimePart->getBody());
+        }, $as2Message, 'processed_at', 'processed_status', 'processed_result');
     }
 
     /**

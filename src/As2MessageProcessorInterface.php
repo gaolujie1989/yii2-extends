@@ -13,6 +13,4 @@ namespace lujie\as2;
 interface As2MessageProcessorInterface
 {
     public function process(string $content): bool;
-
-    public function getErrors(): array;
 }

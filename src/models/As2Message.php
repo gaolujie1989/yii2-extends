@@ -22,8 +22,9 @@ use yii\db\ActiveQuery;
  * @property int $signed
  * @property int $encrypted
  * @property int $compressed
- * @property int $process_status
- * @property string $process_status_msg
+ * @property int $processed_status
+ * @property int $processed_at
+ * @property array|null $processed_result
  *
  * @property As2MessageContent $content
  * @property As2Partner $sender
@@ -45,10 +46,12 @@ class As2Message extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status', 'status_msg', 'mdn_mode', 'mdn_status', 'mic', 'process_status_msg'], 'default', 'value' => ''],
-            [['direction', 'signed', 'encrypted', 'compressed', 'process_status'], 'default', 'value' => 0],
-            [['direction', 'signed', 'encrypted', 'compressed', 'process_status'], 'integer'],
-            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status_msg', 'mdn_mode', 'mdn_status', 'mic', 'process_status_msg'], 'string', 'max' => 50],
+            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status', 'status_msg', 'mdn_mode', 'mdn_status', 'mic'], 'default', 'value' => ''],
+            [['direction', 'signed', 'encrypted', 'compressed', 'processed_status', 'processed_at'], 'default', 'value' => 0],
+            [['processed_result'], 'default', 'value' => []],
+            [['direction', 'signed', 'encrypted', 'compressed', 'processed_status', 'processed_at'], 'integer'],
+            [['processed_result'], 'safe'],
+            [['message_id', 'message_type', 'sender_id', 'receiver_id', 'status_msg', 'mdn_mode', 'mdn_status', 'mic'], 'string', 'max' => 50],
             [['status'], 'string', 'max' => 10],
         ];
     }
@@ -73,8 +76,9 @@ class As2Message extends \lujie\extend\db\ActiveRecord
             'signed' => Yii::t('lujie/as2', 'Signed'),
             'encrypted' => Yii::t('lujie/as2', 'Encrypted'),
             'compressed' => Yii::t('lujie/as2', 'Compressed'),
-            'process_status' => Yii::t('lujie/as2', 'Process Status'),
-            'process_status_msg' => Yii::t('lujie/as2', 'Process Status Msg'),
+            'processed_status' => Yii::t('lujie/as2', 'Processed Status'),
+            'processed_at' => Yii::t('lujie/as2', 'Processed At'),
+            'processed_result' => Yii::t('lujie/as2', 'Processed Result'),
         ];
     }
 

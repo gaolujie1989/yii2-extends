@@ -16,7 +16,7 @@ return [
         'RETRY' => MessageInterface::STATUS_RETRY,
         'IN_PROCESS' => MessageInterface::STATUS_IN_PROCESS,
     ],
-    'as2MessageDirection' => [
+    'as2Direction' => [
         'INBOUND' => MessageInterface::DIR_INBOUND,
         'OUTBOUND' => MessageInterface::DIR_OUTBOUND,
     ],

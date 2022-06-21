@@ -21,8 +21,8 @@ use Yii;
  * @property string $auth_password
  * @property string $signature_algorithm
  * @property string $encryption_algorithm
- * @property string $certificate
- * @property string $private_key
+ * @property string|null $certificate
+ * @property string|null $private_key
  * @property string $private_key_pass_phrase
  * @property string $compression_type
  * @property string $mdn_mode
@@ -52,8 +52,9 @@ class As2Partner extends \lujie\extend\db\ActiveRecord
             [['status'], 'integer'],
             [['partner_name', 'partner_type', 'as2_id', 'email', 'content_type', 'auth_user', 'auth_password', 'private_key_pass_phrase', 'mdn_options'], 'string', 'max' => 50],
             [['target_url', 'subject', 'mdn_subject'], 'string', 'max' => 200],
-            [['content_transfer_encoding', 'signature_algorithm', 'encryption_algorithm', 'compression_type', 'mdn_mode'], 'string', 'max' => 10],
+            [['content_transfer_encoding', 'signature_algorithm', 'compression_type', 'mdn_mode'], 'string', 'max' => 10],
             [['auth_method'], 'string', 'max' => 20],
+            [['encryption_algorithm'], 'string', 'max' => 11],
         ];
     }
 

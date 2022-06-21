@@ -7,9 +7,7 @@ use AS2\MessageInterface;
 use AS2\PartnerInterface;
 
 return [
-    'as2PartnerType' => [
-        'ME' => 'ME',
-    ],
+    'as2PartnerType' => [],
     'as2MessageStatus' => [
         'PENDING' => MessageInterface::STATUS_PENDING,
         'SUCCESS' => MessageInterface::STATUS_SUCCESS,

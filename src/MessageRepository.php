@@ -10,6 +10,8 @@ use AS2\MessageRepositoryInterface;
 use lujie\as2\models\As2Message;
 use lujie\as2\models\As2MessageContent;
 use yii\base\BaseObject;
+use yii\base\Component;
+use yii\base\Event;
 use yii\base\NotSupportedException;
 
 /**
@@ -17,8 +19,10 @@ use yii\base\NotSupportedException;
  * @package lujie\as2
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class MessageRepository extends BaseObject implements MessageRepositoryInterface
+class MessageRepository extends Component implements MessageRepositoryInterface
 {
+    public const EVENT_AFTER_MESSAGE_SAVED = 'afterMessageSaved';
+
     /**
      * @param string $id
      * @return MessageInterface|null
@@ -42,15 +46,30 @@ class MessageRepository extends BaseObject implements MessageRepositoryInterface
 
     /**
      * @param MessageInterface $message
-     * @return bool|void
+     * @return bool
      * @throws NotSupportedException
      * @inheritdoc
      */
     public function saveMessage(MessageInterface $message): bool
     {
         if ($message instanceof Message) {
-            return $message->save();
+            if ($message->save()) {
+                $this->afterMessageSaved($message);
+                return true;
+            }
+            return false;
         }
         throw new NotSupportedException('Unknown message');
+    }
+
+    /**
+     * @param MessageInterface $message
+     * @inheritdoc
+     */
+    public function afterMessageSaved(MessageInterface $message): void
+    {
+        $event = new MessageEvent();
+        $event->message = $message;
+        $this->trigger(self::EVENT_AFTER_MESSAGE_SAVED, $event);
     }
 }

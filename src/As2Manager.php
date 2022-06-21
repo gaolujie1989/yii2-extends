@@ -12,17 +12,13 @@ use AS2\MimePart;
 use AS2\PartnerRepositoryInterface;
 use AS2\Server;
 use lujie\as2\models\As2Message;
-use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ExecuteHelper;
 use lujie\extend\psr\log\Yii2Logger;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
 use yii\base\InvalidArgumentException;
-use yii\db\AfterSaveEvent;
-use yii\db\BaseActiveRecord;
 use yii\di\Instance;
-use yii\helpers\Json;
 use yii\web\Response;
 
 /**
@@ -71,8 +67,7 @@ class As2Manager extends BaseObject implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        Event::on(As2Message::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterMessageSaved']);
-        Event::on(As2Message::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterMessageSaved']);
+        Event::on(MessageRepository::class, MessageRepository::EVENT_AFTER_MESSAGE_SAVED, [$this, 'afterMessageSaved']);
     }
 
     /**
@@ -122,16 +117,15 @@ class As2Manager extends BaseObject implements BootstrapInterface
     }
 
     /**
-     * @param AfterSaveEvent $event
-     * @throws \yii\base\InvalidConfigException
+     * @param MessageEvent $event
+     * @throws \Throwable
      * @inheritdoc
      */
-    public function afterMessageSaved(AfterSaveEvent $event): void
+    public function afterMessageSaved(MessageEvent $event): void
     {
-        /** @var As2Message $as2Message */
-        $as2Message = $event->sender;
-        if (in_array($as2Message->status, $this->allowProcessMessageStatus, true)) {
-            $this->processMessage($as2Message);
+        $message = $event->sender;
+        if ($message instanceof Message) {
+            $this->processMessage($message->getAs2Message());
         }
     }
 
@@ -143,6 +137,9 @@ class As2Manager extends BaseObject implements BootstrapInterface
      */
     public function processMessage(As2Message $as2Message): bool
     {
+        if (!in_array($as2Message->status, $this->allowProcessMessageStatus, true)) {
+            return false;
+        }
         return ExecuteHelper::execute(function() use ($as2Message) {
             $messageHandler = $this->getMessageProcessor($as2Message->sender->partner_type);
             $mimePart = MimePart::fromString($as2Message->content->payload);

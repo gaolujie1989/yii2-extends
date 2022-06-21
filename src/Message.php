@@ -42,6 +42,15 @@ class Message extends BaseObject implements MessageInterface
     }
 
     /**
+     * @return As2Message
+     * @inheritdoc
+     */
+    public function getAs2Message(): As2Message
+    {
+        return $this->as2Message;
+    }
+
+    /**
      * @return bool
      * @inheritdoc
      */

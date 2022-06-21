@@ -22,7 +22,7 @@ use yii\helpers\StringHelper;
  */
 class OptionHelper
 {
-    public static $notUpperWords = ['IN', 'OUT', 'TO', 'TAG'];
+    public static $notUpperWords = ['IN', 'OUT', 'TO', 'TAG', 'NEW'];
 
     /**
      * @param string|array $fileOrData

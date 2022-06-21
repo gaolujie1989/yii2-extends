@@ -8,10 +8,11 @@ use Yii;
  * This is the model class for table "{{%as2_partner}}".
  *
  * @property int $id
+ * @property string $partner_name
+ * @property string $partner_type
  * @property string $as2_id
  * @property string $email
  * @property string $target_url
- * @property string $partner_type
  * @property string $content_type
  * @property string $content_transfer_encoding
  * @property string $subject

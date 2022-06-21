@@ -13,8 +13,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method int getId()
  * @method array getIds()
  *
- * @method As2PartnerQuery as2Id($as2Id)
  * @method As2PartnerQuery partnerType($partnerType)
+ * @method As2PartnerQuery as2Id($as2Id)
  * @method As2PartnerQuery contentType($contentType)
  * @method As2PartnerQuery privateKey($privateKey, bool $like = false)
  * @method As2PartnerQuery compressionType($compressionType)
@@ -52,8 +52,8 @@ class As2PartnerQuery extends \yii\db\ActiveQuery
             'fieldQuery' => [
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
-                    'as2Id' => 'as2_id',
                     'partnerType' => 'partner_type',
+                    'as2Id' => 'as2_id',
                     'contentType' => 'content_type',
                     'privateKey' => 'private_key',
                     'compressionType' => 'compression_type',

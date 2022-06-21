@@ -87,7 +87,7 @@ class ExecuteHelper
             $callable();
             if ($resultAttribute) {
                 $resultValue = $model->getAttribute($resultAttribute) ?: [];
-                unset($resultValue['error']);
+                unset($resultValue['error'], $resultValue['trace']);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
             //time attribute only update on success

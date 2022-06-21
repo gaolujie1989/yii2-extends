@@ -89,7 +89,7 @@ class OptionHelper
                     $optionItem['position'] = $position;
                 }
                 $name = $optionItem['name'];
-                if (strpos($name, '_') !== false || (strlen($name) > 4 && !preg_match('/[a-z]/', $name))) {
+                if (strpos($name, '_') !== false || (strlen($name) > 3 && !preg_match('/[a-z]/', $name))) {
                     $nameParts = explode('_', $name);
                     $nameParts = array_map(static function($str) {
                         if (strlen($str) <= 3 && !in_array($str, static::$notUpperWords, true)) {

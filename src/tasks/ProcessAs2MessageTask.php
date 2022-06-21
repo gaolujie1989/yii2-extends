@@ -5,6 +5,7 @@
 
 namespace lujie\as2\tasks;
 
+use AS2\MessageInterface;
 use lujie\as2\As2Manager;
 use lujie\as2\models\As2Message;
 use lujie\executing\ProgressInterface;
@@ -34,11 +35,12 @@ class ProcessAs2MessageTask extends CronTask implements ProgressInterface
      */
     public function execute(): \Generator
     {
+        $this->as2Manager = Instance::ensure($this->as2Manager, As2Manager::class);
         $query = As2Message::find()
             ->inboundDirection()
-            ->processStatus(ExecStatusConst::EXEC_STATUS_PENDING);
+            ->processStatus(ExecStatusConst::EXEC_STATUS_PENDING)
+            ->status($this->as2Manager->allowProcessMessageStatus);
         $progress = $this->getProgress($query->count());
-        $this->as2Manager = Instance::ensure($this->as2Manager, As2Manager::class);
         foreach ($query->each() as $as2Message) {
             $this->as2Manager->processMessage($as2Message);
             $progress->done++;

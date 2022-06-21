@@ -6,6 +6,7 @@
 namespace lujie\as2;
 
 use AS2\Management;
+use AS2\MessageInterface;
 use AS2\MessageRepositoryInterface;
 use AS2\MimePart;
 use AS2\PartnerRepositoryInterface;
@@ -14,7 +15,11 @@ use lujie\as2\models\As2Message;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\psr\log\Yii2Logger;
 use yii\base\BaseObject;
+use yii\base\BootstrapInterface;
+use yii\base\Event;
 use yii\base\InvalidArgumentException;
+use yii\db\AfterSaveEvent;
+use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\helpers\Json;
 use yii\web\Response;
@@ -24,7 +29,7 @@ use yii\web\Response;
  * @package lujie\as2
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class As2Manager extends BaseObject
+class As2Manager extends BaseObject implements BootstrapInterface
 {
     /**
      * @var Management
@@ -47,9 +52,27 @@ class As2Manager extends BaseObject
     public $messageProcessors = [];
 
     /**
+     * @var array
+     */
+    public $allowProcessMessageStatus = [
+        MessageInterface::STATUS_SUCCESS,
+        MessageInterface::STATUS_IN_PROCESS,
+    ];
+
+    /**
      * @var Server
      */
     private $_server;
+
+    /**
+     * @param \yii\base\Application $app
+     * @inheritdoc
+     */
+    public function bootstrap($app): void
+    {
+        Event::on(As2Message::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterMessageSaved']);
+        Event::on(As2Message::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterMessageSaved']);
+    }
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -95,6 +118,20 @@ class As2Manager extends BaseObject
             $yiiResponse->content = $body->getContents();
         }
         return $yiiResponse;
+    }
+
+    /**
+     * @param AfterSaveEvent $event
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function afterMessageSaved(AfterSaveEvent $event): void
+    {
+        /** @var As2Message $as2Message */
+        $as2Message = $event->sender;
+        if (in_array($as2Message->status, $this->allowProcessMessageStatus, true)) {
+            $this->processMessage($as2Message);
+        }
     }
 
     /**

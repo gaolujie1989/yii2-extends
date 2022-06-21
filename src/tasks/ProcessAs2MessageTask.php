@@ -30,6 +30,7 @@ class ProcessAs2MessageTask extends CronTask implements ProgressInterface
 
     /**
      * @return \Generator
+     * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -38,7 +39,7 @@ class ProcessAs2MessageTask extends CronTask implements ProgressInterface
         $this->as2Manager = Instance::ensure($this->as2Manager, As2Manager::class);
         $query = As2Message::find()
             ->inboundDirection()
-            ->processStatus(ExecStatusConst::EXEC_STATUS_PENDING)
+            ->processedStatus(ExecStatusConst::EXEC_STATUS_PENDING)
             ->status($this->as2Manager->allowProcessMessageStatus);
         $progress = $this->getProgress($query->count());
         foreach ($query->each() as $as2Message) {

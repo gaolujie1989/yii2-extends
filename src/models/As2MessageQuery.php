@@ -2,6 +2,7 @@
 
 namespace lujie\as2\models;
 
+use AS2\MessageInterface;
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 
 /**
@@ -23,6 +24,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method As2MessageQuery createdAtBetween($from, $to = null)
  * @method As2MessageQuery updatedAtBetween($from, $to = null)
+ *
+ * @method As2MessageQuery inboundDirection()
  *
  * @method As2MessageQuery orderByMessageId($sort = SORT_ASC)
  * @method As2MessageQuery orderBySenderId($sort = SORT_ASC)
@@ -67,7 +70,9 @@ class As2MessageQuery extends \yii\db\ActiveQuery
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],
-                'queryConditions' => [],
+                'queryConditions' => [
+                    'inboundDirection' => ['direction' => MessageInterface::DIR_INBOUND]
+                ],
                 'querySorts' => [
                     'orderByMessageId' => 'message_id',
                     'orderBySenderId' => 'sender_id',

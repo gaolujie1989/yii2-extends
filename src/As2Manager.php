@@ -118,17 +118,17 @@ class As2Manager extends BaseObject
 
     /**
      * @param string $partnerType
-     * @return As2MessageProcessor
+     * @return As2MessageProcessorInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getMessageProcessor(string $partnerType): As2MessageProcessor
+    public function getMessageProcessor(string $partnerType): As2MessageProcessorInterface
     {
         if (empty($this->messageProcessors[$partnerType])) {
             throw new InvalidArgumentException("Processor of {$partnerType} not set");
         }
-        if (!$this->messageProcessors[$partnerType] instanceof As2MessageProcessor) {
-            $this->messageProcessors[$partnerType] = Instance::ensure($this->messageProcessors[$partnerType], As2MessageProcessor::class);
+        if (!$this->messageProcessors[$partnerType] instanceof As2MessageProcessorInterface) {
+            $this->messageProcessors[$partnerType] = Instance::ensure($this->messageProcessors[$partnerType], As2MessageProcessorInterface::class);
         }
         return $this->messageProcessors[$partnerType];
     }

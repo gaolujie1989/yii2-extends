@@ -10,7 +10,7 @@ namespace lujie\as2;
  * @package lujie\as2
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-interface As2MessageProcessor
+interface As2MessageProcessorInterface
 {
     public function process(string $content): bool;
 

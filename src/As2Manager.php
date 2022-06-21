@@ -7,11 +7,16 @@ namespace lujie\as2;
 
 use AS2\Management;
 use AS2\MessageRepositoryInterface;
+use AS2\MimePart;
 use AS2\PartnerRepositoryInterface;
 use AS2\Server;
+use lujie\as2\models\As2Message;
+use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\psr\log\Yii2Logger;
 use yii\base\BaseObject;
+use yii\base\InvalidArgumentException;
 use yii\di\Instance;
+use yii\helpers\Json;
 use yii\web\Response;
 
 /**
@@ -35,6 +40,11 @@ class As2Manager extends BaseObject
      * @var MessageRepositoryInterface
      */
     public $messageRepository = MessageRepository::class;
+
+    /**
+     * @var array
+     */
+    public $messageProcessors = [];
 
     /**
      * @var Server
@@ -85,5 +95,41 @@ class As2Manager extends BaseObject
             $yiiResponse->content = $body->getContents();
         }
         return $yiiResponse;
+    }
+
+    /**
+     * @param As2Message $as2Message
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function processMessage(As2Message $as2Message): bool
+    {
+        $messageHandler = $this->getMessageProcessor($as2Message->sender->partner_type);
+        $mimePart = MimePart::fromString($as2Message->content->payload);
+        if ($messageHandler->process($mimePart->getBody())) {
+            $as2Message->process_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+        } else {
+            $as2Message->process_status = ExecStatusConst::EXEC_STATUS_FAILED;
+            $as2Message->process_status_msg = Json::encode($messageHandler->getErrors());
+        }
+        return $as2Message->save(false);
+    }
+
+    /**
+     * @param string $partnerType
+     * @return As2MessageProcessor
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function getMessageProcessor(string $partnerType): As2MessageProcessor
+    {
+        if (empty($this->messageProcessors[$partnerType])) {
+            throw new InvalidArgumentException("Processor of {$partnerType} not set");
+        }
+        if (!$this->messageProcessors[$partnerType] instanceof As2MessageProcessor) {
+            $this->messageProcessors[$partnerType] = Instance::ensure($this->messageProcessors[$partnerType], As2MessageProcessor::class);
+        }
+        return $this->messageProcessors[$partnerType];
     }
 }

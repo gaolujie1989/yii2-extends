@@ -13,6 +13,7 @@ class m220615_143211_as2_partner extends Migration
             'as2_id' => $this->string(50)->notNull()->defaultValue(''),
             'email' => $this->string(50)->notNull()->defaultValue(''),
             'target_url' => $this->string(200)->notNull()->defaultValue(''),
+            'partner_type' => $this->string(50)->notNull()->defaultValue(''),
 
             'content_type' => $this->string(50)->notNull()->defaultValue(''),
             'content_transfer_encoding' => $this->string(10)->notNull()->defaultValue(''),

@@ -56,6 +56,11 @@ class ActiveController extends \yii\rest\ActiveController
     public $uploadPath = '@statics/uploads';
 
     /**
+     * @var array
+     */
+    public $uploadAllowedExtensions = ['csv', 'xls', 'xlsx'];
+
+    /**
      * @var string
      */
     public $importFormClass;
@@ -221,7 +226,8 @@ class ActiveController extends \yii\rest\ActiveController
                 'checkAccess' => [$this, 'checkAccess'],
                 'uploadModel' => [
                     'class' => UploadForm::class,
-                    'path' => $this->uploadPath
+                    'path' => $this->uploadPath,
+                    'allowedExtensions' => $this->uploadAllowedExtensions,
                 ]
             ];
         }

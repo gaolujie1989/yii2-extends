@@ -21,7 +21,7 @@ class As2MessageController extends ActiveController
 
     public $uploadPath = '@statics/uploads/as2files';
 
-    public $uploadAllowedExtensions = ['*'];
+    public $uploadAllowedExtensions = [];
 
     /**
      * @return array

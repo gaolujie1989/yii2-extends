@@ -34,6 +34,7 @@ class As2MessageController extends ActiveController
         $actions['create'] = [
             'class' => MethodAction::class,
             'modelClass' => As2SendingForm::class,
+            'modelConfig' => ['path' => $this->uploadPath],
             'method' => 'send'
         ];
         return $actions;

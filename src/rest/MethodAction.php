@@ -26,6 +26,11 @@ class MethodAction extends Action
     public $scenario = Model::SCENARIO_DEFAULT;
 
     /**
+     * @var array
+     */
+    public $modelConfig = [];
+
+    /**
      * @var string
      */
     public $method;
@@ -69,7 +74,7 @@ class MethodAction extends Action
             throw new InvalidArgumentException('Id must be set');
         }
         /* @var $model Model */
-        $model = $this->requireId ? $this->findModel($id) : new $this->modelClass();
+        $model = $this->requireId ? $this->findModel($id) : new $this->modelClass($this->modelConfig);
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }

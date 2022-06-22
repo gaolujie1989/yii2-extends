@@ -111,8 +111,9 @@ class As2SendingForm extends Model
         $message->setReceiver($this->as2Manager->partnerRepository->findPartnerById($this->receiver_id));
         $message->setMessageId(Yii::$app->security->generateRandomString());
         $messageRepository->saveMessage($message);
+        $this->message_id = $message->getMessageId();
 
-        $filePath = $this->path . $this->file;
+        $filePath = $this->path . $this->files[0];
         $as2Message = $this->as2Manager->management->buildMessageFromFile($message, $filePath);
         $messageRepository->saveMessage($message);
 

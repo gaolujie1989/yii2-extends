@@ -21,6 +21,8 @@ class As2MessageController extends ActiveController
 
     public $uploadPath = '@statics/uploads/as2files';
 
+    public $uploadAllowedExtensions = ['*'];
+
     /**
      * @return array
      * @throws \yii\base\InvalidConfigException

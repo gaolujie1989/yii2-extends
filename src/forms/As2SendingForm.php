@@ -5,6 +5,7 @@
 
 namespace lujie\as2\forms;
 
+use creocoder\flysystem\Filesystem;
 use lujie\as2\As2Manager;
 use lujie\upload\behaviors\FileTrait;
 use Yii;
@@ -33,6 +34,11 @@ class As2SendingForm extends Model
     public $message_id;
 
     public $files;
+
+    /**
+     * @var ?Filesystem
+     */
+    public $fs;
 
     /**
      * @var string

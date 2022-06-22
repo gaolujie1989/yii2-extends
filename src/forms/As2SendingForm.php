@@ -55,7 +55,8 @@ class As2SendingForm extends Model
     public function rules(): array
     {
         return [
-            [['sender_id', 'receiver_id', 'file'], 'string']
+            [['sender_id', 'receiver_id', 'file'], 'required'],
+            [['sender_id', 'receiver_id', 'file'], 'string'],
         ];
     }
 

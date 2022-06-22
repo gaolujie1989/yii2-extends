@@ -113,7 +113,7 @@ class As2SendingForm extends Model
         $messageRepository->saveMessage($message);
         $this->message_id = $message->getMessageId();
 
-        $filePath = $this->path . $this->files[0];
+        $filePath = $this->path . reset($this->files);
         $as2Message = $this->as2Manager->management->buildMessageFromFile($message, $filePath);
         $messageRepository->saveMessage($message);
 

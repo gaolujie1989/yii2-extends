@@ -46,12 +46,14 @@ class As2SendingForm extends Model
     public $path = '@statics/uploads';
 
     /**
+     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
+        $this->initFsAndPath();
         $this->as2Manager = Instance::ensure($this->as2Manager, As2Manager::class);
     }
 

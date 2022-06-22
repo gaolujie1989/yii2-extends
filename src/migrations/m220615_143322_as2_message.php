@@ -23,7 +23,7 @@ class m220615_143322_as2_message extends Migration
 
             'mdn_mode' => $this->string(50)->notNull()->defaultValue(''),
             'mdn_status' => $this->string(50)->notNull()->defaultValue(''),
-            'mic' => $this->string(200)->notNull()->defaultValue(''),
+            'mic' => $this->string(100)->notNull()->defaultValue(''),
 
             'signed' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'encrypted' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),

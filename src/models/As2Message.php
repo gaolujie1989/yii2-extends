@@ -53,7 +53,7 @@ class As2Message extends \lujie\extend\db\ActiveRecord
             [['processed_result'], 'safe'],
             [['message_id', 'message_type', 'sender_id', 'receiver_id', 'mdn_mode', 'mdn_status'], 'string', 'max' => 50],
             [['status_msg'], 'string', 'max' => 1000],
-            [['mic'], 'string', 'max' => 200],
+            [['mic'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 10],
         ];
     }

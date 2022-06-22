@@ -90,7 +90,7 @@ class As2SendingForm extends Model
     {
         foreach ($this->files as $file) {
             if (!$this->existFile($file)) {
-                $this->addError($this->files, Yii::t('lujie/import', 'Send file not exists.'));
+                $this->addError('files', Yii::t('lujie/import', 'Send file not exists.'));
             }
         }
     }

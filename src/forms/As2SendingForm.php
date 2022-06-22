@@ -10,6 +10,7 @@ use lujie\upload\behaviors\FileTrait;
 use Yii;
 use yii\base\Model;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class As2SendingForm
@@ -31,7 +32,7 @@ class As2SendingForm extends Model
 
     public $message_id;
 
-    public $file;
+    public $files;
 
     /**
      * @var string
@@ -55,9 +56,37 @@ class As2SendingForm extends Model
     public function rules(): array
     {
         return [
-            [['sender_id', 'receiver_id', 'file'], 'required'],
-            [['sender_id', 'receiver_id', 'file'], 'string'],
+            [['files'], 'formatFiles'],
+            [['files'], 'required'],
+            [['files'], 'validateFilesExist'],
+            [['sender_id', 'receiver_id'], 'required'],
+            [['sender_id', 'receiver_id'], 'string'],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function formatFiles(): void
+    {
+        $files = $this->files;
+        if ($files && is_array($files) && is_array(reset($files))) {
+            $this->files = array_filter(ArrayHelper::getColumn($files, 'file'));
+        } else if ($files && !is_array($files)) {
+            $this->files = [$files];
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateFilesExist(): void
+    {
+        foreach ($this->files as $file) {
+            if (!$this->existFile($file)) {
+                $this->addError($this->files, Yii::t('lujie/import', 'Send file not exists.'));
+            }
+        }
     }
 
     /**

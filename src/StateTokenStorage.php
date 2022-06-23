@@ -22,6 +22,9 @@ class StateTokenStorage extends BaseObject implements TokenStorageInterface
      */
     private $stateStorage;
 
+    /**
+     * @var string
+     */
     public $keyPrefix = 'AmazonToken:';
 
     /**
@@ -41,7 +44,7 @@ class StateTokenStorage extends BaseObject implements TokenStorageInterface
      */
     public function getToken($key): ?array
     {
-        $this->stateStorage->get($this->keyPrefix . $key);
+        return $this->stateStorage->get($this->keyPrefix . $key);
     }
 
     /**

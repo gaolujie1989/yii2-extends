@@ -44,7 +44,7 @@ class StateTokenStorage extends BaseObject implements TokenStorageInterface
      */
     public function getToken($key): ?array
     {
-        return $this->stateStorage->get($this->keyPrefix . $key);
+        return $this->stateStorage->get($this->keyPrefix . $key) ?: null;
     }
 
     /**

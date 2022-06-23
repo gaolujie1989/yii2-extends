@@ -5,6 +5,7 @@
 
 namespace lujie\extend\log;
 
+use Behat\Gherkin\Parser;
 use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;
@@ -248,7 +249,11 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             $components = $app->getComponents(true);
             $email = $components['mailer']['transport']['username'] ?? null;
             if (empty($email)) {
-                throw new InvalidConfigException('Missing emailTargetConfig');
+                if (YII_ENV === 'test') {
+                    $email = 'admin@test.com';
+                } else {
+                    throw new InvalidConfigException('Missing emailTargetConfig');
+                }
             }
             $this->emailTargetConfig = [
                 'message' => [

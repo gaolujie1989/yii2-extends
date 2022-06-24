@@ -12,6 +12,7 @@ use lujie\executing\QueuedEvent;
 use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
+use yii\console\Application;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\helpers\VarDumper;
@@ -36,11 +37,14 @@ class ConsoleBehavior extends Behavior
      */
     public function events(): array
     {
-        return [
-            Executor::EVENT_BEFORE_EXEC => 'beforeExec',
-            Executor::EVENT_AFTER_EXEC => 'afterExec',
-            Executor::EVENT_UPDATE_PROGRESS => 'updateProgress',
-        ];
+        if (Yii::$app instanceof Application) {
+            return [
+                Executor::EVENT_BEFORE_EXEC => 'beforeExec',
+                Executor::EVENT_AFTER_EXEC => 'afterExec',
+                Executor::EVENT_UPDATE_PROGRESS => 'updateProgress',
+            ];
+        }
+        return [];
     }
 
     /**

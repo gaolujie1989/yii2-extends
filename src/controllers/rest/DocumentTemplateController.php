@@ -9,7 +9,7 @@ use lujie\extend\rest\ActiveController;
 use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
 use lujie\template\document\searches\DocumentTemplateSearch;
-use lujie\template\document\TemplateDocumentManager;
+use lujie\template\document\TemplateDocumentGenerator;
 use Yii;
 use yii\di\Instance;
 use yii\web\Response;
@@ -22,7 +22,7 @@ use yii\web\Response;
 class DocumentTemplateController extends ActiveController
 {
     /**
-     * @var string
+     * @var DocumentTemplate
      */
     public $modelClass = DocumentTemplate::class;
 
@@ -32,7 +32,7 @@ class DocumentTemplateController extends ActiveController
     public $documentType;
 
     /**
-     * @var TemplateDocumentManager
+     * @var TemplateDocumentGenerator
      */
     public $documentManager;
 
@@ -43,19 +43,7 @@ class DocumentTemplateController extends ActiveController
     public function init(): void
     {
         parent::init();
-        $this->documentManager = Instance::ensure($this->documentManager, TemplateDocumentManager::class);
-    }
-
-    /**
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actions(): array
-    {
-        $actions = parent::actions();
-        unset($actions['index'], $actions['create'], $actions['delete']);
-        return $actions;
+        $this->documentManager = Instance::ensure($this->documentManager, TemplateDocumentGenerator::class);
     }
 
     /**
@@ -67,7 +55,7 @@ class DocumentTemplateController extends ActiveController
      */
     public function actionTemplates($id): array
     {
-        $query = DocumentTemplate::find()
+        $query = $this->modelClass::find()
             ->documentType($this->documentType)
             ->referenceId($id)
             ->orderByPosition();
@@ -75,27 +63,5 @@ class DocumentTemplateController extends ActiveController
             DocumentTemplateForm::createTemplates($this->documentType, $id);
         }
         return $query->all();
-    }
-
-    /**
-     * @param int $id
-     * @inheritdoc
-     */
-    public function actionDownload(int $id): void
-    {
-        $generateFile = Yii::getAlias("@runtime/{$this->documentType}/{$id}.pdf");
-        $this->documentManager->generate($generateFile, $id);
-        Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => true]);
-    }
-
-    /**
-     * @param int $id
-     * @return string
-     * @inheritdoc
-     */
-    public function actionPreview(int $id): string
-    {
-        Yii::$app->getResponse()->format = Response::FORMAT_HTML;
-        return $this->documentManager->render($id);
     }
 }

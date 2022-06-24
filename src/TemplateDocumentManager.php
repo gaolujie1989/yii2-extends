@@ -5,11 +5,6 @@
 
 namespace lujie\template\document;
 
-use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\file\FileWriterInterface;
-use lujie\extend\file\writers\PdfWriter;
-use lujie\template\document\engines\TemplateEngineInterface;
-use lujie\template\document\engines\TwigTemplateEngine;
 use yii\base\BaseObject;
 use yii\di\Instance;
 
@@ -21,57 +16,45 @@ use yii\di\Instance;
 class TemplateDocumentManager extends BaseObject
 {
     /**
-     * @var TemplateEngineInterface
+     * @var TemplateDocumentGenerator[]
      */
-    public $templateEngine = TwigTemplateEngine::class;
+    public $generators = [];
 
     /**
-     * @var FileWriterInterface
-     */
-    public $fileWriter = PdfWriter::class;
-
-    /**
-     * @var DataLoaderInterface
-     */
-    public $templateLoader;
-
-    /**
-     * @var DataLoaderInterface
-     */
-    public $referenceDataLoader;
-
-    /**
+     * @param string $documentType
+     * @return TemplateDocumentGenerator
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init(): void
+    public function getGenerator(string $documentType): TemplateDocumentGenerator
     {
-        parent::init();
-        $this->templateEngine = Instance::ensure($this->templateEngine, TemplateEngineInterface::class);
-        $this->fileWriter = Instance::ensure($this->fileWriter, FileWriterInterface::class);
-        $this->templateLoader = Instance::ensure($this->templateLoader, DataLoaderInterface::class);
-        $this->referenceDataLoader = Instance::ensure($this->referenceDataLoader, DataLoaderInterface::class);
+        if (!($this->generators[$documentType] instanceof TemplateDocumentGenerator)) {
+            $this->generators[$documentType] = Instance::ensure($this->generators[$documentType], TemplateDocumentGenerator::class);
+        }
+        return $this->generators[$documentType];
     }
 
     /**
-     * @param mixed $documentReferenceKey
+     * @param string $documentType
+     * @param $documentReferenceKey
      * @return string
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function render($documentReferenceKey): string
+    public function render(string $documentType, $documentReferenceKey): string
     {
-        $template = $this->templateLoader->get($documentReferenceKey);
-        $referenceData = $this->referenceDataLoader->get($documentReferenceKey);
-        return $this->templateEngine->render($template, $referenceData ?: []);
+        return $this->getGenerator($documentType)->render($documentReferenceKey);
     }
 
     /**
+     * @param string $documentType
+     * @param $documentReferenceKey
      * @param string $filePath
-     * @param mixed $documentReferenceKey
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function generate(string $filePath, $documentReferenceKey): void
+    public function generate(string $documentType, $documentReferenceKey, string $filePath): void
     {
-        $this->fileWriter->write($filePath, [$this->render($documentReferenceKey)]);
+        $this->getGenerator($documentType)->generate($filePath, $documentReferenceKey);
     }
 }

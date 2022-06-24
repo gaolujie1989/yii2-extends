@@ -64,6 +64,7 @@ class DocumentGenerateForm extends DocumentFile
 
     /**
      * @return bool
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function generate(): bool
@@ -84,7 +85,7 @@ class DocumentGenerateForm extends DocumentFile
 
         $filePath = Yii::getAlias("@runtime/{$this->document_no}.pdf");
 
-        $this->documentManager->generate($filePath, $this->reference_id);
+        $this->documentManager->generate($this->documentType, $this->reference_id, $filePath);
 
         if ($this->fs->has($filePath)) {
             $this->fs->delete($filePath);

@@ -38,7 +38,7 @@ class TemplateDocumentManager extends BaseObject
     /**
      * @var DataLoaderInterface
      */
-    public $referenceDataLoader = [];
+    public $referenceDataLoader;
 
     /**
      * @throws \yii\base\InvalidConfigException

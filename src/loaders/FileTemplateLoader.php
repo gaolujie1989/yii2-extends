@@ -21,12 +21,18 @@ class FileTemplateLoader extends BaseDataLoader
     public $filePath;
 
     /**
+     * @var bool
+     */
+    public $returnPath = false;
+
+    /**
      * @param int|mixed|string $key
      * @return string
      * @inheritdoc
      */
     public function get($key): string
     {
-        return file_get_contents(Yii::getAlias($this->filePath));
+        $filePath = Yii::getAlias($this->filePath);
+        return $this->returnPath ? $filePath : file_get_contents($filePath);
     }
 }

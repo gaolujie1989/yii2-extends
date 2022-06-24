@@ -54,24 +54,24 @@ class TemplateDocumentManager extends BaseObject
     }
 
     /**
-     * @param int $documentReferenceId
+     * @param mixed $documentReferenceKey
      * @return string
      * @inheritdoc
      */
-    public function render(int $documentReferenceId = 0): string
+    public function render($documentReferenceKey): string
     {
-        $template = $this->templateLoader->get($documentReferenceId);
-        $referenceData = $this->referenceDataLoader->get($documentReferenceId);
+        $template = $this->templateLoader->get($documentReferenceKey);
+        $referenceData = $this->referenceDataLoader->get($documentReferenceKey);
         return $this->templateEngine->render($template, $referenceData ?: []);
     }
 
     /**
      * @param string $filePath
-     * @param int $documentReferenceId
+     * @param mixed $documentReferenceKey
      * @inheritdoc
      */
-    public function generate(string $filePath, int $documentReferenceId = 0): void
+    public function generate(string $filePath, $documentReferenceKey): void
     {
-        $this->fileWriter->write($filePath, [$this->render($documentReferenceId)]);
+        $this->fileWriter->write($filePath, [$this->render($documentReferenceKey)]);
     }
 }

@@ -55,6 +55,6 @@ class TemplateDocumentManager extends BaseObject
      */
     public function generate(string $documentType, $documentReferenceKey, string $filePath): void
     {
-        $this->getGenerator($documentType)->generate($filePath, $documentReferenceKey);
+        $this->getGenerator($documentType)->generate($documentReferenceKey, $filePath);
     }
 }

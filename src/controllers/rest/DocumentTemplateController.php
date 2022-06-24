@@ -8,11 +8,6 @@ namespace lujie\template\document\controllers\rest;
 use lujie\extend\rest\ActiveController;
 use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
-use lujie\template\document\searches\DocumentTemplateSearch;
-use lujie\template\document\TemplateDocumentGenerator;
-use Yii;
-use yii\di\Instance;
-use yii\web\Response;
 
 /**
  * Class DocumentTemplateController
@@ -30,21 +25,6 @@ class DocumentTemplateController extends ActiveController
      * @var string
      */
     public $documentType;
-
-    /**
-     * @var TemplateDocumentGenerator
-     */
-    public $documentManager;
-
-    /**
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        $this->documentManager = Instance::ensure($this->documentManager, TemplateDocumentGenerator::class);
-    }
 
     /**
      * @param $id

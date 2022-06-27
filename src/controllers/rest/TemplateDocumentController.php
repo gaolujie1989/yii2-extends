@@ -51,9 +51,9 @@ class TemplateDocumentController extends Controller
      */
     public function actionDownload(string $type, $key): void
     {
-        $data = ['documentType' => $type, 'documentKey' => $key];
+        $data = ['{documentType}' => $type, '{documentKey}' => $key];
         $generateFile = Yii::getAlias(TemplateHelper::generate($this->filePathTemplate, $data));
-        $this->documentManager->generate($type, $generateFile, $key);
+        $this->documentManager->generate($type, $key, $generateFile);
         $ext = pathinfo($generateFile, PATHINFO_EXTENSION);
         $inline = in_array($ext, ['pdf', 'html'], true);
         Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => $inline]);

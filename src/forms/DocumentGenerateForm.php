@@ -82,7 +82,7 @@ class DocumentGenerateForm extends DocumentFile
         }
         $this->save(false);
 
-        $filePath = TemplateHelper::generate($this->filePathTemplate, $this->attributes);
+        $filePath = TemplateHelper::render($this->filePathTemplate, $this->attributes);
 
         $localFilePath = Yii::getAlias('@runtime/' . $filePath);
         $this->documentManager->generate($this->document_type, $this->document_file_id, $localFilePath);

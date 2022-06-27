@@ -48,7 +48,7 @@ class ChargeTableForm extends ChargeTable
         if (isset($values['charge_type'])) {
             $chargeType = $values['charge_type'];
             $this->charge_group = static::$chargeGroups[$chargeType] ?? '';
-            $this->limit_unit = static::$chargeLimitUnits[$chargeType] ?? 'G';
+            $this->limit_unit = static::$chargeLimitUnits[$chargeType] ?? $values['display_limit_unit'];
         }
         if (isset($values['display_limit_unit'])) {
             $this->display_limit_unit = $values['display_limit_unit'];
@@ -65,7 +65,7 @@ class ChargeTableForm extends ChargeTable
     {
         if ($name === 'charge_type') {
             $this->charge_group = static::$chargeGroups[$value] ?? '';
-            $this->limit_unit = static::$chargeLimitUnits[$value] ?? 'G';
+            $this->limit_unit = static::$chargeLimitUnits[$value] ?? '';
         }
         parent::setAttribute($name, $value);
     }

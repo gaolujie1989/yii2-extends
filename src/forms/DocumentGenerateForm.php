@@ -6,6 +6,7 @@
 namespace lujie\template\document\forms;
 
 use creocoder\flysystem\Filesystem;
+use lujie\extend\helpers\TemplateHelper;
 use lujie\template\document\models\DocumentFile;
 use lujie\template\document\TemplateDocumentManager;
 use Yii;
@@ -32,7 +33,7 @@ class DocumentGenerateForm extends DocumentFile
     /**
      * @var string
      */
-    public $documentType;
+    public $filePathTemplate = 'documents/{document_type}/{document_no}.pdf';
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -43,9 +44,6 @@ class DocumentGenerateForm extends DocumentFile
         parent::init();
         $this->documentManager = Instance::ensure($this->documentManager, TemplateDocumentManager::class);
         $this->fs = Instance::ensure($this->fs, Filesystem::class);
-        if (empty($this->documentType)) {
-            throw new InvalidConfigException('DocumentType must be set');
-        }
     }
 
     /**
@@ -55,7 +53,7 @@ class DocumentGenerateForm extends DocumentFile
     public function rules(): array
     {
         return [
-            [['reference_id', 'document_no', 'document_data'], 'require'],
+            [['document_type', 'document_no'], 'require'],
             [['reference_id'], 'integer'],
             [['reference_no', 'document_no'], 'string', 'max' => 50],
             [['document_data'], 'safe'],
@@ -65,6 +63,7 @@ class DocumentGenerateForm extends DocumentFile
     /**
      * @return bool
      * @throws InvalidConfigException
+     * @throws \Exception
      * @inheritdoc
      */
     public function generate(): bool
@@ -74,8 +73,8 @@ class DocumentGenerateForm extends DocumentFile
         }
 
         $query = static::find()
-            ->documentType($this->documentType)
-            ->referenceId($this->reference_id);
+            ->documentType($this->document_type)
+            ->documentNo($this->document_no);
         if ($query->exists()) {
             $this->setIsNewRecord(false);
             $model = $query->one();
@@ -83,15 +82,16 @@ class DocumentGenerateForm extends DocumentFile
         }
         $this->save(false);
 
-        $filePath = Yii::getAlias("@runtime/{$this->document_no}.pdf");
+        $filePath = TemplateHelper::generate($this->filePathTemplate, $this->attributes);
 
-        $this->documentManager->generate($this->documentType, $this->reference_id, $filePath);
+        $localFilePath = Yii::getAlias('@runtime/' . $filePath);
+        $this->documentManager->generate($this->document_type, $this->document_file_id, $localFilePath);
 
         if ($this->fs->has($filePath)) {
             $this->fs->delete($filePath);
         }
-        $this->fs->write($filePath, file_get_contents($filePath));
-        unlink($filePath);
+        $this->fs->write($filePath, file_get_contents($localFilePath));
+        unlink($localFilePath);
 
         $this->document_file = $filePath;
         return $this->save(false);

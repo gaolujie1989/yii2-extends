@@ -7,6 +7,8 @@ namespace lujie\template\document\controllers\rest;
 
 use creocoder\flysystem\Filesystem;
 use lujie\extend\rest\ActiveController;
+use lujie\extend\rest\MethodAction;
+use lujie\template\document\forms\DocumentGenerateForm;
 use lujie\template\document\models\DocumentFile;
 use Yii;
 use yii\di\Instance;
@@ -35,8 +37,14 @@ class DocumentFileController extends ActiveController
      */
     public function actions(): array
     {
-        $actions = parent::actions();
-        return array_intersect_key($actions, array_flip(['index']));
+        $actions = array_merge(parent::actions(), [
+            'generate' => [
+                'class' => MethodAction::class,
+                'modelClass' => DocumentGenerateForm::class,
+                'method' => 'generate'
+            ],
+        ]);
+        return array_intersect_key($actions, array_flip(['index', 'generate']));
     }
 
     /**

@@ -39,30 +39,30 @@ class TemplateDocumentController extends Controller
     public $downloadOptions = ['inline' => true];
 
     /**
-     * @param string $documentType
-     * @param $documentKey
+     * @param string $type
+     * @param $key
      * @throws \yii\base\InvalidConfigException
      * @throws \Exception
      * @inheritdoc
      */
-    public function actionDownload(string $documentType, $documentKey): void
+    public function actionDownload(string $type, $key): void
     {
-        $data = ['documentType' => $documentType, 'documentKey' => $documentKey];
+        $data = ['documentType' => $type, 'documentKey' => $key];
         $generateFile = Yii::getAlias(TemplateHelper::generate($this->filePathTemplate, $data));
-        $this->documentManager->generate($documentType, $generateFile, $documentKey);
+        $this->documentManager->generate($type, $generateFile, $key);
         Yii::$app->getResponse()->sendFile($generateFile, null, $this->downloadOptions);
     }
 
     /**
-     * @param string $documentType
-     * @param $documentKey
+     * @param string $type
+     * @param $key
      * @return string
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionPreview(string $documentType, $documentKey): string
+    public function actionPreview(string $type, $key): string
     {
         Yii::$app->getResponse()->format = Response::FORMAT_HTML;
-        return $this->documentManager->render($documentType, $documentKey);
+        return $this->documentManager->render($type, $key);
     }
 }

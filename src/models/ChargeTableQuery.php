@@ -15,6 +15,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method ChargeTableQuery chargeTableId($chargeTableId)
  * @method ChargeTableQuery chargeType($chargeType)
  * @method ChargeTableQuery customType($customType)
+ * @method ChargeTableQuery otherType($otherType)
  * @method ChargeTableQuery ownerId($ownerId)
  *
  * @method ChargeTableQuery orderByPrice($order = SORT_ASC)
@@ -40,6 +41,7 @@ class ChargeTableQuery extends \yii\db\ActiveQuery
                     'chargeTableId' => 'charge_table_id',
                     'chargeType' => 'charge_type',
                     'customType' => 'custom_type',
+                    'otherType' => 'other_type',
                     'ownerId' => 'owner_id',
                 ],
                 'querySorts' => [

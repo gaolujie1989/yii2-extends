@@ -13,6 +13,7 @@ use Yii;
  * @property string $charge_group
  * @property string $charge_type
  * @property string $custom_type
+ * @property string $other_type
  * @property int $min_limit
  * @property int $max_limit
  * @property string $limit_unit
@@ -51,7 +52,7 @@ class ChargeTable extends \lujie\extend\db\ActiveRecord
     {
         return [
             [['charge_type'], 'required'],
-            [['charge_group', 'custom_type', 'limit_unit', 'display_limit_unit', 'currency'], 'default', 'value' => ''],
+            [['charge_group', 'custom_type', 'other_type', 'limit_unit', 'display_limit_unit', 'currency'], 'default', 'value' => ''],
             [['min_limit', 'max_limit', 'price_cent', 'percent', 'over_limit_price_cent', 'per_limit',
                 'min_over_limit', 'max_over_limit',
                 'started_at', 'ended_at', 'owner_id'], 'default', 'value' => 0],
@@ -59,7 +60,7 @@ class ChargeTable extends \lujie\extend\db\ActiveRecord
                 'min_over_limit', 'max_over_limit',
                 'started_at', 'ended_at', 'owner_id'], 'integer'],
             [['percent'], 'number'],
-            [['charge_group', 'charge_type', 'custom_type'], 'string', 'max' => 50],
+            [['charge_group', 'charge_type', 'custom_type', 'other_type'], 'string', 'max' => 50],
             [['limit_unit', 'display_limit_unit'], 'string', 'max' => 10],
             [['currency'], 'string', 'max' => 3],
             [['additional'], 'safe'],

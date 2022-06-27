@@ -177,9 +177,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
             }
             $salesChannelOrder->order_id = $order->primaryKey;
             $salesChannelOrder->order_status = $order->getAttribute($this->orderStatusAttribute);
-            if ($order->hasAttribute('updated_at')) {
-                $salesChannelOrder->order_updated_at = $order->getAttribute('updated_at');
-            }
+            $salesChannelOrder->order_updated_at = time();
             $salesChannelOrder->save(false);
         }
 
@@ -193,9 +191,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         }
         $order->setAttribute($this->orderStatusAttribute, $newOrderStatus);
         $salesChannelOrder->order_status = $newOrderStatus;
-        if ($order->hasAttribute('updated_at')) {
-            $salesChannelOrder->order_updated_at = $order->getAttribute('updated_at');
-        }
+        $salesChannelOrder->order_updated_at = time();
 
         $this->updateOrderAdditional($order, $salesChannelOrder, $externalOrder);
         $order->save(false) && $salesChannelOrder->save(false);

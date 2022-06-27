@@ -12,4 +12,5 @@ return [
         'CANCELLED' => ChargePrice::STATUS_CANCELLED,
         'FAILED' => ChargePrice::STATUS_FAILED,
     ],
+    'chargeType' => [],
 ];

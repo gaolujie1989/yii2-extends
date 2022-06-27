@@ -78,6 +78,8 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                 'tokens' => [
                     '{id}' => '<id:\\d[\\d,]*>',
                     '{ids}' => '<ids:\\d[\\d,;]*>',
+                    '{key}' => '<key:\\w+>',
+                    '{type}' => '<type:\\w+>',
                 ],
                 'patterns' => [
                     'PUT,PATCH {id}' => 'update',

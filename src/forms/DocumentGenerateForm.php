@@ -23,7 +23,7 @@ class DocumentGenerateForm extends DocumentFile
     /**
      * @var TemplateDocumentManager
      */
-    public $documentManager;
+    public $documentManager = 'documentManager';
 
     /**
      * @var Filesystem

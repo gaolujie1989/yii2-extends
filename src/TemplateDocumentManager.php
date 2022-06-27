@@ -6,6 +6,7 @@
 namespace lujie\template\document;
 
 use yii\base\BaseObject;
+use yii\base\InvalidArgumentException;
 use yii\di\Instance;
 
 /**
@@ -28,6 +29,9 @@ class TemplateDocumentManager extends BaseObject
      */
     public function getGenerator(string $documentType): TemplateDocumentGenerator
     {
+        if (empty($this->generators[$documentType])) {
+            throw new InvalidArgumentException('Unknown document type: ' . $documentType);
+        }
         if (!($this->generators[$documentType] instanceof TemplateDocumentGenerator)) {
             $this->generators[$documentType] = Instance::ensure($this->generators[$documentType], TemplateDocumentGenerator::class);
         }

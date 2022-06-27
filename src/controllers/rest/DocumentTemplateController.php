@@ -22,25 +22,20 @@ class DocumentTemplateController extends ActiveController
     public $modelClass = DocumentTemplate::class;
 
     /**
-     * @var string
-     */
-    public $documentType;
-
-    /**
      * @param $id
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function actionTemplates($id): array
+    public function actionTemplates($type, $id): array
     {
         $query = $this->modelClass::find()
-            ->documentType($this->documentType)
+            ->documentType($type)
             ->referenceId($id)
             ->orderByPosition();
         if (!$query->exists()) {
-            DocumentTemplateForm::createTemplates($this->documentType, $id);
+            DocumentTemplateForm::createTemplates($type, $id);
         }
         return $query->all();
     }

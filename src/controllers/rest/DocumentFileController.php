@@ -10,6 +10,7 @@ use lujie\extend\rest\ActiveController;
 use lujie\extend\rest\MethodAction;
 use lujie\template\document\forms\DocumentGenerateForm;
 use lujie\template\document\models\DocumentFile;
+use lujie\template\document\TemplateDocumentManager;
 use Yii;
 use yii\di\Instance;
 
@@ -26,9 +27,19 @@ class DocumentFileController extends ActiveController
     public $modelClass = DocumentFile::class;
 
     /**
+     * @var TemplateDocumentManager
+     */
+    public $documentManager = 'documentManager';
+
+    /**
      * @var Filesystem
      */
     public $fs = 'filesystem';
+
+    /**
+     * @var string
+     */
+    public $filePathTemplate = 'documents/{document_type}/{document_no}.pdf';
 
     /**
      * @return array
@@ -41,7 +52,10 @@ class DocumentFileController extends ActiveController
             'generate' => [
                 'class' => MethodAction::class,
                 'modelClass' => DocumentGenerateForm::class,
-                'method' => 'generate'
+                'documentManager' => $this->documentManager,
+                'fs' => $this->fs,
+                'filePathTemplate' => $this->filePathTemplate,
+                'method' => 'generate',
             ],
         ]);
         return array_intersect_key($actions, array_flip(['index', 'generate']));

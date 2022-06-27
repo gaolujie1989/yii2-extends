@@ -9,6 +9,7 @@ use lujie\extend\helpers\TemplateHelper;
 use lujie\template\document\models\DocumentTemplate;
 use lujie\template\document\TemplateDocumentManager;
 use Yii;
+use yii\di\Instance;
 use yii\rest\Controller;
 use yii\web\Response;
 
@@ -27,16 +28,19 @@ class TemplateDocumentController extends Controller
     public $modelClass = DocumentTemplate::class;
 
     /**
-     * @var string
-     */
-    public $documentType;
-
-    /**
      * @var TemplateDocumentManager
      */
-    public $documentManager;
+    public $documentManager = 'documentManager';
 
-    public $downloadOptions = ['inline' => true];
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->documentManager = Instance::ensure($this->documentManager, TemplateDocumentManager::class);
+    }
 
     /**
      * @param string $type
@@ -50,7 +54,9 @@ class TemplateDocumentController extends Controller
         $data = ['documentType' => $type, 'documentKey' => $key];
         $generateFile = Yii::getAlias(TemplateHelper::generate($this->filePathTemplate, $data));
         $this->documentManager->generate($type, $generateFile, $key);
-        Yii::$app->getResponse()->sendFile($generateFile, null, $this->downloadOptions);
+        $ext = pathinfo($generateFile, PATHINFO_EXTENSION);
+        $inline = in_array($ext, ['pdf', 'html'], true);
+        Yii::$app->getResponse()->sendFile($generateFile, null, ['inline' => $inline]);
     }
 
     /**

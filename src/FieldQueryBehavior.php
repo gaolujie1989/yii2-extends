@@ -379,7 +379,7 @@ class FieldQueryBehavior extends Behavior
     {
         /** @var Query $owner */
         $owner = $this->owner;
-        $owner->indexBy($this->querySorts[$name]);
+        $owner->indexBy($this->queryIndexes[$name]);
         return $owner;
     }
 

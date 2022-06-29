@@ -5,6 +5,7 @@
 
 namespace lujie\ar\snapshot\behaviors;
 
+use lujie\extend\helpers\ValueHelper;
 use yii\base\Behavior;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
@@ -92,7 +93,11 @@ class SnapshotBehavior extends Behavior
 
         /** @var BaseActiveRecord $snapshot */
         $snapshot = new $this->snapshotModelClass();
-        $snapshot->setAttributes($this->owner->getAttributes(null, $snapshot::primaryKey()), false);
+        $values = $this->owner->getAttributes(null, $snapshot::primaryKey());
+        $values = array_filter($values, static function($v) {
+            return $v !== null;
+        });
+        $snapshot->setAttributes($values, false);
         $callable = function () use ($snapshot) {
             if ($snapshot->save(false)) {
                 if ($this->snapshotIdAttribute) {

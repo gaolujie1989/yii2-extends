@@ -85,6 +85,9 @@ class ActiveRecordTracer extends BaseObject implements BootstrapInterface
      */
     protected function appendUpdatedAttributes(BaseActiveRecord $model): void
     {
+        if (empty($model->getDirtyAttributes())) {
+            return;
+        }
         if ($model->hasAttribute($this->updatedAtAttribute)) {
             $model->setAttribute($this->updatedAtAttribute, time());
         }

@@ -95,7 +95,11 @@ class SnapshotBehavior extends Behavior
         $snapshot->setAttributes($this->owner->getAttributes(null, $snapshot::primaryKey()), false);
         $callable = function () use ($snapshot) {
             if ($snapshot->save(false)) {
-                if ($this->owner->updateAttributes([$this->snapshotIdAttribute => $snapshot->getPrimaryKey()])) {
+                if ($this->snapshotIdAttribute) {
+                    if ($this->owner->updateAttributes([$this->snapshotIdAttribute => $snapshot->getPrimaryKey()])) {
+                        return true;
+                    }
+                } else {
                     return true;
                 }
                 throw new Exception('Update snapshotID failed.');

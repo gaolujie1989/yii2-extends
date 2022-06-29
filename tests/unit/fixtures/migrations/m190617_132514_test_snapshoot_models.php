@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m190617_132514_test_snapshoot_models extends Migration
+class m190617_132514_test_snapshot_models extends Migration
 {
     public function safeUp()
     {
@@ -14,14 +14,14 @@ class m190617_132514_test_snapshoot_models extends Migration
             'updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
-        $this->createTable('test_item_snapshoot', [
-            'test_item_snapshoot_id' => $this->bigPrimaryKey(),
+        $this->createTable('test_item_snapshot', [
+            'test_item_snapshot_id' => $this->bigPrimaryKey(),
             'test_item_id' => $this->bigInteger()->notNull(),
             'item_no' => $this->string()->notNull()->defaultValue(''),
             'item_name' => $this->string()->notNull()->defaultValue(''),
             'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
-        $this->addColumn('test_item', 'snapshoot_id', $this->bigInteger()->notNull()->defaultValue(0)->after('test_item_id'));
+        $this->addColumn('test_item', 'snapshot_id', $this->bigInteger()->notNull()->defaultValue(0)->after('test_item_id'));
     }
 }

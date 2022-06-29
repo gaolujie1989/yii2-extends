@@ -3,20 +3,20 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\ar\snapshoot\behaviors;
+namespace lujie\ar\snapshot\behaviors;
 
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;
 
 /**
- * Class ConditionSnapshootBehavior
+ * Class ConditionSnapshotBehavior
  *
  * @property BaseActiveRecord $owner
  *
- * @package lujie\ar\snapshoot\behaviors
+ * @package lujie\ar\snapshot\behaviors
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ConditionalSnapshootBehavior extends Behavior
+class ConditionalSnapshotBehavior extends Behavior
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ class ConditionalSnapshootBehavior extends Behavior
     /**
      * @var array
      */
-    public $snapshootOn = [];
+    public $snapshotOn = [];
 
     /**
      * @return array
@@ -35,18 +35,18 @@ class ConditionalSnapshootBehavior extends Behavior
     public function events(): array
     {
         return [
-            SnapshootBehavior::EVENT_BEFORE_CREATE_SNAPSHOOT => 'beforeCreateSnapshoot',
+            SnapshotBehavior::EVENT_BEFORE_CREATE_SNAPSHOOT => 'beforeCreateSnapshot',
         ];
     }
 
     /**
-     * @param SnapshootEvent $event
+     * @param SnapshotEvent $event
      * @inheritdoc
      */
-    public function beforeCreateSnapshoot(SnapshootEvent $event): void
+    public function beforeCreateSnapshot(SnapshotEvent $event): void
     {
         if (array_key_exists($this->attribute, $event->changedAttributes)
-            && in_array($this->owner->getAttribute($this->attribute), $this->snapshootOn, true)) {
+            && in_array($this->owner->getAttribute($this->attribute), $this->snapshotOn, true)) {
             return;
         }
         $event->created = true;

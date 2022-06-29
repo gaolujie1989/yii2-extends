@@ -4,12 +4,12 @@
  */
 
 return [
-    'lujie/yii2-ar-snapshoot' => [
-        'name' => 'lujie/yii2-ar-snapshoot',
+    'lujie/yii2-ar-snapshot' => [
+        'name' => 'lujie/yii2-ar-snapshot',
         'version' => 'dev-master',
         'alias' => [
-            '@lujie/ar/snapshoot/behaviors' => __DIR__ . '/src',
-            '@lujie/ar/snapshoot/behaviors/tests' => __DIR__ . '/tests',
+            '@lujie/ar/snapshot/behaviors' => __DIR__ . '/src',
+            '@lujie/ar/snapshot/behaviors/tests' => __DIR__ . '/tests',
         ]
     ],
 ];

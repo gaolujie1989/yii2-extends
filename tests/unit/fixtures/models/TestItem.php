@@ -1,12 +1,12 @@
 <?php
 
-namespace lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models;
+namespace lujie\ar\snapshot\behaviors\tests\unit\fixtures\models;
 
 /**
  * This is the model class for table "{{%test_item}}".
  *
  * @property string $test_item_id
- * @property string $snapshoot_id
+ * @property string $snapshot_id
  * @property string $item_no
  * @property string $item_name
  * @property int $status
@@ -28,7 +28,7 @@ class TestItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['snapshoot_id', 'status'], 'integer'],
+            [['snapshot_id', 'status'], 'integer'],
             [['item_no', 'item_name'], 'string', 'max' => 255],
         ];
     }
@@ -40,7 +40,7 @@ class TestItem extends \yii\db\ActiveRecord
     {
         return [
             'test_item_id' => 'Test Item ID',
-            'snapshoot_id' => 'Snapshoot ID',
+            'snapshot_id' => 'Snapshot ID',
             'item_no' => 'Item No',
             'item_name' => 'Item Name',
             'status' => 'Status',

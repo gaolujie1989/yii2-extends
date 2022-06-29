@@ -1,25 +1,25 @@
 <?php
 
-namespace lujie\ar\snapshoot\behaviors\tests\unit\fixtures\models;
+namespace lujie\ar\snapshot\behaviors\tests\unit\fixtures\models;
 
 /**
- * This is the model class for table "{{%test_item_snapshoot}}".
+ * This is the model class for table "{{%test_item_snapshot}}".
  *
- * @property string $test_item_snapshoot_id
+ * @property string $test_item_snapshot_id
  * @property string $test_item_id
  * @property string $item_no
  * @property string $item_name
  * @property int $status
  * @property int $updated_at
  */
-class TestItemSnapshoot extends \yii\db\ActiveRecord
+class TestItemSnapshot extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%test_item_snapshoot}}';
+        return '{{%test_item_snapshot}}';
     }
 
     /**
@@ -40,7 +40,7 @@ class TestItemSnapshoot extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'test_item_snapshoot_id' => 'Test Item Snapshoot ID',
+            'test_item_snapshot_id' => 'Test Item Snapshot ID',
             'test_item_id' => 'Test Item ID',
             'item_no' => 'Item No',
             'item_name' => 'Item Name',

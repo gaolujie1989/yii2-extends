@@ -3,17 +3,17 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\ar\snapshoot\behaviors;
+namespace lujie\ar\snapshot\behaviors;
 
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
 
 /**
- * Class SnapshootEvent
- * @package lujie\ar\snapshoot\behaviors
+ * Class SnapshotEvent
+ * @package lujie\ar\snapshot\behaviors
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class SnapshootEvent extends Event
+class SnapshotEvent extends Event
 {
     /**
      * @var bool
@@ -28,5 +28,5 @@ class SnapshootEvent extends Event
     /**
      * @var BaseActiveRecord|null
      */
-    public $snapshoot;
+    public $snapshot;
 }

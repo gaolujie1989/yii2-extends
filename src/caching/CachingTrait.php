@@ -107,7 +107,7 @@ trait CachingTrait
      * @param string $key
      * @param mixed $value
      * @param int|null|bool $duration
-     * @param Dependency|null|bool $dependency
+     * @param Dependency|null|bool|string|array $dependency
      * @return bool
      * @throws InvalidConfigException
      * @inheritdoc
@@ -119,6 +119,9 @@ trait CachingTrait
             $key = $this->keyPrefix . $key;
             $duration = $duration === true ? $this->duration : $duration;
             $dependency = $dependency === true ? $this->dependency : $dependency;
+            if (is_string($dependency) || is_array($dependency)) {
+                $dependency = new TagDependency(['tags' => (array)$dependency]);
+            }
             return $this->cache->set($key, $value, $duration, $dependency);
         }
         throw new InvalidConfigException('Cache not set');

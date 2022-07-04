@@ -14,6 +14,8 @@ use Yii;
  */
 class Comment extends \lujie\extend\db\ActiveRecord
 {
+    public const MODEL_TYPE = 'DEFAULT';
+
     /**
      * {@inheritdoc}
      */
@@ -23,15 +25,23 @@ class Comment extends \lujie\extend\db\ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        $this->model_type = static::MODEL_TYPE;
+        parent::init();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules(): array
     {
         return [
-            [['model_type', 'content'], 'default', 'value' => ''],
+            [['content'], 'default', 'value' => ''],
             [['model_id'], 'default', 'value' => 0],
             [['model_id'], 'integer'],
-            [['model_type'], 'string', 'max' => 50],
             [['content'], 'string', 'max' => 2000],
         ];
     }
@@ -55,6 +65,6 @@ class Comment extends \lujie\extend\db\ActiveRecord
      */
     public static function find(): CommentQuery
     {
-        return new CommentQuery(static::class);
+        return (new CommentQuery(static::class))->andFilterWhere(['model_type' => static::MODEL_TYPE]);
     }
 }

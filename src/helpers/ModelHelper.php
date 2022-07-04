@@ -286,10 +286,10 @@ class ModelHelper
             $relationRelations = $relationConfig[2] ?? [];
             $relationPk = $relationClass::primaryKey()[0];
             if (isset($row[$relation][$relationPk])) { //mean is one relation, else is many relation
-                $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations);
+                $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
             } else {
                 foreach ($row[$relation] as $index => $value) {
-                    $row[$relation][$index] = static::prepareArray($value, $relationClass, $relationAlias, $relationRelations);
+                    $row[$relation][$index] = static::prepareArray($value, $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
                 }
             }
         }

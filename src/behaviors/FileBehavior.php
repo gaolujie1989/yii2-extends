@@ -119,7 +119,7 @@ class FileBehavior extends Behavior
             return null;
         }
         $value = $this->owner->{$this->attribute};
-        return $this->url . $value;
+        return $this->url . $this->path . $value;
     }
 
     /**

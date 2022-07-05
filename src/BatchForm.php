@@ -12,6 +12,7 @@ use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\validators\Validator;
 
 /**
  * Class BatchMethodForm
@@ -86,7 +87,7 @@ class BatchForm extends Model
         $rules = $model->rules();
         foreach ($rules as $key => $ruleConfig) {
             [$ruleAttributes, $ruleName] = $ruleConfig;
-            if (in_array($ruleName, $this->invalidRules, true)) {
+            if (!isset(Validator::$builtInValidators[$ruleName]) || in_array($ruleName, $this->invalidRules, true)) {
                 unset($rules[$key]);
             } else if (isset($this->convertRules[$ruleName])) {
                 $rules[$key] = [$ruleAttributes, $this->convertRules[$ruleName]];

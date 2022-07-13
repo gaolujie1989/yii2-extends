@@ -9,14 +9,6 @@ use lujie\amazon\advertising\AmazonAdvertisingClient;
 
 class AmazonAdvertisingClientTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -24,6 +16,5 @@ class AmazonAdvertisingClientTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $advertisingClient = new AmazonAdvertisingClient();
-//        codecept_debug($advertisingClient->generateMethodDoc());
     }
 }

@@ -20,105 +20,105 @@ use yii\httpclient\Request;
 /**
  * Class AmazonAdvertisingClient
  *
- * @method array listSpCampaigns($data = [])
- * @method \Generator eachSpCampaign($condition = [], $batchSize = 100)
- * @method \Generator batchSpCampaign($condition = [], $batchSize = 100)
- * @method array getSpCampaign($data)
- * @method array createSpCampaign($data)
- * @method array updateSpCampaign($data)
- * @method array deleteSpCampaign($data)
+ * @method array listCampaigns($data = [])
+ * @method \Generator eachCampaign($condition = [], $batchSize = 100)
+ * @method \Generator batchCampaign($condition = [], $batchSize = 100)
+ * @method array getCampaign($data)
+ * @method array createCampaign($data)
+ * @method array updateCampaign($data)
+ * @method array deleteCampaign($data)
  *
- * @method array listExtendSpCampaign($data = [])
- * @method \Generator eachExtendSpCampaign($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpCampaign($condition = [], $batchSize = 100)
- * @method array getExtendSpCampaign($data)
+ * @method array listExtendCampaign($data = [])
+ * @method \Generator eachExtendCampaign($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendCampaign($condition = [], $batchSize = 100)
+ * @method array getExtendCampaign($data)
  *
- * @method array listSpAdGroups($data = [])
- * @method \Generator eachSpAdGroup($condition = [], $batchSize = 100)
- * @method \Generator batchSpAdGroup($condition = [], $batchSize = 100)
- * @method array getSpAdGroup($data)
- * @method array createSpAdGroup($data)
- * @method array updateSpAdGroup($data)
- * @method array deleteSpAdGroup($data)
+ * @method array listAdGroups($data = [])
+ * @method \Generator eachAdGroup($condition = [], $batchSize = 100)
+ * @method \Generator batchAdGroup($condition = [], $batchSize = 100)
+ * @method array getAdGroup($data)
+ * @method array createAdGroup($data)
+ * @method array updateAdGroup($data)
+ * @method array deleteAdGroup($data)
  *
- * @method array listExtendSpAdGroup($data = [])
- * @method \Generator eachExtendSpAdGroup($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpAdGroup($condition = [], $batchSize = 100)
- * @method array getExtendSpAdGroup($data)
+ * @method array listExtendAdGroup($data = [])
+ * @method \Generator eachExtendAdGroup($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendAdGroup($condition = [], $batchSize = 100)
+ * @method array getExtendAdGroup($data)
  *
- * @method array listSpAds($data = [])
- * @method \Generator eachSpAd($condition = [], $batchSize = 100)
- * @method \Generator batchSpAd($condition = [], $batchSize = 100)
- * @method array getSpAd($data)
- * @method array createSpAd($data)
- * @method array updateSpAd($data)
- * @method array deleteSpAd($data)
+ * @method array listAds($data = [])
+ * @method \Generator eachAd($condition = [], $batchSize = 100)
+ * @method \Generator batchAd($condition = [], $batchSize = 100)
+ * @method array getAd($data)
+ * @method array createAd($data)
+ * @method array updateAd($data)
+ * @method array deleteAd($data)
  *
- * @method array listExtendSpAd($data = [])
- * @method \Generator eachExtendSpAd($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpAd($condition = [], $batchSize = 100)
- * @method array getExtendSpAd($data)
+ * @method array listExtendAd($data = [])
+ * @method \Generator eachExtendAd($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendAd($condition = [], $batchSize = 100)
+ * @method array getExtendAd($data)
  *
- * @method array listSpKeywords($data = [])
- * @method \Generator eachSpKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchSpKeyword($condition = [], $batchSize = 100)
- * @method array getSpKeyword($data)
- * @method array createSpKeyword($data)
- * @method array updateSpKeyword($data)
- * @method array deleteSpKeyword($data)
+ * @method array listKeywords($data = [])
+ * @method \Generator eachKeyword($condition = [], $batchSize = 100)
+ * @method \Generator batchKeyword($condition = [], $batchSize = 100)
+ * @method array getKeyword($data)
+ * @method array createKeyword($data)
+ * @method array updateKeyword($data)
+ * @method array deleteKeyword($data)
  *
- * @method array listExtendSpKeyword($data = [])
- * @method \Generator eachExtendSpKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpKeyword($condition = [], $batchSize = 100)
- * @method array getExtendSpKeyword($data)
+ * @method array listExtendKeyword($data = [])
+ * @method \Generator eachExtendKeyword($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendKeyword($condition = [], $batchSize = 100)
+ * @method array getExtendKeyword($data)
  *
- * @method array listSpNegativeKeywords($data = [])
- * @method \Generator eachSpNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchSpNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getSpNegativeKeyword($data)
- * @method array createSpNegativeKeyword($data)
- * @method array updateSpNegativeKeyword($data)
- * @method array deleteSpNegativeKeyword($data)
+ * @method array listNegativeKeywords($data = [])
+ * @method \Generator eachNegativeKeyword($condition = [], $batchSize = 100)
+ * @method \Generator batchNegativeKeyword($condition = [], $batchSize = 100)
+ * @method array getNegativeKeyword($data)
+ * @method array createNegativeKeyword($data)
+ * @method array updateNegativeKeyword($data)
+ * @method array deleteNegativeKeyword($data)
  *
- * @method array listExtendSpNegativeKeyword($data = [])
- * @method \Generator eachExtendSpNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getExtendSpNegativeKeyword($data)
+ * @method array listExtendNegativeKeyword($data = [])
+ * @method \Generator eachExtendNegativeKeyword($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendNegativeKeyword($condition = [], $batchSize = 100)
+ * @method array getExtendNegativeKeyword($data)
  *
- * @method array listSpCampaignNegativeKeywords($data = [])
- * @method \Generator eachSpCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchSpCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getSpCampaignNegativeKeyword($data)
- * @method array createSpCampaignNegativeKeyword($data)
- * @method array updateSpCampaignNegativeKeyword($data)
- * @method array deleteSpCampaignNegativeKeyword($data)
+ * @method array listCampaignNegativeKeywords($data = [])
+ * @method \Generator eachCampaignNegativeKeyword($condition = [], $batchSize = 100)
+ * @method \Generator batchCampaignNegativeKeyword($condition = [], $batchSize = 100)
+ * @method array getCampaignNegativeKeyword($data)
+ * @method array createCampaignNegativeKeyword($data)
+ * @method array updateCampaignNegativeKeyword($data)
+ * @method array deleteCampaignNegativeKeyword($data)
  *
- * @method array listExtendSpCampaignNegativeKeyword($data = [])
- * @method \Generator eachExtendSpCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getExtendSpCampaignNegativeKeyword($data)
+ * @method array listExtendCampaignNegativeKeyword($data = [])
+ * @method \Generator eachExtendCampaignNegativeKeyword($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendCampaignNegativeKeyword($condition = [], $batchSize = 100)
+ * @method array getExtendCampaignNegativeKeyword($data)
  *
- * @method array listSpTargets($data = [])
- * @method \Generator eachSpTarget($condition = [], $batchSize = 100)
- * @method \Generator batchSpTarget($condition = [], $batchSize = 100)
- * @method array getSpTarget($data)
- * @method array createSpTarget($data)
- * @method array updateSpTarget($data)
- * @method array deleteSpTarget($data)
+ * @method array listTargets($data = [])
+ * @method \Generator eachTarget($condition = [], $batchSize = 100)
+ * @method \Generator batchTarget($condition = [], $batchSize = 100)
+ * @method array getTarget($data)
+ * @method array createTarget($data)
+ * @method array updateTarget($data)
+ * @method array deleteTarget($data)
  *
- * @method array listExtendSpTarget($data = [])
- * @method \Generator eachExtendSpTarget($condition = [], $batchSize = 100)
- * @method \Generator batchExtendSpTarget($condition = [], $batchSize = 100)
- * @method array getExtendSpTarget($data)
- * @method array getSpGroupSuggestedKeywords($data)
- * @method array getExtendSpGroupSuggestedKeywords($data)
+ * @method array listExtendTarget($data = [])
+ * @method \Generator eachExtendTarget($condition = [], $batchSize = 100)
+ * @method \Generator batchExtendTarget($condition = [], $batchSize = 100)
+ * @method array getExtendTarget($data)
+ * @method array getGroupSuggestedKeywords($data)
+ * @method array getExtendGroupSuggestedKeywords($data)
  * @method array getAsinSuggestedKeywords($data)
- * @method array createSpSnapshot($data)
- * @method array getSpSnapshot($data)
- * @method array createSpReport($data)
+ * @method array createSnapshot($data)
+ * @method array getSnapshot($data)
+ * @method array createReport($data)
  * @method array createAsinReport($data)
- * @method array getSpReport($data)
- * @method array downloadSpReport($data)
+ * @method array getReport($data)
+ * @method array downloadReport($data)
  *
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -141,13 +141,13 @@ class AmazonAdvertisingClient extends OAuth2
      * @var array
      */
     public $resources = [
-        'SpCampaign' => '/v2/sp/campaigns',
-        'SpAdGroup' => '/v2/sp/adGroups',
-        'SpAd' => '/v2/sp/productAds',
-        'SpKeyword' => '/v2/sp/keywords',
-        'SpNegativeKeyword' => '/v2/sp/negativeKeywords',
-        'SpCampaignNegativeKeyword' => '/v2/sp/campaignNegativeKeywords',
-        'SpTarget' => '/v2/sp/targets',
+        'Campaign' => '/v2/sp/campaigns',
+        'AdGroup' => '/v2/sp/adGroups',
+        'Ad' => '/v2/sp/productAds',
+        'Keyword' => '/v2/sp/keywords',
+        'NegativeKeyword' => '/v2/sp/negativeKeywords',
+        'CampaignNegativeKeyword' => '/v2/sp/campaignNegativeKeywords',
+        'Target' => '/v2/sp/targets',
     ];
 
     /**
@@ -171,17 +171,17 @@ class AmazonAdvertisingClient extends OAuth2
      * @var array
      */
     public $extraMethods = [
-        'getSpGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords'],
-        'getExtendSpGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords/extended'],
+        'getGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords'],
+        'getExtendGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords/extended'],
         'getAsinSuggestedKeywords' => ['GET', '/v2/sp/asins/{asinValue}/suggested/keywords'],
 
-        'createSpSnapshot' => ['GET', '/v2/sp/{recordType}/snapshot'],
-        'getSpSnapshot' => ['GET', '/v2/sp/snapshots/{snapshotId}'],
+        'createSnapshot' => ['GET', '/v2/sp/{recordType}/snapshot'],
+        'getSnapshot' => ['GET', '/v2/sp/snapshots/{snapshotId}'],
 
-        'createSpReport' => ['POST', '/v2/sp/{recordType}/report'],
+        'createReport' => ['POST', '/v2/sp/{recordType}/report'],
         'createAsinReport' => ['POST', '/v2/asins/report'],
-        'getSpReport' => ['GET', '/v2/reports/{id}'],
-        'downloadSpReport' => ['GET', '/v2/reports/{id}/download'],
+        'getReport' => ['GET', '/v2/reports/{id}'],
+        'downloadReport' => ['GET', '/v2/reports/{id}/download'],
     ];
 
     /**

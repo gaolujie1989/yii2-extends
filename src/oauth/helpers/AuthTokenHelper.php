@@ -29,7 +29,7 @@ class AuthTokenHelper
         } else if ($authUsername) {
             $authTokenQuery->authUsername($authUsername);
         } else {
-            throw new InvalidArgumentException('Invalid user attributes');
+            return null;
         }
         return $authTokenQuery->one();
     }

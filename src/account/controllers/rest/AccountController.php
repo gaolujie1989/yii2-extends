@@ -87,8 +87,6 @@ class AccountController extends ActiveController
             /** @var Account $account */
             $account = $this->findModel($accountId);
             $OAuthLoginCallback->setAuthingAccount($account);
-        } else {
-            $OAuthLoginCallback->setAuthingAccount(null);
         }
     }
 

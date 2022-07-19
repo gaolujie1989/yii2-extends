@@ -67,6 +67,9 @@ class ExecuteHelper
      * @param string $statusAttribute
      * @param string $resultAttribute
      * @param bool $throwException
+     * @param array|string[] $warningExceptions
+     * @param string|null $memoryLimit
+     * @return bool
      * @throws \Throwable
      * @inheritdoc
      */
@@ -77,12 +80,17 @@ class ExecuteHelper
         string $statusAttribute = 'execute_status',
         string $resultAttribute = 'execute_result',
         bool $throwException = false,
-        array $warningExceptions = [Exception::class]
+        array $warningExceptions = [Exception::class],
+        ?string $memoryLimit = null,
     ): bool
     {
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
         $model->save(false);
 
+        if ($memoryLimit) {
+            $oldMemoryLimit = ini_get('memory_limit');
+            ini_set('memory_limit', $memoryLimit);
+        }
         try {
             $callable();
             if ($resultAttribute) {
@@ -115,6 +123,10 @@ class ExecuteHelper
             }
             Yii::error($message, __METHOD__);
             return false;
+        } finally {
+            if (isset($oldMemoryLimit)) {
+                ini_set('memory_limit', $oldMemoryLimit);
+            }
         }
     }
 

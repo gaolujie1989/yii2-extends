@@ -98,6 +98,8 @@ class OptionHelper
                         return ucfirst(strtolower($str));
                     }, $nameParts);
                     $optionItem['name'] = implode(' ', $nameParts);
+                } else {
+                    $optionItem['name'] = Inflector::camel2words($optionItem['name']);
                 }
                 if (!isset($optionItem['value_type'])) {
                     $value = $optionItem['value'];

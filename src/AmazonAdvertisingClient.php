@@ -6,19 +6,31 @@
 namespace lujie\amazon\advertising;
 
 use Iterator;
+use lujie\extend\authclient\RestApiTrait;
 use lujie\extend\authclient\RestClientTrait;
+use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\BaseClient;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
+use yii\authclient\OAuthToken;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\httpclient\Request;
 
 /**
  * Class AmazonAdvertisingClient
+ *
+ * @method array listProfiles($data = [])
+ * @method \Generator eachProfile($condition = [], $batchSize = 100)
+ * @method \Generator batchProfile($condition = [], $batchSize = 100)
+ * @method array getProfile($data)
+ * @method array createProfile($data)
+ * @method array updateProfile($data)
+ * @method array deleteProfile($data)
  *
  * @method array listCampaigns($data = [])
  * @method \Generator eachCampaign($condition = [], $batchSize = 100)
@@ -106,6 +118,22 @@ use yii\httpclient\Request;
  * @method array updateTarget($data)
  * @method array deleteTarget($data)
  *
+ * @method array createProductReport($data = [])
+ * @method array createBrandReport($data = [])
+ * @method array createDisplayReport($data = [])
+ * @method array getReport($data)
+ * @method array downloadReport($data)
+ *
+ * @method array createProductSnapshot($data)
+ * @method array createBrandSnapshot($data)
+ * @method array createDisplaySnapshot($data)
+ * @method array getProductSnapshot($data)
+ * @method array getBrandSnapshot($data)
+ * @method array getDisplaySnapshot($data)
+ * @method array downloadProductSnapshot($data)
+ * @method array downloadBrandSnapshot($data)
+ * @method array downloadDisplaySnapshot($data)
+ *
  * @method array listExtendTarget($data = [])
  * @method \Generator eachExtendTarget($condition = [], $batchSize = 100)
  * @method \Generator batchExtendTarget($condition = [], $batchSize = 100)
@@ -113,19 +141,24 @@ use yii\httpclient\Request;
  * @method array getGroupSuggestedKeywords($data)
  * @method array getExtendGroupSuggestedKeywords($data)
  * @method array getAsinSuggestedKeywords($data)
- * @method array createSnapshot($data)
- * @method array getSnapshot($data)
- * @method array createReport($data)
  * @method array createAsinReport($data)
- * @method array getReport($data)
- * @method array downloadReport($data)
  *
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class AmazonAdvertisingClient extends OAuth2
 {
-    use RestClientTrait;
+    use RestApiTrait;
+
+    /**
+     * @var string
+     */
+    public $apiBaseUrl = AmazonAdvertisingConst::API_URL_EU;
+
+    /**
+     * @var string
+     */
+    public $authUrl = AmazonAdvertisingConst::AUTH_URL_EU;
 
     /**
      * @var string
@@ -135,12 +168,18 @@ class AmazonAdvertisingClient extends OAuth2
     /**
      * @var string
      */
-    public $scope = AmazonAdvertisingConst::SCOPE_CPC;
+    public $scope = AmazonAdvertisingConst::SCOPE_DSP;
+
+    /**
+     * @var int
+     */
+    public $profileId;
 
     /**
      * @var array
      */
     public $resources = [
+        'Profiles' => '/v2/profiles',
         'Campaign' => '/v2/sp/campaigns',
         'AdGroup' => '/v2/sp/adGroups',
         'Ad' => '/v2/sp/productAds',
@@ -159,7 +198,7 @@ class AmazonAdvertisingClient extends OAuth2
      * @var array
      */
     public $extraActions = [
-        'spTarget' => [
+        'Target' => [
             'createProductRecommendations' => ['POST', 'productRecommendations'],
             'getCategories' => ['POST', 'categories'],
             'getCategoriesRefinements' => ['POST', 'categories/refinements'],
@@ -171,17 +210,30 @@ class AmazonAdvertisingClient extends OAuth2
      * @var array
      */
     public $extraMethods = [
+        'createProductReport' => ['POST', '/v2/sp/{recordType}/report', true],
+        'createBrandReport' => ['POST', '/v2/hsa/{recordType}/report', true],
+        'createDisplayReport' => ['POST', '/sd/{recordType}/report', true],
+        'getReport' => ['GET', '/v2/reports/{id}', true],
+        'downloadReport' => ['GET', '/v2/reports/{id}/download', true],
+
+        'createProductSnapshot' => ['POST', '/v2/sp/{recordType}/snapshot', true],
+        'createBrandSnapshot' => ['POST', '/v2/hsa/{recordType}/snapshot', true],
+        'createDisplaySnapshot' => ['POST', '/sd/{recordType}/snapshot', true],
+        'getProductSnapshot' => ['GET', '/v2/sp/snapshots/{id}', true],
+        'getBrandSnapshot' => ['GET', '/v2/hsa/snapshots/{id}', true],
+        'getDisplaySnapshot' => ['GET', '/sd/snapshots/{id}', true],
+        'downloadProductSnapshot' => ['GET', '/v2/sp/snapshots/{id}/download', true],
+        'downloadBrandSnapshot' => ['GET', '/v2/hsa/snapshots/{id}/download', true],
+        'downloadDisplaySnapshot' => ['GET', '/sd/snapshots/{id}/download', true],
+
         'getGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords'],
         'getExtendGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords/extended'],
         'getAsinSuggestedKeywords' => ['GET', '/v2/sp/asins/{asinValue}/suggested/keywords'],
 
-        'createSnapshot' => ['GET', '/v2/sp/{recordType}/snapshot'],
-        'getSnapshot' => ['GET', '/v2/sp/snapshots/{snapshotId}'],
-
-        'createReport' => ['POST', '/v2/sp/{recordType}/report'],
         'createAsinReport' => ['POST', '/v2/asins/report'],
-        'getReport' => ['GET', '/v2/reports/{id}'],
-        'downloadReport' => ['GET', '/v2/reports/{id}/download'],
+
+        'listExtend' => ['GET', 'extended'],
+        'getExtend' => ['GET', 'extended/{id}'],
     ];
 
     /**
@@ -189,12 +241,19 @@ class AmazonAdvertisingClient extends OAuth2
      */
     public function init(): void
     {
-        $this->actions = array_merge($this->actions, [
-            'listExtend' => ['GET', 'extended'],
-            'getExtend' => ['GET', 'extended/{id}'],
-        ]);
         parent::init();
         $this->initRest();
+    }
+
+    /**
+     * @param $profileId
+     * @return $this
+     * @inheritdoc
+     */
+    public function setProfileId($profileId): self
+    {
+        $this->profileId = $profileId;
+        return $this;
     }
 
     /**
@@ -203,19 +262,54 @@ class AmazonAdvertisingClient extends OAuth2
      */
     protected function initUserAttributes(): array
     {
-        return $this->api('/v2/profiles');
+        return [];
     }
 
     /**
-     * @param string $resource
-     * @param array $condition
-     * @param int $batchSize
-     * @return Iterator
-     * @throws NotSupportedException
+     * @param array $tokenConfig
+     * @return OAuthToken
      * @inheritdoc
      */
-    public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
+    protected function createToken(array $tokenConfig = []): OAuthToken
     {
-        throw new NotSupportedException('AmazonAdvertisingClient method `batch` not supported');
+        $tokenConfig['tokenSecretParamKey'] = 'refresh_token';
+        return parent::createToken($tokenConfig);
+    }
+
+    /**
+     * @param Request $request
+     * @param OAuthToken $accessToken
+     * @inheritdoc
+     */
+    public function applyAccessTokenToRequest($request, $accessToken): void
+    {
+        $request->addHeaders([
+            'Amazon-Advertising-API-ClientId' => $this->clientId,
+            'Authorization' => 'Bearer ' . $accessToken->getToken(),
+        ]);
+        if ($this->profileId) {
+            $request->addHeaders([
+                'Amazon-Advertising-API-Scope' => $this->profileId,
+            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return array|mixed|null
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    protected function sendRequest($request)
+    {
+        $response = HttpClientHelper::sendRequest($request, ['307']);
+        if ($response->getStatusCode() === '307') {
+            $location = $response->getHeaders()->get('Location');
+            $newRequest = $this->createRequest()->setUrl($location);
+            $content = HttpClientHelper::sendRequest($newRequest)->getContent();
+            return [$content];
+        }
+        return $response->getData();
     }
 }

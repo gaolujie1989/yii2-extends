@@ -6,6 +6,7 @@
 namespace lujie\barcode\generating;
 
 use Picqer\Barcode\BarcodeGenerator;
+use Picqer\Barcode\BarcodeGeneratorDynamicHTML;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Picqer\Barcode\Exceptions\BarcodeException;
 use Yii;
@@ -22,7 +23,7 @@ class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
     /**
      * @var BarcodeGenerator
      */
-    private $tcBarcode;
+    public $tcBarcode;
 
     /**
      * @var array
@@ -32,13 +33,18 @@ class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
         self::EAN13 => BarcodeGenerator::TYPE_EAN_13,
     ];
 
+    public $widthFactor = 2;
+    public $height = 30;
+
     /**
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
-        $this->tcBarcode = new BarcodeGeneratorPNG();
+        if (empty($this->tcBarcode)) {
+            $this->tcBarcode = new BarcodeGeneratorPNG();
+        }
     }
 
     /**
@@ -57,6 +63,9 @@ class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
             ]);
             throw new NotSupportedException($message);
         }
-        return $this->tcBarcode->getBarcode($codeText, $this->codeTypeMap[$codeType]);
+        if ($this->tcBarcode instanceof BarcodeGeneratorDynamicHTML) {
+            return $this->tcBarcode->getBarcode($codeText, $this->codeTypeMap[$codeType]);
+        }
+        return $this->tcBarcode->getBarcode($codeText, $this->codeTypeMap[$codeType], $this->widthFactor, $this->height);
     }
 }

@@ -60,12 +60,14 @@ class ExcelHelper
         array $data,
         bool $keyAsHeader = true,
         bool $multiSheet = false,
+        bool $withImage = false,
         string $adapter = ExcelWriter::ADAPTER_XLSX_WRITER
     ): void
     {
         $excelWriter = new ExcelWriter();
         $excelWriter->keyAsHeader = $keyAsHeader;
         $excelWriter->multiSheet = $multiSheet;
+        $excelWriter->withImage = $withImage;
         $excelWriter->adapter = $adapter;
         $excelWriter->write($file, $data);
     }

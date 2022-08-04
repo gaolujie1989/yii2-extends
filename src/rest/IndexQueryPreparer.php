@@ -49,7 +49,12 @@ class IndexQueryPreparer extends BaseObject
     /**
      * @var null|bool
      */
-    public $asArray = null;
+    public $asArray;
+
+    /**
+     * @var BaseActiveRecord
+     */
+    public $searchModel;
 
     /**
      * @param string $modelClass
@@ -58,16 +63,17 @@ class IndexQueryPreparer extends BaseObject
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function prepare(string $modelClass, array $params): QueryInterface
+    public function prepare(string $modelClass, array $params): ?QueryInterface
     {
         /** @var BaseActiveRecord|string $modelClass */
         $searchClass = $this->searchClass ?: ClassHelper::getSearchClass($modelClass) ?: $modelClass;
         /* @var $searchModel BaseActiveRecord */
-        $searchModel = Yii::createObject($searchClass);
+        $this->searchModel = Yii::createObject($searchClass);
+        $searchModel = $this->searchModel;
         if (method_exists($searchModel, $this->queryMethod)) {
             $searchModel->load($params, $this->formName);
             if ($this->runValidation && !$searchModel->validate()) {
-                return $searchModel::find()->where('1=2');
+                return null;
             }
             $query = $searchModel->{$this->queryMethod}();
             $this->appendQuery($query);

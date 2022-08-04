@@ -7,6 +7,7 @@ namespace lujie\extend\rest;
 
 use lujie\extend\data\ActiveArrayDataProvider;
 use Yii;
+use yii\base\Model;
 use yii\data\DataProviderInterface;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
@@ -53,11 +54,11 @@ class IndexDataProviderPreparer
 
     /**
      * @param Action $action
-     * @return DataProviderInterface
+     * @return DataProviderInterface|Model
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function prepare(Action $action): DataProviderInterface
+    public function prepare(Action $action)
     {
         $requestParams = Yii::$app->getRequest()->getBodyParams();
         if (empty($requestParams)) {
@@ -70,6 +71,9 @@ class IndexDataProviderPreparer
             'formName' => $this->formName,
         ]);
         $query = $queryPreparer->prepare($action->modelClass, $requestParams);
+        if ($query === null) {
+            return $queryPreparer->searchModel;
+        }
         $this->expandQuery($query);
 
         /** @var DataProviderInterface $object */

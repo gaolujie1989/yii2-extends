@@ -52,7 +52,7 @@ class OptionManager extends BaseObject
      * @throws \Exception
      * @inheritdoc
      */
-    public function getOptions(string $type, string $key = '', $like = null): array
+    public function getOptions(string $type, string $key = ''): array
     {
         foreach ($this->providers as $providerKey => $optionProvider) {
             if (!($optionProvider instanceof OptionProviderInterface)) {
@@ -63,9 +63,7 @@ class OptionManager extends BaseObject
                 }
             }
             if ($optionProvider->hasType($type)) {
-                return $like !== null
-                    ? $optionProvider->getOptions($type, $key, $like)
-                    : $optionProvider->getOptions($type, $key);
+                return $optionProvider->getOptions($type, $key);
             }
         }
         throw new NotFoundHttpException("Option {$type} not found");

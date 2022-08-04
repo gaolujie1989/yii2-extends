@@ -6,7 +6,6 @@
 namespace lujie\common\option\searches;
 
 use lujie\common\option\OptionManager;
-use lujie\extend\helpers\ValueHelper;
 use yii\base\Model;
 use yii\di\Instance;
 
@@ -43,16 +42,6 @@ class OptionListSearch extends Model
     }
 
     /**
-     * @inheritdoc
-     */
-    public function validateType(): void
-    {
-        if (is_string($this->type)) {
-            $this->type = ValueHelper::strToArray($this->type);
-        }
-    }
-
-    /**
      * @return array|bool
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
@@ -66,7 +55,7 @@ class OptionListSearch extends Model
         $this->optionManager = Instance::ensure($this->optionManager, OptionManager::class);
 
         $typeOptions  = [];
-        foreach ($this->type as $type) {
+        foreach ((array)$this->type as $type) {
             $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key ?: '');
         }
         $this->options = $typeOptions;

@@ -5,7 +5,6 @@
 
 namespace lujie\common\option\controllers\rest;
 
-use lujie\common\option\actions\OptionListAction;
 use lujie\common\option\models\Option;
 use lujie\common\option\searches\OptionListSearch;
 use lujie\extend\rest\ActiveController;

@@ -7,9 +7,9 @@ namespace lujie\common\option\searches;
 
 use lujie\common\option\models\Option;
 use lujie\extend\db\SearchTrait;
-use lujie\extend\helpers\ModelHelper;
 use Yii;
 use yii\db\ActiveQueryInterface;
+use yii\helpers\Json;
 
 /**
  * Class OptionSearch
@@ -52,6 +52,7 @@ class OptionSearch extends Option
         } else if ((int)$row['value_type'] === Option::VALUE_TYPE_FLOAT) {
             $row['value'] = (float)$row['value'];
         }
+        $row['labels'] = is_array($row['labels']) ? $row['labels'] : Json::decode($row['labels']);
         $row['label'] = $row['labels'][Yii::$app->language] ?? '';
         $row['label'] = $row['label'] ?: $row['name'];
         return $row;

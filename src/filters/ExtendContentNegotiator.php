@@ -39,10 +39,11 @@ class ExtendContentNegotiator extends \yii\filters\ContentNegotiator
 
     /**
      * @param \yii\web\Request $request
+     * @return string
      * @throws \Exception
      * @inheritdoc
      */
-    protected function negotiateLanguage($request): void
+    protected function negotiateLanguage($request): string
     {
         if (strpos($this->languageParam, '.') !== false) {
             $languageValue = ArrayHelper::getValue($request, $this->languageParam);
@@ -51,9 +52,10 @@ class ExtendContentNegotiator extends \yii\filters\ContentNegotiator
                 $request->setQueryParams(array_merge($oldQueryParams, [$this->languageParam => $languageValue]));
             }
         }
-        parent::negotiateLanguage($request);
+        $negotiateLanguage = parent::negotiateLanguage($request);
         if (isset($oldQueryParams)) {
             $request->setQueryParams($oldQueryParams);
         }
+        return $negotiateLanguage;
     }
 }

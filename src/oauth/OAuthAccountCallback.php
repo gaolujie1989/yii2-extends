@@ -85,8 +85,8 @@ class OAuthAccountCallback extends BaseObject
             $authToken->user_id = $userId;
             $authToken->auth_service = $authService;
         }
-        $authToken->auth_user_id = $authUserId;
-        $authToken->auth_username = $authUsername;
+        $authToken->auth_user_id = $authUserId ?: $userId;
+        $authToken->auth_username = $authUsername ?: $account->username;
         if ($client instanceof BaseOAuth) {
             $accessToken = $client->getAccessToken();
             $authToken->access_token = $accessToken->getToken();

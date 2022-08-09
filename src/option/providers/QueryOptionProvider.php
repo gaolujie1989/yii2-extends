@@ -94,16 +94,19 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();
         }
-        $transformer = new KeyMapTransformer([
-            'keyMap' => $this->keyMap,
-            'unsetOriginalKey' => true,
-            'unsetNotInMapKey' => true,
-        ]);
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */
             $data = ActiveDataHelper::typecast($data, $query->modelClass);
         }
+        if (empty($this->keyMap)) {
+            return $data;
+        }
+        $transformer = new KeyMapTransformer([
+            'keyMap' => $this->keyMap,
+            'unsetOriginalKey' => true,
+            'unsetNotInMapKey' => true,
+        ]);
         return $transformer->transform($data);
     }
 

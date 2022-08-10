@@ -48,7 +48,11 @@ use DoubleBreak\Spapi\Api\VendorTransactionStatus;
 use DoubleBreak\Spapi\Client;
 use DoubleBreak\Spapi\Credentials;
 use DoubleBreak\Spapi\Signer;
+use GuzzleHttp\HandlerStack;
 use Iterator;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Yii;
 use yii\authclient\CacheStateStorage;
 use yii\authclient\StateStorageInterface;
 use yii\base\BaseObject;
@@ -189,6 +193,7 @@ class AmazonSPClient extends BaseObject
      */
     protected function initApi(): void
     {
+//        $this->http['handler'] = $this->getHandler();
         $this->config = [
             //Guzzle configuration
             'http' => $this->http,
@@ -213,6 +218,23 @@ class AmazonSPClient extends BaseObject
         $this->tokenStorage->keyPrefix = $this->id;
         $this->signer = new Signer();
         $this->credentials = new Credentials($this->tokenStorage, $this->signer, $this->config);
+    }
+
+    public function getHandler(): HandlerStack
+    {
+        $handlerStack = HandlerStack::create();
+        $handlerStack->push(function (callable $handler) {
+            return static function (RequestInterface $request, array $options) use ($handler) {
+                Yii::info([$request, $options], __CLASS__);
+                return $handler($request, $options)
+                    ->then(
+                        function (ResponseInterface $response) {
+                            return $response;
+                        }
+                    );
+            };
+        }, 'yii_log');
+        return $handlerStack;
     }
 
     /**

@@ -54,6 +54,10 @@ class StateTokenStorage extends BaseObject implements TokenStorageInterface
      */
     public function storeToken($key, $value): void
     {
+        //To Avoid 401/403
+        if (isset($value['expiresOn'])) {
+            $value['expiresOn'] -= 5;
+        }
         $this->stateStorage->set($this->keyPrefix . $key, $value);
     }
 }

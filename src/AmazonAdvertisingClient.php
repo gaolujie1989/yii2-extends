@@ -273,7 +273,10 @@ class AmazonAdvertisingClient extends OAuth2
     protected function createToken(array $tokenConfig = []): OAuthToken
     {
         $tokenConfig['tokenSecretParamKey'] = 'refresh_token';
-        return parent::createToken($tokenConfig);
+        $authToken = parent::createToken($tokenConfig);
+        //To Avoid 401
+        $authToken->setExpireDuration($authToken->getExpireDuration() - 5);
+        return $authToken;
     }
 
     /**
@@ -307,7 +310,12 @@ class AmazonAdvertisingClient extends OAuth2
         if ($response->getStatusCode() === '307') {
             $location = $response->getHeaders()->get('Location');
             $newRequest = $this->createRequest()->setUrl($location);
-            $content = HttpClientHelper::sendRequest($newRequest)->getContent();
+            //If 403 expired, retry old request
+            $newResponse = HttpClientHelper::sendRequest($newRequest, ['403']);
+            if ($newResponse->getStatusCode() === '403') {
+                return $this->sendRequest($request);
+            }
+            $content = $newResponse->getContent();
             return [$content];
         }
         return $response->getData();

@@ -8,8 +8,6 @@ namespace lujie\extend\db;
 use lujie\extend\helpers\ClassHelper;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
-use yii\db\BaseActiveRecord;
-use yii\db\Exception;
 use yii\helpers\StringHelper;
 
 /**
@@ -44,7 +42,7 @@ trait RelationClassTrait
     /**
      * @param string $class
      * @param array $link
-     * @return ActiveQueryInterface
+     * @return ActiveQueryInterface|ActiveQuery
      * @inheritdoc
      */
     public function hasOne($class, $link): ActiveQueryInterface
@@ -56,7 +54,7 @@ trait RelationClassTrait
     /**
      * @param string $class
      * @param array $link
-     * @return ActiveQueryInterface
+     * @return ActiveQueryInterface|ActiveQuery
      * @inheritdoc
      */
     public function hasMany($class, $link): ActiveQueryInterface

@@ -118,7 +118,7 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
      * @return $this
      * @inheritdoc
      */
-    public function notQueuedOrQueuedButNotExecuted($queuedDuration = 3600): self
+    public function notQueuedOrQueuedButNotExecuted(int $queuedDuration = 3600): self
     {
         return $this->andWhere(['OR',
             ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],

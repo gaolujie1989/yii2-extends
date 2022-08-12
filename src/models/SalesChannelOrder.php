@@ -59,22 +59,22 @@ class SalesChannelOrder extends \lujie\extend\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'sales_channel_order_id' => Yii::t('lujie/sales', 'Sales Channel Order ID'),
-            'sales_channel_account_id' => Yii::t('lujie/sales', 'Sales Channel Account ID'),
-            'sales_channel_status' => Yii::t('lujie/sales', 'Sales Channel Status'),
-            'order_id' => Yii::t('lujie/sales', 'Order ID'),
-            'order_status' => Yii::t('lujie/sales', 'Order Status'),
-            'order_updated_at' => Yii::t('lujie/sales', 'Order Updated At'),
-            'external_order_key' => Yii::t('lujie/sales', 'External Order Key'),
-            'external_order_status' => Yii::t('lujie/sales', 'External Order Status'),
-            'external_order_additional' => Yii::t('lujie/sales', 'External Order Additional'),
-            'external_created_at' => Yii::t('lujie/sales', 'External Created At'),
-            'external_updated_at' => Yii::t('lujie/sales', 'External Updated At'),
-            'order_pushed_at' => Yii::t('lujie/sales', 'Order Pushed At'),
-            'order_pushed_status' => Yii::t('lujie/sales', 'Order Pushed Status'),
-            'order_pushed_result' => Yii::t('lujie/sales', 'Order Pushed Result'),
-            'order_pulled_at' => Yii::t('lujie/sales', 'Order Pulled At'),
-            'additional' => Yii::t('lujie/sales', 'Additional'),
+            'sales_channel_order_id' => Yii::t('lujie/salesChannel', 'Sales Channel Order ID'),
+            'sales_channel_account_id' => Yii::t('lujie/salesChannel', 'Sales Channel Account ID'),
+            'sales_channel_status' => Yii::t('lujie/salesChannel', 'Sales Channel Status'),
+            'order_id' => Yii::t('lujie/salesChannel', 'Order ID'),
+            'order_status' => Yii::t('lujie/salesChannel', 'Order Status'),
+            'order_updated_at' => Yii::t('lujie/salesChannel', 'Order Updated At'),
+            'external_order_key' => Yii::t('lujie/salesChannel', 'External Order Key'),
+            'external_order_status' => Yii::t('lujie/salesChannel', 'External Order Status'),
+            'external_order_additional' => Yii::t('lujie/salesChannel', 'External Order Additional'),
+            'external_created_at' => Yii::t('lujie/salesChannel', 'External Created At'),
+            'external_updated_at' => Yii::t('lujie/salesChannel', 'External Updated At'),
+            'order_pushed_at' => Yii::t('lujie/salesChannel', 'Order Pushed At'),
+            'order_pushed_status' => Yii::t('lujie/salesChannel', 'Order Pushed Status'),
+            'order_pushed_result' => Yii::t('lujie/salesChannel', 'Order Pushed Result'),
+            'order_pulled_at' => Yii::t('lujie/salesChannel', 'Order Pulled At'),
+            'additional' => Yii::t('lujie/salesChannel', 'Additional'),
         ];
     }
 

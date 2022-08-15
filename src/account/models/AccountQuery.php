@@ -9,8 +9,10 @@ use yii\db\ActiveQuery;
 /**
  * This is the ActiveQuery class for [[Account]].
  *
+ *
  * @method AccountQuery id($id)
  * @method AccountQuery orderById($sort = SORT_ASC)
+ * @method AccountQuery indexById()
  * @method int getId()
  * @method array getIds()
  *
@@ -20,8 +22,19 @@ use yii\db\ActiveQuery;
  * @method AccountQuery status($status)
  * @method AccountQuery name($name)
  *
+ * @method AccountQuery createdAtBetween($from, $to = null)
+ * @method AccountQuery updatedAtBetween($from, $to = null)
+ *
  * @method AccountQuery active()
  * @method AccountQuery inActive()
+ *
+ * @method AccountQuery orderByAccountId($sort = SORT_ASC)
+ * @method AccountQuery orderByCreatedAt($sort = SORT_ASC)
+ * @method AccountQuery orderByUpdatedAt($sort = SORT_ASC)
+ *
+ * @method AccountQuery indexByAccountId()
+ *
+ * @method array getAccountIds()
  *
  * @method array|Account[] all($db = null)
  * @method array|Account|null one($db = null)
@@ -46,11 +59,24 @@ class AccountQuery extends \yii\db\ActiveQuery
                     'type' => 'type',
                     'status' => 'status',
                     'name' => 'name',
+                    'createdAtBetween' => ['created_at' => 'BETWEEN'],
+                    'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],
                 'queryConditions' => [
                     'active' => ['status' => StatusConst::STATUS_ACTIVE],
                     'inActive' => ['status' => StatusConst::STATUS_INACTIVE],
                 ],
+                'querySorts' => [
+                    'orderByAccountId' => 'account_id',
+                    'orderByCreatedAt' => 'created_at',
+                    'orderByUpdatedAt' => 'updated_at',
+                ],
+                'queryIndexes' => [
+                    'indexByAccountId' => 'account_id',
+                ],
+                'queryReturns' => [
+                    'getAccountIds' => ['account_id', FieldQueryBehavior::RETURN_COLUMN],
+                ]
             ]
         ];
     }

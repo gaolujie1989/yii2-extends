@@ -6,6 +6,7 @@
 namespace lujie\common\comment\behaviors;
 
 use yii\base\Behavior;
+use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -18,7 +19,7 @@ class CommentBehavior extends Behavior
     /**
      * @var string
      */
-    public $relation = 'comment';
+    public $relation = 'comments';
 
     /**
      * @var string
@@ -40,17 +41,17 @@ class CommentBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function saveComment(): void
+    public function saveComment(AfterSaveEvent $event): void
     {
-        /** @var BaseActiveRecord $owner */
-        $owner = $this->owner;
-        $activeQuery = $owner->getRelation($this->relation, false);
+        /** @var BaseActiveRecord $sender */
+        $sender = $event->sender;
+        $activeQuery = $sender->getRelation($this->relation);
         if ($activeQuery === null) {
             return;
         }
         if ($this->comment) {
             $comment = new $activeQuery->modelClass();
-            $comment->model_id = $owner->primaryKey[0];
+            $comment->model_id = $sender->primaryKey;
             $comment->content = $this->comment;
             $comment->save(false);
         }

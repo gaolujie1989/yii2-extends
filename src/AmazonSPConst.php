@@ -5,11 +5,6 @@
 
 namespace lujie\amazon\sp;
 
-use yii\authclient\CacheStateStorage;
-use yii\authclient\StateStorageInterface;
-use yii\base\BaseObject;
-use yii\di\Instance;
-
 /**
  * Class AmazonSPConst
  * @package lujie\amazon\sp
@@ -17,6 +12,25 @@ use yii\di\Instance;
  */
 class AmazonSPConst
 {
+    public const MARKETPLACES = [
+        'BR' => 'A2Q3Y263D00KWC',
+        'CA' => 'A2EUQ1WTGCTBG2',
+        'MX' => 'A1AM78C64UM0Y8',
+        'US' => 'ATVPDKIKX0DER',
+        'AE' => 'A2VIGQ35RCS4UG',
+        'DE' => 'A1PA6795UKMFR9',
+        'ES' => 'A1RKKUPIHCS9HS',
+        'FR' => 'A13V1IB3VIYZZH',
+        'GB' => 'A1F83G8C2ARO7P',
+        'NL' => 'A1805IZSGTT6HS',
+        'IN' => 'A21TJRUUN4KGV',
+        'TR' => 'A33AVAJ2PDY3EV',
+        'SG' => 'A19VAU5U5O7RUS',
+        'AU' => 'A39IBJ37TRP1C6',
+        'JP' => 'A1VC38T7YXB528',
+        'CN' => 'AAHKV2X7AFYLW',
+    ];
+
     public const  MARKETPLACE_BR = 'A2Q3Y263D00KWC';
     public const  MARKETPLACE_CA = 'A2EUQ1WTGCTBG2';
     public const  MARKETPLACE_MX = 'A1AM78C64UM0Y8';

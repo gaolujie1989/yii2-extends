@@ -28,8 +28,18 @@ class XmlReader extends BaseObject implements FileReaderInterface
      */
     public function read(string $file): array
     {
-        $contents = file_get_contents($file);
-        $xml = simplexml_load_string($contents, 'SimpleXMLElement', $this->option);
+        $content = file_get_contents($file);
+        return $this->readContent($content);
+    }
+
+    /**
+     * @param string $content
+     * @return array
+     * @inheritdoc
+     */
+    public function readContent(string $content): array
+    {
+        $xml = simplexml_load_string($content, 'SimpleXMLElement', $this->option);
         return $this->toArray($xml);
     }
 

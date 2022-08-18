@@ -24,8 +24,18 @@ class JsonReader extends BaseObject implements FileReaderInterface
     public function read(string $file): array
     {
         if (file_exists($file)) {
-            return Json::decode(file_get_contents($file));
+            return $this->readContent(file_get_contents($file));
         }
         return [];
+    }
+
+    /**
+     * @param string $content
+     * @return array
+     * @inheritdoc
+     */
+    public function readContent(string $content): array
+    {
+        return Json::decode($content);
     }
 }

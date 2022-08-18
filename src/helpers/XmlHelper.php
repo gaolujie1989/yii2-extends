@@ -5,6 +5,9 @@
 
 namespace lujie\extend\helpers;
 
+use lujie\extend\file\readers\XmlReader;
+use lujie\extend\file\writers\XmlWriter;
+
 /**
  * Class XmlHelper
  * @package lujie\extend\helpers
@@ -13,30 +16,41 @@ namespace lujie\extend\helpers;
 class XmlHelper
 {
     /**
+     * @param string $file
+     * @param int $option
+     * @return array
+     * @inheritdoc
+     */
+    public static function readXml(string $file, int $option = LIBXML_NOCDATA): array
+    {
+        $xmlReader = new XmlReader();
+        $xmlReader->option = $option;
+        return $xmlReader->read($file);
+    }
+
+    /**
+     * @param string $file
+     * @param array $data
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
+    public static function writeXml(string $file, array $data): void
+    {
+        $xmlWriter = new XmlWriter();
+        $xmlWriter->write($file, $data);
+    }
+
+    public static function readContent(): array
+    {
+
+    }
+
+    /**
      * @param string|\SimpleXMLElement $xml
      * @return array
      * @inheritdoc
      */
     public static function toArray($xml, $valueKey = 'value'): array
     {
-        if (is_string($xml)) {
-            $xml = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        }
-        $result = (array) $xml;
-        foreach ($xml as $key => $value) {
-            if (!is_scalar($result[$key])) {
-                $result[$key] = static::toArray($result[$key], $valueKey);
-            }
-            if ($value instanceof \SimpleXMLElement) {
-                $attributes = (array)$value->attributes();
-                if (isset($attributes['@attributes'])) {
-                    $result[$key] = array_merge(
-                        $attributes['@attributes'],
-                        is_array($result[$key]) ? $result[$key] : [$valueKey => $result[$key]]
-                    );
-                }
-            }
-        }
-        return $result;
     }
 }

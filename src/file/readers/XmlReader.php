@@ -6,7 +6,7 @@
 namespace lujie\extend\file\readers;
 
 use lujie\extend\file\FileReaderInterface;
-use Spatie\PdfToText\Pdf;
+use SimpleXMLElement;
 use yii\base\BaseObject;
 
 /**
@@ -29,26 +29,24 @@ class XmlReader extends BaseObject implements FileReaderInterface
     public function read(string $file): array
     {
         $contents = file_get_contents($file);
-        return $this->readXml($contents);
+        $xml = simplexml_load_string($contents, 'SimpleXMLElement', $this->option);
+        return $this->toArray($xml);
     }
 
     /**
-     * @param $xml
+     * @param SimpleXMLElement $xml
      * @param string $valueKey
      * @return array
      * @inheritdoc
      */
-    public function readXml($xml, string $valueKey = 'value'): array
+    public function toArray(SimpleXMLElement $xml, string $valueKey = 'value'): array
     {
-        if (is_string($xml)) {
-            $xml = simplexml_load_string($xml, 'SimpleXMLElement', $this->option);
-        }
         $result = (array) $xml;
         foreach ($xml as $key => $value) {
             if (!is_scalar($result[$key])) {
-                $result[$key] = $this->readXml($result[$key], $valueKey);
+                $result[$key] = $this->toArray($result[$key], $valueKey);
             }
-            if ($value instanceof \SimpleXMLElement) {
+            if ($value instanceof SimpleXMLElement) {
                 $attributes = (array)$value->attributes();
                 if (isset($attributes['@attributes'])) {
                     $result[$key] = array_merge(

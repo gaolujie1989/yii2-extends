@@ -22,6 +22,11 @@ class XmlReader extends BaseObject implements FileReaderInterface
     public $option = LIBXML_NOCDATA;
 
     /**
+     * @var string
+     */
+    public $valueKey = 'value';
+
+    /**
      * @param string $file
      * @return array
      * @inheritdoc
@@ -40,7 +45,7 @@ class XmlReader extends BaseObject implements FileReaderInterface
     public function readContent(string $content): array
     {
         $xml = simplexml_load_string($content, 'SimpleXMLElement', $this->option);
-        return $this->toArray($xml);
+        return $this->toArray($xml, $this->valueKey);
     }
 
     /**

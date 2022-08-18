@@ -21,10 +21,11 @@ class XmlHelper
      * @return array
      * @inheritdoc
      */
-    public static function readXml(string $file, int $option = LIBXML_NOCDATA): array
+    public static function readXml(string $file, string $valueKey = 'value', int $option = LIBXML_NOCDATA): array
     {
         $xmlReader = new XmlReader();
         $xmlReader->option = $option;
+        $xmlReader->valueKey = $valueKey;
         return $xmlReader->read($file);
     }
 
@@ -40,17 +41,31 @@ class XmlHelper
         $xmlWriter->write($file, $data);
     }
 
-    public static function readContent(): array
-    {
-
-    }
-
     /**
-     * @param string|\SimpleXMLElement $xml
+     * @param string $content
+     * @param int $option
      * @return array
      * @inheritdoc
      */
-    public static function toArray($xml, $valueKey = 'value'): array
+    public static function readContent(string $content, string $valueKey = 'value', int $option = LIBXML_NOCDATA): array
     {
+        $xmlReader = new XmlReader();
+        $xmlReader->option = $option;
+        $xmlReader->valueKey = $valueKey;
+        return $xmlReader->readContent($content);
+    }
+
+    /**
+     * @param $xml
+     * @param string $valueKey
+     * @return array
+     * @inheritdoc
+     */
+    public static function toArray(string $xml, string $valueKey = 'value', int $option = LIBXML_NOCDATA): array
+    {
+        $xmlReader = new XmlReader();
+        $xmlReader->option = $option;
+        $xmlReader->valueKey = $valueKey;
+        return $xmlReader->readContent($xml);
     }
 }

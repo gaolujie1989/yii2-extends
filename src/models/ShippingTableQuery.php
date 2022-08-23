@@ -84,18 +84,64 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      * @param array $carriers
      * @param int $defaultPrice
      * @return array
-     * @inheritdoc
+     * @deprecated
      */
     public function getShippingPrices(array $carriers = [], int $defaultPrice = 99999): array
     {
-        $carrierPrices = $this->select(['MIN(price_cent) AS price_cent', 'carrier'])
-            ->groupBy(['carrier'])
-            ->indexBy('carrier')
+        return $this->getGroupIndexedShippingPrices($carriers, 'carrier', $defaultPrice);
+    }
+
+    /**
+     * @param array $carriers
+     * @param int $defaultPrice
+     * @return array
+     * @inheritdoc
+     */
+    public function getCarrierPrices(array $carriers = [], int $defaultPrice = 99999): array
+    {
+        return $this->getGroupIndexedShippingPrices($carriers, 'carrier', $defaultPrice);
+    }
+
+    /**
+     * @param array $carriers
+     * @param int $defaultPrice
+     * @return array
+     * @inheritdoc
+     */
+    public function getDeparturePrices(array $carriers = [], int $defaultPrice = 99999): array
+    {
+        return $this->getGroupIndexedShippingPrices($carriers, 'departure', $defaultPrice);
+    }
+
+    /**
+     * @param array $carriers
+     * @param int $defaultPrice
+     * @return array
+     * @inheritdoc
+     */
+    public function getDestinationPrices(array $carriers = [], int $defaultPrice = 99999): array
+    {
+        return $this->getGroupIndexedShippingPrices($carriers, 'destination', $defaultPrice);
+    }
+
+    /**
+     * @param array $groupIndexValues
+     * @param string $groupIndexKey
+     * @param int $defaultPrice
+     * @return array
+     * @inheritdoc
+     */
+    protected function getGroupIndexedShippingPrices(array $groupIndexValues, string $groupIndexKey, int $defaultPrice = 99999): array
+    {
+        $shippingPrices = $this->select(['MIN(price_cent) AS price_cent'])
+            ->addSelect([$groupIndexKey])
+            ->groupBy([$groupIndexKey])
+            ->indexBy($groupIndexKey)
             ->column();
-        if ($carriers && $defaultPrice) {
-            $carrierPrices = array_merge(array_fill_keys($carriers, $defaultPrice), $carrierPrices);
+        if ($groupIndexValues && $defaultPrice) {
+            $shippingPrices = array_merge(array_fill_keys($groupIndexValues, $defaultPrice), $shippingPrices);
         }
-        return $carrierPrices;
+        return $shippingPrices;
     }
 
     #region Limit Condition

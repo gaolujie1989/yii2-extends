@@ -54,12 +54,13 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param int $time
+     * @param int|null $time
      * @return $this
      * @inheritdoc
      */
-    public function activeAt(int $time): self
+    public function activeAt(?int $time = null): self
     {
+        $time = $time ?: time();
         return $this->andWhere(['<=', 'started_at', $time])->andWhere(['>=', 'ended_at', $time]);
     }
 

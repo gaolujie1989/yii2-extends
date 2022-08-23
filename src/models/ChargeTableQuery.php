@@ -56,8 +56,9 @@ class ChargeTableQuery extends \yii\db\ActiveQuery
      * @return $this
      * @inheritdoc
      */
-    public function activeAt(int $time): self
+    public function activeAt(?int $time = null): self
     {
+        $time = $time ?: time();
         return $this->andWhere(['<=', 'started_at', $time])->andWhere(['>=', 'ended_at', $time]);
     }
 

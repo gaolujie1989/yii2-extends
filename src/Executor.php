@@ -6,6 +6,7 @@
 namespace lujie\executing;
 
 use lujie\extend\helpers\ComponentHelper;
+use lujie\extend\helpers\MemoryHelper;
 use yii\base\Component;
 use yii\di\Instance;
 use yii\mutex\Mutex;
@@ -168,7 +169,12 @@ class Executor extends Component
                 $mutex->release($mutexName);
             }
             if (isset($oldMemoryLimit)) {
-                ini_set('memory_limit', $oldMemoryLimit);
+                $memoryUsage = memory_get_usage(true);
+                if (MemoryHelper::getMemory($oldMemoryLimit) >= $memoryUsage) {
+                    ini_set('memory_limit', $oldMemoryLimit);
+                } else {
+                    ini_set('memory_limit', MemoryHelper::getAllowedMemoryLimit($memoryUsage));
+                }
             }
         }
     }

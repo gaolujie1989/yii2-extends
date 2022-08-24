@@ -46,10 +46,10 @@ foreach ($labels as $name => $label) {
     ) {
         $orderByFields['orderBy' . Inflector::camelize($name)] = $name;
     }
-    if (in_array($name, ['key', 'code'], true)
-        || substr($name, -4) === '_key'
-        || in_array(substr($name, -5), ['_code'], true)
+    if (in_array($name, ['key', 'sku', 'code'], true)
         || in_array(substr($name, -3), ['_id', '_no'], true)
+        || in_array(substr($name, -4), ['_key', '_sku'], true)
+        || in_array(substr($name, -5), ['_code'], true)
     ) {
         $indexByFields['indexBy' . Inflector::camelize($name)] = $name;
         $returnByFields['get' . Inflector::pluralize(Inflector::camelize($name))] = $name;

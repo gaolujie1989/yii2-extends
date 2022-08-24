@@ -27,11 +27,11 @@ $orderByFields = [];
 $indexByFields = [];
 $returnByFields = [];
 foreach ($labels as $name => $label) {
-    if (in_array($name, ['key', 'code', 'type', 'status'], true)
-        || substr($name, -4) === '_key'
-        || substr($name, -7) === '_status'
-        || in_array(substr($name, -5), ['_code', '_type'], true)
+    if (in_array($name, ['key', 'sku', 'code', 'type', 'status'], true)
         || in_array(substr($name, -3), ['_id', '_no'], true)
+        || in_array(substr($name, -4), ['_key', '_sku'], true)
+        || in_array(substr($name, -5), ['_code', '_type'], true)
+        || substr($name, -7) === '_status'
     ) {
         $queryFields[lcfirst(Inflector::camelize($name))] = $name;
     }

@@ -105,7 +105,7 @@ trait SearchTrait
         $query = ModelHelper::query($this, $query, $alias, $this->filterKeySuffixes());
         $keyAttributes = $this->searchKeyAttributes();
         if ($this->key && $keyAttributes) {
-            QueryHelper::filterKey($query, $keyAttributes, $this->key, true);
+            QueryHelper::filterKey($query, $keyAttributes, $this->key, 'L', $alias);
         }
         return $query;
     }

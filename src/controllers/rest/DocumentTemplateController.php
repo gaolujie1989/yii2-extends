@@ -41,8 +41,9 @@ class DocumentTemplateController extends ActiveController
      */
     public function actionTemplates($id, $type = null): array
     {
+        $type = $type ?: $this->documentType;
         $query = $this->modelClass::find()
-            ->documentType($type ?: $this->documentType)
+            ->documentType($type)
             ->referenceId($id)
             ->orderByPosition();
         if (!$query->exists()) {

@@ -27,19 +27,14 @@ class DocumentTemplateController extends ActiveController
     public $documentType;
 
     /**
-     * @var array
-     */
-    public $allowedDocumentTypes = [];
-
-    /**
      * @param $id
-     * @param null $type
+     * @param string|null $type
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function actionTemplates($id, $type = null): array
+    public function actionTemplates($id, ?string $type = null): array
     {
         $type = $type ?: $this->documentType;
         $query = $this->modelClass::find()

@@ -23,14 +23,14 @@ class TemplateDocumentController extends Controller
     public $filePathTemplate = '@runtime/documents/{documentType}/{documentKey}.pdf';
 
     /**
-     * @var string
-     */
-    public $modelClass = DocumentTemplate::class;
-
-    /**
      * @var TemplateDocumentManager
      */
     public $documentManager = 'documentManager';
+
+    /**
+     * @var string
+     */
+    public $documentType;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -43,14 +43,15 @@ class TemplateDocumentController extends Controller
     }
 
     /**
-     * @param string $type
      * @param $key
+     * @param string $type
      * @throws \yii\base\InvalidConfigException
      * @throws \Exception
      * @inheritdoc
      */
-    public function actionDownload(string $type, $key): void
+    public function actionDownload($key, ?string $type = null): void
     {
+        $type = $type ?: $this->documentType;
         $data = ['{documentType}' => $type, '{documentKey}' => $key];
         $generateFile = Yii::getAlias(TemplateHelper::generate($this->filePathTemplate, $data));
         $this->documentManager->generate($type, $key, $generateFile);
@@ -60,14 +61,15 @@ class TemplateDocumentController extends Controller
     }
 
     /**
-     * @param string $type
      * @param $key
+     * @param string $type
      * @return string
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionPreview(string $type, $key): string
+    public function actionPreview($key, ?string $type = null): string
     {
+        $type = $type ?: $this->documentType;
         Yii::$app->getResponse()->format = Response::FORMAT_HTML;
         return $this->documentManager->render($type, $key);
     }

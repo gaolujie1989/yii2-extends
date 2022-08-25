@@ -5,6 +5,9 @@
 
 namespace lujie\extend\file\writers;
 
+use creocoder\flysystem\Filesystem;
+use GdImage;
+use Imagine\Image\Format;
 use lujie\extend\file\FileWriterInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -13,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use XLSXWriter;
 use yii\base\BaseObject;
 use yii\helpers\FileHelper;
+use yii\imagine\Image;
 
 /**
  * Class ExcelWriter
@@ -30,6 +34,11 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     public $multiSheet = false;
 
     public $withImage = false;
+
+    public $imageResize = [
+        'width' => 120,
+        'height' => null
+    ];
 
     /**
      * @var string
@@ -131,11 +140,23 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
                 $columnIndex = 'A';
                 foreach ($values as $value) {
                     $pCoordinate = $columnIndex . $rowIndex;
-                    if (is_resource($value) || is_object($value)) {
+                    if (isset($value['file'], $value['fs']) && is_array($value) && $value['fs'] instanceof Filesystem) {
+                        $resource = $value['fs']->readStream($value['file']);
+                    } else if (is_resource($value)) {
+                        $resource = $value;
+                    } else if ($value instanceof GdImage) {
+                        $resource = $value;
+                    }
+                    if (isset($resource)) {
+                        if (is_resource($resource) && $this->imageResize) {
+                            $thumbnail = Image::thumbnail($value, $this->imageResize['width'], $this->imageResize['height']);
+                            $resource = $thumbnail->get(Format::ID_GIF);
+                        }
                         $drawing = new MemoryDrawing();
-                        $drawing->setImageResource($value);
+                        $drawing->setImageResource($resource);
                         $drawing->setCoordinates($pCoordinate);
                         $drawing->setWorksheet($sheet);
+                        $sheet->getRowDimension($rowIndex)->setRowHeight($drawing->getHeight());
                     } else {
                         $sheet->getCell($pCoordinate)->setValue($value);
                     }

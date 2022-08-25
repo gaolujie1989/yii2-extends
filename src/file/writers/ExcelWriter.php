@@ -149,7 +149,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
                     }
                     if (isset($resource)) {
                         if (is_resource($resource) && $this->imageResize) {
-                            $thumbnail = Image::thumbnail($value, $this->imageResize['width'], $this->imageResize['height']);
+                            $thumbnail = Image::thumbnail($resource, $this->imageResize['width'], $this->imageResize['height']);
                             $resource = $thumbnail->get(Format::ID_GIF);
                         }
                         $drawing = new MemoryDrawing();

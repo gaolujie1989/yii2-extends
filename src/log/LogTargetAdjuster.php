@@ -5,7 +5,6 @@
 
 namespace lujie\extend\log;
 
-use Behat\Gherkin\Parser;
 use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;

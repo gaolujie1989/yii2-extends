@@ -125,7 +125,12 @@ class ExecuteHelper
             return false;
         } finally {
             if (isset($oldMemoryLimit)) {
-                ini_set('memory_limit', $oldMemoryLimit);
+                $memoryUsage = memory_get_usage(true);
+                if (MemoryHelper::getMemory($oldMemoryLimit) >= $memoryUsage) {
+                    ini_set('memory_limit', $oldMemoryLimit);
+                } else {
+                    ini_set('memory_limit', MemoryHelper::getAllowedMemoryLimit($memoryUsage));
+                }
             }
         }
     }

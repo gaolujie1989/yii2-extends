@@ -6,8 +6,10 @@
 namespace lujie\template\document\controllers\rest;
 
 use lujie\extend\rest\ActiveController;
+use lujie\template\document\actions\DocumentAction;
 use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
+use lujie\template\document\TemplateDocumentManager;
 
 /**
  * Class DocumentTemplateController
@@ -25,6 +27,32 @@ class DocumentTemplateController extends ActiveController
      * @var string
      */
     public $documentType;
+
+    /**
+     * @var TemplateDocumentManager
+     */
+    public $documentManager = 'documentManager';
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function actions(): array
+    {
+        return array_merge(parent::actions(), [
+            'download' => [
+                'class' => DocumentAction::class,
+                'documentManager' => $this->documentManager,
+                'documentType' => $this->documentType,
+            ],
+            'preview' => [
+                'class' => DocumentAction::class,
+                'documentManager' => $this->documentManager,
+                'documentType' => $this->documentType,
+                'preview' => true,
+            ]
+        ]);
+    }
 
     /**
      * @param $id

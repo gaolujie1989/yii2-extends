@@ -22,8 +22,8 @@ use yii\db\Exception;
  */
 class SnapshotBehavior extends Behavior
 {
-    public const EVENT_BEFORE_CREATE_SNAPSHOOT = 'beforeCreateSnapshot';
-    public const EVENT_AFTER_CREATE_SNAPSHOOT = 'afterCreateSnapshot';
+    public const EVENT_BEFORE_CREATE_SNAPSHOT = 'beforeCreateSnapshot';
+    public const EVENT_AFTER_CREATE_SNAPSHOT = 'afterCreateSnapshot';
 
     /**
      * @var BaseActiveRecord
@@ -75,7 +75,7 @@ class SnapshotBehavior extends Behavior
 
         $snapshotEvent = new SnapshotEvent();
         $snapshotEvent->changedAttributes = $event->changedAttributes;
-        $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOOT, $snapshotEvent);
+        $this->owner->trigger(self::EVENT_BEFORE_CREATE_SNAPSHOT, $snapshotEvent);
         if ($snapshotEvent->created) {
             return $snapshotEvent->snapshot;
         }
@@ -120,7 +120,7 @@ class SnapshotBehavior extends Behavior
         }
 
         $snapshotEvent->snapshot = $snapshot;
-        $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOOT, $event);
+        $this->owner->trigger(self::EVENT_AFTER_CREATE_SNAPSHOT, $event);
         return $result ? $snapshot : null;
     }
 }

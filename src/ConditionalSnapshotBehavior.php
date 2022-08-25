@@ -35,7 +35,7 @@ class ConditionalSnapshotBehavior extends Behavior
     public function events(): array
     {
         return [
-            SnapshotBehavior::EVENT_BEFORE_CREATE_SNAPSHOOT => 'beforeCreateSnapshot',
+            SnapshotBehavior::EVENT_BEFORE_CREATE_SNAPSHOT => 'beforeCreateSnapshot',
         ];
     }
 

@@ -146,17 +146,20 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
                         $resource = $value;
                     } else if ($value instanceof GdImage) {
                         $resource = $value;
+                    } else {
+                        $resource = null;
                     }
                     if (isset($resource)) {
                         if (is_resource($resource) && $this->imageResize) {
                             $thumbnail = Image::thumbnail($resource, $this->imageResize['width'], $this->imageResize['height']);
                             $resource = $thumbnail->get(Format::ID_GIF);
+                            $resource = imagecreatefromstring($resource);
                         }
                         $drawing = new MemoryDrawing();
                         $drawing->setImageResource($resource);
                         $drawing->setCoordinates($pCoordinate);
                         $drawing->setWorksheet($sheet);
-                        $sheet->getRowDimension($rowIndex)->setRowHeight($drawing->getHeight());
+                        $sheet->getRowDimension($rowIndex)->setRowHeight(round($drawing->getHeight() * 0.77));
                     } else {
                         $sheet->getCell($pCoordinate)->setValue($value);
                     }

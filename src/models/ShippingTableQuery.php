@@ -3,6 +3,7 @@
 namespace lujie\charging\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the ActiveQuery class for [[ShippingTable]].
@@ -85,7 +86,8 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      * @param array $carriers
      * @param int $defaultPrice
      * @return array
-     * @deprecated
+     * @deprecated use getCarrierPrices instead
+     * @inheritdoc
      */
     public function getShippingPrices(array $carriers = [], int $defaultPrice = 99999): array
     {
@@ -98,49 +100,56 @@ class ShippingTableQuery extends \yii\db\ActiveQuery
      * @return array
      * @inheritdoc
      */
-    public function getCarrierPrices(array $carriers = [], int $defaultPrice = 99999): array
+    public function getCarrierPrices(array $carriers = [], int $defaultPrice = 99999, bool $returnCurrency = false): array
     {
-        return $this->getGroupIndexedShippingPrices($carriers, 'carrier', $defaultPrice);
+        return $this->getGroupIndexedShippingPrices($carriers, 'carrier', $defaultPrice, $returnCurrency);
     }
 
     /**
-     * @param array $carriers
+     * @param array $departures
      * @param int $defaultPrice
      * @return array
      * @inheritdoc
      */
-    public function getDeparturePrices(array $carriers = [], int $defaultPrice = 99999): array
+    public function getDeparturePrices(array $departures = [], int $defaultPrice = 99999, bool $returnCurrency = false): array
     {
-        return $this->getGroupIndexedShippingPrices($carriers, 'departure', $defaultPrice);
+        return $this->getGroupIndexedShippingPrices($departures, 'departure', $defaultPrice, $returnCurrency);
     }
 
     /**
-     * @param array $carriers
+     * @param array $destinations
      * @param int $defaultPrice
      * @return array
      * @inheritdoc
      */
-    public function getDestinationPrices(array $carriers = [], int $defaultPrice = 99999): array
+    public function getDestinationPrices(array $destinations = [], int $defaultPrice = 99999, bool $returnCurrency = false): array
     {
-        return $this->getGroupIndexedShippingPrices($carriers, 'destination', $defaultPrice);
+        return $this->getGroupIndexedShippingPrices($destinations, 'destination', $defaultPrice, $returnCurrency);
     }
 
     /**
      * @param array $groupIndexValues
      * @param string $groupIndexKey
      * @param int $defaultPrice
+     * @param bool $returnCurrency
      * @return array
      * @inheritdoc
      */
-    protected function getGroupIndexedShippingPrices(array $groupIndexValues, string $groupIndexKey, int $defaultPrice = 99999): array
+    protected function getGroupIndexedShippingPrices(array $groupIndexValues, string $groupIndexKey, int $defaultPrice = 99999, bool $returnCurrency = false): array
     {
+        $groupKeys = [$groupIndexKey, 'currency'];
         $shippingPrices = $this->select(['MIN(price_cent) AS price_cent'])
-            ->addSelect([$groupIndexKey])
-            ->groupBy([$groupIndexKey])
+            ->addSelect($groupKeys)
+            ->groupBy($groupKeys)
             ->indexBy($groupIndexKey)
-            ->column();
+            ->asArray()
+            ->all();
         if ($groupIndexValues && $defaultPrice) {
-            $shippingPrices = array_merge(array_fill_keys($groupIndexValues, $defaultPrice), $shippingPrices);
+            $defaultPrices = array_fill_keys($groupIndexValues, ['price_cent' => $defaultPrice, 'currency' => '']);
+            $shippingPrices = array_merge($defaultPrices, $shippingPrices);
+        }
+        if (!$returnCurrency) {
+            $shippingPrices = ArrayHelper::getColumn($shippingPrices, 'price_cent');
         }
         return $shippingPrices;
     }

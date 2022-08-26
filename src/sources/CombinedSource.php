@@ -14,7 +14,7 @@ use yii\di\Instance;
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UnionSource extends BaseObject implements SourceInterface, BatchSourceInterface
+class CombinedSource extends BaseObject implements SourceInterface, BatchSourceInterface
 {
     /**
      * @var SourceInterface[]

@@ -83,6 +83,15 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
     }
 
     /**
+     * @return int
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return (int)$this->query->count();
+    }
+
+    /**
      * @param array $condition
      * @inheritdoc
      */

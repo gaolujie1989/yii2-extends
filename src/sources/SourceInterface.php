@@ -16,4 +16,10 @@ interface SourceInterface
      * @inheritdoc
      */
     public function all(): array;
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function count(): int;
 }

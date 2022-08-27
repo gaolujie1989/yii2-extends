@@ -71,13 +71,25 @@ class FileSource extends BaseObject implements SourceInterface
             $localDir = pathinfo($localFilePath, PATHINFO_DIRNAME);
             FileHelper::createDirectory($localDir);
             file_put_contents($localFilePath, $this->fs->read($this->file));
-            $data = $this->fileReader->read($localFilePath);
-            if ($this->unlinkTmp) {
-                unlink($localFilePath);
+            try {
+                return $this->fileReader->read($localFilePath);
+            } finally {
+                if ($this->unlinkTmp) {
+                    unlink($localFilePath);
+                }
             }
-        } else {
-            $data = $this->fileReader->read($this->file);
         }
-        return $data;
+
+        return $this->fileReader->read($this->file);
+    }
+
+    /**
+     * @return int
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return count($this->all());
     }
 }

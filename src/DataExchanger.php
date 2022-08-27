@@ -16,6 +16,8 @@ use lujie\executing\ExecutableInterface;
 use lujie\executing\ExecutableTrait;
 use lujie\executing\LockableInterface;
 use lujie\executing\LockableTrait;
+use lujie\executing\ProgressInterface;
+use lujie\executing\ProgressTrait;
 use lujie\executing\QueueableInterface;
 use lujie\executing\QueueableTrait;
 use Yii;
@@ -27,9 +29,9 @@ use yii\di\Instance;
  * @package lujie\data\exchange
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DataExchanger extends BaseObject implements ExecutableInterface, LockableInterface, QueueableInterface
+class DataExchanger extends BaseObject implements ExecutableInterface, LockableInterface, QueueableInterface, ProgressInterface
 {
-    use ExecutableTrait, LockableTrait, QueueableTrait;
+    use ExecutableTrait, LockableTrait, QueueableTrait, ProgressTrait;
 
     /**
      * @var ?SourceInterface
@@ -45,6 +47,11 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
      * @var PipelineInterface
      */
     public $pipeline;
+
+    /**
+     * @var bool
+     */
+    public $useProgress = false;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -63,18 +70,36 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
     }
 
     /**
-     * @return bool
+     * @return bool|\Generator|void
      * @inheritdoc
      */
-    public function execute(): bool
+    public function execute()
     {
         $source = $this->source;
         if ($source === null) {
             Yii::warning('Null source', __METHOD__);
             return false;
         }
+        $result = $this->executeInternal();
+        if ($this->useProgress) {
+            return $result;
+        }
+        foreach ($result as $item) {}
+        $result->getReturn();
+    }
+
+    /**
+     * @return \Generator
+     * @inheritdoc
+     */
+    protected function executeInternal(): \Generator
+    {
+        $source = $this->source;
         $batch = $source instanceof BatchSourceInterface && !($this->pipeline instanceof FilePipeline)
             ? $source->batch() : [$source->all()];
+        if ($this->useProgress) {
+            $progress = $this->getProgress($source->count());
+        }
         foreach ($batch as $data) {
             if (empty($data)) {
                 Yii::info('Empty source data', __METHOD__);
@@ -83,6 +108,9 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
             if (!$this->exchange($data)) {
                 Yii::warning('Exchange data failed', __METHOD__);
                 return false;
+            }
+            if (isset($progress)) {
+                yield $progress->done += count($data);
             }
         }
         return true;

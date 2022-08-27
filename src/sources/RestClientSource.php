@@ -83,6 +83,16 @@ class RestClientSource extends BaseObject implements BatchSourceInterface, Condi
     }
 
     /**
+     * @return int
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        throw new NotSupportedException('The "all" method is not supported for RestApiSource');
+    }
+
+    /**
      * @param array $condition
      * @inheritdoc
      */

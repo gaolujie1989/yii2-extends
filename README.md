@@ -12,4 +12,4 @@ updateAll() / updateAllCounters() / deleteAll()
 
 ActiveQuery
 
-getPrimaryTableName() 和 createCommand($db = null)
+createCommand($db = null)

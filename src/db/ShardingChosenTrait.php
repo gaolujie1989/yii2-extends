@@ -48,6 +48,7 @@ trait ShardingChosenTrait
      */
     public function chooseSharding(array $values): self
     {
+        $this->shardingChosen = false;
         $this->setShardingValues($values, false);
         $this->shardingChosen = true;
         return $this;

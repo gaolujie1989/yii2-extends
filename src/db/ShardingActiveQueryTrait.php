@@ -8,7 +8,6 @@ namespace lujie\sharding\db;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 use yii\db\Command;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class ShardingActiveQuery
@@ -20,27 +19,7 @@ use yii\helpers\ArrayHelper;
  */
 trait ShardingActiveQueryTrait
 {
-    /**
-     * @var array
-     */
-    public $shardingValues = [];
-
-    /**
-     * @param $condition
-     * @inheritdoc
-     */
-    public function setShardingValues(array $condition, $append = true): void
-    {
-        if (!$append) {
-            $this->shardingValues = [];
-        }
-        if (isset($condition[0], $condition[1], $condition[2])) {
-            $this->shardingValues[$condition[1]] = $condition[2];
-        }
-        if (ArrayHelper::isAssociative($condition)) {
-            $this->shardingValues = array_merge($this->shardingValues, $condition);
-        }
-    }
+    use ShardingChosenTrait;
 
     /**
      * @param $condition

@@ -17,6 +17,8 @@ use yii\di\Instance;
  */
 trait ShardingActiveRecordTrait
 {
+    use ShardingChosenTrait;
+
     /**
      * support multi key, for extend custom sharding
      * @var array
@@ -38,7 +40,25 @@ trait ShardingActiveRecordTrait
      */
     private static $shardingDbSuffix = '';
 
-    #region sharding table/db name rule
+    #region static methods for sharding table/db name rule
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected static function initShardingRules(): void
+    {
+        foreach (static::$tableShardingRules as $key => $rule) {
+            if (!($rule instanceof BaseShardingRule)) {
+                static::$tableShardingRules[$key] = Instance::ensure($rule, BaseShardingRule::class);
+            }
+        }
+        foreach (static::$dbShardingRules as $key => $rule) {
+            if (!($rule instanceof BaseShardingRule)) {
+                static::$dbShardingRules[$key] = Instance::ensure($rule, BaseShardingRule::class);
+            }
+        }
+    }
 
     /**
      * @param BaseShardingRule[] $shardingRules
@@ -58,24 +78,6 @@ trait ShardingActiveRecordTrait
             $tableParts[] = $shardingRule->getSuffix($value);
         }
         return implode('', $tableParts);
-    }
-
-    /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected static function initShardingRules(): void
-    {
-        foreach (static::$tableShardingRules as $key => $rule) {
-            if (!($rule instanceof BaseShardingRule)) {
-                static::$tableShardingRules[$key] = Instance::ensure($rule, BaseShardingRule::class);
-            }
-        }
-        foreach (static::$dbShardingRules as $key => $rule) {
-            if (!($rule instanceof BaseShardingRule)) {
-                static::$dbShardingRules[$key] = Instance::ensure($rule, BaseShardingRule::class);
-            }
-        }
     }
 
     /**
@@ -126,7 +128,7 @@ trait ShardingActiveRecordTrait
      */
     public function beforeValidate(): bool
     {
-        static::setShardingSuffix($this->attributes);
+        static::setShardingSuffix($this->shardingValues ?: $this->attributes);
         return parent::beforeValidate();
     }
 
@@ -138,7 +140,7 @@ trait ShardingActiveRecordTrait
      */
     public function beforeSave($insert): bool
     {
-        static::setShardingSuffix($this->attributes);
+        static::setShardingSuffix($this->shardingValues ?: $this->attributes);
         return parent::beforeSave($insert);
     }
 
@@ -149,7 +151,7 @@ trait ShardingActiveRecordTrait
      */
     public function beforeDelete(): bool
     {
-        static::setShardingSuffix($this->attributes);
+        static::setShardingSuffix($this->shardingValues ?: $this->attributes);
         return parent::beforeDelete();
     }
 
@@ -161,7 +163,7 @@ trait ShardingActiveRecordTrait
      */
     public function updateAttributes($attributes): int
     {
-        static::setShardingSuffix($this->attributes);
+        static::setShardingSuffix($this->shardingValues ?: $this->attributes);
         return parent::updateAttributes($attributes);
     }
 
@@ -173,7 +175,7 @@ trait ShardingActiveRecordTrait
      */
     public function updateCounters($counters): bool
     {
-        static::setShardingSuffix($this->attributes);
+        static::setShardingSuffix($this->shardingValues ?: $this->attributes);
         return parent::updateCounters($counters);
     }
 
@@ -187,7 +189,9 @@ trait ShardingActiveRecordTrait
      */
     public static function updateAll($attributes, $condition = '', $params = []): int
     {
-        static::setShardingSuffix((array)$condition);
+        $shardingValues = $params['sharding'] ?? (array)$condition;
+        unset($params['sharding']);
+        static::setShardingSuffix($shardingValues);
         return parent::updateAll($attributes, $condition, $params);
     }
 
@@ -201,7 +205,9 @@ trait ShardingActiveRecordTrait
      */
     public static function updateAllCounters($counters, $condition = '', $params = []): int
     {
-        static::setShardingSuffix((array)$condition);
+        $shardingValues = $params['sharding'] ?? (array)$condition;
+        unset($params['sharding']);
+        static::setShardingSuffix($shardingValues);
         return parent::updateAllCounters($counters, $condition, $params);
     }
 
@@ -214,7 +220,9 @@ trait ShardingActiveRecordTrait
      */
     public static function deleteAll($condition = null, $params = []): int
     {
-        self::setShardingSuffix((array)$condition);
+        $shardingValues = $params['sharding'] ?? (array)$condition;
+        unset($params['sharding']);
+        static::setShardingSuffix($shardingValues);
         return parent::deleteAll($condition, $params);
     }
 

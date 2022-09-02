@@ -5,6 +5,7 @@
 
 namespace lujie\extend;
 
+use lujie\extend\httpclient\Response;
 use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
 use lujie\extend\validators\LinkerValidator;
@@ -60,7 +61,10 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                         CURLOPT_CONNECTTIMEOUT => 15,
                         CURLOPT_TIMEOUT => 75,
                     ]
-                ]
+                ],
+                'responseConfig' => [
+                    'class' => Response::class,
+                ],
             ],
             Pagination::class => [
                 'pageSizeParam' => 'limit',

@@ -40,6 +40,12 @@ class ConsoleTarget extends Target
     public $labelPadSize = 30;
 
     /**
+     * need set Logger->$flushInterval = 1
+     * @var int
+     */
+    public $exportInterval = 1;
+
+    /**
      * @inheritdoc
      * @return string
      */

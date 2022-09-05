@@ -321,7 +321,9 @@ class ModelHelper
         //prepare pk id
         $pks = $class::primaryKey();
         $pk = $pks[0];
-        $row['id'] = $row[$pk];
+        if (isset($row[$pk])) {
+            $row['id'] = $row[$pk];
+        }
         foreach ($unsetAttributes as $unsetAttribute) {
             unset($row[$unsetAttribute]);
         }

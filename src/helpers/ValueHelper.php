@@ -161,6 +161,24 @@ class ValueHelper
     }
 
     /**
+     * @param int|string $dateTime
+     * @param string|null $format
+     * @return int|string
+     * @inheritdoc
+     */
+    public static function formatDateTime(int|string $dateTime, ?string $format = null): int|string
+    {
+        $timestamp = is_int($dateTime) ? $dateTime : strtotime($dateTime);
+        if (strlen($timestamp) > 10) {
+            $timestamp = substr($timestamp, 0, 10);
+        }
+        if ($format === null) {
+            return $timestamp;
+        }
+        return date($format, $timestamp);
+    }
+
+    /**
      * @param array $array
      * @param array|string[] $childrenKeys
      * @param string $sortKey

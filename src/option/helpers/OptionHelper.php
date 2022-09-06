@@ -74,32 +74,19 @@ class OptionHelper
             foreach ($typeOptions as $key => $optionItem) {
                 $position++;
                 if (!is_array($optionItem)) {
-                    $optionItem = ['type' => $type, 'value' => $optionItem, 'name' => $key];
+                    $optionItem = ['type' => $type, 'value' => $optionItem, 'name' => static::formatName($key)];
                 }
                 if (!isset($optionItem['value'])) {
                     $optionItem['value'] = $key;
                 }
                 if (!isset($optionItem['name'])) {
-                    $optionItem['name'] = $key;
+                    $optionItem['name'] = static::formatName($key);
                 }
                 if (empty($optionItem['type'])) {
                     $optionItem['type'] = $type;
                 }
                 if (empty($optionItem['position'])) {
                     $optionItem['position'] = $position;
-                }
-                $name = $optionItem['name'];
-                if (strpos($name, '_') !== false || strtoupper($name) === $name) {
-                    $nameParts = explode('_', $name);
-                    $nameParts = array_map(static function($str) {
-                        if (strlen($str) <= 3 && !in_array($str, static::$notUpperWords, true)) {
-                            return $str;
-                        }
-                        return ucfirst(strtolower($str));
-                    }, $nameParts);
-                    $optionItem['name'] = implode(' ', $nameParts);
-                } else {
-                    $optionItem['name'] = Inflector::camel2words($optionItem['name']);
                 }
                 if (!isset($optionItem['value_type'])) {
                     $value = $optionItem['value'];
@@ -138,5 +125,25 @@ class OptionHelper
         }
 
         return $affectedRowCounts;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     * @inheritdoc
+     */
+    protected static function formatName(string $name): string
+    {
+        if (strpos($name, '_') !== false || strtoupper($name) === $name) {
+            $nameParts = explode('_', $name);
+            $nameParts = array_map(static function ($str) {
+                if (strlen($str) <= 3 && !in_array($str, static::$notUpperWords, true)) {
+                    return $str;
+                }
+                return ucfirst(strtolower($str));
+            }, $nameParts);
+            return implode(' ', $nameParts);
+        }
+        return Inflector::camel2words($name);
     }
 }

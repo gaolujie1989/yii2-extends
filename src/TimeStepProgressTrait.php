@@ -69,8 +69,7 @@ trait TimeStepProgressTrait
      * @param int $timeAtFrom
      * @param int $timeAtTo
      * @param array $params
-     * @return mixed
      * @inheritdoc
      */
-    abstract protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []): mixed;
+    abstract protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []): void;
 }

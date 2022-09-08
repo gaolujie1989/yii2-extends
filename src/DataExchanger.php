@@ -84,8 +84,8 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
         if ($this->useProgress) {
             return $result;
         }
-        foreach ($result as $item) {}
-        $result->getReturn();
+        iterator_to_array($result);
+        return $result->getReturn();
     }
 
     /**
@@ -110,7 +110,11 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
                 return false;
             }
             if (isset($progress)) {
-                yield $progress->done += count($data);
+                $progress->done += count($data);
+                yield $progress;
+                if ($progress->break) {
+                    break;
+                }
             }
         }
         return true;

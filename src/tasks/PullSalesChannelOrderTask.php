@@ -65,11 +65,10 @@ class PullSalesChannelOrderTask extends CronTask implements ProgressInterface
      * @param int $timeAtFrom
      * @param int $timeAtTo
      * @param array $params
-     * @return mixed
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []): mixed
+    protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []): void
     {
         [$accountId] = $params;
         $this->salesChannelManager->pullNewSalesChannelOrders($accountId, $timeAtFrom, $timeAtTo);

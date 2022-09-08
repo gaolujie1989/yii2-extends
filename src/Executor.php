@@ -153,6 +153,7 @@ class Executor extends Component
                         break;
                     }
                 }
+                $event->result = $result->getReturn();
             } else {
                 $event->result = $result;
             }

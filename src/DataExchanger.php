@@ -110,8 +110,7 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
                 return false;
             }
             if (isset($progress)) {
-                $progress->done += count($data);
-                yield $progress;
+                yield $progress->done += count($data);
                 if ($progress->break) {
                     break;
                 }

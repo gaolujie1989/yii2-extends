@@ -6,7 +6,7 @@
 namespace lujie\fulfillment\tasks;
 
 use lujie\executing\ProgressInterface;
-use lujie\executing\ProgressTrait;
+use lujie\executing\TimeStepProgressTrait;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\scheduling\CronTask;
@@ -20,7 +20,7 @@ use yii\di\Instance;
  */
 class PullFulfillmentOrderTask extends CronTask implements ProgressInterface
 {
-    use ProgressTrait;
+    use TimeStepProgressTrait;
 
     /**
      * @var FulfillmentManager
@@ -30,12 +30,12 @@ class PullFulfillmentOrderTask extends CronTask implements ProgressInterface
     /**
      * @var int|string
      */
-    public $shippedAtFrom = '-1 days';
+    public $timeFrom = '-1 days';
 
     /**
      * @var int|string
      */
-    public $shippedAtTo = 'now';
+    public $timeTo = 'now';
 
     /**
      * @var int
@@ -49,23 +49,27 @@ class PullFulfillmentOrderTask extends CronTask implements ProgressInterface
      */
     public function execute(): \Generator
     {
-        $this->shippedAtFrom = is_numeric($this->shippedAtFrom) ? $this->shippedAtFrom : strtotime($this->shippedAtFrom);
-        $this->shippedAtTo = is_numeric($this->shippedAtTo) ? $this->shippedAtTo : strtotime($this->shippedAtTo);
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
         $accountIds = FulfillmentAccount::find()->active()->column();
-        $total = ceil(($this->shippedAtTo - $this->shippedAtFrom) / $this->timeStep + 1) * count($accountIds);
-        $progress = $this->getProgress($total);
         foreach ($accountIds as $accountId) {
-            for ($timeFrom = $this->shippedAtFrom; $timeFrom <= $this->shippedAtTo; $timeFrom += $this->timeStep) {
-                $progress->message = date('Y-m-d H:i', $timeFrom);
-                $timeTo = min($timeFrom + $this->timeStep, $this->shippedAtTo);
-                $this->fulfillmentManager->pullShippedFulfillmentOrders($accountId, $timeFrom, $timeTo);
-                $progress->done++;
-                yield true;
-            }
+            yield from $this->executeProgress([$accountId], count($accountIds));
             $this->fulfillmentManager->pullFulfillmentOrders($accountId);
-            $progress->done++;
             yield true;
         }
+        return true;
+    }
+
+    /**
+     * @param int $timeAtFrom
+     * @param int $timeAtTo
+     * @param array $params
+     * @return mixed
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []): mixed
+    {
+        [$accountId] = $params;
+        $this->fulfillmentManager->pullShippedFulfillmentOrders($accountId, $timeFrom, $timeTo);
     }
 }

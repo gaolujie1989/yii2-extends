@@ -265,4 +265,20 @@ class QueryHelper
             $query->andFilterWhere($condition);
         }
     }
+
+    /**
+     * @param array $columns
+     * @return array
+     * @inheritdoc
+     */
+    public static function normalizeIFNULLSelect(array $columns, $default = 999): array
+    {
+        foreach ($columns as $key => $column) {
+            if (is_string($key) && is_string($column)
+                && stripos($column, 'ROUND(') === 0) {
+                $columns[$key] = "IFNULL({$column}, {$default})";
+            }
+        }
+        return $columns;
+    }
 }

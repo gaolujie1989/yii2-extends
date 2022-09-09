@@ -273,10 +273,13 @@ class QueryHelper
      * @return array
      * @inheritdoc
      */
-    public static function normalizeDivisionSelect(array $columns, int $precision = 2, int $default = 999): array
+    public static function normalizeDivisionSelect(array $columns, bool $percent = true, int $precision = 2, int $default = 999): array
     {
         foreach ($columns as $key => $column) {
             if (is_string($key) && is_string($column) && strpos($column, '/') !== false) {
+                if ($percent) {
+                    $column .= ' * 100';
+                }
                 $columns[$key] = "IFNULL(ROUND({$column}, $precision), {$default})";
             }
         }

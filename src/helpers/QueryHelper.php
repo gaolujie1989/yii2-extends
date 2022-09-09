@@ -268,15 +268,16 @@ class QueryHelper
 
     /**
      * @param array $columns
+     * @param int $precision
+     * @param int $default
      * @return array
      * @inheritdoc
      */
-    public static function normalizeIFNULLSelect(array $columns, $default = 999): array
+    public static function normalizeDivisionSelect(array $columns, int $precision = 2, int $default = 999): array
     {
         foreach ($columns as $key => $column) {
-            if (is_string($key) && is_string($column)
-                && stripos($column, 'ROUND(') === 0) {
-                $columns[$key] = "IFNULL({$column}, {$default})";
+            if (is_string($key) && is_string($column) && strpos($column, '/') !== false) {
+                $columns[$key] = "IFNULL(ROUND({$column}, $precision), {$default})";
             }
         }
         return $columns;

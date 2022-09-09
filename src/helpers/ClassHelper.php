@@ -5,6 +5,7 @@
 
 namespace lujie\extend\helpers;
 
+use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\StringHelper;
@@ -123,5 +124,27 @@ class ClassHelper
         $class = is_string($modelOrClass) ? $modelOrClass : get_class($modelOrClass);
         $classParts = explode('\\', $class);
         return end($classParts);
+    }
+
+    /**
+     * @param $objectOrClass
+     * @param string $traitClass
+     * @return bool
+     * @inheritdoc
+     */
+    public static function useTrait($objectOrClass, string $traitClass): bool
+    {
+        if ($objectOrClass === BaseObject::class) {
+            return false;
+        }
+        $traits = class_uses($objectOrClass);
+        if ($traits && in_array($traitClass, $traits, true)) {
+            return true;
+        }
+        $parentClass = get_parent_class($objectOrClass);
+        if ($parentClass) {
+            return static::useTrait($parentClass, $traitClass);
+        }
+        return false;
     }
 }

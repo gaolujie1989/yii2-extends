@@ -5,8 +5,12 @@
 
 namespace lujie\scheduling\controllers\console;
 
+use lujie\executing\ExecutableInterface;
+use lujie\executing\TimeStepProgressTrait;
+use lujie\extend\helpers\ClassHelper;
 use lujie\scheduling\Scheduler;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\console\Controller;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
@@ -89,6 +93,27 @@ class SchedulerController extends Controller
     public function actionExecute(string $taskCode): void
     {
         $task = $this->scheduler->getTask($taskCode);
+        $this->scheduler->execute($task);
+    }
+
+    /**
+     * @param string $taskCode
+     * @param string $timeFrom
+     * @param string $timeTo
+     * @param int $timeStep
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionExecuteTimeStepped(string $taskCode, string $timeFrom = '-10 days', string $timeTo = 'now', int $timeStep = 864000): void
+    {
+        /** @var ExecutableInterface|TimeStepProgressTrait $task */
+        $task = $this->scheduler->getTask($taskCode);
+        if (!ClassHelper::useTrait($task, TimeStepProgressTrait::class)) {
+            throw new InvalidArgumentException('Task must use TimeStepProgressTrait');
+        }
+        $task->timeFrom = $timeFrom;
+        $task->timeTo = $timeTo;
+        $task->timeStep = $timeStep;
         $this->scheduler->execute($task);
     }
 

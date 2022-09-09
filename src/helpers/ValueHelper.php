@@ -168,7 +168,7 @@ class ValueHelper
      */
     public static function formatDateTime(int|string $dateTime, ?string $format = null): int|string
     {
-        $timestamp = is_int($dateTime) ? $dateTime : strtotime($dateTime);
+        $timestamp = is_numeric($dateTime) ? $dateTime : strtotime($dateTime);
         if (strlen($timestamp) > 10) {
             $timestamp = substr($timestamp, 0, 10);
         }

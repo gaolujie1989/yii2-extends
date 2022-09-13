@@ -168,5 +168,9 @@ class AmazonSPConst
 
     public const REPORT_FORMATS = [
         'GET_VENDOR_SALES_REPORT' => 'json',
+        'GET_VENDOR_NET_PURE_PRODUCT_MARGIN_REPORT' => 'json',
+        'GET_VENDOR_TRAFFIC_REPORT' => 'json',
+        'GET_VENDOR_FORECASTING_REPORT' => 'json',
+        'GET_VENDOR_INVENTORY_REPORT' => 'json',
     ];
 }

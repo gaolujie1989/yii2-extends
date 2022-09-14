@@ -53,6 +53,11 @@ class ModelFileImporter extends FileImporter
     public $defaultValues = [];
 
     /**
+     * @var array
+     */
+    public $customTransformer = [];
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -98,6 +103,9 @@ class ModelFileImporter extends FileImporter
                 'class' => FillDefaultValueTransformer::class,
                 'defaultValues' => $this->defaultValues
             ];
+        }
+        if ($this->customTransformer) {
+            $this->transformer['transformers']['custom'] = $this->customTransformer;
         }
     }
 

@@ -49,6 +49,11 @@ class ModelFileExporter extends FileExporter
     ];
 
     /**
+     * @var array
+     */
+    public $customTransformer = [];
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -81,6 +86,9 @@ class ModelFileExporter extends FileExporter
             'unsetNotInMapKey' => true,
             'keyMap' => $this->keyMap
         ];
+        if ($this->customTransformer) {
+            $transformers['custom'] = $this->customTransformer;
+        }
         $this->transformer = [
             'class' => ChainedTransformer::class,
             'transformers' => $transformers

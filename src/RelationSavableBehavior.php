@@ -227,9 +227,11 @@ class RelationSavableBehavior extends Behavior
                         $model->$fk = $owner->$pk ?: 0;
                     }
                 }
-                if (!($values instanceof BaseActiveRecord)) {
+                if ($values instanceof BaseActiveRecord) {
+                    $model->setAttributes($values->getAttributes());
+                } else {
                     $model->setAttributes($values);
-                };
+                }
                 $models[$key] = $model;
             }
             $this->savedRelations[$name] = $models;

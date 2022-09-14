@@ -16,6 +16,20 @@ class ActiveRecord extends \yii\db\ActiveRecord
 {
     use RowPrepareTrait;
     use RelationClassTrait;
-    use TraceableBehaviorTrait, AliasBehaviorTrait, AliasFieldTrait;
+    use TraceableBehaviorTrait;
+    use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait;
     use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        $behaviors = array_merge(parent::behaviors(), $this->traceableBehaviors(), $this->relationBehaviors());
+        if (substr(static::class, -4) === 'Form') {
+            $behaviors = array_merge($behaviors, $this->aliasBehaviors());
+        }
+        return $behaviors;
+    }
 }

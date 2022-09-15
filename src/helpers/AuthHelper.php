@@ -191,7 +191,9 @@ class AuthHelper
             $existChildren = ArrayHelper::index($manager->getChildren($parentName), 'name');
             $addChildren = array_diff_key($childPermissions, $existChildren);
             foreach ($addChildren as $name => $childPermission) {
-                if ($manager->addChild($parentPermission, $childPermission)) {
+                if ($manager->hasChild($parentPermission, $childPermission)) {
+                    echo 'Skip Child ', $name, ' -> ', $parentName, " Success\n";
+                } else if ($manager->addChild($parentPermission, $childPermission)) {
                     echo 'Add Child ', $name, ' -> ', $parentName, " Success\n";
                 } else {
                     echo 'Add Child ', $name, ' -> ', $parentName, " Failed\n";
@@ -200,10 +202,12 @@ class AuthHelper
             /** @var Permission[] $deleteChildren */
             $deleteChildren = array_diff_key($existChildren, $childPermissions);
             foreach ($deleteChildren as $name => $childPermission) {
-                if ($manager->removeChild($parentPermission, $childPermission)) {
-                    echo 'Remove Child ', $name, ' -> ', $parentName, " Success\n";
-                } else {
-                    echo 'Remove Child ', $name, ' -> ', $parentName, " Failed\n";
+                if ($manager->hasChild($parentPermission, $childPermission)) {
+                    if ($manager->removeChild($parentPermission, $childPermission)) {
+                        echo 'Remove Child ', $name, ' -> ', $parentName, " Success\n";
+                    } else {
+                        echo 'Remove Child ', $name, ' -> ', $parentName, " Failed\n";
+                    }
                 }
                 if (empty($permissions[$childPermission->name])) {
                     if ($manager->remove($childPermission)) {

@@ -104,8 +104,10 @@ class AuthHelper
         $childrenKey = count($childrenKeys) > 1 ? array_shift($childrenKeys) : reset($childrenKeys);
 
         $permissions = [];
+        $childPermissions = [];
         $permissionChildren = [];
         $treePermissions = [];
+        $treeChildPermissions = [];
         $treePermissionChildren = [];
         foreach ($permissionTree as $key => $subTree) {
             if (static::$globalPrefix = $subTree['prefix'] ?? static::$globalPrefix) {
@@ -120,7 +122,7 @@ class AuthHelper
                 foreach ($subTree['actionKeys'] as $actionKey) {
                     $permissionKey = $prefix . $actionKey;
                     $childPermission = static::createPermission($permissionKey, $replaces);
-                    $treePermissions[$childPermission->name] = $childPermission;
+                    $treeChildPermissions[$childPermission->name] = $childPermission;
                     $treePermissionChildren[$permission->name][$childPermission->name] = $childPermission;
                 }
             }
@@ -128,25 +130,26 @@ class AuthHelper
                 foreach ($subTree['permissionKeys'] as $permissionKey) {
                     $permissionKey = static::$globalPrefix . $permissionKey;
                     $childPermission = static::createPermission($permissionKey, $replaces);
-
-                    $treePermissions[$childPermission->name] = $childPermission;
+                    $treeChildPermissions[$childPermission->name] = $childPermission;
                     $treePermissionChildren[$permission->name][$childPermission->name] = $childPermission;
                 }
             }
 
             if ($childrenTree = $subTree[$childrenKey] ?? []) {
-                [$childPermissions, $childPermissionChildren] = static::createPermissions($childrenTree, $childrenKeys, $permission->name, $separator, $replaces);
-                $permissions[] = $childPermissions;
-                $permissionChildren[] = $childPermissionChildren;
+                [$childTreePermissions, $childTreeChildPermissions, $childTreePermissionChildren] = static::createPermissions($childrenTree, $childrenKeys, $permission->name, $separator, $replaces);
+                $permissions[] = $childTreePermissions;
+                $childPermissions[] = $childTreeChildPermissions;
+                $permissionChildren[] = $childTreePermissionChildren;
                 foreach ($childrenTree as $childKey => $childTree) {
-                    $childPermissionKey = $permission->name . $separator . $childKey;
-                    $treePermissionChildren[$permission->name][$childPermissionKey] = $childPermissions[$childPermissionKey];
+                    $childTreePermissionKey = $permission->name . $separator . $childKey;
+                    $treePermissionChildren[$permission->name][$childTreePermissionKey] = $childTreePermissionChildren[$childTreePermissionKey];
                 }
             }
         }
         $permissions = array_merge($treePermissions, ...$permissions);
+        $childPermissions = array_merge($treeChildPermissions, ...$childPermissions);
         $permissionChildren = array_merge($treePermissionChildren, ...$permissionChildren);
-        return [$permissions, $permissionChildren];
+        return [$permissions, $childPermissions, $permissionChildren];
     }
 
     /**
@@ -167,7 +170,9 @@ class AuthHelper
         array       $replaces = []
     ): void
     {
-        [$permissions, $permissionChildren] = static::createPermissions($permissionTree, $childrenKeys, '', $separator, $replaces);
+        [$permissions, $childPermissions, $permissionChildren] = static::createPermissions($permissionTree, $childrenKeys, '', $separator, $replaces);
+        $permissions = array_merge($childPermissions, $permissions);
+        unset($childPermissions);
         $existPermissions = ArrayHelper::index($manager->getPermissions(), 'name');
         $addPermissions = array_diff_key($permissions, $existPermissions);
         foreach ($addPermissions as $name => $permission) {

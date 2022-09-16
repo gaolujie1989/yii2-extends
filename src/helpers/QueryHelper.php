@@ -158,12 +158,11 @@ class QueryHelper
                 continue;
             }
             $aliasAttribute = $alias . $attribute;
-            if (is_array($value)) {
-                $query->andFilterWhere([$aliasAttribute => $value]);
-                continue;
+            if (!is_array($value)) {
+                $values = ValueHelper::strToArray((string)$value, $splitPattern);
+            } else {
+                $values = $value;
             }
-
-            $values = ValueHelper::strToArray((string)$value, $splitPattern);
             if (empty($values)) {
                 continue;
             }

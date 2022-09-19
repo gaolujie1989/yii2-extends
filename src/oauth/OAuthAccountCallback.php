@@ -13,8 +13,8 @@ use Yii;
 use yii\authclient\BaseOAuth;
 use yii\authclient\ClientInterface;
 use yii\base\BaseObject;
-use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\base\UserException;
 use yii\web\Response;
 
 /**
@@ -52,6 +52,7 @@ class OAuthAccountCallback extends BaseObject
      * @param ClientInterface $client
      * @return Response|null
      * @throws InvalidConfigException
+     * @throws UserException
      * @inheritdoc
      */
     public function onAuthSuccess(ClientInterface $client): ?Response
@@ -66,7 +67,7 @@ class OAuthAccountCallback extends BaseObject
                 'Unable to link {client} account. There is another user using it.',
                 ['client' => $client->getTitle()]
             );
-            throw new InvalidArgumentException($message);
+            throw new UserException($message);
         }
 
         $account = $this->getAuthingAccount();

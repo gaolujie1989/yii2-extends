@@ -5,7 +5,7 @@ namespace lujie\template\document\forms;
 use lujie\extend\db\FormTrait;
 use lujie\extend\helpers\ModelHelper;
 use lujie\template\document\models\DocumentTemplate;
-use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use yii2tech\ar\position\PositionBehavior;
 
 /**
@@ -45,6 +45,7 @@ class DocumentTemplateForm extends DocumentTemplate
      * @param string $documentType
      * @param int $referenceId
      * @return int
+     * @throws UserException
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc
@@ -57,7 +58,7 @@ class DocumentTemplateForm extends DocumentTemplate
             ->asArray()
             ->all();
         if (empty($defaultTemplates)) {
-            throw new InvalidArgumentException("Empty default template of {$documentType}");
+            throw new UserException("Empty default template of {$documentType}");
         }
         $docTemplates = array_map(static function ($template) use ($referenceId) {
             unset($template['document_template_id']);

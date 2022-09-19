@@ -11,7 +11,7 @@ use lujie\user\models\User;
 use Yii;
 use yii\authclient\ClientInterface;
 use yii\base\BaseObject;
-use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use yii\db\BaseActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -39,6 +39,7 @@ class OAuthLoginCallback extends BaseObject
 
     /**
      * @param ClientInterface $client
+     * @throws UserException
      * @inheritdoc
      */
     public function onAuthSuccess(ClientInterface $client): void
@@ -75,7 +76,7 @@ class OAuthLoginCallback extends BaseObject
                     'Unable to link {client} account. There is another user using it.',
                     ['client' => $client->getTitle()]
                 );
-                throw new InvalidArgumentException($message);
+                throw new UserException($message);
             }
             $authToken = new AuthToken();
             $authToken->auth_service = $authService;
@@ -106,6 +107,7 @@ class OAuthLoginCallback extends BaseObject
     /**
      * @param ClientInterface $client
      * @return IdentityInterface
+     * @throws UserException
      * @inheritdoc
      */
     public function signUpByAuth(ClientInterface $client): IdentityInterface
@@ -130,7 +132,7 @@ class OAuthLoginCallback extends BaseObject
                             'attribute' => $attribute,
                         ]
                     );
-                    throw new InvalidArgumentException($message);
+                    throw new UserException($message);
                 }
             }
         }

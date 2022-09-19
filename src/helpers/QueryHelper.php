@@ -157,15 +157,15 @@ class QueryHelper
             if (ValueHelper::isEmpty($value)) {
                 continue;
             }
-            $aliasAttribute = $alias . $attribute;
             if (!is_array($value)) {
                 $values = ValueHelper::strToArray((string)$value, $splitPattern);
             } else {
-                $values = $value;
+                $values = array_filter(array_map('trim', $value), [ValueHelper::class, 'notEmpty']);
             }
             if (empty($values)) {
                 continue;
             }
+            $aliasAttribute = $alias . $attribute;
             if ($like) {
                 if ($like === 'L') {
                     $valuesL = array_map(static function ($v) {
@@ -215,21 +215,16 @@ class QueryHelper
         if (ValueHelper::isEmpty($value)) {
             return;
         }
-        $alias = $alias ? $alias . '.' : '';
-        $condition = ['OR'];
-        if (is_array($value)) {
-            foreach ($attributes as $attribute) {
-                $aliasAttribute = $alias . $attribute;
-                $condition[] = [$aliasAttribute => $value];
-            }
-            $query->andFilterWhere($condition);
-            return;
+        if (!is_array($value)) {
+            $values = ValueHelper::strToArray((string)$value, $splitPattern);
+        } else {
+            $values = array_filter(array_map('trim', $value), [ValueHelper::class, 'notEmpty']);
         }
-        $values = preg_split($splitPattern, $value, -1, PREG_SPLIT_NO_EMPTY);
-        $values = array_filter(array_map('trim', $values));
         if (empty($values)) {
             return;
         }
+        $alias = $alias ? $alias . '.' : '';
+        $condition = ['OR'];
         if ($like) {
             foreach ($attributes as $attribute) {
                 $aliasAttribute = $alias . $attribute;
@@ -255,14 +250,13 @@ class QueryHelper
                     $condition[] = ['OR LIKE', $aliasAttribute, $values];
                 }
             }
-            $query->andFilterWhere($condition);
         } else {
             foreach ($attributes as $attribute) {
                 $aliasAttribute = $alias . $attribute;
-                $condition[] = [$aliasAttribute => $value];
+                $condition[] = [$aliasAttribute => $values];
             }
-            $query->andFilterWhere($condition);
         }
+        $query->andFilterWhere($condition);
     }
 
     /**

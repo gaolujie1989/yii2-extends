@@ -10,7 +10,7 @@ use lujie\executing\TimeStepProgressTrait;
 use lujie\extend\helpers\ClassHelper;
 use lujie\scheduling\Scheduler;
 use Yii;
-use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use yii\console\Controller;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
@@ -101,6 +101,7 @@ class SchedulerController extends Controller
      * @param string $timeFrom
      * @param string $timeTo
      * @param int $timeStep
+     * @throws UserException
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -109,7 +110,7 @@ class SchedulerController extends Controller
         /** @var ExecutableInterface|TimeStepProgressTrait $task */
         $task = $this->scheduler->getTask($taskCode);
         if (!ClassHelper::useTrait($task, TimeStepProgressTrait::class)) {
-            throw new InvalidArgumentException('Task must use TimeStepProgressTrait');
+            throw new UserException('Task must use TimeStepProgressTrait');
         }
         $task->timeFrom = $timeFrom;
         $task->timeTo = $timeTo;

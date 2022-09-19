@@ -8,11 +8,11 @@ namespace lujie\currency\exchanging\swap\services;
 use DateTime;
 use Exchanger\Contract\ExchangeRate as ExchangeRateContract;
 use Exchanger\Contract\ExchangeRateQuery;
-use Exchanger\Exception\Exception;
 use Exchanger\Exception\UnsupportedExchangeQueryException;
 use Exchanger\HistoricalExchangeRateQuery;
 use Exchanger\Service\HttpService;
 use Exchanger\StringUtil;
+use yii\base\UserException;
 
 /**
  * Class Juhe
@@ -35,9 +35,8 @@ class Juhe extends HttpService
     /**
      * @param ExchangeRateQuery $exchangeQuery
      * @return ExchangeRateContract
-     * @throws Exception
      * @throws UnsupportedExchangeQueryException
-     * @throws \Exception
+     * @throws UserException
      * @inheritdoc
      */
     public function getExchangeRate(ExchangeRateQuery $exchangeQuery): ExchangeRateContract
@@ -56,11 +55,11 @@ class Juhe extends HttpService
         $data = StringUtil::jsonToArray($content);
 
         if (isset($data['error_code']) && $data['error_code']) {
-            throw new Exception("Error code: {$data['error_code']}, reason: {$data['reason']}");
+            throw new UserException("Error code: {$data['error_code']}, reason: {$data['reason']}");
         }
 
         if (empty($data['result'])) {
-            throw new Exception("Empty result");
+            throw new UserException("Empty result");
         }
 
         foreach ($data['result'] as $resultData) {
@@ -71,7 +70,7 @@ class Juhe extends HttpService
             }
         }
 
-        throw new Exception("No matched result");
+        throw new UserException("No matched result");
     }
 
     /**

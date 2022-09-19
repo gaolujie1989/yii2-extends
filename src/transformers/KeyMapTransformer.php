@@ -51,7 +51,9 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
                     continue;
                 }
                 if (array_key_exists($from, $values)) {
-                    $values[$to] = &$values[$from];
+                    if ($values[$from] || empty($values[$to])) {
+                        $values[$to] = $values[$from];
+                    }
                     if ($this->unsetOriginalKey) {
                         unset($values[$from]);
                     }

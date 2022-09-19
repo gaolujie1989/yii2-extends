@@ -228,7 +228,7 @@ class BackupManager extends Component
 
         $driverName = $db->getDriverName();
         if (!in_array($driverName, ['mysql', 'pgsql'], true)) {
-            throw new InvalidArgumentException('Invalid db');
+            throw new InvalidConfigException('Invalid db');
         }
 
         $dsn = substr($db->dsn, strpos($db->dsn, ':') + 1);

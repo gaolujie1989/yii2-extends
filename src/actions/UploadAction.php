@@ -8,9 +8,9 @@ namespace lujie\upload\actions;
 use lujie\upload\forms\UploadForm;
 use lujie\upload\models\UploadModelFile;
 use Yii;
-use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
+use yii\base\UserException;
 use yii\db\BaseActiveRecord;
 use yii\rest\Action;
 use yii\web\ServerErrorHttpException;
@@ -65,7 +65,7 @@ class UploadAction extends Action
         } elseif ($model instanceof BaseActiveRecord) {
             if ($model instanceof UploadModelFile && $modelTypeKey) {
                 if (empty($this->allowedModelTypes[$modelTypeKey])) {
-                    throw new InvalidArgumentException("Invalid model type of {$modelTypeKey}, not allowed");
+                    throw new UserException("Invalid model type of {$modelTypeKey}, not allowed");
                 }
                 $model->model_type = $this->allowedModelTypes[$modelTypeKey];
             }

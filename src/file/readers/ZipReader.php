@@ -8,6 +8,7 @@ namespace lujie\extend\file\readers;
 use lujie\extend\file\FileReaderInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use ZipArchive;
 
 /**
@@ -44,6 +45,7 @@ class ZipReader extends BaseObject implements FileReaderInterface
     /**
      * @param string $file
      * @return array
+     * @throws UserException
      * @inheritdoc
      */
     public function read(string $file): array
@@ -51,7 +53,7 @@ class ZipReader extends BaseObject implements FileReaderInterface
         $zipArchive = new ZipArchive();
         if (($errorCode = $zipArchive->open($file, ZipArchive::RDONLY)) !== true) {
             $error = $this->errorMessages[$errorCode] ?? "Unknown (Code {$errorCode})";
-            throw new InvalidArgumentException("Create zip file {$file} failed with error: {$error}");
+            throw new UserException("Create zip file {$file} failed with error: {$error}");
         }
         if ($this->entries) {
             $zipArchive->extractTo($this->destination, $this->entries);

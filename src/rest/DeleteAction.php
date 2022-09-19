@@ -7,6 +7,7 @@ namespace lujie\extend\rest;
 
 use Yii;
 use yii\base\Exception;
+use yii\base\UserException;
 use yii\db\BaseActiveRecord;
 use yii\web\ServerErrorHttpException;
 
@@ -37,7 +38,7 @@ class DeleteAction extends \yii\rest\DeleteAction
 
         if ($model->delete() === false) {
             if ($model->hasErrors()) {
-                throw new Exception(implode(';', $model->getErrorSummary(true)));
+                throw new UserException(implode(';', $model->getErrorSummary(true)));
             }
             throw new ServerErrorHttpException('Failed to delete the object for unknown reason.');
         }

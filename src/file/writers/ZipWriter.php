@@ -8,6 +8,7 @@ namespace lujie\extend\file\writers;
 use lujie\extend\file\FileWriterInterface;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use yii\helpers\FileHelper;
 use ZipArchive;
 
@@ -40,8 +41,9 @@ class ZipWriter extends BaseObject implements FileWriterInterface
     /**
      * @param string $file
      * @param array $data
-     * @inheritdoc
+     * @throws UserException
      * @throws \yii\base\Exception
+     * @inheritdoc
      */
     public function write(string $file, array $data): void
     {
@@ -52,7 +54,7 @@ class ZipWriter extends BaseObject implements FileWriterInterface
         $zipArchive = new ZipArchive();
         if (($errorCode = $zipArchive->open($file, $this->zipFlags)) !== true) {
             $error = $this->errorMessages[$errorCode] ?? "Unknown (Code {$errorCode})";
-            throw new InvalidArgumentException("Create zip file {$file} failed with error: {$error}");
+            throw new UserException("Create zip file {$file} failed with error: {$error}");
         }
         foreach ($data as $localName => $fileOrDir) {
             if (is_int($localName)) {
@@ -67,7 +69,7 @@ class ZipWriter extends BaseObject implements FileWriterInterface
             } elseif (is_file($fileOrDir)) {
                 $zipArchive->addFile($fileOrDir, $localName);
             } else {
-                throw new InvalidArgumentException("File or dir {$fileOrDir} not exist");
+                throw new UserException("File or dir {$fileOrDir} not exist");
             }
         }
         $zipArchive->close();

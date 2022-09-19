@@ -6,7 +6,7 @@
 namespace lujie\alias\behaviors;
 
 use Yii;
-use yii\base\InvalidValueException;
+use yii\base\InvalidConfigException;
 
 /**
  * Class UnitBehavior
@@ -114,6 +114,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
     public $displayUnitAttribute;
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function initUnit(): void
@@ -125,7 +126,7 @@ class UnitAliasBehavior extends AliasPropertyBehavior
             $this->displayUnit = $this->owner->{$this->displayUnitAttribute};
         }
         if (empty($this->baseUnit) || empty($this->displayUnit)) {
-            throw new InvalidValueException("Base unit {$this->baseUnit} Or display unit {$this->displayUnit} can not be empty");
+            throw new InvalidConfigException("Base unit {$this->baseUnit} Or display unit {$this->displayUnit} can not be empty");
         }
     }
 

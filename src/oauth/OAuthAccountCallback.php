@@ -112,7 +112,7 @@ class OAuthAccountCallback extends BaseObject
      */
     public function getAuthingAccount(): ?Account
     {
-        $accountId = $this->getCacheValue($this->authingAccountCacheKey);
+        $accountId = $this->getCacheValue($this->getCacheKey());
         $this->setAuthingAccount(null);
         if ($accountId) {
             return $this->accountClass::findOne($accountId);
@@ -128,9 +128,17 @@ class OAuthAccountCallback extends BaseObject
     public function setAuthingAccount(?Account $account): void
     {
         if ($account === null) {
-            $this->deleteCacheValue($this->authingAccountCacheKey);
+            $this->deleteCacheValue($this->getCacheKey());
         } else {
-            $this->setCacheValue($this->authingAccountCacheKey, $account->id);
+            $this->setCacheValue($this->getCacheKey(), $account->id);
         }
+    }
+
+    protected function getCacheKey(): string
+    {
+        return implode('_', [
+            $this->authingAccountCacheKey,
+            Yii::$app->getUser()->getId() ?: 0,
+        ]);
     }
 }

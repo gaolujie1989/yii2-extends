@@ -6,6 +6,7 @@
 namespace lujie\amazon\advertising;
 
 use Iterator;
+use lujie\extend\authclient\OAuth2ExtendTrait;
 use lujie\extend\authclient\RestApiTrait;
 use lujie\extend\authclient\RestClientTrait;
 use lujie\extend\helpers\HttpClientHelper;
@@ -148,7 +149,7 @@ use yii\httpclient\Request;
  */
 class AmazonAdvertisingClient extends OAuth2
 {
-    use RestApiTrait;
+    use RestApiTrait, OAuth2ExtendTrait;
 
     /**
      * @var string
@@ -237,15 +238,6 @@ class AmazonAdvertisingClient extends OAuth2
     ];
 
     /**
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        $this->initRest();
-    }
-
-    /**
      * @param $profileId
      * @return $this
      * @inheritdoc
@@ -254,29 +246,6 @@ class AmazonAdvertisingClient extends OAuth2
     {
         $this->profileId = $profileId;
         return $this;
-    }
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    protected function initUserAttributes(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array $tokenConfig
-     * @return OAuthToken
-     * @inheritdoc
-     */
-    protected function createToken(array $tokenConfig = []): OAuthToken
-    {
-        $tokenConfig['tokenSecretParamKey'] = 'refresh_token';
-        $authToken = parent::createToken($tokenConfig);
-        //To Avoid 401
-        $authToken->setExpireDuration($authToken->getExpireDuration() - 5);
-        return $authToken;
     }
 
     /**

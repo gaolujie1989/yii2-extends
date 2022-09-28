@@ -47,6 +47,9 @@ class ResultControl extends AccessControl
      */
     public function afterAction($action, $result)
     {
+        if (!$this->isActive($action)) {
+            return $result;
+        }
         // * 普通权限，默认没有权限，选一个有一个，匹配规则，匹配成功，返回是否有权限，在控制前之前运行
         // * 数据权限，默认不过滤数据，选一个加一个过滤条件，在控制器之后运行
         $user = $this->user;

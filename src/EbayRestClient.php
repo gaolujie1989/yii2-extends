@@ -5,6 +5,7 @@
 
 namespace lujie\ebay;
 
+use lujie\extend\authclient\OAuth2ExtendTrait;
 use lujie\extend\authclient\RestApiTrait;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
@@ -26,7 +27,7 @@ use yii\httpclient\Client;
  */
 class EbayRestClient extends OAuth2
 {
-    use RestApiTrait;
+    use RestApiTrait, OAuth2ExtendTrait;
 
     protected $sandbox = false;
 
@@ -117,24 +118,6 @@ class EbayRestClient extends OAuth2
         $this->tokenUrl = strtr($this->tokenUrl, $map);
     }
 
-    protected function initUserAttributes()
-    {
-    }
-
-    /**
-     * @param array $tokenConfig
-     * @return OAuthToken
-     * @inheritdoc
-     */
-    protected function createToken(array $tokenConfig = []): OAuthToken
-    {
-        $tokenConfig['tokenSecretParamKey'] = 'refresh_token';
-        $authToken = parent::createToken($tokenConfig);
-        //To Avoid 401
-        $authToken->setExpireDuration($authToken->getExpireDuration() - 5);
-        return $authToken;
-    }
-
     /**
      * @param \yii\httpclient\Request $request
      * @inheritdoc
@@ -145,15 +128,5 @@ class EbayRestClient extends OAuth2
         if ($request->getUrl() === $this->tokenUrl) {
             $request->format = Client::FORMAT_URLENCODED;
         }
-    }
-
-    /**
-     * @param \yii\httpclient\Request $request
-     * @param OAuthToken $accessToken
-     * @inheritdoc
-     */
-    public function applyAccessTokenToRequest($request, $accessToken): void
-    {
-        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
     }
 }

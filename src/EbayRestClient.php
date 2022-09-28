@@ -109,7 +109,8 @@ class EbayRestClient extends OAuth2
     protected function applyClientCredentialsToRequest($request): void
     {
         $request->getHeaders()->set('Authorization', 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret));
-        if ($request->getUrl() === $this->tokenUrl) {
+        $data = $request->getData();
+        if (is_array($data) && ($data['grant_type'] ?? null) === 'refresh_token') {
             $request->format = Client::FORMAT_URLENCODED;
         }
     }

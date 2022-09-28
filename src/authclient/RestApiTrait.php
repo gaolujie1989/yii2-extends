@@ -48,6 +48,15 @@ trait RestApiTrait
      */
     public $methods = [];
 
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->initRest();
+    }
+
     #region Rest method generate
 
     /**

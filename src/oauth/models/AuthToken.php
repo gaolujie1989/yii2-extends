@@ -40,7 +40,7 @@ class AuthToken extends \lujie\extend\db\ActiveRecord
             [['user_id', 'auth_user_id', 'expires_at'], 'integer'],
             [['additional'], 'safe'],
             [['auth_service', 'auth_username'], 'string', 'max' => 50],
-            [['access_token', 'refresh_token'], 'string', 'max' => 1000],
+            [['access_token', 'refresh_token'], 'string', 'max' => 5000],
             [['user_id', 'auth_service'], 'unique', 'targetAttribute' => ['user_id', 'auth_service']],
             [['auth_service', 'auth_user_id', 'auth_username'], 'unique', 'targetAttribute' => ['auth_service', 'auth_user_id', 'auth_username']],
         ];

@@ -18,8 +18,8 @@ class m211207_171145_auth_token extends Migration
             'auth_service' => $this->string(50)->notNull()->defaultValue(''),
             'auth_user_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'auth_username' => $this->string(50)->notNull()->defaultValue(''),
-            'access_token' => $this->string(1000)->notNull()->defaultValue(''),
-            'refresh_token' => $this->string(1000)->notNull()->defaultValue(''),
+            'access_token' => $this->string(5000)->notNull()->defaultValue(''),
+            'refresh_token' => $this->string(5000)->notNull()->defaultValue(''),
             'expires_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'additional' => $this->json()
         ]);

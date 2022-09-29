@@ -5,8 +5,6 @@
 
 namespace lujie\extend\db;
 
-use yii\db\Migration;
-
 /**
  * Trait DropTableTrait
  *
@@ -17,13 +15,11 @@ use yii\db\Migration;
 trait DropTableTrait
 {
     /**
-     * @return bool
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         if ($this->tableName) {
-            /** @var Migration|DropTableTrait $this */
             $this->dropTable($this->tableName);
         }
     }

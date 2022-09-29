@@ -24,7 +24,6 @@ trait TraceableColumnTrait
      */
     public function getDefaultTableColumns(): array
     {
-        /** @var Migration $this */
         $columns = [
             'created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'created_by' => $this->integer()->unsigned()->notNull()->defaultValue(0),
@@ -50,7 +49,6 @@ trait TraceableColumnTrait
     public function createDefaultTableIndexes(string $table): void
     {
         $columns = $this->getDefaultTableColumns();
-        /** @var Migration|TraceableColumnTrait $this */
         if (isset($columns['updated_at'])) {
             $this->createIndex('idx_updated_at', $table, 'updated_at');
         } elseif (isset($columns['created_at'])) {
@@ -66,7 +64,6 @@ trait TraceableColumnTrait
      */
     public function createTable($table, $columns, $options = null): void
     {
-        /** @var Migration|TraceableColumnTrait $this */
         if ($this->db->driverName === 'mysql' && $options === null) {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $options = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';

@@ -32,7 +32,6 @@ trait SaveTrait
      */
     public function save($runValidation = true, $attributeNames = null): bool
     {
-        /** @var BaseActiveRecord $this */
         if ($attributeNames) {
             $traceableAttributes = $this->getTraceableAttributes();
             foreach ($traceableAttributes as $attribute) {
@@ -53,7 +52,6 @@ trait SaveTrait
      */
     public function mustSave(bool $runValidation = true, ?array $attributeNames = null): bool
     {
-        /** @var BaseActiveRecord $this */
         if ($result = $this->save($runValidation, $attributeNames)) {
             return $result;
         }

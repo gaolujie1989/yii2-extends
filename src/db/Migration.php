@@ -13,4 +13,9 @@ namespace lujie\extend\db;
 class Migration extends \yii\db\Migration
 {
     use DropTableTrait, TraceableColumnTrait;
+
+    public $tableName;
+    public $traceCreate = true;
+    public $traceUpdate = true;
+    public $traceBy = true;
 }

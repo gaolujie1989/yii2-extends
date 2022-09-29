@@ -49,6 +49,7 @@ class ExcelHelper
      * @param array $data
      * @param bool $keyAsHeader
      * @param bool $multiSheet
+     * @param bool $withImage
      * @param string $adapter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception

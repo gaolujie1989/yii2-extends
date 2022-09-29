@@ -5,13 +5,11 @@
 
 namespace lujie\fulfillment\f4px;
 
-use Iterator;
 use lujie\extend\authclient\BaseJsonRpcClient;
 use lujie\extend\authclient\JsonRpcResponse;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;
-use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
 
@@ -251,54 +249,14 @@ class F4pxClient extends BaseJsonRpcClient
     }
 
     /**
-     * @param string $resource
+     * @param array $responseData
      * @param array $condition
-     * @param int $batchSize
-     * @return Iterator
-     * @throws NotSupportedException
-     * @throws \lujie\extend\authclient\JsonRpcException
-     * @throws \yii\authclient\InvalidResponseException
-     * @throws \yii\httpclient\Exception
+     * @return array|null
      * @inheritdoc
      */
-    public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
+    protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
-        $listMethod = 'get' . $resource;
-        if ($this->reverse) {
-            $rpcResponse = $this->call($listMethod, $condition);
-            $responseData = $this->getResponseData($rpcResponse);
-
-            $firstPageItems = $responseData['data'] ?? [];
-
-            $firstPage = $responseData['page_no'] ?? 1;
-            $condition['page_no'] = (int)ceil($responseData['total'] / $responseData['page_size']);
-
-            while ($condition['page_no'] > $firstPage) {
-                $rpcResponse = $this->call($listMethod, $condition);
-                $responseData = $this->getResponseData($rpcResponse);
-
-                $items = $responseData['data'] ?? [];
-
-                $items = array_reverse($items);
-                yield $items;
-
-                $condition['page_no']--;
-            }
-
-            $firstPageItems = array_reverse($firstPageItems);
-            yield $firstPageItems;
-        } else {
-            do {
-                $rpcResponse = $this->call($listMethod, $condition);
-                $responseData = $this->getResponseData($rpcResponse);
-
-                $items = $responseData['data'] ?? [];
-                yield $items;
-
-                $pageCount = (int)ceil($responseData['total'] / $responseData['page_size']);
-                $condition['page_no'] =  $responseData['page_no'] ?? 1;
-                $condition['page_no']++;
-            } while ($condition['page_no'] <= $pageCount);
-        }
+        $pageCount = (int)ceil($responseData['total'] / $responseData['page_size']);
+        return $this->getNextByPagination($condition, 'page_no', $pageCount, $responseData['page_no']);
     }
 }

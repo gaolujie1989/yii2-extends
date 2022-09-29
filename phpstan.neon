@@ -1,0 +1,26 @@
+parameters:
+    bootstrapFiles:
+        - apps/bootstrap.php
+    excludePaths:
+        analyse:
+            - */migrations/*
+            - */tests/*
+            - */config/*
+            - */views/*
+            - */templates/*
+            - */pdf/*
+            - */gii/*
+            - */gls/*
+            - */dpd/*
+    ignoreErrors:
+        ### COMMON AND YII SKIP ###
+        ### LEVEL 2 ###
+        - '#is not subtype of native type#'
+        - '#Call to an undefined method yii\\db\\ActiveQueryInterface#'
+        - '#Call to an undefined method yii\\db\\ActiveRecordInterface#'
+        - '#Call to an undefined method yii\\db\\QueryInterface#'
+        - '#Call to an undefined method yii\\db\\ActiveQuery#'
+        - '#Access to an undefined property yii\\db\\ActiveQueryInterface#'
+        - '#Access to an undefined property yii\\db\\QueryInterface#'
+        - '#Access to an undefined property yii\\db\\BaseActiveRecord#'
+        - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required.#'

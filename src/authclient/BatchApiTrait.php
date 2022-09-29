@@ -83,6 +83,9 @@ trait BatchApiTrait
      */
     protected function getNextByLink(string $nextLink): ?array
     {
+        if (empty($nextLink)) {
+            return null;
+        }
         $urlParts = parse_url($nextLink);
         parse_str($urlParts['query'], $condition);
         return $condition;

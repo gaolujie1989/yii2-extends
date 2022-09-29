@@ -119,16 +119,19 @@ trait RestApiTrait
      * @param string $path
      * @param array $params
      * @return string
-     * @inheritdoc
      * @throws \Exception
+     * @inheritdoc
      */
-    public function getRealPath(string $path, array $params): string
+    public function getRealPath(string $path, array &$params, bool $removePathParam = false): string
     {
         $pathParams = $this->getPathParams($path);
         if ($pathParams && $params) {
             $pathParamValues = [];
             foreach ($pathParams as $pathParam) {
                 $pathParamValues['{' . $pathParam . '}'] = ArrayHelper::getValue($params, $pathParam);
+                if ($removePathParam) {
+                    ArrayHelper::remove($params, $pathParam);
+                }
             }
             return strtr($path, $pathParamValues);
         }
@@ -150,7 +153,7 @@ trait RestApiTrait
 
         [$method, $url] = $this->methods[$name];
         $method = strtoupper($method);
-        $url = $this->getRealPath($url, $data);
+        $url = $this->getRealPath($url, $data, !empty($this->methods[$name][2]));
 
         if ($method === 'GET' && $data) {
             $url = array_merge([$url], $data);

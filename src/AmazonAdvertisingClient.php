@@ -7,6 +7,7 @@ namespace lujie\amazon\advertising;
 
 use lujie\extend\authclient\OAuthExtendTrait;
 use lujie\extend\authclient\RestApiTrait;
+use lujie\extend\authclient\RestOAuth2;
 use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
@@ -138,10 +139,8 @@ use yii\httpclient\Request;
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class AmazonAdvertisingClient extends OAuth2
+class AmazonAdvertisingClient extends RestOAuth2
 {
-    use RestApiTrait, OAuthExtendTrait;
-
     /**
      * @var string
      */

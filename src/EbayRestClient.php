@@ -5,7 +5,7 @@
 
 namespace lujie\ebay;
 
-use lujie\extend\authclient\OAuth2ExtendTrait;
+use lujie\extend\authclient\OAuthExtendTrait;
 use lujie\extend\authclient\RestApiTrait;
 use yii\authclient\OAuth2;
 use yii\httpclient\Client;
@@ -26,7 +26,7 @@ use yii\httpclient\Client;
  */
 class EbayRestClient extends OAuth2
 {
-    use RestApiTrait, OAuth2ExtendTrait;
+    use RestApiTrait, OAuthExtendTrait;
 
     protected $sandbox = false;
 

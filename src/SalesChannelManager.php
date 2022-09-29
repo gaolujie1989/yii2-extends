@@ -95,8 +95,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
         if ($salesChannel === null) {
             throw new InvalidArgumentException("Null SalesChannel of {$channelAccountId}");
         }
-        $salesChannel = Instance::ensure($salesChannel, SalesChannelInterface::class);
-        return $salesChannel;
+        return Instance::ensure($salesChannel, SalesChannelInterface::class);
     }
 
     #region event, listen to update marketplace order

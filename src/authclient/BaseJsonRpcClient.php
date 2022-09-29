@@ -10,7 +10,6 @@ use Yii;
 use yii\authclient\BaseClient;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;
-use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
@@ -23,12 +22,13 @@ use yii\httpclient\Response;
  */
 abstract class BaseJsonRpcClient extends BaseClient
 {
-    use BatchIteratorTrait;
+    use BatchApiTrait;
 
     /**
      * @var string
      */
     public $url;
+
 
     /**
      * @var string

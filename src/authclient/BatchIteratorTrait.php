@@ -13,6 +13,7 @@ use yii\helpers\Inflector;
  * Trait BatchTrait
  * @package lujie\extend
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 trait BatchIteratorTrait
 {

@@ -5,12 +5,10 @@
 
 namespace lujie\extend\authclient;
 
-use lujie\extend\helpers\HttpClientHelper;
 use Yii;
 use yii\authclient\BaseOAuth;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
-use yii\httpclient\Request;
 
 /**
  * Class SimpleOAuth
@@ -19,7 +17,7 @@ use yii\httpclient\Request;
  */
 class SimpleOAuth extends BaseOAuth
 {
-    use BatchIteratorTrait, RestApiTrait;
+    use RestApiTrait, BatchApiTrait, OAuthExtendTrait;
 
     /**
      * @var string
@@ -40,11 +38,6 @@ class SimpleOAuth extends BaseOAuth
      * @var string
      */
     public $tokenParamKey = 'token';
-
-    /**
-     * @var int
-     */
-    public $expireDuration = 3600;
 
     #region BaseOAuth
 
@@ -115,21 +108,6 @@ class SimpleOAuth extends BaseOAuth
     }
 
     /**
-     * Creates token from its configuration.
-     * @param array $tokenConfig token configuration.
-     * @return OAuthToken token instance.
-     */
-    protected function createToken(array $tokenConfig = []): OAuthToken
-    {
-        $tokenConfig['tokenParamKey'] = $this->tokenParamKey;
-        $authToken = parent::createToken($tokenConfig);
-        if ($this->expireDuration && $authToken->getExpireDuration() === null) {
-            $authToken->setExpireDuration($this->expireDuration);
-        }
-        return $authToken;
-    }
-
-    /**
      * @param OAuthToken $token
      * @return OAuthToken
      * @throws InvalidResponseException
@@ -141,27 +119,5 @@ class SimpleOAuth extends BaseOAuth
         return $this->authenticate();
     }
 
-    /**
-     * @param Request $request HTTP request instance.
-     * @param OAuthToken $accessToken access token instance.
-     * @inheritdoc
-     */
-    public function applyAccessTokenToRequest($request, $accessToken): void
-    {
-        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
-    }
-
     #endregion BaseOAuth
-
-    /**
-     * @param Request $request
-     * @return array|mixed
-     * @throws InvalidResponseException
-     * @throws \yii\httpclient\Exception
-     * @inheritdoc
-     */
-    protected function sendRequest($request)
-    {
-        return HttpClientHelper::sendRequest($request)->getData();
-    }
 }

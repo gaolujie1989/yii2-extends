@@ -5,9 +5,12 @@
 
 namespace lujie\ebay;
 
+use lujie\extend\authclient\BatchApiTrait;
 use lujie\extend\authclient\OAuthExtendTrait;
 use lujie\extend\authclient\RestApiTrait;
+use lujie\extend\authclient\RestOAuth2;
 use yii\authclient\OAuth2;
+use yii\base\InvalidArgumentException;
 use yii\httpclient\Client;
 
 /**
@@ -24,10 +27,8 @@ use yii\httpclient\Client;
  * @package lujie\ebay
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class EbayRestClient extends OAuth2
+class EbayRestClient extends RestOAuth2
 {
-    use RestApiTrait, OAuthExtendTrait;
-
     protected $sandbox = false;
 
     public $sandboxUrlMap = [
@@ -77,6 +78,10 @@ class EbayRestClient extends OAuth2
     public $extraActions = [
     ];
 
+    public $responseDataKeys = [
+        'listOrders' => 'orders',
+    ];
+
     /**
      * @inheritdoc
      */
@@ -112,5 +117,33 @@ class EbayRestClient extends OAuth2
         if ($request->getUrl() === $this->tokenUrl) {
             $request->format = Client::FORMAT_URLENCODED;
         }
+    }
+
+    /**
+     * @param string $name
+     * @param array $data
+     * @return array|null
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public function restApi(string $name, array $data): ?array
+    {
+        $responseData = parent::restApi($name, $data);
+        if ($dataKey = $this->responseDataKeys[$name] ?? null) {
+            $responseData['data'] = $responseData[$dataKey];
+            unset($responseData[$dataKey]);
+        }
+        return $responseData;
+    }
+
+    /**
+     * @param array $responseData
+     * @param array $condition
+     * @return array|null
+     * @inheritdoc
+     */
+    protected function getNextPageCondition(array $responseData, array $condition): ?array
+    {
+        return $this->getNextByLink($responseData['next'] ?? null);
     }
 }

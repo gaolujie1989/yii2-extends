@@ -5,21 +5,12 @@
 
 namespace lujie\amazon\advertising;
 
-use Iterator;
-use lujie\extend\authclient\OAuth2ExtendTrait;
+use lujie\extend\authclient\OAuthExtendTrait;
 use lujie\extend\authclient\RestApiTrait;
-use lujie\extend\authclient\RestClientTrait;
 use lujie\extend\helpers\HttpClientHelper;
-use yii\authclient\BaseClient;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
-use yii\base\Exception;
-use yii\base\InvalidConfigException;
-use yii\base\NotSupportedException;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
-use yii\helpers\VarDumper;
 use yii\httpclient\Request;
 
 /**
@@ -149,7 +140,7 @@ use yii\httpclient\Request;
  */
 class AmazonAdvertisingClient extends OAuth2
 {
-    use RestApiTrait, OAuth2ExtendTrait;
+    use RestApiTrait, OAuthExtendTrait;
 
     /**
      * @var string

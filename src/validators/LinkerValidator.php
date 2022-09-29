@@ -61,7 +61,7 @@ class LinkerValidator extends Validator
     /**
      * @var int
      */
-    public $defaultValue = '';
+    public $defaultValue = 0;
 
     /**
      * @var bool

@@ -30,7 +30,7 @@ class DateValidator extends \yii\validators\DateValidator
     public $timestampAttribute = self::TIMESTAMP_ATTRIBUTE_SELF;
 
     /**
-     * @var string
+     * @var ?string
      */
     public $timestampAttributeFormat = self::TIMESTAMP_ATTRIBUTE_FORMAT_AUTO;
 

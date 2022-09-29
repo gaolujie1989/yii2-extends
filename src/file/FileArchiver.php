@@ -38,7 +38,7 @@ class FileArchiver extends BaseObject
     ];
 
     /**
-     * @var callable, return two names, zip file path and local file name in zip
+     * @var callable|string return two names, zip file path and local file name in zip
      */
     public $namesCallback = 'logFileNames';
 

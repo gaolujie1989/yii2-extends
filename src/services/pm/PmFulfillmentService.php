@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\pm;
+namespace lujie\fulfillment\services\pm;
 
 use lujie\fulfillment\BaseFulfillmentService;
 use lujie\fulfillment\common\Address;

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\f4px;
+namespace lujie\fulfillment\services\f4px;
 
 use lujie\extend\authclient\BaseJsonRpcClient;
 use lujie\extend\authclient\JsonRpcResponse;

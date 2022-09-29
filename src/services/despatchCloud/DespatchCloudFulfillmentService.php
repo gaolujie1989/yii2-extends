@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\despatchCloud;
+namespace lujie\fulfillment\services\despatchCloud;
 
 use lujie\extend\authclient\JsonRpcException;
 use lujie\fulfillment\BaseFulfillmentService;

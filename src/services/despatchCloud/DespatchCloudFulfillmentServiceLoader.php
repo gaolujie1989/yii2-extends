@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\fulfillment\despatchCloud;
+namespace lujie\fulfillment\services\despatchCloud;
 
 use lujie\data\loader\BaseDataLoader;
 use lujie\fulfillment\constants\FulfillmentConst;

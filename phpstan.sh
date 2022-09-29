@@ -8,7 +8,7 @@ level=0
 fi
 
 phpStanBin=../../apps/vendor/bin/phpstan
-phpStanConf=../../phpstan.neon
+phpStanConf=./phpstan.neon
 
 php $phpStanBin clear-result-cache
 #normally max level 5

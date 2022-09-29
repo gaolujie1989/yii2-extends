@@ -272,15 +272,12 @@ class ModelHelper
 
         $row = ActiveDataHelper::typecast($row, $class);
         //prepare relations
-        /**
-         * @var string $relation
-         * @var BaseActiveRecord|string $relationClass
-         */
         foreach ($relations as $relation => $relationConfig) {
             if (empty($row[$relation])) {
                 continue;
             }
             $relationConfig = (array)$relationConfig;
+            /** @var BaseActiveRecord|string $relationClass */
             $relationClass = $relationConfig[0];
             $relationAlias = $relationConfig[1] ?? [];
             $relationRelations = $relationConfig[2] ?? [];

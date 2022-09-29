@@ -13,6 +13,7 @@ use yii\caching\ChainedDependency;
 use yii\caching\Dependency;
 use yii\caching\TagDependency;
 use yii\di\Instance;
+use yii\web\Application;
 
 /**
  * Trait CachingTrait
@@ -73,7 +74,7 @@ trait CachingTrait
         } else {
             $this->keyPrefix = ClassHelper::getClassShortName($this) . ':';
         }
-        if (isset($this->cacheByUserLevel) && $this->cacheByUserLevel) {
+        if (isset($this->cacheByUserLevel) && $this->cacheByUserLevel && Yii::$app instanceof Application) {
             $userId = Yii::$app->getUser()->getId() ?: 0;
             $this->keyPrefix .= $userId . ':';
         }

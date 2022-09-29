@@ -13,9 +13,9 @@ use yii\httpclient\Request;
 /**
  * Trait ExtendOAuth2
  *
- * @property $tokenParamKey = 'access_token'
- * @property $tokenSecretParamKey = 'refresh_token'
- * @property $tokenExpireDuration = 3600
+ * @property string $tokenParamKey = 'access_token'
+ * @property string $tokenSecretParamKey = 'refresh_token'
+ * @property int $tokenExpireDuration = 3600
  *
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>

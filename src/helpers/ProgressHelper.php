@@ -16,19 +16,19 @@ use yii\helpers\Console;
  */
 class ProgressHelper
 {
-    private static $progressStart;
-    private static $progressEnd;
-    private static $progressPrefix = '';
-    private static $progressEta;
-    private static $progressEtaLastDone = 0;
-    private static $progressEtaLastUpdate;
+    protected static $progressStart;
+    protected static $progressEnd;
+    protected static $progressPrefix = '';
+    protected static $progressEta;
+    protected static $progressEtaLastDone = 0;
+    protected static $progressEtaLastUpdate;
 
-    private static $progressDone = 0;
-    private static $progressTotal = 1;
+    protected static $progressDone = 0;
+    protected static $progressTotal = 1;
 
-    private static $currentUser;
+    protected static $currentUser;
 
-    private static $progressKey;
+    protected static $progressKey;
     public static $storageKey = 'progress';
     public static $storageService = 'redis';
 
@@ -120,7 +120,7 @@ class ProgressHelper
      * @see updateProgress
      * @since 2.0.14
      */
-    private static function setETA($done, $total): void
+    protected static function setETA(int $done, int $total): void
     {
         if ($done > $total || $done === 0) {
             self::$progressEta = null;

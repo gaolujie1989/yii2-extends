@@ -6,6 +6,7 @@
 namespace lujie\extend\helpers;
 
 use Yii;
+use yii\web\Application;
 
 /**
  * Class IdentityHelper
@@ -19,6 +20,9 @@ class IdentityHelper
      */
     public static function getId(): int
     {
+        if (!(Yii::$app instanceof Application)) {
+            return 0;
+        }
         if (!Yii::$app->has('user')) {
             return 0;
         }

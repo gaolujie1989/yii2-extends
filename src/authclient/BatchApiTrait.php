@@ -76,7 +76,6 @@ trait BatchApiTrait
     }
 
     /**
-     * @param array $condition
      * @param string $nextLink
      * @return array|null
      * @inheritdoc

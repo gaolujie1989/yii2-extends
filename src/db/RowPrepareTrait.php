@@ -26,9 +26,8 @@ trait RowPrepareTrait
     }
 
     /**
-     * @param array $row
+     * @param array $rows
      * @return array
-     * @throws \Exception
      * @inheritdoc
      */
     public static function prepareRows(array $rows): array

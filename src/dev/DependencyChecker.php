@@ -142,7 +142,7 @@ class DependencyChecker extends BaseObject
 
     /**
      * @param array $extension
-     * @return array
+     * @param string|null $extensionName
      * @inheritdoc
      */
     public function checkRequiredLoop(array $extension, ?string $extensionName = null): void

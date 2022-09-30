@@ -23,7 +23,7 @@ class LogTarget extends \yii\debug\LogTarget
      * Collects summary data of current request.
      * @return array
      */
-    protected function collectSummary()
+    protected function collectSummary(): array
     {
         $app = Yii::$app;
         if ($app === null) {
@@ -70,7 +70,7 @@ class LogTarget extends \yii\debug\LogTarget
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function collect($messages, $final)
+    public function collect($messages, $final): void
     {
         $this->messages = array_merge($this->messages, static::filterMessages($messages, $this->getLevels(), $this->categories, $this->except));
         if ($final) {

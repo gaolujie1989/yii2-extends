@@ -21,7 +21,7 @@ use yii\web\Application;
  * @property int $cacheDuration = 3600;
  * @property string $cacheKeyPrefix = '';
  * @property string[] $cacheTags = [];
- * @property Dependency $cacheDependency = null;
+ * @property ?Dependency $cacheDependency = null;
  * @property bool $cacheByUserLevel = false;
  *
  * @package lujie\extend\caching
@@ -29,7 +29,7 @@ use yii\web\Application;
 trait CachingTrait
 {
     /**
-     * @var CacheInterface
+     * @var ?CacheInterface
      */
     public $cache = 'cache';
 

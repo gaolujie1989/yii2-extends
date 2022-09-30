@@ -1,6 +1,6 @@
 parameters:
     bootstrapFiles:
-        - ../../apps/bootstrap.php
+        - ../../../../apps/bootstrap.php
     excludePaths:
         analyse:
             - */migrations/*

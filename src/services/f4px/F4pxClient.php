@@ -268,6 +268,6 @@ class F4pxClient extends BaseJsonRpcClient
      */
     protected function getBatchInternalMethod(string $resource): string
     {
-        return 'get' . ucfirst(Inflector::pluralize($resource));
+        return 'get' . ucfirst($resource);
     }
 }

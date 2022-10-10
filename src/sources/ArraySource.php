@@ -23,4 +23,9 @@ class ArraySource extends BaseObject implements SourceInterface
     {
         return $this->data;
     }
+
+    public function count(): int
+    {
+        return count($this->data);
+    }
 }

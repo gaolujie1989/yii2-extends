@@ -9,6 +9,7 @@ use lujie\extend\authclient\BaseJsonRpcClient;
 use lujie\extend\authclient\JsonRpcResponse;
 use Yii;
 use yii\base\NotSupportedException;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
@@ -258,5 +259,15 @@ class F4pxClient extends BaseJsonRpcClient
     {
         $pageCount = (int)ceil($responseData['total'] / $responseData['page_size']);
         return $this->getNextByPagination($condition, 'page_no', $pageCount, $responseData['page_no']);
+    }
+
+    /**
+     * @param string $resource
+     * @return string
+     * @inheritdoc
+     */
+    protected function getBatchInternalMethod(string $resource): string
+    {
+        return 'get' . ucfirst(Inflector::pluralize($resource));
     }
 }

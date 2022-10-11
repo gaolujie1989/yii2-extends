@@ -469,5 +469,26 @@ class ModelHelper
         return array_diff($attributes, $fields);
     }
 
+    /**
+     * @param string $class
+     * @return array
+     * @inheritdoc
+     */
+    public static function priceAliasSorts(string $class): array
+    {
+        $sorts = [];
+        $model = new $class();
+        $aliasProperties = static::aliasProperties($model);
+        foreach ($aliasProperties as $aliasProperty => $attribute) {
+            if (StringHelper::endsWith($attribute, '_cent')) {
+                $sorts[$aliasProperty] = [
+                    'asc' => [$attribute => SORT_ASC],
+                    'desc' => [$attribute => SORT_DESC],
+                ];
+            }
+        }
+        return $sorts;
+    }
+
     #endregion
 }

@@ -10,6 +10,7 @@ use lujie\extend\helpers\QueryHelper;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\BaseActiveRecord;
+use yii\helpers\StringHelper;
 
 /**
  * Trait SearchTrait
@@ -143,5 +144,14 @@ trait SearchTrait
     protected static function prepareSearchArray($row, array $aliasProperties = [], array $relations = []): array
     {
         return ModelHelper::prepareArray($row, static::class, $aliasProperties, $relations);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public static function sorts(): array
+    {
+        return ModelHelper::priceAliasSorts(static::class);
     }
 }

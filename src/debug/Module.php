@@ -25,18 +25,6 @@ class Module extends \yii\debug\Module
     ];
 
     /**
-     * {@inheritdoc}
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function init(): void
-    {
-        parent::init();
-        if (Yii::$app instanceof Application) {
-            $this->initPanels();
-        }
-    }
-
-    /**
      * @param \yii\base\Application $app
      * @inheritdoc
      */

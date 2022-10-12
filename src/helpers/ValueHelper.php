@@ -247,4 +247,18 @@ class ValueHelper
         }
         return $rangeValues;
     }
+
+    /**
+     * @param string $str
+     * @return string
+     * @inheritdoc
+     */
+    public static function removeUtf8Bom(string $str): string
+    {
+        if (strpos($str, chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) === 0) {
+            return substr($str, 3);
+        }
+        return $str;
+    }
+
 }

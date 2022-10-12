@@ -6,7 +6,6 @@
 namespace lujie\extend\file\readers;
 
 use lujie\extend\file\FileReaderInterface;
-use Yii;
 use yii\base\BaseObject;
 
 /**
@@ -23,6 +22,7 @@ class CsvReader extends BaseObject implements FileReaderInterface
     public $escape = '\\';
     public $flag = true;
     public $bufferLength = 0;
+    public $removeUtf8Bom = false;
 
     /**
      * @param string $file
@@ -35,10 +35,16 @@ class CsvReader extends BaseObject implements FileReaderInterface
         if ($this->flag) {
             $rows = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             foreach ($rows as $row) {
+                if ($this->removeUtf8Bom) {
+                    $row = str_replace("\xEF\xBB\xBF", '', $row);
+                }
                 $data[] = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
             }
         } elseif (($handle = fopen($file, 'rb')) !== false) {
             while (($row = fgetcsv($handle, $this->bufferLength, $this->delimiter, $this->enclosure, $this->escape)) !== false) {
+                if ($this->removeUtf8Bom) {
+                    $row = str_replace("\xEF\xBB\xBF", '', $row);
+                }
                 $data[] = $row;
             }
             fclose($handle);

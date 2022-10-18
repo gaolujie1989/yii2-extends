@@ -75,7 +75,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
 <?php
 foreach ($queryFields as $name => $field) {
     if (substr($field, -3) === '_no' || substr($field, -4) === '_key' || substr($field, -5) === '_code') {
-        echo " * @method $className $name(\$$name, bool \$like = false)\n";
+        echo " * @method $className $name(\$$name, bool|string \$like = false)\n";
     } else {
         echo " * @method $className $name(\$$name)\n";
     }

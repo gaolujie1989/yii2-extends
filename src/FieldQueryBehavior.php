@@ -326,7 +326,11 @@ class FieldQueryBehavior extends Behavior
             } else {
                 $like = $allowLike && $params ? array_shift($params) : null;
                 if ($like) {
-                    if (strpos($value, '%') !== false) {
+                    if ($like === 'L') {
+                        $owner->andWhere(['LIKE', $field, $value . '%', false]);
+                    } else if ($like === 'R') {
+                        $owner->andWhere(['LIKE', $field, '%' . $value, false]);
+                    } else if (strpos($value, '%') !== false) {
                         $owner->andWhere(['LIKE', $field, $value, false]);
                     } else {
                         $owner->andWhere(['LIKE', $field, $value]);

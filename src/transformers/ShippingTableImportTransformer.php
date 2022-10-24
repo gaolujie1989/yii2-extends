@@ -58,11 +58,11 @@ class ShippingTableImportTransformer extends BaseObject implements TransformerIn
             }
             $values = array_diff_key($values, array_flip($destValueKeys));
             foreach ($destinationPrices as $destination => $priceStr) {
-                if (preg_match('/(\d+[\.,]\d+)\s*([a-zA-Z]{3})?/', $priceStr, $matches)) {
+                if (preg_match('/(\d+([\.,]\d+)?)\s*([a-zA-Z]{3})?/', $priceStr, $matches)) {
                     $transformed[] = array_merge($values, [
                         'destination' => $destination,
                         'price' => strtr($matches[1], [',' => '.']),
-                        'currency' => $matches[2] ?? $this->defaultCurrency,
+                        'currency' => $matches[3] ?? $this->defaultCurrency,
                     ]);
                 }
             }

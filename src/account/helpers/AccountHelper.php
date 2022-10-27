@@ -22,7 +22,7 @@ class AccountHelper
      * @return Account
      * @inheritdoc
      */
-    public function copyAccount(Account $account, string $copyAccountClass, bool $copyToken = true): Account
+    public static function copyAccount(Account $account, string $copyAccountClass, bool $copyToken = true): Account
     {
         $copyAccount = $copyAccountClass::find()
             ->type($account->type)

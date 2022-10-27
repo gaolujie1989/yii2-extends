@@ -21,6 +21,7 @@ use yii\db\ActiveQuery;
  * @method AccountQuery type($type)
  * @method AccountQuery status($status)
  * @method AccountQuery name($name)
+ * @method AccountQuery username($username)
  *
  * @method AccountQuery createdAtBetween($from, $to = null)
  * @method AccountQuery updatedAtBetween($from, $to = null)
@@ -59,6 +60,7 @@ class AccountQuery extends \yii\db\ActiveQuery
                     'type' => 'type',
                     'status' => 'status',
                     'name' => 'name',
+                    'username' => 'username',
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],

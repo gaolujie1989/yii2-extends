@@ -103,7 +103,7 @@ class WebServer extends Worker
      */
     public function onMessageCallback(TcpConnection $connection, Request $request): void
     {
-        $this->buildGlobalProperties($connection, $request);
+        $this->buildGlobalVars($connection, $request);
 
         $workermanRoot = getcwd();
         chdir($_SERVER['DOCUMENT_ROOT']);
@@ -123,7 +123,7 @@ class WebServer extends Worker
      * @param Request $request
      * @inheritdoc
      */
-    protected function buildGlobalProperties(TcpConnection $connection, Request $request): void
+    protected function buildGlobalVars(TcpConnection $connection, Request $request): void
     {
         $_GET = $request->get();
         $_POST = $request->post();

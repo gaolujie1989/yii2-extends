@@ -38,7 +38,7 @@ class Command extends \yii\db\Command
      * @throws Exception
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): int
     {
         try {
             return parent::execute();
@@ -56,7 +56,7 @@ class Command extends \yii\db\Command
      * @return bool
      * @throws Exception
      */
-    protected function isLostConnection(Exception $exception, $resetConnection = true): bool
+    protected function isLostConnection(Exception $exception, bool $resetConnection = true): bool
     {
         if (ConnectionHelper::isLostConnection($exception, $this->db, $resetConnection)) {
             $this->bindValues($this->params);

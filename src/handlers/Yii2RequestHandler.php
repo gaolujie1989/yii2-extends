@@ -26,32 +26,19 @@ class Yii2RequestHandler implements RequestHandlerInterface
     /**
      * @var Application
      */
-    protected $yii2App;
-
-    public $appFile = 'app.php';
+    private $yii2App;
 
     /**
      * @throws InvalidConfigException
+     * @inheritdoc
      */
-    public function __construct()
+    public function init(): void
     {
         $yiiDir = dirname(__DIR__) . '/yii/';
         include_once $yiiDir . '/rewrite_classes.php';
         include_once $yiiDir . '/rewrite_functions.php';
 
-//        $_SERVER['SCRIPT_NAME'] = '/' . $this->appFile;
-//        $_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->appFile;
-        $this->yii2App = include ($_SERVER['DOCUMENT_ROOT'] . '/' . $this->appFile);
-        $this->adaptYii2App();
-    }
-
-    /**
-     * @param Application $app
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function adaptYii2App(): void
-    {
+        $this->yii2App = include $_SERVER['SCRIPT_FILENAME'];
         $app = $this->yii2App;
         foreach ($app->getComponents() as $name => $config) {
             if ($name === 'logger') {
@@ -87,7 +74,6 @@ class Yii2RequestHandler implements RequestHandlerInterface
     public function handle(Request $request): Response
     {
         $app = $this->yii2App;
-        // Try to run yii2 app.
         try {
             $componentsConfig = $app->getComponents();
             $app->set('request', $componentsConfig['request']);
@@ -101,6 +87,9 @@ class Yii2RequestHandler implements RequestHandlerInterface
             $app->getErrorHandler()->handleException($error);
         }
         Yii::getLogger()->flush(true);
-        $app->getResponse();
+
+        /** @var \lujie\workerman\web\Response $response */
+        $response = $app->getResponse();
+        return $response->getWorkermanResponse();
     }
 }

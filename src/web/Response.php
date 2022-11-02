@@ -23,6 +23,15 @@ class Response extends \yii\web\Response
     private $workermanResponse;
 
     /**
+     * @return WorkermanResponse
+     * @inheritdoc
+     */
+    public function getWorkermanResponse(): WorkermanResponse
+    {
+        return $this->workermanResponse;
+    }
+
+    /**
      * Sends the response to the client.
      * @return WorkermanResponse
      * @inheritdoc

@@ -15,5 +15,7 @@ use Workerman\Protocols\Http\Response;
  */
 interface RequestHandlerInterface
 {
+    public function init(): void;
+
     public function handle(Request $request): Response;
 }

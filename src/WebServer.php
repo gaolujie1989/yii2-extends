@@ -143,10 +143,12 @@ class WebServer extends Worker
         $_SERVER['REQUEST_TIME'] = time();
 
         $serverRoot = $this->getServerRoot($request);
-        $_SERVER['DOCUMENT_ROOT'] = $serverRoot['root'];
-        $_SERVER['SCRIPT_NAME'] = 'index.php';
-        $_SERVER['SCRIPT_FILENAME'] = $serverRoot['root'] . '/index.php';
-        $_SERVER['PHP_SELF'] = '/index.php';
+        $rootPath = $serverRoot['root'];
+        $rootFile = $serverRoot['file'] ?? 'index.php';
+        $_SERVER['DOCUMENT_ROOT'] = $rootPath;
+        $_SERVER['SCRIPT_NAME'] = $rootFile;
+        $_SERVER['SCRIPT_FILENAME'] = $rootPath . '/' . $rootFile;
+        $_SERVER['PHP_SELF'] = '/' . $rootFile;
     }
 
     /**

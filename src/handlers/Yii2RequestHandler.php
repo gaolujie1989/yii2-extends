@@ -33,55 +33,62 @@ class Yii2RequestHandler implements RequestHandlerInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function init(): void
+    public function getYii2App(): Application
     {
-        $yiiDir = dirname(__DIR__) . '/yii/';
-        include_once $yiiDir . '/rewrite_classes.php';
-        include_once $yiiDir . '/rewrite_functions.php';
+        if ($this->yii2App === null) {
+            $yiiDir = dirname(__DIR__) . '/yii/';
+            include_once $yiiDir . '/rewrite_classes.php';
+            include_once $yiiDir . '/rewrite_functions.php';
 
-        $this->yii2App = include $_SERVER['SCRIPT_FILENAME'];
-        $app = $this->yii2App;
-        $app->getErrorHandler()->unregister();
-        foreach ($app->getComponents() as $name => $config) {
-            if ($name === 'logger') {
-                $config['class'] = Logger::class;
-                $app->setComponents([$name => $config]);
+            $this->yii2App = include $_SERVER['SCRIPT_FILENAME'];
+            $app = $this->yii2App;
+            $app->getErrorHandler()->unregister();
+            $components = $app->getComponents();
+            foreach ($components as $name => $config) {
+                if ($name === 'logger') {
+                    $config['class'] = Logger::class;
+                    $app->setComponents([$name => $config]);
+                }
+                if ($name === 'errorHandler') {
+                    $config['class'] = ErrorHandler::class;
+                    $app->setComponents([$name => $config]);
+                }
+                if ($name === 'response') {
+                    $config['class'] = \lujie\workerman\web\Response::class;
+                    $app->setComponents([$name => $config]);
+                }
+                if (ltrim($config['class'], '\\') === \yii\db\Connection::class) {
+                    $config['class'] = Connection::class;
+                    $config['commandClass'] = Command::class;
+                    $app->setComponents([$name => $config]);
+                }
+                $app->get($name);
             }
-            if ($name === 'errorHandler') {
-                $config['class'] = ErrorHandler::class;
-                $app->setComponents([$name => $config]);
+            foreach ($app->getModules() as $name => $config) {
+                $app->getModule($name);
             }
-            if (ltrim($config['class'], '\\') === \yii\db\Connection::class) {
-                $config['class'] = Connection::class;
-                $config['commandClass'] = Command::class;
-                $app->setComponents([$name => $config]);
-            }
-            if (ltrim($config['class'], '\\') === \yii\web\Response::class) {
-                $config['class'] = \lujie\workerman\web\Response::class;
-                $app->setComponents([$name => $config]);
-            }
-            $app->get($name);
+            $app->getErrorHandler()->register();
         }
-        foreach ($app->getModules() as $name => $config) {
-            $app->getModule($name);
-        }
-        $app->getErrorHandler()->register();
+        return $this->yii2App;
     }
 
     /**
      * @param Request $request
      * @return Response
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function handle(Request $request): Response
     {
-        $app = $this->yii2App;
+        $app = $this->getYii2App();
         try {
             $componentsConfig = $app->getComponents();
             $app->set('request', $componentsConfig['request']);
             $app->set('response', $componentsConfig['response']);
             $app->getRequest()->setRawBody($request->rawBody());
+            ob_start();
             $app->run();
+            $output = ob_get_clean() ?: null;
         } catch (\Throwable $error) {
             $app->getErrorHandler()->handleException($error);
         }
@@ -89,6 +96,10 @@ class Yii2RequestHandler implements RequestHandlerInterface
 
         /** @var \lujie\workerman\web\Response $response */
         $response = $app->getResponse();
-        return $response->getWorkermanResponse();
+        $workermanResponse = $response->getWorkermanResponse();
+        if (isset($output)) {
+            $workermanResponse->withBody($output . $workermanResponse->rawBody() ?: '');
+        }
+        return $workermanResponse;
     }
 }

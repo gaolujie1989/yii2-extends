@@ -55,7 +55,7 @@ class Response extends \yii\web\Response
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function sendHeaders(): void
+    protected function sendHeaders(): void
     {
         foreach ($this->getHeaders() as $name => $values) {
             $name = str_replace(' ', '-', ucwords(str_replace('-', ' ', $name)));

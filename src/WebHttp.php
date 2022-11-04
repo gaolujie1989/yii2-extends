@@ -34,8 +34,10 @@ class WebHttp extends \Workerman\Protocols\Http
 
             if (is_array($stream)) {
                 [$handle, $begin, $end] = $stream;
-                static::sendStream($connection, $handle, $begin, $end - $begin);
+                fseek($handle, 0);
+                static::sendStream($connection, $handle, $begin, $end - $begin + 1);
             } else {
+                fseek($stream, 0);
                 static::sendStream($connection, $stream);
             }
         }

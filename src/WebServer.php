@@ -39,13 +39,16 @@ class WebServer extends Worker
     /**
      * @param string $domain
      * @param string $rootPath
+     * @param string $indexFile
+     * @param RequestHandlerInterface|null $handler
      * @inheritdoc
      */
-    public function addRoot(string $domain, string $rootPath, ?RequestHandlerInterface $handler = null): void
+    public function addRoot(string $domain, string $rootPath, string $indexFile = 'index.php', ?RequestHandlerInterface $handler = null): void
     {
         $this->serverRoots[$domain] = [
-            'root' => $rootPath,
-            'handler' => $handler,
+            'root' => rtrim($rootPath, '/'),
+            'file' => $indexFile,
+            'handler' => $handler ?: new RequestHandler(),
         ];
     }
 
@@ -120,7 +123,8 @@ class WebServer extends Worker
         chdir($_SERVER['DOCUMENT_ROOT']);
 
         $serverRoot = $this->getServerRoot($request);
-        $requestHandler = $serverRoot['handler'] ?: new RequestHandler();
+        /** @var RequestHandlerInterface $requestHandler */
+        $requestHandler = $serverRoot['handler'];
         $response = $requestHandler->handle($request);
 
         chdir($workermanRoot);
@@ -157,8 +161,8 @@ class WebServer extends Worker
         $rootPath = $serverRoot['root'];
         $rootFile = $serverRoot['file'] ?? 'index.php';
         $_SERVER['DOCUMENT_ROOT'] = $rootPath;
-        $_SERVER['SCRIPT_NAME'] = $rootFile;
         $_SERVER['SCRIPT_FILENAME'] = $rootPath . '/' . $rootFile;
+        $_SERVER['SCRIPT_NAME'] = '/' . $rootFile;
         $_SERVER['PHP_SELF'] = '/' . $rootFile;
     }
 }

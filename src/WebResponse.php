@@ -36,10 +36,51 @@ class WebResponse extends Response
     /**
      * Get stream
      *
-     * @return array
+     * @return array|null
      */
-    public function rawStream(): array
+    public function rawStream(): ?array
     {
         return $this->stream;
+    }
+
+    public function __toString()
+    {
+        if (isset($this->stream)) {
+            return $this->createHeadForStream();
+        }
+        return parent::__toString();
+    }
+
+    /**
+     * @return string
+     * @inheritdoc
+     */
+    protected function createHeadForStream(): string
+    {
+        $reason = $this->_reason ?: static::$_phrases[$this->_status];
+        $head = "HTTP/{$this->_version} {$this->_status} $reason\r\n";
+        $headers = $this->_header;
+        if (!isset($headers['Server'])) {
+            $head .= "Server: workerman\r\n";
+        }
+        foreach ($headers as $name => $value) {
+            if (\is_array($value)) {
+                foreach ($value as $item) {
+                    $head .= "$name: $item\r\n";
+                }
+                continue;
+            }
+            $head .= "$name: $value\r\n";
+        }
+
+        if (!isset($headers['Connection'])) {
+            $head .= "Connection: keep-alive\r\n";
+        }
+
+        if (!isset($headers['Content-Type'])) {
+            $head .= "Content-Type: application/octet-stream\r\n";
+        }
+
+        return "{$head}\r\n";
     }
 }

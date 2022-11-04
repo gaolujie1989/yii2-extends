@@ -32,8 +32,7 @@ class FileMonitor
         $this->lastModifyTime = time();
         Timer::add($this->checkInterval, function () {
             foreach ($this->monitorDirs as $monitorDir) {
-                if ($this->isFilesChanged($monitorDir)) {
-                    $this->lastModifyTime = time();
+                if ($this->isFilesChanged($monitorDir)) {;
                     posix_kill(posix_getppid(), SIGUSR1);
                     break;
                 }
@@ -55,6 +54,7 @@ class FileMonitor
                 continue;
             }
             if ($this->lastModifyTime < $file->getMTime()) {
+                $this->lastModifyTime = $file->getMTime();
                 Worker::safeEcho($file . " updated and reload\n");
                 return true;
             }

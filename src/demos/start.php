@@ -3,7 +3,6 @@
 /**
  * @copyright Copyright (c) 2019
  */
-// phpcs:ignoreFile
 
 use lujie\workerman\FileMonitor;
 use lujie\workerman\handlers\Yii2RequestHandler;
@@ -32,5 +31,5 @@ $webServer->name = 'Yii2WebApp';
 $webServer->user = 'www-data';
 $webServer->group = 'www-data';
 $webServer->count = 4;
-$webServer->addRoot('default', YII_APP_BASE_PATH . '/web/', new Yii2RequestHandler());
+$webServer->addRoot('default', YII_APP_BASE_PATH . '/backend/web', 'app.php', new Yii2RequestHandler());
 Worker::runAll();

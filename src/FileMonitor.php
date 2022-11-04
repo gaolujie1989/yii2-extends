@@ -33,7 +33,7 @@ class FileMonitor
         Timer::add($this->checkInterval, function () {
             foreach ($this->monitorDirs as $monitorDir) {
                 if ($this->isFilesChanged($monitorDir)) {
-                    $this->lastModifyTime = time() + 60;
+                    $this->lastModifyTime = time();
                     posix_kill(posix_getppid(), SIGUSR1);
                     break;
                 }

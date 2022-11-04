@@ -5,7 +5,7 @@
 
 namespace lujie\workerman\web;
 
-use Workerman\Protocols\Http\Response as WorkermanResponse;
+use lujie\workerman\WebResponse;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\web\Cookie;
@@ -18,29 +18,28 @@ use yii\web\Cookie;
 class Response extends \yii\web\Response
 {
     /**
-     * @var WorkermanResponse
+     * @var WebResponse
      */
     private $workermanResponse;
 
     /**
-     * @return WorkermanResponse
+     * @return WebResponse
      * @inheritdoc
      */
-    public function getWorkermanResponse(): WorkermanResponse
+    public function getWorkermanResponse(): WebResponse
     {
         return $this->workermanResponse;
     }
 
     /**
      * Sends the response to the client.
-     * @return WorkermanResponse
+     * @return WebResponse
      * @inheritdoc
      */
-    public function send(): WorkermanResponse
+    public function send(): void
     {
-        $this->workermanResponse = new WorkermanResponse();
+        $this->workermanResponse = $this->workermanResponse ?: new WebResponse();
         parent::send();
-        return $this->workermanResponse;
     }
 
     /**
@@ -53,16 +52,18 @@ class Response extends \yii\web\Response
     }
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function sendHeaders(): void
     {
         foreach ($this->getHeaders() as $name => $values) {
             $name = str_replace(' ', '-', ucwords(str_replace('-', ' ', $name)));
-            $this->workermanResponse->withHeader($name, reset($value));
+            $this->workermanResponse->header($name, $values);
         }
         $statusCode = $this->getStatusCode();
         $this->workermanResponse->withStatus($statusCode);
+        $this->sendCookies();
     }
 
     /**
@@ -104,56 +105,8 @@ class Response extends \yii\web\Response
     {
         if ($this->stream === null) {
             $this->workermanResponse->withBody($this->content);
-            return;
-        }
-
-        if (is_callable($this->stream)) {
-            $data = call_user_func($this->stream);
-            foreach ($data as $datum) {
-                echo $datum;
-                flush();
-            }
-            return;
-        }
-
-        $chunkSize = 8 * 1024 * 1024; // 8MB per chunk
-
-        if (is_array($this->stream)) {
-            list($handle, $begin, $end) = $this->stream;
-
-            // only seek if stream is seekable
-            if ($this->isSeekable($handle)) {
-                fseek($handle, $begin);
-            }
-
-            while (!feof($handle) && ($pos = ftell($handle)) <= $end) {
-                if ($pos + $chunkSize > $end) {
-                    $chunkSize = $end - $pos + 1;
-                }
-                echo fread($handle, $chunkSize);
-                flush(); // Free up memory. Otherwise large files will trigger PHP's memory limit.
-            }
-            fclose($handle);
         } else {
-            while (!feof($this->stream)) {
-                echo fread($this->stream, $chunkSize);
-                flush();
-            }
-            fclose($this->stream);
+            $this->workermanResponse->withStream($this->stream);
         }
-    }
-
-    /**
-     * @param string $filePath
-     * @param null $attachmentName
-     * @param array $options
-     * @return $this
-     * @inheritdoc
-     */
-    public function sendFile($filePath, $attachmentName = null, $options = []): Response
-    {
-        $this->workermanResponse = new WorkermanResponse();
-        $this->workermanResponse->withFile($filePath);
-        return $this;
     }
 }

@@ -5,12 +5,15 @@
 
 namespace lujie\upload\behaviors;
 
-function is_uploaded_file($filename)
+use Workerman\Protocols\Http;
+
+function is_uploaded_file($filename): bool
 {
-    return strpos($filename, WORKERMAN_UPLOAD_FILENAME_PREFIX);
+    return strpos($filename, Http::uploadTmpDir()) !== false
+        && strpos($filename, 'workerman.upload.') !== false;
 }
 
-function move_uploaded_file($filename, $destination)
+function move_uploaded_file($filename, $destination): bool
 {
     if (is_uploaded_file($filename)) {
         return rename($filename, $destination);
@@ -20,12 +23,15 @@ function move_uploaded_file($filename, $destination)
 
 namespace yii\web;
 
-function is_uploaded_file($filename)
+use Workerman\Protocols\Http;
+
+function is_uploaded_file($filename): bool
 {
-    return strpos($filename, WORKERMAN_UPLOAD_FILENAME_PREFIX) !== false;
+    return strpos($filename, Http::uploadTmpDir()) !== false
+        && strpos($filename, 'workerman.upload.') !== false;
 }
 
-function move_uploaded_file($filename, $destination)
+function move_uploaded_file($filename, $destination): bool
 {
     if (is_uploaded_file($filename)) {
         return rename($filename, $destination);
@@ -33,7 +39,7 @@ function move_uploaded_file($filename, $destination)
     return false;
 }
 
-function headers_sent(&$file = null, &$line = null)
+function headers_sent(&$file = null, &$line = null): bool
 {
     return false;
 }

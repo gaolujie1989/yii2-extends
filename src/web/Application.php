@@ -18,7 +18,6 @@ class Application extends \yii\web\Application
      * @param int $status
      * @param null $response
      * @throws ExitException
-     * @throws JumpException
      * @inheritdoc
      */
     public function end($status = 0, $response = null): void
@@ -37,7 +36,5 @@ class Application extends \yii\web\Application
         if (YII_ENV_TEST) {
             throw new ExitException($status);
         }
-
-        throw new JumpException();
     }
 }

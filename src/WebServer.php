@@ -49,6 +49,17 @@ class WebServer extends Worker
         ];
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     * @inheritdoc
+     */
+    protected function getServerRoot(Request $request): array
+    {
+        $domain = $request->host(true);
+        return $this->serverRoots[$domain] ?? reset($this->serverRoots);
+    }
+
     #region Restart after max request
 
     /**
@@ -113,7 +124,7 @@ class WebServer extends Worker
         $response = $requestHandler->handle($request);
 
         chdir($workermanRoot);
-        $connection->send($response);
+        WebHttp::sendResponse($connection, $response);
 
         $this->restartAfterMaxRequest();
     }
@@ -149,16 +160,5 @@ class WebServer extends Worker
         $_SERVER['SCRIPT_NAME'] = $rootFile;
         $_SERVER['SCRIPT_FILENAME'] = $rootPath . '/' . $rootFile;
         $_SERVER['PHP_SELF'] = '/' . $rootFile;
-    }
-
-    /**
-     * @param Request $request
-     * @return array
-     * @inheritdoc
-     */
-    protected function getServerRoot(Request $request): array
-    {
-        $domain = $request->host(true);
-        return $this->serverRoots[$domain] ?? reset($this->serverRoots);
     }
 }

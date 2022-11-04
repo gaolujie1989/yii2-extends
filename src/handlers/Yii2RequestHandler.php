@@ -9,12 +9,13 @@ use lujie\workerman\db\Command;
 use lujie\workerman\db\Connection;
 use lujie\workerman\log\Logger;
 use lujie\workerman\web\ErrorHandler;
-use lujie\workerman\web\JumpException;
 use Workerman\Protocols\Http\Request;
 use Workerman\Protocols\Http\Response;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\web\Application;
+
+defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', false);
 
 /**
  * Class RequestHandler
@@ -40,6 +41,7 @@ class Yii2RequestHandler implements RequestHandlerInterface
 
         $this->yii2App = include $_SERVER['SCRIPT_FILENAME'];
         $app = $this->yii2App;
+        $app->getErrorHandler()->unregister();
         foreach ($app->getComponents() as $name => $config) {
             if ($name === 'logger') {
                 $config['class'] = Logger::class;
@@ -79,10 +81,7 @@ class Yii2RequestHandler implements RequestHandlerInterface
             $app->set('request', $componentsConfig['request']);
             $app->set('response', $componentsConfig['response']);
             $app->getRequest()->setRawBody($request->rawBody());
-//            $app->getResponse()->sendFile('');
             $app->run();
-        } catch (JumpException $jumpException) {
-            //do nothing
         } catch (\Throwable $error) {
             $app->getErrorHandler()->handleException($error);
         }

@@ -58,7 +58,7 @@ trait FileTrait
      */
     public function saveUploadedFile(string $filePath, UploadedFile $file, bool $deleteTempFile = true): bool
     {
-        if ($file->error !== UPLOAD_ERR_OK) {
+        if ($file->error !== UPLOAD_ERR_OK || !is_uploaded_file($file->tempName)) {
             return false;
         }
 

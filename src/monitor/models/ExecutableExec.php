@@ -45,7 +45,7 @@ class ExecutableExec extends \lujie\extend\db\ActiveRecord
             [['executable', 'error'], 'string'],
             [['additional'], 'safe'],
             [['executable_exec_uid'], 'string', 'max' => 32],
-            [['executable_id', 'executor'], 'string', 'max' => 50],
+            [['executable_id', 'executor'], 'string', 'max' => 100],
         ];
     }
 

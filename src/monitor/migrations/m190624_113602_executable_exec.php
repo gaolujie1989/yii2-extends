@@ -15,8 +15,8 @@ class m190624_113602_executable_exec extends Migration
         $this->createTable($this->tableName, [
             'executable_exec_id' => $this->bigPrimaryKey(),
             'executable_exec_uid' => $this->string(32)->notNull()->defaultValue(''),
-            'executable_id' => $this->string(50)->notNull()->defaultValue(''),
-            'executor' => $this->string(50)->notNull()->defaultValue(''),
+            'executable_id' => $this->string(100)->notNull()->defaultValue(''),
+            'executor' => $this->string(100)->notNull()->defaultValue(''),
             'queued_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'started_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'finished_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),

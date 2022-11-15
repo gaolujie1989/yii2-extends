@@ -12,6 +12,7 @@ use lujie\extend\caching\CachingTrait;
 use Yii;
 use yii\authclient\BaseOAuth;
 use yii\authclient\ClientInterface;
+use yii\authclient\OAuthToken;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\base\UserException;
@@ -49,6 +50,16 @@ class OAuthAccountCallback extends BaseObject
     public $returnResponse = true;
 
     /**
+     * @var array
+     */
+    public $refreshTokenExpiresIns = [];
+
+    /**
+     * @var int
+     */
+    public $defaultRefreshTokenExpiresIn = 86400 * 365;
+
+    /**
      * @param ClientInterface $client
      * @return Response|null
      * @throws InvalidConfigException
@@ -70,7 +81,7 @@ class OAuthAccountCallback extends BaseObject
             throw new UserException($message);
         }
 
-        $account = $this->getAuthingAccount();
+        $account = $this->getAuthingAccount($authService);
         if ($account === null) {
             $account = new $this->accountClass();
             $account->type = $this->accountTypes[$authService] ?? $authService;
@@ -93,6 +104,9 @@ class OAuthAccountCallback extends BaseObject
             $authToken->access_token = $accessToken->getToken();
             $authToken->refresh_token = $accessToken->getTokenSecret() ?: '';
             $authToken->expires_at = $accessToken->getExpireDuration() + $accessToken->createTimestamp;
+            $refreshTokenExpiresIn = AuthTokenHelper::getRefreshTokenExpireDuration($accessToken)
+                ?: ($this->refreshTokenExpiresIns[$authService] ?? $this->defaultRefreshTokenExpiresIn);
+            $authToken->refresh_token_expires_at = $refreshTokenExpiresIn +  + $accessToken->createTimestamp;
             $authToken->additional = array_merge($authToken->additional ?: [], ['token' => $accessToken->getParams()]);
         }
         $authToken->save(false);
@@ -110,10 +124,10 @@ class OAuthAccountCallback extends BaseObject
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getAuthingAccount(): ?Account
+    public function getAuthingAccount(string $authService): ?Account
     {
-        $accountId = $this->getCacheValue($this->getCacheKey());
-        $this->setAuthingAccount(null);
+        $accountId = $this->getCacheValue($this->getAuthingAccountCacheKey($authService));
+        $this->setAuthingAccount(null, $authService);
         if ($accountId) {
             return $this->accountClass::findOne($accountId);
         }
@@ -125,20 +139,28 @@ class OAuthAccountCallback extends BaseObject
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function setAuthingAccount(?Account $account): void
+    public function setAuthingAccount(?Account $account, string $authService): void
     {
         if ($account === null) {
-            $this->deleteCacheValue($this->getCacheKey());
+            $this->deleteCacheValue($this->getAuthingAccountCacheKey($authService));
         } else {
-            $this->setCacheValue($this->getCacheKey(), $account->id);
+            $this->setCacheValue($this->getAuthingAccountCacheKey($authService), $account->id);
         }
     }
 
-    protected function getCacheKey(): string
+    /**
+     * @param string $authService
+     * @return string
+     * @inheritdoc
+     */
+    protected function getAuthingAccountCacheKey(string $authService): string
     {
         return implode('_', [
             $this->authingAccountCacheKey,
+            $authService,
             Yii::$app->getUser()->getId() ?: 0,
         ]);
     }
+
+
 }

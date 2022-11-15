@@ -15,6 +15,7 @@ use Yii;
  * @property string $access_token
  * @property string $refresh_token
  * @property int $expires_at
+ * @property int $refresh_token_expires_at
  * @property array|null $additional
  */
 class AuthToken extends \lujie\extend\db\ActiveRecord
@@ -34,10 +35,10 @@ class AuthToken extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['user_id', 'auth_user_id', 'expires_at'], 'default', 'value' => 0],
+            [['user_id', 'auth_user_id', 'expires_at', 'refresh_token_expires_at'], 'default', 'value' => 0],
             [['auth_service', 'auth_username', 'access_token', 'refresh_token'], 'default', 'value' => ''],
             [['additional'], 'default', 'value' => []],
-            [['user_id', 'auth_user_id', 'expires_at'], 'integer'],
+            [['user_id', 'auth_user_id', 'expires_at', 'refresh_token_expires_at'], 'integer'],
             [['additional'], 'safe'],
             [['auth_service', 'auth_username'], 'string', 'max' => 50],
             [['access_token', 'refresh_token'], 'string', 'max' => 5000],
@@ -60,6 +61,7 @@ class AuthToken extends \lujie\extend\db\ActiveRecord
             'access_token' => Yii::t('lujie/common', 'Access Token'),
             'refresh_token' => Yii::t('lujie/common', 'Refresh Token'),
             'expires_at' => Yii::t('lujie/common', 'Expires At'),
+            'refresh_token_expires_at' => Yii::t('lujie/common', 'Refresh Token Expires At'),
             'additional' => Yii::t('lujie/common', 'Additional'),
         ];
     }

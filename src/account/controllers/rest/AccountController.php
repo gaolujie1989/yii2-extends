@@ -86,13 +86,14 @@ class AccountController extends ActiveController
         if ($accountId) {
             /** @var Account $account */
             $account = $this->findModel($accountId);
-            $OAuthLoginCallback->setAuthingAccount($account);
+            $OAuthLoginCallback->setAuthingAccount($account, $account->type);
         }
     }
 
     /**
      * @param ClientInterface $client
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\UserException
      * @inheritdoc
      */
     public function onAuthSuccess(ClientInterface $client): void

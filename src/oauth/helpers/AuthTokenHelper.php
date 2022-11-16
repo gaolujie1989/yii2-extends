@@ -41,9 +41,9 @@ class AuthTokenHelper
      * @return int|null
      * @inheritdoc
      */
-    public static function getRefreshTokenExpireDuration(OAuthToken $token, string $expireDurationParamKey = 'refresh_token_expires_in'): ?int
+    public static function getRefreshTokenExpireDuration(OAuthToken $token, string $expireDurationParamKey = 'refresh_token_expires_in', int $default = 86400 * 365): ?int
     {
-        return $token->getParam(static::defaultRefreshTokenExpireDurationParamKey($token, $expireDurationParamKey));
+        return $token->getParam(static::defaultRefreshTokenExpireDurationParamKey($token, $expireDurationParamKey)) ?: $default;
     }
 
     /**

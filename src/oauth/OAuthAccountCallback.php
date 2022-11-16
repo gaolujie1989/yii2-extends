@@ -50,11 +50,6 @@ class OAuthAccountCallback extends BaseObject
     public $returnResponse = true;
 
     /**
-     * @var array
-     */
-    public $refreshTokenExpiresIns = [];
-
-    /**
      * @var int
      */
     public $defaultRefreshTokenExpiresIn = 86400 * 365;
@@ -104,9 +99,7 @@ class OAuthAccountCallback extends BaseObject
             $authToken->access_token = $accessToken->getToken();
             $authToken->refresh_token = $accessToken->getTokenSecret() ?: '';
             $authToken->expires_at = $accessToken->getExpireDuration() + $accessToken->createTimestamp;
-            $refreshTokenExpiresIn = AuthTokenHelper::getRefreshTokenExpireDuration($accessToken)
-                ?: ($this->refreshTokenExpiresIns[$authService] ?? $this->defaultRefreshTokenExpiresIn);
-            $authToken->refresh_token_expires_at = $refreshTokenExpiresIn +  + $accessToken->createTimestamp;
+            $authToken->refresh_token_expires_at = AuthTokenHelper::getRefreshTokenExpireDuration($accessToken) + $accessToken->createTimestamp;
             $authToken->additional = array_merge($authToken->additional ?: [], ['token' => $accessToken->getParams()]);
         }
         $authToken->save(false);

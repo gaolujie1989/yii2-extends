@@ -12,6 +12,23 @@ namespace lujie\amazon\sp;
  */
 class AmazonSPConst
 {
+    public const API_URL_NA = 'https://sellingpartnerapi-na.amazon.com';
+    public const API_URL_EU = 'https://sellingpartnerapi-eu.amazon.com';
+    public const API_URL_FE = 'https://sellingpartnerapi-fe.amazon.com';
+
+    public const AUTH_URL_US = 'https://sellercentral.amazon.com/apps/authorize/consent';
+    public const AUTH_URL_EU = 'https://sellercentral-europe.amazon.com/apps/authorize/consent';
+
+    public const TOKEN_URL = 'https://api.amazon.com/auth/o2/token';
+
+    public const REGION_US_EAST_1 = 'us-east-1';
+    public const REGION_EU_WEST_1 = 'eu-west-1';
+    public const REGION_US_WEST_2 = 'us-west-2';
+
+    public const HOST_US_EAST_1 = 'sellingpartnerapi-na.amazon.com';
+    public const HOST_US_WEST_2 = 'sellingpartnerapi-fe.amazon.com';
+    public const HOST_EU_WEST_1 = 'sellingpartnerapi-eu.amazon.com';
+
     public const MARKETPLACES = [
         'CA' => 'A2EUQ1WTGCTBG2',
         'US' => 'ATVPDKIKX0DER',
@@ -35,13 +52,6 @@ class AmazonSPConst
         'AU' => 'A39IBJ37TRP1C6',
         'JP' => 'A1VC38T7YXB528',
     ];
-
-    public const REGION_US_EAST_1 = 'us-east-1';
-    public const REGION_US_WEST_2 = 'us-west-2';
-    public const REGION_EU_WEST_1 = 'eu-west-1';
-    public const HOST_US_EAST_1 = 'sellingpartnerapi-na.amazon.com';
-    public const HOST_US_WEST_2 = 'sellingpartnerapi-fe.amazon.com';
-    public const HOST_EU_WEST_1 = 'sellingpartnerapi-eu.amazon.com';
 
     public const REPORT_STATUS_CANCELLED = 'CANCELLED';
     public const REPORT_STATUS_DONE = 'DONE';

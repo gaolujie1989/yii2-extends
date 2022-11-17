@@ -22,14 +22,16 @@ class AccountHelper
      * @return Account
      * @inheritdoc
      */
-    public static function copyAccount(Account $account, string $copyAccountClass, bool $copyToken = true): Account
+    public static function copyAccount(Account $account, string $copyAccountClass, string $accountType = null, bool $copyToken = true): Account
     {
+        $accountType = $accountType ?: $account->type;
         $copyAccount = $copyAccountClass::find()
-            ->type($account->type)
+            ->type($accountType)
             ->username($account->username)
-            ->one() ?: new $copyAccountClass(['name' => $account->name]);
-        $copyAccount->setAttributes($account->getAttributes(null, ['name', 'status']));
+            ->one() ?: new $copyAccountClass(['name' => $account->name, 'type' => $accountType]);
+        $copyAccount->setAttributes($account->getAttributes(null, ['name', 'type', 'status']));
         $copyAccount->save(false);
+
         if ($copyToken && $account->authToken) {
             $authToken = $copyAccount->authToken ?: new AuthToken();
             $authToken->setAttributes($account->authToken->getAttributes());

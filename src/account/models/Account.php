@@ -93,6 +93,17 @@ class Account extends \lujie\extend\db\ActiveRecord
     }
 
     /**
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
+     */
+    public function afterDelete(): void
+    {
+        parent::afterDelete();
+        $this->authToken?->delete();
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */

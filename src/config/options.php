@@ -8,6 +8,9 @@ use lujie\sales\channel\constants\SalesChannelConst;
 return [
     'salesChannelAccountType' => [
         'PM' => SalesChannelConst::ACCOUNT_TYPE_PM,
+        'AMAZON' => SalesChannelConst::ACCOUNT_TYPE_AMAZON,
+        'EBAY' => SalesChannelConst::ACCOUNT_TYPE_EBAY,
+        'SHOPIFY' => SalesChannelConst::ACCOUNT_TYPE_SHOPIFY,
     ],
     'salesChannelStatus' => [
         'WAIT_PAYMENT' => SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,

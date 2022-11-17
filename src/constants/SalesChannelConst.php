@@ -8,6 +8,9 @@ namespace lujie\sales\channel\constants;
 class SalesChannelConst
 {
     public const ACCOUNT_TYPE_PM = 'PM';
+    public const ACCOUNT_TYPE_AMAZON = 'AMAZON';
+    public const ACCOUNT_TYPE_EBAY = 'EBAY';
+    public const ACCOUNT_TYPE_SHOPIFY = 'SHOPIFY';
 
     public const CHANNEL_STATUS_WAIT_PAYMENT = 0;
     public const CHANNEL_STATUS_PAID = 10;

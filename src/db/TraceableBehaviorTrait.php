@@ -27,8 +27,8 @@ trait TraceableBehaviorTrait
 {
     /**
      * @return array
-     * @deprecated
      * @inheritdoc
+     * @TODO need to remove
      */
     public function behaviors(): array
     {

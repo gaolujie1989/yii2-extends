@@ -27,8 +27,8 @@ class AccountHelper
         $copyAccount = $copyAccountClass::find()
             ->type($account->type)
             ->username($account->username)
-            ->one() ?: new $copyAccountClass();
-        $copyAccount->setAttributes($account->getAttributes());
+            ->one() ?: new $copyAccountClass(['name' => $account->name]);
+        $copyAccount->setAttributes($account->getAttributes(null, ['name', 'status']));
         $copyAccount->save(false);
         if ($copyToken && $account->authToken) {
             $authToken = $copyAccount->authToken ?: new AuthToken();

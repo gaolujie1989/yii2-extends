@@ -34,6 +34,7 @@ class AccountHelper
             $authToken = $copyAccount->authToken ?: new AuthToken();
             $authToken->setAttributes($account->authToken->getAttributes());
             $authToken->user_id = $copyAccount->account_id;
+            $authToken->auth_user_id = $copyAccount->account_id;
             $authToken->save(false);
         }
         return $copyAccount;

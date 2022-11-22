@@ -34,6 +34,19 @@ class CombinedSource extends BaseObject implements SourceInterface, BatchSourceI
     }
 
     /**
+     * @return int
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        $counts = [];
+        foreach ($this->sources as $source) {
+            $counts[] = $source->count();
+        }
+        return array_sum($counts);
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */

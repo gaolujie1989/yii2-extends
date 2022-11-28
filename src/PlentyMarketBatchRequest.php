@@ -199,6 +199,13 @@ use yii\helpers\Json;
  * @method array deleteOrderProperty($data)
  * @method array cancelOrderProperty($data)
  *
+ * @method array listOrderPropertyTypes($data = [])
+ * @method array getOrderPropertyType($data)
+ * @method array createOrderPropertyType($data)
+ * @method array updateOrderPropertyType($data)
+ * @method array deleteOrderPropertyType($data)
+ * @method array cancelOrderPropertyType($data)
+ *
  * @method array listOrderShippingPackages($data)
  * @method array getOrderShippingPackage($data)
  * @method array createOrderShippingPackage($data)
@@ -249,17 +256,35 @@ use yii\helpers\Json;
  * @method array updatePaymentProperty($data)
  * @method array deletePaymentProperty($data)
  *
+ * @method array listListings($data = [])
+ * @method array getListing($data)
+ * @method array createListing($data)
+ * @method array updateListing($data)
+ * @method array deleteListing($data)
+ *
  * @method array listListingMarkets($data = [])
  * @method array getListingMarket($data)
  * @method array createListingMarket($data)
  * @method array updateListingMarket($data)
  * @method array deleteListingMarket($data)
  *
+ * @method array listListingMarketHistories($data = [])
+ * @method array getListingMarketHistory($data)
+ * @method array relistListingMarketHistory($data)
+ * @method array updateListingMarketHistory($data)
+ * @method array endListingMarketHistory($data)
+ *
  * @method array listListingMarketTexts($data = [])
  * @method array getListingMarketTexts($data)
  * @method array createListingMarketTexts($data)
  * @method array updateListingMarketTexts($data)
  * @method array deleteListingMarketTexts($data)
+ *
+ * @method array listComments($data = [])
+ * @method array getComment($data)
+ * @method array createComment($data)
+ * @method array updateComment($data)
+ * @method array deleteComment($data)
  *
  * @method array batchRequest($data)
  * @method array searchItemVariations($data)

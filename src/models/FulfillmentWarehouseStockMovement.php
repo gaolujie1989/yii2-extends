@@ -22,6 +22,8 @@ use Yii;
  */
 class FulfillmentWarehouseStockMovement extends \lujie\fulfillment\base\db\ActiveRecord
 {
+    use FulfillmentItemRelationTrait, FulfillmentWarehouseRelationTrait;
+
     /**
      * {@inheritdoc}
      */

@@ -17,6 +17,8 @@ use Yii;
  */
 class FulfillmentDailyStock extends \lujie\fulfillment\base\db\ActiveRecord
 {
+    use FulfillmentItemRelationTrait, FulfillmentWarehouseRelationTrait;
+
     /**
      * {@inheritdoc}
      */

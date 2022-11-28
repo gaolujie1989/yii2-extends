@@ -25,7 +25,6 @@ class PushFulfillmentOrderTask extends CronTask
     /**
      * @return bool
      * @throws InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function execute(): bool

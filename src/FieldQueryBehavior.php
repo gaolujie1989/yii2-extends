@@ -402,7 +402,7 @@ class FieldQueryBehavior extends Behavior
             case self::RETURN_COLUMN:
                 $indexBy = $this->queryReturns[$name][2] ?? null;
                 $isIndex = empty($params) || array_shift($params);
-                if ($indexBy && $isIndex) {
+                if ($indexBy && $isIndex && empty($owner->indexBy)) {
                     $owner->indexBy($indexBy);
                 }
                 return $owner->select([$field])->column();

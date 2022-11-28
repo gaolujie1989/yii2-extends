@@ -15,8 +15,6 @@ class m201120_150505_fulfillment_daily_stock extends Migration
         $this->createTable($this->tableName, [
             'fulfillment_daily_stock_id' => $this->bigPrimaryKey(),
             'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
 
@@ -25,11 +23,6 @@ class m201120_150505_fulfillment_daily_stock extends Migration
             'stock_date' => $this->date()->notNull(),
         ]);
 
-        $this->createIndex(
-            'idx_item_stock_date_warehouse_account',
-            $this->tableName,
-            ['item_id', 'stock_date', 'warehouse_id', 'fulfillment_account_id']
-        );
         $this->createIndex(
             'idx_external_item_stock_date_warehouse_account',
             $this->tableName,

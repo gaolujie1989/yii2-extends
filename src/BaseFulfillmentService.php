@@ -483,6 +483,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     {
         $warehouseIds = FulfillmentWarehouse::find()
             ->fulfillmentAccountId($this->account->account_id)
+            ->mappedWarehouse()
             ->getWarehouseIds();
         $externalWarehouseKeys = array_keys($warehouseIds);
         $itemIds = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'item_id');
@@ -609,7 +610,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $itemIds = FulfillmentItem::find()
             ->fulfillmentAccountId($this->account->account_id)
             ->externalItemKey($externalItemKeys)
-            ->getItemIds(true);
+            ->indexByExternalItemKey()
+            ->getItemIds();
         foreach ($newMovementKeys as $newMovementKey) {
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];

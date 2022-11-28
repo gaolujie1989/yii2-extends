@@ -23,7 +23,6 @@ use Yii;
  */
 class FulfillmentItem extends \lujie\fulfillment\base\db\ActiveRecord
 {
-
     /**
      * {@inheritdoc}
      */
@@ -38,12 +37,10 @@ class FulfillmentItem extends \lujie\fulfillment\base\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['fulfillment_account_id', 'item_id', 'item_updated_at',
-                'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pulled_at'], 'default', 'value' => 0],
+            [['fulfillment_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pulled_at'], 'default', 'value' => 0],
             [['external_item_key'], 'default', 'value' => ''],
             [['external_item_additional', 'item_pushed_result', 'additional'], 'default', 'value' => []],
-            [['fulfillment_account_id', 'item_id', 'item_updated_at',
-                'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pulled_at'], 'integer'],
+            [['fulfillment_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pulled_at'], 'integer'],
             [['external_item_additional', 'item_pushed_result', 'additional'], 'safe'],
             [['external_item_key'], 'string', 'max' => 50],
             [['item_id', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['item_id', 'fulfillment_account_id']],

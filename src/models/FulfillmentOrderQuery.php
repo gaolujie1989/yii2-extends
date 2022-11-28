@@ -21,11 +21,19 @@ use lujie\fulfillment\constants\FulfillmentConst;
  * @method FulfillmentOrderQuery orderId($orderId)
  * @method FulfillmentOrderQuery orderStatus($orderStatus)
  * @method FulfillmentOrderQuery warehouseId($warehouseId)
- * @method FulfillmentOrderQuery externalOrderKey($externalOrderKey)
+ * @method FulfillmentOrderQuery externalOrderKey($externalOrderKey, bool|string $like = false)
  * @method FulfillmentOrderQuery externalOrderStatus($externalOrderStatus)
- * @method FulfillmentOrderQuery externalWarehouseKey($externalWarehouseKey)
+ * @method FulfillmentOrderQuery externalWarehouseKey($externalWarehouseKey, bool|string $like = false)
  * @method FulfillmentOrderQuery orderPushedStatus($orderPushedStatus)
  *
+ * @method FulfillmentOrderQuery orderUpdatedAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery externalCreatedAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery externalUpdatedAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery orderPushedAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery orderPulledAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery chargePulledAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery createdAtBetween($from, $to = null)
+ * @method FulfillmentOrderQuery updatedAtBetween($from, $to = null)
  * @method FulfillmentOrderQuery externalUpdatedAtFrom($externalUpdatedAtFrom)
  * @method FulfillmentOrderQuery externalUpdatedAtTo($externalUpdatedAtTo)
  * @method FulfillmentOrderQuery orderPulledAtFrom($orderPulledAtFrom)
@@ -48,8 +56,32 @@ use lujie\fulfillment\constants\FulfillmentConst;
  *
  * @method FulfillmentOrderQuery chargeNotPulled()
  *
- * @method FulfillmentOrderQuery orderByOrderPulledAt()
+ * @method FulfillmentOrderQuery orderByFulfillmentOrderId($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByFulfillmentAccountId($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByOrderId($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByOrderUpdatedAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByWarehouseId($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByExternalCreatedAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByExternalUpdatedAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByOrderPushedAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByOrderPulledAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByChargePulledAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByCreatedAt($sort = SORT_ASC)
+ * @method FulfillmentOrderQuery orderByUpdatedAt($sort = SORT_ASC)
  *
+ * @method FulfillmentOrderQuery indexByFulfillmentOrderId()
+ * @method FulfillmentOrderQuery indexByFulfillmentAccountId()
+ * @method FulfillmentOrderQuery indexByOrderId()
+ * @method FulfillmentOrderQuery indexByWarehouseId()
+ * @method FulfillmentOrderQuery indexByExternalOrderKey()
+ * @method FulfillmentOrderQuery indexByExternalWarehouseKey()
+ *
+ * @method array getFulfillmentOrderIds()
+ * @method array getFulfillmentAccountIds()
+ * @method array getOrderIds()
+ * @method array getWarehouseIds()
+ * @method array getExternalOrderKeys()
+ * @method array getExternalWarehouseKeys()
  * @method int maxExternalUpdatedAt()
  *
  * @method array|FulfillmentOrder[] all($db = null)
@@ -78,11 +110,18 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     'orderId' => 'order_id',
                     'orderStatus' => 'order_status',
                     'warehouseId' => 'warehouse_id',
-                    'externalOrderKey' => 'external_order_key',
+                    'externalOrderKey' => ['external_order_key' => FieldQueryBehavior::TYPE_STRING],
                     'externalOrderStatus' => 'external_order_status',
-                    'externalWarehouseKey' => 'external_warehouse_key',
+                    'externalWarehouseKey' => ['external_warehouse_key' => FieldQueryBehavior::TYPE_STRING],
                     'orderPushedStatus' => 'order_pushed_status',
-
+                    'orderUpdatedAtBetween' => ['order_updated_at' => 'BETWEEN'],
+                    'externalCreatedAtBetween' => ['external_created_at' => 'BETWEEN'],
+                    'externalUpdatedAtBetween' => ['external_updated_at' => 'BETWEEN'],
+                    'orderPushedAtBetween' => ['order_pushed_at' => 'BETWEEN'],
+                    'orderPulledAtBetween' => ['order_pulled_at' => 'BETWEEN'],
+                    'chargePulledAtBetween' => ['charge_pulled_at' => 'BETWEEN'],
+                    'createdAtBetween' => ['created_at' => 'BETWEEN'],
+                    'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                     'externalUpdatedAtFrom' => ['external_updated_at' => '>='],
                     'externalUpdatedAtTo' => ['external_updated_at' => '<='],
                     'orderPulledAtFrom' => ['order_pulled_at' => '>='],
@@ -167,11 +206,36 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                     #endregion
                     'chargeNotPulled' => ['charge_pulled_at' => 0]
                 ],
-                'queryReturns' => [
-                    'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX]
-                ],
                 'querySorts' => [
-                    'orderByOrderPulledAt' => ['order_pulled_at'],
+                    'orderByFulfillmentOrderId' => 'fulfillment_order_id',
+                    'orderByFulfillmentAccountId' => 'fulfillment_account_id',
+                    'orderByOrderId' => 'order_id',
+                    'orderByOrderUpdatedAt' => 'order_updated_at',
+                    'orderByWarehouseId' => 'warehouse_id',
+                    'orderByExternalCreatedAt' => 'external_created_at',
+                    'orderByExternalUpdatedAt' => 'external_updated_at',
+                    'orderByOrderPushedAt' => 'order_pushed_at',
+                    'orderByOrderPulledAt' => 'order_pulled_at',
+                    'orderByChargePulledAt' => 'charge_pulled_at',
+                    'orderByCreatedAt' => 'created_at',
+                    'orderByUpdatedAt' => 'updated_at',
+                ],
+                'queryIndexes' => [
+                    'indexByFulfillmentOrderId' => 'fulfillment_order_id',
+                    'indexByFulfillmentAccountId' => 'fulfillment_account_id',
+                    'indexByOrderId' => 'order_id',
+                    'indexByWarehouseId' => 'warehouse_id',
+                    'indexByExternalOrderKey' => 'external_order_key',
+                    'indexByExternalWarehouseKey' => 'external_warehouse_key',
+                ],
+                'queryReturns' => [
+                    'getFulfillmentOrderIds' => ['fulfillment_order_id', FieldQueryBehavior::RETURN_COLUMN],
+                    'getFulfillmentAccountIds' => ['fulfillment_account_id', FieldQueryBehavior::RETURN_COLUMN],
+                    'getOrderIds' => ['order_id', FieldQueryBehavior::RETURN_COLUMN, 'external_order_key'],
+                    'getWarehouseIds' => ['warehouse_id', FieldQueryBehavior::RETURN_COLUMN],
+                    'getExternalOrderKeys' => ['external_order_key', FieldQueryBehavior::RETURN_COLUMN, 'order_id'],
+                    'getExternalWarehouseKeys' => ['external_warehouse_key', FieldQueryBehavior::RETURN_COLUMN],
+                    'maxExternalUpdatedAt' => ['external_updated_at', FieldQueryBehavior::RETURN_MAX],
                 ],
             ]
         ];
@@ -191,18 +255,5 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
                 ['<=', 'updated_at', time() - $queuedDuration],
             ]
         ]);
-    }
-
-    /**
-     * @param bool $indexByOrderId
-     * @return array
-     * @inheritdoc
-     */
-    public function getExternalOrderKeys(bool $indexByOrderId = true): array
-    {
-        if ($indexByOrderId) {
-            $this->indexBy('order_id');
-        }
-        return $this->select(['external_order_key'])->column();
     }
 }

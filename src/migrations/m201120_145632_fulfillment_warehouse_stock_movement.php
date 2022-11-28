@@ -15,8 +15,6 @@ class m201120_145632_fulfillment_warehouse_stock_movement extends Migration
         $this->createTable($this->tableName, [
             'fulfillment_warehouse_stock_movement_id' => $this->bigPrimaryKey(),
             'fulfillment_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'warehouse_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_warehouse_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_movement_key' => $this->string(50)->notNull()->defaultValue(''),
@@ -34,11 +32,6 @@ class m201120_145632_fulfillment_warehouse_stock_movement extends Migration
             'uk_external_movement_account',
             $this->tableName,
             ['external_movement_key', 'fulfillment_account_id']
-        );
-        $this->createIndex(
-            'idx_item_warehouse_account',
-            $this->tableName,
-            ['item_id', 'warehouse_id', 'fulfillment_account_id']
         );
         $this->createIndex(
             'idx_external_item_warehouse_account',

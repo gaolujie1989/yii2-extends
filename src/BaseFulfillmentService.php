@@ -481,15 +481,11 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      */
     public function pullWarehouseStocks(array $fulfillmentItems): void
     {
-        $warehouseIds = FulfillmentWarehouse::find()
+        $externalWarehouseKeys = FulfillmentWarehouse::find()
             ->fulfillmentAccountId($this->account->account_id)
             ->mappedWarehouse()
-            ->getWarehouseIds();
-        $externalWarehouseKeys = array_keys($warehouseIds);
-        $itemIds = ArrayHelper::map($fulfillmentItems, 'external_item_key', 'item_id');
-        $externalItemKeys = array_map(static function ($v) {
-            return (string)$v;
-        }, array_keys($itemIds));
+            ->getExternalWarehouseKeys();
+        $externalItemKeys = ArrayHelper::map($fulfillmentItems, 'item_id', 'external_item_key');
 
         $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
             ->fulfillmentAccountId($this->account->account_id)
@@ -509,19 +505,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
             $externalItemKey = $externalWarehouseStock[$this->stockItemKeyField];
-            if (empty($warehouseIds[$externalWarehouseKey]) || empty($itemIds[$externalItemKey])) {
-                Yii::debug("Empty warehouseId or itemId, skip", __METHOD__);
-                continue;
-            }
-
             $stockKey = $externalWarehouseKey . '-' . $externalItemKey;
             $fulfillmentWarehouseStock = $fulfillmentWarehouseStocks[$stockKey] ?? new FulfillmentWarehouseStock();
+
             if ($fulfillmentWarehouseStock->getIsNewRecord()) {
                 $fulfillmentWarehouseStock->fulfillment_account_id = $this->account->account_id;
                 $fulfillmentWarehouseStock->external_warehouse_key = $externalWarehouseKey;
                 $fulfillmentWarehouseStock->external_item_key = $externalItemKey;
-                $fulfillmentWarehouseStock->warehouse_id = $warehouseIds[$externalWarehouseKey];
-                $fulfillmentWarehouseStock->item_id = $itemIds[$externalItemKey];
             }
 
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
@@ -596,36 +586,20 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $existMovementKeys = FulfillmentWarehouseStockMovement::find()
             ->fulfillmentAccountId($this->account->account_id)
             ->externalMovementKey($stockMovementKeys)
-            ->getExternalMovementKey();
+            ->getExternalMovementKeys();
         $newMovementKeys = array_diff($stockMovementKeys, $existMovementKeys);
         if (empty($newMovementKeys)) {
             Yii::debug("No new movements, skip", __METHOD__);
             return;
         }
-        $externalItemKeys = [];
-        foreach ($newMovementKeys as $newMovementKey) {
-            $externalItemKey = $externalMovements[$newMovementKey][$this->stockItemKeyField];
-            $externalItemKeys[$externalItemKey] = $externalItemKey;
-        }
-        $itemIds = FulfillmentItem::find()
-            ->fulfillmentAccountId($this->account->account_id)
-            ->externalItemKey($externalItemKeys)
-            ->indexByExternalItemKey()
-            ->getItemIds();
         foreach ($newMovementKeys as $newMovementKey) {
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
-            if (empty($itemIds[$externalItemKey])) {
-                Yii::debug("Empty itemId of externalItemKey {$externalItemKey}, skip", __METHOD__);
-                continue;
-            }
             $fulfillmentMovement = new FulfillmentWarehouseStockMovement();
             $fulfillmentMovement->fulfillment_account_id = $fulfillmentWarehouse->fulfillment_account_id;
             $fulfillmentMovement->external_movement_key = $newMovementKey;
             $fulfillmentMovement->external_warehouse_key = $fulfillmentWarehouse->external_warehouse_key;
             $fulfillmentMovement->external_item_key = $externalItemKey;
-            $fulfillmentMovement->warehouse_id = $fulfillmentWarehouse->warehouse_id;
-            $fulfillmentMovement->item_id = $itemIds[$externalItemKey];
             $fulfillmentMovement->external_created_at = is_numeric($newStockMovement[$this->externalMovementTimeField])
                 ? substr($newStockMovement[$this->externalMovementTimeField], 0, 10)
                 : strtotime($newStockMovement[$this->externalMovementTimeField]);

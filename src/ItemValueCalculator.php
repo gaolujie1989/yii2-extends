@@ -28,12 +28,11 @@ abstract class ItemValueCalculator extends BaseObject
      * @throws Exception
      * @inheritdoc
      */
-    public function calculateMovementsItemValues(int $warehouseId, string $dateFrom, string $dateTo): void
+    public function calculateMovementsItemValues(string $externalWarehouseKey, string $dateFrom, string $dateTo): void
     {
         $movementQuery = FulfillmentDailyStockMovement::find()
-            ->warehouseId($warehouseId)
-            ->movementDateFrom($dateFrom)
-            ->movementDateTo($dateTo)
+            ->externalWarehouseKey($externalWarehouseKey)
+            ->movementDateBetween($dateFrom, $dateTo)
             ->orderByMovementDate();
         foreach ($movementQuery->each() as $dailyStockMovement) {
             $this->calculateItemValue($dailyStockMovement);
@@ -52,27 +51,25 @@ abstract class ItemValueCalculator extends BaseObject
             return false;
         }
         $dailyStock = FulfillmentDailyStock::find()
-            ->warehouseId($dailyStockMovement->warehouse_id)
-            ->itemId($dailyStockMovement->item_id)
+            ->externalWarehouseKey($dailyStockMovement->external_warehouse_key)
+            ->externalItemKey($dailyStockMovement->external_item_key)
             ->stockDate($dailyStockMovement->movement_date)
             ->one();
         if ($dailyStock === null) {
-            $message = "Null daily stock of Item {$dailyStockMovement->item_id}"
-                . " in warehouse {$dailyStockMovement->warehouse_id} at {$dailyStockMovement->movement_date}";
+            $message = "Null daily stock of Item {$dailyStockMovement->external_item_key}"
+                . " in warehouse {$dailyStockMovement->external_warehouse_key} at {$dailyStockMovement->movement_date}";
             throw new Exception($message);
         }
 
         $newItemValue = FulfillmentItemValue::find()
             ->fulfillmentDailyStockMovementId($dailyStockMovement->fulfillment_daily_stock_movement_id)
-            ->warehouseId($dailyStockMovement->warehouse_id)
-            ->itemId($dailyStockMovement->item_id)
+            ->externalWarehouseKey($dailyStockMovement->external_warehouse_key)
+            ->externalItemKey($dailyStockMovement->external_item_key)
             ->valueDate($dailyStockMovement->movement_date)
             ->one();
         if ($newItemValue === null) {
             $newItemValue = new FulfillmentItemValue();
             $newItemValue->fulfillment_daily_stock_movement_id = $dailyStockMovement->fulfillment_daily_stock_movement_id;
-            $newItemValue->warehouse_id = $dailyStockMovement->warehouse_id;
-            $newItemValue->item_id = $dailyStockMovement->item_id;
             $newItemValue->external_warehouse_key = $dailyStockMovement->external_warehouse_key;
             $newItemValue->external_item_key = $dailyStockMovement->external_item_key;
             $newItemValue->value_date = $dailyStockMovement->movement_date;
@@ -83,8 +80,8 @@ abstract class ItemValueCalculator extends BaseObject
 
         $newItemValue->old_item_qty = max($dailyStock->stock_qty - $dailyStockMovement->movement_qty, 0);
         $oldItemValue = FulfillmentItemValue::find()
-            ->warehouseId($dailyStockMovement->warehouse_id)
-            ->itemId($dailyStockMovement->item_id)
+            ->externalWarehouseKey($dailyStockMovement->external_warehouse_key)
+            ->externalItemKey($dailyStockMovement->external_item_key)
             ->valueDateBefore($dailyStockMovement->movement_date)
             ->orderByValueDate(SORT_DESC)
             ->one();

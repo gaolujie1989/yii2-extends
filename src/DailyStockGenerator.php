@@ -54,8 +54,6 @@ class DailyStockGenerator extends BaseObject
 
         $commonFields = [
             'fulfillment_account_id',
-            'item_id',
-            'warehouse_id',
             'external_item_key',
             'external_warehouse_key',
             'movement_type',
@@ -105,8 +103,6 @@ class DailyStockGenerator extends BaseObject
     {
         $commonFields = [
             'fulfillment_account_id',
-            'item_id',
-            'warehouse_id',
             'external_item_key',
             'external_warehouse_key',
         ];

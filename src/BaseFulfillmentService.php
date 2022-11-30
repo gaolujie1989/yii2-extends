@@ -184,10 +184,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         if (!$this->pushNewItemAllowed) {
-            $fulfillmentItem->item_pushed_result = array_merge($fulfillmentItem->item_pushed_result ?: [], [
-                'message' => 'Push New Item Not Allowed, Skipped'
-            ]);
-            return $fulfillmentItem->save(false);
+            return false;
         }
 
         $externalItem = $this->formatExternalItemData($item, $fulfillmentItem);

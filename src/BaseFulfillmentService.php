@@ -7,6 +7,7 @@ namespace lujie\fulfillment;
 
 use lujie\charging\models\ChargePrice;
 use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\constants\ExecStatusConst;
 use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
 use lujie\fulfillment\constants\FulfillmentConst;
@@ -46,6 +47,11 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @var DataLoaderInterface
      */
     public $orderLoader;
+
+    /**
+     * @var bool
+     */
+    public $pushNewItemAllowed = true;
 
     #region External Model Key Field
 
@@ -175,6 +181,11 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         if (empty($fulfillmentItem->external_item_key) && $externalItem = $this->getExternalItem($item)) {
             Yii::info("Item not pushed, but exist in external, update FulfillmentItem", __METHOD__);
             $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
+        }
+
+        if (!$this->pushNewItemAllowed) {
+            $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            return $fulfillmentItem->save(false);
         }
 
         $externalItem = $this->formatExternalItemData($item, $fulfillmentItem);

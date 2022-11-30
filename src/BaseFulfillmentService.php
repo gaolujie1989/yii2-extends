@@ -184,7 +184,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         if (!$this->pushNewItemAllowed) {
-            $fulfillmentItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $fulfillmentItem->item_pushed_result = array_merge($fulfillmentItem->item_pushed_result ?: [], [
+                'message' => 'Push New Item Not Allowed, Skipped'
+            ]);
             return $fulfillmentItem->save(false);
         }
 

@@ -19,6 +19,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\base\UserException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
@@ -401,6 +402,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @return array|null
      * @inheritdoc
      * @throws JsonRpcException
+     * @throws UserException
      */
     protected function saveExternalOrder(array $externalOrder, FulfillmentOrder $fulfillmentOrder): ?array
     {
@@ -432,9 +434,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
                     throw $exception;
                 }
             }
-            if ($exception) {
-                throw $exception;
-            }
+            throw $exception ?: new UserException('Invalid Logistics Services');
         } else {
             return $this->client->createOutbound($externalOrder);
         }

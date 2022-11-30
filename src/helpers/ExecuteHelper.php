@@ -43,12 +43,10 @@ class ExecuteHelper
     {
         $statusValue = $model->getAttribute($statusAttribute);
         $resultValue = $model->getAttribute($resultAttribute) ?: [];
-        if ($statusValue === ExecStatusConst::EXEC_STATUS_QUEUED) {
-            if (!empty($resultValue['jobId'])) {
-                $time = $model->getAttribute($timeAttribute);
-                if (time() - $time < $queuedDuration) {
-                    return false;
-                }
+        if (($statusValue === ExecStatusConst::EXEC_STATUS_QUEUED) && !empty($resultValue['jobId'])) {
+            $time = $model->getAttribute($timeAttribute);
+            if (time() - $time < $queuedDuration) {
+                return false;
             }
         }
         if ($jobId = $queue->push($job)) {
@@ -105,11 +103,13 @@ class ExecuteHelper
             return true;
         } catch (\Throwable $exception) {
             $message = ExceptionHelper::getMessage($exception);
-            $resultValue = [
-                'error' => $exception->getMessage(),
-                'trace' => $message,
-            ];
-            $resultAttribute && $model->setAttribute($resultAttribute, $resultValue);
+            if ($resultAttribute && isset($resultValue)) {
+                $resultValue = array_merge($resultValue, [
+                    'error' => $exception->getMessage(),
+                    'trace' => $message,
+                ]);
+                $model->setAttribute($resultAttribute, $resultValue);
+            }
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);
             foreach ($warningExceptions as $warningException) {

@@ -178,6 +178,17 @@ class RelationSavableBehavior extends Behavior
 
         $indexKey = $this->indexKeys[$name] ?? null;
         if ($indexKey) {
+            if (is_array($indexKey)) {
+                if (count($indexKey) === 1) {
+                    $indexKey = reset($indexKey);
+                } else {
+                    $multiIndexKeys = $indexKey;
+                    $indexKey = static function ($v) use ($multiIndexKeys) {
+                        $idxValues = array_intersect_key($v, array_flip($multiIndexKeys));
+                        return implode('_', $idxValues);
+                    };
+                }
+            }
             //for filter duplication
             $data = ArrayHelper::index($data, $indexKey);
         } else {
@@ -198,10 +209,9 @@ class RelationSavableBehavior extends Behavior
             /** @var BaseActiveRecord[] $oldRelations */
             $oldRelations = ArrayHelper::index($owner->$name, $indexKey);
             $unlinkModels = [];
-            if (isset($this->indexKeys[$name])
-                && is_string($this->indexKeys[$name])
-                && in_array($name, $this->linkUnlinkRelations, true)) {
-                $unlinkModels = $this->getUnlinkModels($model, $data, $indexKey, $relation);
+            if (isset($this->indexKeys[$name]) && in_array($name, $this->linkUnlinkRelations, true)) {
+                $unlinkModels = $this->getUnlinkModels($model, $data, $this->indexKeys[$name], $relation);
+                $unlinkModels = ArrayHelper::index($unlinkModels, $indexKey);
             }
 
             $models = [];
@@ -269,21 +279,45 @@ class RelationSavableBehavior extends Behavior
     /**
      * @param BaseActiveRecord $model
      * @param array $data
-     * @param string $indexKey
+     * @param string|array $indexKey
      * @param ActiveQuery $relation
      * @return array
      * @inheritdoc
      */
-    public function getUnlinkModels(BaseActiveRecord $model, array $data, string $indexKey, ActiveQuery $relation): array
+    public function getUnlinkModels(BaseActiveRecord $model, array $data, $indexKey, ActiveQuery $relation): array
     {
-        if ($indexValues = array_filter(ArrayHelper::getColumn($data, $indexKey))) {
-            $query = $model::find()->andWhere([$indexKey => $indexValues])->indexBy($indexKey);
-            foreach ($relation->link as $fk => $pk) {
-                $query->andWhere([$fk => 0]);
-            }
-            return $query->all();
+        $query = $model::find();
+        if (is_array($indexKey) && count($indexKey) === 1) {
+            $indexKey = reset($indexKey);
         }
-        return [];
+        if (is_string($indexKey)) {
+            if ($indexValues = array_filter(ArrayHelper::getColumn($data, $indexKey))) {
+                $query->andWhere([$indexKey => $indexValues]);
+            } else {
+                return [];
+            }
+        } else if (is_array($indexKey)) {
+            $indexKeyFlip = array_flip($indexKey);
+            $condition = ['OR'];
+            foreach ($data as $values) {
+                $conditionValues = array_intersect_key($values, $indexKeyFlip);
+                if (array_filter($conditionValues)) {
+                    $condition[] = $conditionValues;
+                }
+            }
+            if (count($condition) > 1) {
+                $query->andWhere($condition);
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
+
+        foreach ($relation->link as $fk => $pk) {
+            $query->andWhere([$fk => 0]);
+        }
+        return $query->all();
     }
 
     /**

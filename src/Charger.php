@@ -163,10 +163,10 @@ class Charger extends Component implements BootstrapInterface
             if ($chargePrice === null) {
                 $chargePrice = new $chargePriceModelClass();
                 $chargePrice->charge_type = $chargeType;
-                $chargePrice->charge_group = $this->chargeGroups[$chargeType] ?? '';
                 $chargePrice->model_type = $modelType;
                 $chargePrice->model_id = $modelId;
             }
+            $chargePrice->charge_group = $this->chargeGroups[$chargeType] ?? '';
             if ($force || $chargePrice->getIsNewRecord()
                 || in_array($chargePrice->status, [ChargePrice::STATUS_ESTIMATE, ChargePrice::STATUS_FAILED], true)) {
                 $this->calculateInternal($chargePrice, $model);

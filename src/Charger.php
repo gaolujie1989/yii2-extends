@@ -150,7 +150,6 @@ class Charger extends Component implements BootstrapInterface
             return $chargeEvent->chargePrices;
         }
 
-        $chargePrices = [];
         $modelType = $chargeEvent->modelType;
         $modelId = $model->getPrimaryKey();
         foreach ($chargeEvent->chargeTypes as $chargeType) {
@@ -172,7 +171,7 @@ class Charger extends Component implements BootstrapInterface
                 || in_array($chargePrice->status, [ChargePrice::STATUS_ESTIMATE, ChargePrice::STATUS_FAILED], true)) {
                 $this->calculateInternal($chargePrice, $model);
             }
-            $chargePrices[$chargeType] = $chargePrice;
+            $chargeEvent->chargePrices[$chargeType] = $chargePrice;
         }
         $toDeleteChargePriceQuery = ChargePrice::find()->modelType($modelType)->modelId($modelId);
         if ($chargeEvent->chargeTypes) {
@@ -182,7 +181,6 @@ class Charger extends Component implements BootstrapInterface
             $chargePrice->delete();
         }
 
-        $chargeEvent->chargePrices = $chargePrices;
         $this->trigger(self::EVENT_AFTER_CHARGE, $chargeEvent);
 
         return $chargeEvent->chargePrices;

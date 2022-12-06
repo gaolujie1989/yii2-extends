@@ -128,11 +128,12 @@ class FieldQueryBehavior extends Behavior
             /** @var BaseActiveRecord $modelClass */
             $modelClass = $this->owner->modelClass;
             $primaryKey = $modelClass::primaryKey();
+            $pk0 = reset($primaryKey);
             $this->queryFields['id'] = $primaryKey;
             $this->querySorts['orderById'] = $primaryKey;
-            $this->queryIndexes['indexById'] = $primaryKey;
-            $this->queryReturns['getId'] = [reset($primaryKey), self::RETURN_SCALAR];
-            $this->queryReturns['getIds'] = [reset($primaryKey), self::RETURN_COLUMN];
+            $this->queryIndexes['indexById'] = $pk0;
+            $this->queryReturns['getId'] = [$pk0, self::RETURN_SCALAR];
+            $this->queryReturns['getIds'] = [$pk0, self::RETURN_COLUMN];
         }
     }
 

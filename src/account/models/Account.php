@@ -100,7 +100,9 @@ class Account extends \lujie\extend\db\ActiveRecord
     public function afterDelete(): void
     {
         parent::afterDelete();
-        $this->authToken?->delete();
+        if ($this->authToken) {
+            $this->authToken->delete();
+        }
     }
 
     /**

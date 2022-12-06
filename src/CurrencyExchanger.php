@@ -46,7 +46,7 @@ class CurrencyExchanger extends BaseObject
             ->fromTo($from, $to)
             ->beforeDate($date)
             ->orderByDate(SORT_DESC);
-        return $query->getRate();
+        return $query->getRate() ?: null;
     }
 
     /**

@@ -79,7 +79,7 @@ class ExecuteHelper
         string $resultAttribute = 'execute_result',
         bool $throwException = false,
         array $warningExceptions = [Exception::class],
-        ?string $memoryLimit = null,
+        ?string $memoryLimit = null
     ): bool
     {
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);

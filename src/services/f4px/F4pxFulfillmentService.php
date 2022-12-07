@@ -22,6 +22,7 @@ use yii\base\NotSupportedException;
 use yii\base\UserException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * Class PmFulfillmentService
@@ -744,6 +745,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @param int $movementAtTo
      * @param FulfillmentItem|null $fulfillmentItem
      * @return array
+     * @throws UserException
      * @inheritdoc
      */
     protected function getExternalWarehouseStockMovements(
@@ -762,7 +764,26 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $condition['sku_code'] = $fulfillmentItem->external_item_key;
         }
         $eachInventoryLog = $this->client->eachInventoryLog($condition);
-        return iterator_to_array($eachInventoryLog, false);
+        $inventoryLogs = iterator_to_array($eachInventoryLog, false);
+        if (empty($inventoryLogs[0]['sku_id'])) {
+            $fulfillmentItems = FulfillmentItem::find()
+                ->fulfillmentAccountId($this->account->account_id)
+                ->select(['external_item_key', 'external_item_additional'])
+                ->asArray()
+                ->all();
+            $skuIds = ArrayHelper::map($fulfillmentItems, static function($fulfillmentItem) {
+                $additional = Json::decode($fulfillmentItem['external_item_additional']);
+                return $additional['sku_code'];
+            }, 'external_item_key');
+            foreach ($inventoryLogs as $key => $inventoryLog) {
+                $skuCode = $inventoryLog['sku_code'];
+                if (empty($skuIds[$skuCode])) {
+                    throw new UserException("SKU Code {$skuCode} not found");
+                }
+                $inventoryLogs[$key]['sku_id'] = $skuIds[$skuCode];
+            }
+        }
+        return $inventoryLogs;
     }
 
     /**
@@ -778,6 +799,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_INBOUND;
         } elseif ($externalStockMovement['journal_type'] === 'O') {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_OUTBOUND;
+            $externalStockMovement['io_qty'] = -$externalStockMovement['io_qty'];
         } else {
             $fulfillmentStockMovement->movement_type = FulfillmentConst::MOVEMENT_TYPE_CORRECTION;
         }

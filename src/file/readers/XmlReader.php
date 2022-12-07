@@ -49,12 +49,12 @@ class XmlReader extends BaseObject implements FileReaderInterface
     }
 
     /**
-     * @param SimpleXMLElement $xml
+     * @param SimpleXMLElement|array $xml
      * @param string $valueKey
      * @return array
      * @inheritdoc
      */
-    public function toArray(SimpleXMLElement $xml, string $valueKey = 'value'): array
+    public function toArray($xml, string $valueKey = 'value'): array
     {
         $result = (array) $xml;
         foreach ($xml as $key => $value) {

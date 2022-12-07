@@ -768,6 +768,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
         if (empty($inventoryLogs[0]['sku_id'])) {
             $fulfillmentItems = FulfillmentItem::find()
                 ->fulfillmentAccountId($this->account->account_id)
+                ->andWhere(['!=', 'external_item_key', ''])
                 ->select(['external_item_key', 'external_item_additional'])
                 ->asArray()
                 ->all();

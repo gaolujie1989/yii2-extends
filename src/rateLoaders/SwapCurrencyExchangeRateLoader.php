@@ -25,13 +25,18 @@ class SwapCurrencyExchangeRateLoader extends BaseObject implements CurrencyExcha
      */
     public $swapServices = [
         'european_central_bank' => [],
-        'exchange_rates_api' => [],
+        'exchange_rates_api' => [
+            'access_key' => 'kpjzkdFwwGViS4jVtGsJ9VCTBsTFvr52'
+        ],
         'fixer' => [
             'access_key' => '53bbbeac6486ae0885cd5969b3e510a9'
         ],
         'currency_layer' => [
             'access_key' => '83b0ee2572f1a20200dc2be602fb666a',
             'enterprise' => false
+        ],
+        'abstract_api' => [
+            'api_key' => '42636e458f9d4ce6b392b55474a4e4e5',
         ],
         'juhe' => [
             'access_key' => '8132ee950b073eca54515a83dd9e9229',

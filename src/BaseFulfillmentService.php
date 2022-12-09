@@ -12,6 +12,7 @@ use lujie\fulfillment\common\Item;
 use lujie\fulfillment\common\Order;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\events\FulfillmentOrderEvent;
+use lujie\fulfillment\events\FulfillmentWarehouseStockEvent;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
@@ -32,6 +33,7 @@ use yii\helpers\ArrayHelper;
 abstract class BaseFulfillmentService extends Component implements FulfillmentServiceInterface
 {
     public const EVENT_AFTER_FULFILLMENT_ORDER_UPDATED = 'AFTER_FULFILLMENT_ORDER_UPDATED';
+    public const EVENT_AFTER_FULFILLMENT_WAREHOUSE_STOCKS_UPDATED = 'AFTER_FULFILLMENT_WAREHOUSE_STOCKS_UPDATED';
 
     /**
      * @var FulfillmentAccount
@@ -517,17 +519,18 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
             $externalItemKey = $externalWarehouseStock[$this->stockItemKeyField];
             $stockKey = $externalWarehouseKey . '-' . $externalItemKey;
+            $pulledStockKeys[$stockKey] = $stockKey;
             $fulfillmentWarehouseStock = $fulfillmentWarehouseStocks[$stockKey] ?? new FulfillmentWarehouseStock();
 
             if ($fulfillmentWarehouseStock->getIsNewRecord()) {
                 $fulfillmentWarehouseStock->fulfillment_account_id = $this->account->account_id;
                 $fulfillmentWarehouseStock->external_warehouse_key = $externalWarehouseKey;
                 $fulfillmentWarehouseStock->external_item_key = $externalItemKey;
+                $fulfillmentWarehouseStocks[$stockKey] = $fulfillmentWarehouseStock;
             }
 
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
             $this->updateFulfillmentWarehouseStock($fulfillmentWarehouseStock, $externalWarehouseStock);
-            $pulledStockKeys[$stockKey] = $stockKey;
         }
 
         /** @var FulfillmentWarehouseStock[] $notPulledFulfillmentWarehouseStocks */
@@ -537,6 +540,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             $fulfillmentWarehouseStock->reserved_qty = 0;
             $fulfillmentWarehouseStock->stock_additional = [];
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
+            $fulfillmentWarehouseStock->save(false);
         }
 
         Yii::info("Update fulfillmentItem stock pulled time", __METHOD__);
@@ -544,6 +548,20 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             'fulfillment_account_id' => $this->account->account_id,
             'external_item_key' => $externalItemKeys
         ]);
+
+        $this->triggerFulfillmentWarehouseStockEvent($fulfillmentWarehouseStocks);
+    }
+
+    /**
+     * @param FulfillmentWarehouseStock[] $fulfillmentWarehouseStocks
+     * @param array $externalOrder
+     * @inheritdoc
+     */
+    protected function triggerFulfillmentWarehouseStockEvent(array $fulfillmentWarehouseStocks): void
+    {
+        $event = new FulfillmentWarehouseStockEvent();
+        $event->fulfillmentWarehouseStocks = $fulfillmentWarehouseStocks;
+        $this->trigger(self::EVENT_AFTER_FULFILLMENT_WAREHOUSE_STOCKS_UPDATED, $event);
     }
 
     /**

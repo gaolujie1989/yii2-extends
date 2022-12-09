@@ -10,11 +10,13 @@ use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\helpers\ClassHelper;
 use lujie\fulfillment\constants\FulfillmentConst;
 use lujie\fulfillment\events\FulfillmentOrderEvent;
+use lujie\fulfillment\events\FulfillmentWarehouseStockEvent;
 use lujie\fulfillment\forms\FulfillmentItemForm;
 use lujie\fulfillment\forms\FulfillmentOrderForm;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
+use lujie\fulfillment\models\FulfillmentWarehouseStock;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -120,6 +122,13 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
             BaseFulfillmentService::class,
             BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_ORDER_UPDATED,
             [$this, 'afterFulfillmentOrderUpdated'],
+            null,
+            false
+        );
+        Event::on(
+            BaseFulfillmentService::class,
+            BaseFulfillmentService::EVENT_AFTER_FULFILLMENT_WAREHOUSE_STOCKS_UPDATED,
+            [$this, 'afterFulfillmentWarehouseStocksUpdated'],
             null,
             false
         );
@@ -368,6 +377,27 @@ class BaseFulfillmentConnector extends Component implements BootstrapInterface
      * @inheritdoc
      */
     protected function updateOrderAdditional(BaseActiveRecord $order, FulfillmentOrder $fulfillmentOrder, array $externalOrder): void
+    {
+    }
+
+    #endregion
+
+    #region Fulfillment Warehouse Stock Trigger
+
+    /**
+     * @param FulfillmentWarehouseStockEvent $event
+     * @inheritdoc
+     */
+    public function afterFulfillmentWarehouseStocksUpdated(FulfillmentWarehouseStockEvent $event): void
+    {
+        $this->updateWarehouseStocks($event->fulfillmentWarehouseStocks);
+    }
+
+    /**
+     * @param FulfillmentWarehouseStock[] $fulfillmentWarehosueStocks
+     * @inheritdoc
+     */
+    protected function updateWarehouseStocks(array $fulfillmentWarehouseStocks): void
     {
     }
 

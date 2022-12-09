@@ -512,6 +512,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $count = count($externalWarehouseStocks);
         Yii::info("Pulled {$count} ExternalWarehouseStocks", __METHOD__);
 
+        $pulledStockKeys = [];
         foreach ($externalWarehouseStocks as $externalWarehouseStock) {
             $externalWarehouseKey = $externalWarehouseStock[$this->stockWarehouseKeyField];
             $externalItemKey = $externalWarehouseStock[$this->stockItemKeyField];
@@ -526,18 +527,18 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
             $fulfillmentWarehouseStock->stock_pulled_at = $now;
             $this->updateFulfillmentWarehouseStock($fulfillmentWarehouseStock, $externalWarehouseStock);
+            $pulledStockKeys[$stockKey] = $stockKey;
         }
-        $pulledExternalItemKeys = ArrayHelper::getColumn($externalWarehouseStocks, $this->stockItemKeyField);
-        $notPulledExternalItemKeys = array_diff($externalItemKeys, $pulledExternalItemKeys);
 
-        if ($notPulledExternalItemKeys) {
-            Yii::info("Delete not pulled item stocks", __METHOD__);
-            FulfillmentWarehouseStock::deleteAll([
-                'fulfillment_account_id' => $this->account->account_id,
-                'external_warehouse_key' => $externalWarehouseKeys,
-                'external_item_key' => $notPulledExternalItemKeys,
-            ]);
+        /** @var FulfillmentWarehouseStock[] $notPulledFulfillmentWarehouseStocks */
+        $notPulledFulfillmentWarehouseStocks = array_diff_key($fulfillmentWarehouseStocks, $pulledStockKeys);
+        foreach ($notPulledFulfillmentWarehouseStocks as $fulfillmentWarehouseStock) {
+            $fulfillmentWarehouseStock->stock_qty = 0;
+            $fulfillmentWarehouseStock->reserved_qty = 0;
+            $fulfillmentWarehouseStock->stock_additional = [];
+            $fulfillmentWarehouseStock->stock_pulled_at = $now;
         }
+
         Yii::info("Update fulfillmentItem stock pulled time", __METHOD__);
         FulfillmentItem::updateAll(['stock_pulled_at' => $now], [
             'fulfillment_account_id' => $this->account->account_id,

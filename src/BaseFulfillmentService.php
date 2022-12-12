@@ -493,15 +493,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      */
     public function pullWarehouseStocks(array $fulfillmentItems): void
     {
-        $externalWarehouseKeys = FulfillmentWarehouse::find()
-            ->fulfillmentAccountId($this->account->account_id)
-            ->mappedWarehouse()
-            ->getExternalWarehouseKeys();
         $externalItemKeys = ArrayHelper::map($fulfillmentItems, 'item_id', 'external_item_key');
-
         $fulfillmentWarehouseStocks = FulfillmentWarehouseStock::find()
             ->fulfillmentAccountId($this->account->account_id)
-            ->externalWarehouseKey($externalWarehouseKeys)
             ->externalItemKey($externalItemKeys)
             ->indexBy(static function ($model) {
                 /** @var FulfillmentWarehouseStock $model */

@@ -42,27 +42,27 @@ class FulfillmentController extends Controller
     }
 
     /**
-     * @param string $name
+     * @param string $accountName
      * @return FulfillmentAccount
      * @inheritdoc
      */
-    protected function getAccount(string $name): FulfillmentAccount
+    protected function getAccount(string $accountName): FulfillmentAccount
     {
-        $fulfillmentAccount = FulfillmentAccount::find()->name($name)->cache()->one();
+        $fulfillmentAccount = FulfillmentAccount::find()->name($accountName)->cache()->one();
         if ($fulfillmentAccount === null) {
-            throw new InvalidArgumentException("Account {$name} not found");
+            throw new InvalidArgumentException("Account {$accountName} not found");
         }
         return $fulfillmentAccount;
     }
 
     /**
-     * @param string $name
+     * @param string $accountName
      * @return FulfillmentServiceInterface
      * @inheritdoc
      */
-    protected function getService(string $name): FulfillmentServiceInterface
+    protected function getService(string $accountName): FulfillmentServiceInterface
     {
-        $account = $this->getAccount($name);
+        $account = $this->getAccount($accountName);
         return $this->fulfillmentManager->fulfillmentServiceLoader->get($account->account_id);
     }
 
@@ -73,22 +73,22 @@ class FulfillmentController extends Controller
      * @param string $country
      * @inheritdoc
      */
-    public function actionPullWarehouses(string $name, string $country = 'ES'): void
+    public function actionPullWarehouses(string $accountName, string $country = 'ES'): void
     {
-        $fulfillmentService = $this->getService($name);
+        $fulfillmentService = $this->getService($accountName);
         $fulfillmentService->pullWarehouses(['country' => $country]);
     }
 
     /**
-     * @param string $name
+     * @param string $accountName
      * @param string $itemIdsStr
      * @inheritdoc
      */
-    public function actionPullWarehouseStocks(string $name, string $itemIdsStr = ''): void
+    public function actionPullWarehouseStocks(string $accountName, string $itemIdsStr = ''): void
     {
         $itemIds = array_filter(array_map('trim', explode(',', $itemIdsStr)));
-        $account = $this->getAccount($name);
-        $fulfillmentService = $this->getService($name);
+        $account = $this->getAccount($accountName);
+        $fulfillmentService = $this->getService($accountName);
         $fulfillmentItems = FulfillmentItem::find()
             ->fulfillmentAccountId($account->account_id)
             ->itemId($itemIds)
@@ -124,29 +124,29 @@ class FulfillmentController extends Controller
     }
 
     /**
-     * @param string $name
+     * @param string $accountName
      * @param string $orderIdsStr
      * @inheritdoc
      */
-    public function actionPullOrders(string $name, string $orderIdsStr): void
+    public function actionPullOrders(string $accountName, string $orderIdsStr): void
     {
-        $account = $this->getAccount($name);
-        $fulfillmentService = $this->getService($name);
+        $account = $this->getAccount($accountName);
+        $fulfillmentService = $this->getService($accountName);
         $orderIds = ValueHelper::strToArray($orderIdsStr);
         $fulfillmentOrders = FulfillmentOrder::find()->fulfillmentAccountId($account->account_id)->orderId($orderIds)->all();
         $fulfillmentService->pullFulfillmentOrders($fulfillmentOrders);
     }
 
     /**
-     * @param string $name
+     * @param string $accountName
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionPullFulfillmentCharges(string $name): void
+    public function actionPullFulfillmentCharges(string $accountName): void
     {
-        $account = $this->getAccount($name);
-        $fulfillmentService = $this->getService($name);
+        $account = $this->getAccount($accountName);
+        $fulfillmentService = $this->getService($accountName);
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($account->account_id)
             ->shippingFulfillmentShipped()

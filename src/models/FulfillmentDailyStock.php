@@ -39,6 +39,7 @@ class FulfillmentDailyStock extends \lujie\fulfillment\base\db\ActiveRecord
             [['stock_date'], 'required'],
             [['stock_date'], 'safe'],
             [['external_item_key', 'external_warehouse_key'], 'string', 'max' => 50],
+            [['external_item_key', 'stock_date', 'external_warehouse_key', 'fulfillment_account_id'], 'unique', 'targetAttribute' => ['external_item_key', 'stock_date', 'external_warehouse_key', 'fulfillment_account_id']]
         ];
     }
 

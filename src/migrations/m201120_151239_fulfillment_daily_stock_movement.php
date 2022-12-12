@@ -25,9 +25,10 @@ class m201120_151239_fulfillment_daily_stock_movement extends Migration
         ]);
 
         $this->createIndex(
-            'idx_external_item_movement_date_warehouse_account',
+            'uk_external_item_movement_date_warehouse_account',
             $this->tableName,
-            ['external_item_key', 'movement_date', 'external_warehouse_key', 'fulfillment_account_id']
+            ['external_item_key', 'movement_date', 'external_warehouse_key', 'fulfillment_account_id'],
+            true
         );
         $this->createIndex('idx_movement_date', $this->tableName, ['movement_date']);
     }

@@ -41,6 +41,7 @@ class FulfillmentDailyStockMovement extends \lujie\fulfillment\base\db\ActiveRec
             [['movement_date'], 'safe'],
             [['external_item_key', 'external_warehouse_key'], 'string', 'max' => 50],
             [['movement_type'], 'string', 'max' => 20],
+            [['external_item_key', 'movement_date', 'external_warehouse_key', 'fulfillment_account_id'],'unique', 'targetAttribute' => ['external_item_key', 'movement_date', 'external_warehouse_key', 'fulfillment_account_id']],
         ];
     }
 

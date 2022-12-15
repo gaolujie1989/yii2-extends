@@ -5,9 +5,9 @@
 
 namespace lujie\fulfillment\tests\unit\mocks;
 
-use lujie\fulfillment\ItemValueCalculator;
+use lujie\fulfillment\FulfillmentItemValueCalculator;
 
-class MockItemValueCalculator extends ItemValueCalculator
+class MockFulfillmentItemValueCalculator extends FulfillmentItemValueCalculator
 {
     public static $ITEM_VALUES = [
         1 => [

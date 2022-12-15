@@ -5,7 +5,7 @@
 
 namespace lujie\fulfillment\tasks;
 
-use lujie\fulfillment\ItemValueCalculator;
+use lujie\fulfillment\FulfillmentItemValueCalculator;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
@@ -16,7 +16,7 @@ use yii\di\Instance;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CalculateItemValueTask extends CronTask
+class CalculateFulfillmentItemValueTask extends CronTask
 {
     /**
      * @var string
@@ -29,7 +29,7 @@ class CalculateItemValueTask extends CronTask
     public $movementDateTo = '-1 days';
 
     /**
-     * @var ItemValueCalculator
+     * @var FulfillmentItemValueCalculator
      */
     public $itemValueCalculator;
 
@@ -41,7 +41,7 @@ class CalculateItemValueTask extends CronTask
      */
     public function execute(): bool
     {
-        $this->itemValueCalculator = Instance::ensure($this->itemValueCalculator, ItemValueCalculator::class);
+        $this->itemValueCalculator = Instance::ensure($this->itemValueCalculator, FulfillmentItemValueCalculator::class);
         $movementDateFrom = date('Y-m-d', strtotime($this->movementDateFrom));
         $movementDateTo = date('Y-m-d', strtotime($this->movementDateTo));
         $fulfillmentWarehouses = FulfillmentWarehouse::find()->supportMovement()->all();

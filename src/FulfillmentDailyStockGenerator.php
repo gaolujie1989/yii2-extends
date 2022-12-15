@@ -9,7 +9,6 @@ use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\QuerySource;
 use lujie\data\exchange\transformers\ChainedTransformer;
-use lujie\extend\helpers\QueryHelper;
 use lujie\fulfillment\models\FulfillmentDailyStock;
 use lujie\fulfillment\models\FulfillmentDailyStockMovement;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
@@ -23,7 +22,7 @@ use yii\helpers\Json;
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class DailyStockGenerator extends BaseObject
+class FulfillmentDailyStockGenerator extends BaseObject
 {
     /**
      * @var string

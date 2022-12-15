@@ -8,7 +8,7 @@ namespace lujie\fulfillment\tests\unit;
 use lujie\fulfillment\models\FulfillmentItemValue;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentDailyStockFixture;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentDailyStockMovementFixture;
-use lujie\fulfillment\tests\unit\mocks\MockItemValueCalculator;
+use lujie\fulfillment\tests\unit\mocks\MockFulfillmentItemValueCalculator;
 
 class ItemValueCalculatorTest extends \Codeception\Test\Unit
 {
@@ -34,7 +34,7 @@ class ItemValueCalculatorTest extends \Codeception\Test\Unit
      */
     public function testMe()
     {
-        $itemValueCalculator = new MockItemValueCalculator();
+        $itemValueCalculator = new MockFulfillmentItemValueCalculator();
         $itemValueCalculator->calculateMovementsItemValues(1, '2020-12-01', '2020-12-05');
         $query = FulfillmentItemValue::find()->itemId(1)->warehouseId(1);
         $this->assertEquals(2, $query->count());

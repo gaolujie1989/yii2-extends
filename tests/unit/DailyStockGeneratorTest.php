@@ -5,7 +5,7 @@
 
 namespace lujie\fulfillment\tests\unit;
 
-use lujie\fulfillment\DailyStockGenerator;
+use lujie\fulfillment\FulfillmentDailyStockGenerator;
 use lujie\fulfillment\models\FulfillmentDailyStock;
 use lujie\fulfillment\models\FulfillmentDailyStockMovement;
 use lujie\fulfillment\tests\unit\fixtures\FulfillmentWarehouseStockMovementFixture;
@@ -34,7 +34,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
      */
     public function testGenerateDailyStockMovements()
     {
-        $dailyStockGenerator = new DailyStockGenerator();
+        $dailyStockGenerator = new FulfillmentDailyStockGenerator();
         $this->assertTrue($dailyStockGenerator->generateDailyStockMovements('2020-11-14', '2020-11-15'));
         $expected = [
             [
@@ -89,7 +89,7 @@ class DailyStockGeneratorTest extends \Codeception\Test\Unit
      */
     public function testGenerateDailyStocks()
     {
-        $dailyStockGenerator = new DailyStockGenerator();
+        $dailyStockGenerator = new FulfillmentDailyStockGenerator();
         $this->assertTrue($dailyStockGenerator->generateDailyStockMovements('2020-11-11', '2020-11-15'));
         $this->assertTrue($dailyStockGenerator->generateDailyStocks('2020-11-11', '2020-11-15'));
         $expected = [

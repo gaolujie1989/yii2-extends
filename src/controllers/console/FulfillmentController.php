@@ -7,7 +7,7 @@ namespace lujie\fulfillment\controllers\console;
 
 use lujie\executing\Executor;
 use lujie\extend\helpers\ValueHelper;
-use lujie\fulfillment\DailyStockGenerator;
+use lujie\fulfillment\FulfillmentDailyStockGenerator;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\FulfillmentServiceInterface;
 use lujie\fulfillment\models\FulfillmentAccount;

@@ -17,7 +17,7 @@ use yii\base\Exception;
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class ItemValueCalculator extends BaseObject
+abstract class FulfillmentItemValueCalculator extends BaseObject
 {
     public $currency = 'EUR';
 

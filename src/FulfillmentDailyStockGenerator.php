@@ -9,6 +9,7 @@ use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\sources\QuerySource;
 use lujie\data\exchange\transformers\ChainedTransformer;
+use lujie\extend\helpers\ValueHelper;
 use lujie\fulfillment\models\FulfillmentDailyStock;
 use lujie\fulfillment\models\FulfillmentDailyStockMovement;
 use lujie\fulfillment\models\FulfillmentWarehouseStockMovement;
@@ -48,8 +49,8 @@ class FulfillmentDailyStockGenerator extends BaseObject
      */
     public function generateDailyStockMovements($dateFrom, $dateTo): bool
     {
-        $movementAtFrom = strtotime(date($this->dailyTimeStartFormat, is_numeric($dateFrom) ? $dateFrom : strtotime($dateFrom)));
-        $movementAtTo = strtotime(date($this->dailyTimeEndFormat, is_numeric($dateTo) ? $dateTo : strtotime($dateTo)));
+        $movementAtFrom = strtotime(date($this->dailyTimeStartFormat, ValueHelper::formatDateTime($dateFrom)));
+        $movementAtTo = strtotime(date($this->dailyTimeEndFormat, ValueHelper::formatDateTime($dateTo)));
 
         $commonFields = [
             'fulfillment_account_id',
@@ -139,8 +140,8 @@ class FulfillmentDailyStockGenerator extends BaseObject
             ]
         ]);
 
-        $dateAtFrom = is_numeric($dateFrom) ? $dateFrom : strtotime($dateFrom);
-        $dateAtTo = is_numeric($dateTo) ? $dateTo : strtotime($dateTo);
+        $dateAtFrom = ValueHelper::formatDateTime($dateFrom);
+        $dateAtTo = ValueHelper::formatDateTime($dateTo);
 
         for ($stockDateAt = $dateAtFrom; $stockDateAt <= $dateAtTo; $stockDateAt += 86400) {
             $stockDate = date($this->stockDateFormat, $stockDateAt);

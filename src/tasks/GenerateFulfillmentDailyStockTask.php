@@ -35,7 +35,7 @@ class GenerateFulfillmentDailyStockTask extends CronTask implements ProgressInte
     /**
      * @var int
      */
-    public $timeStep = 86400;
+    public $timeStep = 86400 * 10;
 
     /**
      * @var FulfillmentDailyStockGenerator

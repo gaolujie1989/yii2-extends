@@ -50,7 +50,7 @@ class GenerateFulfillmentDailyStockTask extends CronTask implements ProgressInte
     public function execute(): \Generator
     {
         $this->dailyStockGenerator = Instance::ensure($this->dailyStockGenerator, FulfillmentDailyStockGenerator::class);
-        $this->executeProgress();
+        return $this->executeProgress();
     }
 
     /**

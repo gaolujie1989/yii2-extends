@@ -15,6 +15,7 @@ use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
 use lujie\fulfillment\tasks\GenerateDailyStockTask;
+use lujie\fulfillment\tasks\GenerateFulfillmentDailyStockTask;
 use yii\base\InvalidArgumentException;
 use yii\console\Controller;
 use yii\di\Instance;
@@ -220,17 +221,17 @@ class FulfillmentController extends Controller
     #endregion
 
     /**
-     * @param $stockDateFrom
-     * @param $stockDateTo
+     * @param $timeFrom
+     * @param $timeTo
      * @param string $executorName
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionGenerateDailyStocks($stockDateFrom, $stockDateTo, string $executorName = 'executor'): void
+    public function actionGenerateDailyStocks($timeFrom, $timeTo, string $executorName = 'executor'): void
     {
-        $dailyStockTask = new GenerateDailyStockTask();
-        $dailyStockTask->stockDateFrom = $stockDateFrom;
-        $dailyStockTask->stockDateTo = $stockDateTo;
+        $dailyStockTask = new GenerateFulfillmentDailyStockTask();
+        $dailyStockTask->timeFrom = $timeFrom;
+        $dailyStockTask->timeTo = $timeTo;
         if ($executorName) {
             /** @var Executor $executor */
             $executor = Instance::ensure($executorName, Executor::class);

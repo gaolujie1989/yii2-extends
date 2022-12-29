@@ -132,6 +132,9 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
         if ($this->transformer) {
             $data = $this->transformer->transform($data);
         }
+        if ($this instanceof TransformerInterface) {
+            $data = $this->transform($data);
+        }
         return $this->pipeline->process($data);
     }
 

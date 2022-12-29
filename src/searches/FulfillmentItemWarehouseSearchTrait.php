@@ -32,7 +32,7 @@ trait FulfillmentItemWarehouseSearchTrait
      * @return array
      * @inheritdoc
      */
-    public function searchItemWarehouseQuery(ActiveQueryInterface $query): array
+    public function searchItemWarehouseQuery(ActiveQueryInterface $query): void
     {
         if ($this->item_id) {
             $query->innerJoinWith(['fulfillmentItem fi']);

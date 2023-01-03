@@ -420,6 +420,20 @@ use yii\httpclient\Request;
  * @method array listPaymentsByTransactionId($data)
  * @method array createPaymentOrderRelation($data)
  *
+ * @method array bulkCreateItemVariationCategories($data)
+ * @method array bulkUpdateItemVariationCategories($data)
+ * @method array bulkCreateItemVariationSalesPrices($data)
+ * @method array bulkUpdateItemVariationSalesPrices($data)
+ * @method array bulkDeleteItemVariationSalesPrices($data)
+ * @method array bulkCreateItemVariationMarkets($data)
+ * @method array bulkUpdateItemVariationMarkets($data)
+ * @method array bulkDeleteItemVariationMarkets($data)
+ * @method array bulkCreateItemVariationProperties($data)
+ * @method array bulkUpdateItemVariationProperties($data)
+ * @method array bulkDeleteItemVariationProperties($data)
+ * @method array bulkCreateItemShippingProfiles($data)
+ * @method array bulkDeleteItemShippingProfiles($data)
+ *
  * @package lujie\plentyMarkets
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @document https://developers.plentymarkets.com/rest-doc#/
@@ -626,7 +640,25 @@ class PlentyMarketsRestClient extends OAuth2
         'listPaymentsByProperty' => ['GET', 'payments/property/{propertyTypeId}/{propertyValue}'],
         'listPaymentsByTransactionId' => ['GET', 'payments/property/1/{transactionId}'],
 
-        'createPaymentOrderRelation' => ['POST', 'payment/{paymentId}/order/{orderId}']
+        'createPaymentOrderRelation' => ['POST', 'payment/{paymentId}/order/{orderId}'],
+
+        'bulkCreateItemVariationCategories' => ['POST', 'items/variations/variation_categories'],
+        'bulkUpdateItemVariationCategories' => ['PUT', 'items/variations/variation_categories'],
+
+        'bulkCreateItemVariationSalesPrices' => ['POST', 'items/variations/variation_sales_prices'],
+        'bulkUpdateItemVariationSalesPrices' => ['PUT', 'items/variations/variation_sales_prices'],
+        'bulkDeleteItemVariationSalesPrices' => ['DELETE', 'items/{itemId}/variations/{variationId}/variation_sales_prices'],
+
+        'bulkCreateItemVariationMarkets' => ['POST', 'items/variations/variation_markets'],
+        'bulkUpdateItemVariationMarkets' => ['PUT', 'items/variations/variation_markets'],
+        'bulkDeleteItemVariationMarkets' => ['DELETE', 'items/{itemId}/variations/{variationId}/variation_markets'],
+
+        'bulkCreateItemVariationProperties' => ['POST', 'items/variations/variation_properties'],
+        'bulkUpdateItemVariationProperties' => ['PUT', 'items/variations/variation_properties'],
+        'bulkDeleteItemVariationProperties' => ['DELETE', 'items/{itemId}/variations/{variationId}/variation_properties'],
+
+        'bulkCreateItemShippingProfiles' => ['POST', 'items/item_shipping_profiles'],
+        'bulkDeleteItemShippingProfiles' => ['DELETE', 'items/{itemId}/item_shipping_profiles'],
     ];
 
     /**

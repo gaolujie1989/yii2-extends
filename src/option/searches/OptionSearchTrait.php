@@ -13,7 +13,7 @@ use yii\db\BaseActiveRecord;
 /**
  * Trait OptionSearchTrait
  *
- * @property string $optionSearchKey = 'options'
+ * @property string $optionKey = 'options'
  * @property string|Option $optionClass
  * @property string|ModelOption $modelOptionClass
  *
@@ -28,9 +28,9 @@ trait OptionSearchTrait
      */
     protected function optionRules(): array
     {
-        $optionSearchKey = $this->optionSearchKey ?? 'options';
+        $optionKey = $this->optionKey ?? 'options';
         return [
-            [[$optionSearchKey], 'safe'],
+            [[$optionKey], 'safe'],
         ];
     }
 
@@ -40,11 +40,11 @@ trait OptionSearchTrait
      */
     protected function getOptionModelIds(): array
     {
-        $optionSearchKey = $this->optionSearchKey ?? 'options';
-        $optionSearchValue = $this->{$optionSearchKey};
+        $optionKey = $this->optionKey ?? 'options';
+        $optionValue = $this->{$optionKey};
         $optionClass = $this->optionClass ?? Option::class;
         $modelOptionClass = $this->modelOptionClass ?? ModelOption::class;
-        $optionIds = $optionClass::find()->value($optionSearchValue)->getIds();
+        $optionIds = $optionClass::find()->value($optionValue)->getIds();
         if (empty($optionIds)) {
             return [];
         }

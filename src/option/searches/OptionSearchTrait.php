@@ -7,32 +7,18 @@ namespace lujie\common\option\searches;
 
 use lujie\common\option\models\ModelOption;
 use lujie\common\option\models\Option;
+use lujie\common\option\models\OptionTrait;
 use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 
 /**
  * Trait OptionSearchTrait
- *
- * @property string $optionKey = 'options'
- * @property string|Option $optionClass
- * @property string|ModelOption $modelOptionClass
- *
  * @package lujie\common\option\searches
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 trait OptionSearchTrait
 {
-    /**
-     * @return array[]
-     * @inheritdoc
-     */
-    protected function optionRules(): array
-    {
-        $optionKey = $this->optionKey ?? 'options';
-        return [
-            [[$optionKey], 'safe'],
-        ];
-    }
+    use OptionTrait;
 
     /**
      * @return array
@@ -40,7 +26,7 @@ trait OptionSearchTrait
      */
     protected function getOptionModelIds(): array
     {
-        $optionKey = $this->optionKey ?? 'options';
+        $optionKey = $this->optionKey ?? 'tags';
         $optionValue = $this->{$optionKey};
         $optionClass = $this->optionClass ?? Option::class;
         $modelOptionClass = $this->modelOptionClass ?? ModelOption::class;
@@ -55,7 +41,7 @@ trait OptionSearchTrait
      * @param ActiveQuery $query
      * @inheritdoc
      */
-    protected function searchOption(ActiveQuery $query): void
+    protected function queryOption(ActiveQuery $query): void
     {
         $modelIds = $this->getOptionModelIds();
         if (empty($modelIds)) {

@@ -66,6 +66,6 @@ trait OptionTrait
     public function getOptions(): ActiveQuery
     {
         $optionClass = $this->optionClass ?? Option::class;
-        return $this->hasMany($optionClass::class, ['option_id' => 'option_id'])->via('modelOptions');
+        return $this->hasMany($optionClass, ['option_id' => 'option_id'])->via('modelOptions');
     }
 }

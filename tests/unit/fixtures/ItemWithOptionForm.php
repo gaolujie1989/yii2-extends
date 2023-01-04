@@ -6,8 +6,7 @@
 namespace lujie\common\tests\unit\fixtures;
 
 use lujie\common\item\models\Item;
-use lujie\common\option\searches\OptionFormTrait;
-use lujie\common\option\searches\OptionSearchTrait;
+use lujie\common\option\forms\OptionFormTrait;
 
 /**
  * Class ItemWithOptionSearch

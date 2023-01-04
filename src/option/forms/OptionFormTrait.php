@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\common\option\searches;
+namespace lujie\common\option\forms;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;

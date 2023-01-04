@@ -24,10 +24,13 @@ trait OptionSearchTrait
      * @return array
      * @inheritdoc
      */
-    protected function getOptionModelIds(): array
+    protected function getOptionModelIds(): ?array
     {
         $optionKey = $this->optionKey ?? 'tags';
         $optionValue = $this->{$optionKey};
+        if (empty($optionValue)) {
+            return null;
+        }
         $optionClass = $this->optionClass ?? Option::class;
         $modelOptionClass = $this->modelOptionClass ?? ModelOption::class;
         $optionIds = $optionClass::find()->value($optionValue)->getIds();
@@ -44,6 +47,9 @@ trait OptionSearchTrait
     protected function queryOption(ActiveQuery $query): void
     {
         $modelIds = $this->getOptionModelIds();
+        if ($modelIds === null) {
+            return;
+        }
         if (empty($modelIds)) {
             $query->andWhere('1=2');
             return;

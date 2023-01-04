@@ -94,6 +94,9 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();
         }
+        if ($this->keyMap) {
+            $query->select(array_keys($this->keyMap))->distinct();
+        }
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */

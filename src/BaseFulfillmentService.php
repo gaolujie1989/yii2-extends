@@ -629,7 +629,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
-        $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);
+        $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements, $movementAtTo);
     }
 
     /**
@@ -658,12 +658,13 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
     /**
      * @param FulfillmentWarehouse $fulfillmentWarehouse
      * @param array $externalMovements
+     * @param int $movementAtTo
      * @return bool
      * @inheritdoc
      */
-    protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements): bool
+    protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements, int $movementAtTo): bool
     {
-        $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField));
+        $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField), $movementAtTo - 1);
         $fulfillmentWarehouse->external_movement_at = is_numeric($newestMovementTime)
             ? substr($newestMovementTime, 0, 10)
             : strtotime($newestMovementTime);

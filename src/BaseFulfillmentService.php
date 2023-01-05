@@ -602,6 +602,8 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         $count = count($externalMovements);
         Yii::info("Pulled {$count} ExternalWarehouseStockMovements", __METHOD__);
         if (empty($externalMovements)) {
+            $fulfillmentWarehouse->external_movement_at = $movementAtTo - 1;
+            $fulfillmentWarehouse->save(false);
             return;
         }
         $externalMovements = ArrayHelper::index($externalMovements, $this->externalMovementKeyField);
@@ -611,10 +613,6 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
             ->externalMovementKey($stockMovementKeys)
             ->getExternalMovementKeys();
         $newMovementKeys = array_diff($stockMovementKeys, $existMovementKeys);
-        if (empty($newMovementKeys)) {
-            Yii::debug("No new movements, skip", __METHOD__);
-            return;
-        }
         foreach ($newMovementKeys as $newMovementKey) {
             $newStockMovement = $externalMovements[$newMovementKey];
             $externalItemKey = $newStockMovement[$this->stockItemKeyField];
@@ -629,7 +627,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
 
             $this->updateFulfillmentWarehouseStockMovements($fulfillmentMovement, $newStockMovement);
         }
-        $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements, $movementAtTo);
+        $this->updateFulfillmentWarehouseExternalMovementTime($fulfillmentWarehouse, $externalMovements);
     }
 
     /**
@@ -662,9 +660,9 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @return bool
      * @inheritdoc
      */
-    protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements, int $movementAtTo): bool
+    protected function updateFulfillmentWarehouseExternalMovementTime(FulfillmentWarehouse $fulfillmentWarehouse, array $externalMovements): bool
     {
-        $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField), $movementAtTo - 1);
+        $newestMovementTime = max(ArrayHelper::getColumn($externalMovements, $this->externalMovementTimeField));
         $fulfillmentWarehouse->external_movement_at = is_numeric($newestMovementTime)
             ? substr($newestMovementTime, 0, 10)
             : strtotime($newestMovementTime);

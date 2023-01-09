@@ -13,10 +13,12 @@ use Yii;
  * @property int $item_id
  * @property int $item_updated_at
  * @property string $external_item_key
- * @property string $external_item_status
  * @property array|null $external_item_additional
  * @property int $external_created_at
  * @property int $external_updated_at
+ * @property int $item_pushed_at
+ * @property int $item_pushed_status
+ * @property array|null $item_pushed_result
  * @property int $stock_pushed_at
  * @property array|null $additional
  */
@@ -36,14 +38,14 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'stock_pushed_at'], 'default', 'value' => 0],
-            [['item_type', 'external_item_key', 'external_item_status'], 'default', 'value' => ''],
-            [['external_item_additional', 'additional'], 'default', 'value' => []],
+            [['item_type', 'external_item_key'], 'default', 'value' => ''],
+            [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'default', 'value' => 0],
+            [['external_item_additional', 'item_pushed_result', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
-            [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'stock_pushed_at'], 'integer'],
-            [['external_item_additional', 'additional'], 'safe'],
+            [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'integer'],
+            [['external_item_additional', 'item_pushed_result', 'additional'], 'safe'],
+            [['item_type'], 'string', 'max' => 20],
             [['external_item_key'], 'string', 'max' => 50],
-            [['external_item_status'], 'string', 'max' => 20],
         ];
     }
 
@@ -59,10 +61,12 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             'item_id' => Yii::t('lujie/salesChannel', 'Item ID'),
             'item_updated_at' => Yii::t('lujie/salesChannel', 'Item Updated At'),
             'external_item_key' => Yii::t('lujie/salesChannel', 'External Item Key'),
-            'external_item_status' => Yii::t('lujie/salesChannel', 'External Item Status'),
             'external_item_additional' => Yii::t('lujie/salesChannel', 'External Item Additional'),
             'external_created_at' => Yii::t('lujie/salesChannel', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/salesChannel', 'External Updated At'),
+            'item_pushed_at' => Yii::t('lujie/salesChannel', 'Item Pushed At'),
+            'item_pushed_status' => Yii::t('lujie/salesChannel', 'Item Pushed Status'),
+            'item_pushed_result' => Yii::t('lujie/salesChannel', 'Item Pushed Result'),
             'stock_pushed_at' => Yii::t('lujie/salesChannel', 'Stock Pushed At'),
             'additional' => Yii::t('lujie/salesChannel', 'Additional'),
         ];

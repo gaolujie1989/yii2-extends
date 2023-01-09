@@ -17,12 +17,13 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method SalesChannelItemQuery salesChannelAccountId($salesChannelAccountId)
  * @method SalesChannelItemQuery itemType($itemType)
  * @method SalesChannelItemQuery itemId($itemId)
- * @method SalesChannelItemQuery externalItemKey($externalItemKey, bool $like = false)
- * @method SalesChannelItemQuery externalItemStatus($externalItemStatus)
+ * @method SalesChannelItemQuery externalItemKey($externalItemKey, bool|string $like = false)
+ * @method SalesChannelItemQuery itemPushedStatus($itemPushedStatus)
  *
  * @method SalesChannelItemQuery itemUpdatedAtBetween($from, $to = null)
  * @method SalesChannelItemQuery externalCreatedAtBetween($from, $to = null)
  * @method SalesChannelItemQuery externalUpdatedAtBetween($from, $to = null)
+ * @method SalesChannelItemQuery itemPushedAtBetween($from, $to = null)
  * @method SalesChannelItemQuery stockPushedAtBetween($from, $to = null)
  * @method SalesChannelItemQuery createdAtBetween($from, $to = null)
  * @method SalesChannelItemQuery updatedAtBetween($from, $to = null)
@@ -33,6 +34,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method SalesChannelItemQuery orderByItemUpdatedAt($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderByExternalCreatedAt($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderByExternalUpdatedAt($sort = SORT_ASC)
+ * @method SalesChannelItemQuery orderByItemPushedAt($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderByStockPushedAt($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderByCreatedAt($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderByUpdatedAt($sort = SORT_ASC)
@@ -71,10 +73,11 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                     'itemType' => 'item_type',
                     'itemId' => 'item_id',
                     'externalItemKey' => 'external_item_key',
-                    'externalItemStatus' => 'external_item_status',
+                    'itemPushedStatus' => 'item_pushed_status',
                     'itemUpdatedAtBetween' => ['item_updated_at' => 'BETWEEN'],
                     'externalCreatedAtBetween' => ['external_created_at' => 'BETWEEN'],
                     'externalUpdatedAtBetween' => ['external_updated_at' => 'BETWEEN'],
+                    'itemPushedAtBetween' => ['item_pushed_at' => 'BETWEEN'],
                     'stockPushedAtBetween' => ['stock_pushed_at' => 'BETWEEN'],
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
@@ -87,6 +90,7 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                     'orderByItemUpdatedAt' => 'item_updated_at',
                     'orderByExternalCreatedAt' => 'external_created_at',
                     'orderByExternalUpdatedAt' => 'external_updated_at',
+                    'orderByItemPushedAt' => 'item_pushed_at',
                     'orderByStockPushedAt' => 'stock_pushed_at',
                     'orderByCreatedAt' => 'created_at',
                     'orderByUpdatedAt' => 'updated_at',

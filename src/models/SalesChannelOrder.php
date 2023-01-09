@@ -40,16 +40,15 @@ class SalesChannelOrder extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['sales_channel_status', 'order_id', 'order_status', 'order_updated_at',
-                'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'default', 'value' => 0],
+            [['sales_channel_status', 'order_id', 'order_status', 'order_updated_at', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'default', 'value' => 0],
             [['external_order_key', 'external_order_status'], 'default', 'value' => ''],
             [['external_order_additional', 'order_pushed_result', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
-            [['sales_channel_account_id', 'sales_channel_status', 'order_id', 'order_status', 'order_updated_at',
-                'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'integer'],
+            [['sales_channel_account_id', 'sales_channel_status', 'order_id', 'order_status', 'order_updated_at', 'external_created_at', 'external_updated_at', 'order_pushed_at', 'order_pushed_status', 'order_pulled_at'], 'integer'],
             [['external_order_additional', 'order_pushed_result', 'additional'], 'safe'],
             [['external_order_key'], 'string', 'max' => 50],
             [['external_order_status'], 'string', 'max' => 20],
+            [['external_order_key', 'sales_channel_account_id'], 'unique', 'targetAttribute' => ['external_order_key', 'sales_channel_account_id']],
         ];
     }
 

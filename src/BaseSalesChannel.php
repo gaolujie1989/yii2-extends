@@ -109,6 +109,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     /**
      * @param int $createdAtFrom
      * @param int $createdAtTo
+     * @throws InvalidConfigException
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pullNewSalesOrders(int $createdAtFrom, int $createdAtTo): void
@@ -204,33 +206,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @inheritdoc
      */
     abstract public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool;
-
-    #endregion
-
-    #region Stock Push
-
-    public function pushStocks(): void
-    {
-        // TODO: Implement pushStocks() method.
-    }
-
-    #endregion
-
-    #region Price Push
-
-    public function pushPrices(): void
-    {
-        // TODO: Implement pushPrices() method.
-    }
-
-    #endregion
-
-    #region Product Push
-
-    public function pushProducts(): void
-    {
-        // TODO: Implement pushProducts() method.
-    }
 
     #endregion
 }

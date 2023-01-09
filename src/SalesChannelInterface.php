@@ -42,19 +42,4 @@ interface SalesChannelInterface
      * @inheritdoc
      */
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool;
-
-    /**
-     * @inheritdoc
-     */
-    public function pushStocks(): void;
-
-    /**
-     * @inheritdoc
-     */
-    public function pushPrices(): void;
-
-    /**
-     * @inheritdoc
-     */
-    public function pushProducts(): void;
 }

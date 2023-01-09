@@ -18,6 +18,7 @@ use Yii;
  * @property int $external_updated_at
  * @property int $item_pushed_at
  * @property int $item_pushed_status
+ * @property array|null $item_pushed_parts
  * @property array|null $item_pushed_result
  * @property int $stock_pushed_at
  * @property array|null $additional
@@ -43,7 +44,7 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             [['external_item_additional', 'item_pushed_result', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
             [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'integer'],
-            [['external_item_additional', 'item_pushed_result', 'additional'], 'safe'],
+            [['external_item_additional', 'item_pushed_parts', 'item_pushed_result', 'additional'], 'safe'],
             [['item_type'], 'string', 'max' => 20],
             [['external_item_key'], 'string', 'max' => 50],
         ];
@@ -66,6 +67,7 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             'external_updated_at' => Yii::t('lujie/salesChannel', 'External Updated At'),
             'item_pushed_at' => Yii::t('lujie/salesChannel', 'Item Pushed At'),
             'item_pushed_status' => Yii::t('lujie/salesChannel', 'Item Pushed Status'),
+            'item_pushed_parts' => Yii::t('lujie/salesChannel', 'Item Pushed Parts'),
             'item_pushed_result' => Yii::t('lujie/salesChannel', 'Item Pushed Result'),
             'stock_pushed_at' => Yii::t('lujie/salesChannel', 'Stock Pushed At'),
             'additional' => Yii::t('lujie/salesChannel', 'Additional'),

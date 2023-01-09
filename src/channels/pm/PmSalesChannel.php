@@ -235,4 +235,13 @@ class PmSalesChannel extends BaseSalesChannel
             }
         }
     }
+
+    #region Item Push
+
+    public function pushSalesItems(array $salesChannelItems): void
+    {
+
+    }
+
+    #endregion
 }

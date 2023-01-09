@@ -24,6 +24,7 @@ class m220812_111611_sales_channel_item extends Migration
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_pushed_status' => $this->tinyInteger()->notNull()->defaultValue(0),
+            'item_pushed_parts' => $this->json(),
             'item_pushed_result' => $this->json(),
             'stock_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'additional' => $this->json(),

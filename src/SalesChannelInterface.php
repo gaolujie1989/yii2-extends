@@ -5,6 +5,7 @@
 
 namespace lujie\sales\channel;
 
+use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 
 /**
@@ -42,4 +43,10 @@ interface SalesChannelInterface
      * @inheritdoc
      */
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool;
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @inheritdoc
+     */
+    public function pushSalesItem(SalesChannelItem $salesChannelItem): bool;
 }

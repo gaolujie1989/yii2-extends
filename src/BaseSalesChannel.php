@@ -5,12 +5,19 @@
 
 namespace lujie\sales\channel;
 
+use lujie\data\loader\DataLoaderInterface;
+use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\constants\StatusConst;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
+use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+use yii\db\BaseActiveRecord;
+use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -27,7 +34,17 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      */
     public $account;
 
+    /**
+     * @var DataLoaderInterface
+     */
+    public $itemLoader;
+
     #region External Model Key Field
+
+    /**
+     * @var string
+     */
+    public $externalItemKeyField = 'id';
 
     /**
      * @var string
@@ -78,6 +95,9 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         parent::init();
         if (!($this->account instanceof SalesChannelAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be SalesChannelAccount');
+        }
+        if ($this->itemLoader) {
+            $this->itemLoader = Instance::ensure($this->itemLoader, DataLoaderInterface::class);
         }
     }
 
@@ -206,6 +226,81 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @inheritdoc
      */
     abstract public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool;
+
+    #endregion
+
+    #region Item push
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @inheritdoc
+     */
+    public function pushSalesItem(SalesChannelItem $salesChannelItem): bool
+    {
+        if ($salesChannelItem->sales_channel_account_id !== $this->account->account_id) {
+            Yii::info("SalesChannelItem account {$salesChannelItem->sales_channel_account_id} != account {$this->account->account_id}", __METHOD__);
+            return false;
+        }
+
+        $item = $this->itemLoader->get($salesChannelItem);
+        if ($item === null) {
+            Yii::info("Empty Item", __METHOD__);
+            return false;
+        }
+
+        $externalItem = $this->formatExternalItemData($item, $salesChannelItem);
+        if (empty($salesChannelItem->external_item_key) && $externalExistsItem = $this->getExternalItem($externalItem)) {
+            Yii::info("Item not pushed, but exist in external, update SalesChannelItem", __METHOD__);
+            $this->updateSalesChannelItem($salesChannelItem, $externalExistsItem);
+            $externalItem = $this->formatExternalItemData($item, $salesChannelItem);
+        }
+
+        if ($externalItem = $this->saveExternalItem($externalItem, $salesChannelItem)) {
+            Yii::info("Item pushed success, update SalesChannelItem", __METHOD__);
+            return $this->updateSalesChannelItem($salesChannelItem, $externalItem);
+        }
+    }
+
+    /**
+     * @param BaseActiveRecord $item
+     * @param SalesChannelItem $item
+     * @return array
+     * @inheritdoc
+     */
+    abstract protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): array;
+
+    /**
+     * @param array $externalItem
+     * @param SalesChannelItem $salesChannelItem
+     * @return array|null
+     * @inheritdoc
+     */
+    abstract protected function getExternalItem(array $externalItem): ?array;
+
+    /**
+     * @param array $externalItem
+     * @param SalesChannelItem $salesChannelItem
+     * @return array|null
+     * @inheritdoc
+     */
+    abstract protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array;
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @param array $externalItem
+     * @return bool
+     * @inheritdoc
+     */
+    protected function updateSalesChannelItem(SalesChannelItem $salesChannelItem, array $externalItem): bool
+    {
+        $salesChannelItem->external_item_key = $externalItem[$this->externalItemKeyField];
+        $isStockPushed = in_array(SalesChannelConst::ITEM_PUSH_PART_ALL, $salesChannelItem->item_pushed_parts, true)
+            || in_array(SalesChannelConst::ITEM_PUSH_PART_STOCK, $salesChannelItem->item_pushed_parts, true);
+        if ($salesChannelItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_SUCCESS && $isStockPushed) {
+            $salesChannelItem->stock_pushed_at = $salesChannelItem->item_pushed_at;
+        }
+        return $salesChannelItem->save(false);
+    }
 
     #endregion
 }

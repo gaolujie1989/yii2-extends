@@ -15,6 +15,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method SalesChannelItemQuery salesChannelItemId($salesChannelItemId)
  * @method SalesChannelItemQuery salesChannelAccountId($salesChannelAccountId)
+ * @method SalesChannelItemQuery itemType($itemType)
  * @method SalesChannelItemQuery itemId($itemId)
  * @method SalesChannelItemQuery externalItemKey($externalItemKey, bool $like = false)
  * @method SalesChannelItemQuery externalItemStatus($externalItemStatus)
@@ -67,6 +68,7 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                 'queryFields' => [
                     'salesChannelItemId' => 'sales_channel_item_id',
                     'salesChannelAccountId' => 'sales_channel_account_id',
+                    'itemType' => 'item_type',
                     'itemId' => 'item_id',
                     'externalItemKey' => 'external_item_key',
                     'externalItemStatus' => 'external_item_status',

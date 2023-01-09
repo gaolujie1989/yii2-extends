@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $sales_channel_item_id
  * @property int $sales_channel_account_id
+ * @property string $item_type
  * @property int $item_id
  * @property int $item_updated_at
  * @property string $external_item_key
@@ -36,14 +37,13 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
     {
         return [
             [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'stock_pushed_at'], 'default', 'value' => 0],
-            [['external_item_key', 'external_item_status'], 'default', 'value' => ''],
+            [['item_type', 'external_item_key', 'external_item_status'], 'default', 'value' => ''],
             [['external_item_additional', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
             [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'stock_pushed_at'], 'integer'],
             [['external_item_additional', 'additional'], 'safe'],
             [['external_item_key'], 'string', 'max' => 50],
             [['external_item_status'], 'string', 'max' => 20],
-            [['item_id', 'sales_channel_account_id'], 'unique', 'targetAttribute' => ['item_id', 'sales_channel_account_id']],
         ];
     }
 
@@ -55,6 +55,7 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
         return [
             'sales_channel_item_id' => Yii::t('lujie/salesChannel', 'Sales Channel Item ID'),
             'sales_channel_account_id' => Yii::t('lujie/salesChannel', 'Sales Channel Account ID'),
+            'item_type' => Yii::t('lujie/salesChannel', 'Item Type'),
             'item_id' => Yii::t('lujie/salesChannel', 'Item ID'),
             'item_updated_at' => Yii::t('lujie/salesChannel', 'Item Updated At'),
             'external_item_key' => Yii::t('lujie/salesChannel', 'External Item Key'),

@@ -323,6 +323,7 @@ class PmSalesChannel extends BaseSalesChannel
                     $this->updateSalesChannelItem($salesChannelItem, $savedItem);
                     $additional = $salesChannelItem->additional;
                 } else {
+                    unset($externalItem['variations']);
                     $savedItem = $this->client->updateItem($externalItem);
                 }
             }

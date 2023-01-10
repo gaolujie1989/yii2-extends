@@ -19,6 +19,7 @@ class m220812_111611_sales_channel_item extends Migration
             'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
+            'external_item_no' => $this->string(50)->notNull()->defaultValue(''),
             'external_item_additional' => $this->json(),
             'external_created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
@@ -32,6 +33,7 @@ class m220812_111611_sales_channel_item extends Migration
 
         $this->createIndex('idx_item_account', $this->tableName, ['item_id', 'item_type', 'sales_channel_account_id']);
         $this->createIndex('idx_external_item_account', $this->tableName, ['external_item_key', 'sales_channel_account_id']);
+        $this->createIndex('idx_external_item_no', $this->tableName, ['external_item_no', 'sales_channel_account_id']);
         $this->createIndex('idx_stock_pushed_at', $this->tableName, ['stock_pushed_at']);
     }
 }

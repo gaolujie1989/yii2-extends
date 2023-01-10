@@ -13,6 +13,7 @@ use Yii;
  * @property int $item_id
  * @property int $item_updated_at
  * @property string $external_item_key
+ * @property string $external_item_no
  * @property array|null $external_item_additional
  * @property int $external_created_at
  * @property int $external_updated_at
@@ -39,14 +40,14 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['item_type', 'external_item_key'], 'default', 'value' => ''],
+            [['item_type', 'external_item_key', 'external_item_no'], 'default', 'value' => ''],
             [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'default', 'value' => 0],
             [['external_item_additional', 'item_pushed_result', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
             [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'integer'],
             [['external_item_additional', 'item_pushed_parts', 'item_pushed_result', 'additional'], 'safe'],
             [['item_type'], 'string', 'max' => 20],
-            [['external_item_key'], 'string', 'max' => 50],
+            [['external_item_key', 'external_item_no'], 'string', 'max' => 50],
         ];
     }
 
@@ -62,6 +63,7 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             'item_id' => Yii::t('lujie/salesChannel', 'Item ID'),
             'item_updated_at' => Yii::t('lujie/salesChannel', 'Item Updated At'),
             'external_item_key' => Yii::t('lujie/salesChannel', 'External Item Key'),
+            'external_item_no' => Yii::t('lujie/salesChannel', 'External Item No'),
             'external_item_additional' => Yii::t('lujie/salesChannel', 'External Item Additional'),
             'external_created_at' => Yii::t('lujie/salesChannel', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/salesChannel', 'External Updated At'),

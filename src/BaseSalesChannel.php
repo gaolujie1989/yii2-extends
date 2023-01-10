@@ -244,21 +244,31 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
         $item = $this->itemLoader->get($salesChannelItem);
         if ($item === null) {
-            Yii::info("Empty Item", __METHOD__);
+            Yii::info("Empty item", __METHOD__);
             return false;
         }
 
         $externalItem = $this->formatExternalItemData($item, $salesChannelItem);
+        if ($externalItem === null) {
+            Yii::info("Empty formatted external item", __METHOD__);
+            return false;
+        }
         if (empty($salesChannelItem->external_item_key) && $externalExistsItem = $this->getExternalItem($externalItem)) {
             Yii::info("Item not pushed, but exist in external, update SalesChannelItem", __METHOD__);
             $this->updateSalesChannelItem($salesChannelItem, $externalExistsItem);
             $externalItem = $this->formatExternalItemData($item, $salesChannelItem);
+            if ($externalItem === null) {
+                Yii::info("Empty formatted external item", __METHOD__);
+                return false;
+            }
         }
 
         if ($externalItem = $this->saveExternalItem($externalItem, $salesChannelItem)) {
             Yii::info("Item pushed success, update SalesChannelItem", __METHOD__);
             return $this->updateSalesChannelItem($salesChannelItem, $externalItem);
         }
+        Yii::warning("Item pushed failed, skip update SalesChannelItem", __METHOD__);
+        return false;
     }
 
     /**
@@ -267,7 +277,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @return array
      * @inheritdoc
      */
-    abstract protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): array;
+    abstract protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array;
 
     /**
      * @param array $externalItem

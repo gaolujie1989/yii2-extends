@@ -56,7 +56,7 @@ abstract class BaseFulfillmentOrderJob extends BaseObject implements JobInterfac
     public function getRateLimitKey(): string
     {
         $fulfillmentOrder = $this->getFulfillmentOrder();
-        return 'FulfillmentAccountOrder' . $fulfillmentOrder->fulfillment_account_id;
+        return 'FulfillmentOrderAccount:' . $fulfillmentOrder->fulfillment_account_id;
     }
 
     /**

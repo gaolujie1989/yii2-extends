@@ -151,13 +151,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param AfterSaveEvent $event
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function afterFulfillmentItemSaved(AfterSaveEvent $event): void
     {
         /** @var FulfillmentItemForm $fulfillmentItemForm */
         $fulfillmentItemForm = $event->sender;
-        //FulfillmentItem will trigger event, FulfillmentItem use instead
+        //FulfillmentItemForm will trigger event, FulfillmentItem use instead
         $fulfillmentItem = new FulfillmentItem();
         $fulfillmentItem->setAttributes($fulfillmentItemForm->attributes, false);
         $fulfillmentItem->setIsNewRecord(false);

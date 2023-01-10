@@ -70,8 +70,8 @@ class PushFulfillmentItemJob extends BaseObject implements JobInterface, RateLim
      */
     public function getRateLimitKey(): string
     {
-        $fulfillmentOrder = $this->getFulfillmentItem();
-        return 'FulfillmentAccountItem' . $fulfillmentOrder->fulfillment_account_id;
+        $fulfillmentItem = $this->getFulfillmentItem();
+        return 'FulfillmentItemAccount:' . $fulfillmentItem->fulfillment_account_id;
     }
 
     /**

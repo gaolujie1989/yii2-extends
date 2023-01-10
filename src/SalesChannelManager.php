@@ -10,11 +10,14 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\ExecuteHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
+use lujie\sales\channel\forms\SalesChannelItemForm;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\jobs\BaseSalesChannelOrderJob;
 use lujie\sales\channel\jobs\CancelSalesChannelOrderJob;
+use lujie\sales\channel\jobs\PushSalesChannelItemJob;
 use lujie\sales\channel\jobs\ShipSalesChannelOrderJob;
 use lujie\sales\channel\models\SalesChannelAccount;
+use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
 use yii\base\Application;
@@ -44,6 +47,11 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @var Queue
      */
     public $queue = 'queue';
+
+    /**
+     * @var array
+     */
+    public $salesChannelItemJob = [];
 
     /**
      * @var array
@@ -106,7 +114,9 @@ class SalesChannelManager extends Component implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
-        Event::on(SalesChannelOrderForm::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterChannelOrderUpdated']);
+        Event::on(SalesChannelItemForm::class, BaseActiveRecord::EVENT_AFTER_INSERT, [$this, 'afterSalesChannelItemSaved']);
+        Event::on(SalesChannelItemForm::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterSalesChannelItemSaved']);
+        Event::on(SalesChannelOrderForm::class, BaseActiveRecord::EVENT_AFTER_UPDATE, [$this, 'afterSalesChannelOrderUpdated']);
     }
 
     /**
@@ -114,7 +124,48 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function afterChannelOrderUpdated(AfterSaveEvent $event): void
+    public function afterSalesChannelItemSaved(AfterSaveEvent $event): void
+    {
+        /** @var SalesChannelItemForm $channelOrderForm */
+        $channelItemForm = $event->sender;
+        //SalesChannelItemForm will trigger event, SalesChannelItem use instead
+        $channelItem = new SalesChannelItem();
+        $channelItem->setAttributes($channelItemForm->attributes, false);
+        $channelItem->setIsNewRecord(false);
+        if ($channelItem->item_pushed_at > $channelItem->item_updated_at) {
+            Yii::info("SalesChannelItem {$channelItem->sales_channel_item_id} not updated, skip", __METHOD__);
+            return;
+        }
+        $this->pushSalesChannelItemJob($channelItem);
+    }
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushSalesChannelItemJob(SalesChannelItem $salesChannelItem): bool
+    {
+        /** @var PushSalesChannelItemJob $job */
+        $job = Instance::ensure($this->salesChannelItemJob, PushSalesChannelItemJob::class);
+        $job->salesChannelManager = ComponentHelper::getName($this);
+        $job->salesChannelItemId = $salesChannelItem->sales_channel_item_id;
+        return ExecuteHelper::pushJob(
+            $this->queue,
+            $job,
+            $salesChannelItem,
+            'item_pushed_status',
+            'item_pushed_result'
+        );
+    }
+
+    /**
+     * @param AfterSaveEvent $event
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function afterSalesChannelOrderUpdated(AfterSaveEvent $event): void
     {
         /** @var SalesChannelOrderForm $channelOrderForm */
         $channelOrderForm = $event->sender;
@@ -322,6 +373,42 @@ class SalesChannelManager extends Component implements BootstrapInterface
         foreach ($query->each() as $salesChannelOrder) {
             $this->pushCancelSalesChannelOrderJob($salesChannelOrder);
         }
+    }
+
+    #endregion
+
+    #region Item Push
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function pushSalesChannelItem(SalesChannelItem $salesChannelItem): bool
+    {
+        $name = "SalesChannelItem {$salesChannelItem->sales_channel_item_id} of item {$salesChannelItem->item_id}";
+        if ($salesChannelItem->external_updated_at > $salesChannelItem->item_updated_at) {
+            Yii::info("{$name} already pushed, skip", __METHOD__);
+            $salesChannelItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $salesChannelItem->mustSave(false);
+            return false;
+        }
+
+        $salesChannel = $this->getSalesChannel($salesChannelItem->sales_channel_account_id);
+        $lockName = $this->mutexNamePrefix . 'pushSalesChannelItem:' . $salesChannelItem->sales_channel_item_id;
+        if ($this->mutex->acquire($lockName)) {
+            try {
+                return ExecuteHelper::execute(static function () use ($salesChannel, $salesChannelItem, $name) {
+                    $salesChannel->pushSalesItem($salesChannelItem);
+                    Yii::info("{$name} pushed success", __METHOD__);
+                }, $salesChannelItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result');
+            } finally {
+                $this->mutex->release($lockName);
+            }
+        }
+        return false;
     }
 
     #endregion

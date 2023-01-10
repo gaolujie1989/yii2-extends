@@ -153,7 +153,7 @@ class MockFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
+    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): ?array
     {
         $itemData = ArrayHelper::toArray($item);
         unset($itemData['itemId']);

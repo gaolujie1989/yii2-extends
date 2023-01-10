@@ -196,7 +196,7 @@ class PmFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
+    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): ?array
     {
         $pmVariationData = array_merge($this->defaultVariationData, [
             'number' => $this->variationNoPrefix . $item->itemNo,

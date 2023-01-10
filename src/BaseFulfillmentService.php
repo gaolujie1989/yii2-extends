@@ -190,6 +190,10 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
         }
 
         $externalItem = $this->formatExternalItemData($item, $fulfillmentItem);
+        if ($externalItem === null) {
+            Yii::info("Empty formatted external item", __METHOD__);
+            return false;
+        }
         if ($externalItem = $this->saveExternalItem($externalItem, $fulfillmentItem)) {
             Yii::info("Item pushed success, update FulfillmentItem", __METHOD__);
             return $this->updateFulfillmentItem($fulfillmentItem, $externalItem);
@@ -204,7 +208,7 @@ abstract class BaseFulfillmentService extends Component implements FulfillmentSe
      * @param FulfillmentItem $fulfillmentItem
      * @return array
      */
-    abstract protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array;
+    abstract protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): ?array;
 
     /**
      * get external item by item with item_no or barcode

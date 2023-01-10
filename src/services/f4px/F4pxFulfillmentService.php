@@ -224,7 +224,7 @@ class F4pxFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
+    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): ?array
     {
         $pictureUrls = array_slice($item->imageUrls, 0, 6);
         $pictureUrls = array_map(static function ($url) {

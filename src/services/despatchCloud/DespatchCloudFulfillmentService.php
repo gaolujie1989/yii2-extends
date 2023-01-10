@@ -62,7 +62,7 @@ class DespatchCloudFulfillmentService extends BaseFulfillmentService
      * @return array
      * @inheritdoc
      */
-    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): array
+    protected function formatExternalItemData(Item $item, FulfillmentItem $fulfillmentItem): ?array
     {
         $ean = $item->getBarcode('EAN');
         $own = $item->getBarcode('OWN');

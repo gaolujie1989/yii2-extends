@@ -5,9 +5,9 @@
 
 namespace lujie\fulfillment\jobs;
 
+use lujie\extend\queue\RateLimitDelayJobInterface;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\models\FulfillmentItem;
-use lujie\fulfillment\models\FulfillmentOrder;
 use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -20,7 +20,7 @@ use yii\queue\Queue;
  * @package lujie\fulfillment
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushFulfillmentItemJob extends BaseObject implements JobInterface
+class PushFulfillmentItemJob extends BaseObject implements JobInterface, RateLimitDelayJobInterface
 {
     /**
      * @var FulfillmentManager

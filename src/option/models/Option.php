@@ -26,6 +26,8 @@ class Option extends \lujie\extend\db\ActiveRecord
     public const TYPE_OPTION_VALUE_TYPE = 'optionValueType';
     public const TYPE_OPTION_TAG = 'optionTag';
 
+    public const OPTION_TYPE = 'OPTION';
+
     /**
      * {@inheritdoc}
      */

@@ -14,6 +14,8 @@ use Yii;
  */
 class ModelOption extends \lujie\extend\db\ActiveRecord
 {
+    public const MODEL_TYPE = 'OPTION';
+
     /**
      * {@inheritdoc}
      */

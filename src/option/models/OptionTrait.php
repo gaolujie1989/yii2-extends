@@ -56,7 +56,9 @@ trait OptionTrait
     {
         $primaryKey = static::primaryKey();
         $modelOptionClass = $this->modelOptionClass ?? ModelOption::class;
-        return $this->hasMany($modelOptionClass, ['model_id' => $primaryKey[0]]);
+        return $this->hasMany($modelOptionClass, ['model_id' => $primaryKey[0]])
+            ->andWhere([])
+            ->andOnCondition(['model_type' => $modelOptionClass::MODEL_TYPE]);
     }
 
     /**
@@ -66,6 +68,8 @@ trait OptionTrait
     public function getOptions(): ActiveQuery
     {
         $optionClass = $this->optionClass ?? Option::class;
-        return $this->hasMany($optionClass, ['option_id' => 'option_id'])->via('modelOptions');
+        return $this->hasMany($optionClass, ['option_id' => 'option_id'])->via('modelOptions')
+            ->andWhere([])
+            ->andOnCondition(['model_type' => $optionClass::OPTION_TYPE]);
     }
 }

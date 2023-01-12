@@ -57,7 +57,7 @@ trait OptionTrait
         $primaryKey = static::primaryKey();
         $modelOptionClass = $this->modelOptionClass ?? ModelOption::class;
         return $this->hasMany($modelOptionClass, ['model_id' => $primaryKey[0]])
-            ->andWhere([])
+            ->where([])
             ->andOnCondition(['model_type' => $modelOptionClass::MODEL_TYPE]);
     }
 
@@ -69,7 +69,7 @@ trait OptionTrait
     {
         $optionClass = $this->optionClass ?? Option::class;
         return $this->hasMany($optionClass, ['option_id' => 'option_id'])->via('modelOptions')
-            ->andWhere([])
+            ->where([])
             ->andOnCondition(['model_type' => $optionClass::OPTION_TYPE]);
     }
 }

@@ -70,6 +70,6 @@ trait OptionTrait
         $optionClass = $this->optionClass ?? Option::class;
         return $this->hasMany($optionClass, ['option_id' => 'option_id'])->via('modelOptions')
             ->where([])
-            ->andOnCondition(['model_type' => $optionClass::OPTION_TYPE]);
+            ->andOnCondition(['type' => $optionClass::OPTION_TYPE]);
     }
 }

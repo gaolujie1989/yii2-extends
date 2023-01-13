@@ -445,14 +445,14 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function updateSalesChannelItem(SalesChannelItem $salesChannelItem, array $externalItem): bool
     {
-        $additional = $salesChannelItem->additional ?: [];
+        $externalItemAdditional = $salesChannelItem->external_item_additional ?: [];
         if (isset($externalItem['itemId'])) {
-            $additional['itemId'] = $externalItem['itemId'];
+            $externalItemAdditional['itemId'] = $externalItem['itemId'];
         }
         if (isset($externalItem['mainVariationId'])) {
-            $additional['mainVariationId'] = $externalItem['mainVariationId'];
+            $externalItemAdditional['mainVariationId'] = $externalItem['mainVariationId'];
         }
-        $salesChannelItem->additional = $additional;
+        $salesChannelItem->external_item_additional = $externalItemAdditional;
         $salesChannelItem->external_item_no = $externalItem['variationNo'] ?? '';
         return parent::updateSalesChannelItem($salesChannelItem, $externalItem);
     }

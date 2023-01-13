@@ -45,6 +45,11 @@ class PullSalesChannelOrderTask extends CronTask implements ProgressInterface
     public $timeStep = 43200;
 
     /**
+     * @var array
+     */
+    public $accountNames = [];
+
+    /**
      * @return \Generator
      * @throws InvalidConfigException
      * @inheritdoc
@@ -52,7 +57,13 @@ class PullSalesChannelOrderTask extends CronTask implements ProgressInterface
     public function execute(): \Generator
     {
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
-        $accountIds = SalesChannelAccount::find()->active()->column();
+        $accountQuery = SalesChannelAccount::find();
+        if ($this->accountNames) {
+            $accountQuery->name($this->accountNames);
+        } else {
+            $accountQuery->active();
+        }
+        $accountIds = $accountQuery->column();
         foreach ($accountIds as $accountId) {
             yield from $this->executeProgress([$accountId], count($accountIds));
             $this->salesChannelManager->pullSalesChannelOrders($accountId);

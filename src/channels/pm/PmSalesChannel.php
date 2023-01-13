@@ -448,7 +448,8 @@ class PmSalesChannel extends BaseSalesChannel
         $additional = $salesChannelItem->additional ?: [];
         if (isset($externalItem['itemId'])) {
             $additional['itemId'] = $externalItem['itemId'];
-        } else if (isset($externalItem['mainVariationId'])) {
+        }
+        if (isset($externalItem['mainVariationId'])) {
             $additional['mainVariationId'] = $externalItem['mainVariationId'];
         }
         $salesChannelItem->additional = $additional;

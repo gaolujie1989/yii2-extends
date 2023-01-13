@@ -20,8 +20,9 @@ class SalesChannelConst
     public const CHANNEL_STATUS_TO_SHIPPED = 210;
     public const CHANNEL_STATUS_TO_CANCELLED = 220;
 
+    public const ITEM_PUSH_PART_ALL = 'ALL';
+    public const ITEM_PUSH_PART_DESC = 'DESC';
+    public const ITEM_PUSH_PART_IMAGE = 'IMAGE';
     public const ITEM_PUSH_PART_PRICE = 'PRICE';
     public const ITEM_PUSH_PART_STOCK = 'STOCK';
-    public const ITEM_PUSH_PART_DESCRIPTION = 'DESCRIPTION';
-    public const ITEM_PUSH_PART_ALL = 'ALL';
 }

@@ -26,6 +26,8 @@ use Yii;
  */
 class SalesChannelItem extends \lujie\extend\db\ActiveRecord
 {
+    use SalesChannelAccountRelationTrait;
+
     /**
      * {@inheritdoc}
      */

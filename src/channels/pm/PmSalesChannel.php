@@ -436,8 +436,13 @@ class PmSalesChannel extends BaseSalesChannel
             $imageId = $imageIds[$modelId] ?? null;
             if ($imageId) {
                 $itemImage['id'] = $imageId;
+                unset($itemImage['uploadImageData'], $itemImage['uploadImageUrl']);
                 $this->client->updateItemImage($itemImage);
             } else {
+                if (empty($itemImage['uploadImageData']) && isset($itemImage['uploadImageUrl'])) {
+                    $itemImage['uploadImageData'] = base64_encode(file_get_contents($itemImage['uploadImageUrl']));
+                }
+                unset($itemImage['uploadImageUrl']);
                 $createdItemImage = $this->client->createItemImage($itemImage);
                 $imageIds[$modelId] = $createdItemImage['id'];
                 $additional['imageIds'] = $imageIds;

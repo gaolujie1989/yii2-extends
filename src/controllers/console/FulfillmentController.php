@@ -7,14 +7,12 @@ namespace lujie\fulfillment\controllers\console;
 
 use lujie\executing\Executor;
 use lujie\extend\helpers\ValueHelper;
-use lujie\fulfillment\FulfillmentDailyStockGenerator;
 use lujie\fulfillment\FulfillmentManager;
 use lujie\fulfillment\FulfillmentServiceInterface;
 use lujie\fulfillment\models\FulfillmentAccount;
 use lujie\fulfillment\models\FulfillmentItem;
 use lujie\fulfillment\models\FulfillmentOrder;
 use lujie\fulfillment\models\FulfillmentWarehouse;
-use lujie\fulfillment\tasks\GenerateDailyStockTask;
 use lujie\fulfillment\tasks\GenerateFulfillmentDailyStockTask;
 use yii\base\InvalidArgumentException;
 use yii\console\Controller;

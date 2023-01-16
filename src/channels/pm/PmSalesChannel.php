@@ -5,7 +5,6 @@
 
 namespace lujie\sales\channel\channels\pm;
 
-use lujie\extend\constants\ExecStatusConst;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use lujie\sales\channel\BaseSalesChannel;
@@ -242,6 +241,40 @@ class PmSalesChannel extends BaseSalesChannel
     }
 
     #region Item Push
+
+    /**
+     * @var array
+     */
+    public $pushedPartsMap = [
+        SalesChannelConst::ITEM_PUSH_PART_INFO => [
+            'variationBarcodes',
+            'variationBundleComponents',
+            'variationAttributeValues',
+            'variationImages',
+        ],
+        SalesChannelConst::ITEM_PUSH_PART_DESC => ['itemTexts'],
+        SalesChannelConst::ITEM_PUSH_PART_IMAGE => ['itemImages'],
+        SalesChannelConst::ITEM_PUSH_PART_PRICE => [
+            'variationSalesPrices',
+            'variationMarkets',
+            'variationSkus',
+        ],
+    ];
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return array
+     * @inheritdoc
+     */
+    public function getPmSaveParts(SalesChannelItem $salesChannelItem): array
+    {
+        $pushedParts = $salesChannelItem->item_pushed_parts;
+        if (empty($salesChannelItem->external_item_key) || empty($pushedParts)) {
+            return [SalesChannelConst::ITEM_PUSH_PART_ALL];
+        }
+        $pmSaveParts = array_intersect_key($this->pushedPartsMap, array_flip($pushedParts));
+        return array_merge(...$pmSaveParts);
+    }
 
     /**
      * @param BaseActiveRecord $item

@@ -304,8 +304,10 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     protected function updateSalesChannelItem(SalesChannelItem $salesChannelItem, array $externalItem): bool
     {
         $salesChannelItem->external_item_key = $externalItem[$this->externalItemKeyField];
-        $isStockPushed = in_array(SalesChannelConst::ITEM_PUSH_PART_ALL, $salesChannelItem->item_pushed_parts, true)
-            || in_array(SalesChannelConst::ITEM_PUSH_PART_STOCK, $salesChannelItem->item_pushed_parts, true);
+        $pushedParts = $salesChannelItem->item_pushed_parts ?: [];
+        $isStockPushed = empty($pushedParts)
+            || in_array(SalesChannelConst::ITEM_PUSH_PART_ALL, $pushedParts, true)
+            || in_array(SalesChannelConst::ITEM_PUSH_PART_STOCK, $pushedParts, true);
         if ($salesChannelItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_SUCCESS && $isStockPushed) {
             $salesChannelItem->stock_pushed_at = $salesChannelItem->item_pushed_at;
         }

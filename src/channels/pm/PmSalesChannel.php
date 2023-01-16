@@ -394,7 +394,7 @@ class PmSalesChannel extends BaseSalesChannel
     protected function savePmItemTexts(array $itemTexts, SalesChannelItem $salesChannelItem): void
     {
         $itemId = $salesChannelItem->external_item_key;
-        $mainVariationId = $salesChannelItem->additional['mainVariationId'];
+        $mainVariationId = $salesChannelItem->external_item_additional['mainVariationId'];
         $existItemTexts = $this->client->eachItemTexts(['itemId' => $itemId, 'mainVariationId' => $mainVariationId]);
         $existItemTexts = iterator_to_array($existItemTexts, false);
         $existItemTexts = ArrayHelper::index($existItemTexts, 'lang');
@@ -420,11 +420,11 @@ class PmSalesChannel extends BaseSalesChannel
     protected function savePmItemImages(array $itemImages, SalesChannelItem $salesChannelItem): void
     {
         $itemId = $salesChannelItem->external_item_key;
-        $additional = $salesChannelItem->additional;
+        $externalAdditional = $salesChannelItem->external_item_additional;
         $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
         $existItemImages = iterator_to_array($existItemImages, false);
         $existItemImageIds = ArrayHelper::getColumn($existItemImages, 'id');
-        $imageIds = $additional['imageIds'] ?? [];
+        $imageIds = $externalAdditional['imageIds'] ?? [];
         $imageIds = array_diff($imageIds, $existItemImageIds);
         foreach ($itemImages as $itemImage) {
             $itemImage['itemId'] = $itemId;
@@ -445,8 +445,8 @@ class PmSalesChannel extends BaseSalesChannel
                 unset($itemImage['uploadImageUrl']);
                 $createdItemImage = $this->client->createItemImage($itemImage);
                 $imageIds[$modelId] = $createdItemImage['id'];
-                $additional['imageIds'] = $imageIds;
-                $salesChannelItem->additional = $additional;
+                $externalAdditional['imageIds'] = $imageIds;
+                $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
             }
         }

@@ -90,12 +90,12 @@ class ExecuteHelper
             ini_set('memory_limit', $memoryLimit);
         }
         try {
-            $callable();
             if ($resultAttribute) {
                 $resultValue = $model->getAttribute($resultAttribute) ?: [];
                 unset($resultValue['error'], $resultValue['trace']);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
+            $callable();
             //time attribute only update on success
             $timeAttribute && $model->setAttribute($timeAttribute, time());
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);

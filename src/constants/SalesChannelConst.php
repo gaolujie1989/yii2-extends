@@ -21,6 +21,7 @@ class SalesChannelConst
     public const CHANNEL_STATUS_TO_CANCELLED = 220;
 
     public const ITEM_PUSH_PART_ALL = 'ALL';
+    public const ITEM_PUSH_PART_INFO = 'INFO';
     public const ITEM_PUSH_PART_DESC = 'DESC';
     public const ITEM_PUSH_PART_IMAGE = 'IMAGE';
     public const ITEM_PUSH_PART_PRICE = 'PRICE';

@@ -5,6 +5,7 @@
 
 namespace lujie\sales\channel\channels\pm;
 
+use lujie\extend\helpers\ValueHelper;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use lujie\sales\channel\BaseSalesChannel;
@@ -296,11 +297,11 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function getExternalItem(array $externalItem): ?array
     {
-        if (isset($externalItem['variationNo'])) {
-            $variationNo = $externalItem['variationNo'];
+        if (isset($externalItem['number'])) {
+            $variationNo = $externalItem['number'];
             $isVariation = true;
-        } else if (isset($externalItem['variations'][0]['variationNo'])) {
-            $variationNo = $externalItem['variations'][0]['variationNo'];
+        } else if (isset($externalItem['variations'][0]['number'])) {
+            $variationNo = $externalItem['variations'][0]['number'];
             $isVariation = false;
         } else {
             return null;
@@ -324,7 +325,7 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        if (isset($externalItem['variationNo'])) {
+        if (isset($externalItem['number'], $externalItem['itemId'])) {
             return $this->savePmVariation($externalItem, $salesChannelItem);
         }
         return $this->savePmItem($externalItem, $salesChannelItem);
@@ -424,32 +425,42 @@ class PmSalesChannel extends BaseSalesChannel
         $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
         $existItemImages = iterator_to_array($existItemImages, false);
         $existItemImageIds = ArrayHelper::getColumn($existItemImages, 'id');
-        $imageIds = $externalAdditional['imageIds'] ?? [];
-        $imageIds = array_diff($imageIds, $existItemImageIds);
+        $itemImageIds = $externalAdditional['itemImageIds'] ?? [];
+        $itemImageIds = array_intersect($itemImageIds, $existItemImageIds);
+        $toDeleteItemImageIds = array_diff($existItemImageIds, $itemImageIds);
+        if ($toDeleteItemImageIds) {
+            $batchRequest = $this->client->createBatchRequest();
+            foreach ($toDeleteItemImageIds as $toDeleteItemImageId) {
+                $batchRequest->deleteItemImage(['itemId' => $itemId, 'id' => $toDeleteItemImageId]);
+            }
+            $batchRequest->send();
+        }
+        $batchRequest = $this->client->createBatchRequest();
         foreach ($itemImages as $itemImage) {
             $itemImage['itemId'] = $itemId;
-            if (empty($itemImage['modelId'])) {
+            $modelId = $itemImage['modelId'] ?? null;
+            unset($itemImage['modelId']);
+            if (empty($modelId)) {
                 throw new InvalidArgumentException('Image data must with model id');
             }
-            $modelId = $itemImage['modelId'];
-            unset($itemImage['modelId']);
-            $imageId = $imageIds[$modelId] ?? null;
+            $imageId = $itemImageIds[$modelId] ?? null;
             if ($imageId) {
                 $itemImage['id'] = $imageId;
                 unset($itemImage['uploadImageData'], $itemImage['uploadImageUrl']);
-                $this->client->updateItemImage($itemImage);
+                $batchRequest->updateItemImage($itemImage);
             } else {
                 if (empty($itemImage['uploadImageData']) && isset($itemImage['uploadImageUrl'])) {
                     $itemImage['uploadImageData'] = base64_encode(file_get_contents($itemImage['uploadImageUrl']));
                 }
                 unset($itemImage['uploadImageUrl']);
                 $createdItemImage = $this->client->createItemImage($itemImage);
-                $imageIds[$modelId] = $createdItemImage['id'];
-                $externalAdditional['imageIds'] = $imageIds;
+                $itemImageIds[$modelId] = $createdItemImage['id'];
+                $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
             }
         }
+        $batchRequest->send();
     }
 
     /**
@@ -491,7 +502,9 @@ class PmSalesChannel extends BaseSalesChannel
             $externalItemAdditional['mainVariationId'] = $externalItem['mainVariationId'];
         }
         $salesChannelItem->external_item_additional = $externalItemAdditional;
-        $salesChannelItem->external_item_no = $externalItem['variationNo'] ?? '';
+        $salesChannelItem->external_item_no = $externalItem['number'] ?? '';
+        $salesChannelItem->external_created_at = empty($externalItem['createdAt']) ? 0 : strtotime($externalItem['createdAt']);
+        $salesChannelItem->external_updated_at = empty($externalItem['updatedAt']) ? 0 : strtotime($externalItem['updatedAt']);
         return parent::updateSalesChannelItem($salesChannelItem, $externalItem);
     }
 

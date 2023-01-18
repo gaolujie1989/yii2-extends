@@ -358,7 +358,7 @@ class PmSalesChannel extends BaseSalesChannel
             $externalItemAdditional['attributeId'] = $externalItem['attributeId'];
         }
         $salesChannelItem->external_item_additional = $externalItemAdditional;
-        $salesChannelItem->external_item_no = $externalItem['number'] ?? '';
+        $salesChannelItem->external_item_no = $externalItem['number'] ?? $externalItem['backendName'] ?? '';
         $salesChannelItem->external_created_at = empty($externalItem['createdAt']) ? 0 : strtotime($externalItem['createdAt']);
         $salesChannelItem->external_updated_at = empty($externalItem['updatedAt']) ? 0 : strtotime($externalItem['updatedAt']);
         return parent::updateSalesChannelItem($salesChannelItem, $externalItem);

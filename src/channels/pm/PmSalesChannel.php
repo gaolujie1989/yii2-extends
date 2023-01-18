@@ -327,8 +327,46 @@ class PmSalesChannel extends BaseSalesChannel
         if (isset($externalItem['number'], $externalItem['itemId'])) {
             return $this->savePmVariation($externalItem, $salesChannelItem);
         }
-        return $this->savePmItem($externalItem, $salesChannelItem);
+        if (isset($externalItem['attributeId'])) {
+            return $this->savePmAttributeValue($externalItem, $salesChannelItem);
+        }
+        if (isset($externalItem['backendName'])) {
+            return $this->savePmAttribute($externalItem, $salesChannelItem);
+        }
+        if (isset($externalItem['manufacturerId'],$externalItem['producingCountryId'])) {
+            return $this->savePmItem($externalItem, $salesChannelItem);
+        }
+        throw new InvalidArgumentException('Unknown external item data');
     }
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @param array $externalItem
+     * @return bool
+     * @inheritdoc
+     */
+    protected function updateSalesChannelItem(SalesChannelItem $salesChannelItem, array $externalItem): bool
+    {
+        $externalItemAdditional = $salesChannelItem->external_item_additional ?: [];
+        if (isset($externalItem['itemId'])) {
+            $externalItemAdditional['itemId'] = $externalItem['itemId'];
+        }
+        if (isset($externalItem['mainVariationId'])) {
+            $externalItemAdditional['mainVariationId'] = $externalItem['mainVariationId'];
+        }
+        if (isset($externalItem['attributeId'])) {
+            $externalItemAdditional['attributeId'] = $externalItem['attributeId'];
+        }
+        $salesChannelItem->external_item_additional = $externalItemAdditional;
+        $salesChannelItem->external_item_no = $externalItem['number'] ?? '';
+        $salesChannelItem->external_created_at = empty($externalItem['createdAt']) ? 0 : strtotime($externalItem['createdAt']);
+        $salesChannelItem->external_updated_at = empty($externalItem['updatedAt']) ? 0 : strtotime($externalItem['updatedAt']);
+        return parent::updateSalesChannelItem($salesChannelItem, $externalItem);
+    }
+
+    #endregion
+
+    #region Save PM Item
 
     /**
      * @param array $externalItem
@@ -462,6 +500,10 @@ class PmSalesChannel extends BaseSalesChannel
         }
         $batchRequest->send();
     }
+
+    #endregion
+
+    #region Save PM Variation
 
     /**
      * @param array $externalItem
@@ -668,26 +710,39 @@ class PmSalesChannel extends BaseSalesChannel
         $batchRequest->send();
     }
 
+    #endregion
+
+    #region Save PM Attribute / AttributeValue
+
     /**
-     * @param SalesChannelItem $salesChannelItem
      * @param array $externalItem
-     * @return bool
+     * @param SalesChannelItem $salesChannelItem
+     * @return array|null
      * @inheritdoc
      */
-    protected function updateSalesChannelItem(SalesChannelItem $salesChannelItem, array $externalItem): bool
+    protected function savePmAttribute(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        $externalItemAdditional = $salesChannelItem->external_item_additional ?: [];
-        if (isset($externalItem['itemId'])) {
-            $externalItemAdditional['itemId'] = $externalItem['itemId'];
+        if (empty($salesChannelItem->external_item_key)) {
+            return $this->client->createAttribute($externalItem);
         }
-        if (isset($externalItem['mainVariationId'])) {
-            $externalItemAdditional['mainVariationId'] = $externalItem['mainVariationId'];
+        return $this->client->updateAttribute($externalItem);
+    }
+
+    /**
+     * @param array $externalItem
+     * @param SalesChannelItem $salesChannelItem
+     * @return array|null
+     * @inheritdoc
+     */
+    protected function savePmAttributeValue(array $externalItem, SalesChannelItem $salesChannelItem): ?array
+    {
+        if (empty($externalItem['attributeId'])) {
+            throw new InvalidArgumentException('Attribute value data must with attribute id');
         }
-        $salesChannelItem->external_item_additional = $externalItemAdditional;
-        $salesChannelItem->external_item_no = $externalItem['number'] ?? '';
-        $salesChannelItem->external_created_at = empty($externalItem['createdAt']) ? 0 : strtotime($externalItem['createdAt']);
-        $salesChannelItem->external_updated_at = empty($externalItem['updatedAt']) ? 0 : strtotime($externalItem['updatedAt']);
-        return parent::updateSalesChannelItem($salesChannelItem, $externalItem);
+        if (empty($salesChannelItem->external_item_key)) {
+            return $this->client->createAttributeValue($externalItem);
+        }
+        return $this->client->updateAttributeValue($externalItem);
     }
 
     #endregion

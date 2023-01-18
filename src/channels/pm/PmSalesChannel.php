@@ -341,8 +341,8 @@ class PmSalesChannel extends BaseSalesChannel
         // 可以自动关联保存:
         // itemShippingProfiles, itemProperties
         $relatedParts = [
-            'itemTexts' => [],
-            'itemImages' => [],
+            'itemTexts' => null,
+            'itemImages' => null,
         ];
         $relatedParts = array_intersect_key($externalItem, $relatedParts);
         $externalItem = array_diff_key($externalItem, $relatedParts);
@@ -366,7 +366,7 @@ class PmSalesChannel extends BaseSalesChannel
             $salesChannelItem->save(false);
         }
         if ($additional['step'] === 'itemTexts') {
-            if (!empty($relatedParts['itemTexts'])) {
+            if ($relatedParts['itemTexts'] !== null) {
                 $this->savePmItemTexts($relatedParts['itemTexts'], $salesChannelItem);
                 $additional = $salesChannelItem->additional;
             }
@@ -375,7 +375,7 @@ class PmSalesChannel extends BaseSalesChannel
             $salesChannelItem->save(false);
         }
         if ($additional['step'] === 'itemImages') {
-            if (!empty($relatedParts['itemImages'])) {
+            if ($relatedParts['itemImages'] !== null) {
                 $this->savePmItemImages($relatedParts['itemImages'], $salesChannelItem);
                 $additional = $salesChannelItem->additional;
             }
@@ -478,9 +478,9 @@ class PmSalesChannel extends BaseSalesChannel
         // variationBarcodes, variationSalesPrices, variationMarkets,
         // variationAttributeValues, variationProperties, variationCategories, variationClients,
         $relatedParts = [
-            'variationBundleComponents' => [],
-            'variationSkus' => [],
-            'images' => [],
+            'variationBundleComponents' => null,
+            'variationSkus' => null,
+            'variationImages' => null,
         ];
         $relatedParts = array_intersect_key($externalItem, $relatedParts);
         $externalItem = array_diff_key($externalItem, $relatedParts);
@@ -506,7 +506,7 @@ class PmSalesChannel extends BaseSalesChannel
             'with' => 'variationBundleComponents,variationSkus'
         ]);
         if ($additional['step'] === 'variationBundleComponents') {
-            if (!empty($relatedParts['variationBundleComponents'])) {
+            if ($relatedParts['variationBundleComponents'] !== null) {
                 $this->savePmVariationBundleComponents($relatedParts['variationBundleComponents'], $salesChannelItem,
                     $pmVariation['variationBundleComponents'] ?? []);
             }
@@ -515,7 +515,7 @@ class PmSalesChannel extends BaseSalesChannel
             $salesChannelItem->save(false);
         }
         if ($additional['step'] === 'variationSkus') {
-            if (!empty($relatedParts['variationSkus'])) {
+            if ($relatedParts['variationSkus'] !== null) {
                 $this->savePmVariationSkus($relatedParts['variationSkus'], $salesChannelItem,
                     $pmVariation['variationSkus'] ?? []);
             }
@@ -524,7 +524,7 @@ class PmSalesChannel extends BaseSalesChannel
             $salesChannelItem->save(false);
         }
         if ($additional['step'] === 'variationImages') {
-            if (!empty($relatedParts['variationImages'])) {
+            if ($relatedParts['variationImages'] !== null) {
                 $this->savePmVariationImages($relatedParts['variationImages'], $salesChannelItem);
             }
             unset($additional['step']);
@@ -648,14 +648,14 @@ class PmSalesChannel extends BaseSalesChannel
             $pmVariationImages = iterator_to_array($existVariationImages, false);
         }
 
-        $pmVariationImages = ArrayHelper::index($pmVariationImages, 'itemId');
-        $variationImages = ArrayHelper::index($variationImages, 'itemId');
+        $pmVariationImages = ArrayHelper::index($pmVariationImages, 'imageId');
+        $variationImages = ArrayHelper::index($variationImages, 'imageId');
         $batchRequest = $this->client->createBatchRequest();
         $toLinkImages = array_diff_key($variationImages, $pmVariationImages);
         foreach ($toLinkImages as $toLinkImage) {
             $toLinkImage['variationId'] = $variationId;
             $toLinkImage['itemId'] = $itemId;
-            $batchRequest->createItemVariationBundle($toLinkImage);
+            $batchRequest->createItemVariationImage($toLinkImage);
         }
         $toUnlinkImages = array_diff_key($pmVariationImages, $variationImages);
         foreach ($toUnlinkImages as $toUnlinkImage) {

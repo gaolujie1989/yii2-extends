@@ -171,7 +171,7 @@ class FulfillmentDailyStockGenerator extends BaseObject
 
             //Generate Daily Stock if Prev Daily Stock Not Exists. Item Stock is first movement or Prev Daily Stock is 0
             $dailyMovementQuery = FulfillmentDailyStockMovement::find()->alias('dsm')
-                ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date <= '{$prevStockDate}'")
+                ->leftJoin(['ds' => FulfillmentDailyStock::tableName()], $joinCondition . " AND ds.stock_date = '{$prevStockDate}'")
                 ->andWhere(['dsm.movement_date' => $stockDate])
                 ->andWhere('ds.stock_date IS NULL')
                 ->addSelect($dailyMovementFields)

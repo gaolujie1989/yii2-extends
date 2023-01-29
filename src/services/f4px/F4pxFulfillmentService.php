@@ -294,6 +294,14 @@ class F4pxFulfillmentService extends BaseFulfillmentService
             }
             return $externalItem;
         }
+        if ($externalItem['single_sku_code'] === $externalItem['sku_code']) {
+            $originExternalItem = $externalItem;
+            $externalItem['uom'] = $this->defaultItemData['uom'];
+            unset($externalItem['single_sku_code'], $externalItem['pcs']);
+            $sku = $this->client->createSku($externalItem);
+            $this->client->editSku($originExternalItem)
+            return $sku;
+        }
         return $this->client->createSku($externalItem);
     }
 

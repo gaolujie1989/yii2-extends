@@ -17,6 +17,7 @@ use lujie\extend\helpers\ValueHelper;
  * @property int $timeStep = 86400
  * @property string $format = 'Y-m-d H:i:s'
  * @property string $messageTemplate = [{timeFrom}->{timeTo}]
+ * @property array $messageParams = []
  *
  * @package lujie\executing
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -38,6 +39,7 @@ trait TimeStepProgressTrait
      * @param array $params
      * @param int $totalCount
      * @return \Generator
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     protected function executeProgress(array $params = [], int $totalCount = 1): \Generator
@@ -54,10 +56,10 @@ trait TimeStepProgressTrait
 
         for ($timeAt = $timeAtFrom; $timeAt <= $timeAtTo; $timeAt += $timeStep) {
             $stepTimeToAt = min($timeAt + $timeStep - 1, $timeAtTo);
-            $progress->message = strtr($messageTemplate, [
+            $progress->message = strtr($messageTemplate, array_merge([
                 '{timeFrom}' => date($format, $timeAt),
                 '{timeTo}' => date($format, $stepTimeToAt),
-            ]);
+            ], $this->messageParams ?? []));
             yield true;
             $this->executeTimeStep($timeAt, $stepTimeToAt, $params);
             $progress->done++;

@@ -318,6 +318,8 @@ class FieldQueryBehavior extends Behavior
                         $owner->andWhere(['>=', $field, $value]);
                     } else if ($value === null) {
                         $owner->andWhere(['<=', $field, $value2]);
+                    } else if ($value === $value2) {
+                        $owner->andWhere([$field => $value]);
                     } else {
                         $owner->andWhere([$op, $field, $value, $value2]);
                     }

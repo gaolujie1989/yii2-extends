@@ -8,6 +8,8 @@ class m201208_162734_fulfillment_item_value extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 
+    public $traceBy = false;
+
     public $tableName = '{{%fulfillment_item_value}}';
 
     public function safeUp()

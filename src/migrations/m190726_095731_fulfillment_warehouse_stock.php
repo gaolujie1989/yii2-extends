@@ -8,6 +8,8 @@ class m190726_095731_fulfillment_warehouse_stock extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 
+    public $traceBy = false;
+
     public $tableName = '{{%fulfillment_warehouse_stock}}';
 
     public function safeUp()

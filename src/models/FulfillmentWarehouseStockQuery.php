@@ -100,7 +100,7 @@ class FulfillmentWarehouseStockQuery extends \yii\db\ActiveQuery
      */
     public function getWarehouseStocks(): array
     {
-        $stocks = $this->innerJoinWith(['fulfillmentItem fi', 'fulfillmentWarehouse fw'])
+        $stocks = $this->innerJoinWith(['fulfillmentItem fi', 'fulfillmentWarehouse fw'], false)
             ->select(['fi.item_id', 'fw.warehouse_id', 'stock_qty'])
             ->asArray()
             ->all();

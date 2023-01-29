@@ -29,17 +29,17 @@ trait FulfillmentItemWarehouseSearchTrait
 
     /**
      * @param ActiveQueryInterface|ActiveQuery $query
-     * @return array
+     * @param bool $eagerLoading
      * @inheritdoc
      */
-    public function searchItemWarehouseQuery(ActiveQueryInterface $query): void
+    public function searchItemWarehouseQuery(ActiveQueryInterface $query, bool $eagerLoading = false): void
     {
         if ($this->item_id) {
-            $query->innerJoinWith(['fulfillmentItem fi']);
+            $query->innerJoinWith(['fulfillmentItem fi'], $eagerLoading);
             QueryHelper::filterValue($query, $this->getAttributes(['item_id']), false, 'fi');
         }
         if ($this->warehouse_id) {
-            $query->innerJoinWith(['fulfillmentWarehouse fw']);
+            $query->innerJoinWith(['fulfillmentWarehouse fw'], $eagerLoading);
             QueryHelper::filterValue($query, $this->getAttributes(['warehouse_id']), false, 'fw');
         }
     }

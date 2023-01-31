@@ -440,7 +440,7 @@ use yii\httpclient\Request;
  */
 class PlentyMarketsRestClient extends OAuth2
 {
-    use RestClientTrait, PlentyMarketsBatchRestTrait;
+    use RestClientTrait, PlentyMarketsBatchRestTrait, PlentyMarketsRestExtendTrait;
 
     /**
      * @var string

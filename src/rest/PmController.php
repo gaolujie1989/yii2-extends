@@ -7,6 +7,7 @@ namespace lujie\plentyMarkets\rest;
 
 use lujie\extend\caching\CachingTrait;
 use lujie\extend\helpers\CsvHelper;
+use lujie\extend\helpers\ValueHelper;
 use lujie\plentyMarkets\PlentyMarketsAdminClient;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
@@ -19,6 +20,7 @@ use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\helpers\FileHelper;
+use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
 /**
@@ -270,35 +272,36 @@ class PmController extends Controller
     #region PM Item/Variation Update
 
     /**
+     * @param array $variationIds
+     * @param int $warehouseId
+     * @inheritdoc
+     */
+    public function moveWarehouseLocationStocks(array $variationIds, int $warehouseId = 108): void
+    {
+        Console::startProgress($done = 0, $total = count($variationIds));
+        foreach ($variationIds as $fromVariationId => $toVariationId) {
+            Console::updateProgress(++$done, $total, "{$fromVariationId} -> {$toVariationId}");
+            $corrections = $this->restClient->moveWarehouseLocationStocks($warehouseId, $fromVariationId, $toVariationId);
+            VarDumper::dump($corrections);
+        }
+        Console::endProgress();
+    }
+
+
+    /**
      * @param $variationIds
      * @param int $warehouseId
      * @inheritdoc
      */
     public function actionCleanWarehouseLocationStocks($variationIds, int $warehouseId = 108): void
     {
-        $variationIds = array_filter(explode(',', $variationIds));
+        $variationIds = ValueHelper::strToArray($variationIds);
         Console::startProgress($done = 0, $total = count($variationIds));
-        $corrections = [];
         foreach ($variationIds as $variationId) {
-            $locationStocks = $this->restClient->listWarehouseLocationStocks(['warehouseId' => $warehouseId, 'variationId' => $variationId]);
-            foreach ($locationStocks['entries'] as $item) {
-                $key = $item['variationId'] . '-' . $item['storageLocationId'];
-                $corrections[$key] = [
-                    "variationId" => $item['variationId'],
-                    'reasonId' => 300,
-                    "quantity" => 0,
-                    "storageLocationId" => $item['storageLocationId'],
-                ];
-            }
-            Yii::$app->cache->set(__METHOD__, $corrections);
-            Console::updateProgress(++$done, $total);
+            Console::updateProgress(++$done, $total, $variationId);
+            $corrections = $this->restClient->clearWarehouseLocationStocks($warehouseId, $variationId);
+            VarDumper::dump($corrections);
         }
-        $corrections = Yii::$app->cache->get(__METHOD__);
-        VarDumper::dump($corrections);
-        $this->restClient->correctStock([
-            'warehouseId' => 108,
-            'corrections' => array_values($corrections)
-        ]);
         Console::endProgress();
     }
 

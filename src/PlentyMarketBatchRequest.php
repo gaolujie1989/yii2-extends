@@ -5,6 +5,7 @@
 
 namespace lujie\plentyMarkets;
 
+use Iterator;
 use yii\base\BaseObject;
 use yii\helpers\Json;
 
@@ -364,10 +365,15 @@ class PlentyMarketBatchRequest extends BaseObject
         if (empty($this->payloads)) {
             return [];
         }
-        $batchResponse = $this->client->batchRequest(['payloads' => $this->payloads]);
-        foreach ($batchResponse as $key => $response) {
-            $batchResponse[$key]['content'] = Json::decode($response['content']);
+        $chunkedPayloads = array_chunk($this->payloads, 20);
+        $chunkedResponses = [];
+        foreach ($chunkedPayloads as $payloads) {
+            $batchResponse = $this->client->batchRequest(['payloads' => $payloads]);
+            foreach ($batchResponse as $key => $response) {
+                $batchResponse[$key]['content'] = Json::decode($response['content']);
+            }
+            $chunkedResponses[] = $batchResponse;
         }
-        return $batchResponse;
+        return array_merge(...$chunkedResponses);
     }
 }

@@ -517,10 +517,11 @@ class PmSalesChannel extends BaseSalesChannel
             throw new InvalidArgumentException('variation data must with item id');
         }
         // 可以自动关联保存:
-        // variationBarcodes, variationSalesPrices, variationMarkets,
+        // variationBarcodes, variationSalesPrices,
         // variationAttributeValues, variationProperties, variationCategories, variationClients,
         $relatedParts = [
             'variationBundleComponents' => null,
+            'variationMarkets' => null,
             'variationSkus' => null,
             'variationImages' => null,
         ];
@@ -545,12 +546,21 @@ class PmSalesChannel extends BaseSalesChannel
         $pmVariation = $this->client->getItemVariation([
             'id' => $salesChannelItem->external_item_key,
             'itemId' => $salesChannelItem->external_item_additional['itemId'],
-            'with' => 'variationBundleComponents,variationSkus'
+            'with' => 'variationBundleComponents,variationMarkets,variationSkus'
         ]);
         if ($additional['step'] === 'variationBundleComponents') {
             if ($relatedParts['variationBundleComponents'] !== null) {
                 $this->savePmVariationBundleComponents($relatedParts['variationBundleComponents'], $salesChannelItem,
                     $pmVariation['variationBundleComponents'] ?? []);
+            }
+            $additional['step'] = 'variationSkus';
+            $salesChannelItem->additional = $additional;
+            $salesChannelItem->save(false);
+        }
+        if ($additional['step'] === 'variationMarkets') {
+            if ($relatedParts['variationMarkets'] !== null) {
+                $this->savePmVariationMarkets($relatedParts['variationMarkets'], $salesChannelItem,
+                    $pmVariation['variationMarkets'] ?? []);
             }
             $additional['step'] = 'variationSkus';
             $salesChannelItem->additional = $additional;
@@ -615,6 +625,44 @@ class PmSalesChannel extends BaseSalesChannel
         foreach ($toDeleteBundles as $toDeleteBundle) {
             $batchRequest->deleteItemVariationBundle([
                 'id' => $toDeleteBundle['id'],
+                'variationId' => $variationId,
+                'itemId' => $itemId,
+            ]);
+        }
+        $batchRequest->send();
+    }
+
+    /**
+     * @param array $variationSkus
+     * @param SalesChannelItem $salesChannelItem
+     * @param array|null $pmVariationSkus
+     * @inheritdoc
+     */
+    protected function savePmVariationMarkets(array $variationMarkets, SalesChannelItem $salesChannelItem, ?array $pmVariationMarkets = null): void
+    {
+        $variationId = $salesChannelItem->external_item_key;
+        $itemId = $salesChannelItem->external_item_additional['itemId'];
+        if ($pmVariationMarkets === null) {
+            $existVariationMarkets = $this->client->eachItemVariationMarkets([
+                'variationId' => $variationId,
+                'itemId' => $itemId,
+            ]);
+            $pmVariationMarkets = iterator_to_array($existVariationMarkets, false);
+        }
+
+        $pmVariationMarkets = ArrayHelper::index($pmVariationMarkets, 'marketId');
+        $variationMarkets = ArrayHelper::index($variationMarkets, 'marketId');
+        $batchRequest = $this->client->createBatchRequest();
+        $toLinkMarkets = array_diff_key($variationMarkets, $pmVariationMarkets);
+        foreach ($toLinkMarkets as $toLinkMarket) {
+            $toLinkMarket['variationId'] = $variationId;
+            $toLinkMarket['itemId'] = $itemId;
+            $batchRequest->createItemVariationMarket($toLinkMarket);
+        }
+        $toUnlinkMarkets = array_diff_key($pmVariationMarkets, $variationMarkets);
+        foreach ($toUnlinkMarkets as $toUnlinkMarket) {
+            $batchRequest->deleteItemVariationMarket([
+                'marketId' => $toUnlinkMarket['marketId'],
                 'variationId' => $variationId,
                 'itemId' => $itemId,
             ]);

@@ -553,7 +553,7 @@ class PmSalesChannel extends BaseSalesChannel
                 $this->savePmVariationBundleComponents($relatedParts['variationBundleComponents'], $salesChannelItem,
                     $pmVariation['variationBundleComponents'] ?? []);
             }
-            $additional['step'] = 'variationSkus';
+            $additional['step'] = 'variationMarkets';
             $salesChannelItem->additional = $additional;
             $salesChannelItem->save(false);
         }

@@ -307,7 +307,10 @@ class PmSalesChannel extends BaseSalesChannel
             return null;
         }
         $variations = $this->client->eachVariations(['numberExact' => $variationNo]);
-        $variations = array_values(iterator_to_array($variations, false));
+        $variations = iterator_to_array($variations, false);
+        if (empty($variations)) {
+            return null;
+        }
         if (count($variations) > 1) {
             throw new UserException("Variations with same variation_no: {$variationNo}");
         }

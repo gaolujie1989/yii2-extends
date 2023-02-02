@@ -770,6 +770,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param array $externalItem
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmAttribute(array $externalItem, SalesChannelItem $salesChannelItem): ?array
@@ -788,6 +789,7 @@ class PmSalesChannel extends BaseSalesChannel
                         return $this->client->updateAttribute($externalItem);
                     }
                 }
+                throw $exception;
             }
         }
         return $this->client->updateAttribute($externalItem);
@@ -797,6 +799,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param array $externalItem
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmAttributeValue(array $externalItem, SalesChannelItem $salesChannelItem): ?array
@@ -818,6 +821,7 @@ class PmSalesChannel extends BaseSalesChannel
                         return $this->client->updateAttributeValue($externalItem);
                     }
                 }
+                throw $exception;
             }
         }
         return $this->client->updateAttributeValue($externalItem);

@@ -771,6 +771,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
      * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function savePmAttribute(array $externalItem, SalesChannelItem $salesChannelItem): ?array
@@ -779,7 +780,7 @@ class PmSalesChannel extends BaseSalesChannel
             try {
                 return $this->client->createAttribute($externalItem);
             } catch (InvalidResponseException $exception) {
-                if ((string)$exception->getCode() === '422') {
+                if ((string)$exception->response->getStatusCode() === '422') {
                     $attributes = $this->client->eachAttributes();
                     $attributes = iterator_to_array($attributes, false);
                     $attributeIds = ArrayHelper::map($attributes, 'backendName', 'id');
@@ -800,6 +801,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
      * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function savePmAttributeValue(array $externalItem, SalesChannelItem $salesChannelItem): ?array
@@ -811,7 +813,7 @@ class PmSalesChannel extends BaseSalesChannel
             try {
                 return $this->client->createAttributeValue($externalItem);
             } catch (InvalidResponseException $exception) {
-                if ((string)$exception->getCode() === '422') {
+                if ((string)$exception->response->getStatusCode() === '422') {
                     $attributeValues = $this->client->eachAttributeValues(['attributeId' => $externalItem['attributeId']]);
                     $attributeValues = iterator_to_array($attributeValues, false);
                     $attributeValueIds = ArrayHelper::map($attributeValues, 'backendName', 'id');

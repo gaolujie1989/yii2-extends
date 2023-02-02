@@ -11,6 +11,7 @@ use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
@@ -771,7 +772,20 @@ class PmSalesChannel extends BaseSalesChannel
     protected function savePmAttribute(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
         if (empty($salesChannelItem->external_item_key)) {
-            return $this->client->createAttribute($externalItem);
+            try {
+                return $this->client->createAttribute($externalItem);
+            } catch (InvalidResponseException $exception) {
+                if ((string)$exception->getCode() === '422') {
+                    $attributes = $this->client->eachAttributes();
+                    $attributes = iterator_to_array($attributes, false);
+                    $attributeIds = ArrayHelper::map($attributes, 'backendName', 'id');
+                    $attributeId = $attributeIds[$externalItem['backendName']] ?? null;
+                    if ($attributeId) {
+                        $externalItem['id'] = $attributeId;
+                        return $this->client->updateAttribute($externalItem);
+                    }
+                }
+            }
         }
         return $this->client->updateAttribute($externalItem);
     }
@@ -788,7 +802,20 @@ class PmSalesChannel extends BaseSalesChannel
             throw new InvalidArgumentException('Attribute value data must with attribute id');
         }
         if (empty($salesChannelItem->external_item_key)) {
-            return $this->client->createAttributeValue($externalItem);
+            try {
+                return $this->client->createAttributeValue($externalItem);
+            } catch (InvalidResponseException $exception) {
+                if ((string)$exception->getCode() === '422') {
+                    $attributeValues = $this->client->eachAttributeValues(['attributeId' => $externalItem['attributeId']]);
+                    $attributeValues = iterator_to_array($attributeValues, false);
+                    $attributeValueIds = ArrayHelper::map($attributeValues, 'backendName', 'id');
+                    $attributeValueId = $attributeValueIds[$externalItem['backendName']] ?? null;
+                    if ($attributeValueId) {
+                        $externalItem['id'] = $attributeValueId;
+                        return $this->client->updateAttributeValue($externalItem);
+                    }
+                }
+            }
         }
         return $this->client->updateAttributeValue($externalItem);
     }

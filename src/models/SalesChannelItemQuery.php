@@ -29,6 +29,11 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method SalesChannelItemQuery createdAtBetween($from, $to = null)
  * @method SalesChannelItemQuery updatedAtBetween($from, $to = null)
  *
+ * @method SalesChannelItemQuery itemPushed()
+ * @method SalesChannelItemQuery itemNotPushed()
+ * @method SalesChannelItemQuery stockPushed()
+ * @method SalesChannelItemQuery stockNotPushed()
+ *
  * @method SalesChannelItemQuery orderBySalesChannelItemId($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderBySalesChannelAccountId($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderByItemId($sort = SORT_ASC)
@@ -86,7 +91,12 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],
-                'queryConditions' => [],
+                'queryConditions' => [
+                    'itemPushed' => ['>', 'item_pushed_at', 0],
+                    'itemNotPushed' => ['item_pushed_at' => 0],
+                    'stockPushed' => ['>', 'stock_pushed_at', 0],
+                    'stockNotPushed' => ['stock_pushed_at' => 0],
+                ],
                 'querySorts' => [
                     'orderBySalesChannelItemId' => 'sales_channel_item_id',
                     'orderBySalesChannelAccountId' => 'sales_channel_account_id',

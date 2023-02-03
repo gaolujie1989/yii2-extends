@@ -261,4 +261,21 @@ class ValueHelper
         return $str;
     }
 
+    /**
+     * @param array $values
+     * @param array $indexKeys
+     * @param string $defaultValue
+     * @param string $separator
+     * @return string
+     * @throws \Exception
+     * @inheritdoc
+     */
+    public static function getIndexValues(array $values, array $indexKeys, string $defaultValue = 'NULL', string $separator = '-'): string
+    {
+        $indexValues = [];
+        foreach ($indexKeys as $indexKey) {
+            $indexValues[] = ArrayHelper::getValue($values, $indexKey, $defaultValue);
+        }
+        return implode($separator, $indexValues);
+    }
 }

@@ -585,7 +585,7 @@ class PmSalesChannel extends BaseSalesChannel
         }
         if ($additional['step'] === 'variationMarkets') {
             if ($relatedParts['variationMarkets'] !== null) {
-                $this->client->saveVariationBundleComponents($itemId, $variationId, $relatedParts['variationMarkets'], $pmVariation['variationMarkets']);
+                $this->client->saveVariationMarkets($itemId, $variationId, $relatedParts['variationMarkets'], $pmVariation['variationMarkets']);
             }
             $additional['step'] = 'variationSkus';
             $salesChannelItem->additional = $additional;
@@ -593,7 +593,7 @@ class PmSalesChannel extends BaseSalesChannel
         }
         if ($additional['step'] === 'variationSkus') {
             if ($relatedParts['variationSkus'] !== null) {
-                $this->client->saveVariationBundleComponents($itemId, $variationId, $relatedParts['variationSkus'], $pmVariation['variationSkus']);
+                $this->client->saveVariationSkus($itemId, $variationId, $relatedParts['variationSkus'], $pmVariation['variationSkus']);
             }
             $additional['step'] = 'variationImages';
             $salesChannelItem->additional = $additional;
@@ -601,7 +601,7 @@ class PmSalesChannel extends BaseSalesChannel
         }
         if ($additional['step'] === 'variationImages') {
             if ($relatedParts['variationImages'] !== null) {
-                $this->client->saveVariationBundleComponents($itemId, $variationId, $relatedParts['variationImages']);
+                $this->client->saveVariationImages($itemId, $variationId, $relatedParts['variationImages']);
             }
             unset($additional['step']);
             $salesChannelItem->additional = $additional;

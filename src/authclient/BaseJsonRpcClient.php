@@ -170,10 +170,11 @@ abstract class BaseJsonRpcClient extends BaseClient
 
     /**
      * @param JsonRpcResponse $response
-     * @return array|null
+     * @return array|string|null
      * @throws JsonRpcException
+     * @inheritdoc
      */
-    public function getResponseData(JsonRpcResponse $response): ?array
+    public function getResponseData(JsonRpcResponse $response)
     {
         if (!$response->success) {
             throw new JsonRpcException($response, 'JsonRpc error: ' . $response->message . Json::encode($response->errors));

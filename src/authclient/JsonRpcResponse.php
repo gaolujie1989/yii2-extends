@@ -30,7 +30,7 @@ class JsonRpcResponse extends BaseObject
     public $errors;
 
     /**
-     * @var array
+     * @var array|string
      */
     public $data;
 }

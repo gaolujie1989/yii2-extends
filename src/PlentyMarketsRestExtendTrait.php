@@ -155,7 +155,7 @@ trait PlentyMarketsRestExtendTrait
         }
 
         $indexKeyFunc = static function ($values) use ($indexKeys) {
-            ValueHelper::getIndexValues($values, $indexKeys);
+            return ValueHelper::getIndexValues($values, $indexKeys);
         };
         $saveRelationValues = ArrayHelper::index($saveRelationValues, $indexKeyFunc);
         $existRelationValues = ArrayHelper::index($existRelationValues, $indexKeyFunc);

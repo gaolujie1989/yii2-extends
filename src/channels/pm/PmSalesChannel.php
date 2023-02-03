@@ -550,6 +550,7 @@ class PmSalesChannel extends BaseSalesChannel
                         if ($variation) {
                             $this->updateSalesChannelItem($salesChannelItem, $variation);
                             $externalItem['id'] = $variation['id'];
+                            unset($externalItem['variationAttributeValues']);
                             $savedVariation = $this->client->updateItemVariation($externalItem);
                         } else {
                             throw $exception;

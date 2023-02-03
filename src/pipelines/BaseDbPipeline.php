@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\pipelines;
 
+use lujie\extend\helpers\ValueHelper;
 use Yii;
 use yii\base\BaseObject;
 use yii\db\IntegrityException;
@@ -119,10 +120,6 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
      */
     protected function getIndexValue($values): string
     {
-        $indexValues = [];
-        foreach ($this->indexKeys as $indexKey) {
-            $indexValues[] = ArrayHelper::getValue($values, $indexKey, 'NULL');
-        }
-        return implode('-', $indexValues);
+        return ValueHelper::getIndexValues($values, $this->indexKeys);
     }
 }

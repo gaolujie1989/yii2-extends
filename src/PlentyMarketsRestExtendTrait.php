@@ -177,9 +177,9 @@ trait PlentyMarketsRestExtendTrait
             }
         }
         $actionMethodValues = [
-            $createMethod => $toCreateValues,
-            $updateMethod => $toUpdateValues,
             $deleteMethod => $toDeleteValues,
+            $updateMethod => $toUpdateValues,
+            $createMethod => $toCreateValues,
         ];
         foreach ($actionMethodValues as $actionMethod => $actionValues) {
             foreach ($actionValues as $actionValue) {

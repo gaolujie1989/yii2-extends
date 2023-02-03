@@ -5,6 +5,7 @@
 
 namespace lujie\extend\helpers;
 
+use yii\base\Arrayable;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
@@ -262,7 +263,7 @@ class ValueHelper
     }
 
     /**
-     * @param array $values
+     * @param array|Arrayable $values
      * @param array $indexKeys
      * @param string $defaultValue
      * @param string $separator
@@ -270,7 +271,7 @@ class ValueHelper
      * @throws \Exception
      * @inheritdoc
      */
-    public static function getIndexValues(array $values, array $indexKeys, string $defaultValue = 'NULL', string $separator = '-'): string
+    public static function getIndexValues($values, array $indexKeys, string $defaultValue = 'NULL', string $separator = '-'): string
     {
         $indexValues = [];
         foreach ($indexKeys as $indexKey) {

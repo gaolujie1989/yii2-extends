@@ -6,6 +6,7 @@
 namespace lujie\amazon\advertising\tests\unit;
 
 use lujie\otto\OttoRestClient;
+use Yii;
 
 class OttoRestClientTest extends \Codeception\Test\Unit
 {
@@ -15,6 +16,11 @@ class OttoRestClientTest extends \Codeception\Test\Unit
      */
     public function testMe(): void
     {
-        $ottoRestClient = new OttoRestClient();
+        $ottoRestClient = new OttoRestClient([
+            'clientId' => 'token-otto-api',
+//            'sandbox' => true,
+        ]);
+        $authToken = $ottoRestClient->authenticateUser(Yii::$app->params['otto.api_id'], Yii::$app->params['otto.password']);
+        codecept_debug($authToken);
     }
 }

@@ -7,6 +7,7 @@ namespace lujie\sales\channel\channels\pm;
 
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use lujie\sales\channel\BaseSalesChannelLoader;
+use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
 
 /**
@@ -16,6 +17,10 @@ use lujie\sales\channel\models\SalesChannelAccount;
  */
 class PmSalesChannelLoader extends BaseSalesChannelLoader
 {
+    public $salesChannelAccountType = SalesChannelConst::ACCOUNT_TYPE_PM;
+
+    public $salesChannelClass = PmSalesChannel::class;
+
     /**
      * @param SalesChannelAccount $account
      * @return array[]

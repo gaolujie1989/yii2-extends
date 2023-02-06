@@ -7,6 +7,8 @@ namespace lujie\sales\channel\channels\pm;
 
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannelLoader;
+use lujie\sales\channel\channels\otto\OttoSalesChannel;
+use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
 
 /**
@@ -16,6 +18,10 @@ use lujie\sales\channel\models\SalesChannelAccount;
  */
 class OttoSalesChannelLoader extends BaseSalesChannelLoader
 {
+    public $salesChannelAccountType = SalesChannelConst::ACCOUNT_TYPE_OTTO;
+
+    public $salesChannelClass = OttoSalesChannel::class;
+
     /**
      * @param SalesChannelAccount $account
      * @return array[]

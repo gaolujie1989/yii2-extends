@@ -8,6 +8,7 @@ namespace lujie\sales\channel;
 use lujie\data\loader\BaseDataLoader;
 use lujie\sales\channel\models\SalesChannelAccount;
 use Yii;
+use yii\base\InvalidConfigException;
 
 /**
  * Class PmSalesChannelLoader
@@ -30,6 +31,18 @@ abstract class BaseSalesChannelLoader extends BaseDataLoader
      * @var array
      */
     public $salesChannelConfig = [];
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (empty($this->salesChannelAccountType) || empty($this->salesChannelClass)) {
+            throw new InvalidConfigException('Sales channel account type or class must be set');
+        }
+    }
 
     /**
      * @param mixed $key

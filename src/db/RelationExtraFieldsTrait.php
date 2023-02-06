@@ -30,6 +30,7 @@ trait RelationExtraFieldsTrait
      */
     protected function relationExtraFields(): array
     {
-        return array_merge(parent::extraFields(), $this->relations ?? []);
+        $relations = array_keys($this->relations ?? []);
+        return array_merge(parent::extraFields(), array_combine($relations, $relations));
     }
 }

@@ -5,7 +5,7 @@
 
 namespace lujie\sales\channel\channels\pm;
 
-use lujie\plentyMarkets\PlentyMarketsRestClient;
+use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannelLoader;
 use lujie\sales\channel\models\SalesChannelAccount;
 
@@ -14,7 +14,7 @@ use lujie\sales\channel\models\SalesChannelAccount;
  * @package lujie\sales\channel\pm
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PmSalesChannelLoader extends BaseSalesChannelLoader
+class OttoSalesChannelLoader extends BaseSalesChannelLoader
 {
     /**
      * @param SalesChannelAccount $account
@@ -25,8 +25,7 @@ class PmSalesChannelLoader extends BaseSalesChannelLoader
     {
         return [
             'client' => [
-                'class' => PlentyMarketsRestClient::class,
-                'apiBaseUrl' => $account->url,
+                'class' => OttoRestClient::class,
                 'username' => $account->username,
                 'password' => $account->password,
             ]

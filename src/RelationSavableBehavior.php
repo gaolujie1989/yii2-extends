@@ -106,8 +106,8 @@ class RelationSavableBehavior extends Behavior
      */
     public function afterSave(): void
     {
-        $this->saveRelations();
         $this->deleteRelations();
+        $this->saveRelations();
     }
 
     /**

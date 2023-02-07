@@ -152,7 +152,7 @@ class ExecuteHelper
         $query->andWhere(['OR',
             ['!=', $statusAttribute, ExecStatusConst::EXEC_STATUS_QUEUED],
             ['AND',
-                [$statusAttribute => ExecStatusConst::EXEC_STATUS_QUEUED],
+                [$statusAttribute => ExecStatusConst::EXEC_STATUS_QUEUED, ExecStatusConst::EXEC_STATUS_RUNNING],
                 ['<=', $updateAtAttribute, time() - $queuedDuration],
             ]
         ]);

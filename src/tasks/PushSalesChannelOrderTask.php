@@ -26,9 +26,9 @@ class PushSalesChannelOrderTask extends BaseSalesChannelTask
     public function execute(): bool
     {
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
-        $accountQuery = $this->getAccountQuery();
-        foreach ($accountQuery->each() as $account) {
-            $this->salesChannelManager->pushSalesChannelOrders($account->account_id);
+        $accountIds = $this->getAccountIds();
+        foreach ($accountIds as $accountId) {
+            $this->salesChannelManager->pushSalesChannelOrders($accountId);
         }
         return true;
     }

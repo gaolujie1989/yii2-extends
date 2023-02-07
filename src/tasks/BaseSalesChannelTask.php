@@ -31,13 +31,25 @@ class BaseSalesChannelTask extends CronTask
      * @return SalesChannelAccountQuery
      * @inheritdoc
      */
-    public function getAccountQuery(): SalesChannelAccountQuery
+    protected function getAccountQuery(): SalesChannelAccountQuery
     {
         $accountQuery = SalesChannelAccount::find();
         if ($this->accountNames) {
             $accountQuery->name($this->accountNames);
         } else {
             $accountQuery->active();
+        }
+    }
+
+    /**
+     * @return \Generator
+     * @inheritdoc
+     */
+    protected function getAccountIds(): \Generator
+    {
+        $accountQuery = $this->getAccountQuery()->select(['account_id'])->asArray();
+        foreach ($accountQuery->each() as $account) {
+            yield $account['account_id'];
         }
     }
 }

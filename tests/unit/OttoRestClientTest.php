@@ -17,10 +17,13 @@ class OttoRestClientTest extends \Codeception\Test\Unit
     public function testMe(): void
     {
         $ottoRestClient = new OttoRestClient([
-            'clientId' => 'token-otto-api',
-//            'sandbox' => true,
+            'username' => Yii::$app->params['otto.api_username'],
+            'password' => Yii::$app->params['otto.api_password'],
         ]);
-        $authToken = $ottoRestClient->authenticateUser(Yii::$app->params['otto.api_id'], Yii::$app->params['otto.password']);
-        codecept_debug($authToken);
+//        $authToken = $ottoRestClient->getAccessToken();
+//        codecept_debug($authToken);
+        $products = $ottoRestClient->eachV3Products(['limit' => 2]);
+        $products = iterator_to_array($products);
+        codecept_debug($products);
     }
 }

@@ -14,5 +14,5 @@ use yii\authclient\OAuth2;
  */
 class RestOAuth2 extends OAuth2
 {
-    use RestApiTrait, BatchApiTrait, OAuthExtendTrait;
+    use RestApiTrait, BatchApiTrait, OAuthExtendTrait, SandboxApiTrait;
 }

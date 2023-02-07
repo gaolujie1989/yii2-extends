@@ -44,11 +44,11 @@ trait BatchApiTrait
 
     /**
      * @param array $responseData
+     * @param string $method
      * @return array
-     * @throws \Exception
      * @inheritdoc
      */
-    protected function getPageData(array $responseData): array
+    protected function getPageData(array $responseData, string $method): array
     {
         return $responseData['data'] ?? [];
     }
@@ -118,7 +118,7 @@ trait BatchApiTrait
 
         do {
             $responseData = $this->{$listMethod}($nextPageCondition);
-            $items = $this->getPageData($responseData);
+            $items = $this->getPageData($responseData, $listMethod);
 
             if ($this->reverse) {
                 if (empty($firstPageItems)) {

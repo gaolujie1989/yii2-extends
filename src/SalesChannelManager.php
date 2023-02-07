@@ -296,10 +296,12 @@ class SalesChannelManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param int $limit
+     * @param int $batchSize
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullSalesChannelOrders(int $accountId, $limit = 100, $batchSize = 20): void
+    public function pullSalesChannelOrders(int $accountId, int $limit = 100, int $batchSize = 20): void
     {
         $query = SalesChannelOrder::find()
             ->salesChannelOrderId($accountId)

@@ -38,28 +38,77 @@ class OttoSalesChannel extends BaseSalesChannel
 
     #region Order Action ship/cancel
 
+    /**
+     * @param SalesChannelOrder $channelOrder
+     * @return bool
+     * @inheritdoc
+     */
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
     {
-        // TODO: Implement shipSalesOrder() method.
+        $additional = $channelOrder->additional;
+        $this->client->createV1Shipment([
+            'trackingKey' => [
+                'carrier' => $additional['carrier'],
+                'trackingNumber' => $additional['trackingNumbers'],
+            ],
+            'shipDate' => date('c', $additional['shipped_at']),
+            'shipFromAddress' => [
+                'city' => '',
+                'countryCode' => '',
+                'zipCode' => '',
+            ],
+            'positionItems' => [
+                [
+                    'positionItemId' => '',
+                    'salesOrderId' => '',
+                    'returnTrackingKey' => '',
+                ]
+            ]
+        ]);
     }
 
+    /**
+     * @param SalesChannelOrder $channelOrder
+     * @return bool
+     * @inheritdoc
+     */
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
     {
-        // TODO: Implement cancelSalesOrder() method.
+        $this->client->cancelV4Order(['salesOrderId' => $channelOrder->external_order_key]);
+        return true;
     }
 
     #endregion
 
     #region Order Pull
 
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
-        // TODO: Implement getExternalOrders() method.
+        $externalOrders = [];
+        foreach ($externalOrderKeys as $externalOrderKey) {
+            $externalOrders[$externalOrderKey] = $this->client->getV4Order($externalOrderKey);
+        }
+        return $externalOrders;
     }
 
+    /**
+     * @param int $createdAtFrom
+     * @param int $createdAtTo
+     * @return array
+     * @inheritdoc
+     */
     protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
     {
-        // TODO: Implement getNewExternalOrders() method.
+        $orders = $this->client->eachV4Orders([
+            'fromOrderDate' => date('c', $createdAtFrom),
+            'toOrderDate' => date('c', $createdAtTo),
+        ]);
+        return iterator_to_array($orders, false);
     }
 
     #endregion
@@ -78,13 +127,19 @@ class OttoSalesChannel extends BaseSalesChannel
         throw new NotSupportedException('NotSupported');
     }
 
+    /**
+     * @param array $externalItem
+     * @return array|null
+     * @inheritdoc
+     */
     protected function getExternalItem(array $externalItem): ?array
     {
-
+        return null;
     }
 
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
+
     }
 
     #endregion

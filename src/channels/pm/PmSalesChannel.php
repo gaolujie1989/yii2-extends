@@ -95,7 +95,8 @@ class PmSalesChannel extends BaseSalesChannel
         $orderId = (int)$channelOrder->external_order_key;
         $pmOrder = $this->client->getOrder(['id' => $orderId, 'with' => 'comments']);
 
-        $notes = $channelOrder->additional['notes'] ?? [];
+        $additional = $channelOrder->additional;
+        $notes = $additional['notes'] ?? [];
         //kiwi data userId 96, if kiwi data already commented, skip
         if ($notes && (empty($pmOrder['comments']) || !in_array(96, ArrayHelper::getColumn($pmOrder['comments'], 'userId'), true))) {
             $this->client->createComment([
@@ -111,7 +112,7 @@ class PmSalesChannel extends BaseSalesChannel
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
             throw new InvalidArgumentException("Sales order {$orderId} is cancelled, can not be shipped");
         }
-        $trackingNumbers = $channelOrder->additional['trackingNumbers'] ?? [];
+        $trackingNumbers = $additional['trackingNumbers'] ?? [];
         if (empty($trackingNumbers)) {
             throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
         }
@@ -119,7 +120,7 @@ class PmSalesChannel extends BaseSalesChannel
             $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
             return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
         }
-        $warehouseCode = $channelOrder->additional['warehouseCode'] ?? '';
+        $warehouseCode = $additional['warehouseCode'] ?? '';
         if ($warehouseId = $this->orderShippingWarehouseIds[$warehouseCode] ?? null) {
             $this->client->updateOrderWarehouse($orderId, $warehouseId);
         }

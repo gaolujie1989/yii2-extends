@@ -3,6 +3,9 @@
 namespace lujie\sales\channel\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\helpers\QueryHelper;
+use lujie\sales\channel\constants\SalesChannelConst;
 
 /**
  * This is the ActiveQuery class for [[SalesChannelOrder]].
@@ -30,6 +33,10 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method SalesChannelOrderQuery createdAtBetween($from, $to = null)
  * @method SalesChannelOrderQuery updatedAtBetween($from, $to = null)
  *
+ * @method SalesChannelOrderQuery pendingOrProcessing()
+ * @method SalesChannelOrderQuery toShipped()
+ * @method SalesChannelOrderQuery toCancelled()
+ *
  * @method SalesChannelOrderQuery orderBySalesChannelOrderId($sort = SORT_ASC)
  * @method SalesChannelOrderQuery orderBySalesChannelAccountId($sort = SORT_ASC)
  * @method SalesChannelOrderQuery orderByOrderId($sort = SORT_ASC)
@@ -50,6 +57,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method array getSalesChannelAccountIds()
  * @method array getOrderIds()
  * @method array getExternalOrderKeys()
+ * @method int maxExternalCreatedAt()
  *
  * @method array|SalesChannelOrder[] all($db = null)
  * @method array|SalesChannelOrder|null one($db = null)
@@ -86,7 +94,17 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],
-                'queryConditions' => [],
+                'queryConditions' => [
+                    'pendingOrProcessing' => [
+                        'sales_channel_status' => [
+                            SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
+                            SalesChannelConst::CHANNEL_STATUS_PAID,
+                            SalesChannelConst::CHANNEL_STATUS_PENDING,
+                        ]
+                    ],
+                    'toShipped' => ['sales_channel_status' => SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED],
+                    'toCancelled' => ['sales_channel_status' => SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED],
+                ],
                 'querySorts' => [
                     'orderBySalesChannelOrderId' => 'sales_channel_order_id',
                     'orderBySalesChannelAccountId' => 'sales_channel_account_id',
@@ -110,9 +128,20 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
                     'getSalesChannelAccountIds' => ['sales_channel_account_id', FieldQueryBehavior::RETURN_COLUMN],
                     'getOrderIds' => ['order_id', FieldQueryBehavior::RETURN_COLUMN],
                     'getExternalOrderKeys' => ['external_order_key', FieldQueryBehavior::RETURN_COLUMN],
+                    'maxExternalCreatedAt' => ['external_created_at', FieldQueryBehavior::RETURN_MAX],
                 ]
             ]
         ];
     }
 
+    /**
+     * @param int $queuedDuration
+     * @return $this
+     * @inheritdoc
+     */
+    public function notQueuedOrQueuedButNotExecuted(int $queuedDuration = 3600): self
+    {
+        QueryHelper::notQueuedOrQueuedButNotExecuted($this, 'order_pushed_status', $queuedDuration);
+        return $this;
+    }
 }

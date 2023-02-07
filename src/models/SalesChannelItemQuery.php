@@ -3,6 +3,7 @@
 namespace lujie\sales\channel\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
+use lujie\extend\helpers\QueryHelper;
 
 /**
  * This is the ActiveQuery class for [[SalesChannelItem]].
@@ -30,9 +31,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method SalesChannelItemQuery updatedAtBetween($from, $to = null)
  *
  * @method SalesChannelItemQuery itemPushed()
- * @method SalesChannelItemQuery itemNotPushed()
- * @method SalesChannelItemQuery stockPushed()
- * @method SalesChannelItemQuery stockNotPushed()
+ * @method SalesChannelItemQuery newUpdatedItems()
  *
  * @method SalesChannelItemQuery orderBySalesChannelItemId($sort = SORT_ASC)
  * @method SalesChannelItemQuery orderBySalesChannelAccountId($sort = SORT_ASC)
@@ -93,9 +92,7 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                 ],
                 'queryConditions' => [
                     'itemPushed' => ['>', 'item_pushed_at', 0],
-                    'itemNotPushed' => ['item_pushed_at' => 0],
-                    'stockPushed' => ['>', 'stock_pushed_at', 0],
-                    'stockNotPushed' => ['stock_pushed_at' => 0],
+                    'newUpdatedItems' => 'item_updated_at > item_pushed_at',
                 ],
                 'querySorts' => [
                     'orderBySalesChannelItemId' => 'sales_channel_item_id',
@@ -127,4 +124,14 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
         ];
     }
 
+    /**
+     * @param int $queuedDuration
+     * @return $this
+     * @inheritdoc
+     */
+    public function notQueuedOrQueuedButNotExecuted(int $queuedDuration = 3600): self
+    {
+        QueryHelper::notQueuedOrQueuedButNotExecuted($this, 'item_pushed_status', $queuedDuration);
+        return $this;
+    }
 }

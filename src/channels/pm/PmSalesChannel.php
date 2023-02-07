@@ -324,6 +324,8 @@ class PmSalesChannel extends BaseSalesChannel
      * @param array $externalItem
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array

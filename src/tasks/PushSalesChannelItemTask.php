@@ -15,7 +15,7 @@ use yii\di\Instance;
  * @package lujie\sales\channel\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushSalesChannelOrderTask extends BaseSalesChannelTask
+class PushSalesChannelItemTask extends BaseSalesChannelTask
 {
     /**
      * @return bool
@@ -28,7 +28,7 @@ class PushSalesChannelOrderTask extends BaseSalesChannelTask
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountQuery = $this->getAccountQuery();
         foreach ($accountQuery->each() as $account) {
-            $this->salesChannelManager->pushSalesChannelOrders($account->account_id);
+            $this->salesChannelManager->pushSalesChannelItems($account->account_id);
         }
         return true;
     }

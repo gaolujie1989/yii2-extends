@@ -6,28 +6,19 @@
 namespace lujie\sales\channel\tasks;
 
 use lujie\executing\ProgressInterface;
-use lujie\executing\ProgressTrait;
 use lujie\executing\TimeStepProgressTrait;
-use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\SalesChannelManager;
-use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
-use function MongoDB\BSON\fromJSON;
 
 /**
  * Class PullSalesChannelOrderTask
  * @package lujie\sales\channel\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PullSalesChannelOrderTask extends CronTask implements ProgressInterface
+class PullSalesChannelOrderTask extends BaseSalesChannelTask implements ProgressInterface
 {
     use TimeStepProgressTrait;
-
-    /**
-     * @var SalesChannelManager
-     */
-    public $salesChannelManager = 'salesChannelManager';
 
     /**
      * @var int|string
@@ -45,9 +36,14 @@ class PullSalesChannelOrderTask extends CronTask implements ProgressInterface
     public $timeStep = 43200;
 
     /**
-     * @var array
+     * @var int
      */
-    public $accountNames = [];
+    public $pullLimit = 100;
+
+    /**
+     * @var int
+     */
+    public $pullBatchSize = 20;
 
     /**
      * @return \Generator
@@ -57,16 +53,18 @@ class PullSalesChannelOrderTask extends CronTask implements ProgressInterface
     public function execute(): \Generator
     {
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
-        $accountQuery = SalesChannelAccount::find();
-        if ($this->accountNames) {
-            $accountQuery->name($this->accountNames);
-        } else {
-            $accountQuery->active();
-        }
-        $accountIds = $accountQuery->column();
-        foreach ($accountIds as $accountId) {
-            yield from $this->executeProgress([$accountId], count($accountIds));
-            $this->salesChannelManager->pullSalesChannelOrders($accountId);
+        $accountQuery = $this->getAccountQuery();
+        $accountCount = $accountQuery->count();
+        foreach ($accountQuery->each() as $account) {
+            $accountId = $account->account_id;
+            yield from $this->executeProgress([$accountId], $accountCount);
+
+            $additional = $account->additional ?? [];
+            $this->salesChannelManager->pullSalesChannelOrders(
+                $accountId,
+                $additional['OrderPullLimit'] ?? $this->pullLimit,
+                $additional['OrderPullBatchSize'] ?? $this->pullBatchSize
+            );
             yield $accountId;
         }
         return true;

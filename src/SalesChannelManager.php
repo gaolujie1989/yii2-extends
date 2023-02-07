@@ -69,16 +69,6 @@ class SalesChannelManager extends Component implements BootstrapInterface
     public $mutexNamePrefix = 'salesChannel:';
 
     /**
-     * @var int
-     */
-    public $pullOrderLimit = 100;
-
-    /**
-     * @var int
-     */
-    public $pullOrderBatchSize = 20;
-
-    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -106,7 +96,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
         return Instance::ensure($salesChannel, SalesChannelInterface::class);
     }
 
-    #region event, listen to update marketplace order
+    #region event, listen to update marketplace item/order
 
     /**
      * @param Application $app
@@ -309,18 +299,18 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullSalesChannelOrders(int $accountId): void
+    public function pullSalesChannelOrders(int $accountId, $limit = 100, $batchSize = 20): void
     {
         $query = SalesChannelOrder::find()
             ->salesChannelOrderId($accountId)
             ->pendingOrProcessing()
             ->orderByOrderPulledAt()
-            ->limit($this->pullOrderLimit);
+            ->limit($limit);
         if (!$query->exists()) {
             return;
         }
         $salesChannel = $this->getSalesChannel($accountId);
-        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
+        foreach ($query->batch($batchSize) as $batch) {
             $salesChannel->pullSalesOrders($batch);
         }
     }
@@ -348,18 +338,17 @@ class SalesChannelManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region Recheck and Retry To Push
+    #region Order Recheck and Retry To Push
 
     /**
+     * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pushSalesChannelOrders(): void
+    public function pushSalesChannelOrders(int $accountId): void
     {
-        $accountIds = SalesChannelAccount::find()->active()->column();
-
         $query = SalesChannelOrder::find()
-            ->salesChannelAccountId($accountIds)
+            ->salesChannelAccountId($accountId)
             ->toShipped()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $salesChannelOrder) {
@@ -367,7 +356,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
         }
 
         $query = SalesChannelOrder::find()
-            ->salesChannelAccountId($accountIds)
+            ->salesChannelAccountId($accountId)
             ->toCancelled()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $salesChannelOrder) {
@@ -409,6 +398,25 @@ class SalesChannelManager extends Component implements BootstrapInterface
             }
         }
         return false;
+    }
+
+    #endregion
+
+    #region Item Recheck and Retry To Push
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushSalesChannelItems(int $accountId): void
+    {
+        $query = SalesChannelItem::find()
+            ->salesChannelAccountId($accountId)
+            ->newUpdatedItems()
+            ->notQueuedOrQueuedButNotExecuted();
+        foreach ($query->each() as $salesChannelItem) {
+            $this->pushSalesChannelItemJob($salesChannelItem);
+        }
     }
 
     #endregion

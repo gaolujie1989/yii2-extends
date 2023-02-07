@@ -61,6 +61,7 @@ use yii\httpclient\Client;
  * @method \Generator eachV1Shipments($condition = [], $batchSize = 100)
  * @method \Generator batchV1Shipments($condition = [], $batchSize = 100)
  * @method array getV1Shipment($data)
+ * @method array createV1Shipment($data)
  * @method array correctV1Shipment($data)
  *
  * @method array listV2Returns($data = [])
@@ -143,6 +144,7 @@ class OttoRestClient extends RestOAuth2
         ],
         'V1Shipment' => [
             'get' => ['GET', '{shipmentId}'],
+            'create' => ['POST', ''],
             'correct' => ['POST', '{shipmentId}/positionItems'],
         ],
         'V2Return' => [

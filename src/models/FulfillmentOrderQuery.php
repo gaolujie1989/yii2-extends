@@ -3,7 +3,7 @@
 namespace lujie\fulfillment\models;
 
 use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
-use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\helpers\QueryHelper;
 use lujie\fulfillment\constants\FulfillmentConst;
 
 /**
@@ -248,12 +248,7 @@ class FulfillmentOrderQuery extends \yii\db\ActiveQuery
      */
     public function notQueuedOrQueuedButNotExecuted(int $queuedDuration = 3600): self
     {
-        return $this->andWhere(['OR',
-            ['!=', 'order_pushed_status', ExecStatusConst::EXEC_STATUS_QUEUED],
-            ['AND',
-                ['order_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED],
-                ['<=', 'updated_at', time() - $queuedDuration],
-            ]
-        ]);
+        QueryHelper::notQueuedOrQueuedButNotExecuted($this, 'order_pushed_status', $queuedDuration);
+        return $this;
     }
 }

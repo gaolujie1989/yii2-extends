@@ -5,6 +5,7 @@
 
 namespace lujie\extend\helpers;
 
+use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\db\OffsetBatchQueryResult;
 use Yii;
 use yii\db\ActiveQuery;
@@ -277,5 +278,28 @@ class QueryHelper
             }
         }
         return $columns;
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param string $statusColumn
+     * @param int $queuedDuration
+     * @param string $updatedAtColumn
+     * @inheritdoc
+     */
+    public static function notQueuedOrQueuedButNotExecuted(
+        QueryInterface $query,
+        string $statusColumn,
+        int $queuedDuration = 3600,
+        string $updatedAtColumn = 'updated_at'
+    ): void
+    {
+        $query->andWhere(['OR',
+            ['!=', $statusColumn, ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['AND',
+                [$statusColumn => [ExecStatusConst::EXEC_STATUS_QUEUED, ExecStatusConst::EXEC_STATUS_RUNNING]],
+                ['<=', $updatedAtColumn, time() - $queuedDuration],
+            ]
+        ]);
     }
 }

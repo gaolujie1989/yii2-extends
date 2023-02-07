@@ -73,41 +73,6 @@ class FulfillmentManager extends Component implements BootstrapInterface
     public $mutexNamePrefix = 'fulfillment:';
 
     /**
-     * @var int
-     */
-    public $pullOrderLimit = 200;
-
-    /**
-     * @var int
-     */
-    public $pullOrderBatchSize = 50;
-
-    /**
-     * @var int
-     */
-    public $pullStockLimit = 500;
-
-    /**
-     * @var int
-     */
-    public $pullStockBatchSize = 100;
-
-    /**
-     * @var int
-     */
-    public $pullChargeLimit = 500;
-
-    /**
-     * @var int
-     */
-    public $pullChargeBatchSize = 50;
-
-    /**
-     * @var int
-     */
-    public $pullMovementTimePeriod = 3600;
-
-    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -496,10 +461,12 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param int $limit
+     * @param int $batchSize
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullFulfillmentOrders(int $accountId): void
+    public function pullFulfillmentOrders(int $accountId, int $limit = 100, int $batchSize = 20): void
     {
         $this->pullShippingFulfillmentOrders($accountId);
         $this->pullInboundFulfillmentOrders($accountId);
@@ -507,44 +474,48 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param int $limit
+     * @param int $batchSize
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pullShippingFulfillmentOrders(int $accountId): void
+    protected function pullShippingFulfillmentOrders(int $accountId, int $limit = 100, int $batchSize = 20): void
     {
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentProcessing()
             ->orderByOrderPulledAt()
-            ->limit($this->pullOrderLimit);
+            ->limit($limit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
+        foreach ($query->batch($batchSize) as $batch) {
             $fulfillmentService->pullFulfillmentOrders($batch);
         }
     }
 
     /**
      * @param int $accountId
+     * @param int $limit
+     * @param int $batchSize
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pullInboundFulfillmentOrders(int $accountId): void
+    protected function pullInboundFulfillmentOrders(int $accountId, int $limit = 100, int $batchSize = 20): void
     {
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountId)
             ->inboundFulfillmentProcessing()
             ->orderByOrderPulledAt()
-            ->limit($this->pullOrderLimit);
+            ->limit($limit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->pullOrderBatchSize) as $batch) {
+        foreach ($query->batch($batchSize) as $batch) {
             $fulfillmentService->pullFulfillmentOrders($batch);
         }
     }
@@ -585,22 +556,24 @@ class FulfillmentManager extends Component implements BootstrapInterface
 
     /**
      * @param int $accountId
+     * @param int $limit
+     * @param int $batchSize
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullFulfillmentWarehouseStocks(int $accountId): void
+    public function pullFulfillmentWarehouseStocks(int $accountId, int $limit = 100, int $batchSize = 20): void
     {
         $query = FulfillmentItem::find()
             ->fulfillmentAccountId($accountId)
             ->itemPushed()
             ->orderByStockPulledAt()
-            ->limit($this->pullStockLimit);
+            ->limit($limit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->pullStockBatchSize) as $batch) {
+        foreach ($query->batch($batchSize) as $batch) {
             $fulfillmentService->pullWarehouseStocks($batch);
         }
     }
@@ -610,41 +583,43 @@ class FulfillmentManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullFulfillmentWarehouseStockMovements(int $accountId): void
+    public function pullFulfillmentWarehouseStockMovements(int $accountId, int $timePeriod = 3600): void
     {
         $fulfillmentWarehouses = FulfillmentWarehouse::find()
             ->fulfillmentAccountId($accountId)
             ->supportMovement()
-            ->externalMovementAtBefore(time() - $this->pullMovementTimePeriod)
+            ->externalMovementAtBefore(time() - $timePeriod)
             ->all();
         $fulfillmentService = $this->getFulfillmentService($accountId);
         foreach ($fulfillmentWarehouses as $fulfillmentWarehouse) {
             $fulfillmentService->pullWarehouseStockMovements(
                 $fulfillmentWarehouse,
                 $fulfillmentWarehouse->external_movement_at - 10,
-                $fulfillmentWarehouse->external_movement_at + $this->pullMovementTimePeriod
+                $fulfillmentWarehouse->external_movement_at + $timePeriod
             );
         }
     }
 
     /**
      * @param int $accountId
+     * @param int $limit
+     * @param int $batchSize
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pullFulfillmentCharges(int $accountId): void
+    public function pullFulfillmentCharges(int $accountId, int $limit = 100, int $batchSize = 20): void
     {
         $query = FulfillmentOrder::find()
             ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentShipped()
             ->chargeNotPulled()
-            ->limit($this->pullChargeLimit);
+            ->limit($limit);
         if (!$query->exists()) {
             return;
         }
 
         $fulfillmentService = $this->getFulfillmentService($accountId);
-        foreach ($query->batch($this->pullChargeBatchSize) as $batch) {
+        foreach ($query->batch($batchSize) as $batch) {
             $fulfillmentService->pullFulfillmentCharges($batch);
         }
     }
@@ -654,14 +629,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
     #region Recheck and Retry To Push
 
     /**
+     * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pushFulfillmentItems(): void
+    public function pushFulfillmentItems(int $accountId): void
     {
-        $accountIds = FulfillmentAccount::find()->active()->column();
         $query = FulfillmentItem::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->newUpdatedItems()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentItem) {
@@ -670,24 +645,25 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
+     * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pushFulfillmentOrders(): void
+    public function pushFulfillmentOrders(int $accountId): void
     {
-        $this->pushShippingFulfillmentOrders();
-        $this->pushInboundFulfillmentOrders();
+        $this->pushShippingFulfillmentOrders($accountId);
+        $this->pushInboundFulfillmentOrders($accountId);
     }
 
     /**
+     * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushShippingFulfillmentOrders(): void
+    protected function pushShippingFulfillmentOrders(int $accountId): void
     {
-        $accountIds = FulfillmentAccount::find()->active()->column();
         $query = FulfillmentOrder::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentPending()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
@@ -695,7 +671,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $query = FulfillmentOrder::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentToCancelling()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
@@ -703,7 +679,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $query = FulfillmentOrder::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentToHolding()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
@@ -711,7 +687,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $query = FulfillmentOrder::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->shippingFulfillmentToShipping()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
@@ -720,14 +696,14 @@ class FulfillmentManager extends Component implements BootstrapInterface
     }
 
     /**
+     * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushInboundFulfillmentOrders(): void
+    protected function pushInboundFulfillmentOrders(int $accountId): void
     {
-        $accountIds = FulfillmentAccount::find()->active()->column();
         $query = FulfillmentOrder::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->inboundFulfillmentPending()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {
@@ -735,7 +711,7 @@ class FulfillmentManager extends Component implements BootstrapInterface
         }
 
         $query = FulfillmentOrder::find()
-            ->fulfillmentAccountId($accountIds)
+            ->fulfillmentAccountId($accountId)
             ->inboundFulfillmentToCancelling()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $fulfillmentOrder) {

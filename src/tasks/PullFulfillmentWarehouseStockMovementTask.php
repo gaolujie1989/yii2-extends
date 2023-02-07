@@ -6,8 +6,6 @@
 namespace lujie\fulfillment\tasks;
 
 use lujie\fulfillment\FulfillmentManager;
-use lujie\fulfillment\models\FulfillmentAccount;
-use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -16,12 +14,9 @@ use yii\di\Instance;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PullFulfillmentWarehouseStockMovementTask extends CronTask
+class PullFulfillmentWarehouseStockMovementTask extends BaseFulfillmentTask
 {
-    /**
-     * @var FulfillmentManager
-     */
-    public $fulfillmentManager = 'fulfillmentManager';
+    public $timePeriod = 3600;
 
     /**
      * @return bool
@@ -31,9 +26,14 @@ class PullFulfillmentWarehouseStockMovementTask extends CronTask
     public function execute(): bool
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $accountIds = FulfillmentAccount::find()->active()->column();
-        foreach ($accountIds as $accountId) {
-            $this->fulfillmentManager->pullFulfillmentWarehouseStockMovements($accountId);
+        $accountQuery = $this->getAccountQuery();
+        foreach ($accountQuery->each() as $account) {
+            $accountId = $account->account_id;
+            $additional = $account->additional ?? [];
+            $this->fulfillmentManager->pullFulfillmentWarehouseStockMovements(
+                $accountId,
+                $additional['MovementPullTimePeriod'] ?? $this->timePeriod,
+            );
         }
         return true;
     }

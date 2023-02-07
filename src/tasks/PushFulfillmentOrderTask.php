@@ -15,13 +15,8 @@ use yii\di\Instance;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushFulfillmentOrderTask extends CronTask
+class PushFulfillmentOrderTask extends BaseFulfillmentTask
 {
-    /**
-     * @var FulfillmentManager
-     */
-    public $fulfillmentManager = 'fulfillmentManager';
-
     /**
      * @return bool
      * @throws InvalidConfigException
@@ -30,7 +25,10 @@ class PushFulfillmentOrderTask extends CronTask
     public function execute(): bool
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $this->fulfillmentManager->pushFulfillmentOrders();
+        $accountIds = $this->getAccountIds();
+        foreach ($accountIds as $accountId) {
+            $this->fulfillmentManager->pushFulfillmentOrders($accountId);
+        }
         return true;
     }
 }

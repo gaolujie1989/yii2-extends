@@ -6,7 +6,6 @@
 namespace lujie\fulfillment\tasks;
 
 use lujie\fulfillment\FulfillmentManager;
-use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -15,13 +14,8 @@ use yii\di\Instance;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushFulfillmentItemTask extends CronTask
+class PushFulfillmentItemTask extends BaseFulfillmentTask
 {
-    /**
-     * @var FulfillmentManager
-     */
-    public $fulfillmentManager = 'fulfillmentManager';
-
     /**
      * @return bool
      * @throws InvalidConfigException
@@ -30,7 +24,10 @@ class PushFulfillmentItemTask extends CronTask
     public function execute(): bool
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $this->fulfillmentManager->pushFulfillmentItems();
+        $accountIds = $this->getAccountIds();
+        foreach ($accountIds as $accountId) {
+            $this->fulfillmentManager->pushFulfillmentItems($accountId);
+        }
         return true;
     }
 }

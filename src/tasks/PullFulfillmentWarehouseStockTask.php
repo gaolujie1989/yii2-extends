@@ -16,12 +16,17 @@ use yii\di\Instance;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PullFulfillmentWarehouseStockTask extends CronTask
+class PullFulfillmentWarehouseStockTask extends BaseFulfillmentTask
 {
     /**
-     * @var FulfillmentManager
+     * @var int
      */
-    public $fulfillmentManager = 'fulfillmentManager';
+    public $pullLimit = 100;
+
+    /**
+     * @var int
+     */
+    public $pullBatchSize = 20;
 
     /**
      * @return bool
@@ -31,9 +36,15 @@ class PullFulfillmentWarehouseStockTask extends CronTask
     public function execute(): bool
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $accountIds = FulfillmentAccount::find()->active()->column();
-        foreach ($accountIds as $accountId) {
-            $this->fulfillmentManager->pullFulfillmentWarehouseStocks($accountId);
+        $accountQuery = $this->getAccountQuery();
+        foreach ($accountQuery->each() as $account) {
+            $accountId = $account->account_id;
+            $additional = $account->additional ?? [];
+            $this->fulfillmentManager->pullFulfillmentWarehouseStocks(
+                $accountId,
+                $additional['StockPullLimit'] ?? $this->pullLimit,
+                $additional['StockPullBatchSize'] ?? $this->pullBatchSize
+            );
         }
         return true;
     }

@@ -18,14 +18,9 @@ use yii\di\Instance;
  * @package lujie\fulfillment\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PullFulfillmentOrderTask extends CronTask implements ProgressInterface
+class PullFulfillmentOrderTask extends BaseFulfillmentTask implements ProgressInterface
 {
     use TimeStepProgressTrait;
-
-    /**
-     * @var FulfillmentManager
-     */
-    public $fulfillmentManager = 'fulfillmentManager';
 
     /**
      * @var int|string
@@ -43,6 +38,16 @@ class PullFulfillmentOrderTask extends CronTask implements ProgressInterface
     public $timeStep = 43200;
 
     /**
+     * @var int
+     */
+    public $pullLimit = 100;
+
+    /**
+     * @var int
+     */
+    public $pullBatchSize = 20;
+
+    /**
      * @return \Generator
      * @throws InvalidConfigException
      * @inheritdoc
@@ -50,11 +55,19 @@ class PullFulfillmentOrderTask extends CronTask implements ProgressInterface
     public function execute(): \Generator
     {
         $this->fulfillmentManager = Instance::ensure($this->fulfillmentManager, FulfillmentManager::class);
-        $accountIds = FulfillmentAccount::find()->active()->column();
-        foreach ($accountIds as $accountId) {
-            yield from $this->executeProgress([$accountId], count($accountIds));
-            $this->fulfillmentManager->pullFulfillmentOrders($accountId);
-            yield true;
+        $accountQuery = $this->getAccountQuery();
+        $accountCount = $accountQuery->count();
+        foreach ($accountQuery->each() as $account) {
+            $accountId = $account->account_id;
+            yield from $this->executeProgress([$accountId], $accountCount);
+
+            $additional = $account->additional ?? [];
+            $this->fulfillmentManager->pullFulfillmentOrders(
+                $accountId,
+                $additional['OrderPullLimit'] ?? $this->pullLimit,
+                $additional['OrderPullBatchSize'] ?? $this->pullBatchSize
+            );
+            yield $accountId;
         }
         return true;
     }

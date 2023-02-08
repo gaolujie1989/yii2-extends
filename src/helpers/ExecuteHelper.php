@@ -32,13 +32,13 @@ class ExecuteHelper
      * @inheritdoc
      */
     public static function pushJob(
-        Queue $queue,
-        JobInterface $job,
+        Queue            $queue,
+        JobInterface     $job,
         BaseActiveRecord $model,
-        string $statusAttribute = 'execute_status',
-        string $resultAttribute = 'execute_result',
-        string $timeAttribute = 'updated_at',
-        int $queuedDuration = 3600
+        string           $statusAttribute = 'execute_status',
+        string           $resultAttribute = 'execute_result',
+        string           $timeAttribute = 'updated_at',
+        int              $queuedDuration = 3600
     ): bool
     {
         $statusValue = $model->getAttribute($statusAttribute);
@@ -72,14 +72,14 @@ class ExecuteHelper
      * @inheritdoc
      */
     public static function execute(
-        callable $callable,
+        callable         $callable,
         BaseActiveRecord $model,
-        string $timeAttribute = 'execute_at',
-        string $statusAttribute = 'execute_status',
-        string $resultAttribute = 'execute_result',
-        bool $throwException = false,
-        array $warningExceptions = [Exception::class],
-        ?string $memoryLimit = null
+        string           $timeAttribute = 'execute_at',
+        string           $statusAttribute = 'execute_status',
+        string           $resultAttribute = 'execute_result',
+        bool             $throwException = false,
+        array            $warningExceptions = [Exception::class],
+        ?string          $memoryLimit = null
     ): bool
     {
         $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_RUNNING);
@@ -108,7 +108,7 @@ class ExecuteHelper
             }
             $statusAttribute && $model->setAttribute($statusAttribute, $exception->status);
             return true;
-        }  catch (\Throwable $exception) {
+        } catch (\Throwable $exception) {
             $message = ExceptionHelper::getMessage($exception);
             if ($resultAttribute && isset($resultValue)) {
                 $resultValue = array_merge($resultValue, [
@@ -150,9 +150,9 @@ class ExecuteHelper
      * @inheritdoc
      */
     public static function queryNotQueuedOrQueuedButNotExecuted(
-        Query $query,
+        Query  $query,
         string $statusAttribute = 'execute_status',
-        int $queuedDuration = 3600,
+        int    $queuedDuration = 3600,
         string $updateAtAttribute = 'updated_at'
     ): void
     {

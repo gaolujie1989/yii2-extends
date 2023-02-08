@@ -69,6 +69,7 @@ class OttoSalesChannel extends BaseSalesChannel
                 ]
             ]
         ]);
+        return true;
     }
 
     /**

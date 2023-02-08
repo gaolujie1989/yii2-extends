@@ -49,4 +49,11 @@ interface SalesChannelInterface
      * @inheritdoc
      */
     public function pushSalesItem(SalesChannelItem $salesChannelItem): bool;
+
+    /**
+     * @param array $salesChannelItems
+     * @return bool
+     * @inheritdoc
+     */
+    public function pushSalesItemStocks(array $salesChannelItems): bool;
 }

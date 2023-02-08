@@ -5,9 +5,9 @@
 
 namespace lujie\sales\channel;
 
+use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\constants\StatusConst;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
@@ -315,4 +315,62 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     }
 
     #endregion
+
+    #region Item Stock Push
+
+    /**
+     * @var TransformerInterface
+     */
+    public $itemStockTransformer;
+
+    /**
+     * @param array|SalesChannelItem[] $salesChannelItems
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushSalesItemStocks(array $salesChannelItems): bool
+    {
+        if (!$this->validateSalesChannelItems($salesChannelItems)) {
+            return false;
+        }
+        $this->itemStockTransformer = Instance::ensure($this->itemStockTransformer, TransformerInterface::class);
+        $externalItemStocks = $this->itemStockTransformer->transform($salesChannelItems);
+        $this->saveExternalItemStocks($externalItemStocks);
+        foreach ($salesChannelItems as $salesChannelItem) {
+            $salesChannelItem->stock_pushed_at = time();
+            $salesChannelItem->save(false);
+        }
+        return true;
+    }
+
+    /**
+     * @param array $externalItemStocks
+     * @return array|null
+     * @inheritdoc
+     */
+    abstract protected function saveExternalItemStocks(array $externalItemStocks): ?array;
+
+    #endregion
+
+    /**
+     * @param array $salesChannelItems
+     * @return bool
+     * @inheritdoc
+     */
+    protected function validateSalesChannelItems(array $salesChannelItems): bool
+    {
+        $invalidItems = array_filter($salesChannelItems, function (SalesChannelItem $item) {
+            return $item->sales_channel_account_id !== $this->account->account_id;
+        });
+        if ($invalidItems) {
+            $invalidItemIds = implode(',', ArrayHelper::getColumn($invalidItems, 'sales_channel_item_id'));
+            Yii::info("SalesChannelItem id:{$invalidItemIds} with other account", __METHOD__);
+            return false;
+        }
+        if (empty($salesChannelItems)) {
+            return false;
+        }
+        return true;
+    }
 }

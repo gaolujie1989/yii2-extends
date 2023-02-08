@@ -15,6 +15,7 @@ use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\jobs\BaseSalesChannelOrderJob;
 use lujie\sales\channel\jobs\CancelSalesChannelOrderJob;
 use lujie\sales\channel\jobs\PushSalesChannelItemJob;
+use lujie\sales\channel\jobs\PushSalesChannelStocksJob;
 use lujie\sales\channel\jobs\ShipSalesChannelOrderJob;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelItem;
@@ -29,8 +30,10 @@ use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
+use function PHPUnit\Framework\assertFileIsReadable;
 
 /**
  * Class SalesChannelManager
@@ -400,6 +403,30 @@ class SalesChannelManager extends Component implements BootstrapInterface
             }
         }
         return false;
+    }
+
+    /**
+     * @param int $accountId
+     * @param int $timePeriod
+     * @param int $limit
+     * @param int $batchSize
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushSalesChannelItemStocks(int $accountId, int $timePeriod = 3600, int $limit = 100, int $batchSize = 20): void
+    {
+        $query = SalesChannelItem::find()
+            ->salesChannelAccountId($accountId)
+            ->stockPushedAtBetween(0, time() - $timePeriod)
+            ->orderByStockPushedAt()
+            ->limit($limit);
+        if (!$query->exists()) {
+            return;
+        }
+        $salesChannel = $this->getSalesChannel($accountId);
+        foreach ($query->batch($batchSize) as $batch) {
+            $salesChannel->pushSalesItemStocks($batch);
+        }
     }
 
     #endregion

@@ -14,6 +14,7 @@ class ExecStatusConst
 {
     public const EXEC_STATUS_PENDING = 0;
     public const EXEC_STATUS_RUNNING = 1;
+    public const EXEC_STATUS_REMOTE_PROCESSING = 5;
     public const EXEC_STATUS_SUCCESS = 10;
     public const EXEC_STATUS_FAILED = 11;
     public const EXEC_STATUS_SKIPPED = 12;

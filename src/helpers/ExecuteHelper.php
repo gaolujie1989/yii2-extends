@@ -101,7 +101,14 @@ class ExecuteHelper
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             $model->save(false);
             return true;
-        } catch (\Throwable $exception) {
+        } catch (ExecuteException $exception) {
+            if ($resultAttribute && isset($resultValue)) {
+                $resultValue = array_merge($resultValue, $exception->result ?: []);
+                $model->setAttribute($resultAttribute, $resultValue);
+            }
+            $statusAttribute && $model->setAttribute($statusAttribute, $exception->status);
+            return true;
+        }  catch (\Throwable $exception) {
             $message = ExceptionHelper::getMessage($exception);
             if ($resultAttribute && isset($resultValue)) {
                 $resultValue = array_merge($resultValue, [

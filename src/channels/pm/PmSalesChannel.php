@@ -213,8 +213,6 @@ class PmSalesChannel extends BaseSalesChannel
         return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder, $changeActionStatus);
     }
 
-    #endregion
-
     /**
      * @param SalesChannelOrder $salesChannelOrder
      * @inheritdoc
@@ -241,6 +239,8 @@ class PmSalesChannel extends BaseSalesChannel
             }
         }
     }
+
+    #endregion
 
     #region Item Push
 
@@ -678,6 +678,20 @@ class PmSalesChannel extends BaseSalesChannel
             }
         }
         return $this->client->updateAttributeValue($externalItem);
+    }
+
+    #endregion
+
+    #region Item Stock Push
+
+    /**
+     * @param array $externalItemStocks
+     * @return array|null
+     * @inheritdoc
+     */
+    protected function saveExternalItemStocks(array $externalItemStocks): ?array
+    {
+        return $this->client->correctStock($externalItemStocks);
     }
 
     #endregion

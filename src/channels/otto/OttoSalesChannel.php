@@ -5,14 +5,18 @@
 
 namespace lujie\sales\channel\channels\otto;
 
+use lujie\extend\helpers\ExecuteException;
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\base\UserException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * Class OttoSalesChannel
@@ -137,9 +141,43 @@ class OttoSalesChannel extends BaseSalesChannel
         return null;
     }
 
+    /**
+     * @param array $externalItem
+     * @param SalesChannelItem $salesChannelItem
+     * @return array|null
+     * @throws UserException
+     * @inheritdoc
+     */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
+        $additional = $salesChannelItem->additional;
+        unset($additional['processUuid']);
 
+        $responseData = $this->client->saveV3Product([$externalItem]);
+        $links = ArrayHelper::map($responseData['links'], 'rel', 'href');
+        if (preg_match('/w{8}(-\w{4}){3}-\w{12}/', $links['self'], $matches)) {
+            $additional['processUuid'] = $matches[0];
+            $salesChannelItem->additional = $additional;
+            $salesChannelItem->save(false);
+        } else {
+            throw new UserException('Invalid links: ' . Json::encode($links));
+        }
+
+        return $externalItem;
+    }
+
+    #endregion
+
+    #region Item Stock Push
+
+    /**
+     * @param array $externalItemStocks
+     * @return array|null
+     * @inheritdoc
+     */
+    protected function saveExternalItemStocks(array $externalItemStocks): ?array
+    {
+        return $this->client->saveV2Quantity($externalItemStocks);
     }
 
     #endregion

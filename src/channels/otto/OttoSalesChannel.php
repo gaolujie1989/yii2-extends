@@ -152,21 +152,37 @@ class OttoSalesChannel extends BaseSalesChannel
      */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        $additional = $salesChannelItem->additional;
-        unset($additional['processUuid']);
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+        unset($pushedResult['processUuid']);
 
         $responseData = $this->client->saveV3Product([$externalItem]);
         $links = ArrayHelper::map($responseData['links'], 'rel', 'href');
         if (preg_match('/w{8}(-\w{4}){3}-\w{12}/', $links['self'], $matches)) {
-            $additional['processUuid'] = $matches[0];
-            $additional['pingAfter'] = $responseData['pingAfter'];
-            $salesChannelItem->additional = $additional;
+            $pushedResult['processUuid'] = $matches[0];
+            $pushedResult['pingAfter'] = $responseData['pingAfter'];
+            $salesChannelItem->item_pushed_result = $pushedResult;
             $salesChannelItem->save(false);
         } else {
             throw new UserException('Invalid links: ' . Json::encode($links));
         }
 
         return $externalItem;
+    }
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return array
+     * @inheritdoc
+     */
+    public function checkExternalItemUpdateStatus(SalesChannelItem $salesChannelItem): array
+    {
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+        if ($salesChannelItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_REMOTE_PROCESSING
+            && isset($pushedResult['processUuid'])) {
+            if (empty($pushedResult['pingAfter']) || strtotime($pushedResult['pingAfter']) < time()) {
+                $this->client->getV3ProductUpdateTask(['processUuid' => $pushedResult]);
+            }
+        }
     }
 
     #endregion

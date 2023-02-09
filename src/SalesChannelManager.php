@@ -254,7 +254,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
     public function pushSalesChannelOrder(SalesChannelOrder $channelOrder): bool
     {
         if (empty(SalesChannelConst::CHANNEL_ORDER_PUSHING_STATUS[$channelOrder->sales_channel_status])) {
-            Yii::info("SalesChannelItem {$channelOrder->sales_channel_order_id} not in action status, skip", __METHOD__);
+            Yii::info("SalesChannelOrder {$channelOrder->sales_channel_order_id} not in action status, skip", __METHOD__);
             $channelOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $channelOrder->mustSave(false);
             return false;
@@ -317,9 +317,8 @@ class SalesChannelManager extends Component implements BootstrapInterface
      */
     public function pushSalesChannelItem(SalesChannelItem $salesChannelItem): bool
     {
-        $name = "SalesChannelItem {$salesChannelItem->sales_channel_item_id} of item {$salesChannelItem->item_id}";
         if ($salesChannelItem->external_updated_at > $salesChannelItem->item_updated_at) {
-            Yii::info("{$name} already pushed, skip", __METHOD__);
+            Yii::info("SalesChannelItem {$salesChannelItem->sales_channel_item_id} not new updated, skip", __METHOD__);
             $salesChannelItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
             $salesChannelItem->mustSave(false);
             return false;
@@ -329,9 +328,9 @@ class SalesChannelManager extends Component implements BootstrapInterface
         $lockName = $this->mutexNamePrefix . 'pushSalesChannelItem:' . $salesChannelItem->sales_channel_item_id;
         if ($this->mutex->acquire($lockName)) {
             try {
-                return ExecuteHelper::execute(static function () use ($salesChannel, $salesChannelItem, $name) {
+                return ExecuteHelper::execute(static function () use ($salesChannel, $salesChannelItem) {
                     $salesChannel->pushSalesItem($salesChannelItem);
-                    Yii::info("{$name} pushed success", __METHOD__);
+                    Yii::info("SalesChannelItem {$salesChannelItem->sales_channel_item_id} pushed success", __METHOD__);
                 }, $salesChannelItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result');
             } finally {
                 $this->mutex->release($lockName);
@@ -358,11 +357,21 @@ class SalesChannelManager extends Component implements BootstrapInterface
     /**
      * @param SalesChannelItem $salesChannelItem
      * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function checkPushedSalesChannelItemUpdatedStatus(SalesChannelItem $salesChannelItem): bool
+    public function checkSalesChannelItemUpdated(SalesChannelItem $salesChannelItem): bool
     {
+        if ($salesChannelItem->item_pushed_updated_status !== ExecStatusConst::EXEC_STATUS_RUNNING &&
+            $salesChannelItem->item_pushed_updated_status !== ExecStatusConst::EXEC_STATUS_QUEUED) {
+            Yii::info("SalesChannelItem {$salesChannelItem->sales_channel_item_id} not need to check, skip", __METHOD__);
+            return false;
+        }
 
+        $salesChannel = $this->getSalesChannel($salesChannelItem->sales_channel_account_id);
+        $salesChannel->checkSalesItemUpdated($salesChannelItem);
     }
 
     /**

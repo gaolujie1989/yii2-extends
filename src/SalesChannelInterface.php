@@ -7,6 +7,7 @@ namespace lujie\sales\channel;
 
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use yii\base\NotSupportedException;
 
 /**
  * Interface SalesChannelInterface
@@ -49,6 +50,13 @@ interface SalesChannelInterface
      * @inheritdoc
      */
     public function pushSalesItem(SalesChannelItem $salesChannelItem): bool;
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return array
+     * @inheritdoc
+     */
+    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): array;
 
     /**
      * @param array $salesChannelItems

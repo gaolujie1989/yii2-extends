@@ -18,22 +18,23 @@ class m220812_111611_sales_channel_item extends Migration
             'item_type' => $this->string(20)->notNull()->defaultValue(0),
             'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-            'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_item_no' => $this->string(50)->notNull()->defaultValue(''),
+            'external_item_key' => $this->string(50)->notNull()->defaultValue(''),
             'external_item_additional' => $this->json(),
             'external_created_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'external_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_pushed_status' => $this->tinyInteger()->notNull()->defaultValue(0),
-            'item_pushed_parts' => $this->json(),
+            'item_pushed_updated_status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'item_pushed_result' => $this->json(),
+            'item_pushed_parts' => $this->json(),
             'stock_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'additional' => $this->json(),
         ]);
 
         $this->createIndex('idx_item_account', $this->tableName, ['item_id', 'item_type', 'sales_channel_account_id']);
-        $this->createIndex('idx_external_item_account', $this->tableName, ['external_item_key', 'sales_channel_account_id']);
         $this->createIndex('idx_external_item_no', $this->tableName, ['external_item_no', 'sales_channel_account_id']);
+        $this->createIndex('idx_external_item_key', $this->tableName, ['external_item_key', 'sales_channel_account_id']);
         $this->createIndex('idx_stock_pushed_at', $this->tableName, ['stock_pushed_at']);
     }
 }

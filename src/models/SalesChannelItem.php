@@ -12,15 +12,16 @@ use Yii;
  * @property string $item_type
  * @property int $item_id
  * @property int $item_updated_at
- * @property string $external_item_key
  * @property string $external_item_no
+ * @property string $external_item_key
  * @property array|null $external_item_additional
  * @property int $external_created_at
  * @property int $external_updated_at
  * @property int $item_pushed_at
  * @property int $item_pushed_status
- * @property array|null $item_pushed_parts
+ * @property int $item_pushed_updated_status
  * @property array|null $item_pushed_result
+ * @property array|null $item_pushed_parts
  * @property int $stock_pushed_at
  * @property array|null $additional
  */
@@ -42,14 +43,14 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['item_type', 'external_item_key', 'external_item_no'], 'default', 'value' => ''],
-            [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'default', 'value' => 0],
-            [['external_item_additional', 'item_pushed_result', 'additional'], 'default', 'value' => []],
+            [['item_type', 'external_item_no', 'external_item_key'], 'default', 'value' => ''],
+            [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_status', 'stock_pushed_at'], 'default', 'value' => 0],
+            [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
-            [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'stock_pushed_at'], 'integer'],
-            [['external_item_additional', 'item_pushed_parts', 'item_pushed_result', 'additional'], 'safe'],
+            [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_status', 'stock_pushed_at'], 'integer'],
+            [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'additional'], 'safe'],
             [['item_type'], 'string', 'max' => 20],
-            [['external_item_key', 'external_item_no'], 'string', 'max' => 50],
+            [['external_item_no', 'external_item_key'], 'string', 'max' => 50],
         ];
     }
 
@@ -64,15 +65,16 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             'item_type' => Yii::t('lujie/salesChannel', 'Item Type'),
             'item_id' => Yii::t('lujie/salesChannel', 'Item ID'),
             'item_updated_at' => Yii::t('lujie/salesChannel', 'Item Updated At'),
-            'external_item_key' => Yii::t('lujie/salesChannel', 'External Item Key'),
             'external_item_no' => Yii::t('lujie/salesChannel', 'External Item No'),
+            'external_item_key' => Yii::t('lujie/salesChannel', 'External Item Key'),
             'external_item_additional' => Yii::t('lujie/salesChannel', 'External Item Additional'),
             'external_created_at' => Yii::t('lujie/salesChannel', 'External Created At'),
             'external_updated_at' => Yii::t('lujie/salesChannel', 'External Updated At'),
             'item_pushed_at' => Yii::t('lujie/salesChannel', 'Item Pushed At'),
             'item_pushed_status' => Yii::t('lujie/salesChannel', 'Item Pushed Status'),
-            'item_pushed_parts' => Yii::t('lujie/salesChannel', 'Item Pushed Parts'),
+            'item_pushed_updated_status' => Yii::t('lujie/salesChannel', 'Item Pushed Updated Status'),
             'item_pushed_result' => Yii::t('lujie/salesChannel', 'Item Pushed Result'),
+            'item_pushed_parts' => Yii::t('lujie/salesChannel', 'Item Pushed Parts'),
             'stock_pushed_at' => Yii::t('lujie/salesChannel', 'Stock Pushed At'),
             'additional' => Yii::t('lujie/salesChannel', 'Additional'),
         ];

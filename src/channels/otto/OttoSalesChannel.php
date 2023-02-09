@@ -174,15 +174,9 @@ class OttoSalesChannel extends BaseSalesChannel
      * @return array
      * @inheritdoc
      */
-    public function checkExternalItemUpdateStatus(SalesChannelItem $salesChannelItem): array
+    public function checkExternalItemUpdatedStatus(SalesChannelItem $salesChannelItem): array
     {
-        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
-        if ($salesChannelItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_REMOTE_PROCESSING
-            && isset($pushedResult['processUuid'])) {
-            if (empty($pushedResult['pingAfter']) || strtotime($pushedResult['pingAfter']) < time()) {
-                $this->client->getV3ProductUpdateTask(['processUuid' => $pushedResult]);
-            }
-        }
+        
     }
 
     #endregion

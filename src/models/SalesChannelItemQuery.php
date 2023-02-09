@@ -18,9 +18,10 @@ use lujie\extend\helpers\QueryHelper;
  * @method SalesChannelItemQuery salesChannelAccountId($salesChannelAccountId)
  * @method SalesChannelItemQuery itemType($itemType)
  * @method SalesChannelItemQuery itemId($itemId)
- * @method SalesChannelItemQuery externalItemKey($externalItemKey, bool|string $like = false)
  * @method SalesChannelItemQuery externalItemNo($externalItemNo, bool|string $like = false)
+ * @method SalesChannelItemQuery externalItemKey($externalItemKey, bool|string $like = false)
  * @method SalesChannelItemQuery itemPushedStatus($itemPushedStatus)
+ * @method SalesChannelItemQuery itemPushedUpdatedStatus($itemPushedUpdatedStatus)
  *
  * @method SalesChannelItemQuery itemUpdatedAtBetween($from, $to = null)
  * @method SalesChannelItemQuery externalCreatedAtBetween($from, $to = null)
@@ -47,14 +48,14 @@ use lujie\extend\helpers\QueryHelper;
  * @method SalesChannelItemQuery indexBySalesChannelItemId()
  * @method SalesChannelItemQuery indexBySalesChannelAccountId()
  * @method SalesChannelItemQuery indexByItemId()
- * @method SalesChannelItemQuery indexByExternalItemKey()
  * @method SalesChannelItemQuery indexByExternalItemNo()
+ * @method SalesChannelItemQuery indexByExternalItemKey()
  *
  * @method array getSalesChannelItemIds()
  * @method array getSalesChannelAccountIds()
  * @method array getItemIds()
- * @method array getExternalItemKeys()
  * @method array getExternalItemNos()
+ * @method array getExternalItemKeys()
  *
  * @method array|SalesChannelItem[] all($db = null)
  * @method array|SalesChannelItem|null one($db = null)
@@ -79,9 +80,10 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                     'salesChannelAccountId' => 'sales_channel_account_id',
                     'itemType' => 'item_type',
                     'itemId' => 'item_id',
-                    'externalItemKey' => 'external_item_key',
                     'externalItemNo' => 'external_item_no',
+                    'externalItemKey' => 'external_item_key',
                     'itemPushedStatus' => 'item_pushed_status',
+                    'itemPushedUpdatedStatus' => 'item_pushed_updated_status',
                     'itemUpdatedAtBetween' => ['item_updated_at' => 'BETWEEN'],
                     'externalCreatedAtBetween' => ['external_created_at' => 'BETWEEN'],
                     'externalUpdatedAtBetween' => ['external_updated_at' => 'BETWEEN'],
@@ -110,15 +112,15 @@ class SalesChannelItemQuery extends \yii\db\ActiveQuery
                     'indexBySalesChannelItemId' => 'sales_channel_item_id',
                     'indexBySalesChannelAccountId' => 'sales_channel_account_id',
                     'indexByItemId' => 'item_id',
-                    'indexByExternalItemKey' => 'external_item_key',
                     'indexByExternalItemNo' => 'external_item_no',
+                    'indexByExternalItemKey' => 'external_item_key',
                 ],
                 'queryReturns' => [
                     'getSalesChannelItemIds' => ['sales_channel_item_id', FieldQueryBehavior::RETURN_COLUMN],
                     'getSalesChannelAccountIds' => ['sales_channel_account_id', FieldQueryBehavior::RETURN_COLUMN],
                     'getItemIds' => ['item_id', FieldQueryBehavior::RETURN_COLUMN],
-                    'getExternalItemKeys' => ['external_item_key', FieldQueryBehavior::RETURN_COLUMN],
                     'getExternalItemNos' => ['external_item_no', FieldQueryBehavior::RETURN_COLUMN],
+                    'getExternalItemKeys' => ['external_item_key', FieldQueryBehavior::RETURN_COLUMN],
                 ]
             ]
         ];

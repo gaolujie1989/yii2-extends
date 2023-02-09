@@ -16,6 +16,7 @@ use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+use yii\base\NotSupportedException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -312,6 +313,17 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             $salesChannelItem->stock_pushed_at = $salesChannelItem->item_pushed_at;
         }
         return $salesChannelItem->save(false);
+    }
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return array
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): array
+    {
+        throw new NotSupportedException();
     }
 
     #endregion

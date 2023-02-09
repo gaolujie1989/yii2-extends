@@ -104,8 +104,9 @@ class ExecuteHelper
         } catch (ExecuteException $exception) {
             $timeAttribute && $model->setAttribute($timeAttribute, time());
             $statusAttribute && $model->setAttribute($statusAttribute, $exception->status);
-            if ($resultAttribute && isset($resultValue)) {
-                $resultValue = array_merge($resultValue, $exception->result ?: []);
+            if ($resultAttribute && $exception->result) {
+                $resultValue = $model->getAttribute($resultAttribute) ?: [];
+                $resultValue = array_merge($resultValue, $exception->result);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
             $model->save(false);
@@ -113,7 +114,8 @@ class ExecuteHelper
         } catch (\Throwable $exception) {
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $message = ExceptionHelper::getMessage($exception);
-            if ($resultAttribute && isset($resultValue)) {
+            if ($resultAttribute) {
+                $resultValue = $model->getAttribute($resultAttribute) ?: [];
                 $resultValue = array_merge($resultValue, [
                     'error' => $exception->getMessage(),
                     'trace' => $message,

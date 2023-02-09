@@ -321,7 +321,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @throws NotSupportedException
      * @inheritdoc
      */
-    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): array
+    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): bool
     {
         throw new NotSupportedException();
     }

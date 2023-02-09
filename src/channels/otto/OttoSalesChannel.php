@@ -201,6 +201,7 @@ class OttoSalesChannel extends BaseSalesChannel
                 }
             }
         }
+        return false;
     }
 
     #endregion

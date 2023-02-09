@@ -53,10 +53,10 @@ interface SalesChannelInterface
 
     /**
      * @param SalesChannelItem $salesChannelItem
-     * @return array
+     * @return bool
      * @inheritdoc
      */
-    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): array;
+    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): bool;
 
     /**
      * @param array $salesChannelItems

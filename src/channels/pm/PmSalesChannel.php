@@ -14,9 +14,7 @@ use lujie\sales\channel\models\SalesChannelOrder;
 use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
-use yii\base\NotSupportedException;
 use yii\base\UserException;
-use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 

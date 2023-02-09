@@ -6,7 +6,6 @@
 namespace lujie\sales\channel;
 
 use lujie\data\exchange\transformers\TransformerInterface;
-use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
@@ -17,7 +16,6 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
-use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
@@ -34,11 +32,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @var SalesChannelAccount
      */
     public $account;
-
-    /**
-     * @var DataLoaderInterface
-     */
-    public $itemLoader;
 
     #region External Model Key Field
 
@@ -96,9 +89,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         parent::init();
         if (!($this->account instanceof SalesChannelAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be SalesChannelAccount');
-        }
-        if ($this->itemLoader) {
-            $this->itemLoader = Instance::ensure($this->itemLoader, DataLoaderInterface::class);
         }
     }
 

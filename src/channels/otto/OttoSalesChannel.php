@@ -5,16 +5,12 @@
 
 namespace lujie\sales\channel\channels\otto;
 
-use lujie\extend\constants\ExecStatusConst;
-use lujie\extend\helpers\ExecuteException;
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\InvalidConfigException;
-use yii\base\NotSupportedException;
 use yii\base\UserException;
-use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;

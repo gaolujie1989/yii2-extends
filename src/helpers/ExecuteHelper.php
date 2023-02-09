@@ -102,13 +102,16 @@ class ExecuteHelper
             $model->save(false);
             return true;
         } catch (ExecuteException $exception) {
+            $timeAttribute && $model->setAttribute($timeAttribute, time());
+            $statusAttribute && $model->setAttribute($statusAttribute, $exception->status);
             if ($resultAttribute && isset($resultValue)) {
                 $resultValue = array_merge($resultValue, $exception->result ?: []);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
-            $statusAttribute && $model->setAttribute($statusAttribute, $exception->status);
+            $model->save(false);
             return true;
         } catch (\Throwable $exception) {
+            $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $message = ExceptionHelper::getMessage($exception);
             if ($resultAttribute && isset($resultValue)) {
                 $resultValue = array_merge($resultValue, [
@@ -117,7 +120,6 @@ class ExecuteHelper
                 ]);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
-            $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $model->save(false);
             foreach ($warningExceptions as $warningException) {
                 if ($exception instanceof $warningException) {

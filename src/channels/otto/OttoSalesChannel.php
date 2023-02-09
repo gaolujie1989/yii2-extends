@@ -5,6 +5,7 @@
 
 namespace lujie\sales\channel\channels\otto;
 
+use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ExecuteException;
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannel;
@@ -158,6 +159,7 @@ class OttoSalesChannel extends BaseSalesChannel
         $links = ArrayHelper::map($responseData['links'], 'rel', 'href');
         if (preg_match('/w{8}(-\w{4}){3}-\w{12}/', $links['self'], $matches)) {
             $additional['processUuid'] = $matches[0];
+            $additional['pingAfter'] = $responseData['pingAfter'];
             $salesChannelItem->additional = $additional;
             $salesChannelItem->save(false);
         } else {

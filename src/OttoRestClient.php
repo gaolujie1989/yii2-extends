@@ -80,6 +80,7 @@ use yii\httpclient\Client;
  * @method array getV3SingleProductContentChange($data)
  * @method array getV3SingleProductMarketplaceStatus($data)
  * @method array getV3ProductUpdateTask($data)
+ * @method array getV3ProductUpdateTaskStatus($data)
  * @method array getV3ProductUpdateTaskFailed($data)
  * @method array getV3ProductUpdateTaskSucceeded($data)
  * @method array getV3ProductUpdateTaskUnchanged($data)
@@ -162,6 +163,7 @@ class OttoRestClient extends RestOAuth2
         'getV3SingleProductContentChange' => ['GET', 'v3/products/{sku}/content-changes'],
         'getV3SingleProductMarketplaceStatus' => ['GET', 'v3/products/{sku}/marketplace-status'],
         'getV3ProductUpdateTask' => ['GET', 'v3/products/update-tasks/{processUuid}'],
+        'getV3ProductUpdateTaskStatus' => ['GET', 'v3/products/update-tasks/{processUuid}/{status}'],
         'getV3ProductUpdateTaskFailed' => ['GET', 'v3/products/update-tasks/{processUuid}/failed'],
         'getV3ProductUpdateTaskSucceeded' => ['GET', 'v3/products/update-tasks/{processUuid}/succeeded'],
         'getV3ProductUpdateTaskUnchanged' => ['GET', 'v3/products/update-tasks/{processUuid}/unchanged'],

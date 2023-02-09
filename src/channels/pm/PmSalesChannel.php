@@ -279,18 +279,6 @@ class PmSalesChannel extends BaseSalesChannel
     }
 
     /**
-     * @param BaseActiveRecord $item
-     * @param SalesChannelItem $salesChannelItem
-     * @return array
-     * @throws NotSupportedException
-     * @inheritdoc
-     */
-    protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array
-    {
-        throw new NotSupportedException('NotSupported');
-    }
-
-    /**
      * @param array $externalItem
      * @return array|null
      * @throws UserException

@@ -122,18 +122,6 @@ class OttoSalesChannel extends BaseSalesChannel
     #region Item Push
 
     /**
-     * @param BaseActiveRecord $item
-     * @param SalesChannelItem $salesChannelItem
-     * @return array|null
-     * @throws NotSupportedException
-     * @inheritdoc
-     */
-    protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array
-    {
-        throw new NotSupportedException('NotSupported');
-    }
-
-    /**
      * @param array $externalItem
      * @return array|null
      * @inheritdoc

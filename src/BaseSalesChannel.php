@@ -233,7 +233,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     #region Item push
 
     /**
+     * @var TransformerInterface
+     */
+    public $itemTransformer;
+
+    /**
      * @param SalesChannelItem $salesChannelItem
+     * @return bool
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pushSalesItem(SalesChannelItem $salesChannelItem): bool
@@ -243,23 +250,19 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         }
 
-        $item = $this->itemLoader->get($salesChannelItem);
-        if ($item === null) {
-            Yii::info("Empty item", __METHOD__);
+        $this->itemTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
+        [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
+        if (empty($externalItem)) {
+            Yii::info("Empty transformed external item", __METHOD__);
             return false;
         }
 
-        $externalItem = $this->formatExternalItemData($item, $salesChannelItem);
-        if ($externalItem === null) {
-            Yii::info("Empty formatted external item", __METHOD__);
-            return false;
-        }
         if (empty($salesChannelItem->external_item_key) && $externalExistsItem = $this->getExternalItem($externalItem)) {
             Yii::info("Item not pushed, but exist in external, update SalesChannelItem", __METHOD__);
             $this->updateSalesChannelItem($salesChannelItem, $externalExistsItem);
-            $externalItem = $this->formatExternalItemData($item, $salesChannelItem);
-            if ($externalItem === null) {
-                Yii::info("Empty formatted external item", __METHOD__);
+            [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
+            if (empty($externalItem)) {
+                Yii::info("Empty transformed external item", __METHOD__);
                 return false;
             }
         }
@@ -271,14 +274,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         Yii::warning("Item pushed failed, skip update SalesChannelItem", __METHOD__);
         return false;
     }
-
-    /**
-     * @param BaseActiveRecord $item
-     * @param SalesChannelItem $item
-     * @return array
-     * @inheritdoc
-     */
-    abstract protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array;
 
     /**
      * @param array $externalItem

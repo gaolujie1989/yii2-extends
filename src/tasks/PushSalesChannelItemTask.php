@@ -5,8 +5,8 @@
 
 namespace lujie\sales\channel\tasks;
 
+use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\SalesChannelManager;
-use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -20,15 +20,29 @@ class PushSalesChannelItemTask extends BaseSalesChannelTask
     /**
      * @return bool
      * @throws InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public function execute(): bool
     {
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountIds = $this->getAccountIds();
+        $now = time();
         foreach ($accountIds as $accountId) {
-            $this->salesChannelManager->pushSalesChannelItemJobs($accountId);
+            $query = SalesChannelItem::find()
+                ->salesChannelAccountId($accountId)
+                ->newUpdatedItems()
+                ->notQueuedOrQueuedButNotExecuted();
+            foreach ($query->each() as $salesChannelItem) {
+                $this->salesChannelManager->pushSalesChannelItemJob($salesChannelItem);
+            }
+
+            $query = SalesChannelItem::find()
+                ->salesChannelAccountId($accountId)
+                ->itemPushedUpdatedAfterAtBetween($now - 864000, $now - 60)
+                ->notQueuedOrQueuedButNotExecuted();
+            foreach ($query->each() as $salesChannelItem) {
+                $this->salesChannelManager->pushSalesChannelItemJob($salesChannelItem);
+            }
         }
         return true;
     }

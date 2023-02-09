@@ -19,7 +19,7 @@ use Yii;
  * @property int $external_updated_at
  * @property int $item_pushed_at
  * @property int $item_pushed_status
- * @property int $item_pushed_updated_status
+ * @property int $item_pushed_updated_after_at
  * @property array|null $item_pushed_result
  * @property array|null $item_pushed_parts
  * @property int $stock_pushed_at
@@ -27,8 +27,6 @@ use Yii;
  */
 class SalesChannelItem extends \lujie\extend\db\ActiveRecord
 {
-    use SalesChannelAccountRelationTrait;
-
     /**
      * {@inheritdoc}
      */
@@ -44,10 +42,10 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
     {
         return [
             [['item_type', 'external_item_no', 'external_item_key'], 'default', 'value' => ''],
-            [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_status', 'stock_pushed_at'], 'default', 'value' => 0],
+            [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_after_at', 'stock_pushed_at'], 'default', 'value' => 0],
             [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
-            [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_status', 'stock_pushed_at'], 'integer'],
+            [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_after_at', 'stock_pushed_at'], 'integer'],
             [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'additional'], 'safe'],
             [['item_type'], 'string', 'max' => 20],
             [['external_item_no', 'external_item_key'], 'string', 'max' => 50],
@@ -72,7 +70,7 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             'external_updated_at' => Yii::t('lujie/salesChannel', 'External Updated At'),
             'item_pushed_at' => Yii::t('lujie/salesChannel', 'Item Pushed At'),
             'item_pushed_status' => Yii::t('lujie/salesChannel', 'Item Pushed Status'),
-            'item_pushed_updated_status' => Yii::t('lujie/salesChannel', 'Item Pushed Updated Status'),
+            'item_pushed_updated_after_at' => Yii::t('lujie/salesChannel', 'Item Pushed Updated After At'),
             'item_pushed_result' => Yii::t('lujie/salesChannel', 'Item Pushed Result'),
             'item_pushed_parts' => Yii::t('lujie/salesChannel', 'Item Pushed Parts'),
             'stock_pushed_at' => Yii::t('lujie/salesChannel', 'Stock Pushed At'),

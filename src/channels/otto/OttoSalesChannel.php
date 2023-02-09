@@ -159,24 +159,48 @@ class OttoSalesChannel extends BaseSalesChannel
         $links = ArrayHelper::map($responseData['links'], 'rel', 'href');
         if (preg_match('/w{8}(-\w{4}){3}-\w{12}/', $links['self'], $matches)) {
             $pushedResult['processUuid'] = $matches[0];
-            $pushedResult['pingAfter'] = $responseData['pingAfter'];
             $salesChannelItem->item_pushed_result = $pushedResult;
+            $salesChannelItem->item_pushed_updated_after_at = strtotime($responseData['pingAfter']);
             $salesChannelItem->save(false);
         } else {
             throw new UserException('Invalid links: ' . Json::encode($links));
         }
-
         return $externalItem;
     }
 
     /**
      * @param SalesChannelItem $salesChannelItem
-     * @return array
+     * @return bool
+     * @throws UserException
      * @inheritdoc
      */
-    public function checkExternalItemUpdatedStatus(SalesChannelItem $salesChannelItem): array
+    public function checkSalesItemUpdated(SalesChannelItem $salesChannelItem): bool
     {
-        
+        $pushedResult = $salesChannelItem->item_pushed_result;
+        $processUuid = $pushedResult['processUuid'];
+        if (empty($processUuid)) {
+            return false;
+        }
+        $taskResponseData = $this->client->getV3ProductUpdateTask(['processUuid' => $processUuid]);
+        if ($taskResponseData['pingAfter'] !== 'done') {
+            $salesChannelItem->item_pushed_updated_after_at = strtotime($taskResponseData['pingAfter']);
+            return $salesChannelItem->save(false);
+        }
+        $statusList = ['succeeded', 'failed', 'unchanged'];
+        foreach ($statusList as $status) {
+            if ($taskResponseData[$status]) {
+                $statusResponseData = $this->client->getV3ProductUpdateTaskStatus(['processUuid' => $processUuid, 'status' => $status]);
+                $statusResults = ArrayHelper::index($statusResponseData['results'], 'variation');
+                if (isset($statusResults[$salesChannelItem->external_item_no])) {
+                    $salesChannelItem->item_pushed_updated_after_at = 0;
+                    if ($status === 'succeeded') {
+                        return $salesChannelItem->save(false);
+                    }
+                    $errors = $statusResults[$salesChannelItem->external_item_no]['errors'];
+                    throw new UserException(Json::encode($errors));
+                }
+            }
+        }
     }
 
     #endregion

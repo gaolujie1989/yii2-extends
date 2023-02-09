@@ -51,23 +51,21 @@ class MockSalesChannel extends BaseSalesChannel
         ],
     ];
 
+    /**
+     * @var array[]
+     */
+    public static $EXTERNAL_ITEMS = [
+        [
+            'id' => '1',
+            'itemNo' => 'ITEM-NO-1',
+            'status' => 'active',
+            'title' => 'ITEM 111',
+            'createdAt' => '1606533925', //2020-11-28 11:25:25
+            'updatedAt' => '1606545325', //2020-11-28 11:25:25
+        ]
+    ];
+
     #region Order Pull
-
-
-
-    #endregion
-
-    #region Order Push
-
-
-
-    #endregion
-
-    #region Item Push
-
-
-
-    #endregion
 
     /**
      * @param array $externalOrderKeys
@@ -77,7 +75,7 @@ class MockSalesChannel extends BaseSalesChannel
     protected function getExternalOrders(array $externalOrderKeys): array
     {
         return array_filter(static::$EXTERNAL_ORDERS, static function ($order) use ($externalOrderKeys) {
-            return in_array($order['id'], $externalOrderKeys);
+            return in_array($order['id'], $externalOrderKeys, true);
         });
     }
 
@@ -94,9 +92,22 @@ class MockSalesChannel extends BaseSalesChannel
         });
     }
 
+    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
+    {
+        $salesChannelOrder->external_created_at = $externalOrder['createdAt'];
+        $salesChannelOrder->external_updated_at = $externalOrder['paidAt'] ?: $externalOrder['createdAt'];
+        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
+    }
+
+    #endregion
+
+    #region Order Push ship/cancel
+
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
@@ -109,6 +120,8 @@ class MockSalesChannel extends BaseSalesChannel
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
@@ -118,32 +131,37 @@ class MockSalesChannel extends BaseSalesChannel
         return $this->updateSalesChannelOrder($channelOrder, static::$EXTERNAL_ORDERS[$channelOrder->external_order_key], true);
     }
 
-    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
-    {
-        $salesChannelOrder->external_created_at = $externalOrder['createdAt'];
-        $salesChannelOrder->external_updated_at = $externalOrder['paidAt'] ?: $externalOrder['createdAt'];
-        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
-    }
+    #endregion
+
+    #region Item Push
 
     protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array
     {
-        // TODO: Implement formatExternalItemData() method.
+        return [];
     }
 
+    /**
+     * @param array $externalItem
+     * @return array|string[]|null
+     * @inheritdoc
+     */
     protected function getExternalItem(array $externalItem): ?array
     {
-        // TODO: Implement getExternalItem() method.
+        static::$EXTERNAL_ORDERS = ArrayHelper::index(static::$EXTERNAL_ITEMS, 'itemNo');
+        if (isset($externalItem['itemNo'])) {
+            return static::$EXTERNAL_ITEMS[$externalItem['itemNo']] ?? null;
+        }
+        return null;
     }
 
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        // TODO: Implement saveExternalItem() method.
+        return $externalItem;
     }
 
     protected function saveExternalItemStocks(array $externalItemStocks): ?array
     {
-        // TODO: Implement saveExternalItemStocks() method.
     }
 
-
+    #endregion
 }

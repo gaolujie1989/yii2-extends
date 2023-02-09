@@ -12,12 +12,8 @@ use lujie\extend\helpers\ExecuteHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\forms\SalesChannelItemForm;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
-use lujie\sales\channel\jobs\BaseSalesChannelOrderJob;
-use lujie\sales\channel\jobs\CancelSalesChannelOrderJob;
 use lujie\sales\channel\jobs\PushSalesChannelItemJob;
-use lujie\sales\channel\jobs\PushSalesChannelStocksJob;
-use lujie\sales\channel\jobs\ShipSalesChannelOrderJob;
-use lujie\sales\channel\models\SalesChannelAccount;
+use lujie\sales\channel\jobs\PushSalesChannelOrderJob;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
@@ -30,10 +26,8 @@ use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
-use function PHPUnit\Framework\assertFileIsReadable;
 
 /**
  * Class SalesChannelManager
@@ -99,7 +93,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
         return Instance::ensure($salesChannel, SalesChannelInterface::class);
     }
 
-    #region event, listen to update marketplace item/order
+    #region event, listen to push item/order
 
     /**
      * @param Application $app
@@ -166,37 +160,11 @@ class SalesChannelManager extends Component implements BootstrapInterface
         $channelOrder = new SalesChannelOrder();
         $channelOrder->setAttributes($channelOrderForm->attributes, false);
         $channelOrder->setIsNewRecord(false);
-        $name = "SalesChannelOrder {$channelOrder->sales_channel_order_id} of order {$channelOrder->order_id}";
-        switch ($channelOrder->sales_channel_status) {
-            case SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED:
-                $this->pushShipSalesChannelOrderJob($channelOrder);
-                Yii::info("{$name} push ship job", __METHOD__);
-                break;
-            case SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED:
-                $this->pushCancelSalesChannelOrderJob($channelOrder);
-                Yii::info("{$name} push cancel job", __METHOD__);
-                break;
+        if (empty(SalesChannelConst::CHANNEL_ORDER_PUSHING_STATUS[$channelOrder->sales_channel_status])) {
+            Yii::info("SalesChannelItem {$channelOrder->sales_channel_order_id} not in action status, skip", __METHOD__);
+            return;
         }
-    }
-
-    /**
-     * @param SalesChannelOrder $salesChannelOrder
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function pushShipSalesChannelOrderJob(SalesChannelOrder $salesChannelOrder): void
-    {
-        $this->pushSalesChannelOrderActionJob($salesChannelOrder, ['class' => ShipSalesChannelOrderJob::class]);
-    }
-
-    /**
-     * @param SalesChannelOrder $salesChannelOrder
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function pushCancelSalesChannelOrderJob(SalesChannelOrder $salesChannelOrder): void
-    {
-        $this->pushSalesChannelOrderActionJob($salesChannelOrder, ['class' => CancelSalesChannelOrderJob::class]);
+        $this->pushSalesChannelOrderJob($channelOrder);
     }
 
     /**
@@ -205,10 +173,10 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    protected function pushSalesChannelOrderActionJob(SalesChannelOrder $channelOrder, array $jobConfig = []): bool
+    protected function pushSalesChannelOrderJob(SalesChannelOrder $channelOrder, array $jobConfig = []): bool
     {
-        /** @var BaseSalesChannelOrderJob $job */
-        $job = Instance::ensure(array_merge($this->salesChannelOrderJob, $jobConfig), BaseSalesChannelOrderJob::class);
+        /** @var PushSalesChannelOrderJob $job */
+        $job = Instance::ensure(array_merge($this->salesChannelOrderJob, $jobConfig), PushSalesChannelOrderJob::class);
         $job->salesChannelManager = ComponentHelper::getName($this);
         $job->salesChannelOrderId = $channelOrder->sales_channel_order_id;
         //always push job because order may be change multi times with different data, so need to push different job
@@ -221,76 +189,6 @@ class SalesChannelManager extends Component implements BootstrapInterface
             'updated_at',
             0
         );
-    }
-
-    #endregion
-
-    #region Order Action ship/cancel
-
-    /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function shipSalesChannelOrder(SalesChannelOrder $channelOrder): bool
-    {
-        $name = "SalesChannelOrder {$channelOrder->sales_channel_order_id} of order {$channelOrder->order_id}";
-        if ($channelOrder->sales_channel_status !== SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
-            Yii::info("{$name} not to shipped, skip", __METHOD__);
-            $channelOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
-            $channelOrder->mustSave(false);
-            return false;
-        }
-
-        $salesChannel = $this->getSalesChannel($channelOrder->sales_channel_account_id);
-        $lockName = $this->mutexNamePrefix . 'shipSalesChannelOrder:' . $channelOrder->sales_channel_order_id;
-        if ($this->mutex->acquire($lockName)) {
-            try {
-                return ExecuteHelper::execute(static function () use ($salesChannel, $channelOrder, $name) {
-                    $salesChannel->shipSalesOrder($channelOrder);
-                    Yii::info("{$name} to shipped success", __METHOD__);
-                }, $channelOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
-            } finally {
-                $this->mutex->release($lockName);
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function cancelSalesChannelOrder(SalesChannelOrder $channelOrder): bool
-    {
-        $name = "SalesChannelOrder {$channelOrder->sales_channel_order_id} of order {$channelOrder->order_id}";
-        if ($channelOrder->sales_channel_status !== SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
-            Yii::info("{$name} not to cancelling, skip", __METHOD__);
-            $channelOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
-            $channelOrder->mustSave(false);
-            return false;
-        }
-
-        $salesChannel = $this->getSalesChannel($channelOrder->sales_channel_account_id);
-        $lockName = $this->mutexNamePrefix . 'cancelSalesChannelOrder:' . $channelOrder->sales_channel_order_id;
-        if ($this->mutex->acquire($lockName)) {
-            try {
-                return ExecuteHelper::execute(static function () use ($salesChannel, $channelOrder, $name) {
-                    $salesChannel->cancelSalesOrder($channelOrder);
-                    Yii::info("{$name} cancelled success", __METHOD__);
-                }, $channelOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
-            } finally {
-                $this->mutex->release($lockName);
-            }
-        }
-        return false;
     }
 
     #endregion
@@ -343,21 +241,58 @@ class SalesChannelManager extends Component implements BootstrapInterface
 
     #endregion
 
-    #region Order Recheck and Retry To Push
+    #region Order Push ship/cancel
+
+    /**
+     * @param SalesChannelOrder $channelOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     * @inheritdoc
+     */
+    public function pushSalesChannelOrder(SalesChannelOrder $channelOrder): bool
+    {
+        if (empty(SalesChannelConst::CHANNEL_ORDER_PUSHING_STATUS[$channelOrder->sales_channel_status])) {
+            Yii::info("SalesChannelItem {$channelOrder->sales_channel_order_id} not in action status, skip", __METHOD__);
+            $channelOrder->order_pushed_status = ExecStatusConst::EXEC_STATUS_SKIPPED;
+            $channelOrder->mustSave(false);
+            return false;
+        }
+
+        $salesChannel = $this->getSalesChannel($channelOrder->sales_channel_account_id);
+        $lockName = $this->mutexNamePrefix . 'pushSalesChannelOrder:' . $channelOrder->sales_channel_order_id;
+        if ($this->mutex->acquire($lockName)) {
+            try {
+                return ExecuteHelper::execute(static function () use ($salesChannel, $channelOrder) {
+                    if ($channelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
+                        $salesChannel->shipSalesOrder($channelOrder);
+                        Yii::info("SalesChannelOrder {$channelOrder->sales_channel_order_id} to shipped success", __METHOD__);
+                    } else if ($channelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
+                        $salesChannel->cancelSalesOrder($channelOrder);
+                        Yii::info("SalesChannelOrder {$channelOrder->sales_channel_order_id} to cancelled success", __METHOD__);
+                    }
+                }, $channelOrder, 'order_pushed_at', 'order_pushed_status', 'order_pushed_result');
+            } finally {
+                $this->mutex->release($lockName);
+            }
+        }
+        return false;
+    }
 
     /**
      * @param int $accountId
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pushSalesChannelOrders(int $accountId): void
+    public function pushSalesChannelOrderJobs(int $accountId): void
     {
         $query = SalesChannelOrder::find()
             ->salesChannelAccountId($accountId)
             ->toShipped()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $salesChannelOrder) {
-            $this->pushShipSalesChannelOrderJob($salesChannelOrder);
+            $this->pushSalesChannelOrderJob($salesChannelOrder);
         }
 
         $query = SalesChannelOrder::find()
@@ -365,7 +300,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
             ->toCancelled()
             ->notQueuedOrQueuedButNotExecuted();
         foreach ($query->each() as $salesChannelOrder) {
-            $this->pushCancelSalesChannelOrderJob($salesChannelOrder);
+            $this->pushSalesChannelOrderJob($salesChannelOrder);
         }
     }
 
@@ -406,6 +341,31 @@ class SalesChannelManager extends Component implements BootstrapInterface
     }
 
     /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushSalesChannelItemJobs(int $accountId): void
+    {
+        $query = SalesChannelItem::find()
+            ->salesChannelAccountId($accountId)
+            ->newUpdatedItems()
+            ->notQueuedOrQueuedButNotExecuted();
+        foreach ($query->each() as $salesChannelItem) {
+            $this->pushSalesChannelItemJob($salesChannelItem);
+        }
+    }
+
+    /**
+     * @param SalesChannelItem $salesChannelItem
+     * @return bool
+     * @inheritdoc
+     */
+    public function checkPushedSalesChannelItemUpdatedStatus(SalesChannelItem $salesChannelItem): bool
+    {
+
+    }
+
+    /**
      * @param int $accountId
      * @param int $timePeriod
      * @param int $limit
@@ -426,25 +386,6 @@ class SalesChannelManager extends Component implements BootstrapInterface
         $salesChannel = $this->getSalesChannel($accountId);
         foreach ($query->batch($batchSize) as $batch) {
             $salesChannel->pushSalesItemStocks($batch);
-        }
-    }
-
-    #endregion
-
-    #region Item Recheck and Retry To Push
-
-    /**
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    public function pushSalesChannelItems(int $accountId): void
-    {
-        $query = SalesChannelItem::find()
-            ->salesChannelAccountId($accountId)
-            ->newUpdatedItems()
-            ->notQueuedOrQueuedButNotExecuted();
-        foreach ($query->each() as $salesChannelItem) {
-            $this->pushSalesChannelItemJob($salesChannelItem);
         }
     }
 

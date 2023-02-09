@@ -10,8 +10,7 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\constants\StatusConst;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
-use lujie\sales\channel\jobs\CancelSalesChannelOrderJob;
-use lujie\sales\channel\jobs\ShipSalesChannelOrderJob;
+use lujie\sales\channel\jobs\PushSalesChannelOrderJob;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelOrder;
 use lujie\sales\channel\SalesChannelManager;
@@ -74,9 +73,9 @@ class SalesChannelManagerTest extends \Codeception\Test\Unit
         $salesChannelOrderForm->sales_channel_status = SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED;
         $salesChannelOrderForm->save(false);
         $this->assertCount(1, $pushedJobs);
-        /** @var ShipSalesChannelOrderJob $job1 */
+        /** @var PushSalesChannelOrderJob $job1 */
         $job1 = $pushedJobs[0];
-        $this->assertInstanceOf(ShipSalesChannelOrderJob::class, $job1);
+        $this->assertInstanceOf(PushSalesChannelOrderJob::class, $job1);
         $this->assertEquals($salesChannelOrderForm->sales_channel_order_id, $job1->salesChannelOrderId);
         $salesChannelOrderForm->refresh();
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_QUEUED, $salesChannelOrderForm->order_pushed_status);
@@ -90,9 +89,9 @@ class SalesChannelManagerTest extends \Codeception\Test\Unit
         $salesChannelOrderForm->sales_channel_status = SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED;
         $salesChannelOrderForm->save(false);
         $this->assertCount(2, $pushedJobs);
-        /** @var ShipSalesChannelOrderJob $job1 */
+        /** @var PushSalesChannelOrderJob $job1 */
         $job1 = $pushedJobs[1];
-        $this->assertInstanceOf(CancelSalesChannelOrderJob::class, $job1);
+        $this->assertInstanceOf(PushSalesChannelOrderJob::class, $job1);
         $this->assertEquals($salesChannelOrderForm->sales_channel_order_id, $job1->salesChannelOrderId);
         $salesChannelOrderForm->refresh();
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_QUEUED, $salesChannelOrderForm->order_pushed_status);
@@ -112,11 +111,11 @@ class SalesChannelManagerTest extends \Codeception\Test\Unit
             'sales_channel_account_id' => 1,
             'external_order_key' => 2,
         ]);
-        $this->assertFalse($salesChannelManager->shipSalesChannelOrder($salesChannelOrder));
+        $this->assertFalse($salesChannelManager->pushSalesChannelOrder($salesChannelOrder));
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_SKIPPED, $salesChannelOrder->order_pushed_status);
 
         $salesChannelOrder->sales_channel_status = SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED;
-        $this->assertTrue($salesChannelManager->shipSalesChannelOrder($salesChannelOrder));
+        $this->assertTrue($salesChannelManager->pushSalesChannelOrder($salesChannelOrder));
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_SUCCESS, $salesChannelOrder->order_pushed_status);
         $this->assertEquals(SalesChannelConst::CHANNEL_STATUS_SHIPPED, $salesChannelOrder->sales_channel_status);
 
@@ -124,11 +123,11 @@ class SalesChannelManagerTest extends \Codeception\Test\Unit
             'sales_channel_account_id' => 1,
             'external_order_key' => 1,
         ]);
-        $this->assertFalse($salesChannelManager->cancelSalesChannelOrder($salesChannelOrder));
+        $this->assertFalse($salesChannelManager->pushSalesChannelOrder($salesChannelOrder));
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_SKIPPED, $salesChannelOrder->order_pushed_status);
 
         $salesChannelOrder->sales_channel_status = SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED;
-        $this->assertTrue($salesChannelManager->cancelSalesChannelOrder($salesChannelOrder));
+        $this->assertTrue($salesChannelManager->pushSalesChannelOrder($salesChannelOrder));
         $this->assertEquals(ExecStatusConst::EXEC_STATUS_SUCCESS, $salesChannelOrder->order_pushed_status);
         $this->assertEquals(SalesChannelConst::CHANNEL_STATUS_CANCELLED, $salesChannelOrder->sales_channel_status);
     }
@@ -170,7 +169,7 @@ class SalesChannelManagerTest extends \Codeception\Test\Unit
         $salesChannelOrders[2]->sales_channel_status = SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED;
         $salesChannelOrders[2]->save(false);
 
-        $salesChannelManager->pushSalesChannelOrders();
+        $salesChannelManager->pushSalesChannelOrderJobs($salesChannelAccount->account_id);
         $query = SalesChannelOrder::find()->andWhere(['order_pushed_status' => ExecStatusConst::EXEC_STATUS_QUEUED]);
         $this->assertEquals(2, $query->count());
     }

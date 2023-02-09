@@ -6,7 +6,6 @@
 namespace lujie\sales\channel\tasks;
 
 use lujie\sales\channel\SalesChannelManager;
-use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -28,7 +27,7 @@ class PushSalesChannelOrderTask extends BaseSalesChannelTask
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountIds = $this->getAccountIds();
         foreach ($accountIds as $accountId) {
-            $this->salesChannelManager->pushSalesChannelOrders($accountId);
+            $this->salesChannelManager->pushSalesChannelOrderJobs($accountId);
         }
         return true;
     }

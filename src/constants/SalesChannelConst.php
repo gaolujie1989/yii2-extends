@@ -20,6 +20,14 @@ class SalesChannelConst
     public const CHANNEL_STATUS_CANCELLED = 110;
     public const CHANNEL_STATUS_TO_SHIPPED = 210;
     public const CHANNEL_STATUS_TO_CANCELLED = 220;
+    public const CHANNEL_ORDER_PUSHING_STATUS = [
+        self::CHANNEL_STATUS_TO_SHIPPED => self::CHANNEL_STATUS_TO_SHIPPED,
+        self::CHANNEL_STATUS_TO_CANCELLED => self::CHANNEL_STATUS_TO_CANCELLED,
+    ];
+
+    public const CHANNEL_ITEM_STATUS_PENDING = 0;
+    public const CHANNEL_ITEM_STATUS_PUSHED = 100;
+    public const CHANNEL_ITEM_STATUS_TO_PUSHED = 110;
 
     public const ITEM_PUSH_PART_ALL = 'ALL';
     public const ITEM_PUSH_PART_INFO = 'INFO';

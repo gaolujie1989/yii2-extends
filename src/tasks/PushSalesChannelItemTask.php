@@ -28,7 +28,7 @@ class PushSalesChannelItemTask extends BaseSalesChannelTask
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountIds = $this->getAccountIds();
         foreach ($accountIds as $accountId) {
-            $this->salesChannelManager->pushSalesChannelItems($accountId);
+            $this->salesChannelManager->pushSalesChannelItemJobs($accountId);
         }
         return true;
     }

@@ -5,14 +5,10 @@
 
 namespace lujie\sales\channel\jobs;
 
-use lujie\extend\queue\RateLimitDelayJobInterface;
-use lujie\fulfillment\models\FulfillmentItem;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\SalesChannelManager;
-use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
 use yii\di\Instance;
-use yii\queue\JobInterface;
 use yii\queue\Queue;
 
 /**
@@ -20,22 +16,12 @@ use yii\queue\Queue;
  * @package lujie\sales\channel\jobs
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushSalesChannelItemJob extends BaseObject implements JobInterface, RateLimitDelayJobInterface
+class PushSalesChannelItemJob extends BaseSalesChannelJob
 {
-    /**
-     * @var SalesChannelManager
-     */
-    public $salesChannelManager = 'salesChannelManager';
-
     /**
      * @var int
      */
     public $salesChannelItemId;
-
-    /**
-     * @var int
-     */
-    public $rateLimitDelay = 2;
 
     /**
      * @param Queue $queue
@@ -59,7 +45,7 @@ class PushSalesChannelItemJob extends BaseObject implements JobInterface, RateLi
         /** @var ?SalesChannelItem $salesChannelItem */
         $salesChannelItem = SalesChannelItem::findOne($this->salesChannelItemId);
         if ($salesChannelItem === null) {
-            throw new InvalidArgumentException("Invalid salesChannelItem {$this->salesChannelItemId}");
+            throw new InvalidArgumentException("Invalid salesChannelItemId {$this->salesChannelItemId}");
         }
         return $salesChannelItem;
     }
@@ -72,14 +58,5 @@ class PushSalesChannelItemJob extends BaseObject implements JobInterface, RateLi
     {
         $salesChannelItem = $this->getSalesChannelItem();
         return 'SalesChannelItemAccount:' . $salesChannelItem->sales_channel_account_id;
-    }
-
-    /**
-     * @return int
-     * @inheritdoc
-     */
-    public function getRateLimitDelay(): int
-    {
-        return $this->rateLimitDelay;
     }
 }

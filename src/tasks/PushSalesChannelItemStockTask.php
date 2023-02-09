@@ -6,7 +6,6 @@
 namespace lujie\sales\channel\tasks;
 
 use lujie\sales\channel\SalesChannelManager;
-use lujie\scheduling\CronTask;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -15,7 +14,7 @@ use yii\di\Instance;
  * @package lujie\sales\channel\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PushSalesChannelStockTask extends BaseSalesChannelTask
+class PushSalesChannelItemStockTask extends BaseSalesChannelTask
 {
     public $timePeriod = 3600;
 

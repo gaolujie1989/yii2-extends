@@ -5,34 +5,36 @@
 
 namespace lujie\sales\channel\jobs;
 
-use lujie\extend\queue\RateLimitDelayJobInterface;
 use lujie\sales\channel\models\SalesChannelOrder;
 use lujie\sales\channel\SalesChannelManager;
-use yii\base\BaseObject;
 use yii\base\InvalidArgumentException;
-use yii\queue\JobInterface;
+use yii\di\Instance;
+use yii\queue\Queue;
 
 /**
- * Class BaseSalesChannelOrderJob
+ * Class PushSalesChannelOrderJob
  * @package lujie\sales\channel\jobs
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BaseSalesChannelOrderJob extends BaseObject implements JobInterface, RateLimitDelayJobInterface
+class PushSalesChannelOrderJob extends BaseSalesChannelJob
 {
-    /**
-     * @var SalesChannelManager
-     */
-    public $salesChannelManager = 'salesChannelManager';
-
     /**
      * @var int
      */
     public $salesChannelOrderId;
 
     /**
-     * @var int
+     * @param Queue $queue
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @inheritdoc
      */
-    public $rateLimitDelay = 2;
+    public function execute($queue): void
+    {
+        $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
+        $this->salesChannelManager->pushSalesChannelOrder($this->getSalesChannelOrder());
+    }
 
     /**
      * @return SalesChannelOrder
@@ -56,14 +58,5 @@ abstract class BaseSalesChannelOrderJob extends BaseObject implements JobInterfa
     {
         $salesChannelOrder = $this->getSalesChannelOrder();
         return 'SalesChannelOrderAccount:' . $salesChannelOrder->sales_channel_account_id;
-    }
-
-    /**
-     * @return int
-     * @inheritdoc
-     */
-    public function getRateLimitDelay(): int
-    {
-        return $this->rateLimitDelay;
     }
 }

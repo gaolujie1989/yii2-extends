@@ -38,7 +38,8 @@ class ExecuteHelper
         string           $statusAttribute = 'execute_status',
         string           $resultAttribute = 'execute_result',
         string           $timeAttribute = 'updated_at',
-        int              $queuedDuration = 3600
+        int              $queuedDuration = 3600,
+        int              $pushDelay = 0,
     ): bool
     {
         $statusValue = $model->getAttribute($statusAttribute);
@@ -49,7 +50,7 @@ class ExecuteHelper
                 return false;
             }
         }
-        if ($jobId = $queue->push($job)) {
+        if ($jobId = $queue->delay($pushDelay)->push($job)) {
             $model->setAttribute($timeAttribute, time());
             $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_QUEUED);
             $model->setAttribute($resultAttribute, array_merge($resultValue, ['jobId' => $jobId]));

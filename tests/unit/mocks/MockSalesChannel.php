@@ -7,7 +7,9 @@ namespace lujie\sales\channel\tests\unit\mocks;
 
 use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
+use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -48,6 +50,24 @@ class MockSalesChannel extends BaseSalesChannel
             'paidAt' => '1606545325', //2020-11-28 14:35:25
         ],
     ];
+
+    #region Order Pull
+
+
+
+    #endregion
+
+    #region Order Push
+
+
+
+    #endregion
+
+    #region Item Push
+
+
+
+    #endregion
 
     /**
      * @param array $externalOrderKeys
@@ -104,4 +124,26 @@ class MockSalesChannel extends BaseSalesChannel
         $salesChannelOrder->external_updated_at = $externalOrder['paidAt'] ?: $externalOrder['createdAt'];
         return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder);
     }
+
+    protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array
+    {
+        // TODO: Implement formatExternalItemData() method.
+    }
+
+    protected function getExternalItem(array $externalItem): ?array
+    {
+        // TODO: Implement getExternalItem() method.
+    }
+
+    protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
+    {
+        // TODO: Implement saveExternalItem() method.
+    }
+
+    protected function saveExternalItemStocks(array $externalItemStocks): ?array
+    {
+        // TODO: Implement saveExternalItemStocks() method.
+    }
+
+
 }

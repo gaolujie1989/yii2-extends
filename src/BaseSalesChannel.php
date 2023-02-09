@@ -212,7 +212,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
     #endregion
 
-    #region Order Action ship/cancel
+    #region Order Push ship/cancel
 
     /**
      * @param SalesChannelOrder $channelOrder

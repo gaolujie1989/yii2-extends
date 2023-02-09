@@ -81,77 +81,6 @@ class PmSalesChannel extends BaseSalesChannel
         $this->client = Instance::ensure($this->client, PlentyMarketsRestClient::class);
     }
 
-    #region Order Action ship/cancel
-
-    /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
-    {
-        $orderId = (int)$channelOrder->external_order_key;
-        $pmOrder = $this->client->getOrder(['id' => $orderId, 'with' => 'comments']);
-
-        $additional = $channelOrder->additional;
-        $notes = $additional['notes'] ?? [];
-        //kiwi data userId 96, if kiwi data already commented, skip
-        if ($notes && (empty($pmOrder['comments']) || !in_array(96, ArrayHelper::getColumn($pmOrder['comments'], 'userId'), true))) {
-            $this->client->createComment([
-                'referenceValue' => $orderId,
-                'text' => '<p>' . strtr($notes[0], ["\n" => '<br />']) . '</p>',
-                'referenceType' => 'order',
-                'isVisibleForContact' => false,
-                'userId' => 96,
-            ]);
-        }
-
-        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
-            throw new InvalidArgumentException("Sales order {$orderId} is cancelled, can not be shipped");
-        }
-        $trackingNumbers = $additional['trackingNumbers'] ?? [];
-        if (empty($trackingNumbers)) {
-            throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
-        }
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
-            $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
-        }
-        $warehouseCode = $additional['warehouseCode'] ?? '';
-        if ($warehouseId = $this->orderShippingWarehouseIds[$warehouseCode] ?? null) {
-            $this->client->updateOrderWarehouse($orderId, $warehouseId);
-        }
-        $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
-        $pmOrder = $this->client->getOrder(['id' => $orderId]);
-        return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
-    }
-
-    /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
-     * @inheritdoc
-     */
-    public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
-    {
-        $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
-        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
-            throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is shipped, can not be cancelled");
-        }
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
-        }
-        $pmOrder = $this->client->updateOrder(['id' => $this->orderCancelledStatus]);
-        return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
-    }
-
-    #endregion
-
     #region Order Pull
 
     /**
@@ -238,6 +167,77 @@ class PmSalesChannel extends BaseSalesChannel
                 }
             }
         }
+    }
+
+    #endregion
+
+    #region Order Push ship/cancel
+
+    /**
+     * @param SalesChannelOrder $channelOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
+    {
+        $orderId = (int)$channelOrder->external_order_key;
+        $pmOrder = $this->client->getOrder(['id' => $orderId, 'with' => 'comments']);
+
+        $additional = $channelOrder->additional;
+        $notes = $additional['notes'] ?? [];
+        //kiwi data userId 96, if kiwi data already commented, skip
+        if ($notes && (empty($pmOrder['comments']) || !in_array(96, ArrayHelper::getColumn($pmOrder['comments'], 'userId'), true))) {
+            $this->client->createComment([
+                'referenceValue' => $orderId,
+                'text' => '<p>' . strtr($notes[0], ["\n" => '<br />']) . '</p>',
+                'referenceType' => 'order',
+                'isVisibleForContact' => false,
+                'userId' => 96,
+            ]);
+        }
+
+        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
+        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
+            throw new InvalidArgumentException("Sales order {$orderId} is cancelled, can not be shipped");
+        }
+        $trackingNumbers = $additional['trackingNumbers'] ?? [];
+        if (empty($trackingNumbers)) {
+            throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
+        }
+        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
+            $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
+            return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
+        }
+        $warehouseCode = $additional['warehouseCode'] ?? '';
+        if ($warehouseId = $this->orderShippingWarehouseIds[$warehouseCode] ?? null) {
+            $this->client->updateOrderWarehouse($orderId, $warehouseId);
+        }
+        $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
+        $pmOrder = $this->client->getOrder(['id' => $orderId]);
+        return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
+    }
+
+    /**
+     * @param SalesChannelOrder $channelOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws \Throwable
+     * @inheritdoc
+     */
+    public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
+    {
+        $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
+        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
+        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
+            throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is shipped, can not be cancelled");
+        }
+        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
+            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+        }
+        $pmOrder = $this->client->updateOrder(['id' => $this->orderCancelledStatus]);
+        return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
     }
 
     #endregion

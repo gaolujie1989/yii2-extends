@@ -41,7 +41,40 @@ class OttoSalesChannel extends BaseSalesChannel
         $this->client = Instance::ensure($this->client, OttoRestClient::class);
     }
 
-    #region Order Action ship/cancel
+    #region Order Pull
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
+    protected function getExternalOrders(array $externalOrderKeys): array
+    {
+        $externalOrders = [];
+        foreach ($externalOrderKeys as $externalOrderKey) {
+            $externalOrders[$externalOrderKey] = $this->client->getV4Order($externalOrderKey);
+        }
+        return $externalOrders;
+    }
+
+    /**
+     * @param int $createdAtFrom
+     * @param int $createdAtTo
+     * @return array
+     * @inheritdoc
+     */
+    protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
+    {
+        $orders = $this->client->eachV4Orders([
+            'fromOrderDate' => date('c', $createdAtFrom),
+            'toOrderDate' => date('c', $createdAtTo),
+        ]);
+        return iterator_to_array($orders, false);
+    }
+
+    #endregion
+
+    #region Order Push ship/cancel
 
     /**
      * @param SalesChannelOrder $channelOrder
@@ -82,39 +115,6 @@ class OttoSalesChannel extends BaseSalesChannel
     {
         $this->client->cancelV4Order(['salesOrderId' => $channelOrder->external_order_key]);
         return true;
-    }
-
-    #endregion
-
-    #region Order Pull
-
-    /**
-     * @param array $externalOrderKeys
-     * @return array
-     * @inheritdoc
-     */
-    protected function getExternalOrders(array $externalOrderKeys): array
-    {
-        $externalOrders = [];
-        foreach ($externalOrderKeys as $externalOrderKey) {
-            $externalOrders[$externalOrderKey] = $this->client->getV4Order($externalOrderKey);
-        }
-        return $externalOrders;
-    }
-
-    /**
-     * @param int $createdAtFrom
-     * @param int $createdAtTo
-     * @return array
-     * @inheritdoc
-     */
-    protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
-    {
-        $orders = $this->client->eachV4Orders([
-            'fromOrderDate' => date('c', $createdAtFrom),
-            'toOrderDate' => date('c', $createdAtTo),
-        ]);
-        return iterator_to_array($orders, false);
     }
 
     #endregion

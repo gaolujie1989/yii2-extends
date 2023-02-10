@@ -39,6 +39,7 @@ class BaseFulfillmentTask extends CronTask
         } else {
             $accountQuery->active();
         }
+        return $accountQuery;
     }
 
     /**

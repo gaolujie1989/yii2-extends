@@ -5,12 +5,14 @@
 
 namespace lujie\sales\channel\tasks;
 
+use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\pipelines\PipelineInterface;
 use lujie\executing\ProgressInterface;
 use lujie\executing\ProgressTrait;
 use lujie\extend\helpers\TemplateHelper;
 use lujie\sales\channel\channels\otto\OttoSalesChannel;
+use lujie\sales\channel\importers\OttoCategoryImporter;
 use lujie\sales\channel\models\OttoCategory;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\SalesChannelInterface;
@@ -47,22 +49,9 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
     public $page = 0;
 
     /**
-     * @var DbPipeline
+     * @var DataExchanger
      */
-    public $categoryPipeline = [
-        'class' => DbPipeline::class,
-        'modelClass' => OttoCategory::class,
-        'indexKeys' => ['category_group', 'name'],
-    ];
-
-    /**
-     * @var DbPipeline
-     */
-    public $attributePipeline = [
-        'class' => DbPipeline::class,
-        'modelClass' => OttoCategory::class,
-        'indexKeys' => ['attribute_group', 'name'],
-    ];
+    public $importer = OttoCategoryImporter::class;
 
     /**
      * @return \Generator
@@ -77,51 +66,17 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
         if (!($salesChannel instanceof OttoSalesChannel)) {
             throw new UserException('SalesChannel is not OTTO');
         }
-        $this->categoryPipeline = Instance::ensure($this->categoryPipeline, PipelineInterface::class);
-        $this->attributePipeline = Instance::ensure($this->categoryPipeline, PipelineInterface::class);
+        $this->importer = Instance::ensure($this->importer, DataExchanger::class);
         $batchCategories = $salesChannel->client->batchV3ProductCategories(['page' => $this->page]);
-        $defaultAttribute = [
-            'attribute_group' => '',
-            'name' => '',
-            'type' => '',
-            'multi_value' => 0,
-            'unit' => '',
-            'unit_display_name' => '',
-            'allowed_values' => [],
-            'feature_relevance' => [],
-            'related_media_assets' => [],
-            'relevance' => '',
-            'description' => '',
-            'example_values' => [],
-            'recommended_values' => [],
-            'reference' => '',
-        ];
         $progress = $this->getProgress(100);
         foreach ($batchCategories as $categories) {
-            $transformedCategories = [];
-            $transformedAttributes = [];
-            foreach ($categories as $category) {
-                $transformedCategories[] = [
-                    'category_group' => $category['categoryGroup'],
-                    'name' => $category['name'],
-                    'title' => $category['title'],
-                    'attributes' => ArrayHelper::getColumn($category['attributes'], 'name'),
-                    'variation_themes' => $category['variationThemes'],
-                    'otto_created_at' => strtotime($category['createdAt']),
-                    'otto_updated_at' => strtotime($category['lastModified']),
-                ];
-                foreach ($category['attributes'] as $attribute) {
-                    $transformedAttribute = [];
-                    foreach ($attribute as $key => $value) {
-                        $transformedAttribute[Inflector::underscore($key)] = $value;
-                    }
-                    $transformedAttributes[] = array_merge($defaultAttribute, $transformedAttribute);
-                }
+            $this->importer->exchange($categories);
+            $affectedRowCounts = $this->importer->getAffectedRowCounts();
+            $affectedMessages = [];
+            foreach ($affectedRowCounts as $key => $affectedCounts) {
+                $affectedMessages[$key] = TemplateHelper::render($key . '[C:{created};U:{updated};S:{skipped}]', $affectedRowCounts);
             }
-            $this->categoryPipeline->process($transformedCategories);
-            $this->attributePipeline->process($transformedAttributes);
-            $progress->message = TemplateHelper::render('[Category:C:{created};U:{updated};S:{skipped}]', $this->categoryPipeline->getAffectedRowCounts())
-                . TemplateHelper::render('[Attribute:C:{created};U:{updated};S:{skipped}]', $this->attributePipeline->getAffectedRowCounts());
+            $progress->message = implode('', $affectedMessages);
             $progress->done += count($categories);
             yield true;
         }

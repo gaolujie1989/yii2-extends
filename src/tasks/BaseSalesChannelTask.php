@@ -39,6 +39,7 @@ class BaseSalesChannelTask extends CronTask
         } else {
             $accountQuery->active();
         }
+        return $accountQuery;
     }
 
     /**

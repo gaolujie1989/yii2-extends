@@ -4,6 +4,8 @@ namespace lujie\sales\channel\controllers\console;
 
 use lujie\executing\Executor;
 use lujie\extend\helpers\ValueHelper;
+use lujie\sales\channel\channels\otto\OttoSalesChannel;
+use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
@@ -11,6 +13,7 @@ use lujie\sales\channel\SalesChannelInterface;
 use lujie\sales\channel\SalesChannelManager;
 use lujie\sales\channel\tasks\PullSalesChannelOrderTask;
 use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use yii\console\Controller;
 use yii\di\Instance;
 use yii\helpers\VarDumper;
@@ -105,17 +108,42 @@ class SalesChannelController extends Controller
     }
 
     /**
-     * @param $accountName
-     * @param $orderIdsStr
+     * @param string $accountName
+     * @param string $orderIdsStr
      * @inheritdoc
      */
-    public function actionPullOrders($accountName, $orderIdsStr): void
+    public function actionPullOrders(string $accountName, string $orderIdsStr): void
     {
         $account = $this->getAccount($accountName);
         $salesChannel = $this->getService($accountName);
         $orderIds = ValueHelper::strToArray($orderIdsStr);
         $salesChannelOrders = SalesChannelOrder::find()->salesChannelAccountId($account->account_id)->orderId($orderIds)->all();
         $salesChannel->pullSalesOrders($salesChannelOrders);
+    }
+
+    #endregion
+
+    #region OTTO
+
+    /**
+     * @param string $accountName
+     * @param int $page
+     * @throws UserException
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionPullOttoCategories(string $accountName, int $page = 0): void
+    {
+        $account = $this->getAccount($accountName);
+        if ($account->type !== SalesChannelConst::ACCOUNT_TYPE_OTTO) {
+            throw new UserException('Account is not OTTO');
+        }
+        $salesChannel = $this->getService($accountName);
+        if ($salesChannel instanceof OttoSalesChannel) {
+            $salesChannel->pullCategories($page);
+        } else {
+            throw new UserException('SalesChannel is not OTTO');
+        }
     }
 
     #endregion

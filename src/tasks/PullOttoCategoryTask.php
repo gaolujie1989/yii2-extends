@@ -51,7 +51,7 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
     /**
      * @var int
      */
-    public $total = 1000;
+    public $total = 10000;
 
     /**
      * @var DataExchanger

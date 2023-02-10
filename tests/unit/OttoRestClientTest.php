@@ -7,6 +7,7 @@ namespace lujie\amazon\advertising\tests\unit;
 
 use lujie\otto\OttoRestClient;
 use Yii;
+use yii\helpers\Json;
 
 class OttoRestClientTest extends \Codeception\Test\Unit
 {
@@ -24,6 +25,8 @@ class OttoRestClientTest extends \Codeception\Test\Unit
 //        codecept_debug($authToken);
         $products = $ottoRestClient->eachV3Products(['limit' => 2]);
         $products = iterator_to_array($products);
+//        $categories = $ottoRestClient->listV3ProductCategories();
+        file_put_contents('/app/test.products.json', Json::encode($products));
         codecept_debug($products);
     }
 }

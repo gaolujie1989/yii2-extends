@@ -9,6 +9,7 @@ use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\CombinedPipeline;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\transformers\TransformerInterface;
+use lujie\sales\channel\models\OttoAttribute;
 use lujie\sales\channel\models\OttoCategory;
 use lujie\sales\channel\models\OttoCategoryGroup;
 use yii\helpers\ArrayHelper;
@@ -39,7 +40,7 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
             ],
             'attributes' => [
                 'class' => DbPipeline::class,
-                'modelClass' => OttoCategory::class,
+                'modelClass' => OttoAttribute::class,
                 'indexKeys' => ['attribute_group', 'name'],
             ],
         ]

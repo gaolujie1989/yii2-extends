@@ -17,7 +17,7 @@ trait DropTableTrait
     /**
      * @inheritdoc
      */
-    public function safeDown(): void
+    public function safeDown()
     {
         if ($this->tableName) {
             $this->dropTable($this->tableName);

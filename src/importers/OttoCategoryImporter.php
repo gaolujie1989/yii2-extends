@@ -9,6 +9,7 @@ use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\pipelines\CombinedPipeline;
 use lujie\data\exchange\pipelines\DbPipeline;
 use lujie\data\exchange\transformers\TransformerInterface;
+use lujie\extend\helpers\TemplateHelper;
 use lujie\sales\channel\models\OttoAttribute;
 use lujie\sales\channel\models\OttoCategory;
 use lujie\sales\channel\models\OttoCategoryGroup;
@@ -72,11 +73,14 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
         $transformedCategoryGroups = [];
         $transformedCategories = [];
         $transformedAttributes = [];
+        $regexStr = '/{([^{}}\s]+)}/';
         foreach ($data as $categoryGroup) {
+            $isMatch = preg_match_all($regexStr, $categoryGroup['title'], $matches);
             $transformedCategoryGroups[] = [
                 'category_group' => $categoryGroup['categoryGroup'],
                 'categories' => $categoryGroup['categories'],
                 'title' => $categoryGroup['title'],
+                'title_attributes' => array_diff($isMatch ? $matches[1] : [], ['brand', 'category', 'productLine']),
                 'attributes' => ArrayHelper::getColumn($categoryGroup['attributes'], 'name'),
                 'variation_themes' => $categoryGroup['variationThemes'],
                 'otto_created_at' => empty($categoryGroup['createdAt']) ? 0 : strtotime($categoryGroup['createdAt']),

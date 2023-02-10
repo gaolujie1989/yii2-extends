@@ -3,6 +3,7 @@
 namespace lujie\sales\channel\controllers\console;
 
 use lujie\executing\Executor;
+use lujie\extend\helpers\ExecuteHelper;
 use lujie\extend\helpers\ValueHelper;
 use lujie\sales\channel\channels\otto\OttoSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
@@ -11,6 +12,7 @@ use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use lujie\sales\channel\SalesChannelInterface;
 use lujie\sales\channel\SalesChannelManager;
+use lujie\sales\channel\tasks\PullOttoCategoryTask;
 use lujie\sales\channel\tasks\PullSalesChannelOrderTask;
 use yii\base\InvalidArgumentException;
 use yii\base\UserException;
@@ -128,22 +130,17 @@ class SalesChannelController extends Controller
     /**
      * @param string $accountName
      * @param int $page
-     * @throws UserException
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function actionPullOttoCategories(string $accountName, int $page = 0): void
     {
-        $account = $this->getAccount($accountName);
-        if ($account->type !== SalesChannelConst::ACCOUNT_TYPE_OTTO) {
-            throw new UserException('Account is not OTTO');
-        }
-        $salesChannel = $this->getService($accountName);
-        if ($salesChannel instanceof OttoSalesChannel) {
-            $salesChannel->pullCategories($page);
-        } else {
-            throw new UserException('SalesChannel is not OTTO');
-        }
+        /** @var Executor $executor */
+        $executor = Instance::ensure('executor', Executor::class);
+        $pullOttoCategoryTask = new PullOttoCategoryTask();
+        $pullOttoCategoryTask->accountName = $accountName;
+        $pullOttoCategoryTask->page = $page;
+        $executor->execute($pullOttoCategoryTask);
     }
 
     #endregion

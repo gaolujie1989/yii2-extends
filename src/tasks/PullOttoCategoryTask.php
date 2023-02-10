@@ -144,11 +144,13 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
     /**
      * @param string $accountName
      * @return SalesChannelInterface
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     protected function getService(string $accountName): SalesChannelInterface
     {
         $account = $this->getAccount($accountName);
+        $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         return $this->salesChannelManager->salesChannelLoader->get($account->account_id);
     }
 }

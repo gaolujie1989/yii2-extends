@@ -79,8 +79,8 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
                 'title' => $categoryGroup['title'],
                 'attributes' => ArrayHelper::getColumn($categoryGroup['attributes'], 'name'),
                 'variation_themes' => $categoryGroup['variationThemes'],
-                'otto_created_at' => strtotime($categoryGroup['createdAt']),
-                'otto_updated_at' => strtotime($categoryGroup['lastModified']),
+                'otto_created_at' => empty($categoryGroup['createdAt']) ? 0 : strtotime($categoryGroup['createdAt']),
+                'otto_updated_at' => empty($categoryGroup['lastModified']) ? 0 : strtotime($categoryGroup['lastModified']),
             ];
             foreach ($categoryGroup['categories'] as $categoryName) {
                 $transformedCategories[] = [

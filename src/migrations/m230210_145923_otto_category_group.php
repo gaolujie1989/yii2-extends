@@ -18,7 +18,7 @@ class m230210_145923_otto_category_group extends Migration
             'otto_category_group_id' => $this->bigPrimaryKey(),
             'category_group' => $this->string(200)->notNull()->defaultValue(''),
             'categories' => $this->json(),
-            'title' => $this->string(200)->notNull()->defaultValue(''),
+            'title' => $this->string(1000)->notNull()->defaultValue(''),
             'title_attributes' => $this->json(),
             'attributes' => $this->json(),
             'variation_themes' => $this->json(),

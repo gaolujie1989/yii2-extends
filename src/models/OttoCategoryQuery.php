@@ -15,14 +15,10 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
  * @method OttoCategoryQuery ottoCategoryId($ottoCategoryId)
  *
- * @method OttoCategoryQuery ottoCreatedAtBetween($from, $to = null)
- * @method OttoCategoryQuery ottoUpdatedAtBetween($from, $to = null)
  * @method OttoCategoryQuery createdAtBetween($from, $to = null)
  * @method OttoCategoryQuery updatedAtBetween($from, $to = null)
  *
  * @method OttoCategoryQuery orderByOttoCategoryId($sort = SORT_ASC)
- * @method OttoCategoryQuery orderByOttoCreatedAt($sort = SORT_ASC)
- * @method OttoCategoryQuery orderByOttoUpdatedAt($sort = SORT_ASC)
  * @method OttoCategoryQuery orderByCreatedAt($sort = SORT_ASC)
  * @method OttoCategoryQuery orderByUpdatedAt($sort = SORT_ASC)
  *
@@ -50,16 +46,12 @@ class OttoCategoryQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'ottoCategoryId' => 'otto_category_id',
-                    'ottoCreatedAtBetween' => ['otto_created_at' => 'BETWEEN'],
-                    'ottoUpdatedAtBetween' => ['otto_updated_at' => 'BETWEEN'],
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],
                 'queryConditions' => [],
                 'querySorts' => [
                     'orderByOttoCategoryId' => 'otto_category_id',
-                    'orderByOttoCreatedAt' => 'otto_created_at',
-                    'orderByOttoUpdatedAt' => 'otto_updated_at',
                     'orderByCreatedAt' => 'created_at',
                     'orderByUpdatedAt' => 'updated_at',
                 ],

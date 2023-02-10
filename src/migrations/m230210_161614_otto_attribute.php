@@ -4,7 +4,7 @@ use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
-class m230210_145954_otto_attribute extends Migration
+class m230210_161614_otto_attribute extends Migration
 {
     use DropTableTrait, TraceableColumnTrait;
 

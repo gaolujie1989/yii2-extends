@@ -3,6 +3,7 @@
 namespace lujie\sales\channel\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%otto_category}}".
@@ -10,11 +11,8 @@ use Yii;
  * @property int $otto_category_id
  * @property string $category_group
  * @property string $name
- * @property string $title
- * @property array|null $attributes
- * @property array|null $variation_themes
- * @property int $otto_created_at
- * @property int $otto_updated_at
+ *
+ * @property OttoCategoryGroup $group
  */
 class OttoCategory extends \lujie\extend\db\ActiveRecord
 {
@@ -32,12 +30,10 @@ class OttoCategory extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['category_group', 'name', 'title'], 'default', 'value' => ''],
-            [['attributes', 'variation_themes'], 'default', 'value' => []],
-            [['otto_created_at', 'otto_updated_at'], 'default', 'value' => 0],
-            [['attributes', 'variation_themes'], 'safe'],
-            [['otto_created_at', 'otto_updated_at'], 'integer'],
-            [['category_group', 'name', 'title'], 'string', 'max' => 200],
+            [['category_group', 'name'], 'default', 'value' => ''],
+            [['created_at'], 'default', 'value' => 0],
+            [['created_at'], 'integer'],
+            [['category_group', 'name'], 'string', 'max' => 200],
             [['category_group', 'name'], 'unique', 'targetAttribute' => ['category_group', 'name']],
         ];
     }
@@ -51,11 +47,6 @@ class OttoCategory extends \lujie\extend\db\ActiveRecord
             'otto_category_id' => Yii::t('lujie/salesChannel', 'Otto Category ID'),
             'category_group' => Yii::t('lujie/salesChannel', 'Category Group'),
             'name' => Yii::t('lujie/salesChannel', 'Name'),
-            'title' => Yii::t('lujie/salesChannel', 'Title'),
-            'attributes' => Yii::t('lujie/salesChannel', 'Attributes'),
-            'variation_themes' => Yii::t('lujie/salesChannel', 'Variation Themes'),
-            'otto_created_at' => Yii::t('lujie/salesChannel', 'Otto Created At'),
-            'otto_updated_at' => Yii::t('lujie/salesChannel', 'Otto Updated At'),
         ];
     }
 
@@ -66,5 +57,25 @@ class OttoCategory extends \lujie\extend\db\ActiveRecord
     public static function find(): OttoCategoryQuery
     {
         return new OttoCategoryQuery(static::class);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function extraFields(): array
+    {
+        return array_merge(parent::extraFields(), [
+            'group' => 'group'
+        ]);
+    }
+
+    /**
+     * @return ActiveQuery
+     * @inheritdoc
+     */
+    public function getGroup(): ActiveQuery
+    {
+        return $this->hasOne(OttoCategoryGroup::class, ['category_group' => 'category_group']);
     }
 }

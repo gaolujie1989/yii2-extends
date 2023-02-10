@@ -49,6 +49,11 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
     public $page = 0;
 
     /**
+     * @var int
+     */
+    public $total = 1000;
+
+    /**
      * @var DataExchanger
      */
     public $importer = OttoCategoryImporter::class;
@@ -68,7 +73,7 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
         }
         $this->importer = Instance::ensure($this->importer, DataExchanger::class);
         $batchCategories = $salesChannel->client->batchV3ProductCategories(['page' => $this->page]);
-        $progress = $this->getProgress(10000);
+        $progress = $this->getProgress($this->total);
         foreach ($batchCategories as $categories) {
             $this->importer->exchange($categories);
             $affectedRowCounts = $this->importer->getAffectedRowCounts();

@@ -68,13 +68,13 @@ class PullOttoCategoryTask extends CronTask implements ProgressInterface
         }
         $this->importer = Instance::ensure($this->importer, DataExchanger::class);
         $batchCategories = $salesChannel->client->batchV3ProductCategories(['page' => $this->page]);
-        $progress = $this->getProgress(100);
+        $progress = $this->getProgress(10000);
         foreach ($batchCategories as $categories) {
             $this->importer->exchange($categories);
             $affectedRowCounts = $this->importer->getAffectedRowCounts();
             $affectedMessages = [];
             foreach ($affectedRowCounts as $key => $affectedCounts) {
-                $affectedMessages[$key] = TemplateHelper::render($key . '[C:{created};U:{updated};S:{skipped}]', $affectedRowCounts);
+                $affectedMessages[$key] = TemplateHelper::render($key . '[C:{created};U:{updated};S:{skipped}]', $affectedCounts);
             }
             $progress->message = implode('', $affectedMessages);
             $progress->done += count($categories);

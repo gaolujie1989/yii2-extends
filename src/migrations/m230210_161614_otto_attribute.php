@@ -20,7 +20,7 @@ class m230210_161614_otto_attribute extends Migration
             'name' => $this->string(200)->notNull()->defaultValue(''),
             'type' => $this->string(10)->notNull()->defaultValue(''),
             'multi_value' => $this->tinyInteger()->notNull()->defaultValue(0),
-            'unit' => $this->string(10)->notNull()->defaultValue(''),
+            'unit' => $this->string(20)->notNull()->defaultValue(''),
             'unit_display_name' => $this->string(50)->notNull()->defaultValue(''),
             'allowed_values' => $this->json(),
             'feature_relevance' => $this->json(),

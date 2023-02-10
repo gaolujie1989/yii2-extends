@@ -12,7 +12,6 @@ use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
-use spec\BackupManager\Procedures\BackupProcedureSpec;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -33,6 +32,16 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @var SalesChannelAccount
      */
     public $account;
+
+    /**
+     * @var TransformerInterface
+     */
+    public $itemTransformer;
+
+    /**
+     * @var TransformerInterface
+     */
+    public $itemStockTransformer;
 
     #region External Model Key Field
 
@@ -224,11 +233,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     #region Item push
 
     /**
-     * @var TransformerInterface
-     */
-    public $itemTransformer;
-
-    /**
      * @param SalesChannelItem $salesChannelItem
      * @return bool
      * @throws InvalidConfigException
@@ -363,11 +367,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     #endregion
 
     #region Item Stock Push
-
-    /**
-     * @var TransformerInterface
-     */
-    public $itemStockTransformer;
 
     /**
      * @param array|SalesChannelItem[] $salesChannelItems

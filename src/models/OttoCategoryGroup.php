@@ -39,7 +39,6 @@ class OttoCategoryGroup extends \lujie\extend\db\ActiveRecord
             [['categories', 'title_attributes', 'attributes', 'variation_themes'], 'safe'],
             [['otto_created_at', 'otto_updated_at'], 'integer'],
             [['category_group', 'title'], 'string', 'max' => 200],
-            [['category_group'], 'unique'],
         ];
     }
 

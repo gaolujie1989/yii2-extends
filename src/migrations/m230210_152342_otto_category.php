@@ -20,7 +20,7 @@ class m230210_152342_otto_category extends Migration
             'name' => $this->string(200)->notNull()->defaultValue(''),
         ]);
 
-        $this->createIndex('uk_category_group_name', $this->tableName, ['category_group', 'name'], true);
+        $this->createIndex('idx_category_group_name', $this->tableName, ['category_group', 'name']);
         $this->createIndex('idx_name', $this->tableName, ['name']);
     }
 }

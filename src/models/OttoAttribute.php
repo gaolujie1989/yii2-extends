@@ -49,7 +49,6 @@ class OttoAttribute extends \lujie\extend\db\ActiveRecord
             [['unit'], 'string', 'max' => 20],
             [['unit_display_name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 1000],
-            [['attribute_group', 'name'], 'unique', 'targetAttribute' => ['attribute_group', 'name']],
         ];
     }
 

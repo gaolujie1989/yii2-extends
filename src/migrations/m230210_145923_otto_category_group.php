@@ -26,6 +26,6 @@ class m230210_145923_otto_category_group extends Migration
             'otto_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
         ]);
 
-        $this->createIndex('uk_category_group', $this->tableName, ['category_group'], true);
+        $this->createIndex('idx_category_group', $this->tableName, ['category_group']);
     }
 }

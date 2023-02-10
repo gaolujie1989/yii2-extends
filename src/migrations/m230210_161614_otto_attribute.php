@@ -32,7 +32,7 @@ class m230210_161614_otto_attribute extends Migration
             'reference' => $this->string(200)->notNull()->defaultValue(''),
         ]);
 
-        $this->createIndex('uk_attribute_group_name', $this->tableName, ['attribute_group', 'name'], true);
+        $this->createIndex('idx_attribute_group_name', $this->tableName, ['attribute_group', 'name']);
         $this->createIndex('idx_name', $this->tableName, ['name']);
     }
 }

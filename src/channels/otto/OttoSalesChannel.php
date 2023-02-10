@@ -5,14 +5,18 @@
 
 namespace lujie\sales\channel\channels\otto;
 
+use lujie\data\exchange\pipelines\DbPipeline;
+use lujie\data\exchange\pipelines\PipelineInterface;
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannel;
+use lujie\sales\channel\models\OttoCategory;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\InvalidConfigException;
 use yii\base\UserException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 
 /**
@@ -200,6 +204,80 @@ class OttoSalesChannel extends BaseSalesChannel
     protected function saveExternalItemStocks(array $externalItemStocks): ?array
     {
         return $this->client->saveV2Quantity($externalItemStocks);
+    }
+
+    #endregion
+
+    #region Category/Attribute Pull
+
+    /**
+     * @var PipelineInterface
+     */
+    public $categoryPipeline = [
+        'class' => DbPipeline::class,
+        'modelClass' => OttoCategory::class,
+        'indexKeys' => ['category_group', 'name'],
+    ];
+
+    /**
+     * @var PipelineInterface
+     */
+    public $attributePipeline = [
+        'class' => DbPipeline::class,
+        'modelClass' => OttoCategory::class,
+        'indexKeys' => ['attribute_group', 'name'],
+    ];
+
+    /**
+     * @param int $page
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pullCategories(int $page = 0): void
+    {
+        $this->categoryPipeline = Instance::ensure($this->categoryPipeline, PipelineInterface::class);
+        $this->attributePipeline = Instance::ensure($this->categoryPipeline, PipelineInterface::class);
+        $batchCategories = $this->client->batchV3ProductCategories(['page' => $page]);
+        $defaultAttribute = [
+            'attribute_group' => '',
+            'name' => '',
+            'type' => '',
+            'multi_value' => 0,
+            'unit' => '',
+            'unit_display_name' => '',
+            'allowed_values' => [],
+            'feature_relevance' => [],
+            'related_media_assets' => [],
+            'relevance' => '',
+            'description' => '',
+            'example_values' => [],
+            'recommended_values' => [],
+            'reference' => '',
+        ];
+        foreach ($batchCategories as $categories) {
+            $transformedCategories = [];
+            $transformedAttributes = [];
+            foreach ($categories as $category) {
+                $transformedCategories[] = [
+                    'category_group' => $category['categoryGroup'],
+                    'name' => $category['name'],
+                    'title' => $category['title'],
+                    'attributes' => ArrayHelper::getColumn($category['attributes'], 'name'),
+                    'variation_themes' => $category['variationThemes'],
+                    'otto_created_at' => strtotime($category['createdAt']),
+                    'otto_updated_at' => strtotime($category['lastModified']),
+                ];
+                foreach ($category['attributes'] as $attribute) {
+                    $transformedAttribute = [];
+                    foreach ($attribute as $key => $value) {
+                        $transformedAttribute[Inflector::underscore($key)] = $value;
+                    }
+                    $transformedAttributes[] = array_merge($defaultAttribute, $transformedAttribute);
+                }
+            }
+            $this->categoryPipeline->process($transformedCategories);
+            $this->attributePipeline->process($transformedAttributes);
+        }
     }
 
     #endregion

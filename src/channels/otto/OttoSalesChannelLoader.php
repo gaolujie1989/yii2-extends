@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\sales\channel\channels\pm;
+namespace lujie\sales\channel\channels\otto;
 
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannelLoader;

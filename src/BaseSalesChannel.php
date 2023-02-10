@@ -12,6 +12,7 @@ use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use spec\BackupManager\Procedures\BackupProcedureSpec;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -241,6 +242,9 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         }
 
         $this->itemTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
+        if (property_exists($this->itemTransformer, 'salesChannel')) {
+            $this->itemTransformer->salesChannel = $this;
+        }
         [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
         if (empty($externalItem)) {
             Yii::info("Empty transformed external item", __METHOD__);
@@ -263,6 +267,51 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         }
         Yii::warning("Item pushed failed, skip update SalesChannelItem", __METHOD__);
         return false;
+    }
+
+    /**
+     * @param string $itemType
+     * @param array $itemIds
+     * @param int $salesChannelAccountId
+     * @return array|null
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function pushTypeItems(string $itemType, array $itemIds, int $salesChannelAccountId): ?array
+    {
+        if ($salesChannelAccountId !== $this->account->account_id) {
+            Yii::info("SalesChannelItem account {$salesChannelAccountId} != account {$this->account->account_id}", __METHOD__);
+            return null;
+        }
+        if (empty($itemIds)) {
+            return [];
+        }
+        $pushedSalesChannelItems = SalesChannelItem::find()
+            ->salesChannelAccountId($salesChannelAccountId)
+            ->itemType($itemType)
+            ->itemId($itemIds)
+            ->indexByItemId()
+            ->all();
+        foreach ($pushedSalesChannelItems as $pushedSalesChannelItem) {
+            if ($pushedSalesChannelItem->item_pushed_status !== ExecStatusConst::EXEC_STATUS_SUCCESS) {
+                $this->pushSalesItem($pushedSalesChannelItem);
+            }
+        }
+        $notPushedItemIds = array_diff($itemIds, array_keys($pushedSalesChannelItems));
+        if (empty($notPushedItemIds)) {
+            return $pushedSalesChannelItems;
+        }
+        $newPushedSalesChannelItems = [];
+        foreach ($notPushedItemIds as $itemId) {
+            $salesChannelItem = new SalesChannelItem();
+            $salesChannelItem->sales_channel_account_id = $salesChannelAccountId;
+            $salesChannelItem->item_type = $itemType;
+            $salesChannelItem->item_id = $itemId;
+            $salesChannelItem->save(false);
+            $this->pushSalesItem($salesChannelItem);
+            $newPushedSalesChannelItems[] = $salesChannelItem;
+        }
+        return array_merge($pushedSalesChannelItems, $newPushedSalesChannelItems);
     }
 
     /**

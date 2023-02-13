@@ -34,6 +34,16 @@ class SalesChannelItemPushForm extends SalesChannelItemForm
      */
     public function push(): bool
     {
+        $this->loadItem();
+        $this->item_updated_at = time();
+        return $this->save(false);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function loadItem(): void
+    {
         $salesChannelItem = SalesChannelItem::find()
             ->salesChannelAccountId($this->sales_channel_account_id)
             ->itemType($this->item_type)
@@ -42,7 +52,5 @@ class SalesChannelItemPushForm extends SalesChannelItemForm
         if ($salesChannelItem !== null) {
             $this->refreshInternal($salesChannelItem);
         }
-        $this->item_updated_at = time();
-        return $this->save(false);
     }
 }

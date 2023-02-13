@@ -14,6 +14,7 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\db\Connection;
 use yii\db\Query;
+use yii\db\QueryInterface;
 use yii\di\Instance;
 
 /**
@@ -83,20 +84,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
      */
     public function getOptions(string $type, ?string $key = null): array
     {
-        if ($this->db) {
-            $this->db = Instance::ensure($this->db);
-        }
-        $query = clone $this->query;
-        $query->andFilterWhere($this->condition)->limit($this->limit);
-        if ($this->filterKeys && $key) {
-            QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
-        }
-        if ($query instanceof ActiveQueryInterface) {
-            $query->asArray();
-        }
-        if ($this->keyMap) {
-            $query->select(array_keys($this->keyMap))->distinct();
-        }
+        $query = $this->getQuery($key);
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */
@@ -111,6 +99,30 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             'unsetNotInMapKey' => true,
         ]);
         return $transformer->transform($data);
+    }
+
+    /**
+     * @return QueryInterface
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function getQuery(?string $key): QueryInterface
+    {
+        if ($this->db) {
+            $this->db = Instance::ensure($this->db);
+        }
+        $query = clone $this->query;
+        $query->andFilterWhere($this->condition)->limit($this->limit);
+        if ($this->filterKeys && $key) {
+            QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
+        }
+        if ($query instanceof ActiveQueryInterface) {
+            $query->asArray();
+        }
+        if ($this->keyMap) {
+            $query->select(array_keys($this->keyMap))->distinct();
+        }
+        return $query;
     }
 
     /**

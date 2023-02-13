@@ -6,14 +6,11 @@
 namespace lujie\sales\channel\tasks;
 
 use lujie\data\exchange\DataExchanger;
-use lujie\data\exchange\pipelines\DbPipeline;
-use lujie\data\exchange\pipelines\PipelineInterface;
 use lujie\executing\ProgressInterface;
 use lujie\executing\ProgressTrait;
 use lujie\extend\helpers\TemplateHelper;
 use lujie\sales\channel\channels\otto\OttoSalesChannel;
 use lujie\sales\channel\importers\OttoCategoryImporter;
-use lujie\sales\channel\models\OttoCategory;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\SalesChannelInterface;
 use lujie\sales\channel\SalesChannelManager;
@@ -21,8 +18,6 @@ use lujie\scheduling\CronTask;
 use yii\base\InvalidArgumentException;
 use yii\base\UserException;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Inflector;
 
 /**
  * Class PullOttoCategoryTask

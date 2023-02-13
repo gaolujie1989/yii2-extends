@@ -13,6 +13,7 @@ use lujie\extend\helpers\TemplateHelper;
 use lujie\sales\channel\models\OttoAttribute;
 use lujie\sales\channel\models\OttoCategory;
 use lujie\sales\channel\models\OttoCategoryGroup;
+use lujie\sales\channel\models\OttoCategoryGroupAttribute;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -33,6 +34,11 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
                 'class' => DbPipeline::class,
                 'modelClass' => OttoCategoryGroup::class,
                 'indexKeys' => ['category_group'],
+            ],
+            'categoryGroupAttributes' => [
+                'class' => DbPipeline::class,
+                'modelClass' => OttoCategoryGroupAttribute::class,
+                'indexKeys' => ['category_group', 'attribute_group', 'name'],
             ],
             'categories' => [
                 'class' => DbPipeline::class,
@@ -71,17 +77,17 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
             'reference' => '',
         ];
         $transformedCategoryGroups = [];
+        $transformedCategoryGroupAttributes = [];
         $transformedCategories = [];
         $transformedAttributes = [];
-        $regexStr = '/{([^{}}\s]+)}/';
+        $regexStr = '/{([^{}\s]+)}/';
         foreach ($data as $categoryGroup) {
             $isMatch = preg_match_all($regexStr, $categoryGroup['title'], $matches);
             $transformedCategoryGroups[] = [
                 'category_group' => $categoryGroup['categoryGroup'],
                 'categories' => $categoryGroup['categories'],
                 'title' => $categoryGroup['title'],
-                'title_attributes' => array_diff($isMatch ? $matches[1] : [], ['brand', 'category', 'productLine']),
-                'attributes' => ArrayHelper::getColumn($categoryGroup['attributes'], 'name'),
+                'title_attributes' => array_values(array_diff($isMatch ? $matches[1] : [], ['brand', 'category', 'productLine'])),
                 'variation_themes' => $categoryGroup['variationThemes'],
                 'otto_created_at' => empty($categoryGroup['createdAt']) ? 0 : strtotime($categoryGroup['createdAt']),
                 'otto_updated_at' => empty($categoryGroup['lastModified']) ? 0 : strtotime($categoryGroup['lastModified']),
@@ -98,10 +104,16 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
                     $transformedAttribute[Inflector::underscore($key)] = $value;
                 }
                 $transformedAttributes[] = array_merge($defaultAttribute, $transformedAttribute);
+                $transformedCategoryGroupAttributes[] = [
+                    'category_group' => $categoryGroup['categoryGroup'],
+                    'attribute_group' => $attribute['attributeGroup'],
+                    'name' => $attribute['name'],
+                ];
             }
         }
         return [
             'categoryGroups' => $transformedCategoryGroups,
+            'categoryGroupAttributes' => $transformedCategoryGroupAttributes,
             'categories' => $transformedCategories,
             'attributes' => $transformedAttributes,
         ];

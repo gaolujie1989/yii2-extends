@@ -41,14 +41,12 @@ class AccountOptionProvider extends DbOptionProvider
     }
 
     /**
-     * @return string|null
+     * @param string $type
+     * @return string
      * @inheritdoc
      */
-    public function getAccountType(string $type): ?string
+    public function getAccountType(string $type): string
     {
-        if ($type === $this->suffix) {
-            return null;
-        }
         return strtoupper(substr($type, 0, -strlen($this->suffix)));
     }
 

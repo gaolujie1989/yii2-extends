@@ -352,6 +352,7 @@ class ModelHelper
         $removeRuleAttributes = [$removeRuleAttributes];
 
         $aliasSafeRules = [];
+        $aliasArrayRules = [];
         $aliasNumberRules = [];
         $aliasDatetimeRules = [];
         $aliasDefaultRules = [];
@@ -386,6 +387,9 @@ class ModelHelper
         }
         if ($aliasSafeRules) {
             $rules[] = [array_merge(...$aliasSafeRules), 'safe'];
+        }
+        if ($aliasArrayRules) {
+            $rules[] = [array_merge(...$aliasArrayRules), 'each', 'rule' => ['safe']];
         }
         if ($aliasNumberRules) {
             $rules[] = [array_merge(...$aliasNumberRules), 'number'];

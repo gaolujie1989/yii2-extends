@@ -84,7 +84,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
      */
     public function getOptions(string $type, ?string $key = null): array
     {
-        $query = $this->getQuery($key);
+        $query = $this->getQuery($type, $key);
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */
@@ -106,7 +106,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getQuery(?string $key): QueryInterface
+    protected function getQuery(string $type, ?string $key = null): QueryInterface
     {
         if ($this->db) {
             $this->db = Instance::ensure($this->db);

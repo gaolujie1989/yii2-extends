@@ -19,6 +19,8 @@ class SalesChannelItemController extends ActiveController
 {
     public $modelClass = SalesChannelItem::class;
 
+    public $pushFormClass = SalesChannelItemPushForm::class;
+
     /**
      * @return array
      * @throws \yii\base\InvalidConfigException
@@ -29,7 +31,7 @@ class SalesChannelItemController extends ActiveController
         return array_merge(parent::actions(), [
             'push' => [
                 'class' => MethodAction::class,
-                'modelClass' => SalesChannelItemPushForm::class,
+                'modelClass' => $this->pushFormClass,
                 'method' => 'push'
             ]
         ]);

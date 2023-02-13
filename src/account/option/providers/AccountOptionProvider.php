@@ -26,8 +26,6 @@ class AccountOptionProvider extends DbOptionProvider
         'name' => 'label',
     ];
 
-    public $suffix = '';
-
     /**
      * @param string $type
      * @return bool
@@ -35,9 +33,7 @@ class AccountOptionProvider extends DbOptionProvider
      */
     public function hasType(string $type): bool
     {
-        if (stripos($this->type, $this->suffix) !== false) {
-            return true;
-        }
+        return stripos($type, $this->type) !== false;
     }
 
     /**
@@ -47,7 +43,7 @@ class AccountOptionProvider extends DbOptionProvider
      */
     public function getAccountType(string $type): string
     {
-        return strtoupper(substr($type, 0, -strlen($this->suffix)));
+        return strtoupper(substr($type, 0, -strlen($this->type)));
     }
 
     /**

@@ -98,7 +98,7 @@ class OttoCategoryGroup extends \lujie\extend\db\ActiveRecord
      */
     public function getGroupAttributes(): ActiveQuery
     {
-        return $this->hasOne(OttoAttribute::class, ['attribute_group' => 'attribute_group', 'name' => 'name'])
+        return $this->hasMany(OttoAttribute::class, ['attribute_group' => 'attribute_group', 'name' => 'name'])
             ->via('groupAttributeRelations');
     }
 }

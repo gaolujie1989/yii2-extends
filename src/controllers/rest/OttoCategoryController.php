@@ -26,6 +26,4 @@ class OttoCategoryController extends ActiveController
     {
         return array_intersect_key(parent::actions(), array_flip(['index', 'view']));
     }
-
-
 }

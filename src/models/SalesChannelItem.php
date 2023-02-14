@@ -22,6 +22,7 @@ use Yii;
  * @property int $item_pushed_updated_after_at
  * @property array|null $item_pushed_result
  * @property array|null $item_pushed_parts
+ * @property array|null $item_pushed_options
  * @property int $stock_pushed_at
  * @property array|null $additional
  */
@@ -45,10 +46,10 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
         return [
             [['item_type', 'external_item_no', 'external_item_key'], 'default', 'value' => ''],
             [['item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_after_at', 'stock_pushed_at'], 'default', 'value' => 0],
-            [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'additional'], 'default', 'value' => []],
+            [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'item_pushed_options', 'additional'], 'default', 'value' => []],
             [['sales_channel_account_id'], 'required'],
             [['sales_channel_account_id', 'item_id', 'item_updated_at', 'external_created_at', 'external_updated_at', 'item_pushed_at', 'item_pushed_status', 'item_pushed_updated_after_at', 'stock_pushed_at'], 'integer'],
-            [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'additional'], 'safe'],
+            [['external_item_additional', 'item_pushed_result', 'item_pushed_parts', 'item_pushed_options', 'additional'], 'safe'],
             [['item_type'], 'string', 'max' => 20],
             [['external_item_no', 'external_item_key'], 'string', 'max' => 50],
         ];
@@ -75,6 +76,7 @@ class SalesChannelItem extends \lujie\extend\db\ActiveRecord
             'item_pushed_updated_after_at' => Yii::t('lujie/salesChannel', 'Item Pushed Updated After At'),
             'item_pushed_result' => Yii::t('lujie/salesChannel', 'Item Pushed Result'),
             'item_pushed_parts' => Yii::t('lujie/salesChannel', 'Item Pushed Parts'),
+            'item_pushed_options' => Yii::t('lujie/salesChannel', 'Item Pushed Options'),
             'stock_pushed_at' => Yii::t('lujie/salesChannel', 'Stock Pushed At'),
             'additional' => Yii::t('lujie/salesChannel', 'Additional'),
         ];

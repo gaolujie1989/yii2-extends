@@ -28,6 +28,7 @@ class m220812_111611_sales_channel_item extends Migration
             'item_pushed_updated_after_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'item_pushed_result' => $this->json(),
             'item_pushed_parts' => $this->json(),
+            'item_pushed_options' => $this->json(),
             'stock_pushed_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'additional' => $this->json(),
         ]);

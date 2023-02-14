@@ -25,6 +25,7 @@ class SalesChannelItemPushForm extends SalesChannelItemForm
             [['item_type', 'item_id', 'sales_channel_account_id'], 'required'],
             [['sales_channel_account_id', 'item_id'], 'integer'],
             [['item_type'], 'string', 'max' => 20],
+            [['item_pushed_options'], 'safe'],
         ];
     }
 
@@ -50,7 +51,9 @@ class SalesChannelItemPushForm extends SalesChannelItemForm
             ->itemId($this->item_id)
             ->one();
         if ($salesChannelItem !== null) {
+            $loadAttributes = $this->getAttributes($this->safeAttributes());
             $this->refreshInternal($salesChannelItem);
+            $this->setAttributes($loadAttributes);
         }
     }
 }

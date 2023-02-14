@@ -80,7 +80,7 @@ class OttoCategoryImporter extends DataExchanger implements TransformerInterface
         $transformedCategoryGroupAttributes = [];
         $transformedCategories = [];
         $transformedAttributes = [];
-        $regexStr = '/{([^{}\s]+)}/';
+        $regexStr = '/{([^{}]+)}/';
         foreach ($data as $categoryGroup) {
             $isMatch = preg_match_all($regexStr, $categoryGroup['title'], $matches);
             $transformedCategoryGroups[] = [

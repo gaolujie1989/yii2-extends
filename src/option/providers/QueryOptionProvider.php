@@ -52,6 +52,11 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @var array
      */
+    public $orderBy = [];
+
+    /**
+     * @var array
+     */
     public $filterKeys;
 
     /**
@@ -112,7 +117,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             $this->db = Instance::ensure($this->db);
         }
         $query = clone $this->query;
-        $query->andFilterWhere($this->condition)->limit($this->limit);
+        $query->andFilterWhere($this->condition)->addOrderBy($this->orderBy)->limit($this->limit);
         if ($this->filterKeys && $key) {
             QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
         }

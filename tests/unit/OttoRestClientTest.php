@@ -23,10 +23,18 @@ class OttoRestClientTest extends \Codeception\Test\Unit
         ]);
 //        $authToken = $ottoRestClient->getAccessToken();
 //        codecept_debug($authToken);
-        $products = $ottoRestClient->eachV3Products(['limit' => 2]);
-        $products = iterator_to_array($products);
+
+//        $products = $ottoRestClient->eachV3Products(['limit' => 2]);
+//        $products = iterator_to_array($products);
+//        file_put_contents('/app/test.products.json', Json::encode($products));
+//        codecept_debug($products);
+
 //        $categories = $ottoRestClient->listV3ProductCategories();
-        file_put_contents('/app/test.products.json', Json::encode($products));
-        codecept_debug($products);
+//        file_put_contents('/app/test.categories.json', Json::encode($categories));
+//        codecept_debug($categories);
+
+        $brands = $ottoRestClient->listV3ProductBrands();
+        file_put_contents('/app/test.brands.json', Json::encode($brands));
+        codecept_debug($brands);
     }
 }

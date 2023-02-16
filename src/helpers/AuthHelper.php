@@ -142,7 +142,7 @@ class AuthHelper
                 $permissionChildren[] = $childTreePermissionChildren;
                 foreach ($childrenTree as $childKey => $childTree) {
                     $childTreePermissionKey = $permission->name . $separator . $childKey;
-                    $treePermissionChildren[$permission->name][$childTreePermissionKey] = $childTreePermissionChildren[$childTreePermissionKey];
+                    $treePermissionChildren[$permission->name][$childTreePermissionKey] = $childTreePermissions[$childTreePermissionKey];
                 }
             }
         }

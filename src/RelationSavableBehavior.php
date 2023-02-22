@@ -6,6 +6,7 @@
 namespace lujie\ar\relation\behaviors;
 
 use lujie\extend\helpers\ClassHelper;
+use lujie\extend\helpers\ValueHelper;
 use yii\base\Behavior;
 use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
@@ -163,12 +164,14 @@ class RelationSavableBehavior extends Behavior
      * @param string $name
      * @param array|BaseActiveRecord $data
      * @throws InvalidConfigException
+     * @throws \Exception
      * @inheritdoc
      */
     public function setRelation(string $name, $data): void
     {
-        if (isset($this->relationFilters[$name]) && is_callable($this->relationFilters[$name])) {
-            $data = call_user_func($this->relationFilters[$name], $data);
+        $relationFilter = $this->relationFilters[$name] ?? null;
+        if ($relationFilter && is_callable($relationFilter)) {
+            $data = $relationFilter($data);
         }
         $owner = $this->owner;
         /** @var ActiveQuery $relation */
@@ -182,10 +185,8 @@ class RelationSavableBehavior extends Behavior
                 if (count($indexKey) === 1) {
                     $indexKey = reset($indexKey);
                 } else {
-                    $multiIndexKeys = $indexKey;
-                    $indexKey = static function ($v) use ($multiIndexKeys) {
-                        $idxValues = array_intersect_key($v, array_flip($multiIndexKeys));
-                        return implode('_', $idxValues);
+                    $indexKey = static function ($values) use ($indexKey) {
+                        ValueHelper::getIndexValues($values, $indexKey);
                     };
                 }
             }
@@ -196,9 +197,8 @@ class RelationSavableBehavior extends Behavior
             if (count($primaryKeys) === 1) {
                 $indexKey = $primaryKeys[0];
             } elseif (count($primaryKeys) > 1) {
-                $indexKey = static function ($v) use ($primaryKeys) {
-                    $pkValues = array_intersect_key($v, array_flip($primaryKeys));
-                    return implode('_', $pkValues);
+                $indexKey = static function ($values) use ($primaryKeys) {
+                    ValueHelper::getIndexValues($values, $primaryKeys);
                 };
             } else {
                 throw new InvalidConfigException('Model must have a primaryKey');

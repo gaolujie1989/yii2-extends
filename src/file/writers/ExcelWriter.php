@@ -140,8 +140,14 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
                 $columnIndex = 'A';
                 foreach ($values as $value) {
                     $pCoordinate = $columnIndex . $rowIndex;
-                    if (isset($value['file'], $value['fs']) && is_array($value) && $value['fs'] instanceof Filesystem) {
-                        $resource = $value['fs']->readStream($value['file']);
+                    if (is_array($value)) {
+                        if (isset($value['url'])) {
+                            $resource = imagecreatefromstring(file_get_contents($value['url']));
+                        } else if (isset($value['file'], $value['fs']) && $value['fs'] instanceof Filesystem) {
+                            $resource = $value['fs']->readStream($value['file']);
+                        } else {
+                            $resource = null;
+                        }
                     } else if (is_resource($value)) {
                         $resource = $value;
                     } else if ($value instanceof GdImage) {

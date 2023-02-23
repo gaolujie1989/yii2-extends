@@ -5,6 +5,8 @@
 
 namespace lujie\sales\channel;
 
+use lujie\data\loader\ActiveRecordDataLoader;
+use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\helpers\ClassHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
@@ -17,6 +19,7 @@ use yii\base\Event;
 use yii\base\InvalidConfigException;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
+use yii\di\Instance;
 
 /**
  * Class BaseSalesChannelConnector
@@ -29,6 +32,11 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
      * @var string|BaseActiveRecord
      */
     public $orderClass;
+
+    /**
+     * @var DataLoaderInterface
+     */
+    public $orderLoader;
 
     /**
      * @var string
@@ -79,6 +87,9 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         parent::init();
         if (empty($this->orderClass)) {
             throw new InvalidConfigException('The property `orderClass` must be set.');
+        }
+        if ($this->orderLoader) {
+            $this->orderLoader = Instance::ensure($this->orderLoader, DataLoaderInterface::class);
         }
     }
 
@@ -166,7 +177,11 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     public function updateOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder): ?BaseActiveRecord
     {
         /** @var BaseActiveRecord $order */
-        $order = $salesChannelOrder->order_id ? $this->orderClass::findOne($salesChannelOrder->order_id) : null;
+        if ($this->orderLoader) {
+            $order = $this->orderLoader->get($salesChannelOrder);
+        } else {
+            $order = $salesChannelOrder->order_id ? $this->orderClass::findOne($salesChannelOrder->order_id) : null;
+        }
         if ($order === null) {
             $order = $this->createOrder($salesChannelOrder, $externalOrder);
             if ($order === null) {

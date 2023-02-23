@@ -13,7 +13,7 @@ use yii\base\Model;
  * @package lujie\extend\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Item extends Model
+class Item extends Model implements ItemInterface
 {
     /**
      * @var int
@@ -64,4 +64,40 @@ class Item extends Model
      * @var array
      */
     public $additional = [];
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getWeightG(): int
+    {
+        return $this->weightG;
+    }
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getLengthMM(): int
+    {
+        return $this->lengthMM;
+    }
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getWidthMM(): int
+    {
+        return $this->widthMM;
+    }
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getHeightMM(): int
+    {
+        return $this->heightMM;
+    }
 }

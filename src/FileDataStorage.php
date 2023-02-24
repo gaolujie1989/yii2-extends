@@ -79,7 +79,11 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
     public function set($key, $value)
     {
         $this->data = $this->fileReader->read($this->file);
-        ArrayHelper::setValue($this->data, $key, $value);
+        if ($value === null) {
+            ArrayHelper::remove($this->data, $key);
+        } else {
+            ArrayHelper::setValue($this->data, $key, $value);
+        }
         $this->fileWriter->write($this->file, $this->data);
     }
 

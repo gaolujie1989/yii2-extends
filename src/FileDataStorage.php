@@ -40,26 +40,46 @@ class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->fileReader = Instance::ensure($this->fileReader, FileReaderInterface::class);
         $this->fileWriter = Instance::ensure($this->fileWriter, FileWriterInterface::class);
         $this->file = Yii::getAlias($this->file);
-        if (file_exists($this->file)) {
-            $this->data = $this->fileWriter->parseFile($this->file);
-        }
+    }
+
+    /**
+     * @param int|mixed|string $key
+     * @return array|mixed|null
+     * @inheritdoc
+     */
+    public function get($key)
+    {
+        $this->data = $this->fileReader->read($this->file);
+        return parent::get($key);
+    }
+
+    /**
+     * @return array|null
+     * @throws \yii\base\NotSupportedException
+     * @inheritdoc
+     */
+    public function all(): ?array
+    {
+        $this->data = $this->fileReader->read($this->file);
+        return parent::all();
     }
 
     /**
      * @param int|string $key
-     * @param mixed $data
+     * @param mixed $value
      * @return mixed|void
      * @inheritdoc
      */
-    public function set($key, $data)
+    public function set($key, $value)
     {
-        ArrayHelper::setValue($this->data, $key, $data);
+        $this->data = $this->fileReader->read($this->file);
+        ArrayHelper::setValue($this->data, $key, $value);
         $this->fileWriter->write($this->file, $this->data);
     }
 

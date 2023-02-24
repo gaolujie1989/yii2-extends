@@ -7,6 +7,7 @@ namespace lujie\data\storage;
 
 use lujie\data\loader\ActiveRecordDataLoader;
 use Yii;
+use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -22,49 +23,42 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
     public $runValidation = false;
 
     /**
-     * @param mixed $key
-     * @return BaseActiveRecord
-     * @throws \yii\base\InvalidConfigException
+     * @param $key
+     * @return ActiveRecordInterface|null
      * @inheritdoc
      */
-    protected function getModel($key): BaseActiveRecord
+    protected function getModel($key): ?ActiveRecordInterface
     {
-        /** @var BaseActiveRecord $model */
-        $model = $this->modelClass::find()
+        return $this->modelClass::find()
             ->andFilterWhere($this->condition)
             ->andWhere([$this->key => $key])
-            ->one() ?: Yii::createObject($this->modelClass);
-        return $model;
+            ->one();
     }
 
     /**
-     * @param mixed $key
-     * @param mixed|array $data
+     * @param int|string $key
+     * @param mixed $data
      * @return bool
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function set($key, $data): bool
     {
-        $model = $this->getModel($key);
+        $model = $this->getModel($key) ?: new $this->modelClass();
         $model->setAttributes($data);
         return $model->save($this->runValidation);
     }
 
     /**
-     * @param mixed $key
-     * @return false|int|mixed
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
-     * @throws \yii\db\StaleObjectException
+     * @param int|string $key
+     * @return bool|int|mixed
      * @inheritdoc
      */
     public function remove($key)
     {
         $model = $this->getModel($key);
-        if (!$model->getIsNewRecord()) {
-            return $model->delete();
+        if ($model === null) {
+            return true;
         }
-        return 0;
+        return $model->delete();
     }
 }

@@ -554,6 +554,9 @@ class PlentyMarketsRestClient extends OAuth2
             'update' => ['PUT', '{lang}'],
             'delete' => ['DELETE', '{lang}'],
         ],
+        'ItemVariationImage' => [
+            'delete' => ['DELETE', '{imageId}'],
+        ],
         'ItemVariationSalesPrice' => [
             'get' => ['GET', '{salesPriceId}'],
             'update' => ['PUT', '{salesPriceId}'],

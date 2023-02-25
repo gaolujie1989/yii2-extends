@@ -6,7 +6,9 @@
 namespace lujie\plentyMarkets;
 
 use Iterator;
+use yii\authclient\InvalidResponseException;
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**
@@ -371,6 +373,10 @@ class PlentyMarketBatchRequest extends BaseObject
             $batchResponse = $this->client->batchRequest(['payloads' => $payloads]);
             foreach ($batchResponse as $key => $response) {
                 $batchResponse[$key]['content'] = Json::decode($response['content']);
+            }
+            $errors = array_filter(ArrayHelper::getColumn($batchResponse, 'content.error'));
+            if ($errors) {
+                throw new InvalidResponseException($batchResponse, 'Batch request with error response');
             }
             $chunkedResponses[] = $batchResponse;
         }

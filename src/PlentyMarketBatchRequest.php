@@ -374,9 +374,9 @@ class PlentyMarketBatchRequest extends BaseObject
             foreach ($batchResponse as $key => $response) {
                 $batchResponse[$key]['content'] = Json::decode($response['content']);
             }
-            $errors = array_filter(ArrayHelper::getColumn($batchResponse, 'content.error'));
+            $errors = array_unique(array_filter(ArrayHelper::getColumn($batchResponse, 'content.error')));
             if ($errors) {
-                throw new InvalidResponseException($batchResponse, 'Batch request with error response');
+                throw new InvalidResponseException($batchResponse, 'Batch request with error: ' . implode(',', $errors));
             }
             $chunkedResponses[] = $batchResponse;
         }

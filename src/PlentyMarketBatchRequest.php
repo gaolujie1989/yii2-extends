@@ -10,6 +10,7 @@ use yii\authclient\InvalidResponseException;
 use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\httpclient\Response;
 
 /**
  * Class PlentyMarketBatchRequest
@@ -360,7 +361,7 @@ class PlentyMarketBatchRequest extends BaseObject
 
     /**
      * @return array
-     * @inheritdoc
+     * @throws InvalidResponseException
      */
     public function send(): array
     {
@@ -374,9 +375,15 @@ class PlentyMarketBatchRequest extends BaseObject
             foreach ($batchResponse as $key => $response) {
                 $batchResponse[$key]['content'] = Json::decode($response['content']);
             }
-            $errors = array_unique(array_filter(ArrayHelper::getColumn($batchResponse, 'content.error')));
+            $requestKeyFunc = static function ($response) {
+                return $response['method'] . ' ' . $response['resource'];
+            };
+            $errors = ArrayHelper::map($batchResponse, $requestKeyFunc, 'content.error.message');
+            $errors = array_unique(array_filter($errors));
             if ($errors) {
-                throw new InvalidResponseException($batchResponse, 'Batch request with error: ' . implode(',', $errors));
+                $invalidResponse = new Response();
+                $invalidResponse->setData($batchResponse);
+                throw new InvalidResponseException($invalidResponse, 'Batch request with errors: ' . Json::encode($errors));
             }
             $chunkedResponses[] = $batchResponse;
         }

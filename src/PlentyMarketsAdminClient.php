@@ -180,10 +180,8 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     public function getSessionData(): array
     {
         if (empty($this->sessionData)) {
+            $this->getCookies(); //for expire login
             $this->sessionData = $this->getState('session');
-        }
-        if (empty($this->sessionData)) {
-            $this->login();
         }
         return $this->sessionData;
     }

@@ -25,6 +25,10 @@ use Yii;
  */
 class OttoAttribute extends \lujie\extend\db\ActiveRecord
 {
+    public const TYPE_FLOAT = 'FLOAT';
+    public const TYPE_INTEGER = 'INTEGER';
+    public const TYPE_STRING = 'STRING';
+
     /**
      * {@inheritdoc}
      */

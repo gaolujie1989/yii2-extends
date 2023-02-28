@@ -14,6 +14,7 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  * @method array getIds()
  *
  * @method OttoCategoryGroupQuery ottoCategoryGroupId($ottoCategoryGroupId)
+ * @method OttoCategoryGroupQuery categoryGroup($categoryGroup)
  *
  * @method OttoCategoryGroupQuery ottoCreatedAtBetween($from, $to = null)
  * @method OttoCategoryGroupQuery ottoUpdatedAtBetween($from, $to = null)
@@ -50,6 +51,7 @@ class OttoCategoryGroupQuery extends \yii\db\ActiveQuery
                 'class' => FieldQueryBehavior::class,
                 'queryFields' => [
                     'ottoCategoryGroupId' => 'otto_category_group_id',
+                    'categoryGroup' => 'category_group',
                     'ottoCreatedAtBetween' => ['otto_created_at' => 'BETWEEN'],
                     'ottoUpdatedAtBetween' => ['otto_updated_at' => 'BETWEEN'],
                     'createdAtBetween' => ['created_at' => 'BETWEEN'],

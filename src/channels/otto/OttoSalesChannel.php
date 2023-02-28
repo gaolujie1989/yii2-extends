@@ -141,8 +141,9 @@ class OttoSalesChannel extends BaseSalesChannel
 
         $responseData = $this->client->saveV3Product([$externalItem]);
         $links = ArrayHelper::map($responseData['links'], 'rel', 'href');
-        if (preg_match('/w{8}(-\w{4}){3}-\w{12}/', $links['self'], $matches)) {
+        if (preg_match('/\w{8}(-\w{4}){3}-\w{12}/', $links['self'], $matches)) {
             $pushedResult['processUuid'] = $matches[0];
+            $salesChannelItem->external_item_no = $externalItem['sku'];
             $salesChannelItem->item_pushed_result = $pushedResult;
             $salesChannelItem->item_pushed_updated_after_at = strtotime($responseData['pingAfter']);
             $salesChannelItem->save(false);
@@ -166,7 +167,7 @@ class OttoSalesChannel extends BaseSalesChannel
             return false;
         }
         $taskResponseData = $this->client->getV3ProductUpdateTask(['processUuid' => $processUuid]);
-        if ($taskResponseData['pingAfter'] !== 'done') {
+        if ($taskResponseData['state'] !== 'done') {
             $salesChannelItem->item_pushed_updated_after_at = strtotime($taskResponseData['pingAfter']);
             return $salesChannelItem->save(false);
         }
@@ -175,12 +176,14 @@ class OttoSalesChannel extends BaseSalesChannel
             if ($taskResponseData[$status]) {
                 $statusResponseData = $this->client->getV3ProductUpdateTaskStatus(['processUuid' => $processUuid, 'status' => $status]);
                 $statusResults = ArrayHelper::index($statusResponseData['results'], 'variation');
-                if (isset($statusResults[$salesChannelItem->external_item_no])) {
+                $resultKey = '/v3/products/' . $salesChannelItem->external_item_no;
+                $variationStatusResult = $statusResults[$resultKey] ?? null;
+                if ($variationStatusResult) {
                     $salesChannelItem->item_pushed_updated_after_at = 0;
                     if ($status === 'succeeded') {
                         return $salesChannelItem->save(false);
                     }
-                    $errors = $statusResults[$salesChannelItem->external_item_no]['errors'];
+                    $errors = $variationStatusResult['errors'];
                     throw new UserException(Json::encode($errors));
                 }
             }

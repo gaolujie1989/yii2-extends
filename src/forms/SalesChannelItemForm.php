@@ -6,6 +6,7 @@
 namespace lujie\sales\channel\forms;
 
 use lujie\extend\db\FormTrait;
+use lujie\extend\helpers\ValueHelper;
 use lujie\sales\channel\models\SalesChannelItem;
 
 /**
@@ -16,4 +17,15 @@ use lujie\sales\channel\models\SalesChannelItem;
 class SalesChannelItemForm extends SalesChannelItem
 {
     use FormTrait;
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * @inheritdoc
+     */
+    public function beforeSave($insert):bool
+    {
+        $this->item_pushed_options = array_map($this->item_pushed_options ?: [], [ValueHelper::class, 'notEmpty']);
+        return parent::beforeSave($insert);
+    }
 }

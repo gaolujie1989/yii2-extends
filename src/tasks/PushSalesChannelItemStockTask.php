@@ -31,10 +31,9 @@ class PushSalesChannelItemStockTask extends BaseSalesChannelTask
     /**
      * @return bool
      * @throws InvalidConfigException
-     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function execute(): \Generator
+    public function execute(): bool
     {
         $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
         $accountQuery = $this->getAccountQuery();
@@ -47,7 +46,6 @@ class PushSalesChannelItemStockTask extends BaseSalesChannelTask
                 $additional['StockPushLimit'] ?? $this->pushLimit,
                 $additional['StockPushBatchSize'] ?? $this->pushBatchSize
             );
-            yield $accountId;
         }
         return true;
     }

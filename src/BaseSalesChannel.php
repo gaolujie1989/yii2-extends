@@ -381,10 +381,12 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         }
         $this->itemStockTransformer = Instance::ensure($this->itemStockTransformer, TransformerInterface::class);
         $externalItemStocks = $this->itemStockTransformer->transform($salesChannelItems);
-        $this->saveExternalItemStocks($externalItemStocks);
-        foreach ($salesChannelItems as $salesChannelItem) {
-            $salesChannelItem->stock_pushed_at = time();
-            $salesChannelItem->save(false);
+        if ($externalItemStocks) {
+            $this->saveExternalItemStocks($externalItemStocks);
+            foreach ($salesChannelItems as $salesChannelItem) {
+                $salesChannelItem->stock_pushed_at = time();
+                $salesChannelItem->save(false);
+            }
         }
         return true;
     }

@@ -12,7 +12,6 @@ use lujie\extend\helpers\ExecuteHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\forms\SalesChannelItemForm;
 use lujie\sales\channel\forms\SalesChannelOrderForm;
-use lujie\sales\channel\jobs\CheckSalesChannelItemUpdatedJob;
 use lujie\sales\channel\jobs\PushSalesChannelItemJob;
 use lujie\sales\channel\jobs\PushSalesChannelOrderJob;
 use lujie\sales\channel\models\SalesChannelItem;

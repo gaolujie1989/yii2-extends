@@ -28,6 +28,21 @@ class OttoSalesChannel extends BaseSalesChannel
     public $client;
 
     /**
+     * @var string
+     */
+    public $externalItemKeyField = 'sku';
+
+    /**
+     * @var string
+     */
+    public $externalOrderKeyField = 'salesOrderId';
+
+    /**
+     * @var string
+     */
+    public $externalOrderStatusField = 'status';
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */

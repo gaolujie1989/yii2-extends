@@ -17,6 +17,8 @@ use yii\di\Instance;
  */
 class PushSalesChannelItemTask extends BaseSalesChannelTask
 {
+    public $limit = 15;
+
     /**
      * @return bool
      * @throws InvalidConfigException
@@ -31,7 +33,8 @@ class PushSalesChannelItemTask extends BaseSalesChannelTask
             $query = SalesChannelItem::find()
                 ->salesChannelAccountId($accountId)
                 ->newUpdatedItems()
-                ->notQueuedOrQueuedButNotExecuted();
+                ->notQueuedOrQueuedButNotExecuted()
+                ->limit($this->limit);
             foreach ($query->each() as $salesChannelItem) {
                 $this->salesChannelManager->pushSalesChannelItemJob($salesChannelItem);
             }

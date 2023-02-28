@@ -21,12 +21,12 @@ class PushSalesChannelItemStockTask extends BaseSalesChannelTask
     /**
      * @var int
      */
-    public $pullLimit = 100;
+    public $pushLimit = 100;
 
     /**
      * @var int
      */
-    public $pullBatchSize = 20;
+    public $pushBatchSize = 20;
 
     /**
      * @return bool
@@ -44,8 +44,8 @@ class PushSalesChannelItemStockTask extends BaseSalesChannelTask
             $this->salesChannelManager->pushSalesChannelItemStocks(
                 $accountId,
                 $additional['StockPushTimePeriod'] ?? $this->timePeriod,
-                $additional['StockPushLimit'] ?? $this->pullLimit,
-                $additional['StockPushBatchSize'] ?? $this->pullBatchSize
+                $additional['StockPushLimit'] ?? $this->pushLimit,
+                $additional['StockPushBatchSize'] ?? $this->pushBatchSize
             );
             yield $accountId;
         }

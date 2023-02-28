@@ -25,7 +25,7 @@ class SalesChannelItemForm extends SalesChannelItem
      */
     public function beforeSave($insert):bool
     {
-        $this->item_pushed_options = array_map([ValueHelper::class, 'notEmpty'], $this->item_pushed_options ?: []);
+        $this->item_pushed_options = array_filter($this->item_pushed_options ?: [], [ValueHelper::class, 'notEmpty']);
         return parent::beforeSave($insert);
     }
 }

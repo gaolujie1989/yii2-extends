@@ -292,7 +292,7 @@ class OttoRestClient extends RestOAuth2
      */
     protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
-        $links = ArrayHelper::map($responseData['links'], 'rel', 'href');
+        $links = ArrayHelper::map($responseData['links'] ?? [], 'rel', 'href');
         if (empty($links['next'])) {
             return null;
         }

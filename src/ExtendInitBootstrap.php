@@ -5,6 +5,7 @@
 
 namespace lujie\extend;
 
+use lujie\extend\helpers\MemoryHelper;
 use lujie\extend\httpclient\Response;
 use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
@@ -34,6 +35,11 @@ use yii\validators\Validator;
 class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
 {
     /**
+     * @var string
+     */
+    public $memoryLimit = '256M';
+
+    /**
      * @param \yii\base\Application $app
      * @inheritdoc
      */
@@ -41,6 +47,9 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
     {
         Validator::$builtInValidators['linker'] = LinkerValidator::class;
         $this->setDefinitions();
+        if ($this->memoryLimit) {
+            MemoryHelper::setMemoryLimit($this->memoryLimit);
+        }
     }
 
     public function setDefinitions(): void

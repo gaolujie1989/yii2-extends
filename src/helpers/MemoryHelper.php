@@ -62,15 +62,16 @@ class MemoryHelper
     }
 
     /**
-     * @param int $memory
+     * @param string $memory
+     * @param bool $setAllowed
      * @inheritdoc
      */
-    public static function setMemoryLimit(string $memory): void
+    public static function setMemoryLimit(string $memory, bool $setAllowed = false): void
     {
         $memoryUsage = memory_get_usage(true);
         if (self::getMemory($memory) >= $memoryUsage) {
             ini_set('memory_limit', $memory);
-        } else {
+        } else if ($setAllowed) {
             ini_set('memory_limit', self::getAllowedMemoryLimit($memoryUsage));
         }
     }

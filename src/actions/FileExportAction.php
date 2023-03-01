@@ -8,6 +8,7 @@ namespace lujie\data\exchange\actions;
 use lujie\data\exchange\FileExporter;
 use lujie\data\exchange\sources\ActiveRecordSource;
 use lujie\executing\Executor;
+use lujie\extend\helpers\MemoryHelper;
 use lujie\extend\rest\IndexQueryPreparer;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -88,8 +89,8 @@ class FileExportAction extends Action
      */
     public function run(): void
     {
-        $memoryLimit = ini_get('memory_limit');
-        ini_set('memory_limit', $this->memoryLimit);
+        $oldMemoryLimit = ini_get('memory_limit');
+        MemoryHelper::setMemoryLimit($this->memoryLimit);
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }
@@ -117,10 +118,10 @@ class FileExportAction extends Action
             } else {
                 $response->data = ['No Data'];
             }
-            ini_set('memory_limit', $memoryLimit);
+            MemoryHelper::setMemoryLimit($oldMemoryLimit);
             return;
         }
-        ini_set('memory_limit', $memoryLimit);
+        MemoryHelper::setMemoryLimit($oldMemoryLimit);
         throw new ServerErrorHttpException('Unknown Error');
     }
 }

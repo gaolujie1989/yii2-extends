@@ -91,6 +91,7 @@ use yii\httpclient\Client;
  *
  * @package lujie\otto
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @document https://api.otto.market/docs
  */
 class OttoRestClient extends RestOAuth2
 {

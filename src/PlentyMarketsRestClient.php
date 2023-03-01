@@ -436,7 +436,7 @@ use yii\httpclient\Request;
  *
  * @package lujie\plentyMarkets
  * @author Lujie Zhou <gao_lujie@live.cn>
- * @document https://developers.plentymarkets.com/rest-doc#/
+ * @document https://developers.plentymarkets.com/en-gb/plentymarkets-rest-api/index.html
  */
 class PlentyMarketsRestClient extends OAuth2
 {

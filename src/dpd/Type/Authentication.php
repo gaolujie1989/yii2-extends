@@ -2,39 +2,23 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Authentication implements RequestInterface
+class Authentication
 {
 
     /**
      * @var string
      */
-    private $delisId = null;
+    private $delisId;
 
     /**
      * @var string
      */
-    private $authToken = null;
+    private $authToken;
 
     /**
      * @var string
      */
-    private $messageLanguage = null;
-
-    /**
-     * Constructor
-     *
-     * @var string $delisId
-     * @var string $authToken
-     * @var string $messageLanguage
-     */
-    public function __construct($delisId, $authToken, $messageLanguage)
-    {
-        $this->delisId = $delisId;
-        $this->authToken = $authToken;
-        $this->messageLanguage = $messageLanguage;
-    }
+    private $messageLanguage;
 
     /**
      * @return string
@@ -95,4 +79,7 @@ class Authentication implements RequestInterface
 
         return $new;
     }
+
+
 }
+

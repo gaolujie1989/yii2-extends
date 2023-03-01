@@ -2,32 +2,18 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class AuthenticationFault implements RequestInterface
+class AuthenticationFault
 {
 
     /**
      * @var string
      */
-    private $errorCode = null;
+    private $errorCode;
 
     /**
      * @var string
      */
-    private $errorMessage = null;
-
-    /**
-     * Constructor
-     *
-     * @var string $errorCode
-     * @var string $errorMessage
-     */
-    public function __construct($errorCode, $errorMessage)
-    {
-        $this->errorCode = $errorCode;
-        $this->errorMessage = $errorMessage;
-    }
+    private $errorMessage;
 
     /**
      * @return string
@@ -68,4 +54,7 @@ class AuthenticationFault implements RequestInterface
 
         return $new;
     }
+
+
 }
+

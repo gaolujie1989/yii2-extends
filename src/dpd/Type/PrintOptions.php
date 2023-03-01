@@ -2,124 +2,59 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class PrintOptions implements RequestInterface
+class PrintOptions
 {
 
     /**
-     * @var string
+     * @var \dpd\Type\PrintOption
      */
-    private $printerLanguage;
+    private $printOption;
 
     /**
-     * @var string
+     * @var bool
      */
-    private $paperFormat;
+    private $splitByParcel;
 
     /**
-     * @var \dpd\Type\Printer
+     * @return \dpd\Type\PrintOption
      */
-    private $printer;
-
-    /**
-     * @var string
-     */
-    private $startPosition;
-
-    /**
-     * Constructor
-     *
-     * @var string $printerLanguage
-     * @var string $paperFormat
-     * @var \dpd\Type\Printer $printer
-     * @var string $startPosition
-     */
-    public function __construct($printerLanguage, $paperFormat, $printer, $startPosition)
+    public function getPrintOption()
     {
-        $this->printerLanguage = $printerLanguage;
-        $this->paperFormat = $paperFormat;
-        $this->printer = $printer;
-        $this->startPosition = $startPosition;
+        return $this->printOption;
     }
 
     /**
-     * @return string
-     */
-    public function getPrinterLanguage()
-    {
-        return $this->printerLanguage;
-    }
-
-    /**
-     * @param string $printerLanguage
+     * @param \dpd\Type\PrintOption $printOption
      * @return PrintOptions
      */
-    public function withPrinterLanguage($printerLanguage)
+    public function withPrintOption($printOption)
     {
         $new = clone $this;
-        $new->printerLanguage = $printerLanguage;
+        $new->printOption = $printOption;
 
         return $new;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getPaperFormat()
+    public function getSplitByParcel()
     {
-        return $this->paperFormat;
+        return $this->splitByParcel;
     }
 
     /**
-     * @param string $paperFormat
+     * @param bool $splitByParcel
      * @return PrintOptions
      */
-    public function withPaperFormat($paperFormat)
+    public function withSplitByParcel($splitByParcel)
     {
         $new = clone $this;
-        $new->paperFormat = $paperFormat;
+        $new->splitByParcel = $splitByParcel;
 
         return $new;
     }
 
-    /**
-     * @return \dpd\Type\Printer
-     */
-    public function getPrinter()
-    {
-        return $this->printer;
-    }
 
-    /**
-     * @param \dpd\Type\Printer $printer
-     * @return PrintOptions
-     */
-    public function withPrinter($printer)
-    {
-        $new = clone $this;
-        $new->printer = $printer;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStartPosition()
-    {
-        return $this->startPosition;
-    }
-
-    /**
-     * @param string $startPosition
-     * @return PrintOptions
-     */
-    public function withStartPosition($startPosition)
-    {
-        $new = clone $this;
-        $new->startPosition = $startPosition;
-
-        return $new;
-    }
 }
+

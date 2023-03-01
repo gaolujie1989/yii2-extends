@@ -95,4 +95,7 @@ class GetAuth implements RequestInterface
 
         return $new;
     }
+
+
 }
+

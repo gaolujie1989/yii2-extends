@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class HolidayType implements RequestInterface
+class HolidayType
 {
 
     /**
@@ -16,18 +14,6 @@ class HolidayType implements RequestInterface
      * @var string
      */
     private $holidayEnd;
-
-    /**
-     * Constructor
-     *
-     * @var string $holidayStart
-     * @var string $holidayEnd
-     */
-    public function __construct($holidayStart, $holidayEnd)
-    {
-        $this->holidayStart = $holidayStart;
-        $this->holidayEnd = $holidayEnd;
-    }
 
     /**
      * @return string
@@ -68,4 +54,7 @@ class HolidayType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

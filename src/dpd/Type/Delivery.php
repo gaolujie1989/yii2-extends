@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Delivery implements RequestInterface
+class Delivery
 {
 
     /**
@@ -23,32 +21,14 @@ class Delivery implements RequestInterface
     private $dateTo;
 
     /**
-     * @var int
+     * @var string
      */
     private $timeFrom;
 
     /**
-     * @var int
+     * @var string
      */
     private $timeTo;
-
-    /**
-     * Constructor
-     *
-     * @var string $day
-     * @var int $dateFrom
-     * @var int $dateTo
-     * @var int $timeFrom
-     * @var int $timeTo
-     */
-    public function __construct($day, $dateFrom, $dateTo, $timeFrom, $timeTo)
-    {
-        $this->day = $day;
-        $this->dateFrom = $dateFrom;
-        $this->dateTo = $dateTo;
-        $this->timeFrom = $timeFrom;
-        $this->timeTo = $timeTo;
-    }
 
     /**
      * @return string
@@ -111,7 +91,7 @@ class Delivery implements RequestInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getTimeFrom()
     {
@@ -119,7 +99,7 @@ class Delivery implements RequestInterface
     }
 
     /**
-     * @param int $timeFrom
+     * @param string $timeFrom
      * @return Delivery
      */
     public function withTimeFrom($timeFrom)
@@ -131,7 +111,7 @@ class Delivery implements RequestInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getTimeTo()
     {
@@ -139,7 +119,7 @@ class Delivery implements RequestInterface
     }
 
     /**
-     * @param int $timeTo
+     * @param string $timeTo
      * @return Delivery
      */
     public function withTimeTo($timeTo)
@@ -149,4 +129,7 @@ class Delivery implements RequestInterface
 
         return $new;
     }
+
+
 }
+

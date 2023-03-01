@@ -31,4 +31,7 @@ class GetAuthResponse implements ResultInterface
 
         return $new;
     }
+
+
 }
+

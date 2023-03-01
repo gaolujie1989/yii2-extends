@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Notification implements RequestInterface
+class Notification
 {
 
     /**
@@ -21,20 +19,6 @@ class Notification implements RequestInterface
      * @var string
      */
     private $language;
-
-    /**
-     * Constructor
-     *
-     * @var int $channel
-     * @var string $value
-     * @var string $language
-     */
-    public function __construct($channel, $value, $language)
-    {
-        $this->channel = $channel;
-        $this->value = $value;
-        $this->language = $language;
-    }
 
     /**
      * @return int
@@ -95,4 +79,7 @@ class Notification implements RequestInterface
 
         return $new;
     }
+
+
 }
+

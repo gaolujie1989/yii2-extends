@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Parcel implements RequestInterface
+class Parcel
 {
 
     /**
@@ -83,16 +81,6 @@ class Parcel implements RequestInterface
     private $parameter;
 
     /**
-     * @var \dpd\Type\Cod
-     */
-    private $cod;
-
-    /**
-     * @var \dpd\Type\International
-     */
-    private $international;
-
-    /**
      * @var \dpd\Type\Hazardous
      */
     private $hazardous;
@@ -118,56 +106,9 @@ class Parcel implements RequestInterface
     private $returns;
 
     /**
-     * Constructor
-     *
-     * @var string $parcelLabelNumber
-     * @var string $customerReferenceNumber1
-     * @var string $customerReferenceNumber2
-     * @var string $customerReferenceNumber3
-     * @var string $customerReferenceNumber4
-     * @var bool $swap
-     * @var int $volume
-     * @var int $weight
-     * @var bool $hazardousLimitedQuantities
-     * @var \dpd\Type\HigherInsurance $higherInsurance
-     * @var string $content
-     * @var int $addService
-     * @var int $messageNumber
-     * @var string $function
-     * @var string $parameter
-     * @var \dpd\Type\Cod $cod
-     * @var \dpd\Type\International $international
-     * @var \dpd\Type\Hazardous $hazardous
-     * @var bool $printInfo1OnParcelLabel
-     * @var string $info1
-     * @var string $info2
-     * @var bool $returns
+     * @var string
      */
-    public function __construct($parcelLabelNumber, $customerReferenceNumber1, $customerReferenceNumber2, $customerReferenceNumber3, $customerReferenceNumber4, $swap, $volume, $weight, $hazardousLimitedQuantities, $higherInsurance, $content, $addService, $messageNumber, $function, $parameter, $cod, $international, $hazardous, $printInfo1OnParcelLabel, $info1, $info2, $returns)
-    {
-        $this->parcelLabelNumber = $parcelLabelNumber;
-        $this->customerReferenceNumber1 = $customerReferenceNumber1;
-        $this->customerReferenceNumber2 = $customerReferenceNumber2;
-        $this->customerReferenceNumber3 = $customerReferenceNumber3;
-        $this->customerReferenceNumber4 = $customerReferenceNumber4;
-        $this->swap = $swap;
-        $this->volume = $volume;
-        $this->weight = $weight;
-        $this->hazardousLimitedQuantities = $hazardousLimitedQuantities;
-        $this->higherInsurance = $higherInsurance;
-        $this->content = $content;
-        $this->addService = $addService;
-        $this->messageNumber = $messageNumber;
-        $this->function = $function;
-        $this->parameter = $parameter;
-        $this->cod = $cod;
-        $this->international = $international;
-        $this->hazardous = $hazardous;
-        $this->printInfo1OnParcelLabel = $printInfo1OnParcelLabel;
-        $this->info1 = $info1;
-        $this->info2 = $info2;
-        $this->returns = $returns;
-    }
+    private $parcelClass;
 
     /**
      * @return string
@@ -470,46 +411,6 @@ class Parcel implements RequestInterface
     }
 
     /**
-     * @return \dpd\Type\Cod
-     */
-    public function getCod()
-    {
-        return $this->cod;
-    }
-
-    /**
-     * @param \dpd\Type\Cod $cod
-     * @return Parcel
-     */
-    public function withCod($cod)
-    {
-        $new = clone $this;
-        $new->cod = $cod;
-
-        return $new;
-    }
-
-    /**
-     * @return \dpd\Type\International
-     */
-    public function getInternational()
-    {
-        return $this->international;
-    }
-
-    /**
-     * @param \dpd\Type\International $international
-     * @return Parcel
-     */
-    public function withInternational($international)
-    {
-        $new = clone $this;
-        $new->international = $international;
-
-        return $new;
-    }
-
-    /**
      * @return \dpd\Type\Hazardous
      */
     public function getHazardous()
@@ -608,4 +509,27 @@ class Parcel implements RequestInterface
 
         return $new;
     }
+
+    /**
+     * @return string
+     */
+    public function getParcelClass()
+    {
+        return $this->parcelClass;
+    }
+
+    /**
+     * @param string $parcelClass
+     * @return Parcel
+     */
+    public function withParcelClass($parcelClass)
+    {
+        $new = clone $this;
+        $new->parcelClass = $parcelClass;
+
+        return $new;
+    }
+
+
 }
+

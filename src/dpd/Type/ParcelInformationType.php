@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ParcelInformationType implements RequestInterface
+class ParcelInformationType
 {
 
     /**
@@ -18,16 +16,9 @@ class ParcelInformationType implements RequestInterface
     private $dpdReference;
 
     /**
-     * Constructor
-     *
-     * @var string $parcelLabelNumber
-     * @var string $dpdReference
+     * @var \dpd\Type\OutputType
      */
-    public function __construct($parcelLabelNumber, $dpdReference)
-    {
-        $this->parcelLabelNumber = $parcelLabelNumber;
-        $this->dpdReference = $dpdReference;
-    }
+    private $output;
 
     /**
      * @return string
@@ -68,4 +59,27 @@ class ParcelInformationType implements RequestInterface
 
         return $new;
     }
+
+    /**
+     * @return \dpd\Type\OutputType
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    /**
+     * @param \dpd\Type\OutputType $output
+     * @return ParcelInformationType
+     */
+    public function withOutput($output)
+    {
+        $new = clone $this;
+        $new->output = $output;
+
+        return $new;
+    }
+
+
 }
+

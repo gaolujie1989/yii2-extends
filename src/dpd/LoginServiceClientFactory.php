@@ -2,12 +2,15 @@
 
 namespace dpd;
 
+use dpd\LoginServiceClient;
+use dpd\LoginServiceClassmap;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class LoginServiceClientFactory
 {
+
     public static function factory(string $wsdl) : \dpd\LoginServiceClient
     {
         $engine = ExtSoapEngineFactory::fromOptions(
@@ -18,4 +21,7 @@ class LoginServiceClientFactory
 
         return new LoginServiceClient($engine, $eventDispatcher);
     }
+
+
 }
+

@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ProductAndServiceData implements RequestInterface
+class ProductAndServiceData
 {
 
     /**
@@ -31,6 +29,11 @@ class ProductAndServiceData implements RequestInterface
      * @var bool
      */
     private $tyres;
+
+    /**
+     * @var bool
+     */
+    private $food;
 
     /**
      * @var \dpd\Type\PersonalDelivery
@@ -78,40 +81,9 @@ class ProductAndServiceData implements RequestInterface
     private $countrySpecificService;
 
     /**
-     * Constructor
-     *
-     * @var string $orderType
-     * @var bool $saturdayDelivery
-     * @var bool $exWorksDelivery
-     * @var bool $guarantee
-     * @var bool $tyres
-     * @var \dpd\Type\PersonalDelivery $personalDelivery
-     * @var \dpd\Type\Pickup $pickup
-     * @var \dpd\Type\ParcelShopDelivery $parcelShopDelivery
-     * @var \dpd\Type\Notification $predict
-     * @var \dpd\Type\Notification $personalDeliveryNotification
-     * @var \dpd\Type\ProactiveNotification $proactiveNotification
-     * @var \dpd\Type\Delivery $delivery
-     * @var \dpd\Type\Address $invoiceAddress
-     * @var string $countrySpecificService
+     * @var \dpd\Type\International
      */
-    public function __construct($orderType, $saturdayDelivery, $exWorksDelivery, $guarantee, $tyres, $personalDelivery, $pickup, $parcelShopDelivery, $predict, $personalDeliveryNotification, $proactiveNotification, $delivery, $invoiceAddress, $countrySpecificService)
-    {
-        $this->orderType = $orderType;
-        $this->saturdayDelivery = $saturdayDelivery;
-        $this->exWorksDelivery = $exWorksDelivery;
-        $this->guarantee = $guarantee;
-        $this->tyres = $tyres;
-        $this->personalDelivery = $personalDelivery;
-        $this->pickup = $pickup;
-        $this->parcelShopDelivery = $parcelShopDelivery;
-        $this->predict = $predict;
-        $this->personalDeliveryNotification = $personalDeliveryNotification;
-        $this->proactiveNotification = $proactiveNotification;
-        $this->delivery = $delivery;
-        $this->invoiceAddress = $invoiceAddress;
-        $this->countrySpecificService = $countrySpecificService;
-    }
+    private $international;
 
     /**
      * @return string
@@ -209,6 +181,26 @@ class ProductAndServiceData implements RequestInterface
     {
         $new = clone $this;
         $new->tyres = $tyres;
+
+        return $new;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFood()
+    {
+        return $this->food;
+    }
+
+    /**
+     * @param bool $food
+     * @return ProductAndServiceData
+     */
+    public function withFood($food)
+    {
+        $new = clone $this;
+        $new->food = $food;
 
         return $new;
     }
@@ -392,4 +384,27 @@ class ProductAndServiceData implements RequestInterface
 
         return $new;
     }
+
+    /**
+     * @return \dpd\Type\International
+     */
+    public function getInternational()
+    {
+        return $this->international;
+    }
+
+    /**
+     * @param \dpd\Type\International $international
+     * @return ProductAndServiceData
+     */
+    public function withInternational($international)
+    {
+        $new = clone $this;
+        $new->international = $international;
+
+        return $new;
+    }
+
+
 }
+

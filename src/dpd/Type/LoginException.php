@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class LoginException implements RequestInterface
+class LoginException
 {
 
     /**
@@ -61,36 +59,6 @@ class LoginException implements RequestInterface
      * @var string
      */
     private $systemShortMessage;
-
-    /**
-     * Constructor
-     *
-     * @var string $additionalData
-     * @var string $additionalInfo
-     * @var string $errorClass
-     * @var string $errorCode
-     * @var string $fullMessage
-     * @var string $language
-     * @var string $message
-     * @var string $shortMessage
-     * @var string $systemFullMessage
-     * @var string $systemMessage
-     * @var string $systemShortMessage
-     */
-    public function __construct($additionalData, $additionalInfo, $errorClass, $errorCode, $fullMessage, $language, $message, $shortMessage, $systemFullMessage, $systemMessage, $systemShortMessage)
-    {
-        $this->additionalData = $additionalData;
-        $this->additionalInfo = $additionalInfo;
-        $this->errorClass = $errorClass;
-        $this->errorCode = $errorCode;
-        $this->fullMessage = $fullMessage;
-        $this->language = $language;
-        $this->message = $message;
-        $this->shortMessage = $shortMessage;
-        $this->systemFullMessage = $systemFullMessage;
-        $this->systemMessage = $systemMessage;
-        $this->systemShortMessage = $systemShortMessage;
-    }
 
     /**
      * @return string
@@ -311,4 +279,7 @@ class LoginException implements RequestInterface
 
         return $new;
     }
+
+
 }
+

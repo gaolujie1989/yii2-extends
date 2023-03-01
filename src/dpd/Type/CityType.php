@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class CityType implements RequestInterface
+class CityType
 {
 
     /**
@@ -31,24 +29,6 @@ class CityType implements RequestInterface
      * @var string
      */
     private $town;
-
-    /**
-     * Constructor
-     *
-     * @var string $country
-     * @var int $countryNum
-     * @var string $zipCode
-     * @var string $name
-     * @var string $town
-     */
-    public function __construct($country, $countryNum, $zipCode, $name, $town)
-    {
-        $this->country = $country;
-        $this->countryNum = $countryNum;
-        $this->zipCode = $zipCode;
-        $this->name = $name;
-        $this->town = $town;
-    }
 
     /**
      * @return string
@@ -149,4 +129,7 @@ class CityType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

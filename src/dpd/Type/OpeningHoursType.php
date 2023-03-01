@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class OpeningHoursType implements RequestInterface
+class OpeningHoursType
 {
 
     /**
@@ -31,24 +29,6 @@ class OpeningHoursType implements RequestInterface
      * @var string
      */
     private $openAfternoon;
-
-    /**
-     * Constructor
-     *
-     * @var string $weekday
-     * @var string $openMorning
-     * @var string $closeMorning
-     * @var string $closeAfternoon
-     * @var string $openAfternoon
-     */
-    public function __construct($weekday, $openMorning, $closeMorning, $closeAfternoon, $openAfternoon)
-    {
-        $this->weekday = $weekday;
-        $this->openMorning = $openMorning;
-        $this->closeMorning = $closeMorning;
-        $this->closeAfternoon = $closeAfternoon;
-        $this->openAfternoon = $openAfternoon;
-    }
 
     /**
      * @return string
@@ -149,4 +129,7 @@ class OpeningHoursType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

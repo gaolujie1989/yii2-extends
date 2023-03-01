@@ -2,15 +2,9 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class SystemFaultType implements RequestInterface
+class SystemFaultType
 {
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
+
 }
+

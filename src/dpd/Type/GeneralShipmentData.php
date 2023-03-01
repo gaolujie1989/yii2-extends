@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class GeneralShipmentData implements RequestInterface
+class GeneralShipmentData
 {
 
     /**
@@ -83,56 +81,19 @@ class GeneralShipmentData implements RequestInterface
     private $mpsExpectedSendingTime;
 
     /**
-     * @var \dpd\Type\Address
+     * @var \dpd\Type\AddressWithType
      */
     private $sender;
 
     /**
-     * @var \dpd\Type\Address
+     * @var \dpd\Type\AddressWithType
      */
     private $recipient;
 
     /**
-     * Constructor
-     *
-     * @var string $mpsId
-     * @var string $cUser
-     * @var string $mpsCustomerReferenceNumber1
-     * @var string $mpsCustomerReferenceNumber2
-     * @var string $mpsCustomerReferenceNumber3
-     * @var string $mpsCustomerReferenceNumber4
-     * @var string $identificationNumber
-     * @var string $sendingDepot
-     * @var string $product
-     * @var bool $mpsCompleteDelivery
-     * @var bool $mpsCompleteDeliveryLabel
-     * @var int $mpsVolume
-     * @var int $mpsWeight
-     * @var string $mpsExpectedSendingDate
-     * @var string $mpsExpectedSendingTime
-     * @var \dpd\Type\Address $sender
-     * @var \dpd\Type\Address $recipient
+     * @var \dpd\Type\AddressWithType
      */
-    public function __construct($mpsId, $cUser, $mpsCustomerReferenceNumber1, $mpsCustomerReferenceNumber2, $mpsCustomerReferenceNumber3, $mpsCustomerReferenceNumber4, $identificationNumber, $sendingDepot, $product, $mpsCompleteDelivery, $mpsCompleteDeliveryLabel, $mpsVolume, $mpsWeight, $mpsExpectedSendingDate, $mpsExpectedSendingTime, $sender, $recipient)
-    {
-        $this->mpsId = $mpsId;
-        $this->cUser = $cUser;
-        $this->mpsCustomerReferenceNumber1 = $mpsCustomerReferenceNumber1;
-        $this->mpsCustomerReferenceNumber2 = $mpsCustomerReferenceNumber2;
-        $this->mpsCustomerReferenceNumber3 = $mpsCustomerReferenceNumber3;
-        $this->mpsCustomerReferenceNumber4 = $mpsCustomerReferenceNumber4;
-        $this->identificationNumber = $identificationNumber;
-        $this->sendingDepot = $sendingDepot;
-        $this->product = $product;
-        $this->mpsCompleteDelivery = $mpsCompleteDelivery;
-        $this->mpsCompleteDeliveryLabel = $mpsCompleteDeliveryLabel;
-        $this->mpsVolume = $mpsVolume;
-        $this->mpsWeight = $mpsWeight;
-        $this->mpsExpectedSendingDate = $mpsExpectedSendingDate;
-        $this->mpsExpectedSendingTime = $mpsExpectedSendingTime;
-        $this->sender = $sender;
-        $this->recipient = $recipient;
-    }
+    private $returnAddress;
 
     /**
      * @return string
@@ -435,7 +396,7 @@ class GeneralShipmentData implements RequestInterface
     }
 
     /**
-     * @return \dpd\Type\Address
+     * @return \dpd\Type\AddressWithType
      */
     public function getSender()
     {
@@ -443,7 +404,7 @@ class GeneralShipmentData implements RequestInterface
     }
 
     /**
-     * @param \dpd\Type\Address $sender
+     * @param \dpd\Type\AddressWithType $sender
      * @return GeneralShipmentData
      */
     public function withSender($sender)
@@ -455,7 +416,7 @@ class GeneralShipmentData implements RequestInterface
     }
 
     /**
-     * @return \dpd\Type\Address
+     * @return \dpd\Type\AddressWithType
      */
     public function getRecipient()
     {
@@ -463,7 +424,7 @@ class GeneralShipmentData implements RequestInterface
     }
 
     /**
-     * @param \dpd\Type\Address $recipient
+     * @param \dpd\Type\AddressWithType $recipient
      * @return GeneralShipmentData
      */
     public function withRecipient($recipient)
@@ -473,4 +434,27 @@ class GeneralShipmentData implements RequestInterface
 
         return $new;
     }
+
+    /**
+     * @return \dpd\Type\AddressWithType
+     */
+    public function getReturnAddress()
+    {
+        return $this->returnAddress;
+    }
+
+    /**
+     * @param \dpd\Type\AddressWithType $returnAddress
+     * @return GeneralShipmentData
+     */
+    public function withReturnAddress($returnAddress)
+    {
+        $new = clone $this;
+        $new->returnAddress = $returnAddress;
+
+        return $new;
+    }
+
+
 }
+

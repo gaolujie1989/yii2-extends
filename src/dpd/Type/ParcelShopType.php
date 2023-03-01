@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ParcelShopType implements RequestInterface
+class ParcelShopType
 {
 
     /**
@@ -136,66 +134,6 @@ class ParcelShopType implements RequestInterface
      * @var \dpd\Type\ServicesType
      */
     private $services;
-
-    /**
-     * Constructor
-     *
-     * @var int $parcelShopId
-     * @var string $pudoId
-     * @var string $company
-     * @var string $street
-     * @var string $houseNo
-     * @var string $country
-     * @var int $countryNum
-     * @var string $state
-     * @var string $zipCode
-     * @var string $city
-     * @var string $town
-     * @var string $phone
-     * @var string $fax
-     * @var string $email
-     * @var string $homepage
-     * @var float $latitude
-     * @var float $longitude
-     * @var float $coordinateX
-     * @var float $coordinateY
-     * @var float $coordinateZ
-     * @var float $distance
-     * @var string $expressPickupTime
-     * @var string $extraInfo
-     * @var \dpd\Type\OpeningHoursType $openingHours
-     * @var \dpd\Type\HolidayType $holiday
-     * @var \dpd\Type\ServicesType $services
-     */
-    public function __construct($parcelShopId, $pudoId, $company, $street, $houseNo, $country, $countryNum, $state, $zipCode, $city, $town, $phone, $fax, $email, $homepage, $latitude, $longitude, $coordinateX, $coordinateY, $coordinateZ, $distance, $expressPickupTime, $extraInfo, $openingHours, $holiday, $services)
-    {
-        $this->parcelShopId = $parcelShopId;
-        $this->pudoId = $pudoId;
-        $this->company = $company;
-        $this->street = $street;
-        $this->houseNo = $houseNo;
-        $this->country = $country;
-        $this->countryNum = $countryNum;
-        $this->state = $state;
-        $this->zipCode = $zipCode;
-        $this->city = $city;
-        $this->town = $town;
-        $this->phone = $phone;
-        $this->fax = $fax;
-        $this->email = $email;
-        $this->homepage = $homepage;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
-        $this->coordinateX = $coordinateX;
-        $this->coordinateY = $coordinateY;
-        $this->coordinateZ = $coordinateZ;
-        $this->distance = $distance;
-        $this->expressPickupTime = $expressPickupTime;
-        $this->extraInfo = $extraInfo;
-        $this->openingHours = $openingHours;
-        $this->holiday = $holiday;
-        $this->services = $services;
-    }
 
     /**
      * @return int
@@ -716,4 +654,7 @@ class ParcelShopType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

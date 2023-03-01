@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class International implements RequestInterface
+class International
 {
 
     /**
@@ -23,19 +21,19 @@ class International implements RequestInterface
     private $customsCurrency;
 
     /**
+     * @var int
+     */
+    private $customsAmountExport;
+
+    /**
+     * @var string
+     */
+    private $customsCurrencyExport;
+
+    /**
      * @var string
      */
     private $customsTerms;
-
-    /**
-     * @var string
-     */
-    private $customsContent;
-
-    /**
-     * @var string
-     */
-    private $customsTarif;
 
     /**
      * @var string
@@ -58,14 +56,14 @@ class International implements RequestInterface
     private $customsInvoiceDate;
 
     /**
-     * @var int
+     * @var string
      */
-    private $customsAmountParcel;
+    private $customsOrigin;
 
     /**
      * @var string
      */
-    private $customsOrigin;
+    private $customsOrder;
 
     /**
      * @var string
@@ -83,7 +81,7 @@ class International implements RequestInterface
     private $collectiveCustomsClearance;
 
     /**
-     * @var string
+     * @var int
      */
     private $invoicePosition;
 
@@ -98,62 +96,39 @@ class International implements RequestInterface
     private $comment2;
 
     /**
+     * @var int
+     */
+    private $numberOfArticle;
+
+    /**
+     * @var string
+     */
+    private $countryRegistrationNumber;
+
+    /**
      * @var string
      */
     private $commercialInvoiceConsigneeVatNumber;
 
     /**
-     * @var \dpd\Type\Address
+     * @var \dpd\Type\AddressWithBusinessUnit
      */
     private $commercialInvoiceConsignee;
 
     /**
-     * Constructor
-     *
-     * @var bool $parcelType
-     * @var int $customsAmount
-     * @var string $customsCurrency
-     * @var string $customsTerms
-     * @var string $customsContent
-     * @var string $customsTarif
-     * @var string $customsPaper
-     * @var bool $customsEnclosure
-     * @var string $customsInvoice
-     * @var int $customsInvoiceDate
-     * @var int $customsAmountParcel
-     * @var string $customsOrigin
-     * @var string $linehaul
-     * @var string $shipMrn
-     * @var bool $collectiveCustomsClearance
-     * @var string $invoicePosition
-     * @var string $comment1
-     * @var string $comment2
-     * @var string $commercialInvoiceConsigneeVatNumber
-     * @var \dpd\Type\Address $commercialInvoiceConsignee
+     * @var string
      */
-    public function __construct($parcelType, $customsAmount, $customsCurrency, $customsTerms, $customsContent, $customsTarif, $customsPaper, $customsEnclosure, $customsInvoice, $customsInvoiceDate, $customsAmountParcel, $customsOrigin, $linehaul, $shipMrn, $collectiveCustomsClearance, $invoicePosition, $comment1, $comment2, $commercialInvoiceConsigneeVatNumber, $commercialInvoiceConsignee)
-    {
-        $this->parcelType = $parcelType;
-        $this->customsAmount = $customsAmount;
-        $this->customsCurrency = $customsCurrency;
-        $this->customsTerms = $customsTerms;
-        $this->customsContent = $customsContent;
-        $this->customsTarif = $customsTarif;
-        $this->customsPaper = $customsPaper;
-        $this->customsEnclosure = $customsEnclosure;
-        $this->customsInvoice = $customsInvoice;
-        $this->customsInvoiceDate = $customsInvoiceDate;
-        $this->customsAmountParcel = $customsAmountParcel;
-        $this->customsOrigin = $customsOrigin;
-        $this->linehaul = $linehaul;
-        $this->shipMrn = $shipMrn;
-        $this->collectiveCustomsClearance = $collectiveCustomsClearance;
-        $this->invoicePosition = $invoicePosition;
-        $this->comment1 = $comment1;
-        $this->comment2 = $comment2;
-        $this->commercialInvoiceConsigneeVatNumber = $commercialInvoiceConsigneeVatNumber;
-        $this->commercialInvoiceConsignee = $commercialInvoiceConsignee;
-    }
+    private $commercialInvoiceConsignorVatNumber;
+
+    /**
+     * @var \dpd\Type\Address
+     */
+    private $commercialInvoiceConsignor;
+
+    /**
+     * @var \dpd\Type\AdditionalInvoiceLine
+     */
+    private $additionalInvoiceLines;
 
     /**
      * @return bool
@@ -216,6 +191,46 @@ class International implements RequestInterface
     }
 
     /**
+     * @return int
+     */
+    public function getCustomsAmountExport()
+    {
+        return $this->customsAmountExport;
+    }
+
+    /**
+     * @param int $customsAmountExport
+     * @return International
+     */
+    public function withCustomsAmountExport($customsAmountExport)
+    {
+        $new = clone $this;
+        $new->customsAmountExport = $customsAmountExport;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomsCurrencyExport()
+    {
+        return $this->customsCurrencyExport;
+    }
+
+    /**
+     * @param string $customsCurrencyExport
+     * @return International
+     */
+    public function withCustomsCurrencyExport($customsCurrencyExport)
+    {
+        $new = clone $this;
+        $new->customsCurrencyExport = $customsCurrencyExport;
+
+        return $new;
+    }
+
+    /**
      * @return string
      */
     public function getCustomsTerms()
@@ -231,46 +246,6 @@ class International implements RequestInterface
     {
         $new = clone $this;
         $new->customsTerms = $customsTerms;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCustomsContent()
-    {
-        return $this->customsContent;
-    }
-
-    /**
-     * @param string $customsContent
-     * @return International
-     */
-    public function withCustomsContent($customsContent)
-    {
-        $new = clone $this;
-        $new->customsContent = $customsContent;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCustomsTarif()
-    {
-        return $this->customsTarif;
-    }
-
-    /**
-     * @param string $customsTarif
-     * @return International
-     */
-    public function withCustomsTarif($customsTarif)
-    {
-        $new = clone $this;
-        $new->customsTarif = $customsTarif;
 
         return $new;
     }
@@ -356,26 +331,6 @@ class International implements RequestInterface
     }
 
     /**
-     * @return int
-     */
-    public function getCustomsAmountParcel()
-    {
-        return $this->customsAmountParcel;
-    }
-
-    /**
-     * @param int $customsAmountParcel
-     * @return International
-     */
-    public function withCustomsAmountParcel($customsAmountParcel)
-    {
-        $new = clone $this;
-        $new->customsAmountParcel = $customsAmountParcel;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsOrigin()
@@ -391,6 +346,26 @@ class International implements RequestInterface
     {
         $new = clone $this;
         $new->customsOrigin = $customsOrigin;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomsOrder()
+    {
+        return $this->customsOrder;
+    }
+
+    /**
+     * @param string $customsOrder
+     * @return International
+     */
+    public function withCustomsOrder($customsOrder)
+    {
+        $new = clone $this;
+        $new->customsOrder = $customsOrder;
 
         return $new;
     }
@@ -456,7 +431,7 @@ class International implements RequestInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getInvoicePosition()
     {
@@ -464,7 +439,7 @@ class International implements RequestInterface
     }
 
     /**
-     * @param string $invoicePosition
+     * @param int $invoicePosition
      * @return International
      */
     public function withInvoicePosition($invoicePosition)
@@ -516,6 +491,46 @@ class International implements RequestInterface
     }
 
     /**
+     * @return int
+     */
+    public function getNumberOfArticle()
+    {
+        return $this->numberOfArticle;
+    }
+
+    /**
+     * @param int $numberOfArticle
+     * @return International
+     */
+    public function withNumberOfArticle($numberOfArticle)
+    {
+        $new = clone $this;
+        $new->numberOfArticle = $numberOfArticle;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryRegistrationNumber()
+    {
+        return $this->countryRegistrationNumber;
+    }
+
+    /**
+     * @param string $countryRegistrationNumber
+     * @return International
+     */
+    public function withCountryRegistrationNumber($countryRegistrationNumber)
+    {
+        $new = clone $this;
+        $new->countryRegistrationNumber = $countryRegistrationNumber;
+
+        return $new;
+    }
+
+    /**
      * @return string
      */
     public function getCommercialInvoiceConsigneeVatNumber()
@@ -536,7 +551,7 @@ class International implements RequestInterface
     }
 
     /**
-     * @return \dpd\Type\Address
+     * @return \dpd\Type\AddressWithBusinessUnit
      */
     public function getCommercialInvoiceConsignee()
     {
@@ -544,7 +559,7 @@ class International implements RequestInterface
     }
 
     /**
-     * @param \dpd\Type\Address $commercialInvoiceConsignee
+     * @param \dpd\Type\AddressWithBusinessUnit $commercialInvoiceConsignee
      * @return International
      */
     public function withCommercialInvoiceConsignee($commercialInvoiceConsignee)
@@ -554,4 +569,67 @@ class International implements RequestInterface
 
         return $new;
     }
+
+    /**
+     * @return string
+     */
+    public function getCommercialInvoiceConsignorVatNumber()
+    {
+        return $this->commercialInvoiceConsignorVatNumber;
+    }
+
+    /**
+     * @param string $commercialInvoiceConsignorVatNumber
+     * @return International
+     */
+    public function withCommercialInvoiceConsignorVatNumber($commercialInvoiceConsignorVatNumber)
+    {
+        $new = clone $this;
+        $new->commercialInvoiceConsignorVatNumber = $commercialInvoiceConsignorVatNumber;
+
+        return $new;
+    }
+
+    /**
+     * @return \dpd\Type\Address
+     */
+    public function getCommercialInvoiceConsignor()
+    {
+        return $this->commercialInvoiceConsignor;
+    }
+
+    /**
+     * @param \dpd\Type\Address $commercialInvoiceConsignor
+     * @return International
+     */
+    public function withCommercialInvoiceConsignor($commercialInvoiceConsignor)
+    {
+        $new = clone $this;
+        $new->commercialInvoiceConsignor = $commercialInvoiceConsignor;
+
+        return $new;
+    }
+
+    /**
+     * @return \dpd\Type\AdditionalInvoiceLine
+     */
+    public function getAdditionalInvoiceLines()
+    {
+        return $this->additionalInvoiceLines;
+    }
+
+    /**
+     * @param \dpd\Type\AdditionalInvoiceLine $additionalInvoiceLines
+     * @return International
+     */
+    public function withAdditionalInvoiceLines($additionalInvoiceLines)
+    {
+        $new = clone $this;
+        $new->additionalInvoiceLines = $additionalInvoiceLines;
+
+        return $new;
+    }
+
+
 }
+

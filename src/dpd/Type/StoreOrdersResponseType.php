@@ -2,55 +2,41 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class StoreOrdersResponseType implements RequestInterface
+class StoreOrdersResponseType
 {
 
     /**
-     * @var string
+     * @var \dpd\Type\OutputType
      */
-    private $parcellabelsPDF;
+    private $output;
 
     /**
-     * @var \dpd\Type\ShipmentResponse[]
+     * @var \dpd\Type\ShipmentResponse
      */
     private $shipmentResponses;
 
     /**
-     * Constructor
-     *
-     * @var string $parcellabelsPDF
-     * @var \dpd\Type\ShipmentResponse $shipmentResponses
+     * @return \dpd\Type\OutputType
      */
-    public function __construct($parcellabelsPDF, $shipmentResponses)
+    public function getOutput()
     {
-        $this->parcellabelsPDF = $parcellabelsPDF;
-        $this->shipmentResponses = $shipmentResponses;
+        return $this->output;
     }
 
     /**
-     * @return string
-     */
-    public function getParcellabelsPDF()
-    {
-        return $this->parcellabelsPDF;
-    }
-
-    /**
-     * @param string $parcellabelsPDF
+     * @param \dpd\Type\OutputType $output
      * @return StoreOrdersResponseType
      */
-    public function withParcellabelsPDF($parcellabelsPDF)
+    public function withOutput($output)
     {
         $new = clone $this;
-        $new->parcellabelsPDF = $parcellabelsPDF;
+        $new->output = $output;
 
         return $new;
     }
 
     /**
-     * @return \dpd\Type\ShipmentResponse[]
+     * @return \dpd\Type\ShipmentResponse
      */
     public function getShipmentResponses()
     {
@@ -68,4 +54,7 @@ class StoreOrdersResponseType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

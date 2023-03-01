@@ -203,4 +203,7 @@ class FindParcelShopsByGeoDataType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

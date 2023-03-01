@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Printer implements RequestInterface
+class Printer
 {
 
     /**
@@ -41,28 +39,6 @@ class Printer implements RequestInterface
      * @var bool
      */
     private $barcodeCapable2D;
-
-    /**
-     * Constructor
-     *
-     * @var string $manufacturer
-     * @var string $model
-     * @var string $revision
-     * @var float $offsetX
-     * @var float $offsetY
-     * @var string $connectionType
-     * @var bool $barcodeCapable2D
-     */
-    public function __construct($manufacturer, $model, $revision, $offsetX, $offsetY, $connectionType, $barcodeCapable2D)
-    {
-        $this->manufacturer = $manufacturer;
-        $this->model = $model;
-        $this->revision = $revision;
-        $this->offsetX = $offsetX;
-        $this->offsetY = $offsetY;
-        $this->connectionType = $connectionType;
-        $this->barcodeCapable2D = $barcodeCapable2D;
-    }
 
     /**
      * @return string
@@ -203,4 +179,7 @@ class Printer implements RequestInterface
 
         return $new;
     }
+
+
 }
+

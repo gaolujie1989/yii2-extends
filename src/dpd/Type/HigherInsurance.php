@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class HigherInsurance implements RequestInterface
+class HigherInsurance
 {
 
     /**
@@ -16,18 +14,6 @@ class HigherInsurance implements RequestInterface
      * @var string
      */
     private $currency;
-
-    /**
-     * Constructor
-     *
-     * @var int $amount
-     * @var string $currency
-     */
-    public function __construct($amount, $currency)
-    {
-        $this->amount = $amount;
-        $this->currency = $currency;
-    }
 
     /**
      * @return int
@@ -68,4 +54,7 @@ class HigherInsurance implements RequestInterface
 
         return $new;
     }
+
+
 }
+

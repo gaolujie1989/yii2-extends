@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ParcelShopDelivery implements RequestInterface
+class ParcelShopDelivery
 {
 
     /**
@@ -13,21 +11,14 @@ class ParcelShopDelivery implements RequestInterface
     private $parcelShopId;
 
     /**
+     * @var string
+     */
+    private $parcelShopPudoId;
+
+    /**
      * @var \dpd\Type\Notification
      */
     private $parcelShopNotification;
-
-    /**
-     * Constructor
-     *
-     * @var int $parcelShopId
-     * @var \dpd\Type\Notification $parcelShopNotification
-     */
-    public function __construct($parcelShopId, $parcelShopNotification)
-    {
-        $this->parcelShopId = $parcelShopId;
-        $this->parcelShopNotification = $parcelShopNotification;
-    }
 
     /**
      * @return int
@@ -45,6 +36,26 @@ class ParcelShopDelivery implements RequestInterface
     {
         $new = clone $this;
         $new->parcelShopId = $parcelShopId;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelShopPudoId()
+    {
+        return $this->parcelShopPudoId;
+    }
+
+    /**
+     * @param string $parcelShopPudoId
+     * @return ParcelShopDelivery
+     */
+    public function withParcelShopPudoId($parcelShopPudoId)
+    {
+        $new = clone $this;
+        $new->parcelShopPudoId = $parcelShopPudoId;
 
         return $new;
     }
@@ -68,4 +79,7 @@ class ParcelShopDelivery implements RequestInterface
 
         return $new;
     }
+
+
 }
+

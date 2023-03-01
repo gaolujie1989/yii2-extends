@@ -2,25 +2,15 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
+use Phpro\SoapClient\Type\ResultInterface;
 
-class FindParcelShopsByGeoDataResponseType implements RequestInterface
+class FindParcelShopsByGeoDataResponseType implements ResultInterface
 {
 
     /**
      * @var \dpd\Type\ParcelShopType
      */
     private $parcelShop;
-
-    /**
-     * Constructor
-     *
-     * @var \dpd\Type\ParcelShopType $parcelShop
-     */
-    public function __construct($parcelShop)
-    {
-        $this->parcelShop = $parcelShop;
-    }
 
     /**
      * @return \dpd\Type\ParcelShopType
@@ -41,4 +31,7 @@ class FindParcelShopsByGeoDataResponseType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

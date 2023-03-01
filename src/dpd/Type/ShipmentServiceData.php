@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ShipmentServiceData implements RequestInterface
+class ShipmentServiceData
 {
 
     /**
@@ -21,20 +19,6 @@ class ShipmentServiceData implements RequestInterface
      * @var \dpd\Type\ProductAndServiceData
      */
     private $productAndServiceData;
-
-    /**
-     * Constructor
-     *
-     * @var \dpd\Type\GeneralShipmentData $generalShipmentData
-     * @var \dpd\Type\Parcel $parcels
-     * @var \dpd\Type\ProductAndServiceData $productAndServiceData
-     */
-    public function __construct($generalShipmentData, $parcels, $productAndServiceData)
-    {
-        $this->generalShipmentData = $generalShipmentData;
-        $this->parcels = $parcels;
-        $this->productAndServiceData = $productAndServiceData;
-    }
 
     /**
      * @return \dpd\Type\GeneralShipmentData
@@ -95,4 +79,7 @@ class ShipmentServiceData implements RequestInterface
 
         return $new;
     }
+
+
 }
+

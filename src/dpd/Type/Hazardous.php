@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Hazardous implements RequestInterface
+class Hazardous
 {
 
     /**
@@ -66,38 +64,6 @@ class Hazardous implements RequestInterface
      * @var string
      */
     private $notOtherwiseSpecified;
-
-    /**
-     * Constructor
-     *
-     * @var string $identificationUnNo
-     * @var string $identificationClass
-     * @var string $classificationCode
-     * @var string $packingGroup
-     * @var string $packingCode
-     * @var string $description
-     * @var string $subsidiaryRisk
-     * @var string $tunnelRestrictionCode
-     * @var float $hazardousWeight
-     * @var float $netWeight
-     * @var int $factor
-     * @var string $notOtherwiseSpecified
-     */
-    public function __construct($identificationUnNo, $identificationClass, $classificationCode, $packingGroup, $packingCode, $description, $subsidiaryRisk, $tunnelRestrictionCode, $hazardousWeight, $netWeight, $factor, $notOtherwiseSpecified)
-    {
-        $this->identificationUnNo = $identificationUnNo;
-        $this->identificationClass = $identificationClass;
-        $this->classificationCode = $classificationCode;
-        $this->packingGroup = $packingGroup;
-        $this->packingCode = $packingCode;
-        $this->description = $description;
-        $this->subsidiaryRisk = $subsidiaryRisk;
-        $this->tunnelRestrictionCode = $tunnelRestrictionCode;
-        $this->hazardousWeight = $hazardousWeight;
-        $this->netWeight = $netWeight;
-        $this->factor = $factor;
-        $this->notOtherwiseSpecified = $notOtherwiseSpecified;
-    }
 
     /**
      * @return string
@@ -338,4 +304,7 @@ class Hazardous implements RequestInterface
 
         return $new;
     }
+
+
 }
+

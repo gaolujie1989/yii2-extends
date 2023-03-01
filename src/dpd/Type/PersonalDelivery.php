@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class PersonalDelivery implements RequestInterface
+class PersonalDelivery
 {
 
     /**
@@ -41,28 +39,6 @@ class PersonalDelivery implements RequestInterface
      * @var string
      */
     private $personId;
-
-    /**
-     * Constructor
-     *
-     * @var int $type
-     * @var string $floor
-     * @var string $building
-     * @var string $department
-     * @var string $name
-     * @var string $phone
-     * @var string $personId
-     */
-    public function __construct($type, $floor, $building, $department, $name, $phone, $personId)
-    {
-        $this->type = $type;
-        $this->floor = $floor;
-        $this->building = $building;
-        $this->department = $department;
-        $this->name = $name;
-        $this->phone = $phone;
-        $this->personId = $personId;
-    }
 
     /**
      * @return int
@@ -203,4 +179,7 @@ class PersonalDelivery implements RequestInterface
 
         return $new;
     }
+
+
 }
+

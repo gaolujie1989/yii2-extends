@@ -3,11 +3,12 @@
 namespace dpd;
 
 use dpd\Type;
-use Phpro\SoapClient\Soap\ClassMap\ClassMap;
 use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
+use Phpro\SoapClient\Soap\ClassMap\ClassMap;
 
 class LoginServiceClassmap
 {
+
     public static function getCollection() : \Phpro\SoapClient\Soap\ClassMap\ClassMapCollection
     {
         return new ClassMapCollection([
@@ -19,4 +20,7 @@ class LoginServiceClassmap
             new ClassMap('authenticationFault', Type\AuthenticationFault::class),
         ]);
     }
+
+
 }
+

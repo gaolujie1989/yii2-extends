@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\ResultInterface;
-
-class ShipmentResponse implements ResultInterface
+class ShipmentResponse
 {
 
     /**
@@ -23,7 +21,7 @@ class ShipmentResponse implements ResultInterface
     private $parcelInformation;
 
     /**
-     * @var \dpd\Type\FaultCodeType[]
+     * @var \dpd\Type\FaultCodeType
      */
     private $faults;
 
@@ -88,7 +86,7 @@ class ShipmentResponse implements ResultInterface
     }
 
     /**
-     * @return \dpd\Type\FaultCodeType[]
+     * @return \dpd\Type\FaultCodeType
      */
     public function getFaults()
     {
@@ -106,4 +104,7 @@ class ShipmentResponse implements ResultInterface
 
         return $new;
     }
+
+
 }
+

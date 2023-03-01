@@ -284,4 +284,7 @@ class FindParcelShopsType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

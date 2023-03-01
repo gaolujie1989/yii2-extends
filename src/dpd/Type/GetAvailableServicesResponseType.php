@@ -2,25 +2,15 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
+use Phpro\SoapClient\Type\ResultInterface;
 
-class GetAvailableServicesResponseType implements RequestInterface
+class GetAvailableServicesResponseType implements ResultInterface
 {
 
     /**
      * @var \dpd\Type\ServicesType
      */
     private $services;
-
-    /**
-     * Constructor
-     *
-     * @var \dpd\Type\ServicesType $services
-     */
-    public function __construct($services)
-    {
-        $this->services = $services;
-    }
 
     /**
      * @return \dpd\Type\ServicesType
@@ -41,4 +31,7 @@ class GetAvailableServicesResponseType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

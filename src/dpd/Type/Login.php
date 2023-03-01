@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Login implements RequestInterface
+class Login
 {
 
     /**
@@ -26,22 +24,6 @@ class Login implements RequestInterface
      * @var string
      */
     private $depot;
-
-    /**
-     * Constructor
-     *
-     * @var string $delisId
-     * @var string $customerUid
-     * @var string $authToken
-     * @var string $depot
-     */
-    public function __construct($delisId, $customerUid, $authToken, $depot)
-    {
-        $this->delisId = $delisId;
-        $this->customerUid = $customerUid;
-        $this->authToken = $authToken;
-        $this->depot = $depot;
-    }
 
     /**
      * @return string
@@ -122,4 +104,7 @@ class Login implements RequestInterface
 
         return $new;
     }
+
+
 }
+

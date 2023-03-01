@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Address implements RequestInterface
+class Address
 {
 
     /**
@@ -70,6 +68,11 @@ class Address implements RequestInterface
     /**
      * @var string
      */
+    private $mobile;
+
+    /**
+     * @var string
+     */
     private $fax;
 
     /**
@@ -86,46 +89,6 @@ class Address implements RequestInterface
      * @var string
      */
     private $iaccount;
-
-    /**
-     * Constructor
-     *
-     * @var string $name1
-     * @var string $name2
-     * @var string $street
-     * @var string $houseNo
-     * @var string $state
-     * @var string $country
-     * @var string $zipCode
-     * @var string $city
-     * @var int $gln
-     * @var string $customerNumber
-     * @var string $contact
-     * @var string $phone
-     * @var string $fax
-     * @var string $email
-     * @var string $comment
-     * @var string $iaccount
-     */
-    public function __construct($name1, $name2, $street, $houseNo, $state, $country, $zipCode, $city, $gln, $customerNumber, $contact, $phone, $fax, $email, $comment, $iaccount)
-    {
-        $this->name1 = $name1;
-        $this->name2 = $name2;
-        $this->street = $street;
-        $this->houseNo = $houseNo;
-        $this->state = $state;
-        $this->country = $country;
-        $this->zipCode = $zipCode;
-        $this->city = $city;
-        $this->gln = $gln;
-        $this->customerNumber = $customerNumber;
-        $this->contact = $contact;
-        $this->phone = $phone;
-        $this->fax = $fax;
-        $this->email = $email;
-        $this->comment = $comment;
-        $this->iaccount = $iaccount;
-    }
 
     /**
      * @return string
@@ -370,6 +333,26 @@ class Address implements RequestInterface
     /**
      * @return string
      */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param string $mobile
+     * @return Address
+     */
+    public function withMobile($mobile)
+    {
+        $new = clone $this;
+        $new->mobile = $mobile;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
     public function getFax()
     {
         return $this->fax;
@@ -446,4 +429,7 @@ class Address implements RequestInterface
 
         return $new;
     }
+
+
 }
+

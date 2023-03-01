@@ -3,9 +3,9 @@
 namespace dpd;
 
 use dpd\Type;
+use Phpro\SoapClient\Type\ResultInterface;
 use Phpro\SoapClient\Exception\SoapException;
 use Phpro\SoapClient\Type\RequestInterface;
-use Phpro\SoapClient\Type\ResultInterface;
 
 class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
 {
@@ -49,4 +49,7 @@ class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
     {
         return $this->call('getAvailableServices', $parameters);
     }
+
+
 }
+

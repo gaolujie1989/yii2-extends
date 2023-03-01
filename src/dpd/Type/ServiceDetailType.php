@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ServiceDetailType implements RequestInterface
+class ServiceDetailType
 {
 
     /**
@@ -16,18 +14,6 @@ class ServiceDetailType implements RequestInterface
      * @var string
      */
     private $description;
-
-    /**
-     * Constructor
-     *
-     * @var string $code
-     * @var string $description
-     */
-    public function __construct($code, $description)
-    {
-        $this->code = $code;
-        $this->description = $description;
-    }
 
     /**
      * @return string
@@ -68,4 +54,7 @@ class ServiceDetailType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

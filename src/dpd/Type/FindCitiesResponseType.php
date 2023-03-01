@@ -2,25 +2,15 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
+use Phpro\SoapClient\Type\ResultInterface;
 
-class FindCitiesResponseType implements RequestInterface
+class FindCitiesResponseType implements ResultInterface
 {
 
     /**
      * @var \dpd\Type\CityType
      */
     private $city;
-
-    /**
-     * Constructor
-     *
-     * @var \dpd\Type\CityType $city
-     */
-    public function __construct($city)
-    {
-        $this->city = $city;
-    }
 
     /**
      * @return \dpd\Type\CityType
@@ -41,4 +31,7 @@ class FindCitiesResponseType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

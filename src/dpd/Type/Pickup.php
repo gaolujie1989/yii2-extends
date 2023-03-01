@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class Pickup implements RequestInterface
+class Pickup
 {
 
     /**
@@ -25,65 +23,42 @@ class Pickup implements RequestInterface
     /**
      * @var string
      */
-    private $day;
-
-    /**
-     * @var int
-     */
     private $fromTime1;
 
     /**
-     * @var int
+     * @var string
      */
     private $toTime1;
 
     /**
-     * @var int
+     * @var string
      */
     private $fromTime2;
 
     /**
-     * @var int
+     * @var string
      */
     private $toTime2;
 
     /**
-     * @var bool
+     * @var int
      */
     private $extraPickup;
+
+    /**
+     * @var string
+     */
+    private $boxId;
+
+    /**
+     * @var string
+     */
+    private $boxTan;
 
     /**
      * @var \dpd\Type\Address
      */
     private $collectionRequestAddress;
-
-    /**
-     * Constructor
-     *
-     * @var int $tour
-     * @var int $quantity
-     * @var int $date
-     * @var string $day
-     * @var int $fromTime1
-     * @var int $toTime1
-     * @var int $fromTime2
-     * @var int $toTime2
-     * @var bool $extraPickup
-     * @var \dpd\Type\Address $collectionRequestAddress
-     */
-    public function __construct($tour, $quantity, $date, $day, $fromTime1, $toTime1, $fromTime2, $toTime2, $extraPickup, $collectionRequestAddress)
-    {
-        $this->tour = $tour;
-        $this->quantity = $quantity;
-        $this->date = $date;
-        $this->day = $day;
-        $this->fromTime1 = $fromTime1;
-        $this->toTime1 = $toTime1;
-        $this->fromTime2 = $fromTime2;
-        $this->toTime2 = $toTime2;
-        $this->extraPickup = $extraPickup;
-        $this->collectionRequestAddress = $collectionRequestAddress;
-    }
 
     /**
      * @return int
@@ -148,33 +123,13 @@ class Pickup implements RequestInterface
     /**
      * @return string
      */
-    public function getDay()
-    {
-        return $this->day;
-    }
-
-    /**
-     * @param string $day
-     * @return Pickup
-     */
-    public function withDay($day)
-    {
-        $new = clone $this;
-        $new->day = $day;
-
-        return $new;
-    }
-
-    /**
-     * @return int
-     */
     public function getFromTime1()
     {
         return $this->fromTime1;
     }
 
     /**
-     * @param int $fromTime1
+     * @param string $fromTime1
      * @return Pickup
      */
     public function withFromTime1($fromTime1)
@@ -186,7 +141,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getToTime1()
     {
@@ -194,7 +149,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @param int $toTime1
+     * @param string $toTime1
      * @return Pickup
      */
     public function withToTime1($toTime1)
@@ -206,7 +161,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getFromTime2()
     {
@@ -214,7 +169,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @param int $fromTime2
+     * @param string $fromTime2
      * @return Pickup
      */
     public function withFromTime2($fromTime2)
@@ -226,7 +181,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getToTime2()
     {
@@ -234,7 +189,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @param int $toTime2
+     * @param string $toTime2
      * @return Pickup
      */
     public function withToTime2($toTime2)
@@ -246,7 +201,7 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @return bool
+     * @return int
      */
     public function getExtraPickup()
     {
@@ -254,13 +209,53 @@ class Pickup implements RequestInterface
     }
 
     /**
-     * @param bool $extraPickup
+     * @param int $extraPickup
      * @return Pickup
      */
     public function withExtraPickup($extraPickup)
     {
         $new = clone $this;
         $new->extraPickup = $extraPickup;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBoxId()
+    {
+        return $this->boxId;
+    }
+
+    /**
+     * @param string $boxId
+     * @return Pickup
+     */
+    public function withBoxId($boxId)
+    {
+        $new = clone $this;
+        $new->boxId = $boxId;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBoxTan()
+    {
+        return $this->boxTan;
+    }
+
+    /**
+     * @param string $boxTan
+     * @return Pickup
+     */
+    public function withBoxTan($boxTan)
+    {
+        $new = clone $this;
+        $new->boxTan = $boxTan;
 
         return $new;
     }
@@ -284,4 +279,7 @@ class Pickup implements RequestInterface
 
         return $new;
     }
+
+
 }
+

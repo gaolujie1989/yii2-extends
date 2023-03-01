@@ -2,9 +2,7 @@
 
 namespace dpd\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class FaultCodeType implements RequestInterface
+class FaultCodeType
 {
 
     /**
@@ -16,18 +14,6 @@ class FaultCodeType implements RequestInterface
      * @var string
      */
     private $message;
-
-    /**
-     * Constructor
-     *
-     * @var string $faultCode
-     * @var string $message
-     */
-    public function __construct($faultCode, $message)
-    {
-        $this->faultCode = $faultCode;
-        $this->message = $message;
-    }
 
     /**
      * @return string
@@ -68,4 +54,7 @@ class FaultCodeType implements RequestInterface
 
         return $new;
     }
+
+
 }
+

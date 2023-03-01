@@ -13,4 +13,7 @@ class GetAvailableServicesType implements RequestInterface
     public function __construct()
     {
     }
+
+
 }
+

@@ -5,6 +5,8 @@
 
 namespace lujie\extend\helpers;
 
+use lujie\extend\constants\StatusConst;
+
 /**
  * Class MemoryHelper
  * @package lujie\extend\helpers
@@ -57,5 +59,19 @@ class MemoryHelper
             }
         }
         return '4G';
+    }
+
+    /**
+     * @param int $memory
+     * @inheritdoc
+     */
+    public static function setMemoryLimit(int $memory): void
+    {
+        $memoryUsage = memory_get_usage(true);
+        if (self::getMemory($memory) >= $memoryUsage) {
+            ini_set('memory_limit', $memory);
+        } else {
+            ini_set('memory_limit', self::getAllowedMemoryLimit($memoryUsage));
+        }
     }
 }

@@ -65,7 +65,7 @@ class MemoryHelper
      * @param int $memory
      * @inheritdoc
      */
-    public static function setMemoryLimit(int $memory): void
+    public static function setMemoryLimit(string $memory): void
     {
         $memoryUsage = memory_get_usage(true);
         if (self::getMemory($memory) >= $memoryUsage) {

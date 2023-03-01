@@ -116,6 +116,7 @@ use yii\helpers\StringHelper;
  *
  * @package lujie\amazon\sp
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @document https://developer-docs.amazon.com/sp-api/docs
  */
 class AmazonSPClient extends BaseObject
 {

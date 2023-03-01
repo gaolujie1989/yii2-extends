@@ -138,6 +138,7 @@ use yii\httpclient\Request;
  *
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @document https://advertising.amazon.com/API/docs/en-us/index
  */
 class AmazonAdvertisingClient extends RestOAuth2
 {

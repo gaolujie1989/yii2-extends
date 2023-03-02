@@ -10,7 +10,6 @@ return [
         'alias' => [
             '@lujie/dpd' => __DIR__ . '/src',
             '@lujie/dpd/tests' => __DIR__ . '/tests',
-            '@dpd' => __DIR__ . '/src/dpd',
         ]
     ],
 ];

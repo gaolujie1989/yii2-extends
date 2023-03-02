@@ -5,122 +5,70 @@
 
 namespace lujie\dpd\tests\unit;
 
-use dpd\Type\Address;
-use dpd\Type\GeneralShipmentData;
-use dpd\Type\GetTrackingData;
-use dpd\Type\PrintOptions;
-use dpd\Type\ProductAndServiceData;
-use dpd\Type\ShipmentServiceData;
-use dpd\Type\StoreOrders;
 use lujie\dpd\DpdSoapClient;
+use lujie\dpd\helpers\DpdSoapHelper;
+use lujie\dpd\soap\Type\ShipmentServiceData;
+use lujie\dpd\soap\Type\StoreOrders;
+use lujie\extend\models\Item;
 use Yii;
 
+/**
+ * Class DpdSoapClientTest
+ * @package lujie\dpd\tests\unit
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ */
 class DpdSoapClientTest extends \Codeception\Test\Unit
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function testStoreOrder(): void
     {
+        $item = new Item([
+            'weightG' => 12000,
+            'lengthMM' => 760,
+            'widthMM' => 540,
+            'heightMM' => 320,
+        ]);
+        $warehouseAddress = new \lujie\extend\models\Address([
+            'firstName' => 'CCLife Technic GmbH',
+            'lastName' => 'Xiaomeng Bian',
+            'country' => 'DE',
+            'city' => 'Euskirchen, Großbüllesheim',
+            'postalCode' => '53881',
+            'street' => 'Barentsstr',
+            'streetNo' => '15',
+            'email' => 'yingjun.wang@cclife.de',
+            'phone' => '021-36412196',
+        ]);
+        $customerAddress = new \lujie\extend\models\Address([
+            'firstName' => 'Anas',
+            'lastName' => 'Younes',
+            'country' => 'DE',
+            'city' => 'Schwerin',
+            'postalCode' => '19063',
+            'street' => 'Gagarinstraße',
+            'streetNo' => '11',
+            'phone' => '01590 1487281',
+        ]);
+
+        $generalShipmentData = DpdSoapHelper::createGeneralShipmentData($item, $warehouseAddress, $customerAddress, 'id-xxx', ['ref-xxx']);
+        $order = new ShipmentServiceData([
+            'generalShipmentData' => $generalShipmentData,
+            'productAndServiceData' => DpdSoapHelper::createProductAndServiceData(),
+        ]);
+
         $client = new DpdSoapClient();
-        $printOptions = new PrintOptions('PDF', 'A4', null, null);
-        $generalShipmentData = new GeneralShipmentData(
-            null,
-            null,
-            's_ref_305-6470832-3224327',
-            null,
-            null,
-            null,
-            'id_305-6470832-3224327',
-            '0998',
-            'CL',
-            false,
-            false,
-            null,
-            2280,
-            date('Ymd', strtotime('+1 day')),
-            '170000',
-            $this->getSenderAddress(),
-            $this->getRecipientAddress()
-        );
-        $productAndServiceData = new ProductAndServiceData(
-            'consignment',
-            false,
-            false,
-            false,
-            false,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
-        $order = new ShipmentServiceData($generalShipmentData, null, $productAndServiceData);
-        $storeOrdersResponse = $client->storeOrders(new StoreOrders($printOptions, $order));
-        $shipmentResponse = $storeOrdersResponse->getOrderResult()->getShipmentResponses()[0];
+        $storeOrders = new StoreOrders();
+        $storeOrders->setPrintOptions(DpdSoapHelper::createPrintOptions());
+        $storeOrders->setOrder($order);
+
+        $storeOrdersResponse = $client->storeOrders($storeOrders);
+        codecept_debug($storeOrdersResponse);
+        $shipmentResponse = $storeOrdersResponse->getOrderResult()->getShipmentResponses();
         $faults = $shipmentResponse->getFaults();
         $this->assertEmpty($faults);
-        $parcelLabelNumber = $shipmentResponse->getParcelInformation()[0]->getParcelLabelNumber();
+        $parcelLabelNumber = $shipmentResponse->getParcelInformation()->getParcelLabelNumber();
         file_put_contents(Yii::getAlias('@runtime/dpd_') . $parcelLabelNumber . '.pdf', $storeOrdersResponse->getOrderResult()->getParcellabelsPDF());
-    }
-
-    public function te1stGetTrackingData(): void
-    {
-        $client = new DpdSoapClient();
-        $getTrackingDataResponse = $client->getTrackingData(new GetTrackingData('01405400945058'));
-        $this->assertNotEmpty($getTrackingDataResponse->getTrackingresult()->getStatusInfo());
-    }
-
-    protected function getRecipientAddress(): Address
-    {
-        return new Address(
-            'Anas',
-            'Younes',
-            'Gagarinstraße',
-            '11',
-            null,
-            'DE',
-            '19063',
-            'Schwerin',
-            null,
-            null,
-            null,
-            '01590 1487281',
-            null,
-            null,
-            null,
-            null
-        );
-    }
-
-    protected function getSenderAddress(): Address
-    {
-        return new Address(
-            'CCLife Technic GmbH',
-            'Xiaomeng Bian',
-            'Barentsstr',
-            '15',
-            null,
-            'DE',
-            '53881',
-            'Euskirchen, Großbüllesheim',
-            null,
-            null,
-            null,
-            '021-36411196',
-            '021-36411196',
-            'cc@xxx.com',
-            null,
-            null
-        );
     }
 }

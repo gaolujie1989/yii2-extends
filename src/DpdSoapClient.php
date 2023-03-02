@@ -5,17 +5,25 @@
 
 namespace lujie\dpd;
 
-use dpd\LoginServiceClassmap;
-use dpd\LoginServiceClient;
-use dpd\ParcelLifeCycleServiceClassmap;
-use dpd\ParcelLifeCycleServiceClient;
-use dpd\ParcelShopFinderServiceClassmap;
-use dpd\ParcelShopFinderServiceClient;
-use dpd\ShipmentServiceClassmap;
-use dpd\ShipmentServiceClient;
-use dpd\Type\GetAuth;
-use dpd\Type\Login;
 use lujie\dpd\soap\DpdAuthMiddleware;
+use lujie\dpd\soap\LoginServiceClassmap;
+use lujie\dpd\soap\LoginServiceClient;
+use lujie\dpd\soap\ParcelShopFinderServiceClassmap;
+use lujie\dpd\soap\ParcelShopFinderServiceClient;
+use lujie\dpd\soap\ShipmentServiceClassmap;
+use lujie\dpd\soap\ShipmentServiceClient;
+use lujie\dpd\soap\Type\FindCitiesResponseType;
+use lujie\dpd\soap\Type\FindCitiesType;
+use lujie\dpd\soap\Type\FindParcelShopsByGeoDataResponseType;
+use lujie\dpd\soap\Type\FindParcelShopsByGeoDataType;
+use lujie\dpd\soap\Type\FindParcelShopsResponseType;
+use lujie\dpd\soap\Type\FindParcelShopsType;
+use lujie\dpd\soap\Type\GetAuth;
+use lujie\dpd\soap\Type\GetAuthResponse;
+use lujie\dpd\soap\Type\GetAvailableServicesResponseType;
+use lujie\dpd\soap\Type\GetAvailableServicesType;
+use lujie\dpd\soap\Type\StoreOrders;
+use lujie\dpd\soap\Type\StoreOrdersResponse;
 use lujie\extend\caching\CachingTrait;
 use Phpro\SoapClient\Client;
 use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
@@ -25,20 +33,19 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use yii\base\Component;
 
 /**
- * Class GlsSoapClient
+ * Class DpdSoapClient
  *
- * @method \dpd\Type\GetAuthResponse getAuth(\dpd\Type\GetAuth $parameters)
- * @method \dpd\Type\StoreOrdersResponse storeOrders(\dpd\Type\StoreOrders $parameters)
- * @method \dpd\Type\GetTrackingDataResponse getTrackingData(\dpd\Type\GetTrackingData $parameters) :
- * @method \dpd\Type\GetParcelLabelNumberForWebNumberResponse getParcelLabelNumberForWebNumber(\dpd\Type\GetParcelLabelNumberForWebNumber $parameters)
- * @method \dpd\Type\FindParcelShopsResponseType findParcelShops(\dpd\Type\FindParcelShopsType $parameters)
- * @method \dpd\Type\FindParcelShopsByGeoDataResponseType findParcelShopsByGeoData(\dpd\Type\FindParcelShopsByGeoDataType $parameters)
- * @method \dpd\Type\FindCitiesResponseType findCities(\dpd\Type\FindCitiesType $parameters)
- * @method \dpd\Type\GetAvailableServicesResponseType getAvailableServices(\dpd\Type\GetAvailableServicesType $parameters)
+ * @method GetAuthResponse getAuth(GetAuth $parameters)
+ * @method StoreOrdersResponse storeOrders(StoreOrders $parameters)
+ * @method FindParcelShopsResponseType findParcelShops(FindParcelShopsType $parameters)
+ * @method FindParcelShopsByGeoDataResponseType findParcelShopsByGeoData(FindParcelShopsByGeoDataType $parameters)
+ * @method FindCitiesResponseType findCities(FindCitiesType $parameters)
+ * @method GetAvailableServicesResponseType getAvailableServices(GetAvailableServicesType $parameters)
  *
- * https://esolutions.dpd.com/entwickler/entwicklerdaten/sandbox.aspx
- * @package lujie\gls
+ * @package lujie\dpd
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @document https://esolutions.dpd.com/entwickler/dpdwebservices.aspx
+ * @document https://esolutions.dpd.com/entwickler/entwicklerdaten/sandbox.aspx
  */
 class DpdSoapClient extends Component
 {
@@ -69,8 +76,7 @@ class DpdSoapClient extends Component
      */
     public $clientFactories = [
         'LoginService/V2_0/?wsdl' => [LoginServiceClient::class, LoginServiceClassmap::class],
-        'ShipmentService/V3_2/?wsdl' => [ShipmentServiceClient::class, ShipmentServiceClassmap::class],
-        'ParcelLifeCycleService/V2_0/?wsdl' => [ParcelLifeCycleServiceClient::class, ParcelLifeCycleServiceClassmap::class],
+        'ShipmentService/V4_4/?wsdl' => [ShipmentServiceClient::class, ShipmentServiceClassmap::class],
         'ParcelShopFinderService/V5_0/?wsdl' => [ParcelShopFinderServiceClient::class, ParcelShopFinderServiceClassmap::class],
     ];
 
@@ -100,7 +106,7 @@ class DpdSoapClient extends Component
      * @return ShipmentServiceClient
      * @inheritdoc
      */
-    protected function createClient($wsdl, $clientClass, $classMapClass): Client
+    protected function createClient(string $wsdl, string $clientClass, string $classMapClass): Client
     {
         $handler = HttPlugHandle::createWithDefaultClient();
         if ($clientClass !== LoginServiceClient::class) {
@@ -130,7 +136,11 @@ class DpdSoapClient extends Component
     {
         $key = $this->baseUrl . $this->username;
         return $this->cache->getOrSet($key, function () {
-            $authResponse = $this->getAuth(new GetAuth($this->username, $this->password, $this->language));
+            $authResponse = $this->getAuth(new GetAuth([
+                'delisId' => $this->username,
+                'password' => $this->password,
+                'messageLanguage' => $this->language,
+            ]));
             return $authResponse->getReturn();
         });
     }

@@ -16,8 +16,7 @@
   "autoload": {
     "psr-4": {
       "lujie\\dpd\\": "src",
-      "lujie\\dpd\\tests\\": "tests",
-      "dpd\\": "src/dpd"
+      "lujie\\dpd\\tests\\": "tests"
     }
   },
   "require": {

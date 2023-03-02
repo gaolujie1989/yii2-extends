@@ -22,6 +22,7 @@ use lujie\dpd\soap\Type\GetAuth;
 use lujie\dpd\soap\Type\GetAuthResponse;
 use lujie\dpd\soap\Type\GetAvailableServicesResponseType;
 use lujie\dpd\soap\Type\GetAvailableServicesType;
+use lujie\dpd\soap\Type\Login;
 use lujie\dpd\soap\Type\StoreOrders;
 use lujie\dpd\soap\Type\StoreOrdersResponse;
 use lujie\extend\caching\CachingTrait;

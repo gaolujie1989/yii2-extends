@@ -26,7 +26,7 @@ class GetAuth extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getDelisId() : string
+    public function getDelisId()
     {
         return $this->delisId;
     }
@@ -56,7 +56,7 @@ class GetAuth extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getPassword() : string
+    public function getPassword()
     {
         return $this->password;
     }
@@ -86,7 +86,7 @@ class GetAuth extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getMessageLanguage() : string
+    public function getMessageLanguage()
     {
         return $this->messageLanguage;
     }

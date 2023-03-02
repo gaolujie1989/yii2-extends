@@ -16,7 +16,7 @@ class GetAuthResponse extends BaseObject implements ResultInterface
     /**
      * @return \lujie\dpd\soap\Type\Login
      */
-    public function getReturn() : \lujie\dpd\soap\Type\Login
+    public function getReturn()
     {
         return $this->return;
     }

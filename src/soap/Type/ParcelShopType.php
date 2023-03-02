@@ -140,7 +140,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return int
      */
-    public function getParcelShopId() : int
+    public function getParcelShopId()
     {
         return $this->parcelShopId;
     }
@@ -170,7 +170,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getPudoId() : string
+    public function getPudoId()
     {
         return $this->pudoId;
     }
@@ -200,7 +200,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getCompany() : string
+    public function getCompany()
     {
         return $this->company;
     }
@@ -230,7 +230,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getStreet() : string
+    public function getStreet()
     {
         return $this->street;
     }
@@ -260,7 +260,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getHouseNo() : string
+    public function getHouseNo()
     {
         return $this->houseNo;
     }
@@ -290,7 +290,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getCountry() : string
+    public function getCountry()
     {
         return $this->country;
     }
@@ -320,7 +320,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return int
      */
-    public function getCountryNum() : int
+    public function getCountryNum()
     {
         return $this->countryNum;
     }
@@ -350,7 +350,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getState() : string
+    public function getState()
     {
         return $this->state;
     }
@@ -380,7 +380,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getZipCode() : string
+    public function getZipCode()
     {
         return $this->zipCode;
     }
@@ -410,7 +410,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getCity() : string
+    public function getCity()
     {
         return $this->city;
     }
@@ -440,7 +440,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getTown() : string
+    public function getTown()
     {
         return $this->town;
     }
@@ -470,7 +470,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getPhone() : string
+    public function getPhone()
     {
         return $this->phone;
     }
@@ -500,7 +500,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getFax() : string
+    public function getFax()
     {
         return $this->fax;
     }
@@ -530,7 +530,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getEmail() : string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -560,7 +560,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getHomepage() : string
+    public function getHomepage()
     {
         return $this->homepage;
     }
@@ -590,7 +590,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return float
      */
-    public function getLatitude() : float
+    public function getLatitude()
     {
         return $this->latitude;
     }
@@ -620,7 +620,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return float
      */
-    public function getLongitude() : float
+    public function getLongitude()
     {
         return $this->longitude;
     }
@@ -650,7 +650,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return float
      */
-    public function getCoordinateX() : float
+    public function getCoordinateX()
     {
         return $this->coordinateX;
     }
@@ -680,7 +680,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return float
      */
-    public function getCoordinateY() : float
+    public function getCoordinateY()
     {
         return $this->coordinateY;
     }
@@ -710,7 +710,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return float
      */
-    public function getCoordinateZ() : float
+    public function getCoordinateZ()
     {
         return $this->coordinateZ;
     }
@@ -740,7 +740,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return float
      */
-    public function getDistance() : float
+    public function getDistance()
     {
         return $this->distance;
     }
@@ -770,7 +770,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getExpressPickupTime() : string
+    public function getExpressPickupTime()
     {
         return $this->expressPickupTime;
     }
@@ -800,7 +800,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return string
      */
-    public function getExtraInfo() : string
+    public function getExtraInfo()
     {
         return $this->extraInfo;
     }
@@ -830,7 +830,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\OpeningHoursType
      */
-    public function getOpeningHours() : \lujie\dpd\soap\Type\OpeningHoursType
+    public function getOpeningHours()
     {
         return $this->openingHours;
     }
@@ -860,7 +860,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\HolidayType
      */
-    public function getHoliday() : \lujie\dpd\soap\Type\HolidayType
+    public function getHoliday()
     {
         return $this->holiday;
     }
@@ -890,7 +890,7 @@ class ParcelShopType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ServicesType
      */
-    public function getServices() : \lujie\dpd\soap\Type\ServicesType
+    public function getServices()
     {
         return $this->services;
     }

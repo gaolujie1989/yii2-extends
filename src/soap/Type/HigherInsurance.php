@@ -20,7 +20,7 @@ class HigherInsurance extends BaseObject
     /**
      * @return int
      */
-    public function getAmount() : int
+    public function getAmount()
     {
         return $this->amount;
     }
@@ -50,7 +50,7 @@ class HigherInsurance extends BaseObject
     /**
      * @return string
      */
-    public function getCurrency() : string
+    public function getCurrency()
     {
         return $this->currency;
     }

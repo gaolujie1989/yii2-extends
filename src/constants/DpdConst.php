@@ -21,4 +21,7 @@ class DpdConst
     public const ORDER_TYPE_CONSIGNMENT = 'consignment';
     public const ORDER_TYPE_COLLECTION = 'collection request order';
     public const ORDER_TYPE_PICKUP = 'pickup information';
+
+    public const ADDRESS_TYPE_PRIVATE = 'PRV';
+    public const ADDRESS_TYPE_COMMERCIAL = 'COM';
 }

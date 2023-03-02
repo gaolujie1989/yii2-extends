@@ -35,7 +35,7 @@ class OpeningHoursType extends BaseObject
     /**
      * @return string
      */
-    public function getWeekday() : string
+    public function getWeekday()
     {
         return $this->weekday;
     }
@@ -65,7 +65,7 @@ class OpeningHoursType extends BaseObject
     /**
      * @return string
      */
-    public function getOpenMorning() : string
+    public function getOpenMorning()
     {
         return $this->openMorning;
     }
@@ -95,7 +95,7 @@ class OpeningHoursType extends BaseObject
     /**
      * @return string
      */
-    public function getCloseMorning() : string
+    public function getCloseMorning()
     {
         return $this->closeMorning;
     }
@@ -125,7 +125,7 @@ class OpeningHoursType extends BaseObject
     /**
      * @return string
      */
-    public function getCloseAfternoon() : string
+    public function getCloseAfternoon()
     {
         return $this->closeAfternoon;
     }
@@ -155,7 +155,7 @@ class OpeningHoursType extends BaseObject
     /**
      * @return string
      */
-    public function getOpenAfternoon() : string
+    public function getOpenAfternoon()
     {
         return $this->openAfternoon;
     }

@@ -20,7 +20,7 @@ class StoreOrdersResponseType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\OutputType
      */
-    public function getOutput() : \lujie\dpd\soap\Type\OutputType
+    public function getOutput()
     {
         return $this->output;
     }
@@ -50,7 +50,7 @@ class StoreOrdersResponseType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ShipmentResponse
      */
-    public function getShipmentResponses() : \lujie\dpd\soap\Type\ShipmentResponse
+    public function getShipmentResponses()
     {
         return $this->shipmentResponses;
     }

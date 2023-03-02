@@ -135,7 +135,7 @@ class International extends BaseObject
     /**
      * @return bool
      */
-    public function getParcelType() : bool
+    public function getParcelType()
     {
         return $this->parcelType;
     }
@@ -165,7 +165,7 @@ class International extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsAmount() : int
+    public function getCustomsAmount()
     {
         return $this->customsAmount;
     }
@@ -195,7 +195,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsCurrency() : string
+    public function getCustomsCurrency()
     {
         return $this->customsCurrency;
     }
@@ -225,7 +225,7 @@ class International extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsAmountExport() : int
+    public function getCustomsAmountExport()
     {
         return $this->customsAmountExport;
     }
@@ -255,7 +255,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsCurrencyExport() : string
+    public function getCustomsCurrencyExport()
     {
         return $this->customsCurrencyExport;
     }
@@ -285,7 +285,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsTerms() : string
+    public function getCustomsTerms()
     {
         return $this->customsTerms;
     }
@@ -315,7 +315,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsPaper() : string
+    public function getCustomsPaper()
     {
         return $this->customsPaper;
     }
@@ -345,7 +345,7 @@ class International extends BaseObject
     /**
      * @return bool
      */
-    public function getCustomsEnclosure() : bool
+    public function getCustomsEnclosure()
     {
         return $this->customsEnclosure;
     }
@@ -375,7 +375,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsInvoice() : string
+    public function getCustomsInvoice()
     {
         return $this->customsInvoice;
     }
@@ -405,7 +405,7 @@ class International extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsInvoiceDate() : int
+    public function getCustomsInvoiceDate()
     {
         return $this->customsInvoiceDate;
     }
@@ -435,7 +435,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsOrigin() : string
+    public function getCustomsOrigin()
     {
         return $this->customsOrigin;
     }
@@ -465,7 +465,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsOrder() : string
+    public function getCustomsOrder()
     {
         return $this->customsOrder;
     }
@@ -495,7 +495,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getLinehaul() : string
+    public function getLinehaul()
     {
         return $this->linehaul;
     }
@@ -525,7 +525,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getShipMrn() : string
+    public function getShipMrn()
     {
         return $this->shipMrn;
     }
@@ -555,7 +555,7 @@ class International extends BaseObject
     /**
      * @return bool
      */
-    public function getCollectiveCustomsClearance() : bool
+    public function getCollectiveCustomsClearance()
     {
         return $this->collectiveCustomsClearance;
     }
@@ -585,7 +585,7 @@ class International extends BaseObject
     /**
      * @return int
      */
-    public function getInvoicePosition() : int
+    public function getInvoicePosition()
     {
         return $this->invoicePosition;
     }
@@ -615,7 +615,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getComment1() : string
+    public function getComment1()
     {
         return $this->comment1;
     }
@@ -645,7 +645,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getComment2() : string
+    public function getComment2()
     {
         return $this->comment2;
     }
@@ -675,7 +675,7 @@ class International extends BaseObject
     /**
      * @return int
      */
-    public function getNumberOfArticle() : int
+    public function getNumberOfArticle()
     {
         return $this->numberOfArticle;
     }
@@ -705,7 +705,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCountryRegistrationNumber() : string
+    public function getCountryRegistrationNumber()
     {
         return $this->countryRegistrationNumber;
     }
@@ -735,7 +735,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCommercialInvoiceConsigneeVatNumber() : string
+    public function getCommercialInvoiceConsigneeVatNumber()
     {
         return $this->commercialInvoiceConsigneeVatNumber;
     }
@@ -765,7 +765,7 @@ class International extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\AddressWithBusinessUnit
      */
-    public function getCommercialInvoiceConsignee() : \lujie\dpd\soap\Type\AddressWithBusinessUnit
+    public function getCommercialInvoiceConsignee()
     {
         return $this->commercialInvoiceConsignee;
     }
@@ -795,7 +795,7 @@ class International extends BaseObject
     /**
      * @return string
      */
-    public function getCommercialInvoiceConsignorVatNumber() : string
+    public function getCommercialInvoiceConsignorVatNumber()
     {
         return $this->commercialInvoiceConsignorVatNumber;
     }
@@ -825,7 +825,7 @@ class International extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Address
      */
-    public function getCommercialInvoiceConsignor() : \lujie\dpd\soap\Type\Address
+    public function getCommercialInvoiceConsignor()
     {
         return $this->commercialInvoiceConsignor;
     }
@@ -855,7 +855,7 @@ class International extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\AdditionalInvoiceLine
      */
-    public function getAdditionalInvoiceLines() : \lujie\dpd\soap\Type\AdditionalInvoiceLine
+    public function getAdditionalInvoiceLines()
     {
         return $this->additionalInvoiceLines;
     }

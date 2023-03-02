@@ -35,7 +35,7 @@ class Delivery extends BaseObject
     /**
      * @return string
      */
-    public function getDay() : string
+    public function getDay()
     {
         return $this->day;
     }
@@ -65,7 +65,7 @@ class Delivery extends BaseObject
     /**
      * @return int
      */
-    public function getDateFrom() : int
+    public function getDateFrom()
     {
         return $this->dateFrom;
     }
@@ -95,7 +95,7 @@ class Delivery extends BaseObject
     /**
      * @return int
      */
-    public function getDateTo() : int
+    public function getDateTo()
     {
         return $this->dateTo;
     }
@@ -125,7 +125,7 @@ class Delivery extends BaseObject
     /**
      * @return string
      */
-    public function getTimeFrom() : string
+    public function getTimeFrom()
     {
         return $this->timeFrom;
     }
@@ -155,7 +155,7 @@ class Delivery extends BaseObject
     /**
      * @return string
      */
-    public function getTimeTo() : string
+    public function getTimeTo()
     {
         return $this->timeTo;
     }

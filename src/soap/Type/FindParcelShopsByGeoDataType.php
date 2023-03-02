@@ -46,7 +46,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return float
      */
-    public function getLongitude() : float
+    public function getLongitude()
     {
         return $this->longitude;
     }
@@ -76,7 +76,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return float
      */
-    public function getLatitude() : float
+    public function getLatitude()
     {
         return $this->latitude;
     }
@@ -106,7 +106,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return int
      */
-    public function getLimit() : int
+    public function getLimit()
     {
         return $this->limit;
     }
@@ -136,7 +136,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return string
      */
-    public function getAvailabilityDate() : string
+    public function getAvailabilityDate()
     {
         return $this->availabilityDate;
     }
@@ -166,7 +166,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return bool
      */
-    public function getHideClosed() : bool
+    public function getHideClosed()
     {
         return $this->hideClosed;
     }
@@ -196,7 +196,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return string
      */
-    public function getSearchCountry() : string
+    public function getSearchCountry()
     {
         return $this->searchCountry;
     }
@@ -226,7 +226,7 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     /**
      * @return \lujie\dpd\soap\Type\ServicesRequestType
      */
-    public function getServices() : \lujie\dpd\soap\Type\ServicesRequestType
+    public function getServices()
     {
         return $this->services;
     }

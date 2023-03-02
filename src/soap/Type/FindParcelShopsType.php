@@ -61,7 +61,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getCountry() : string
+    public function getCountry()
     {
         return $this->country;
     }
@@ -91,7 +91,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getZipCode() : string
+    public function getZipCode()
     {
         return $this->zipCode;
     }
@@ -121,7 +121,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getCity() : string
+    public function getCity()
     {
         return $this->city;
     }
@@ -151,7 +151,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getStreet() : string
+    public function getStreet()
     {
         return $this->street;
     }
@@ -181,7 +181,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getHouseNo() : string
+    public function getHouseNo()
     {
         return $this->houseNo;
     }
@@ -211,7 +211,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return int
      */
-    public function getLimit() : int
+    public function getLimit()
     {
         return $this->limit;
     }
@@ -241,7 +241,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getAvailabilityDate() : string
+    public function getAvailabilityDate()
     {
         return $this->availabilityDate;
     }
@@ -271,7 +271,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return bool
      */
-    public function getHideClosed() : bool
+    public function getHideClosed()
     {
         return $this->hideClosed;
     }
@@ -301,7 +301,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getSearchCountry() : string
+    public function getSearchCountry()
     {
         return $this->searchCountry;
     }
@@ -331,7 +331,7 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     /**
      * @return \lujie\dpd\soap\Type\ServicesRequestType
      */
-    public function getServices() : \lujie\dpd\soap\Type\ServicesRequestType
+    public function getServices()
     {
         return $this->services;
     }

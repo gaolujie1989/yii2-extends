@@ -15,7 +15,7 @@ class ServicesType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ServiceType
      */
-    public function getService() : \lujie\dpd\soap\Type\ServiceType
+    public function getService()
     {
         return $this->service;
     }

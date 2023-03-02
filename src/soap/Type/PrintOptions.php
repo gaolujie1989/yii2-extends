@@ -20,7 +20,7 @@ class PrintOptions extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\PrintOption
      */
-    public function getPrintOption() : \lujie\dpd\soap\Type\PrintOption
+    public function getPrintOption()
     {
         return $this->printOption;
     }
@@ -50,7 +50,7 @@ class PrintOptions extends BaseObject
     /**
      * @return bool
      */
-    public function getSplitByParcel() : bool
+    public function getSplitByParcel()
     {
         return $this->splitByParcel;
     }

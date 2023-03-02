@@ -115,7 +115,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getParcelLabelNumber() : string
+    public function getParcelLabelNumber()
     {
         return $this->parcelLabelNumber;
     }
@@ -145,7 +145,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getCustomerReferenceNumber1() : string
+    public function getCustomerReferenceNumber1()
     {
         return $this->customerReferenceNumber1;
     }
@@ -175,7 +175,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getCustomerReferenceNumber2() : string
+    public function getCustomerReferenceNumber2()
     {
         return $this->customerReferenceNumber2;
     }
@@ -205,7 +205,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getCustomerReferenceNumber3() : string
+    public function getCustomerReferenceNumber3()
     {
         return $this->customerReferenceNumber3;
     }
@@ -235,7 +235,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getCustomerReferenceNumber4() : string
+    public function getCustomerReferenceNumber4()
     {
         return $this->customerReferenceNumber4;
     }
@@ -265,7 +265,7 @@ class Parcel extends BaseObject
     /**
      * @return bool
      */
-    public function getSwap() : bool
+    public function getSwap()
     {
         return $this->swap;
     }
@@ -295,7 +295,7 @@ class Parcel extends BaseObject
     /**
      * @return int
      */
-    public function getVolume() : int
+    public function getVolume()
     {
         return $this->volume;
     }
@@ -325,7 +325,7 @@ class Parcel extends BaseObject
     /**
      * @return int
      */
-    public function getWeight() : int
+    public function getWeight()
     {
         return $this->weight;
     }
@@ -355,7 +355,7 @@ class Parcel extends BaseObject
     /**
      * @return bool
      */
-    public function getHazardousLimitedQuantities() : bool
+    public function getHazardousLimitedQuantities()
     {
         return $this->hazardousLimitedQuantities;
     }
@@ -385,7 +385,7 @@ class Parcel extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\HigherInsurance
      */
-    public function getHigherInsurance() : \lujie\dpd\soap\Type\HigherInsurance
+    public function getHigherInsurance()
     {
         return $this->higherInsurance;
     }
@@ -415,7 +415,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getContent() : string
+    public function getContent()
     {
         return $this->content;
     }
@@ -445,7 +445,7 @@ class Parcel extends BaseObject
     /**
      * @return int
      */
-    public function getAddService() : int
+    public function getAddService()
     {
         return $this->addService;
     }
@@ -475,7 +475,7 @@ class Parcel extends BaseObject
     /**
      * @return int
      */
-    public function getMessageNumber() : int
+    public function getMessageNumber()
     {
         return $this->messageNumber;
     }
@@ -505,7 +505,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getFunction() : string
+    public function getFunction()
     {
         return $this->function;
     }
@@ -535,7 +535,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getParameter() : string
+    public function getParameter()
     {
         return $this->parameter;
     }
@@ -565,7 +565,7 @@ class Parcel extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Hazardous
      */
-    public function getHazardous() : \lujie\dpd\soap\Type\Hazardous
+    public function getHazardous()
     {
         return $this->hazardous;
     }
@@ -595,7 +595,7 @@ class Parcel extends BaseObject
     /**
      * @return bool
      */
-    public function getPrintInfo1OnParcelLabel() : bool
+    public function getPrintInfo1OnParcelLabel()
     {
         return $this->printInfo1OnParcelLabel;
     }
@@ -625,7 +625,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getInfo1() : string
+    public function getInfo1()
     {
         return $this->info1;
     }
@@ -655,7 +655,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getInfo2() : string
+    public function getInfo2()
     {
         return $this->info2;
     }
@@ -685,7 +685,7 @@ class Parcel extends BaseObject
     /**
      * @return bool
      */
-    public function getReturns() : bool
+    public function getReturns()
     {
         return $this->returns;
     }
@@ -715,7 +715,7 @@ class Parcel extends BaseObject
     /**
      * @return string
      */
-    public function getParcelClass() : string
+    public function getParcelClass()
     {
         return $this->parcelClass;
     }

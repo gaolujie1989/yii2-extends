@@ -16,7 +16,7 @@ class GetAvailableServicesResponseType extends BaseObject implements ResultInter
     /**
      * @return \lujie\dpd\soap\Type\ServicesType
      */
-    public function getServices() : \lujie\dpd\soap\Type\ServicesType
+    public function getServices()
     {
         return $this->services;
     }

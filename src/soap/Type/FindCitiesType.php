@@ -36,7 +36,7 @@ class FindCitiesType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getCountry() : string
+    public function getCountry()
     {
         return $this->country;
     }
@@ -66,7 +66,7 @@ class FindCitiesType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getZipCode() : string
+    public function getZipCode()
     {
         return $this->zipCode;
     }
@@ -96,7 +96,7 @@ class FindCitiesType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getCity() : string
+    public function getCity()
     {
         return $this->city;
     }
@@ -126,7 +126,7 @@ class FindCitiesType extends BaseObject implements RequestInterface
     /**
      * @return int
      */
-    public function getLimit() : int
+    public function getLimit()
     {
         return $this->limit;
     }
@@ -156,7 +156,7 @@ class FindCitiesType extends BaseObject implements RequestInterface
     /**
      * @return string
      */
-    public function getOrder() : string
+    public function getOrder()
     {
         return $this->order;
     }

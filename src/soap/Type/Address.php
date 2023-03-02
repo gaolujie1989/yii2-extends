@@ -95,7 +95,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getName1() : string
+    public function getName1()
     {
         return $this->name1;
     }
@@ -125,7 +125,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getName2() : string
+    public function getName2()
     {
         return $this->name2;
     }
@@ -155,7 +155,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getStreet() : string
+    public function getStreet()
     {
         return $this->street;
     }
@@ -185,7 +185,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getHouseNo() : string
+    public function getHouseNo()
     {
         return $this->houseNo;
     }
@@ -215,7 +215,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getState() : string
+    public function getState()
     {
         return $this->state;
     }
@@ -245,7 +245,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getCountry() : string
+    public function getCountry()
     {
         return $this->country;
     }
@@ -275,7 +275,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getZipCode() : string
+    public function getZipCode()
     {
         return $this->zipCode;
     }
@@ -305,7 +305,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getCity() : string
+    public function getCity()
     {
         return $this->city;
     }
@@ -335,7 +335,7 @@ class Address extends BaseObject
     /**
      * @return int
      */
-    public function getGln() : int
+    public function getGln()
     {
         return $this->gln;
     }
@@ -365,7 +365,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getCustomerNumber() : string
+    public function getCustomerNumber()
     {
         return $this->customerNumber;
     }
@@ -395,7 +395,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getContact() : string
+    public function getContact()
     {
         return $this->contact;
     }
@@ -425,7 +425,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getPhone() : string
+    public function getPhone()
     {
         return $this->phone;
     }
@@ -455,7 +455,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getMobile() : string
+    public function getMobile()
     {
         return $this->mobile;
     }
@@ -485,7 +485,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getFax() : string
+    public function getFax()
     {
         return $this->fax;
     }
@@ -515,7 +515,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getEmail() : string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -545,7 +545,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getComment() : string
+    public function getComment()
     {
         return $this->comment;
     }
@@ -575,7 +575,7 @@ class Address extends BaseObject
     /**
      * @return string
      */
-    public function getIaccount() : string
+    public function getIaccount()
     {
         return $this->iaccount;
     }

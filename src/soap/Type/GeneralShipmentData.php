@@ -100,7 +100,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsId() : string
+    public function getMpsId()
     {
         return $this->mpsId;
     }
@@ -130,7 +130,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getCUser() : string
+    public function getCUser()
     {
         return $this->cUser;
     }
@@ -160,7 +160,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsCustomerReferenceNumber1() : string
+    public function getMpsCustomerReferenceNumber1()
     {
         return $this->mpsCustomerReferenceNumber1;
     }
@@ -190,7 +190,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsCustomerReferenceNumber2() : string
+    public function getMpsCustomerReferenceNumber2()
     {
         return $this->mpsCustomerReferenceNumber2;
     }
@@ -220,7 +220,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsCustomerReferenceNumber3() : string
+    public function getMpsCustomerReferenceNumber3()
     {
         return $this->mpsCustomerReferenceNumber3;
     }
@@ -250,7 +250,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsCustomerReferenceNumber4() : string
+    public function getMpsCustomerReferenceNumber4()
     {
         return $this->mpsCustomerReferenceNumber4;
     }
@@ -280,7 +280,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getIdentificationNumber() : string
+    public function getIdentificationNumber()
     {
         return $this->identificationNumber;
     }
@@ -310,7 +310,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getSendingDepot() : string
+    public function getSendingDepot()
     {
         return $this->sendingDepot;
     }
@@ -340,7 +340,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getProduct() : string
+    public function getProduct()
     {
         return $this->product;
     }
@@ -370,7 +370,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return bool
      */
-    public function getMpsCompleteDelivery() : bool
+    public function getMpsCompleteDelivery()
     {
         return $this->mpsCompleteDelivery;
     }
@@ -400,7 +400,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return bool
      */
-    public function getMpsCompleteDeliveryLabel() : bool
+    public function getMpsCompleteDeliveryLabel()
     {
         return $this->mpsCompleteDeliveryLabel;
     }
@@ -430,7 +430,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return int
      */
-    public function getMpsVolume() : int
+    public function getMpsVolume()
     {
         return $this->mpsVolume;
     }
@@ -460,7 +460,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return int
      */
-    public function getMpsWeight() : int
+    public function getMpsWeight()
     {
         return $this->mpsWeight;
     }
@@ -490,7 +490,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsExpectedSendingDate() : string
+    public function getMpsExpectedSendingDate()
     {
         return $this->mpsExpectedSendingDate;
     }
@@ -520,7 +520,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return string
      */
-    public function getMpsExpectedSendingTime() : string
+    public function getMpsExpectedSendingTime()
     {
         return $this->mpsExpectedSendingTime;
     }
@@ -550,7 +550,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\AddressWithType
      */
-    public function getSender() : \lujie\dpd\soap\Type\AddressWithType
+    public function getSender()
     {
         return $this->sender;
     }
@@ -580,7 +580,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\AddressWithType
      */
-    public function getRecipient() : \lujie\dpd\soap\Type\AddressWithType
+    public function getRecipient()
     {
         return $this->recipient;
     }
@@ -610,7 +610,7 @@ class GeneralShipmentData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\AddressWithType
      */
-    public function getReturnAddress() : \lujie\dpd\soap\Type\AddressWithType
+    public function getReturnAddress()
     {
         return $this->returnAddress;
     }

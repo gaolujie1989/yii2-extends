@@ -16,7 +16,7 @@ class StoreOrdersResponse extends BaseObject implements ResultInterface
     /**
      * @return \lujie\dpd\soap\Type\StoreOrdersResponseType
      */
-    public function getOrderResult() : \lujie\dpd\soap\Type\StoreOrdersResponseType
+    public function getOrderResult()
     {
         return $this->orderResult;
     }

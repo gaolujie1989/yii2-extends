@@ -70,7 +70,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getIdentificationUnNo() : string
+    public function getIdentificationUnNo()
     {
         return $this->identificationUnNo;
     }
@@ -100,7 +100,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getIdentificationClass() : string
+    public function getIdentificationClass()
     {
         return $this->identificationClass;
     }
@@ -130,7 +130,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getClassificationCode() : string
+    public function getClassificationCode()
     {
         return $this->classificationCode;
     }
@@ -160,7 +160,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getPackingGroup() : string
+    public function getPackingGroup()
     {
         return $this->packingGroup;
     }
@@ -190,7 +190,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getPackingCode() : string
+    public function getPackingCode()
     {
         return $this->packingCode;
     }
@@ -220,7 +220,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription()
     {
         return $this->description;
     }
@@ -250,7 +250,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getSubsidiaryRisk() : string
+    public function getSubsidiaryRisk()
     {
         return $this->subsidiaryRisk;
     }
@@ -280,7 +280,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getTunnelRestrictionCode() : string
+    public function getTunnelRestrictionCode()
     {
         return $this->tunnelRestrictionCode;
     }
@@ -310,7 +310,7 @@ class Hazardous extends BaseObject
     /**
      * @return float
      */
-    public function getHazardousWeight() : float
+    public function getHazardousWeight()
     {
         return $this->hazardousWeight;
     }
@@ -340,7 +340,7 @@ class Hazardous extends BaseObject
     /**
      * @return float
      */
-    public function getNetWeight() : float
+    public function getNetWeight()
     {
         return $this->netWeight;
     }
@@ -370,7 +370,7 @@ class Hazardous extends BaseObject
     /**
      * @return int
      */
-    public function getFactor() : int
+    public function getFactor()
     {
         return $this->factor;
     }
@@ -400,7 +400,7 @@ class Hazardous extends BaseObject
     /**
      * @return string
      */
-    public function getNotOtherwiseSpecified() : string
+    public function getNotOtherwiseSpecified()
     {
         return $this->notOtherwiseSpecified;
     }

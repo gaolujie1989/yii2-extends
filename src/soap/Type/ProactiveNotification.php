@@ -30,7 +30,7 @@ class ProactiveNotification extends BaseObject
     /**
      * @return int
      */
-    public function getChannel() : int
+    public function getChannel()
     {
         return $this->channel;
     }
@@ -60,7 +60,7 @@ class ProactiveNotification extends BaseObject
     /**
      * @return string
      */
-    public function getValue() : string
+    public function getValue()
     {
         return $this->value;
     }
@@ -90,7 +90,7 @@ class ProactiveNotification extends BaseObject
     /**
      * @return int
      */
-    public function getRule() : int
+    public function getRule()
     {
         return $this->rule;
     }
@@ -120,7 +120,7 @@ class ProactiveNotification extends BaseObject
     /**
      * @return string
      */
-    public function getLanguage() : string
+    public function getLanguage()
     {
         return $this->language;
     }

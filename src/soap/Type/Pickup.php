@@ -65,7 +65,7 @@ class Pickup extends BaseObject
     /**
      * @return int
      */
-    public function getTour() : int
+    public function getTour()
     {
         return $this->tour;
     }
@@ -95,7 +95,7 @@ class Pickup extends BaseObject
     /**
      * @return int
      */
-    public function getQuantity() : int
+    public function getQuantity()
     {
         return $this->quantity;
     }
@@ -125,7 +125,7 @@ class Pickup extends BaseObject
     /**
      * @return int
      */
-    public function getDate() : int
+    public function getDate()
     {
         return $this->date;
     }
@@ -155,7 +155,7 @@ class Pickup extends BaseObject
     /**
      * @return string
      */
-    public function getFromTime1() : string
+    public function getFromTime1()
     {
         return $this->fromTime1;
     }
@@ -185,7 +185,7 @@ class Pickup extends BaseObject
     /**
      * @return string
      */
-    public function getToTime1() : string
+    public function getToTime1()
     {
         return $this->toTime1;
     }
@@ -215,7 +215,7 @@ class Pickup extends BaseObject
     /**
      * @return string
      */
-    public function getFromTime2() : string
+    public function getFromTime2()
     {
         return $this->fromTime2;
     }
@@ -245,7 +245,7 @@ class Pickup extends BaseObject
     /**
      * @return string
      */
-    public function getToTime2() : string
+    public function getToTime2()
     {
         return $this->toTime2;
     }
@@ -275,7 +275,7 @@ class Pickup extends BaseObject
     /**
      * @return int
      */
-    public function getExtraPickup() : int
+    public function getExtraPickup()
     {
         return $this->extraPickup;
     }
@@ -305,7 +305,7 @@ class Pickup extends BaseObject
     /**
      * @return string
      */
-    public function getBoxId() : string
+    public function getBoxId()
     {
         return $this->boxId;
     }
@@ -335,7 +335,7 @@ class Pickup extends BaseObject
     /**
      * @return string
      */
-    public function getBoxTan() : string
+    public function getBoxTan()
     {
         return $this->boxTan;
     }
@@ -365,7 +365,7 @@ class Pickup extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Address
      */
-    public function getCollectionRequestAddress() : \lujie\dpd\soap\Type\Address
+    public function getCollectionRequestAddress()
     {
         return $this->collectionRequestAddress;
     }

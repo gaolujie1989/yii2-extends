@@ -2,9 +2,7 @@
 
 namespace lujie\dpd\soap\Type;
 
-use yii\base\BaseObject;
-
-class AddressWithBusinessUnit extends BaseObject
+class AddressWithBusinessUnit extends Address
 {
 
     /**
@@ -15,7 +13,7 @@ class AddressWithBusinessUnit extends BaseObject
     /**
      * @return int
      */
-    public function getBusinessUnit() : int
+    public function getBusinessUnit()
     {
         return $this->businessUnit;
     }

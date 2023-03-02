@@ -30,7 +30,7 @@ class ServiceType extends BaseObject
     /**
      * @return string
      */
-    public function getCode() : string
+    public function getCode()
     {
         return $this->code;
     }
@@ -60,7 +60,7 @@ class ServiceType extends BaseObject
     /**
      * @return bool
      */
-    public function getAvailable() : bool
+    public function getAvailable()
     {
         return $this->available;
     }
@@ -90,7 +90,7 @@ class ServiceType extends BaseObject
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription()
     {
         return $this->description;
     }
@@ -120,7 +120,7 @@ class ServiceType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ServiceDetailType
      */
-    public function getServiceDetail() : \lujie\dpd\soap\Type\ServiceDetailType
+    public function getServiceDetail()
     {
         return $this->serviceDetail;
     }

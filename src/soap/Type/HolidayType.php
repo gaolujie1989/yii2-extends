@@ -20,7 +20,7 @@ class HolidayType extends BaseObject
     /**
      * @return string
      */
-    public function getHolidayStart() : string
+    public function getHolidayStart()
     {
         return $this->holidayStart;
     }
@@ -50,7 +50,7 @@ class HolidayType extends BaseObject
     /**
      * @return string
      */
-    public function getHolidayEnd() : string
+    public function getHolidayEnd()
     {
         return $this->holidayEnd;
     }

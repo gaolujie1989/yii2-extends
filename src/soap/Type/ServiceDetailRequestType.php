@@ -15,7 +15,7 @@ class ServiceDetailRequestType extends BaseObject
     /**
      * @return string
      */
-    public function getCode() : string
+    public function getCode()
     {
         return $this->code;
     }

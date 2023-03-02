@@ -21,7 +21,7 @@ class StoreOrders extends BaseObject implements RequestInterface
     /**
      * @return \lujie\dpd\soap\Type\PrintOptions
      */
-    public function getPrintOptions() : \lujie\dpd\soap\Type\PrintOptions
+    public function getPrintOptions()
     {
         return $this->printOptions;
     }
@@ -51,7 +51,7 @@ class StoreOrders extends BaseObject implements RequestInterface
     /**
      * @return \lujie\dpd\soap\Type\ShipmentServiceData
      */
-    public function getOrder() : \lujie\dpd\soap\Type\ShipmentServiceData
+    public function getOrder()
     {
         return $this->order;
     }

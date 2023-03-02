@@ -5,7 +5,6 @@
 
 namespace lujie\dpd;
 
-use lujie\dpd\soap\DpdAuthMiddleware;
 use lujie\dpd\soap\LoginServiceClassmap;
 use lujie\dpd\soap\LoginServiceClient;
 use lujie\dpd\soap\ParcelShopFinderServiceClassmap;
@@ -111,7 +110,7 @@ class DpdSoapClient extends Component
     {
         $handler = HttPlugHandle::createWithDefaultClient();
         if ($clientClass !== LoginServiceClient::class) {
-            $dpdAuthMiddleware = new DpdAuthMiddleware(
+            $dpdAuthMiddleware = new DpdSoapAuthMiddleware(
                 $this->getDpdLogin()->getDelisId(),
                 $this->getDpdLogin()->getAuthToken(),
                 $this->language

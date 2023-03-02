@@ -30,7 +30,7 @@ class Login extends BaseObject
     /**
      * @return string
      */
-    public function getDelisId() : string
+    public function getDelisId()
     {
         return $this->delisId;
     }
@@ -60,7 +60,7 @@ class Login extends BaseObject
     /**
      * @return string
      */
-    public function getCustomerUid() : string
+    public function getCustomerUid()
     {
         return $this->customerUid;
     }
@@ -90,7 +90,7 @@ class Login extends BaseObject
     /**
      * @return string
      */
-    public function getAuthToken() : string
+    public function getAuthToken()
     {
         return $this->authToken;
     }
@@ -120,7 +120,7 @@ class Login extends BaseObject
     /**
      * @return string
      */
-    public function getDepot() : string
+    public function getDepot()
     {
         return $this->depot;
     }

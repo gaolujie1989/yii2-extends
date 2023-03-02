@@ -20,7 +20,7 @@ class FaultCodeType extends BaseObject
     /**
      * @return string
      */
-    public function getFaultCode() : string
+    public function getFaultCode()
     {
         return $this->faultCode;
     }
@@ -50,7 +50,7 @@ class FaultCodeType extends BaseObject
     /**
      * @return string
      */
-    public function getMessage() : string
+    public function getMessage()
     {
         return $this->message;
     }

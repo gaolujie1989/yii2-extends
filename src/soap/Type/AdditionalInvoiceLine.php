@@ -65,7 +65,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsInvoicePosition() : int
+    public function getCustomsInvoicePosition()
     {
         return $this->customsInvoicePosition;
     }
@@ -95,7 +95,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return int
      */
-    public function getQuantityItems() : int
+    public function getQuantityItems()
     {
         return $this->quantityItems;
     }
@@ -125,7 +125,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsContent() : string
+    public function getCustomsContent()
     {
         return $this->customsContent;
     }
@@ -155,7 +155,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsTarif() : string
+    public function getCustomsTarif()
     {
         return $this->customsTarif;
     }
@@ -185,7 +185,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsAmountLine() : int
+    public function getCustomsAmountLine()
     {
         return $this->customsAmountLine;
     }
@@ -215,7 +215,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return string
      */
-    public function getCustomsOrigin() : string
+    public function getCustomsOrigin()
     {
         return $this->customsOrigin;
     }
@@ -245,7 +245,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsNetWeight() : int
+    public function getCustomsNetWeight()
     {
         return $this->customsNetWeight;
     }
@@ -275,7 +275,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return int
      */
-    public function getCustomsGrossWeight() : int
+    public function getCustomsGrossWeight()
     {
         return $this->customsGrossWeight;
     }
@@ -305,7 +305,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return string
      */
-    public function getProductFabricComposition() : string
+    public function getProductFabricComposition()
     {
         return $this->productFabricComposition;
     }
@@ -335,7 +335,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return string
      */
-    public function getProductCode() : string
+    public function getProductCode()
     {
         return $this->productCode;
     }
@@ -365,7 +365,7 @@ class AdditionalInvoiceLine extends BaseObject
     /**
      * @return string
      */
-    public function getProductShortDescription() : string
+    public function getProductShortDescription()
     {
         return $this->productShortDescription;
     }

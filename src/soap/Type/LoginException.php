@@ -65,7 +65,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getAdditionalData() : string
+    public function getAdditionalData()
     {
         return $this->additionalData;
     }
@@ -95,7 +95,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getAdditionalInfo() : string
+    public function getAdditionalInfo()
     {
         return $this->additionalInfo;
     }
@@ -125,7 +125,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getErrorClass() : string
+    public function getErrorClass()
     {
         return $this->errorClass;
     }
@@ -155,7 +155,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getErrorCode() : string
+    public function getErrorCode()
     {
         return $this->errorCode;
     }
@@ -185,7 +185,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getFullMessage() : string
+    public function getFullMessage()
     {
         return $this->fullMessage;
     }
@@ -215,7 +215,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getLanguage() : string
+    public function getLanguage()
     {
         return $this->language;
     }
@@ -245,7 +245,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getMessage() : string
+    public function getMessage()
     {
         return $this->message;
     }
@@ -275,7 +275,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getShortMessage() : string
+    public function getShortMessage()
     {
         return $this->shortMessage;
     }
@@ -305,7 +305,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getSystemFullMessage() : string
+    public function getSystemFullMessage()
     {
         return $this->systemFullMessage;
     }
@@ -335,7 +335,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getSystemMessage() : string
+    public function getSystemMessage()
     {
         return $this->systemMessage;
     }
@@ -365,7 +365,7 @@ class LoginException extends BaseObject
     /**
      * @return string
      */
-    public function getSystemShortMessage() : string
+    public function getSystemShortMessage()
     {
         return $this->systemShortMessage;
     }

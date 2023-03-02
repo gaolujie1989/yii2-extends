@@ -15,7 +15,7 @@ class ServicesRequestType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ServiceRequestType
      */
-    public function getService() : \lujie\dpd\soap\Type\ServiceRequestType
+    public function getService()
     {
         return $this->service;
     }

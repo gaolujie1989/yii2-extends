@@ -25,7 +25,7 @@ class ParcelShopDelivery extends BaseObject
     /**
      * @return int
      */
-    public function getParcelShopId() : int
+    public function getParcelShopId()
     {
         return $this->parcelShopId;
     }
@@ -55,7 +55,7 @@ class ParcelShopDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getParcelShopPudoId() : string
+    public function getParcelShopPudoId()
     {
         return $this->parcelShopPudoId;
     }
@@ -85,7 +85,7 @@ class ParcelShopDelivery extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Notification
      */
-    public function getParcelShopNotification() : \lujie\dpd\soap\Type\Notification
+    public function getParcelShopNotification()
     {
         return $this->parcelShopNotification;
     }

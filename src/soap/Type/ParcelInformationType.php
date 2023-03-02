@@ -25,7 +25,7 @@ class ParcelInformationType extends BaseObject
     /**
      * @return string
      */
-    public function getParcelLabelNumber() : string
+    public function getParcelLabelNumber()
     {
         return $this->parcelLabelNumber;
     }
@@ -55,7 +55,7 @@ class ParcelInformationType extends BaseObject
     /**
      * @return string
      */
-    public function getDpdReference() : string
+    public function getDpdReference()
     {
         return $this->dpdReference;
     }
@@ -85,7 +85,7 @@ class ParcelInformationType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\OutputType
      */
-    public function getOutput() : \lujie\dpd\soap\Type\OutputType
+    public function getOutput()
     {
         return $this->output;
     }

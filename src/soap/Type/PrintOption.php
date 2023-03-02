@@ -30,7 +30,7 @@ class PrintOption extends BaseObject
     /**
      * @return string
      */
-    public function getOutputFormat() : string
+    public function getOutputFormat()
     {
         return $this->outputFormat;
     }
@@ -60,7 +60,7 @@ class PrintOption extends BaseObject
     /**
      * @return string
      */
-    public function getPaperFormat() : string
+    public function getPaperFormat()
     {
         return $this->paperFormat;
     }
@@ -90,7 +90,7 @@ class PrintOption extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Printer
      */
-    public function getPrinter() : \lujie\dpd\soap\Type\Printer
+    public function getPrinter()
     {
         return $this->printer;
     }
@@ -120,7 +120,7 @@ class PrintOption extends BaseObject
     /**
      * @return string
      */
-    public function getStartPosition() : string
+    public function getStartPosition()
     {
         return $this->startPosition;
     }

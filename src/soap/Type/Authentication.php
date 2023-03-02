@@ -26,7 +26,7 @@ class Authentication extends BaseObject
     /**
      * @return string
      */
-    public function getDelisId() : string
+    public function getDelisId()
     {
         return $this->delisId;
     }
@@ -56,7 +56,7 @@ class Authentication extends BaseObject
     /**
      * @return string
      */
-    public function getAuthToken() : string
+    public function getAuthToken()
     {
         return $this->authToken;
     }
@@ -86,7 +86,7 @@ class Authentication extends BaseObject
     /**
      * @return string
      */
-    public function getMessageLanguage() : string
+    public function getMessageLanguage()
     {
         return $this->messageLanguage;
     }

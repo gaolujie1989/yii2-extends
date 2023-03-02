@@ -5,10 +5,12 @@
 
 namespace lujie\dpd\tests\unit;
 
+use lujie\dpd\constants\DpdConst;
 use lujie\dpd\DpdSoapClient;
 use lujie\dpd\helpers\DpdSoapHelper;
 use lujie\dpd\soap\Type\ShipmentServiceData;
 use lujie\dpd\soap\Type\StoreOrders;
+use lujie\extend\models\Address;
 use lujie\extend\models\Item;
 use Yii;
 
@@ -30,7 +32,7 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
             'widthMM' => 540,
             'heightMM' => 320,
         ]);
-        $warehouseAddress = new \lujie\extend\models\Address([
+        $warehouseAddress = new Address([
             'firstName' => 'CCLife Technic GmbH',
             'lastName' => 'Xiaomeng Bian',
             'country' => 'DE',
@@ -41,7 +43,7 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
             'email' => 'yingjun.wang@cclife.de',
             'phone' => '021-36412196',
         ]);
-        $customerAddress = new \lujie\extend\models\Address([
+        $customerAddress = new Address([
             'firstName' => 'Anas',
             'lastName' => 'Younes',
             'country' => 'DE',
@@ -52,7 +54,15 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
             'phone' => '01590 1487281',
         ]);
 
-        $generalShipmentData = DpdSoapHelper::createGeneralShipmentData($item, $warehouseAddress, $customerAddress, 'id-xxx', ['ref-xxx']);
+        $generalShipmentData = DpdSoapHelper::createGeneralShipmentData(
+            $item,
+            $warehouseAddress,
+            DpdConst::ADDRESS_TYPE_COMMERCIAL,
+            $customerAddress,
+            DpdConst::ADDRESS_TYPE_PRIVATE,
+            'id-xxx',
+            ['ref-xxx']
+        );
         $order = new ShipmentServiceData([
             'generalShipmentData' => $generalShipmentData,
             'productAndServiceData' => DpdSoapHelper::createProductAndServiceData(),

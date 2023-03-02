@@ -16,7 +16,7 @@ class FindParcelShopsResponseType extends BaseObject implements ResultInterface
     /**
      * @return \lujie\dpd\soap\Type\ParcelShopType
      */
-    public function getParcelShop() : \lujie\dpd\soap\Type\ParcelShopType
+    public function getParcelShop()
     {
         return $this->parcelShop;
     }

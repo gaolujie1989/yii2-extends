@@ -16,7 +16,7 @@ class FindParcelShopsByGeoDataResponseType extends BaseObject implements ResultI
     /**
      * @return \lujie\dpd\soap\Type\ParcelShopType
      */
-    public function getParcelShop() : \lujie\dpd\soap\Type\ParcelShopType
+    public function getParcelShop()
     {
         return $this->parcelShop;
     }

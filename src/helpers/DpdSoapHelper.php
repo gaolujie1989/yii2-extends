@@ -7,6 +7,7 @@ namespace lujie\dpd\helpers;
 
 use lujie\dpd\constants\DpdConst;
 use lujie\dpd\soap\Type\Address;
+use lujie\dpd\soap\Type\AddressWithType;
 use lujie\dpd\soap\Type\GeneralShipmentData;
 use lujie\dpd\soap\Type\PrintOption;
 use lujie\dpd\soap\Type\PrintOptions;
@@ -49,7 +50,15 @@ class DpdSoapHelper
      * @return GeneralShipmentData
      * @inheritdoc
      */
-    public static function createGeneralShipmentData(ItemInterface $item, AddressInterface $sender, AddressInterface $recipient, string $id, array $refs = []): GeneralShipmentData
+    public static function createGeneralShipmentData(
+        ItemInterface $item,
+        AddressInterface $sender,
+        string $senderAddressType,
+        AddressInterface $recipient,
+        string $recipientAddressType,
+        string $id,
+        array $refs = []
+    ): GeneralShipmentData
     {
         $volumeCm3 = (int)round($item->getLengthMM() * $item->getWidthMM() * $item->getHeightMM() / 1000);
         return new GeneralShipmentData([
@@ -66,8 +75,8 @@ class DpdSoapHelper
             'mpsWeight' => (int)round($item->getWeightG() / 10),
             'mpsExpectedSendingDate' => date('Ymd'),
             'mpsExpectedSendingTime' => '170000',
-            'sender' => static::createDpdAddress($sender),
-            'recipient' => static::createDpdAddress($recipient),
+            'sender' => static::createDpdAddress($sender, $senderAddressType),
+            'recipient' => static::createDpdAddress($recipient, $recipientAddressType),
         ]);
     }
 
@@ -93,12 +102,13 @@ class DpdSoapHelper
      * @return Address
      * @inheritdoc
      */
-    public static function createDpdAddress(AddressInterface $address): Address
+    public static function createDpdAddress(AddressInterface $address, string $addressType): AddressWithType
     {
-        return new Address([
+        return new AddressWithType(array_filter([
+            'addressType' => $addressType,
             'name1' => $address->getFirstName(),
             'name2' => $address->getLastName(),
-            'street' => $address->getState(),
+            'street' => $address->getStreet(),
             'houseNo' => $address->getStreetNo(),
             'state' => $address->getState(),
             'country' => $address->getCountry(),
@@ -109,6 +119,6 @@ class DpdSoapHelper
             'phone' => $address->getPhone(),
             'email' => $address->getEmail(),
             'comment' => $address->getAdditional(),
-        ]);
+        ]));
     }
 }

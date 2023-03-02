@@ -1,13 +1,13 @@
 <?php
 
-namespace lujie\dpd\soap;
+namespace lujie\dpd;
 
 use Http\Promise\Promise;
 use Phpro\SoapClient\Middleware\Middleware;
 use Psr\Http\Message\RequestInterface;
 use function GuzzleHttp\Psr7\stream_for;
 
-class DpdAuthMiddleware extends Middleware
+class DpdSoapAuthMiddleware extends Middleware
 {
     /**
      * @var string
@@ -44,11 +44,15 @@ class DpdAuthMiddleware extends Middleware
             . "<authToken>{$this->authToken}</authToken>"
             . "<messageLanguage>{$this->messageLanguage}</messageLanguage>"
             . '</ns:authentication></SOAP-ENV:Header>';
-        $soapXml = $request->getBody()->getContents();
+        //大傻叉，SoapRequest转换成PsrRequest的时候，BodyStream没有reset
+        $bodyStream = $request->getBody();
+        $bodyStream->rewind();
+        $soapXml = $bodyStream->getContents();
         $soapXml = strtr($soapXml, [
             'xmlns:ns1' => $headerNs . ' xmlns:ns1',
             '<SOAP-ENV:Body>' => $headerXml . '<SOAP-ENV:Body>',
         ]);
+        codecept_debug($soapXml);
         $request = $request->withBody(stream_for($soapXml));
 
         return $handler($request);

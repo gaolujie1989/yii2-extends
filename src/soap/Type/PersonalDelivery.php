@@ -45,7 +45,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return int
      */
-    public function getType() : int
+    public function getType()
     {
         return $this->type;
     }
@@ -75,7 +75,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getFloor() : string
+    public function getFloor()
     {
         return $this->floor;
     }
@@ -105,7 +105,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getBuilding() : string
+    public function getBuilding()
     {
         return $this->building;
     }
@@ -135,7 +135,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getDepartment() : string
+    public function getDepartment()
     {
         return $this->department;
     }
@@ -165,7 +165,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }
@@ -195,7 +195,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getPhone() : string
+    public function getPhone()
     {
         return $this->phone;
     }
@@ -225,7 +225,7 @@ class PersonalDelivery extends BaseObject
     /**
      * @return string
      */
-    public function getPersonId() : string
+    public function getPersonId()
     {
         return $this->personId;
     }

@@ -90,7 +90,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return string
      */
-    public function getOrderType() : string
+    public function getOrderType()
     {
         return $this->orderType;
     }
@@ -120,7 +120,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return bool
      */
-    public function getSaturdayDelivery() : bool
+    public function getSaturdayDelivery()
     {
         return $this->saturdayDelivery;
     }
@@ -150,7 +150,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return bool
      */
-    public function getExWorksDelivery() : bool
+    public function getExWorksDelivery()
     {
         return $this->exWorksDelivery;
     }
@@ -180,7 +180,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return bool
      */
-    public function getGuarantee() : bool
+    public function getGuarantee()
     {
         return $this->guarantee;
     }
@@ -210,7 +210,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return bool
      */
-    public function getTyres() : bool
+    public function getTyres()
     {
         return $this->tyres;
     }
@@ -240,7 +240,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return bool
      */
-    public function getFood() : bool
+    public function getFood()
     {
         return $this->food;
     }
@@ -270,7 +270,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\PersonalDelivery
      */
-    public function getPersonalDelivery() : \lujie\dpd\soap\Type\PersonalDelivery
+    public function getPersonalDelivery()
     {
         return $this->personalDelivery;
     }
@@ -300,7 +300,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Pickup
      */
-    public function getPickup() : \lujie\dpd\soap\Type\Pickup
+    public function getPickup()
     {
         return $this->pickup;
     }
@@ -330,7 +330,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ParcelShopDelivery
      */
-    public function getParcelShopDelivery() : \lujie\dpd\soap\Type\ParcelShopDelivery
+    public function getParcelShopDelivery()
     {
         return $this->parcelShopDelivery;
     }
@@ -360,7 +360,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Notification
      */
-    public function getPredict() : \lujie\dpd\soap\Type\Notification
+    public function getPredict()
     {
         return $this->predict;
     }
@@ -390,7 +390,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Notification
      */
-    public function getPersonalDeliveryNotification() : \lujie\dpd\soap\Type\Notification
+    public function getPersonalDeliveryNotification()
     {
         return $this->personalDeliveryNotification;
     }
@@ -420,7 +420,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ProactiveNotification
      */
-    public function getProactiveNotification() : \lujie\dpd\soap\Type\ProactiveNotification
+    public function getProactiveNotification()
     {
         return $this->proactiveNotification;
     }
@@ -450,7 +450,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Delivery
      */
-    public function getDelivery() : \lujie\dpd\soap\Type\Delivery
+    public function getDelivery()
     {
         return $this->delivery;
     }
@@ -480,7 +480,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Address
      */
-    public function getInvoiceAddress() : \lujie\dpd\soap\Type\Address
+    public function getInvoiceAddress()
     {
         return $this->invoiceAddress;
     }
@@ -510,7 +510,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return string
      */
-    public function getCountrySpecificService() : string
+    public function getCountrySpecificService()
     {
         return $this->countrySpecificService;
     }
@@ -540,7 +540,7 @@ class ProductAndServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\International
      */
-    public function getInternational() : \lujie\dpd\soap\Type\International
+    public function getInternational()
     {
         return $this->international;
     }

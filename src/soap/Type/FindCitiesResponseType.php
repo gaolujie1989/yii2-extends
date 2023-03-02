@@ -16,7 +16,7 @@ class FindCitiesResponseType extends BaseObject implements ResultInterface
     /**
      * @return \lujie\dpd\soap\Type\CityType
      */
-    public function getCity() : \lujie\dpd\soap\Type\CityType
+    public function getCity()
     {
         return $this->city;
     }

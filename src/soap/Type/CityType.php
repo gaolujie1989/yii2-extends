@@ -35,7 +35,7 @@ class CityType extends BaseObject
     /**
      * @return string
      */
-    public function getCountry() : string
+    public function getCountry()
     {
         return $this->country;
     }
@@ -65,7 +65,7 @@ class CityType extends BaseObject
     /**
      * @return int
      */
-    public function getCountryNum() : int
+    public function getCountryNum()
     {
         return $this->countryNum;
     }
@@ -95,7 +95,7 @@ class CityType extends BaseObject
     /**
      * @return string
      */
-    public function getZipCode() : string
+    public function getZipCode()
     {
         return $this->zipCode;
     }
@@ -125,7 +125,7 @@ class CityType extends BaseObject
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }
@@ -155,7 +155,7 @@ class CityType extends BaseObject
     /**
      * @return string
      */
-    public function getTown() : string
+    public function getTown()
     {
         return $this->town;
     }

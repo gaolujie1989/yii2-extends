@@ -20,7 +20,7 @@ class OutputType extends BaseObject
     /**
      * @return string
      */
-    public function getFormat() : string
+    public function getFormat()
     {
         return $this->format;
     }
@@ -50,7 +50,7 @@ class OutputType extends BaseObject
     /**
      * @return string
      */
-    public function getContent() : string
+    public function getContent()
     {
         return $this->content;
     }

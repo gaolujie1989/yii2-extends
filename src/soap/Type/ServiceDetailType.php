@@ -20,7 +20,7 @@ class ServiceDetailType extends BaseObject
     /**
      * @return string
      */
-    public function getCode() : string
+    public function getCode()
     {
         return $this->code;
     }
@@ -50,7 +50,7 @@ class ServiceDetailType extends BaseObject
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription()
     {
         return $this->description;
     }

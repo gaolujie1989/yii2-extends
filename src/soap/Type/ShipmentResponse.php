@@ -30,7 +30,7 @@ class ShipmentResponse extends BaseObject
     /**
      * @return string
      */
-    public function getIdentificationNumber() : string
+    public function getIdentificationNumber()
     {
         return $this->identificationNumber;
     }
@@ -60,7 +60,7 @@ class ShipmentResponse extends BaseObject
     /**
      * @return string
      */
-    public function getMpsId() : string
+    public function getMpsId()
     {
         return $this->mpsId;
     }
@@ -90,7 +90,7 @@ class ShipmentResponse extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ParcelInformationType
      */
-    public function getParcelInformation() : \lujie\dpd\soap\Type\ParcelInformationType
+    public function getParcelInformation()
     {
         return $this->parcelInformation;
     }
@@ -120,7 +120,7 @@ class ShipmentResponse extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\FaultCodeType
      */
-    public function getFaults() : \lujie\dpd\soap\Type\FaultCodeType
+    public function getFaults()
     {
         return $this->faults;
     }

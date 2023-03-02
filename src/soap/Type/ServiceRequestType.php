@@ -25,7 +25,7 @@ class ServiceRequestType extends BaseObject
     /**
      * @return string
      */
-    public function getCode() : string
+    public function getCode()
     {
         return $this->code;
     }
@@ -55,7 +55,7 @@ class ServiceRequestType extends BaseObject
     /**
      * @return bool
      */
-    public function getAvailable() : bool
+    public function getAvailable()
     {
         return $this->available;
     }
@@ -85,7 +85,7 @@ class ServiceRequestType extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ServiceDetailRequestType
      */
-    public function getServiceDetail() : \lujie\dpd\soap\Type\ServiceDetailRequestType
+    public function getServiceDetail()
     {
         return $this->serviceDetail;
     }

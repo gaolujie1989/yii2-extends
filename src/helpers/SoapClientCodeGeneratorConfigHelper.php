@@ -52,7 +52,7 @@ class SoapClientCodeGeneratorConfigHelper
     public static function addDefaultRules(Config $config, Engine $engine): Config
     {
         return $config->addRule(new Rules\AssembleRule(new Assembler\GetterAssembler(
-                (new Assembler\GetterAssemblerOptions())->withReturnType())
+                (new Assembler\GetterAssemblerOptions()))
         ))
             ->addRule(new Rules\AssembleRule(new Assembler\FluentSetterAssembler(
                     (new Assembler\FluentSetterAssemblerOptions())->withReturnType()->withTypeHints())

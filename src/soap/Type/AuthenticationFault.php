@@ -21,7 +21,7 @@ class AuthenticationFault extends BaseObject
     /**
      * @return string
      */
-    public function getErrorCode() : string
+    public function getErrorCode()
     {
         return $this->errorCode;
     }
@@ -51,7 +51,7 @@ class AuthenticationFault extends BaseObject
     /**
      * @return string
      */
-    public function getErrorMessage() : string
+    public function getErrorMessage()
     {
         return $this->errorMessage;
     }

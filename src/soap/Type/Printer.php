@@ -45,7 +45,7 @@ class Printer extends BaseObject
     /**
      * @return string
      */
-    public function getManufacturer() : string
+    public function getManufacturer()
     {
         return $this->manufacturer;
     }
@@ -75,7 +75,7 @@ class Printer extends BaseObject
     /**
      * @return string
      */
-    public function getModel() : string
+    public function getModel()
     {
         return $this->model;
     }
@@ -105,7 +105,7 @@ class Printer extends BaseObject
     /**
      * @return string
      */
-    public function getRevision() : string
+    public function getRevision()
     {
         return $this->revision;
     }
@@ -135,7 +135,7 @@ class Printer extends BaseObject
     /**
      * @return float
      */
-    public function getOffsetX() : float
+    public function getOffsetX()
     {
         return $this->offsetX;
     }
@@ -165,7 +165,7 @@ class Printer extends BaseObject
     /**
      * @return float
      */
-    public function getOffsetY() : float
+    public function getOffsetY()
     {
         return $this->offsetY;
     }
@@ -195,7 +195,7 @@ class Printer extends BaseObject
     /**
      * @return string
      */
-    public function getConnectionType() : string
+    public function getConnectionType()
     {
         return $this->connectionType;
     }
@@ -225,7 +225,7 @@ class Printer extends BaseObject
     /**
      * @return bool
      */
-    public function getBarcodeCapable2D() : bool
+    public function getBarcodeCapable2D()
     {
         return $this->barcodeCapable2D;
     }

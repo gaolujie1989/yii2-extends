@@ -25,7 +25,7 @@ class ShipmentServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\GeneralShipmentData
      */
-    public function getGeneralShipmentData() : \lujie\dpd\soap\Type\GeneralShipmentData
+    public function getGeneralShipmentData()
     {
         return $this->generalShipmentData;
     }
@@ -55,7 +55,7 @@ class ShipmentServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\Parcel
      */
-    public function getParcels() : \lujie\dpd\soap\Type\Parcel
+    public function getParcels()
     {
         return $this->parcels;
     }
@@ -85,7 +85,7 @@ class ShipmentServiceData extends BaseObject
     /**
      * @return \lujie\dpd\soap\Type\ProductAndServiceData
      */
-    public function getProductAndServiceData() : \lujie\dpd\soap\Type\ProductAndServiceData
+    public function getProductAndServiceData()
     {
         return $this->productAndServiceData;
     }

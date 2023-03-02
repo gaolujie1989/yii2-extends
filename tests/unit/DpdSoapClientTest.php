@@ -30,7 +30,7 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
     {
         $warehouseAddress = new Address([
             'firstName' => 'CCLife Technic GmbH',
-            'lastName' => 'Xiaomeng Bian',
+            'lastName' => 'Yingjun Wang',
             'country' => 'DE',
             'city' => 'Euskirchen, Großbüllesheim',
             'postalCode' => '53881',

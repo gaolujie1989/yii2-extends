@@ -65,9 +65,10 @@ class Item extends Model implements ItemInterface
      */
     public $additional = [];
 
+    #region ItemInterface
+
     /**
      * @return int
-     * @inheritdoc
      */
     public function getWeightG(): int
     {
@@ -76,7 +77,6 @@ class Item extends Model implements ItemInterface
 
     /**
      * @return int
-     * @inheritdoc
      */
     public function getLengthMM(): int
     {
@@ -85,7 +85,6 @@ class Item extends Model implements ItemInterface
 
     /**
      * @return int
-     * @inheritdoc
      */
     public function getWidthMM(): int
     {
@@ -94,10 +93,11 @@ class Item extends Model implements ItemInterface
 
     /**
      * @return int
-     * @inheritdoc
      */
     public function getHeightMM(): int
     {
         return $this->heightMM;
     }
+
+    #endregion
 }

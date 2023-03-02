@@ -13,7 +13,7 @@ use yii\base\Model;
  * @package lujie\extend\models
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Address extends Model
+class Address extends Model implements AddressInterface
 {
     /**
      * @var int
@@ -79,4 +79,104 @@ class Address extends Model
      * @var string
      */
     public $phone;
+
+    #region AddressInterface
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->city ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostalCode(): string
+    {
+        return $this->postalCode ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyName(): string
+    {
+        return $this->companyName ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreet(): string
+    {
+        return $this->street ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreetNo(): string
+    {
+        return $this->streetNo ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditional(): string
+    {
+        return $this->additional ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone ?: '';
+    }
+
+    #endregion
 }

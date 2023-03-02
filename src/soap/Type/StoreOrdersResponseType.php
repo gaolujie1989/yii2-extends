@@ -13,7 +13,7 @@ class StoreOrdersResponseType extends BaseObject
     private $output;
 
     /**
-     * @var \lujie\dpd\soap\Type\ShipmentResponse
+     * @var \lujie\dpd\soap\Type\ShipmentResponse[]
      */
     private $shipmentResponses;
 
@@ -48,7 +48,7 @@ class StoreOrdersResponseType extends BaseObject
     }
 
     /**
-     * @return \lujie\dpd\soap\Type\ShipmentResponse
+     * @return \lujie\dpd\soap\Type\ShipmentResponse[]
      */
     public function getShipmentResponses()
     {
@@ -56,7 +56,7 @@ class StoreOrdersResponseType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ShipmentResponse $shipmentResponses
+     * @param \lujie\dpd\soap\Type\ShipmentResponse[] $shipmentResponses
      * @return $this
      */
     public function setShipmentResponses($shipmentResponses) : \lujie\dpd\soap\Type\StoreOrdersResponseType
@@ -66,10 +66,10 @@ class StoreOrdersResponseType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ShipmentResponse $shipmentResponses
+     * @param \lujie\dpd\soap\Type\ShipmentResponse[] $shipmentResponses
      * @return StoreOrdersResponseType
      */
-    public function withShipmentResponses(\lujie\dpd\soap\Type\ShipmentResponse $shipmentResponses) : \lujie\dpd\soap\Type\StoreOrdersResponseType
+    public function withShipmentResponses($shipmentResponses) : \lujie\dpd\soap\Type\StoreOrdersResponseType
     {
         $new = clone $this;
         $new->shipmentResponses = $shipmentResponses;

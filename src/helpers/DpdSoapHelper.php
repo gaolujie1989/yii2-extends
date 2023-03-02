@@ -12,6 +12,7 @@ use lujie\dpd\soap\Type\GeneralShipmentData;
 use lujie\dpd\soap\Type\PrintOption;
 use lujie\dpd\soap\Type\PrintOptions;
 use lujie\dpd\soap\Type\ProductAndServiceData;
+use lujie\extend\constants\StatusConst;
 use lujie\extend\models\AddressInterface;
 use lujie\extend\models\ItemInterface;
 
@@ -29,7 +30,7 @@ class DpdSoapHelper
      * @return PrintOptions
      * @inheritdoc
      */
-    public static function createPrintOptions(string $outputFormat = 'PDF', string $paperFormat = 'A4', bool $splitByParcel = true): PrintOptions
+    public static function createPrintOptions(string $outputFormat = 'PDF', string $paperFormat = 'A6', bool $splitByParcel = true): PrintOptions
     {
         $printOption = new PrintOption([
             'outputFormat' => $outputFormat,
@@ -42,37 +43,42 @@ class DpdSoapHelper
     }
 
     /**
-     * @param ItemInterface $item
      * @param AddressInterface $sender
+     * @param string $senderAddressType
      * @param AddressInterface $recipient
+     * @param string $recipientAddressType
+     * @param string $sendingDepot
      * @param string $id
      * @param array $refs
+     * @param ItemInterface|null $item
      * @return GeneralShipmentData
      * @inheritdoc
      */
     public static function createGeneralShipmentData(
-        ItemInterface $item,
         AddressInterface $sender,
         string $senderAddressType,
         AddressInterface $recipient,
         string $recipientAddressType,
+        string $sendingDepot,
         string $id,
-        array $refs = []
+        array $refs = [],
+        ?ItemInterface $item = null
     ): GeneralShipmentData
     {
-        $volumeCm3 = (int)round($item->getLengthMM() * $item->getWidthMM() * $item->getHeightMM() / 1000);
+//        $volumeCm3 = (int)round($item->getLengthMM() * $item->getWidthMM() * $item->getHeightMM() / 1000);
+//        $weight10G = (int)round($item->getWeightG() / 10);
         return new GeneralShipmentData([
             'mpsCustomerReferenceNumber1' => $refs ? array_shift($refs) : '',
             'mpsCustomerReferenceNumber2' => $refs ? array_shift($refs) : '',
             'mpsCustomerReferenceNumber3' => $refs ? array_shift($refs) : '',
             'mpsCustomerReferenceNumber4' => $refs ? array_shift($refs) : '',
             'identificationNumber' => $id,
-            'sendingDepot' => '0998', //'0163', //???不知道
+            'sendingDepot' => $sendingDepot,
             'product' => DpdConst::PRODUCT_DPD_CLASSIC,
             'mpsCompleteDelivery' => false,
             'mpsCompleteDeliveryLabel' => false,
-            'mpsVolume' => $volumeCm3,
-            'mpsWeight' => (int)round($item->getWeightG() / 10),
+//            'mpsVolume' => 120000,
+//            'mpsWeight' => 120,
             'mpsExpectedSendingDate' => date('Ymd'),
             'mpsExpectedSendingTime' => '170000',
             'sender' => static::createDpdAddress($sender, $senderAddressType),
@@ -114,7 +120,7 @@ class DpdSoapHelper
             'country' => $address->getCountry(),
             'zipCode' => $address->getPostalCode(),
             'city' => $address->getCity(),
-            'customerNumber' => $address->getPhone(),
+            'customerNumber' => preg_replace('/[\D]/', '', $address->getPhone()),
             'contact' => $address->getCompanyName(),
             'phone' => $address->getPhone(),
             'email' => $address->getEmail(),

@@ -18,12 +18,12 @@ class ShipmentResponse extends BaseObject
     private $mpsId;
 
     /**
-     * @var \lujie\dpd\soap\Type\ParcelInformationType
+     * @var \lujie\dpd\soap\Type\ParcelInformationType[]
      */
     private $parcelInformation;
 
     /**
-     * @var \lujie\dpd\soap\Type\FaultCodeType
+     * @var \lujie\dpd\soap\Type\FaultCodeType[]
      */
     private $faults;
 
@@ -88,7 +88,7 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @return \lujie\dpd\soap\Type\ParcelInformationType
+     * @return \lujie\dpd\soap\Type\ParcelInformationType[]
      */
     public function getParcelInformation()
     {
@@ -96,7 +96,7 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ParcelInformationType $parcelInformation
+     * @param \lujie\dpd\soap\Type\ParcelInformationType[] $parcelInformation
      * @return $this
      */
     public function setParcelInformation($parcelInformation) : \lujie\dpd\soap\Type\ShipmentResponse
@@ -118,7 +118,7 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @return \lujie\dpd\soap\Type\FaultCodeType
+     * @return \lujie\dpd\soap\Type\FaultCodeType[]
      */
     public function getFaults()
     {
@@ -126,7 +126,7 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\FaultCodeType $faults
+     * @param \lujie\dpd\soap\Type\FaultCodeType[] $faults
      * @return $this
      */
     public function setFaults($faults) : \lujie\dpd\soap\Type\ShipmentResponse

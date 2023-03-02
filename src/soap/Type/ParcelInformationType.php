@@ -18,7 +18,7 @@ class ParcelInformationType extends BaseObject
     private $dpdReference;
 
     /**
-     * @var \lujie\dpd\soap\Type\OutputType
+     * @var \lujie\dpd\soap\Type\OutputType[]
      */
     private $output;
 
@@ -83,7 +83,7 @@ class ParcelInformationType extends BaseObject
     }
 
     /**
-     * @return \lujie\dpd\soap\Type\OutputType
+     * @return \lujie\dpd\soap\Type\OutputType[]
      */
     public function getOutput()
     {
@@ -91,7 +91,7 @@ class ParcelInformationType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\OutputType $output
+     * @param \lujie\dpd\soap\Type\OutputType[] $output
      * @return $this
      */
     public function setOutput($output) : \lujie\dpd\soap\Type\ParcelInformationType

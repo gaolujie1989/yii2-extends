@@ -13,6 +13,7 @@ use lujie\dpd\soap\Type\StoreOrders;
 use lujie\extend\models\Address;
 use lujie\extend\models\Item;
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * Class DpdSoapClientTest
@@ -22,16 +23,11 @@ use Yii;
 class DpdSoapClientTest extends \Codeception\Test\Unit
 {
     /**
+     * @throws \yii\base\UserException
      * @inheritdoc
      */
     public function testStoreOrder(): void
     {
-        $item = new Item([
-            'weightG' => 12000,
-            'lengthMM' => 760,
-            'widthMM' => 540,
-            'heightMM' => 320,
-        ]);
         $warehouseAddress = new Address([
             'firstName' => 'CCLife Technic GmbH',
             'lastName' => 'Xiaomeng Bian',
@@ -54,31 +50,28 @@ class DpdSoapClientTest extends \Codeception\Test\Unit
             'phone' => '01590 1487281',
         ]);
 
-        $generalShipmentData = DpdSoapHelper::createGeneralShipmentData(
-            $item,
+        $client = new DpdSoapClient([
+//            'username' => Yii::$app->params['dpd.username'],
+//            'password' => Yii::$app->params['dpd.password'],
+        ]);
+        $client->setSandbox();
+
+        $parcel = $client->createSingleParcel(
             $warehouseAddress,
             DpdConst::ADDRESS_TYPE_COMMERCIAL,
             $customerAddress,
             DpdConst::ADDRESS_TYPE_PRIVATE,
-            'id-xxx',
-            ['ref-xxx']
+            'id-123456789',
+            [
+                'ref1-123456789',
+                'ref2-123456789',
+            ],
         );
-        $order = new ShipmentServiceData([
-            'generalShipmentData' => $generalShipmentData,
-            'productAndServiceData' => DpdSoapHelper::createProductAndServiceData(),
-        ]);
-
-        $client = new DpdSoapClient();
-        $storeOrders = new StoreOrders();
-        $storeOrders->setPrintOptions(DpdSoapHelper::createPrintOptions());
-        $storeOrders->setOrder($order);
-
-        $storeOrdersResponse = $client->storeOrders($storeOrders);
-        codecept_debug($storeOrdersResponse);
-        $shipmentResponse = $storeOrdersResponse->getOrderResult()->getShipmentResponses();
-        $faults = $shipmentResponse->getFaults();
-        $this->assertEmpty($faults);
-        $parcelLabelNumber = $shipmentResponse->getParcelInformation()->getParcelLabelNumber();
-        file_put_contents(Yii::getAlias('@runtime/dpd_') . $parcelLabelNumber . '.pdf', $storeOrdersResponse->getOrderResult()->getParcellabelsPDF());
+        $parcelLabelNumber = $parcel->getParcelLabelNumber();
+        codecept_debug($parcelLabelNumber);
+        codecept_debug($parcel->getDpdReference());
+        $output = $parcel->getOutput()[0];
+        $labelFilePath = Yii::getAlias('@runtime/dpd_') . $parcelLabelNumber . '.' . $output->getFormat();
+        file_put_contents($labelFilePath, $output->getContent());
     }
 }

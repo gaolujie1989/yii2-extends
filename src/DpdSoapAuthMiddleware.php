@@ -52,7 +52,6 @@ class DpdSoapAuthMiddleware extends Middleware
             'xmlns:ns1' => $headerNs . ' xmlns:ns1',
             '<SOAP-ENV:Body>' => $headerXml . '<SOAP-ENV:Body>',
         ]);
-        codecept_debug($soapXml);
         $request = $request->withBody(stream_for($soapXml));
 
         return $handler($request);

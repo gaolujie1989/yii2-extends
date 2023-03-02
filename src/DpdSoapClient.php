@@ -50,11 +50,27 @@ use yii\base\Component;
 class DpdSoapClient extends Component
 {
     use CachingTrait;
+    use DpdSoapClientExtendTrait;
 
     /**
      * @var string
      */
-    public $baseUrl = 'https://public-ws-stage.dpd.com/services';
+    public $baseUrl = 'https://public-ws.dpd.com/services';
+
+    /**
+     * @var string
+     */
+    public $sandboxUrl = 'https://public-ws-stage.dpd.com/services';
+
+    /**
+     * @var string
+     */
+    public $productionUrl = 'https://public-ws.dpd.com/services';
+
+    /**
+     * @var bool
+     */
+    protected $sandbox = false;
 
     /**
      * @var string
@@ -93,10 +109,16 @@ class DpdSoapClient extends Component
     {
         parent::init();
         $this->initCache();
-        foreach ($this->clientFactories as $wsdlPath => [$clientClass, $classMapClass]) {
-            $wsdlUrl = trim($this->baseUrl, '/') . '/' . trim($wsdlPath, '/');
-            $this->clients[$wsdlPath] = $this->createClient($wsdlUrl, $clientClass, $classMapClass);
-        }
+    }
+
+    /**
+     * @param bool $sandbox
+     * @inheritdoc
+     */
+    public function setSandbox(bool $sandbox = true): void
+    {
+        $this->sandbox = $sandbox;
+        $this->baseUrl = $this->sandbox ? $this->sandboxUrl : $this->productionUrl;
     }
 
     /**
@@ -146,6 +168,15 @@ class DpdSoapClient extends Component
     }
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public function getSendingDepot(): string
+    {
+        return $this->getDpdLogin()->getDepot();
+    }
+
+    /**
      * @param string $name
      * @param array $params
      * @return mixed
@@ -153,7 +184,12 @@ class DpdSoapClient extends Component
      */
     public function __call($name, $params)
     {
-        foreach ($this->clients as $client) {
+        foreach ($this->clientFactories as $wsdlPath => [$clientClass, $classMapClass]) {
+            if (empty($this->clients[$wsdlPath])) {
+                $wsdlUrl = trim($this->baseUrl, '/') . '/' . trim($wsdlPath, '/');
+                $this->clients[$wsdlPath] = $this->createClient($wsdlUrl, $clientClass, $classMapClass);
+            }
+            $client = $this->clients[$wsdlPath];
             if (method_exists($client, $name)) {
                 return call_user_func_array([$client, $name], $params);
             }

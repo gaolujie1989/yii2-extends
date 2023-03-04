@@ -12,6 +12,7 @@ use lujie\ar\relation\behaviors\RelationSavableBehavior;
  * Trait RelationBehaviorTrait
  *
  * @property array $relations = []
+ * @property array $relationAttributeAlias = []
  *
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -42,6 +43,7 @@ trait RelationBehaviorTrait
                 'class' => RelationSavableBehavior::class,
                 'relations' => $relations,
                 'indexKeys' => $relationsIndexKeys,
+                'relationAttributeAlias' => $this->relationAttributeAlias ?? [],
             ],
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,

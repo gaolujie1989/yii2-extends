@@ -38,6 +38,12 @@ class RelationSavableBehavior extends Behavior
     public $relations = [];
 
     /**
+     * for link many
+     * @var array ['alias' => [relationName, 'attribute']
+     */
+    public $relationAttributeAlias = [];
+
+    /**
      * @var array [relationName => indexKey]
      */
     public $indexKeys = [];
@@ -124,6 +130,19 @@ class RelationSavableBehavior extends Behavior
             && $this->owner->$getter() instanceof ActiveQueryInterface;
     }
 
+    /**
+     * @param string $name
+     * @param bool $checkVars
+     * @return bool
+     * @inheritdoc
+     */
+    public function canGetProperty($name, $checkVars = true): bool
+    {
+        if (isset($this->relationAttributeAlias[$name])) {
+            return true;
+        }
+        return parent::canSetProperty($name, $checkVars);
+    }
 
     /**
      * @param string $name
@@ -133,10 +152,29 @@ class RelationSavableBehavior extends Behavior
      */
     public function canSetProperty($name, $checkVars = true): bool
     {
+        if (isset($this->relationAttributeAlias[$name])) {
+            return true;
+        }
         if ($this->isRelation($name)) {
             return true;
         }
         return parent::canSetProperty($name, $checkVars);
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws \yii\base\UnknownPropertyException
+     * @inheritdoc
+     */
+    public function __get($name)
+    {
+        if (isset($this->relationAttributeAlias[$name])) {
+            [$relation, $attribute] = $this->relationAttributeAlias[$name];
+            $relationModels = $this->owner->{$relation};
+            return ArrayHelper::getColumn((array)$relationModels, $attribute);
+        }
+        return parent::__get($name);
     }
 
     /**
@@ -148,7 +186,13 @@ class RelationSavableBehavior extends Behavior
      */
     public function __set($name, $value)
     {
-        if ($this->isRelation($name)) {
+        if (isset($this->relationAttributeAlias[$name])) {
+            [$relation, $attribute] = $this->relationAttributeAlias[$name];
+            $value = array_map(static function($v) use ($attribute) {
+                return [$attribute => $v];
+            }, (array)$value);
+            $this->setRelation($relation, $value);
+        } else if ($this->isRelation($name)) {
             $this->setRelation($name, $value);
         } else {
             parent::__set($name, $value);

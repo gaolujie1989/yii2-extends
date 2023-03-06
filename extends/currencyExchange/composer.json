@@ -1,0 +1,35 @@
+{
+  "name": "lujie/yii2-currency-exchange",
+  "description": "Yii2 currency exchange",
+  "keywords": ["yii2", "currency exchange"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-currency-exchange/issues",
+    "source": "https://gitee.com/code4dream/yii2-currency-exchange"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\currency\\exchanging\\": "src",
+      "lujie\\currency\\exchanging\\tests\\": "tests"
+    }
+  },
+  "require": {
+    "php-http/message": "^1.8",
+    "php-http/curl-client": "^2.0",
+    "nyholm/psr7": "^1.2",
+    "florianv/swap": "^4.0",
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

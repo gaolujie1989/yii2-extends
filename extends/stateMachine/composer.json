@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-state-machine",
+  "description": "Yii2 state machine",
+  "keywords": ["yii2", "state machine"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-state-machine/issues",
+    "source": "https://gitee.com/code4dream/yii2-state-machine"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\state\\machine\\": "src",
+      "lujie\\state\\machine\\tests": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

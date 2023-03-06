@@ -1,0 +1,16 @@
+parameters:
+    bootstrapFiles:
+        - ../../../../apps/bootstrap.php
+    excludePaths:
+        analyse:
+            - */migrations/*
+            - */gii/*
+    ignoreErrors:
+        ### COMMON AND YII SKIP ###
+        ### LEVEL 2 ###
+        - '#is not subtype of native type#'
+        - '#Access to an undefined property yii\\db\\ActiveQueryInterface#'
+        - '#Call to an undefined method yii\\db\\ActiveRecordInterface#'
+        - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required.#'
+        ### LEVEL 3 ###
+        - '#does not accept default value of type (null|array|string|false)#'

@@ -1,0 +1,32 @@
+{
+  "name": "lujie/yii2-extend",
+  "description": "Code to extend Yii2",
+  "keywords": [
+    "yii2",
+    "extend"
+  ],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-extend/issues",
+    "source": "https://gitee.com/code4dream/yii2-extend"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\extend\\": "src",
+      "lujie\\extend\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

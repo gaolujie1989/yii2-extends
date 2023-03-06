@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+  <Header>
+    <DocumentVersion>1.01</DocumentVersion>
+      <MerchantIdentifier>A18U3DCLRWZRI3</MerchantIdentifier>
+  </Header>
+  <MessageType>OrderReport</MessageType>
+<Message>
+    <MessageID>1</MessageID>
+    <OrderReport>
+        <AmazonOrderID>408-7852588-1257915</AmazonOrderID>
+        <AmazonSessionID>408-7852588-1257915</AmazonSessionID>
+        <OrderDate>2022-12-03T23:57:22+00:00</OrderDate>
+        <OrderPostedDate>2022-12-03T23:57:22+00:00</OrderPostedDate>
+        <BillingData>
+            <BuyerEmailAddress>9xtjktcfnxmgd1m@marketplace.amazon.fr</BuyerEmailAddress>
+            <BuyerName>ROY</BuyerName>
+            <BuyerPhoneNumber>0677375757</BuyerPhoneNumber>
+            <Address>
+                <Name>ROY Enora</Name>
+                <AddressFieldOne>102 rue Maurice Arnoux</AddressFieldOne>
+                <City>Montrouge</City>
+                <PostalCode>92120</PostalCode>
+                <CountryCode>FR</CountryCode>
+                <PhoneNumber>0677375757</PhoneNumber>
+            </Address>
+        </BillingData>
+        <FulfillmentData>
+            <FulfillmentMethod>Ship</FulfillmentMethod>
+            <FulfillmentServiceLevel>Standard</FulfillmentServiceLevel>
+            <Address>
+                <Name>ROY Enora</Name>
+                <AddressFieldOne>102 rue Maurice Arnoux</AddressFieldOne>
+                <City>Montrouge</City>
+                <PostalCode>92120</PostalCode>
+                <CountryCode>FR</CountryCode>
+                <PhoneNumber>0677375757</PhoneNumber>
+            </Address>
+        </FulfillmentData>
+        <IsBusinessOrder>false</IsBusinessOrder>
+        <IsPrime>false</IsPrime>
+        <IsPremiumOrder>false</IsPremiumOrder>
+        <IsIba>false</IsIba>
+        <Item>
+            <AmazonOrderItemCode>19085187438995</AmazonOrderItemCode>
+            <SKU>DHSTA007S2x20swz</SKU>
+            <Title>CCLIFE Haltère réglable, Haltères Musculation 20/25/30/40KG pour Adaptés au Fitness à Domicile et à la Musculation-ZERRO</Title>
+            <Quantity>1</Quantity>
+            <ProductTaxCode>A_GEN_STANDARD</ProductTaxCode>
+            <ItemPrice>
+               <Component>
+                  <Type>Principal</Type>
+                  <Amount currency="EUR">89.96</Amount>
+               </Component>
+               <Component>
+                  <Type>Shipping</Type>
+                  <Amount currency="EUR">0.00</Amount>
+               </Component>
+               <Component>
+                  <Type>Tax</Type>
+                  <Amount currency="EUR">14.99</Amount>
+               </Component>
+               <Component>
+                  <Type>ShippingTax</Type>
+                  <Amount currency="EUR">0.00</Amount>
+               </Component>
+            </ItemPrice>
+            <ItemFees>
+               <Fee>
+                  <Type>Commission</Type>
+                  <Amount currency="EUR">-13.90</Amount>
+               </Fee>
+            </ItemFees>
+         </Item>
+    </OrderReport>
+</Message>
+</AmazonEnvelope>

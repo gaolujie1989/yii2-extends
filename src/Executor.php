@@ -8,7 +8,10 @@ namespace lujie\executing;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\MemoryHelper;
 use yii\base\Component;
+use yii\base\Model;
+use yii\base\UserException;
 use yii\di\Instance;
+use yii\helpers\Json;
 use yii\mutex\Mutex;
 use yii\queue\Queue;
 
@@ -142,6 +145,13 @@ class Executor extends Component
                 return false;
             }
 
+            if (($event->executable instanceof Model) && !$event->executable->validate()) {
+                $event->isValid = false;
+                $event->error = new UserException(Json::encode($event->executable->getErrors()));
+                $this->trigger(self::EVENT_AFTER_EXEC, $event);
+                return false;
+            }
+
             $result = $event->executable->execute();
             if ($event->executable instanceof ProgressInterface && $result instanceof \Generator) {
                 foreach ($result as $item) {
@@ -149,7 +159,7 @@ class Executor extends Component
                     $event->progress = $event->executable->getProgress();
                     $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
                     if ($event->progress->break) {
-                        $event->error = 'User Break';
+                        $event->error = new UserException('User Break');
                         break;
                     }
                 }

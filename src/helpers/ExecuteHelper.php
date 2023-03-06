@@ -9,6 +9,7 @@ use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\db\BaseActiveRecord;
 use yii\db\Query;
+use yii\helpers\Json;
 use yii\httpclient\Exception;
 use yii\queue\JobInterface;
 use yii\queue\Queue;
@@ -99,7 +100,18 @@ class ExecuteHelper
             $callable();
             //time attribute only update on success
             $timeAttribute && $model->setAttribute($timeAttribute, time());
-            $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
+            if ($model->hasErrors()) {
+                $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_INVALID);
+                if ($resultAttribute) {
+                    $resultValue = $model->getAttribute($resultAttribute) ?: [];
+                    $resultValue = array_merge($resultValue, [
+                        'error' => Json::encode($model->getErrors()),
+                    ]);
+                    $model->setAttribute($resultAttribute, $resultValue);
+                }
+            } else {
+                $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
+            }
             $model->save(false);
             return true;
         } catch (ExecuteException $exception) {

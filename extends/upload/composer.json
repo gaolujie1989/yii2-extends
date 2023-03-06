@@ -1,0 +1,32 @@
+{
+  "name": "lujie/yii2-upload",
+  "description": "Yii2 upload",
+  "keywords": ["yii2", "upload behavior form and action"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-upload/issues",
+    "source": "https://gitee.com/code4dream/yii2-upload"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\upload\\": "src",
+      "lujie\\upload\\tests\\": "tests"
+    }
+  },
+  "require": {
+    "creocoder/yii2-flysystem": "~0.9.3"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

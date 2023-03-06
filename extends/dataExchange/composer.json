@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-data-exchange",
+  "description": "Yii2 data exchange, import/export",
+  "keywords": ["yii2", "data exchange", "import/export"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-data-exchange/issues",
+    "source": "https://gitee.com/code4dream/yii2-data-exchange"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\data\\exchange\\": "src",
+      "lujie\\data\\exchange\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

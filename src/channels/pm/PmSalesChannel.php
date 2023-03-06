@@ -484,7 +484,7 @@ class PmSalesChannel extends BaseSalesChannel
             }
             $batchRequest->send();
         }
-        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets();
+        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
         $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
         $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
         $batchRequest = $this->client->createBatchRequest();

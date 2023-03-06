@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-user-center",
+  "description": "User center",
+  "keywords": ["yii2", "User center"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-user-center/issues",
+    "source": "https://gitee.com/code4dream/yii2-user-center"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\auth\\": "src",
+      "lujie\\auth\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

@@ -459,12 +459,17 @@ class PmSalesChannel extends BaseSalesChannel
 
         $linkedItemIds = [];
         foreach ($itemImages as $itemImage) {
-            if (isset($itemImage['uploadImageUrl'])) {
-                $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
-                $imageName = strtr($imageName, ['_' => '-']);
-                if (isset($pmItemImageIds[$imageName])) {
-                    $linkedItemIds[$imageName] = $pmItemImageIds[$imageName];
-                }
+            if (empty($itemImage['uploadImageUrl'])) {
+                continue;
+            }
+            $modelId = $itemImage['modelId'] ?? null;
+            if (empty($modelId)) {
+                continue;
+            }
+            $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
+            $imageName = strtr($imageName, ['_' => '-']);
+            if (isset($pmItemImageIds[$imageName])) {
+                $linkedItemIds[$modelId] = $pmItemImageIds[$imageName];
             }
         }
         $itemImageIds = array_merge($linkedItemIds, $externalAdditional['itemImageIds'] ?? []);

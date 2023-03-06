@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-extends",
+  "description": "Yii2 useful extends",
+  "keywords": ["yii2", "Alias Property", "AR Relation Save/Delete", "Data Loader/Storage And Exchange", "Fulfillment", "SalesChannel"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/lujie/yii2-extends/issues",
+    "source": "https://github.com/lujie/yii2-extends"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "yiisoft/yii2": "^2.0.45"
+  },
+  "autoload": {
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

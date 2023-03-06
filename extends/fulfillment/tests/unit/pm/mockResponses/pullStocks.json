@@ -1,0 +1,27 @@
+{
+  "page": 1,
+  "totalsCount": 1,
+  "isLastPage": true,
+  "entries": [
+    {
+      "itemId": 10475,
+      "warehouseId": 108,
+      "stockPhysical": 123,
+      "reservedStock": 0,
+      "reservedEbay": 0,
+      "reorderDelta": -123,
+      "stockNet": 123,
+      "storehouse_type": "0",
+      "reordered": 0,
+      "reservedBundle": 0,
+      "averagePurchasePrice": 0,
+      "warehousePriority": "5",
+      "updatedAt": "2020-12-01T09:07:46+01:00",
+      "variationId": 3508
+    }
+  ],
+  "lastPageNumber": 1,
+  "firstOnPage": 1,
+  "lastOnPage": 1,
+  "itemsPerPage": 50
+}

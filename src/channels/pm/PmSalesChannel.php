@@ -484,6 +484,9 @@ class PmSalesChannel extends BaseSalesChannel
             }
             $batchRequest->send();
         }
+        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets();
+        $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
+        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
         $batchRequest = $this->client->createBatchRequest();
         foreach ($itemImages as $itemImage) {
             $attributeValueMarkets = $itemImage['attributeValueMarkets'];
@@ -499,10 +502,6 @@ class PmSalesChannel extends BaseSalesChannel
                 $itemImage['id'] = $imageId;
                 unset($itemImage['uploadImageData'], $itemImage['uploadImageUrl']);
                 $batchRequest->updateItemImage($itemImage);
-                $pmImageAttributeValueId = $pmItemImages[$imageId]['attributeValueId'] ?? null;
-                if (($attributeValueMarkets) || (empty($attributeValueMarkets) && $pmImageAttributeValueId)) {
-                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets);
-                }
             } else {
                 if (empty($itemImage['uploadImageData']) && isset($itemImage['uploadImageUrl'])) {
                     $itemImage['uploadImageData'] = base64_encode(file_get_contents($itemImage['uploadImageUrl']));
@@ -514,10 +513,8 @@ class PmSalesChannel extends BaseSalesChannel
                 $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
-                if ($attributeValueMarkets) {
-                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets);
-                }
             }
+            $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets, $itemImageAttributeValueMarkets[$imageId] ?? []);
         }
         $externalAdditional['itemImageIds'] = $itemImageIds;
         $salesChannelItem->external_item_additional = $externalAdditional;

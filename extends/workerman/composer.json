@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-workerman",
+  "description": "Yii2 run on workerman",
+  "keywords": ["yii2", "workerman"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-workerman/issues",
+    "source": "https://gitee.com/code4dream/yii2-workerman"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "require": {
+    "workerman/workerman": "~3.5"
+  },
+  "autoload": {
+    "psr-4": { "lujie\\workerman\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

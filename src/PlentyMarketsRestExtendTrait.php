@@ -77,64 +77,92 @@ trait PlentyMarketsRestExtendTrait
 
     /**
      * @param int $itemId
-     * @param int $variationId
-     * @param array $data
+     * @param int $imageId
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
+     * @inheritdoc
+     */
+    public function saveItemImageAttributeValueMarkets(int $itemId, int $imageId, array $values = [], ?array $existValues = null): array
+    {
+        $relationIds = ['itemId' => $itemId, 'imageId' => $imageId];
+        return $this->saveRelationParts($relationIds, 'ItemImageAttributeValueMarket', $values, $existValues, ['valueId'], ['valueId']);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $variationId
+     * @param array $values
+     * @param array|null $existValues
+     * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationBundleComponents(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationBundle', $values, $existValues, ['componentVariationId'], ['componentQuantity']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationBundle', $values, $existValues, ['componentVariationId'], ['componentQuantity']);
     }
 
     /**
      * @param int $itemId
      * @param int $variationId
-     * @param array $data
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationMarkets(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationMarket', $values, $existValues, ['marketId']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationMarket', $values, $existValues, ['marketId']);
     }
 
     /**
      * @param int $itemId
      * @param int $variationId
-     * @param array $data
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationSkus(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationSku', $values, $existValues, ['marketId', 'accountId'], ['sku', 'parentSku']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationSku', $values, $existValues, ['marketId', 'accountId'], ['sku', 'parentSku']);
     }
 
     /**
      * @param int $itemId
      * @param int $variationId
-     * @param array $data
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationImages(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationImage', $values, $existValues, ['imageId']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationImage', $values, $existValues, ['imageId']);
     }
 
-
     /**
-     * @param int $itemId
-     * @param int $variationId
+     * @param array $relationIds
      * @param string $relationType
-     * @param array $relationValues
+     * @param array $saveRelationValues
+     * @param array|null $existRelationValues
+     * @param array $indexKeys
+     * @param array $updateKeys
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
-    protected function saveVariationRelationParts(
-        int    $itemId,
-        int    $variationId,
+    protected function saveRelationParts(
+        array  $relationIds,
         string $relationType,
         array  $saveRelationValues = [],
         ?array $existRelationValues = null,
@@ -147,10 +175,7 @@ trait PlentyMarketsRestExtendTrait
         $updateMethod = 'update' . $relationType;
         $deleteMethod = 'delete' . $relationType;
         if ($existRelationValues === null) {
-            $existRelationValues = $this->{$eachMethod}([
-                'variationId' => $variationId,
-                'itemId' => $itemId,
-            ]);
+            $existRelationValues = $this->{$eachMethod}($relationIds);
             $existRelationValues = iterator_to_array($existRelationValues, false);
         }
 
@@ -183,8 +208,8 @@ trait PlentyMarketsRestExtendTrait
         ];
         foreach ($actionMethodValues as $actionMethod => $actionValues) {
             foreach ($actionValues as $actionValue) {
-                $actionValue['variationId'] = $variationId;
-                $actionValue['itemId'] = $itemId;
+                /** @noinspection SlowArrayOperationsInLoopInspection */
+                $actionValue = array_merge($actionValue, $relationIds);
                 $batchRequest->{$actionMethod}($actionValue);
             }
         }

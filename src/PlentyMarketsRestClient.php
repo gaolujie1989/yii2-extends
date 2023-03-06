@@ -93,6 +93,14 @@ use yii\httpclient\Request;
  * @method array updateItemImageAvailability($data)
  * @method array deleteItemImageAvailability($data)
  *
+ * @method array listItemImageAttributeValueMarkets($data)
+ * @method Generator eachItemImageAttributeValueMarkets($condition = [], $batchSize = 100)
+ * @method Generator batchItemImageAttributeValueMarkets($condition = [], $batchSize = 100)
+ * @method array getItemImageAttributeValueMarket($data)
+ * @method array createItemImageAttributeValueMarket($data)
+ * @method array updateItemImageAttributeValueMarket($data)
+ * @method array deleteItemImageAttributeValueMarket($data)
+ *
  * @method array listItemTexts($data)
  * @method Generator eachItemTexts($condition = [], $batchSize = 100)
  * @method Generator batchItemTexts($condition = [], $batchSize = 100)
@@ -476,6 +484,7 @@ class PlentyMarketsRestClient extends OAuth2
         'ItemImage' => 'items/{itemId}/images',
         'ItemImageName' => 'items/{itemId}/images/{imageId}/names',
         'ItemImageAvailability' => 'items/{itemId}/images/{imageId}/availabilities',
+        'ItemImageAttributeValueMarket' => 'items/{itemId}/images/{imageId}/attribute_value_markets',
         'ItemText' => 'items/{itemId}/variations/{mainVariationId}/descriptions',
         'ItemProperty' => 'items/{itemId}/variations/{mainVariationId}/variation_properties',
         'ItemPropertyText' => 'items/{itemId}/variations/{variationId}/variation_properties/{propertyId}/texts',
@@ -579,6 +588,11 @@ class PlentyMarketsRestClient extends OAuth2
         ],
         'ItemImage' => [
             'create' => ['POST', 'upload'],
+        ],
+        'ItemImageAttributeValueMarket' => [
+            'get' => ['GET', '{valueId}'],
+            'update' => ['PUT', '{valueId}'],
+            'delete' => ['DELETE', '{valueId}'],
         ],
         'Order' => [
             'cancel' => ['PUT', '{id}/cancel'],

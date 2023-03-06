@@ -1,0 +1,35 @@
+{
+  "name": "lujie/yii2-barcode-generator",
+  "description": "Yii2 barcode generator",
+  "keywords": ["yii2", "barcode generator"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-barcode-generator/issues",
+    "source": "https://gitee.com/code4dream/yii2-barcode-generator"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "require": {
+    "picqer/php-barcode-generator": "~2.2",
+    "barcode-bakery/barcode-1d": "~7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "lujie\\barcode\\generating\\": "src",
+      "lujie\\barcode\\generating\\tests\\": "tests",
+      "BarcodeBakery\\Common\\": "src/barcodegen6.0.0/packages/barcode-common/src",
+      "BarcodeBakery\\Barcode\\": "src/barcodegen6.0.0/packages/barcode-1d/src"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

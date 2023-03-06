@@ -629,6 +629,7 @@ class PlentyMarketsRestClient extends OAuth2
         'batchRequest' => ['POST', 'batch'],
         'searchItemVariations' => ['GET', 'items/variations'],
         'listVariations' => ['GET', 'items/variations'],
+        'listItemImageAttributeValueMarkets' => ['GET', 'items/{itemId}/images/attribute_value_markets'],
 
         'listStocks' => ['GET', 'stockmanagement/stock'],
         'listTypeStocks' => ['GET', 'stockmanagement/stock/types/{type}'],

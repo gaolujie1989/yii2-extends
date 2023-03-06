@@ -82,6 +82,10 @@ class LinkerValidator extends Validator
         if ($this->message === null) {
             $this->message = Yii::t('yii', '{attribute} is invalid.');
         }
+        if (empty($this->linkAttributes) && $this->targetClass) {
+            $primaryKey = $this->targetClass::primaryKey();
+            $this->linkAttributes = array_combine($primaryKey, $primaryKey);
+        }
     }
 
     /**

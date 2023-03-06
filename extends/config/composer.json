@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-configuration",
+  "description": "External configuration loader",
+  "keywords": ["yii2", "configuration", "config", "loader"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-configuration/issues",
+    "source": "https://gitee.com/code4dream/yii2-configuration"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\configuration\\": "src",
+      "lujie\\configuration\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

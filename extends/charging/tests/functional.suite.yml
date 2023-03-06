@@ -1,0 +1,10 @@
+# Codeception Test Suite Configuration
+#
+# Suite for functional (internal) tests.
+
+actor: FunctionalTester
+modules:
+  enabled:
+    - \tests\Yii2Helper
+    - Yii2:
+        configFile: 'tests/functional/_config.php'

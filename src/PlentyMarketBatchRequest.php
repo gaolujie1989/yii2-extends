@@ -69,6 +69,12 @@ use yii\httpclient\Response;
  * @method array updateItemImageAvailability($data)
  * @method array deleteItemImageAvailability($data)
  *
+ * @method array listItemImageAttributeValueMarkets($data)
+ * @method array getItemImageAttributeValueMarket($data)
+ * @method array createItemImageAttributeValueMarket($data)
+ * @method array updateItemImageAttributeValueMarket($data)
+ * @method array deleteItemImageAttributeValueMarket($data)
+ *
  * @method array listItemTexts($data)
  * @method array getItemText($data)
  * @method array createItemText($data)

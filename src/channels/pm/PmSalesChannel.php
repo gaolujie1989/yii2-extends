@@ -452,13 +452,13 @@ class PmSalesChannel extends BaseSalesChannel
     protected function savePmItemImages(array $itemImages, SalesChannelItem $salesChannelItem): void
     {
         $itemId = $salesChannelItem->external_item_key;
-        $externalAdditional = $salesChannelItem->external_item_additional;
         $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
         $pmItemImages = iterator_to_array($existItemImages, false);
         $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
         $pmItemImageNameIds = ArrayHelper::map($pmItemImages, 'cleanImageName', 'id');
 
-        $linkedItemIds = [];
+        $externalAdditional = $salesChannelItem->external_item_additional;
+        $itemImageIds = $externalAdditional['itemImageIds'];
         foreach ($itemImages as $itemImage) {
             if (empty($itemImage['uploadImageUrl'])) {
                 continue;
@@ -470,10 +470,9 @@ class PmSalesChannel extends BaseSalesChannel
             $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
             $imageName = strtr($imageName, ['_' => '-']);
             if (isset($pmItemImageNameIds[$imageName])) {
-                $linkedItemIds[$modelId] = $pmItemImageNameIds[$imageName];
+                $itemImageIds[$modelId] = $pmItemImageNameIds[$imageName];
             }
         }
-        $itemImageIds = ArrayHelper::merge($linkedItemIds, $externalAdditional['itemImageIds'] ?? []);
 
         $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
         $toDeleteItemImageIds = array_diff($pmItemImageIds, $itemImageIds);
@@ -507,7 +506,7 @@ class PmSalesChannel extends BaseSalesChannel
                 $createdItemImage = $this->client->createItemImage($itemImage);
                 $imageId = $createdItemImage['id'];
                 $itemImageIds[$modelId] = $imageId;
-                $externalAdditional['itemImageIds'] = $itemImageIds;
+                $itemImageIds = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
             }

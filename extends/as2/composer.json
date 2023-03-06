@@ -1,0 +1,32 @@
+{
+  "name": "lujie/yii2-as2",
+  "description": "AS2",
+  "keywords": ["yii2", "AS2"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-as2/issues",
+    "source": "https://gitee.com/code4dream/yii2-as2"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "require": {
+    "tiamo/phpas2": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "lujie\\as2\\": "src",
+      "lujie\\as2\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

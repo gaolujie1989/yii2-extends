@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-batch",
+  "description": "Yii2 batch",
+  "keywords": ["yii2", "batch form and action"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-batch/issues",
+    "source": "https://gitee.com/code4dream/yii2-batch"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\batch\\": "src",
+      "lujie\\batch\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

@@ -480,6 +480,8 @@ class PmSalesChannel extends BaseSalesChannel
         }
         $batchRequest = $this->client->createBatchRequest();
         foreach ($itemImages as $itemImage) {
+            $attributeValueMarkets = $itemImage['attributeValueMarkets'];
+            unset($itemImage['attributeValueMarkets']);
             $itemImage['itemId'] = $itemId;
             $modelId = $itemImage['modelId'] ?? null;
             unset($itemImage['modelId']);
@@ -497,11 +499,13 @@ class PmSalesChannel extends BaseSalesChannel
                 }
                 unset($itemImage['uploadImageUrl']);
                 $createdItemImage = $this->client->createItemImage($itemImage);
-                $itemImageIds[$modelId] = $createdItemImage['id'];
+                $imageId = $createdItemImage['id'];
+                $itemImageIds[$modelId] = $imageId;
                 $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
             }
+            $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets);
         }
         $batchRequest->send();
     }

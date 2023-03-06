@@ -1,0 +1,26 @@
+{
+  "name": "lujie/yii2-sales-order-center",
+  "description": "Common sales order center",
+  "keywords": ["yii2", "sales-order-center"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-sales-order-center/issues",
+    "source": "https://gitee.com/code4dream/yii2-sales-order-center"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "lujie\\sales\\order\\center\\": "src" }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

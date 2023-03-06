@@ -1,0 +1,32 @@
+{
+  "name": "lujie/yii2-project",
+  "description": "Yii2 project",
+  "keywords": [
+    "yii2",
+    "template document"
+  ],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-project/issues",
+    "source": "https://gitee.com/code4dream/yii2-project"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\project\\": "src",
+      "lujie\\project\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

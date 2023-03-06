@@ -455,7 +455,8 @@ class PmSalesChannel extends BaseSalesChannel
         $externalAdditional = $salesChannelItem->external_item_additional;
         $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
         $pmItemImages = iterator_to_array($existItemImages, false);
-        $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'cleanImageName', 'id');
+        $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
+        $pmItemImageNameIds = ArrayHelper::map($pmItemImages, 'cleanImageName', 'id');
 
         $linkedItemIds = [];
         foreach ($itemImages as $itemImage) {
@@ -468,8 +469,8 @@ class PmSalesChannel extends BaseSalesChannel
             }
             $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
             $imageName = strtr($imageName, ['_' => '-']);
-            if (isset($pmItemImageIds[$imageName])) {
-                $linkedItemIds[$modelId] = $pmItemImageIds[$imageName];
+            if (isset($pmItemImageNameIds[$imageName])) {
+                $linkedItemIds[$modelId] = $pmItemImageNameIds[$imageName];
             }
         }
         $itemImageIds = array_merge($linkedItemIds, $externalAdditional['itemImageIds'] ?? []);

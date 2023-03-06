@@ -473,7 +473,7 @@ class PmSalesChannel extends BaseSalesChannel
                 $linkedItemIds[$modelId] = $pmItemImageNameIds[$imageName];
             }
         }
-        $itemImageIds = array_merge($linkedItemIds, $externalAdditional['itemImageIds'] ?? []);
+        $itemImageIds = ArrayHelper::merge(($linkedItemIds, $externalAdditional['itemImageIds'] ?? []);
 
         $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
         $toDeleteItemImageIds = array_diff($pmItemImageIds, $itemImageIds);

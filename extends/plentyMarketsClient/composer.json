@@ -1,0 +1,28 @@
+{
+  "name": "lujie/yii2-plentymarkets-client",
+  "description": "Yii2 plentyMarkets client",
+  "keywords": ["yii2", "plentyMarkets client"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-plentymarkets-client/issues",
+    "source": "https://gitee.com/code4dream/yii2-plentymarkets-client"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\plentyMarkets\\": "src"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

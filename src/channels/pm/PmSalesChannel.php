@@ -232,10 +232,10 @@ class PmSalesChannel extends BaseSalesChannel
             throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is shipped, can not be cancelled");
         }
         if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+            return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
         }
         $pmOrder = $this->client->updateOrder(['id' => $this->orderCancelledStatus]);
-        return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+        return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
     }
 
     #endregion

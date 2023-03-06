@@ -6,6 +6,7 @@
 namespace lujie\sales\channel;
 
 use lujie\data\exchange\transformers\TransformerInterface;
+use lujie\data\storage\DataStorageInterface;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
@@ -42,6 +43,11 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @var TransformerInterface
      */
     public $itemStockTransformer;
+
+    /**
+     * @var DataStorageInterface
+     */
+    public $orderDataStorage;
 
     #region External Model Key Field
 
@@ -99,6 +105,13 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         parent::init();
         if (!($this->account instanceof SalesChannelAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be SalesChannelAccount');
+        }
+        $this->itemTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
+        if (property_exists($this->itemTransformer, 'salesChannel')) {
+            $this->itemTransformer->salesChannel = $this;
+        }
+        if ($this->orderDataStorage) {
+            $this->orderDataStorage = Instance::ensure($this->orderDataStorage, DataStorageInterface::class);
         }
     }
 
@@ -245,10 +258,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         }
 
-        $this->itemTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
-        if (property_exists($this->itemTransformer, 'salesChannel')) {
-            $this->itemTransformer->salesChannel = $this;
-        }
         [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
         if (empty($externalItem)) {
             Yii::info("Empty transformed external item", __METHOD__);

@@ -14,7 +14,7 @@ class m201126_161715_sales_channel_order extends Migration
     {
         $this->createTable($this->tableName, [
             'sales_channel_order_id' => $this->bigPrimaryKey(),
-            'sales_channel_account_id' => $this->bigInteger()->notNull(),
+            'sales_channel_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'sales_channel_status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),
             'order_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'order_status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(0),

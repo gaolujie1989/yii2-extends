@@ -1,0 +1,29 @@
+{
+  "name": "lujie/yii2-data-recording",
+  "description": "Yii2 data recording",
+  "keywords": ["yii2", "data recording"],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-data-recording/issues",
+    "source": "https://gitee.com/code4dream/yii2-data-recording"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\data\\recording\\": "src",
+      "lujie\\data\\recording\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

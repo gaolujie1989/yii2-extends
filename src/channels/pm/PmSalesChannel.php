@@ -454,6 +454,7 @@ class PmSalesChannel extends BaseSalesChannel
         $itemId = $salesChannelItem->external_item_key;
         $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
         $pmItemImages = iterator_to_array($existItemImages, false);
+        $pmItemImages = ArrayHelper::index($pmItemImages, 'id');
         $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
         $pmItemImageNameIds = ArrayHelper::map($pmItemImages, 'cleanImageName', 'id');
 
@@ -498,6 +499,10 @@ class PmSalesChannel extends BaseSalesChannel
                 $itemImage['id'] = $imageId;
                 unset($itemImage['uploadImageData'], $itemImage['uploadImageUrl']);
                 $batchRequest->updateItemImage($itemImage);
+                $pmImageAttributeValueId = $pmItemImages[$imageId]['attributeValueId'] ?? null;
+                if (($attributeValueMarkets) || (empty($attributeValueMarkets) && $pmImageAttributeValueId)) {
+                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets);
+                }
             } else {
                 if (empty($itemImage['uploadImageData']) && isset($itemImage['uploadImageUrl'])) {
                     $itemImage['uploadImageData'] = base64_encode(file_get_contents($itemImage['uploadImageUrl']));
@@ -506,12 +511,17 @@ class PmSalesChannel extends BaseSalesChannel
                 $createdItemImage = $this->client->createItemImage($itemImage);
                 $imageId = $createdItemImage['id'];
                 $itemImageIds[$modelId] = $imageId;
-                $itemImageIds = $itemImageIds;
+                $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
+                if ($attributeValueMarkets) {
+                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets);
+                }
             }
-            $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets);
         }
+        $externalAdditional['itemImageIds'] = $itemImageIds;
+        $salesChannelItem->external_item_additional = $externalAdditional;
+        $salesChannelItem->save(false);
         $batchRequest->send();
     }
 

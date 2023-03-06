@@ -1,0 +1,35 @@
+{
+  "name": "lujie/yii2-common-models",
+  "description": "Yii2 common models",
+  "keywords": [
+    "yii2",
+    "models"
+  ],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://gitee.com/code4dream/yii2-common-address/issues",
+    "source": "https://gitee.com/code4dream/yii2-common-address"
+  },
+  "authors": [
+    {
+      "name": "Lujie Zhou",
+      "email": "gao_lujie@live.cn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "lujie\\common\\account\\": "src\\account",
+      "lujie\\common\\address\\": "src\\address",
+      "lujie\\common\\item\\": "src\\item",
+      "lujie\\common\\option\\": "src\\option",
+      "lujie\\common\\tests\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

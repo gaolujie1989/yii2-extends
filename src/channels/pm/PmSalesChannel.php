@@ -445,8 +445,8 @@ class PmSalesChannel extends BaseSalesChannel
 
     /**
      * @param array $itemImages
-     * @param int $itemId
      * @param SalesChannelItem $salesChannelItem
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmItemImages(array $itemImages, SalesChannelItem $salesChannelItem): void
@@ -455,8 +455,20 @@ class PmSalesChannel extends BaseSalesChannel
         $externalAdditional = $salesChannelItem->external_item_additional;
         $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
         $pmItemImages = iterator_to_array($existItemImages, false);
-        $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
-        $itemImageIds = $externalAdditional['itemImageIds'] ?? [];
+        $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'cleanImageName', 'id');
+
+        $linkedItemIds = [];
+        foreach ($itemImages as $itemImage) {
+            if (isset($itemImage['uploadImageUrl'])) {
+                $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
+                $imageName = strtr($imageName, ['_' => '-']);
+                if (isset($pmItemImageIds[$imageName])) {
+                    $linkedItemIds[$imageName] = $pmItemImageIds[$imageName];
+                }
+            }
+        }
+        $itemImageIds = array_merge($linkedItemIds, $externalAdditional['itemImageIds'] ?? []);
+
         $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
         $toDeleteItemImageIds = array_diff($pmItemImageIds, $itemImageIds);
         if ($toDeleteItemImageIds) {

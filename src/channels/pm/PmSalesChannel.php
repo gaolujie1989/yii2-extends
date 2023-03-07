@@ -582,7 +582,13 @@ class PmSalesChannel extends BaseSalesChannel
                 }
                 $additional = $salesChannelItem->additional;
             } else {
-                unset($externalItem['variationAttributeValues']);
+                unset(
+                    $externalItem['variationAttributeValues'],
+                    $externalItem['unit'],
+                    $externalItem['variationClients'],
+                    $externalItem['variationCategories'],
+                    $externalItem['mainWarehouseId'],
+                );
                 $savedVariation = $this->client->updateItemVariation($externalItem);
             }
             $additional['step'] = 'variationBundleComponents';

@@ -32,6 +32,7 @@ trait AliasErrorsTrait
                 $this->{$attribute} => $this->{$aliasErrorAttribute},
                 $this->getAttributeLabel($attribute) => $this->getAttributeLabel($aliasErrorAttribute),
             ]);
+            $attribute = $aliasErrorAttribute;
         }
         parent::addError($attribute, $error);
     }

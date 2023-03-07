@@ -326,7 +326,7 @@ class PmSalesChannel extends BaseSalesChannel
         if (isset($externalItem['backendName'])) {
             return $this->savePmAttribute($externalItem, $salesChannelItem);
         }
-        if (isset($externalItem['manufacturerId'],$externalItem['producingCountryId'])) {
+        if (isset($externalItem['manufacturerId'], $externalItem['producingCountryId'])) {
             return $this->savePmItem($externalItem, $salesChannelItem);
         }
         throw new InvalidArgumentException('Unknown external item data');
@@ -489,7 +489,7 @@ class PmSalesChannel extends BaseSalesChannel
 //        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
         $batchRequest = $this->client->createBatchRequest();
         foreach ($itemImages as $itemImage) {
-            $attributeValueMarkets = $itemImage['attributeValueMarkets'] ?? [];
+            $attributeValueMarkets = $itemImage['attributeValueMarkets'] ?? null;
             unset($itemImage['attributeValueMarkets']);
             $itemImage['itemId'] = $itemId;
             $modelId = $itemImage['modelId'] ?? null;
@@ -514,7 +514,10 @@ class PmSalesChannel extends BaseSalesChannel
                 $salesChannelItem->external_item_additional = $externalAdditional;
                 $salesChannelItem->save(false);
             }
-//            $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets, $itemImageAttributeValueMarkets[$imageId] ?? []);
+            //放到VariationImage中执行
+//            if ($attributeValueMarkets !== null) {
+//                $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets, $itemImageAttributeValueMarkets[$imageId] ?? []);
+//            }
         }
         $externalAdditional['itemImageIds'] = $itemImageIds;
         $salesChannelItem->external_item_additional = $externalAdditional;
@@ -547,6 +550,7 @@ class PmSalesChannel extends BaseSalesChannel
             'variationMarkets' => null,
             'variationSkus' => null,
             'variationImages' => null,
+            'itemImageAttributeValues' => null,
         ];
         $relatedParts = array_intersect_key($externalItem, $relatedParts);
         $externalItem = array_diff_key($externalItem, $relatedParts);
@@ -619,6 +623,20 @@ class PmSalesChannel extends BaseSalesChannel
         if ($additional['step'] === 'variationImages') {
             if ($relatedParts['variationImages'] !== null) {
                 $this->client->saveVariationImages($itemId, $variationId, $relatedParts['variationImages']);
+            }
+            $additional['step'] = 'itemImageAttributeValues';
+            $salesChannelItem->additional = $additional;
+            $salesChannelItem->save(false);
+        }
+        if ($additional['step'] === 'itemImageAttributeValues') {
+            if ($relatedParts['itemImageAttributeValues'] !== null) {
+                $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
+                $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
+                $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
+                $relatedItemImageAttributeValues = ArrayHelper::index($relatedParts['itemImageAttributeValues'], 'valueId', ['imageId']);
+                foreach ($relatedItemImageAttributeValues as $imageId => $imageAttributeValues) {
+                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $imageAttributeValues, $itemImageAttributeValueMarkets[$imageId]);
+                }
             }
             unset($additional['step']);
             $salesChannelItem->additional = $additional;

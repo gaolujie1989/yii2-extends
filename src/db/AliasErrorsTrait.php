@@ -29,7 +29,7 @@ trait AliasErrorsTrait
         $aliasErrorAttribute = $this->aliasErrorAttributes[$attribute] ?? null;
         if (isset($aliasErrorAttribute)) {
             $error = strtr($error, [
-                $this->getAttribute($attribute) => $this->getAttribute($aliasErrorAttribute),
+                $this->{$attribute} => $this->{$aliasErrorAttribute},
                 $this->getAttributeLabel($attribute) => $this->getAttributeLabel($aliasErrorAttribute),
             ]);
         }

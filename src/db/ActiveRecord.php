@@ -17,7 +17,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     use RowPrepareTrait;
     use RelationClassTrait;
     use TraceableBehaviorTrait;
-    use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait;
+    use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait, AliasErrorsTrait;
     use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 
     /**

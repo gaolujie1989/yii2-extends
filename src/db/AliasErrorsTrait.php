@@ -19,8 +19,6 @@ use yii\db\Exception;
  */
 trait AliasErrorsTrait
 {
-    public
-
     /**
      * @param $attribute
      * @param string $error

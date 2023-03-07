@@ -10,12 +10,16 @@ use yii\db\BaseActiveRecord;
 use yii\db\Exception;
 
 /**
- * Trait SaveTrait
+ * Trait AliasErrorsTrait
+ *
+ * @property array $aliasErrorAttributes = [];
+ *
  * @package lujie\extend\db
+ * @author Lujie Zhou <gao_lujie@live.cn>
  */
 trait AliasErrorsTrait
 {
-    public $aliasErrorAttributes = [];
+    public
 
     /**
      * @param $attribute

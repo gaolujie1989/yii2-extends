@@ -286,11 +286,12 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @param string $itemType
      * @param array $itemIds
      * @param int $salesChannelAccountId
+     * @param bool $force
      * @return array|null
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function pushTypeItems(string $itemType, array $itemIds, int $salesChannelAccountId): ?array
+    public function pushTypeItems(string $itemType, array $itemIds, int $salesChannelAccountId, bool $force = false): ?array
     {
         if ($salesChannelAccountId !== $this->account->account_id) {
             Yii::info("SalesChannelItem account {$salesChannelAccountId} != account {$this->account->account_id}", __METHOD__);
@@ -306,7 +307,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             ->indexByItemId()
             ->all();
         foreach ($pushedSalesChannelItems as $pushedSalesChannelItem) {
-            if ($pushedSalesChannelItem->item_pushed_status !== ExecStatusConst::EXEC_STATUS_SUCCESS) {
+            if ($force || $pushedSalesChannelItem->item_pushed_status !== ExecStatusConst::EXEC_STATUS_SUCCESS) {
                 $this->pushSalesItem($pushedSalesChannelItem);
             }
         }

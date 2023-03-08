@@ -55,6 +55,7 @@ class RelationSavableBehavior extends Behavior
 
     /**
      * @var array
+     * @deprecated
      */
     public $relationFilters;
 

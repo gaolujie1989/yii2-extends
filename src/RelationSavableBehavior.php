@@ -231,7 +231,7 @@ class RelationSavableBehavior extends Behavior
                     $indexKey = reset($indexKey);
                 } else {
                     $indexKey = static function ($values) use ($indexKey) {
-                        ValueHelper::getIndexValues($values, $indexKey);
+                        return ValueHelper::getIndexValues($values, $indexKey);
                     };
                 }
             }
@@ -243,7 +243,7 @@ class RelationSavableBehavior extends Behavior
                 $indexKey = $primaryKeys[0];
             } elseif (count($primaryKeys) > 1) {
                 $indexKey = static function ($values) use ($primaryKeys) {
-                    ValueHelper::getIndexValues($values, $primaryKeys);
+                    return ValueHelper::getIndexValues($values, $primaryKeys);
                 };
             } else {
                 throw new InvalidConfigException('Model must have a primaryKey');

@@ -283,7 +283,7 @@ class RelationSavableBehavior extends Behavior
                     }
                 }
                 if ($values instanceof BaseActiveRecord) {
-                    $model->setAttributes($values->getAttributes());
+                    $model->setAttributes($values->getAttributes($values->safeAttributes()));
                 } else {
                     $model->setAttributes($values);
                 }

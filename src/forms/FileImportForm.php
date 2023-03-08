@@ -206,7 +206,9 @@ class FileImportForm extends Model
                 array_unshift($transformer->transformers, $fillOwnerIdTransformer);
             } else {
                 $this->fileImporter->transformer = new ChainedTransformer([
-                    'transformers' => [$fillOwnerIdTransformer, $transformer]
+                    'transformers' => [
+                        [$fillOwnerIdTransformer, $transformer],
+                    ]
                 ]);
             }
         }

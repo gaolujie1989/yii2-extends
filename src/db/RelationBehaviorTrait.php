@@ -7,6 +7,7 @@ namespace lujie\extend\db;
 
 use lujie\ar\relation\behaviors\RelationDeletableBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use yii\db\BaseActiveRecord;
 
 /**
  * Trait RelationBehaviorTrait
@@ -50,5 +51,18 @@ trait RelationBehaviorTrait
                 'relations' => $relations,
             ]
         ];
+    }
+
+    /**
+     * @param string $name
+     * @param array|BaseActiveRecord $data
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function setRelation(string $name, $data): void
+    {
+        /** @var RelationSavableBehavior $behavior */
+        $behavior = $this->getBehavior('relationSave');
+        $behavior->setRelation($name, $data);
     }
 }

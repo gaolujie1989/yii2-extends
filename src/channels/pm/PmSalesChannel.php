@@ -641,7 +641,7 @@ class PmSalesChannel extends BaseSalesChannel
                 $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
                 $relatedItemImageAttributeValues = ArrayHelper::index($relatedParts['itemImageAttributeValues'], 'valueId', ['imageId']);
                 foreach ($relatedItemImageAttributeValues as $imageId => $imageAttributeValues) {
-                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $imageAttributeValues, $itemImageAttributeValueMarkets[$imageId]);
+                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $imageAttributeValues, $itemImageAttributeValueMarkets[$imageId] ?? []);
                 }
             }
             unset($additional['step']);

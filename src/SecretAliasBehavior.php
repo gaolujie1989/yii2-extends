@@ -28,6 +28,11 @@ class SecretAliasBehavior extends AliasPropertyBehavior
     public $key = null;
 
     /**
+     * @var bool
+     */
+    public $skipOnEmpty = true;
+
+    /**
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -87,6 +92,9 @@ class SecretAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty(string $name, $value): void
     {
+        if ($this->skipOnEmpty && empty($value)) {
+            return;
+        }
         if ($value) {
             $security = Yii::$app->getSecurity();
             switch ($this->type) {

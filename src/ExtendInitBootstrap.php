@@ -11,6 +11,7 @@ use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
 use lujie\extend\validators\LinkerValidator;
 use lujie\extend\validators\NumberValidator;
+use lujie\extend\validators\SkipValidator;
 use lujie\extend\validators\StringValidator;
 use Yii;
 use yii\base\BaseObject;
@@ -46,6 +47,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
     public function bootstrap($app): void
     {
         Validator::$builtInValidators['linker'] = LinkerValidator::class;
+        Validator::$builtInValidators['skip'] = SkipValidator::class;
         $this->setDefinitions();
         if ($this->memoryLimit) {
             MemoryHelper::setMemoryLimit($this->memoryLimit);

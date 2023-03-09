@@ -43,6 +43,7 @@ class AuthTokenForm extends AuthToken
                 ]
             ],
             [['user_id', 'auth_service'], 'unique', 'targetAttribute' => ['user_id', 'auth_service']],
+            [['access_token', 'refresh_token'], 'skip'],
         ]);
     }
 }

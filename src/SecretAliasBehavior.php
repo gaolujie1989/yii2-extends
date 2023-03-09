@@ -7,7 +7,6 @@ namespace lujie\alias\behaviors;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\helpers\StringHelper;
 
 /**
  * Class SecretAliasBehavior
@@ -56,6 +55,9 @@ class SecretAliasBehavior extends AliasPropertyBehavior
     public function getAliasProperty(string $name)
     {
         $value = parent::getAliasProperty($name);
+        if (empty($value)) {
+            return $value;
+        }
         $security = Yii::$app->getSecurity();
         switch ($this->type) {
             case self::TYPE_ENCRYPTION_BY_KEY:
@@ -85,22 +87,24 @@ class SecretAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty(string $name, $value): void
     {
-        $security = Yii::$app->getSecurity();
-        switch ($this->type) {
-            case self::TYPE_ENCRYPTION_BY_KEY:
-                $value = $security->encryptByKey($value, $this->key);
-                break;
-            case self::TYPE_ENCRYPTION_BY_PASSWORD:
-                $value = $security->encryptByPassword($value, $this->key);
-                break;
-            case self::TYPE_DATA_HASH:
-                $value = $security->hashData($value, $this->key);
-                break;
-            case self::TYPE_PASSWORD_HASH:
-                $value = $security->generatePasswordHash($value, $this->key);
-                break;
-            default:
-                throw new InvalidConfigException('Invalid secret type');
+        if ($value) {
+            $security = Yii::$app->getSecurity();
+            switch ($this->type) {
+                case self::TYPE_ENCRYPTION_BY_KEY:
+                    $value = $security->encryptByKey($value, $this->key);
+                    break;
+                case self::TYPE_ENCRYPTION_BY_PASSWORD:
+                    $value = $security->encryptByPassword($value, $this->key);
+                    break;
+                case self::TYPE_DATA_HASH:
+                    $value = $security->hashData($value, $this->key);
+                    break;
+                case self::TYPE_PASSWORD_HASH:
+                    $value = $security->generatePasswordHash($value, $this->key);
+                    break;
+                default:
+                    throw new InvalidConfigException('Invalid secret type');
+            }
         }
         parent::setAliasProperty($name, $value);
     }

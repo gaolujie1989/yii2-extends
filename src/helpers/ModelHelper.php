@@ -45,7 +45,7 @@ class ModelHelper
                     unset($rules[$key]);
                 } elseif (is_array($ruleAttributes) && array_intersect($attributes, $ruleAttributes)) {
                     $ruleAttributes = array_diff($ruleAttributes, $attributes);
-                    if ($ruleAttributes) {
+                    if ($ruleAttributes && $ruleName !== 'unique') {
                         $rules[$key][0] = $ruleAttributes;
                     } else {
                         unset($rules[$key]);

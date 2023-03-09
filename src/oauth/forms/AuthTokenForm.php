@@ -22,7 +22,7 @@ class AuthTokenForm extends AuthToken
     /**
      * @var Account
      */
-    public $accountClass;
+    public $accountClass = Account::class;
 
     /**
      * @return array

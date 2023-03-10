@@ -27,8 +27,8 @@ class SkipValidator extends Validator
      */
     public function validateAttribute($model, $attribute): void
     {
-        if ($model instanceof BaseActiveRecord && $this->isEmpty($model->{$attribute})) {
-            $model->{$attribute} = $model->getOldAttribute($attribute);
+        if ($model instanceof BaseActiveRecord && $this->isEmpty($model->{$attribute}) && $oldValue = $model->getOldAttribute($attribute)) {
+            $model->{$attribute} = $oldValue;
         }
     }
 }

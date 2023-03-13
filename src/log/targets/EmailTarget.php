@@ -5,6 +5,9 @@
 
 namespace lujie\extend\log\targets;
 
+use yii\helpers\VarDumper;
+use yii\log\Logger;
+
 /**
  * Class EmailTarget
  * @package lujie\extend\log\targets
@@ -25,7 +28,16 @@ class EmailTarget extends \yii\log\EmailTarget
     {
         $message = parent::composeMessage($body);
         if ($this->appendMessageToSubject) {
-            [$text, $level, $category, $timestamp] = $message;
+            [$text, $level, $category, $timestamp] = $this->messages;
+            $level = Logger::getLevelName($level);
+            if (!is_string($text)) {
+                if ($text instanceof \Throwable) {
+                    $text = $text->getMessage();
+                } else {
+                    $text = VarDumper::export($text);
+                }
+            }
+
             $message->setSubject(strtr($this->subjectTemplate, [
                 '{subject}' => $this->message['subject'],
                 '{text}' => substr($text, 0, 220),

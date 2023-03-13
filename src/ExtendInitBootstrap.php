@@ -7,6 +7,7 @@ namespace lujie\extend;
 
 use lujie\extend\helpers\MemoryHelper;
 use lujie\extend\httpclient\Response;
+use lujie\extend\log\targets\EmailTarget;
 use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
 use lujie\extend\validators\LinkerValidator;
@@ -20,6 +21,7 @@ use yii\data\Pagination;
 use yii\data\Sort;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
+use \yii\log\EmailTarget AS YiiEmailTarget;
 use yii\rest\DeleteAction as YiiDeleteAction;
 use yii\rest\Serializer;
 use yii\rest\UrlRule;
@@ -62,6 +64,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
             YiiStringValidator::class => StringValidator::class,
             YiiNumberValidator::class => NumberValidator::class,
             //BatchQueryResult::class => SortableBatchQueryResult::class,
+            YiiEmailTarget::class => EmailTarget::class,
 
             Client::class => [
                 'transport' => CurlTransport::class,

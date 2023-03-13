@@ -64,7 +64,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
             YiiStringValidator::class => StringValidator::class,
             YiiNumberValidator::class => NumberValidator::class,
             //BatchQueryResult::class => SortableBatchQueryResult::class,
-            YiiEmailTarget::class => EmailTarget::class,
+//            YiiEmailTarget::class => EmailTarget::class,
 
             Client::class => [
                 'transport' => CurlTransport::class,

@@ -600,7 +600,7 @@ class PmSalesChannel extends BaseSalesChannel
         $pmVariation = $this->client->getItemVariation([
             'id' => $variationId,
             'itemId' => $itemId,
-            'with' => 'variationBundleComponents,variationMarkets,variationSkus'
+            'with' => 'variationAttributeValues,variationBundleComponents,variationMarkets,variationSkus'
         ]);
         if ($additional['step'] === 'variationBundleComponents') {
             if ($relatedParts['variationBundleComponents'] !== null) {
@@ -635,7 +635,7 @@ class PmSalesChannel extends BaseSalesChannel
             $salesChannelItem->save(false);
         }
         if ($additional['step'] === 'itemImageAttributeValues') {
-            if ($relatedParts['itemImageAttributeValues'] !== null) {
+            if ($relatedParts['itemImageAttributeValues'] !== null && $pmVariation['variationAttributeValues']) {
                 $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
                 $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
                 $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);

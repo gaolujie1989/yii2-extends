@@ -233,7 +233,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      */
     protected function getSalesChannelStatus(string $externalOrderStatus): ?int
     {
-        return $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
+        return $this->salesChannelStatusMap[$externalOrderStatus] ?? null;
     }
 
     /**

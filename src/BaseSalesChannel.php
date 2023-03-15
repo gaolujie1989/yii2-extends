@@ -374,6 +374,10 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             $salesChannelItem->addError('item_id', $message);
             return false;
         }
+        if (isset($externalItem['errors']) && is_array($externalItem['errors'])) {
+            $salesChannelItem->addErrors($externalItem['errors']);
+            return false;
+        }
 
         if (empty($salesChannelItem->external_item_key) && $externalExistsItem = $this->getExternalItem($externalItem)) {
             $existExternalItemKey = $externalExistsItem[$this->externalItemKeyField];

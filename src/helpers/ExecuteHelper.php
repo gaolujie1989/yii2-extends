@@ -105,7 +105,8 @@ class ExecuteHelper
                 if ($resultAttribute) {
                     $resultValue = $model->getAttribute($resultAttribute) ?: [];
                     $resultValue = array_merge($resultValue, [
-                        'error' => Json::encode($model->getErrors()),
+                        'error' => $model->getFirstError(),
+                        'errors' => $model->getErrors(),
                     ]);
                     $model->setAttribute($resultAttribute, $resultValue);
                 }

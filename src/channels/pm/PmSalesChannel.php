@@ -124,7 +124,6 @@ class PmSalesChannel extends BaseSalesChannel
             'externalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
         ];
 
-        $this->updateSalesChannelOrderStatus($salesChannelOrder, $changeActionStatus);
         return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder, $changeActionStatus);
     }
 
@@ -141,11 +140,14 @@ class PmSalesChannel extends BaseSalesChannel
         }
         if ($externalOrderStatus < 4) {
             return SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT;
-        } elseif ($externalOrderStatus >= 4 && $externalOrderStatus < 7) {
+        }
+        if ($externalOrderStatus < 7) {
             return SalesChannelConst::CHANNEL_STATUS_PAID;
-        } elseif ($externalOrderStatus >= 7 && $externalOrderStatus < 8) {
+        }
+        if ($externalOrderStatus < 8) {
             return SalesChannelConst::CHANNEL_STATUS_SHIPPED;
-        } elseif ($externalOrderStatus >= 8 && $externalOrderStatus < 9) {
+        }
+        if ($externalOrderStatus < 9) {
             return SalesChannelConst::CHANNEL_STATUS_CANCELLED;
         }
         return null;
@@ -179,19 +181,20 @@ class PmSalesChannel extends BaseSalesChannel
         if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
             $trackingNumbers = $externalOrder['trackingNumbers'] ?? [];
             if (empty($trackingNumbers)) {
-                $message = "Empty trackingNumbers of order {$salesChannelOrder->order_id}";
+                $message = "Empty trackingNumbers of channel order {$salesChannelOrder->sales_channel_order_id}";
                 $salesChannelOrder->addError('order_id', $message);
                 return null;
             }
 
+            $externalOrderId = $salesChannelOrder->external_order_key;
             $comments = $externalOrder['notes'] ?? $externalOrder['coments'] ?? [];
             if ($comments) {
-                $pmOrder = $this->client->getOrder(['id' => $orderId, 'with' => 'comments']);
+                $pmOrder = $this->client->getOrder(['id' => $externalOrderId, 'with' => 'comments']);
                 $userComments = ArrayHelper::index($pmOrder['comments'], 'userId');
                 $userId = 96;
                 if (empty($userComments[$userId])) {
                     $this->client->createComment([
-                        'referenceValue' => $orderId,
+                        'referenceValue' => $externalOrderId,
                         'text' => '<p>' . strtr(implode("\n", $comments), ["\n" => '<br />']) . '</p>',
                         'referenceType' => 'order',
                         'isVisibleForContact' => false,
@@ -202,12 +205,13 @@ class PmSalesChannel extends BaseSalesChannel
 
             $warehouseId = $externalOrder['warehouseId'] ?? '';
             if ($warehouseId) {
-                $this->client->updateOrderWarehouse($orderId, $warehouseId);
+                $this->client->updateOrderWarehouse($externalOrderId, $warehouseId);
             }
 
-            $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
-            return $this->client->getOrder(['id' => $orderId]);
+            $this->client->updateOrderShippingNumbers($externalOrderId, $trackingNumbers);
+            return $this->client->getOrder(['id' => $externalOrderId]);
         }
+        return null;
     }
 
     #endregion

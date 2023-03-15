@@ -15,8 +15,10 @@ use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
 use yii\base\Component;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\base\UserException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
@@ -43,6 +45,11 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @var TransformerInterface
      */
     public $itemStockTransformer;
+
+    /**
+     * @var TransformerInterface
+     */
+    public $orderTransformer;
 
     /**
      * @var DataStorageInterface
@@ -109,6 +116,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $this->itemTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
         if (property_exists($this->itemTransformer, 'salesChannel')) {
             $this->itemTransformer->salesChannel = $this;
+        }
+        $this->itemStockTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
+        if (property_exists($this->itemStockTransformer, 'salesChannel')) {
+            $this->itemStockTransformer->salesChannel = $this;
+        }
+        $this->orderTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
+        if (property_exists($this->orderTransformer, 'salesChannel')) {
+            $this->orderTransformer->salesChannel = $this;
         }
         if ($this->orderDataStorage) {
             $this->orderDataStorage = Instance::ensure($this->orderDataStorage, DataStorageInterface::class);
@@ -197,12 +212,13 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if ($newSalesChannelStatus) {
             $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
             if ($statusTransitions === null
-                ||($changeActionStatus && in_array((int)$newSalesChannelStatus, $statusTransitions, true))) {
+                || ($changeActionStatus && in_array((int)$newSalesChannelStatus, $statusTransitions, true))) {
                 $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
             }
         }
         return SalesChannelOrder::getDb()->transaction(function () use ($salesChannelOrder, $externalOrder) {
             if ($salesChannelOrder->save(false)) {
+                $this->orderDataStorage?->set($salesChannelOrder, $externalOrder);
                 $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
                 return true;
             }
@@ -230,16 +246,98 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws UserException
+     * @throws \Throwable
      * @inheritdoc
+     * @deprecated
      */
-    abstract public function shipSalesOrder(SalesChannelOrder $channelOrder): bool;
+    public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
+    {
+        return $this->pushSalesOrder($channelOrder);
+    }
 
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
+     * @throws InvalidConfigException
+     * @throws UserException
+     * @throws \Throwable
+     * @inheritdoc
+     * @deprecated
+     */
+    public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
+    {
+        return $this->pushSalesOrder($channelOrder);
+    }
+
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @return bool
+     * @throws InvalidConfigException
+     * @throws UserException
+     * @throws \Throwable
+     */
+    public function pushSalesOrder(SalesChannelOrder $salesChannelOrder): bool
+    {
+        if (!$this->validateSalesChannelAccount($salesChannelOrder)) {
+            return false;
+        }
+
+        $externalOrderId = $salesChannelOrder->external_order_key;
+        if (empty($externalOrderId)) {
+            return false;
+        }
+
+        $salesChannelStatus = $salesChannelOrder->sales_channel_status;
+        if (!isset($this->salesChannelStatusActionTransitions[$salesChannelStatus])) {
+            return false;
+        }
+
+        $externalOrder = $this->getExternalOrder($externalOrderId);
+        $externalOrderStatus = $externalOrder[$this->externalOrderStatusField];
+        $newSalesChannelStatus = $this->salesChannelStatusMap[$externalOrderStatus] ?? null;
+
+        if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
+            if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
+                $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder);
+                throw new UserException("Sales order {$externalOrderId} is cancelled, can not be shipped");
+            }
+        } else if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
+            if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
+                $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder);
+                throw new InvalidArgumentException("Sales order {$externalOrderId} is shipped, can not be cancelled");
+            }
+        } else {
+            return false;
+        }
+
+        [$transformedExternalOrder] = $this->orderTransformer->transform([$salesChannelOrder]);
+        if (empty($transformedExternalOrder)) {
+            $message = 'Empty transformed external order';
+            $salesChannelOrder->addError('order_id', $message);
+            return false;
+        }
+
+        $this->saveExternalOrder($transformedExternalOrder, $salesChannelOrder);
+
+        $externalOrder = $this->getExternalOrder($externalOrderId);
+        return $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder, true);
+    }
+
+    /**
+     * @param string $externalOrderId
+     * @return array|null
+     */
+    abstract protected function getExternalOrder(string $externalOrderId): ?array;
+
+    /**
+     * @param array $externalOrder
+     * @param SalesChannelOrder $salesChannelOrder
+     * @return array|null
      * @inheritdoc
      */
-    abstract public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool;
+    abstract protected function saveExternalOrder(array $externalOrder, SalesChannelOrder $salesChannelOrder): ?array;
 
     #endregion
 
@@ -253,14 +351,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      */
     public function pushSalesItem(SalesChannelItem $salesChannelItem): bool
     {
-        if ($salesChannelItem->sales_channel_account_id !== $this->account->account_id) {
-            Yii::info("SalesChannelItem account {$salesChannelItem->sales_channel_account_id} != account {$this->account->account_id}", __METHOD__);
+        if (!$this->validateSalesChannelAccount($salesChannelItem)) {
             return false;
         }
 
         [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
         if (empty($externalItem)) {
-            Yii::info("Empty transformed external item", __METHOD__);
+            $message = 'Empty transformed external item';
+            $salesChannelItem->addError('item_id', $message);
             return false;
         }
 
@@ -269,7 +367,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             $this->updateSalesChannelItem($salesChannelItem, $externalExistsItem);
             [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
             if (empty($externalItem)) {
-                Yii::info("Empty transformed external item", __METHOD__);
+                $message = 'Empty transformed external item';
+                $salesChannelItem->addError('item_id', $message);
                 return false;
             }
         }
@@ -308,7 +407,11 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             ->all();
         foreach ($pushedSalesChannelItems as $pushedSalesChannelItem) {
             if ($force || $pushedSalesChannelItem->item_pushed_status !== ExecStatusConst::EXEC_STATUS_SUCCESS) {
-                $this->pushSalesItem($pushedSalesChannelItem);
+                if ($this->pushSalesItem($pushedSalesChannelItem)) {
+                    $pushedSalesChannelItem->item_pushed_at = time();
+                    $pushedSalesChannelItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+                    $pushedSalesChannelItem->save(false);
+                }
             }
         }
         $notPushedItemIds = array_diff($itemIds, array_keys($pushedSalesChannelItems));
@@ -322,7 +425,11 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             $salesChannelItem->item_type = $itemType;
             $salesChannelItem->item_id = $itemId;
             $salesChannelItem->save(false);
-            $this->pushSalesItem($salesChannelItem);
+            if ($this->pushSalesItem($salesChannelItem)) {
+                $salesChannelItem->item_pushed_at = time();
+                $salesChannelItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
+                $salesChannelItem->save(false);
+            }
             $newPushedSalesChannelItems[] = $salesChannelItem;
         }
         return array_merge($pushedSalesChannelItems, $newPushedSalesChannelItems);
@@ -389,14 +496,19 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if (!$this->validateSalesChannelItems($salesChannelItems)) {
             return false;
         }
+        if (empty($this->itemStockTransformer)) {
+            return false;
+        }
         $this->itemStockTransformer = Instance::ensure($this->itemStockTransformer, TransformerInterface::class);
         $externalItemStocks = $this->itemStockTransformer->transform($salesChannelItems);
-        if ($externalItemStocks) {
-            $this->saveExternalItemStocks($externalItemStocks);
-            foreach ($salesChannelItems as $salesChannelItem) {
-                $salesChannelItem->stock_pushed_at = time();
-                $salesChannelItem->save(false);
-            }
+        if (empty($externalItemStocks)) {
+            Yii::info("Transformed empty stocks", __METHOD__);
+            return false;
+        }
+        $this->saveExternalItemStocks($externalItemStocks);
+        foreach ($salesChannelItems as $salesChannelItem) {
+            $salesChannelItem->stock_pushed_at = time();
+            $salesChannelItem->save(false);
         }
         return true;
     }
@@ -409,6 +521,21 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     abstract protected function saveExternalItemStocks(array $externalItemStocks): ?array;
 
     #endregion
+
+    /**
+     * @param SalesChannelItem|SalesChannelOrder $salesChannelItemOrOrder
+     * @return bool
+     * @inheritdoc
+     */
+    protected function validateSalesChannelAccount($salesChannelItemOrOrder): bool
+    {
+        if ($salesChannelItemOrOrder->sales_channel_account_id !== $this->account->account_id) {
+            $message = "SalesChannelItemOrOrder {$salesChannelItemOrOrder->sales_channel_order_id} with other account";
+            $salesChannelItemOrOrder->addError('sales_channel_account_id', $message);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @param array $salesChannelItems

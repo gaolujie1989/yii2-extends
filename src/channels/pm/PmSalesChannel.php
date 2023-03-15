@@ -316,6 +316,7 @@ class PmSalesChannel extends BaseSalesChannel
                 $salesChannelItem->addError('item_id', Json::encode($response->data));
                 return null;
             }
+            throw $exception;
         }
         throw new InvalidArgumentException('Unknown external item data: ' . Json::encode($externalItem));
     }

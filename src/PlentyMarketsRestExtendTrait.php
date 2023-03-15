@@ -102,7 +102,7 @@ trait PlentyMarketsRestExtendTrait
     public function saveVariationSalesPrices(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
         $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
-        return $this->saveRelationParts($relationIds, 'VariationSalesPrice', $values, $existValues, ['salesPriceId'], ['price']);
+        return $this->saveRelationParts($relationIds, 'ItemVariationSalesPrice', $values, $existValues, ['salesPriceId'], ['price']);
     }
 
     /**
@@ -117,7 +117,7 @@ trait PlentyMarketsRestExtendTrait
     public function saveVariationBarcodes(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
         $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
-        return $this->saveRelationParts($relationIds, 'VariationBarcode', $values, $existValues, ['barcodeId'], ['code']);
+        return $this->saveRelationParts($relationIds, 'ItemVariationBarcode', $values, $existValues, ['barcodeId'], ['code']);
     }
 
     /**

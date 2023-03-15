@@ -132,7 +132,7 @@ class ExecuteHelper
             }
             $model->save(false);
             Yii::error($message, __METHOD__);
-            return true;
+            return false;
         } catch (\Throwable $exception) {
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
             $message = ExceptionHelper::getMessage($exception);

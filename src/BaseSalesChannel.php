@@ -359,7 +359,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     /**
      * @param SalesChannelItem $salesChannelItem
      * @return bool
-     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pushSalesItem(SalesChannelItem $salesChannelItem): bool
@@ -415,7 +414,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @param int $salesChannelAccountId
      * @param bool $force
      * @return array|null
-     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function pushTypeItems(string $itemType, array $itemIds, int $salesChannelAccountId, bool $force = false): ?array

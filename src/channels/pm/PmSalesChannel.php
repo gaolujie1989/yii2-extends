@@ -540,7 +540,7 @@ class PmSalesChannel extends BaseSalesChannel
             'variationImages' => null,
             'itemImageAttributeValues' => null,
         ];
-        $relatedParts = array_intersect_key($externalItem, $relatedParts);
+        $relatedParts = array_merge($relatedParts, array_intersect_key($externalItem, $relatedParts));
         $externalItem = array_diff_key($externalItem, $relatedParts);
         $additional = $salesChannelItem->additional;
         $additional['step'] = $additional['step'] ?? 'variation';

@@ -534,9 +534,11 @@ class PmSalesChannel extends BaseSalesChannel
             throw new InvalidArgumentException('variation data must with item id');
         }
         // 可以自动关联保存:
-        // variationBarcodes, variationSalesPrices,
+        // variationSalesPrices,
         // variationAttributeValues, variationProperties, variationCategories, variationClients,
+        // variationBarcodes 傻逼PM, 原先可以，后来不行了
         $relatedParts = [
+            'variationBarcodes' => null,
             'variationBundleComponents' => null,
             'variationMarkets' => null,
             'variationSkus' => null,
@@ -582,7 +584,7 @@ class PmSalesChannel extends BaseSalesChannel
                 );
                 $savedVariation = $this->client->updateItemVariation($externalItem);
             }
-            $additional['step'] = 'variationBundleComponents';
+            $additional['step'] = 'variationBarcodes';
             $salesChannelItem->additional = $additional;
             $salesChannelItem->save(false);
         }
@@ -591,8 +593,16 @@ class PmSalesChannel extends BaseSalesChannel
         $pmVariation = $this->client->getItemVariation([
             'id' => $variationId,
             'itemId' => $itemId,
-            'with' => 'variationAttributeValues,variationBundleComponents,variationMarkets,variationSkus'
+            'with' => 'variationAttributeValues,variationBarcodes,variationBundleComponents,variationMarkets,variationSkus'
         ]);
+        if ($additional['step'] === 'variationBarcodes') {
+            if ($relatedParts['variationBarcodes'] !== null) {
+                $this->client->saveVariationBarcodes($itemId, $variationId, $relatedParts['variationBarcodes'], $pmVariation['variationBarcodes']);
+            }
+            $additional['step'] = 'variationBundleComponents';
+            $salesChannelItem->additional = $additional;
+            $salesChannelItem->save(false);
+        }
         if ($additional['step'] === 'variationBundleComponents') {
             if ($relatedParts['variationBundleComponents'] !== null) {
                 $this->client->saveVariationBundleComponents($itemId, $variationId, $relatedParts['variationBundleComponents'], $pmVariation['variationBundleComponents']);

@@ -206,9 +206,9 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     {
         $salesChannelOrder->order_pulled_at = time();
         $salesChannelOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
-        $salesChannelOrder->external_order_status = $externalOrder[$this->externalOrderStatusField];
+        $salesChannelOrder->external_order_status = (string)$externalOrder[$this->externalOrderStatusField];
 
-        $newSalesChannelStatus = $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
+        $newSalesChannelStatus = $this->getSalesChannelStatus($salesChannelOrder->external_order_status);
         if ($newSalesChannelStatus) {
             $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
             if ($statusTransitions === null
@@ -227,6 +227,16 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     }
 
     /**
+     * @param string $externalOrderStatus
+     * @return int|null
+     * @inheritdoc
+     */
+    protected function getSalesChannelStatus(string $externalOrderStatus): ?int
+    {
+        return $this->salesChannelStatusMap[$salesChannelOrder->external_order_status] ?? null;
+    }
+
+    /**
      * @param SalesChannelOrder $salesChannelOrder
      * @param array $externalOrder
      * @inheritdoc
@@ -241,7 +251,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
     #endregion
 
-    #region Order Push ship/cancel
+    #region Order Push
 
     /**
      * @param SalesChannelOrder $channelOrder
@@ -277,6 +287,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @throws InvalidConfigException
      * @throws UserException
      * @throws \Throwable
+     * @inheritdoc
      */
     public function pushSalesOrder(SalesChannelOrder $salesChannelOrder): bool
     {
@@ -295,8 +306,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         }
 
         $externalOrder = $this->getExternalOrder($externalOrderId);
-        $externalOrderStatus = $externalOrder[$this->externalOrderStatusField];
-        $newSalesChannelStatus = $this->salesChannelStatusMap[$externalOrderStatus] ?? null;
+        $externalOrderStatus = (string)$externalOrder[$this->externalOrderStatusField];
+        $newSalesChannelStatus = $this->getSalesChannelStatus($externalOrderStatus);
 
         if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
             if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
@@ -306,7 +317,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         } else if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
             if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
                 $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder);
-                throw new InvalidArgumentException("Sales order {$externalOrderId} is shipped, can not be cancelled");
+                throw new UserException("Sales order {$externalOrderId} is shipped, can not be cancelled");
             }
         } else {
             return false;
@@ -314,15 +325,17 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
         [$transformedExternalOrder] = $this->orderTransformer->transform([$salesChannelOrder]);
         if (empty($transformedExternalOrder)) {
-            $message = 'Empty transformed external order';
+            $message = "Empty transformed external order of channel order {$salesChannelOrder->sales_channel_order_id}";
             $salesChannelOrder->addError('order_id', $message);
             return false;
         }
 
-        $this->saveExternalOrder($transformedExternalOrder, $salesChannelOrder);
-
-        $externalOrder = $this->getExternalOrder($externalOrderId);
-        return $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder, true);
+        if ($externalOrder = $this->saveExternalOrder($transformedExternalOrder, $salesChannelOrder)) {
+            Yii::info("Order pushed success, update SalesChannelItem", __METHOD__);
+            return $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder, true);
+        }
+        Yii::warning("Order pushed failed, skip update SalesChannelItem", __METHOD__);
+        return false;
     }
 
     /**
@@ -357,7 +370,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
         [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
         if (empty($externalItem)) {
-            $message = 'Empty transformed external item';
+            $message = "Empty transformed external item of channel item: {$salesChannelItem->sales_channel_item_id}";
             $salesChannelItem->addError('item_id', $message);
             return false;
         }

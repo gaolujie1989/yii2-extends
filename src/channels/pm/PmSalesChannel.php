@@ -5,6 +5,7 @@
 
 namespace lujie\sales\channel\channels\pm;
 
+use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\plentyMarkets\PlentyMarketsConst;
 use lujie\plentyMarkets\PlentyMarketsRestClient;
 use lujie\sales\channel\BaseSalesChannel;
@@ -30,6 +31,8 @@ class PmSalesChannel extends BaseSalesChannel
      * @var PlentyMarketsRestClient
      */
     public $client;
+
+    public $orderTransformer = PmSalesChannelOrderTransformer::class;
 
     #region External Model Key Field
 

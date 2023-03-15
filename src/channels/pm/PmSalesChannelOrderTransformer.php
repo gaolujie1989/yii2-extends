@@ -43,7 +43,7 @@ class PmSalesChannelOrderTransformer extends BaseObject implements TransformerIn
             return [
                 'id' => $salesChannelOrder->external_order_key,
                 'statusId' => $this->orderCancelledStatus,
-            ]
+            ];
         }
         return null;
     }

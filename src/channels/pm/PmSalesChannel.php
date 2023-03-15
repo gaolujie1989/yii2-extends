@@ -296,17 +296,27 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        if (isset($externalItem['number'], $externalItem['itemId'])) {
-            return $this->savePmVariation($externalItem, $salesChannelItem);
-        }
-        if (isset($externalItem['attributeId'])) {
-            return $this->savePmAttributeValue($externalItem, $salesChannelItem);
-        }
-        if (isset($externalItem['backendName'])) {
-            return $this->savePmAttribute($externalItem, $salesChannelItem);
-        }
-        if (isset($externalItem['manufacturerId'], $externalItem['producingCountryId'])) {
-            return $this->savePmItem($externalItem, $salesChannelItem);
+        try {
+            if (isset($externalItem['number'], $externalItem['itemId'])) {
+                return $this->savePmVariation($externalItem, $salesChannelItem);
+            }
+            if (isset($externalItem['attributeId'])) {
+                return $this->savePmAttributeValue($externalItem, $salesChannelItem);
+            }
+            if (isset($externalItem['backendName'])) {
+                return $this->savePmAttribute($externalItem, $salesChannelItem);
+            }
+            if (isset($externalItem['manufacturerId'], $externalItem['producingCountryId'])) {
+                return $this->savePmItem($externalItem, $salesChannelItem);
+            }
+        } catch (InvalidResponseException $exception) {
+            $response = $exception->response;
+            $statusCode = (string)$response->getStatusCode();
+            if ($statusCode === '422') {
+                $salesChannelItem->addError('item_id', $exception->getMessage());
+                $salesChannelItem->addError('item_id', Json::encode($response->data));
+                return null;
+            }
         }
         throw new InvalidArgumentException('Unknown external item data: ' . Json::encode($externalItem));
     }

@@ -225,7 +225,9 @@ trait PlentyMarketsRestExtendTrait
                 $existValue = $existRelationValues[$key];
                 foreach ($updateKeys as $updateKey) {
                     if ((string)$toUpdateValue[$updateKey] !== (string)$existValue[$updateKey]) {
-                        $toUpdateValue['id'] = $existValue['id'];
+                        if (isset($existValue['id'])) {
+                            $toUpdateValue['id'] = $existValue['id'];
+                        }
                         $toUpdateValues[] = $toUpdateValue;
                     }
                 }

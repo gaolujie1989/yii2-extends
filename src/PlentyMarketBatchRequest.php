@@ -388,6 +388,7 @@ class PlentyMarketBatchRequest extends BaseObject
             $errors = array_unique(array_filter($errors));
             if ($errors) {
                 $invalidResponse = new Response();
+                $invalidResponse->setHeaders(['http-code' => '422']);
                 $invalidResponse->setData($batchResponse);
                 throw new InvalidResponseException($invalidResponse, 'Batch request with errors: ' . Json::encode($errors));
             }

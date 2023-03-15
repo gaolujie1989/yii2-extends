@@ -376,6 +376,17 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         }
 
         if (empty($salesChannelItem->external_item_key) && $externalExistsItem = $this->getExternalItem($externalItem)) {
+            $existExternalItemKey = $externalExistsItem[$this->externalItemKeyField];
+            $existSalesChannelItem = SalesChannelItem::find()
+                ->salesChannelAccountId($salesChannelItem->sales_channel_account_id)
+                ->itemType($salesChannelItem->item_type)
+                ->externalItemKey($existExternalItemKey)
+                ->one();
+            if ($existSalesChannelItem) {
+                $message = "External item exist, but already link to item: {$existSalesChannelItem->item_id}";
+                $salesChannelItem->addError('item_id', $message);
+                return false;
+            }
             Yii::info("Item not pushed, but exist in external, update SalesChannelItem", __METHOD__);
             $this->updateSalesChannelItem($salesChannelItem, $externalExistsItem);
             [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);

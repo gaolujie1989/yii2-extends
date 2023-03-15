@@ -99,6 +99,36 @@ trait PlentyMarketsRestExtendTrait
      * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
+    public function saveVariationSalesPrices(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
+    {
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'VariationSalesPrice', $values, $existValues, ['salesPriceId'], ['price']);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $variationId
+     * @param array $values
+     * @param array|null $existValues
+     * @return array
+     * @throws \yii\authclient\InvalidResponseException
+     * @inheritdoc
+     */
+    public function saveVariationBarcodes(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
+    {
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'VariationBarcode', $values, $existValues, ['barcodeId'], ['code']);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $variationId
+     * @param array $values
+     * @param array|null $existValues
+     * @return array
+     * @throws \yii\authclient\InvalidResponseException
+     * @inheritdoc
+     */
     public function saveVariationBundleComponents(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
         $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];

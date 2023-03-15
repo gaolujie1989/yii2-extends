@@ -99,7 +99,6 @@ class ExecuteHelper
             }
             $callable();
             //time attribute only update on success
-            $timeAttribute && $model->setAttribute($timeAttribute, time());
             if ($model->hasErrors()) {
                 $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_INVALID);
                 if ($resultAttribute) {
@@ -109,21 +108,30 @@ class ExecuteHelper
                         'errors' => $model->getErrors(),
                     ]);
                     $model->setAttribute($resultAttribute, $resultValue);
+                    $modelClass = get_class($model);
+                    $primaryKey = implode(',', $model->getPrimaryKey(true));
+                    $message = "Execute {$modelClass}:{$primaryKey} with errors: " . Json::encode($model->getErrors());
+                    Yii::error($message, __METHOD__);
                 }
             } else {
+                $timeAttribute && $model->setAttribute($timeAttribute, time());
                 $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_SUCCESS);
             }
             $model->save(false);
             return true;
         } catch (ExecuteException $exception) {
-            $timeAttribute && $model->setAttribute($timeAttribute, time());
             $statusAttribute && $model->setAttribute($statusAttribute, $exception->status);
+            $message = ExceptionHelper::getMessage($exception);
             if ($resultAttribute && $exception->result) {
                 $resultValue = $model->getAttribute($resultAttribute) ?: [];
-                $resultValue = array_merge($resultValue, $exception->result);
+                $resultValue = array_merge($resultValue, [
+                    'error' => $exception->getMessage(),
+                    'trace' => $message,
+                ], $exception->result);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
             $model->save(false);
+            Yii::error($message, __METHOD__);
             return true;
         } catch (\Throwable $exception) {
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);

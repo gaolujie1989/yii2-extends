@@ -11,6 +11,7 @@ use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use Yii;
 use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -314,6 +315,7 @@ class PmSalesChannel extends BaseSalesChannel
             if ($statusCode === '422') {
                 $salesChannelItem->addError('item_id', $exception->getMessage());
                 $salesChannelItem->addError('item_id', Json::encode($response->data));
+                Yii::error($exception->getMessage(), __METHOD__);
                 return null;
             }
             throw $exception;

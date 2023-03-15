@@ -8,6 +8,7 @@ namespace lujie\sales\channel;
 use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\data\storage\DataStorageInterface;
 use lujie\extend\constants\ExecStatusConst;
+use lujie\extend\helpers\ExecuteHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
@@ -414,6 +415,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @param int $salesChannelAccountId
      * @param bool $force
      * @return array|null
+     * @throws \Throwable
      * @inheritdoc
      */
     public function pushTypeItems(string $itemType, array $itemIds, int $salesChannelAccountId, bool $force = false): ?array
@@ -431,13 +433,16 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             ->itemId($itemIds)
             ->indexByItemId()
             ->all();
-        foreach ($pushedSalesChannelItems as $pushedSalesChannelItem) {
-            if ($force || $pushedSalesChannelItem->item_pushed_status !== ExecStatusConst::EXEC_STATUS_SUCCESS) {
-                if ($this->pushSalesItem($pushedSalesChannelItem)) {
-                    $pushedSalesChannelItem->item_pushed_at = time();
-                    $pushedSalesChannelItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
-                    $pushedSalesChannelItem->save(false);
-                }
+        foreach ($pushedSalesChannelItems as $salesChannelItem) {
+            if ($force || $salesChannelItem->item_pushed_status !== ExecStatusConst::EXEC_STATUS_SUCCESS) {
+                ExecuteHelper::execute(function () use ($salesChannelItem) {
+                    if ($salesChannelItem->item_pushed_updated_after_at) {
+                        $this->checkSalesItemUpdated($salesChannelItem);
+                    } else {
+                        $this->pushSalesItem($salesChannelItem);
+                    }
+                    Yii::info("SalesChannelItem {$salesChannelItem->sales_channel_item_id} pushed success", __METHOD__);
+                }, $salesChannelItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result');
             }
         }
         $notPushedItemIds = array_diff($itemIds, array_keys($pushedSalesChannelItems));
@@ -451,11 +456,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             $salesChannelItem->item_type = $itemType;
             $salesChannelItem->item_id = $itemId;
             $salesChannelItem->save(false);
-            if ($this->pushSalesItem($salesChannelItem)) {
-                $salesChannelItem->item_pushed_at = time();
-                $salesChannelItem->item_pushed_status = ExecStatusConst::EXEC_STATUS_SUCCESS;
-                $salesChannelItem->save(false);
-            }
+            ExecuteHelper::execute(function () use ($salesChannelItem) {
+                if ($salesChannelItem->item_pushed_updated_after_at) {
+                    $this->checkSalesItemUpdated($salesChannelItem);
+                } else {
+                    $this->pushSalesItem($salesChannelItem);
+                }
+                Yii::info("SalesChannelItem {$salesChannelItem->sales_channel_item_id} pushed success", __METHOD__);
+            }, $salesChannelItem, 'item_pushed_at', 'item_pushed_status', 'item_pushed_result');
             $newPushedSalesChannelItems[] = $salesChannelItem;
         }
         return array_merge($pushedSalesChannelItems, $newPushedSalesChannelItems);

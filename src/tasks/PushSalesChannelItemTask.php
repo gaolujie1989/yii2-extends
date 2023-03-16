@@ -17,7 +17,7 @@ use yii\di\Instance;
  */
 class PushSalesChannelItemTask extends BaseSalesChannelTask
 {
-    public $pushLimit = 15;
+    public $pushLimit = 5;
 
     /**
      * @return bool

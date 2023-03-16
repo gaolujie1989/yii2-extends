@@ -295,11 +295,11 @@ class QueryHelper
     ): void
     {
         $query->andWhere(['OR',
-            ['!=', $statusColumn, ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['IN', $statusColumn, [ExecStatusConst::EXEC_STATUS_PENDING, ExecStatusConst::EXEC_STATUS_FAILED]],
             ['AND',
                 [$statusColumn => [ExecStatusConst::EXEC_STATUS_QUEUED, ExecStatusConst::EXEC_STATUS_RUNNING]],
                 ['<=', $updatedAtColumn, time() - $queuedDuration],
             ]
-        ]);
+        ])->addOrderBy([$updatedAtColumn => SORT_ASC]);
     }
 }

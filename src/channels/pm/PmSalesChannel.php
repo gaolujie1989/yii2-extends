@@ -484,6 +484,7 @@ class PmSalesChannel extends BaseSalesChannel
         $itemImageCount = count($itemImages);
         $itemDone = 0;
         foreach ($itemImages as $itemImage) {
+            $itemDone++;
             $attributeValueMarkets = $itemImage['attributeValueMarkets'] ?? null;
             unset($itemImage['attributeValueMarkets']);
             $itemImage['itemId'] = $itemId;
@@ -507,7 +508,6 @@ class PmSalesChannel extends BaseSalesChannel
                 $itemImageIds[$modelId] = $imageId;
                 $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
-                $itemDone++;
                 $pushedResult['progress']['message'] = "itemImages[{$itemDone}/{$itemImageCount}]";
                 $salesChannelItem->item_pushed_result = $pushedResult;
                 $salesChannelItem->save(false);

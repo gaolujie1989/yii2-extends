@@ -459,12 +459,14 @@ class PmSalesChannel extends BaseSalesChannel
         $pmItemImages = iterator_to_array($pmItemImages, false);
         $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
 
-        $externalAdditional = $salesChannelItem->external_item_additional;
-        $itemImageIds = $externalAdditional['itemImageIds'];
+        $externalAdditional = $salesChannelItem->external_item_additional ?: [];
+        $itemImageIds = $externalAdditional['itemImageIds'] ?? [];
         $linkedItemImageIds = $this->linkItemImageIds($itemImages, $pmItemImages);
-        $itemImageIds = array_merge($itemImageIds, $linkedItemImageIds);
+        $itemImageIds = ArrayHelper::merge($itemImageIds, $linkedItemImageIds);
 
-        $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
+        $itemImageModelIds = ArrayHelper::map($itemImages, 'modelId', 'modelId');
+        //过滤Kiwi已经删除的Image
+        $itemImageIds = array_intersect_key($itemImageIds, $itemImageModelIds);
         $toDeleteItemImageIds = array_diff($pmItemImageIds, $itemImageIds);
         if ($toDeleteItemImageIds) {
             $batchRequest = $this->client->createBatchRequest();
@@ -473,6 +475,8 @@ class PmSalesChannel extends BaseSalesChannel
             }
             $batchRequest->send();
         }
+        //过滤PM已经删除的Image
+        $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
 //        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
 //        $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
 //        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
@@ -541,7 +545,7 @@ class PmSalesChannel extends BaseSalesChannel
             $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
             $imageName = strtr($imageName, ['_' => '-']);
             if (isset($pmItemImageNameIds[$imageName])) {
-                $itemImageIds[$modelId] = $pmItemImageNameIds[$imageName];
+                $itemImageIds[(string)$modelId] = $pmItemImageNameIds[$imageName];
             }
         }
         return $itemImageIds;

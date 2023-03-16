@@ -356,6 +356,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param array $externalItem
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
@@ -368,50 +369,59 @@ class PmSalesChannel extends BaseSalesChannel
         ];
         $relatedParts = array_intersect_key($externalItem, $relatedParts);
         $externalItem = array_diff_key($externalItem, $relatedParts);
-        $additional = $salesChannelItem->additional;
-        $additional['step'] = $additional['step'] ?? 'item';
+
+        $pushParts = ['item', 'itemTexts', 'itemImages'];
+        $pushPartsCount = count($pushParts);
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+        $doneIndex = $pushedResult['progress']['done'] ?? 0;
+
         $savedItem = null;
-        if ($additional['step'] === 'item') {
-            if ($externalItem) {
-                $itemId = $salesChannelItem->external_item_key;
-                if (empty($itemId)) {
-                    $savedItem = $this->client->createItem($externalItem);
-                    $this->updateSalesChannelItem($salesChannelItem, $savedItem);
-                    $additional = $salesChannelItem->additional;
-                } else {
-                    unset($externalItem['variations']);
-                    $savedItem = $this->client->updateItem($externalItem);
-                }
+        foreach ($pushParts as $index => $pushPart) {
+            if ($doneIndex > $index) {
+                continue;
             }
-            $additional['step'] = 'itemTexts';
-            $salesChannelItem->additional = $additional;
+            $doneIndex = $index;
+            $pushedResult['progress'] = ['done' => $index, 'total' => $pushPartsCount, 'message' => $pushPart];
+            $salesChannelItem->item_pushed_result = $pushedResult;
             $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'itemTexts') {
-            if ($relatedParts['itemTexts'] !== null) {
-                $this->savePmItemTexts($relatedParts['itemTexts'], $salesChannelItem);
-                $additional = $salesChannelItem->additional;
+
+            switch ($pushPart) {
+                case 'item':
+                    if ($externalItem) {
+                        if (empty($salesChannelItem->external_item_key)) {
+                            $savedItem = $this->client->createItem($externalItem);
+                            $this->updateSalesChannelItem($salesChannelItem, $savedItem);
+                            $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+                        } else {
+                            unset($externalItem['variations']);
+                            $savedItem = $this->client->updateItem($externalItem);
+                        }
+                    }
+                    break;
+                case 'itemTexts':
+                    if ($relatedParts['itemTexts'] !== null) {
+                        $this->savePmItemTexts($relatedParts['itemTexts'], $salesChannelItem);
+                    }
+                    break;
+                case 'itemImages':
+                    if ($relatedParts['itemImages'] !== null) {
+                        $this->savePmItemImages($relatedParts['itemImages'], $salesChannelItem);
+                    }
+                    break;
+                default:
+                    break;
             }
-            $additional['step'] = 'itemImages';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
         }
-        if ($additional['step'] === 'itemImages') {
-            if ($relatedParts['itemImages'] !== null) {
-                $this->savePmItemImages($relatedParts['itemImages'], $salesChannelItem);
-                $additional = $salesChannelItem->additional;
-            }
-            unset($additional['step']);
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
+        unset($pushedResult['progress']);
+        $salesChannelItem->item_pushed_result = $pushedResult;
+        $salesChannelItem->save(false);
         return $savedItem;
     }
 
     /**
      * @param array $itemTexts
-     * @param int $itemId
-     * @param int $mainVariationId
+     * @param SalesChannelItem $salesChannelItem
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmItemTexts(array $itemTexts, SalesChannelItem $salesChannelItem): void
@@ -442,29 +452,17 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function savePmItemImages(array $itemImages, SalesChannelItem $salesChannelItem): void
     {
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+
         $itemId = $salesChannelItem->external_item_key;
-        $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
-        $pmItemImages = iterator_to_array($existItemImages, false);
-        $pmItemImages = ArrayHelper::index($pmItemImages, 'id');
+        $pmItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
+        $pmItemImages = iterator_to_array($pmItemImages, false);
         $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
-        $pmItemImageNameIds = ArrayHelper::map($pmItemImages, 'cleanImageName', 'id');
 
         $externalAdditional = $salesChannelItem->external_item_additional;
         $itemImageIds = $externalAdditional['itemImageIds'];
-        foreach ($itemImages as $itemImage) {
-            if (empty($itemImage['uploadImageUrl'])) {
-                continue;
-            }
-            $modelId = $itemImage['modelId'] ?? null;
-            if (empty($modelId)) {
-                continue;
-            }
-            $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
-            $imageName = strtr($imageName, ['_' => '-']);
-            if (isset($pmItemImageNameIds[$imageName])) {
-                $itemImageIds[$modelId] = $pmItemImageNameIds[$imageName];
-            }
-        }
+        $linkedItemImageIds = $this->linkItemImageIds($itemImages, $pmItemImages);
+        $itemImageIds = array_merge($itemImageIds, $linkedItemImageIds);
 
         $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
         $toDeleteItemImageIds = array_diff($pmItemImageIds, $itemImageIds);
@@ -479,6 +477,8 @@ class PmSalesChannel extends BaseSalesChannel
 //        $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
 //        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
         $batchRequest = $this->client->createBatchRequest();
+        $itemImageCount = count($itemImages);
+        $itemDone = 0;
         foreach ($itemImages as $itemImage) {
             $attributeValueMarkets = $itemImage['attributeValueMarkets'] ?? null;
             unset($itemImage['attributeValueMarkets']);
@@ -503,6 +503,9 @@ class PmSalesChannel extends BaseSalesChannel
                 $itemImageIds[$modelId] = $imageId;
                 $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
+                $itemDone++;
+                $pushedResult['progress']['message'] = "itemImages[{$itemDone}/{$itemImageCount}]";
+                $salesChannelItem->item_pushed_result = $pushedResult;
                 $salesChannelItem->save(false);
             }
             //放到VariationImage中执行
@@ -512,8 +515,36 @@ class PmSalesChannel extends BaseSalesChannel
         }
         $externalAdditional['itemImageIds'] = $itemImageIds;
         $salesChannelItem->external_item_additional = $externalAdditional;
+        $salesChannelItem->item_pushed_result = $pushedResult;
         $salesChannelItem->save(false);
         $batchRequest->send();
+    }
+
+    /**
+     * @param array $itemImages
+     * @param array $pmItemImages
+     * @return array
+     * @inheritdoc
+     */
+    protected function linkItemImageIds(array $itemImages, array $pmItemImages): array
+    {
+        $itemImageIds = [];
+        $pmItemImageNameIds = ArrayHelper::map($pmItemImages, 'cleanImageName', 'id');
+        foreach ($itemImages as $itemImage) {
+            if (empty($itemImage['uploadImageUrl'])) {
+                continue;
+            }
+            $modelId = $itemImage['modelId'] ?? null;
+            if (empty($modelId)) {
+                continue;
+            }
+            $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
+            $imageName = strtr($imageName, ['_' => '-']);
+            if (isset($pmItemImageNameIds[$imageName])) {
+                $itemImageIds[$modelId] = $pmItemImageNameIds[$imageName];
+            }
+        }
+        return $itemImageIds;
     }
 
     #endregion
@@ -547,109 +578,105 @@ class PmSalesChannel extends BaseSalesChannel
         ];
         $relatedParts = array_merge($relatedParts, array_intersect_key($externalItem, $relatedParts));
         $externalItem = array_diff_key($externalItem, $relatedParts);
-        $additional = $salesChannelItem->additional;
-        $additional['step'] = $additional['step'] ?? 'variation';
+
+        $pushParts = [
+            'variation',
+            'variationBarcodes',
+            'variationBundleComponents',
+            'variationMarkets',
+            'variationSkus',
+            'variationImages',
+            'itemImageAttributeValues'
+        ];
+        $pushPartsCount = count($pushParts);
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+        $doneIndex = $pushedResult['progress']['done'] ?? 0;
+
         $savedVariation = null;
-        if ($additional['step'] === 'variation') {
-            if (empty($salesChannelItem->external_item_key)) {
-                try {
-                    $savedVariation = $this->client->createItemVariation($externalItem);
-                    $this->updateSalesChannelItem($salesChannelItem, $savedVariation);
-                } catch (InvalidResponseException $exception) {
-                    if ((string)$exception->response->getStatusCode() === '422') {
-                        $variations = $this->client->eachItemVariations(['itemId' => $externalItem['itemId']]);
-                        $variations = iterator_to_array($variations, false);
-                        $variations = ArrayHelper::index($variations, 'number');
-                        $variation = $variations[$externalItem['number']] ?? null;
-                        if ($variation) {
-                            $this->updateSalesChannelItem($salesChannelItem, $variation);
-                            $externalItem['id'] = $variation['id'];
-                            unset($externalItem['variationAttributeValues']);
-                            $savedVariation = $this->client->updateItemVariation($externalItem);
+        $pmVariation = null;
+        foreach ($pushParts as $index => $pushPart) {
+            if ($doneIndex > $index) {
+                continue;
+            }
+            $doneIndex = $index;
+            $pushedResult['progress'] = ['done' => $index, 'total' => $pushPartsCount, 'message' => $pushPart];
+            $salesChannelItem->item_pushed_result = $pushedResult;
+            $salesChannelItem->save(false);
+
+            if ($pushPart === 'variation') {
+                if (empty($salesChannelItem->external_item_key)) {
+                    try {
+                        $savedVariation = $this->client->createItemVariation($externalItem);
+                        $this->updateSalesChannelItem($salesChannelItem, $savedVariation);
+                    } catch (InvalidResponseException $exception) {
+                        if ((string)$exception->response->getStatusCode() === '422') {
+                            $variations = $this->client->eachItemVariations(['itemId' => $externalItem['itemId']]);
+                            $variations = iterator_to_array($variations, false);
+                            $variations = ArrayHelper::index($variations, 'number');
+                            $variation = $variations[$externalItem['number']] ?? null;
+                            if ($variation) {
+                                $this->updateSalesChannelItem($salesChannelItem, $variation);
+                                $externalItem['id'] = $variation['id'];
+                                unset($externalItem['variationAttributeValues']);
+                                $savedVariation = $this->client->updateItemVariation($externalItem);
+                            } else {
+                                throw $exception;
+                            }
                         } else {
                             throw $exception;
                         }
-                    } else {
-                        throw $exception;
                     }
-                }
-                $additional = $salesChannelItem->additional;
-            } else {
-                unset(
-                    $externalItem['variationAttributeValues'],
-                    $externalItem['unit'],
-                    $externalItem['variationClients'],
-                    $externalItem['variationCategories'],
-                    $externalItem['mainWarehouseId'],
-                );
-                $savedVariation = $this->client->updateItemVariation($externalItem);
-            }
-            $additional['step'] = 'variationBarcodes';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        $variationId = $salesChannelItem->external_item_key;
-        $itemId = $externalItem['itemId'];
-        $pmVariation = $this->client->getItemVariation([
-            'id' => $variationId,
-            'itemId' => $itemId,
-            'with' => 'variationAttributeValues,variationBarcodes,variationBundleComponents,variationMarkets,variationSkus'
-        ]);
-        if ($additional['step'] === 'variationBarcodes') {
-            if ($relatedParts['variationBarcodes'] !== null) {
-                $this->client->saveVariationBarcodes($itemId, $variationId, $relatedParts['variationBarcodes'], $pmVariation['variationBarcodes']);
-            }
-            $additional['step'] = 'variationBundleComponents';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'variationBundleComponents') {
-            if ($relatedParts['variationBundleComponents'] !== null) {
-                $this->client->saveVariationBundleComponents($itemId, $variationId, $relatedParts['variationBundleComponents'], $pmVariation['variationBundleComponents']);
-            }
-            $additional['step'] = 'variationMarkets';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'variationMarkets') {
-            if ($relatedParts['variationMarkets'] !== null) {
-                $this->client->saveVariationMarkets($itemId, $variationId, $relatedParts['variationMarkets'], $pmVariation['variationMarkets']);
-            }
-            $additional['step'] = 'variationSkus';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'variationSkus') {
-            if ($relatedParts['variationSkus'] !== null) {
-                $this->client->saveVariationSkus($itemId, $variationId, $relatedParts['variationSkus'], $pmVariation['variationSkus']);
-            }
-            $additional['step'] = 'variationImages';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'variationImages') {
-            if ($relatedParts['variationImages'] !== null) {
-                $this->client->saveVariationImages($itemId, $variationId, $relatedParts['variationImages']);
-            }
-            $additional['step'] = 'itemImageAttributeValues';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'itemImageAttributeValues') {
-            if ($relatedParts['itemImageAttributeValues'] !== null && $pmVariation['variationAttributeValues']) {
-                $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
-                $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
-                $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
-                $relatedItemImageAttributeValues = ArrayHelper::index($relatedParts['itemImageAttributeValues'], 'valueId', ['imageId']);
-                foreach ($relatedItemImageAttributeValues as $imageId => $imageAttributeValues) {
-                    $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $imageAttributeValues, $itemImageAttributeValueMarkets[$imageId] ?? []);
+                } else {
+                    unset(
+                        $externalItem['variationAttributeValues'],
+                        $externalItem['unit'],
+                        $externalItem['variationClients'],
+                        $externalItem['variationCategories'],
+                        $externalItem['mainWarehouseId'],
+                    );
+                    $savedVariation = $this->client->updateItemVariation($externalItem);
                 }
             }
-            unset($additional['step']);
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
+
+            $variationId = $salesChannelItem->external_item_key;
+            $itemId = $externalItem['itemId'];
+            if ($pmVariation === null) {
+                $pmVariation = $this->client->getItemVariation([
+                    'id' => $variationId,
+                    'itemId' => $itemId,
+                    'with' => 'variationAttributeValues,variationBarcodes,variationBundleComponents,variationMarkets,variationSkus'
+                ]);
+            }
+            switch ($pushPart) {
+                case 'variationBarcodes':
+                case 'variationBundleComponents':
+                case 'variationMarkets':
+                case 'variationSkus':
+                case 'variationImages':
+                    if ($relatedParts[$pushPart] !== null) {
+                        $saveMethod = 'save' . ucfirst($pushPart);
+                        $this->client->{$saveMethod}($itemId, $variationId, $relatedParts[$pushPart], $pmVariation[$pushPart] ?? null);
+                    }
+                    break;
+                case 'itemImageAttributeValues':
+                    if ($relatedParts['itemImageAttributeValues'] !== null && $pmVariation['variationAttributeValues']) {
+                        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
+                        $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
+                        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
+                        $relatedItemImageAttributeValues = ArrayHelper::index($relatedParts['itemImageAttributeValues'], 'valueId', ['imageId']);
+                        foreach ($relatedItemImageAttributeValues as $imageId => $imageAttributeValues) {
+                            $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $imageAttributeValues, $itemImageAttributeValueMarkets[$imageId] ?? []);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
-        return $savedVariation;
+        unset($pushedResult['progress']);
+        $salesChannelItem->item_pushed_result = $pushedResult;
+        $salesChannelItem->save(false);
+        return $savedVariation ?: $pmVariation;
     }
 
     #endregion

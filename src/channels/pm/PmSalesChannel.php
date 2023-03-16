@@ -415,7 +415,7 @@ class PmSalesChannel extends BaseSalesChannel
         unset($pushedResult['progress']);
         $salesChannelItem->item_pushed_result = $pushedResult;
         $salesChannelItem->save(false);
-        return $savedItem;
+        return $savedItem ?: $this->client->getItem(['id' => $salesChannelItem->external_item_key]);
     }
 
     /**

@@ -314,7 +314,7 @@ class PmSalesChannel extends BaseSalesChannel
             $statusCode = (string)$response->getStatusCode();
             if ($statusCode === '422') {
                 $salesChannelItem->addError('item_id', $exception->getMessage());
-                $salesChannelItem->addError('item_id', Json::encode($response->data));
+                $salesChannelItem->addError('item_id', $response->getContent());
                 Yii::error($exception->getMessage(), __METHOD__);
                 return null;
             }

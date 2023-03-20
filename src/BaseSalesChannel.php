@@ -15,6 +15,7 @@ use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
+use yii\authclient\InvalidResponseException;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -360,6 +361,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     /**
      * @param SalesChannelItem $salesChannelItem
      * @return bool
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     public function pushSalesItem(SalesChannelItem $salesChannelItem): bool
@@ -401,12 +404,26 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             }
         }
 
-        if ($externalItem = $this->saveExternalItem($externalItem, $salesChannelItem)) {
-            Yii::info("Item pushed success, update SalesChannelItem", __METHOD__);
-            return $this->updateSalesChannelItem($salesChannelItem, $externalItem);
+        try {
+            if ($externalItem = $this->saveExternalItem($externalItem, $salesChannelItem)) {
+                Yii::info("Item pushed success, update SalesChannelItem", __METHOD__);
+                return $this->updateSalesChannelItem($salesChannelItem, $externalItem);
+            }
+            Yii::warning("Item pushed failed, skip update SalesChannelItem", __METHOD__);
+            return false;
+        } catch (InvalidResponseException $exception) {
+            $response = $exception->response;
+            $statusCode = (string)$response->getStatusCode();
+            if ($statusCode === '422' || $statusCode[0] === '5') {
+                $message = $exception->getMessage();
+                $content = $response->getContent();
+                $salesChannelItem->addError('item_id', $message);
+                $salesChannelItem->addError('item_id', $content);
+                Yii::error($message . "\n" . $content, __METHOD__);
+                return false;
+            }
+            throw $exception;
         }
-        Yii::warning("Item pushed failed, skip update SalesChannelItem", __METHOD__);
-        return false;
     }
 
     /**

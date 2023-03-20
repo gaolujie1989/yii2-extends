@@ -296,31 +296,17 @@ class PmSalesChannel extends BaseSalesChannel
      */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        try {
-            if (isset($externalItem['number'], $externalItem['itemId'])) {
-                return $this->savePmVariation($externalItem, $salesChannelItem);
-            }
-            if (isset($externalItem['attributeId'])) {
-                return $this->savePmAttributeValue($externalItem, $salesChannelItem);
-            }
-            if (isset($externalItem['backendName'])) {
-                return $this->savePmAttribute($externalItem, $salesChannelItem);
-            }
-            if (isset($externalItem['manufacturerId'], $externalItem['producingCountryId'])) {
-                return $this->savePmItem($externalItem, $salesChannelItem);
-            }
-        } catch (InvalidResponseException $exception) {
-            $response = $exception->response;
-            $statusCode = (string)$response->getStatusCode();
-            if ($statusCode === '422') {
-                $message = $exception->getMessage();
-                $content = $response->getContent();
-                $salesChannelItem->addError('item_id', $message);
-                $salesChannelItem->addError('item_id', $content);
-                Yii::error($message . "\n" . $content, __METHOD__);
-                return null;
-            }
-            throw $exception;
+        if (isset($externalItem['number'], $externalItem['itemId'])) {
+            return $this->savePmVariation($externalItem, $salesChannelItem);
+        }
+        if (isset($externalItem['attributeId'])) {
+            return $this->savePmAttributeValue($externalItem, $salesChannelItem);
+        }
+        if (isset($externalItem['backendName'])) {
+            return $this->savePmAttribute($externalItem, $salesChannelItem);
+        }
+        if (isset($externalItem['manufacturerId'], $externalItem['producingCountryId'])) {
+            return $this->savePmItem($externalItem, $salesChannelItem);
         }
         $message = 'Unknown external item data: ' . Json::encode($externalItem);
         $salesChannelItem->addError('item_id', $message);

@@ -115,17 +115,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if (!($this->account instanceof SalesChannelAccount)) {
             throw new InvalidConfigException('The property `account` can not be null and must be SalesChannelAccount');
         }
-        $this->itemTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
-        if (property_exists($this->itemTransformer, 'salesChannel')) {
-            $this->itemTransformer->salesChannel = $this;
-        }
-        $this->itemStockTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
-        if (property_exists($this->itemStockTransformer, 'salesChannel')) {
-            $this->itemStockTransformer->salesChannel = $this;
-        }
-        $this->orderTransformer = Instance::ensure($this->itemTransformer, TransformerInterface::class);
-        if (property_exists($this->orderTransformer, 'salesChannel')) {
-            $this->orderTransformer->salesChannel = $this;
+        $transformerProperties = ['itemTransformer', 'itemStockTransformer', 'orderTransformer'];
+        foreach ($transformerProperties as $transformerProperty) {
+            $transformer = $this->{$transformerProperty};
+            $transformer = Instance::ensure($transformer, TransformerInterface::class);
+            if (property_exists($transformer, 'salesChannel')) {
+                $transformer->salesChannel = $this;
+            }
+            $this->{$transformerProperty} = $transformer;
         }
         if ($this->orderDataStorage) {
             $this->orderDataStorage = Instance::ensure($this->orderDataStorage, DataStorageInterface::class);
@@ -371,6 +368,9 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         }
 
+        if (empty($this->itemTransformer)) {
+            return false;
+        }
         [$externalItem] = $this->itemTransformer->transform([$salesChannelItem]);
         if (empty($externalItem)) {
             $message = "Empty transformed external item of channel item: {$salesChannelItem->sales_channel_item_id}";
@@ -550,7 +550,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if (empty($this->itemStockTransformer)) {
             return false;
         }
-        $this->itemStockTransformer = Instance::ensure($this->itemStockTransformer, TransformerInterface::class);
         $externalItemStocks = $this->itemStockTransformer->transform($salesChannelItems);
         if (empty($externalItemStocks)) {
             Yii::info("Transformed empty stocks", __METHOD__);

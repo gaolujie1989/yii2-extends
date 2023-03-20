@@ -313,14 +313,19 @@ class PmSalesChannel extends BaseSalesChannel
             $response = $exception->response;
             $statusCode = (string)$response->getStatusCode();
             if ($statusCode === '422') {
-                $salesChannelItem->addError('item_id', $exception->getMessage());
-                $salesChannelItem->addError('item_id', $response->getContent());
-                Yii::error($exception->getMessage(), __METHOD__);
+                $message = $exception->getMessage();
+                $content = $response->getContent();
+                $salesChannelItem->addError('item_id', $message);
+                $salesChannelItem->addError('item_id', $content);
+                Yii::error($message . "\n" . $content, __METHOD__);
                 return null;
             }
             throw $exception;
         }
-        throw new InvalidArgumentException('Unknown external item data: ' . Json::encode($externalItem));
+        $message = 'Unknown external item data: ' . Json::encode($externalItem);
+        $salesChannelItem->addError('item_id', $message);
+        Yii::error($message, __METHOD__);
+        return null;
     }
 
     /**

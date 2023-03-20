@@ -118,11 +118,13 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $transformerProperties = ['itemTransformer', 'itemStockTransformer', 'orderTransformer'];
         foreach ($transformerProperties as $transformerProperty) {
             $transformer = $this->{$transformerProperty};
-            $transformer = Instance::ensure($transformer, TransformerInterface::class);
-            if (property_exists($transformer, 'salesChannel')) {
-                $transformer->salesChannel = $this;
+            if ($transformer) {
+                $transformer = Instance::ensure($transformer, TransformerInterface::class);
+                if (property_exists($transformer, 'salesChannel')) {
+                    $transformer->salesChannel = $this;
+                }
+                $this->{$transformerProperty} = $transformer;
             }
-            $this->{$transformerProperty} = $transformer;
         }
         if ($this->orderDataStorage) {
             $this->orderDataStorage = Instance::ensure($this->orderDataStorage, DataStorageInterface::class);
@@ -322,6 +324,9 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         }
 
+        if (empty($this->orderTransformer)) {
+            return false;
+        }
         [$transformedExternalOrder] = $this->orderTransformer->transform([$salesChannelOrder]);
         if (empty($transformedExternalOrder)) {
             $message = "Empty transformed external order of channel order {$salesChannelOrder->sales_channel_order_id}";
@@ -367,7 +372,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         if (!$this->validateSalesChannelAccount($salesChannelItem)) {
             return false;
         }
-
         if (empty($this->itemTransformer)) {
             return false;
         }

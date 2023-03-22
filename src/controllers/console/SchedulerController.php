@@ -74,26 +74,49 @@ class SchedulerController extends Controller
         $this->scheduler->run();
     }
 
+    public function options($actionID)
+    {
+        if ($actionID === 'execute-with-params') {
+            return ['params'];
+        }
+        return parent::options($actionID);
+    }
+
+    public $params;
+
     /**
      * @param string $taskCode
-     * @throws \Throwable
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionHandle(string $taskCode): void
+    public function actionHandle(string $taskCode, ...$params): void
     {
-        $task = $this->scheduler->getTask($taskCode);
+        $task = $this->scheduler->getTask($taskCode, $params);
         $this->scheduler->handle($task);
     }
 
     /**
      * @param string $taskCode
-     * @throws \Throwable
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionExecute(string $taskCode): void
+    public function actionExecute(string $taskCode, ...$params): void
+    {
+        $task = $this->scheduler->getTask($taskCode, $params);
+        $this->scheduler->execute($task);
+    }
+
+    /**
+     * @param string $taskCode
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionUsage(string $taskCode): void
     {
         $task = $this->scheduler->getTask($taskCode);
-        $this->scheduler->execute($task);
+        $this->stdout(VarDumper::dumpAsString($task->getParams()));
     }
 
     /**

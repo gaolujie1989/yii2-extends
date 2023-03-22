@@ -5,7 +5,7 @@
 
 namespace lujie\scheduling\tasks;
 
-use yii\base\BaseObject;
+use lujie\scheduling\CronTask;
 use yii\caching\CacheInterface;
 use yii\di\Instance;
 
@@ -14,7 +14,7 @@ use yii\di\Instance;
  * @package lujie\scheduling
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class HeartBeatTask extends BaseObject
+class HeartBeatTask extends CronTask
 {
     /**
      * @var CacheInterface
@@ -30,6 +30,15 @@ class HeartBeatTask extends BaseObject
      * @var int
      */
     public $sleep = 0;
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return ['cache', 'cacheKey', 'sleep'];
+    }
 
     /**
      * @throws \yii\base\InvalidConfigException

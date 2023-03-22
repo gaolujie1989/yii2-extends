@@ -32,6 +32,15 @@ trait TimeStepProgressTrait
      */
     public function getParams(): array
     {
+        return $this->getTimeStepProgressParams();
+    }
+
+    /**
+     * @return string[]
+     * @inheritdoc
+     */
+    protected function getTimeStepProgressParams(): array
+    {
         return ['timeFrom', 'timeTo', 'timeStep'];
     }
 

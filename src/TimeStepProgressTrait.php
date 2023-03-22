@@ -27,6 +27,15 @@ trait TimeStepProgressTrait
     use ProgressTrait;
 
     /**
+     * @return string[]
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return ['timeFrom', 'timeTo', 'timeStep'];
+    }
+
+    /**
      * @return \Generator
      * @inheritdoc
      */

@@ -6,6 +6,7 @@
 namespace lujie\executing;
 
 use lujie\extend\helpers\ClassHelper;
+use lujie\extend\helpers\ValueHelper;
 use Yii;
 
 /**
@@ -76,7 +77,7 @@ trait ExecutableTrait
      */
     public function getParams(): array
     {
-        return [];
+        return ['id'];
     }
 
     /**
@@ -94,7 +95,7 @@ trait ExecutableTrait
             $paramValues[array_shift($paramKeys)] = array_shift($params);
         }
         foreach ($paramValues as $key => $value) {
-            $this->{$key} = $value;
+            $this->{$key} = is_array($this->{$key}) ? ValueHelper::strToArray($value) : $value;
         }
     }
 

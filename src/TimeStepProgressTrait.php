@@ -32,7 +32,7 @@ trait TimeStepProgressTrait
      */
     public function getParams(): array
     {
-        return $this->getTimeStepProgressParams();
+        return array_merge($this->getTimeStepProgressParams(), parent::getParams());
     }
 
     /**

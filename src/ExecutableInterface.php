@@ -30,4 +30,16 @@ interface ExecutableInterface
      * @inheritdoc
      */
     public function execute();
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array;
+
+    /**
+     * @param array $params
+     * @inheritdoc
+     */
+    public function setParams(array $params): void;
 }

@@ -71,6 +71,34 @@ trait ExecutableTrait
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return [];
+    }
+
+    /**
+     * @param array $params
+     * @inheritdoc
+     */
+    public function setParams(array $params): void
+    {
+        if (empty($params)) {
+            return;
+        }
+        $paramValues = [];
+        $paramKeys = $this->getParams();
+        while($paramKeys && $params) {
+            $paramValues[array_shift($paramKeys)] = array_shift($params);
+        }
+        foreach ($paramValues as $key => $value) {
+            $this->{$key} = $value;
+        }
+    }
+
+    /**
      * @return mixed|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

@@ -43,13 +43,13 @@ use DoubleBreak\Spapi\Api\VendorDirectFulfillmentShipping;
 use DoubleBreak\Spapi\Api\VendorDirectFulfillmentTransactions;
 use DoubleBreak\Spapi\Api\VendorInvoices;
 use DoubleBreak\Spapi\Api\VendorOrders;
-use DoubleBreak\Spapi\Api\VendorShipments;
 use DoubleBreak\Spapi\Api\VendorTransactionStatus;
 use DoubleBreak\Spapi\Client;
 use DoubleBreak\Spapi\Credentials;
 use DoubleBreak\Spapi\Signer;
 use GuzzleHttp\HandlerStack;
 use Iterator;
+use lujie\amazon\sp\spapi\VendorShipments;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yii;
@@ -249,6 +249,10 @@ class AmazonSPClient extends BaseObject
     {
         if (strpos($name, 'get') === 0 && substr($name, -3) === 'Api') {
             $apiClass = 'DoubleBreak\Spapi\Api\\' . substr($name, 3, -3);
+            $overwriteApiClass = 'lujie\amazon\sp\spapi\\' . substr($name, 3, -3);
+            if (class_exists($overwriteApiClass)) {
+                $apiClass = $overwriteApiClass;
+            }
             return $this->getApi($apiClass);
         }
         if (strpos($name, 'batch') === 0) {

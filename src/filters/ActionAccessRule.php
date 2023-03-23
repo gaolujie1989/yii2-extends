@@ -75,6 +75,12 @@ class ActionAccessRule extends AccessRule
      */
     public function allows($action, $user, $request): ?bool
     {
+        $this->appendActionIdToPermissions($action);
+        return parent::allows($action, $user, $request);
+    }
+
+    protected function appendActionIdToPermissions(Action $action): void
+    {
         $actionId = $action->getUniqueId();
         if ($this->actionPermissionNameCallback) {
             if (method_exists($this, $this->actionPermissionNameCallback)) {
@@ -86,7 +92,6 @@ class ActionAccessRule extends AccessRule
         $actionId = $this->prefix . strtr($actionId, $this->replaces) . $this->suffix;
         $this->permissions = $this->permissions ?: [];
         $this->permissions[] = $actionId;
-        return parent::allows($action, $user, $request);
     }
 
     /**
@@ -96,6 +101,7 @@ class ActionAccessRule extends AccessRule
      */
     public function formatActionId(string $actionId): string
     {
+        //replace from xxx-controller/xxx-action => xxxController/xxxAction
         return preg_replace_callback('/-([a-z0-9_])/i', static function ($matches) {
             return ucfirst($matches[1]);
         }, $actionId);

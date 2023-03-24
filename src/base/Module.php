@@ -26,6 +26,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
         $this->initControllerNamespace();
+        $this->initControllerMap();
         $this->initViewPath();
     }
 
@@ -44,6 +45,11 @@ class Module extends \yii\base\Module
     public function initControllerNamespace(): void
     {
         $this->controllerNamespace .= '\\' . $this->getScope();
+    }
+
+    public function initControllerMap(): void
+    {
+        $this->controllerMap = $this->controllerMap[$this->getScope()] ?? [];
     }
 
     /**

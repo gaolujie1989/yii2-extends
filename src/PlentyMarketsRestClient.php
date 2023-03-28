@@ -532,8 +532,8 @@ class PlentyMarketsRestClient extends OAuth2
         'Listing' => 'listings',
         'ListingMarket' => 'listings/markets',
         'ListingMarketHistory' => 'listings/markets/histories',
-        'ListingMarketTexts' => 'listings/markets/texts',
-        'ListingMarketItemSpecifics' => 'listings/markets/item_specifics',
+        'ListingMarketText' => 'listings/markets/texts',
+        'ListingMarketItemSpecific' => 'listings/markets/item_specifics',
 
         'Comment' => 'comments',
     ];

@@ -13,6 +13,7 @@ use Yii;
 use yii\base\UserException;
 use yii\console\Controller;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
 /**
@@ -74,15 +75,50 @@ class SchedulerController extends Controller
         $this->scheduler->run();
     }
 
-    public function options($actionID)
+    /**
+     * @var bool
+     */
+    public $usage = false;
+
+    /**
+     * @param $actionID
+     * @return string[]
+     * @inheritdoc
+     */
+    public function options($actionID): array
     {
-        if ($actionID === 'execute-with-params') {
-            return ['params'];
+        $options = [];
+        if ($actionID === 'execute' || $actionID === 'handle') {
+            $options = ['usage'];
         }
-        return parent::options($actionID);
+        return array_merge(parent::options($actionID), $options);
     }
 
-    public $params;
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function optionAliases(): array
+    {
+        return array_merge(parent::optionAliases(), [
+            'u' => 'usage',
+        ]);
+    }
+
+    /**
+     * @param string $d
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionIndex(string $d = ''): void
+    {
+        $tasks = $this->scheduler->getTasks();
+        if ($d) {
+            $this->stdout(VarDumper::dumpAsString($tasks));
+        } else {
+            $this->stdout(VarDumper::dumpAsString(array_keys($tasks)));
+        }
+    }
 
     /**
      * @param string $taskCode
@@ -90,9 +126,15 @@ class SchedulerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionHandle(string $taskCode, ...$params): void
+    public function actionHandle(string $taskCode): void
     {
-        $task = $this->scheduler->getTask($taskCode, $params);
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
         $this->scheduler->handle($task);
     }
 
@@ -102,57 +144,15 @@ class SchedulerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionExecute(string $taskCode, ...$params): void
+    public function actionExecute(string $taskCode): void
     {
-        $task = $this->scheduler->getTask($taskCode, $params);
-        $this->scheduler->execute($task);
-    }
-
-    /**
-     * @param string $taskCode
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionUsage(string $taskCode): void
-    {
-        $task = $this->scheduler->getTask($taskCode);
-        $this->stdout(VarDumper::dumpAsString($task->getParams()));
-    }
-
-    /**
-     * @param string $taskCode
-     * @param string $timeFrom
-     * @param string $timeTo
-     * @param int $timeStep
-     * @throws UserException
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionExecuteTimeStepped(string $taskCode, string $timeFrom = '-10 days', string $timeTo = 'now', int $timeStep = 864000): void
-    {
-        /** @var ExecutableInterface|TimeStepProgressTrait $task */
-        $task = $this->scheduler->getTask($taskCode);
-        if (!ClassHelper::useTrait($task, TimeStepProgressTrait::class)) {
-            throw new UserException('Task must use TimeStepProgressTrait');
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
         }
-        $task->timeFrom = $timeFrom;
-        $task->timeTo = $timeTo;
-        $task->timeStep = $timeStep;
         $this->scheduler->execute($task);
-    }
-
-    /**
-     * @param string $d
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionTasks(string $d = ''): void
-    {
-        $tasks = $this->scheduler->getTasks();
-        if ($d) {
-            $this->stdout(VarDumper::dumpAsString($tasks));
-        } else {
-            $this->stdout(VarDumper::dumpAsString(array_keys($tasks)));
-        }
     }
 }

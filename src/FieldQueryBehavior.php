@@ -205,7 +205,7 @@ class FieldQueryBehavior extends Behavior
      */
     protected function getAlias(): string
     {
-        if ($this->alias === null) {
+        if (empty($this->alias)) {
             $this->alias = '';
             $owner = $this->owner;
             if (empty($owner->from)) {

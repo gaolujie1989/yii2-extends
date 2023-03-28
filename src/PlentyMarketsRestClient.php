@@ -381,10 +381,18 @@ use yii\httpclient\Request;
  * @method array listListingMarketTexts($data = [])
  * @method Generator eachListingMarketTexts($condition = [], $batchSize = 100)
  * @method Generator batchListingMarketTexts($condition = [], $batchSize = 100)
- * @method array getListingMarketTexts($data)
- * @method array createListingMarketTexts($data)
- * @method array updateListingMarketTexts($data)
- * @method array deleteListingMarketTexts($data)
+ * @method array getListingMarketText($data)
+ * @method array createListingMarketText($data)
+ * @method array updateListingMarketText($data)
+ * @method array deleteListingMarketText($data)
+ *
+ * @method array listListingMarketItemSpecifics($data = [])
+ * @method Generator eachListingMarketItemSpecifics($condition = [], $batchSize = 100)
+ * @method Generator batchListingMarketItemSpecifics($condition = [], $batchSize = 100)
+ * @method array getListingMarketItemSpecific($data)
+ * @method array createListingMarketItemSpecific($data)
+ * @method array updateListingMarketItemSpecific($data)
+ * @method array deleteListingMarketItemSpecific($data)
  *
  * @method array listComments($data = [])
  * @method Generator eachComments($condition = [], $batchSize = 100)
@@ -525,6 +533,7 @@ class PlentyMarketsRestClient extends OAuth2
         'ListingMarket' => 'listings/markets',
         'ListingMarketHistory' => 'listings/markets/histories',
         'ListingMarketTexts' => 'listings/markets/texts',
+        'ListingMarketItemSpecifics' => 'listings/markets/item_specifics',
 
         'Comment' => 'comments',
     ];

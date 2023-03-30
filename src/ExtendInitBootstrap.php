@@ -5,10 +5,8 @@
 
 namespace lujie\extend;
 
-use lujie\extend\filters\auth\CompositeAuth;
 use lujie\extend\helpers\MemoryHelper;
 use lujie\extend\httpclient\Response;
-use lujie\extend\log\targets\EmailTarget;
 use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
 use lujie\extend\validators\LinkerValidator;
@@ -20,10 +18,8 @@ use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\data\Pagination;
 use yii\data\Sort;
-use yii\filters\auth\CompositeAuth as YiiCompositeAuth;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
-use \yii\log\EmailTarget as YiiEmailTarget;
 use yii\rest\DeleteAction as YiiDeleteAction;
 use yii\rest\Serializer;
 use yii\rest\UrlRule;
@@ -65,7 +61,6 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
             YiiDateValidator::class => DateValidator::class,
             YiiStringValidator::class => StringValidator::class,
             YiiNumberValidator::class => NumberValidator::class,
-            YiiCompositeAuth::class => CompositeAuth::class,
             //BatchQueryResult::class => SortableBatchQueryResult::class,
 //            YiiEmailTarget::class => EmailTarget::class,
 

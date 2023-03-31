@@ -19,6 +19,7 @@ use yii\base\UserException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\ReplaceArrayValue;
 
 /**
  * Class PmSalesChannel
@@ -453,6 +454,9 @@ class PmSalesChannel extends BaseSalesChannel
         $externalAdditional = $salesChannelItem->external_item_additional ?: [];
         $itemImageIds = $externalAdditional['itemImageIds'] ?? [];
         $linkedItemImageIds = $this->linkItemImageIds($itemImages, $pmItemImages);
+        $linkedItemImageIds = array_map(static function($value) {
+            return new ReplaceArrayValue($value);
+        }, $linkedItemImageIds);
         $itemImageIds = ArrayHelper::merge($itemImageIds, $linkedItemImageIds);
 
         $itemImageModelIds = ArrayHelper::map($itemImages, 'modelId', 'modelId');

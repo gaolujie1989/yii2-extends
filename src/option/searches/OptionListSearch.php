@@ -30,6 +30,8 @@ class OptionListSearch extends Model
 
     public $key;
 
+    public $value;
+
     /**
      * {@inheritdoc}
      */
@@ -37,7 +39,8 @@ class OptionListSearch extends Model
     {
         return [
             [['type'], 'required'],
-            [['key'], 'string'],
+            [['key', 'value'], 'default', 'value' => ''],
+            [['key', 'value'], 'string'],
         ];
     }
 
@@ -56,7 +59,7 @@ class OptionListSearch extends Model
 
         $typeOptions  = [];
         foreach ((array)$this->type as $type) {
-            $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key ?: '');
+            $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key ?: '', $this->value ?: '');
         }
         $this->options = $typeOptions;
         return true;

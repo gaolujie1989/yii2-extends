@@ -32,13 +32,12 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
 
     /**
      * @param string $type
-     * @param string $key
-     * @param bool|string $like
+     * @param string|null $key
+     * @param string|null $value
      * @return array
      * @inheritdoc
-     * @throws \Exception
      */
-    public function getOptions(string $type, ?string $key = null): array
+    public function getOptions(string $type, ?string $key = null, ?string $value = null): array
     {
         $query = Option::find()
             ->type($type)
@@ -47,6 +46,9 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
             ->asArray();
         if ($key) {
             QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $this->like);
+        }
+        if ($value) {
+            QueryHelper::filterValue($query, ['value' => $value]);
         }
         $rows = $query->all();
         return array_map(static function($row) {

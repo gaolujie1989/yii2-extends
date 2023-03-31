@@ -62,6 +62,11 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @var array
      */
+    public $valueKeys;
+
+    /**
+     * @var array
+     */
     public $keyMap = [];
 
     /**
@@ -81,13 +86,13 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
 
     /**
      * @param string $type
-     * @param string $key
-     * @param bool|string $like
+     * @param string|null $key
+     * @param string|null $value
      * @return array
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
-     * @throws \Exception
      */
-    public function getOptions(string $type, ?string $key = null): array
+    public function getOptions(string $type, ?string $key = null, ?string $value = null): array
     {
         $query = $this->getQuery($type, $key);
         $data = $query->all($this->db);
@@ -107,11 +112,14 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     }
 
     /**
-     * @return QueryInterface
+     * @param string $type
+     * @param string|null $key
+     * @param string|null $value
+     * @return array|ActiveQueryInterface|Query
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getQuery(string $type, ?string $key = null): QueryInterface
+    protected function getQuery(string $type, ?string $key = null, ?string $value = null): array
     {
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
@@ -120,6 +128,9 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         $query->andFilterWhere($this->condition)->addOrderBy($this->orderBy)->limit($this->limit);
         if ($this->filterKeys && $key) {
             QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
+        }
+        if ($this->valueKeys && $value) {
+            QueryHelper::filterKey($query, $this->valueKeys, $value);
         }
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();

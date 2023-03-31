@@ -21,9 +21,16 @@ class OttoCategoryProvider extends DbOptionProvider
 
     public $separator = '>>';
 
-    public function getOptions(string $type, ?string $key = null): array
+    /**
+     * @param string $type
+     * @param string|null $key
+     * @param string|null $value
+     * @return array
+     * @inheritdoc
+     */
+    public function getOptions(string $type, ?string $key = null, ?string $value = null): array
     {
-        $ottoCategories = parent::getOptions($type, $key);
+        $ottoCategories = parent::getOptions($type, $key, $value);
         return array_map(function(array $category) {
             $categoryPath = $category['category_group'] . $this->separator . $category['name'];
             return [
@@ -40,9 +47,9 @@ class OttoCategoryProvider extends DbOptionProvider
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getQuery(string $type, ?string $key = null): QueryInterface
+    protected function getQuery(string $type, ?string $key = null, ?string $value = null): array
     {
-        $query = parent::getQuery($type, $key);
+        $query = parent::getQuery($type, $key, $value);
         $query->addOrderBy(['category_group' => SORT_ASC, 'name' => SORT_ASC]);
         return $query;
     }

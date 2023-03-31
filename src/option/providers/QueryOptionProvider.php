@@ -75,6 +75,18 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     public $like = true;
 
     /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $valueLabelKeys = array_flip($this->keyMap);
+        if ($this->valueKeys === null && isset($valueLabelKeys['value'])) {
+            $this->valueKeys = [$valueLabelKeys['value']];
+        }
+    }
+
+    /**
      * @param string $type
      * @return bool
      * @inheritdoc

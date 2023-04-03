@@ -9,6 +9,7 @@ require_once __DIR__ . '/barcode-bakery/BCGBarcode1D.php';
 require_once __DIR__ . '/barcode-bakery/BCGDrawing.php';
 
 use BarcodeBakery\Barcode\BCGcode128;
+use BarcodeBakery\Barcode\BCGcode39;
 use BarcodeBakery\Barcode\BCGean13;
 use BarcodeBakery\Common\BCGArgumentException;
 use BarcodeBakery\Common\BCGColor;
@@ -33,6 +34,7 @@ class BCGBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterfac
      * @var array
      */
     public $codeTypeClasses = [
+        self::CODE39 => BCGcode39::class,
         self::CODE128 => BCGcode128::class,
         self::EAN13 => BCGean13::class,
     ];

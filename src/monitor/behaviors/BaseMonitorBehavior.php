@@ -129,7 +129,7 @@ abstract class BaseMonitorBehavior extends Behavior
             'queued_at' => time(),
             'status' => ExecStatusConst::EXEC_STATUS_QUEUED,
             'memory_usage' => memory_get_peak_usage(),
-            'executable' => Json::encode($job->executable),
+            'executable' => substr(Json::encode($job->executable), 0, 65530),
             'additional' => $this->getExecutableAdditional($job->executable),
         ];
         $executeManagerName = $job->executor;
@@ -146,7 +146,7 @@ abstract class BaseMonitorBehavior extends Behavior
             'started_at' => time(),
             'status' => ExecStatusConst::EXEC_STATUS_RUNNING,
             'memory_usage' => memory_get_peak_usage(),
-            'executable' => Json::encode($event->executable),
+            'executable' => substr(Json::encode($event->executable), 0, 65530),
             'additional' => $this->getExecutableAdditional($event->executable),
         ];
         $executeManagerName = ComponentHelper::getName($event->sender);

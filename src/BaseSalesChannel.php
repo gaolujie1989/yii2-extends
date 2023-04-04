@@ -418,7 +418,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         } catch (InvalidResponseException $exception) {
             $response = $exception->response;
             $statusCode = (string)$response->getStatusCode();
-            if ($statusCode === '422' || $statusCode[0] === '5') {
+            if ($statusCode === '422' || $statusCode === '404' || $statusCode[0] === '5') {
                 $message = $exception->getMessage();
                 $content = $response->getContent();
                 $salesChannelItem->addError('item_id', $message);

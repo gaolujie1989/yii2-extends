@@ -17,124 +17,35 @@ use yii\httpclient\Request;
 /**
  * Class AmazonAdvertisingClient
  *
- * @method array listProfiles($data = [])
- * @method \Generator eachProfile($condition = [], $batchSize = 100)
- * @method \Generator batchProfile($condition = [], $batchSize = 100)
- * @method array getProfile($data)
- * @method array createProfile($data)
- * @method array updateProfile($data)
- * @method array deleteProfile($data)
+ * @method array listV2Profiles($data = [])
+ * @method \Generator eachV2Profiles($condition = [], $batchSize = 100)
+ * @method \Generator batchV2Profiles($condition = [], $batchSize = 100)
+ * @method array getV2Profile($data)
  *
- * @method array listCampaigns($data = [])
- * @method \Generator eachCampaign($condition = [], $batchSize = 100)
- * @method \Generator batchCampaign($condition = [], $batchSize = 100)
- * @method array getCampaign($data)
- * @method array createCampaign($data)
- * @method array updateCampaign($data)
- * @method array deleteCampaign($data)
+ * @method array listV2Portfolios($data = [])
+ * @method \Generator eachV2Portfolios($condition = [], $batchSize = 100)
+ * @method \Generator batchV2Portfolios($condition = [], $batchSize = 100)
+ * @method array getV2Portfolio($data)
+ * @method array createV2Portfolio($data)
+ * @method array updateV2Portfolio($data)
  *
- * @method array listExtendCampaign($data = [])
- * @method \Generator eachExtendCampaign($condition = [], $batchSize = 100)
- * @method \Generator batchExtendCampaign($condition = [], $batchSize = 100)
- * @method array getExtendCampaign($data)
+ * @method array createV2BrandReport($data)
+ * @method array createV2DisplayReport($data)
+ * @method array getV2Report($data)
+ * @method array downloadV2Report($data)
+ * @method array createV3Report($data)
+ * @method array getV3Report($data)
  *
- * @method array listAdGroups($data = [])
- * @method \Generator eachAdGroup($condition = [], $batchSize = 100)
- * @method \Generator batchAdGroup($condition = [], $batchSize = 100)
- * @method array getAdGroup($data)
- * @method array createAdGroup($data)
- * @method array updateAdGroup($data)
- * @method array deleteAdGroup($data)
+ * @method array createV2ProductSnapshot($data)
+ * @method array createV2BrandSnapshot($data)
+ * @method array getV2ProductSnapshot($data)
+ * @method array getV2BrandSnapshot($data)
+ * @method array downloadV2ProductSnapshot($data)
+ * @method array downloadV2BrandSnapshot($data)
  *
- * @method array listExtendAdGroup($data = [])
- * @method \Generator eachExtendAdGroup($condition = [], $batchSize = 100)
- * @method \Generator batchExtendAdGroup($condition = [], $batchSize = 100)
- * @method array getExtendAdGroup($data)
- *
- * @method array listAds($data = [])
- * @method \Generator eachAd($condition = [], $batchSize = 100)
- * @method \Generator batchAd($condition = [], $batchSize = 100)
- * @method array getAd($data)
- * @method array createAd($data)
- * @method array updateAd($data)
- * @method array deleteAd($data)
- *
- * @method array listExtendAd($data = [])
- * @method \Generator eachExtendAd($condition = [], $batchSize = 100)
- * @method \Generator batchExtendAd($condition = [], $batchSize = 100)
- * @method array getExtendAd($data)
- *
- * @method array listKeywords($data = [])
- * @method \Generator eachKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchKeyword($condition = [], $batchSize = 100)
- * @method array getKeyword($data)
- * @method array createKeyword($data)
- * @method array updateKeyword($data)
- * @method array deleteKeyword($data)
- *
- * @method array listExtendKeyword($data = [])
- * @method \Generator eachExtendKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchExtendKeyword($condition = [], $batchSize = 100)
- * @method array getExtendKeyword($data)
- *
- * @method array listNegativeKeywords($data = [])
- * @method \Generator eachNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getNegativeKeyword($data)
- * @method array createNegativeKeyword($data)
- * @method array updateNegativeKeyword($data)
- * @method array deleteNegativeKeyword($data)
- *
- * @method array listExtendNegativeKeyword($data = [])
- * @method \Generator eachExtendNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchExtendNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getExtendNegativeKeyword($data)
- *
- * @method array listCampaignNegativeKeywords($data = [])
- * @method \Generator eachCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getCampaignNegativeKeyword($data)
- * @method array createCampaignNegativeKeyword($data)
- * @method array updateCampaignNegativeKeyword($data)
- * @method array deleteCampaignNegativeKeyword($data)
- *
- * @method array listExtendCampaignNegativeKeyword($data = [])
- * @method \Generator eachExtendCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method \Generator batchExtendCampaignNegativeKeyword($condition = [], $batchSize = 100)
- * @method array getExtendCampaignNegativeKeyword($data)
- *
- * @method array listTargets($data = [])
- * @method \Generator eachTarget($condition = [], $batchSize = 100)
- * @method \Generator batchTarget($condition = [], $batchSize = 100)
- * @method array getTarget($data)
- * @method array createTarget($data)
- * @method array updateTarget($data)
- * @method array deleteTarget($data)
- *
- * @method array createProductReport($data = [])
- * @method array createBrandReport($data = [])
- * @method array createDisplayReport($data = [])
- * @method array getReport($data)
- * @method array downloadReport($data)
- *
- * @method array createProductSnapshot($data)
- * @method array createBrandSnapshot($data)
- * @method array createDisplaySnapshot($data)
- * @method array getProductSnapshot($data)
- * @method array getBrandSnapshot($data)
- * @method array getDisplaySnapshot($data)
- * @method array downloadProductSnapshot($data)
- * @method array downloadBrandSnapshot($data)
- * @method array downloadDisplaySnapshot($data)
- *
- * @method array listExtendTarget($data = [])
- * @method \Generator eachExtendTarget($condition = [], $batchSize = 100)
- * @method \Generator batchExtendTarget($condition = [], $batchSize = 100)
- * @method array getExtendTarget($data)
- * @method array getGroupSuggestedKeywords($data)
- * @method array getExtendGroupSuggestedKeywords($data)
- * @method array getAsinSuggestedKeywords($data)
- * @method array createAsinReport($data)
+ * @method array createV3DisplaySnapshot($data)
+ * @method array getV3DisplaySnapshot($data)
+ * @method array downloadV3DisplaySnapshot($data)
  *
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -142,6 +53,8 @@ use yii\httpclient\Request;
  */
 class AmazonAdvertisingClient extends RestOAuth2
 {
+    use AmazonAdvertisingExtendTrait;
+
     /**
      * @var string
      */
@@ -171,30 +84,21 @@ class AmazonAdvertisingClient extends RestOAuth2
      * @var array
      */
     public $resources = [
-        'Profiles' => '/v2/profiles',
-        'Campaign' => '/v2/sp/campaigns',
-        'AdGroup' => '/v2/sp/adGroups',
-        'Ad' => '/v2/sp/productAds',
-        'Keyword' => '/v2/sp/keywords',
-        'NegativeKeyword' => '/v2/sp/negativeKeywords',
-        'CampaignNegativeKeyword' => '/v2/sp/campaignNegativeKeywords',
-        'Target' => '/v2/sp/targets',
+        'V2Profile' => '/v2/profiles',
+        'V2Portfolio' => '/v2/portfolios',
     ];
-
-    /**
-     * @var string
-     */
-    public $version = 'v2';
 
     /**
      * @var array
      */
     public $extraActions = [
-        'Target' => [
-            'createProductRecommendations' => ['POST', 'productRecommendations'],
-            'getCategories' => ['POST', 'categories'],
-            'getCategoriesRefinements' => ['POST', 'categories/refinements'],
-            'getBrands' => ['POST', 'brands'],
+        'V2Profile' => [
+            'create' => false,
+            'update' => false,
+            'delete' => false,
+        ],
+        'V2Portfolio' => [
+            'delete' => false,
         ],
     ];
 
@@ -202,30 +106,24 @@ class AmazonAdvertisingClient extends RestOAuth2
      * @var array
      */
     public $extraMethods = [
-        'createProductReport' => ['POST', '/v2/sp/{recordType}/report', true],
-        'createBrandReport' => ['POST', '/v2/hsa/{recordType}/report', true],
-        'createDisplayReport' => ['POST', '/sd/{recordType}/report', true],
-        'getReport' => ['GET', '/v2/reports/{id}', true],
-        'downloadReport' => ['GET', '/v2/reports/{id}/download', true],
+        'createV2BrandReport' => ['POST', '/v2/hsa/{recordType}/report', true],
+        'createV2DisplayReport' => ['POST', '/sd/{recordType}/report', true],
+        'getV2Report' => ['GET', '/v2/reports/{id}', true],
+        'downloadV2Report' => ['GET', '/v2/reports/{id}/download', true],
 
-        'createProductSnapshot' => ['POST', '/v2/sp/{recordType}/snapshot', true],
-        'createBrandSnapshot' => ['POST', '/v2/hsa/{recordType}/snapshot', true],
-        'createDisplaySnapshot' => ['POST', '/sd/{recordType}/snapshot', true],
-        'getProductSnapshot' => ['GET', '/v2/sp/snapshots/{id}', true],
-        'getBrandSnapshot' => ['GET', '/v2/hsa/snapshots/{id}', true],
-        'getDisplaySnapshot' => ['GET', '/sd/snapshots/{id}', true],
-        'downloadProductSnapshot' => ['GET', '/v2/sp/snapshots/{id}/download', true],
-        'downloadBrandSnapshot' => ['GET', '/v2/hsa/snapshots/{id}/download', true],
-        'downloadDisplaySnapshot' => ['GET', '/sd/snapshots/{id}/download', true],
+        'createV3Report' => ['POST', '/reporting/reports'],
+        'getV3Report' => ['POST', '/reporting/reports/{id}', true],
 
-        'getGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords'],
-        'getExtendGroupSuggestedKeywords' => ['GET', '/v2/sp/adGroups/{adGroupId}/suggested/keywords/extended'],
-        'getAsinSuggestedKeywords' => ['GET', '/v2/sp/asins/{asinValue}/suggested/keywords'],
+        'createV2ProductSnapshot' => ['POST', '/v2/sp/{recordType}/snapshot', true],
+        'createV2BrandSnapshot' => ['POST', '/v2/hsa/{recordType}/snapshot', true],
+        'getV2ProductSnapshot' => ['GET', '/v2/sp/snapshots/{id}', true],
+        'getV2BrandSnapshot' => ['GET', '/v2/hsa/snapshots/{id}', true],
+        'downloadV2ProductSnapshot' => ['GET', '/v2/sp/snapshots/{id}/download', true],
+        'downloadV2BrandSnapshot' => ['GET', '/v2/hsa/snapshots/{id}/download', true],
 
-        'createAsinReport' => ['POST', '/v2/asins/report'],
-
-        'listExtend' => ['GET', 'extended'],
-        'getExtend' => ['GET', 'extended/{id}'],
+        'createV3DisplaySnapshot' => ['POST', '/sd/{recordType}/snapshot', true],
+        'getV3DisplaySnapshot' => ['GET', '/sd/snapshots/{id}', true],
+        'downloadV3DisplaySnapshot' => ['GET', '/sd/snapshots/{id}/download', true],
     ];
 
     /**
@@ -253,6 +151,11 @@ class AmazonAdvertisingClient extends RestOAuth2
         if ($this->profileId) {
             $request->addHeaders([
                 'Amazon-Advertising-API-Scope' => $this->profileId,
+            ]);
+        }
+        if (strpos($request->getUrl(), 'reporting/reports') !== false) {
+            $request->addHeaders([
+                'Content-Type' => 'application/vnd.createasyncreportrequest.v3+json'
             ]);
         }
     }

@@ -22,9 +22,13 @@ class AmazonAdvertisingConst
     public const SCOPE_DSP = 'advertising::campaign_management';
     public const SCOPE_DATA_PROVIDER = 'advertising::audiences';
 
-    public const REPORT_STATUS_IN_PROGRESS = 'IN_PROGRESS';
-    public const REPORT_STATUS_SUCCESS = 'SUCCESS';
-    public const REPORT_STATUS_FAILURE = 'FAILURE';
+    public const V2REPORT_STATUS_IN_PROGRESS = 'IN_PROGRESS';
+    public const V2REPORT_STATUS_SUCCESS = 'SUCCESS';
+    public const V2REPORT_STATUS_FAILURE = 'FAILURE';
+    public const V3REPORT_STATUS_PENDING = 'PENDING';
+    public const V3REPORT_STATUS_PROCESSING = 'PROCESSING';
+    public const V3REPORT_STATUS_COMPLETED = 'COMPLETED';
+    public const V3REPORT_STATUS_FAILED = 'FAILED';
 
     public const AD_TYPE_PRODUCT = 'sp';
     public const AD_TYPE_BRAND = 'hsa';

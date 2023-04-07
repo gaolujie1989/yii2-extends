@@ -112,7 +112,7 @@ class AmazonAdvertisingClient extends RestOAuth2
         'downloadV2Report' => ['GET', '/v2/reports/{id}/download', true],
 
         'createV3Report' => ['POST', '/reporting/reports'],
-        'getV3Report' => ['POST', '/reporting/reports/{id}', true],
+        'getV3Report' => ['GET', '/reporting/reports/{id}', true],
 
         'createV2ProductSnapshot' => ['POST', '/v2/sp/{recordType}/snapshot', true],
         'createV2BrandSnapshot' => ['POST', '/v2/hsa/{recordType}/snapshot', true],

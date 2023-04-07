@@ -17,6 +17,6 @@ class AmazonAdvertisingClientTest extends TestCase
     {
         $advertisingClient = new AmazonAdvertisingClient();
         $methodDoc = $advertisingClient->methodDoc();
-        codecept_debug($methodDoc);
+        $this->assertIsString($methodDoc);
     }
 }

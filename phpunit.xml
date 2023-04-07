@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         bootstrap="./tests/unit/_bootstrap.php">
+  <coverage>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="Amazon Advertising API Client">
+      <directory suffix="Test.php">./tests/unit</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

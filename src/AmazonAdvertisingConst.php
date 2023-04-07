@@ -38,6 +38,16 @@ class AmazonAdvertisingConst
     public const RECORD_TYPE_ASIN = 'asins';
     public const RECORD_TYPE_AD = 'ads';
 
+    public const PLACEMENT_SEARCH = 'SEARCH';
+    public const PLACEMENT_DETAIL = 'DETAIL';
+    public const PLACEMENT_OTHER = 'OTHER';
+
+    public const CAMPAIGN_PLACEMENTS = [
+        'Top of Search on-Amazon' => self::PLACEMENT_SEARCH,
+        'Detail Page on-Amazon' => self::PLACEMENT_DETAIL,
+        'Other on-Amazon' => self::PLACEMENT_OTHER,
+    ];
+
     public const RECORD_TYPE_NEGATIVE_KEYWORD = 'negativeKeywords';
     public const RECORD_TYPE_CAMPAIGN_NEGATIVE_KEYWORD = 'campaignNegativeKeywords';
     public const RECORD_TYPE_NEGATIVE_TARGET = 'negativeTargets';
@@ -264,7 +274,7 @@ class AmazonAdvertisingConst
             'reportTypeId' => "spAdvertisedProduct",
             'adProduct' => 'SPONSORED_PRODUCT',
             'groupBy' => ["advertiser"],
-            'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic'],
+            'metrics' => self::V3REPORT_METRICS['spAdvertisedProduct']['basic'],
         ],
         'V3ProductTarget' => [
             'adType' => self::AD_TYPE_PRODUCT,
@@ -272,8 +282,8 @@ class AmazonAdvertisingConst
             'reportTypeId' => "spTargeting",
             'adProduct' => 'SPONSORED_PRODUCT',
             'groupBy' => ["targeting"],
-            'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic']
-                . ',' . self::V3REPORT_METRICS['spCampaigns']['targeting'],
+            'metrics' => self::V3REPORT_METRICS['spTargeting']['basic']
+                . ',' . self::V3REPORT_METRICS['spTargeting']['targeting'],
         ],
         'V3ProductSearchTerm' => [
             'adType' => self::AD_TYPE_PRODUCT,
@@ -281,8 +291,8 @@ class AmazonAdvertisingConst
             'reportTypeId' => "spSearchTerm",
             'adProduct' => 'SPONSORED_PRODUCT',
             'groupBy' => ["searchTerm"],
-            'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic']
-                . ',' . self::V3REPORT_METRICS['spCampaigns']['searchTerm'],
+            'metrics' => self::V3REPORT_METRICS['spSearchTerm']['basic']
+                . ',' . self::V3REPORT_METRICS['spSearchTerm']['searchTerm'],
         ],
         'V3ProductAsin' => [
             'adType' => self::AD_TYPE_PRODUCT,
@@ -290,7 +300,7 @@ class AmazonAdvertisingConst
             'reportTypeId' => "spPurchasedProduct",
             'adProduct' => 'SPONSORED_PRODUCT',
             'groupBy' => ["asin"],
-            'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic'],
+            'metrics' => self::V3REPORT_METRICS['spPurchasedProduct']['basic'],
         ],
     ];
 

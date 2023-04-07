@@ -30,6 +30,8 @@ class AmazonAdvertisingConst
     public const AD_TYPE_BRAND = 'hsa';
     public const AD_TYPE_DISPLAY = 'sd';
 
+    public const AD_PRODUCT_PRODUCT = 'SPONSORED_PRODUCTS';
+
     public const RECORD_TYPE_CAMPAIGN = 'campaigns';
     public const RECORD_TYPE_AD_GROUP = 'adGroups';
     public const RECORD_TYPE_PRODUCT_AD = 'productAds';
@@ -243,7 +245,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
             'reportTypeId' => "spCampaigns",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["campaign"],
             'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic']
                 . ',' . self::V3REPORT_METRICS['spCampaigns']['campaign'],
@@ -252,7 +254,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
             'reportTypeId' => "spCampaigns",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["campaign", "campaignPlacement"],
             'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic']
                 . ',' . self::V3REPORT_METRICS['spCampaigns']['campaign']
@@ -262,7 +264,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
             'reportTypeId' => "spCampaigns",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["campaign", "adGroup"],
             'metrics' => self::V3REPORT_METRICS['spCampaigns']['basic']
                 . ',' . self::V3REPORT_METRICS['spCampaigns']['campaign']
@@ -272,7 +274,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_AD,
             'reportTypeId' => "spAdvertisedProduct",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["advertiser"],
             'metrics' => self::V3REPORT_METRICS['spAdvertisedProduct']['basic'],
         ],
@@ -280,7 +282,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_TARGET,
             'reportTypeId' => "spTargeting",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["targeting"],
             'metrics' => self::V3REPORT_METRICS['spTargeting']['basic']
                 . ',' . self::V3REPORT_METRICS['spTargeting']['targeting'],
@@ -289,7 +291,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_KEYWORD,
             'reportTypeId' => "spSearchTerm",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["searchTerm"],
             'metrics' => self::V3REPORT_METRICS['spSearchTerm']['basic']
                 . ',' . self::V3REPORT_METRICS['spSearchTerm']['searchTerm'],
@@ -298,7 +300,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
             'reportTypeId' => "spPurchasedProduct",
-            'adProduct' => 'SPONSORED_PRODUCT',
+            'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["asin"],
             'metrics' => self::V3REPORT_METRICS['spPurchasedProduct']['basic'],
         ],

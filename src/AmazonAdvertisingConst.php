@@ -305,65 +305,65 @@ class AmazonAdvertisingConst
     ];
 
     public const SNAPSHOT_TYPES = [
-        'productCampaign' => [
+        'V2ProductCampaign' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
         ],
-        'brandCampaign' => [
+        'V2BrandCampaign' => [
             'adType' => self::AD_TYPE_BRAND,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
         ],
-        'displayCampaign' => [
+        'V2DisplayCampaign' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
         ],
 
-        'productAdGroup' => [
+        'V2ProductAdGroup' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
         ],
-        'displayAdGroup' => [
+        'V2DisplayAdGroup' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
         ],
 
-        'productKeyword' => [
+        'V2ProductKeyword' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_KEYWORD,
         ],
-        'brandKeyword' => [
+        'V2BrandKeyword' => [
             'adType' => self::AD_TYPE_BRAND,
             'recordType' => self::RECORD_TYPE_KEYWORD,
         ],
 
-        'productNegativeKeyword' => [
+        'V2ProductNegativeKeyword' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_NEGATIVE_KEYWORD,
         ],
-        'productCampaignNegativeKeyword' => [
+        'V2ProductCampaignNegativeKeyword' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN_NEGATIVE_KEYWORD,
         ],
 
-        'productAd' => [
+        'V2ProductAd' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
         ],
-        'displayAd' => [
+        'V2DisplayAd' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
         ],
 
-        'productTarget' => [
+        'V2ProductTarget' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_TARGET,
         ],
-        'displayTarget' => [
+        'V2DisplayTarget' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_TARGET,
         ],
 
-        'productNegativeTarget' => [
+        'V2ProductNegativeTarget' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_NEGATIVE_TARGET,
         ],

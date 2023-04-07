@@ -68,11 +68,17 @@ trait TimeStepProgressTrait
 
         $timeAtFrom = ValueHelper::formatDateTime($this->timeFrom ?? '-1 days', $this->timeFromFormat ?? null);
         $timeAtTo = ValueHelper::formatDateTime($this->timeTo ?? 'now', $this->timeToFormat ?? null);
+        if (is_string($timeAtFrom)) {
+            $timeAtFrom = strtotime($timeAtFrom);
+        }
+        if (is_string($timeAtTo)) {
+            $timeAtTo = strtotime($timeAtTo);
+        }
 
         $total = ceil(($timeAtTo - $timeAtFrom) / $timeStep);
         $progress = $this->getProgress($total * $totalCount);
 
-        for ($timeAt = $timeAtFrom; $timeAt <= $timeAtTo; $timeAt += $timeStep) {
+        for ($timeAt = $timeAtFrom; $timeAt < $timeAtTo; $timeAt += $timeStep) {
             $stepTimeToAt = min($timeAt + $timeStep - 1, $timeAtTo);
             $progress->message = strtr($messageTemplate, array_merge([
                 '{timeFrom}' => date($format, $timeAt),

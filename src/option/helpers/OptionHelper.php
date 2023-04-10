@@ -144,6 +144,8 @@ class OptionHelper
             }, $nameParts);
             return implode(' ', $nameParts);
         }
-        return Inflector::camel2words($name);
+        $name = Inflector::camel2words($name);
+        $name = preg_replace('/(\w) (\d+)/', '$1$2', $name);
+        return $name;
     }
 }

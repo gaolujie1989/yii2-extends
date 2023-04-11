@@ -293,7 +293,7 @@ class AmazonAdvertisingConst
         ],
         'V3ProductSearchTerm' => [
             'adType' => self::AD_TYPE_PRODUCT,
-            'recordType' => self::RECORD_TYPE_KEYWORD,
+            'recordType' => self::RECORD_TYPE_TARGET,
             'reportTypeId' => "spSearchTerm",
             'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["searchTerm"],

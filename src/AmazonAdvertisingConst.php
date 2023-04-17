@@ -60,6 +60,7 @@ class AmazonAdvertisingConst
 
     public const REPORT_TYPES = [
         'V2ProductCampaign' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
             'metrics' => 'applicableBudgetRuleId,applicableBudgetRuleName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignRuleBasedBudget,campaignStatus,clicks,cost,currency,impressions',
@@ -83,6 +84,7 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductCampaignPlacement' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
             'metrics' => 'applicableBudgetRuleId,applicableBudgetRuleName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,bidPlus,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignRuleBasedBudget,campaignStatus,clicks,cost,currency,impressions',
@@ -103,6 +105,7 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductAdGroup' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
             'metrics' => 'adGroupId,adGroupName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignStatus,clicks,cost,currency,impressions',
@@ -126,6 +129,7 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductAd' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
             'metrics' => 'adGroupId,adGroupName,asin,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignStatus,clicks,cost,currency,impressions,sku',
@@ -138,6 +142,7 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductTarget' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_TARGET,
             'metrics' => 'adGroupId,adGroupName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignStatus,clicks,cost,impressions,targetId,targetingExpression,targetingText,targetingType',
@@ -161,6 +166,7 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductKeyword' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_KEYWORD,
             'metrics' => 'adGroupId,adGroupName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignStatus,clicks,cost,currency,impressions,keywordId,keywordStatus,keywordText,matchType',
@@ -178,12 +184,14 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductKeywordSearchTerm' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_KEYWORD,
             'metrics' => 'adGroupId,adGroupName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignStatus,clicks,cost,currency,impressions,keywordId,keywordStatus,keywordText,matchType',
             'segment' => 'query',
         ],
         'V2ProductTargetSearchTerm' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_TARGET,
             'metrics' => 'adGroupId,adGroupName,attributedConversions14d,attributedConversions14dSameSKU,attributedConversions1d,attributedConversions1dSameSKU,attributedConversions30d,attributedConversions30dSameSKU,attributedConversions7d,attributedConversions7dSameSKU,attributedSales14d,attributedSales14dSameSKU,attributedSales1d,attributedSales1dSameSKU,attributedSales30d,attributedSales30dSameSKU,attributedSales7d,attributedSales7dSameSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dSameSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dSameSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dSameSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dSameSKU,campaignBudget,campaignBudgetType,campaignId,campaignName,campaignStatus,clicks,cost,impressions,targetId,targetingExpression,targetingText,targetingType',
@@ -204,6 +212,7 @@ class AmazonAdvertisingConst
         ],
 
         'V2ProductAsin' => [
+            'deprecated' => true,
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_ASIN,
             'metrics' => 'adGroupId,adGroupName,asin,attributedSales14dOtherSKU,attributedSales1dOtherSKU,attributedSales30dOtherSKU,attributedSales7dOtherSKU,attributedUnitsOrdered14d,attributedUnitsOrdered14dOtherSKU,attributedUnitsOrdered1d,attributedUnitsOrdered1dOtherSKU,attributedUnitsOrdered30d,attributedUnitsOrdered30dOtherSKU,attributedUnitsOrdered7d,attributedUnitsOrdered7dOtherSKU,campaignId,campaignName,currency,matchType,otherAsin,sku,targetingExpression,targetingText,targetingType',
@@ -319,7 +328,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_BRAND,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
         ],
-        'V2DisplayCampaign' => [
+        'V3DisplayCampaign' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
         ],
@@ -328,7 +337,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
         ],
-        'V2DisplayAdGroup' => [
+        'V3DisplayAdGroup' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
         ],
@@ -355,7 +364,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
         ],
-        'V2DisplayAd' => [
+        'V3DisplayAd' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
         ],
@@ -364,7 +373,7 @@ class AmazonAdvertisingConst
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_TARGET,
         ],
-        'V2DisplayTarget' => [
+        'V3DisplayTarget' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_TARGET,
         ],

@@ -31,8 +31,12 @@ class AmazonAdvertisingConst
     public const V3REPORT_STATUS_FAILED = 'FAILED';
 
     public const AD_TYPE_PRODUCT = 'sp';
-    public const AD_TYPE_BRAND = 'hsa';
+    public const AD_TYPE_BRAND = 'sb';
     public const AD_TYPE_DISPLAY = 'sd';
+
+    public const CAMPAIGN_TYPE_PRODUCT = 'sponsoredProducts';
+    public const CAMPAIGN_TYPE_BRAND = 'sponsoredBrands';
+    public const CAMPAIGN_TYPE_DISPLAY = 'sponsoredDisplay';
 
     public const AD_PRODUCT_PRODUCT = 'SPONSORED_PRODUCTS';
 

@@ -47,6 +47,9 @@ class AmazonAdvertisingConst
     public const RECORD_TYPE_KEYWORD = 'keywords';
     public const RECORD_TYPE_ASIN = 'asins';
     public const RECORD_TYPE_AD = 'ads';
+    public const RECORD_TYPE_NEGATIVE_KEYWORD = 'negativeKeywords';
+    public const RECORD_TYPE_CAMPAIGN_NEGATIVE_KEYWORD = 'campaignNegativeKeywords';
+    public const RECORD_TYPE_NEGATIVE_TARGET = 'negativeTargets';
 
     public const PLACEMENT_SEARCH = 'SEARCH';
     public const PLACEMENT_DETAIL = 'DETAIL';
@@ -57,10 +60,6 @@ class AmazonAdvertisingConst
         'Detail Page on-Amazon' => self::PLACEMENT_DETAIL,
         'Other on-Amazon' => self::PLACEMENT_OTHER,
     ];
-
-    public const RECORD_TYPE_NEGATIVE_KEYWORD = 'negativeKeywords';
-    public const RECORD_TYPE_CAMPAIGN_NEGATIVE_KEYWORD = 'campaignNegativeKeywords';
-    public const RECORD_TYPE_NEGATIVE_TARGET = 'negativeTargets';
 
     public const REPORT_TYPES = [
         'V2ProductCampaign' => [

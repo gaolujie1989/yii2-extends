@@ -17,6 +17,7 @@ class AmazonAdvertisingClientTest extends TestCase
     {
         $advertisingClient = new AmazonAdvertisingClient();
         $methodDoc = $advertisingClient->methodDoc();
+        file_put_contents(dirname(__DIR__) . '/_output/methodDoc.txt', $methodDoc);
         $this->assertIsString($methodDoc);
     }
 }

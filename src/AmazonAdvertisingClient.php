@@ -480,7 +480,7 @@ class AmazonAdvertisingClient extends RestOAuth2
             $headers['Amazon-Advertising-API-Scope'] = $this->profileId;
         }
         foreach ($this->customHeaders as $pathPrefix => $pathHeaders) {
-            if (strpos($request->getUrl(), $pathPrefix) !== false) {
+            if (strpos($request->getUrl(), $pathPrefix) === 0) {
                 $headers = array_merge($headers, $pathHeaders);
                 break;
             }

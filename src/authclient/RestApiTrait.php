@@ -67,14 +67,17 @@ trait RestApiTrait
         Yii::info('Init rest config and api methods', __METHOD__);
         $this->setStateStorage($this->cacheStorage ?? CacheStateStorage::class);
         $this->setHttpClient($this->httpClientOptions ?? [
-                'requestConfig' => [
-                    'format' => 'json'
-                ],
-                'responseConfig' => [
-                    'format' => 'json'
-                ],
-            ]);
+            'requestConfig' => [
+                'format' => 'json'
+            ],
+            'responseConfig' => [
+                'format' => 'json'
+            ],
+        ]);
         $this->methods = array_merge($this->createRestApiMethods(), $this->extraMethods ?? []);
+        if ($this->getId() === $this->getName()) {
+            $this->setId($this->getId() . '-' . ($this->username ?? $this->apiKey ?? $this->clientId));
+        }
     }
 
     /**

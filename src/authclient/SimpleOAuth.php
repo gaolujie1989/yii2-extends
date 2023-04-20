@@ -42,15 +42,6 @@ class SimpleOAuth extends BaseOAuth
     #region BaseOAuth
 
     /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getId(): string
-    {
-        return $this->getName() . '-' . $this->username;
-    }
-
-    /**
      * @return array
      * @inheritdoc
      */

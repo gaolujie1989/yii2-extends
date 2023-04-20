@@ -82,7 +82,7 @@ abstract class BaseCookieClient extends BaseClient
      */
     public function getId(): string
     {
-        return parent::getId() . '_' . $this->username;
+        return $this->getName() . '-' . $this->username;
     }
 
     /**

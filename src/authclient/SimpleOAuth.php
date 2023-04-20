@@ -47,7 +47,7 @@ class SimpleOAuth extends BaseOAuth
      */
     public function getId(): string
     {
-        return parent::getId() . '_' . $this->username;
+        return $this->getName() . '-' . $this->username;
     }
 
     /**

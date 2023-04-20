@@ -79,7 +79,7 @@ abstract class BaseJsonRpcClient extends BaseClient
      */
     public function getId(): string
     {
-        return parent::getId() . '_' . $this->appKey;
+        return $this->getName() . '-' . $this->appKey;
     }
 
     /**

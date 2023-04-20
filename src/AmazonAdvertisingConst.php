@@ -326,64 +326,78 @@ class AmazonAdvertisingConst
         'V2ProductCampaign' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V2BrandCampaign' => [
             'adType' => self::AD_TYPE_BRAND,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V3DisplayCampaign' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_CAMPAIGN,
+            'stateFilter' => 'enabled,paused,archived',
         ],
 
         'V2ProductAdGroup' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V3DisplayAdGroup' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_AD_GROUP,
+            'stateFilter' => 'enabled,paused,archived',
         ],
 
         'V2ProductKeyword' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_KEYWORD,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V2BrandKeyword' => [
             'adType' => self::AD_TYPE_BRAND,
             'recordType' => self::RECORD_TYPE_KEYWORD,
+            'stateFilter' => 'enabled,paused,archived',
         ],
 
         'V2ProductNegativeKeyword' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_NEGATIVE_KEYWORD,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V2ProductCampaignNegativeKeyword' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_CAMPAIGN_NEGATIVE_KEYWORD,
+            'stateFilter' => 'enabled,paused,archived',
         ],
 
         'V2ProductAd' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V3DisplayAd' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_PRODUCT_AD,
+            'stateFilter' => 'enabled,paused,archived',
         ],
 
         'V2ProductTarget' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_TARGET,
+            'stateFilter' => 'enabled,paused,archived',
         ],
         'V3DisplayTarget' => [
             'adType' => self::AD_TYPE_DISPLAY,
             'recordType' => self::RECORD_TYPE_TARGET,
+            'stateFilter' => 'enabled,paused,archived',
         ],
 
         'V2ProductNegativeTarget' => [
             'adType' => self::AD_TYPE_PRODUCT,
             'recordType' => self::RECORD_TYPE_NEGATIVE_TARGET,
+            'stateFilter' => 'enabled,paused,archived',
         ],
     ];
 

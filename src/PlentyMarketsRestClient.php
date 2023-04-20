@@ -763,7 +763,7 @@ class PlentyMarketsRestClient extends OAuth2
      */
     public function getId(): string
     {
-        return $this->username;
+        return $this->getName() . '-' . $this->username;
     }
 
     /**

@@ -472,21 +472,23 @@ class AmazonAdvertisingClient extends RestOAuth2
      */
     public function applyAccessTokenToRequest($request, $accessToken): void
     {
-        $request->addHeaders([
+        $headers = [
             'Amazon-Advertising-API-ClientId' => $this->clientId,
             'Authorization' => 'Bearer ' . $accessToken->getToken(),
-        ]);
+        ];
         if ($this->profileId) {
-            $request->addHeaders([
-                'Amazon-Advertising-API-Scope' => $this->profileId,
-            ]);
+            $headers['Amazon-Advertising-API-Scope'] = $this->profileId;
         }
-        foreach ($this->customHeaders as $pathPrefix => $headers) {
+        foreach ($this->customHeaders as $pathPrefix => $pathHeaders) {
             if (strpos($request->getUrl(), $pathPrefix) !== false) {
-                $request->addHeaders($headers);
+                $headers = array_merge($headers, $pathHeaders);
                 break;
             }
         }
+        if (empty($headers['Accept'])) {
+            $headers['Accept'] = 'application/json';
+        }
+        $request->addHeaders($headers);
     }
 
     /**

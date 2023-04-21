@@ -143,7 +143,7 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function filterAttributes(array $attributes, array $keys, bool $prefix = true): array
+    public static function filterAttributes(array $attributes, array $keys, bool $prefix = false): array
     {
         return array_values(array_filter($attributes, static function ($attribute) use ($keys, $prefix) {
             foreach ($keys as $key) {
@@ -180,7 +180,7 @@ class ModelHelper
         $filterKeySuffixes = array_filter(array_map('array_filter', $filterKeySuffixes));
         $filterKeyAttributes = [];
         foreach ($filterKeySuffixes as $key => $keySuffixes) {
-            $filterKeyAttributes[$key] = static::filterAttributes($model->attributes(), $keySuffixes, false);
+            $filterKeyAttributes[$key] = static::filterAttributes($model->attributes(), $keySuffixes);
         }
         $query = $query ?: $model::find();
         if ($alias && $query instanceof ActiveQuery) {
@@ -228,8 +228,8 @@ class ModelHelper
 
         $filterKeySuffixes = array_merge($defaultFilterKeySuffixes, $filterKeySuffixes);
         $datetimeKeySuffixes = array_merge($defaultDateTimeKeySuffixes, $datetimeKeySuffixes);
-        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
-        $datetimeAttributes = static::filterAttributes($model->attributes(), $datetimeKeySuffixes, false);
+        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes);
+        $datetimeAttributes = static::filterAttributes($model->attributes(), $datetimeKeySuffixes);
 
         $rules = [];
         if ($filterAttributes) {
@@ -348,7 +348,7 @@ class ModelHelper
         $defaultRemoveKeySuffixes = array_combine($defaultRemoveKeySuffixes, $defaultRemoveKeySuffixes);
 
         $removeKeySuffixes = array_filter(array_merge($defaultRemoveKeySuffixes, $removeKeySuffixes));
-        $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);
+        $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes);
         $removeRuleAttributes = [$removeRuleAttributes];
 
         $aliasSafeRules = [];

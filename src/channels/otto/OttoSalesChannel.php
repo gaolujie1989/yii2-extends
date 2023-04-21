@@ -83,9 +83,9 @@ class OttoSalesChannel extends BaseSalesChannel
 
     #region Order Push
 
-    protected function getExternalOrder(string $externalOrderId): ?array
+    protected function getExternalOrder(string $externalOrderKey): ?array
     {
-        return $this->client->getV4Order(['salesOrderId' => $externalOrderId]);
+        return $this->client->getV4Order(['salesOrderId' => $externalOrderKey]);
     }
 
     protected function saveExternalOrder(array $externalOrder, SalesChannelOrder $salesChannelOrder): ?array

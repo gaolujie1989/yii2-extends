@@ -162,13 +162,13 @@ class PmSalesChannel extends BaseSalesChannel
     #region Order Push
 
     /**
-     * @param string $externalOrderId
+     * @param string $externalOrderKey
      * @return array|null
      * @inheritdoc
      */
-    protected function getExternalOrder(string $externalOrderId): ?array
+    protected function getExternalOrder(string $externalOrderKey): ?array
     {
-        return $this->client->getOrder(['id' => $externalOrderId]);
+        return $this->client->getOrder(['id' => $externalOrderKey]);
     }
 
     /**

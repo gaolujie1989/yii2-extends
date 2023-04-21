@@ -17,7 +17,6 @@ use lujie\sales\channel\models\SalesChannelOrder;
 use Yii;
 use yii\authclient\InvalidResponseException;
 use yii\base\Component;
-use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\base\UserException;
@@ -296,8 +295,8 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         }
 
-        $externalOrderId = $salesChannelOrder->external_order_key;
-        if (empty($externalOrderId)) {
+        $externalOrderKey = $salesChannelOrder->external_order_key;
+        if (empty($externalOrderKey)) {
             return false;
         }
 
@@ -306,19 +305,19 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             return false;
         }
 
-        $externalOrder = $this->getExternalOrder($externalOrderId);
+        $externalOrder = $this->getExternalOrder($externalOrderKey);
         $externalOrderStatus = (string)$externalOrder[$this->externalOrderStatusField];
         $newSalesChannelStatus = $this->getSalesChannelStatus($externalOrderStatus);
 
         if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
             if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
                 $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder);
-                throw new UserException("Sales order {$externalOrderId} is cancelled, can not be shipped");
+                throw new UserException("Sales order {$externalOrderKey} is cancelled, can not be shipped");
             }
         } else if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
             if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
                 $this->updateSalesChannelOrder($salesChannelOrder, $externalOrder);
-                throw new UserException("Sales order {$externalOrderId} is shipped, can not be cancelled");
+                throw new UserException("Sales order {$externalOrderKey} is shipped, can not be cancelled");
             }
         } else {
             return false;
@@ -343,10 +342,10 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     }
 
     /**
-     * @param string $externalOrderId
+     * @param string $externalOrderKey
      * @return array|null
      */
-    abstract protected function getExternalOrder(string $externalOrderId): ?array;
+    abstract protected function getExternalOrder(string $externalOrderKey): ?array;
 
     /**
      * @param array $externalOrder

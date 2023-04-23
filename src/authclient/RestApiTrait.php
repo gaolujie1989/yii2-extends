@@ -75,6 +75,12 @@ trait RestApiTrait
             ],
         ]);
         $this->methods = array_merge($this->createRestApiMethods(), $this->extraMethods ?? []);
+        if ($this->suffix) {
+            $this->methods = array_map(function (array $method) {
+                $method[1] .= $this->suffix;
+                return $method;
+            }, $this->methods);
+        }
         if ($this->getId() === $this->getName()) {
             $this->setId($this->getId() . '-' . ($this->username ?? $this->apiKey ?? $this->clientId));
         }
@@ -93,7 +99,7 @@ trait RestApiTrait
         foreach ($resources as $resource => $resourcePath) {
             $resourceActions = array_filter(array_merge($this->actions, $extraActions[$resource] ?? []));
             foreach ($resourceActions as $action => [$httpMethod, $actionPath]) {
-                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '') . ($this->suffix ?? '');
+                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '');
                 $method = $action . (in_array($action, $pluralize, true) ? Inflector::pluralize($resource) : $resource);
                 $apiMethods[$method] = [$httpMethod, $url];
             }

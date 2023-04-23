@@ -17,8 +17,6 @@ use yii\base\BaseObject;
  */
 class ShopifySalesChannelOrderTransformer extends BaseObject implements TransformerInterface
 {
-    public $orderCancelledStatus = 8;
-
     /**
      * @param SalesChannelOrder[] $data
      * @return array

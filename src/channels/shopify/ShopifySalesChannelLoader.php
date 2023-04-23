@@ -30,6 +30,15 @@ class ShopifySalesChannelLoader extends BaseSalesChannelLoader
      */
     protected function getConfig(SalesChannelAccount $account): array
     {
+        if ($account->authToken === null) {
+            return [
+                'client' => [
+                    'class' => ShopifyAdminRestClient::class,
+                    'apiKey' => $account->username,
+                    'adminToken' => $account->password,
+                ]
+            ];
+        }
         return [
             'client' => [
                 'class' => ShopifyAdminRestClient::class,

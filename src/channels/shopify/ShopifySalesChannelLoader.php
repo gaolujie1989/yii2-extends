@@ -3,14 +3,12 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\sales\channel\channels\otto;
+namespace lujie\sales\channel\channels\shopify;
 
 use lujie\sales\channel\BaseSalesChannelLoader;
-use lujie\sales\channel\channels\shopify\ShopifySalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
 use lujie\shopify\ShopifyAdminRestClient;
-use lujie\shopify\ShopifyRestClient;
 
 /**
  * Class PmSalesChannelLoader

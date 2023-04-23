@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019
  */
 
-namespace lujie\sales\channel\channels\pm;
+namespace lujie\sales\channel\channels\shopify;
 
 use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\sales\channel\constants\SalesChannelConst;

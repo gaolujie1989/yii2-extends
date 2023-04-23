@@ -57,8 +57,8 @@ class ShopifySalesChannel extends BaseSalesChannel
     protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
     {
         $eachOrders = $this->client->eachOrders([
-            'created_at_min' => $createdAtFrom,
-            'created_at_max' => $createdAtTo
+            'created_at_min' => date('c', $createdAtFrom),
+            'created_at_max' => date('c', $createdAtTo)
         ]);
         return iterator_to_array($eachOrders);
     }

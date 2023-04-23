@@ -6,9 +6,10 @@
 namespace lujie\sales\channel\channels\shopify;
 
 use lujie\sales\channel\BaseSalesChannel;
+use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
-use yii\db\BaseActiveRecord;
+use lujie\shopify\ShopifyAdminRestClient;
 
 /**
  * Class AmazonSalesChannel
@@ -17,43 +18,90 @@ use yii\db\BaseActiveRecord;
  */
 class ShopifySalesChannel extends BaseSalesChannel
 {
+    /**
+     * @var ShopifyAdminRestClient
+     */
+    public $client;
+
+    public $allowedCancelled = true;
+
+    /**
+     * @param array $externalOrderKeys
+     * @return array
+     * @inheritdoc
+     */
     protected function getExternalOrders(array $externalOrderKeys): array
     {
-        // TODO: Implement getExternalOrders() method.
+        $eachOrders = $this->client->eachOrders(['ids' => implode(',', $externalOrderKeys)]);
+        return iterator_to_array($eachOrders);
     }
 
+    /**
+     * @param int $createdAtFrom
+     * @param int $createdAtTo
+     * @return array
+     * @inheritdoc
+     */
     protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
     {
-        // TODO: Implement getNewExternalOrders() method.
+        $eachOrders = $this->client->eachOrders([
+            'created_at_min' => $createdAtFrom,
+            'created_at_max' => $createdAtTo
+        ]);
+        return iterator_to_array($eachOrders);
     }
 
-    public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
+    /**
+     * @param string $externalOrderKey
+     * @return array|null
+     * @inheritdoc
+     */
+    protected function getExternalOrder(string $externalOrderKey): ?array
     {
-        // TODO: Implement shipSalesOrder() method.
+        return $this->client->getOrder(['id' => $externalOrderKey]);
     }
 
-    public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
+    protected function saveExternalOrder(array $externalOrder, SalesChannelOrder $salesChannelOrder): ?array
     {
-        // TODO: Implement cancelSalesOrder() method.
+        if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
+            if ($this->allowedCancelled) {
+                return $this->client->cancelOrder([]);
+            }
+            return null;
+        }
+        if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
+
+        }
+        return null;
     }
 
-    protected function formatExternalItemData(BaseActiveRecord $item, SalesChannelItem $salesChannelItem): ?array
-    {
-        // TODO: Implement formatExternalItemData() method.
-    }
-
+    /**
+     * @param array $externalItem
+     * @return array|null
+     * @inheritdoc
+     */
     protected function getExternalItem(array $externalItem): ?array
     {
-        // TODO: Implement getExternalItem() method.
+        return $this->client->getProduct(['id' => $externalItem['product_id']]);
     }
 
+    /**
+     * @param array $externalItem
+     * @param SalesChannelItem $salesChannelItem
+     * @return array|null
+     * @inheritdoc
+     */
     protected function saveExternalItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
     {
-        // TODO: Implement saveExternalItem() method.
+        if ($salesChannelItem->external_item_key) {
+            $externalItem['id'] = $salesChannelItem->external_item_key;
+            return $this->client->updateProduct($externalItem);
+        }
+        return $this->client->createProduct($externalItem);
     }
 
     protected function saveExternalItemStocks(array $externalItemStocks): ?array
     {
-        // TODO: Implement saveExternalItemStocks() method.
+        return $this->client->setInventoryLevel($externalItemStocks);
     }
 }

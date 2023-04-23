@@ -10,6 +10,8 @@ use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use lujie\shopify\ShopifyAdminRestClient;
+use yii\base\InvalidConfigException;
+use yii\di\Instance;
 
 /**
  * Class AmazonSalesChannel
@@ -24,6 +26,16 @@ class ShopifySalesChannel extends BaseSalesChannel
     public $client;
 
     public $allowedCancelled = true;
+
+    /**
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->client = Instance::ensure($this->client, ShopifyAdminRestClient::class);
+    }
 
     /**
      * @param array $externalOrderKeys

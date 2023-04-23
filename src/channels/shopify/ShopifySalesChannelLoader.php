@@ -32,6 +32,7 @@ class ShopifySalesChannelLoader extends BaseSalesChannelLoader
             return [
                 'client' => [
                     'class' => ShopifyAdminRestClient::class,
+                    'apiBaseUrl' => $account->url,
                     'apiKey' => $account->username,
                     'adminToken' => $account->password,
                 ]
@@ -40,6 +41,7 @@ class ShopifySalesChannelLoader extends BaseSalesChannelLoader
         return [
             'client' => [
                 'class' => ShopifyAdminRestClient::class,
+                'apiBaseUrl' => $account->url,
                 'apiKey' => $account->username,
                 'apiSecret' => $account->password,
             ]

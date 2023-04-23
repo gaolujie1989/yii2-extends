@@ -114,6 +114,10 @@ class ShopifySalesChannel extends BaseSalesChannel
 
     protected function saveExternalItemStocks(array $externalItemStocks): ?array
     {
-        return $this->client->setInventoryLevel($externalItemStocks);
+        $inventoryLevels = [];
+        foreach ($externalItemStocks as $externalItemStock) {
+            $inventoryLevels[] = $this->client->setInventoryLevel($externalItemStock);
+        }
+        return $inventoryLevels;
     }
 }

@@ -51,7 +51,7 @@ class Module extends \yii\base\Module
     {
         if ($this->controllerMap) {
             $controller = reset($this->controllerMap);
-            if (empty($controller['class'])) {
+            if (is_array($controller) && empty($controller['class'])) {
                 $this->controllerMap = $this->controllerMap[$this->getScope()] ?? [];
             }
         }

@@ -51,6 +51,7 @@ class Module extends \yii\base\Module
     {
         if ($this->controllerMap) {
             $controller = reset($this->controllerMap);
+            //判断是不是全局，没有scope
             if (is_array($controller) && empty($controller['class'])) {
                 $this->controllerMap = $this->controllerMap[$this->getScope()] ?? [];
             }

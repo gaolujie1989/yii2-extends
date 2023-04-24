@@ -49,7 +49,12 @@ class Module extends \yii\base\Module
 
     public function initControllerMap(): void
     {
-        $this->controllerMap = $this->controllerMap[$this->getScope()] ?? [];
+        if ($this->controllerMap) {
+            $controller = reset($this->controllerMap);
+            if (empty($controller['class'])) {
+                $this->controllerMap = $this->controllerMap[$this->getScope()] ?? [];
+            }
+        }
     }
 
     /**

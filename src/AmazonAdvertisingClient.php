@@ -12,6 +12,7 @@ use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
+use yii\base\InvalidCallException;
 use yii\helpers\Inflector;
 use yii\httpclient\Request;
 
@@ -434,6 +435,8 @@ class AmazonAdvertisingClient extends RestOAuth2
         ],
     ];
 
+    #region rest
+
     public function init(): void
     {
         $this->initExtraActions();
@@ -453,6 +456,10 @@ class AmazonAdvertisingClient extends RestOAuth2
             }
         }
     }
+
+    #endregion
+
+    #region auth
 
     /**
      * @param $profileId
@@ -478,6 +485,8 @@ class AmazonAdvertisingClient extends RestOAuth2
         ];
         if ($this->profileId) {
             $headers['Amazon-Advertising-API-Scope'] = $this->profileId;
+        } else if (strpos($request->getUrl(), 'profiles') === false) {
+            throw new InvalidCallException('Missing profileId');
         }
         foreach ($this->customHeaders as $pathPrefix => $pathHeaders) {
             if (strpos($request->getUrl(), $pathPrefix) === 0) {
@@ -490,6 +499,8 @@ class AmazonAdvertisingClient extends RestOAuth2
         }
         $request->addHeaders($headers);
     }
+
+    #endregion
 
     /**
      * @param Request $request

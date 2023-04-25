@@ -288,7 +288,7 @@ class AmazonAdvertisingConst
         ],
         'V3ProductAd' => [
             'adType' => self::AD_TYPE_PRODUCT,
-            'recordType' => self::RECORD_TYPE_AD,
+            'recordType' => self::RECORD_TYPE_PRODUCT_AD,
             'reportTypeId' => "spAdvertisedProduct",
             'adProduct' => self::AD_PRODUCT_PRODUCT,
             'groupBy' => ["advertiser"],

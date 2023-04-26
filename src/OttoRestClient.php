@@ -6,6 +6,7 @@
 namespace lujie\otto;
 
 use lujie\extend\authclient\RestOAuth2;
+use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
@@ -225,13 +226,24 @@ class OttoRestClient extends RestOAuth2
     /**
      * @param OAuthToken $token
      * @return OAuthToken
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     public function refreshAccessToken(OAuthToken $token): OAuthToken
     {
         $refreshExpiresAt = ($token->getParam('refresh_expires_in') ?: 0) + $token->createTimestamp - 5;
         if ($refreshExpiresAt > time()) {
-            return parent::refreshAccessToken($token);
+            try {
+                return parent::refreshAccessToken($token);
+            } catch (InvalidResponseException $exception) {
+                $response = $exception->response;
+                $statusCode = (string)$response->statusCode;
+                $error = $response->data['error'] ?? null;
+                if ($statusCode === '400' && $error === 'invalid_grant') {
+                    return $this->authenticateUser($this->username, $this->password);
+                }
+                throw $exception;
+            }
         }
         return $this->authenticateUser($this->username, $this->password);
     }

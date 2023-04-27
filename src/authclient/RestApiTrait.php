@@ -75,7 +75,7 @@ trait RestApiTrait
             ],
         ]);
         $this->methods = array_merge($this->createRestApiMethods(), $this->extraMethods ?? []);
-        if ($this->suffix) {
+        if (isset($this->suffix)) {
             $this->methods = array_map(function (array $method) {
                 $method[1] .= $this->suffix;
                 return $method;

@@ -32,4 +32,16 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
         return $behaviors;
     }
+
+    /**
+     * @return string|null
+     * @inheritdoc
+     */
+    public function optimisticLock(): ?string
+    {
+        if (substr(static::class, -4) === 'Form' && $this->hasAttribute('version')) {
+            return 'version';
+        }
+        return parent::optimisticLock();
+    }
 }

@@ -12,7 +12,7 @@ use yii\helpers\Inflector;
 /**
  * Trait SandboxApiTrait
  *
- * @property $sandboxUrlMap = []
+ * @property array $sandboxUrlMap = []
  *
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>

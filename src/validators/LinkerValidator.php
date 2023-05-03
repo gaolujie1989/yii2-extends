@@ -163,16 +163,19 @@ class LinkerValidator extends Validator
      */
     protected function queryData(ActiveQueryInterface $query): ?array
     {
+        if (property_exists($query, 'modelClass')) {
+            $modelClass = $query->modelClass;
+        } else {
+            $modelClass = $this->targetClass;
+        }
         /** @var BaseActiveRecord $modelClass */
-        $modelClass = $query->modelClass;
         $db = $modelClass::getDb();
         $query->asArray();
         if ($this->forceMasterDb && $db instanceof Connection) {
             return $db->useMaster(function () use ($query) {
                 return $query->one() ?: null;
             });
-        } else {
-            return $query->one() ?: null;
         }
+        return $query->one() ?: null;
     }
 }

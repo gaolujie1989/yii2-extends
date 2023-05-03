@@ -14,8 +14,8 @@ use yii\di\Instance;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
 use yii\httpclient\Exception;
+use yii\queue\cli\Queue;
 use yii\queue\ExecEvent;
-use yii\queue\Queue;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 

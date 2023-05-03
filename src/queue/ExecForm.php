@@ -6,7 +6,7 @@
 namespace lujie\extend\queue;
 
 use yii\base\Model;
-use yii\queue\Queue;
+use yii\queue\cli\Queue;
 
 /**
  * Class ExecForm

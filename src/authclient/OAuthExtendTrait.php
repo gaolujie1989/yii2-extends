@@ -58,7 +58,7 @@ trait OAuthExtendTrait
 
     /**
      * @param Request $request
-     * @return array|mixed
+     * @return array
      * @throws InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc

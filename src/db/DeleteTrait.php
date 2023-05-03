@@ -17,7 +17,7 @@ use yii\db\Exception;
 trait DeleteTrait
 {
     /**
-     * @param null $condition
+     * @param array|string|null $condition
      * @param array $params
      * @return int
      * @inheritdoc

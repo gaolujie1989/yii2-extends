@@ -1,0 +1,35 @@
+includes:
+	- ../../apps/vendor/proget-hq/phpstan-yii2/extension.neon
+	- ../../apps/vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+    tmpDir: tests/_support
+    yii2:
+        config_path: phpstan_bootstrap.php
+    strictRules:
+        disallowedLooseComparison: false
+        booleansInConditions: false
+        uselessCast: false
+        requireParentConstructorCall: false
+        disallowedConstructs: false
+        overwriteVariablesWithLoop: false
+        closureUsesThis: false
+        matchingInheritedMethodNames: false
+        numericOperandsInArithmeticOperators: false
+        strictCalls: false
+        switchConditionsMatchingType: false
+        noVariableVariables: false
+    excludePaths:
+        analyse:
+            - */migrations/*
+            - */gii/*
+            - */queue/rest/*
+    ignoreErrors:
+        ### LEVEL 2 ###
+        # IDE 智能感知，修改 return type
+        - '#is not subtype of native type#'
+        - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required.#'
+        ### LEVEL 3 ###
+        # Property DI 自动注入属性, 配置值为 array|string, 但是实际上会被注入为 yii\di\Instance
+        - '#does not accept default value of type (null|array|string|false)#'
+

@@ -8,6 +8,7 @@ namespace lujie\extend\authclient;
 use Yii;
 use yii\authclient\CacheStateStorage;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -60,6 +61,7 @@ trait RestApiTrait
     #region Rest method generate
 
     /**
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function initRest(): void
@@ -82,7 +84,11 @@ trait RestApiTrait
             }, $this->methods);
         }
         if ($this->getId() === $this->getName()) {
-            $this->setId($this->getId() . '-' . ($this->username ?? $this->apiKey ?? $this->clientId));
+            $identityKey = $this->username ?? $this->apiKey ?? $this->clientId ?? '';
+            if (empty($identityKey)) {
+                throw new InvalidConfigException('The identity key is required.');
+            }
+            $this->setId($this->getId() . '-' . $identityKey);
         }
     }
 

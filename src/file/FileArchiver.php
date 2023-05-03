@@ -53,7 +53,7 @@ class FileArchiver extends BaseObject
     public $removeArchived = true;
 
     /**
-     * @return Filesystem|object|null
+     * @return Filesystem|null|object
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

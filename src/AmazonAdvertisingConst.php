@@ -7,6 +7,8 @@ namespace lujie\amazon\advertising;
 
 class AmazonAdvertisingConst
 {
+    #region API constants
+
     public const API_URL_NA = 'https://advertising-api.amazon.com';
     public const API_URL_EU = 'https://advertising-api-eu.amazon.com';
     public const API_URL_FE = 'https://advertising-api-fe.amazon.com';
@@ -22,6 +24,10 @@ class AmazonAdvertisingConst
     public const SCOPE_DSP = 'advertising::campaign_management';
     public const SCOPE_DATA_PROVIDER = 'advertising::audiences';
 
+    #endregion
+
+    #region REPORT constants
+
     public const V2REPORT_STATUS_IN_PROGRESS = 'IN_PROGRESS';
     public const V2REPORT_STATUS_SUCCESS = 'SUCCESS';
     public const V2REPORT_STATUS_FAILURE = 'FAILURE';
@@ -33,10 +39,6 @@ class AmazonAdvertisingConst
     public const AD_TYPE_PRODUCT = 'sp';
     public const AD_TYPE_BRAND = 'sb';
     public const AD_TYPE_DISPLAY = 'sd';
-
-    public const CAMPAIGN_TYPE_PRODUCT = 'sponsoredProducts';
-    public const CAMPAIGN_TYPE_BRAND = 'sponsoredBrands';
-    public const CAMPAIGN_TYPE_DISPLAY = 'sponsoredDisplay';
 
     public const AD_PRODUCT_PRODUCT = 'SPONSORED_PRODUCTS';
 
@@ -429,4 +431,37 @@ class AmazonAdvertisingConst
             'purchasedAsin' => '',
         ]
     ];
+
+    #endregion
+
+    #region AD constants
+
+    public const AD_STATE_ENABLED = 'enabled';
+    public const AD_STATE_PAUSED = 'paused';
+    public const AD_STATE_ARCHIVED = 'archived';
+
+    public const CAMPAIGN_TYPE_PRODUCT = 'sponsoredProducts';
+    public const CAMPAIGN_TYPE_BRAND = 'sponsoredBrands';
+    public const CAMPAIGN_TYPE_DISPLAY = 'sponsoredDisplay';
+
+    public const TARGETING_TYPE_AUTO = 'auto';
+    public const TARGETING_TYPE_MANUAL = 'manual';
+
+    public const BUDGET_TYPE_DAILY = 'daily';
+
+    public const BIDDING_STRATEGY_LEGACY_FOR_SALES = 'legacyForSales';
+    public const BIDDING_STRATEGY_AUTO_FOR_SALES = 'autoForSales';
+    public const BIDDING_STRATEGY_MANUAL = 'manual';
+
+    public const BID_OPTIMIZATION_CONVERSATIONS = 'conversions';
+    public const BID_OPTIMIZATION_CLICKS = 'clicks';
+
+    public const MATCH_TYPE_BOARD = 'board';
+    public const MATCH_TYPE_PHRASE = 'phrase';
+    public const MATCH_TYPE_EXACT = 'exact';
+
+    public const EXPRESSION_TYPE_AUTO = 'auto';
+    public const EXPRESSION_TYPE_MANUAL = 'manual';
+
+    #endregion
 }

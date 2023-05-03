@@ -256,6 +256,10 @@ class AmazonAdvertisingClient extends RestOAuth2
      */
     public $profileId;
 
+    public $httpClientOptions = [];
+
+   #region Rest
+
     /**
      * @var array
      */
@@ -368,6 +372,8 @@ class AmazonAdvertisingClient extends RestOAuth2
 //        'getV3TargetBidRecommendations' => ['POST', '/sp/targets/bid/recommendations'],
 //        'getV3TargetKeywordRecommendations' => ['POST', '/sp/targets/keywords/recommendations'],
     ];
+
+    #endregion
 
     public $customHeaders = [
         //V3Report

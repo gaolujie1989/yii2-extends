@@ -177,7 +177,7 @@ class FakerGuesser extends BaseObject
      * @return array
      * @inheritdoc
      */
-    public function guessValues(array $attributeTypes, bool $valid = true)
+    public function guessValues(array $attributeTypes, bool $valid = true): array
     {
         $values = [];
         foreach ($attributeTypes as $attribute => $type) {

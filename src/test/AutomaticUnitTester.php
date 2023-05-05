@@ -87,13 +87,4 @@ class AutomaticUnitTester extends BaseAutomaticTester
             array_keys($this->relations)
         );
     }
-
-    public function testSearch(BaseActiveRecord $model): void
-    {
-        $searchAttributes = $this->searchableAttributes;
-        $searchValues = [];
-        $message = 'Test search fields, search should be success';
-        $model->setAttributes($searchValues);
-        Assert::assertEquals(1, $model->query()->count());
-    }
 }

@@ -64,9 +64,9 @@ abstract class BaseAutomaticTester extends BaseObject
     /**
      * @var array
      * [
-     *  'xxx_no' => ['like' => false/true/L/R]
-     *  'status' => ['values' => [1,2,3]]
-     *  'xxx_at' => ['between' => [1,2,3]]
+     *  'xxx_no' => LIKE/LEFT_LIKE/BETWEEN
+     *  'status' => IN
+     *  'xxx_at' => BETWEEN
      * ]
      */
     public $searchableAttributes = [];
@@ -76,6 +76,9 @@ abstract class BaseAutomaticTester extends BaseObject
      */
     public $fakerGuesser;
 
+    /**
+     * @inheritdoc
+     */
     public function init(): void
     {
         parent::init();
@@ -177,4 +180,36 @@ abstract class BaseAutomaticTester extends BaseObject
     }
 
     abstract protected function testWithValidValuesAndReturnSavedValues(array $validValues): array;
+
+    public function testSearch(): void
+    {
+        $validValues = $this->generateValues(true);
+        $savedValues = $this->testWithValidValuesAndReturnSavedValues($validValues);
+        $withResultConditions = [];
+        $noResultConditions = [];
+        foreach ($this->searchableAttributes as $attribute => $searchType) {
+            if (is_int($attribute)) {
+                $attribute = $searchType;
+                $searchType = null;
+            }
+            switch ($searchType) {
+                case 'LIKE':
+                    $withResultCondition[] = [
+                        $attribute => $savedValues[$attribute]
+                    ];
+                    $noResultCondition = [
+                        $attribute => $savedValues[$attribute]
+                    ];
+                    break;
+                case 'LEFT_LIKE':
+                    break;
+                case 'BETWEEN':
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    abstract protected function testWithSearchValuesAndReturnResults(array $searchValues): array;
 }

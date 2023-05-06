@@ -222,8 +222,8 @@ trait PlentyMarketsRestExtendTrait
         $toCreateValues = array_diff_key($saveRelationValues, $existRelationValues);
         $toDeleteValues = array_diff_key($existRelationValues, $saveRelationValues);
         $toUpdateValues = [];
-        if ($updateKeys) {
-            $shouldUpdateValues = array_intersect_key($saveRelationValues, $existRelationValues);
+        $shouldUpdateValues = array_intersect_key($saveRelationValues, $existRelationValues);
+        if ($updateKeys && $shouldUpdateValues) {
             foreach ($shouldUpdateValues as $key => $toUpdateValue) {
                 $existValue = $existRelationValues[$key];
                 foreach ($updateKeys as $updateKey) {
@@ -238,14 +238,15 @@ trait PlentyMarketsRestExtendTrait
         }
 
         $bulkParts = ['ItemVariationSalesPrice', 'ItemVariationMarket', 'ItemVariationProperty', 'ItemShippingProfile'];
-        if (in_array($relationType, $bulkParts, true)) {
+        $isBulkParts = in_array($relationType, $bulkParts, true);
+        if ($isBulkParts) {
             $bulkCreateMethod = 'bulkCreate' . Inflector::pluralize($relationType);
             $bulkUpdateMethod = 'bulkUpdate' . Inflector::pluralize($relationType);
             $bulkDeleteMethod = 'bulkDelete' . Inflector::pluralize($relationType);
             $responseData = [];
             if ($toDeleteValues) {
                 $this->{$bulkDeleteMethod}($relationIds);
-                if ($createValues = array_merge($toCreateValues, $toUpdateValues)) {
+                if ($createValues = array_merge($toCreateValues, $shouldUpdateValues)) {
                     return $this->{$bulkCreateMethod}($createValues);
                 }
                 return [];

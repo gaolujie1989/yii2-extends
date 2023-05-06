@@ -47,9 +47,9 @@ class OttoCategoryProvider extends DbOptionProvider
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getQuery(string $type, ?string $key = null, ?string $value = null): QueryInterface
+    protected function getQuery(string $type, ?string $key = null, ?array $values = null, ?array $params = null): QueryInterface
     {
-        $query = parent::getQuery($type, $key, $value);
+        $query = parent::getQuery($type, $key, $values, $params);
         $query->addOrderBy(['category_group' => SORT_ASC, 'name' => SORT_ASC]);
         return $query;
     }

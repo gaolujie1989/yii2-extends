@@ -106,7 +106,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
      */
     public function getOptions(string $type, ?string $key = null, ?array $values = null, ?array $params = null): array
     {
-        $query = $this->getQuery($type, $key, $values);
+        $query = $this->getQuery($type, $key, $values, $params);
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */

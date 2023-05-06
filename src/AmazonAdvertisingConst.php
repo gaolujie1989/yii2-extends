@@ -444,6 +444,12 @@ class AmazonAdvertisingConst
     public const CAMPAIGN_TYPE_BRAND = 'sponsoredBrands';
     public const CAMPAIGN_TYPE_DISPLAY = 'sponsoredDisplay';
 
+    public const CAMPAIGN_AD_TYPES = [
+        self::CAMPAIGN_TYPE_PRODUCT => self::AD_TYPE_PRODUCT,
+        self::CAMPAIGN_TYPE_BRAND => self::AD_TYPE_BRAND,
+        self::CAMPAIGN_TYPE_DISPLAY => self::AD_TYPE_DISPLAY,
+    ];
+
     public const TARGETING_TYPE_AUTO = 'auto';
     public const TARGETING_TYPE_MANUAL = 'manual';
 

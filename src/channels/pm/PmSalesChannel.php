@@ -645,7 +645,7 @@ class PmSalesChannel extends BaseSalesChannel
                 $pmVariation = $this->client->getItemVariation([
                     'id' => $variationId,
                     'itemId' => $itemId,
-                    'with' => 'variationAttributeValues,variationBarcodes,variationBundleComponents,variationMarkets,variationSkus'
+                    'with' => 'variationAttributeValues,variationSalesPrices,variationBarcodes,variationBundleComponents,variationMarkets,variationSkus'
                 ]);
             }
             switch ($pushPart) {

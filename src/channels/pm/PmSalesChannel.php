@@ -253,7 +253,7 @@ class PmSalesChannel extends BaseSalesChannel
             return [SalesChannelConst::ITEM_PUSH_PART_ALL];
         }
         $pmSaveParts = array_intersect_key($this->pushedPartsMap, array_flip($pushedParts));
-        return array_merge(...$pmSaveParts);
+        return array_merge(...array_values($pmSaveParts));
     }
 
     /**

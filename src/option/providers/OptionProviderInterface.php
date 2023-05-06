@@ -22,18 +22,9 @@ interface OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $value
+     * @param string|array|null $values
      * @return array
      * @inheritdoc
      */
-    public function getOptions(string $type, ?string $key = null, ?string $value = null): array;
-
-    /**
-     * @param string $type
-     * @param string $value
-     * @param array $data
-     * @return array
-     * @inheritdoc
-     */
-    public function addOption(string $type, string $value, array $data = []): bool;
+    public function getOptions(string $type, ?string $key = null, ?array $values = null, ?array $params = null): array;
 }

@@ -9,6 +9,9 @@ use lujie\common\option\models\Option;
 use lujie\common\option\searches\OptionSearch;
 use lujie\extend\helpers\QueryHelper;
 use yii\base\BaseObject;
+use yii\db\ActiveQueryInterface;
+use yii\db\QueryInterface;
+use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -33,23 +36,14 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $value
+     * @param array|null $values
+     * @param array|null $params
      * @return array
      * @inheritdoc
      */
-    public function getOptions(string $type, ?string $key = null, ?string $value = null): array
+    public function getOptions(string $type, ?string $key = null, ?array $values = null, ?array $params = null): array
     {
-        $query = Option::find()
-            ->type($type)
-            ->select(['option_id', 'value', 'value_type', 'name', 'tag', 'labels'])
-            ->orderBy(['position' => SORT_ASC])
-            ->asArray();
-        if ($key) {
-            QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $this->like);
-        }
-        if ($value) {
-            QueryHelper::filterValue($query, ['value' => $value]);
-        }
+        $query = $this->getQuery($type, $key, $values, $params);
         $rows = $query->all();
         return array_map(static function($row) {
             $row = OptionSearch::formatValueLabel($row);
@@ -61,22 +55,25 @@ class OptionProvider extends BaseObject implements OptionProviderInterface
 
     /**
      * @param string $type
-     * @param string $value
-     * @param array $data
-     * @return bool
+     * @param string|null $key
+     * @param array|null $values
+     * @param array|null $params
+     * @return QueryInterface
      * @inheritdoc
      */
-    public function addOption(string $type, string $value, array $data = []): bool
+    protected function getQuery(string $type, ?string $key = null, ?array $values = null, ?array $params = null): QueryInterface
     {
-        $query = Option::find()->type($type)->value($value);
-        if ($query->exists()) {
-            return true;
+        $query = Option::find()
+            ->type($type)
+            ->select(['option_id', 'value', 'value_type', 'name', 'tag', 'labels'])
+            ->orderBy(['position' => SORT_ASC])
+            ->asArray();
+        if ($key) {
+            QueryHelper::filterKey($query, ['value', 'name', 'labels'], $key, $this->like);
         }
-        $option = new Option();
-        $option->type = $type;
-        $option->value = $value;
-        $option->name = $value;
-        $option->setAttributes($data);
-        return $option->save(false);
+        if ($values) {
+            QueryHelper::filterValue($query, ['value' => $values]);
+        }
+        return $query;
     }
 }

@@ -99,14 +99,14 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $value
+     * @param string|null $values
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getOptions(string $type, ?string $key = null, ?string $value = null): array
+    public function getOptions(string $type, ?string $key = null, ?array $values = null, ?array $params = null): array
     {
-        $query = $this->getQuery($type, $key, $value);
+        $query = $this->getQuery($type, $key, $values);
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */
@@ -126,26 +126,26 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $value
+     * @param string|null $values
      * @return QueryInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getQuery(string $type, ?string $key, ?string $value): QueryInterface
+    protected function getQuery(string $type, ?string $key = null, ?array $values = null, ?array $params = null): QueryInterface
     {
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
         }
         $query = clone $this->query;
         $query->andFilterWhere($this->condition)->addOrderBy($this->orderBy);
-        if (empty($value) && $this->limit) {
+        if (empty($values) && $this->limit) {
             $query->limit($this->limit);
         }
         if ($this->filterKeys && $key) {
             QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
         }
-        if ($this->valueKeys && $value) {
-            QueryHelper::filterKey($query, $this->valueKeys, $value);
+        if ($this->valueKeys && $values) {
+            QueryHelper::filterKey($query, $this->valueKeys, $values);
         }
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();
@@ -154,18 +154,5 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             $query->select(array_keys($this->keyMap))->distinct();
         }
         return $query;
-    }
-
-    /**
-     * @param string $type
-     * @param string $value
-     * @param array $data
-     * @return bool
-     * @throws NotSupportedException
-     * @inheritdoc
-     */
-    public function addOption(string $type, string $value, array $data = []): bool
-    {
-        throw new NotSupportedException('QueryOptionProvider not support add option');
     }
 }

@@ -6,6 +6,7 @@
 namespace lujie\common\option\searches;
 
 use lujie\common\option\OptionManager;
+use lujie\extend\helpers\ValueHelper;
 use yii\base\Model;
 use yii\di\Instance;
 
@@ -30,7 +31,9 @@ class OptionListSearch extends Model
 
     public $key;
 
-    public $value;
+    public $values;
+
+    public $params;
 
     /**
      * {@inheritdoc}
@@ -39,9 +42,34 @@ class OptionListSearch extends Model
     {
         return [
             [['type'], 'required'],
-            [['key', 'value'], 'default', 'value' => ''],
-            [['key', 'value'], 'string'],
+            [['key'], 'default', 'value' => ''],
+            [['key'], 'string'],
+            [['values'], 'validateValues'],
+            [['params'], 'validateParams'],
+            [['values', 'params'], 'each', 'rule' => ['safe']],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateValues(): void
+    {
+        if (!is_array($this->values)) {
+            $this->values = ValueHelper::strToArray((string)$this->values);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateParams(): void
+    {
+        if ($this->params) {
+            $this->params = (array)$this->params;
+        } else {
+            $this->params = [];
+        }
     }
 
     /**
@@ -59,7 +87,7 @@ class OptionListSearch extends Model
 
         $typeOptions  = [];
         foreach ((array)$this->type as $type) {
-            $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key ?: '', $this->value ?: '');
+            $typeOptions[$type] = $this->optionManager->getOptions($type, $this->key, $this->values, $this->params);
         }
         $this->options = $typeOptions;
         return true;
@@ -74,6 +102,8 @@ class OptionListSearch extends Model
         return [
             'type' => 'type',
             'key' => 'key',
+            'values' => 'values',
+            'params' => 'params',
             'options' => 'options',
         ];
     }

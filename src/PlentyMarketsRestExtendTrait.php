@@ -201,9 +201,6 @@ trait PlentyMarketsRestExtendTrait
     {
         $relationType = ucfirst($relationType);
         $eachMethod = 'each' . $relationType;
-        $createMethod = 'create' . $relationType;
-        $updateMethod = 'update' . $relationType;
-        $deleteMethod = 'delete' . $relationType;
         if ($existRelationValues === null) {
             $existRelationValues = $this->{$eachMethod}($relationIds);
             $existRelationValues = iterator_to_array($existRelationValues, false);
@@ -215,7 +212,6 @@ trait PlentyMarketsRestExtendTrait
         $saveRelationValues = ArrayHelper::index($saveRelationValues, $indexKeyFunc);
         $existRelationValues = ArrayHelper::index($existRelationValues, $indexKeyFunc);
 
-        $batchRequest = $this->createBatchRequest();
         $toCreateValues = array_diff_key($saveRelationValues, $existRelationValues);
         $toDeleteValues = array_diff_key($existRelationValues, $saveRelationValues);
         $toUpdateValues = [];
@@ -233,18 +229,40 @@ trait PlentyMarketsRestExtendTrait
                 }
             }
         }
-        $actionMethodValues = [
-            $deleteMethod => $toDeleteValues,
-            $updateMethod => $toUpdateValues,
-            $createMethod => $toCreateValues,
-        ];
-        foreach ($actionMethodValues as $actionMethod => $actionValues) {
-            foreach ($actionValues as $actionValue) {
-                /** @noinspection SlowArrayOperationsInLoopInspection */
-                $actionValue = array_merge($actionValue, $relationIds);
-                $batchRequest->{$actionMethod}($actionValue);
+
+        $bulkParts = ['VariationCategories', 'VariationSalesPrices', 'VariationMarkets', 'VariationProperties', 'ShippingProfiles'];
+        if (in_array($relationType, $bulkParts, true)) {
+            $createMethod = 'bulkCreate' . $relationType;
+            $updateMethod = 'bulkUpdate' . $relationType;
+            $deleteMethod = 'bulkDelete' . $relationType;
+            $actionMethodValues = array_filter([
+                $deleteMethod => $toDeleteValues,
+                $updateMethod => $toUpdateValues,
+                $createMethod => $toCreateValues,
+            ]);
+            $responseData = [];
+            foreach ($actionMethodValues as $actionMethod => $actionValues) {
+                $responseData[$actionMethod] = $this->{$actionMethod}($actionValues);
             }
+            return array_merge(...array_values($responseData));
+        } else {
+            $createMethod = 'create' . $relationType;
+            $updateMethod = 'update' . $relationType;
+            $deleteMethod = 'delete' . $relationType;
+            $actionMethodValues = array_filter([
+                $deleteMethod => $toDeleteValues,
+                $updateMethod => $toUpdateValues,
+                $createMethod => $toCreateValues,
+            ]);
+            $batchRequest = $this->createBatchRequest();
+            foreach ($actionMethodValues as $actionMethod => $actionValues) {
+                foreach ($actionValues as $actionValue) {
+                    /** @noinspection SlowArrayOperationsInLoopInspection */
+                    $actionValue = array_merge($actionValue, $relationIds);
+                    $batchRequest->{$actionMethod}($actionValue);
+                }
+            }
+            return $batchRequest->send();
         }
-        return $batchRequest->send();
     }
 }

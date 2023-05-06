@@ -564,10 +564,11 @@ class PmSalesChannel extends BaseSalesChannel
             throw new InvalidArgumentException('variation data must with item id');
         }
         // 可以自动关联保存:
-        // variationSalesPrices,
+        // variationSalesPrices, 傻逼PM, 原先可以，后来不行了
         // variationAttributeValues, variationProperties, variationCategories, variationClients,
         // variationBarcodes 傻逼PM, 原先可以，后来不行了
         $relatedParts = [
+            'variationSalesPrices' => null,
             'variationBarcodes' => null,
             'variationBundleComponents' => null,
             'variationMarkets' => null,
@@ -580,6 +581,7 @@ class PmSalesChannel extends BaseSalesChannel
 
         $pushParts = [
             'variation',
+            'variationSalesPrices',
             'variationBarcodes',
             'variationBundleComponents',
             'variationMarkets',
@@ -647,6 +649,7 @@ class PmSalesChannel extends BaseSalesChannel
                 ]);
             }
             switch ($pushPart) {
+                case 'variationSalesPrices':
                 case 'variationBarcodes':
                 case 'variationBundleComponents':
                 case 'variationMarkets':

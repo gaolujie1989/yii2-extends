@@ -9,6 +9,7 @@ use lujie\common\option\OptionManager;
 use lujie\extend\helpers\ValueHelper;
 use yii\base\Model;
 use yii\di\Instance;
+use yii\helpers\Json;
 
 /**
  * Class OptionSearch
@@ -65,9 +66,10 @@ class OptionListSearch extends Model
      */
     public function validateParams(): void
     {
-        if ($this->params) {
-            $this->params = (array)$this->params;
-        } else {
+        if ($this->params && is_string($this->params)) {
+            $this->params = Json::decode($this->params);
+        }
+        if (!is_array($this->params)) {
             $this->params = [];
         }
     }

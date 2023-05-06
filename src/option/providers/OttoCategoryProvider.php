@@ -24,13 +24,15 @@ class OttoCategoryProvider extends DbOptionProvider
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $value
-     * @return array
+     * @param array|null $values
+     * @param array|null $params
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getOptions(string $type, ?string $key = null, ?string $value = null): array
+    public function getOptions(string $type, ?string $key = null, ?array $values = null, ?array $params = null): array
     {
-        $ottoCategories = parent::getOptions($type, $key, $value);
+        $ottoCategories = parent::getOptions($type, $key, $values, $params);
         return array_map(function(array $category) {
             $categoryPath = $category['category_group'] . $this->separator . $category['name'];
             return [

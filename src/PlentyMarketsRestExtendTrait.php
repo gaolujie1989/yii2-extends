@@ -244,13 +244,22 @@ trait PlentyMarketsRestExtendTrait
             $bulkUpdateMethod = 'bulkUpdate' . Inflector::pluralize($relationType);
             $bulkDeleteMethod = 'bulkDelete' . Inflector::pluralize($relationType);
             $responseData = [];
-            if ($toDeleteValues) {
+            //傻逼PM, 如果删除了所有ItemVariationSalesPrice，价格会从MainVariation里面复制过来
+            if ($toDeleteValues && $relationType !== 'ItemVariationSalesPrice') {
                 $this->{$bulkDeleteMethod}($relationIds);
                 if ($createValues = array_merge($toCreateValues, $shouldUpdateValues)) {
                     return $this->{$bulkCreateMethod}($createValues);
                 }
                 return [];
             } else {
+                if ($toDeleteValues) {
+                    $deleteMethod = 'delete' . $relationType;
+                    $batchRequest = $this->createBatchRequest();
+                    foreach ($toDeleteValues as $toDeleteValue) {
+                        $batchRequest->{$deleteMethod}($toDeleteValue);
+                    }
+                    $batchRequest->send();
+                }
                 $actionMethodValues = array_filter([
                     $bulkUpdateMethod => $toUpdateValues,
                     $bulkCreateMethod => $toCreateValues,

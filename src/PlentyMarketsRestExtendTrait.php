@@ -230,7 +230,7 @@ trait PlentyMarketsRestExtendTrait
             }
         }
 
-        $bulkParts = ['VariationCategories', 'VariationSalesPrices', 'VariationMarkets', 'VariationProperties', 'ShippingProfiles'];
+        $bulkParts = ['ItemVariationCategories', 'ItemVariationSalesPrices', 'ItemVariationMarkets', 'ItemVariationProperties', 'ItemShippingProfiles'];
         if (in_array($relationType, $bulkParts, true)) {
             $createMethod = 'bulkCreate' . $relationType;
             $updateMethod = 'bulkUpdate' . $relationType;

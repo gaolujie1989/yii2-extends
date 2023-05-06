@@ -7,6 +7,7 @@ namespace lujie\plentyMarkets;
 
 use lujie\extend\helpers\ValueHelper;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 
 /**
  * Trait PlentyMarketsBatchRestTrait
@@ -206,6 +207,12 @@ trait PlentyMarketsRestExtendTrait
             $existRelationValues = iterator_to_array($existRelationValues, false);
         }
 
+        $mergeRelationIdsFuck = static function($values) use ($relationIds) {
+            return array_merge($values, $relationIds);
+        };
+        $saveRelationValues = array_map($mergeRelationIdsFuck, $saveRelationValues);
+        $existRelationValues = array_map($mergeRelationIdsFuck, $existRelationValues);
+
         $indexKeyFunc = static function ($values) use ($indexKeys) {
             return ValueHelper::getIndexValues($values, $indexKeys);
         };
@@ -230,21 +237,28 @@ trait PlentyMarketsRestExtendTrait
             }
         }
 
-        $bulkParts = ['ItemVariationCategories', 'ItemVariationSalesPrices', 'ItemVariationMarkets', 'ItemVariationProperties', 'ItemShippingProfiles'];
+        $bulkParts = ['ItemVariationSalesPrice', 'ItemVariationMarket', 'ItemVariationProperty', 'ItemShippingProfile'];
         if (in_array($relationType, $bulkParts, true)) {
-            $createMethod = 'bulkCreate' . $relationType;
-            $updateMethod = 'bulkUpdate' . $relationType;
-            $deleteMethod = 'bulkDelete' . $relationType;
-            $actionMethodValues = array_filter([
-                $deleteMethod => $toDeleteValues,
-                $updateMethod => $toUpdateValues,
-                $createMethod => $toCreateValues,
-            ]);
+            $bulkCreateMethod = 'bulkCreate' . Inflector::pluralize($relationType);
+            $bulkUpdateMethod = 'bulkUpdate' . Inflector::pluralize($relationType);
+            $bulkDeleteMethod = 'bulkDelete' . Inflector::pluralize($relationType);
             $responseData = [];
-            foreach ($actionMethodValues as $actionMethod => $actionValues) {
-                $responseData[$actionMethod] = $this->{$actionMethod}($actionValues);
+            if ($toDeleteValues) {
+                $this->{$bulkDeleteMethod}($relationIds);
+                if ($createValues = array_merge($toCreateValues, $toUpdateValues)) {
+                    return $this->{$bulkCreateMethod}($createValues);
+                }
+                return [];
+            } else {
+                $actionMethodValues = array_filter([
+                    $bulkUpdateMethod => $toUpdateValues,
+                    $bulkCreateMethod => $toCreateValues,
+                ]);
+                foreach ($actionMethodValues as $actionMethod => $actionValues) {
+                    $responseData[$actionMethod] = $this->{$actionMethod}($actionValues);
+                }
+                return array_merge(...array_values($responseData));
             }
-            return array_merge(...array_values($responseData));
         } else {
             $createMethod = 'create' . $relationType;
             $updateMethod = 'update' . $relationType;
@@ -257,8 +271,6 @@ trait PlentyMarketsRestExtendTrait
             $batchRequest = $this->createBatchRequest();
             foreach ($actionMethodValues as $actionMethod => $actionValues) {
                 foreach ($actionValues as $actionValue) {
-                    /** @noinspection SlowArrayOperationsInLoopInspection */
-                    $actionValue = array_merge($actionValue, $relationIds);
                     $batchRequest->{$actionMethod}($actionValue);
                 }
             }

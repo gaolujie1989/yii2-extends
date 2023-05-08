@@ -71,9 +71,7 @@ class BatchForm extends Model
      */
     public function attributes(): array
     {
-        /** @var BaseActiveRecord $model */
-        $model = new $this->modelClass();
-        return $model->safeAttributes();
+        return $this->safeAttributes();
     }
 
     /**

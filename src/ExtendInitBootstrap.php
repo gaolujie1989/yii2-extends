@@ -6,6 +6,7 @@
 namespace lujie\extend;
 
 use lujie\extend\helpers\MemoryHelper;
+use lujie\extend\httpclient\JsonFormatter;
 use lujie\extend\httpclient\Response;
 use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
@@ -137,6 +138,9 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                     'responseConfig' => [
                         'class' => Response::class,
                     ],
+                    'formatters' => [
+                        Client::FORMAT_JSON => JsonFormatter::class,
+                    ]
                 ],
             ]);
         }

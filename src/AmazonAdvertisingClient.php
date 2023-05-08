@@ -456,7 +456,7 @@ class AmazonAdvertisingClient extends RestOAuth2
     {
         foreach ($this->resources as $resource => $url) {
             foreach ($this->versionActions as $version => $actions) {
-                if (strpos($resource, $version) !== false) {
+                if (str_contains($resource, $version)) {
                     $this->extraActions[$resource] = array_merge($actions, $this->extraActions[$resource] ?? []);
                 }
             }
@@ -491,11 +491,11 @@ class AmazonAdvertisingClient extends RestOAuth2
         ];
         if ($this->profileId) {
             $headers['Amazon-Advertising-API-Scope'] = $this->profileId;
-        } else if (strpos($request->getUrl(), 'profiles') === false) {
+        } else if (!str_contains($request->getUrl(), 'profiles')) {
             throw new InvalidCallException('Missing profileId');
         }
         foreach ($this->customHeaders as $pathPrefix => $pathHeaders) {
-            if (strpos($request->getUrl(), $pathPrefix) === 0) {
+            if (str_starts_with($request->getUrl(), $pathPrefix)) {
                 $headers = array_merge($headers, $pathHeaders);
                 break;
             }

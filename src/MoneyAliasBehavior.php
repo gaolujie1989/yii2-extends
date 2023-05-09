@@ -58,6 +58,10 @@ class MoneyAliasBehavior extends AliasPropertyBehavior
      */
     public function setAliasProperty(string $name, $value): void
     {
+        if ($value === null) {
+            parent::setAliasProperty($name, $value);
+            return;
+        }
         if (!is_numeric($value)) {
             $value = strtr(trim($value), [',' => '.']);
         }

@@ -137,7 +137,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             $this->db = Instance::ensure($this->db);
         }
         $query = clone $this->query;
-        $query->andFilterWhere($this->condition)->addOrderBy($this->orderBy);
+        $query->andWhere($this->condition)->addOrderBy($this->orderBy);
         if (empty($values) && $this->limit) {
             $query->limit($this->limit);
         }

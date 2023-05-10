@@ -466,9 +466,9 @@ class AmazonAdvertisingConst
     public const MATCH_TYPE_PHRASE = 'phrase';
     public const MATCH_TYPE_EXACT = 'exact';
 
-    public const NEGATIVE_MATCH_TYPE_BROAD = 'negativeBroad';
-    public const NEGATIVE_MATCH_TYPE_PHRASE = 'negativePhrase';
-    public const NEGATIVE_MATCH_TYPE_EXACT = 'negativeExact';
+    public const MATCH_TYPE_NEGATIVE_BROAD = 'negativeBroad';
+    public const MATCH_TYPE_NEGATIVE_PHRASE = 'negativePhrase';
+    public const MATCH_TYPE_NEGATIVE_EXACT = 'negativeExact';
 
     public const EXPRESSION_TYPE_AUTO = 'auto';
     public const EXPRESSION_TYPE_MANUAL = 'manual';

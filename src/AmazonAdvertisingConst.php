@@ -462,9 +462,13 @@ class AmazonAdvertisingConst
     public const BID_OPTIMIZATION_CONVERSATIONS = 'conversions';
     public const BID_OPTIMIZATION_CLICKS = 'clicks';
 
-    public const MATCH_TYPE_BOARD = 'board';
+    public const MATCH_TYPE_BROAD = 'broad';
     public const MATCH_TYPE_PHRASE = 'phrase';
     public const MATCH_TYPE_EXACT = 'exact';
+
+    public const NEGATIVE_MATCH_TYPE_BROAD = 'negativeBroad';
+    public const NEGATIVE_MATCH_TYPE_PHRASE = 'negativePhrase';
+    public const NEGATIVE_MATCH_TYPE_EXACT = 'negativeExact';
 
     public const EXPRESSION_TYPE_AUTO = 'auto';
     public const EXPRESSION_TYPE_MANUAL = 'manual';

@@ -70,10 +70,10 @@ trait RelationBehaviorTrait
      * @return array
      * @inheritdoc
      */
-    public function getSavedRelations(): array
+    public function getSavedRelations(string $name): array
     {
         /** @var RelationSavableBehavior $behavior */
         $behavior = $this->getBehavior('relationSave');
-        return $behavior->getSavedRelations();
+        return $behavior->getSavedRelations($name);
     }
 }

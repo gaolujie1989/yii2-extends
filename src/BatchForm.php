@@ -110,13 +110,13 @@ class BatchForm extends Model
         $attributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
         if (empty($attributes)) {
             $this->addError('attributes', 'Attributes cannot be empty.');
-            return true;
+            return false;
         }
 
         $models = $this->findModels();
         if (empty($models)) {
             $this->addError('models', 'Models cannot be empty.');
-            return true;
+            return false;
         }
 
         foreach ($models as $model) {

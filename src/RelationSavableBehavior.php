@@ -203,6 +203,24 @@ class RelationSavableBehavior extends Behavior
     #region relation action set/validate/save
 
     /**
+     * @return BaseActiveRecord[]|\yii\db\BaseActiveRecord[][]
+     * @inheritdoc
+     */
+    public function getSavedRelations(): array
+    {
+        return $this->savedRelations;
+    }
+
+    /**
+     * @return BaseActiveRecord[]|\yii\db\BaseActiveRecord[][]
+     * @inheritdoc
+     */
+    public function getDeletedRelations(): array
+    {
+        return $this->deletedRelations;
+    }
+
+    /**
      * convert array data to models
      * for not multi relations, should set link attribute first, then set relation data,
      * because it will load one relation model first and check, then set with relation

@@ -5,15 +5,11 @@
 
 namespace lujie\amazon\advertising;
 
-use lujie\extend\authclient\OAuthExtendTrait;
-use lujie\extend\authclient\RestApiTrait;
 use lujie\extend\authclient\RestOAuth2;
 use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\InvalidResponseException;
-use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
 use yii\base\InvalidCallException;
-use yii\helpers\Inflector;
 use yii\httpclient\Request;
 
 /**
@@ -222,6 +218,8 @@ use yii\httpclient\Request;
  * @method array createV3DisplaySnapshot($data)
  * @method array getV3DisplaySnapshot($data)
  * @method array downloadV3DisplaySnapshot($data)
+ * @method array getV3TargetBidRecommendations($data)
+ * @method array getV3TargetKeywordRecommendations($data)
  *
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -369,8 +367,8 @@ class AmazonAdvertisingClient extends RestOAuth2
         'getV3DisplaySnapshot' => ['GET', '/sd/snapshots/{id}', true],
         'downloadV3DisplaySnapshot' => ['GET', '/sd/snapshots/{id}/download', true],
         //V3Products Recommendations
-//        'getV3TargetBidRecommendations' => ['POST', '/sp/targets/bid/recommendations'],
-//        'getV3TargetKeywordRecommendations' => ['POST', '/sp/targets/keywords/recommendations'],
+        'getV3TargetBidRecommendations' => ['POST', '/sp/targets/bid/recommendations'],
+        'getV3TargetKeywordRecommendations' => ['POST', '/sp/targets/keywords/recommendations'],
     ];
 
     #endregion

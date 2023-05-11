@@ -374,6 +374,10 @@ class AmazonAdvertisingClient extends RestOAuth2
     #endregion
 
     public $customHeaders = [
+        '/sp/targets/bid/recommendations' => [
+            'Accept' => 'application/vnd.spthemebasedbidrecommendation.v3+json',
+            'Content-Type' => 'application/vnd.spthemebasedbidrecommendation.v3+json',
+        ],
         //V3Report
         '/reporting/reports' => [
             'Content-Type' => 'application/vnd.createasyncreportrequest.v3+json',

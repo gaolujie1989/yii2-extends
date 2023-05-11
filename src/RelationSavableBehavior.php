@@ -206,18 +206,18 @@ class RelationSavableBehavior extends Behavior
      * @return BaseActiveRecord[]|\yii\db\BaseActiveRecord[][]
      * @inheritdoc
      */
-    public function getSavedRelations(): array
+    public function getSavedRelations(string $name): array
     {
-        return $this->savedRelations;
+        return $this->savedRelations[$name] ?? [];
     }
 
     /**
      * @return BaseActiveRecord[]|\yii\db\BaseActiveRecord[][]
      * @inheritdoc
      */
-    public function getDeletedRelations(): array
+    public function getDeletedRelations(string $name): array
     {
-        return $this->deletedRelations;
+        return $this->deletedRelations[$name] ?? [];
     }
 
     /**

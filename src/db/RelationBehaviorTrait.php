@@ -65,4 +65,15 @@ trait RelationBehaviorTrait
         $behavior = $this->getBehavior('relationSave');
         $behavior->setRelation($name, $data);
     }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getSavedRelations(): array
+    {
+        /** @var RelationSavableBehavior $behavior */
+        $behavior = $this->getBehavior('relationSave');
+        return $behavior->getSavedRelations();
+    }
 }

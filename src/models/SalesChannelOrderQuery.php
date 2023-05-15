@@ -33,9 +33,8 @@ use lujie\sales\channel\constants\SalesChannelConst;
  * @method SalesChannelOrderQuery createdAtBetween($from, $to = null)
  * @method SalesChannelOrderQuery updatedAtBetween($from, $to = null)
  *
- * @method SalesChannelOrderQuery pendingOrProcessing()
- * @method SalesChannelOrderQuery toShipped()
- * @method SalesChannelOrderQuery toCancelled()
+ * @method SalesChannelOrderQuery needPull()
+ * @method SalesChannelOrderQuery needPush()
  *
  * @method SalesChannelOrderQuery orderBySalesChannelOrderId($sort = SORT_ASC)
  * @method SalesChannelOrderQuery orderBySalesChannelAccountId($sort = SORT_ASC)
@@ -95,15 +94,19 @@ class SalesChannelOrderQuery extends \yii\db\ActiveQuery
                     'updatedAtBetween' => ['updated_at' => 'BETWEEN'],
                 ],
                 'queryConditions' => [
-                    'pendingOrProcessing' => [
+                    'needPull' => [
                         'sales_channel_status' => [
                             SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT,
                             SalesChannelConst::CHANNEL_STATUS_PAID,
                             SalesChannelConst::CHANNEL_STATUS_PENDING,
                         ]
                     ],
-                    'toShipped' => ['sales_channel_status' => SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED],
-                    'toCancelled' => ['sales_channel_status' => SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED],
+                    'needPush' => [
+                        'sales_channel_status' => [
+                            SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED,
+                            SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED,
+                        ]
+                    ],
                 ],
                 'querySorts' => [
                     'orderBySalesChannelOrderId' => 'sales_channel_order_id',

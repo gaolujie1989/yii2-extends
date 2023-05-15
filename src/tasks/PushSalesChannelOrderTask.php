@@ -17,6 +17,17 @@ use yii\di\Instance;
  */
 class PushSalesChannelOrderTask extends BaseSalesChannelTask
 {
+    public $salesChannelOrderIds = [];
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return array_merge(['salesChannelOrderIds'], parent::getParams());
+    }
+
     /**
      * @return bool
      * @throws InvalidConfigException
@@ -29,16 +40,11 @@ class PushSalesChannelOrderTask extends BaseSalesChannelTask
         foreach ($accountIds as $accountId) {
             $query = SalesChannelOrder::find()
                 ->salesChannelAccountId($accountId)
-                ->toShipped()
+                ->needPush()
                 ->notQueuedOrQueuedButNotExecuted();
-            foreach ($query->each() as $salesChannelOrder) {
-                $this->salesChannelManager->pushSalesChannelOrderJob($salesChannelOrder);
+            if ($this->salesChannelOrderIds) {
+                $query->salesChannelOrderId($this->salesChannelOrderIds);
             }
-
-            $query = SalesChannelOrder::find()
-                ->salesChannelAccountId($accountId)
-                ->toCancelled()
-                ->notQueuedOrQueuedButNotExecuted();
             foreach ($query->each() as $salesChannelOrder) {
                 $this->salesChannelManager->pushSalesChannelOrderJob($salesChannelOrder);
             }

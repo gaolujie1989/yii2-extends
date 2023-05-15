@@ -40,6 +40,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
      * @var DataLoaderInterface
      */
     public $salesChannelLoader = 'salesChannelLoader';
+
     /**
      * @var Queue
      */
@@ -79,7 +80,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
 
     /**
      * @param int $channelAccountId
-     * @return SalesChannelInterface
+     * @return SalesChannelInterface|object
      * @throws InvalidConfigException
      * @inheritdoc
      */
@@ -210,7 +211,7 @@ class SalesChannelManager extends Component implements BootstrapInterface
     {
         $query = SalesChannelOrder::find()
             ->salesChannelOrderId($accountId)
-            ->pendingOrProcessing()
+            ->needPull()
             ->orderByOrderPulledAt()
             ->limit($limit);
         if (!$query->exists()) {

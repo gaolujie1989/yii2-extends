@@ -30,7 +30,7 @@ use yii\helpers\ArrayHelper;
  */
 abstract class BaseSalesChannel extends Component implements SalesChannelInterface
 {
-    public const EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED = 'SALES_CHANNEL_ORDER_UPDATED';
+    public const EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED = 'AFTER_SALES_CHANNEL_ORDER_UPDATED';
 
     /**
      * @var SalesChannelAccount
@@ -208,9 +208,11 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $salesChannelOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
         $salesChannelOrder->external_order_status = (string)$externalOrder[$this->externalOrderStatusField];
 
-        $newSalesChannelStatus = $this->getSalesChannelStatus($salesChannelOrder->external_order_status);
+        $newSalesChannelStatus = $this->getSalesChannelStatus($externalOrder);
         if ($newSalesChannelStatus) {
             $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
+            //如果现在的状态在没有在SalesChannelStatusActionTransitions中，直接更新
+            //如果现在的在SalesChannelStatusActionTransitions中，说明系统正在执行动作，只运行动作中的状态更新
             if ($statusTransitions === null
                 || ($changeActionStatus && in_array((int)$newSalesChannelStatus, $statusTransitions, true))) {
                 $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
@@ -227,12 +229,13 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     }
 
     /**
-     * @param string $externalOrderStatus
+     * @param array $externalOrder
      * @return int|null
      * @inheritdoc
      */
-    protected function getSalesChannelStatus(string $externalOrderStatus): ?int
+    protected function getSalesChannelStatus(array $externalOrder): ?int
     {
+        $externalOrderStatus = (string)$externalOrder[$this->externalOrderStatusField];
         return $this->salesChannelStatusMap[$externalOrderStatus] ?? null;
     }
 
@@ -307,7 +310,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
         $externalOrder = $this->getExternalOrder($externalOrderKey);
         $externalOrderStatus = (string)$externalOrder[$this->externalOrderStatusField];
-        $newSalesChannelStatus = $this->getSalesChannelStatus($externalOrderStatus);
+        $newSalesChannelStatus = $this->getSalesChannelStatus($externalOrder);
 
         if ($salesChannelStatus === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
             if ($newSalesChannelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
@@ -514,13 +517,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     protected function updateSalesChannelItem(SalesChannelItem $salesChannelItem, array $externalItem): bool
     {
         $salesChannelItem->external_item_key = $externalItem[$this->externalItemKeyField];
-        $pushedParts = $salesChannelItem->item_pushed_parts ?: [];
-        $isStockPushed = empty($pushedParts)
-            || in_array(SalesChannelConst::ITEM_PUSH_PART_ALL, $pushedParts, true)
-            || in_array(SalesChannelConst::ITEM_PUSH_PART_STOCK, $pushedParts, true);
-        if ($salesChannelItem->item_pushed_status === ExecStatusConst::EXEC_STATUS_SUCCESS && $isStockPushed) {
-            $salesChannelItem->stock_pushed_at = $salesChannelItem->item_pushed_at;
-        }
         return $salesChannelItem->save(false);
     }
 
@@ -575,12 +571,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
     #endregion
 
+    #region Common Methods
+
     /**
      * @param SalesChannelItem|SalesChannelOrder $salesChannelItemOrOrder
      * @return bool
      * @inheritdoc
      */
-    protected function validateSalesChannelAccount($salesChannelItemOrOrder): bool
+    protected function validateSalesChannelAccount(SalesChannelItem|SalesChannelOrder $salesChannelItemOrOrder): bool
     {
         if ($salesChannelItemOrOrder->sales_channel_account_id !== $this->account->account_id) {
             $message = "SalesChannelItemOrOrder {$salesChannelItemOrOrder->sales_channel_order_id} with other account";
@@ -610,4 +608,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         }
         return true;
     }
+
+    #endregion
 }

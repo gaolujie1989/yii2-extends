@@ -28,6 +28,15 @@ class BaseSalesChannelTask extends CronTask
     public $accountNames = [];
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return array_merge(['accountNames'], parent::getParams());
+    }
+
+    /**
      * @return SalesChannelAccountQuery
      * @inheritdoc
      */

@@ -29,6 +29,18 @@ class PushSalesChannelItemStockTask extends BaseSalesChannelTask
     public $pushBatchSize = 20;
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return array_merge(
+            ['timePeriod', 'pullLimit', 'pullBatchSize'],
+            parent::getParams()
+        );
+    }
+
+    /**
      * @return bool
      * @throws InvalidConfigException
      * @inheritdoc

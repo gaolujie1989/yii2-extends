@@ -132,12 +132,13 @@ class PmSalesChannel extends BaseSalesChannel
     }
 
     /**
-     * @param string $externalOrderStatus
+     * @param array $externalOrder
      * @return int|null
      * @inheritdoc
      */
-    protected function getSalesChannelStatus(string $externalOrderStatus): ?int
+    protected function getSalesChannelStatus(array $externalOrder): ?int
     {
+        $externalOrderStatus = $externalOrder[$this->externalOrderStatusField];
         $salesChannelStatus = parent::getSalesChannelStatus($externalOrderStatus);
         if ($salesChannelStatus !== null) {
             return $salesChannelStatus;

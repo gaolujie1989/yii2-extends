@@ -5,6 +5,7 @@
 
 namespace lujie\sales\channel\channels\otto;
 
+use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
@@ -37,6 +38,11 @@ class OttoSalesChannel extends BaseSalesChannel
      * @var string
      */
     public $externalOrderKeyField = 'salesOrderId';
+
+    /**
+     * @var TransformerInterface
+     */
+    public $orderTransformer = OttoSalesChannelOrderTransformer::class;
 
     /**
      * @throws InvalidConfigException
@@ -95,12 +101,7 @@ class OttoSalesChannel extends BaseSalesChannel
             return $this->getExternalOrder($salesChannelOrder->external_order_key);
         }
         if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
-            $this->client->createV1Shipment([
-                'trackingKey' => [
-                    'carrier' => $externalOrder['carrier'],
-                    'trackingNumber' => $externalOrder['trackingNumbers'],
-                ],
-                'shipDate' => date('c', $externalOrder['shipped_at']),
+            $this->client->createV1Shipment(array_merge($externalOrder, [
                 'shipFromAddress' => [
                     'city' => '',
                     'countryCode' => '',
@@ -113,7 +114,7 @@ class OttoSalesChannel extends BaseSalesChannel
                         'returnTrackingKey' => '',
                     ]
                 ]
-            ]);
+            ]));
             return $this->getExternalOrder($salesChannelOrder->external_order_key);
         }
         return null;

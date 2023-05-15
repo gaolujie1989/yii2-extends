@@ -295,7 +295,7 @@ class QueryHelper
     ): void
     {
         $query->andWhere(['OR',
-            ['IN', $statusColumn, [ExecStatusConst::EXEC_STATUS_PENDING, ExecStatusConst::EXEC_STATUS_FAILED]],
+            ['NOT IN', $statusColumn, [ExecStatusConst::EXEC_STATUS_QUEUED, ExecStatusConst::EXEC_STATUS_RUNNING]],
             ['AND',
                 [$statusColumn => [ExecStatusConst::EXEC_STATUS_QUEUED, ExecStatusConst::EXEC_STATUS_RUNNING]],
                 ['<=', $updatedAtColumn, time() - $queuedDuration],

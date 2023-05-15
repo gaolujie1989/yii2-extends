@@ -41,6 +41,15 @@ abstract class BasePullOttoCommonItemsTask extends BaseSalesChannelTask implemen
     public $importer;
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return array_merge(['page', 'total'], parent::getParams());
+    }
+
+    /**
      * @return \Generator
      * @throws UserException
      * @throws \yii\base\InvalidConfigException

@@ -5,13 +5,10 @@
 
 namespace lujie\sales\channel;
 
-use lujie\data\loader\ActiveRecordDataLoader;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\helpers\ClassHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
-use lujie\sales\channel\forms\SalesChannelOrderForm;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -28,6 +25,11 @@ use yii\di\Instance;
  */
 abstract class BaseSalesChannelConnector extends Component implements BootstrapInterface
 {
+    /**
+     * @var SalesChannelManager
+     */
+    public $salesChannelManager = 'salesChannelManager';
+
     /**
      * @var string|BaseActiveRecord
      */
@@ -91,12 +93,14 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         if ($this->orderLoader) {
             $this->orderLoader = Instance::ensure($this->orderLoader, DataLoaderInterface::class);
         }
+        $this->salesChannelManager = Instance::ensure($this->salesChannelManager, SalesChannelManager::class);
     }
 
     #region Outbound Order Trigger
 
     /**
      * @param AfterSaveEvent $event
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function afterOrderSaved(AfterSaveEvent $event): void
@@ -120,8 +124,9 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
     }
 
     /**
-     * @param BaseActiveRecord|TraceableBehaviorTrait $order
+     * @param BaseActiveRecord $order
      * @return bool|null
+     * @throws InvalidConfigException
      * @inheritdoc
      */
     public function updateSalesChannelOrder(BaseActiveRecord $order): ?bool
@@ -131,7 +136,7 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
             return null;
         }
         $orderId = $order->primaryKey;
-        $salesChannelOrder = SalesChannelOrderForm::find()->orderId($orderId)->one();
+        $salesChannelOrder = SalesChannelOrder::find()->orderId($orderId)->one();
         if ($salesChannelOrder === null) {
             return null;
         }
@@ -139,11 +144,17 @@ abstract class BaseSalesChannelConnector extends Component implements BootstrapI
         if (in_array($salesChannelOrder->sales_channel_status, $finishedStatus, true)) {
             return null;
         }
+        if ($order->hasAttribute('updated_at')) {
+            $salesChannelOrder->order_updated_at = $order->getAttribute('updated_at');
+        }
         $salesChannelOrder->order_status = $orderStatus;
-        $salesChannelOrder->order_updated_at = $order->updated_at;
         $salesChannelOrder->sales_channel_status = $this->salesChannelStatusMap[$orderStatus];
         $this->updateSalesChannelOrderAdditional($salesChannelOrder, $order);
-        return $salesChannelOrder->save(false);
+        if ($salesChannelOrder->save(false)) {
+            $this->salesChannelManager->pushSalesChannelOrderJob($salesChannelOrder);
+            return true;
+        }
+        return false;
     }
 
     /**

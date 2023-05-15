@@ -32,7 +32,7 @@ interface SalesChannelInterface
     public function pullNewSalesOrders(int $createdAtFrom, int $createdAtTo): void;
 
     /**
-     * @param SalesChannelOrder $channelOrder
+     * @param SalesChannelOrder $salesChannelOrder
      * @return bool
      * @inheritdoc
      */

@@ -494,7 +494,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
     /**
      * @param array $externalItem
-     * @param SalesChannelItem $salesChannelItem
      * @return array|null
      * @inheritdoc
      */
@@ -522,7 +521,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
 
     /**
      * @param SalesChannelItem $salesChannelItem
-     * @return array
+     * @return bool
      * @throws NotSupportedException
      * @inheritdoc
      */

@@ -13,7 +13,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use XLSXWriter;
 use yii\base\BaseObject;
 use yii\helpers\FileHelper;
 use yii\imagine\Image;

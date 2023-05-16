@@ -458,6 +458,7 @@ class AmazonAdvertisingConst
     public const BIDDING_STRATEGY_LEGACY_FOR_SALES = 'legacyForSales';
     public const BIDDING_STRATEGY_AUTO_FOR_SALES = 'autoForSales';
     public const BIDDING_STRATEGY_MANUAL = 'manual';
+    public const BIDDING_STRATEGY_RULE_BASED = 'ruleBased';
 
     public const BID_OPTIMIZATION_CONVERSATIONS = 'conversions';
     public const BID_OPTIMIZATION_CLICKS = 'clicks';

@@ -120,7 +120,7 @@ class BatchForm extends Model
         }
 
         foreach ($models as $model) {
-            $model->setAttributes($attributes, $this->modelSafeOnly);
+            $this->setModelAttributes($model, $attributes);
         }
 
         if ($this->validateModels && !Model::validateMultiple($models, $attributeNames)) {
@@ -139,6 +139,16 @@ class BatchForm extends Model
             return true;
         };
         return TransactionHelper::transaction($callable, $this->modelClass::getDb());
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @param array $attributes
+     * @inheritdoc
+     */
+    protected function setModelAttributes(BaseActiveRecord $model, array $attributes): void
+    {
+        $model->setAttributes($attributes, $this->modelSafeOnly);
     }
 
     /**

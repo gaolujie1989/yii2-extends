@@ -87,4 +87,9 @@ class AutomaticUnitTester extends BaseAutomaticTester
             array_keys($this->relations)
         );
     }
+
+    protected function testWithSearchValuesAndReturnResults(array $searchValues): array
+    {
+        // TODO: Implement testWithSearchValuesAndReturnResults() method.
+    }
 }

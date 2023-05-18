@@ -84,4 +84,9 @@ class AutomaticFunctionalTester extends BaseAutomaticTester
         Assert::assertEquals(200, $response['status']);
         return $response['data'] ?? [];
     }
+
+    protected function testWithSearchValuesAndReturnResults(array $searchValues): array
+    {
+        // TODO: Implement testWithSearchValuesAndReturnResults() method.
+    }
 }

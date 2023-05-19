@@ -13,8 +13,8 @@ namespace lujie\extend\constants;
 class ExecStatusConst
 {
     public const EXEC_STATUS_PENDING = 0; //wait to run
-    public const EXEC_STATUS_RUNNING = 1;
-    public const EXEC_STATUS_ASYNCING = 9; //processing by external service, should queue(but not set status to queued) and wait for callback
+    public const EXEC_STATUS_RUNNING = 1; //running
+    public const EXEC_STATUS_ASYNCING = 2; //processing by external service, should queue(but not set status to queued) and wait for callback
     public const EXEC_STATUS_INVALID = 5; //failed by validation, should not retry
     public const EXEC_STATUS_SUCCESS = 10;
     public const EXEC_STATUS_FAILED = 11; //failed by code exception, need retry(network) or fix, should throw exception and notify to developer

@@ -17,15 +17,14 @@ use yii\httpclient\Client;
  * Class EbayRestClient
  *
  * @method array listOrders($data = [])
- * @method \Generator eachOrder($condition = [], $batchSize = 100)
- * @method \Generator batchOrder($condition = [], $batchSize = 100)
+ * @method \Generator eachOrders($condition = [], $batchSize = 100)
+ * @method \Generator batchOrders($condition = [], $batchSize = 100)
  * @method array getOrder($data)
- * @method array createOrder($data)
- * @method array updateOrder($data)
- * @method array deleteOrder($data)
+ * @method array shipOrder($data)
  *
  * @package lujie\ebay
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @document https://developer.ebay.com/develop/apis/restful-apis/sell-apis
  */
 class EbayRestClient extends RestOAuth2
 {
@@ -65,6 +64,10 @@ class EbayRestClient extends RestOAuth2
      */
     public $resources = [
         'Order' => 'sell/fulfillment/v1/order',
+        'InventoryItem' => 'sell/inventory/v1/inventory_item',
+        'InventoryItemGroup' => 'sell/inventory/v1/inventory_item_group',
+        'InventoryLocation' => 'sell/inventory/v1/location',
+        'InventoryOffer' => 'sell/inventory/v1/offer',
     ];
 
     /**
@@ -76,6 +79,52 @@ class EbayRestClient extends RestOAuth2
      * @var array
      */
     public $extraActions = [
+        'Order' => [
+            'create' => false,
+            'update' => false,
+            'delete' => false,
+            'ship' => ['POST', '{orderId}/shipping_fulfillment'],
+        ],
+        'InventoryItem' => [
+            'create' => false,
+            'update' => false,
+            'get' => ['GET', '{sku}'],
+            'save' => ['PUT', '{sku}'],
+            'delete' => ['DELETE', '{sku}'],
+        ],
+        'InventoryItemGroup' => [
+            'create' => false,
+            'update' => false,
+            'get' => ['GET', '{inventoryItemGroupKey}'],
+            'save' => ['PUT', '{inventoryItemGroupKey}'],
+            'delete' => ['DELETE', '{inventoryItemGroupKey}'],
+        ],
+        'InventoryLocation' => [
+            'get' => ['GET', '{merchantLocationKey}'],
+            'create' => ['POST', '{merchantLocationKey}'],
+            'update' => ['PUT', '{merchantLocationKey}/update_location_details'],
+            'enable' => ['POST', '{merchantLocationKey}/enable'],
+            'disable' => ['POST ', '{merchantLocationKey}/disable'],
+            'delete' => ['DELETE', '{merchantLocationKey}'],
+        ],
+        'InventoryOffer' => [
+            'get' => ['GET', '{offerId}'],
+            'getListingFees' => ['GET', 'get_listing_fees'],
+            'update' => ['PUT', '{offerId}'],
+            'delete' => ['DELETE', '{offerId}'],
+            'withdraw' => ['POST', '{offerId}/withdraw'],
+            'withdrawByInventoryItemGroup' => ['POST', 'withdraw_by_inventory_item_group'],
+            'publish' => ['POST', '{offerId}/publish'],
+            'publishByInventoryItemGroup' => ['POST', 'publish_by_inventory_item_group'],
+        ]
+    ];
+
+    public $extraMethods = [
+        'bulkSaveInventoryItem' => ['POST', 'sell/inventory/v1/bulk_create_or_replace_inventory_item'],
+        'bulkUpdatePriceQuantity' => ['POST', 'sell/inventory/v1/bulk_update_price_quantity'],
+        'bulkMigrateListing' => ['POST', 'sell/inventory/v1/bulk_migrate_listing'],
+        'bulkCreateOffer' => ['POST', 'sell/inventory/v1/bulk_create_offer'],
+        'bulkPublishOffer' => ['POST', 'sell/inventory/v1/bulk_publish_offer'],
     ];
 
     public $responseDataKeys = [

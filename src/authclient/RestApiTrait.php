@@ -11,6 +11,7 @@ use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use function PHPUnit\Framework\stringContains;
 
 /**
  * Trait RestTrait
@@ -58,10 +59,26 @@ trait RestApiTrait
         $this->initRest();
     }
 
+    /**
+     * @return string
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function getStateKeyPrefix(): string
+    {
+        if ($this->getId() !== $this->getName()) {
+            return parent::getStateKeyPrefix();
+        }
+        $identityKey = $this->username ?? $this->apiKey ?? '';
+        if (empty($identityKey)) {
+            throw new InvalidConfigException('The identity key is required.');
+        }
+        return parent::getStateKeyPrefix() . '_' . $identityKey;
+    }
+
     #region Rest method generate
 
     /**
-     * @throws InvalidConfigException
      * @inheritdoc
      */
     protected function initRest(): void
@@ -82,13 +99,6 @@ trait RestApiTrait
                 $method[1] .= $this->suffix;
                 return $method;
             }, $this->methods);
-        }
-        if ($this->getId() === $this->getName()) {
-            $identityKey = $this->username ?? $this->apiKey ?? $this->clientId ?? '';
-            if (empty($identityKey)) {
-                throw new InvalidConfigException('The identity key is required.');
-            }
-            $this->setId($this->getId() . '-' . $identityKey);
         }
     }
 

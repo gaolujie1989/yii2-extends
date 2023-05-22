@@ -22,6 +22,48 @@ use yii\httpclient\Client;
  * @method array getOrder($data)
  * @method array shipOrder($data)
  *
+ * @method array listInventoryItems($data = [])
+ * @method \Generator eachInventoryItems($condition = [], $batchSize = 100)
+ * @method \Generator batchInventoryItems($condition = [], $batchSize = 100)
+ * @method array getInventoryItem($data)
+ * @method array deleteInventoryItem($data)
+ * @method array saveInventoryItem($data)
+ *
+ * @method array listInventoryItemGroups($data = [])
+ * @method \Generator eachInventoryItemGroups($condition = [], $batchSize = 100)
+ * @method \Generator batchInventoryItemGroups($condition = [], $batchSize = 100)
+ * @method array getInventoryItemGroup($data)
+ * @method array deleteInventoryItemGroup($data)
+ * @method array saveInventoryItemGroup($data)
+ *
+ * @method array listInventoryLocations($data = [])
+ * @method \Generator eachInventoryLocations($condition = [], $batchSize = 100)
+ * @method \Generator batchInventoryLocations($condition = [], $batchSize = 100)
+ * @method array getInventoryLocation($data)
+ * @method array createInventoryLocation($data)
+ * @method array updateInventoryLocation($data)
+ * @method array deleteInventoryLocation($data)
+ * @method array enableInventoryLocation($data)
+ * @method array disableInventoryLocation($data)
+ *
+ * @method array listInventoryOffers($data = [])
+ * @method \Generator eachInventoryOffers($condition = [], $batchSize = 100)
+ * @method \Generator batchInventoryOffers($condition = [], $batchSize = 100)
+ * @method array getInventoryOffer($data)
+ * @method array createInventoryOffer($data)
+ * @method array updateInventoryOffer($data)
+ * @method array deleteInventoryOffer($data)
+ * @method array getListingFeesInventoryOffer($data)
+ * @method array withdrawInventoryOffer($data)
+ * @method array withdrawByInventoryItemGroupInventoryOffer($data)
+ * @method array publishInventoryOffer($data)
+ * @method array publishByInventoryItemGroupInventoryOffer($data)
+ * @method array bulkSaveInventoryItem($data)
+ * @method array bulkUpdatePriceQuantity($data)
+ * @method array bulkMigrateListing($data)
+ * @method array bulkCreateOffer($data)
+ * @method array bulkPublishOffer($data)
+ *
  * @package lujie\ebay
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @document https://developer.ebay.com/develop/apis/restful-apis/sell-apis

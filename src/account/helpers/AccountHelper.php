@@ -34,10 +34,11 @@ class AccountHelper
 
         if ($copyToken && $account->authToken) {
             $authToken = $copyAccount->authToken ?: new AuthToken();
-            $authToken->setAttributes($account->authToken->getAttributes());
+            $authToken->setAttributes($account->authToken->getAttributes(), false);
             $authToken->user_id = $copyAccount->account_id;
             $authToken->auth_user_id = $copyAccount->account_id;
             $authToken->auth_service = $copyAccount->type;
+            $authToken->detachBehavior('timestampTrace');
             $authToken->save(false);
         }
         return $copyAccount;

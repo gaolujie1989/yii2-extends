@@ -28,7 +28,7 @@ class AccountHelper
         $copyAccount = $copyAccountClass::find()
             ->type($accountType)
             ->username($account->username)
-            ->one() ?: new $copyAccountClass(['name' => $account->name, 'type' => $accountType]);
+            ->one() ?: new $copyAccountClass(['name' => $account->name . '-' . $account->model_type, 'type' => $accountType]);
         $copyAccount->setAttributes($account->getAttributes(null, ['name', 'type', 'status']));
         $copyAccount->save(false);
 

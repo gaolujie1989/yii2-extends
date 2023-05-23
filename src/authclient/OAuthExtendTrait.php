@@ -5,7 +5,6 @@
 
 namespace lujie\extend\authclient;
 
-use lujie\common\oauth\models\AuthToken;
 use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
@@ -48,12 +47,12 @@ trait OAuthExtendTrait
     }
 
     /**
-     * @return OAuthToken|null
+     * @return array|OAuthToken|null
      * @throws InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public function getAccessToken(): ?OAuthToken
+    public function getAccessToken()
     {
         $token = parent::getAccessToken();
         //To Avoid 401, 防止手动setAccessToken是过期的

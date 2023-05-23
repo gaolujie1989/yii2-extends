@@ -55,7 +55,7 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     /**
      * @var DataStorageInterface
      */
-    public $orderDataStorage;
+    public $orderDataStorage = SalesChannelOrderDataStorage::class;
 
     #region External Model Key Field
 

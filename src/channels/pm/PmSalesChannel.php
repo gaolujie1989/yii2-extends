@@ -35,6 +35,8 @@ class PmSalesChannel extends BaseSalesChannel
 
     public $orderTransformer = PmSalesChannelOrderTransformer::class;
 
+    public $orderDataStorage = null;
+
     #region External Model Key Field
 
     /**

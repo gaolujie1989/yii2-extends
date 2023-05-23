@@ -11,6 +11,7 @@ use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannelLoader;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelAccount;
+use yii\base\InvalidArgumentException;
 
 /**
  * Class PmSalesChannelLoader
@@ -29,27 +30,30 @@ class EbaySalesChannelLoader extends BaseSalesChannelLoader
 
     /**
      * @param SalesChannelAccount $account
-     * @return array[]
+     * @return EbayRestClient[]
+     * @throws \yii\authclient\InvalidResponseException
+     * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getConfig(SalesChannelAccount $account): array
     {
+        $accountId = $account->account_id;
         $config = [
             'clientId' => $this->clientId,
             'clientSecret' => $this->clientSecret,
         ];
         $client = new EbayRestClient($config);
-        $accountId = $account->account_id;
         $client->setId($client->getName() . '-' . $accountId);
         $client->setSandbox(str_contains($account->type, 'Sandbox'));
-        if (!$client->getAccessToken()) {
-            $authToken = AuthToken::find()->userId($accountId)->one();
-            $client->setAccessToken([
-                'params' => $authToken->additional['token'],
-                'createTimestamp' => $authToken->updated_at,
-            ]);
-        }
 
+        $authToken = AuthToken::find()->userId($accountId)->one();
+        if ($authToken->refresh_token_expires_at && $authToken->refresh_token_expires_at < time()) {
+            throw new InvalidArgumentException('Refresh token is expired');
+        }
+        $client->setAccessTokenIfTokenIsValid([
+            'params' => $authToken->additional['token'],
+            'createTimestamp' => $authToken->created_at,
+        ]);
         return [
             'client' => $client,
         ];

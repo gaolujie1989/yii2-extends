@@ -5,6 +5,7 @@
 
 namespace lujie\extend\authclient;
 
+use lujie\common\oauth\models\AuthToken;
 use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
@@ -60,6 +61,23 @@ trait OAuthExtendTrait
             $token = $this->refreshAccessToken($token);
         }
         return $token;
+    }
+
+    /**
+     * @param array $token
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function setAccessTokenIfTokenIsValid(array $token): void
+    {
+        $autoRefreshAccessToken = $this->autoRefreshAccessToken;
+        $this->autoRefreshAccessToken = false;
+        $accessToken = $this->getAccessToken();
+        if (!is_object($accessToken) || !$accessToken->getIsValid()) {
+            $this->setAccessToken($token);
+        }
+        $this->autoRefreshAccessToken = $autoRefreshAccessToken;
     }
 
     /**

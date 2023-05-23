@@ -37,14 +37,14 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
 
     /**
      * @param int|string $key
-     * @param mixed $data
+     * @param mixed $value
      * @return bool
      * @inheritdoc
      */
-    public function set($key, $data): bool
+    public function set($key, $value): bool
     {
         $model = $this->getModel($key) ?: new $this->modelClass();
-        $model->setAttributes($data);
+        $model->setAttributes($value);
         return $model->save($this->runValidation);
     }
 

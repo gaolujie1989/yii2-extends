@@ -17,12 +17,12 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
 {
     /**
      * @param mixed $key
-     * @param mixed $data
+     * @param mixed $value
      * @return int|mixed
      * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function set($key, $data)
+    public function set($key, $value)
     {
         $condition = ['AND', $this->condition, [$this->key => $key]];
         $exists = (new Query())->from($this->table)
@@ -30,9 +30,9 @@ class DbDataStorage extends DbDataLoader implements DataStorageInterface
             ->exists($this->db);
 
         if ($exists) {
-            return $this->db->createCommand()->update($this->table, $data, $condition)->execute();
+            return $this->db->createCommand()->update($this->table, $value, $condition)->execute();
         }
-        return $this->db->createCommand()->insert($this->table, $data)->execute();
+        return $this->db->createCommand()->insert($this->table, $value)->execute();
     }
 
     /**

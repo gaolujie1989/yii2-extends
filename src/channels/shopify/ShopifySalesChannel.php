@@ -45,7 +45,7 @@ class ShopifySalesChannel extends BaseSalesChannel
     protected function getExternalOrders(array $externalOrderKeys): array
     {
         $eachOrders = $this->client->eachOrders(['ids' => implode(',', $externalOrderKeys)]);
-        return iterator_to_array($eachOrders);
+        return iterator_to_array($eachOrders, false);
     }
 
     /**
@@ -60,7 +60,7 @@ class ShopifySalesChannel extends BaseSalesChannel
             'created_at_min' => date('c', $createdAtFrom),
             'created_at_max' => date('c', $createdAtTo)
         ]);
-        return iterator_to_array($eachOrders);
+        return iterator_to_array($eachOrders, false);
     }
 
     /**

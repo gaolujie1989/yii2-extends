@@ -34,7 +34,7 @@ class EbaySalesChannel extends BaseSalesChannel
             'orderIds' => implode(',', $externalOrderKeys),
             'limit' => 200,
         ]);
-        return iterator_to_array($eachOrders);
+        return iterator_to_array($eachOrders, false);
     }
 
     /**
@@ -47,11 +47,21 @@ class EbaySalesChannel extends BaseSalesChannel
     {
         $createdTimeFrom = date('c', $createdAtFrom);
         $createdTimeTo = date('c', $createdAtTo);
-        $eachOrders = $this->client->eachOrders([
+        $createdEachOrders = $this->client->eachOrders([
             'filter' => "creationdate:[{$createdTimeFrom}..{$createdTimeTo}]",
             'limit' => 200,
         ]);
-        return iterator_to_array($eachOrders);
+
+        $createdTimeFrom = date('c', $createdAtFrom);
+        $createdTimeTo = date('c', $createdAtTo);
+        $updatedEachOrders = $this->client->eachOrders([
+            'filter' => "lastmodifieddate:[{$createdTimeFrom}..{$createdTimeTo}]",
+            'limit' => 200,
+        ]);
+        return array_merge(
+            iterator_to_array($createdEachOrders, false),
+            iterator_to_array($updatedEachOrders, false)
+        );
     }
 
     /**

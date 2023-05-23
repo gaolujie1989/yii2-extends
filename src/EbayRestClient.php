@@ -5,12 +5,7 @@
 
 namespace lujie\ebay;
 
-use lujie\extend\authclient\BatchApiTrait;
-use lujie\extend\authclient\OAuthExtendTrait;
-use lujie\extend\authclient\RestApiTrait;
 use lujie\extend\authclient\RestOAuth2;
-use yii\authclient\OAuth2;
-use yii\base\InvalidArgumentException;
 use yii\httpclient\Client;
 
 /**
@@ -235,6 +230,10 @@ class EbayRestClient extends RestOAuth2
      */
     protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
-        return $this->getNextByLink($responseData['next'] ?? null);
+        $condition['offset'] = ($responseData['offset'] ?? 0) + ($responseData['limit'] ?? 50);
+        if ($responseData['total'] <= $condition['offset']) {
+            return null;
+        }
+        return $condition;
     }
 }

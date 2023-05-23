@@ -24,6 +24,16 @@ class EbaySalesChannel extends BaseSalesChannel
     public $client;
 
     /**
+     * @var string
+     */
+    public $externalOrderKeyField = 'orderId';
+
+    /**
+     * @var string
+     */
+    public $externalOrderStatusField = 'orderPaymentStatus';
+
+    /**
      * @param array $externalOrderKeys
      * @return array
      * @inheritdoc
@@ -74,14 +84,65 @@ class EbaySalesChannel extends BaseSalesChannel
         return $this->client->getOrder(['id' => $externalOrderKey]);
     }
 
+    /**
+     * @param array $externalOrder
+     * @param SalesChannelOrder $salesChannelOrder
+     * @return array|null
+     * @inheritdoc
+     */
     protected function saveExternalOrder(array $externalOrder, SalesChannelOrder $salesChannelOrder): ?array
     {
         if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
-            $shipOrder = $this->client->shipOrder($externalOrder);
+            $this->client->shipOrder($externalOrder);
+            return $this->getExternalOrder($salesChannelOrder->external_order_key);
         }
         return null;
     }
 
+    /**
+     * @param SalesChannelOrder $salesChannelOrder
+     * @param array $externalOrder
+     * @param bool $changeActionStatus
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
+    {
+        $salesChannelOrder->external_created_at = strtotime($externalOrder['creationDate']);
+        $salesChannelOrder->external_updated_at = strtotime($externalOrder['lastModifiedDate']);
+        return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder, $changeActionStatus);
+    }
+
+    /**
+     * @param array $externalOrder
+     * @return int|null
+     * @inheritdoc
+     */
+    protected function getSalesChannelStatus(array $externalOrder): ?int
+    {
+        $cancelState = $externalOrder['cancelStatus']['cancelState'];
+        if ($cancelState === 'CANCELLED') {
+            return SalesChannelConst::CHANNEL_STATUS_CANCELLED;
+        }
+        if ($cancelState === 'IN_PROGRESS') {
+            return SalesChannelConst::CHANNEL_STATUS_PENDING;
+        }
+        if ($externalOrder['orderFulfillmentStatus'] === 'FULFILLED') {
+            return SalesChannelConst::CHANNEL_STATUS_SHIPPED;
+        }
+        if ($externalOrder['orderPaymentStatus'] === 'PAID') {
+            return SalesChannelConst::CHANNEL_STATUS_PAID;
+        }
+        return SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT;
+    }
+
+    /**
+     * @param array $externalItem
+     * @return array|null
+     * @inheritdoc
+     */
     protected function getExternalItem(array $externalItem): ?array
     {
         // TODO: Implement getExternalItem() method.

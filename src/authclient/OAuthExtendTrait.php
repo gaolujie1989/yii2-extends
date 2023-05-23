@@ -47,6 +47,22 @@ trait OAuthExtendTrait
     }
 
     /**
+     * @return OAuthToken|null
+     * @throws InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function getAccessToken(): ?OAuthToken
+    {
+        $token = parent::getAccessToken();
+        //To Avoid 401, 防止手动setAccessToken是过期的
+        if (is_object($token) && $this->autoRefreshAccessToken && $token->getIsExpired()) {
+            $token = $this->refreshAccessToken($token);
+        }
+        return $token;
+    }
+
+    /**
      * @param Request $request
      * @param OAuthToken $accessToken
      * @inheritdoc

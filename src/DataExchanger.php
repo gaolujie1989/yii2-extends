@@ -84,7 +84,7 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
         if ($this->useProgress) {
             return $result;
         }
-        iterator_to_array($result);
+        iterator_to_array($result, false);
         return $result->getReturn();
     }
 

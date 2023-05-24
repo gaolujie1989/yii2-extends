@@ -62,7 +62,7 @@ class ExcelHelper
         bool $keyAsHeader = true,
         bool $multiSheet = false,
         bool $withImage = false,
-        string $adapter = ExcelWriter::ADAPTER_XLSX_WRITER
+        string $adapter = ExcelWriter::ADAPTER_PHP_SPREAD_SHEET
     ): void
     {
         $excelWriter = new ExcelWriter();

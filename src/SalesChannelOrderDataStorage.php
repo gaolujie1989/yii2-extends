@@ -6,8 +6,12 @@
 namespace lujie\sales\channel;
 
 use lujie\data\storage\ActiveRecordDataStorage;
+use lujie\extend\compressors\CompressorInterface;
+use lujie\extend\compressors\GzCompressor;
 use lujie\sales\channel\models\SalesChannelOrder;
 use lujie\sales\channel\models\SalesChannelOrderData;
+use yii\di\Instance;
+use yii\helpers\Json;
 
 /**
  * Class SalesChannelOrderDataStorage
@@ -20,6 +24,40 @@ class SalesChannelOrderDataStorage extends ActiveRecordDataStorage
 
     public $key = 'sales_channel_order_id';
 
+    public $value = 'order_data';
+
+    /**
+     * @var GzCompressor
+     */
+    public $compressor = GzCompressor::class;
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if ($this->compressor) {
+            $this->compressor = Instance::ensure($this->compressor, CompressorInterface::class);
+        }
+    }
+
+    /**
+     * @param $key
+     * @return array|mixed|\yii\db\BaseActiveRecord|null
+     * @inheritdoc
+     */
+    public function get($key)
+    {
+        $value = parent::get($key);
+        if ($this->compressor) {
+            $value = $this->compressor->unCompress($value);
+            $value = Json::decode($value);
+        }
+        return $value;
+    }
+
     /**
      * @param $key
      * @param $value
@@ -31,7 +69,10 @@ class SalesChannelOrderDataStorage extends ActiveRecordDataStorage
         if ($key instanceof SalesChannelOrder) {
             $key = $key->sales_channel_order_id;
         }
-        $value = ['order_data' => $value];
+        if ($this->compressor) {
+            $value = Json::encode($value);
+            $value = $this->compressor->compress($value);
+        }
         return parent::set($key, $value);
     }
 }

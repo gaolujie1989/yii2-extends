@@ -32,6 +32,6 @@ class SalesChannelOrderDataStorage extends ActiveRecordDataStorage
             $key = $key->sales_channel_order_id;
         }
         $value = ['order_data' => $value];
-        parent::set($key, $value);
+        return parent::set($key, $value);
     }
 }

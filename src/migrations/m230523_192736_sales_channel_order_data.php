@@ -13,7 +13,7 @@ class m230523_192736_sales_channel_order_data extends Migration
         $this->createTable($this->tableName, [
             'sales_channel_order_data_id' => $this->bigPrimaryKey(),
             'sales_channel_order_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'order_data' => $this->json(),
+            'order_data' => $this->binary(),
         ]);
 
         $this->createIndex('uk_sales_channel_order_id', $this->tableName, ['sales_channel_order_id'], true);

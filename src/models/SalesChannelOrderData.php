@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $sales_channel_order_data_id
  * @property int $sales_channel_order_id
- * @property array|null $order_data
+ * @property resource|null $order_data
  */
 class SalesChannelOrderData extends \lujie\extend\db\ActiveRecord
 {
@@ -18,7 +18,7 @@ class SalesChannelOrderData extends \lujie\extend\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%sales_channel_order_data}}';
+        return 'sales_channel_order_data';
     }
 
     /**
@@ -28,9 +28,8 @@ class SalesChannelOrderData extends \lujie\extend\db\ActiveRecord
     {
         return [
             [['sales_channel_order_id'], 'default', 'value' => 0],
-            [['order_data'], 'default', 'value' => []],
             [['sales_channel_order_id'], 'integer'],
-            [['order_data'], 'safe'],
+            [['order_data'], 'string'],
             [['sales_channel_order_id'], 'unique'],
         ];
     }

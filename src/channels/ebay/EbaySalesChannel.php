@@ -111,6 +111,11 @@ class EbaySalesChannel extends BaseSalesChannel
     {
         $salesChannelOrder->external_created_at = strtotime($externalOrder['creationDate']);
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['lastModifiedDate']);
+        $salesChannelOrder->external_order_additional = [
+            'orderFulfillmentStatus' => $externalOrder['orderFulfillmentStatus'],
+            'orderPaymentStatus' => $externalOrder['orderPaymentStatus'],
+            'cancelState' => $externalOrder['cancelStatus']['cancelState'],
+        ];
         return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder, $changeActionStatus);
     }
 

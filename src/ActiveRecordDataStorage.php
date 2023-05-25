@@ -44,7 +44,11 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
     public function set($key, $value): bool
     {
         $model = $this->getModel($key) ?: new $this->modelClass();
-        $model->setAttributes($value);
+        if ($this->value) {
+            $model->setAttribute($this->value, $value);
+        } else {
+            $model->setAttributes($value);
+        }
         return $model->save($this->runValidation);
     }
 

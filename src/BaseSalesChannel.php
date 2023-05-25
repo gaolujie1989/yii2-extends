@@ -218,14 +218,12 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
                 $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
             }
         }
-        return SalesChannelOrder::getDb()->transaction(function () use ($salesChannelOrder, $externalOrder) {
-            if ($salesChannelOrder->save(false)) {
-                $this->orderDataStorage?->set($salesChannelOrder, $externalOrder);
-                $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
-                return true;
-            }
-            return false;
-        });
+        if ($salesChannelOrder->save(false)) {
+            $this->orderDataStorage?->set($salesChannelOrder, $externalOrder);
+            $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -18,7 +18,7 @@ class SalesChannelOrderData extends \lujie\extend\db\ActiveRecord
      */
     public static function tableName(): string
     {
-        return 'sales_channel_order_data';
+        return '{{%sales_channel_order_data}}';
     }
 
     /**

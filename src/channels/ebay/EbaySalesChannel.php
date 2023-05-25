@@ -55,16 +55,14 @@ class EbaySalesChannel extends BaseSalesChannel
      */
     protected function getNewExternalOrders(int $createdAtFrom, int $createdAtTo): array
     {
-        $createdTimeFrom = gmdate('Y-m-d\TH:i:s\Z', $createdAtFrom);
-        $createdTimeTo = gmdate('Y-m-d\TH:i:s\Z', $createdAtTo);
+        $createdTimeFrom = gmdate('Y-m-d\TH:i:s.000\Z', $createdAtFrom);
+        $createdTimeTo = gmdate('Y-m-d\TH:i:s.000\Z', $createdAtTo);
         $createdEachOrders = $this->client->eachOrders([
             'filter' => "creationdate:[{$createdTimeFrom}..{$createdTimeTo}]",
             'limit' => 200,
         ]);
         return iterator_to_array($createdEachOrders, false);
-//
-//        $createdTimeFrom = gmdate('Y-m-d\TH:i:s\Z', $createdAtFrom);
-//        $createdTimeTo = gmdate('Y-m-d\TH:i:s\Z', $createdAtTo);
+
 //        $updatedEachOrders = $this->client->eachOrders([
 //            'filter' => "lastmodifieddate:[{$createdTimeFrom}..{$createdTimeTo}]",
 //            'limit' => 200,

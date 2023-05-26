@@ -91,8 +91,9 @@ class ConsoleBehavior extends Behavior
             if ($this->displayMemoryUsage) {
                 $memoryUsage = '[' . round(memory_get_peak_usage() / 1024 / 1024) . 'M]';
                 Console::updateProgress($progress->done, $progress->total, $memoryUsage . $progress->message);
+            } else {
+                Console::updateProgress($progress->done, $progress->total, $progress->message);
             }
-            Console::updateProgress($progress->done, $progress->total, $progress->message);
         }
     }
 }

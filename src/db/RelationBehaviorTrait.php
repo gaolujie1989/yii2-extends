@@ -54,6 +54,18 @@ trait RelationBehaviorTrait
     }
 
     /**
+     * @inheritdoc
+     */
+    public function resetRelationBehaviors(): void
+    {
+        $behaviors = $this->relationBehaviors();
+        foreach ($behaviors as $behaviorName => $behavior) {
+            $this->detachBehavior($behaviorName);
+        }
+        $this->attachBehaviors($behaviors);
+    }
+
+    /**
      * @param string $name
      * @param array|BaseActiveRecord $data
      * @throws \yii\base\InvalidConfigException

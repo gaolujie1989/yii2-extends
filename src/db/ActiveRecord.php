@@ -20,6 +20,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
     use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait, AliasErrorsTrait;
     use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 
+    public $relations;
+
     /**
      * @return array
      * @inheritdoc

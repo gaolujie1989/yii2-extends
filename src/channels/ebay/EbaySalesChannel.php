@@ -23,15 +23,13 @@ class EbaySalesChannel extends BaseSalesChannel
      */
     public $client;
 
-    /**
-     * @var string
-     */
     public $externalOrderKeyField = 'orderId';
 
-    /**
-     * @var string
-     */
     public $externalOrderStatusField = 'orderPaymentStatus';
+
+    public $externalOrderCreatedAtField = 'creationDate';
+
+    public $externalOrderUpdatedAtField = 'lastModifiedDate';
 
     /**
      * @param array $externalOrderKeys
@@ -109,8 +107,6 @@ class EbaySalesChannel extends BaseSalesChannel
      */
     protected function updateSalesChannelOrder(SalesChannelOrder $salesChannelOrder, array $externalOrder, bool $changeActionStatus = false): bool
     {
-        $salesChannelOrder->external_created_at = strtotime($externalOrder['creationDate']);
-        $salesChannelOrder->external_updated_at = strtotime($externalOrder['lastModifiedDate']);
         $salesChannelOrder->external_order_additional = [
             'orderFulfillmentStatus' => $externalOrder['orderFulfillmentStatus'],
             'orderPaymentStatus' => $externalOrder['orderPaymentStatus'],

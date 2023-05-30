@@ -15,6 +15,8 @@ use yii\db\Query;
  */
 class DbDataStorage extends DbDataLoader implements DataStorageInterface
 {
+    use BaseDataStorageTrait;
+
     /**
      * @param mixed $key
      * @param mixed $value

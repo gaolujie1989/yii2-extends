@@ -17,6 +17,8 @@ use yii\db\BaseActiveRecord;
  */
 class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStorageInterface
 {
+    use BaseDataStorageTrait;
+
     /**
      * @var bool
      */

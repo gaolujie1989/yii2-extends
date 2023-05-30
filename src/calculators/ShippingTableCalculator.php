@@ -60,27 +60,46 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
         $chargePrice->price_table_id = 0;
         $chargePrice->price_cent = 0;
         $chargePrice->currency = '';
+        $chargePrice->note = '';
         $chargePrice->error = '';
 
-        /** @var ?ShippingItem $shippingItem */
-        $shippingItem = $this->shippingItemLoader->get($model);
-        if ($shippingItem === null) {
-            $chargePrice->error = 'Null ShippingItem';
+        /** @var ShippingItem[] $shippingItems */
+        $shippingItems = $this->shippingItemLoader->get($model);
+        if (empty($shippingItems)) {
+            $chargePrice->error = 'Empty ShippingItems';
             return $chargePrice;
         }
 
+        if (!is_array($shippingItems)) {
+            $shippingItems = [$shippingItems];
+        }
+        $shippingItem = reset($shippingItems);
         $chargePrice->custom_type = $shippingItem->carrier;
         $chargePrice->setAttributes($shippingItem->additional);
 
-        $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
-        if ($shippingTablePrice === null) {
-            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
-            return $chargePrice;
+        $notes = [];
+        foreach ($shippingItems as $shippingItem) {
+            $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
+            if ($shippingTablePrice === null) {
+                $chargePrice->price_table_id = 0;
+                $chargePrice->price_cent = 0;
+                $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
+                return $chargePrice;
+            }
+            $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
+            $chargePrice->price_cent += $shippingTablePrice->price_cent;
+            $chargePrice->currency = $shippingTablePrice->currency;
+            $notes[] = strtr('[{carrier}] {price}', [
+                '{carrier}' => $shippingTablePrice->carrier,
+                '{price}' => $shippingTablePrice->price_cent / 100,
+            ]);
         }
 
-        $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
-        $chargePrice->price_cent = $shippingTablePrice->price_cent;
-        $chargePrice->currency = $shippingTablePrice->currency;
+        $totalNote = strtr(' = {price} {currency}', [
+            '{price}' => $chargePrice->price_cent / 100,
+            '{currency}' => $chargePrice->currency,
+        ]);
+        $chargePrice->note = implode(' + ', $notes) . $totalNote;
         return $chargePrice;
     }
 

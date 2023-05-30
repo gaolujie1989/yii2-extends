@@ -7,8 +7,10 @@ namespace lujie\sales\channel;
 
 use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\data\storage\DataStorageInterface;
+use lujie\extend\caching\CachingTrait;
 use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ExecuteHelper;
+use lujie\extend\helpers\ValueHelper;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\events\SalesChannelOrderEvent;
 use lujie\sales\channel\models\SalesChannelAccount;
@@ -30,6 +32,8 @@ use yii\helpers\ArrayHelper;
  */
 abstract class BaseSalesChannel extends Component implements SalesChannelInterface
 {
+    use CachingTrait;
+
     public const EVENT_AFTER_SALES_CHANNEL_ORDER_UPDATED = 'AFTER_SALES_CHANNEL_ORDER_UPDATED';
 
     /**
@@ -55,7 +59,14 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
     /**
      * @var DataStorageInterface
      */
-    public $orderDataStorage = SalesChannelOrderDataStorage::class;
+    public $orderDataStorage = [
+        'class' => SalesChannelOrderDataStorage::class,
+    ];
+
+    /**
+     * @var string
+     */
+    public $useStorageOrderBefore = '-7 days';
 
     #region External Model Key Field
 
@@ -73,6 +84,16 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      * @var string
      */
     public $externalOrderStatusField = 'status';
+
+    /**
+     * @var string
+     */
+    public $externalOrderCreatedAtField;
+
+    /**
+     * @var string
+     */
+    public $externalOrderUpdatedAtField;
 
     /**
      * [
@@ -126,6 +147,12 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             }
         }
         if ($this->orderDataStorage) {
+            $this->orderDataStorage = array_merge([
+                'salesChannelAccountId' => $this->account->account_id,
+                'externalOrderKeyField' => $this->externalOrderKeyField,
+                'externalOrderCreatedAtField' => $this->externalOrderCreatedAtField,
+                'externalOrderUpdatedAtField' => $this->externalOrderUpdatedAtField,
+            ], $this->orderDataStorage);
             $this->orderDataStorage = Instance::ensure($this->orderDataStorage, DataStorageInterface::class);
         }
     }
@@ -164,10 +191,17 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
      */
     public function pullNewSalesOrders(int $createdAtFrom, int $createdAtTo): void
     {
-        $externalOrders = $this->getNewExternalOrders($createdAtFrom, $createdAtTo);
+        $externalOrders = [];
+        if ($this->orderDataStorage && $createdAtTo <= strtotime($this->useStorageOrderBefore)) {
+            $externalOrders = $this->orderDataStorage->multiGet([$createdAtFrom, $createdAtTo]);
+        }
+        if (empty($externalOrders)) {
+            $externalOrders = $this->getNewExternalOrders($createdAtFrom, $createdAtTo);
+        }
         if (empty($externalOrders)) {
             return;
         }
+        $this->orderDataStorage?->multiSet($externalOrders);
         $externalOrders = ArrayHelper::index($externalOrders, $this->externalOrderKeyField);
         $externalOrderKeys = array_keys($externalOrders);
         $salesChannelOrders = SalesChannelOrder::find()
@@ -207,6 +241,12 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
         $salesChannelOrder->order_pulled_at = time();
         $salesChannelOrder->external_order_key = $externalOrder[$this->externalOrderKeyField];
         $salesChannelOrder->external_order_status = (string)$externalOrder[$this->externalOrderStatusField];
+        if ($this->externalOrderCreatedAtField) {
+            $salesChannelOrder->external_created_at = ValueHelper::formatDateTime($externalOrder[$this->externalOrderCreatedAtField]);
+        }
+        if ($this->externalOrderUpdatedAtField) {
+            $salesChannelOrder->external_updated_at = ValueHelper::formatDateTime($externalOrder[$this->externalOrderUpdatedAtField]);
+        }
 
         $newSalesChannelStatus = $this->getSalesChannelStatus($externalOrder);
         if ($newSalesChannelStatus) {
@@ -219,7 +259,6 @@ abstract class BaseSalesChannel extends Component implements SalesChannelInterfa
             }
         }
         if ($salesChannelOrder->save(false)) {
-            $this->orderDataStorage?->set($salesChannelOrder, $externalOrder);
             $this->triggerSalesChannelOrderEvent($salesChannelOrder, $externalOrder);
             return true;
         }

@@ -114,12 +114,18 @@ class SalesChannelOrderDataStorage extends BaseObject implements DataStorageInte
     {
         $orders = [];
         foreach ($values as $value) {
+            $order = null;
+            if ($this->compressor) {
+                $order = Json::encode($value);
+                $order = $this->compressor->compress($order);
+            }
             $orders[] = [
                 'sales_channel_account_id' => $this->salesChannelAccountId,
                 'external_order_key' => $value[$this->externalOrderKeyField] ?? '',
                 'external_order_no' => $value[$this->externalOrderNoField] ?? '',
                 'external_created_at' => ValueHelper::formatDateTime($value[$this->externalOrderCreatedAtField] ?? 0),
                 'external_updated_at' => ValueHelper::formatDateTime($value[$this->externalOrderUpdatedAtField] ?? 0),
+                'order_data' => $order ?: $value
             ];
         }
         $this->pipeline->process($orders);

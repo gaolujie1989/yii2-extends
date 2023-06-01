@@ -12,6 +12,7 @@ use lujie\data\loader\DataLoaderInterface;
 use yii\base\BaseObject;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class BaseChargeCalculator
@@ -70,65 +71,87 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
             $chargeableItems = [$chargeableItems];
         }
 
-        $chargeableItem = reset($chargeableItems);
-        $chargePrice->custom_type = is_array($chargeableItem->customType)
-            ? implode(',', $chargeableItem->customType)
-            : $chargeableItem->customType;
-        $chargePrice->setAttributes($chargeableItem->additional);
-
-        $notes = [];
+        $internalChargePrices = [];
         foreach ($chargeableItems as $chargeableItem) {
-            $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
-            if ($chargeTablePrice === null) {
-                $chargePrice->price_table_id = 0;
-                $chargePrice->price_cent = 0;
-                $chargePrice->error = 'Null ChargeTablePrice';
-                return $chargePrice;
-            }
-            $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
-            if ($chargeableItem->basePriceCurrency) {
-                $chargePrice->currency = $chargeableItem->basePriceCurrency;
-                $priceCent = round($chargeableItem->basePriceCent * $chargeTablePrice->percent / 100);
-                $chargePrice->price_cent += $priceCent;
-                $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-                    'base_price_cent' => $chargeableItem->basePriceCent,
-                    'percent' => $chargeTablePrice->percent,
-                ]);
-                $notes[] = strtr("{basePrice} x {percent}%", [
-                    '{basePrice}' => $chargeableItem->basePriceCent / 100,
-                    '{percent}' => $chargeTablePrice->percent,
-                ]);
-            } else {
-                $chargePrice->price_cent += $chargeTablePrice->price_cent;
-                $chargePrice->currency = $chargeTablePrice->currency;
-                $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-                    'limit_value' => $chargeableItem->limitValue,
-                ]);
-                $note = $chargeTablePrice->price_cent / 100;
-                if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-                    $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
-                    if ($this->roundUp) {
-                        $overLimit = (int)ceil($overLimit);
-                    }
-                    $chargePrice->price_cent += $overLimit * $chargeTablePrice->over_limit_price_cent;
-                    $note = strtr("({limitPrice} + {overLimitPrice} * {overLimitValue})", [
-                        '{limitPrice}' => $chargeTablePrice->price_cent / 100,
-                        '{overLimitPrice}' => $chargeTablePrice->over_limit_price_cent / 100,
-                        '{overLimitValue}' => $overLimit,
-                    ]);
-                }
-                $notes[] = $note;
-            }
-
-            $totalNote = strtr(' = {price} {currency}', [
-                '{price}' => $chargePrice->price_cent / 100,
-                '{currency}' => $chargePrice->currency,
-            ]);
-            $chargePrice->note = implode(' + ', $notes) . $totalNote;
-            $chargePrice->setAttributes($chargeTablePrice->additional);
+            $internalChargePrice = new ChargePrice();
+            $internalChargePrice->custom_type =  is_array($chargeableItem->customType)
+                ? implode(',', $chargeableItem->customType)
+                : $chargeableItem->customType;
+            $internalChargePrice->setAttributes($chargeableItem->additional);
+            $this->calculateInternal($chargeableItem, $internalChargePrice);
+            $internalChargePrices[] = $internalChargePrice;
         }
 
+        $this->mergeChargePrices($internalChargePrices, $chargePrice);
         return $chargePrice;
+    }
+
+    /**
+     * @param array $internalChargePrices
+     * @param ChargePrice $chargePrice
+     * @inheritdoc
+     */
+    protected function mergeChargePrices(array $internalChargePrices, ChargePrice $chargePrice): void
+    {
+        $chargePrice->price_table_id = ArrayHelper::getColumn($internalChargePrices, 'price_table_id')[0];
+        $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($internalChargePrices, 'price_cent'));
+        $chargePrice->currency = ArrayHelper::getColumn($internalChargePrices, 'currency')[0];
+        $notes = ArrayHelper::getColumn($internalChargePrices, 'note');
+        $totalNote = strtr(' = {price} {currency}', [
+            '{price}' => $chargePrice->price_cent / 100,
+            '{currency}' => $chargePrice->currency,
+        ]);
+        $chargePrice->note = implode(' + ', $notes) . $totalNote;
+        $chargePrice->additional = array_merge(...ArrayHelper::getColumn($internalChargePrices, 'additional'));
+    }
+
+    /**
+     * @param ChargeableItem $chargeableItem
+     * @param ChargePrice $chargePrice
+     * @inheritdoc
+     */
+    protected function calculateInternal(ChargeableItem $chargeableItem, ChargePrice $chargePrice): void
+    {
+        $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
+        if ($chargeTablePrice === null) {
+            $chargePrice->price_table_id = 0;
+            $chargePrice->price_cent = 0;
+            $chargePrice->error = 'Null ChargeTablePrice';
+            return;
+        }
+        $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
+        $chargePrice->setAttributes($chargeTablePrice->additional);
+        if ($chargeableItem->basePriceCurrency) {
+            $chargePrice->price_cent =  round($chargeableItem->basePriceCent * $chargeTablePrice->percent / 100);
+            $chargePrice->currency = $chargeableItem->basePriceCurrency;
+            $chargePrice->note = strtr("{basePrice} x {percent}%", [
+                '{basePrice}' => $chargeableItem->basePriceCent / 100,
+                '{percent}' => $chargeTablePrice->percent,
+            ]);
+            $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
+                'base_price_cent' => $chargeableItem->basePriceCent,
+                'percent' => $chargeTablePrice->percent,
+            ]);
+        } else {
+            $chargePrice->price_cent = $chargeTablePrice->price_cent;
+            $chargePrice->currency = $chargeTablePrice->currency;
+            $chargePrice->note = $chargeTablePrice->price_cent / 100;
+            $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
+                'limit_value' => $chargeableItem->limitValue,
+            ]);
+            if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
+                $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
+                if ($this->roundUp) {
+                    $overLimit = (int)ceil($overLimit);
+                }
+                $chargePrice->price_cent += $overLimit * $chargeTablePrice->over_limit_price_cent;
+                $chargePrice->note = strtr("({limitPrice} + {overLimitPrice} * {overLimitValue})", [
+                    '{limitPrice}' => $chargeTablePrice->price_cent / 100,
+                    '{overLimitPrice}' => $chargeTablePrice->over_limit_price_cent / 100,
+                    '{overLimitValue}' => $overLimit,
+                ]);
+            }
+        }
     }
 
     /**

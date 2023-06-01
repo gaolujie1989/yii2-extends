@@ -59,7 +59,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
         $chargePrice->note = '';
         $chargePrice->error = '';
 
-        /** @var ChargeableItem[] $chargeableItem */
+        /** @var ChargeableItem[] $chargeableItems */
         $chargeableItems = $this->chargeableItemLoader->get($model);
         if (empty($chargeableItems)) {
             $chargePrice->error = 'Empty ChargeableItem';

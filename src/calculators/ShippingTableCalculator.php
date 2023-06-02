@@ -41,16 +41,16 @@ class ShippingTableCalculator extends BaseChargeCalculator
     }
 
     /**
-     * @param BaseChargeItem|ShippingItem $shippingItem
+     * @param BaseChargeItem|ShippingItem $chargeItem
      * @param ChargePrice $chargePrice
      * @inheritdoc
      */
-    protected function calculateInternal(BaseChargeItem $shippingItem, ChargePrice $chargePrice): void
+    protected function calculateInternal(BaseChargeItem $chargeItem, ChargePrice $chargePrice): void
     {
-        $chargePrice->custom_type = $shippingItem->carrier;
-        $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
+        $chargePrice->custom_type = $chargeItem->carrier;
+        $shippingTablePrice = $this->getShippingTablePrice($chargeItem);
         if ($shippingTablePrice === null) {
-            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
+            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $chargeItem);
             return;
         }
         $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;

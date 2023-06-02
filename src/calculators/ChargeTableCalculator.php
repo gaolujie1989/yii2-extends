@@ -85,28 +85,28 @@ class ChargeTableCalculator extends BaseChargeCalculator
 
 
     /**
-     * @param ChargeableItem $chargeableItem
+     * @param BaseChargeItem|ChargeableItem $chargeItem
      * @param ChargePrice $chargePrice
      * @inheritdoc
      */
-    protected function calculateInternal(ChargeableItem $chargeableItem, ChargePrice $chargePrice): void
+    protected function calculateInternal(BaseChargeItem $chargeItem, ChargePrice $chargePrice): void
     {
-        $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
+        $chargeTablePrice = $this->getChargeTablePrice($chargeItem, $chargePrice->charge_type);
         if ($chargeTablePrice === null) {
             $chargePrice->error = 'Null ChargeTablePrice';
             return;
         }
         $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
         $chargePrice->setAttributes($chargeTablePrice->additional);
-        if ($chargeableItem->basePriceCurrency) {
-            $chargePrice->price_cent =  round($chargeableItem->basePriceCent * $chargeTablePrice->percent / 100);
-            $chargePrice->currency = $chargeableItem->basePriceCurrency;
+        if ($chargeItem->basePriceCurrency) {
+            $chargePrice->price_cent =  round($chargeItem->basePriceCent * $chargeTablePrice->percent / 100);
+            $chargePrice->currency = $chargeItem->basePriceCurrency;
             $chargePrice->note = strtr("{basePrice} x {percent}%", [
-                '{basePrice}' => $chargeableItem->basePriceCent / 100,
+                '{basePrice}' => $chargeItem->basePriceCent / 100,
                 '{percent}' => $chargeTablePrice->percent,
             ]);
             $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-                'base_price_cent' => $chargeableItem->basePriceCent,
+                'base_price_cent' => $chargeItem->basePriceCent,
                 'percent' => $chargeTablePrice->percent,
             ]);
         } else {
@@ -114,10 +114,10 @@ class ChargeTableCalculator extends BaseChargeCalculator
             $chargePrice->currency = $chargeTablePrice->currency;
             $chargePrice->note = $chargeTablePrice->price_cent / 100;
             $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-                'limit_value' => $chargeableItem->limitValue,
+                'limit_value' => $chargeItem->limitValue,
             ]);
-            if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-                $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
+            if ($chargeItem->limitValue > $chargeTablePrice->max_limit) {
+                $overLimit = ($chargeItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
                 if ($this->roundUp) {
                     $overLimit = (int)ceil($overLimit);
                 }

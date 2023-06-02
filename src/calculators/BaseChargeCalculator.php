@@ -80,11 +80,11 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
     }
 
     /**
-     * @param BaseChargeItem $shippingItem
+     * @param BaseChargeItem $chargeItem
      * @param ChargePrice $chargePrice
      * @inheritdoc
      */
-    abstract protected function calculateInternal(BaseChargeItem $shippingItem, ChargePrice $chargePrice): void;
+    abstract protected function calculateInternal(BaseChargeItem $chargeItem, ChargePrice $chargePrice): void;
 
     /**
      * @param ChargePrice $chargePrice

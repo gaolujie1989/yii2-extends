@@ -54,11 +54,7 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
-        $chargePrice->price_table_id = 0;
-        $chargePrice->price_cent = 0;
-        $chargePrice->currency = '';
-        $chargePrice->note = '';
-        $chargePrice->error = '';
+        $chargePrice->resetPrice();
 
         /** @var ChargeableItem[] $chargeableItems */
         $chargeableItems = $this->chargeableItemLoader->get($model);
@@ -78,32 +74,20 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
                 ? implode(',', $chargeableItem->customType)
                 : $chargeableItem->customType;
             $internalChargePrice->setAttributes($chargeableItem->additional);
+
             $this->calculateInternal($chargeableItem, $internalChargePrice);
+            if ($internalChargePrice->error) {
+                $chargePrice->error = $internalChargePrice->error;
+                return $chargePrice;
+            }
             $internalChargePrices[] = $internalChargePrice;
         }
 
-        $this->mergeChargePrices($internalChargePrices, $chargePrice);
+        $chargePrice->mergeChargePrices($internalChargePrices);
         return $chargePrice;
     }
 
-    /**
-     * @param array $internalChargePrices
-     * @param ChargePrice $chargePrice
-     * @inheritdoc
-     */
-    protected function mergeChargePrices(array $internalChargePrices, ChargePrice $chargePrice): void
-    {
-        $chargePrice->price_table_id = ArrayHelper::getColumn($internalChargePrices, 'price_table_id')[0];
-        $chargePrice->price_cent = array_sum(ArrayHelper::getColumn($internalChargePrices, 'price_cent'));
-        $chargePrice->currency = ArrayHelper::getColumn($internalChargePrices, 'currency')[0];
-        $notes = ArrayHelper::getColumn($internalChargePrices, 'note');
-        $totalNote = strtr(' = {price} {currency}', [
-            '{price}' => $chargePrice->price_cent / 100,
-            '{currency}' => $chargePrice->currency,
-        ]);
-        $chargePrice->note = implode(' + ', $notes) . $totalNote;
-        $chargePrice->additional = array_merge(...ArrayHelper::getColumn($internalChargePrices, 'additional'));
-    }
+
 
     /**
      * @param ChargeableItem $chargeableItem
@@ -114,8 +98,6 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     {
         $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
         if ($chargeTablePrice === null) {
-            $chargePrice->price_table_id = 0;
-            $chargePrice->price_cent = 0;
             $chargePrice->error = 'Null ChargeTablePrice';
             return;
         }

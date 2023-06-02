@@ -15,7 +15,6 @@ use lujie\extend\helpers\TemplateHelper;
 use yii\base\BaseObject;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class ShippingPriceCalculator
@@ -57,11 +56,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
      */
     public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
     {
-        $chargePrice->price_table_id = 0;
-        $chargePrice->price_cent = 0;
-        $chargePrice->currency = '';
-        $chargePrice->note = '';
-        $chargePrice->error = '';
+        $chargePrice->resetPrice();
 
         /** @var ShippingItem[] $shippingItems */
         $shippingItems = $this->shippingItemLoader->get($model);
@@ -73,34 +68,44 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
         if (!is_array($shippingItems)) {
             $shippingItems = [$shippingItems];
         }
-        $shippingItem = reset($shippingItems);
-        $chargePrice->custom_type = $shippingItem->carrier;
-        $chargePrice->setAttributes($shippingItem->additional);
 
-        $notes = [];
+        $internalChargePrices = [];
         foreach ($shippingItems as $shippingItem) {
-            $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
-            if ($shippingTablePrice === null) {
-                $chargePrice->price_table_id = 0;
-                $chargePrice->price_cent = 0;
-                $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
+            $internalChargePrice = new ChargePrice();
+            $internalChargePrice->custom_type = $shippingItem->carrier;
+            $internalChargePrice->setAttributes($shippingItem->additional);
+
+            $this->calculateInternal($shippingItem, $internalChargePrice);
+            if ($internalChargePrice->error) {
+                $chargePrice->error = $internalChargePrice->error;
                 return $chargePrice;
             }
-            $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
-            $chargePrice->price_cent += $shippingTablePrice->price_cent;
-            $chargePrice->currency = $shippingTablePrice->currency;
-            $notes[] = strtr('[{carrier}] {price}', [
-                '{carrier}' => $shippingTablePrice->carrier,
-                '{price}' => $shippingTablePrice->price_cent / 100,
-            ]);
+            $internalChargePrices[] = $internalChargePrice;
         }
 
-        $totalNote = strtr(' = {price} {currency}', [
-            '{price}' => $chargePrice->price_cent / 100,
-            '{currency}' => $chargePrice->currency,
-        ]);
-        $chargePrice->note = implode(' + ', $notes) . $totalNote;
+        $chargePrice->mergeChargePrices($internalChargePrices);
         return $chargePrice;
+    }
+
+    /**
+     * @param ShippingItem $shippingItem
+     * @param ChargePrice $chargePrice
+     * @inheritdoc
+     */
+    protected function calculateInternal(ShippingItem $shippingItem, ChargePrice $chargePrice): void
+    {
+        $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
+        if ($shippingTablePrice === null) {
+            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
+            return;
+        }
+        $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
+        $chargePrice->price_cent = $shippingTablePrice->price_cent;
+        $chargePrice->currency = $shippingTablePrice->currency;
+        $chargePrice->note = strtr('[{carrier}] {price}', [
+            '{carrier}' => $shippingTablePrice->carrier,
+            '{price}' => $shippingTablePrice->price_cent / 100,
+        ]);
     }
 
     /**
@@ -178,6 +183,6 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     {
         $carrierZones = $this->getCarrierZones($shippingItem, $carriers, $ownerId);
         $query = $this->getShippingTableQuery($shippingItem);
-        return $query->carrierZones($carrierZones)->getShippingPrices($carriers);
+        return $query->carrierZones($carrierZones)->getCarrierPrices($carriers);
     }
 }

@@ -5,14 +5,12 @@
 
 namespace lujie\charging\calculators;
 
-use yii\base\BaseObject;
-
 /**
  * Class ChargeLine
  * @package lujie\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChargeableItem extends BaseObject
+class ChargeableItem extends BaseChargeItem
 {
     /**
      * @var string|array
@@ -39,9 +37,4 @@ class ChargeableItem extends BaseObject
      * @var int
      */
     public $basePriceCurrency;
-
-    /**
-     * @var array
-     */
-    public $additional = [];
 }

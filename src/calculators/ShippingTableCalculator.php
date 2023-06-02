@@ -5,15 +5,12 @@
 
 namespace lujie\charging\calculators;
 
-use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
 use lujie\data\loader\DataLoaderInterface;
 use lujie\extend\helpers\TemplateHelper;
-use yii\base\BaseObject;
-use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 
 /**
@@ -21,7 +18,7 @@ use yii\di\Instance;
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInterface
+class ShippingTableCalculator extends BaseChargeCalculator
 {
     /**
      * @var ?int
@@ -34,66 +31,23 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     public $defaultCarrier = 'DEFAULT';
 
     /**
-     * @var DataLoaderInterface
-     */
-    public $shippingItemLoader = 'shippingItemLoader';
-
-    /**
-     * @throws \yii\base\InvalidConfigException
+     * @param $chargeItemLoader
      * @inheritdoc
+     * @deprecated
      */
-    public function init(): void
+    public function setShippingItemLoader($chargeItemLoader): void
     {
-        parent::init();
-        $this->shippingItemLoader = Instance::ensure($this->shippingItemLoader, DataLoaderInterface::class);
+        $this->chargeItemLoader = $chargeItemLoader;
     }
 
     /**
-     * @param BaseActiveRecord $model
-     * @param ChargePrice $chargePrice
-     * @return ChargePrice
-     * @inheritdoc
-     */
-    public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
-    {
-        $chargePrice->resetPrice();
-
-        /** @var ShippingItem[] $shippingItems */
-        $shippingItems = $this->shippingItemLoader->get($model);
-        if (empty($shippingItems)) {
-            $chargePrice->error = 'Empty ShippingItems';
-            return $chargePrice;
-        }
-
-        if (!is_array($shippingItems)) {
-            $shippingItems = [$shippingItems];
-        }
-
-        $internalChargePrices = [];
-        foreach ($shippingItems as $shippingItem) {
-            $internalChargePrice = new ChargePrice();
-            $internalChargePrice->custom_type = $shippingItem->carrier;
-            $internalChargePrice->setAttributes($shippingItem->additional);
-
-            $this->calculateInternal($shippingItem, $internalChargePrice);
-            if ($internalChargePrice->error) {
-                $chargePrice->error = $internalChargePrice->error;
-                return $chargePrice;
-            }
-            $internalChargePrices[] = $internalChargePrice;
-        }
-
-        $chargePrice->mergeChargePrices($internalChargePrices);
-        return $chargePrice;
-    }
-
-    /**
-     * @param ShippingItem $shippingItem
+     * @param BaseChargeItem|ShippingItem $shippingItem
      * @param ChargePrice $chargePrice
      * @inheritdoc
      */
-    protected function calculateInternal(ShippingItem $shippingItem, ChargePrice $chargePrice): void
+    protected function calculateInternal(BaseChargeItem $shippingItem, ChargePrice $chargePrice): void
     {
+        $chargePrice->custom_type = $shippingItem->carrier;
         $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
         if ($shippingTablePrice === null) {
             $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);

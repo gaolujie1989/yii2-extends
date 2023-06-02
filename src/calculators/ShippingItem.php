@@ -5,14 +5,12 @@
 
 namespace lujie\charging\calculators;
 
-use yii\base\Model;
-
 /**
  * Class ShippingPackage
  * @package lujie\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingItem extends Model
+class ShippingItem extends BaseChargeItem
 {
     /**
      * @var string
@@ -58,9 +56,4 @@ class ShippingItem extends Model
      * @var int
      */
     public $heightMM;
-
-    /**
-     * @var array
-     */
-    public $additional = [];
 }

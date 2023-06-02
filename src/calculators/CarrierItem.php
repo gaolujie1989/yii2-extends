@@ -12,7 +12,7 @@ use yii\base\BaseObject;
  * @package ccship\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CarrierItem extends BaseObject
+class CarrierItem extends BaseChargeItem
 {
     /**
      * @var string
@@ -28,9 +28,4 @@ class CarrierItem extends BaseObject
      * @var array
      */
     public $trackingNumbers = [];
-
-    /**
-     * @var array
-     */
-    public $additional = [];
 }

@@ -5,8 +5,6 @@
 
 namespace lujie\charging\models;
 
-use yii\helpers\ArrayHelper;
-
 /**
  * Trait ChargePriceTrait
  * @package lujie\charging\models
@@ -114,35 +112,6 @@ trait ChargePriceTrait
             $this->discount_cent = (int)round($this->price_cent * $this->qty * $percent / 100, 0, PHP_ROUND_HALF_DOWN);
         } else {
             $this->discount_cent = 0;
-        }
-    }
-
-    /**
-     * @param ChargePrice[] $chargePrices
-     * @param ChargePrice $xxx
-     * @inheritdoc
-     */
-    public function mergeChargePrices(array $chargePrices): void
-    {
-        if (empty($chargePrices)) {
-            return;
-        }
-        $chargePrice = reset($chargePrices);
-        $this->setAttribute($chargePrice->getDirtyAttributes(), false);
-        if (count($chargePrices) > 1) {
-            $notes = [];
-            foreach ($chargePrices as $chargePrice) {
-                $chargePrice->calculateTotal();
-                $notes[] = $chargePrice->note . ($chargePrice->qty > 1 ? ' x ' . $chargePrice->qty : '');
-            }
-            $this->subtotal_cent = array_sum(ArrayHelper::getColumn($chargePrices, 'subtotal_cent'));
-            $this->price_cent = $this->subtotal_cent;
-            $this->qty = 1;
-            $this->discount_cent = array_sum(ArrayHelper::getColumn($chargePrices, 'discount_cent'));
-            $this->surcharge_cent = array_sum(ArrayHelper::getColumn($chargePrices, 'surcharge_cent'));
-            $this->grand_total_cent = array_sum(ArrayHelper::getColumn($chargePrices, 'grand_total_cent'));
-            $this->note = implode(' + ', $notes);
-            $this->additional = array_merge(...ArrayHelper::getColumn($chargePrices, 'additional'));
         }
     }
 }

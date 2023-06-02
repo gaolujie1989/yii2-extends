@@ -19,13 +19,8 @@ use yii\helpers\ArrayHelper;
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterface
+class ChargeTableCalculator extends BaseChargeCalculator
 {
-    /**
-     * @var DataLoaderInterface
-     */
-    public $chargeableItemLoader = 'chargeableItemLoader';
-
     /**
      * @var bool
      */
@@ -37,13 +32,13 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     public $roundUp = true;
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @param $chargeItemLoader
      * @inheritdoc
+     * @deprecated
      */
-    public function init(): void
+    public function setChargeableItemLoader($chargeItemLoader): void
     {
-        parent::init();
-        $this->chargeableItemLoader = Instance::ensure($this->chargeableItemLoader, DataLoaderInterface::class);
+        $this->chargeItemLoader = $chargeItemLoader;
     }
 
     /**

@@ -105,6 +105,10 @@ class EbayRestClient extends RestOAuth2
         'InventoryItemGroup' => 'sell/inventory/v1/inventory_item_group',
         'InventoryLocation' => 'sell/inventory/v1/location',
         'InventoryOffer' => 'sell/inventory/v1/offer',
+        'customPolicy' => 'sell/account/v1/custom_policy',
+        'fulfillmentPolicy' => 'sell/account/v1/fulfillment_policy',
+        'paymentPolicy' => 'sell/account/v1/payment_policy',
+        'returnPolicy' => 'sell/account/v1/return_policy',
     ];
 
     /**
@@ -153,7 +157,7 @@ class EbayRestClient extends RestOAuth2
             'withdrawByInventoryItemGroup' => ['POST', 'withdraw_by_inventory_item_group'],
             'publish' => ['POST', '{offerId}/publish'],
             'publishByInventoryItemGroup' => ['POST', 'publish_by_inventory_item_group'],
-        ]
+        ],
     ];
 
     public $extraMethods = [
@@ -162,6 +166,10 @@ class EbayRestClient extends RestOAuth2
         'bulkMigrateListing' => ['POST', 'sell/inventory/v1/bulk_migrate_listing'],
         'bulkCreateOffer' => ['POST', 'sell/inventory/v1/bulk_create_offer'],
         'bulkPublishOffer' => ['POST', 'sell/inventory/v1/bulk_publish_offer'],
+        'getCategoryTree' => ['GET', 'commerce/taxonomy/v1/category_tree/{category_tree_id}'],
+        'getCategorySubTree' => ['GET', 'commerce/taxonomy/v1/category_tree/{category_tree_id}/get_category_subtree'],
+        'getCategoryTreeItemAspects' => ['GET', '/commerce/taxonomy/v1/category_tree/{category_tree_id}/fetch_item_aspects'],
+        'getCategoryItemAspects' => ['GET', '/commerce/taxonomy/v1/category_tree/{category_tree_id}/get_item_aspects_for_category'],
     ];
 
     public $responseDataKeys = [

@@ -31,33 +31,69 @@ use yii\httpclient\Client;
  * @method array deleteInventoryItemGroup($data)
  * @method array saveInventoryItemGroup($data)
  *
- * @method array listInventoryLocations($data = [])
- * @method \Generator eachInventoryLocations($condition = [], $batchSize = 100)
- * @method \Generator batchInventoryLocations($condition = [], $batchSize = 100)
- * @method array getInventoryLocation($data)
- * @method array createInventoryLocation($data)
- * @method array updateInventoryLocation($data)
- * @method array deleteInventoryLocation($data)
- * @method array enableInventoryLocation($data)
- * @method array disableInventoryLocation($data)
+ * @method array listLocations($data = [])
+ * @method \Generator eachLocations($condition = [], $batchSize = 100)
+ * @method \Generator batchLocations($condition = [], $batchSize = 100)
+ * @method array getLocation($data)
+ * @method array createLocation($data)
+ * @method array updateLocation($data)
+ * @method array deleteLocation($data)
+ * @method array enableLocation($data)
+ * @method array disableLocation($data)
  *
- * @method array listInventoryOffers($data = [])
- * @method \Generator eachInventoryOffers($condition = [], $batchSize = 100)
- * @method \Generator batchInventoryOffers($condition = [], $batchSize = 100)
- * @method array getInventoryOffer($data)
- * @method array createInventoryOffer($data)
- * @method array updateInventoryOffer($data)
- * @method array deleteInventoryOffer($data)
- * @method array getListingFeesInventoryOffer($data)
- * @method array withdrawInventoryOffer($data)
- * @method array withdrawByInventoryItemGroupInventoryOffer($data)
- * @method array publishInventoryOffer($data)
- * @method array publishByInventoryItemGroupInventoryOffer($data)
+ * @method array listOffers($data = [])
+ * @method \Generator eachOffers($condition = [], $batchSize = 100)
+ * @method \Generator batchOffers($condition = [], $batchSize = 100)
+ * @method array getOffer($data)
+ * @method array createOffer($data)
+ * @method array updateOffer($data)
+ * @method array deleteOffer($data)
+ * @method array getListingFeesOffer($data)
+ * @method array withdrawOffer($data)
+ * @method array withdrawByInventoryItemGroupOffer($data)
+ * @method array publishOffer($data)
+ * @method array publishByInventoryItemGroupOffer($data)
+ *
+ * @method array listCustomPolicies($data = [])
+ * @method \Generator eachCustomPolicies($condition = [], $batchSize = 100)
+ * @method \Generator batchCustomPolicies($condition = [], $batchSize = 100)
+ * @method array getCustomPolicy($data)
+ * @method array createCustomPolicy($data)
+ * @method array updateCustomPolicy($data)
+ * @method array deleteCustomPolicy($data)
+ *
+ * @method array listFulfillmentPolicies($data = [])
+ * @method \Generator eachFulfillmentPolicies($condition = [], $batchSize = 100)
+ * @method \Generator batchFulfillmentPolicies($condition = [], $batchSize = 100)
+ * @method array getFulfillmentPolicy($data)
+ * @method array createFulfillmentPolicy($data)
+ * @method array updateFulfillmentPolicy($data)
+ * @method array deleteFulfillmentPolicy($data)
+ *
+ * @method array listPaymentPolicies($data = [])
+ * @method \Generator eachPaymentPolicies($condition = [], $batchSize = 100)
+ * @method \Generator batchPaymentPolicies($condition = [], $batchSize = 100)
+ * @method array getPaymentPolicy($data)
+ * @method array createPaymentPolicy($data)
+ * @method array updatePaymentPolicy($data)
+ * @method array deletePaymentPolicy($data)
+ *
+ * @method array listReturnPolicies($data = [])
+ * @method \Generator eachReturnPolicies($condition = [], $batchSize = 100)
+ * @method \Generator batchReturnPolicies($condition = [], $batchSize = 100)
+ * @method array getReturnPolicy($data)
+ * @method array createReturnPolicy($data)
+ * @method array updateReturnPolicy($data)
+ * @method array deleteReturnPolicy($data)
  * @method array bulkSaveInventoryItem($data)
  * @method array bulkUpdatePriceQuantity($data)
  * @method array bulkMigrateListing($data)
  * @method array bulkCreateOffer($data)
  * @method array bulkPublishOffer($data)
+ * @method array getCategoryTree($data)
+ * @method array getCategorySubTree($data)
+ * @method array getCategoryTreeItemAspects($data)
+ * @method array getCategoryItemAspects($data)
  *
  * @package lujie\ebay
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -103,12 +139,12 @@ class EbayRestClient extends RestOAuth2
         'Order' => 'sell/fulfillment/v1/order',
         'InventoryItem' => 'sell/inventory/v1/inventory_item',
         'InventoryItemGroup' => 'sell/inventory/v1/inventory_item_group',
-        'InventoryLocation' => 'sell/inventory/v1/location',
-        'InventoryOffer' => 'sell/inventory/v1/offer',
-        'customPolicy' => 'sell/account/v1/custom_policy',
-        'fulfillmentPolicy' => 'sell/account/v1/fulfillment_policy',
-        'paymentPolicy' => 'sell/account/v1/payment_policy',
-        'returnPolicy' => 'sell/account/v1/return_policy',
+        'Location' => 'sell/inventory/v1/location',
+        'Offer' => 'sell/inventory/v1/offer',
+        'CustomPolicy' => 'sell/account/v1/custom_policy',
+        'FulfillmentPolicy' => 'sell/account/v1/fulfillment_policy',
+        'PaymentPolicy' => 'sell/account/v1/payment_policy',
+        'ReturnPolicy' => 'sell/account/v1/return_policy',
     ];
 
     /**
@@ -140,7 +176,7 @@ class EbayRestClient extends RestOAuth2
             'save' => ['PUT', '{inventoryItemGroupKey}'],
             'delete' => ['DELETE', '{inventoryItemGroupKey}'],
         ],
-        'InventoryLocation' => [
+        'Location' => [
             'get' => ['GET', '{merchantLocationKey}'],
             'create' => ['POST', '{merchantLocationKey}'],
             'update' => ['PUT', '{merchantLocationKey}/update_location_details'],
@@ -148,7 +184,7 @@ class EbayRestClient extends RestOAuth2
             'disable' => ['POST ', '{merchantLocationKey}/disable'],
             'delete' => ['DELETE', '{merchantLocationKey}'],
         ],
-        'InventoryOffer' => [
+        'Offer' => [
             'get' => ['GET', '{offerId}'],
             'getListingFees' => ['GET', 'get_listing_fees'],
             'update' => ['PUT', '{offerId}'],

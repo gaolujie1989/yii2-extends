@@ -60,7 +60,7 @@ class AuthHelper
     /**
      * @var string[]
      */
-    public static $replaceKeys = ['_', '.'];
+    public static $replaceKeys = ['/', '.'];
 
     /**
      * @param $config

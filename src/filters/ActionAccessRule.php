@@ -67,6 +67,16 @@ class ActionAccessRule extends AccessRule
     public $replaces = ['/' => '_'];
 
     /**
+     * @var bool
+     */
+    public $supportPrefix = false;
+
+    /**
+     * @var string
+     */
+    public $separator = '_';
+
+    /**
      * @param Action $action
      * @param bool|\yii\web\User $user
      * @param \yii\web\Request $request
@@ -79,6 +89,10 @@ class ActionAccessRule extends AccessRule
         return parent::allows($action, $user, $request);
     }
 
+    /**
+     * @param Action $action
+     * @inheritdoc
+     */
     protected function appendActionIdToPermissions(Action $action): void
     {
         $actionId = $action->getUniqueId();
@@ -89,9 +103,18 @@ class ActionAccessRule extends AccessRule
                 $actionId = call_user_func($this->actionPermissionNameCallback, $actionId);
             }
         }
-        $actionId = $this->prefix . strtr($actionId, $this->replaces) . $this->suffix;
+        $actionId = strtr($actionId, $this->replaces);
         $this->permissions = $this->permissions ?: [];
-        $this->permissions[] = $actionId;
+        $this->permissions[] = $this->prefix . $actionId . $this->suffix;
+        if ($this->supportPrefix && $this->separator) {
+            $actionIdParts = explode($this->separator, $actionId);
+            array_shift($actionIdParts);
+            while($actionIdParts) {
+                $prefixActionId = implode($this->separator, $actionIdParts);
+                $this->permissions[] = $this->prefix . $prefixActionId . $this->suffix;
+                array_shift($actionIdParts);
+            }
+        }
     }
 
     /**

@@ -64,7 +64,7 @@ class ActionAccessRule extends AccessRule
     /**
      * @var array
      */
-    public $replaces = [];
+    public $replaces = ['/' => '_'];
 
     /**
      * @var bool
@@ -108,11 +108,11 @@ class ActionAccessRule extends AccessRule
         $this->permissions[] = $this->prefix . $actionId . $this->suffix;
         if ($this->supportPrefix && $this->separator) {
             $actionIdParts = explode($this->separator, $actionId);
-            array_pop($actionIdParts);
+            array_shift($actionIdParts);
             while($actionIdParts) {
                 $prefixActionId = implode($this->separator, $actionIdParts);
                 $this->permissions[] = $this->prefix . $prefixActionId . $this->suffix;
-                array_pop($actionIdParts);
+                array_shift($actionIdParts);
             }
         }
     }

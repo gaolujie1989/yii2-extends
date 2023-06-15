@@ -2,10 +2,10 @@
 
 namespace lujie\user\models;
 
-use lujie\extend\constants\StatusConst;
 use Yii;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
+use yii\di\Instance;
 use yii\web\IdentityInterface;
 
 /**
@@ -20,13 +20,9 @@ use yii\web\IdentityInterface;
  */
 class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
 {
-    public const LOGIN_TYPE = 'Login';
+    public static $cacheDuration = 86400;
 
-    protected const CACHE_DURATION = 86400;
-    protected const CACHE_USER_TAG = 'User';
-    protected const CACHE_TOKEN_TAG = 'UserToken';
-    protected const CACHE_USER_KEY_PREFIX = 'User:';
-    protected const CACHE_USER_ID_KEY_PREFIX = 'UserID:';
+    public static $cacheTags = ['user'];
 
     /**
      * {@inheritdoc}
@@ -86,49 +82,17 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param int $id
-     * @return string
-     * @inheritdoc
-     */
-    public static function getUserCacheKey(int $id): string
-    {
-        return static::CACHE_USER_KEY_PREFIX . $id;
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     * @inheritdoc
-     */
-    public static function getUserIdCacheKey(string $key): string
-    {
-        return static::CACHE_USER_ID_KEY_PREFIX . $key;
-    }
-
-    /**
-     * @param int $id
-     * @param string|null $type
-     * @return string[]
-     * @inheritdoc
-     */
-    public static function getUserIdTokenTags(int $id, ?string $type): array
-    {
-        return [static::CACHE_TOKEN_TAG, static::CACHE_TOKEN_TAG . $id . ($type ?? '')];
-    }
-
-    /**
      * @param int|string $id
      * @return User|null
      * @inheritdoc
      */
     public static function findIdentity($id): ?self
     {
-        $dependency = new TagDependency(['tags' => [static::CACHE_USER_TAG]]);
-        $findUser = static::getCache()->getOrSet(static::getUserCacheKey($id), static function () use ($id) {
-            //return false if not want to be cached
-            return static::findOne(['user_id' => $id, 'status' => StatusConst::STATUS_ACTIVE]) ?: false;
-        }, static::CACHE_DURATION, $dependency);
-        return $findUser === false ? null : $findUser;
+        return static::find()
+            ->userId($id)
+            ->active()
+            ->cache(static::$cacheDuration, new TagDependency(['tags' => static::$cacheTags]))
+            ->one();
     }
 
     /**
@@ -139,13 +103,18 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null): ?self
     {
-        $key = ($type ?? '') . $token;
-        $userId = static::getCache()->get(static::getUserIdCacheKey($key))
-            ?: static::getCache()->get(static::getUserIdCacheKey($token));
-        if ($userId) {
-            return static::findIdentity($userId);
+        $query = UserAccessToken::find()
+            ->accessToken($token)
+            ->expiredAtBetween(0, time())
+            ->cache(static::$cacheDuration, new TagDependency(['tags' => static::$cacheTags]));
+        if ($type) {
+            $query->tokenType($type);
         }
-        return null;
+        $userAccessToken = $query->one();
+        if ($userAccessToken === null || $userAccessToken->expired_at < time()) {
+            return null;
+        }
+        return static::findIdentity($userAccessToken->user_id);
     }
 
     /**
@@ -156,23 +125,16 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
      * @throws \yii\base\Exception
      * @inheritdoc
      */
-    public function getAccessToken(?string $type = null, int $duration = 86400, int $length = 32): string
+    public function createAccessToken(?string $type = null, int $duration = 86400, int $length = 64): UserAccessToken
     {
-        $token = Yii::$app->security->generateRandomString($length);
-        $key = ($type ?? '') . $token;
-        $dependency = new TagDependency(['tags' => static::getUserIdTokenTags($this->getId(), $type)]);
-        static::getCache()->set(static::getUserIdCacheKey($key), $this->getId(), $duration, $dependency);
-        static::getCache()->set(static::getUserIdCacheKey($token), $this->getId(), $duration, $dependency);
-        return $token;
-    }
-
-    /**
-     * @return int|string
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
+        $userAccessToken = new UserAccessToken();
+        $userAccessToken->user_id = $this->user_id;
+        $userAccessToken->access_token = Yii::$app->security->generateRandomString($length);
+        $userAccessToken->token_type = $type ?? '';
+        $userAccessToken->expired_at = time() + $duration;
+        $userAccessToken->last_accessed_at = 0;
+        $userAccessToken->save(false);
+        return $userAccessToken;
     }
 
     /**
@@ -244,15 +206,28 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param bool $insert
-     * @param array $changedAttributes
+     * @param $insert
+     * @param $changedAttributes
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function afterSave($insert, $changedAttributes): void
     {
         parent::afterSave($insert, $changedAttributes);
-        if ($this->status === StatusConst::STATUS_INACTIVE) {
-            static::getCache()->delete(static::getUserCacheKey($this->user_id));
+        $this->invalidateCache();
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function invalidateCache(): void
+    {
+        $connection = static::getDb();
+        if ($connection->enableQueryCache && $connection->queryCache) {
+            /** @var CacheInterface $queryCache */
+            $queryCache = Instance::ensure($connection->queryCache);
+            TagDependency::invalidate($queryCache, static::$cacheTags);
         }
     }
 

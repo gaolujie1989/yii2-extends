@@ -5,8 +5,10 @@
 
 namespace lujie\auth\rbac;
 
+use lujie\extend\file\FileReaderInterface;
 use yii\base\BaseObject;
 use yii\rbac\CheckAccessInterface;
+use function PHPUnit\Framework\assertFileIsReadable;
 
 /**
  * Class StaticUserAccessChecker
@@ -21,14 +23,9 @@ class StaticUserAccessChecker extends BaseObject implements CheckAccessInterface
     public $accessUserIds = [];
 
     /**
-     * @var string
+     * @var array
      */
-    public $permissionPrefix = '';
-
-    /**
-     * @var bool
-     */
-    public $allow = true;
+    public $permissionAllows = [];
 
     /**
      * @param int|string $userId
@@ -40,10 +37,13 @@ class StaticUserAccessChecker extends BaseObject implements CheckAccessInterface
      */
     public function checkAccess($userId, $permissionName, $params = []): bool
     {
-        if (str_starts_with($permissionName, $this->permissionPrefix)
-            && in_array($userId, $this->accessUserIds, true)) {
-            return  $this->allow;
+        if (in_array($userId, $this->accessUserIds, true)) {
+            foreach ($this->permissionAllows as $permissionPrefix => $allow) {
+                if (str_starts_with($permissionName, $permissionPrefix)) {
+                    return $allow;
+                }
+            }
         }
-        return !$this->allow;
+        return false;
     }
 }

@@ -15,7 +15,20 @@ use yii\rbac\CheckAccessInterface;
  */
 class StaticUserAccessChecker extends BaseObject implements CheckAccessInterface
 {
+    /**
+     * @var array
+     */
     public $accessUserIds = [];
+
+    /**
+     * @var string
+     */
+    public $permissionPrefix = '';
+
+    /**
+     * @var bool
+     */
+    public $allow = true;
 
     /**
      * @param int|string $userId
@@ -27,6 +40,10 @@ class StaticUserAccessChecker extends BaseObject implements CheckAccessInterface
      */
     public function checkAccess($userId, $permissionName, $params = []): bool
     {
-        return in_array($userId, $this->accessUserIds, true);
+        if (str_starts_with($permissionName, $this->permissionPrefix)
+            && in_array($userId, $this->accessUserIds, true)) {
+            return  $this->allow;
+        }
+        return !$this->allow;
     }
 }

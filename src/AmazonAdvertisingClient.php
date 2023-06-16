@@ -254,9 +254,19 @@ class AmazonAdvertisingClient extends RestOAuth2
      */
     public $profileId;
 
-    public $httpClientOptions = [];
+    /**
+     * @var array[]
+     */
+    public $httpClientOptions = [
+        'requestConfig' => [
+            'format' => 'json',
+        ],
+        'responseConfig' => [
+            'format' => 'json'
+        ],
+    ];
 
-   #region Rest
+    #region Rest
 
     /**
      * @var array

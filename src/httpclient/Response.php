@@ -15,6 +15,16 @@ use lujie\extend\compressors\GzCompressor;
 class Response extends \yii\httpclient\Response
 {
     /**
+     * @var bool
+     */
+    public $autoDecode = true;
+
+    /**
+     * @var ?string
+     */
+    public $rawContent;
+
+    /**
      * @inheritdoc
      */
     public function decodeContent(): void
@@ -34,8 +44,8 @@ class Response extends \yii\httpclient\Response
         $compressor = new GzCompressor();
         $compressor->encoding = $encodings[$encoding];
 
-        $content = parent::getContent();
-        $this->setContent($compressor->unCompress($content));
+        $this->rawContent = parent::getContent();
+        $this->setContent($compressor->unCompress($this->rawContent));
         $headers->remove('content-encoding');
     }
 
@@ -45,7 +55,9 @@ class Response extends \yii\httpclient\Response
      */
     public function getContent(): string
     {
-        $this->decodeContent();
+        if ($this->autoDecode) {
+            $this->decodeContent();
+        }
         return parent::getContent();
     }
 }

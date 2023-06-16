@@ -5,13 +5,13 @@
 
 namespace lujie\extend\authclient;
 
+use lujie\extend\httpclient\Response;
 use Yii;
 use yii\authclient\CacheStateStorage;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use function PHPUnit\Framework\stringContains;
 
 /**
  * Trait RestTrait
@@ -20,6 +20,7 @@ use function PHPUnit\Framework\stringContains;
  * @property array $extraActions
  * @property array $extraMethods
  * @property string $suffix
+ * @property bool $contentEncoding
  *
  * @property string|array $cacheStorage
  * @property array $httpClientOptions
@@ -85,14 +86,19 @@ trait RestApiTrait
     {
         Yii::info('Init rest config and api methods', __METHOD__);
         $this->setStateStorage($this->cacheStorage ?? CacheStateStorage::class);
-        $this->setHttpClient(array_merge([
-            'requestConfig' => [
-                'format' => 'json'
+        $this->setHttpClient(array_merge(
+            [
+                'requestConfig' => [
+                    'Accept-Encoding' => 'gzip, deflate',
+                    'format' => 'json',
+                ],
+                'responseConfig' => [
+                    'class' => Response::class,
+                    'format' => 'json'
+                ],
             ],
-            'responseConfig' => [
-                'format' => 'json'
-            ],
-        ], $this->httpClientOptions ?? []));
+            $this->httpClientOptions ?? []
+        ));
         $this->methods = array_merge($this->createRestApiMethods(), $this->extraMethods ?? []);
         if (isset($this->suffix)) {
             $this->methods = array_map(function (array $method) {
@@ -200,15 +206,15 @@ trait RestApiTrait
             return $this->restApi($name, $params[0] ?? []);
         }
 
-        if (strpos($name, 'batch') === 0) {
+        if (str_starts_with($name, 'batch')) {
             return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
         }
 
-        if (strpos($name, 'each') === 0) {
+        if (str_starts_with($name, 'each')) {
             return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
         }
 
-        parent::__call($name, $params);
+        return parent::__call($name, $params);
     }
 
     /**
@@ -219,7 +225,7 @@ trait RestApiTrait
     {
         $apiMethodDocs = [];
         foreach ($this->methods as $method => [$httpMethod, $url]) {
-            if (strpos($method, 'list') === 0) {
+            if (str_starts_with($method, 'list')) {
                 $name = substr($method, 4);
                 $apiMethodDocs[] = " * ";
                 $apiMethodDocs[] = " * @method array {$method}(\$data = [])";

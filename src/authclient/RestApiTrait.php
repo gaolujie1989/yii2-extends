@@ -89,7 +89,9 @@ trait RestApiTrait
         $this->setHttpClient(array_merge(
             [
                 'requestConfig' => [
-                    'Accept-Encoding' => 'gzip, deflate',
+                    'headers' => [
+                        'Accept-Encoding' => 'gzip, deflate',
+                    ],
                     'format' => 'json',
                 ],
                 'responseConfig' => [

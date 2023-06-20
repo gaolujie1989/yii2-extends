@@ -275,7 +275,7 @@ class EbayRestClient extends RestOAuth2
     protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
         $condition['offset'] = ($responseData['offset'] ?? 0) + ($responseData['limit'] ?? 50);
-        if ($responseData['total'] <= $condition['offset']) {
+        if (($responseData['total'] ?? 0) <= $condition['offset']) {
             return null;
         }
         return $condition;

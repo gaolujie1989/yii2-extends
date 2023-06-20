@@ -210,6 +210,9 @@ class EbayRestClient extends RestOAuth2
 
     public $responseDataKeys = [
         'listOrders' => 'orders',
+        'listFulfillmentPolicy' => 'fulfillmentPolicies',
+        'listPaymentPolicy' => 'paymentPolicies',
+        'listReturnPolicy' => 'returnPolicies',
     ];
 
     /**

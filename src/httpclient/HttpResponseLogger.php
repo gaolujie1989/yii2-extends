@@ -9,6 +9,7 @@ use Yii;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
+use yii\helpers\FileHelper;
 use yii\helpers\StringHelper;
 use yii\httpclient\Client;
 use yii\httpclient\RequestEvent;
@@ -21,9 +22,9 @@ use yii\httpclient\RequestEvent;
 class HttpResponseLogger extends BaseObject implements BootstrapInterface
 {
     /**
-     * @var int
+     * @var string
      */
-    public $contentLoggingMaxSize = 5000;
+    public $logPath = '@runtime/requests/';
 
     /**
      * @param $app
@@ -36,6 +37,7 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
 
     /**
      * @param RequestEvent $requestEvent
+     * @throws \yii\base\Exception
      * @inheritdoc
      */
     public function logResponse(RequestEvent $requestEvent): void
@@ -46,8 +48,12 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
         foreach ($headers as $key => $header) {
             $headers[$key] = $key . ': ' . implode('; ', $header);
         }
-        $token = $this->createResponseLogToken($request->getMethod(), $request->getFullUrl(), $headers, print_r($response->getContent(), true));
-        Yii::info($token, __METHOD__);
+        $logContent = $this->createResponseLogContent($request->getMethod(), $request->getFullUrl(), $headers, print_r($response->getContent(), true));
+        $fileName = strtr($request->getFullUrl(), ["://" => "_", '.' => '_', '/' => '_', '?' => '_', '=' => '_']);
+        $fileName =  date('YmdHis') . '_' . $request->getMethod() . '_' . $fileName . '.log';
+        $path = rtrim(Yii::getAlias($this->logPath), '/') . '/';
+        FileHelper::createDirectory($path);
+        file_put_contents($path . $fileName, $logContent);
     }
 
     /**
@@ -58,14 +64,14 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
      * @return string
      * @inheritdoc
      */
-    public function createResponseLogToken(string $method, string $url, array $headers, ?string $content): string
+    public function createResponseLogContent(string $method, string $url, array $headers, ?string $content): string
     {
         $token = strtoupper($method) . ' ' . $url;
         if (!empty($headers)) {
             $token .= "\n" . implode("\n", $headers);
         }
         if ($content !== null) {
-            $token .= "\n\n" . StringHelper::truncate($content, $this->contentLoggingMaxSize);
+            $token .= "\n\n" . $content;
         }
         return $token;
     }

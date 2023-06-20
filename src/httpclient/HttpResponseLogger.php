@@ -43,6 +43,9 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
         $request = $requestEvent->request;
         $response = $requestEvent->response;
         $headers = $response->getHeaders()->toArray();
+        foreach ($headers as $key => $header) {
+            $headers[$key] = $key . ': ' . implode('; ', $header);
+        }
         $token = $this->createResponseLogToken($request->getMethod(), $request->getFullUrl(), $headers, print_r($response->getContent(), true));
         Yii::info($token, __METHOD__);
     }

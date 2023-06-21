@@ -45,7 +45,7 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
     {
         $request = $requestEvent->request;
         $response = $requestEvent->response;
-        $logContent = $this->createLogContent($request->getMethod(), $request->getFullUrl(), $this->getHeaders($request->getHeaders()), print_r($response->getContent(), true))
+        $logContent = $this->createLogContent($request->getMethod(), $request->getFullUrl(), $this->getHeaders($request->getHeaders()), print_r($request->getContent(), true))
             . "\n\n"
             . $this->createLogContent('', '', $this->getHeaders($response->getHeaders()), print_r($response->getContent(), true));
         $fileName = strtr($request->getFullUrl(), ["://" => "_", '.' => '_', '/' => '_', '?' => '_', '=' => '_']);

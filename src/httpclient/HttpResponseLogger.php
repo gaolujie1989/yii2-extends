@@ -13,6 +13,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\StringHelper;
 use yii\httpclient\Client;
 use yii\httpclient\RequestEvent;
+use yii\web\HeaderCollection;
 
 /**
  * Class ResponseLogger
@@ -44,16 +45,28 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
     {
         $request = $requestEvent->request;
         $response = $requestEvent->response;
-        $headers = $response->getHeaders()->toArray();
-        foreach ($headers as $key => $header) {
-            $headers[$key] = $key . ': ' . implode('; ', $header);
-        }
-        $logContent = $this->createResponseLogContent($request->getMethod(), $request->getFullUrl(), $headers, print_r($response->getContent(), true));
+        $logContent = $this->createLogContent($request->getMethod(), $request->getFullUrl(), $this->getHeaders($request->getHeaders()), print_r($response->getContent(), true))
+            . "\n\n"
+            . $this->createLogContent('', '', $this->getHeaders($response->getHeaders()), print_r($response->getContent(), true));
         $fileName = strtr($request->getFullUrl(), ["://" => "_", '.' => '_', '/' => '_', '?' => '_', '=' => '_']);
-        $fileName =  date('YmdHis') . '_' . $request->getMethod() . '_' . $fileName . '.log';
+        $fileName = date('YmdHis') . '_' . $request->getMethod() . '_' . $fileName . '.log';
         $path = rtrim(Yii::getAlias($this->logPath), '/') . '/';
         FileHelper::createDirectory($path);
         file_put_contents($path . $fileName, $logContent);
+    }
+
+    /**
+     * @param HeaderCollection $headerCollection
+     * @return array
+     * @inheritdoc
+     */
+    public function getHeaders(HeaderCollection $headerCollection): array
+    {
+        $headers = [];
+        foreach ($headerCollection as $key => $header) {
+            $headers[$key] = $key . ': ' . implode('; ', $header);
+        }
+        return $headers;
     }
 
     /**
@@ -64,7 +77,7 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
      * @return string
      * @inheritdoc
      */
-    public function createResponseLogContent(string $method, string $url, array $headers, ?string $content): string
+    public function createLogContent(string $method, string $url, array $headers, ?string $content): string
     {
         $token = strtoupper($method) . ' ' . $url;
         if (!empty($headers)) {

@@ -62,6 +62,11 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @var array
      */
+    public $paramKeys;
+
+    /**
+     * @var array
+     */
     public $valueKeys;
 
     /**
@@ -138,14 +143,18 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         }
         $query = clone $this->query;
         $query->andWhere($this->condition)->addOrderBy($this->orderBy);
-        if (empty($values) && $this->limit) {
-            $query->limit($this->limit);
-        }
         if ($this->filterKeys && $key) {
             QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
         }
+        if ($this->paramKeys && $params) {
+            foreach ($this->paramKeys as $paramKey) {
+                QueryHelper::filterKey($query, $paramKey, $params[$paramKey] ?? null);
+            }
+        }
         if ($this->valueKeys && $values) {
             QueryHelper::filterKey($query, $this->valueKeys, $values);
+        } else if ($this->limit) {
+            $query->limit($this->limit);
         }
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();

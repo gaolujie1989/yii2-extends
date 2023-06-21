@@ -208,13 +208,6 @@ class EbayRestClient extends RestOAuth2
         'getCategoryItemAspects' => ['GET', '/commerce/taxonomy/v1/category_tree/{category_tree_id}/get_item_aspects_for_category'],
     ];
 
-    public $responseDataKeys = [
-        'listOrders' => 'orders',
-        'listFulfillmentPolicy' => 'fulfillmentPolicies',
-        'listPaymentPolicy' => 'paymentPolicies',
-        'listReturnPolicy' => 'returnPolicies',
-    ];
-
     /**
      * @inheritdoc
      */
@@ -253,23 +246,6 @@ class EbayRestClient extends RestOAuth2
     }
 
     /**
-     * @param string $name
-     * @param array $data
-     * @return array|null
-     * @throws \Exception
-     * @inheritdoc
-     */
-    public function restApi(string $name, array $data): ?array
-    {
-        $responseData = parent::restApi($name, $data);
-        if ($dataKey = $this->responseDataKeys[$name] ?? null) {
-            $responseData['data'] = $responseData[$dataKey];
-            unset($responseData[$dataKey]);
-        }
-        return $responseData;
-    }
-
-    /**
      * @param array $responseData
      * @param array $condition
      * @return array|null
@@ -282,5 +258,21 @@ class EbayRestClient extends RestOAuth2
             return null;
         }
         return $condition;
+    }
+
+    /**
+     * @param array $responseData
+     * @param string $method
+     * @return array
+     * @inheritdoc
+     */
+    protected function getPageData(array $responseData, string $method): array
+    {
+        foreach ($responseData as $key => $items) {
+            if (is_array($items)) {
+                return $items;
+            }
+        }
+        return [];
     }
 }

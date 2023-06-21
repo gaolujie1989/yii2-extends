@@ -6,6 +6,7 @@
 namespace lujie\ebay;
 
 use lujie\extend\authclient\RestOAuth2;
+use lujie\extend\httpclient\Response;
 use yii\httpclient\Client;
 
 /**
@@ -114,6 +115,25 @@ class EbayRestClient extends RestOAuth2
 
     public $tokenUrl = 'https://api.ebay.com/identity/v1/oauth2/token';
 
+    /**
+     * @var string
+     */
+    public $version = 'v1';
+
+    public $httpClientOptions = [
+        'requestConfig' => [
+            'headers' => [
+                'Accept-Encoding' => 'gzip, deflate',
+                'Content-Language' => 'en-US',
+            ],
+            'format' => 'json',
+        ],
+        'responseConfig' => [
+            'class' => Response::class,
+            'format' => 'json'
+        ],
+    ];
+
     public $scope = [
         'https://api.ebay.com/oauth/api_scope',
         'https://api.ebay.com/oauth/api_scope/sell.marketing.readonly',
@@ -146,11 +166,6 @@ class EbayRestClient extends RestOAuth2
         'PaymentPolicy' => 'sell/account/v1/payment_policy',
         'ReturnPolicy' => 'sell/account/v1/return_policy',
     ];
-
-    /**
-     * @var string
-     */
-    public $version = 'v1';
 
     /**
      * @var array

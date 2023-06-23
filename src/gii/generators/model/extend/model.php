@@ -65,7 +65,7 @@ use Yii;
 <?php endforeach; ?>
 <?php endif; ?>
  *
- * @method array|<?= $className ?> findOne($condition)
+ * @method array|<?= $className ?>|null findOne($condition)
  * @method array|<?= $className ?>[] findAll($condition)
  */
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>

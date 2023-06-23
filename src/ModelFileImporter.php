@@ -79,9 +79,6 @@ class ModelFileImporter extends FileImporter
             $safeAttributes = $model->safeAttributes();
             $this->keyMap = array_combine($safeAttributes, $safeAttributes);
         }
-        if ($this->keyMapFlip) {
-            $this->keyMap = array_flip($this->keyMap);
-        }
         if (empty($this->filterKey)) {
             $this->filterKey = reset($this->keyMap);
         }
@@ -90,7 +87,8 @@ class ModelFileImporter extends FileImporter
             'transformers' => [
                 'keyMap' => [
                     'class' => KeyMapTransformer::class,
-                    'keyMap' => $this->keyMap
+                    'keyMap' => $this->keyMap,
+                    'keyMapFlip' => $this->keyMapFlip,
                 ],
                 'filter' => [
                     'class' => FilterTransformer::class,

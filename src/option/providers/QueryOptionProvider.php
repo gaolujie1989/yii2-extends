@@ -85,9 +85,11 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     public function init(): void
     {
         parent::init();
-        $valueLabelKeys = array_flip($this->keyMap);
-        if ($this->valueKeys === null && isset($valueLabelKeys['value'])) {
-            $this->valueKeys = [$valueLabelKeys['value']];
+        if (!isset($this->keyMap['value']) && in_array('value', $this->keyMap, true)) {
+            $this->keyMap = array_flip($this->keyMap);
+        }
+        if ($this->valueKeys === null && isset($this->keyMap['value'])) {
+            $this->valueKeys = [$this->keyMap['value']];
         }
     }
 
@@ -122,6 +124,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         }
         $transformer = new KeyMapTransformer([
             'keyMap' => $this->keyMap,
+            'keyMapFlip' => true,
             'unsetOriginalKey' => true,
             'unsetNotInMapKey' => true,
         ]);
@@ -160,7 +163,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             $query->asArray();
         }
         if ($this->keyMap) {
-            $query->select(array_keys($this->keyMap))->distinct();
+            $query->select($this->keyMap)->distinct();
         }
         return $query;
     }

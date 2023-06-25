@@ -333,7 +333,7 @@ class FieldQueryBehavior extends Behavior
                         $owner->andWhere(['LIKE', $field, $value . '%', false]);
                     } else if ($like === 'R') {
                         $owner->andWhere(['LIKE', $field, '%' . $value, false]);
-                    } else if (strpos($value, '%') !== false) {
+                    } else if (str_contains($value, '%')) {
                         $owner->andWhere(['LIKE', $field, $value, false]);
                     } else {
                         $owner->andWhere(['LIKE', $field, $value]);

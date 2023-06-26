@@ -105,7 +105,9 @@ class BatchForm extends Model
      */
     public function attributes(): array
     {
-        return array_diff($this->safeAttributes(), ['batchModels', 'batchAttributes']);
+        /** @var BaseActiveRecord $model */
+        $model = new $this->modelClass();
+        return array_intersect_key($model->safeAttributes(), $this->safeAttributes());
     }
 
     /**

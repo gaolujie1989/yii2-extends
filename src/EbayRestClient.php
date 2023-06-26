@@ -23,14 +23,14 @@ use yii\httpclient\Client;
  * @method \Generator batchInventoryItems($condition = [], $batchSize = 100)
  * @method array getInventoryItem($data)
  * @method array deleteInventoryItem($data)
- * @method array saveInventoryItem($data)
+ * @method array createOrReplaceInventoryItem($data)
  *
  * @method array listInventoryItemGroups($data = [])
  * @method \Generator eachInventoryItemGroups($condition = [], $batchSize = 100)
  * @method \Generator batchInventoryItemGroups($condition = [], $batchSize = 100)
  * @method array getInventoryItemGroup($data)
  * @method array deleteInventoryItemGroup($data)
- * @method array saveInventoryItemGroup($data)
+ * @method array createOrReplaceInventoryItemGroup($data)
  *
  * @method array listLocations($data = [])
  * @method \Generator eachLocations($condition = [], $batchSize = 100)
@@ -86,7 +86,7 @@ use yii\httpclient\Client;
  * @method array createReturnPolicy($data)
  * @method array updateReturnPolicy($data)
  * @method array deleteReturnPolicy($data)
- * @method array bulkSaveInventoryItem($data)
+ * @method array bulkCreateOrReplaceInventoryItem($data)
  * @method array bulkUpdatePriceQuantity($data)
  * @method array bulkMigrateListing($data)
  * @method array bulkCreateOffer($data)
@@ -181,14 +181,14 @@ class EbayRestClient extends RestOAuth2
             'create' => false,
             'update' => false,
             'get' => ['GET', '{sku}'],
-            'save' => ['PUT', '{sku}'],
+            'createOrReplace' => ['PUT', '{sku}'],
             'delete' => ['DELETE', '{sku}'],
         ],
         'InventoryItemGroup' => [
             'create' => false,
             'update' => false,
             'get' => ['GET', '{inventoryItemGroupKey}'],
-            'save' => ['PUT', '{inventoryItemGroupKey}'],
+            'createOrReplace' => ['PUT', '{inventoryItemGroupKey}'],
             'delete' => ['DELETE', '{inventoryItemGroupKey}'],
         ],
         'Location' => [
@@ -212,7 +212,7 @@ class EbayRestClient extends RestOAuth2
     ];
 
     public $extraMethods = [
-        'bulkSaveInventoryItem' => ['POST', 'sell/inventory/v1/bulk_create_or_replace_inventory_item'],
+        'bulkCreateOrReplaceInventoryItem' => ['POST', 'sell/inventory/v1/bulk_create_or_replace_inventory_item'],
         'bulkUpdatePriceQuantity' => ['POST', 'sell/inventory/v1/bulk_update_price_quantity'],
         'bulkMigrateListing' => ['POST', 'sell/inventory/v1/bulk_migrate_listing'],
         'bulkCreateOffer' => ['POST', 'sell/inventory/v1/bulk_create_offer'],

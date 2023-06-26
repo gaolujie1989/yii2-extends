@@ -5,7 +5,6 @@
 
 namespace lujie\batch;
 
-use console\controllers\PmController;
 use lujie\extend\base\ModelAttributeTrait;
 use lujie\extend\helpers\TransactionHelper;
 use lujie\extend\helpers\ValueHelper;

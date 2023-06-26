@@ -5,6 +5,7 @@
 
 namespace lujie\batch;
 
+use console\controllers\PmController;
 use lujie\extend\base\ModelAttributeTrait;
 use lujie\extend\helpers\TransactionHelper;
 use lujie\extend\helpers\ValueHelper;
@@ -66,6 +67,40 @@ class BatchForm extends Model
     ];
 
     /**
+     * @var array
+     */
+    private $_batchModels;
+
+    /**
+     * @var array
+     */
+    private $_batchAttributes;
+
+    /**
+     * @return array|BaseActiveRecord[]
+     * @inheritdoc
+     */
+    public function getBatchModels(): array
+    {
+        if ($this->_batchModels === null) {
+            $this->_batchModels = $this->findModels();
+        }
+        return $this->_batchModels;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getBatchAttributes(): array
+    {
+        if ($this->_batchAttributes === null) {
+            $this->_batchAttributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
+        }
+        return $this->_batchAttributes;
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -91,7 +126,9 @@ class BatchForm extends Model
                 $rules[$key] = [$ruleAttributes, $this->convertRules[$ruleName]];
             }
         }
-        return $rules;
+        return array_merge($rules, [
+            [['batchModels', 'batchAttributes'], 'required'],
+        ]);
     }
 
     /**
@@ -107,18 +144,8 @@ class BatchForm extends Model
             return false;
         }
 
-        $attributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
-        if (empty($attributes)) {
-            $this->addError('attributes', 'Attributes cannot be empty.');
-            return false;
-        }
-
-        $models = $this->findModels();
-        if (empty($models)) {
-            $this->addError('models', 'Models cannot be empty.');
-            return false;
-        }
-
+        $attributes = $this->getBatchAttributes();
+        $models = $this->getBatchModels();
         foreach ($models as $model) {
             $this->setModelAttributes($model, $attributes);
         }
@@ -158,7 +185,7 @@ class BatchForm extends Model
      */
     public function batchDelete(): bool
     {
-        $models = $this->findModels();
+        $models = $this->getBatchModels();
         if (empty($models)) {
             return true;
         }

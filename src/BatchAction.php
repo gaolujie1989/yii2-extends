@@ -61,7 +61,7 @@ class BatchAction extends Action
         /** @var BatchForm $batchForm */
         $batchForm = new $this->batchFormClass([
             'modelClass' => $this->modelClass,
-            'condition' => ModelHelper::getCondition($ids, $this->modelClass, $this->separator),
+            'batchCondition' => ModelHelper::getCondition($ids, $this->modelClass, $this->separator),
         ]);
 
         $batchForm->load(Yii::$app->getRequest()->getBodyParams(), '');

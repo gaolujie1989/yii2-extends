@@ -31,7 +31,7 @@ class BatchForm extends Model
     /**
      * @var array the condition to load models
      */
-    public $condition;
+    public $batchCondition;
 
     /**
      * @var bool
@@ -207,6 +207,6 @@ class BatchForm extends Model
      */
     protected function findModels(): array
     {
-        return $this->modelClass::find()->andWhere($this->condition)->all();
+        return $this->modelClass::find()->andWhere($this->batchCondition)->all();
     }
 }

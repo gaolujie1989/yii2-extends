@@ -91,6 +91,7 @@ use yii\httpclient\Client;
  * @method array bulkMigrateListing($data)
  * @method array bulkCreateOffer($data)
  * @method array bulkPublishOffer($data)
+ * @method array getDefaultCategoryTreeId($data)
  * @method array getCategoryTree($data)
  * @method array getCategorySubTree($data)
  * @method array getCategoryTreeItemAspects($data)
@@ -217,6 +218,7 @@ class EbayRestClient extends RestOAuth2
         'bulkMigrateListing' => ['POST', 'sell/inventory/v1/bulk_migrate_listing'],
         'bulkCreateOffer' => ['POST', 'sell/inventory/v1/bulk_create_offer'],
         'bulkPublishOffer' => ['POST', 'sell/inventory/v1/bulk_publish_offer'],
+        'getDefaultCategoryTreeId' => ['GET', 'commerce/taxonomy/v1/get_default_category_tree_id'],
         'getCategoryTree' => ['GET', 'commerce/taxonomy/v1/category_tree/{category_tree_id}'],
         'getCategorySubTree' => ['GET', 'commerce/taxonomy/v1/category_tree/{category_tree_id}/get_category_subtree'],
         'getCategoryTreeItemAspects' => ['GET', '/commerce/taxonomy/v1/category_tree/{category_tree_id}/fetch_item_aspects'],

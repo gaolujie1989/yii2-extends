@@ -48,7 +48,7 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
         $logContent = $this->createLogContent($request->getMethod(), $request->getFullUrl(), $this->getHeaders($request->getHeaders()), print_r($request->getContent(), true))
             . "\n\n"
             . $this->createLogContent('', '', $this->getHeaders($response->getHeaders()), print_r($response->getContent(), true));
-        $fileName = strtr($request->getFullUrl(), ["://" => "_", '.' => '_', '/' => '_', '?' => '_', '=' => '_']);
+        $fileName = substr(strtr($request->getFullUrl(), ["://" => "_", '.' => '_', '/' => '_', '?' => '_', '=' => '_']), 0, 200);
         $fileName = date('YmdHis') . '_' . $request->getMethod() . '_' . $fileName . '.log';
         $path = rtrim(Yii::getAlias($this->logPath), '/') . '/';
         FileHelper::createDirectory($path);

@@ -88,6 +88,9 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         if (!isset($this->keyMap['value']) && in_array('value', $this->keyMap, true)) {
             $this->keyMap = array_flip($this->keyMap);
         }
+        if ($this->filterKeys === null && isset($this->keyMap['label'])) {
+            $this->filterKeys = [$this->keyMap['label']];
+        }
         if ($this->valueKeys === null && isset($this->keyMap['value'])) {
             $this->valueKeys = [$this->keyMap['value']];
         }

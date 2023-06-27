@@ -45,7 +45,9 @@ class Response extends \yii\httpclient\Response
         $compressor->encoding = $encodings[$encoding];
 
         $this->rawContent = parent::getContent();
-        $this->setContent($compressor->unCompress($this->rawContent));
+        if ($this->rawContent) {
+            $this->setContent($compressor->unCompress($this->rawContent));
+        }
         $headers->remove('content-encoding');
     }
 

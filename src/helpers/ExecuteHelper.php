@@ -94,7 +94,7 @@ class ExecuteHelper
         try {
             if ($resultAttribute) {
                 $resultValue = $model->getAttribute($resultAttribute) ?: [];
-                unset($resultValue['error'], $resultValue['trace']);
+                unset($resultValue['error'], $resultValue['errors'], $resultValue['trace']);
                 $model->setAttribute($resultAttribute, $resultValue);
             }
             $callable();

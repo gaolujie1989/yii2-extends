@@ -181,6 +181,22 @@ class ValueHelper
 
     /**
      * @param array $array
+     * @param string|null $format
+     * @return array
+     * @inheritdoc
+     */
+    public static function formatArrayDateTime(array $array, ?string $format = null): array
+    {
+        foreach ($array as $key => $value) {
+            if (str_ends_with($key, '_at')) {
+                $array[$key] = $value ? self::formatDateTime($value) : 0;
+            }
+        }
+        return $array;
+    }
+
+    /**
+     * @param array $array
      * @param array|string[] $childrenKeys
      * @param string $sortKey
      * @param bool $asc

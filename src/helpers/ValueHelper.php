@@ -185,7 +185,7 @@ class ValueHelper
      * @return array
      * @inheritdoc
      */
-    public static function formatArrayDateTime(array $array, ?string $format = null): array
+    public static function formatDateTimeInArray(array $array, ?string $format = null): array
     {
         foreach ($array as $key => $value) {
             if (str_ends_with($key, '_at')) {

@@ -73,8 +73,8 @@ use yii\httpclient\Client;
  * @method array listV2Returns($data = [])
  * @method \Generator eachV2Returns($condition = [], $batchSize = 100)
  * @method \Generator batchV2Returns($condition = [], $batchSize = 100)
- * @method array acceptV2Returns($data)
- * @method array rejectV2Returns($data)
+ * @method array acceptV2Return($data)
+ * @method array rejectV2Return($data)
  *
  * @method array listV3Receipts($data = [])
  * @method \Generator eachV3Receipts($condition = [], $batchSize = 100)

@@ -34,7 +34,7 @@ trait SandboxApiTrait
         $sandboxUrlMap = $this->sandboxUrlMap ?? [];
         $map = $this->sandbox ? $sandboxUrlMap : array_flip($sandboxUrlMap);
         $this->apiBaseUrl = strtr($this->apiBaseUrl, $map);
-        $this->authUrl = strtr($this->authUrl, $map);
-        $this->tokenUrl = strtr($this->tokenUrl, $map);
+        $this->authUrl = $this->authUrl ?: strtr($this->authUrl, $map);
+        $this->tokenUrl = $this->tokenUrl ?: strtr($this->tokenUrl, $map);
     }
 }

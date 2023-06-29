@@ -58,6 +58,11 @@ use yii\httpclient\Client;
  * @method array getV4Order($data)
  * @method array cancelV4Order($data)
  *
+ * @method array listV1ReturnShipments($data = [])
+ * @method \Generator eachV1ReturnShipments($condition = [], $batchSize = 100)
+ * @method \Generator batchV1ReturnShipments($condition = [], $batchSize = 100)
+ * @method array getV1ReturnShipment($data)
+ *
  * @method array listV1Shipments($data = [])
  * @method \Generator eachV1Shipments($condition = [], $batchSize = 100)
  * @method \Generator batchV1Shipments($condition = [], $batchSize = 100)
@@ -87,6 +92,7 @@ use yii\httpclient\Client;
  * @method array getV3ProductUpdateTaskUnchanged($data)
  * @method array getV4OrderByOrderNumber($data)
  * @method array cancelV4OrderItems($data)
+ * @method array getV1ReturnShipmentsByCarrierAndTrackingNumber($data)
  * @method array getV1ShipmentsByCarrierAndTrackingNumber($data)
  * @method array correctV1ShipmentsByCarrierAndTrackingNumber($data)
  *
@@ -121,6 +127,7 @@ class OttoRestClient extends RestOAuth2
         'V3ProductPrice' => 'v3/products/prices',
         'V2Quantity' => 'v2/quantities',
         'V4Order' => 'v4/orders',
+        'V1ReturnShipment' => 'v1/return-shipments',
         'V1Shipment' => 'v1/shipments',
         'V2Return' => 'v2/returns',
         'V3Receipt' => 'v3/receipt',
@@ -144,6 +151,9 @@ class OttoRestClient extends RestOAuth2
         'V4Order' => [
             'get' => ['GET', '{salesOrderId}'],
             'cancel' => ['POST', '{salesOrderId}/cancellation'],
+        ],
+        'V1ReturnShipment' => [
+            'get' => ['GET', '{shipmentId}'],
         ],
         'V1Shipment' => [
             'get' => ['GET', '{shipmentId}'],
@@ -171,6 +181,7 @@ class OttoRestClient extends RestOAuth2
         'getV3ProductUpdateTaskUnchanged' => ['GET', 'v3/products/update-tasks/{processUuid}/unchanged'],
         'getV4OrderByOrderNumber' => ['GET', 'v4/orders/{orderNumber}'],
         'cancelV4OrderItems' => ['GET', 'v4/orders/{salesOrderId}/positionItems/{positionItemIds}/cancellation'],
+        'getV1ReturnShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/return-shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'getV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'correctV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}/positionItems'],
     ];

@@ -191,18 +191,7 @@ class OttoRestClient extends RestOAuth2
     ];
 
     public $responseDataKeys = [
-        'listV3Products' => 'productVariations',
-        'listV3ProductActiveStatuses' => 'status',
-        'listV3ProductBrands' => 'brands',
-        'listV3ProductCategories' => 'categoryGroups',
-        'listV3ProductContentChanges' => 'contentChanges',
-        'listV3ProductMarketplaceStatuses' => 'marketPlaceStatus',
-        'listV3ProductPrices' => 'variationPrices',
         'listV2Quantities' => 'resources.variations',
-        'listV4Orders' => 'resources',
-        'listV1Shipments' => 'resources',
-        'listV2Returns' => 'positionItems',
-        'listV3Receipts' => 'resources',
         'getV3SingleProductContentChange' => 'contentChanges',
         'getV3ProductUpdateTask' => '',
         'getV3ProductUpdateTaskFailed' => 'results',
@@ -303,6 +292,14 @@ class OttoRestClient extends RestOAuth2
         $responseDataKey = $this->responseDataKeys[$method] ?? null;
         if ($responseDataKey) {
             return ArrayHelper::getValue($responseData, $responseDataKey);
+        }
+        if ($responseDataKey === false) {
+            return $responseData;
+        }
+        foreach ($responseData as $key => $items) {
+            if ($key !== 'links' && is_array($items)) {
+                return $items;
+            }
         }
         return $responseData;
     }

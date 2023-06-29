@@ -149,6 +149,15 @@ class Address extends \lujie\extend\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     * @return AddressQuery the active query used by this AR class.
+     */
+    public static function find(): AddressQuery
+    {
+        return new AddressQuery(static::class);
+    }
+
+    /**
      * @return string
      * @inheritdoc
      */

@@ -19,7 +19,7 @@ use yii\di\Instance;
  * @package lujie\as2\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ProcessAs2MessageTask extends CronTask implements ProgressInterface
+class As2MessageProcessTask extends CronTask implements ProgressInterface
 {
     use ProgressTrait;
 

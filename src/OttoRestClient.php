@@ -95,6 +95,7 @@ use yii\httpclient\Client;
  * @method array getV1ReturnShipmentsByCarrierAndTrackingNumber($data)
  * @method array getV1ShipmentsByCarrierAndTrackingNumber($data)
  * @method array correctV1ShipmentsByCarrierAndTrackingNumber($data)
+ * @method array createV1MultiParcelShipment($data)
  *
  * @package lujie\otto
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -184,6 +185,7 @@ class OttoRestClient extends RestOAuth2
         'getV1ReturnShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/return-shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'getV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'correctV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}/positionItems'],
+        'createV1MultiParcelShipment' => ['GET', 'v1/multiparcel-shipments'],
     ];
 
     public $requestDataKeys = [

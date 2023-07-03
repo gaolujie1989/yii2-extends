@@ -181,7 +181,7 @@ class OttoRestClient extends RestOAuth2
         'getV3ProductUpdateTaskSucceeded' => ['GET', 'v3/products/update-tasks/{processUuid}/succeeded'],
         'getV3ProductUpdateTaskUnchanged' => ['GET', 'v3/products/update-tasks/{processUuid}/unchanged'],
         'getV4OrderByOrderNumber' => ['GET', 'v4/orders/{orderNumber}'],
-        'cancelV4OrderItems' => ['GET', 'v4/orders/{salesOrderId}/positionItems/{positionItemIds}/cancellation'],
+        'cancelV4OrderItems' => ['POST', 'v4/orders/{salesOrderId}/positionItems/{positionItemIds}/cancellation'],
         'getV1ReturnShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/return-shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'getV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'correctV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}/positionItems'],

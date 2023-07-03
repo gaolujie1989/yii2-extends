@@ -71,11 +71,6 @@ class BatchForm extends Model
     private $_batchModels;
 
     /**
-     * @var array
-     */
-    private $_batchAttributes;
-
-    /**
      * @return array|BaseActiveRecord[]
      * @inheritdoc
      */
@@ -93,10 +88,7 @@ class BatchForm extends Model
      */
     public function getBatchAttributes(): array
     {
-        if ($this->_batchAttributes === null) {
-            $this->_batchAttributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
-        }
-        return $this->_batchAttributes;
+        return array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
     }
 
     /**

@@ -29,7 +29,7 @@ class CronTask extends Model implements ScheduleTaskInterface
             return $this->ttr;
         }
         if (str_starts_with($this->expression, '*/')) {
-            return (int)substr($this->expression, 2) * 60;
+            return (int)substr($this->expression, 2) * 60 - 60;
         }
         return $this->ttr;
     }

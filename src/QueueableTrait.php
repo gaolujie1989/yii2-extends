@@ -17,7 +17,7 @@ trait QueueableTrait
     /**
      * @var bool
      */
-    public $shouldQueued = false;
+    public $shouldQueued = true;
 
     /**
      * @var string

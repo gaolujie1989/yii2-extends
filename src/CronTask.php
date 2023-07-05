@@ -28,9 +28,14 @@ class CronTask extends Model implements ScheduleTaskInterface
         if ($this->ttr > 0) {
             return $this->ttr;
         }
-        if (str_starts_with($this->expression, '*/')) {
-            $ttr = (int)substr($this->expression, 2) * 60 - 60;
+        $expressionParts = explode(' ', $this->expression);
+        $firstPart = reset($expressionParts);
+        if (str_starts_with($firstPart, '*/')) {
+            $ttr = ((int)substr($firstPart, 2)) * 60 - 60;
             return $ttr < 300 ? 0 : $ttr;
+        }
+        if (is_numeric($firstPart)) {
+            return 1800;
         }
         return $this->ttr;
     }

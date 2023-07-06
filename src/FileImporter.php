@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\data\exchange\sources\FileSource;
 use lujie\extend\file\readers\ExcelReader;
 use yii\di\Instance;

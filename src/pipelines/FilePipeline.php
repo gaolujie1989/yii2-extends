@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange\pipelines;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\extend\file\FileWriterInterface;
 use Yii;
 use yii\base\BaseObject;

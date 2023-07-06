@@ -5,7 +5,7 @@
 
 namespace lujie\upload\forms;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use yii\base\Model;
 use yii\di\Instance;
 

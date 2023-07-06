@@ -2,7 +2,7 @@
 
 namespace lujie\upload\tests\unit;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\upload\behaviors\FileBehavior;
 use lujie\upload\behaviors\UploadBehavior;
 use lujie\upload\forms\UploadForm;

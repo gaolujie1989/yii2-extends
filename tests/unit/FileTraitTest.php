@@ -2,7 +2,7 @@
 
 namespace lujie\upload\tests\unit;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\upload\tests\unit\fixtures\FsFile;
 use yii\di\Instance;
 use yii\web\UploadedFile;

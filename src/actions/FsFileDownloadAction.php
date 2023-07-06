@@ -5,7 +5,7 @@
 
 namespace lujie\upload\actions;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\FileHelper;

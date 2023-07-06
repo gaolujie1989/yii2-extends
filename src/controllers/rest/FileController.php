@@ -5,7 +5,7 @@
 
 namespace lujie\upload\controllers\rest;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\extend\rest\MethodAction;
 use lujie\upload\actions\FsFileDownloadAction;
 use lujie\upload\actions\UploadAction;

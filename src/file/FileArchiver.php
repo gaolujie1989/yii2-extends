@@ -5,7 +5,7 @@
 
 namespace lujie\extend\file;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\extend\helpers\ZipHelper;
 use Yii;
 use yii\base\BaseObject;

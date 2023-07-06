@@ -5,7 +5,7 @@
 
 namespace lujie\extend\file\writers;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use GdImage;
 use Imagine\Image\Format;
 use lujie\extend\file\FileWriterInterface;

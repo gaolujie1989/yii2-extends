@@ -41,7 +41,7 @@ class QCosFilesystem extends Filesystem
             // 可在个人秘钥管理页查看：https://console.cloud.tencent.com/capi
             'app_id' => $this->appId,
             'secret_id' => $this->secretId,
-            'secret_key' => $this,
+            'secret_key' => $this->secretKey,
 
             'region' => $this->region,
             'bucket' => $this->bucket,

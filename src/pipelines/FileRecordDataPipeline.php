@@ -5,7 +5,7 @@
 
 namespace lujie\data\recording\pipelines;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\data\recording\models\DataRecord;
 use Yii;
 use yii\base\InvalidConfigException;

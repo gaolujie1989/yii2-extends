@@ -5,7 +5,7 @@
 
 namespace lujie\as2\forms;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\as2\As2Manager;
 use lujie\upload\behaviors\FileTrait;
 use Yii;

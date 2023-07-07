@@ -5,6 +5,7 @@
 
 namespace lujie\extend\flysystem;
 
+use DateTimeInterface;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use Overtrue\Flysystem\Cos\CosAdapter;
@@ -59,5 +60,33 @@ class QCosFilesystem extends Filesystem
             'cdn' => $this->cdn,
         ];
         return new CosAdapter(array_filter($config));
+    }
+
+    /**
+     * @param string $path
+     * @param array $config
+     * @return string
+     * @throws \Overtrue\CosClient\Exceptions\InvalidConfigException
+     * @inheritdoc
+     */
+    public function publicUrl(string $path, array $config = []): string
+    {
+        /** @var CosAdapter $adapter */
+        $adapter = $this->getFilesystemAdapter();
+        return $adapter->getUrl($path);
+    }
+
+    /**
+     * @param string $path
+     * @param DateTimeInterface $expiresAt
+     * @param array $config
+     * @return string
+     * @inheritdoc
+     */
+    public function temporaryUrl(string $path, DateTimeInterface $expiresAt, array $config = []): string
+    {
+        /** @var CosAdapter $adapter */
+        $adapter = $this->getFilesystemAdapter();
+        return $adapter->getTemporaryUrl($path, $expiresAt);
     }
 }

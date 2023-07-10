@@ -5,6 +5,8 @@
 
 namespace lujie\upload\behaviors;
 
+use BackupManager\Databases\PostgresqlDatabase;
+use Carbon\Carbon;
 use lujie\extend\flysystem\Filesystem;
 use Yii;
 use yii\base\Behavior;
@@ -26,11 +28,6 @@ class FileBehavior extends Behavior
     public $attribute = 'file';
 
     /**
-     * @var string
-     */
-    public $url = 'staticUrl';
-
-    /**
      * @var bool
      */
     public $unlinkOnUpdate = false;
@@ -41,14 +38,19 @@ class FileBehavior extends Behavior
     public $unlinkOnDelete = true;
 
     /**
+     * @var ?Filesystem
+     */
+    public $fs = 'filesystem';
+
+    /**
      * @var string
      */
     public $path = '@statics';
 
     /**
-     * @var ?Filesystem
+     * @var string
      */
-    public $fs = 'filesystem';
+    public $url = 'staticUrl';
 
     /**
      * @throws \yii\base\Exception
@@ -109,17 +111,34 @@ class FileBehavior extends Behavior
 
     #region get file path url and content
 
+    public function getAbsolutePath(): string
+    {
+
+    }
+
     /**
+     * @param int $expiresAt
+     * @param array $config
      * @return string|null
      * @inheritdoc
      */
-    public function getUrl(): ?string
+    public function getUrl(int $expiresAt = 0, array $config = []): ?string
     {
-        if ($this->url === null) {
-            return null;
+        $file = $this->owner->{$this->attribute};
+        $path = $this->path . $file;
+        if ($this->fs) {
+            if ($expiresAt) {
+                $expiresDatetime = Carbon::createFromTimestamp($expiresAt)->toDateTime();
+                return $this->fs->temporaryUrl($path, $expiresDatetime, $config);
+            } else {
+                return $this->fs->publicUrl($path, $config);
+            }
+        } else {
+            if ($this->url === null) {
+                return null;
+            }
+            return $this->url . $path;
         }
-        $value = $this->owner->{$this->attribute};
-        return $this->url . $this->path . $value;
     }
 
     /**

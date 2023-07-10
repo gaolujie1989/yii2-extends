@@ -70,7 +70,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
         $profiling = Yii::getLogger()->getProfiling();
         foreach ($profiling as $timing) {
             if ($command->bindValues([
-                    ':level' => $timing['level'],
+                    ':level' => Logger::LEVEL_PROFILE,
                     ':category' => $timing['category'],
                     ':log_at' => $timing['timestamp'],
                     ':duration' => $timing['duration'],

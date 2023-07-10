@@ -109,6 +109,12 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             'logVars' => [],
             'categories' => ['yii\*'],
         ],
+        'yiiProfileDb' => [
+            'class' => DbTarget::class,
+            'levels' => ['profile'],
+            'logVars' => [],
+            'categories' => ['yii\*'],
+        ],
 
         'yiiErrorFile' => [
             'class' => FileTarget::class,

@@ -67,7 +67,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
             throw new LogRuntimeException('Unable to export log through database!');
         }
 
-        $profiling = Yii::getLogger()->getProfiling();
+        $profiling = Yii::getLogger()->calculateTimings($this->messages);
         foreach ($profiling as $timing) {
             if ($command->bindValues([
                     ':level' => Logger::LEVEL_PROFILE,

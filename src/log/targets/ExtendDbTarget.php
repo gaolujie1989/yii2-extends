@@ -5,6 +5,7 @@
 
 namespace lujie\extend\log\targets;
 
+use BackupManager\Databases\PostgresqlDatabase;
 use Yii;
 use yii\db\Exception;
 use yii\helpers\VarDumper;
@@ -19,6 +20,15 @@ use yii\log\LogRuntimeException;
 class ExtendDbTarget extends \yii\log\DbTarget
 {
     use LogContextMassageTrait;
+
+    /**
+     * @var array the messages that need to be profiled on duration bigger.
+     */
+    public $profilingOn = [
+        'yii\db\Command::query' => 0.1,
+        'yii\db\Command::execute' => 0.05,
+        '*' => 1,
+    ];
 
     /**
      * @throws Exception
@@ -67,8 +77,11 @@ class ExtendDbTarget extends \yii\log\DbTarget
             throw new LogRuntimeException('Unable to export log through database!');
         }
 
-        $profiling = Yii::getLogger()->calculateTimings($this->messages);
-        foreach ($profiling as $timing) {
+        $calculateTimings = Yii::getLogger()->calculateTimings($this->messages);
+        foreach ($calculateTimings as $timing) {
+            if (!$this->isProfiling($timing)) {
+                continue;
+            }
             if ($command->bindValues([
                     ':level' => Logger::LEVEL_PROFILE,
                     ':category' => $timing['category'],
@@ -104,5 +117,26 @@ class ExtendDbTarget extends \yii\log\DbTarget
         if (is_array($text) && isset($text[0])) {
             return $text[0];
         }
+    }
+
+    /**
+     * @param array $timing
+     * @return bool
+     * @inheritdoc
+     */
+    private function isProfiling(array $timing): bool
+    {
+        if (empty($this->profilingOn)) {
+            return true;
+        }
+        $category = $timing['category'];
+        $duration = $timing['duration'];
+        foreach ($this->profilingOn as $profilingCategory => $profilingDuration) {
+            if ($category === $profilingCategory
+                || (str_ends_with($profilingCategory, '*') && str_starts_with($category, rtrim($profilingCategory, '*')))) {
+                return $duration >= $profilingDuration;
+            }
+        }
+        return false;
     }
 }

@@ -22,7 +22,7 @@ class ExtendEmailTarget extends \yii\log\EmailTarget
     /**
      * @var string
      */
-    public $subjectTemplate = '[{subject}][{datetime}][{prefix}][{level}][{category}][{memory}][{message}]';
+    public $subjectTemplate = '[{subject}][{level}][{category}][{summary}]';
 
     /**
      * @var bool

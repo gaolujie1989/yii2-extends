@@ -35,7 +35,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
 
         $tableName = $this->db->quoteTableName($this->logTable);
         $sql = "INSERT INTO $tableName ([[level]], [[category]], [[log_at]], [[duration]], [[prefix]], [[message]], [[summary]], [[memory_usage]], [[memory_diff]])
-                VALUES (:level, :category, :log_at, :prefix, :message, :summary, :memory_usage, :memory_diff)";
+                VALUES (:level, :category, :log_at, :duration, :prefix, :message, :summary, :memory_usage, :memory_diff)";
         $command = $this->db->createCommand($sql);
         foreach ($this->messages as $message) {
             [$text, $level, $category, $timestamp, $traces, $memoryUsage] = $message;

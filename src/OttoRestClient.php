@@ -185,7 +185,7 @@ class OttoRestClient extends RestOAuth2
         'getV1ReturnShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/return-shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'getV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}'],
         'correctV1ShipmentsByCarrierAndTrackingNumber' => ['GET', 'v1/shipments/carriers/{carrier}/trackingnumbers/{trackingNumbers}/positionItems'],
-        'createV1MultiParcelShipment' => ['GET', 'v1/multiparcel-shipments'],
+        'createV1MultiParcelShipment' => ['POST', 'v1/multiparcel-shipments'],
     ];
 
     public $requestDataKeys = [

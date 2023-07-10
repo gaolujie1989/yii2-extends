@@ -54,9 +54,20 @@ class MockTransportHelper
             if ($response instanceof Response) {
                 $mockResponse = $response;
             } else if (is_string($response)) {
-                $mockResponse = new Response(['content' => $response]);
+                $mockResponse = new Response([
+                    'headers' => [
+                        'http-code' => 200,
+                        'content-type' => 'json'
+                    ],
+                    'content' => $response
+                ]);
             } else if (is_array($response)) {
-                $mockResponse = new Response($response);
+                $mockResponse = new Response(array_merge([
+                    'headers' => [
+                        'http-code' => 200,
+                        'content-type' => 'json'
+                    ],
+                ], $response));
             } else {
                 throw new InvalidArgumentException('Invalid response type');
             }

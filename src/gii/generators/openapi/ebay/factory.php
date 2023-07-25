@@ -48,11 +48,11 @@ class <?= $generator->factoryClass ?> extends BaseObject
 
     /**
     * @param Account $account
-    * @return <?= $apiClassName ?>|OAuth2
+    * @return <?= $apiClassName ?>|OAuth2|null
     * @throws InvalidResponseException
     * @throws Exception
     */
-    public function get<?= $apiClassName ?>(Account $account): <?= $apiClassName ?>|OAuth2
+    public function get<?= $apiClassName ?>(Account $account): <?= $apiClassName ?>|OAuth2|null
     {
         return OAuthClientFactory::createClient(<?= $apiClassName ?>::class, $account, $this->getConfig());
     }

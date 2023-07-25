@@ -35,7 +35,8 @@ class OAuthClientFactory
     public static function createClient(string $clientClass, Account $account, array $config): ?OAuth2
     {
         $accountId = $account->account_id;
-        if (empty(self::$_clients[$accountId])) {
+        $key = $clientClass . '-' . $account::class . '-' . $accountId;
+        if (empty(self::$_clients[$key])) {
             /** @var OAuth2 $client */
             $client = new $clientClass($config);
             $client->setId($client->getName() . '-' . $accountId);
@@ -51,8 +52,8 @@ class OAuthClientFactory
                 'params' => $authToken->additional['token'],
                 'createTimestamp' => $authToken->updated_at,
             ]);
-            self::$_clients[$accountId] = $client;
+            self::$_clients[$key] = $client;
         }
-        return self::$_clients[$accountId];
+        return self::$_clients[$key];
     }
 }

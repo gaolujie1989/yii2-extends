@@ -6,3 +6,5 @@
 echo $form->field($generator, 'ns');
 echo $form->field($generator, 'baseClass');
 echo $form->field($generator, 'openapiJsonPath');
+echo $form->field($generator, 'factoryClass');
+echo $form->field($generator, 'factoryNs');

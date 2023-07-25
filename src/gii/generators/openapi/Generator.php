@@ -24,6 +24,10 @@ class Generator extends \yii\gii\Generator
 
     public $openapiJsonPath = '';
 
+    public $factoryClass = '';
+
+    public $factoryNs = '';
+
     /**
      * @return string
      * @inheritdoc
@@ -41,21 +45,31 @@ class Generator extends \yii\gii\Generator
         return 'This generator generates OpenAPI Client.';
     }
 
+    /**
+     * @return array
+     * @inheritdoc
+     */
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['ns', 'baseClass', 'openapiJsonPath'], 'trim'],
             [['ns', 'baseClass', 'openapiJsonPath'], 'required'],
-            [['ns', 'baseClass', 'openapiJsonPath'], 'string'],
+            [['ns', 'baseClass', 'openapiJsonPath', 'factoryClass', 'factoryNs'], 'trim'],
+            [['ns', 'baseClass', 'openapiJsonPath', 'factoryClass', 'factoryNs'], 'string'],
         ]);
     }
 
+    /**
+     * @return string[]
+     * @inheritdoc
+     */
     public function attributeLabels(): array
     {
         return [
             'ns' => 'Namespace',
             'baseClass' => 'Base Class',
             'openapiJsonPath' => 'OpenAPI Json Path',
+            'factoryClass' => 'Factory Class',
+            'factoryNs' => 'Factory Namespace',
         ];
     }
 
@@ -65,7 +79,7 @@ class Generator extends \yii\gii\Generator
      */
     public function requiredTemplates(): array
     {
-        return ['openapi.php'];
+        return $this->factoryClass ? ['openapi.php', 'factory.php'] : ['openapi.php'];
     }
 
     /**
@@ -88,6 +102,18 @@ class Generator extends \yii\gii\Generator
             $files[] = new CodeFile(
                 Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $apiClassName . '.php',
                 $this->render('openapi.php', $params)
+            );
+        }
+        if ($this->factoryClass) {
+            $this->factoryNs = $this->factoryNs ?: $this->ns;
+            $params = [
+                'apiClassNames' => array_map(function ($openApiJsonFile) {
+                    return $this->generateClassName($openApiJsonFile);
+                }, $openApiJsonFiles),
+            ];
+            $files[] = new CodeFile(
+                Yii::getAlias('@' . str_replace('\\', '/', $this->factoryNs)) . '/' . $this->factoryClass . '.php',
+                $this->render('factory.php', $params)
             );
         }
         return $files;

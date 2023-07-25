@@ -152,7 +152,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     /**
     * @description <?= $method['description'] . "\n" ?>
     * @tag <?= implode(',', $method['tags']) . "\n" ?>
-    <?= strtr($docParams, ['@return array' => '@return Iterator']) . "\n" ?>
+<?= strtr($docParams, ['@return array' => '@return Iterator']) . "\n" ?>
     */
     public function <?= $eachMethod ?>(<?= $functionParams ?>): Iterator
     {
@@ -164,7 +164,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     /**
     * @description <?= $method['description'] . "\n" ?>
     * @tag <?= implode(',', $method['tags']) . "\n" ?>
-    <?= strtr($docParams, ['@return array' => '@return Iterator']) . "\n" ?>
+<?= strtr($docParams, ['@return array' => '@return Iterator']) . "\n" ?>
     */
     public function <?= $batchMethod ?>(<?= $functionParams ?>): Iterator
     {
@@ -175,7 +175,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     /**
     * @description <?= $method['description'] . "\n" ?>
     * @tag <?= implode(',', $method['tags']) . "\n" ?>
-    <?= $docParams . "\n" ?>
+<?= $docParams . "\n" ?>
     */
     public function <?= $apiMethod ?>(<?= $functionParams ?>): array
     {

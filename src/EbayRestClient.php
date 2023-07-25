@@ -101,6 +101,7 @@ use yii\httpclient\Client;
  * @package lujie\ebay
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @document https://developer.ebay.com/develop/apis/restful-apis/sell-apis
+ * @deprecated
  */
 class EbayRestClient extends RestOAuth2
 {

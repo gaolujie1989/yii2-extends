@@ -7,6 +7,7 @@ namespace lujie\ebay;
 
 use lujie\extend\authclient\RestOAuth2;
 use lujie\extend\httpclient\Response;
+use yii\helpers\Inflector;
 use yii\httpclient\Client;
 
 /**
@@ -157,27 +158,36 @@ class EbayRestClient extends RestOAuth2
      * @var array
      */
     public $resources = [
-        'Order' => 'sell/fulfillment/v1/order',
-        'InventoryItem' => 'sell/inventory/v1/inventory_item',
-        'InventoryItemGroup' => 'sell/inventory/v1/inventory_item_group',
-        'Location' => 'sell/inventory/v1/location',
-        'Offer' => 'sell/inventory/v1/offer',
+        #sell/account
         'CustomPolicy' => 'sell/account/v1/custom_policy',
         'FulfillmentPolicy' => 'sell/account/v1/fulfillment_policy',
         'PaymentPolicy' => 'sell/account/v1/payment_policy',
         'ReturnPolicy' => 'sell/account/v1/return_policy',
+        #sell/fulfillment
+        'Order' => 'sell/fulfillment/v1/order',
+        #sell/inventory
+        'InventoryItem' => 'sell/inventory/v1/inventory_item',
+        'InventoryItemGroup' => 'sell/inventory/v1/inventory_item_group',
+        'Location' => 'sell/inventory/v1/location',
+        'Offer' => 'sell/inventory/v1/offer',
+        #sell/marketing
+        'Campaign' => 'sell/marketing/v1/ad_campaign',
+        'AdGroup' => 'sell/marketing/v1/ad_campaign/{campaign_id}/ad_group',
+        'Ad' => 'sell/marketing/v1/ad_campaign/{campaign_id}/ad',
     ];
 
     /**
      * @var array
      */
     public $extraActions = [
+        #sell/fulfillment
         'Order' => [
             'create' => false,
             'update' => false,
             'delete' => false,
             'ship' => ['POST', '{orderId}/shipping_fulfillment'],
         ],
+        #sell/inventory
         'InventoryItem' => [
             'create' => false,
             'update' => false,
@@ -210,19 +220,29 @@ class EbayRestClient extends RestOAuth2
             'publish' => ['POST', '{offerId}/publish'],
             'publishByInventoryItemGroup' => ['POST', 'publish_by_inventory_item_group'],
         ],
+        #seller/marketing
+        'Campaign' => [
+            'clone' => ['POST', '{campaign_id}/clone'],
+            'end' => ['POST', '{campaign_id}/end'],
+            'pause' => ['POST', '{campaign_id}/pause'],
+            'resume' => ['POST', '{campaign_id}/resume'],
+        ],
     ];
 
     public $extraMethods = [
-        'bulkCreateOrReplaceInventoryItem' => ['POST', 'sell/inventory/v1/bulk_create_or_replace_inventory_item'],
-        'bulkUpdatePriceQuantity' => ['POST', 'sell/inventory/v1/bulk_update_price_quantity'],
-        'bulkMigrateListing' => ['POST', 'sell/inventory/v1/bulk_migrate_listing'],
-        'bulkCreateOffer' => ['POST', 'sell/inventory/v1/bulk_create_offer'],
-        'bulkPublishOffer' => ['POST', 'sell/inventory/v1/bulk_publish_offer'],
+        #commerce
         'getDefaultCategoryTreeId' => ['GET', 'commerce/taxonomy/v1/get_default_category_tree_id'],
         'getCategoryTree' => ['GET', 'commerce/taxonomy/v1/category_tree/{category_tree_id}'],
         'getCategorySubTree' => ['GET', 'commerce/taxonomy/v1/category_tree/{category_tree_id}/get_category_subtree'],
         'getCategoryTreeItemAspects' => ['GET', '/commerce/taxonomy/v1/category_tree/{category_tree_id}/fetch_item_aspects'],
         'getCategoryItemAspects' => ['GET', '/commerce/taxonomy/v1/category_tree/{category_tree_id}/get_item_aspects_for_category'],
+        #sell/inventory
+        'bulkCreateOrReplaceInventoryItem' => ['POST', 'sell/inventory/v1/bulk_create_or_replace_inventory_item'],
+        'bulkUpdatePriceQuantity' => ['POST', 'sell/inventory/v1/bulk_update_price_quantity'],
+        'bulkMigrateListing' => ['POST', 'sell/inventory/v1/bulk_migrate_listing'],
+        'bulkCreateOffer' => ['POST', 'sell/inventory/v1/bulk_create_offer'],
+        'bulkPublishOffer' => ['POST', 'sell/inventory/v1/bulk_publish_offer'],
+        #seller/marketing
     ];
 
     /**
@@ -262,6 +282,18 @@ class EbayRestClient extends RestOAuth2
         }
     }
 
+    #region Batch
+
+    /**
+     * @param string $resource
+     * @return string
+     * @inheritdoc
+     */
+    protected function getBatchInternalMethod(string $resource): string
+    {
+        return 'get' . ucfirst(Inflector::pluralize($resource));
+    }
+
     /**
      * @param array $responseData
      * @param array $condition
@@ -292,4 +324,6 @@ class EbayRestClient extends RestOAuth2
         }
         return [];
     }
+
+    #endregion
 }

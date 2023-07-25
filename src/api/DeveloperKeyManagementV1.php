@@ -33,6 +33,9 @@ class DeveloperKeyManagementV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data 
     *      - *signingKeyCipher* - string
     *          - The enumerated value for the cipher to be used to create the signing key. Refer to <a href= "/api-docs/developer/key-management/types/api:SigningKeyCipher" target= "_blank">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *creationTime* - integer
     *          - The UNIX timestamp when the <code>SigningKey</code> was created. This time is represented as the number of seconds from "1970-01-01T00:00:00Z", as measured in UTC, until the date and time the <code>SigningKey</code> was created.
@@ -49,9 +52,9 @@ class DeveloperKeyManagementV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *signingKeyId* - string
     *          - The system-generated eBay ID for the keypairs.
     */
-    public function createSigningKey(array $data): array
+    public function createSigningKey(array $data, array $headers): array
     {
-        return $this->api("/signing_key", 'POST', $data);
+        return $this->api("/signing_key", 'POST', $data, $headers);
     }
                     
     /**

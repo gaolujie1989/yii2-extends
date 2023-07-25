@@ -19,6 +19,9 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     * @description This method retrieves details of the catalog product identified by the eBay product identifier (ePID) specified in the request. These details include the product's title and description, aspects and their values, associated images, applicable category IDs, and any recognized identifiers that apply to the product. <br /><br /> For a new listing, you can use the <b>search</b> method to identify candidate products on which to base the listing, then use the <b>getProduct</b> method to present the full details of those candidate products to the seller to make a a final selection.
     * @tag product
     * @param string $epid The ePID of the product being requested. This value can be discovered by issuing the <b>search</b> method and examining the value of the <b>productSummaries.epid</b> field for the desired returned product summary.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - optional
+    *          - This method also uses the <code>X-EBAY-C-MARKETPLACE-ID</code> header to identify the seller's eBay marketplace. It is required for all <a href="/api-docs/commerce/catalog/overview.html#supported-marketplaces" target="_blank">supported marketplaces</a>, except EBAY_US, which is the default.
     * @return array
     *      - *additionalImages* - array
     *          - Contains information about  additional images associated with this product. For the primary image, see the <b>image</b> container.
@@ -53,9 +56,9 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *      - *version* - string
     *          - The current version number of this product record in the catalog.
     */
-    public function getProduct(string $epid): array
+    public function getProduct(string $epid, array $headers): array
     {
-        return $this->api("/product/{$epid}");
+        return $this->api("/product/{$epid}", 'GET', [], $headers);
     }
                 
     /**
@@ -78,6 +81,9 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - This parameter is reserved for internal or future use.
     *      - *q* - string - optional
     *          - A string consisting of one or more keywords to use to search for products in the eBay catalog. <br /><br /> <span class="tablenote"> <strong>Note:</strong> This method searches the following product record fields: <b>title</b>, <b>description</b>, <b>brand</b>, and <b>aspects.localizedName</b>, which do not include product IDs. Wildcard characters (e.g. <code>*</code>) are not allowed. </span> <br /><br /> The keywords are handled as follows: <ul> <li>If the keywords are separated by a comma (e.g. <code>iPhone,256GB</code>), the query returns products that have <code>iPhone</code> <b>AND</b> <code>256GB</code>.</li> <li>If the keywords are separated by a space (e.g. <code>"iPhone&nbsp;ipad"</code> or <code>"iPhone,&nbsp;ipad"</code>), the query ignores any commas and returns products that have <code>iPhone</code> <b>OR</b> <code>iPad</code>.</li> </ul> <span class="tablenote"> <strong>Note:</strong> Although all query parameters are optional, this method must include at least the <b>q</b> parameter, or the <b>category_ids</b>, <b>gtin</b>, or <b>mpn</b> parameter with a valid value.  <br /><br /> You cannot use the <b>q</b> parameter in the same method with either the <b>gtin</b> parameter or the <b>mpn</b> parameter. </span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - optional
+    *          - This method also uses the <code>X-EBAY-C-MARKETPLACE-ID</code> header to identify the seller's eBay marketplace. It is required for all <a href="/api-docs/commerce/catalog/overview.html#supported-marketplaces" target="_blank">supported marketplaces</a>, except EBAY_US, which is the default. 
     * @return Iterator
     *      - *href* - string
     *          - This field is reserved for internal or future use. <!-- The URI of the <b>search</b> method request that produced this result set. -->
@@ -96,7 +102,7 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - This field is reserved for internal or future use. <!-- The total number of product records in the returned collection of matched products. -->
     */
-    public function eachrch(array $query): Iterator
+    public function eachrch(array $query, array $headers): Iterator
     {
         return $this->eachInternal('search', func_get_args());
     }
@@ -121,6 +127,9 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - This parameter is reserved for internal or future use.
     *      - *q* - string - optional
     *          - A string consisting of one or more keywords to use to search for products in the eBay catalog. <br /><br /> <span class="tablenote"> <strong>Note:</strong> This method searches the following product record fields: <b>title</b>, <b>description</b>, <b>brand</b>, and <b>aspects.localizedName</b>, which do not include product IDs. Wildcard characters (e.g. <code>*</code>) are not allowed. </span> <br /><br /> The keywords are handled as follows: <ul> <li>If the keywords are separated by a comma (e.g. <code>iPhone,256GB</code>), the query returns products that have <code>iPhone</code> <b>AND</b> <code>256GB</code>.</li> <li>If the keywords are separated by a space (e.g. <code>"iPhone&nbsp;ipad"</code> or <code>"iPhone,&nbsp;ipad"</code>), the query ignores any commas and returns products that have <code>iPhone</code> <b>OR</b> <code>iPad</code>.</li> </ul> <span class="tablenote"> <strong>Note:</strong> Although all query parameters are optional, this method must include at least the <b>q</b> parameter, or the <b>category_ids</b>, <b>gtin</b>, or <b>mpn</b> parameter with a valid value.  <br /><br /> You cannot use the <b>q</b> parameter in the same method with either the <b>gtin</b> parameter or the <b>mpn</b> parameter. </span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - optional
+    *          - This method also uses the <code>X-EBAY-C-MARKETPLACE-ID</code> header to identify the seller's eBay marketplace. It is required for all <a href="/api-docs/commerce/catalog/overview.html#supported-marketplaces" target="_blank">supported marketplaces</a>, except EBAY_US, which is the default. 
     * @return Iterator
     *      - *href* - string
     *          - This field is reserved for internal or future use. <!-- The URI of the <b>search</b> method request that produced this result set. -->
@@ -139,7 +148,7 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - This field is reserved for internal or future use. <!-- The total number of product records in the returned collection of matched products. -->
     */
-    public function batchrch(array $query): Iterator
+    public function batchrch(array $query, array $headers): Iterator
     {
         return $this->batchInternal('search', func_get_args());
     }
@@ -164,6 +173,9 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - This parameter is reserved for internal or future use.
     *      - *q* - string - optional
     *          - A string consisting of one or more keywords to use to search for products in the eBay catalog. <br /><br /> <span class="tablenote"> <strong>Note:</strong> This method searches the following product record fields: <b>title</b>, <b>description</b>, <b>brand</b>, and <b>aspects.localizedName</b>, which do not include product IDs. Wildcard characters (e.g. <code>*</code>) are not allowed. </span> <br /><br /> The keywords are handled as follows: <ul> <li>If the keywords are separated by a comma (e.g. <code>iPhone,256GB</code>), the query returns products that have <code>iPhone</code> <b>AND</b> <code>256GB</code>.</li> <li>If the keywords are separated by a space (e.g. <code>"iPhone&nbsp;ipad"</code> or <code>"iPhone,&nbsp;ipad"</code>), the query ignores any commas and returns products that have <code>iPhone</code> <b>OR</b> <code>iPad</code>.</li> </ul> <span class="tablenote"> <strong>Note:</strong> Although all query parameters are optional, this method must include at least the <b>q</b> parameter, or the <b>category_ids</b>, <b>gtin</b>, or <b>mpn</b> parameter with a valid value.  <br /><br /> You cannot use the <b>q</b> parameter in the same method with either the <b>gtin</b> parameter or the <b>mpn</b> parameter. </span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - optional
+    *          - This method also uses the <code>X-EBAY-C-MARKETPLACE-ID</code> header to identify the seller's eBay marketplace. It is required for all <a href="/api-docs/commerce/catalog/overview.html#supported-marketplaces" target="_blank">supported marketplaces</a>, except EBAY_US, which is the default. 
     * @return array
     *      - *href* - string
     *          - This field is reserved for internal or future use. <!-- The URI of the <b>search</b> method request that produced this result set. -->
@@ -182,9 +194,9 @@ class CommerceCatalogV1Beta extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - This field is reserved for internal or future use. <!-- The total number of product records in the returned collection of matched products. -->
     */
-    public function search(array $query): array
+    public function search(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/product_summary/search"], $query));
+        return $this->api(array_merge(["/product_summary/search"], $query), 'GET', [], $headers);
     }
     
 }

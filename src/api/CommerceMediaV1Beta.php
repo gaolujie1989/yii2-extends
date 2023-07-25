@@ -27,11 +27,14 @@ class CommerceMediaV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - The size, in bytes, of the video content.
     *      - *title* - string
     *          - The title of the video.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createVideo(array $data): array
+    public function createVideo(array $data, array $headers): array
     {
-        return $this->api("/video", 'POST', $data);
+        return $this->api("/video", 'POST', $data, $headers);
     }
                     
     /**
@@ -71,12 +74,19 @@ class CommerceMediaV1Beta extends \lujie\ebay\BaseEbayRestClient
     * @description This method associates the specified file with the specified <b>video ID</b> and uploads the input file. After the file has been uploaded the processing of the file begins.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> The size of the video to be uploaded must exactly match the size of the video's input stream that was set in the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method. If the sizes do not match, the video will not upload successfully.</span><br /><br />When a video is successfully uploaded, it returns the HTTP Status Code <code>200 OK</code>.<br /><br />The status flow is <code>PENDING_UPLOAD</code> > <code>PROCESSING</code> > <code>LIVE</code>,  <code>PROCESSING_FAILED</code>, or <code>BLOCKED</code>. After a video upload is successfully completed, the status will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code>, or <code>PROCESSING_FAILED</code>. If the size information (in bytes) provided is incorrect, the API will throw an error.<br /><br /><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> See <a href="https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3" target="_blank">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />To retrieve an uploaded video, use the <a href="/api-docs/commerce/media/resources/video/methods/getVideo" target="_blank">getVideo</a> method.
     * @tag video
     * @param string $videoId The <b>video ID</b> for the uploaded video.
-    * @param array $data The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC).
+    * @param string $data The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC).
+    * @param array $headers
+    *      - *Content-Length* - string - optional
+    *          - Use this header to specify the content length for the upload. Use Content-Range: bytes {1}-{2}/{3} and Content-Length:{4} headers.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> This header is optional and is only required for <i>resumable</i> uploads (when an upload is interrupted and must be resumed from a certain point).</span>
+    *      - *Content-Range* - string - optional
+    *          - Use this header to specify the content range for the upload. The Content-Range should be of the following bytes ((?:[0-9]+-[0-9]+)|\\\\*)/([0-9]+|\\\\*) pattern.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> This header is optional and is only required for <i>resumable</i> uploads (when an upload is interrupted and must be resumed from a certain point).</span>
+    *      - *Content-Type* - string - required
+    *          - Use this header to specify the content type for the upload. The Content-Type should be set to <code>application/octet-stream</code>.
     * @return array
     */
-    public function uploadVideo(string $videoId, array $data): array
+    public function uploadVideo(string $videoId, string $data, array $headers): array
     {
-        return $this->api("/video/{$videoId}/upload", 'POST', $data);
+        return $this->api("/video/{$videoId}/upload", 'POST', $data, $headers);
     }
     
 }

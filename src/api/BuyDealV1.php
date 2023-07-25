@@ -29,6 +29,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return Iterator
     *      - *dealItems* - array
     *          - A list of deal items that match the search criteria.
@@ -45,7 +50,7 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function eachDealItems(array $query): Iterator
+    public function eachDealItems(array $query, array $headers): Iterator
     {
         return $this->eachInternal('getDealItems', func_get_args());
     }
@@ -64,6 +69,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return Iterator
     *      - *dealItems* - array
     *          - A list of deal items that match the search criteria.
@@ -80,7 +90,7 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function batchDealItems(array $query): Iterator
+    public function batchDealItems(array $query, array $headers): Iterator
     {
         return $this->batchInternal('getDealItems', func_get_args());
     }
@@ -99,6 +109,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return array
     *      - *dealItems* - array
     *          - A list of deal items that match the search criteria.
@@ -115,15 +130,20 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function getDealItems(array $query): array
+    public function getDealItems(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/deal_item"], $query));
+        return $this->api(array_merge(["/deal_item"], $query), 'GET', [], $headers);
     }
                     
     /**
     * @description <p>This method retrieves the details for an eBay event. The result set contains detailed information associated with the specified event ID, such as applicable coupons, start and end dates, and event terms. <p> <h3><b> Request headers</b></h3> This method uses the  <b>X-EBAY-C-ENDUSERCTX</b> request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, <a href="/api-docs/buy/static/api-browse.html#Headers">Request headers</a> in the Buying Integration Guide.      <h3><b>Restrictions </b></h3> <p>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API">API Restrictions</a>.</p>    <span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span>
     * @tag event
     * @param string $eventId The unique identifier for the eBay event.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return array
     *      - *applicableCoupons* - array
     *          - A list of coupons associated with the event.
@@ -146,9 +166,9 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *title* - string
     *          - The title of the event.
     */
-    public function getEvent(string $eventId): array
+    public function getEvent(string $eventId, array $headers): array
     {
-        return $this->api("/event/{$eventId}");
+        return $this->api("/event/{$eventId}", 'GET', [], $headers);
     }
                 
     /**
@@ -159,6 +179,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code><br /><br /><b>Maximum Value:</b> <code>100</code>
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return Iterator
     *      - *events* - array
     *          - A list of results that match the search criteria.
@@ -175,7 +200,7 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the specified search criteria.
     */
-    public function eachEvents(array $query): Iterator
+    public function eachEvents(array $query, array $headers): Iterator
     {
         return $this->eachInternal('getEvents', func_get_args());
     }
@@ -188,6 +213,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code><br /><br /><b>Maximum Value:</b> <code>100</code>
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return Iterator
     *      - *events* - array
     *          - A list of results that match the search criteria.
@@ -204,7 +234,7 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the specified search criteria.
     */
-    public function batchEvents(array $query): Iterator
+    public function batchEvents(array $query, array $headers): Iterator
     {
         return $this->batchInternal('getEvents', func_get_args());
     }
@@ -217,6 +247,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code><br /><br /><b>Maximum Value:</b> <code>100</code>
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return array
     *      - *events* - array
     *          - A list of results that match the search criteria.
@@ -233,9 +268,9 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the specified search criteria.
     */
-    public function getEvents(array $query): array
+    public function getEvents(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/event"], $query));
+        return $this->api(array_merge(["/event"], $query), 'GET', [], $headers);
     }
                 
     /**
@@ -252,6 +287,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code>
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return Iterator
     *      - *eventItems* - array
     *          - A list of event items that match the search criteria.
@@ -268,7 +308,7 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the specified search criteria.
     */
-    public function eachEventItems(array $query): Iterator
+    public function eachEventItems(array $query, array $headers): Iterator
     {
         return $this->eachInternal('getEventItems', func_get_args());
     }
@@ -287,6 +327,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code>
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return Iterator
     *      - *eventItems* - array
     *          - A list of event items that match the search criteria.
@@ -303,7 +348,7 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the specified search criteria.
     */
-    public function batchEventItems(array $query): Iterator
+    public function batchEventItems(array $query, array $headers): Iterator
     {
         return $this->batchInternal('getEventItems', func_get_args());
     }
@@ -322,6 +367,11 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code>
     *      - *offset* - string - optional
     *          - The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is needed to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
     * @return array
     *      - *eventItems* - array
     *          - A list of event items that match the search criteria.
@@ -338,9 +388,9 @@ class BuyDealV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the specified search criteria.
     */
-    public function getEventItems(array $query): array
+    public function getEventItems(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/event_item"], $query));
+        return $this->api(array_merge(["/event_item"], $query), 'GET', [], $headers);
     }
     
 }

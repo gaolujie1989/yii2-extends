@@ -21,6 +21,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *policy_types* - string - optional
     *          - This query parameter specifies the type of custom policies to be returned.<br><br>Multiple policy types may be requested in a single call by providing a comma-delimited set of all policy types to be returned.<br><br><span class="tablenote"><strong>Note:</strong> Omitting this query parameter from a request will also return policies of all policy types.</span><br><br>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header parameter specifies the eBay marketplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span></br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. A seller will be able to apply any custom policy to listings on any eBay marketplace where they sell.<br><br>Due to this change, the X-EBAY-C-MARKETPLACE-ID request header will longer be relevant. </p></div>
     * @return Iterator
     *      - *customPolicies* - array
     *          - This array contains the custom policies that match the input criteria.
@@ -37,7 +40,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - <i>This field is for future use.</i>
     */
-    public function eachCustomPolicies(array $query): Iterator
+    public function eachCustomPolicies(array $query, array $headers): Iterator
     {
         return $this->eachInternal('getCustomPolicies', func_get_args());
     }
@@ -48,6 +51,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *policy_types* - string - optional
     *          - This query parameter specifies the type of custom policies to be returned.<br><br>Multiple policy types may be requested in a single call by providing a comma-delimited set of all policy types to be returned.<br><br><span class="tablenote"><strong>Note:</strong> Omitting this query parameter from a request will also return policies of all policy types.</span><br><br>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header parameter specifies the eBay marketplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span></br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. A seller will be able to apply any custom policy to listings on any eBay marketplace where they sell.<br><br>Due to this change, the X-EBAY-C-MARKETPLACE-ID request header will longer be relevant. </p></div>
     * @return Iterator
     *      - *customPolicies* - array
     *          - This array contains the custom policies that match the input criteria.
@@ -64,7 +70,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - <i>This field is for future use.</i>
     */
-    public function batchCustomPolicies(array $query): Iterator
+    public function batchCustomPolicies(array $query, array $headers): Iterator
     {
         return $this->batchInternal('getCustomPolicies', func_get_args());
     }
@@ -75,6 +81,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *policy_types* - string - optional
     *          - This query parameter specifies the type of custom policies to be returned.<br><br>Multiple policy types may be requested in a single call by providing a comma-delimited set of all policy types to be returned.<br><br><span class="tablenote"><strong>Note:</strong> Omitting this query parameter from a request will also return policies of all policy types.</span><br><br>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header parameter specifies the eBay marketplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span></br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. A seller will be able to apply any custom policy to listings on any eBay marketplace where they sell.<br><br>Due to this change, the X-EBAY-C-MARKETPLACE-ID request header will longer be relevant. </p></div>
     * @return array
     *      - *customPolicies* - array
     *          - This array contains the custom policies that match the input criteria.
@@ -91,9 +100,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - <i>This field is for future use.</i>
     */
-    public function getCustomPolicies(array $query): array
+    public function getCustomPolicies(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/custom_policy/"], $query));
+        return $this->api(array_merge(["/custom_policy/"], $query), 'GET', [], $headers);
     }
                 
     /**
@@ -108,17 +117,25 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.<br><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br><br><b>Max length:</b> 65
     *      - *policyType* - string
     *          - Specifies the type of custom policy being created. <br><br>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header parameter specifies the eBay marketplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. A seller will be able to apply any custom policy to listings on any eBay marketplace where they sell.<br><br>Due to this change, the X-EBAY-C-MARKETPLACE-ID request header will no longer be relevant.</p></div>
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createCustomPolicy(array $data): array
+    public function createCustomPolicy(array $data, array $headers): array
     {
-        return $this->api("/custom_policy/", 'POST', $data);
+        return $this->api("/custom_policy/", 'POST', $data, $headers);
     }
                     
     /**
     * @description This method retrieves the custom policy specified by the <b>custom_policy_id</b> path parameter for the selected eBay marketplace.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. When this change occurs, a seller will be able to apply any custom policy to listings on any eBay marketplace where they sell, and the X-EBAY-C-MARKETPLACE-ID request header will no longer be relevant.</p></div><br><br>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>.
     * @tag custom_policy
     * @param string $customPolicyId This path parameter is the unique custom policy identifier for the policy to be returned.<br><br><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header parameter specifies the eBay marketplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. A seller will be able to apply any custom policy to listings on any eBay marketplace where they sell.<br><br>Due to this change, the X-EBAY-C-MARKETPLACE-ID request header will no longer be relevant. </p></div>
     * @return array
     *      - *customPolicyId* - string
     *          - The unique custom policy identifier for a policy.<br><br><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span>
@@ -131,9 +148,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *policyType* - string
     *          - Specifies the type of Custom Policy. <br><br>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a>
     */
-    public function getCustomPolicy(string $customPolicyId): array
+    public function getCustomPolicy(string $customPolicyId, array $headers): array
     {
-        return $this->api("/custom_policy/{$customPolicyId}");
+        return $this->api("/custom_policy/{$customPolicyId}", 'GET', [], $headers);
     }
                 
     /**
@@ -147,11 +164,16 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.<br><br><b>Max length:</b> 65
     *      - *name* - string
     *          - The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.<br><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br><br><b>Max length:</b> 65
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header parameter specifies the eBay marketplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br> <br> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>As a part of Digital Services Act (DSA) requirements, all custom policies will become global (and no longer marketplace-specific) later in 2023. A seller will be able to apply any custom policy to listings on any eBay marketplace where they sell.<br><br>Due to this change, the X-EBAY-C-MARKETPLACE-ID request header will no longer be relevant.</p></div>
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function updateCustomPolicy(string $customPolicyId, array $data): array
+    public function updateCustomPolicy(string $customPolicyId, array $data, array $headers): array
     {
-        return $this->api("/custom_policy/{$customPolicyId}", 'PUT', $data);
+        return $this->api("/custom_policy/{$customPolicyId}", 'PUT', $data, $headers);
     }
                     
     /**
@@ -180,11 +202,14 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This array is used to provide detailed information on the domestic and international shipping options available for the policy. <br><br>A separate <b>ShippingOption</b> object is required for domestic shipping service options and for international shipping service options (if the seller ships to international locations). <ul><li>The <b>optionType</b> field is used to indicate whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field is used to indicate whether flat-rate shipping or calculated shipping will be used.</li> <li>The <b>rateTableId</b> field can be used to associate a defined shipping rate table to the policy, and the <b>packageHandlingCost</b> container can be used to set a handling charge for the policy.</li></ul> <p>A separate <b>ShippingServices</b> object will be used to specify cost and other details for every available domestic and international shipping service option. </p>
     *      - *shipToLocations* - 
     *          - This container consists of the <b>regionIncluded</b> and <b>regionExcluded</b> arrays, which are used to define the geographical regions/countries/states or provinces/domestic regions that a seller does and does not ship to for the associated fulfillment policy. Note that this container can be considered the master list of where the seller ships and does not ship, but there is also a <b>shipToLocations</b> container that can be set at the shipping service option level. <br><br>To retrieve the valid geographical shipping region values, two-digit country values, or special domestic regions for an eBay marketplace, call <b>GeteBayDetails</b> with <b>DetailName</b> value set to <code>ExcludeShippingLocationDetails</code>, then review the <b>ExcludeShippingLocationDetails</b> containers in the response for the strings you use in both the <b>regionIncluded.regionName</b> and in the <b>regionExcluded.regionName</b> fields. <br><br>For valid geographical region names, look for the <code>ExcludeShippingLocationDetails</code> containers in the <b>GeteBayDetails</b> response where the <b>Region</b> value is <code>Worldwide</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br><br>For valid two-digit country codes, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is one of the defined geographical regions, and the valid values will be shown in the corresponding <b>Location</b> fields. Alternatively, you can find the two-digit country code values in the <a href="/api-docs/sell/account/types/ba:CountryCodeEnum">CountryCodeEnum</a> type definition. For valid domestic region values, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is either <code>Domestic Location</code> or <code>Additional Locations</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br><br>The <code>STATE_OR_PROVINCE</code> region type is only applicable to the US and Canada, and valid values for US states are the same <a href="https://about.usps.com/who-we-are/postal-history/state-abbreviations.htm ">two-digit abbreviations</a> used by the United States Postal Service, and valid values for Canadian provinces and territories are the same <a href="https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/symbols-and-abbreviations.page ">two-digit abbreviations</a> used by the Canada Post.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createFulfillmentPolicy(array $data): array
+    public function createFulfillmentPolicy(array $data, array $headers): array
     {
-        return $this->api("/fulfillment_policy/", 'POST', $data);
+        return $this->api("/fulfillment_policy/", 'POST', $data, $headers);
     }
                     
     /**
@@ -249,6 +274,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This array is used to provide detailed information on the domestic and international shipping options available for the policy. <br><br>A separate <b>ShippingOption</b> object is required for domestic shipping service options and for international shipping service options (if the seller ships to international locations). <ul><li>The <b>optionType</b> field is used to indicate whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field is used to indicate whether flat-rate shipping or calculated shipping will be used.</li> <li>The <b>rateTableId</b> field can be used to associate a defined shipping rate table to the policy, and the <b>packageHandlingCost</b> container can be used to set a handling charge for the policy.</li></ul> <p>A separate <b>ShippingServices</b> object will be used to specify cost and other details for every available domestic and international shipping service option. </p>
     *      - *shipToLocations* - 
     *          - This container consists of the <b>regionIncluded</b> and <b>regionExcluded</b> arrays, which are used to define the geographical regions/countries/states or provinces/domestic regions that a seller does and does not ship to for the associated fulfillment policy. Note that this container can be considered the master list of where the seller ships and does not ship, but there is also a <b>shipToLocations</b> container that can be set at the shipping service option level. <br><br>To retrieve the valid geographical shipping region values, two-digit country values, or special domestic regions for an eBay marketplace, call <b>GeteBayDetails</b> with <b>DetailName</b> value set to <code>ExcludeShippingLocationDetails</code>, then review the <b>ExcludeShippingLocationDetails</b> containers in the response for the strings you use in both the <b>regionIncluded.regionName</b> and in the <b>regionExcluded.regionName</b> fields. <br><br>For valid geographical region names, look for the <code>ExcludeShippingLocationDetails</code> containers in the <b>GeteBayDetails</b> response where the <b>Region</b> value is <code>Worldwide</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br><br>For valid two-digit country codes, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is one of the defined geographical regions, and the valid values will be shown in the corresponding <b>Location</b> fields. Alternatively, you can find the two-digit country code values in the <a href="/api-docs/sell/account/types/ba:CountryCodeEnum">CountryCodeEnum</a> type definition. For valid domestic region values, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is either <code>Domestic Location</code> or <code>Additional Locations</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br><br>The <code>STATE_OR_PROVINCE</code> region type is only applicable to the US and Canada, and valid values for US states are the same <a href="https://about.usps.com/who-we-are/postal-history/state-abbreviations.htm ">two-digit abbreviations</a> used by the United States Postal Service, and valid values for Canadian provinces and territories are the same <a href="https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/symbols-and-abbreviations.page ">two-digit abbreviations</a> used by the Canada Post.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *categoryTypes* - array
     *          - This container indicates whether the fulfillment business policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings.
@@ -277,9 +305,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty.
     */
-    public function updateFulfillmentPolicy(string $fulfillmentPolicyId, array $data): array
+    public function updateFulfillmentPolicy(string $fulfillmentPolicyId, array $data, array $headers): array
     {
-        return $this->api("/fulfillment_policy/{$fulfillmentPolicyId}", 'PUT', $data);
+        return $this->api("/fulfillment_policy/{$fulfillmentPolicyId}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -516,11 +544,14 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - <p class="tablenote"><b>Note:</b> DO NOT USE THIS FIELD. Payment instructions are no longer supported by payment business policies.</p>A free-form string field that allows sellers to add detailed payment instructions to their listings.
     *      - *paymentMethods* - array
     *          - <p class="tablenote"><b>Note:</b> This field applies only when the seller needs to specify one or more offline payment methods. eBay now manages the electronic payment options available to buyers to pay for the item.</p>This array is used to specify one or more offline payment methods that will be accepted for payment that occurs off of eBay's platform.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createPaymentPolicy(array $data): array
+    public function createPaymentPolicy(array $data, array $headers): array
     {
-        return $this->api("/payment_policy", 'POST', $data);
+        return $this->api("/payment_policy", 'POST', $data, $headers);
     }
                     
     /**
@@ -577,6 +608,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - <p class="tablenote"><b>Note:</b> DO NOT USE THIS FIELD. Payment instructions are no longer supported by payment business policies.</p>A free-form string field that allows sellers to add detailed payment instructions to their listings.
     *      - *paymentMethods* - array
     *          - <p class="tablenote"><b>Note:</b> This field applies only when the seller needs to specify one or more offline payment methods. eBay now manages the electronic payment options available to buyers to pay for the item.</p>This array is used to specify one or more offline payment methods that will be accepted for payment that occurs off of eBay's platform.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *categoryTypes* - array
     *          - This container indicates whether the payment business policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings.
@@ -601,9 +635,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty.
     */
-    public function updatePaymentPolicy(string $paymentPolicyId, array $data): array
+    public function updatePaymentPolicy(string $paymentPolicyId, array $data, array $headers): array
     {
-        return $this->api("/payment_policy/{$paymentPolicyId}", 'PUT', $data);
+        return $this->api("/payment_policy/{$paymentPolicyId}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -720,11 +754,14 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Program being opted-in to.
     *      - *programType* - string
     *          - A seller program in to which a seller can opt-in. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ProgramTypeEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function optInToProgram(array $data): array
+    public function optInToProgram(array $data, array $headers): array
     {
-        return $this->api("/program/opt_in", 'POST', $data);
+        return $this->api("/program/opt_in", 'POST', $data, $headers);
     }
                     
     /**
@@ -733,11 +770,14 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Program being opted-out of.
     *      - *programType* - string
     *          - A seller program in to which a seller can opt-in. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ProgramTypeEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function optOutOfProgram(array $data): array
+    public function optOutOfProgram(array $data, array $headers): array
     {
-        return $this->api("/program/opt_out", 'POST', $data);
+        return $this->api("/program/opt_out", 'POST', $data, $headers);
     }
                     
     /**
@@ -866,11 +906,14 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - If set to <code>true</code>, the seller accepts returns. <p><span class="tablenote"><strong>Note:</strong>Top-Rated sellers must accept item returns and the <b>handlingTime</b> should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="http://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span></p>
     *      - *returnShippingCostPayer* - string
     *          - This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br><br>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for SNAD-related issues.  <br><br>This field is conditionally required if <b>returnsAccepted</b> is set to <code>true</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createReturnPolicy(array $data): array
+    public function createReturnPolicy(array $data, array $headers): array
     {
-        return $this->api("/return_policy", 'POST', $data);
+        return $this->api("/return_policy", 'POST', $data, $headers);
     }
                     
     /**
@@ -943,6 +986,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - If set to <code>true</code>, the seller accepts returns. <p><span class="tablenote"><strong>Note:</strong>Top-Rated sellers must accept item returns and the <b>handlingTime</b> should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="http://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span></p>
     *      - *returnShippingCostPayer* - string
     *          - This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br><br>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for SNAD-related issues.  <br><br>This field is conditionally required if <b>returnsAccepted</b> is set to <code>true</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *categoryTypes* - array
     *          - This field always returns <code>ALL_EXCLUDING_MOTORS_VEHICLES</code> for return business policies, since return business policies are not applicable to motor vehicle listings.
@@ -975,9 +1021,9 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty.
     */
-    public function updateReturnPolicy(string $returnPolicyId, array $data): array
+    public function updateReturnPolicy(string $returnPolicyId, array $data, array $headers): array
     {
-        return $this->api("/return_policy/{$returnPolicyId}", 'PUT', $data);
+        return $this->api("/return_policy/{$returnPolicyId}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -1064,11 +1110,14 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This field is used to set the sales tax rate for the tax jurisdiction set in the call URI. When applicable to an order, this sales tax rate will be applied to sales price. The <b>shippingAndHandlingTaxed</b> value will indicate whether or not sales tax is also applied to shipping and handling charges<br><br>Although it is a string, a percentage value is set here, such as <code>7.75</code>.
     *      - *shippingAndHandlingTaxed* - boolean
     *          - This field is set to <code>true</code> if the seller wishes to apply sales tax to shipping and handling charges, and not just the total sales price of the order. Otherwise, this field's value should be set to <code>false</code>.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createOrReplaceSalesTax(string $countryCode, string $jurisdictionId, array $data): array
+    public function createOrReplaceSalesTax(string $countryCode, string $jurisdictionId, array $data, array $headers): array
     {
-        return $this->api("/sales_tax/{$countryCode}/{$jurisdictionId}", 'PUT', $data);
+        return $this->api("/sales_tax/{$countryCode}/{$jurisdictionId}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -1191,13 +1240,16 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *program_types* - string - optional
     *          - A comma-separated list of eBay advertising programs.<br /><br /><span class="tablenote"><b>Tip:</b> See the <a href="/api-docs/sell/account/types/plser:AdvertisingProgramEnum"> AdvertisingProgramEnum</a> type for possible values.</span><br /><br />If no programs are specified, the results will be returned for all programs.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The unique identifier of the eBay marketplace for which the seller eligibility status shall be checked.<br /><br /><span class="tablenote"><b>Note:</b> This value is case-sensitive.</span>
     * @return array
     *      - *advertisingEligibility* - array
     *          - An array of response fields that define the seller eligibility for eBay adverstising programs.
     */
-    public function getAdvertisingEligibility(array $query): array
+    public function getAdvertisingEligibility(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/advertising_eligibility"], $query));
+        return $this->api(array_merge(["/advertising_eligibility"], $query), 'GET', [], $headers);
     }
     
 }

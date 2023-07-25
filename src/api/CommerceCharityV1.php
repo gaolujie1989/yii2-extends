@@ -19,6 +19,9 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     * @description This call is used to retrieve detailed information about supported charitable organizations. It allows users to retrieve the details for a specific charitable organization using its charity organization ID.
     * @tag charity_org
     * @param string $charityOrgId The unique ID of the charitable organization.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - A header used to specify the eBay marketplace ID.<br /><br /><b>Valid Values:</b> <code>EBAY_GB</code> and <code>EBAY_US</code>
     * @return array
     *      - *charityOrgId* - string
     *          - The ID of the charitable organization.
@@ -37,9 +40,9 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *website* - string
     *          - The link to the website for the charitable organization.
     */
-    public function getCharityOrg(string $charityOrgId): array
+    public function getCharityOrg(string $charityOrgId, array $headers): array
     {
-        return $this->api("/charity_org/{$charityOrgId}");
+        return $this->api("/charity_org/{$charityOrgId}", 'GET', [], $headers);
     }
                 
     /**
@@ -54,6 +57,9 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A query string that matches the keywords in name, mission statement, or description.
     *      - *registration_ids* - string - optional
     *          - A comma-separated list of charitable organization registration IDs.<br /><br /><span class="tablenote"><b>Note: </b>Do not specify this parameter for query-based searches. Specify either the <b>q</b> or <b>registration_ids</b> parameter, but not both.</span><br /><br /><b>Maximum Limit:</b> <code>20</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - A header used to specify the eBay marketplace ID.<br /><br /><b>Valid Values:</b> <code>EBAY_GB</code> and <code>EBAY_US</code>
     * @return Iterator
     *      - *charityOrgs* - array
     *          - The list of charitable organizations that match the search criteria.
@@ -70,7 +76,7 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function eachCharityOrgs(array $query): Iterator
+    public function eachCharityOrgs(array $query, array $headers): Iterator
     {
         return $this->eachInternal('getCharityOrgs', func_get_args());
     }
@@ -87,6 +93,9 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A query string that matches the keywords in name, mission statement, or description.
     *      - *registration_ids* - string - optional
     *          - A comma-separated list of charitable organization registration IDs.<br /><br /><span class="tablenote"><b>Note: </b>Do not specify this parameter for query-based searches. Specify either the <b>q</b> or <b>registration_ids</b> parameter, but not both.</span><br /><br /><b>Maximum Limit:</b> <code>20</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - A header used to specify the eBay marketplace ID.<br /><br /><b>Valid Values:</b> <code>EBAY_GB</code> and <code>EBAY_US</code>
     * @return Iterator
     *      - *charityOrgs* - array
     *          - The list of charitable organizations that match the search criteria.
@@ -103,7 +112,7 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function batchCharityOrgs(array $query): Iterator
+    public function batchCharityOrgs(array $query, array $headers): Iterator
     {
         return $this->batchInternal('getCharityOrgs', func_get_args());
     }
@@ -120,6 +129,9 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A query string that matches the keywords in name, mission statement, or description.
     *      - *registration_ids* - string - optional
     *          - A comma-separated list of charitable organization registration IDs.<br /><br /><span class="tablenote"><b>Note: </b>Do not specify this parameter for query-based searches. Specify either the <b>q</b> or <b>registration_ids</b> parameter, but not both.</span><br /><br /><b>Maximum Limit:</b> <code>20</code>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - A header used to specify the eBay marketplace ID.<br /><br /><b>Valid Values:</b> <code>EBAY_GB</code> and <code>EBAY_US</code>
     * @return array
     *      - *charityOrgs* - array
     *          - The list of charitable organizations that match the search criteria.
@@ -136,9 +148,9 @@ class CommerceCharityV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function getCharityOrgs(array $query): array
+    public function getCharityOrgs(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/charity_org"], $query));
+        return $this->api(array_merge(["/charity_org"], $query), 'GET', [], $headers);
     }
     
 }

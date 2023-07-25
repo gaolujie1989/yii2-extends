@@ -193,15 +193,18 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The <b>refundItems</b> array is only required if the seller is issuing a refund for one or more individual order line items in a multiple line item order. Otherwise, the seller just uses the <b>orderLevelRefundAmount</b> container to specify the amount of the refund for the entire order.
     *      - *orderLevelRefundAmount* - 
     *          - This container is used to specify the amount of the refund for the entire order. If a seller wants to issue a refund for an individual line item within a multiple line item order, the seller would use the <b>refundItems</b> array instead.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *refundId* - string
     *          - The unique identifier of the order refund. This value is returned unless the refund operation fails (<b>refundStatus</b> value shows <code>FAILED</code>). This identifier can be used to track the status of the refund through a <b>getOrder</b> or <b>getOrders</b> call. For order-level refunds, check the <b>paymentSummary.refunds.refundId</b> field in the <b>getOrder</b>/<b>getOrders</b> response, and for line item level refunds, check the <b>lineItems.refunds.refundId</b> field(s) in the <b>getOrder</b>/<b>getOrders</b> response.
     *      - *refundStatus* - string
     *          - The value returned in this field indicates the success or failure of the refund operation. A successful <b>issueRefund</b> operation should result in a value of <code>PENDING</code>. A failed <b>issueRefund</b> operation should result in a value of <code>FAILED</code>, and an HTTP status code and/or and API error code may also get returned to possibly indicate the issue.<br><br>The refunds issued through this method are processed asynchronously, so the refund will not show as 'Refunded' right away. A seller will have to make a subsequent <a href="https://developer.ebay.com/api-docs/sell/fulfillment/resources/order/methods/getOrder" target="_blank">getOrder</a> call to check the status of the refund.  The status of an order refund can be found in the <a href="https://developer.ebay.com/api-docs/sell/fulfillment/resources/order/methods/getOrder#response.paymentSummary.refunds.refundStatus" target="_blank">paymentSummary.refunds.refundStatus</a> field of the <a href="https://developer.ebay.com/api-docs/sell/fulfillment/resources/order/methods/getOrder" target="_blank">getOrder</a> response. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/fulfillment/types/sel:RefundStatusEnum'>eBay API documentation</a>
     */
-    public function issueRefund(string $orderId, array $data): array
+    public function issueRefund(string $orderId, array $data, array $headers): array
     {
-        return $this->api("/order/{$orderId}/issue_refund", 'POST', $data);
+        return $this->api("/order/{$orderId}/issue_refund", 'POST', $data, $headers);
     }
                     
     /**
@@ -234,11 +237,14 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The unique identifier of the shipping carrier being used to ship the line item(s). Technically, the <strong>shippingCarrierCode</strong> and <strong>trackingNumber</strong> fields are optional, but generally these fields will be provided if the shipping carrier and tracking number are known. <br><br><span class="tablenote"><strong>Note:</strong> Use the Trading API's <a href="https://developer.ebay.com/devzone/XML/docs/Reference/eBay/GeteBayDetails.html " target="_blank">GeteBayDetails</a> call to retrieve the latest shipping carrier enumeration values. When making the <a href="https://developer.ebay.com/devzone/XML/docs/Reference/eBay/GeteBayDetails.html " target="_blank">GeteBayDetails</a> call, include the <strong>DetailName</strong> field in the request payload and set its value to <code>ShippingCarrierDetails</code>. Each valid shipping carrier enumeration value is returned in a <strong>ShippingCarrierDetails.ShippingCarrier</strong> field in the response payload.</span>
     *      - *trackingNumber* - string
     *          - The tracking number provided by the shipping carrier for this fulfillment. The seller should be careful that this tracking number is accurate since the buyer will use this tracking number to track shipment, and eBay has no way to verify the accuracy of this number.<br><br>This field and the <b>shippingCarrierCode</b> field are mutually dependent. If you include one, you must also include the other.<br><br><span class="tablenote"><strong>Note:</strong> If you include <b>trackingNumber</b> (and <b>shippingCarrierCode</b>) in the request, the resulting fulfillment's ID (returned in the HTTP location code) is the tracking number. If you do not include shipment tracking information, the resulting fulfillment ID will default to an arbitrary number such as <code>999</code>.</span><br><span class="tablenote"><strong>Note:</strong> Only alphanumeric characters are supported for shipment tracking numbers. Spaces, hyphens, and all other special characters are not supported. Do not include a space in the tracking number even if a space appears in the tracking number on the shipping label.</span>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createShippingFulfillment(string $orderId, array $data): array
+    public function createShippingFulfillment(string $orderId, array $data, array $headers): array
     {
-        return $this->api("/order/{$orderId}/shipping_fulfillment", 'POST', $data);
+        return $this->api("/order/{$orderId}/shipping_fulfillment", 'POST', $data, $headers);
     }
                     
     /**
@@ -471,11 +477,14 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is needed if the seller is requesting that the buyer return the item. If this container is used, all relevant fields must be included, including <strong>fullName</strong> and <strong>primaryPhone</strong>.
     *      - *revision* - integer
     *          - This integer value indicates the revision number of the payment dispute. This field is required. The current <strong>revision</strong> number for a payment dispute can be retrieved with the <strong>getPaymentDispute</strong> method. Each time an action is taken against a payment dispute, this integer value increases by 1.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function contestPaymentDispute(string $paymentDisputeId, array $data): array
+    public function contestPaymentDispute(string $paymentDisputeId, array $data, array $headers): array
     {
-        return $this->api("/payment_dispute/{$paymentDisputeId}/contest", 'POST', $data);
+        return $this->api("/payment_dispute/{$paymentDisputeId}/contest", 'POST', $data, $headers);
     }
                         
     /**
@@ -487,24 +496,30 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is used if the seller wishes to provide a return address to the buyer. This container should be used if the seller is requesting that the buyer return the item.
     *      - *revision* - integer
     *          - This integer value indicates the revision number of the payment dispute. This field is required. The current <strong>revision</strong> number for a payment dispute can be retrieved with the <strong>getPaymentDispute</strong> method. Each time an action is taken against a payment dispute, this integer value increases by 1.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function acceptPaymentDispute(string $paymentDisputeId, array $data): array
+    public function acceptPaymentDispute(string $paymentDisputeId, array $data, array $headers): array
     {
-        return $this->api("/payment_dispute/{$paymentDisputeId}/accept", 'POST', $data);
+        return $this->api("/payment_dispute/{$paymentDisputeId}/accept", 'POST', $data, $headers);
     }
                         
     /**
     * @description This method is used to upload an evidence file for a contested payment dispute. The unique identifier of the payment dispute is passed in as a path parameter, and unique identifiers for payment disputes can be retrieved with the <strong>getPaymentDisputeSummaries</strong> method.<br><br><span class="tablenote"><strong>Note:</strong> The <strong>uploadEvidenceFile</strong> only uploads an encrypted, binary image file (using <strong>multipart/form-data</strong> HTTP request header), and does not have a JSON-based request payload.<br><br>Use 'file' as the name of the key that you use to upload the image file. The upload will not be successful if a different key name is used.<br><br>The three image formats supported at this time are <strong>.JPEG</strong>, <strong>.JPG</strong>, and <strong>.PNG</strong>.</span><br><br>After the file is successfully uploaded, the seller will need to grab the <strong>fileId</strong> value in the response payload to add this file to a new evidence set using the <strong>addEvidence</strong> method, or to add this file to an existing evidence set using the <strong>updateEvidence</strong> method.
     * @tag payment_dispute
     * @param string $paymentDisputeId This is the unique identifier of the payment dispute. This path parameter must be passed into the call URI to identify the payment dispute for which the user plans to upload an evidence file. This identifier is automatically created by eBay after the payment dispute comes into the eBay system. The unique identifier for payment disputes is returned in the <strong>paymentDisputeId</strong> field in the <strong>getPaymentDisputeSummaries</strong> response.<br><br>This path parameter is required, and the actual identifier value is passed in right after the <strong>payment_dispute</strong> resource. See the Resource URI above.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *fileId* - string
     *          - If an <strong>uploadEvidenceFile</strong> call is successful, a unique identifier of this evidence file will be returned in the <strong>uploadEvidenceFile</strong> response payload.  This unique <strong>fileId</strong> value is then used to either add this evidence file to a new evidence set using the <strong>addEvidence</strong> method, or to add this file to an existing evidence set using the <strong>updateEvidence</strong> method.<br><br>Note that if an evidence set already exists for a payment dispute, the <strong>getPaymentDispute</strong> method will return both the <strong>evidenceId</strong> (unique identifier of evidence set) value, and the <strong>fileId</strong> (unique identifier of a file within that evidence set) value(s).
     */
-    public function uploadEvidenceFile(string $paymentDisputeId): array
+    public function uploadEvidenceFile(string $paymentDisputeId, array $headers): array
     {
-        return $this->api("/payment_dispute/{$paymentDisputeId}/upload_evidence_file", 'POST');
+        return $this->api("/payment_dispute/{$paymentDisputeId}/upload_evidence_file", 'POST', [], $headers);
     }
                         
     /**
@@ -518,13 +533,16 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This array is used to specify one or more evidence files that will become part of a new evidence set associated with a payment dispute. At least one evidence file must be specified in the <strong>files</strong> array.<br><br> The unique identifier of an evidence file is returned in the response payload of the <strong>uploadEvidence</strong> method.
     *      - *lineItems* - array
     *          - This required array identifies the order line item(s) for which the evidence file(s) will be applicable. Both the <strong>itemId</strong> and <strong>lineItemID</strong> fields are needed to identify each order line item, and both of these values are returned under the <strong>evidenceRequests.lineItems</strong> array in the <strong>getPaymentDispute</strong> response.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *evidenceId* - string
     *          - The value returned in this field is the unique identifier of the newly-created evidence set. Upon a successful call, this value is automatically genererated. This new evidence set for the payment dispute includes the evidence file(s) that were passed in to the <strong>fileId</strong> array in the request payload. The <strong>evidenceId</strong> value will be needed if the seller wishes to add to the evidence set by using the <strong>updateEvidence</strong> method, or if they want to retrieve a specific evidence file within the evidence set by using the <strong>fetchEvidenceContent</strong> method.
     */
-    public function addEvidence(string $paymentDisputeId, array $data): array
+    public function addEvidence(string $paymentDisputeId, array $data, array $headers): array
     {
-        return $this->api("/payment_dispute/{$paymentDisputeId}/add_evidence", 'POST', $data);
+        return $this->api("/payment_dispute/{$paymentDisputeId}/add_evidence", 'POST', $data, $headers);
     }
                         
     /**
@@ -540,11 +558,14 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This array is used to specify one or more evidence files that will be added to the evidence set associated with a payment dispute. At least one evidence file must be specified in the <strong>files</strong> array.<br><br> The unique identifier of an evidence file is returned in the response payload of the <strong>uploadEvidence</strong> method.
     *      - *lineItems* - array
     *          - This required array identifies the order line item(s) for which the evidence file(s) will be applicable. Both the <strong>itemId</strong> and <strong>lineItemID</strong> fields are needed to identify each order line item, and both of these values are returned under the <strong>evidenceRequests.lineItems</strong> array in the <strong>getPaymentDispute</strong> response.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function updateEvidence(string $paymentDisputeId, array $data): array
+    public function updateEvidence(string $paymentDisputeId, array $data, array $headers): array
     {
-        return $this->api("/payment_dispute/{$paymentDisputeId}/update_evidence", 'POST', $data);
+        return $this->api("/payment_dispute/{$paymentDisputeId}/update_evidence", 'POST', $data, $headers);
     }
         
 }

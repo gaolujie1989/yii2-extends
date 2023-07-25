@@ -25,11 +25,18 @@ class BuyFeedV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - An eBay top-level category ID of the items to be returned in the feed file. <br> <br>The list of eBay category IDs changes over time and category IDs are not the same across all the eBay marketplaces. To get a list of the top-level categories for a marketplace, you can use the Taxonomy API <a href="/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategoryTree">getCategoryTree</a> method. This method retrieves the complete category tree for the marketplace. The top-level categories are identified by the <b>categoryTreeNodeLevel</b> field. <br><br><b>For example:</b><br>&nbsp;&nbsp;<code>"categoryTreeNodeLevel": 1</code> <br><br>For details see <a href="/api-docs/buy/buy-categories.html">Get Categories for Buy APIs</a>. </li>  </ul> <br><br>   <b>Restriction:</b> Must be a top-level (L1) category other than Real Estate. Items listed under Real Estate L1 categories are excluded from all feeds in all marketplaces.
     *      - *date* - string - optional
     *          - The date of the daily <b>Item</b> feed file (<b>feed_scope</b>=<code>NEWLY_LISTED</code>) you want. <p>The <b> date</b> is required only for the daily <b>Item</b> feed file. If you specify a date for the <b>Item Bootstrap</b> file (<b>feed_scope</b>=<code>ALL_ACTIVE</code>), the date is ignored and the latest file is returned. The date the <b>Item Bootstrap</b> feed file was generated is returned in the <b>Last-Modified</b> response header.</code></p>    <p>The <b> Item</b> feed files are generated every day and there are 14 daily files available.</p>  <span class="tablenote"> <b>Note: </b><ul>  <li>The daily <b>Item</b> feed files are available each day after 9AM MST (US Mountain Standard Time), which is -7 hours UTC time.</li>    <li>There is a 48 hour latency when generating the <b> Item</b> feed files. This means you can download the file for July 10th on July 12 after 9AM MST. <br><br><b>Note: </b> For categories with a large number of items, the latency can be up to 72 hours.</li> </ul></span> <p><b> Format: </b><code>yyyyMMdd</code><br><br><b> Requirements: </b> <ul>  <li>Required when <b>feed_scope</b>=<code>NEWLY_LISTED</code> </li>  <li>Must be within 3-14 days in the past</li></ul>
+    * @param array $headers
+    *      - *Accept* - string - required
+    *          - The formats that the client accepts for the response.<br><br>A successful call will always return a TSV.GZIP file; however, unsuccessful calls generate errors that are returned in JSON format.<br><br><b>Default:</b> <code>application/json,text/tab-separated-values</code>
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the item is hosted. <b>Note: </b> This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
+    *      - *Range* - string - required
+    *          - <a name="range-header"></a>This header specifies the range in bytes of the chunks of the gzip file being returned. <br><br><b> Format:</b> <code >bytes=<em>startpos</em>-<em>endpos</em></code><br><br>  For example, the following retrieves the first 10 MBs of the feed file. <br><br>&nbsp;&nbsp;<code>Range bytes=0-10485760</code> <br><br>For more information about using this header, see <a href="/api-docs/buy/static/api-feed_beta.html#retrv-gzip">Retrieving a gzip feed file</a>. <br><br><b>Maximum:</b> 100 MB (10MB in the Sandbox)
     * @return array
     */
-    public function getItemFeed(array $query): array
+    public function getItemFeed(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item"], $query));
+        return $this->api(array_merge(["/item"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -42,11 +49,18 @@ class BuyFeedV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - An eBay top-level category ID of the items to be returned in the feed file.<br> <br>The list of eBay category IDs changes over time and category IDs are not the same across all the eBay marketplaces. To get a list of the top-level categories for a marketplaces, you can use the Taxonomy API <a href="/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategoryTree">getCategoryTree</a> method. This method retrieves the complete category tree for the marketplace. The top-level categories are identified by the <b>categoryTreeNodeLevel</b> field. <br><br><b>For example:</b><br>&nbsp;&nbsp;<code>"categoryTreeNodeLevel": 1</code> <br><br>For details see <a href="/api-docs/buy/buy-categories.html">Get Categories for Buy APIs</a>. </li>  </ul> <br><br>   <b>Restriction:</b> Must be a top-level category other than Real Estate. Items listed under Real Estate L1 categories are excluded from all feeds in all marketplaces.
     *      - *date* - string - optional
     *          -  The date of the daily <b>Item Group</b> feed file (<b>feed_scope</b>=<code>NEWLY_LISTED</code>) you want. <p>The <b> date</b> is required only for the daily <b>Item Group</b> feed file. If you specify a date for the <b>Item Group Bootstrap</b> file (<b>feed_scope</b>=<code>ALL_ACTIVE</code>), the date is ignored and the latest file is returned. The date the <b>Item Group Bootstrap</b> feed file was generated is returned in the <b>Last-Modified</b> response header.</code></p>    <p>The <b> Item Group</b> feed files are generated every day and there are 14 daily files available.</p> <p>There is a 48 hour latency when generating the files. This means on July 10, the latest feed file you can download is July 8.</p>  <span class="tablenote"><b>Note: </b> The generated files are stored using MST (US Mountain Standard Time), which is -7 hours UTC time.</span><br> <br><b> Format: </b><code>yyyyMMdd</code><br><br><b> Requirements: </b> <ul>  <li>Required only when <b>feed_scope</b>=<code>NEWLY_LISTED</code> </li>   <li>Must be within 3-14 days in the past</li>    </ul>  
+    * @param array $headers
+    *      - *Accept* - string - required
+    *          - The formats that the client accepts for the response.<br><br>A successful call will always return a TSV.GZIP file; however, unsuccessful calls generate error codes that are returned in JSON format.<br><br><b>Default:</b> <code>application/json,text/tab-separated-values</code>
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the item is hosted. <b>Note: </b> This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
+    *      - *Range* - string - optional
+    *          - <a name="range-header"></a>This header specifies the range in bytes of the chunks of the gzip file being returned. <br><br><b> Format:</b> <code>bytes=<em>startpos</em>-<em>endpos</em></code><br><br>  For example, the following retrieves the first 10 MBs of the feed file. <br><br>&nbsp;&nbsp;<code>Range bytes=0-10485760</code> <br><br>For more information about using this header, see <a href="/api-docs/buy/static/api-feed_beta.html#retrv-gzip">Retrieving a gzip feed file</a>. <br><br><b>Maximum:</b> 100 MB (10MB in the Sandbox)
     * @return array
     */
-    public function getItemGroupFeed(array $query): array
+    public function getItemGroupFeed(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item_group"], $query));
+        return $this->api(array_merge(["/item_group"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -57,11 +71,18 @@ class BuyFeedV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - An eBay top-level category ID  of the items to be returned in the feed file.<br> <br>The list of eBay category IDs changes over time and category IDs are not the same across all the eBay marketplaces. To get a list of the top-level categories for a marketplace, you can use the Taxonomy API <a href="/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategoryTree">getCategoryTree</a> method. This method retrieves the complete category tree for the marketplace. The top-level categories are identified by the <b>categoryTreeNodeLevel</b> field.<br><br><b>For example:</b><br>&nbsp;&nbsp;<code>"categoryTreeNodeLevel": 1</code> <br><br>For details see <a href="/api-docs/buy/buy-categories.html">Get Categories for Buy APIs</a>.</li>  </ul> <br><br>   <b>Restriction:</b> Must be a top-level category other than Real Estate. Items listed under Real Estate L1 categories are excluded from all feeds in all marketplaces.
     *      - *snapshot_date* - string - required
     *          - The date and hour of the snapshot feed file you want. Each file contains the items that changed within the hour in the specified category. So, the 9AM file contains the items that changed between 9AM and 9:59AM on the day specified.  It takes 2 hours to generate a snapshot file, which means to get the file for 9AM the earliest you could submit the call is at 11AM.<br><br>There are 7 days of <b> Hourly Snapshot</b> feed files available.<p><span class="tablenote"><b>Note: </b> The Feed API uses GMT, so you must convert your local time to GMT. For example, if you lived in California and wanted the September 15th 7pm file, you would submit the following call: <br> <br><code>item_snapshot?category_id=625&snapshot_date=2017-09-16T02:00:00.000Z</code> </span></p>  <b>Format: </b>UTC <code>yyyy-MM-ddThh:00:00.000Z</code> <br><br>Files are generated on the hour, so minutes and seconds are <em> always</em> zeros.
+    * @param array $headers
+    *      - *Accept* - string - required
+    *          - The formats that the client accepts for the response.<br><br>A successful call will always return a TSV.GZIP file; however, unsuccessful calls generate error codes that are returned in JSON format.<br><br><b>Default:</b> <code>application/json,text/tab-separated-values</code>
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the item is hosted. <b>Note: </b> This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
+    *      - *Range* - string - required
+    *          - <a name="range-header"></a>This header specifies the range in bytes of the chunks of the gzip file being returned. <br><br><b> Format:</b> <code>bytes=<em>startpos</em>-<em>endpos</em></code><br><br>  For example, the following retrieves the first 10 MBs of the feed file. <br><br>&nbsp;&nbsp;<code>Range bytes=0-10485760</code> <br><br>For more information about using this header, see <a href="/api-docs/buy/static/api-feed_beta.html#retrv-gzip">Retrieving a gzip feed file</a>. <br><br><b>Maximum:</b> 100 MB (10MB in the Sandbox)
     * @return array
     */
-    public function getItemSnapshotFeed(array $query): array
+    public function getItemSnapshotFeed(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item_snapshot"], $query));
+        return $this->api(array_merge(["/item_snapshot"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -72,11 +93,18 @@ class BuyFeedV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - An eBay top-level category ID of the items to be returned in the feed file.<br> <br>The list of eBay category IDs changes over time and category IDs are not the same across all the eBay marketplaces. To get a list of the top-level categories for a marketplaces, you can use the Taxonomy API <a href="/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategoryTree">getCategoryTree</a> method. This method retrieves the complete category tree for the marketplace. The top-level categories are identified by the <b>categoryTreeNodeLevel</b> field.<br><br><b>For example:</b><br>&nbsp;&nbsp;<code>"categoryTreeNodeLevel": 1</code> <br><br>For details see <a href="/api-docs/buy/api-feed.html#Getcat">Get the eBay categories of a marketplace</a>.</li></ul><br><br><b>Restriction:</b> Must be a top-level category other than Real Estate. Items listed under Real Estate L1 categories are excluded from all feeds in all marketplaces.
     *      - *date* - string - required
     *          - The date of the feed you want returned. This can be up to 14 days in the past but cannot be set to a date in the future.<br> <br><b>Format:</b> <code>yyyyMMdd</code><br ><br><span class="tablenote"> <b>Note: </b><ul>  <li>The daily <b>Item</b> feed files are available each day after 9AM MST (US Mountain Standard Time), which is -7 hours UTC time.</li>    <li>There is a 48 hour latency when generating the <b> Item</b> feed files. This means you can download the file for July 10th on July 12 after 9AM MST. <br><br><b>Note: </b> For categories with a large number of items, the latency can be up to 72 hours.</li> </ul></span>
+    * @param array $headers
+    *      - *Accept* - string - required
+    *          - The formats that the client accepts for the response.<br><br>A successful call will always return a TSV.GZIP file; however, unsuccessful calls generate error codes that are returned in JSON format.<br><br><b>Default:</b> <code>application/json,text/tab-separated-values</code>
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the item is hosted. <b>Note: </b> This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/static/ref-marketplace-supported.html">Buy API Support by Marketplace</a>.
+    *      - *Range* - string - required
+    *          - Header specifying content range to be retrieved. Only supported range is bytes.<br> <br><b>Example</b> : <code>bytes = 0-102400</code>.
     * @return array
     */
-    public function getItemPriorityFeed(array $query): array
+    public function getItemPriorityFeed(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item_priority"], $query));
+        return $this->api(array_merge(["/item_priority"], $query), 'GET', [], $headers);
     }
     
 }

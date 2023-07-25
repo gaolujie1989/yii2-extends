@@ -31,11 +31,14 @@ class DeveloperClientRegistrationV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A unique identifier string assigned by the client developer or software publisher to identify the client software being registered.<br/><br/>Unlike <code>client_id</code> which should change between instances, the <CODE>software_id</code> should be the same value for all instances of the client software. That is, the <code>software_id</code> should remain unchanged across multiple updates or versions of the same piece of software. The value of this field is not intended to be human readable and is usually opaque to the client and authorization server.
     *      - *software_statement* - string
     *          - The Software Statement Assertion (SSA) that has been issued by the OpenBanking identifier.<br/><br/><span class="tablenote"><b>Note:</b> This value <i>must be</i> <b>Base64</b> encoded and not plain JSON.</span>Refer to <a href="https://datatracker.ietf.org/doc/html/rfc7591#section-2.3 " target= "_blank ">RFC 7591 - OAuth 2.0 Dynamic Client Registration Protocol</a> for complete information.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function registerClient(array $data): array
+    public function registerClient(array $data, array $headers): array
     {
-        return $this->api("/client/register", 'POST', $data);
+        return $this->api("/client/register", 'POST', $data, $headers);
     }
     
 }

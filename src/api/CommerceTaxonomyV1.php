@@ -53,6 +53,9 @@ class CommerceTaxonomyV1 extends \lujie\ebay\BaseEbayRestClient
     * @description This call retrieves the complete category tree that is identified by the <b>category_tree_id</b> parameter. The value of <b>category_tree_id</b> was returned by the <b>getDefaultCategoryTreeId</b> call in the <b>categoryTreeId</b> field. The response contains details of all nodes of the specified eBay category tree, as well as the eBay marketplaces that use this category tree.<br><br><span class="tablenote"> <strong>Note:</strong> This call can return a very large payload, so you are strongly advised to submit the request with the following HTTP header:<br><br><code>&nbsp;&nbsp;Accept-Encoding: application/gzip</code><br><br>With this header (in addition to the required headers described under <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP Request Headers</a>), the call returns the response with <b>gzip</b> compression.</span>
     * @tag category_tree
     * @param string $categoryTreeId The unique identifier of the eBay category tree being requested.
+    * @param array $headers
+    *      - *Accept-Encoding* - string - optional
+    *          - This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>application/gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *applicableMarketplaceIds* - array
     *          - A list of one or more identifiers of the eBay marketplaces that use this category tree.
@@ -63,9 +66,9 @@ class CommerceTaxonomyV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *rootCategoryNode* - 
     *          - Contains details of all nodes of the category tree hierarchy, starting with the root node and down to the leaf nodes. This is a recursive structure.<br><br><span class="tablenote"> <strong>Note:</strong> The root node of a full default category tree includes the <b>categoryId</b> field, but its value should not be relied upon. It provides no useful information for application development.</span>
     */
-    public function getCategoryTree(string $categoryTreeId): array
+    public function getCategoryTree(string $categoryTreeId, array $headers): array
     {
-        return $this->api("/category_tree/{$categoryTreeId}");
+        return $this->api("/category_tree/{$categoryTreeId}", 'GET', [], $headers);
     }
                     
     /**
@@ -75,6 +78,9 @@ class CommerceTaxonomyV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *category_id* - string - required
     *          - The unique identifier of the category at the top of the subtree being requested.<br><br><span class="tablenote"><strong>Note:</strong> If the <b>category_id</b> submitted identifies the root node of the tree, this call returns an error. To retrieve the complete tree, use this value with the <b>getCategoryTree</b> call.<br><br>If the <b>category_id</b> submitted identifies a leaf node of the tree, the call response will contain information about only that leaf node, which is a valid subtree.<!-- <br><br> This call also returns an error if <b>category_id</b> identifies a deprecated category. This can occur if you routinely cache your category trees. Use the <b>Get Deprecated Categories and Mapping</b> call to determine which current category should be used in place of the deprecated category, and use the <b>getCategoryTree</b> call to update your cached copy of the tree. --> </span>
+    * @param array $headers
+    *      - *Accept-Encoding* - string - optional
+    *          - This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>application/gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *categorySubtreeNode* - 
     *          - Contains details of all nodes of the category subtree hierarchy below a specified node. This is a recursive structure.
@@ -83,9 +89,9 @@ class CommerceTaxonomyV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *categoryTreeVersion* - string
     *          - The version of the category tree identified by <b>categoryTreeId</b>. It's a good idea to cache this value for comparison so you can determine if this category tree has been modified in subsequent calls.
     */
-    public function getCategorySubtree(string $categoryTreeId, array $query): array
+    public function getCategorySubtree(string $categoryTreeId, array $query, array $headers): array
     {
-        return $this->api(array_merge(["/category_tree/{$categoryTreeId}/get_category_subtree"], $query));
+        return $this->api(array_merge(["/category_tree/{$categoryTreeId}/get_category_subtree"], $query), 'GET', [], $headers);
     }
                     
     /**

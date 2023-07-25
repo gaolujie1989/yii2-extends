@@ -135,17 +135,25 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     * @description <p>Use the <b>downloadFile</b> method to download a selected TSV_gzip feed file.<p>Use the <b>getFiles</b> methods to obtain the <b>file_id</b> of the specific feed file you require.</p><h3><b>Downloading feed files </b></h3>  <p>The feed files are binary gzip files. If the file is larger than 200 MB, the download must be streamed in chunks. You specify the size of the chunks in bytes using the <a href="#range-header">Range</a> request header. The <a href="#content-range">content-range</a> response header indicates where in the full resource this partial chunk of data belongs  and the total number of bytes in the file.       For more information about using these headers, see <a href="/api-docs/buy/static/api-feed.html#retrv-gzip">Retrieving a GZIP feed file</a>.    </p>
     * @tag file
     * @param string $fileId The unique identifier of the feed file that you wish to download. Use the <b>getFiles</b> method to obtain the <b>fileId</b> value for the desired feed file.
+    * @param array $headers
+    *      - *Range* - string - optional
+    *          - Indicates where in the full resource this partial chunk of data belongs and the total number of bytes in the file.<br /><br /><b>Example: </b> <code>bytes=0-102400</code>.<br /><br />For more information about using this header, see <a href="/api-docs/buy/static/api-feed.html#retrv-gzip">Retrieving a gzip feed file</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This is the ID of the eBay marketplace that the feed file belongs to. <br /><br /><b>Example:</b><code>X-EBAY-C-MARKETPLACE-ID: EBAY_US</code>.<br /><br />For a list of supported sites and other restrictions, see <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
     * @return array
     */
-    public function downloadFile(string $fileId): array
+    public function downloadFile(string $fileId, array $headers): array
     {
-        return $this->api("/file/{$fileId}/download");
+        return $this->api("/file/{$fileId}/download", 'GET', [], $headers);
     }
                     
     /**
     * @description Use the <b>getFile</b> method to fetch the details of a feed file available to download, as specified by the file's <b>file_id</b>.</p><p>Details in the response include: the feed's <b>file_id</b>, the date it became available, eBay categories that support the feed, its frequency, the time span it covers, its feed type, its format (currently only TSV is available), its size in bytes, the schema under which it was pulled, and the marketplaces it applies to.</p>
     * @tag file
     * @param string $fileId Unique identifier of feed file. Feed file IDs can be retrieved with the <b>getFiles</b> method.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This is the ID of the eBay marketplace on which the feed file exists. <br /><br /><b>Example:</b> <code>X-EBAY-C-MARKETPLACE-ID: EBAY_US</code>.<br /><br />For a list of supported sites and other restrictions, see <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
     * @return array
     *      - *access* - string
     *          - Indicates whether the application is permitted to access the feed file. One of <code>ALLOWED</code> or <code>RESTRICTED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/feed/types/api:AccessEnum'>eBay API documentation</a>
@@ -170,9 +178,9 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *span* - 
     *          - The time span between feed files that applies to the feed type (e.g., hourly, daily, weekly). This is returned in hours. <br /><br /><b>Possible Values: </b> <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>
     */
-    public function getFile(string $fileId): array
+    public function getFile(string $fileId, array $headers): array
     {
-        return $this->api("/file/{$fileId}");
+        return $this->api("/file/{$fileId}", 'GET', [], $headers);
     }
                 
     /**
@@ -191,6 +199,9 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The number of records to show in the response.<br /><br /><b>Default:</b> 20<br /><br /><b>Minimum:</b> 20<br /><br /><b>Maximum:</b> 100
     *      - *look_back* - string - optional
     *          - How far back from the current time to limit the returned feed files. The returned feed files will be those generated between the current time and the look-back time.<br /><br /><b>Example:</b> A value of <code>120</code> will limit the returned feed files to those generated in the past 2 hours (120 minutes). If 3 feed files have been generated in the past 2 hours, those 3 files will be returned. A feed file generated 4 hours earlier will not be returned.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This is the ID of the eBay marketplace on which to search for feed files.<br /><br /><b>Example:</b> <code>X-EBAY-C-MARKETPLACE-ID: EBAY_US</code>.<br /><br /><p>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
     * @return Iterator
     *      - *fileMetadata* - array
     *          - An array of metadata values describing the available feed files that match the input criteria.
@@ -203,7 +214,7 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function eachFiles(array $query): Iterator
+    public function eachFiles(array $query, array $headers): Iterator
     {
         return $this->eachInternal('getFiles', func_get_args());
     }
@@ -224,6 +235,9 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The number of records to show in the response.<br /><br /><b>Default:</b> 20<br /><br /><b>Minimum:</b> 20<br /><br /><b>Maximum:</b> 100
     *      - *look_back* - string - optional
     *          - How far back from the current time to limit the returned feed files. The returned feed files will be those generated between the current time and the look-back time.<br /><br /><b>Example:</b> A value of <code>120</code> will limit the returned feed files to those generated in the past 2 hours (120 minutes). If 3 feed files have been generated in the past 2 hours, those 3 files will be returned. A feed file generated 4 hours earlier will not be returned.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This is the ID of the eBay marketplace on which to search for feed files.<br /><br /><b>Example:</b> <code>X-EBAY-C-MARKETPLACE-ID: EBAY_US</code>.<br /><br /><p>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
     * @return Iterator
     *      - *fileMetadata* - array
     *          - An array of metadata values describing the available feed files that match the input criteria.
@@ -236,7 +250,7 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function batchFiles(array $query): Iterator
+    public function batchFiles(array $query, array $headers): Iterator
     {
         return $this->batchInternal('getFiles', func_get_args());
     }
@@ -257,6 +271,9 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The number of records to show in the response.<br /><br /><b>Default:</b> 20<br /><br /><b>Minimum:</b> 20<br /><br /><b>Maximum:</b> 100
     *      - *look_back* - string - optional
     *          - How far back from the current time to limit the returned feed files. The returned feed files will be those generated between the current time and the look-back time.<br /><br /><b>Example:</b> A value of <code>120</code> will limit the returned feed files to those generated in the past 2 hours (120 minutes). If 3 feed files have been generated in the past 2 hours, those 3 files will be returned. A feed file generated 4 hours earlier will not be returned.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This is the ID of the eBay marketplace on which to search for feed files.<br /><br /><b>Example:</b> <code>X-EBAY-C-MARKETPLACE-ID: EBAY_US</code>.<br /><br /><p>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/feed/overview.html#API">API Restrictions</a>.
     * @return array
     *      - *fileMetadata* - array
     *          - An array of metadata values describing the available feed files that match the input criteria.
@@ -269,9 +286,9 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of matches for the search criteria.
     */
-    public function getFiles(array $query): array
+    public function getFiles(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/file"], $query));
+        return $this->api(array_merge(["/file"], $query), 'GET', [], $headers);
     }
     
 }

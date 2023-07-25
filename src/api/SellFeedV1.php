@@ -136,11 +136,14 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The container for the filter fields. This container is used to set the filter criteria for the order report. A seller can set date range filters and/or can retrieve orders in a specific state.
     *      - *schemaVersion* - string
     *          - The schema version of the LMS OrderReport. For the <code>LMS_ORDER_REPORT</code> feed type, see the <a href="/devzone/merchant-data/CallRef/OrderReport.html#OrderReport">OrderReport</a> reference page to see the present schema version. The <b> schemaVersion</b> value is the version number shown at the top of the <b> OrderReport</b> page. <br /><br /><b>Restriction: </b> This value must be 1113 or higher. The OrderReport schema version is updated about every two weeks. All version numbers are odd numbers (even numbers are skipped). For example, the next release version after '1113' is '1115'.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createOrderTask(array $data): array
+    public function createOrderTask(array $data, array $headers): array
     {
-        return $this->api("/order_task", 'POST', $data);
+        return $this->api("/order_task", 'POST', $data, $headers);
     }
                     
     /**
@@ -293,11 +296,14 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The feed type associated with the inventory task you are about to create. Use a <strong>feedType</strong> that is available for your API. Presently, only one feed type is available:<ul><li><code>LMS_ACTIVE_INVENTORY_REPORT</code></li></ul><br/>See <a href="/api-docs/sell/static/feed/lms-feeds-quick-reference.html#merchant-data-reports-download-feed-types" target="_blank">Report download feed types</a> for more information.
     *      - *filterCriteria* - 
     *          - The container for the filter fields. This container is used to set the filter criteria for the ActiveInventoryReport. A seller can retrieve listings for a specified format.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createInventoryTask(array $data): array
+    public function createInventoryTask(array $data, array $headers): array
     {
-        return $this->api("/inventory_task", 'POST', $data);
+        return $this->api("/inventory_task", 'POST', $data, $headers);
     }
                     
     /**
@@ -444,11 +450,14 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The ID of the template associated with the schedule ID. You can get this ID from the documentation or by calling the <strong>getScheduleTemplates</strong> method. This method requires a schedule template ID that is <code>ACTIVE</code>.
     *      - *schemaVersion* - string
     *          - The schema version of the schedule feedType. This field is required if the <strong>feedType</strong> has a schema version.<br /><br />This field is available as specified by the template (<strong>scheduleTemplateId</strong>). The template can specify this field as optional or required, and optionally provides a default value.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createSchedule(array $data): array
+    public function createSchedule(array $data, array $headers): array
     {
-        return $this->api("/schedule", 'POST', $data);
+        return $this->api("/schedule", 'POST', $data, $headers);
     }
                     
     /**
@@ -509,11 +518,14 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The timestamp to start generating the report. After this timestamp, the schedule status becomes active until either the <strong>scheduleEndDate</strong> occurs or the <strong>scheduleTemplateId</strong> becomes inactive. <br /><br />Use this field, if available, to start the schedule in the future but before the <strong>scheduleEndDate</strong> (if supplied). This field is available as specified by the template <strong>(scheduleTemplateId)</strong>.  The template can specify this field as optional or required, and optionally provides a default value.<br /><br /><b>Format:</b> UTC <code>yyyy-MM-dd<strong>T</strong>HH<strong>Z</strong></code><br /><br />For example, the following represents a schedule start date of UTC October 01, 2020 at 12:00 PM:<br /><code> 2020-01-01T12Z</code>
     *      - *schemaVersion* - string
     *          - The schema version of the feedType for the schedule. This field is required if the <strong>feedType</strong> has a schema version. <br /><br />This field is available as specified by the template (<strong>scheduleTemplateId</strong>). The template can specify this field as optional or required, and optionally provides a default value.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function updateSchedule(string $scheduleId, array $data): array
+    public function updateSchedule(string $scheduleId, array $data, array $headers): array
     {
-        return $this->api("/schedule/{$scheduleId}", 'PUT', $data);
+        return $this->api("/schedule/{$scheduleId}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -773,11 +785,16 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The feed type associated with the task. Only use a <strong>feedType</strong> that is available for your API. Available feed types:<ul><li><a href="/api-docs/sell/static/feed/lms-feeds-quick-reference.html#trading-upload-feed-types" target="_blank">Inventory upload feed types</a></li><li><a href="/api-docs/sell/static/feed/lms-feeds-quick-reference.html#merchant-data-upload-feed-types" target="_blank">Fulfillment upload feed types</a></li><li><a href="/api-docs/sell/static/feed/fx-feeds-quick-reference.html#availabl" target="_blank">Seller Hub feed types</a></li></ul>
     *      - *schemaVersion* - string
     *          - The schemaVersion/version number of the file format (use the schema version of the API to which you are programming):<ul><li><a href="/api-docs/sell/static/feed/lms-feeds-quick-reference.html#Version" target="_blank">Version Details / Schema Version</a></li><li><a href="/api-docs/sell/static/feed/fx-feeds-quick-reference.html#schema" target="_blank">Seller Hub feed schema version</a></li></ul>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the item is hosted. <p> <span class="tablenote"><strong>Note:</strong> This value is case sensitive.</span></p><p>For example:</p><p><code>X-EBAY-C-MARKETPLACE-ID:EBAY_US</code></p><p>This identifies the eBay marketplace that applies to this task. See <a href="/api-docs/sell/feed/types/bas:MarketplaceIdEnum">MarketplaceIdEnum</a>.</p>
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createTask(array $data): array
+    public function createTask(array $data, array $headers): array
     {
-        return $this->api("/task", 'POST', $data);
+        return $this->api("/task", 'POST', $data, $headers);
     }
                     
     /**
@@ -833,12 +850,15 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     * @description This method associates the specified file with the specified task ID and uploads the input file. After the file has been uploaded, the processing of the file begins. <br /><br />Reports often take time to generate and it's common for this method to return an HTTP status of 202, which indicates the report is being generated. Use the <b> getTask</b> with the task ID or <b> getTasks</b> to determine the status of a report. <br /><br />The status flow is <code>QUEUED</code> &gt; <code>IN_PROCESS</code> &gt; <code>COMPLETED</code> or <code>COMPLETED_WITH_ERROR</code>. When the status is <code>COMPLETED</code> or <code>COMPLETED_WITH_ERROR</code>, this indicates the file has been processed and the order report can be downloaded. If there are errors, they will be indicated in the report file. <br /><br />For details of how this method is used in the upload flow, see <a href="/api-docs/sell/static/orders/generating-and-retrieving-order-reports.html">Working with Order Feeds</a> in the Selling Integration Guide. <p><span class="tablenote"><strong>Note:</strong> This method applies to all Seller Hub feed types and LMS feed types except <code>LMS_ORDER_REPORT</code> and <code>LMS_ACTIVE_INVENTORY_REPORT</code>. See <a href="/api-docs/sell/static/feed/lms-feeds-quick-reference.html#Availabl" target="_blank">LMS feed types</a> and <a href="/api-docs/sell/static/feed/fx-feeds-quick-reference.html#availabl" target="_blank">Seller Hub feed types</a>.</span></p><p> <span class="tablenote"><b>Note:</b> You must use a <strong>Content-Type</strong> header with its value set to "<strong>multipart/form-data</strong>". See <a href="/api-docs/sell/feed/resources/task/methods/uploadFile#h2-samples">Samples</a> for information.</span></p>
     * @tag task
     * @param string $taskId The task_id associated with the file that will be uploaded. This ID was generated when the specified task was created.
-    * @param array $data 
+    * @param string $data 
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function uploadFile(string $taskId, array $data): array
+    public function uploadFile(string $taskId, string $data, array $headers): array
     {
-        return $this->api("/task/{$taskId}/upload_file", 'POST', $data);
+        return $this->api("/task/{$taskId}/upload_file", 'POST', $data, $headers);
     }
                 
     /**
@@ -956,11 +976,16 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is used to customize and set criteria for Customer Service Metric report that will be associated with the task.
     *      - *schemaVersion* - string
     *          - The version number of the file format. <p><b>Valid value: </b><code>1.0</code><p>
+    * @param array $headers
+    *      - *Accept-Language* - string - required
+    *          - Use this header to specify the natural language in which the authenticated user desires the response. For example, <code>en_US</code> for English or <code>de_DE</code> for German.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createCustomerServiceMetricTask(array $data): array
+    public function createCustomerServiceMetricTask(array $data, array $headers): array
     {
-        return $this->api("/customer_service_metric_task", 'POST', $data);
+        return $this->api("/customer_service_metric_task", 'POST', $data, $headers);
     }
                     
     /**

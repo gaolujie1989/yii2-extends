@@ -23,6 +23,9 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
     *      - *offset* - string - optional
     *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
     * @return Iterator
     *      - *eligibleItems* - array
     *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
@@ -39,7 +42,7 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
     */
-    public function eachdEligibleItems(array $query): Iterator
+    public function eachdEligibleItems(array $query, array $headers): Iterator
     {
         return $this->eachInternal('findEligibleItems', func_get_args());
     }
@@ -52,6 +55,9 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
     *      - *offset* - string - optional
     *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
     * @return Iterator
     *      - *eligibleItems* - array
     *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
@@ -68,7 +74,7 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
     */
-    public function batchdEligibleItems(array $query): Iterator
+    public function batchdEligibleItems(array $query, array $headers): Iterator
     {
         return $this->batchInternal('findEligibleItems', func_get_args());
     }
@@ -81,6 +87,9 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
     *      - *offset* - string - optional
     *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
     * @return array
     *      - *eligibleItems* - array
     *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
@@ -97,9 +106,9 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *total* - integer
     *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
     */
-    public function findEligibleItems(array $query): array
+    public function findEligibleItems(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/find_eligible_items"], $query));
+        return $this->api(array_merge(["/find_eligible_items"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -114,13 +123,18 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
     *          - The length of time the offer is valid from when it is created.  <br><br>The duration of the offer begins at the date and time denoted by <b>creationDate</b>. When the span of time specified by <b>offerDuration</b> passes beyond the <b>creationDate</b>, the offer expires.  <br><br><span class="tablenote"><b>Note:</b> <b>offerDuration</b> currently defaults to 2 days and you cannot set it to any other value (if specified, the <b>unit</b> and <b>value</b> fields in TimeDuration must be set to <code>DAY</code> and <code>2</code>, respectively).</span>  <br><br><b>Default:</b> 2 Days
     *      - *offeredItems* - array
     *          - An array of objects where each object contains the details of an offer and the ID of the listing on which the offer is being made.  <br><br>Note that the service does not currently support the creation of multiple offers with a single call to <b>sendOfferToInterestedBuyer</b>. With this, each request can target only one listing at a time and you must populate this array with a single element that contains the details of one offer.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The eBay marketplace on which your listings with "eligible" buyers appear.  <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *offers* - array
     *          - The <b>offers</b> container returns a list of the offers sent to buyers who have shown an interest in listings included in the offer.
     */
-    public function sendOfferToInterestedBuyers(array $data): array
+    public function sendOfferToInterestedBuyers(array $data, array $headers): array
     {
-        return $this->api("/send_offer_to_interested_buyers", 'POST', $data);
+        return $this->api("/send_offer_to_interested_buyers", 'POST', $data, $headers);
     }
     
 }

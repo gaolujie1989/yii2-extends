@@ -52,6 +52,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         $params = ArrayHelper::map($method['parameters'] ?? [], 'name', static function (array $parameter) {
             return [
                 'var' => '$' . lcfirst(Inflector::camelize($parameter['name'])),
+                'name' => $parameter['name'],
                 'required' => $parameter['required'],
                 'type' => $parameter['schema']['type'],
                 'description' => $parameter['description'],
@@ -78,10 +79,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         if ($queryParams) {
             $functionParams[] = 'array $query';
             $docParams[] = '    * @param array $query';
-            foreach ($queryParams as $name => $queryParam) {
-                $required = $queryParam['required'] ? 'required' : 'optional';
-                $docParams[] = "    *      - *{$name}* - {$queryParam['type']} - {$required}";
-                $docParams[] = "    *          - {$queryParam['description']}";
+            foreach ($queryParams as $name => $param) {
+                $required = $param['required'] ? 'required' : 'optional';
+                $docParams[] = "    *      - *{$name}* - {$param['type']} - {$required}";
+                $docParams[] = "    *          - {$param['description']}";
             }
         }
 
@@ -102,6 +103,21 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                         $docParams[] = "    *          - {$description}";
                     }
                 }
+            }
+        }
+
+        $isJsonData = true;
+        $headerParams = $params['header'] ?? [];
+        if ($headerParams) {
+            $functionParams[] = 'array $headers';
+            $docParams[] = '    * @param array $headers';
+            foreach ($headerParams as $name => $param) {
+                if ($name === 'Content-Type' && !str_contains($param['description'], 'application/json')) {
+                    $isJsonData = false;
+                }
+                $required = $param['required'] ? 'required' : 'optional';
+                $docParams[] = "    *      - *{$name}* - {$param['type']} - {$required}";
+                $docParams[] = "    *          - {$param['description']}";
             }
         }
 
@@ -132,6 +148,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
 
         $functionParams = implode(', ', $functionParams);
         $docParams = implode("\n", $docParams);
+        if (!$isJsonData) {
+            $docParams = strtr($docParams, ['array $data' => 'string $data']);
+            $functionParams = strtr($functionParams, ['array $data' => 'string $data']);
+        }
 
         $apiParams = [];
         if ($queryParams) {
@@ -139,11 +159,17 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         } else {
             $apiParams[] = '"' . $apiUrl . '"';
         }
+        if ($httpMethod !== 'GET' || $requestBody || $headerParams) {
+            $apiParams[] = "'{$httpMethod}'";
+        }
         if ($requestBody) {
-            $apiParams[] = "'{$httpMethod}'";
             $apiParams[] = '$data';
-        } else if ($httpMethod !== 'GET') {
-            $apiParams[] = "'{$httpMethod}'";
+        }
+        if ($headerParams) {
+            if (!$requestBody) {
+                $apiParams[] = '[]';
+            }
+            $apiParams[] = '$headers';
         }
         $apiParams = implode(', ', $apiParams);
     ?>

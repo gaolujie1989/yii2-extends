@@ -27,6 +27,9 @@ class CommerceTranslationV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - The target language for the translation of the input text. Not all <b>LanguageEnum</b> values are supported in this field. For a full list of supported language translations, see the table in the <a href="/api-docs/commerce/translation/overview.html">API Overview</a> page. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a>
     *      - *translationContext* - string
     *          - Input the listing entity to be translated.<br><br><b>Valid Values:</b> <code>ITEM_TITLE</code> and <code>ITEM_DESCRIPTION</code></p> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:TranslationContextEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *from* - string
     *          - The enumeration value indicates the language of the input text. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a>
@@ -35,9 +38,9 @@ class CommerceTranslationV1Beta extends \lujie\ebay\BaseEbayRestClient
     *      - *translations* - array
     *          - An array showing the input and translated text. Only one input string can be translated at this time. Support for multiple continuous text strings is expected in the future.
     */
-    public function translate(array $data): array
+    public function translate(array $data, array $headers): array
     {
-        return $this->api("/translate", 'POST', $data);
+        return $this->api("/translate", 'POST', $data, $headers);
     }
     
 }

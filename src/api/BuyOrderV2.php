@@ -22,6 +22,13 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data The container for the fields used to apply a coupon to a guest checkout session.
     *      - *redemptionCode* - string
     *          - The redemption code of the coupon.<br><br><b>Maximum:</b> One redemption code per order
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -36,15 +43,20 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function applyGuestCoupon(string $checkoutSessionId, array $data): array
+    public function applyGuestCoupon(string $checkoutSessionId, array $data, array $headers): array
     {
-        return $this->api("/guest_checkout_session/{$checkoutSessionId}/apply_coupon", 'POST', $data);
+        return $this->api("/guest_checkout_session/{$checkoutSessionId}/apply_coupon", 'POST', $data, $headers);
     }
                     
     /**
     * @description <span class="tablenote"><b>Note:</b> The Order API (v2) currently only supports the guest payment/checkout flow. If you need to support member payment/checkout flow, use the <a href="/api-docs/buy/order_v1/resources/methods">v1_beta version</a> of the Order API.</span><br><br><a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"><img src="/cms/img/docs/partners-api.svg" class="legend-icon partners-icon"  alt="Limited Release" title="Limited Release" />(Limited Release)</a> This method is only available to select developers approved by business units.<br><br>This method returns the details of the specified guest checkout session. The <b>checkoutSessionId</b> is passed in as a URI parameter and is required. This method has no request payload.<br><br>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/order/overview.html#API">API Restrictions</a> in the Order API overview.
     * @tag guest_checkout_session
     * @param string $checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the <b> initiateGuestCheckoutSession</b> method.<br><br><span class="tablenote"><b>Note:</b> When using this ID, the X-EBAY-C-MARKETPLACE-ID value and developer App ID must be the same as that used when this guest checkout session was created. See <a href="/api-docs/buy/order/overview.html#checkout-restriction">Checkout session restrictions</a> in the Buy Integration Guide for details.</span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -59,9 +71,9 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function getGuestCheckoutSession(string $checkoutSessionId): array
+    public function getGuestCheckoutSession(string $checkoutSessionId, array $headers): array
     {
-        return $this->api("/guest_checkout_session/{$checkoutSessionId}");
+        return $this->api("/guest_checkout_session/{$checkoutSessionId}", 'GET', [], $headers);
     }
                     
     /**
@@ -74,6 +86,13 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *          - An array used to define the line item(s) and desired quantity for an eBay guest checkout session.<br><br><b>Maximum:</b> 10 line items
     *      - *shippingAddress* - 
     *          - A container that defines the shipping address for an eBay guest checkout session.<br><br>The Order API supports only domestic shipping. For example, an item purchased on the <code>EBAY_DE</code> marketplace can be shipped only to an address in Germany.<br><br><span class="tablenote"><b>Note:</b> If the address cannot be validated, a warning message is  returned along with the response.</span>
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -88,9 +107,9 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function initiateGuestCheckoutSession(array $data): array
+    public function initiateGuestCheckoutSession(array $data, array $headers): array
     {
-        return $this->api("/guest_checkout_session/initiate", 'POST', $data);
+        return $this->api("/guest_checkout_session/initiate", 'POST', $data, $headers);
     }
                     
     /**
@@ -100,6 +119,13 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data The container for the fields used by the <b>removeGuestCoupon</b> method.
     *      - *redemptionCode* - string
     *          - The redemption code of the coupon.<br><br><b>Maximum:</b> One redemption code per order
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -114,9 +140,9 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function removeGuestCoupon(string $checkoutSessionId, array $data): array
+    public function removeGuestCoupon(string $checkoutSessionId, array $data, array $headers): array
     {
-        return $this->api("/guest_checkout_session/{$checkoutSessionId}/remove_coupon", 'POST', $data);
+        return $this->api("/guest_checkout_session/{$checkoutSessionId}/remove_coupon", 'POST', $data, $headers);
     }
                     
     /**
@@ -128,6 +154,13 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *          - A unique eBay-assigned ID value that identifies a line item in a purchase order.
     *      - *quantity* - integer
     *          - The number of individual items ordered in this line item, as specified by the buyer.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -142,9 +175,9 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function updateGuestQuantity(string $checkoutSessionId, array $data): array
+    public function updateGuestQuantity(string $checkoutSessionId, array $data, array $headers): array
     {
-        return $this->api("/guest_checkout_session/{$checkoutSessionId}/update_quantity", 'POST', $data);
+        return $this->api("/guest_checkout_session/{$checkoutSessionId}/update_quantity", 'POST', $data, $headers);
     }
                     
     /**
@@ -170,6 +203,13 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *          - The name of the person receiving the package.
     *      - *stateOrProvince* - string
     *          - The state or province of the address.<br><br><span class="tablenote"><b>Note:</b> For the US marketplace, this is a two-character value. For a list of valid values, see <a href="https://www.ups.com/worldshiphelp/WS15/ENU/AppHelp/Codes/State_Province_Codes.htm">US State and Canada Province Codes</a>. </span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -184,9 +224,9 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function updateGuestShippingAddress(string $checkoutSessionId, array $data): array
+    public function updateGuestShippingAddress(string $checkoutSessionId, array $data, array $headers): array
     {
-        return $this->api("/guest_checkout_session/{$checkoutSessionId}/update_shipping_address", 'POST', $data);
+        return $this->api("/guest_checkout_session/{$checkoutSessionId}/update_shipping_address", 'POST', $data, $headers);
     }
                     
     /**
@@ -198,6 +238,13 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *          - A unique eBay-assigned ID value that identifies the line item in a checkout session.
     *      - *shippingOptionId* - string
     *          - A unique ID for the selected shipping option/method.
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *appliedCoupons* - array
     *          - A container that returns the information for the coupons that were applied in the guest checkout session.
@@ -212,15 +259,20 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of errors or warnings that were generated during the method processing.
     */
-    public function updateGuestShippingOption(string $checkoutSessionId, array $data): array
+    public function updateGuestShippingOption(string $checkoutSessionId, array $data, array $headers): array
     {
-        return $this->api("/guest_checkout_session/{$checkoutSessionId}/update_shipping_option", 'POST', $data);
+        return $this->api("/guest_checkout_session/{$checkoutSessionId}/update_shipping_option", 'POST', $data, $headers);
     }
                     
     /**
     * @description <span class="tablenote"><b>Note:</b> The Order API (v2) currently only supports the guest payment/checkout flow. If you need to support member payment/checkout flow, use the <a href="/api-docs/buy/order_v1/resources/methods">v1_beta version</a> of the Order API.</span><br><br><a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"><img src="/cms/img/docs/partners-api.svg" class="legend-icon partners-icon"  alt="Limited Release" title="Limited Release" />(Limited Release)</a> This method is only available to select developers approved by business units.<br><br>This method retrieves the details about a specific guest purchase order. It returns the line items, including purchase  order status, dates created and modified, item quantity and listing data, payment and shipping information, and prices, taxes, discounts and credits.<br><br>The <b>purchaseOrderId</b> is passed in as a URI parameter and is required.<br><br><span class="tablenote"><b>Note:</b> The <b>purchaseOrderId</b> value is returned in the call-back URL that is sent through the new eBay pay widget. For more information about eBay managed payments and the new Order API payment flow, see <a href="/api-docs/buy/static/api-order.html">Order API</a> in the Buying Integration Guide.</span><br><br>You can use this method to not only get the details of a purchase order, but to check the value of the <a href="#response.purchaseOrderPaymentStatus">purchaseOrderPaymentStatus</a> field to determine if the order has been paid for. If the order has been paid for, this field will return <code>PAID</code>.<br><br>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/order/overview.html#API">API Restrictions</a> in the Order API overview.
     * @tag guest_purchase_order
     * @param string $purchaseOrderId The unique identifier of a purchase order made by a guest buyer, for which details are to be retrieved.<br><br><span class="tablenote"><b>Note:</b> This value is returned in the response URL that is sent through the new eBay pay widget. For more information about eBay managed payments and the new Order API payment flow, see <a href="/api-docs/buy/static/api-order.html">Order API</a> in the Buying Integration Guide.</span>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - optional
+    *          - This header identifies the eBay marketplace where the order will occur. For this method, this value must match the <b>X-EBAY-C-MARKETPLACE-ID</b> used when the associated checkout session was created. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is used to specify the <b>deviceId</b> for the device/user attempting to make the call. It contains an alphanumeric string that allows a payment gateway to track an API call attempt and confirm that it is a verified payment attempt by a device/user.
     * @return array
     *      - *lineItems* - array
     *          - An array of line items in the order.
@@ -239,9 +291,9 @@ class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - A container for any warning messages.
     */
-    public function getGuestPurchaseOrder(string $purchaseOrderId): array
+    public function getGuestPurchaseOrder(string $purchaseOrderId, array $headers): array
     {
-        return $this->api("/guest_purchase_order/{$purchaseOrderId}");
+        return $this->api("/guest_purchase_order/{$purchaseOrderId}", 'GET', [], $headers);
     }
         
 }

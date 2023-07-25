@@ -19,6 +19,9 @@ class BuyOfferV1Beta extends \lujie\ebay\BaseEbayRestClient
     * @description This method retrieves the bidding details that are specific to the buyer of the specified auction. This must be an auction where the buyer has already placed a bid. <br><br>To retrieve the bidding information you use a <a href="/api-docs/static/oauth-tokens.html">user access token</a> and pass in the item ID of the auction. You can also retrieve general bidding details about the auction, such as minimum bid price and the count of unique bidders, using the <a href="/api-docs/buy/browse/resources/methods">Browse API</a> <b>getItem</b> method.    <h3><b>Restrictions </b></h3> <p> For a list of supported sites and other restrictions, see <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>.</p>
     * @tag bidding
     * @param string $itemId The eBay RESTful identifier of an item that you want the buyer's bidding information. This ID is returned by the <b> Browse</b> and <b> Feed</b> API methods.  <br><br> <b>RESTful Item ID example: </b><code>v1|2**********2|0</code> <br><br>For more information about item ID for RESTful APIs, see the <a href="/api-docs/buy/static/api-browse.html#Legacy">Legacy API compatibility</a> section of the <i>Buy APIs Overview</i>.  <br><br><b>Restriction: </b> The buyer must have placed a bid for this item. 
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the buyer is based. <b>Note: </b> This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>.
     * @return array
     *      - *auctionEndDate* - string
     *          - The date the auction will end.
@@ -39,9 +42,9 @@ class BuyOfferV1Beta extends \lujie\ebay\BaseEbayRestClient
     *      - *suggestedBidAmounts* - array
     *          - The suggested bid amount for the next bid. <b>Note: </b>These are generated suggestions and do not guarantee the buyer will win the bid. This means these suggestions do not take into account the max bid amount of other bidders. The buyer can be outbid even if they submit the highest suggested bid.
     */
-    public function getBidding(string $itemId): array
+    public function getBidding(string $itemId, array $headers): array
     {
-        return $this->api("/bidding/{$itemId}");
+        return $this->api("/bidding/{$itemId}", 'GET', [], $headers);
     }
                     
     /**
@@ -53,13 +56,18 @@ class BuyOfferV1Beta extends \lujie\ebay\BaseEbayRestClient
     *          - The amount of the proxy bid to be placed. This is the maximum amount the buyer is willing to pay for the item. <br><br><b>Note: </b>  <ul>  <li>Currency for the bid must be the currency specified by the seller when listing the item.</li>    <li>VAT (value added tax) does not need to be added to the proxy bid amount even if VAT applies.  </li>  </ul>  
     *      - *userConsent* - 
     *          - Specifies whether the buyer wants to give their consent to bid on adult-only items. For a buyer to bid on an adult-only item, you must collect their consent using this field, and they must agree to the Terms of Use. <p>For more information about adult-only items on eBay, see  <a href="https://www.ebay.com/help/terms-conditions/default/searching-adult-items?id=4661" target="_blank">Adult-Only items on eBay</a>.</p> <p><b>Default: </b>false </p>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace where the buyer is based. <b>Note: </b> This value is case sensitive.<br><br> For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *proxyBidId* - string
     *          - Identifier of the proxy bid created by the request. This indicates that the bid was placed and is not used for anything else.
     */
-    public function placeProxyBid(string $itemId, array $data): array
+    public function placeProxyBid(string $itemId, array $data, array $headers): array
     {
-        return $this->api("/bidding/{$itemId}/place_proxy_bid", 'POST', $data);
+        return $this->api("/bidding/{$itemId}/place_proxy_bid", 'POST', $data, $headers);
     }
     
 }

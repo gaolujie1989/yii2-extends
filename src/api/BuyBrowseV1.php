@@ -45,6 +45,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A string consisting of one or more keywords that are used to search for items on eBay. The keywords are handled as follows:<ul><li>If the keywords are separated by a space, it is treated as an AND. In the following example, the query returns items that have iphone <b>AND</b> ipad.<br><br><code>/buy/browse/v1/item_summary/search?q=iphone ipad</code><br/><br></li><li>If the keywords are input using parentheses and separated by a comma, or if they are URL-encoded, it is treated as an OR. In the following examples, the query returns items that have iphone <b>OR</b> ipad.<br><br><code>/buy/browse/v1/item_summary/search?q=(iphone, ipad)</code><br><br><code>/buy/browse/v1/item_summary/search?q=%28iphone%2c%20ipad%29</code><br><br></li></ul><b>Restriction:</b> The <code>*</code> wildcard character is <b>not</b> allowed in this field.<br><br><b>Required:</b> The method must have <b>category_ids</b>, <b>epid</b>, <b>gtin</b>, or <b>q</b> (or any combination of these). 
     *      - *sort* - string - optional
     *          - The order and field name that is used to sort the items. <br><br>You can sort items by price, distance, or listing date. To sort in descending order, insert a hyphen (<code>-</code>) before the name of the sorting option. If no <b>sort</b> parameter is submitted, the result set is sorted by &quot;<a href="https://pages.ebay.com/help/sell/searchstanding.html " target="_blank">Best Match</a>&quot;.<br><br>Here are some examples showing how to use the <b>sort</b> query parameter:<br><ul><li><b><code>sort=distance</code></b> - This sorts by <i>distance</i> in ascending order (shortest distance first). This sorting option is only applicable if the <a href="/api-docs/buy/static/ref-buy-browse-filters.html#pickupCountry">pickup</a> filters are used, and only ascending order is supported.</li><li><b><code>sort=-price</code></b> - This sorts by <i>price + shipping cost</i> in descending order (highest price first). This sorting option (by <i>price</i>) is only guaranteed to work correctly if the <b>X-EBAY-C-ENDUSERCTX</b> request header is used, with the <b>contextualLocation</b> parameter being used to set the delivery country and postal code. Here is an example of how this header would be used to do this (note the URL encoding):<br><br><code>X-EBAY-C-ENDUSERCTX: contextualLocation=country%3DUS%2Czip%3D19406</code><br></li><li><b><code>sort=newlyListed</code></b> - This sorts by <i>listing date</i> (most recently listed/newest items first).</li><li><b><code>sort=endingSoonest</code></b> - This sorts by <i>date/time</i> the listing ends (listings nearest to end date/time first).</li></ul><b>Default:</b> Ascending For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/browse/types/cos:SortField
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return Iterator
     *      - *autoCorrections* - 
     *          - The auto-corrected inputs.
@@ -67,7 +72,7 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - The container with all the warnings for the request.
     */
-    public function eachrch(array $query): Iterator
+    public function eachrch(array $query, array $headers): Iterator
     {
         return $this->eachInternal('search', func_get_args());
     }
@@ -102,6 +107,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A string consisting of one or more keywords that are used to search for items on eBay. The keywords are handled as follows:<ul><li>If the keywords are separated by a space, it is treated as an AND. In the following example, the query returns items that have iphone <b>AND</b> ipad.<br><br><code>/buy/browse/v1/item_summary/search?q=iphone ipad</code><br/><br></li><li>If the keywords are input using parentheses and separated by a comma, or if they are URL-encoded, it is treated as an OR. In the following examples, the query returns items that have iphone <b>OR</b> ipad.<br><br><code>/buy/browse/v1/item_summary/search?q=(iphone, ipad)</code><br><br><code>/buy/browse/v1/item_summary/search?q=%28iphone%2c%20ipad%29</code><br><br></li></ul><b>Restriction:</b> The <code>*</code> wildcard character is <b>not</b> allowed in this field.<br><br><b>Required:</b> The method must have <b>category_ids</b>, <b>epid</b>, <b>gtin</b>, or <b>q</b> (or any combination of these). 
     *      - *sort* - string - optional
     *          - The order and field name that is used to sort the items. <br><br>You can sort items by price, distance, or listing date. To sort in descending order, insert a hyphen (<code>-</code>) before the name of the sorting option. If no <b>sort</b> parameter is submitted, the result set is sorted by &quot;<a href="https://pages.ebay.com/help/sell/searchstanding.html " target="_blank">Best Match</a>&quot;.<br><br>Here are some examples showing how to use the <b>sort</b> query parameter:<br><ul><li><b><code>sort=distance</code></b> - This sorts by <i>distance</i> in ascending order (shortest distance first). This sorting option is only applicable if the <a href="/api-docs/buy/static/ref-buy-browse-filters.html#pickupCountry">pickup</a> filters are used, and only ascending order is supported.</li><li><b><code>sort=-price</code></b> - This sorts by <i>price + shipping cost</i> in descending order (highest price first). This sorting option (by <i>price</i>) is only guaranteed to work correctly if the <b>X-EBAY-C-ENDUSERCTX</b> request header is used, with the <b>contextualLocation</b> parameter being used to set the delivery country and postal code. Here is an example of how this header would be used to do this (note the URL encoding):<br><br><code>X-EBAY-C-ENDUSERCTX: contextualLocation=country%3DUS%2Czip%3D19406</code><br></li><li><b><code>sort=newlyListed</code></b> - This sorts by <i>listing date</i> (most recently listed/newest items first).</li><li><b><code>sort=endingSoonest</code></b> - This sorts by <i>date/time</i> the listing ends (listings nearest to end date/time first).</li></ul><b>Default:</b> Ascending For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/browse/types/cos:SortField
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return Iterator
     *      - *autoCorrections* - 
     *          - The auto-corrected inputs.
@@ -124,7 +134,7 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - The container with all the warnings for the request.
     */
-    public function batchrch(array $query): Iterator
+    public function batchrch(array $query, array $headers): Iterator
     {
         return $this->batchInternal('search', func_get_args());
     }
@@ -159,6 +169,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A string consisting of one or more keywords that are used to search for items on eBay. The keywords are handled as follows:<ul><li>If the keywords are separated by a space, it is treated as an AND. In the following example, the query returns items that have iphone <b>AND</b> ipad.<br><br><code>/buy/browse/v1/item_summary/search?q=iphone ipad</code><br/><br></li><li>If the keywords are input using parentheses and separated by a comma, or if they are URL-encoded, it is treated as an OR. In the following examples, the query returns items that have iphone <b>OR</b> ipad.<br><br><code>/buy/browse/v1/item_summary/search?q=(iphone, ipad)</code><br><br><code>/buy/browse/v1/item_summary/search?q=%28iphone%2c%20ipad%29</code><br><br></li></ul><b>Restriction:</b> The <code>*</code> wildcard character is <b>not</b> allowed in this field.<br><br><b>Required:</b> The method must have <b>category_ids</b>, <b>epid</b>, <b>gtin</b>, or <b>q</b> (or any combination of these). 
     *      - *sort* - string - optional
     *          - The order and field name that is used to sort the items. <br><br>You can sort items by price, distance, or listing date. To sort in descending order, insert a hyphen (<code>-</code>) before the name of the sorting option. If no <b>sort</b> parameter is submitted, the result set is sorted by &quot;<a href="https://pages.ebay.com/help/sell/searchstanding.html " target="_blank">Best Match</a>&quot;.<br><br>Here are some examples showing how to use the <b>sort</b> query parameter:<br><ul><li><b><code>sort=distance</code></b> - This sorts by <i>distance</i> in ascending order (shortest distance first). This sorting option is only applicable if the <a href="/api-docs/buy/static/ref-buy-browse-filters.html#pickupCountry">pickup</a> filters are used, and only ascending order is supported.</li><li><b><code>sort=-price</code></b> - This sorts by <i>price + shipping cost</i> in descending order (highest price first). This sorting option (by <i>price</i>) is only guaranteed to work correctly if the <b>X-EBAY-C-ENDUSERCTX</b> request header is used, with the <b>contextualLocation</b> parameter being used to set the delivery country and postal code. Here is an example of how this header would be used to do this (note the URL encoding):<br><br><code>X-EBAY-C-ENDUSERCTX: contextualLocation=country%3DUS%2Czip%3D19406</code><br></li><li><b><code>sort=newlyListed</code></b> - This sorts by <i>listing date</i> (most recently listed/newest items first).</li><li><b><code>sort=endingSoonest</code></b> - This sorts by <i>date/time</i> the listing ends (listings nearest to end date/time first).</li></ul><b>Default:</b> Ascending For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/browse/types/cos:SortField
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return array
     *      - *autoCorrections* - 
     *          - The auto-corrected inputs.
@@ -181,9 +196,9 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - The container with all the warnings for the request.
     */
-    public function search(array $query): array
+    public function search(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item_summary/search"], $query));
+        return $this->api(array_merge(["/item_summary/search"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -209,6 +224,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data The container for the image information fields.
     *      - *image* - string
     *          - The Base64 string of the image.
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return array
     *      - *autoCorrections* - 
     *          - The auto-corrected inputs.
@@ -231,9 +251,9 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - The container with all the warnings for the request.
     */
-    public function searchByImage(array $query, array $data): array
+    public function searchByImage(array $query, array $data, array $headers): array
     {
-        return $this->api(array_merge(["/item_summary/search_by_image"], $query), 'POST', $data);
+        return $this->api(array_merge(["/item_summary/search_by_image"], $query), 'POST', $data, $headers);
     }
                     
     /**
@@ -243,6 +263,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *fieldgroups* - string - optional
     *          - This parameter lets you control what is returned in the response. If you do not set this field, the method returns all the details of the item.<br><br><b>Valid Values:</b><ul><li><b>PRODUCT</b> - This adds the <code>additionalImages</code>, <code>additionalProductIdentities</code>, <code>aspectGroups</code>, <code>description</code>, <code>gtins</code>, <code>image</code>, and <code>title</code> product fields to the response, which describe the product associated with the item. See <a href="/api-docs/buy/browse/resources/item/methods/getItem#response.product">Product</a> for more information about these fields.</li><li><b> COMPACT</b> - This returns only the following fields, which let you quickly check if the availability or price of the item has changed, if the item has been revised by the seller, or if an item's top-rated plus status has changed for items you have stored.<ul><li><b>itemId</b> - The identifier of the item.</li> <li><b>bidCount</b> - This integer value indicates the total number of bids that have been placed against an auction item.</li> <li><b>currentBidPrice</b> - This container shows the current highest bid for an auction item. This container will only be returned for auction items.</li>  <li><b>eligibleForInlineCheckout</b> - This parameter returns items based on whether or not the items can be purchased using the Buy <a href="/api-docs/buy/order/resources/methods">Order API</a>. <ul> <li>If the value of this field is <code>true</code>, this indicates that the item can be purchased using the <b> Order API</b>.</li><li>If the value of this field is <code>false</code>, this indicates that the item cannot be purchased using the <b> Order API</b> and must be purchased on the eBay site.</li> </ul> <li><b> estimatedAvailabilities</b> -  Returns the item availability information, which is based on the item's quantity. <b> Note:</b> Changes in quantity are not tracked by <b>sellerItemRevision</b>.</li><li><b>gtin</b> - The unique Global Trade Item Number of an item as defined by <a href="https://www.gtin.info " target="_blank">https://www.gtin.info</a>.</li> <li><b>itemAffiliateWebURL</b> - The URL of the View Item page of the item, which includes the affiliate tracking ID. This field is only returned if the eBay partner enables affiliate tracking for the item by including the <code>X-EBAY-C-ENDUSERCTX</code> request header in the method.</li><li><b>itemCreationDate</b> - This is a timestamp that indicates the date and time an item listing was created.</li> <li><b>itemEndDate</b> - This is the scheduled end time of the listing.</li> <li><b>ItemWebURL</b> - The URL of the View Item page of the item. This enables you to include a "Report Item on eBay" link that takes the buyer to the View Item page on eBay. From there they can report any issues regarding this item to eBay.</li> <li><b>legacyItemId</b> - The unique identifier of the eBay listing that contains the item. This is the traditional/legacy ID that is often seen in the URL of the listing View Item page.</li> <li><b>minimumPriceToBid</b> - This container shows the minimum bid amount that would be accepted as a qualifying bid in an auction listing. This container will only be returned for auction items.</li> <li><b>price</b> - This is tracked by the revision ID but is returned here to enable you to quickly verify the price of the item.</li> <li><b>priorityListing</b> - This field is returned as <code>true</code> if the listing is part of a Promoted Listing campaign. Promoted Listings are available to Above Standard and Top Rated sellers with recent sales activity.</li> <li><b>reservePriceMet</b> - This field indicates whether or not an auction's reserve price (if set by the seller) has been met yet. This field will only be returned for auction items.</li> <li><b> sellerItemRevision</b> - An identifier generated/incremented when a seller revises the item. The following are the two types of item revisions:   <ul>  <li><b> Seller changes</b>, such as changing the title</li>  <li>  <b> eBay system changes</b>, such as changing the quantity when an item is purchased.</li>  </ul> This ID is changed <em>only</em> when the seller makes a change to the item. This means you cannot use this value to determine if the quantity has changed. To check if the quantity has changed, use <b> estimatedAvailabilities.</b></li> <li><b>shippingOptions</b> - A container for the cost, carrier, and other details of shipping options.</li> <li><b>taxes</b> - A container for the tax information for the item, such as the tax jurisdiction, the tax percentage, and the tax type.</li> <li><b> topRatedBuyingExperience</b> - A boolean value indicating if this item is a top-rated plus item. A change in the item's top rated plus standing is not tracked by the revision ID. See <a href="/api-docs/buy/browse/resources/item/methods/getItem#response.topRatedBuyingExperience">topRatedBuyingExperience</a> for more information.</li> <li><b>uniqueBidderCount</b> - This integer value indicates the number of different eBay users who have placed one or more bids on an auction item. This field is only applicable to auction items.</li></ul>    <b> For Example</b> <br> <br>To check if a stored item's information is current, do following.  <ol>    <li>Pass in the item ID and set <b> fieldgroups</b> to COMPACT. <br> <br><code>item/v1|4**********8|0?fieldgroups=COMPACT</code> </li>     <li>Do one of the following:    <ul>     <li>If the <b> sellerItemRevision</b> field is returned and you <em>haven't</em> stored a revision number for this item, record the number and pass in the item ID in the <b> getItem</b> method to get the latest information.</li>   <li>If the revision number is different from the value you have stored, update the value and pass in the item ID in the <b> getItem</b> method to get the latest information.</li>     <li>If the <b> sellerItemRevision</b> field is <em>not</em> returned or has not changed, where needed, update the item information with the information returned in the response.</li>  </ul>  </li> </ol></li> </ul>  </ul>    <p><b> Maximum value: </b> 1 <br>If more than one values is specified, the first value will be used.
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return array
     *      - *additionalImages* - array
     *          - An array of containers with the URLs for the images that are in addition to the primary image.  The primary image is returned in the <b> image.imageUrl</b> field.
@@ -401,9 +426,9 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *watchCount* - integer
     *          - The number of users that have added the item to their watch list.<br><br><span class="tablenote"> <strong>Note:</strong> This field is restricted to applications that have been granted permission to access this feature. You must submit an <a href="https://developer.ebay.com/my/support/tickets?tab=app-check ">App Check ticket</a> to request this access. In the App Check form, add a note to the <b>Application Title/Summary</b> and/or <b>Application Details</b> fields that you want access to Watch Count data in the Browse API.</span>
     */
-    public function getItem(string $itemId, array $query): array
+    public function getItem(string $itemId, array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item/{$itemId}"], $query));
+        return $this->api(array_merge(["/item/{$itemId}"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -418,6 +443,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *          - Specifies the legacy item ID of a specific item in an item group, such as the red shirt size L. <br><br>Legacy ids are returned by APIs, such as the <a href="https://developer.ebay.com/devzone/finding/callref/index.html " target="_blank">Finding API</a>.     <br><br><b> Maximum: </b> 1 <br><b> Requirement: </b> You must <b> always</b> pass in the <b> legacy_item_id </b> with the <b> legacy_variation_id</b>
     *      - *legacy_variation_sku* - string - optional
     *          - Specifics the legacy SKU of the item. SKU are item ids created by the seller. <br><br>Legacy SKUs are returned by eBay the  <a href="https://developer.ebay.com/Devzone/shopping/docs/CallRef/index.html " target="_blank">Shopping API</a>. <br><br>The following is an example of using the value of the <b> ItemID</b> and <b> SKU</b> fields to get the RESTful <b> itemId</b> value. <br> <br>&nbsp;&nbsp;&nbsp;<code> browse/v1/item/get_item_by_legacy_id?legacy_item_id=1**********9&amp;legacy_variation_sku=V**********M</code><br><br><b> Maximum: </b> 1 <br><b> Requirement: </b> You must <b> always</b> pass in the <b> legacy_item_id </b> with the <b> legacy_variation_sku</b>
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return array
     *      - *additionalImages* - array
     *          - An array of containers with the URLs for the images that are in addition to the primary image.  The primary image is returned in the <b> image.imageUrl</b> field.
@@ -576,9 +606,9 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *watchCount* - integer
     *          - The number of users that have added the item to their watch list.<br><br><span class="tablenote"> <strong>Note:</strong> This field is restricted to applications that have been granted permission to access this feature. You must submit an <a href="https://developer.ebay.com/my/support/tickets?tab=app-check ">App Check ticket</a> to request this access. In the App Check form, add a note to the <b>Application Title/Summary</b> and/or <b>Application Details</b> fields that you want access to Watch Count data in the Browse API.</span>
     */
-    public function getItemByLegacyId(array $query): array
+    public function getItemByLegacyId(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item/get_item_by_legacy_id"], $query));
+        return $this->api(array_merge(["/item/get_item_by_legacy_id"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -589,6 +619,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *          - A list of item IDs. Item IDs are the eBay RESTful identifier of items. <br><br><b> RESTful Item ID Format: </b><code>v1</code>|<code><i>#</i></code>|<code><i>#</i></code><br>For example: <code>v1|2**********2|0</code> or <code>v1|1**********2|4**********2</code> <br><br>In any given request, either item_ids or item_group_ids can be retrieved. Attempting to retrieve both will result in an error. <br><br> In a request, multiple item_ids can be passed as comma separated values.<br><br><b> Maximum allowed itemIDs: </b> 20 <br><br>For more information about item IDs for RESTful APIs, see the <a href="/api-docs/buy/static/api-browse.html#Legacy">Legacy API compatibility</a> section of the <i>Buy APIs Overview</i>.
     *      - *item_group_ids* - string - optional
     *          - A list of item group IDs. Item group IDs are the eBay RESTful identifier of item groups. <br><br><b> RESTful Group Item ID Format: </b><code>############</code><br>For example: <code>3**********9</code><br><br>In any given request, either item_ids or item_group_ids can be retrieved. Attempting to retrieve both will result in an error.<br><br>In a request, multiple item_group_ids can be passed as comma separated values.<br><br><b> Maximum allowed itemGroupIDs: </b> 10 <br><br>
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return array
     *      - *items* - array
     *          - An arraylist of all the items.
@@ -597,9 +632,9 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of warning messages. These types of errors do not prevent the method from executing but should be checked.
     */
-    public function getItems(array $query): array
+    public function getItems(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item/"], $query));
+        return $this->api(array_merge(["/item/"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -608,6 +643,11 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $query
     *      - *item_group_id* - string - required
     *          - Identifier of the item group to return.  An item group is an item that has various aspect differences, such as color, size, storage capacity, etc. </p> <p>This ID is returned in the <b> itemGroupHref</b> field of the <a href="/api-docs/buy/browse/resources/item_summary/methods/search">search</a> and <a href="/api-docs/buy/browse/resources/item/methods/getItem">getItem</a> methods. <br><br><b> For Example: </b><code> https://api.ebay.com/buy/browse/v1/item/get_items_by_item_group?item_group_id=3**********6</code>
+    * @param array $headers
+    *      - *X-EBAY-C-ENDUSERCTX* - string - optional
+    *          - This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a>.
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - This header identifies the seller's eBay marketplace. It is required for all marketplaces outside of the US.<br><br><span class="tablenote"><b>Note:</b> If a marketplace ID value is not provided, the default value of <code>EBAY_US</code> is used.</span><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for the marketplace ID values.
     * @return array
     *      - *commonDescriptions* - array
     *          - An array of containers for a description and the item IDs of all the items that have this exact description. Often the item variations within an item group all have the same description. Instead of repeating this description in the item details of each item, a description that is shared by at least one other item is returned in this container. If the description is unique, it is returned in the <b> items.description</b> field.
@@ -616,9 +656,9 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     *      - *warnings* - array
     *          - An array of warning messages. These types of errors do not prevent the method from executing but should be checked.
     */
-    public function getItemsByItemGroup(array $query): array
+    public function getItemsByItemGroup(array $query, array $headers): array
     {
-        return $this->api(array_merge(["/item/get_items_by_item_group"], $query));
+        return $this->api(array_merge(["/item/get_items_by_item_group"], $query), 'GET', [], $headers);
     }
                     
     /**
@@ -628,15 +668,20 @@ class BuyBrowseV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data 
     *      - *compatibilityProperties* - array
     *          - An array of attribute name/value pairs used to define a specific product. For example: If you wanted to specify a specific car, one of the name/value pairs would be <br><code>"name" : "Year", <br>"value" : "2019"</code>  <p> For a list of the attributes required for cars and trucks and motorcycles see <a href="/api-docs/buy/static/api-browse.html#Check">Check compatibility</a> in the Buy Integration Guide.</p>
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - The ID of the eBay marketplace you want to use. <b> Note: </b> This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/browse/overview.html#API">API Restrictions</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *compatibilityStatus* - string
     *          - An enumeration value that tells you if the item is compatible with the product. <br><br>The values are: <ul>   <li>   <b> COMPATIBLE</b> - Indicates the item is compatible with the product specified in the request.</li>   <li>   <b> NOT_COMPATIBLE</b> - Indicates the item is not compatible with the product specified in the request. Be sure to check all the <b> value</b> fields to ensure they are correct as errors in the value can also cause this response.</li>   <li> <b> UNDETERMINED</b> - Indicates one or more attributes for the specified product are missing so compatibility cannot be determined.  The response returns the attributes that are missing.</li>  </ul>  Code so that your app gracefully handles any future changes to this list. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/browse/types/gct:CompatibilityStatus'>eBay API documentation</a>
     *      - *warnings* - array
     *          - An array of warning messages. These types of errors do not prevent the method from executing but should be checked.
     */
-    public function checkCompatibility(string $itemId, array $data): array
+    public function checkCompatibility(string $itemId, array $data, array $headers): array
     {
-        return $this->api("/item/{$itemId}/check_compatibility", 'POST', $data);
+        return $this->api("/item/{$itemId}/check_compatibility", 'POST', $data, $headers);
     }
     
 }

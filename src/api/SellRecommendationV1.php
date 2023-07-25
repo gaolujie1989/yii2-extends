@@ -28,11 +28,14 @@ class SellRecommendationV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data 
     *      - *listingIds* - array
     *          - A comma-separated list of listing IDs for which you want Promoted Listings ad configuration information. Currently, this method accepts only listingId values from the Trading API. Max: 500 listing IDs
+    * @param array $headers
+    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+    *          - Use this header to specify the eBay marketplace where you list the items for which you want to get recommendations.
     * @return array
     */
-    public function findListingRecommendations(array $query, array $data): array
+    public function findListingRecommendations(array $query, array $data, array $headers): array
     {
-        return $this->api(array_merge(["/find"], $query), 'POST', $data);
+        return $this->api(array_merge(["/find"], $query), 'POST', $data, $headers);
     }
     
 }

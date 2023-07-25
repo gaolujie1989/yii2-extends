@@ -21,13 +21,18 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Details of the inventories with sku and locale
     *      - *requests* - array
     *          - The details of each inventory item that is being created or updated is passed in under this container. Up to 25 inventory item records can be created and/or updated with one <strong>bulkCreateOrReplaceInventoryItem</strong> call.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *responses* - array
     *          - This is the base container of the <strong>bulkCreateOrReplaceInventoryItem</strong> response. The results of each attempted inventory item creation/update is captured under this container.
     */
-    public function bulkCreateOrReplaceInventoryItem(array $data): array
+    public function bulkCreateOrReplaceInventoryItem(array $data, array $headers): array
     {
-        return $this->api("/bulk_create_or_replace_inventory_item", 'POST', $data);
+        return $this->api("/bulk_create_or_replace_inventory_item", 'POST', $data, $headers);
     }
                     
     /**
@@ -36,13 +41,16 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Details of the inventories with sku and locale
     *      - *requests* - array
     *          - The seller passes in multiple SKU values under this container to retrieve multiple inventory item records. Up to 25 inventory item records can be retrieved at one time.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *responses* - array
     *          - This is the base container of the <strong>bulkGetInventoryItem</strong> response. The results of each attempted inventory item retrieval is captured under this container.
     */
-    public function bulkGetInventoryItem(array $data): array
+    public function bulkGetInventoryItem(array $data, array $headers): array
     {
-        return $this->api("/bulk_get_inventory_item", 'POST', $data);
+        return $this->api("/bulk_get_inventory_item", 'POST', $data, $headers);
     }
                     
     /**
@@ -51,13 +59,16 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Price and allocation details for the given SKU and Marketplace
     *      - *requests* - array
     *          - This container is used by the seller to update the total 'ship-to-home' quantity of one or more inventory items (up to 25) and/or to update the price and/or quantity of one or more specific published offers.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *responses* - array
     *          - This container will return an HTTP status code, offer ID, and SKU value for each offer/inventory item being updated, as well as an <strong>errors</strong> and/or <strong>warnings</strong> container if any errors or warnings are triggered while trying to update those offers/inventory items.
     */
-    public function bulkUpdatePriceQuantity(array $data): array
+    public function bulkUpdatePriceQuantity(array $data, array $headers): array
     {
-        return $this->api("/bulk_update_price_quantity", 'POST', $data);
+        return $this->api("/bulk_update_price_quantity", 'POST', $data, $headers);
     }
                     
     /**
@@ -108,13 +119,18 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is used if the seller is offering one or more calculated shipping options for the inventory item, or if the seller is offering flat-rate shipping but is including a shipping surcharge based on the item's weight. This container is used to specify the dimensions and weight of a shipping package. <br><br> This container is not always required, but is required if an inventory item is being updated and shipping package data already exists for that inventory item.<br><br> This container is returned in the <strong>getInventoryItem</strong> and <strong>getInventoryItems</strong> calls if package type, package weight, and/or package dimensions are specified for an inventory item.<br><br>See the <a href="https://pages.ebay.com/help/pay/calculated-shipping.html " target="_blank">Calculated shipping</a> help page for more information on calculated shipping.
     *      - *product* - 
     *          - This container is used to define the product details, such as product title, product description, product identifiers (eBay Product ID, GTIN, or Brand/MPN pair), product aspects/item specifics, and product images. Note that an eBay Product ID (ePID) or a Global Trade Item Number (GTIN) value can be used in an attempt to find a matching product in the eBay Catalog. If a product match is found, the inventory item record will automatically pick up all product details associated with the eBay Catalog product.<br><br> Many eBay categories will require at least one product identifier (a GTIN or a Brand/MPN pair). To discover which product identifier(s) that an eBay category might require or support, use the <a href="/api-docs/commerce/taxonomy/resources/category_tree/methods/getItemAspectsForCategory" target="_blank">getItemAspectsForCategory</a> method in the Taxonomy API. In the <strong>getItemAspectsForCategory</strong> response, look for product identifier names (<code>brand</code>, <code>mpn</code>, <code>upc</code>, <code>ean</code>, <code>isbn</code>) in the <strong>localizedAspectName</strong> fields, and then look for the correspondinng <strong>aspectRequired</strong> boolean fields as well as the corresponding <strong>aspectUsage</strong> field, which will indicate if the aspect is required, recommended, or optional. In some cases, a product identifier type may be required, but not known/applicable for a product. If this is the case, the seller must still include the corresponding field in the inventory item record, but pass in a default text string. This text string can vary by site, so the seller should use the <strong>GeteBayDetails</strong> call of the Trading API to get this string value. In the <strong>GeteBayDetails</strong> call, the seller should include a <strong>DetailName</strong> field with its value set to <code>ProductDetails</code>. In the response of the call, the seller can see the default string value in the <strong>ProductDetails.ProductIdentifierUnavailableText</strong> field. The seller will use this value in one or more of the product identifier fields (<strong>ean</strong>, <strong>isbn</strong>, <strong>upc</strong>, or <strong>mpn</strong>) if a product ID isn't known or applicable. <br><br> This container is not initially required, but it is required before an inventory item can be published as an offer, and/or if an inventory item is being updated and product data already exists for that inventory item. <br><br> This container is always returned for published offers in the <strong>getInventoryItem</strong>, <strong>bulkGetInventoryItem</strong>, and <strong>getInventoryItems</strong> calls since product data must be defined for published offers, but for unpublished inventory items, this container will only be returned if product details have been defined for the inventory item.
+    * @param array $headers
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *warnings* - array
     *          - This container will be returned in a call response payload if one or more warnings or errors are triggered when an Inventory API call is made. This container will contain detailed information about the error or warning.
     */
-    public function createOrReplaceInventoryItem(string $sku, array $data): array
+    public function createOrReplaceInventoryItem(string $sku, array $data, array $headers): array
     {
-        return $this->api("/inventory_item/{$sku}", 'PUT', $data);
+        return $this->api("/inventory_item/{$sku}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -239,13 +255,18 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container consists of an array of motor vehicles (make, model, year, trim, engine) that are compatible with the motor vehicle part or accessory specified by the sku value.
     *      - *sku* - string
     *          - This is the seller-defined SKU value of the inventory item that will be associated with the compatible vehicles. This field is not applicable to the <strong>createOrReplaceProductCompatibility</strong>  call, but it is always returned with the <strong>getProductCompatibility</strong> call. For the <strong>createOrReplaceProductCompatibility</strong>  call, the SKU value for the inventory item is actually passed in as part of the call URI, and not in the request payload.
+    * @param array $headers
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *warnings* - array
     *          - This container will be returned in a call response payload if one or more warnings or errors are triggered when an Inventory API call is made. This container will contain detailed information about the error or warning.
     */
-    public function createOrReplaceProductCompatibility(string $sku, array $data): array
+    public function createOrReplaceProductCompatibility(string $sku, array $data, array $headers): array
     {
-        return $this->api("/inventory_item/{$sku}/product_compatibility", 'PUT', $data);
+        return $this->api("/inventory_item/{$sku}/product_compatibility", 'PUT', $data, $headers);
     }
                 
     /**
@@ -311,13 +332,18 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is used to specify product aspects for which variations within an inventory item group vary, and a complete list of all those variances. For example, t-shirts in an inventory item group may be available in multiple sizes and colors. If this is the case, <code>Color</code> and <code>Size</code> would both be values in the <strong>specifications.name</strong> fields, and the available colors and sizes would be values under the corresponding <strong>specifications.values</strong> array. If the seller will be including multiple images in the listing that will demonstrate how each variation differs, that seller will also include the <strong>aspectsImageVariesBy</strong> field, and call out the product aspect where the listing images differ. In the t-shirts example, this product aspect would be <code>Color</code>, and the seller could either include URLs to images of the t-shirt (in available colors) through the inventory item group entity, or the seller could also included URLs to images of the t-shirt through the individual inventory item entities of the group.<br><br> This container is not initially required when first creating an inventory item group, but the <strong>variesBy.specifications</strong> container will be required before the first offer of the group is published.<br><br>This container is always returned if one or more offers associated with the inventory item group have been published, and is only returned if set for an inventory item group if that group has yet to have any offers published.
     *      - *videoIds* - array
     *          - An array of one or more VideoId values for the inventory item group. A VideoId is a unique identifier that is automatically created by eBay when a seller successfully uploads a video to eBay using the  <a href="/api-docs/commerce/media/resources/video/methods/uploadVideo " target="_blank">uploadVideo</a> method of the <a href="/api-docs/commerce/media/overview.html " target="_blank">Media API</a>.<br><br>For information on supported marketplaces and platforms, as well as other requirements and limitations of video support, please refer to <a href="/api-docs/sell/static/inventory/managing-video-media.html " target="_blank">Managing videos</a>.
+    * @param array $headers
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *warnings* - array
     *          - This container will be returned in a call response payload if one or more warnings or errors are triggered when an Inventory API call is made. This container will contain detailed information about the error or warning.
     */
-    public function createOrReplaceInventoryItemGroup(string $inventoryItemGroupKey, array $data): array
+    public function createOrReplaceInventoryItemGroup(string $inventoryItemGroupKey, array $data, array $headers): array
     {
-        return $this->api("/inventory_item_group/{$inventoryItemGroupKey}", 'PUT', $data);
+        return $this->api("/inventory_item_group/{$inventoryItemGroupKey}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -337,13 +363,16 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Details of the listings that needs to be migrated into Inventory
     *      - *requests* - array
     *          - This is the base container of the <strong>bulkMigrateListings</strong> request payload. One to five eBay listings will be included under this container.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *responses* - array
     *          - This is the base container of the response payload of the <strong>bulkMigrateListings</strong> call. The results of each attempted listing migration is captured under this container.
     */
-    public function bulkMigrateListing(array $data): array
+    public function bulkMigrateListing(array $data, array $headers): array
     {
-        return $this->api("/bulk_migrate_listing", 'POST', $data);
+        return $this->api("/bulk_migrate_listing", 'POST', $data, $headers);
     }
                     
     /**
@@ -352,12 +381,17 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data Details of the offer for the channel
     *      - *requests* - array
     *          - The details of each offer that is being created is passed in under this container. Up to 25 offers can be created with one <strong>bulkCreateOffer</strong> call.
+    * @param array $headers
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *responses* - array
     */
-    public function bulkCreateOffer(array $data): array
+    public function bulkCreateOffer(array $data, array $headers): array
     {
-        return $this->api("/bulk_create_offer", 'POST', $data);
+        return $this->api("/bulk_create_offer", 'POST', $data, $headers);
     }
                     
     /**
@@ -366,13 +400,16 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data The base request of the <strong>bulkPublishOffer</strong> method.
     *      - *requests* - array
     *          - This container is used to pass in an array of offers to publish. Up to 25 offers can be published with one <strong>bulkPublishOffer</strong> method.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *responses* - array
     *          - A node is returned under the <strong>responses</strong> container to indicate the success or failure of each offer that the seller was attempting to publish.
     */
-    public function bulkPublishOffer(array $data): array
+    public function bulkPublishOffer(array $data, array $headers): array
     {
-        return $this->api("/bulk_publish_offer", 'POST', $data);
+        return $this->api("/bulk_publish_offer", 'POST', $data, $headers);
     }
                 
     /**
@@ -526,11 +563,16 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is used if the seller would like to place the inventory item into one or two eBay store categories that the seller has set up for their eBay store. The string value(s) passed in to this container will be the full path(s) to the eBay store categories, as shown below:<br> <pre><code>"storeCategoryNames": [<br> "/Fashion/Men/Shirts", <br> "/Fashion/Men/Accessories" ], </pre></code>
     *      - *tax* - 
     *          - This container is only applicable and used if a sales tax table, a Value-Added Tax (VAT) rate, or a tax exception category code will be applied to the offer. Only Business Sellers can apply VAT to their listings. It is possible that the <strong>applyTax</strong> field will be included with a value of <code>true</code>, but a buyer's purchase will not involve sales tax. A sales tax rate must be set up in the seller's sales tax table for the buyer's state/tax jurisdiction in order for that buyer to be subject to sales tax. Sales tax rates for different jurisdictions can be added/modified in the Payment Preferences section of My eBay, or the seller can use the sales tax calls of the <strong>Account API</strong>.<br><br>See the <a href="https://pages.ebay.com/help/pay/checkout-tax-table.html " target="_blank">Using a tax table</a> help page for more information on setting up and using a sales tax table.
+    * @param array $headers
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createOffer(array $data): array
+    public function createOffer(array $data, array $headers): array
     {
-        return $this->api("/offer", 'POST', $data);
+        return $this->api("/offer", 'POST', $data, $headers);
     }
                     
     /**
@@ -633,15 +675,20 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This container is used if the seller would like to place the inventory item into one or two store categories that the seller has set up for their eBay store. The string value(s) passed in to this container will be the full path(s) to the store categories, as shown below:<br> <pre><code>"storeCategoryNames": [<br> "/Fashion/Men/Shirts", <br> "/Fashion/Men/Accessories" ], </pre></code>If this field currently exists for an unpublished or published offer, it should be provided again in an <strong>updateOffer</strong> call, even if the eBay categories are not changing.
     *      - *tax* - 
     *          - This container is only applicable and used if a sales tax table, a Value-Added Tax (VAT) rate, or a tax exception category code will be applied to the offer. Only Business Sellers can apply VAT to their listings. It is possible that the <strong>applyTax</strong> field will be included with a value of <code>true</code>, but a buyer's purchase will not involve sales tax. A sales tax rate must be set up in the seller's sales tax table for the buyer's state/tax jurisdiction in order for that buyer to be subject to sales tax. Sales tax rates for different jurisdictions can be added/modified in the Payment Preferences section of My eBay, or the seller can use the sales tax calls of the <strong>Account API</strong>.<br><br>If tax information currently exists for an unpublished or published offer, it should be provided again in an <strong>updateOffer</strong> call, even if none of the tax settings are changing.<br><br>See the <a href="https://pages.ebay.com/help/pay/checkout-tax-table.html " target="_blank">Using a tax table</a> help page for more information on setting up and using a sales tax table.
+    * @param array $headers
+    *      - *Content-Language* - string - required
+    *          - This header sets the natural language that will be used in the field values of the request payload. For example, the value passed in this header should be <code>en-US</code> for English or <code>de-DE</code> for German. See the <a href="/api-docs/sell/inventory/types/slr:LocaleEnum" target="_blank ">LocaleEnum</a> type for the full list of supported values.<br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *offerId* - string
     *          - The unique identifier of the offer that was just created with a <strong>createOffer</strong> call. It is not returned if the <strong>createOffer</strong> call fails to create an offer. This identifier will be needed for many offer-related calls. <p> <span class="tablenote"><strong>Note:</strong> The <strong>offerId</strong> value is only returned with a successful <strong>createOffer</strong> call. This field will not be returned in the <strong>updateOffer </strong> response.</span></p>
     *      - *warnings* - array
     *          - This container will contain an array of errors and/or warnings when a call is made, and errors and/or warnings occur.
     */
-    public function updateOffer(string $offerId, array $data): array
+    public function updateOffer(string $offerId, array $data, array $headers): array
     {
-        return $this->api("/offer/{$offerId}", 'PUT', $data);
+        return $this->api("/offer/{$offerId}", 'PUT', $data, $headers);
     }
                 
     /**
@@ -661,13 +708,16 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     * @param array $data List of offers that needs fee information
     *      - *offers* - array
     *          - This container is used to identify one or more (up to 250)unpublished offers for which expected listing fees will be retrieved. The user passes one or more <strong>offerId</strong> values (maximum of 250) in to this container to identify the unpublished offers in which to retrieve expected listing fees. This call is only applicable for offers in the unpublished state. <br><br> The call response gives aggregate fee amounts per eBay marketplace, and does not give fee information at the individual offer level.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *feeSummaries* - array
     *          - This container consists of an array of one or more listing fees that the seller can expect to pay for unpublished offers specified in the call request. Many fee types will get returned even when they are <code>0.0</code>.
     */
-    public function getListingFees(array $data): array
+    public function getListingFees(array $data, array $headers): array
     {
-        return $this->api("/offer/get_listing_fees", 'POST', $data);
+        return $this->api("/offer/get_listing_fees", 'POST', $data, $headers);
     }
                     
     /**
@@ -693,15 +743,18 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This is the unique identifier of the inventory item group. All unpublished offers associated with this inventory item group will be published as a multiple-variation listing if the <strong>publishByInventoryItemGroup</strong> call is successful. The <strong>inventoryItemGroupKey</strong> identifier is automatically generated by eBay once an inventory item group is created.<br><br>To retrieve an <strong>inventoryItemGroupKey</strong> value, you can use the <strong>getInventoryItem</strong> call to retrieve an inventory item that is known to be in the inventory item group to publish, and then look for the inventory item group identifier under the <strong>groupIds</strong> container in the response of that call.
     *      - *marketplaceId* - string
     *          - This is the unique identifier of the eBay site on which the multiple-variation listing will be published. The <strong>marketPlaceId</strong> enumeration values are found in <strong>MarketplaceIdEnum</strong>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/inventory/types/slr:MarketplaceEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     *      - *listingId* - string
     *          - The unique identifier of the newly created eBay listing. This field is returned if the single offer (if <strong>publishOffer</strong> call was used) or group of offers in an inventory item group (if <strong>publishOfferByInventoryItemGroup</strong> call was used) was successfully converted into an eBay listing.
     *      - *warnings* - array
     *          - This container will contain an array of errors and/or warnings if any occur when a <strong>publishOffer</strong> or <strong>publishOfferByInventoryItemGroup</strong> call is made.
     */
-    public function publishOfferByInventoryItemGroup(array $data): array
+    public function publishOfferByInventoryItemGroup(array $data, array $headers): array
     {
-        return $this->api("/offer/publish_by_inventory_item_group/", 'POST', $data);
+        return $this->api("/offer/publish_by_inventory_item_group/", 'POST', $data, $headers);
     }
                     
     /**
@@ -727,11 +780,14 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This is the unique identifier of the inventory item group. This identifier is automatically generated by eBay once an inventory item group is created. This field is required.
     *      - *marketplaceId* - string
     *          - This is the unique identifier of the eBay site for which the offer will be made available. The marketPlaceId enumeration values are found in MarketplaceIdEnum. This field is required. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/inventory/types/slr:MarketplaceEnum'>eBay API documentation</a>
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function withdrawOfferByInventoryItemGroup(array $data): array
+    public function withdrawOfferByInventoryItemGroup(array $data, array $headers): array
     {
-        return $this->api("/offer/withdraw_by_inventory_item_group", 'POST', $data);
+        return $this->api("/offer/withdraw_by_inventory_item_group", 'POST', $data, $headers);
     }
                     
     /**
@@ -792,11 +848,14 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - Although not technically required, this field is highly recommended to be used to specify the phone number for a store inventory location. <br><br><b>Max length</b>: 36
     *      - *specialHours* - array
     *          - This container is used to express the special operating hours for a store inventory location on a specific date, such as a holiday. The special hours specified for the specific date will override the normal operating hours for that particular day of the week.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function createInventoryLocation(string $merchantLocationKey, array $data): array
+    public function createInventoryLocation(string $merchantLocationKey, array $data, array $headers): array
     {
-        return $this->api("/location/{$merchantLocationKey}", 'POST', $data);
+        return $this->api("/location/{$merchantLocationKey}", 'POST', $data, $headers);
     }
                 
     /**
@@ -938,11 +997,14 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
     *          - This text field is used by the merchant to provide/update the phone number for the inventory location. The phone number that is passed in this field will replace any other phone number that may be defined for this field. <br><br><b>Max length</b>: 36
     *      - *specialHours* - array
     *          - This container is used to provide/update the special operating hours for a store location on a specific date, such as a holiday. The special hours specified for the specific date will override the normal operating hours for that particular day of the week. If special hours have already been set up for an inventory location, specifying special hours through an <strong>updateInventoryLocation</strong> call will only add to the list, unless the date(s) used are the same special date(s) already set up, in which case, the special hours set up through the <strong>updateInventoryLocation</strong> call will override the existing special hours.
+    * @param array $headers
+    *      - *Content-Type* - string - required
+    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
     * @return array
     */
-    public function updateInventoryLocation(string $merchantLocationKey, array $data): array
+    public function updateInventoryLocation(string $merchantLocationKey, array $data, array $headers): array
     {
-        return $this->api("/location/{$merchantLocationKey}/update_location_details", 'POST', $data);
+        return $this->api("/location/{$merchantLocationKey}/update_location_details", 'POST', $data, $headers);
     }
     
 }

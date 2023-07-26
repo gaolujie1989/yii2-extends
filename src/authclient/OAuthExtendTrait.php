@@ -9,6 +9,7 @@ use lujie\extend\helpers\HttpClientHelper;
 use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\httpclient\Request;
+use yii\httpclient\Response;
 
 /**
  * Trait ExtendOAuth2
@@ -22,6 +23,16 @@ use yii\httpclient\Request;
  */
 trait OAuthExtendTrait
 {
+    /**
+     * @var ?Request
+     */
+    private $lastRequest;
+
+    /**
+     * @var ?Response
+     */
+    private $lastResponse;
+
     /**
      * @return array
      * @inheritdoc
@@ -98,6 +109,24 @@ trait OAuthExtendTrait
      */
     protected function sendRequest($request)
     {
-        return HttpClientHelper::sendRequest($request)->getData();
+        $this->lastRequest = $request;
+        $this->lastResponse = HttpClientHelper::sendRequest($request);
+        return $this->lastResponse->getData();
+    }
+
+    /**
+     * @return Request|null
+     */
+    public function getLastRequest(): ?Request
+    {
+        return $this->lastRequest;
+    }
+
+    /**
+     * @return Response|null
+     */
+    public function getLastResponse(): ?Response
+    {
+        return $this->lastResponse;
     }
 }

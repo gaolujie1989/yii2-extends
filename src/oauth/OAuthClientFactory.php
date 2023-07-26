@@ -44,6 +44,10 @@ class OAuthClientFactory
                 $client->setSandbox(str_contains($account->type, 'Sandbox'));
             }
             $authToken = AuthToken::find()->userId($accountId)->one();
+            if ($authToken === null) {
+                Yii::error("Account {$account->name} is not authed", __METHOD__);
+                return null;
+            }
             if ($authToken->refresh_token_expires_at && $authToken->refresh_token_expires_at < time()) {
                 Yii::error("Refresh token of account {$account->name} is expired", __METHOD__);
                 return null;

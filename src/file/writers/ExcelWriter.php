@@ -42,7 +42,7 @@ class ExcelWriter extends BaseObject implements FileWriterInterface
     /**
      * @var string
      */
-    public $adapter = self::ADAPTER_PHP_SPREAD_SHEET;
+    public $adapter = self::ADAPTER_XLSX_WRITER;
 
     /**
      * @param string $file

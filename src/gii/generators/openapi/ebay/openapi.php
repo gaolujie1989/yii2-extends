@@ -71,25 +71,25 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                 ? $pathParam['type'] . ' ' . $pathParam['var']
                 : '?' . $pathParam['type'] . ' ' . $pathParam['var'] . ' = null';
 
-            $docParams[] = '    * @param ' . $pathParam['type'] . ' ' . $pathParam['var'] . ' ' . $pathParam['description'];
+            $docParams[] = '     * @param ' . $pathParam['type'] . ' ' . $pathParam['var'] . ' ' . $pathParam['description'];
         }
         $apiUrl = strtr($path, $pathReplaces);
 
         $queryParams = $params['query'] ?? [];
         if ($queryParams) {
             $functionParams[] = 'array $query';
-            $docParams[] = '    * @param array $query';
+            $docParams[] = '     * @param array $query';
             foreach ($queryParams as $name => $param) {
                 $required = $param['required'] ? 'required' : 'optional';
-                $docParams[] = "    *      - *{$name}* - {$param['type']} - {$required}";
-                $docParams[] = "    *          - {$param['description']}";
+                $docParams[] = "     *      - *{$name}* - {$param['type']} - {$required}";
+                $docParams[] = "     *          - {$param['description']}";
             }
         }
 
         $requestBody = $method['requestBody'] ?? null;
         if ($requestBody) {
             $functionParams[] = 'array $data';
-            $docParams[] = '    * @param array $data' . ' ' . ($requestBody['description'] ?? '');
+            $docParams[] = '     * @param array $data' . ' ' . ($requestBody['description'] ?? '');
             $ref = $requestBody['content']['application/json']['schema']['$ref'] ?? null;
             if ($ref) {
                 $refPath = strtr(substr($ref, 2), ['/' => '.']);
@@ -97,10 +97,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                 $properties = $component['properties'] ?? [];
                 foreach ($properties as $name => $property) {
                     $type = $property['type'] ?? '';
-                    $docParams[] = "    *      - *{$name}* - {$type}";
+                    $docParams[] = "     *      - *{$name}* - {$type}";
                     $description = $property['description'] ?? '';
                     if ($description) {
-                        $docParams[] = "    *          - {$description}";
+                        $docParams[] = "     *          - {$description}";
                     }
                 }
             }
@@ -110,33 +110,35 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         $headerParams = $params['header'] ?? [];
         if ($headerParams) {
             $functionParams[] = 'array $headers';
-            $docParams[] = '    * @param array $headers';
+            $docParams[] = '     * @param array $headers';
             foreach ($headerParams as $name => $param) {
                 if ($name === 'Content-Type' && !str_contains($param['description'], 'application/json')) {
                     $isJsonData = false;
                 }
                 $required = $param['required'] ? 'required' : 'optional';
-                $docParams[] = "    *      - *{$name}* - {$param['type']} - {$required}";
-                $docParams[] = "    *          - {$param['description']}";
+                $docParams[] = "     *      - *{$name}* - {$param['type']} - {$required}";
+                $docParams[] = "     *          - {$param['description']}";
             }
         }
 
-        $docParams[] = '    * @return array';
+        $returnType = ': void';
         $successResponse = $method['responses']['200'] ?? null;
         $eachMethod = false;
         $batchMethod = false;
         if ($successResponse) {
             $ref = $successResponse['content']['application/json']['schema']['$ref'] ?? null;
             if ($ref) {
+                $returnType = ': array';
+                $docParams[] = '     * @return array';
                 $refPath = strtr(substr($ref, 2), ['/' => '.']);
                 $component = ArrayHelper::getValue($openapi, $refPath);
                 $properties = $component['properties'] ?? [];
                 foreach ($properties as $name => $property) {
                     $type = $property['type'] ?? '';
-                    $docParams[] = "    *      - *{$name}* - {$type}";
+                    $docParams[] = "     *      - *{$name}* - {$type}";
                     $description = $property['description'] ?? '';
                     if ($description) {
-                        $docParams[] = "    *          - {$description}";
+                        $docParams[] = "     *          - {$description}";
                     }
                 }
                 if ($httpMethod === 'GET' && isset($properties['limit'])) {
@@ -176,10 +178,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     <?php if ($eachMethod): ?>
 
     /**
-    * @description <?= $method['description'] . "\n" ?>
-    * @tag <?= implode(',', $method['tags']) . "\n" ?>
+     * @description <?= $method['description'] . "\n" ?>
+     * @tag <?= implode(',', $method['tags']) . "\n" ?>
 <?= strtr($docParams, ['@return array' => '@return Iterator']) . "\n" ?>
-    */
+     */
     public function <?= $eachMethod ?>(<?= $functionParams ?>): Iterator
     {
         return $this->eachInternal('<?= $apiMethod ?>', func_get_args());
@@ -188,10 +190,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     <?php if ($batchMethod): ?>
 
     /**
-    * @description <?= $method['description'] . "\n" ?>
-    * @tag <?= implode(',', $method['tags']) . "\n" ?>
+     * @description <?= $method['description'] . "\n" ?>
+     * @tag <?= implode(',', $method['tags']) . "\n" ?>
 <?= strtr($docParams, ['@return array' => '@return Iterator']) . "\n" ?>
-    */
+     */
     public function <?= $batchMethod ?>(<?= $functionParams ?>): Iterator
     {
         return $this->batchInternal('<?= $apiMethod ?>', func_get_args());
@@ -199,14 +201,14 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     <?php endif; ?>
 
     /**
-    * @description <?= $method['description'] . "\n" ?>
-    * @tag <?= implode(',', $method['tags']) . "\n" ?>
+     * @description <?= $method['description'] . "\n" ?>
+     * @tag <?= implode(',', $method['tags']) . "\n" ?>
 <?= $docParams . "\n" ?>
-    */
-    public function <?= $apiMethod ?>(<?= $functionParams ?>): array
-    {
-        return $this->api(<?= $apiParams ?>);
-    }
+     */
+        public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= $returnType . "\n" ?>
+        {
+        <?= $returnType === ': void' ? '' : 'return ' ?>$this->api(<?= $apiParams ?>);
+        }
     <?php endforeach; ?>
 <?php endforeach; ?>
 

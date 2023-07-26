@@ -16,122 +16,122 @@ class SellNegotiationV1 extends \lujie\ebay\BaseEbayRestClient
 
             
     /**
-    * @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
-    * @tag offer
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
-    *      - *offset* - string - optional
-    *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
-    * @param array $headers
-    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
-    *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
-    * @return Iterator
-    *      - *eligibleItems* - array
-    *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
-    *      - *href* - string
-    *          - The URI of the current page of results from the result set.
-    *      - *limit* - integer
-    *          - The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
-    *      - *next* - string
-    *          - The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048
-    *      - *offset* - integer
-    *          - The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
-    *      - *prev* - string
-    *          - The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048
-    *      - *total* - integer
-    *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
-    */
+     * @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
+     * @tag offer
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
+     *      - *offset* - string - optional
+     *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
+     * @param array $headers
+     *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+     *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
+     * @return Iterator
+     *      - *eligibleItems* - array
+     *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
+     *      - *href* - string
+     *          - The URI of the current page of results from the result set.
+     *      - *limit* - integer
+     *          - The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
+     *      - *next* - string
+     *          - The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048
+     *      - *offset* - integer
+     *          - The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
+     *      - *prev* - string
+     *          - The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048
+     *      - *total* - integer
+     *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
+     */
     public function eachdEligibleItems(array $query, array $headers): Iterator
     {
         return $this->eachInternal('findEligibleItems', func_get_args());
     }
         
     /**
-    * @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
-    * @tag offer
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
-    *      - *offset* - string - optional
-    *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
-    * @param array $headers
-    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
-    *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
-    * @return Iterator
-    *      - *eligibleItems* - array
-    *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
-    *      - *href* - string
-    *          - The URI of the current page of results from the result set.
-    *      - *limit* - integer
-    *          - The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
-    *      - *next* - string
-    *          - The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048
-    *      - *offset* - integer
-    *          - The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
-    *      - *prev* - string
-    *          - The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048
-    *      - *total* - integer
-    *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
-    */
+     * @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
+     * @tag offer
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
+     *      - *offset* - string - optional
+     *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
+     * @param array $headers
+     *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+     *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
+     * @return Iterator
+     *      - *eligibleItems* - array
+     *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
+     *      - *href* - string
+     *          - The URI of the current page of results from the result set.
+     *      - *limit* - integer
+     *          - The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
+     *      - *next* - string
+     *          - The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048
+     *      - *offset* - integer
+     *          - The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
+     *      - *prev* - string
+     *          - The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048
+     *      - *total* - integer
+     *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
+     */
     public function batchdEligibleItems(array $query, array $headers): Iterator
     {
         return $this->batchInternal('findEligibleItems', func_get_args());
     }
     
     /**
-    * @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
-    * @tag offer
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
-    *      - *offset* - string - optional
-    *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
-    * @param array $headers
-    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
-    *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
-    * @return array
-    *      - *eligibleItems* - array
-    *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
-    *      - *href* - string
-    *          - The URI of the current page of results from the result set.
-    *      - *limit* - integer
-    *          - The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
-    *      - *next* - string
-    *          - The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048
-    *      - *offset* - integer
-    *          - The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
-    *      - *prev* - string
-    *          - The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048
-    *      - *total* - integer
-    *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
-    */
+     * @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
+     * @tag offer
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. <p><b>Minimum:</b> 1 &nbsp; &nbsp;<b>Maximum:</b> 200 <br><b>Default: </b>10</p>
+     *      - *offset* - string - optional
+     *          - This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0
+     * @param array $headers
+     *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+     *          - The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
+     * @return array
+     *      - *eligibleItems* - array
+     *          - A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest.
+     *      - *href* - string
+     *          - The URI of the current page of results from the result set.
+     *      - *limit* - integer
+     *          - The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
+     *      - *next* - string
+     *          - The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048
+     *      - *offset* - integer
+     *          - The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
+     *      - *prev* - string
+     *          - The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048
+     *      - *total* - integer
+     *          - The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
+     */
     public function findEligibleItems(array $query, array $headers): array
     {
         return $this->api(array_merge(["/find_eligible_items"], $query), 'GET', [], $headers);
     }
                     
     /**
-    * @description This method sends eligible buyers offers to purchase items in a listing at a discount.  <br><br>When a buyer has shown <i>interest</i> in a listing, they become "eligible" to receive a seller-initiated offer to purchase the item(s).  <br><br>Sellers use <a href="/api-docs/sell/negotiation/resources/offer/methods/findEligibleItems">findEligibleItems</a> to get the set of listings that have interested buyers. If a listing has interested buyers, sellers can use this method (<b>sendOfferToInterestedBuyers</b>) to send an offer to the buyers who are interested in the listing. The offer gives buyers the ability to purchase the associated listings at a discounted price.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
-    * @tag offer
-    * @param array $data Send offer to eligible items request.
-    *      - *allowCounterOffer* - boolean
-    *          - If set to <code>true</code>, the buyer is allowed to make a counter-offer to the seller's offer.  <br><br><span class="tablenote"><b>Note:</b> Currently, you must set this field to <code>false</code>; counter-offers are not supported in this release.</span>  <br><br><b>Default:</b> <code>false</code>
-    *      - *message* - string
-    *          - A seller-defined message related to the offer being made.  <br><br>This message is sent to the list of "interested" buyers.  <br><br>To increase the conversion rate of the offers a seller makes to buyers, eBay recommends you always add a customized message to your offers.  <br><br><b>Maximum length:</b> 2,000 characters
-    *      - *offerDuration* - 
-    *          - The length of time the offer is valid from when it is created.  <br><br>The duration of the offer begins at the date and time denoted by <b>creationDate</b>. When the span of time specified by <b>offerDuration</b> passes beyond the <b>creationDate</b>, the offer expires.  <br><br><span class="tablenote"><b>Note:</b> <b>offerDuration</b> currently defaults to 2 days and you cannot set it to any other value (if specified, the <b>unit</b> and <b>value</b> fields in TimeDuration must be set to <code>DAY</code> and <code>2</code>, respectively).</span>  <br><br><b>Default:</b> 2 Days
-    *      - *offeredItems* - array
-    *          - An array of objects where each object contains the details of an offer and the ID of the listing on which the offer is being made.  <br><br>Note that the service does not currently support the creation of multiple offers with a single call to <b>sendOfferToInterestedBuyer</b>. With this, each request can target only one listing at a time and you must populate this array with a single element that contains the details of one offer.
-    * @param array $headers
-    *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
-    *          - The eBay marketplace on which your listings with "eligible" buyers appear.  <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
-    *      - *Content-Type* - string - required
-    *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
-    * @return array
-    *      - *offers* - array
-    *          - The <b>offers</b> container returns a list of the offers sent to buyers who have shown an interest in listings included in the offer.
-    */
+     * @description This method sends eligible buyers offers to purchase items in a listing at a discount.  <br><br>When a buyer has shown <i>interest</i> in a listing, they become "eligible" to receive a seller-initiated offer to purchase the item(s).  <br><br>Sellers use <a href="/api-docs/sell/negotiation/resources/offer/methods/findEligibleItems">findEligibleItems</a> to get the set of listings that have interested buyers. If a listing has interested buyers, sellers can use this method (<b>sendOfferToInterestedBuyers</b>) to send an offer to the buyers who are interested in the listing. The offer gives buyers the ability to purchase the associated listings at a discounted price.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>.
+     * @tag offer
+     * @param array $data Send offer to eligible items request.
+     *      - *allowCounterOffer* - boolean
+     *          - If set to <code>true</code>, the buyer is allowed to make a counter-offer to the seller's offer.  <br><br><span class="tablenote"><b>Note:</b> Currently, you must set this field to <code>false</code>; counter-offers are not supported in this release.</span>  <br><br><b>Default:</b> <code>false</code>
+     *      - *message* - string
+     *          - A seller-defined message related to the offer being made.  <br><br>This message is sent to the list of "interested" buyers.  <br><br>To increase the conversion rate of the offers a seller makes to buyers, eBay recommends you always add a customized message to your offers.  <br><br><b>Maximum length:</b> 2,000 characters
+     *      - *offerDuration* - 
+     *          - The length of time the offer is valid from when it is created.  <br><br>The duration of the offer begins at the date and time denoted by <b>creationDate</b>. When the span of time specified by <b>offerDuration</b> passes beyond the <b>creationDate</b>, the offer expires.  <br><br><span class="tablenote"><b>Note:</b> <b>offerDuration</b> currently defaults to 2 days and you cannot set it to any other value (if specified, the <b>unit</b> and <b>value</b> fields in TimeDuration must be set to <code>DAY</code> and <code>2</code>, respectively).</span>  <br><br><b>Default:</b> 2 Days
+     *      - *offeredItems* - array
+     *          - An array of objects where each object contains the details of an offer and the ID of the listing on which the offer is being made.  <br><br>Note that the service does not currently support the creation of multiple offers with a single call to <b>sendOfferToInterestedBuyer</b>. With this, each request can target only one listing at a time and you must populate this array with a single element that contains the details of one offer.
+     * @param array $headers
+     *      - *X-EBAY-C-MARKETPLACE-ID* - string - required
+     *          - The eBay marketplace on which your listings with "eligible" buyers appear.  <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>.
+     *      - *Content-Type* - string - required
+     *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
+     * @return array
+     *      - *offers* - array
+     *          - The <b>offers</b> container returns a list of the offers sent to buyers who have shown an interest in listings included in the offer.
+     */
     public function sendOfferToInterestedBuyers(array $data, array $headers): array
     {
         return $this->api("/send_offer_to_interested_buyers", 'POST', $data, $headers);

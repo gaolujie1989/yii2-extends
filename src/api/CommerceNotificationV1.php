@@ -16,516 +16,504 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
 
                 
     /**
-    * @description This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br><br>The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The retrieved public key value should be cached for a temporary — but reasonable — amount of time (e.g., one-hour is recommended.) This key should not be requested for every notification since doing so can result in exceeding <a href="/develop/apis/api-call-limits" target="_blank">API call limits</a> if a large number of notification requests is received.</p></div><br><span class="tablenote"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a>.</span>
-    * @tag public_key
-    * @param string $publicKeyId The unique key ID that is used to retrieve the public key.<br><br><span class="tablenote"><b>Note: </b>This is retrieved from the <b>X-EBAY-SIGNATURE</b> header that is included with the push notification.</span>
-    * @return array
-    *      - *algorithm* - string
-    *          - The algorithm associated with the public key that is returned, such as Elliptic Curve Digital Signature Algorithm (ECDSA).
-    *      - *digest* - string
-    *          - The digest associated with the public key that is returned, such as Secure Hash Algorithm 1 (SHA1).
-    *      - *key* - string
-    *          - The public key that is returned for the specified key ID.<br><br>This value is used to validate the eBay push notification message payload.
-    */
+     * @description This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br><br>The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The retrieved public key value should be cached for a temporary — but reasonable — amount of time (e.g., one-hour is recommended.) This key should not be requested for every notification since doing so can result in exceeding <a href="/develop/apis/api-call-limits" target="_blank">API call limits</a> if a large number of notification requests is received.</p></div><br><span class="tablenote"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a>.</span>
+     * @tag public_key
+     * @param string $publicKeyId The unique key ID that is used to retrieve the public key.<br><br><span class="tablenote"><b>Note: </b>This is retrieved from the <b>X-EBAY-SIGNATURE</b> header that is included with the push notification.</span>
+     * @return array
+     *      - *algorithm* - string
+     *          - The algorithm associated with the public key that is returned, such as Elliptic Curve Digital Signature Algorithm (ECDSA).
+     *      - *digest* - string
+     *          - The digest associated with the public key that is returned, such as Secure Hash Algorithm 1 (SHA1).
+     *      - *key* - string
+     *          - The public key that is returned for the specified key ID.<br><br>This value is used to validate the eBay push notification message payload.
+     */
     public function getPublicKey(string $publicKeyId): array
     {
         return $this->api("/public_key/{$publicKeyId}");
     }
                     
     /**
-    * @description This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br><br>Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br><br><span class="tablenote"><b>Note:</b> Use the <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> method to find a topic if you do not know the topic ID.</span>
-    * @tag topic
-    * @param string $topicId The ID of the topic for which to retrieve the details.
-    * @return array
-    *      - *topicId* - string
-    *          - The unique identifier for the topic.
-    *      - *description* - string
-    *          - The description of the topic.
-    *      - *authorizationScopes* - array
-    *          - The authorization scopes required to subscribe to this topic.
-    *      - *status* - string
-    *          - The status of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:StatusEnum'>eBay API documentation</a>
-    *      - *context* - string
-    *          - The business context associated with this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ContextEnum'>eBay API documentation</a>
-    *      - *scope* - string
-    *          - The scope of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ScopeEnum'>eBay API documentation</a>
-    *      - *supportedPayloads* - array
-    *          - The supported payloads for this topic.
-    *      - *filterable* - boolean
-    *          - The indicator of whether this topic is filterable or not.
-    */
+     * @description This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br><br>Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br><br><span class="tablenote"><b>Note:</b> Use the <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> method to find a topic if you do not know the topic ID.</span>
+     * @tag topic
+     * @param string $topicId The ID of the topic for which to retrieve the details.
+     * @return array
+     *      - *topicId* - string
+     *          - The unique identifier for the topic.
+     *      - *description* - string
+     *          - The description of the topic.
+     *      - *authorizationScopes* - array
+     *          - The authorization scopes required to subscribe to this topic.
+     *      - *status* - string
+     *          - The status of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:StatusEnum'>eBay API documentation</a>
+     *      - *context* - string
+     *          - The business context associated with this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ContextEnum'>eBay API documentation</a>
+     *      - *scope* - string
+     *          - The scope of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ScopeEnum'>eBay API documentation</a>
+     *      - *supportedPayloads* - array
+     *          - The supported payloads for this topic.
+     *      - *filterable* - boolean
+     *          - The indicator of whether this topic is filterable or not.
+     */
     public function getTopic(string $topicId): array
     {
         return $this->api("/topic/{$topicId}");
     }
                 
     /**
-    * @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).
-    * @tag topic
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100.<br><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The token used to access the next set of results.
-    * @return Iterator
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
-    *      - *topics* - array
-    *          - An array of topics that match the specified criteria.
-    */
+     * @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).
+     * @tag topic
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100.<br><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The token used to access the next set of results.
+     * @return Iterator
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
+     *      - *topics* - array
+     *          - An array of topics that match the specified criteria.
+     */
     public function eachTopics(array $query): Iterator
     {
         return $this->eachInternal('getTopics', func_get_args());
     }
         
     /**
-    * @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).
-    * @tag topic
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100.<br><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The token used to access the next set of results.
-    * @return Iterator
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
-    *      - *topics* - array
-    *          - An array of topics that match the specified criteria.
-    */
+     * @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).
+     * @tag topic
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100.<br><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The token used to access the next set of results.
+     * @return Iterator
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
+     *      - *topics* - array
+     *          - An array of topics that match the specified criteria.
+     */
     public function batchTopics(array $query): Iterator
     {
         return $this->batchInternal('getTopics', func_get_args());
     }
     
     /**
-    * @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).
-    * @tag topic
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100.<br><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The token used to access the next set of results.
-    * @return array
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
-    *      - *topics* - array
-    *          - An array of topics that match the specified criteria.
-    */
+     * @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).
+     * @tag topic
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100.<br><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The token used to access the next set of results.
+     * @return array
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
+     *      - *topics* - array
+     *          - An array of topics that match the specified criteria.
+     */
     public function getTopics(array $query): array
     {
         return $this->api(array_merge(["/topic"], $query));
     }
                 
     /**
-    * @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
-    * @tag subscription
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The continuation token for the next set of results.
-    * @return Iterator
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
-    *      - *subscriptions* - array
-    *          - The subscriptions that match the search criteria.
-    */
+     * @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
+     * @tag subscription
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The continuation token for the next set of results.
+     * @return Iterator
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
+     *      - *subscriptions* - array
+     *          - The subscriptions that match the search criteria.
+     */
     public function eachSubscriptions(array $query): Iterator
     {
         return $this->eachInternal('getSubscriptions', func_get_args());
     }
         
     /**
-    * @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
-    * @tag subscription
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The continuation token for the next set of results.
-    * @return Iterator
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
-    *      - *subscriptions* - array
-    *          - The subscriptions that match the search criteria.
-    */
+     * @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
+     * @tag subscription
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The continuation token for the next set of results.
+     * @return Iterator
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
+     *      - *subscriptions* - array
+     *          - The subscriptions that match the search criteria.
+     */
     public function batchSubscriptions(array $query): Iterator
     {
         return $this->batchInternal('getSubscriptions', func_get_args());
     }
     
     /**
-    * @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
-    * @tag subscription
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The continuation token for the next set of results.
-    * @return array
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
-    *      - *subscriptions* - array
-    *          - The subscriptions that match the search criteria.
-    */
+     * @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
+     * @tag subscription
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The continuation token for the next set of results.
+     * @return array
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
+     *      - *subscriptions* - array
+     *          - The subscriptions that match the search criteria.
+     */
     public function getSubscriptions(array $query): array
     {
         return $this->api(array_merge(["/subscription"], $query));
     }
                 
     /**
-    * @description This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br><br>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br><br><span class="tablenote"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span>
-    * @tag subscription
-    * @param array $data The create subscription request.
-    *      - *topicId* - string
-    *          - The unique identifier for the topic associated with this subscription.
-    *      - *status* - string
-    *          - The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>
-    *      - *payload* - 
-    *          - The payload associated with this subscription.
-    *      - *destinationId* - string
-    *          - The unique identifier for the destination associated with this subscription.
-    * @return array
-    */
-    public function createSubscription(array $data): array
+     * @description This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br><br>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br><br><span class="tablenote"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span>
+     * @tag subscription
+     * @param array $data The create subscription request.
+     *      - *topicId* - string
+     *          - The unique identifier for the topic associated with this subscription.
+     *      - *status* - string
+     *          - The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>
+     *      - *payload* - 
+     *          - The payload associated with this subscription.
+     *      - *destinationId* - string
+     *          - The unique identifier for the destination associated with this subscription.
+     */
+    public function createSubscription(array $data): void
     {
-        return $this->api("/subscription", 'POST', $data);
+        $this->api("/subscription", 'POST', $data);
     }
                     
     /**
-    * @description This method allows applications to retrieve subscription details for the specified subscription.<br><br>Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @return array
-    *      - *subscriptionId* - string
-    *          - The unique identifier for the subscription.
-    *      - *topicId* - string
-    *          - The unique identifier for the topic associated with this subscription.
-    *      - *status* - string
-    *          - The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>
-    *      - *creationDate* - string
-    *          - The creation date for this subscription.
-    *      - *payload* - 
-    *          - The payload associated with this subscription.
-    *      - *destinationId* - string
-    *          - The unique identifier for the destination associated with this subscription.
-    *      - *filterId* - string
-    *          - The unique identifier for the filter associated with this subscription.
-    */
+     * @description This method allows applications to retrieve subscription details for the specified subscription.<br><br>Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     * @return array
+     *      - *subscriptionId* - string
+     *          - The unique identifier for the subscription.
+     *      - *topicId* - string
+     *          - The unique identifier for the topic associated with this subscription.
+     *      - *status* - string
+     *          - The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>
+     *      - *creationDate* - string
+     *          - The creation date for this subscription.
+     *      - *payload* - 
+     *          - The payload associated with this subscription.
+     *      - *destinationId* - string
+     *          - The unique identifier for the destination associated with this subscription.
+     *      - *filterId* - string
+     *          - The unique identifier for the filter associated with this subscription.
+     */
     public function getSubscription(string $subscriptionId): array
     {
         return $this->api("/subscription/{$subscriptionId}");
     }
                 
     /**
-    * @description This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br><span class="tablenote"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br><br>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods.
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @param array $data The create subscription request.
-    *      - *status* - string
-    *          - The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>
-    *      - *payload* - 
-    *          - The payload associated with this subscription.
-    *      - *destinationId* - string
-    *          - The unique identifier for the destination associated with this subscription.
-    * @return array
-    */
-    public function updateSubscription(string $subscriptionId, array $data): array
+     * @description This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br><span class="tablenote"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br><br>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods.
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     * @param array $data The create subscription request.
+     *      - *status* - string
+     *          - The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>
+     *      - *payload* - 
+     *          - The payload associated with this subscription.
+     *      - *destinationId* - string
+     *          - The unique identifier for the destination associated with this subscription.
+     */
+    public function updateSubscription(string $subscriptionId, array $data): void
     {
-        return $this->api("/subscription/{$subscriptionId}", 'PUT', $data);
+        $this->api("/subscription/{$subscriptionId}", 'PUT', $data);
     }
                 
     /**
-    * @description This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status.
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @return array
-    */
-    public function deleteSubscription(string $subscriptionId): array
+     * @description This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status.
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     */
+    public function deleteSubscription(string $subscriptionId): void
     {
-        return $this->api("/subscription/{$subscriptionId}", 'DELETE');
+        $this->api("/subscription/{$subscriptionId}", 'DELETE');
     }
                     
     /**
-    * @description This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>.
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @return array
-    */
-    public function enableSubscription(string $subscriptionId): array
+     * @description This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>.
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     */
+    public function enableSubscription(string $subscriptionId): void
     {
-        return $this->api("/subscription/{$subscriptionId}/enable", 'POST');
+        $this->api("/subscription/{$subscriptionId}/enable", 'POST');
     }
                     
     /**
-    * @description This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>.
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @return array
-    */
-    public function disableSubscription(string $subscriptionId): array
+     * @description This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>.
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     */
+    public function disableSubscription(string $subscriptionId): void
     {
-        return $this->api("/subscription/{$subscriptionId}/disable", 'POST');
+        $this->api("/subscription/{$subscriptionId}/disable", 'POST');
     }
                     
     /**
-    * @description This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br><br>You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br><br><span class="tablenote"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span>
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @return array
-    */
-    public function testSubscription(string $subscriptionId): array
+     * @description This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br><br>You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br><br><span class="tablenote"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span>
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     */
+    public function testSubscription(string $subscriptionId): void
     {
-        return $this->api("/subscription/{$subscriptionId}/test", 'POST');
+        $this->api("/subscription/{$subscriptionId}/test", 'POST');
     }
                     
     /**
-    * @description This method allows applications to create a filter for a subscription. Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination.<br><br>The <strong>filterSchema</strong> value must be a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2012-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications. The user does not need to provide <code>$schema</code> and <code>$id</code> definitions.<br><br>When a filter is first created, it is not immediately active on the subscription. Newly created filters are in <strong>PENDING</strong> status until they are reviewed. If a filter is valid, it will move from <strong>PENDING</strong> status to <strong>ENABLED</strong> status. You can find the status of a filter using the <strong>getSubscriptionFilter</strong> method.<br><br><span class="tablenote"><b>Note:</b> Only one filter can be in <strong>ENABLED</strong> (which means active) status on a subscription at a time. If an <strong>ENABLED</strong> filter is overwritten by a new call to <strong>CREATE</strong> a filter for the subscription, it stays in <strong>ENABLED</strong> status until the new <strong>PENDING</strong> filter becomes the <strong>ENABLED</strong> filter, and the existing filter then becomes <strong>DISABLED</strong>.</span>
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @param array $data The create subscription filter request.
-    *      - *filterSchema* - object
-    *          - The content of a subscription filter as a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2012-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications.<span class="tablenote"><b>Note:</b> If the JSON supplied specifies a field that does not exist in the notifications for a topic, the filter will be rejected and become <strong>DISABLED</strong>. If it is valid, however, the filter will move from <strong>PENDING</strong> status to <strong>ENABLED</strong> status.</span>
-    * @return array
-    */
-    public function createSubscriptionFilter(string $subscriptionId, array $data): array
+     * @description This method allows applications to create a filter for a subscription. Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination.<br><br>The <strong>filterSchema</strong> value must be a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2012-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications. The user does not need to provide <code>$schema</code> and <code>$id</code> definitions.<br><br>When a filter is first created, it is not immediately active on the subscription. Newly created filters are in <strong>PENDING</strong> status until they are reviewed. If a filter is valid, it will move from <strong>PENDING</strong> status to <strong>ENABLED</strong> status. You can find the status of a filter using the <strong>getSubscriptionFilter</strong> method.<br><br><span class="tablenote"><b>Note:</b> Only one filter can be in <strong>ENABLED</strong> (which means active) status on a subscription at a time. If an <strong>ENABLED</strong> filter is overwritten by a new call to <strong>CREATE</strong> a filter for the subscription, it stays in <strong>ENABLED</strong> status until the new <strong>PENDING</strong> filter becomes the <strong>ENABLED</strong> filter, and the existing filter then becomes <strong>DISABLED</strong>.</span>
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     * @param array $data The create subscription filter request.
+     *      - *filterSchema* - object
+     *          - The content of a subscription filter as a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2012-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications.<span class="tablenote"><b>Note:</b> If the JSON supplied specifies a field that does not exist in the notifications for a topic, the filter will be rejected and become <strong>DISABLED</strong>. If it is valid, however, the filter will move from <strong>PENDING</strong> status to <strong>ENABLED</strong> status.</span>
+     */
+    public function createSubscriptionFilter(string $subscriptionId, array $data): void
     {
-        return $this->api("/subscription/{$subscriptionId}/filter", 'POST', $data);
+        $this->api("/subscription/{$subscriptionId}/filter", 'POST', $data);
     }
                     
     /**
-    * @description This method allows applications to retrieve the filter details for the specified subscription filter.<br><br>Specify the subscription filter to retrieve by using the <strong>subscription_id</strong> and the <strong>filter_id</strong> associated with the subscription filter. The <strong>filter_id</strong> can be found in the response body for the <strong>getSubscription</strong> method, if there is a filter applied on the subscription.<br><br>Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination.
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @param string $filterId The unique identifier for the subscription filter.
-    * @return array
-    *      - *subscriptionId* - string
-    *          - The unique identifier for the subscription.
-    *      - *filterId* - string
-    *          - The unique identifier for this subscription filter.
-    *      - *filterSchema* - object
-    *          - The content of this subscription filter as a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2012-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications.
-    *      - *filterStatus* - string
-    *          - The status of this subscription filter. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionFilterStatus'>eBay API documentation</a>
-    *      - *creationDate* - string
-    *          - The creation date for this subscription filter.
-    */
+     * @description This method allows applications to retrieve the filter details for the specified subscription filter.<br><br>Specify the subscription filter to retrieve by using the <strong>subscription_id</strong> and the <strong>filter_id</strong> associated with the subscription filter. The <strong>filter_id</strong> can be found in the response body for the <strong>getSubscription</strong> method, if there is a filter applied on the subscription.<br><br>Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination.
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     * @param string $filterId The unique identifier for the subscription filter.
+     * @return array
+     *      - *subscriptionId* - string
+     *          - The unique identifier for the subscription.
+     *      - *filterId* - string
+     *          - The unique identifier for this subscription filter.
+     *      - *filterSchema* - object
+     *          - The content of this subscription filter as a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2012-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications.
+     *      - *filterStatus* - string
+     *          - The status of this subscription filter. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionFilterStatus'>eBay API documentation</a>
+     *      - *creationDate* - string
+     *          - The creation date for this subscription filter.
+     */
     public function getSubscriptionFilter(string $subscriptionId, string $filterId): array
     {
         return $this->api("/subscription/{$subscriptionId}/filter/{$filterId}");
     }
                 
     /**
-    * @description This method allows applications to disable the active filter on a subscription, so that a new subscription filter may be added.<br><br><span class="tablenote"><b>Note:</b> Subscription filters in <strong>PENDING</strong> status can not be disabled. However, a new filter can be created instead with the <strong>createSubscriptionFilter</strong> method and this new filter will override the <strong>PENDING</strong> filter.</span>
-    * @tag subscription
-    * @param string $subscriptionId The unique identifier for the subscription.
-    * @param string $filterId The unique identifier for the subscription filter.
-    * @return array
-    */
-    public function deleteSubscriptionFilter(string $subscriptionId, string $filterId): array
+     * @description This method allows applications to disable the active filter on a subscription, so that a new subscription filter may be added.<br><br><span class="tablenote"><b>Note:</b> Subscription filters in <strong>PENDING</strong> status can not be disabled. However, a new filter can be created instead with the <strong>createSubscriptionFilter</strong> method and this new filter will override the <strong>PENDING</strong> filter.</span>
+     * @tag subscription
+     * @param string $subscriptionId The unique identifier for the subscription.
+     * @param string $filterId The unique identifier for the subscription filter.
+     */
+    public function deleteSubscriptionFilter(string $subscriptionId, string $filterId): void
     {
-        return $this->api("/subscription/{$subscriptionId}/filter/{$filterId}", 'DELETE');
+        $this->api("/subscription/{$subscriptionId}/filter/{$filterId}", 'DELETE');
     }
                 
     /**
-    * @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.
-    * @tag destination
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The continuation token for the next set of results.
-    * @return Iterator
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The number of records to show in the current response.<br><br><b>Default:</b> 20
-    *      - *destinations* - array
-    *          - An array that contains the destination details.
-    */
+     * @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.
+     * @tag destination
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The continuation token for the next set of results.
+     * @return Iterator
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The number of records to show in the current response.<br><br><b>Default:</b> 20
+     *      - *destinations* - array
+     *          - An array that contains the destination details.
+     */
     public function eachDestinations(array $query): Iterator
     {
         return $this->eachInternal('getDestinations', func_get_args());
     }
         
     /**
-    * @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.
-    * @tag destination
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The continuation token for the next set of results.
-    * @return Iterator
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The number of records to show in the current response.<br><br><b>Default:</b> 20
-    *      - *destinations* - array
-    *          - An array that contains the destination details.
-    */
+     * @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.
+     * @tag destination
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The continuation token for the next set of results.
+     * @return Iterator
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The number of records to show in the current response.<br><br><b>Default:</b> 20
+     *      - *destinations* - array
+     *          - An array that contains the destination details.
+     */
     public function batchDestinations(array $query): Iterator
     {
         return $this->batchInternal('getDestinations', func_get_args());
     }
     
     /**
-    * @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.
-    * @tag destination
-    * @param array $query
-    *      - *limit* - string - optional
-    *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
-    *      - *continuation_token* - string - optional
-    *          - The continuation token for the next set of results.
-    * @return array
-    *      - *total* - integer
-    *          - The total number of matches for the search criteria.
-    *      - *href* - string
-    *          - The path to the call URI that produced the current page of results.
-    *      - *next* - string
-    *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
-    *      - *limit* - integer
-    *          - The number of records to show in the current response.<br><br><b>Default:</b> 20
-    *      - *destinations* - array
-    *          - An array that contains the destination details.
-    */
+     * @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.
+     * @tag destination
+     * @param array $query
+     *      - *limit* - string - optional
+     *          - The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 20<br><br><b>Maximum:</b> 100 items per page
+     *      - *continuation_token* - string - optional
+     *          - The continuation token for the next set of results.
+     * @return array
+     *      - *total* - integer
+     *          - The total number of matches for the search criteria.
+     *      - *href* - string
+     *          - The path to the call URI that produced the current page of results.
+     *      - *next* - string
+     *          - The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned.
+     *      - *limit* - integer
+     *          - The number of records to show in the current response.<br><br><b>Default:</b> 20
+     *      - *destinations* - array
+     *          - An array that contains the destination details.
+     */
     public function getDestinations(array $query): array
     {
         return $this->api(array_merge(["/destination"], $query));
     }
                 
     /**
-    * @description This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br><br>A single destination for all topics is valid, as is individual destinations for each topic.<br><br>To update a destination, use the <strong>updateDestination</strong> call.<br><br>The destination created will need to be referenced while creating or updating a subscription to a topic.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span>
-    * @tag destination
-    * @param array $data The create destination request.
-    *      - *name* - string
-    *          - The name associated with this destination.
-    *      - *status* - string
-    *          - The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>
-    *      - *deliveryConfig* - 
-    *          - The configuration associated with this destination.
-    * @return array
-    */
-    public function createDestination(array $data): array
+     * @description This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br><br>A single destination for all topics is valid, as is individual destinations for each topic.<br><br>To update a destination, use the <strong>updateDestination</strong> call.<br><br>The destination created will need to be referenced while creating or updating a subscription to a topic.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span>
+     * @tag destination
+     * @param array $data The create destination request.
+     *      - *name* - string
+     *          - The name associated with this destination.
+     *      - *status* - string
+     *          - The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>
+     *      - *deliveryConfig* - 
+     *          - The configuration associated with this destination.
+     */
+    public function createDestination(array $data): void
     {
-        return $this->api("/destination", 'POST', $data);
+        $this->api("/destination", 'POST', $data);
     }
                     
     /**
-    * @description This method allows applications to fetch the details for a destination. The details include the destination name, status, and configuration, including the endpoint and verification token.
-    * @tag destination
-    * @param string $destinationId The unique identifier for the destination.
-    * @return array
-    *      - *destinationId* - string
-    *          - The unique identifier for the destination.
-    *      - *name* - string
-    *          - The name associated with this destination.
-    *      - *status* - string
-    *          - The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>
-    *      - *deliveryConfig* - string
-    *          - The configuration associated with this destination. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/destination'>eBay API documentation</a>
-    */
+     * @description This method allows applications to fetch the details for a destination. The details include the destination name, status, and configuration, including the endpoint and verification token.
+     * @tag destination
+     * @param string $destinationId The unique identifier for the destination.
+     * @return array
+     *      - *destinationId* - string
+     *          - The unique identifier for the destination.
+     *      - *name* - string
+     *          - The name associated with this destination.
+     *      - *status* - string
+     *          - The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>
+     *      - *deliveryConfig* - string
+     *          - The configuration associated with this destination. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/destination'>eBay API documentation</a>
+     */
     public function getDestination(string $destinationId): array
     {
         return $this->api("/destination/{$destinationId}");
     }
                 
     /**
-    * @description This method allows applications to update a destination.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span>
-    * @tag destination
-    * @param string $destinationId The unique identifier for the destination.
-    * @param array $data The create subscription request.
-    *      - *name* - string
-    *          - The name associated with this destination.
-    *      - *status* - string
-    *          - The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>
-    *      - *deliveryConfig* - 
-    *          - The configuration associated with this destination.
-    * @return array
-    */
-    public function updateDestination(string $destinationId, array $data): array
+     * @description This method allows applications to update a destination.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span>
+     * @tag destination
+     * @param string $destinationId The unique identifier for the destination.
+     * @param array $data The create subscription request.
+     *      - *name* - string
+     *          - The name associated with this destination.
+     *      - *status* - string
+     *          - The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>
+     *      - *deliveryConfig* - 
+     *          - The configuration associated with this destination.
+     */
+    public function updateDestination(string $destinationId, array $data): void
     {
-        return $this->api("/destination/{$destinationId}", 'PUT', $data);
+        $this->api("/destination/{$destinationId}", 'PUT', $data);
     }
                 
     /**
-    * @description This method provides applications a way to delete a destination.<br><br>The same destination ID can be used by many destinations.<br><br>Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it.
-    * @tag destination
-    * @param string $destinationId The unique identifier for the destination.
-    * @return array
-    */
-    public function deleteDestination(string $destinationId): array
+     * @description This method provides applications a way to delete a destination.<br><br>The same destination ID can be used by many destinations.<br><br>Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it.
+     * @tag destination
+     * @param string $destinationId The unique identifier for the destination.
+     */
+    public function deleteDestination(string $destinationId): void
     {
-        return $this->api("/destination/{$destinationId}", 'DELETE');
+        $this->api("/destination/{$destinationId}", 'DELETE');
     }
                     
     /**
-    * @description This method allows applications to retrieve a previously created configuration.
-    * @tag config
-    * @return array
-    *      - *alertEmail* - string
-    *          - The alert email address for this application.
-    */
+     * @description This method allows applications to retrieve a previously created configuration.
+     * @tag config
+     * @return array
+     *      - *alertEmail* - string
+     *          - The alert email address for this application.
+     */
     public function getConfig(): array
     {
         return $this->api("/config");
     }
                 
     /**
-    * @description This method allows applications to create a new configuration or update an existing configuration. This app-level configuration allows developers to set up alerts.
-    * @tag config
-    * @param array $data The configurations for this application.
-    *      - *alertEmail* - string
-    *          - The alert email address for this application.
-    * @return array
-    */
-    public function updateConfig(array $data): array
+     * @description This method allows applications to create a new configuration or update an existing configuration. This app-level configuration allows developers to set up alerts.
+     * @tag config
+     * @param array $data The configurations for this application.
+     *      - *alertEmail* - string
+     *          - The alert email address for this application.
+     */
+    public function updateConfig(array $data): void
     {
-        return $this->api("/config", 'PUT', $data);
+        $this->api("/config", 'PUT', $data);
     }
     
 }

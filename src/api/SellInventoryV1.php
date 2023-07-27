@@ -167,7 +167,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of inventory items that exist for the seller's account. Based on this number and on the <strong>limit</strong> value, the seller may have to toggle through multiple pages to view all inventory items.
      */
-    public function eachInventoryItems(array $query): Iterator
+    public function eachInventoryItems(array $query = []): Iterator
     {
         return $this->eachInternal('getInventoryItems', func_get_args());
     }
@@ -196,7 +196,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of inventory items that exist for the seller's account. Based on this number and on the <strong>limit</strong> value, the seller may have to toggle through multiple pages to view all inventory items.
      */
-    public function batchInventoryItems(array $query): Iterator
+    public function batchInventoryItems(array $query = []): Iterator
     {
         return $this->batchInternal('getInventoryItems', func_get_args());
     }
@@ -225,7 +225,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of inventory items that exist for the seller's account. Based on this number and on the <strong>limit</strong> value, the seller may have to toggle through multiple pages to view all inventory items.
      */
-    public function getInventoryItems(array $query): array
+    public function getInventoryItems(array $query = []): array
     {
         return $this->api(array_merge(["/inventory_item"], $query));
     }
@@ -439,7 +439,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of offers that exist for the specified SKU value. Based on this number and on the <strong>limit</strong> value, the seller may have to toggle through multiple pages to view all offers.<br><br> <span class="tablenote"> <strong>Note:</strong> Currently, the Inventory API does not support the same SKU across multiple eBay marketplaces, so the <strong>Get Offers</strong> call will only return one offer, so this value should always be <code>1</code>.</span>
      */
-    public function eachOffers(array $query): Iterator
+    public function eachOffers(array $query = []): Iterator
     {
         return $this->eachInternal('getOffers', func_get_args());
     }
@@ -474,7 +474,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of offers that exist for the specified SKU value. Based on this number and on the <strong>limit</strong> value, the seller may have to toggle through multiple pages to view all offers.<br><br> <span class="tablenote"> <strong>Note:</strong> Currently, the Inventory API does not support the same SKU across multiple eBay marketplaces, so the <strong>Get Offers</strong> call will only return one offer, so this value should always be <code>1</code>.</span>
      */
-    public function batchOffers(array $query): Iterator
+    public function batchOffers(array $query = []): Iterator
     {
         return $this->batchInternal('getOffers', func_get_args());
     }
@@ -509,7 +509,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of offers that exist for the specified SKU value. Based on this number and on the <strong>limit</strong> value, the seller may have to toggle through multiple pages to view all offers.<br><br> <span class="tablenote"> <strong>Note:</strong> Currently, the Inventory API does not support the same SKU across multiple eBay marketplaces, so the <strong>Get Offers</strong> call will only return one offer, so this value should always be <code>1</code>.</span>
      */
-    public function getOffers(array $query): array
+    public function getOffers(array $query = []): array
     {
         return $this->api(array_merge(["/offer"], $query));
     }
@@ -905,7 +905,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *locations* - array
      *          - An array of one or more of the merchant's inventory locations.
      */
-    public function eachInventoryLocations(array $query): Iterator
+    public function eachInventoryLocations(array $query = []): Iterator
     {
         return $this->eachInternal('getInventoryLocations', func_get_args());
     }
@@ -934,7 +934,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *locations* - array
      *          - An array of one or more of the merchant's inventory locations.
      */
-    public function batchInventoryLocations(array $query): Iterator
+    public function batchInventoryLocations(array $query = []): Iterator
     {
         return $this->batchInternal('getInventoryLocations', func_get_args());
     }
@@ -963,7 +963,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *locations* - array
      *          - An array of one or more of the merchant's inventory locations.
      */
-    public function getInventoryLocations(array $query): array
+    public function getInventoryLocations(array $query = []): array
     {
         return $this->api(array_merge(["/location"], $query));
     }

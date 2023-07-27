@@ -57,7 +57,7 @@ class BuyMarketplaceInsightsV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br><br>If no items are found, this field is returned with a value of <code>0</code>.<br><br><span class="tablenote"><b>Note:</b> <code>total</code> is just an indicator of the number of listings for a given query. It could vary based on the number of listings with variations included in the result. It is strongly recommended that <code>total</code> not be used in pagination use cases. Instead, use <a href="/api-docs/buy/marketplace-insights/resources/item_sales/methods/search#response.next "> next</a> to determine the results on the next page.</span>
      */
-    public function eachrch(array $query): Iterator
+    public function eachrch(array $query = []): Iterator
     {
         return $this->eachInternal('search', func_get_args());
     }
@@ -104,7 +104,7 @@ class BuyMarketplaceInsightsV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br><br>If no items are found, this field is returned with a value of <code>0</code>.<br><br><span class="tablenote"><b>Note:</b> <code>total</code> is just an indicator of the number of listings for a given query. It could vary based on the number of listings with variations included in the result. It is strongly recommended that <code>total</code> not be used in pagination use cases. Instead, use <a href="/api-docs/buy/marketplace-insights/resources/item_sales/methods/search#response.next "> next</a> to determine the results on the next page.</span>
      */
-    public function batchrch(array $query): Iterator
+    public function batchrch(array $query = []): Iterator
     {
         return $this->batchInternal('search', func_get_args());
     }
@@ -151,7 +151,7 @@ class BuyMarketplaceInsightsV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br><br>If no items are found, this field is returned with a value of <code>0</code>.<br><br><span class="tablenote"><b>Note:</b> <code>total</code> is just an indicator of the number of listings for a given query. It could vary based on the number of listings with variations included in the result. It is strongly recommended that <code>total</code> not be used in pagination use cases. Instead, use <a href="/api-docs/buy/marketplace-insights/resources/item_sales/methods/search#response.next "> next</a> to determine the results on the next page.</span>
      */
-    public function search(array $query): array
+    public function search(array $query = []): array
     {
         return $this->api(array_merge(["/item_sales/search"], $query));
     }

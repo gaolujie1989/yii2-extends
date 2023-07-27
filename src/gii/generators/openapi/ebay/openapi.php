@@ -75,15 +75,19 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         }
         $apiUrl = strtr($path, $pathReplaces);
 
+        $hasRequiredQuery = false;
         $queryParams = $params['query'] ?? [];
         if ($queryParams) {
-            $functionParams[] = 'array $query';
             $docParams[] = '     * @param array $query';
             foreach ($queryParams as $name => $param) {
+                if ($param['required']) {
+                    $hasRequiredQuery = true;
+                }
                 $required = $param['required'] ? 'required' : 'optional';
                 $docParams[] = "     *      - *{$name}* - {$param['type']} - {$required}";
                 $docParams[] = "     *          - {$param['description']}";
             }
+            $functionParams[] = $hasRequiredQuery ? 'array $query' : 'array $query = []';
         }
 
         $requestBody = $method['requestBody'] ?? null;
@@ -157,6 +161,9 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         if (!$isJsonData) {
             $docParams = strtr($docParams, ['array $data' => 'string $data']);
             $functionParams = strtr($functionParams, ['array $data' => 'string $data']);
+        }
+        if (str_contains($functionParams, '$data') || $hasEbayCustomHeaders) {
+            $functionParams = strtr($functionParams, ['array $query = []' => 'array $query']);
         }
 
         $apiParams = [];

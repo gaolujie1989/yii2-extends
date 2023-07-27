@@ -198,7 +198,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.  <br><br>If no items are found, this field is returned with a value of <code>0</code>.
      */
-    public function eachAds(string $campaignId, array $query): Iterator
+    public function eachAds(string $campaignId, array $query = []): Iterator
     {
         return $this->eachInternal('getAds', func_get_args());
     }
@@ -234,7 +234,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.  <br><br>If no items are found, this field is returned with a value of <code>0</code>.
      */
-    public function batchAds(string $campaignId, array $query): Iterator
+    public function batchAds(string $campaignId, array $query = []): Iterator
     {
         return $this->batchInternal('getAds', func_get_args());
     }
@@ -270,7 +270,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.  <br><br>If no items are found, this field is returned with a value of <code>0</code>.
      */
-    public function getAds(string $campaignId, array $query): array
+    public function getAds(string $campaignId, array $query = []): array
     {
         return $this->api(array_merge(["/ad_campaign/{$campaignId}/ad"], $query));
     }
@@ -439,7 +439,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br /><br /><span class="tablenote"><b>Note: </b>If no items are found, this field is returned with a value of <code>0</code>.</span>
      */
-    public function eachAdGroups(string $campaignId, array $query): Iterator
+    public function eachAdGroups(string $campaignId, array $query = []): Iterator
     {
         return $this->eachInternal('getAdGroups', func_get_args());
     }
@@ -471,7 +471,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br /><br /><span class="tablenote"><b>Note: </b>If no items are found, this field is returned with a value of <code>0</code>.</span>
      */
-    public function batchAdGroups(string $campaignId, array $query): Iterator
+    public function batchAdGroups(string $campaignId, array $query = []): Iterator
     {
         return $this->batchInternal('getAdGroups', func_get_args());
     }
@@ -503,7 +503,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br /><br /><span class="tablenote"><b>Note: </b>If no items are found, this field is returned with a value of <code>0</code>.</span>
      */
-    public function getAdGroups(string $campaignId, array $query): array
+    public function getAdGroups(string $campaignId, array $query = []): array
     {
         return $this->api(array_merge(["/ad_campaign/{$campaignId}/ad_group"], $query));
     }
@@ -669,7 +669,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of campaigns retrieved in the result set.  <br><br>If no campaigns are found, this field is returned with a value of <code>0</code>.
      */
-    public function eachCampaigns(array $query): Iterator
+    public function eachCampaigns(array $query = []): Iterator
     {
         return $this->eachInternal('getCampaigns', func_get_args());
     }
@@ -708,7 +708,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of campaigns retrieved in the result set.  <br><br>If no campaigns are found, this field is returned with a value of <code>0</code>.
      */
-    public function batchCampaigns(array $query): Iterator
+    public function batchCampaigns(array $query = []): Iterator
     {
         return $this->batchInternal('getCampaigns', func_get_args());
     }
@@ -747,7 +747,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of campaigns retrieved in the result set.  <br><br>If no campaigns are found, this field is returned with a value of <code>0</code>.
      */
-    public function getCampaigns(array $query): array
+    public function getCampaigns(array $query = []): array
     {
         return $this->api(array_merge(["/ad_campaign"], $query));
     }
@@ -844,7 +844,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *campaigns* - array
      *          - This is an array of one or campaigns that match the listing or inventory item group specified in the request.
      */
-    public function findCampaignByAdReference(array $query): array
+    public function findCampaignByAdReference(array $query = []): array
     {
         return $this->api(array_merge(["/ad_campaign/find_campaign_by_ad_reference"], $query));
     }
@@ -929,7 +929,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br /><br /><span class="tablenote"><b>Note: </b>If no items are found, this field is returned with a value of <code>0</code>.</span>
      */
-    public function eachgestItems(string $campaignId, array $query): Iterator
+    public function eachgestItems(string $campaignId, array $query = []): Iterator
     {
         return $this->eachInternal('suggestItems', func_get_args());
     }
@@ -961,7 +961,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br /><br /><span class="tablenote"><b>Note: </b>If no items are found, this field is returned with a value of <code>0</code>.</span>
      */
-    public function batchgestItems(string $campaignId, array $query): Iterator
+    public function batchgestItems(string $campaignId, array $query = []): Iterator
     {
         return $this->batchInternal('suggestItems', func_get_args());
     }
@@ -993,7 +993,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of items retrieved in the result set.<br /><br /><span class="tablenote"><b>Note: </b>If no items are found, this field is returned with a value of <code>0</code>.</span>
      */
-    public function suggestItems(string $campaignId, array $query): array
+    public function suggestItems(string $campaignId, array $query = []): array
     {
         return $this->api(array_merge(["/ad_campaign/{$campaignId}/suggest_items"], $query));
     }
@@ -1121,7 +1121,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of keywords retrieved in the result set.  <br><br>If no keywords are found, this field is returned with a value of <code>0</code>.
      */
-    public function eachKeywords(string $campaignId, array $query): Iterator
+    public function eachKeywords(string $campaignId, array $query = []): Iterator
     {
         return $this->eachInternal('getKeywords', func_get_args());
     }
@@ -1155,7 +1155,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of keywords retrieved in the result set.  <br><br>If no keywords are found, this field is returned with a value of <code>0</code>.
      */
-    public function batchKeywords(string $campaignId, array $query): Iterator
+    public function batchKeywords(string $campaignId, array $query = []): Iterator
     {
         return $this->batchInternal('getKeywords', func_get_args());
     }
@@ -1189,7 +1189,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of keywords retrieved in the result set.  <br><br>If no keywords are found, this field is returned with a value of <code>0</code>.
      */
-    public function getKeywords(string $campaignId, array $query): array
+    public function getKeywords(string $campaignId, array $query = []): array
     {
         return $this->api(array_merge(["/ad_campaign/{$campaignId}/keyword"], $query));
     }
@@ -1325,7 +1325,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of result sets in the paginated collection.
      */
-    public function eachNegativeKeywords(array $query): Iterator
+    public function eachNegativeKeywords(array $query = []): Iterator
     {
         return $this->eachInternal('getNegativeKeywords', func_get_args());
     }
@@ -1360,7 +1360,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of result sets in the paginated collection.
      */
-    public function batchNegativeKeywords(array $query): Iterator
+    public function batchNegativeKeywords(array $query = []): Iterator
     {
         return $this->batchInternal('getNegativeKeywords', func_get_args());
     }
@@ -1395,7 +1395,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of result sets in the paginated collection.
      */
-    public function getNegativeKeywords(array $query): array
+    public function getNegativeKeywords(array $query = []): array
     {
         return $this->api(array_merge(["/negative_keyword"], $query));
     }
@@ -1529,7 +1529,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *reportTasks* - array
      *          - A list of report tasks contained on this page from the paginated response.
      */
-    public function eachReportTasks(array $query): Iterator
+    public function eachReportTasks(array $query = []): Iterator
     {
         return $this->eachInternal('getReportTasks', func_get_args());
     }
@@ -1560,7 +1560,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *reportTasks* - array
      *          - A list of report tasks contained on this page from the paginated response.
      */
-    public function batchReportTasks(array $query): Iterator
+    public function batchReportTasks(array $query = []): Iterator
     {
         return $this->batchInternal('getReportTasks', func_get_args());
     }
@@ -1591,7 +1591,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *reportTasks* - array
      *          - A list of report tasks contained on this page from the paginated response.
      */
-    public function getReportTasks(array $query): array
+    public function getReportTasks(array $query = []): array
     {
         return $this->api(array_merge(["/ad_report_task"], $query));
     }
@@ -1986,7 +1986,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - A list of warnings that were generated by the request. Warning do not stop processing, but should be checked to ensure that the response contains the correct information.
      */
-    public function eachListingSet(string $promotionId, array $query): Iterator
+    public function eachListingSet(string $promotionId, array $query = []): Iterator
     {
         return $this->eachInternal('getListingSet', func_get_args());
     }
@@ -2024,7 +2024,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - A list of warnings that were generated by the request. Warning do not stop processing, but should be checked to ensure that the response contains the correct information.
      */
-    public function batchListingSet(string $promotionId, array $query): Iterator
+    public function batchListingSet(string $promotionId, array $query = []): Iterator
     {
         return $this->batchInternal('getListingSet', func_get_args());
     }
@@ -2062,7 +2062,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - A list of warnings that were generated by the request. Warning do not stop processing, but should be checked to ensure that the response contains the correct information.
      */
-    public function getListingSet(string $promotionId, array $query): array
+    public function getListingSet(string $promotionId, array $query = []): array
     {
         return $this->api(array_merge(["/promotion/{$promotionId}/get_listing_set"], $query));
     }

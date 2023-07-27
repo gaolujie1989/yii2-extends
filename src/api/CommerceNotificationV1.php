@@ -79,7 +79,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *topics* - array
      *          - An array of topics that match the specified criteria.
      */
-    public function eachTopics(array $query): Iterator
+    public function eachTopics(array $query = []): Iterator
     {
         return $this->eachInternal('getTopics', func_get_args());
     }
@@ -104,7 +104,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *topics* - array
      *          - An array of topics that match the specified criteria.
      */
-    public function batchTopics(array $query): Iterator
+    public function batchTopics(array $query = []): Iterator
     {
         return $this->batchInternal('getTopics', func_get_args());
     }
@@ -129,7 +129,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *topics* - array
      *          - An array of topics that match the specified criteria.
      */
-    public function getTopics(array $query): array
+    public function getTopics(array $query = []): array
     {
         return $this->api(array_merge(["/topic"], $query));
     }
@@ -154,7 +154,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *subscriptions* - array
      *          - The subscriptions that match the search criteria.
      */
-    public function eachSubscriptions(array $query): Iterator
+    public function eachSubscriptions(array $query = []): Iterator
     {
         return $this->eachInternal('getSubscriptions', func_get_args());
     }
@@ -179,7 +179,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *subscriptions* - array
      *          - The subscriptions that match the search criteria.
      */
-    public function batchSubscriptions(array $query): Iterator
+    public function batchSubscriptions(array $query = []): Iterator
     {
         return $this->batchInternal('getSubscriptions', func_get_args());
     }
@@ -204,7 +204,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *subscriptions* - array
      *          - The subscriptions that match the search criteria.
      */
-    public function getSubscriptions(array $query): array
+    public function getSubscriptions(array $query = []): array
     {
         return $this->api(array_merge(["/subscription"], $query));
     }
@@ -375,7 +375,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *destinations* - array
      *          - An array that contains the destination details.
      */
-    public function eachDestinations(array $query): Iterator
+    public function eachDestinations(array $query = []): Iterator
     {
         return $this->eachInternal('getDestinations', func_get_args());
     }
@@ -400,7 +400,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *destinations* - array
      *          - An array that contains the destination details.
      */
-    public function batchDestinations(array $query): Iterator
+    public function batchDestinations(array $query = []): Iterator
     {
         return $this->batchInternal('getDestinations', func_get_args());
     }
@@ -425,7 +425,7 @@ class CommerceNotificationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *destinations* - array
      *          - An array that contains the destination details.
      */
-    public function getDestinations(array $query): array
+    public function getDestinations(array $query = []): array
     {
         return $this->api(array_merge(["/destination"], $query));
     }

@@ -68,7 +68,7 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of matches for the search criteria.
      */
-    public function eachFeedTypes(array $query): Iterator
+    public function eachFeedTypes(array $query = []): Iterator
     {
         return $this->eachInternal('getFeedTypes', func_get_args());
     }
@@ -97,7 +97,7 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of matches for the search criteria.
      */
-    public function batchFeedTypes(array $query): Iterator
+    public function batchFeedTypes(array $query = []): Iterator
     {
         return $this->batchInternal('getFeedTypes', func_get_args());
     }
@@ -126,7 +126,7 @@ class BuyFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of matches for the search criteria.
      */
-    public function getFeedTypes(array $query): array
+    public function getFeedTypes(array $query = []): array
     {
         return $this->api(array_merge(["/feed_type"], $query));
     }

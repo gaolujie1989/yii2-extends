@@ -100,7 +100,7 @@ class SellAnalyticsV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - An array of any process errors or warnings that were generated during the processing of the call processing.
      */
-    public function getTrafficReport(array $query): array
+    public function getTrafficReport(array $query = []): array
     {
         return $this->api(array_merge(["/traffic_report"], $query));
     }

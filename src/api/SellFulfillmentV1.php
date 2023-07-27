@@ -64,7 +64,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *totalMarketplaceFee* - 
      *          - This is the cumulative fees accrued for the order and deducted from the seller payout.
      */
-    public function getOrder(string $orderId, array $query): array
+    public function getOrder(string $orderId, array $query = []): array
     {
         return $this->api(array_merge(["/order/{$orderId}"], $query));
     }
@@ -101,7 +101,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This array is returned if one or more errors or warnings occur with the call request.
      */
-    public function eachOrders(array $query): Iterator
+    public function eachOrders(array $query = []): Iterator
     {
         return $this->eachInternal('getOrders', func_get_args());
     }
@@ -138,7 +138,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This array is returned if one or more errors or warnings occur with the call request.
      */
-    public function batchOrders(array $query): Iterator
+    public function batchOrders(array $query = []): Iterator
     {
         return $this->batchInternal('getOrders', func_get_args());
     }
@@ -175,7 +175,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This array is returned if one or more errors or warnings occur with the call request.
      */
-    public function getOrders(array $query): array
+    public function getOrders(array $query = []): array
     {
         return $this->api(array_merge(["/order"], $query));
     }
@@ -381,7 +381,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of payment disputes that matched the input criteria. If the total number of entries exceeds the value that was set for <strong>limit</strong> in the request payload, you will have to make multiple API calls to see all pages of the results set. This field is returned even if it is <code>0</code>.
      */
-    public function eachPaymentDisputeSummaries(array $query): Iterator
+    public function eachPaymentDisputeSummaries(array $query = []): Iterator
     {
         return $this->eachInternal('getPaymentDisputeSummaries', func_get_args());
     }
@@ -420,7 +420,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of payment disputes that matched the input criteria. If the total number of entries exceeds the value that was set for <strong>limit</strong> in the request payload, you will have to make multiple API calls to see all pages of the results set. This field is returned even if it is <code>0</code>.
      */
-    public function batchPaymentDisputeSummaries(array $query): Iterator
+    public function batchPaymentDisputeSummaries(array $query = []): Iterator
     {
         return $this->batchInternal('getPaymentDisputeSummaries', func_get_args());
     }
@@ -459,7 +459,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - This integer value is the total number of payment disputes that matched the input criteria. If the total number of entries exceeds the value that was set for <strong>limit</strong> in the request payload, you will have to make multiple API calls to see all pages of the results set. This field is returned even if it is <code>0</code>.
      */
-    public function getPaymentDisputeSummaries(array $query): array
+    public function getPaymentDisputeSummaries(array $query = []): array
     {
         return $this->api(array_merge(["/payment_dispute_summary"], $query));
     }

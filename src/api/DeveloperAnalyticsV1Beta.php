@@ -27,7 +27,7 @@ class DeveloperAnalyticsV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *rateLimits* - array
      *          - The rate-limit data for the specified APIs. The rate-limit data is returned for all the methods in the specified APIs and data pertains to the current time window.
      */
-    public function getRateLimits(array $query): array
+    public function getRateLimits(array $query = []): array
     {
         return $this->api(array_merge(["/rate_limit/"], $query));
     }
@@ -44,7 +44,7 @@ class DeveloperAnalyticsV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *rateLimits* - array
      *          - The rate-limit data for the specified APIs. The rate-limit data is returned for all the methods in the specified APIs and data pertains to the current time window.
      */
-    public function getUserRateLimits(array $query): array
+    public function getUserRateLimits(array $query = []): array
     {
         return $this->api(array_merge(["/user_rate_limit/"], $query));
     }

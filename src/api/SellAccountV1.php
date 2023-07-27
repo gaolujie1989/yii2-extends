@@ -782,7 +782,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *rateTables* - array
      *          - An array of all shipping rate tables defined for a marketplace (or all marketplaces if no <b>country_code</b> query parameter is used). This array will be returned as empty if the seller has no defined shipping rate tables for the specified marketplace.
      */
-    public function getRateTables(array $query): array
+    public function getRateTables(array $query = []): array
     {
         return $this->api(array_merge(["/rate_table"], $query));
     }
@@ -1155,7 +1155,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of subscriptions displayed on the current page of results.
      */
-    public function eachSubscription(array $query): Iterator
+    public function eachSubscription(array $query = []): Iterator
     {
         return $this->eachInternal('getSubscription', func_get_args());
     }
@@ -1180,7 +1180,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of subscriptions displayed on the current page of results.
      */
-    public function batchSubscription(array $query): Iterator
+    public function batchSubscription(array $query = []): Iterator
     {
         return $this->batchInternal('getSubscription', func_get_args());
     }
@@ -1205,7 +1205,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of subscriptions displayed on the current page of results.
      */
-    public function getSubscription(array $query): array
+    public function getSubscription(array $query = []): array
     {
         return $this->api(array_merge(["/subscription"], $query));
     }

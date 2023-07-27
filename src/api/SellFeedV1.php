@@ -47,7 +47,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of order tasks that match the input criteria.
      */
-    public function eachOrderTasks(array $query): Iterator
+    public function eachOrderTasks(array $query = []): Iterator
     {
         return $this->eachInternal('getOrderTasks', func_get_args());
     }
@@ -84,7 +84,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of order tasks that match the input criteria.
      */
-    public function batchOrderTasks(array $query): Iterator
+    public function batchOrderTasks(array $query = []): Iterator
     {
         return $this->batchInternal('getOrderTasks', func_get_args());
     }
@@ -121,7 +121,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of order tasks that match the input criteria.
      */
-    public function getOrderTasks(array $query): array
+    public function getOrderTasks(array $query = []): array
     {
         return $this->api(array_merge(["/order_task"], $query));
     }
@@ -206,7 +206,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of inventory tasks that match the input criteria.
      */
-    public function eachInventoryTasks(array $query): Iterator
+    public function eachInventoryTasks(array $query = []): Iterator
     {
         return $this->eachInternal('getInventoryTasks', func_get_args());
     }
@@ -243,7 +243,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of inventory tasks that match the input criteria.
      */
-    public function batchInventoryTasks(array $query): Iterator
+    public function batchInventoryTasks(array $query = []): Iterator
     {
         return $this->batchInternal('getInventoryTasks', func_get_args());
     }
@@ -280,7 +280,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of inventory tasks that match the input criteria.
      */
-    public function getInventoryTasks(array $query): array
+    public function getInventoryTasks(array $query = []): array
     {
         return $this->api(array_merge(["/inventory_task"], $query));
     }
@@ -692,7 +692,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of tasks that match the input criteria.
      */
-    public function eachTasks(array $query): Iterator
+    public function eachTasks(array $query = []): Iterator
     {
         return $this->eachInternal('getTasks', func_get_args());
     }
@@ -729,7 +729,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of tasks that match the input criteria.
      */
-    public function batchTasks(array $query): Iterator
+    public function batchTasks(array $query = []): Iterator
     {
         return $this->batchInternal('getTasks', func_get_args());
     }
@@ -766,7 +766,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of tasks that match the input criteria.
      */
-    public function getTasks(array $query): array
+    public function getTasks(array $query = []): array
     {
         return $this->api(array_merge(["/task"], $query));
     }
@@ -881,7 +881,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of tasks that match the criteria.
      */
-    public function eachCustomerServiceMetricTasks(array $query): Iterator
+    public function eachCustomerServiceMetricTasks(array $query = []): Iterator
     {
         return $this->eachInternal('getCustomerServiceMetricTasks', func_get_args());
     }
@@ -916,7 +916,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of tasks that match the criteria.
      */
-    public function batchCustomerServiceMetricTasks(array $query): Iterator
+    public function batchCustomerServiceMetricTasks(array $query = []): Iterator
     {
         return $this->batchInternal('getCustomerServiceMetricTasks', func_get_args());
     }
@@ -951,7 +951,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *total* - integer
      *          - The total number of tasks that match the criteria.
      */
-    public function getCustomerServiceMetricTasks(array $query): array
+    public function getCustomerServiceMetricTasks(array $query = []): array
     {
         return $this->api(array_merge(["/customer_service_metric_task"], $query));
     }

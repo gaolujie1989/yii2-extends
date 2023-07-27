@@ -31,7 +31,7 @@ class CommerceMediaV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createVideo(array $data, array $headers): void
+    public function createVideo(array $data, array $headers = []): void
     {
         $this->api("/video", 'POST', $data, $headers);
     }
@@ -82,7 +82,7 @@ class CommerceMediaV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - Use this header to specify the content type for the upload. The Content-Type should be set to <code>application/octet-stream</code>.
      */
-    public function uploadVideo(string $videoId, string $data, array $headers): void
+    public function uploadVideo(string $videoId, string $data, array $headers = []): void
     {
         $this->api("/video/{$videoId}/upload", 'POST', $data, $headers);
     }

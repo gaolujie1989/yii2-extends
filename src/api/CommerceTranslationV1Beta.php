@@ -38,7 +38,7 @@ class CommerceTranslationV1Beta extends \lujie\ebay\BaseEbayRestClient
      *      - *translations* - array
      *          - An array showing the input and translated text. Only one input string can be translated at this time. Support for multiple continuous text strings is expected in the future.
      */
-    public function translate(array $data, array $headers): array
+    public function translate(array $data, array $headers = []): array
     {
         return $this->api("/translate", 'POST', $data, $headers);
     }

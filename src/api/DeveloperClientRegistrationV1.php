@@ -35,7 +35,7 @@ class DeveloperClientRegistrationV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function registerClient(array $data, array $headers): void
+    public function registerClient(array $data, array $headers = []): void
     {
         $this->api("/client/register", 'POST', $data, $headers);
     }

@@ -66,7 +66,7 @@ class CommerceTaxonomyV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *rootCategoryNode* - 
      *          - Contains details of all nodes of the category tree hierarchy, starting with the root node and down to the leaf nodes. This is a recursive structure.<br><br><span class="tablenote"> <strong>Note:</strong> The root node of a full default category tree includes the <b>categoryId</b> field, but its value should not be relied upon. It provides no useful information for application development.</span>
      */
-    public function getCategoryTree(string $categoryTreeId, array $headers): array
+    public function getCategoryTree(string $categoryTreeId, array $headers = []): array
     {
         return $this->api("/category_tree/{$categoryTreeId}", 'GET', [], $headers);
     }
@@ -89,7 +89,7 @@ class CommerceTaxonomyV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *categoryTreeVersion* - string
      *          - The version of the category tree identified by <b>categoryTreeId</b>. It's a good idea to cache this value for comparison so you can determine if this category tree has been modified in subsequent calls.
      */
-    public function getCategorySubtree(string $categoryTreeId, array $query, array $headers): array
+    public function getCategorySubtree(string $categoryTreeId, array $query, array $headers = []): array
     {
         return $this->api(array_merge(["/category_tree/{$categoryTreeId}/get_category_subtree"], $query), 'GET', [], $headers);
     }

@@ -29,7 +29,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - This array displays the list of ads that were successfully created. For any ads that were not created successfully, the errors array may provide more detail about why creation of one or more ads failed.
      */
-    public function bulkCreateAdsByInventoryReference(string $campaignId, array $data, array $headers): array
+    public function bulkCreateAdsByInventoryReference(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_create_ads_by_inventory_reference", 'POST', $data, $headers);
     }
@@ -48,7 +48,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - This array displays the list of ads that were successfully created. For any ads that were not created successfully, the errors array may provide more detail about why creation of one or more ads failed.
      */
-    public function bulkCreateAdsByListingId(string $campaignId, array $data, array $headers): array
+    public function bulkCreateAdsByListingId(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_create_ads_by_listing_id", 'POST', $data, $headers);
     }
@@ -67,7 +67,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - An array of the ads that were deleted by the <b>bulkDeleteAdsByInventoryReference</b> request, including information associated with each individual delete request.
      */
-    public function bulkDeleteAdsByInventoryReference(string $campaignId, array $data, array $headers): array
+    public function bulkDeleteAdsByInventoryReference(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_delete_ads_by_inventory_reference", 'POST', $data, $headers);
     }
@@ -86,7 +86,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - An array of the ads that were deleted by the <b>bulkDeleteAdsByListingId</b> request, including information associated with each individual delete request.
      */
-    public function bulkDeleteAdsByListingId(string $campaignId, array $data, array $headers): array
+    public function bulkDeleteAdsByListingId(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_delete_ads_by_listing_id", 'POST', $data, $headers);
     }
@@ -105,7 +105,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A list of inventory references that were processed from the request.
      */
-    public function bulkUpdateAdsBidByInventoryReference(string $campaignId, array $data, array $headers): array
+    public function bulkUpdateAdsBidByInventoryReference(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_update_ads_bid_by_inventory_reference", 'POST', $data, $headers);
     }
@@ -124,7 +124,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A set of ad listings processed by the call.
      */
-    public function bulkUpdateAdsBidByListingId(string $campaignId, array $data, array $headers): array
+    public function bulkUpdateAdsBidByListingId(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_update_ads_bid_by_listing_id", 'POST', $data, $headers);
     }
@@ -143,7 +143,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - An array of processed ad listings in bulk.
      */
-    public function bulkUpdateAdsStatus(string $campaignId, array $data, array $headers): array
+    public function bulkUpdateAdsStatus(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_update_ads_status", 'POST', $data, $headers);
     }
@@ -162,7 +162,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - An array of processed ad listings in bulk.
      */
-    public function bulkUpdateAdsStatusByListingId(string $campaignId, array $data, array $headers): array
+    public function bulkUpdateAdsStatusByListingId(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_update_ads_status_by_listing_id", 'POST', $data, $headers);
     }
@@ -290,7 +290,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createAdByListingId(string $campaignId, array $data, array $headers): void
+    public function createAdByListingId(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/ad", 'POST', $data, $headers);
     }
@@ -312,7 +312,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createAdsByInventoryReference(string $campaignId, array $data, array $headers): void
+    public function createAdsByInventoryReference(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/create_ads_by_inventory_reference", 'POST', $data, $headers);
     }
@@ -372,7 +372,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *adIds* - array
      *          - A list of ad IDs. Only one ad can be deleted per operation and only one adId value will be returned.
      */
-    public function deleteAdsByInventoryReference(string $campaignId, array $data, array $headers): array
+    public function deleteAdsByInventoryReference(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/delete_ads_by_inventory_reference", 'POST', $data, $headers);
     }
@@ -407,7 +407,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateBid(string $adId, string $campaignId, array $data, array $headers): void
+    public function updateBid(string $adId, string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/ad/{$adId}/update_bid", 'POST', $data, $headers);
     }
@@ -521,7 +521,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createAdGroup(string $campaignId, array $data, array $headers): void
+    public function createAdGroup(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/ad_group", 'POST', $data, $headers);
     }
@@ -562,7 +562,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateAdGroup(string $adGroupId, string $campaignId, array $data, array $headers): void
+    public function updateAdGroup(string $adGroupId, string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/ad_group/{$adGroupId}", 'PUT', $data, $headers);
     }
@@ -582,7 +582,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *suggestedBids* - array
      *          - A list of bids in the paginated collection.
      */
-    public function suggestBids(string $adGroupId, string $campaignId, array $data, array $headers): array
+    public function suggestBids(string $adGroupId, string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/ad_group/{$adGroupId}/suggest_bids", 'POST', $data, $headers);
     }
@@ -608,7 +608,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *suggestedKeywords* - array
      *          - A list of suggested keywords in the paged collection. <p> <span class="tablenote"><strong>Note:</strong> A relevancy check with items already present in the ad-group is performed even if item IDs associated with the ad-group are not explicitly passed in the request.</span></p> 
      */
-    public function suggestKeywords(string $adGroupId, string $campaignId, array $data, array $headers): array
+    public function suggestKeywords(string $adGroupId, string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/ad_group/{$adGroupId}/suggest_keywords", 'POST', $data, $headers);
     }
@@ -630,7 +630,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function cloneCampaign(string $campaignId, array $data, array $headers): void
+    public function cloneCampaign(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/clone", 'POST', $data, $headers);
     }
@@ -774,7 +774,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createCampaign(array $data, array $headers): void
+    public function createCampaign(array $data, array $headers = []): void
     {
         $this->api("/ad_campaign", 'POST', $data, $headers);
     }
@@ -1013,7 +1013,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateAdRateStrategy(string $campaignId, array $data, array $headers): void
+    public function updateAdRateStrategy(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/update_ad_rate_strategy", 'POST', $data, $headers);
     }
@@ -1029,7 +1029,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateCampaignBudget(string $campaignId, array $data, array $headers): void
+    public function updateCampaignBudget(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/update_campaign_budget", 'POST', $data, $headers);
     }
@@ -1049,7 +1049,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateCampaignIdentification(string $campaignId, array $data, array $headers): void
+    public function updateCampaignIdentification(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/update_campaign_identification", 'POST', $data, $headers);
     }
@@ -1068,7 +1068,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A list of keywords that have been processed by the request.
      */
-    public function bulkCreateKeyword(string $campaignId, array $data, array $headers): array
+    public function bulkCreateKeyword(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_create_keyword", 'POST', $data, $headers);
     }
@@ -1087,7 +1087,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A list of keywords that have been processed from the bulk request.
      */
-    public function bulkUpdateKeyword(string $campaignId, array $data, array $headers): array
+    public function bulkUpdateKeyword(string $campaignId, array $data, array $headers = []): array
     {
         return $this->api("/ad_campaign/{$campaignId}/bulk_update_keyword", 'POST', $data, $headers);
     }
@@ -1211,7 +1211,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createKeyword(string $campaignId, array $data, array $headers): void
+    public function createKeyword(string $campaignId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/keyword", 'POST', $data, $headers);
     }
@@ -1254,7 +1254,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateKeyword(string $campaignId, string $keywordId, array $data, array $headers): void
+    public function updateKeyword(string $campaignId, string $keywordId, array $data, array $headers = []): void
     {
         $this->api("/ad_campaign/{$campaignId}/keyword/{$keywordId}", 'PUT', $data, $headers);
     }
@@ -1272,7 +1272,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A list of negative keywords that have been processed by the request.
      */
-    public function bulkCreateNegativeKeyword(array $data, array $headers): array
+    public function bulkCreateNegativeKeyword(array $data, array $headers = []): array
     {
         return $this->api("/bulk_create_negative_keyword", 'POST', $data, $headers);
     }
@@ -1290,7 +1290,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A list of negative keywords that have been processed from the bulk request.
      */
-    public function bulkUpdateNegativeKeyword(array $data, array $headers): array
+    public function bulkUpdateNegativeKeyword(array $data, array $headers = []): array
     {
         return $this->api("/bulk_update_negative_keyword", 'POST', $data, $headers);
     }
@@ -1416,7 +1416,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createNegativeKeyword(array $data, array $headers): void
+    public function createNegativeKeyword(array $data, array $headers = []): void
     {
         $this->api("/negative_keyword", 'POST', $data, $headers);
     }
@@ -1455,7 +1455,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateNegativeKeyword(string $negativeKeywordId, array $data, array $headers): void
+    public function updateNegativeKeyword(string $negativeKeywordId, array $data, array $headers = []): void
     {
         $this->api("/negative_keyword/{$negativeKeywordId}", 'PUT', $data, $headers);
     }
@@ -1628,7 +1628,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createReportTask(array $data, array $headers): void
+    public function createReportTask(array $data, array $headers = []): void
     {
         $this->api("/ad_report_task", 'POST', $data, $headers);
     }
@@ -1728,7 +1728,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createItemPriceMarkdownPromotion(array $data, array $headers): void
+    public function createItemPriceMarkdownPromotion(array $data, array $headers = []): void
     {
         $this->api("/item_price_markdown", 'POST', $data, $headers);
     }
@@ -1801,7 +1801,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateItemPriceMarkdownPromotion(string $promotionId, array $data, array $headers): void
+    public function updateItemPriceMarkdownPromotion(string $promotionId, array $data, array $headers = []): void
     {
         $this->api("/item_price_markdown/{$promotionId}", 'PUT', $data, $headers);
     }
@@ -1852,7 +1852,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createItemPromotion(array $data, array $headers): void
+    public function createItemPromotion(array $data, array $headers = []): void
     {
         $this->api("/item_promotion", 'POST', $data, $headers);
     }
@@ -1938,7 +1938,7 @@ class SellMarketingV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - The container for any warning error messages generated by the request. Warnings are not fatal in that they do not prevent the call from running and returning a response, but they should be reviewed to ensure your requests are returning the responses you expect.
      */
-    public function updateItemPromotion(string $promotionId, array $data, array $headers): array
+    public function updateItemPromotion(string $promotionId, array $data, array $headers = []): array
     {
         return $this->api("/item_promotion/{$promotionId}", 'PUT', $data, $headers);
     }

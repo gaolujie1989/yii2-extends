@@ -202,7 +202,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *refundStatus* - string
      *          - The value returned in this field indicates the success or failure of the refund operation. A successful <b>issueRefund</b> operation should result in a value of <code>PENDING</code>. A failed <b>issueRefund</b> operation should result in a value of <code>FAILED</code>, and an HTTP status code and/or and API error code may also get returned to possibly indicate the issue.<br><br>The refunds issued through this method are processed asynchronously, so the refund will not show as 'Refunded' right away. A seller will have to make a subsequent <a href="https://developer.ebay.com/api-docs/sell/fulfillment/resources/order/methods/getOrder" target="_blank">getOrder</a> call to check the status of the refund.  The status of an order refund can be found in the <a href="https://developer.ebay.com/api-docs/sell/fulfillment/resources/order/methods/getOrder#response.paymentSummary.refunds.refundStatus" target="_blank">paymentSummary.refunds.refundStatus</a> field of the <a href="https://developer.ebay.com/api-docs/sell/fulfillment/resources/order/methods/getOrder" target="_blank">getOrder</a> response. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/fulfillment/types/sel:RefundStatusEnum'>eBay API documentation</a>
      */
-    public function issueRefund(string $orderId, array $data, array $headers): array
+    public function issueRefund(string $orderId, array $data, array $headers = []): array
     {
         return $this->api("/order/{$orderId}/issue_refund", 'POST', $data, $headers);
     }
@@ -241,7 +241,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createShippingFulfillment(string $orderId, array $data, array $headers): void
+    public function createShippingFulfillment(string $orderId, array $data, array $headers = []): void
     {
         $this->api("/order/{$orderId}/shipping_fulfillment", 'POST', $data, $headers);
     }
@@ -479,7 +479,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function contestPaymentDispute(string $paymentDisputeId, array $data, array $headers): void
+    public function contestPaymentDispute(string $paymentDisputeId, array $data, array $headers = []): void
     {
         $this->api("/payment_dispute/{$paymentDisputeId}/contest", 'POST', $data, $headers);
     }
@@ -497,7 +497,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function acceptPaymentDispute(string $paymentDisputeId, array $data, array $headers): void
+    public function acceptPaymentDispute(string $paymentDisputeId, array $data, array $headers = []): void
     {
         $this->api("/payment_dispute/{$paymentDisputeId}/accept", 'POST', $data, $headers);
     }
@@ -513,7 +513,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *fileId* - string
      *          - If an <strong>uploadEvidenceFile</strong> call is successful, a unique identifier of this evidence file will be returned in the <strong>uploadEvidenceFile</strong> response payload.  This unique <strong>fileId</strong> value is then used to either add this evidence file to a new evidence set using the <strong>addEvidence</strong> method, or to add this file to an existing evidence set using the <strong>updateEvidence</strong> method.<br><br>Note that if an evidence set already exists for a payment dispute, the <strong>getPaymentDispute</strong> method will return both the <strong>evidenceId</strong> (unique identifier of evidence set) value, and the <strong>fileId</strong> (unique identifier of a file within that evidence set) value(s).
      */
-    public function uploadEvidenceFile(string $paymentDisputeId, array $headers): array
+    public function uploadEvidenceFile(string $paymentDisputeId, array $headers = []): array
     {
         return $this->api("/payment_dispute/{$paymentDisputeId}/upload_evidence_file", 'POST', [], $headers);
     }
@@ -536,7 +536,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *evidenceId* - string
      *          - The value returned in this field is the unique identifier of the newly-created evidence set. Upon a successful call, this value is automatically genererated. This new evidence set for the payment dispute includes the evidence file(s) that were passed in to the <strong>fileId</strong> array in the request payload. The <strong>evidenceId</strong> value will be needed if the seller wishes to add to the evidence set by using the <strong>updateEvidence</strong> method, or if they want to retrieve a specific evidence file within the evidence set by using the <strong>fetchEvidenceContent</strong> method.
      */
-    public function addEvidence(string $paymentDisputeId, array $data, array $headers): array
+    public function addEvidence(string $paymentDisputeId, array $data, array $headers = []): array
     {
         return $this->api("/payment_dispute/{$paymentDisputeId}/add_evidence", 'POST', $data, $headers);
     }
@@ -558,7 +558,7 @@ class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateEvidence(string $paymentDisputeId, array $data, array $headers): void
+    public function updateEvidence(string $paymentDisputeId, array $data, array $headers = []): void
     {
         $this->api("/payment_dispute/{$paymentDisputeId}/update_evidence", 'POST', $data, $headers);
     }

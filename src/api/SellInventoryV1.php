@@ -30,7 +30,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - This is the base container of the <strong>bulkCreateOrReplaceInventoryItem</strong> response. The results of each attempted inventory item creation/update is captured under this container.
      */
-    public function bulkCreateOrReplaceInventoryItem(array $data, array $headers): array
+    public function bulkCreateOrReplaceInventoryItem(array $data, array $headers = []): array
     {
         return $this->api("/bulk_create_or_replace_inventory_item", 'POST', $data, $headers);
     }
@@ -48,7 +48,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - This is the base container of the <strong>bulkGetInventoryItem</strong> response. The results of each attempted inventory item retrieval is captured under this container.
      */
-    public function bulkGetInventoryItem(array $data, array $headers): array
+    public function bulkGetInventoryItem(array $data, array $headers = []): array
     {
         return $this->api("/bulk_get_inventory_item", 'POST', $data, $headers);
     }
@@ -66,7 +66,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - This container will return an HTTP status code, offer ID, and SKU value for each offer/inventory item being updated, as well as an <strong>errors</strong> and/or <strong>warnings</strong> container if any errors or warnings are triggered while trying to update those offers/inventory items.
      */
-    public function bulkUpdatePriceQuantity(array $data, array $headers): array
+    public function bulkUpdatePriceQuantity(array $data, array $headers = []): array
     {
         return $this->api("/bulk_update_price_quantity", 'POST', $data, $headers);
     }
@@ -128,7 +128,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This container will be returned in a call response payload if one or more warnings or errors are triggered when an Inventory API call is made. This container will contain detailed information about the error or warning.
      */
-    public function createOrReplaceInventoryItem(string $sku, array $data, array $headers): array
+    public function createOrReplaceInventoryItem(string $sku, array $data, array $headers = []): array
     {
         return $this->api("/inventory_item/{$sku}", 'PUT', $data, $headers);
     }
@@ -263,7 +263,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This container will be returned in a call response payload if one or more warnings or errors are triggered when an Inventory API call is made. This container will contain detailed information about the error or warning.
      */
-    public function createOrReplaceProductCompatibility(string $sku, array $data, array $headers): array
+    public function createOrReplaceProductCompatibility(string $sku, array $data, array $headers = []): array
     {
         return $this->api("/inventory_item/{$sku}/product_compatibility", 'PUT', $data, $headers);
     }
@@ -339,7 +339,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This container will be returned in a call response payload if one or more warnings or errors are triggered when an Inventory API call is made. This container will contain detailed information about the error or warning.
      */
-    public function createOrReplaceInventoryItemGroup(string $inventoryItemGroupKey, array $data, array $headers): array
+    public function createOrReplaceInventoryItemGroup(string $inventoryItemGroupKey, array $data, array $headers = []): array
     {
         return $this->api("/inventory_item_group/{$inventoryItemGroupKey}", 'PUT', $data, $headers);
     }
@@ -367,7 +367,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - This is the base container of the response payload of the <strong>bulkMigrateListings</strong> call. The results of each attempted listing migration is captured under this container.
      */
-    public function bulkMigrateListing(array $data, array $headers): array
+    public function bulkMigrateListing(array $data, array $headers = []): array
     {
         return $this->api("/bulk_migrate_listing", 'POST', $data, $headers);
     }
@@ -386,7 +386,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      * @return array
      *      - *responses* - array
      */
-    public function bulkCreateOffer(array $data, array $headers): array
+    public function bulkCreateOffer(array $data, array $headers = []): array
     {
         return $this->api("/bulk_create_offer", 'POST', $data, $headers);
     }
@@ -404,7 +404,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *responses* - array
      *          - A node is returned under the <strong>responses</strong> container to indicate the success or failure of each offer that the seller was attempting to publish.
      */
-    public function bulkPublishOffer(array $data, array $headers): array
+    public function bulkPublishOffer(array $data, array $headers = []): array
     {
         return $this->api("/bulk_publish_offer", 'POST', $data, $headers);
     }
@@ -566,7 +566,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createOffer(array $data, array $headers): void
+    public function createOffer(array $data, array $headers = []): void
     {
         $this->api("/offer", 'POST', $data, $headers);
     }
@@ -682,7 +682,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This container will contain an array of errors and/or warnings when a call is made, and errors and/or warnings occur.
      */
-    public function updateOffer(string $offerId, array $data, array $headers): array
+    public function updateOffer(string $offerId, array $data, array $headers = []): array
     {
         return $this->api("/offer/{$offerId}", 'PUT', $data, $headers);
     }
@@ -710,7 +710,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *feeSummaries* - array
      *          - This container consists of an array of one or more listing fees that the seller can expect to pay for unpublished offers specified in the call request. Many fee types will get returned even when they are <code>0.0</code>.
      */
-    public function getListingFees(array $data, array $headers): array
+    public function getListingFees(array $data, array $headers = []): array
     {
         return $this->api("/offer/get_listing_fees", 'POST', $data, $headers);
     }
@@ -747,7 +747,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - This container will contain an array of errors and/or warnings if any occur when a <strong>publishOffer</strong> or <strong>publishOfferByInventoryItemGroup</strong> call is made.
      */
-    public function publishOfferByInventoryItemGroup(array $data, array $headers): array
+    public function publishOfferByInventoryItemGroup(array $data, array $headers = []): array
     {
         return $this->api("/offer/publish_by_inventory_item_group/", 'POST', $data, $headers);
     }
@@ -779,7 +779,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function withdrawOfferByInventoryItemGroup(array $data, array $headers): void
+    public function withdrawOfferByInventoryItemGroup(array $data, array $headers = []): void
     {
         $this->api("/offer/withdraw_by_inventory_item_group", 'POST', $data, $headers);
     }
@@ -846,7 +846,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createInventoryLocation(string $merchantLocationKey, array $data, array $headers): void
+    public function createInventoryLocation(string $merchantLocationKey, array $data, array $headers = []): void
     {
         $this->api("/location/{$merchantLocationKey}", 'POST', $data, $headers);
     }
@@ -991,7 +991,7 @@ class SellInventoryV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateInventoryLocation(string $merchantLocationKey, array $data, array $headers): void
+    public function updateInventoryLocation(string $merchantLocationKey, array $data, array $headers = []): void
     {
         $this->api("/location/{$merchantLocationKey}/update_location_details", 'POST', $data, $headers);
     }

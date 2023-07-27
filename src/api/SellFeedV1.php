@@ -140,7 +140,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createOrderTask(array $data, array $headers): void
+    public function createOrderTask(array $data, array $headers = []): void
     {
         $this->api("/order_task", 'POST', $data, $headers);
     }
@@ -299,7 +299,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createInventoryTask(array $data, array $headers): void
+    public function createInventoryTask(array $data, array $headers = []): void
     {
         $this->api("/inventory_task", 'POST', $data, $headers);
     }
@@ -452,7 +452,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createSchedule(array $data, array $headers): void
+    public function createSchedule(array $data, array $headers = []): void
     {
         $this->api("/schedule", 'POST', $data, $headers);
     }
@@ -519,7 +519,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function updateSchedule(string $scheduleId, array $data, array $headers): void
+    public function updateSchedule(string $scheduleId, array $data, array $headers = []): void
     {
         $this->api("/schedule/{$scheduleId}", 'PUT', $data, $headers);
     }
@@ -846,7 +846,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function uploadFile(string $taskId, string $data, array $headers): void
+    public function uploadFile(string $taskId, string $data, array $headers = []): void
     {
         $this->api("/task/{$taskId}/upload_file", 'POST', $data, $headers);
     }
@@ -972,7 +972,7 @@ class SellFeedV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createCustomerServiceMetricTask(array $data, array $headers): void
+    public function createCustomerServiceMetricTask(array $data, array $headers = []): void
     {
         $this->api("/customer_service_metric_task", 'POST', $data, $headers);
     }

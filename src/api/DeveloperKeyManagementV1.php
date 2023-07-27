@@ -52,7 +52,7 @@ class DeveloperKeyManagementV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *signingKeyId* - string
      *          - The system-generated eBay ID for the keypairs.
      */
-    public function createSigningKey(array $data, array $headers): array
+    public function createSigningKey(array $data, array $headers = []): array
     {
         return $this->api("/signing_key", 'POST', $data, $headers);
     }

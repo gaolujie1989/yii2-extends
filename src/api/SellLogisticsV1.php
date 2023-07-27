@@ -72,7 +72,7 @@ class SellLogisticsV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createFromShippingQuote(array $data, array $headers): void
+    public function createFromShippingQuote(array $data, array $headers = []): void
     {
         $this->api("/shipment/create_from_shipping_quote", 'POST', $data, $headers);
     }
@@ -85,7 +85,7 @@ class SellLogisticsV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Accept* - string - required
      *          - This header specifies the format of the returned file. For this method, the value of the header should be <code>Accept: application/pdf</code>. 
      */
-    public function downloadLabelFile(string $shipmentId, array $headers): void
+    public function downloadLabelFile(string $shipmentId, array $headers = []): void
     {
         $this->api("/shipment/{$shipmentId}/download_label_file", 'GET', [], $headers);
     }

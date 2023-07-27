@@ -204,7 +204,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createFulfillmentPolicy(array $data, array $headers): void
+    public function createFulfillmentPolicy(array $data, array $headers = []): void
     {
         $this->api("/fulfillment_policy/", 'POST', $data, $headers);
     }
@@ -302,7 +302,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty.
      */
-    public function updateFulfillmentPolicy(string $fulfillmentPolicyId, array $data, array $headers): array
+    public function updateFulfillmentPolicy(string $fulfillmentPolicyId, array $data, array $headers = []): array
     {
         return $this->api("/fulfillment_policy/{$fulfillmentPolicyId}", 'PUT', $data, $headers);
     }
@@ -544,7 +544,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createPaymentPolicy(array $data, array $headers): void
+    public function createPaymentPolicy(array $data, array $headers = []): void
     {
         $this->api("/payment_policy", 'POST', $data, $headers);
     }
@@ -630,7 +630,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty.
      */
-    public function updatePaymentPolicy(string $paymentPolicyId, array $data, array $headers): array
+    public function updatePaymentPolicy(string $paymentPolicyId, array $data, array $headers = []): array
     {
         return $this->api("/payment_policy/{$paymentPolicyId}", 'PUT', $data, $headers);
     }
@@ -752,7 +752,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function optInToProgram(array $data, array $headers): void
+    public function optInToProgram(array $data, array $headers = []): void
     {
         $this->api("/program/opt_in", 'POST', $data, $headers);
     }
@@ -767,7 +767,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function optOutOfProgram(array $data, array $headers): void
+    public function optOutOfProgram(array $data, array $headers = []): void
     {
         $this->api("/program/opt_out", 'POST', $data, $headers);
     }
@@ -902,7 +902,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createReturnPolicy(array $data, array $headers): void
+    public function createReturnPolicy(array $data, array $headers = []): void
     {
         $this->api("/return_policy", 'POST', $data, $headers);
     }
@@ -1012,7 +1012,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *warnings* - array
      *          - An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty.
      */
-    public function updateReturnPolicy(string $returnPolicyId, array $data, array $headers): array
+    public function updateReturnPolicy(string $returnPolicyId, array $data, array $headers = []): array
     {
         return $this->api("/return_policy/{$returnPolicyId}", 'PUT', $data, $headers);
     }
@@ -1104,7 +1104,7 @@ class SellAccountV1 extends \lujie\ebay\BaseEbayRestClient
      *      - *Content-Type* - string - required
      *          - This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>.
      */
-    public function createOrReplaceSalesTax(string $countryCode, string $jurisdictionId, array $data, array $headers): void
+    public function createOrReplaceSalesTax(string $countryCode, string $jurisdictionId, array $data, array $headers = []): void
     {
         $this->api("/sales_tax/{$countryCode}/{$jurisdictionId}", 'PUT', $data, $headers);
     }

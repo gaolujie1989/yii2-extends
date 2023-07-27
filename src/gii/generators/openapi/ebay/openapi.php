@@ -107,18 +107,22 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         }
 
         $isJsonData = true;
+        $hasEbayCustomHeaders = false;
         $headerParams = $params['header'] ?? [];
         if ($headerParams) {
-            $functionParams[] = 'array $headers';
             $docParams[] = '     * @param array $headers';
             foreach ($headerParams as $name => $param) {
                 if ($name === 'Content-Type' && !str_contains($param['description'], 'application/json')) {
                     $isJsonData = false;
                 }
+                if (str_starts_with($name, 'X-EBAY-')) {
+                    $hasEbayCustomHeaders = true;
+                }
                 $required = $param['required'] ? 'required' : 'optional';
                 $docParams[] = "     *      - *{$name}* - {$param['type']} - {$required}";
                 $docParams[] = "     *          - {$param['description']}";
             }
+            $functionParams[] = $hasEbayCustomHeaders ? 'array $headers' : 'array $headers = []';
         }
 
         $returnType = ': void';

@@ -102,7 +102,7 @@ trait OAuthExtendTrait
 
     /**
      * @param Request $request
-     * @return array
+     * @return array|Response|null
      * @throws InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
@@ -111,7 +111,10 @@ trait OAuthExtendTrait
     {
         $this->lastRequest = $request;
         $this->lastResponse = HttpClientHelper::sendRequest($request);
-        return $this->lastResponse->getData();
+        if ($this->lastResponse->getFormat()) {
+            return $this->lastResponse->getData();
+        }
+        return $this->lastResponse;
     }
 
     /**

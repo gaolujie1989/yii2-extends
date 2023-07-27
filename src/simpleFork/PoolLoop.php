@@ -20,6 +20,14 @@ class PoolLoop implements PoolLoopInterface
     public $callable;
 
     /**
+     * @param $callable
+     */
+    public function __construct($callable)
+    {
+        $this->callable = $callable;
+    }
+
+    /**
      * @param AbstractPool $pool
      * @inheritdoc
      */

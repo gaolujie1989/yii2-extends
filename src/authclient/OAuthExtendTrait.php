@@ -10,6 +10,7 @@ use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuthToken;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
+use lujie\extend\httpclient\Response as ExtendResponse;
 
 /**
  * Trait ExtendOAuth2
@@ -126,9 +127,9 @@ trait OAuthExtendTrait
     }
 
     /**
-     * @return Response|null
+     * @return Response|ExtendResponse|null
      */
-    public function getLastResponse(): ?Response
+    public function getLastResponse(): Response|ExtendResponse|null
     {
         return $this->lastResponse;
     }

@@ -96,7 +96,6 @@ trait RestApiTrait
                 ],
                 'responseConfig' => [
                     'class' => Response::class,
-                    'format' => 'json'
                 ],
             ],
             $this->httpClientOptions ?? []

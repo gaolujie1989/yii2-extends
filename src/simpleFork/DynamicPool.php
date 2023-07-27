@@ -78,4 +78,21 @@ class DynamicPool extends AbstractPool
             }
         } while ($block);
     }
+
+    /**
+     * get the count of stopped processes
+     *
+     * @return int
+     */
+    public function stoppedCount(): int
+    {
+        $count = 0;
+        foreach ($this->processes as $process) {
+            if ($process->isStopped()) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }

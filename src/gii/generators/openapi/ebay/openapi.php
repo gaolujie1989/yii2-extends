@@ -205,10 +205,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
      * @tag <?= implode(',', $method['tags']) . "\n" ?>
 <?= $docParams . "\n" ?>
      */
-        public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= $returnType . "\n" ?>
-        {
+    public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= $returnType . "\n" ?>
+    {
         <?= $returnType === ': void' ? '' : 'return ' ?>$this->api(<?= $apiParams ?>);
-        }
+    }
     <?php endforeach; ?>
 <?php endforeach; ?>
 

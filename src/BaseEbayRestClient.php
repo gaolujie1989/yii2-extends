@@ -36,20 +36,6 @@ class BaseEbayRestClient extends RestOAuth2
      */
     public $version = 'v1';
 
-    public $httpClientOptions = [
-        'requestConfig' => [
-            'headers' => [
-                'Accept-Encoding' => 'gzip, deflate',
-                'Content-Language' => 'en-US',
-            ],
-            'format' => 'json',
-        ],
-        'responseConfig' => [
-            'class' => Response::class,
-            'format' => 'json'
-        ],
-    ];
-
     public $scope = [
         'https://api.ebay.com/oauth/api_scope',
         'https://api.ebay.com/oauth/api_scope/sell.marketing.readonly',

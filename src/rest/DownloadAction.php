@@ -94,7 +94,7 @@ class DownloadAction extends Action
 
         if (is_callable($this->fileNameCallback)) {
             $fileName = call_user_func($this->fileNameCallback, $model);
-        } else if ($this->fileAttribute) {
+        } else if ($this->fileNameAttribute) {
             $fileName = $model->getAttribute($this->fileNameAttribute);
         } else {
             $fileName = pathinfo($filePath, PATHINFO_BASENAME);
@@ -117,7 +117,7 @@ class DownloadAction extends Action
      * @throws \yii\web\RangeNotSatisfiableHttpException
      * @inheritdoc
      */
-    protected function sendFile(mixed $fileName, mixed $filePath, array $options): Response
+    protected function sendFile(string $fileName, string $filePath, array $options): Response
     {
         /** @var Response $response */
         $response = Yii::$app->getResponse();

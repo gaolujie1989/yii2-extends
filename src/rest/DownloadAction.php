@@ -88,6 +88,9 @@ class DownloadAction extends Action
 
         $this->fs = Instance::ensure($this->fs, Filesystem::class);
         $filePath = $model->getAttribute($this->fileAttribute);
+        if (!$this->fs->has($filePath)) {
+            throw new InvalidArgumentException('File not found. path: ' . $filePath);
+        }
 
         if (is_callable($this->fileNameCallback)) {
             $fileName = call_user_func($this->fileNameCallback, $model);
@@ -99,7 +102,23 @@ class DownloadAction extends Action
 
         $options = $this->options;
         $options['mimeType'] = FileHelper::getMimeTypeByExtension($filePath);
+        return $this->sendFile($fileName, $filePath, $options);
 
+    }
+
+    /**
+     * @param mixed $fileName
+     * @param mixed $filePath
+     * @param array $options
+     * @return Response
+     * @throws \League\Flysystem\FilesystemException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidRouteException
+     * @throws \yii\web\RangeNotSatisfiableHttpException
+     * @inheritdoc
+     */
+    protected function sendFile(mixed $fileName, mixed $filePath, array $options): Response
+    {
         /** @var Response $response */
         $response = Yii::$app->getResponse();
         switch ($this->sendType) {
@@ -117,7 +136,7 @@ class DownloadAction extends Action
             case self::SEND_TYPE_STREAM:
                 return $response->sendStreamAsFile($this->fs->readStream($filePath), $fileName, $options);
             case self::SEND_TYPE_CONTENT:
-                return $response->sendStreamAsFile($this->fs->read($filePath), $fileName, $options);
+                return $response->sendContentAsFile($this->fs->read($filePath), $fileName, $options);
             case self::SEND_TYPE_CDN:
                 return $response->redirect($this->fs->publicUrl($filePath));
             default:

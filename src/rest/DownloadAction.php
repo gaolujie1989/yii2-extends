@@ -60,7 +60,7 @@ class DownloadAction extends Action
     /**
      * @var string
      */
-    public $sendType = self::SEND_TYPE_STREAM;
+    public $sendType = self::SEND_TYPE_CONTENT;
 
     /**
      * @var string header name

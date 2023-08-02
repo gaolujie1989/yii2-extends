@@ -295,4 +295,18 @@ class ValueHelper
         }
         return implode($separator, $indexValues);
     }
+
+    /**
+     * @param float $value
+     * @param float $total
+     * @return float|null
+     * @inheritdoc
+     */
+    public static function percent(float $value, float $total): ?float
+    {
+        if (empty($total)) {
+            return null;
+        }
+        return round($value / $total * 100, 2);
+    }
 }

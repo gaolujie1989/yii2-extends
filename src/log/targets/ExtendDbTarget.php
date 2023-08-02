@@ -48,7 +48,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
                 VALUES (:level, :category, :log_at, :duration, :prefix, :message, :summary, :memory_usage, :memory_diff)";
         $command = $this->db->createCommand($sql);
         foreach ($this->messages as $message) {
-            [$text, $level, $category, $timestamp, $traces, $memoryUsage] = $message;
+            [$text, $level, $category, $timestamp] = $message;
             if ($level === Logger::LEVEL_PROFILE_BEGIN || $level === Logger::LEVEL_PROFILE_END) {
                 continue;
             }
@@ -68,7 +68,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
                     ':prefix' => $this->getMessagePrefix($message),
                     ':message' => $text,
                     ':summary' => substr($this->getSummary($message), 0, 200),
-                    ':memory_usage' => $memoryUsage,
+                    ':memory_usage' => $message[5] ?? 0,
                     ':memory_diff' => 0,
                 ])->execute() > 0) {
                 continue;
@@ -117,6 +117,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
         if (is_array($text) && isset($text[0])) {
             return $text[0];
         }
+        return '';
     }
 
     /**

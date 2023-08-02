@@ -299,14 +299,26 @@ class ValueHelper
     /**
      * @param float $value
      * @param float $total
+     * @param int $precision
+     * @return float|null
+     * @inheritdoc
+     */
+    public static function round(float $value, float $total, int $precision = 2): ?float
+    {
+        if (empty($total)) {
+            return null;
+        }
+        return round($value / $total, $precision);
+    }
+
+    /**
+     * @param float $value
+     * @param float $total
      * @return float|null
      * @inheritdoc
      */
     public static function percent(float $value, float $total): ?float
     {
-        if (empty($total)) {
-            return null;
-        }
-        return round($value / $total * 100, 2);
+        return self::round($value * 100, $total, 2);
     }
 }

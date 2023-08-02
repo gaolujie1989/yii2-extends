@@ -12,7 +12,7 @@ use Iterator;
 class SellFulfillmentV1 extends \lujie\ebay\BaseEbayRestClient
 {
 
-    public $apiBaseUrl = 'https://apiz.ebay.com/sell/fulfillment/v1';
+    public $apiBaseUrl = 'https://api.ebay.com/sell/fulfillment/v1';
 
                 
     /**

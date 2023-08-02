@@ -12,7 +12,7 @@ use Iterator;
 class BuyOrderV2 extends \lujie\ebay\BaseEbayRestClient
 {
 
-    public $apiBaseUrl = 'https://api.ebay.com/buy/order/v2';
+    public $apiBaseUrl = 'https://apix.ebay.com/buy/order/v2';
 
                 
     /**

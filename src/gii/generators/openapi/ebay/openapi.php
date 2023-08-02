@@ -11,15 +11,17 @@ use yii\helpers\Inflector;
 /* @var $openapi array openapi */
 /* @var $className string Class Name */
 
-$serverUrls = ArrayHelper::map($openapi['servers'], 'description', static function (array $server) {
-    $variables = [];
-    foreach ($server['variables'] as $key => $variable) {
-        $variables['{' . $key . '}'] = $variable['default'];
+$apiBaseUrl = '';
+foreach ($openapi['servers'] as $server) {
+    if ($server['description'] === 'Production') {
+        $variables = [];
+        foreach ($server['variables'] as $key => $variable) {
+            $variables['{' . $key . '}'] = $variable['default'];
+        }
+        $apiBaseUrl = strtr($server['url'], $variables);
+        break;
     }
-    return strtr($server['url'], $variables);
-});
-
-$apiBaseUrl = $serverUrls['Production'] ?? '';
+}
 
 $className = $className ?: Inflector::camelize($openapi['info']['title']);
 

@@ -8,6 +8,7 @@ namespace lujie\data\exchange\pipelines;
 use lujie\extend\helpers\ValueHelper;
 use Yii;
 use yii\base\BaseObject;
+use yii\console\Application as ConsoleApplication;
 use yii\db\IntegrityException;
 use yii\helpers\ArrayHelper;
 
@@ -85,6 +86,7 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
             return $this->processInternal($data);
         } catch (IntegrityException $exception) {
             Yii::warning($exception->getMessage(), __METHOD__);
+            sleep(Yii::$app instanceof ConsoleApplication ? 5 : 1);
             return $this->processInternal($data);
         }
     }

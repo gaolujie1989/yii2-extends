@@ -153,9 +153,8 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
             QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
         }
         if ($this->paramKeys && $params) {
-            foreach ($this->paramKeys as $paramKey) {
-                QueryHelper::filterKey($query, $paramKey, $params[$paramKey] ?? null);
-            }
+            $params = array_intersect_key($params, array_flip($this->paramKeys));
+            QueryHelper::filterValue($query, $params);
         }
         if ($this->valueKeys && $values) {
             QueryHelper::filterKey($query, $this->valueKeys, $values);

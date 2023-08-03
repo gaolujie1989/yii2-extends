@@ -394,12 +394,12 @@ class PmSalesChannel extends BaseSalesChannel
                     }
                     break;
                 case 'itemTexts':
-                    if ($relatedParts['itemTexts'] !== null) {
+                    if (isset($relatedParts['itemTexts'])) {
                         $this->savePmItemTexts($relatedParts['itemTexts'], $salesChannelItem);
                     }
                     break;
                 case 'itemImages':
-                    if ($relatedParts['itemImages'] !== null) {
+                    if (isset($relatedParts['itemImages'])) {
                         $this->savePmItemImages($relatedParts['itemImages'], $salesChannelItem);
                     }
                     break;
@@ -517,7 +517,6 @@ class PmSalesChannel extends BaseSalesChannel
         }
         $externalAdditional['itemImageIds'] = $itemImageIds;
         $salesChannelItem->external_item_additional = $externalAdditional;
-        $salesChannelItem->item_pushed_result = $pushedResult;
         $salesChannelItem->save(false);
         $batchRequest->send();
     }
@@ -658,13 +657,13 @@ class PmSalesChannel extends BaseSalesChannel
                 case 'variationMarkets':
                 case 'variationSkus':
                 case 'variationImages':
-                    if ($relatedParts[$pushPart] !== null) {
+                    if (isset($relatedParts[$pushPart])) {
                         $saveMethod = 'save' . ucfirst($pushPart);
                         $this->client->{$saveMethod}($itemId, $variationId, $relatedParts[$pushPart], $pmVariation[$pushPart] ?? null);
                     }
                     break;
                 case 'itemImageAttributeValues':
-                    if ($relatedParts['itemImageAttributeValues'] !== null && $pmVariation['variationAttributeValues']) {
+                    if (isset($relatedParts['itemImageAttributeValues']) && $pmVariation['variationAttributeValues']) {
                         $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
                         $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
                         $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);

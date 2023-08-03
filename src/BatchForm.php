@@ -135,8 +135,8 @@ class BatchForm extends Model
             return false;
         }
 
-        $attributes = $this->getBatchAttributes();
         $models = $this->getBatchModels();
+        $attributes = $this->getBatchAttributes();
         foreach ($models as $model) {
             $this->setModelAttributes($model, $attributes);
         }
@@ -199,6 +199,9 @@ class BatchForm extends Model
      */
     protected function findModels(): array
     {
+        if (empty($this->batchCondition)) {
+            return [];
+        }
         return $this->modelClass::find()->andWhere($this->batchCondition)->all();
     }
 }

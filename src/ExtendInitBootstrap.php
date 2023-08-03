@@ -104,8 +104,8 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
 
                     'PUT,PATCH {ids}/batch' => 'batch-update',
                     'DELETE {ids}/batch' => 'batch-delete',
-                    'GET,HEAD {ids}/batch' => 'batch-download',
-                    'POST batch' => 'batch-save',
+                    'PUT,PATCH batch' => 'batch-update',
+                    'DELETE batch' => 'batch-delete',
 
                     'POST {id}/prev' => 'move-prev',
                     'POST {id}/next' => 'move-next',

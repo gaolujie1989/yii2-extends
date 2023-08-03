@@ -15,12 +15,16 @@ class MockTransportHelper
     /**
      * @param BaseClient $baseClient
      * @param array $responseFiles
+     * @param bool $newTransport
      * @return MockTransport
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public static function appendMockResponseFiles(BaseClient $baseClient, array $responseFiles): MockTransport
+    public static function appendMockResponseFiles(BaseClient $baseClient, array $responseFiles, bool $newTransport = true): MockTransport
     {
+        if ($newTransport) {
+            $baseClient->getHttpClient()->setTransport(new MockTransport());
+        }
         /** @var MockTransport $mockTransport */
         $mockTransport = $baseClient->getHttpClient()->getTransport();
         foreach ($responseFiles as $responseFile) {
@@ -42,12 +46,16 @@ class MockTransportHelper
     /**
      * @param BaseClient $baseClient
      * @param array $responses
+     * @param bool $newTransport
      * @return MockTransport
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public static function appendMockResponses(BaseClient $baseClient, array $responses): MockTransport
+    public static function appendMockResponses(BaseClient $baseClient, array $responses, bool $newTransport = true): MockTransport
     {
+        if ($newTransport) {
+            $baseClient->getHttpClient()->setTransport(new MockTransport());
+        }
         /** @var MockTransport $mockTransport */
         $mockTransport = $baseClient->getHttpClient()->getTransport();
         foreach ($responses as $response) {

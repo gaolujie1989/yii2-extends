@@ -54,6 +54,11 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     public $update = true;
 
     /**
+     * @var int
+     */
+    public $integrityExceptionSleepSeconds = 30;
+
+    /**
      * @return array
      * @inheritdoc
      */
@@ -86,7 +91,9 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
             return $this->processInternal($data);
         } catch (IntegrityException $exception) {
             Yii::warning($exception->getMessage(), __METHOD__);
-            sleep(Yii::$app instanceof ConsoleApplication ? 5 : 1);
+            if ($this->integrityExceptionSleepSeconds && Yii::$app instanceof ConsoleApplication) {
+                sleep($this->integrityExceptionSleepSeconds);
+            }
             return $this->processInternal($data);
         }
     }

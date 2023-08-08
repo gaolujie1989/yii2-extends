@@ -27,12 +27,13 @@ class OAuthClientFactory
      * @param string $clientClass
      * @param Account $account
      * @param array $config
+     * @param string|null $authService
      * @return OAuth2|null
      * @throws \yii\authclient\InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public static function createClient(string $clientClass, Account $account, array $config): ?OAuth2
+    public static function createClient(string $clientClass, Account $account, array $config, ?string $authService = null): ?OAuth2
     {
         $accountId = $account->account_id;
         $key = $clientClass . '-' . $account::class . '-' . $accountId;
@@ -43,7 +44,8 @@ class OAuthClientFactory
             if ($client instanceof RestOAuth2) {
                 $client->setSandbox(str_contains($account->type, 'Sandbox'));
             }
-            $authToken = AuthToken::find()->userId($accountId)->one();
+            $authService = $authService ?: $account->type;
+            $authToken = AuthToken::find()->userId($accountId)->authService($authService)->one();
             if ($authToken === null) {
                 Yii::error("Account {$account->name} is not authed", __METHOD__);
                 return null;

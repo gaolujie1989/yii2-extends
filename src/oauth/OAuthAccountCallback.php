@@ -40,19 +40,14 @@ class OAuthAccountCallback extends BaseObject
     public $accountTypes = [];
 
     /**
-     * @var string
-     */
-    public $authingAccountCacheKey = 'authing_account';
-
-    /**
      * @var bool
      */
     public $returnResponse = true;
 
     /**
-     * @var int
+     * @var bool
      */
-    public $defaultRefreshTokenExpiresIn = 86400 * 365;
+    public $allowCreateAccount = false;
 
     /**
      * @param ClientInterface $client
@@ -78,6 +73,9 @@ class OAuthAccountCallback extends BaseObject
 
         $account = $this->getAuthingAccount($authService);
         if ($account === null) {
+            if (!$this->allowCreateAccount) {
+                throw new UserException('Unable to link account. Please create first.');
+            }
             $account = new $this->accountClass();
             $account->type = $this->accountTypes[$authService] ?? $authService;
             $account->name = $authService . ':' . $authUsername;
@@ -119,7 +117,7 @@ class OAuthAccountCallback extends BaseObject
      */
     public function getAuthingAccount(string $authService): ?Account
     {
-        $accountId = $this->getCacheValue($this->getAuthingAccountCacheKey($authService));
+        $accountId = $this->getCacheValue($authService);
         $this->setAuthingAccount(null, $authService);
         if ($accountId) {
             return $this->accountClass::findOne($accountId);
@@ -135,25 +133,9 @@ class OAuthAccountCallback extends BaseObject
     public function setAuthingAccount(?Account $account, string $authService): void
     {
         if ($account === null) {
-            $this->deleteCacheValue($this->getAuthingAccountCacheKey($authService));
+            $this->deleteCacheValue($authService);
         } else {
-            $this->setCacheValue($this->getAuthingAccountCacheKey($authService), $account->id);
+            $this->setCacheValue($authService, $account->id);
         }
     }
-
-    /**
-     * @param string $authService
-     * @return string
-     * @inheritdoc
-     */
-    protected function getAuthingAccountCacheKey(string $authService): string
-    {
-        return implode('_', [
-            $this->authingAccountCacheKey,
-            $authService,
-            Yii::$app->getUser()->getId() ?: 0,
-        ]);
-    }
-
-
 }

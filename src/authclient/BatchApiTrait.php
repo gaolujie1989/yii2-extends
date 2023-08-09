@@ -57,7 +57,7 @@ trait BatchApiTrait
     protected function batchInternal(string $method, array $params = []): Iterator
     {
         $conditionIndex = count($params) - 1;
-        $condition = $params[$conditionIndex];
+        $condition = $params[$conditionIndex] ?? [];
         $nextPageCondition = $condition;
         $firstPageItems = [];
 

@@ -83,10 +83,11 @@ class AccountController extends ActiveController
         /** @var OAuthAccountCallback $OAuthLoginCallback */
         $OAuthLoginCallback = Instance::ensure($this->authAccountCallback, OAuthAccountCallback::class);
         $accountId = Yii::$app->getRequest()->getQueryParam($this->accountIdGetParamName);
+        $authService = Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
         if ($accountId) {
             /** @var Account $account */
             $account = $this->findModel($accountId);
-            $OAuthLoginCallback->setAuthingAccount($account, $account->type);
+            $OAuthLoginCallback->setAuthingAccount($account, $authService);
         }
     }
 

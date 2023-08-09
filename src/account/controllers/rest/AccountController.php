@@ -32,6 +32,8 @@ class AccountController extends ActiveController
      */
     public $accountIdGetParamName = 'id';
 
+    public $clientIdGetParamName = 'authclient';
+
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc

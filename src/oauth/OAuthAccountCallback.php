@@ -47,7 +47,7 @@ class OAuthAccountCallback extends BaseObject
     /**
      * @var bool
      */
-    public $allowCreateAccount = false;
+    public $allowCreateAccount = true;
 
     /**
      * @param ClientInterface $client

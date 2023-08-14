@@ -145,18 +145,28 @@ class Executor extends Component
                 return false;
             }
 
-            if (($event->executable instanceof Model) && !$event->executable->validate()) {
+            $newExecutable = $event->executable;
+            if (($newExecutable instanceof Model) && !$newExecutable->validate()) {
                 $event->isValid = false;
-                $event->error = new UserException(Json::encode($event->executable->getErrors()));
+                $event->error = new UserException(Json::encode($newExecutable->getErrors()));
                 $this->trigger(self::EVENT_AFTER_EXEC, $event);
                 return false;
             }
 
-            $result = $event->executable->execute();
-            if ($event->executable instanceof ProgressInterface && $result instanceof \Generator) {
+            if ($newExecutable instanceof SubTaskInterface && $newExecutable->shouldSubTask()) {
+                $subTasks = $newExecutable->createSubTasks();
+                foreach ($subTasks as $subTask) {
+                    $this->handle($subTask);
+                }
+                $this->trigger(self::EVENT_AFTER_EXEC, $event);
+                return true;
+            }
+
+            $result = $newExecutable->execute();
+            if ($newExecutable instanceof ProgressInterface && $result instanceof \Generator) {
                 foreach ($result as $item) {
                     $event->result = $item;
-                    $event->progress = $event->executable->getProgress();
+                    $event->progress = $newExecutable->getProgress();
                     $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
                     if ($event->progress->break) {
                         $event->error = new UserException('User Break');

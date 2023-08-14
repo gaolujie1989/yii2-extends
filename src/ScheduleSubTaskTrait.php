@@ -5,10 +5,7 @@
 
 namespace lujie\scheduling;
 
-use lujie\executing\ExecutableInterface;
 use lujie\executing\Executor;
-use lujie\executing\LockableInterface;
-use lujie\executing\QueueableInterface;
 use yii\di\Instance;
 
 /**

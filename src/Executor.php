@@ -154,9 +154,20 @@ class Executor extends Component
             }
 
             if ($newExecutable instanceof SubTaskInterface && $newExecutable->shouldSubTask()) {
+                if ($newExecutable instanceof ProgressInterface) {
+                    $event->progress = $newExecutable->getProgress();
+                }
                 $subTasks = $newExecutable->createSubTasks();
                 foreach ($subTasks as $subTask) {
                     $this->handle($subTask);
+
+                    if ($event->progress) {
+                        $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
+                        if ($event->progress->break) {
+                            $event->error = new UserException('User Break');
+                            break;
+                        }
+                    }
                 }
                 $this->trigger(self::EVENT_AFTER_EXEC, $event);
                 return true;
@@ -164,9 +175,9 @@ class Executor extends Component
 
             $result = $newExecutable->execute();
             if ($newExecutable instanceof ProgressInterface && $result instanceof \Generator) {
+                $event->progress = $newExecutable->getProgress();
                 foreach ($result as $item) {
                     $event->result = $item;
-                    $event->progress = $newExecutable->getProgress();
                     $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
                     if ($event->progress->break) {
                         $event->error = new UserException('User Break');

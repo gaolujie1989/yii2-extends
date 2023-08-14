@@ -17,7 +17,7 @@ use yii\base\Model;
  */
 class CronTask extends Model implements ScheduleTaskInterface
 {
-    use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait;
+    use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait, ScheduleSubTaskTrait;
 
     /**
      * @return int

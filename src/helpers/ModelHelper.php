@@ -40,7 +40,7 @@ class ModelHelper
         $attributes = (array)$attributes;
         foreach ($rules as $key => $ruleConfig) {
             [$ruleAttributes, $ruleName] = $ruleConfig;
-            if ($ruleName === 'unique') {
+            if ($ruleName === 'unique' && $rule !== $ruleName) {
                 continue;
             }
             if ($rule === null || $rule === $ruleName) {

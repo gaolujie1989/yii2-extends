@@ -20,7 +20,7 @@ use yii\base\InvalidConfigException;
 class FileExporter extends DataExchanger
 {
     /**
-     * @var FilePipeline
+     * @var FilePipeline|array
      */
     public $pipeline = [
         'class' => FilePipeline::class,

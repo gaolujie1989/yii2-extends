@@ -158,10 +158,10 @@ class BaseAmazonSPClientFactory extends BaseObject
     /**
      * @param string $clientClass
      * @param Account $account
-     * @param array $config
      * @param string|null $authService
      * @return BaseAmazonSPClient|null
      * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
      * @inheritdoc
      */
     protected function createClient(string $clientClass, Account $account, ?string $authService = null): ?BaseAmazonSPClient
@@ -187,7 +187,7 @@ class BaseAmazonSPClientFactory extends BaseObject
             $credentials = new Credentials($tokenStorage, $this->signer, $config);
 
             /** @var BaseAmazonSPClient $client */
-            $client = new $clientClass($credentials, $config);
+            $client = new $clientClass($credentials->getCredentials(), $config);
             self::$_clients[$key] = $client;
         }
         return self::$_clients[$key];

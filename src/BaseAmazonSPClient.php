@@ -31,14 +31,15 @@ class BaseAmazonSPClient extends Client
             'method' => $method,
             'headers' => $headers,
         ];
-        if ($data) {
-            if ($method === 'GET') {
-                $requestOptions['query'] = $data;
-            } else {
-                $requestOptions['json'] = $data;
-            }
+        $uri = is_array($apiSubUrl) ? $apiSubUrl[0] : $apiSubUrl;
+        if (is_array($apiSubUrl)) {
+            $requestOptions['query'] = $apiSubUrl;
+            unset($requestOptions['query'][0]);
         }
-        return $this->send($apiSubUrl, $requestOptions);
+        if ($data) {
+            $requestOptions['json'] = $data;
+        }
+        return $this->send($uri, $requestOptions);
     }
 
     /**

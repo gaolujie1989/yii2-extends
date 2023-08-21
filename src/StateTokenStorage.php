@@ -27,6 +27,8 @@ class StateTokenStorage extends BaseObject implements TokenStorageInterface
      */
     public $keyPrefix = 'AmazonToken:';
 
+    public $expiresOnBefore = 15;
+
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -56,7 +58,7 @@ class StateTokenStorage extends BaseObject implements TokenStorageInterface
     {
         //To Avoid 401/403
         if (isset($value['expiresOn'])) {
-            $value['expiresOn'] -= 5;
+            $value['expiresOn'] -= $this->expiresOnBefore;
         }
         $this->stateStorage->set($this->keyPrefix . $key, $value);
     }

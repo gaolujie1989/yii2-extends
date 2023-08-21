@@ -33,6 +33,18 @@ class Yii2HttpHandler extends BaseClient
      */
     private $lastResponse;
 
+    public $allowedOptionKeys = [
+        'timeout' => 'timeout',
+        'proxy' => 'proxy',
+        'userAgent' => 'userAgent',
+        'followLocation' => 'followLocation',
+        'maxRedirects' => 'maxRedirects',
+        'protocolVersion' => 'protocolVersion',
+        'sslVerifyPeer' => 'sslVerifyPeer',
+        'sslCafile' => 'sslCafile',
+        'sslCapath' => 'sslCapath',
+    ];
+
     /**
      * @throws NotSupportedException
      * @inheritdoc
@@ -73,7 +85,7 @@ class Yii2HttpHandler extends BaseClient
             ->setMethod($request->getMethod())
             ->setUrl((string)$request->getUri())
             ->setHeaders($request->getHeaders())
-            ->setOptions($options);
+            ->setOptions($this->formatOptions($options));
 
         $contents = $request->getBody()->getContents();
         if ($contents) {
@@ -84,5 +96,23 @@ class Yii2HttpHandler extends BaseClient
         $this->lastRequest = $httpRequest;
         $this->lastResponse = $httpResponse;
         return Create::promiseFor(new Psr7Response($httpResponse->getStatusCode(), $httpResponse->getHeaders()->toArray(), $httpResponse->getContent()));
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     * @inheritdoc
+     */
+    public function formatOptions(array $options = []): array
+    {
+        $formattedOptions = array_intersect_key($options, $this->allowedOptionKeys);
+        if ($options['verify']) {
+            $formattedOptions['sslVerifyPeer'] = $options['verify'];
+        }
+        if ($options['allow_redirects']) {
+            $formattedOptions['followLocation'] = true;
+            $formattedOptions['maxRedirects'] = $options['allow_redirects']['max'];
+        }
+        return $formattedOptions;
     }
 }

@@ -9,7 +9,6 @@ parameters:
         - '#Cannot unset offset#'
         - '#Instantiated class yii\\db\\BaseActiveRecord is abstract.#'
         ### LEVEL 1 ###
-        - '#Call to an undefined method yii\\db\\BaseActiveRecord::getTraceableAttributes#'
         ### LEVEL 2 ###
         - '#is not subtype of native type#'
         - '#Call to an undefined method yii\\db\\ActiveQueryInterface#'
@@ -27,9 +26,4 @@ parameters:
         - '#\\[a-zA-Z]+\) does not accept (null|array|string|false)#'
         - '#\([a-zA-Z]+\) does not accept null#'
         - '#\(yii\\db\\ActiveQuery\) does not accept yii\\db\\ActiveQueryInterface#'
-        ### LEVEL 4 ###
-        - '#and (null|false) will always evaluate to false#'
-        ### LEVEL 5 ###
-        - '#yii\\base\\Model::addError\(\) expects string, array#'
-        - '#yii\\rbac\\ManagerInterface::remove\(\) expects yii\\rbac\\Permission\|yii\\rbac\\ole|yii\\rbac\\Rule, yii\\rbac\\Item given#'
 

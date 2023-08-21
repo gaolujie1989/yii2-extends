@@ -21,36 +21,36 @@ class BaseAmazonSPClient extends Client
     /**
      * @var Credentials
      */
-    protected $credentialsInstance;
+    public $credentialsInstance;
 
     /**
      * @var array[]
      */
     public $rdtOperations = [
-        '/vendor/directFulfillment/orders/v1/purchaseOrders' => [
-            'dataElements' => ['shipToParty']
-        ],
-        '/vendor/directFulfillment/orders/2021-12-28/purchaseOrders' => [
-            'dataElements' => ['shipToParty']
-        ],
-        '/vendor/directFulfillment/shipping/v1/shippingLabels' => [
-            'dataElements' => ['labelData']
-        ],
-        '/vendor/directFulfillment/shipping/v1/packingSlips' => [
-            'dataElements' => ['content']
-        ],
-        '/vendor/directFulfillment/shipping/v1/customerInvoices' => [
-            'dataElements' => ['content']
-        ],
-        '/vendor/directFulfillment/shipping/2021-12-28/shippingLabels' => [
-            'dataElements' => ['labelData']
-        ],
-        '/vendor/directFulfillment/shipping/2021-12-28/packingSlips' => [
-            'dataElements' => ['content']
-        ],
-        '/vendor/directFulfillment/shipping/2021-12-28/customerInvoices' => [
-            'dataElements' => ['content']
-        ],
+//        '/vendor/directFulfillment/orders/v1/purchaseOrders' => [
+//            'dataElements' => ['shipToParty']
+//        ],
+//        '/vendor/directFulfillment/orders/2021-12-28/purchaseOrders' => [
+//            'dataElements' => ['shipToParty']
+//        ],
+//        '/vendor/directFulfillment/shipping/v1/shippingLabels' => [
+//            'dataElements' => ['labelData']
+//        ],
+//        '/vendor/directFulfillment/shipping/v1/packingSlips' => [
+//            'dataElements' => ['content']
+//        ],
+//        '/vendor/directFulfillment/shipping/v1/customerInvoices' => [
+//            'dataElements' => ['content']
+//        ],
+//        '/vendor/directFulfillment/shipping/2021-12-28/shippingLabels' => [
+//            'dataElements' => ['labelData']
+//        ],
+//        '/vendor/directFulfillment/shipping/2021-12-28/packingSlips' => [
+//            'dataElements' => ['content']
+//        ],
+//        '/vendor/directFulfillment/shipping/2021-12-28/customerInvoices' => [
+//            'dataElements' => ['content']
+//        ],
     ];
 
     /**
@@ -88,7 +88,7 @@ class BaseAmazonSPClient extends Client
         }
 
         if ($restrictedResource = $this->getRestrictedResource($uri, $method)) {
-            $this->credentials = $this->credentialsInstance->getRdtCredentials($restrictedResource);
+            $this->credentials = $this->credentialsInstance->getRdtCredentials(['restrictedResources' => [$restrictedResource]]);
         } else {
             $this->credentials = $this->credentialsInstance->getCredentials();
         }
@@ -127,7 +127,7 @@ class BaseAmazonSPClient extends Client
     protected function getRestrictedResource(string $uriPath, string $method): ?array
     {
         foreach ($this->rdtOperations as $urlPrefix => $restrictedResource) {
-            if (str_starts_with($urlPrefix, $urlPrefix)) {
+            if (str_starts_with($uriPath, $urlPrefix)) {
                 $restrictedResource['method'] = $method;
                 $restrictedResource['path'] = $uriPath;
                 return $restrictedResource;

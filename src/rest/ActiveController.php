@@ -101,6 +101,10 @@ class ActiveController extends \yii\rest\ActiveController
         'statistics' => 'queryStatistics'
     ];
 
+    public $create = true;
+    public $update = true;
+    public $delete = true;
+
     /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -157,6 +161,15 @@ class ActiveController extends \yii\rest\ActiveController
             $actions['delete']['modelClass'] = $this->formClass;
             $actions['view']['modelClass'] = $this->formClass;
         }
+        if (!$this->create) {
+            unset($actions['create']);
+        }
+        if (!$this->update) {
+            unset($actions['update']);
+        }
+        if (!$this->delete) {
+            unset($actions['delete']);
+        }
 
         if ($this->searchClass) {
             $searchModel = new $this->searchClass();
@@ -194,7 +207,7 @@ class ActiveController extends \yii\rest\ActiveController
             }
         }
 
-        if ($this->formClass) {
+        if ($this->formClass && $this->update) {
             /** @var BaseActiveRecord $model */
             $model = new $this->formClass();
             if ($model->getBehavior('position')) {
@@ -203,23 +216,27 @@ class ActiveController extends \yii\rest\ActiveController
         }
 
         if ($this->batchFormClass) {
-            $actions['batch-update'] = [
-                'class' => BatchAction::class,
-                'modelClass' => $this->formClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'batchFormClass' => $this->batchFormClass,
-                'method' => 'batchUpdate'
-            ];
-            $actions['batch-delete'] = [
-                'class' => BatchAction::class,
-                'modelClass' => $this->formClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'batchFormClass' => $this->batchFormClass,
-                'method' => 'batchDelete'
-            ];
+            if ($this->update) {
+                $actions['batch-update'] = [
+                    'class' => BatchAction::class,
+                    'modelClass' => $this->formClass,
+                    'checkAccess' => [$this, 'checkAccess'],
+                    'batchFormClass' => $this->batchFormClass,
+                    'method' => 'batchUpdate'
+                ];
+            }
+            if ($this->delete) {
+                $actions['batch-delete'] = [
+                    'class' => BatchAction::class,
+                    'modelClass' => $this->formClass,
+                    'checkAccess' => [$this, 'checkAccess'],
+                    'batchFormClass' => $this->batchFormClass,
+                    'method' => 'batchDelete'
+                ];
+            }
         }
 
-        if ($this->uploadPath) {
+        if ($this->uploadPath && $this->update) {
             $actions['upload'] = [
                 'class' => UploadAction::class,
                 'modelClass' => $this->modelClass,
@@ -232,7 +249,7 @@ class ActiveController extends \yii\rest\ActiveController
             ];
         }
 
-        if ($this->importFormClass) {
+        if ($this->importFormClass && $this->update) {
             $actions['import'] = [
                 'class' => FileImportAction::class,
                 'modelClass' => $this->formClass,

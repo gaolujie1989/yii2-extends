@@ -12,10 +12,10 @@ return [
             '@lujie/common/address' => __DIR__ . '/src/address',
             '@lujie/common/category' => __DIR__ . '/src/category',
             '@lujie/common/comment' => __DIR__ . '/src/comment',
-            '@lujie/common/item' => __DIR__ . '/src/item',
+            '@lujie/common/deleted/backup' => __DIR__ . '/src/deletedBackup',
+            '@lujie/common/history' => __DIR__ . '/src/history',
             '@lujie/common/oauth' => __DIR__ . '/src/oauth',
             '@lujie/common/option' => __DIR__ . '/src/option',
-            '@lujie/common/shipping' => __DIR__ . '/src/shipping',
             '@lujie/common/tests' => __DIR__ . '/tests',
         ]
     ],

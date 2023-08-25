@@ -132,7 +132,7 @@ class ModelHelper
             'carrier', 'departure', 'destination',
         ],
         'BOTH_LIKE' => [],
-        'LEFT_LIKE' => ['no', 'key', 'code'],
+        'LEFT_LIKE' => ['no', 'key', 'code', 'sku'],
         'RIGHT_LIKE' => [],
         'LIKE' => ['name', 'title'],
         'DATETIME_RANGE' => ['at', 'date', 'time'],

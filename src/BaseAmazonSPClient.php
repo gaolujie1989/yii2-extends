@@ -103,7 +103,8 @@ class BaseAmazonSPClient extends Client
      */
     protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
-        return array_filter($responseData['payload']['pagination'] ?? []);
+        $nextTokenCondition = array_filter($responseData['payload']['pagination'] ?? []);
+        return $nextTokenCondition ? array_merge($condition, $nextTokenCondition) : null;
     }
 
     /**

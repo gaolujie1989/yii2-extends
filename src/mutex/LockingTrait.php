@@ -6,6 +6,7 @@
 namespace lujie\extend\mutex;
 
 use lujie\extend\helpers\ClassHelper;
+use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\mutex\Mutex;
 
@@ -61,6 +62,38 @@ trait LockingTrait
             $this->keyPrefix = ClassHelper::getClassShortName($this) . ':';
         }
         $this->initialized = true;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function acquireLock(string $name): bool
+    {
+        if ($this->mutex) {
+            $this->initMutex();
+            $name = $this->keyPrefix . $name;
+            return $this->mutex->acquire($name, $this->timeout);
+        }
+        throw new InvalidConfigException('Mutex not set');
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    public function releaseLock(string $name): bool
+    {
+        if ($this->mutex) {
+            $this->initMutex();
+            $name = $this->keyPrefix . $name;
+            return $this->mutex->release($name);
+        }
+        throw new InvalidConfigException('Mutex not set');
     }
 
     /**

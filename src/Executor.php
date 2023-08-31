@@ -29,6 +29,7 @@ class Executor extends Component
     public const EVENT_AFTER_EXEC = 'afterExec';
     public const EVENT_AFTER_SKIP = 'afterSkip';
     public const EVENT_AFTER_SUBTASK = 'afterSubTask';
+    public const EVENT_AFTER_FOLLOW_TASK = 'afterSubTask';
     public const EVENT_UPDATE_PROGRESS = 'updateProgress';
 
     /**
@@ -188,6 +189,14 @@ class Executor extends Component
                 $event->result = $result->getReturn();
             } else {
                 $event->result = $result;
+            }
+
+            if ($newExecutable instanceof FollowTaskInterface && $newExecutable->shouldFollowTask()) {
+                $followTasks = $newExecutable->createFollowTasks();
+                foreach ($followTasks as $subTask) {
+                    $this->handle($subTask);
+                }
+                $this->trigger(self::EVENT_AFTER_FOLLOW_TASK, $event);
             }
 
             $this->trigger(self::EVENT_AFTER_EXEC, $event);

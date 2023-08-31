@@ -28,6 +28,7 @@ class Executor extends Component
     public const EVENT_BEFORE_EXEC = 'beforeExec';
     public const EVENT_AFTER_EXEC = 'afterExec';
     public const EVENT_AFTER_SKIP = 'afterSkip';
+    public const EVENT_AFTER_SUBTASK = 'afterSubTask';
     public const EVENT_UPDATE_PROGRESS = 'updateProgress';
 
     /**
@@ -169,7 +170,7 @@ class Executor extends Component
                         }
                     }
                 }
-                $this->trigger(self::EVENT_AFTER_EXEC, $event);
+                $this->trigger(self::EVENT_AFTER_SUBTASK, $event);
                 return true;
             }
 

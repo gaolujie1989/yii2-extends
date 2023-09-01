@@ -300,10 +300,10 @@ class RelationSavableBehavior extends Behavior
                         $model->$fk = $owner->$pk ?: 0;
                     }
                 }
-                if ($values instanceof BaseActiveRecord) {
-                    $model->setAttributes($values->getAttributes($values->safeAttributes()));
-                } else {
+                if (!($values instanceof BaseActiveRecord)) {
                     $model->setAttributes($values);
+                } else if ($values !== $model) {
+                    $model->setAttributes($values->getAttributes($values->safeAttributes()));
                 }
                 $models[$key] = $model;
             }

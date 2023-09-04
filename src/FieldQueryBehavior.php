@@ -416,9 +416,9 @@ class FieldQueryBehavior extends Behavior
             case self::RETURN_MIN:
                 return $owner->min($field);
             case self::RETURN_SUM:
-                return $owner->sum($field);
+                return (int)$owner->sum($field);
             case self::RETURN_AVG:
-                return $owner->average($field);
+                return (int)$owner->average($field);
             default:
                 throw new InvalidConfigException('Invalid return method');
         }

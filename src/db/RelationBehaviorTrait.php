@@ -14,6 +14,7 @@ use yii\db\BaseActiveRecord;
  *
  * @property array $relations = []
  * @property array $relationAttributeAlias = []
+ * @property array $linkUnlinkRelations = []
  *
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -45,6 +46,7 @@ trait RelationBehaviorTrait
                 'relations' => $relations,
                 'indexKeys' => $relationsIndexKeys,
                 'relationAttributeAlias' => $this->relationAttributeAlias ?? [],
+                'linkUnlinkRelations' => $this->linkUnlinkRelations ?? [],
             ],
             'relationDelete' => [
                 'class' => RelationDeletableBehavior::class,

@@ -67,7 +67,7 @@ class BasePlentyMarketsRestClient extends RestOAuth2
     {
         $pageCount = $responseData['lastPageNumber'] ?? 1;
         $condition['page'] = $condition['page'] ?? 1;
-        if ($condition['page'] > $pageCount) {
+        if ($condition['page'] >= $pageCount) {
             return null;
         }
         $condition['page']++;

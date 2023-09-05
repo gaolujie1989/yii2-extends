@@ -20,9 +20,10 @@ class BasePlentyMarketsRestClient extends RestOAuth2
 
     public $password;
 
-    public $tokenParamKey = 'accessToken';
-
-    public $tokenSecretParamKey = 'refreshToken';
+    /**
+     * @var string
+     */
+    public $tokenUrl = 'rest/login';
 
     #region OAuth2
 

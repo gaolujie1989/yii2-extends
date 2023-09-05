@@ -9,6 +9,7 @@ use yii\base\BaseObject;
 */
 class BasePlentyMarketsRestClientFactory extends BaseObject
 {
+    public $apiBaseUrl;
     public $username;
     public $password;
 
@@ -23,6 +24,7 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
     protected function getConfig(): array
     {
         return [
+            'apiBaseUrl' => $this->apiBaseUrl,
             'username' => $this->username,
             'password' => $this->password,
         ];
@@ -38,10 +40,7 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
         $key = $clientClass;
         if (empty(self::$_clients[$key])) {
             /** @var BasePlentyMarketsRestClient $client */
-            $client = new $clientClass([
-                'username' => $this->username,
-                'password' => $this->password,
-            ]);
+            $client = new $clientClass($this->getConfig());
             self::$_clients[$key] = $client;
         }
         return self::$_clients[$key];

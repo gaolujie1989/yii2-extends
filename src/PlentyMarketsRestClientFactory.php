@@ -64,478 +64,478 @@ class PlentyMarketsRestClientFactory extends BasePlentyMarketsRestClientFactory
 {
 
     /**
-     * @return Account|BasePlentyMarketsRestClient|null
+     * @return Account|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getAccount(): Account|BasePlentyMarketsRestClient|null
+    public function getAccount(): Account|BasePlentyMarketsRestClient
     {
         return $this->createClient(Account::class);
     }
 
     /**
-     * @return Accounting|BasePlentyMarketsRestClient|null
+     * @return Accounting|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getAccounting(): Accounting|BasePlentyMarketsRestClient|null
+    public function getAccounting(): Accounting|BasePlentyMarketsRestClient
     {
         return $this->createClient(Accounting::class);
     }
 
     /**
-     * @return AddressDesign|BasePlentyMarketsRestClient|null
+     * @return AddressDesign|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getAddressDesign(): AddressDesign|BasePlentyMarketsRestClient|null
+    public function getAddressDesign(): AddressDesign|BasePlentyMarketsRestClient
     {
         return $this->createClient(AddressDesign::class);
     }
 
     /**
-     * @return AuditLog|BasePlentyMarketsRestClient|null
+     * @return AuditLog|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getAuditLog(): AuditLog|BasePlentyMarketsRestClient|null
+    public function getAuditLog(): AuditLog|BasePlentyMarketsRestClient
     {
         return $this->createClient(AuditLog::class);
     }
 
     /**
-     * @return Authentication|BasePlentyMarketsRestClient|null
+     * @return Authentication|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getAuthentication(): Authentication|BasePlentyMarketsRestClient|null
+    public function getAuthentication(): Authentication|BasePlentyMarketsRestClient
     {
         return $this->createClient(Authentication::class);
     }
 
     /**
-     * @return Authorization|BasePlentyMarketsRestClient|null
+     * @return Authorization|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getAuthorization(): Authorization|BasePlentyMarketsRestClient|null
+    public function getAuthorization(): Authorization|BasePlentyMarketsRestClient
     {
         return $this->createClient(Authorization::class);
     }
 
     /**
-     * @return BI|BasePlentyMarketsRestClient|null
+     * @return BI|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getBI(): BI|BasePlentyMarketsRestClient|null
+    public function getBI(): BI|BasePlentyMarketsRestClient
     {
         return $this->createClient(BI::class);
     }
 
     /**
-     * @return Basket|BasePlentyMarketsRestClient|null
+     * @return Basket|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getBasket(): Basket|BasePlentyMarketsRestClient|null
+    public function getBasket(): Basket|BasePlentyMarketsRestClient
     {
         return $this->createClient(Basket::class);
     }
 
     /**
-     * @return Batch|BasePlentyMarketsRestClient|null
+     * @return Batch|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getBatch(): Batch|BasePlentyMarketsRestClient|null
+    public function getBatch(): Batch|BasePlentyMarketsRestClient
     {
         return $this->createClient(Batch::class);
     }
 
     /**
-     * @return Blog|BasePlentyMarketsRestClient|null
+     * @return Blog|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getBlog(): Blog|BasePlentyMarketsRestClient|null
+    public function getBlog(): Blog|BasePlentyMarketsRestClient
     {
         return $this->createClient(Blog::class);
     }
 
     /**
-     * @return Board|BasePlentyMarketsRestClient|null
+     * @return Board|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getBoard(): Board|BasePlentyMarketsRestClient|null
+    public function getBoard(): Board|BasePlentyMarketsRestClient
     {
         return $this->createClient(Board::class);
     }
 
     /**
-     * @return Boards|BasePlentyMarketsRestClient|null
+     * @return Boards|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getBoards(): Boards|BasePlentyMarketsRestClient|null
+    public function getBoards(): Boards|BasePlentyMarketsRestClient
     {
         return $this->createClient(Boards::class);
     }
 
     /**
-     * @return Catalog|BasePlentyMarketsRestClient|null
+     * @return Catalog|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getCatalog(): Catalog|BasePlentyMarketsRestClient|null
+    public function getCatalog(): Catalog|BasePlentyMarketsRestClient
     {
         return $this->createClient(Catalog::class);
     }
 
     /**
-     * @return Category|BasePlentyMarketsRestClient|null
+     * @return Category|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getCategory(): Category|BasePlentyMarketsRestClient|null
+    public function getCategory(): Category|BasePlentyMarketsRestClient
     {
         return $this->createClient(Category::class);
     }
 
     /**
-     * @return Cloud|BasePlentyMarketsRestClient|null
+     * @return Cloud|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getCloud(): Cloud|BasePlentyMarketsRestClient|null
+    public function getCloud(): Cloud|BasePlentyMarketsRestClient
     {
         return $this->createClient(Cloud::class);
     }
 
     /**
-     * @return Comment|BasePlentyMarketsRestClient|null
+     * @return Comment|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getComment(): Comment|BasePlentyMarketsRestClient|null
+    public function getComment(): Comment|BasePlentyMarketsRestClient
     {
         return $this->createClient(Comment::class);
     }
 
     /**
-     * @return Configuration|BasePlentyMarketsRestClient|null
+     * @return Configuration|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getConfiguration(): Configuration|BasePlentyMarketsRestClient|null
+    public function getConfiguration(): Configuration|BasePlentyMarketsRestClient
     {
         return $this->createClient(Configuration::class);
     }
 
     /**
-     * @return CustomerContract|BasePlentyMarketsRestClient|null
+     * @return CustomerContract|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getCustomerContract(): CustomerContract|BasePlentyMarketsRestClient|null
+    public function getCustomerContract(): CustomerContract|BasePlentyMarketsRestClient
     {
         return $this->createClient(CustomerContract::class);
     }
 
     /**
-     * @return Document|BasePlentyMarketsRestClient|null
+     * @return Document|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getDocument(): Document|BasePlentyMarketsRestClient|null
+    public function getDocument(): Document|BasePlentyMarketsRestClient
     {
         return $this->createClient(Document::class);
     }
 
     /**
-     * @return ElasticSync|BasePlentyMarketsRestClient|null
+     * @return ElasticSync|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getElasticSync(): ElasticSync|BasePlentyMarketsRestClient|null
+    public function getElasticSync(): ElasticSync|BasePlentyMarketsRestClient
     {
         return $this->createClient(ElasticSync::class);
     }
 
     /**
-     * @return Export|BasePlentyMarketsRestClient|null
+     * @return Export|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getExport(): Export|BasePlentyMarketsRestClient|null
+    public function getExport(): Export|BasePlentyMarketsRestClient
     {
         return $this->createClient(Export::class);
     }
 
     /**
-     * @return ExportSettings|BasePlentyMarketsRestClient|null
+     * @return ExportSettings|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getExportSettings(): ExportSettings|BasePlentyMarketsRestClient|null
+    public function getExportSettings(): ExportSettings|BasePlentyMarketsRestClient
     {
         return $this->createClient(ExportSettings::class);
     }
 
     /**
-     * @return Feedback|BasePlentyMarketsRestClient|null
+     * @return Feedback|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getFeedback(): Feedback|BasePlentyMarketsRestClient|null
+    public function getFeedback(): Feedback|BasePlentyMarketsRestClient
     {
         return $this->createClient(Feedback::class);
     }
 
     /**
-     * @return Fulfillment|BasePlentyMarketsRestClient|null
+     * @return Fulfillment|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getFulfillment(): Fulfillment|BasePlentyMarketsRestClient|null
+    public function getFulfillment(): Fulfillment|BasePlentyMarketsRestClient
     {
         return $this->createClient(Fulfillment::class);
     }
 
     /**
-     * @return Item|BasePlentyMarketsRestClient|null
+     * @return Item|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getItem(): Item|BasePlentyMarketsRestClient|null
+    public function getItem(): Item|BasePlentyMarketsRestClient
     {
         return $this->createClient(Item::class);
     }
 
     /**
-     * @return LegalInformation|BasePlentyMarketsRestClient|null
+     * @return LegalInformation|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getLegalInformation(): LegalInformation|BasePlentyMarketsRestClient|null
+    public function getLegalInformation(): LegalInformation|BasePlentyMarketsRestClient
     {
         return $this->createClient(LegalInformation::class);
     }
 
     /**
-     * @return Listing|BasePlentyMarketsRestClient|null
+     * @return Listing|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getListing(): Listing|BasePlentyMarketsRestClient|null
+    public function getListing(): Listing|BasePlentyMarketsRestClient
     {
         return $this->createClient(Listing::class);
     }
 
     /**
-     * @return Log|BasePlentyMarketsRestClient|null
+     * @return Log|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getLog(): Log|BasePlentyMarketsRestClient|null
+    public function getLog(): Log|BasePlentyMarketsRestClient
     {
         return $this->createClient(Log::class);
     }
 
     /**
-     * @return Market|BasePlentyMarketsRestClient|null
+     * @return Market|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getMarket(): Market|BasePlentyMarketsRestClient|null
+    public function getMarket(): Market|BasePlentyMarketsRestClient
     {
         return $this->createClient(Market::class);
     }
 
     /**
-     * @return Messenger|BasePlentyMarketsRestClient|null
+     * @return Messenger|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getMessenger(): Messenger|BasePlentyMarketsRestClient|null
+    public function getMessenger(): Messenger|BasePlentyMarketsRestClient
     {
         return $this->createClient(Messenger::class);
     }
 
     /**
-     * @return Newsletter|BasePlentyMarketsRestClient|null
+     * @return Newsletter|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getNewsletter(): Newsletter|BasePlentyMarketsRestClient|null
+    public function getNewsletter(): Newsletter|BasePlentyMarketsRestClient
     {
         return $this->createClient(Newsletter::class);
     }
 
     /**
-     * @return Order|BasePlentyMarketsRestClient|null
+     * @return Order|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getOrder(): Order|BasePlentyMarketsRestClient|null
+    public function getOrder(): Order|BasePlentyMarketsRestClient
     {
         return $this->createClient(Order::class);
     }
 
     /**
-     * @return OrderSummary|BasePlentyMarketsRestClient|null
+     * @return OrderSummary|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getOrderSummary(): OrderSummary|BasePlentyMarketsRestClient|null
+    public function getOrderSummary(): OrderSummary|BasePlentyMarketsRestClient
     {
         return $this->createClient(OrderSummary::class);
     }
 
     /**
-     * @return Payment|BasePlentyMarketsRestClient|null
+     * @return Payment|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getPayment(): Payment|BasePlentyMarketsRestClient|null
+    public function getPayment(): Payment|BasePlentyMarketsRestClient
     {
         return $this->createClient(Payment::class);
     }
 
     /**
-     * @return Pim|BasePlentyMarketsRestClient|null
+     * @return Pim|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getPim(): Pim|BasePlentyMarketsRestClient|null
+    public function getPim(): Pim|BasePlentyMarketsRestClient
     {
         return $this->createClient(Pim::class);
     }
 
     /**
-     * @return PluginMultilingualism|BasePlentyMarketsRestClient|null
+     * @return PluginMultilingualism|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getPluginMultilingualism(): PluginMultilingualism|BasePlentyMarketsRestClient|null
+    public function getPluginMultilingualism(): PluginMultilingualism|BasePlentyMarketsRestClient
     {
         return $this->createClient(PluginMultilingualism::class);
     }
 
     /**
-     * @return PluginSet|BasePlentyMarketsRestClient|null
+     * @return PluginSet|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getPluginSet(): PluginSet|BasePlentyMarketsRestClient|null
+    public function getPluginSet(): PluginSet|BasePlentyMarketsRestClient
     {
         return $this->createClient(PluginSet::class);
     }
 
     /**
-     * @return Plugins|BasePlentyMarketsRestClient|null
+     * @return Plugins|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getPlugins(): Plugins|BasePlentyMarketsRestClient|null
+    public function getPlugins(): Plugins|BasePlentyMarketsRestClient
     {
         return $this->createClient(Plugins::class);
     }
 
     /**
-     * @return Property|BasePlentyMarketsRestClient|null
+     * @return Property|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getProperty(): Property|BasePlentyMarketsRestClient|null
+    public function getProperty(): Property|BasePlentyMarketsRestClient
     {
         return $this->createClient(Property::class);
     }
 
     /**
-     * @return Returns|BasePlentyMarketsRestClient|null
+     * @return Returns|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getReturns(): Returns|BasePlentyMarketsRestClient|null
+    public function getReturns(): Returns|BasePlentyMarketsRestClient
     {
         return $this->createClient(Returns::class);
     }
 
     /**
-     * @return ShopBuilder|BasePlentyMarketsRestClient|null
+     * @return ShopBuilder|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getShopBuilder(): ShopBuilder|BasePlentyMarketsRestClient|null
+    public function getShopBuilder(): ShopBuilder|BasePlentyMarketsRestClient
     {
         return $this->createClient(ShopBuilder::class);
     }
 
     /**
-     * @return Stock|BasePlentyMarketsRestClient|null
+     * @return Stock|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getStock(): Stock|BasePlentyMarketsRestClient|null
+    public function getStock(): Stock|BasePlentyMarketsRestClient
     {
         return $this->createClient(Stock::class);
     }
 
     /**
-     * @return StockManagement|BasePlentyMarketsRestClient|null
+     * @return StockManagement|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getStockManagement(): StockManagement|BasePlentyMarketsRestClient|null
+    public function getStockManagement(): StockManagement|BasePlentyMarketsRestClient
     {
         return $this->createClient(StockManagement::class);
     }
 
     /**
-     * @return Sync|BasePlentyMarketsRestClient|null
+     * @return Sync|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getSync(): Sync|BasePlentyMarketsRestClient|null
+    public function getSync(): Sync|BasePlentyMarketsRestClient
     {
         return $this->createClient(Sync::class);
     }
 
     /**
-     * @return Tag|BasePlentyMarketsRestClient|null
+     * @return Tag|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getTag(): Tag|BasePlentyMarketsRestClient|null
+    public function getTag(): Tag|BasePlentyMarketsRestClient
     {
         return $this->createClient(Tag::class);
     }
 
     /**
-     * @return Ticket|BasePlentyMarketsRestClient|null
+     * @return Ticket|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getTicket(): Ticket|BasePlentyMarketsRestClient|null
+    public function getTicket(): Ticket|BasePlentyMarketsRestClient
     {
         return $this->createClient(Ticket::class);
     }
 
     /**
-     * @return TicketMessage|BasePlentyMarketsRestClient|null
+     * @return TicketMessage|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getTicketMessage(): TicketMessage|BasePlentyMarketsRestClient|null
+    public function getTicketMessage(): TicketMessage|BasePlentyMarketsRestClient
     {
         return $this->createClient(TicketMessage::class);
     }
 
     /**
-     * @return Todo|BasePlentyMarketsRestClient|null
+     * @return Todo|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getTodo(): Todo|BasePlentyMarketsRestClient|null
+    public function getTodo(): Todo|BasePlentyMarketsRestClient
     {
         return $this->createClient(Todo::class);
     }
 
     /**
-     * @return User|BasePlentyMarketsRestClient|null
+     * @return User|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getUser(): User|BasePlentyMarketsRestClient|null
+    public function getUser(): User|BasePlentyMarketsRestClient
     {
         return $this->createClient(User::class);
     }
 
     /**
-     * @return Warehouse|BasePlentyMarketsRestClient|null
+     * @return Warehouse|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getWarehouse(): Warehouse|BasePlentyMarketsRestClient|null
+    public function getWarehouse(): Warehouse|BasePlentyMarketsRestClient
     {
         return $this->createClient(Warehouse::class);
     }
 
     /**
-     * @return Webstore|BasePlentyMarketsRestClient|null
+     * @return Webstore|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getWebstore(): Webstore|BasePlentyMarketsRestClient|null
+    public function getWebstore(): Webstore|BasePlentyMarketsRestClient
     {
         return $this->createClient(Webstore::class);
     }
 
     /**
-     * @return Wizard|BasePlentyMarketsRestClient|null
+     * @return Wizard|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getWizard(): Wizard|BasePlentyMarketsRestClient|null
+    public function getWizard(): Wizard|BasePlentyMarketsRestClient
     {
         return $this->createClient(Wizard::class);
     }
 
     /**
-     * @return PlentyMarketplace|BasePlentyMarketsRestClient|null
+     * @return PlentyMarketplace|BasePlentyMarketsRestClient
      * @throws InvalidConfigException
      */
-    public function getPlentyMarketplace(): PlentyMarketplace|BasePlentyMarketsRestClient|null
+    public function getPlentyMarketplace(): PlentyMarketplace|BasePlentyMarketsRestClient
     {
         return $this->createClient(PlentyMarketplace::class);
     }

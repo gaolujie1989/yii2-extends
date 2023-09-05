@@ -36,6 +36,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a newsletter entry. The newsletter subject must be specified.
      * @tag Newsletter
+     * @param array $data 
      * @param array $query
      *      - *subject* - string - required
      *          - The subject of the newsletter entry
@@ -43,7 +44,6 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The body of the newsletter entry
      *      - *kind* - string - optional
      *          - The type of the entry. The content can be saved as plain text or in HTML format. Possible values: ['plain', 'html'].
-     * @param array $data 
      * @return array
      *      - *subject* - string
      *          - The subject of the newsletter entry
@@ -52,7 +52,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *kind* - string
      *          - The type of the newsletter entry
      */
-    public function createNewsletter(array $query, array $data): array
+    public function createNewsletter(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/newsletters"], $query), 'POST', $data);
     }
@@ -93,6 +93,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a newsletter folder. The name of the folder must be specified.
      * @tag Newsletter
+     * @param array $data 
      * @param array $query
      *      - *id* - int - optional
      *          - The ID of the newsletter folder
@@ -104,7 +105,6 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Flag that indicates if the newsletter folder can be deleted. Default value of is deletable is 1. The folders 'Customers' and 'Interested parties' are available by default and cannot be deleted.
      *      - *isSelectable* - boolean - optional
      *          - Flag that indicates if the newsletter folder can be selected by customers in the online store. If it is allowed, the folder will be displayed in the My account area of the online store. Customers will then be able to subscribe to the newsletters that are included in this folder.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the newsletter folder
@@ -117,7 +117,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *isSelectable* - boolean
      *          - Flag that indicates if the newsletter folder can be selected by customers in the online store. If this is allowed, the folder will be displayed in the My account area of the online store. Customers will then be able to subscribe to the newsletters that are included in this folder.
      */
-    public function createNewslettersFolder(array $query, array $data): array
+    public function createNewslettersFolder(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/newsletters/folders"], $query), 'POST', $data);
     }
@@ -357,6 +357,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a recipient.
      * @tag Newsletter
+     * @param array $data 
      * @param array $query
      *      - *email* - string - optional
      *          - The email address of the recipient
@@ -372,10 +373,9 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Value that indicates if the REST call considers folders without visibility. Possible value: 'true'. If the value 'true' is set, the folder visibility will be ignored. This means that both visible and invisible folders will be listed depending on the folder IDs entered in the REST call.
      *      - *ipAddress* - string - optional
      *          - The IP address from where the customer has confirmed the newsletter
-     * @param array $data 
      * @return array
      */
-    public function createNewslettersRecipient(array $query = [], array $data): array
+    public function createNewslettersRecipient(array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/newsletters/recipients"], $query), 'POST', $data);
     }
@@ -458,6 +458,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @description Updates a recipient that is assigned to a folder. The ID of the recipient must be specified.
      * @tag Newsletter
      * @param int $recipientId The ID of the recipient
+     * @param array $data 
      * @param array $query
      *      - *email* - string - optional
      *          - The email address of the newsletter recipient
@@ -475,7 +476,6 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The customer birthday as Date string (e.g. '1982-11-24', '1982/11/24' or '24.11.1982')
      *      - *gender* - string - optional
      *          - The gender of the customer, one of the following values: 'm','f','d'.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the newsletter recipient
@@ -504,7 +504,7 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *confirmationURL* - string
      *          - The url with which the customer has confirmed the newsletter
      */
-    public function updateNewslettersRecipientByRecipientId(int $recipientId, array $query = [], array $data): array
+    public function updateNewslettersRecipientByRecipientId(int $recipientId, array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/newsletters/recipients/{$recipientId}"], $query), 'PUT', $data);
     }

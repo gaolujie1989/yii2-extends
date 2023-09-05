@@ -2202,12 +2202,12 @@ the debtor number in your financial accounting.
     /**
      * @description Creates a contact event.
      * @tag Account
+     * @param array $data 
      * @param array $query
      *      - *page* - int - optional
      *          - The page of results to search for
      *      - *itemsPerPage* - int - optional
      *          - The number of items to list per page
-     * @param array $data 
      * @return array
      *      - *eventId* - integer
      *          - The ID of the event
@@ -2233,7 +2233,7 @@ the debtor number in your financial accounting.
      *      - *eventCreditValue* - number
      *          - The credit value of the event
      */
-    public function createAccountsContactsContactEvent(array $query = [], array $data): array
+    public function createAccountsContactsContactEvent(array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/accounts/contacts/contact_events"], $query), 'POST', $data);
     }
@@ -3249,11 +3249,11 @@ the debtor number in your financial accounting.
      * @description Updates a contact. The ID of the contact must be specified.
      * @tag Account
      * @param int $contactId The ID of the contact
+     * @param array $data 
      * @param array $query
      *      - *tagRelationships* - array - optional
      *          - When this parameter is used, the current relations between contacts and tags
      *     will be deleted and replaced by the given ones. If the parameter is not used, the current relations remain.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the contact
@@ -3376,7 +3376,7 @@ the debtor number in your financial accounting.
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
      */
-    public function updateAccountsContactByContactId(int $contactId, array $query = [], array $data): array
+    public function updateAccountsContactByContactId(int $contactId, array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}"], $query), 'PUT', $data);
     }
@@ -3569,12 +3569,12 @@ the debtor number in your financial accounting.
 <br>When creating an address, the system checks for duplicates. If the system finds a duplicate, this address will be assigned to the contact data record.
      * @tag Account
      * @param int $contactId The ID of the contact
+     * @param array $data 
      * @param array $query
      *      - *isPrimary* - boolean - optional
      *          - Sets a contact address per address type as the primary address.
      *      - *typeId* - int - optional
      *          - The type ID of the address. Possible values: <ul><li>Invoice address = 1</li><li> Delivery address = 2</li></ul>
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the address
@@ -3659,7 +3659,7 @@ the debtor number in your financial accounting.
      *      - *isPostfiliale* - boolean
      *          - Flag that indicates if the address is a postfiliale (post office)
      */
-    public function createAccountsContactsAddressByContactId(int $contactId, array $query = [], array $data): array
+    public function createAccountsContactsAddressByContactId(int $contactId, array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/addresses"], $query), 'POST', $data);
     }

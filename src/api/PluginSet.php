@@ -26,11 +26,11 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a new plugin set with the given name. If a 'copyPluginSetId' is given, all set entries from that set will be copied into the new set
      * @tag PluginSet
+     * @param array $data 
      * @param array $query
      *      - *copyPluginSetId* - int - optional
      *          - The ID of the plugin set of which to copy the set entries from into the
      * new set
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *      - *hash* - string
@@ -39,7 +39,7 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *name* - string
      *      - *description* - string
      */
-    public function createPluginSet(array $query = [], array $data): array
+    public function createPluginSet(array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/plugin_sets"], $query), 'POST', $data);
     }

@@ -151,10 +151,10 @@ class ShopBuilder extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a new ShopBuilder content.
      * @tag ShopBuilder
+     * @param array $data 
      * @param array $query
      *      - *frontendLang* - string - optional
      *          - Language to be used when rendering frontend widgets.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the content
@@ -167,7 +167,7 @@ class ShopBuilder extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *dropzones* - array
      *          - Dropzones of the content
      */
-    public function createShopBuilderContent(array $query = [], array $data): array
+    public function createShopBuilderContent(array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/shop_builder/contents"], $query), 'POST', $data);
     }
@@ -398,12 +398,12 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @description Updates a ShopBuilder content. If not data are provided, content will be rebuilt.
      * @tag ShopBuilder
      * @param int $contentId The ID of the content to update.
+     * @param array $data 
      * @param array $query
      *      - *frontendLang* - string - optional
      *          - Language to be used when rendering frontend widgets.
-     * @param array $data 
      */
-    public function updateShopBuilderContentByContentId(int $contentId, array $query = [], array $data): void
+    public function updateShopBuilderContentByContentId(int $contentId, array $data, array $query = []): void
     {
         $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}"], $query), 'PUT', $data);
     }

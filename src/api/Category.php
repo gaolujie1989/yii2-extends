@@ -410,12 +410,12 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @description Gets a category template. The ID of the category, the plenty ID of the client (store) and the language must be specified.
      * @tag Category
      * @param int $id 
+     * @param array $data 
      * @param array $query
      *      - *lang* - string - optional
      *          - The <a href='https://developers.plentymarkets.com/rest-doc/introduction#countries' target='_blank'>language</a> of the template. If no language filter is set, the default language of the system is used.
      *      - *plentyId* - int - required
      *          - The unique plenty ID of the client (store)
-     * @param array $data 
      * @return array
      *      - *categoryId* - integer
      *          - The unique ID of the category
@@ -426,7 +426,7 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *content* - string
      *          - The content of the template
      */
-    public function getCategoriesTemplatesById(int $id, array $query, array $data): array
+    public function getCategoriesTemplatesById(int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/categories/{$id}/templates"], $query), 'GET', $data);
     }

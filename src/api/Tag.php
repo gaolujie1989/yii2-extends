@@ -36,12 +36,12 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a tag. The fields tagName and names must be specified.
      * @tag Tag
+     * @param array $data 
      * @param array $query
      *      - *tagName* - string - required
      *          - The name of the tag
      *      - *tagLang* - string - required
      *          - tagLang is used in names. The names field contains multiple languages.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the tag
@@ -50,7 +50,7 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *color* - string
      *          - The color for the tag
      */
-    public function createTag(array $query, array $data): array
+    public function createTag(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/tags"], $query), 'POST', $data);
     }
@@ -108,6 +108,7 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a tag relationship by linking a tag to a data record.
      * @tag Tag
+     * @param array $data 
      * @param array $query
      *      - *tagId* - int - optional
      *          - The ID of the tag.
@@ -117,7 +118,6 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The ID of the data record for which a tag relationship is created.
      *      - *relatonshipUUID5* - string - optional
      *          - The ID of the data record for which a tag relationship is created. For models with uuid5 as primary key.
-     * @param array $data 
      * @return array
      *      - *tagId* - integer
      *          - The ID of the tag
@@ -128,7 +128,7 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *UUID5* - string
      *          - The UUID5 of the relationship
      */
-    public function createTagsRelationship(array $query = [], array $data): array
+    public function createTagsRelationship(array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/tags/relationships"], $query), 'POST', $data);
     }

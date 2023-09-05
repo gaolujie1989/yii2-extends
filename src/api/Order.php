@@ -1885,10 +1885,10 @@ Searches for orders. The results can be restricted by using filter options.
     /**
      * @description Creates an order. The parameters included in the example below must be specified.
      * @tag Order
+     * @param array $data 
      * @param array $query
      *      - *coupon* - array - optional
      *          - One or multiple coupon code to be redeemed with order creation
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the order
@@ -1950,7 +1950,7 @@ Searches for orders. The results can be restricted by using filter options.
      *      - *warehouseSenderId* - integer
      *      - *warehouseReceiverId* - integer
      */
-    public function createOrder(array $query = [], array $data): array
+    public function createOrder(array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/orders"], $query), 'POST', $data);
     }
@@ -2329,6 +2329,7 @@ Searches for orders. The results can be restricted by using filter options.
      * @description Validates if multiple coupon codes can be used for the specified items, contact ID, etc. At least one code must be specified. Only one coupon code for special offers (promotional code) can be specified. Promotional codes are validated first. Gift card codes are validated and redeemed after the promotional code to ensure that any discounts are calculated correctly.
 If any coupon code is invalid, a CouponCodeValidation object with an exception parameter will be added to the list. If the coupon code is valid, a CouponCodeValidation object will be added to the list.
      * @tag Order
+     * @param array $data 
      * @param array $query
      *      - *coupons* - array - required
      *          - The coupons to validate.
@@ -2344,10 +2345,9 @@ If any coupon code is invalid, a CouponCodeValidation object with an exception p
      *          - The contact class.
      *      - *contactType* - int - optional
      *          - The contact type.
-     * @param array $data 
      * @return array
      */
-    public function createOrdersCouponsCode(array $query, array $data): array
+    public function createOrdersCouponsCode(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/orders/coupons/codes"], $query), 'POST', $data);
     }
@@ -2452,6 +2452,7 @@ If any coupon code is invalid, a CouponCodeValidation object with an exception p
      * @description Validates if a coupon code can be used for the specified items, contact ID, etc. The code must be specified. If the coupon code is invalid, a ValidationException will be thrown. If the coupon code is valid, a CouponCodeValidation object will be returned.
      * @tag Order
      * @param string $coupon The coupon to validate.
+     * @param array $data 
      * @param array $query
      *      - *callFromScheduler* - boolean - optional
      *          - Flag that indicates whether the validation is requested by a subscription order or not. TRUE = The validation is requested by a subscription order. FALSE = The validation is not requested by a subscription order.
@@ -2465,7 +2466,6 @@ If any coupon code is invalid, a CouponCodeValidation object with an exception p
      *          - The contact class.
      *      - *contactType* - int - optional
      *          - The contact type.
-     * @param array $data 
      * @return array
      *      - *campaignId* - integer
      *          - The ID of the campaign
@@ -2504,7 +2504,7 @@ If any coupon code is invalid, a CouponCodeValidation object with an exception p
      *      - *couponCampaignType* - string
      *          - The campaign type
      */
-    public function createOrdersCouponsCodeByCoupon(string $coupon, array $query, array $data): array
+    public function createOrdersCouponsCodeByCoupon(string $coupon, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/orders/coupons/codes/{$coupon}"], $query), 'POST', $data);
     }

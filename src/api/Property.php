@@ -26,6 +26,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *cast* - string - required
      *          - The cast of the property
@@ -33,7 +34,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The identifier of the property type
      *      - *position* - int - required
      *          - The position of the property
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property
@@ -44,7 +44,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *position* - integer
      *          - The position of the property
      */
-    public function createProperty(array $query, array $data): array
+    public function createProperty(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties"], $query), 'POST', $data);
     }
@@ -62,6 +62,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates one or multiple property amazon.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The ID of the property
@@ -71,7 +72,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The category of the property amazon
      *      - *field* - string - required
      *          - The field of the property amazon
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property amazon
@@ -84,7 +84,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *field* - string
      *          - The field of the property amazon
      */
-    public function createPropertiesAmazon(array $query, array $data): array
+    public function createPropertiesAmazon(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/amazons"], $query), 'POST', $data);
     }
@@ -153,6 +153,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates an availability.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The ID of the property
@@ -160,7 +161,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The type of the availability
      *      - *value* - int - required
      *          - The value of the availability
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property availability
@@ -171,7 +171,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *value* - number
      *          - The value of the property availability
      */
-    public function createPropertiesAvailability(array $query, array $data): array
+    public function createPropertiesAvailability(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/availabilities"], $query), 'POST', $data);
     }
@@ -250,6 +250,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property group.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *position* - int - required
      *          - The position  of the group
@@ -257,14 +258,13 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The names of the group.
      *      - *options* - int - optional
      *          - The options of the group
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property group
      *      - *position* - integer
      *          - The position of the property group
      */
-    public function createPropertiesGroup(array $query, array $data): array
+    public function createPropertiesGroup(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/groups"], $query), 'POST', $data);
     }
@@ -282,6 +282,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a group name
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The ID of the property
@@ -289,7 +290,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The lang of the group name
      *      - *name* - string - required
      *          - The name of the group name
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property group name
@@ -302,7 +302,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *description* - string
      *          - The description of the property group
      */
-    public function createPropertiesGroupsName(array $query, array $data): array
+    public function createPropertiesGroupsName(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/groups/names"], $query), 'POST', $data);
     }
@@ -372,6 +372,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a group option
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyGroupId* - int - required
      *          - The ID of the property group
@@ -379,7 +380,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The groupOptionIdentifier of the group name
      *      - *value* - string - required
      *          - The value of the group name
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property group option
@@ -390,7 +390,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *value* - string
      *          - The value of the property group option
      */
-    public function createPropertiesGroupsOption(array $query, array $data): array
+    public function createPropertiesGroupsOption(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/groups/options"], $query), 'POST', $data);
     }
@@ -482,6 +482,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @description Updates a property group. The ID of the property group must be specified.
      * @tag Property
      * @param int $groupId 
+     * @param array $data 
      * @param array $query
      *      - *position* - int - optional
      *          - The position  of the group
@@ -489,14 +490,13 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The names of the group.
      *      - *options* - int - optional
      *          - The options of the group
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property group
      *      - *position* - integer
      *          - The position of the property group
      */
-    public function updatePropertiesGroupByGroupId(int $groupId, array $query = [], array $data): array
+    public function updatePropertiesGroupByGroupId(int $groupId, array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/properties/groups/{$groupId}"], $query), 'PUT', $data);
     }
@@ -559,6 +559,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property market.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - Property id
@@ -568,7 +569,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The referrer sub id of the property market
      *      - *value* - string - required
      *          - The value of the property market
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property market
@@ -581,7 +581,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *value* - string
      *          - The value of the property market
      */
-    public function createPropertiesMarket(array $query, array $data): array
+    public function createPropertiesMarket(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/markets"], $query), 'POST', $data);
     }
@@ -691,6 +691,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a name. The Property id , language, name must be provided.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The id of the property name
@@ -700,7 +701,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The name of the property name
      *      - *description* - string - optional
      *          - The description of the property name
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property name
@@ -713,7 +713,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *description* - string
      *          - The description of the property name
      */
-    public function createPropertiesName(array $query, array $data): array
+    public function createPropertiesName(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/names"], $query), 'POST', $data);
     }
@@ -783,12 +783,12 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property option.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - ID of the property
      *      - *typeOptionIdentifier* - string - required
      *          - The identifier of the property option type
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property option
@@ -799,7 +799,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *value* - string
      *          - The value of the option
      */
-    public function createPropertiesOption(array $query, array $data): array
+    public function createPropertiesOption(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/options"], $query), 'POST', $data);
     }
@@ -893,6 +893,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property relation
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The ID of the property
@@ -902,7 +903,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The ID of the property relation target
      *      - *selectionRelationId* - int - required
      *          - The ID of the property selection relation
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property relation
@@ -919,7 +919,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *value* - string
      *          - The value of the property relation for properties of the following type: int, float, date and file.
      */
-    public function createPropertiesRelation(array $query, array $data): array
+    public function createPropertiesRelation(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/relations"], $query), 'POST', $data);
     }
@@ -950,6 +950,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property relation value.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The ID of the property
@@ -957,7 +958,6 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The lang of the property relation value
      *      - *value* - string - required
      *          - The value of the property relation
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property relation value
@@ -970,7 +970,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *description* - string
      *          - The description of the property relation value
      */
-    public function createPropertiesRelationsValue(array $query, array $data): array
+    public function createPropertiesRelationsValue(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/relations/values"], $query), 'POST', $data);
     }
@@ -1156,12 +1156,12 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a property selection.
      * @tag Property
+     * @param array $data 
      * @param array $query
      *      - *propertyId* - int - required
      *          - The ID of the property
      *      - *position* - int - required
      *          - The position of the property selection
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the property selection
@@ -1170,7 +1170,7 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *position* - integer
      *          - The position of the property selection
      */
-    public function createPropertiesSelection(array $query, array $data): array
+    public function createPropertiesSelection(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/properties/selections"], $query), 'POST', $data);
     }

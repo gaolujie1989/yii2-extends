@@ -72,21 +72,6 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         }
         $apiUrl = strtr($path, $pathReplaces);
 
-        $hasRequiredQuery = false;
-        $queryParams = $params['query'] ?? [];
-        if ($queryParams) {
-            $docParams[] = '     * @param array $query';
-            foreach ($queryParams as $name => $param) {
-                if ($param['required']) {
-                    $hasRequiredQuery = true;
-                }
-                $required = $param['required'] ? 'required' : 'optional';
-                $docParams[] = "     *      - *{$name}* - {$param['type']} - {$required}";
-                $docParams[] = "     *          - {$param['description']}";
-            }
-            $functionParams[] = $hasRequiredQuery ? 'array $query' : 'array $query = []';
-        }
-
         $requestBody = $params['body'] ?? null;
         if ($requestBody) {
             $functionParams[] = 'array $data';
@@ -100,6 +85,21 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                     $docParams[] = "     *          - {$description}";
                 }
             }
+        }
+
+        $hasRequiredQuery = false;
+        $queryParams = $params['query'] ?? [];
+        if ($queryParams) {
+            $docParams[] = '     * @param array $query';
+            foreach ($queryParams as $name => $param) {
+                if ($param['required']) {
+                    $hasRequiredQuery = true;
+                }
+                $required = $param['required'] ? 'required' : 'optional';
+                $docParams[] = "     *      - *{$name}* - {$param['type']} - {$required}";
+                $docParams[] = "     *          - {$param['description']}";
+            }
+            $functionParams[] = $hasRequiredQuery ? 'array $query' : 'array $query = []';
         }
 
         $returnType = ': void';

@@ -79,6 +79,7 @@ class Ticket extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     /**
      * @description Creates a ticket. The fields typeId, statusId, title, plentyId, source and owners must be specified.
      * @tag Ticket
+     * @param array $data 
      * @param array $query
      *      - *typeId* - string - required
      *          - The ID from the status of the ticket
@@ -94,7 +95,6 @@ class Ticket extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - userId is used in owners. The owners field contains multiple owners.
      *      - *roleId* - string - required
      *          - roleId is used in owners and refers to the ticket role. The owners field contains multiple owners.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the ticket
@@ -141,7 +141,7 @@ class Ticket extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *parseData* - string
      *          - The ParseData from the ticket
      */
-    public function createTicket(array $query, array $data): array
+    public function createTicket(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/tickets"], $query), 'POST', $data);
     }

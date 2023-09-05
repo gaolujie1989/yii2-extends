@@ -1487,10 +1487,10 @@ they are added to the batch processing lists, waiting to be revised by automated
     /**
      * @description Creates a listing market text for a given listing market ID. If an entry with same data already exists the request will be ignored and the old entry will be returned.
      * @tag Listing
+     * @param array $data 
      * @param array $query
      *      - *listingMarketId* - int - required
      *          - The listing market ID this text belongs to.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the listing market text.
@@ -1505,7 +1505,7 @@ they are added to the batch processing lists, waiting to be revised by automated
      *      - *description* - string
      *          - The description of the listing market text.
      */
-    public function createListingsMarketsText(array $query, array $data): array
+    public function createListingsMarketsText(array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/listings/markets/texts"], $query), 'POST', $data);
     }
@@ -1638,10 +1638,10 @@ they are added to the batch processing lists, waiting to be revised by automated
      * @description Updates a listing market by ID.
      * @tag Listing
      * @param int $id The listing market ID.
+     * @param array $data 
      * @param array $query
      *      - *referrerId* - number - required
      *          - The referrer ID.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The ID of the listing market.
@@ -1670,7 +1670,7 @@ they are added to the batch processing lists, waiting to be revised by automated
      *      - *updatedAt* - string
      *          - The date that the listing was last updated.
      */
-    public function updateListingsMarketById(int $id, array $query, array $data): array
+    public function updateListingsMarketById(int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/listings/markets/{$id}"], $query), 'PUT', $data);
     }

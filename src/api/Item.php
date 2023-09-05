@@ -3859,12 +3859,12 @@ lists all links of the variation with the ID 1030.
      * @param int $imageId The unique ID of the image
      * @param int $valueId The unique ID of the attribute value
      * @param int $id 
+     * @param array $data 
      * @param array $query
      *      - *itemId* - int - required
      *          - The unique ID of the item
      *      - *attributeId* - int - required
      *          - The unique ID of the attribute
-     * @param array $data 
      * @return array
      *      - *imageId* - integer
      *          - The unique ID of the image
@@ -3875,7 +3875,7 @@ lists all links of the variation with the ID 1030.
      *      - *valueId* - integer
      *          - The unique ID of the attribute value
      */
-    public function updateItemsImagesAttributeValueMarketByImageIdValueIdId(int $imageId, int $valueId, int $id, array $query, array $data): array
+    public function updateItemsImagesAttributeValueMarketByImageIdValueIdId(int $imageId, int $valueId, int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/items/{$id}/images/{$imageId}/attribute_value_markets/{$valueId}"], $query), 'PUT', $data);
     }
@@ -4427,13 +4427,13 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param int $variationId The ID of the variation
      * @param int $id 
+     * @param array $data 
      * @param array $query
      *      - *itemId* - int - required
      *          - The ID of the item
-     * @param array $data 
      * @return array
      */
-    public function updateItemsVariationsStockBookIncomingItemByVariationIdId(int $variationId, int $id, array $query, array $data): array
+    public function updateItemsVariationsStockBookIncomingItemByVariationIdId(int $variationId, int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/items/{$id}/variations/{$variationId}/stock/bookIncomingItems"], $query), 'PUT', $data);
     }
@@ -4443,13 +4443,13 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param int $variationId The ID of the variation
      * @param int $id 
+     * @param array $data 
      * @param array $query
      *      - *itemId* - int - required
      *          - The ID of the item
-     * @param array $data 
      * @return array
      */
-    public function updateItemsVariationsStockBookOutgoingItemByVariationIdId(int $variationId, int $id, array $query, array $data): array
+    public function updateItemsVariationsStockBookOutgoingItemByVariationIdId(int $variationId, int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/items/{$id}/variations/{$variationId}/stock/bookOutgoingItems"], $query), 'PUT', $data);
     }
@@ -4459,13 +4459,13 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param int $variationId The ID of the variation
      * @param int $id 
+     * @param array $data 
      * @param array $query
      *      - *itemId* - int - required
      *          - The ID of the item
-     * @param array $data 
      * @return array
      */
-    public function updateItemsVariationsStockCorrectionByVariationIdId(int $variationId, int $id, array $query, array $data): array
+    public function updateItemsVariationsStockCorrectionByVariationIdId(int $variationId, int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/items/{$id}/variations/{$variationId}/stock/correction"], $query), 'PUT', $data);
     }
@@ -4613,10 +4613,10 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @tag Item
      * @param int $variationId The ID of the variation
      * @param int $id 
+     * @param array $data 
      * @param array $query
      *      - *itemId* - int - required
      *          - The ID of the item
-     * @param array $data 
      * @return array
      *      - *page* - integer
      *          - Current page of the response
@@ -4635,7 +4635,7 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      *      - *entries* - array
      *          - List of StockStorageLocation
      */
-    public function updateItemsVariationsStockRedistributeByVariationIdId(int $variationId, int $id, array $query, array $data): array
+    public function updateItemsVariationsStockRedistributeByVariationIdId(int $variationId, int $id, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/items/{$id}/variations/{$variationId}/stock/redistribute"], $query), 'PUT', $data);
     }

@@ -1084,12 +1084,12 @@ in the request will be set to quantity 0.
      * @tag StockManagement
      * @param int $warehouseId The ID of the warehouse.
      * @param int $warehouseLocationId 
+     * @param array $data 
      * @param array $query
      *      - *$warehouseLocationId* - int - required
      *          - The ID of the warehouseLocation.
-     * @param array $data 
      */
-    public function updateStockmanagementWarehousesStockBookStocktakingByWarehouseIdWarehouseLocationId(int $warehouseId, int $warehouseLocationId, array $query, array $data): void
+    public function updateStockmanagementWarehousesStockBookStocktakingByWarehouseIdWarehouseLocationId(int $warehouseId, int $warehouseLocationId, array $data, array $query): void
     {
         $this->api(array_merge(["/rest/stockmanagement/warehouses/{$warehouseId}/{$warehouseLocationId}/stock/bookStocktaking"], $query), 'PUT', $data);
     }

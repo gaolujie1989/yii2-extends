@@ -1647,13 +1647,13 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @description Sets or unsets the doneAt date of the message. The UUID {uuid5} must be specified.
      * @tag Messenger
      * @param string $uuid5 The UUID5 of the message
+     * @param array $data 
      * @param array $query
      *      - *doneAt* - string - optional
      *          - Set (or unset, if doneAt is not given) the doneAt date in the message.
-     * @param array $data 
      * @return array
      */
-    public function updateMessagesDoneByUuid5(string $uuid5, array $query = [], array $data): array
+    public function updateMessagesDoneByUuid5(string $uuid5, array $data, array $query = []): array
     {
         return $this->api(array_merge(["/rest/messages/{$uuid5}/done"], $query), 'PUT', $data);
     }

@@ -44,6 +44,7 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @description Uploads documents to a category. The ID of the category must be specified.
      * @tag Document
      * @param int $categoryId The ID of the category
+     * @param array $data 
      * @param array $query
      *      - *documents* - array - required
      *          - The array with the category documents
@@ -55,10 +56,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          -  The directory ID
      *      - *displayDate* - string - optional
      *          -  The date displayed on the document
-     * @param array $data 
      * @return array
      */
-    public function createCategoriesDocumentByCategoryId(int $categoryId, array $query, array $data): array
+    public function createCategoriesDocumentByCategoryId(int $categoryId, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/categories/{$categoryId}/documents"], $query), 'POST', $data);
     }

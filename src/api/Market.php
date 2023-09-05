@@ -590,10 +590,10 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @description Updates a fitment. Items that do not occur anymore will be replaced.
      * @tag Market
      * @param int $fitmentId 
+     * @param array $data 
      * @param array $query
      *      - *id* - int - required
      *          - The ID of the fitment list.
-     * @param array $data 
      * @return array
      *      - *id* - integer
      *          - The id of the fitment.
@@ -604,7 +604,7 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *categoryId* - integer
      *          - The id of the category the fitment belongs to.
      */
-    public function updateMarketsEbayPartsFitmentByFitmentId(int $fitmentId, array $query, array $data): array
+    public function updateMarketsEbayPartsFitmentByFitmentId(int $fitmentId, array $data, array $query): array
     {
         return $this->api(array_merge(["/rest/markets/ebay/parts-fitments/{$fitmentId}"], $query), 'PUT', $data);
     }

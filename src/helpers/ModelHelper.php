@@ -286,7 +286,13 @@ class ModelHelper
             $relationRelations = $relationConfig[2] ?? [];
             $relationPk = $relationClass::primaryKey()[0];
             if (isset($row[$relation][$relationPk])) { //mean is one relation, else is many relation
-                $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
+                if (method_exists($relationClass, 'prepareArray')) {
+                    $row[$relation] = $relationClass::prepareArray($row[$relation]);
+                } else {
+                    $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
+                }
+            } else if (method_exists($relationClass, 'prepareRows')) {
+                $row[$relation] = $relationClass::prepareRows($row[$relation]);
             } else {
                 foreach ($row[$relation] as $index => $value) {
                     $row[$relation][$index] = static::prepareArray($value, $relationClass, $relationAlias, $relationRelations, $unsetAttributes);

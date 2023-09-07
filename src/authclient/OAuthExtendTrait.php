@@ -102,20 +102,20 @@ trait OAuthExtendTrait
     }
 
     /**
-     * @param Request $request
-     * @return array|Response|null
+     * @param $request
+     * @return array|string|null
      * @throws InvalidResponseException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    protected function sendRequest($request)
+    protected function sendRequest($request): array|string|null
     {
         $this->lastRequest = $request;
         $this->lastResponse = HttpClientHelper::sendRequest($request);
         if ($this->lastResponse->getFormat()) {
             return $this->lastResponse->getData();
         }
-        return $this->lastResponse;
+        return $this->lastResponse->getContent();
     }
 
     /**

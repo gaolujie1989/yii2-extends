@@ -108,7 +108,7 @@ trait OAuthExtendTrait
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    protected function sendRequest($request): array|string|null
+    protected function sendRequest($request)
     {
         $this->lastRequest = $request;
         $this->lastResponse = HttpClientHelper::sendRequest($request);

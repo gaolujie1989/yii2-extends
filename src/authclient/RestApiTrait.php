@@ -173,11 +173,11 @@ trait RestApiTrait
     /**
      * @param string $name
      * @param array $data
-     * @return array
-     * @inheritdoc
+     * @return array|string|null
      * @throws \Exception
+     * @inheritdoc
      */
-    public function restApi(string $name, array $data): ?array
+    public function restApi(string $name, array $data): array|string|null
     {
         if (empty($this->methods[$name])) {
             throw new InvalidArgumentException("API method {$name} not found.");

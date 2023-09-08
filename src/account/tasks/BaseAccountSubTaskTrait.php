@@ -9,7 +9,7 @@ use Generator;
 use lujie\common\account\models\Account;
 
 /**
- * Class BaseAccountTask
+ * Trait BaseAccountSubTaskTrait
  * @package lujie\common\account\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */

@@ -8,23 +8,17 @@ namespace lujie\common\account\tasks;
 use Generator;
 use lujie\common\account\models\Account;
 use lujie\common\account\models\AccountQuery;
-use lujie\executing\ProgressInterface;
-use lujie\scheduling\CronTask;
 
 /**
  * Class BaseAccountTask
+ *
+ * @property Account $accountClass
+ *
  * @package lujie\common\account\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class BaseAccountTask extends CronTask implements ProgressInterface
+trait BaseAccountTaskTrait
 {
-    use BaseAccountSubTaskTrait;
-
-    /**
-     * @var Account
-     */
-    public $accountClass;
-
     /**
      * @var array
      */

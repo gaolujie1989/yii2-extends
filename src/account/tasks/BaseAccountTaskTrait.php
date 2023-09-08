@@ -10,7 +10,7 @@ use lujie\common\account\models\Account;
 use lujie\common\account\models\AccountQuery;
 
 /**
- * Class BaseAccountTask
+ * Trait BaseAccountTaskTrait
  *
  * @property Account $accountClass
  *

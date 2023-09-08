@@ -7,6 +7,7 @@ namespace lujie\common\account\tasks;
 
 use Generator;
 use lujie\common\account\models\Account;
+use lujie\executing\Progress;
 
 /**
  * Trait BaseAccountSubTaskTrait
@@ -31,11 +32,15 @@ trait BaseAccountSubTaskTrait
     public function createSubTasks(): array|Generator
     {
         $accountQuery = $this->getAccountQuery();
-        $progress = $this->getProgress($accountQuery->count());
+        if ($this instanceof Progress) {
+            $progress = $this->getProgress($accountQuery->count());
+        }
         foreach ($accountQuery->each() as $account) {
-            $progress->done++;
+            if (isset($progress)) {
+                $progress->done++;
+            }
             $this->createAccountSubTask($account);
-            yield $progress;
+            yield true;
         }
     }
 

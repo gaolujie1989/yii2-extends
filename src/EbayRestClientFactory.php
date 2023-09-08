@@ -48,15 +48,17 @@ class EbayRestClientFactory extends BaseObject
 
     public $clientId;
     public $clientSecret;
+    public $requestOptions = [];
 
     /**
-    * @return array
-    */
+     * @return array
+     */
     protected function getConfig(): array
     {
         return [
             'clientId' => $this->clientId,
             'clientSecret' => $this->clientSecret,
+            'requestOptions' => $this->requestOptions,
         ];
     }
 

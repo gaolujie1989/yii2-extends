@@ -33,25 +33,27 @@ class <?= $generator->factoryClass ?> extends BaseObject
 
     public $clientId;
     public $clientSecret;
+    public $requestOptions = [];
 
     /**
-    * @return array
-    */
+     * @return array
+     */
     protected function getConfig(): array
     {
         return [
             'clientId' => $this->clientId,
             'clientSecret' => $this->clientSecret,
+            'requestOptions' => $this->requestOptions,
         ];
     }
 <?php foreach ($apiClassNames as $apiClassName): ?>
 
     /**
-    * @param Account $account
-    * @return <?= $apiClassName ?>|OAuth2|null
-    * @throws InvalidResponseException
-    * @throws Exception
-    */
+     * @param Account $account
+     * @return <?= $apiClassName ?>|OAuth2|null
+     * @throws InvalidResponseException
+     * @throws Exception
+     */
     public function get<?= $apiClassName ?>(Account $account): <?= $apiClassName ?>|OAuth2|null
     {
         return OAuthClientFactory::createClient(<?= $apiClassName ?>::class, $account, $this->getConfig());

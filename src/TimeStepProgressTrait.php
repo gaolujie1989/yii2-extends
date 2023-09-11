@@ -85,7 +85,10 @@ trait TimeStepProgressTrait
                 '{timeTo}' => date($format, $stepTimeToAt),
             ], $this->messageParams ?? []));
             yield true;
-            $this->executeTimeStep($timeAt, $stepTimeToAt, $params);
+            $executeTimeStep = $this->executeTimeStep($timeAt, $stepTimeToAt, $params);
+            if ($executeTimeStep instanceof \Generator) {
+                yield from $executeTimeStep;
+            }
             $progress->done++;
         }
         yield true;
@@ -95,7 +98,8 @@ trait TimeStepProgressTrait
      * @param int $timeAtFrom
      * @param int $timeAtTo
      * @param array $params
+     * @return mixed
      * @inheritdoc
      */
-    abstract protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []): void;
+    abstract protected function executeTimeStep(int $timeAtFrom, int $timeAtTo, array $params = []);
 }

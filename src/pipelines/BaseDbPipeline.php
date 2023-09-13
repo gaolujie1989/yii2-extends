@@ -56,7 +56,7 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     /**
      * @var int
      */
-    public $integrityExceptionSleepSeconds = 30;
+    public $integrityExceptionSleepSeconds = 0;
 
     /**
      * @return array

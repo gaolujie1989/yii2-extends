@@ -35,9 +35,9 @@ class MockTransportHelper
                 ],
                 'content' => file_get_contents($responseFile),
             ]);
-            if (str_ends_with($responseFile, '.gz')) {
-                $mockResponse->headers['content-encoding'] = 'gzip';
-            }
+//            if (str_ends_with($responseFile, '.gz')) {
+//                $mockResponse->headers['content-encoding'] = 'gzip';
+//            }
             $mockTransport->appendResponse($mockResponse);
         }
         return $mockTransport;

@@ -24,7 +24,7 @@ class m211222_104910_option extends Migration
         $this->createTable($this->tableName, [
             'option_id' => $this->bigPrimaryKey(),
             'type' => $this->string(50)->notNull()->defaultValue(''),
-            'value' => $this->string(50)->notNull()->defaultValue(''),
+            'value' => $this->string(100)->notNull()->defaultValue(''),
             'value_type' => $this->tinyInteger()->notNull()->defaultValue(0),
             'tag' => $this->string(10)->notNull()->defaultValue(0),
             'position' => $this->smallInteger()->notNull()->defaultValue(0),

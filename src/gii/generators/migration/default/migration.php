@@ -27,10 +27,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
 <?php foreach ($columns as $name => $column): ?>
             '<?= $name ?>' => $this-><?= $column ?>,
 <?php endforeach; ?>
+        ]);
 
 <?php foreach ($indexes as $name => $indexKeys): ?>
-            $this->createIndex('<?= $name ?>', $this->tableName, ['<?= implode("', '", $indexKeys) ?>']);
+        $this->createIndex('<?= $name ?>', $this->tableName, ['<?= implode("', '", $indexKeys) ?>']);
 <?php endforeach; ?>
-    ]);
     }
 }

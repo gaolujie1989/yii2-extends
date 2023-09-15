@@ -154,7 +154,7 @@ class Generator extends \yii\gii\Generator
         foreach ($firstRow as $key => $value) {
             $columnKey = Inflector::underscore(Inflector::id2camel($key));
             if (str_contains($key, 'time') || str_contains($key, 'date')) {
-                $columnKey = strtr($key, ['time' => 'at', 'date' => 'at']);
+                $columnKey = strtr($columnKey, ['time' => 'at', 'date' => 'at']);
                 $columns[$columnKey] = 'integer()->unsigned()->notNull()->defaultValue(0)';
                 continue;
             }

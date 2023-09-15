@@ -152,9 +152,9 @@ class Generator extends \yii\gii\Generator
         $firstNRows = array_slice($data, 0, $this->detectRows);
         $columns = [];
         foreach ($firstRow as $key => $value) {
-            $columnKey = Inflector::underscore(Inflector::id2camel($key));
+            $columnKey = Inflector::underscore(strtr($key, ['-' => '_']));
             if (str_contains($key, 'time') || str_contains($key, 'date')) {
-                $columnKey = strtr($columnKey, ['time' => 'at', 'date' => 'at']);
+                $columnKey = strtr($columnKey, ['_time' => '_at', '_date' => '_at']);
                 $columns[$columnKey] = 'integer()->unsigned()->notNull()->defaultValue(0)';
                 continue;
             }
@@ -234,7 +234,7 @@ class Generator extends \yii\gii\Generator
      */
     protected function generateTableName(string $dataFile): string
     {
-        return Inflector::underscore(Inflector::id2camel(pathinfo($dataFile, PATHINFO_FILENAME)));
+        return Inflector::underscore(strtr(pathinfo($dataFile, PATHINFO_FILENAME), ['-' => '_']));
     }
 
     /**

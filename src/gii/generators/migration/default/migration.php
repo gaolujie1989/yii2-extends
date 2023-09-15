@@ -23,6 +23,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     public function safeUp(): void
     {
         $this->createTable($this->tableName, [
+            '<?= $tableName ?>_id' => $this->bigPrimaryKey(),
 <?php foreach ($columns as $name => $column): ?>
             '<?= $name ?>' => $this-><?= $column ?>,
 <?php endforeach; ?>

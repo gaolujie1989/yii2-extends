@@ -104,7 +104,7 @@ class BaseAmazonSPClient extends Client
     protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
         if (isset($responseData['reports'])) {
-            $nextToken = $responseData['nextToken'];
+            $nextToken = $responseData['nextToken'] ?? null;
             return $nextToken ? ['nextToken' => $nextToken] : null;
         }
         $payload = $responseData['payload'] ?? $responseData;

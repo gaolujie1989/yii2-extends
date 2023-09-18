@@ -44,7 +44,9 @@ class BaseAmazonSPClientFactory extends BaseObject
     /**
      * @var Yii2HttpHandler
      */
-    public $httpHandler = [];
+    public $httpHandler = [
+//        'requestOptions' => []
+    ];
 
     /**
      * @var Signer

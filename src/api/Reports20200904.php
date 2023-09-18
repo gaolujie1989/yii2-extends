@@ -12,7 +12,67 @@ use Iterator;
 class Reports20200904 extends \lujie\amazon\sp\BaseAmazonSPClient
 {
 
-                
+            
+    /**
+     * @description Effective **June 27, 2023**, the `getReports` operation will no longer be available in the Selling Partner API for Reports v2020-09-04 and all calls to it will fail. Integrations that rely on this operation should migrate to [Reports v2021-06-30](https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference) to avoid service disruption.
+     * @tag reports
+     * @param array $query
+     *      - *reportTypes* - array - optional
+     *          - A list of report types used to filter reports. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
+     *      - *processingStatuses* - array - optional
+     *          - A list of processing statuses used to filter reports.
+     *      - *marketplaceIds* - array - optional
+     *          - A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
+     *      - *pageSize* - integer - optional
+     *          - The maximum number of reports to return in a single call.
+     *      - *createdSince* - string - optional
+     *          - The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
+     *      - *createdUntil* - string - optional
+     *          - The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
+     *      - *nextToken* - string - optional
+     *          - A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
+     * @return Iterator
+     *      - *payload* - 
+     *          - The payload for the getReports operation.
+     *      - *nextToken* - string
+     *          - Returned when the number of results exceeds pageSize. To get the next page of results, call getReports with this token as the only parameter.
+     *      - *errors* - 
+     */
+    public function eachReports(array $query = []): Iterator
+    {
+        return $this->eachInternal('getReports', func_get_args());
+    }
+        
+    /**
+     * @description Effective **June 27, 2023**, the `getReports` operation will no longer be available in the Selling Partner API for Reports v2020-09-04 and all calls to it will fail. Integrations that rely on this operation should migrate to [Reports v2021-06-30](https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference) to avoid service disruption.
+     * @tag reports
+     * @param array $query
+     *      - *reportTypes* - array - optional
+     *          - A list of report types used to filter reports. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
+     *      - *processingStatuses* - array - optional
+     *          - A list of processing statuses used to filter reports.
+     *      - *marketplaceIds* - array - optional
+     *          - A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
+     *      - *pageSize* - integer - optional
+     *          - The maximum number of reports to return in a single call.
+     *      - *createdSince* - string - optional
+     *          - The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
+     *      - *createdUntil* - string - optional
+     *          - The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
+     *      - *nextToken* - string - optional
+     *          - A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
+     * @return Iterator
+     *      - *payload* - 
+     *          - The payload for the getReports operation.
+     *      - *nextToken* - string
+     *          - Returned when the number of results exceeds pageSize. To get the next page of results, call getReports with this token as the only parameter.
+     *      - *errors* - 
+     */
+    public function batchReports(array $query = []): Iterator
+    {
+        return $this->batchInternal('getReports', func_get_args());
+    }
+    
     /**
      * @description Effective **June 27, 2023**, the `getReports` operation will no longer be available in the Selling Partner API for Reports v2020-09-04 and all calls to it will fail. Integrations that rely on this operation should migrate to [Reports v2021-06-30](https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference) to avoid service disruption.
      * @tag reports

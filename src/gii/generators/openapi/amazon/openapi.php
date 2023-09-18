@@ -130,7 +130,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                         $docParams[] = "     *          - {$description}";
                     }
                 }
-                if ($httpMethod === 'GET' && isset($queryParams['limit'])) {
+                if ($httpMethod === 'GET' && isset($queryParams['nextToken'])) {
                     $eachMethod = 'each' . substr($method['operationId'], 3);
                     $batchMethod = 'batch' . substr($method['operationId'], 3);
                 }

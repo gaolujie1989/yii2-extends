@@ -35,7 +35,61 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     {
         return $this->api("/fba/outbound/2020-07-01/fulfillmentOrders/preview", 'POST', $data);
     }
-                        
+                    
+    /**
+     * @description Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 2 | 30 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
+     * @tag fbaOutbound
+     * @param array $query
+     *      - *queryStartDate* - string - optional
+     *          - A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
+     *      - *nextToken* - string - optional
+     *          - A string token returned in the response to your previous request.
+     * @return Iterator
+     *      - *payload* - 
+     *          - The payload for the listAllFulfillmentOrders operation.
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the listAllFulfillmentOrders operation.
+     */
+    public function eachtAllFulfillmentOrders(array $query = []): Iterator
+    {
+        return $this->eachInternal('listAllFulfillmentOrders', func_get_args());
+    }
+        
+    /**
+     * @description Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 2 | 30 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
+     * @tag fbaOutbound
+     * @param array $query
+     *      - *queryStartDate* - string - optional
+     *          - A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
+     *      - *nextToken* - string - optional
+     *          - A string token returned in the response to your previous request.
+     * @return Iterator
+     *      - *payload* - 
+     *          - The payload for the listAllFulfillmentOrders operation.
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the listAllFulfillmentOrders operation.
+     */
+    public function batchtAllFulfillmentOrders(array $query = []): Iterator
+    {
+        return $this->batchInternal('listAllFulfillmentOrders', func_get_args());
+    }
+    
     /**
      * @description Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.
 
@@ -266,7 +320,61 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     {
         return $this->api(array_merge(["/fba/outbound/2020-07-01/features"], $query));
     }
-                        
+                    
+    /**
+     * @description Returns a list of inventory items that are eligible for the fulfillment feature you specify.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 2 | 30 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
+     * @tag fbaOutbound
+     * @param string $featureName The name of the feature for which to return a list of eligible inventory.
+     * @param array $query
+     *      - *marketplaceId* - string - required
+     *          - The marketplace for which to return a list of the inventory that is eligible for the specified feature.
+     *      - *nextToken* - string - optional
+     *          - A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+     * @return Iterator
+     *      - *payload* - 
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the getFeatureInventory operation.
+     */
+    public function eachFeatureInventory(string $featureName, array $query): Iterator
+    {
+        return $this->eachInternal('getFeatureInventory', func_get_args());
+    }
+        
+    /**
+     * @description Returns a list of inventory items that are eligible for the fulfillment feature you specify.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 2 | 30 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
+     * @tag fbaOutbound
+     * @param string $featureName The name of the feature for which to return a list of eligible inventory.
+     * @param array $query
+     *      - *marketplaceId* - string - required
+     *          - The marketplace for which to return a list of the inventory that is eligible for the specified feature.
+     *      - *nextToken* - string - optional
+     *          - A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+     * @return Iterator
+     *      - *payload* - 
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the getFeatureInventory operation.
+     */
+    public function batchFeatureInventory(string $featureName, array $query): Iterator
+    {
+        return $this->batchInternal('getFeatureInventory', func_get_args());
+    }
+    
     /**
      * @description Returns a list of inventory items that are eligible for the fulfillment feature you specify.
 

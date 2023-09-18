@@ -38,7 +38,7 @@ trait LockingTrait
     /**
      * @var bool
      */
-    private $initialized = false;
+    private $mutexInitialized = false;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -46,7 +46,7 @@ trait LockingTrait
      */
     public function initMutex(): void
     {
-        if ($this->initialized) {
+        if ($this->mutexInitialized) {
             return;
         }
 
@@ -61,7 +61,7 @@ trait LockingTrait
         } else {
             $this->keyPrefix = ClassHelper::getClassShortName($this) . ':';
         }
-        $this->initialized = true;
+        $this->mutexInitialized = true;
     }
 
     /**

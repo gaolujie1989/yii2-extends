@@ -54,7 +54,7 @@ trait OAuthExtendTrait
         $tokenConfig['tokenSecretParamKey'] = $this->tokenSecretParamKey ?? 'refresh_token';
         $authToken = parent::createToken($tokenConfig);
         //To Avoid 401
-        $authToken->setExpireDuration(($authToken->getExpireDuration() ?: ($this->tokenExpireDuration ?? 3600)) - 5);
+        $authToken->setExpireDuration(($authToken->getExpireDuration() ?: ($this->tokenExpireDuration ?? 3600)) - 60);
         return $authToken;
     }
 

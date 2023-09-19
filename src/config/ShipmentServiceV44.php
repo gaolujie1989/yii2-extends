@@ -6,5 +6,5 @@ use lujie\dpd\helpers\SoapClientCodeGeneratorConfigHelper;
 
 return SoapClientCodeGeneratorConfigHelper::createDPDSoapConfig(
     'ShipmentService',
-    'https://public-ws-stage.dpd.com/services/ShipmentService/V4_4/?wsdl'
+    'https://public-ws.dpd.com/services/ShipmentService/V4_4/?wsdl'
 );

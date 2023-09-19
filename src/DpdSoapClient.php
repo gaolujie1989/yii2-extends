@@ -26,8 +26,10 @@ use Soap\Psr18Transport\Psr18Transport;
 use Soap\Wsdl\Loader\FlatteningLoader;
 use Soap\Wsdl\Loader\StreamWrapperLoader;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Yii;
 use yii\base\Component;
 use yii\di\Instance;
+use yii\helpers\FileHelper;
 
 /**
  * Class DpdSoapClient
@@ -155,7 +157,8 @@ class DpdSoapClient extends Component
      * @param string $wsdl
      * @param LoginServiceClient|ShipmentServiceClient|ParcelShopFinderServiceClient $clientClass
      * @param LoginServiceClassmap|ShipmentServiceClassmap|ParcelShopFinderServiceClassmap $classMapClass
-     * @return mixed
+     * @return LoginServiceClient|ShipmentServiceClient|ParcelShopFinderServiceClient
+     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -169,12 +172,14 @@ class DpdSoapClient extends Component
             ];
         }
 
+        $cacheDir = Yii::getAlias('@runtime/wsdl');
+        FileHelper::createDirectory($cacheDir);
         $engine = DefaultEngineFactory::create(
             ExtSoapOptions::defaults($wsdl, [])
                 ->withWsdlProvider(new PermanentWsdlLoaderProvider(
                     new FlatteningLoader(new StreamWrapperLoader()),
                     new Md5Strategy(),
-                    __DIR__ . '/wsdl'
+                    $cacheDir
                 ))
                 ->withClassMap($classMapClass::getCollection()),
             Psr18Transport::createForClient(

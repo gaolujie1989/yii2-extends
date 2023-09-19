@@ -9,7 +9,9 @@ use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use lujie\extend\helpers\HttpClientHelper;
 use Nyholm\Psr7\Response as Psr7Response;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use yii\authclient\BaseClient;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
@@ -21,7 +23,7 @@ use yii\httpclient\Response;
  * @package lujie\extend\httpclient
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class Yii2HttpHandler extends BaseClient
+class Yii2HttpHandler extends BaseClient implements ClientInterface
 {
     /**
      * @var ?Request
@@ -33,6 +35,9 @@ class Yii2HttpHandler extends BaseClient
      */
     private $lastResponse;
 
+    /**
+     * @var string[]
+     */
     public $allowedOptionKeys = [
         'timeout' => 'timeout',
         'proxy' => 'proxy',
@@ -73,13 +78,10 @@ class Yii2HttpHandler extends BaseClient
     /**
      * @param RequestInterface $request
      * @param array $options
-     * @return PromiseInterface
-     * @throws InvalidConfigException
-     * @throws \yii\authclient\InvalidResponseException
-     * @throws \yii\httpclient\Exception
+     * @return Request
      * @inheritdoc
      */
-    public function sendAsync(RequestInterface $request, array $options = []): PromiseInterface
+    public function createRequestFromPsr(RequestInterface $request, array $options = []): Request
     {
         $httpRequest = $this->createRequest()
             ->setMethod($request->getMethod())
@@ -91,11 +93,50 @@ class Yii2HttpHandler extends BaseClient
         if ($contents) {
             $httpRequest->setContent($contents);
         }
+        return $httpRequest;
+    }
 
+    /**
+     * @param RequestInterface $request
+     * @param array $options
+     * @return ResponseInterface
+     * @throws \yii\authclient\InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function sendPsrRequest(RequestInterface $request, array $options = []): ResponseInterface
+    {
+        $httpRequest = $this->createRequestFromPsr($request, $options);
         $httpResponse = HttpClientHelper::sendRequest($httpRequest);
         $this->lastRequest = $httpRequest;
         $this->lastResponse = $httpResponse;
-        return Create::promiseFor(new Psr7Response($httpResponse->getStatusCode(), $httpResponse->getHeaders()->toArray(), $httpResponse->getContent()));
+        return new Psr7Response($httpResponse->getStatusCode(), $httpResponse->getHeaders()->toArray(), $httpResponse->getContent());
+    }
+
+    /**
+     * @param RequestInterface $request
+     * @param array $options
+     * @return PromiseInterface
+     * @throws InvalidConfigException
+     * @throws \yii\authclient\InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function sendAsync(RequestInterface $request, array $options = []): PromiseInterface
+    {
+        return Create::promiseFor($this->sendPsrRequest($request, $options));
+    }
+
+    /**
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     * @throws \yii\authclient\InvalidResponseException
+     * @throws \yii\httpclient\Exception
+     * @inheritdoc
+     */
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        return $this->sendPsrRequest($request);
     }
 
     /**

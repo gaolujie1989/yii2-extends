@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__) . '/helpers/SoapClientCodeGeneratorConfigHelper.php';
+require_once dirname(__DIR__) . '/helpers/DpdSoapClientConfigHelper.php';
 
 use lujie\dpd\helpers\DpdSoapClientConfigHelper;
 

@@ -147,10 +147,10 @@ class Yii2HttpHandler extends BaseClient implements ClientInterface
     public function formatOptions(array $options = []): array
     {
         $formattedOptions = array_intersect_key($options, $this->allowedOptionKeys);
-        if ($options['verify']) {
+        if (isset($options['verify'])) {
             $formattedOptions['sslVerifyPeer'] = $options['verify'];
         }
-        if ($options['allow_redirects']) {
+        if (isset($options['allow_redirects'])) {
             $formattedOptions['followLocation'] = true;
             $formattedOptions['maxRedirects'] = $options['allow_redirects']['max'];
         }

@@ -19,14 +19,14 @@ use yii\base\BaseObject;
  * @package lujie\dpd\helpers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class SoapClientCodeGeneratorConfigHelper
+class DpdSoapClientConfigHelper
 {
     /**
      * @param string $name
      * @param string $wsdl
      * @inheritdoc
      */
-    public static function createDPDSoapConfig(string $name, string $wsdl): Config
+    public static function createSoapConfig(string $name, string $wsdl): Config
     {
         $config = Config::create()
             ->setEngine($engine = DefaultEngineFactory::create(

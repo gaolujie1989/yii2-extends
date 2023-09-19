@@ -3,6 +3,7 @@
 namespace lujie\common\address\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\extend\models\AddressInterface;
 use Yii;
 use yii\helpers\Json;
 
@@ -36,7 +37,7 @@ use yii\helpers\Json;
  * @property string $house_no
  * @property string $additional
  */
-class Address extends \lujie\extend\db\ActiveRecord
+class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
 {
     /**
      * if identify by signature,
@@ -222,4 +223,68 @@ class Address extends \lujie\extend\db\ActiveRecord
     {
         return static::findOne(['signature' => $signature]);
     }
+
+    #region AddressInterface implementation
+
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
+    public function getPostalCode(): string
+    {
+        return $this->postal_code;
+    }
+
+    public function getCompanyName(): string
+    {
+        return $this->name1;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->name2;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->name3;
+    }
+
+    public function getStreet(): string
+    {
+        return $this->address1;
+    }
+
+    public function getStreetNo(): string
+    {
+        return $this->address2;
+    }
+
+    public function getAdditional(): string
+    {
+        return $this->address3;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    #endregion
 }

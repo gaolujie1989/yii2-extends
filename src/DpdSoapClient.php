@@ -5,42 +5,39 @@
 
 namespace lujie\dpd;
 
+use Http\Client\Common\PluginClient;
 use lujie\dpd\soap\LoginServiceClassmap;
 use lujie\dpd\soap\LoginServiceClient;
 use lujie\dpd\soap\ParcelShopFinderServiceClassmap;
 use lujie\dpd\soap\ParcelShopFinderServiceClient;
 use lujie\dpd\soap\ShipmentServiceClassmap;
 use lujie\dpd\soap\ShipmentServiceClient;
-use lujie\dpd\soap\Type\FindCitiesResponseType;
-use lujie\dpd\soap\Type\FindCitiesType;
-use lujie\dpd\soap\Type\FindParcelShopsByGeoDataResponseType;
-use lujie\dpd\soap\Type\FindParcelShopsByGeoDataType;
-use lujie\dpd\soap\Type\FindParcelShopsResponseType;
-use lujie\dpd\soap\Type\FindParcelShopsType;
 use lujie\dpd\soap\Type\GetAuth;
-use lujie\dpd\soap\Type\GetAuthResponse;
-use lujie\dpd\soap\Type\GetAvailableServicesResponseType;
-use lujie\dpd\soap\Type\GetAvailableServicesType;
 use lujie\dpd\soap\Type\Login;
-use lujie\dpd\soap\Type\StoreOrders;
-use lujie\dpd\soap\Type\StoreOrdersResponse;
 use lujie\extend\caching\CachingTrait;
-use Phpro\SoapClient\Client;
-use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
-use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
-use Phpro\SoapClient\Soap\Handler\HttPlugHandle;
+use lujie\extend\psr\http\Yii2HttpHandler;
+use Phpro\SoapClient\Caller\EngineCaller;
+use Phpro\SoapClient\Caller\EventDispatchingCaller;
+use Phpro\SoapClient\Soap\DefaultEngineFactory;
+use Soap\ExtSoapEngine\ExtSoapOptions;
+use Soap\ExtSoapEngine\Wsdl\Naming\Md5Strategy;
+use Soap\ExtSoapEngine\Wsdl\PermanentWsdlLoaderProvider;
+use Soap\Psr18Transport\Psr18Transport;
+use Soap\Wsdl\Loader\FlatteningLoader;
+use Soap\Wsdl\Loader\StreamWrapperLoader;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use yii\base\Component;
+use yii\di\Instance;
 
 /**
  * Class DpdSoapClient
  *
- * @method GetAuthResponse getAuth(GetAuth $parameters)
- * @method StoreOrdersResponse storeOrders(StoreOrders $parameters)
- * @method FindParcelShopsResponseType findParcelShops(FindParcelShopsType $parameters)
- * @method FindParcelShopsByGeoDataResponseType findParcelShopsByGeoData(FindParcelShopsByGeoDataType $parameters)
- * @method FindCitiesResponseType findCities(FindCitiesType $parameters)
- * @method GetAvailableServicesResponseType getAvailableServices(GetAvailableServicesType $parameters)
+ * @method \lujie\dpd\soap\Type\GetAuthResponse getAuth(\lujie\dpd\soap\Type\GetAuth $parameters)
+ * @method \lujie\dpd\soap\Type\StoreOrdersResponse storeOrders(\lujie\dpd\soap\Type\StoreOrders $parameters)
+ * @method \lujie\dpd\soap\Type\FindParcelShopsResponseType findParcelShops(\lujie\dpd\soap\Type\FindParcelShopsType $parameters)
+ * @method \lujie\dpd\soap\Type\FindParcelShopsByGeoDataResponseType findParcelShopsByGeoData(\lujie\dpd\soap\Type\FindParcelShopsByGeoDataType $parameters)
+ * @method \lujie\dpd\soap\Type\FindCitiesResponseType findCities(\lujie\dpd\soap\Type\FindCitiesType $parameters)
+ * @method \lujie\dpd\soap\Type\GetAvailableServicesResponseType getAvailableServices(\lujie\dpd\soap\Type\GetAvailableServicesType $parameters)
  *
  * @package lujie\dpd
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -102,13 +99,18 @@ class DpdSoapClient extends Component
     private $clients = [];
 
     /**
+     * @var Yii2HttpHandler
+     */
+    public $httpHandler = [];
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
-        $this->initCache();
+        $this->httpHandler = Instance::ensure($this->httpHandler, Yii2HttpHandler::class);
     }
 
     /**
@@ -122,42 +124,14 @@ class DpdSoapClient extends Component
     }
 
     /**
-     * @param string $wsdl
-     * @param ShipmentServiceClient $clientClass
-     * @param ShipmentServiceClassmap $classMapClass
-     * @return ShipmentServiceClient
-     * @inheritdoc
-     */
-    protected function createClient(string $wsdl, string $clientClass, string $classMapClass): Client
-    {
-        $handler = HttPlugHandle::createWithDefaultClient();
-        if ($clientClass !== LoginServiceClient::class) {
-            $dpdAuthMiddleware = new DpdSoapAuthMiddleware(
-                $this->getDpdLogin()->getDelisId(),
-                $this->getDpdLogin()->getAuthToken(),
-                $this->language
-            );
-            $handler->addMiddleware($dpdAuthMiddleware);
-        }
-
-        $engine = ExtSoapEngineFactory::fromOptionsWithHandler(
-            ExtSoapOptions::defaults($wsdl, [])
-                ->withClassMap($classMapClass::getCollection()),
-            $handler
-        );
-        $eventDispatcher = new EventDispatcher();
-
-        return new $clientClass($engine, $eventDispatcher);
-    }
-
-    /**
      * @return Login
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function getDpdLogin(): Login
     {
         $key = $this->baseUrl . $this->username;
-        return $this->cache->getOrSet($key, function () {
+        return $this->getOrSetCacheValue($key, function () {
             $authResponse = $this->getAuth(new GetAuth([
                 'delisId' => $this->username,
                 'password' => $this->password,
@@ -169,6 +143,7 @@ class DpdSoapClient extends Component
 
     /**
      * @return string
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function getSendingDepot(): string
@@ -177,9 +152,50 @@ class DpdSoapClient extends Component
     }
 
     /**
-     * @param string $name
-     * @param array $params
+     * @param string $wsdl
+     * @param LoginServiceClient|ShipmentServiceClient|ParcelShopFinderServiceClient $clientClass
+     * @param LoginServiceClassmap|ShipmentServiceClassmap|ParcelShopFinderServiceClassmap $classMapClass
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function createClient(string $wsdl, string $clientClass, string $classMapClass): mixed
+    {
+        $plugins = [];
+        if ($clientClass !== LoginServiceClient::class) {
+            $dpdLogin = $this->getDpdLogin();
+            $plugins = [
+                new DpdSoapAuthPlugin($dpdLogin->getDelisId(), $dpdLogin->getAuthToken(), $this->language),
+            ];
+        }
+
+        $engine = DefaultEngineFactory::create(
+            ExtSoapOptions::defaults($wsdl, [])
+                ->withWsdlProvider(new PermanentWsdlLoaderProvider(
+                    new FlatteningLoader(new StreamWrapperLoader()),
+                    new Md5Strategy(),
+                    __DIR__ . '/wsdl'
+                ))
+                ->withClassMap($classMapClass::getCollection()),
+            Psr18Transport::createForClient(
+                new PluginClient(
+                    $this->httpHandler,
+                    $plugins
+                )
+            ),
+        );
+
+        $eventDispatcher = new EventDispatcher();
+        $caller = new EventDispatchingCaller(new EngineCaller($engine), $eventDispatcher);
+
+        return new $clientClass($caller);
+    }
+
+    /**
+     * @param $name
+     * @param $params
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function __call($name, $params)

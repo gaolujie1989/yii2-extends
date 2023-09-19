@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class PersonalDelivery extends BaseObject
 {
-
     /**
      * @var int
      */
@@ -52,6 +51,18 @@ class PersonalDelivery extends BaseObject
 
     /**
      * @param int $type
+     * @return PersonalDelivery
+     */
+    public function withType($type)
+    {
+        $new = clone $this;
+        $new->type = $type;
+
+        return $new;
+    }
+
+    /**
+     * @param int $type
      * @return $this
      */
     public function setType(int $type) : \lujie\dpd\soap\Type\PersonalDelivery
@@ -61,23 +72,23 @@ class PersonalDelivery extends BaseObject
     }
 
     /**
-     * @param int $type
-     * @return PersonalDelivery
-     */
-    public function withType(int $type) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->type = $type;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getFloor()
     {
         return $this->floor;
+    }
+
+    /**
+     * @param string $floor
+     * @return PersonalDelivery
+     */
+    public function withFloor($floor)
+    {
+        $new = clone $this;
+        $new->floor = $floor;
+
+        return $new;
     }
 
     /**
@@ -91,23 +102,23 @@ class PersonalDelivery extends BaseObject
     }
 
     /**
-     * @param string $floor
-     * @return PersonalDelivery
-     */
-    public function withFloor(string $floor) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->floor = $floor;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getBuilding()
     {
         return $this->building;
+    }
+
+    /**
+     * @param string $building
+     * @return PersonalDelivery
+     */
+    public function withBuilding($building)
+    {
+        $new = clone $this;
+        $new->building = $building;
+
+        return $new;
     }
 
     /**
@@ -121,23 +132,23 @@ class PersonalDelivery extends BaseObject
     }
 
     /**
-     * @param string $building
-     * @return PersonalDelivery
-     */
-    public function withBuilding(string $building) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->building = $building;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getDepartment()
     {
         return $this->department;
+    }
+
+    /**
+     * @param string $department
+     * @return PersonalDelivery
+     */
+    public function withDepartment($department)
+    {
+        $new = clone $this;
+        $new->department = $department;
+
+        return $new;
     }
 
     /**
@@ -151,23 +162,23 @@ class PersonalDelivery extends BaseObject
     }
 
     /**
-     * @param string $department
-     * @return PersonalDelivery
-     */
-    public function withDepartment(string $department) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->department = $department;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return PersonalDelivery
+     */
+    public function withName($name)
+    {
+        $new = clone $this;
+        $new->name = $name;
+
+        return $new;
     }
 
     /**
@@ -181,23 +192,23 @@ class PersonalDelivery extends BaseObject
     }
 
     /**
-     * @param string $name
-     * @return PersonalDelivery
-     */
-    public function withName(string $name) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->name = $name;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return PersonalDelivery
+     */
+    public function withPhone($phone)
+    {
+        $new = clone $this;
+        $new->phone = $phone;
+
+        return $new;
     }
 
     /**
@@ -211,23 +222,23 @@ class PersonalDelivery extends BaseObject
     }
 
     /**
-     * @param string $phone
-     * @return PersonalDelivery
-     */
-    public function withPhone(string $phone) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->phone = $phone;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPersonId()
     {
         return $this->personId;
+    }
+
+    /**
+     * @param string $personId
+     * @return PersonalDelivery
+     */
+    public function withPersonId($personId)
+    {
+        $new = clone $this;
+        $new->personId = $personId;
+
+        return $new;
     }
 
     /**
@@ -239,19 +250,5 @@ class PersonalDelivery extends BaseObject
         $this->personId = $personId;
         return $this;
     }
-
-    /**
-     * @param string $personId
-     * @return PersonalDelivery
-     */
-    public function withPersonId(string $personId) : \lujie\dpd\soap\Type\PersonalDelivery
-    {
-        $new = clone $this;
-        $new->personId = $personId;
-
-        return $new;
-    }
-
-
 }
 

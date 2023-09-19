@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class FaultType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -72,6 +71,18 @@ class FaultType extends BaseObject
 
     /**
      * @param string $additionalData
+     * @return FaultType
+     */
+    public function withAdditionalData($additionalData)
+    {
+        $new = clone $this;
+        $new->additionalData = $additionalData;
+
+        return $new;
+    }
+
+    /**
+     * @param string $additionalData
      * @return $this
      */
     public function setAdditionalData(string $additionalData) : \lujie\dpd\soap\Type\FaultType
@@ -81,23 +92,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $additionalData
-     * @return FaultType
-     */
-    public function withAdditionalData(string $additionalData) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->additionalData = $additionalData;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getAdditionalInfo()
     {
         return $this->additionalInfo;
+    }
+
+    /**
+     * @param string $additionalInfo
+     * @return FaultType
+     */
+    public function withAdditionalInfo($additionalInfo)
+    {
+        $new = clone $this;
+        $new->additionalInfo = $additionalInfo;
+
+        return $new;
     }
 
     /**
@@ -111,23 +122,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $additionalInfo
-     * @return FaultType
-     */
-    public function withAdditionalInfo(string $additionalInfo) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->additionalInfo = $additionalInfo;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getErrorClass()
     {
         return $this->errorClass;
+    }
+
+    /**
+     * @param string $errorClass
+     * @return FaultType
+     */
+    public function withErrorClass($errorClass)
+    {
+        $new = clone $this;
+        $new->errorClass = $errorClass;
+
+        return $new;
     }
 
     /**
@@ -141,23 +152,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $errorClass
-     * @return FaultType
-     */
-    public function withErrorClass(string $errorClass) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->errorClass = $errorClass;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getErrorCode()
     {
         return $this->errorCode;
+    }
+
+    /**
+     * @param string $errorCode
+     * @return FaultType
+     */
+    public function withErrorCode($errorCode)
+    {
+        $new = clone $this;
+        $new->errorCode = $errorCode;
+
+        return $new;
     }
 
     /**
@@ -171,23 +182,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $errorCode
-     * @return FaultType
-     */
-    public function withErrorCode(string $errorCode) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->errorCode = $errorCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getFullMessage()
     {
         return $this->fullMessage;
+    }
+
+    /**
+     * @param string $fullMessage
+     * @return FaultType
+     */
+    public function withFullMessage($fullMessage)
+    {
+        $new = clone $this;
+        $new->fullMessage = $fullMessage;
+
+        return $new;
     }
 
     /**
@@ -201,23 +212,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $fullMessage
-     * @return FaultType
-     */
-    public function withFullMessage(string $fullMessage) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->fullMessage = $fullMessage;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * @param string $language
+     * @return FaultType
+     */
+    public function withLanguage($language)
+    {
+        $new = clone $this;
+        $new->language = $language;
+
+        return $new;
     }
 
     /**
@@ -231,23 +242,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $language
-     * @return FaultType
-     */
-    public function withLanguage(string $language) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->language = $language;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * @param string $message
+     * @return FaultType
+     */
+    public function withMessage($message)
+    {
+        $new = clone $this;
+        $new->message = $message;
+
+        return $new;
     }
 
     /**
@@ -261,23 +272,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $message
-     * @return FaultType
-     */
-    public function withMessage(string $message) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->message = $message;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getShortMessage()
     {
         return $this->shortMessage;
+    }
+
+    /**
+     * @param string $shortMessage
+     * @return FaultType
+     */
+    public function withShortMessage($shortMessage)
+    {
+        $new = clone $this;
+        $new->shortMessage = $shortMessage;
+
+        return $new;
     }
 
     /**
@@ -291,23 +302,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $shortMessage
-     * @return FaultType
-     */
-    public function withShortMessage(string $shortMessage) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->shortMessage = $shortMessage;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSystemFullMessage()
     {
         return $this->systemFullMessage;
+    }
+
+    /**
+     * @param string $systemFullMessage
+     * @return FaultType
+     */
+    public function withSystemFullMessage($systemFullMessage)
+    {
+        $new = clone $this;
+        $new->systemFullMessage = $systemFullMessage;
+
+        return $new;
     }
 
     /**
@@ -321,23 +332,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $systemFullMessage
-     * @return FaultType
-     */
-    public function withSystemFullMessage(string $systemFullMessage) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->systemFullMessage = $systemFullMessage;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSystemMessage()
     {
         return $this->systemMessage;
+    }
+
+    /**
+     * @param string $systemMessage
+     * @return FaultType
+     */
+    public function withSystemMessage($systemMessage)
+    {
+        $new = clone $this;
+        $new->systemMessage = $systemMessage;
+
+        return $new;
     }
 
     /**
@@ -351,23 +362,23 @@ class FaultType extends BaseObject
     }
 
     /**
-     * @param string $systemMessage
-     * @return FaultType
-     */
-    public function withSystemMessage(string $systemMessage) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->systemMessage = $systemMessage;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSystemShortMessage()
     {
         return $this->systemShortMessage;
+    }
+
+    /**
+     * @param string $systemShortMessage
+     * @return FaultType
+     */
+    public function withSystemShortMessage($systemShortMessage)
+    {
+        $new = clone $this;
+        $new->systemShortMessage = $systemShortMessage;
+
+        return $new;
     }
 
     /**
@@ -379,19 +390,5 @@ class FaultType extends BaseObject
         $this->systemShortMessage = $systemShortMessage;
         return $this;
     }
-
-    /**
-     * @param string $systemShortMessage
-     * @return FaultType
-     */
-    public function withSystemShortMessage(string $systemShortMessage) : \lujie\dpd\soap\Type\FaultType
-    {
-        $new = clone $this;
-        $new->systemShortMessage = $systemShortMessage;
-
-        return $new;
-    }
-
-
 }
 

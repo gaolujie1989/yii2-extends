@@ -5,12 +5,13 @@
 
 namespace lujie\dpd\helpers;
 
+use Laminas\Code\Generator\AbstractMemberGenerator;
 use Phpro\SoapClient\CodeGenerator\Assembler;
-use Phpro\SoapClient\CodeGenerator\Rules;
 use Phpro\SoapClient\CodeGenerator\Config\Config;
-use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
-use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
-use Phpro\SoapClient\Soap\Engine\Engine;
+use Phpro\SoapClient\CodeGenerator\Rules;
+use Phpro\SoapClient\Soap\DefaultEngineFactory;
+use Soap\Engine\Engine;
+use Soap\ExtSoapEngine\ExtSoapOptions;
 use yii\base\BaseObject;
 
 /**
@@ -28,7 +29,7 @@ class SoapClientCodeGeneratorConfigHelper
     public static function createDPDSoapConfig(string $name, string $wsdl): Config
     {
         $config = Config::create()
-            ->setEngine($engine = ExtSoapEngineFactory::fromOptions(
+            ->setEngine($engine = DefaultEngineFactory::create(
                 ExtSoapOptions::defaults($wsdl, [])
                     ->disableWsdlCache()
             ))
@@ -51,14 +52,13 @@ class SoapClientCodeGeneratorConfigHelper
      */
     public static function addDefaultRules(Config $config, Engine $engine): Config
     {
-        return $config->addRule(new Rules\AssembleRule(new Assembler\GetterAssembler(
-                (new Assembler\GetterAssemblerOptions()))
-        ))
+        return $config
+            ->addRule(new Rules\AssembleRule(new Assembler\GetterAssembler(new Assembler\GetterAssemblerOptions())))
+            ->addRule(new Rules\AssembleRule(new Assembler\ImmutableSetterAssembler(
+                new Assembler\ImmutableSetterAssemblerOptions()
+            )))
             ->addRule(new Rules\AssembleRule(new Assembler\FluentSetterAssembler(
                     (new Assembler\FluentSetterAssemblerOptions())->withReturnType()->withTypeHints())
-            ))
-            ->addRule(new Rules\AssembleRule(new Assembler\ImmutableSetterAssembler(
-                    (new Assembler\ImmutableSetterAssemblerOptions())->withReturnTypes()->withTypeHints())
             ))
             ->addRule(new Rules\AssembleRule(new Assembler\ExtendAssembler(BaseObject::class)))
             ->addRule(

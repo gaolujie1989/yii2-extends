@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class FaultCodeType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -27,24 +26,24 @@ class FaultCodeType extends BaseObject
 
     /**
      * @param string $faultCode
+     * @return FaultCodeType
+     */
+    public function withFaultCode($faultCode)
+    {
+        $new = clone $this;
+        $new->faultCode = $faultCode;
+
+        return $new;
+    }
+
+    /**
+     * @param string $faultCode
      * @return $this
      */
     public function setFaultCode(string $faultCode) : \lujie\dpd\soap\Type\FaultCodeType
     {
         $this->faultCode = $faultCode;
         return $this;
-    }
-
-    /**
-     * @param string $faultCode
-     * @return FaultCodeType
-     */
-    public function withFaultCode(string $faultCode) : \lujie\dpd\soap\Type\FaultCodeType
-    {
-        $new = clone $this;
-        $new->faultCode = $faultCode;
-
-        return $new;
     }
 
     /**
@@ -57,19 +56,9 @@ class FaultCodeType extends BaseObject
 
     /**
      * @param string $message
-     * @return $this
-     */
-    public function setMessage(string $message) : \lujie\dpd\soap\Type\FaultCodeType
-    {
-        $this->message = $message;
-        return $this;
-    }
-
-    /**
-     * @param string $message
      * @return FaultCodeType
      */
-    public function withMessage(string $message) : \lujie\dpd\soap\Type\FaultCodeType
+    public function withMessage($message)
     {
         $new = clone $this;
         $new->message = $message;
@@ -77,6 +66,14 @@ class FaultCodeType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param string $message
+     * @return $this
+     */
+    public function setMessage(string $message) : \lujie\dpd\soap\Type\FaultCodeType
+    {
+        $this->message = $message;
+        return $this;
+    }
 }
 

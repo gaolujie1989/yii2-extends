@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ProductAndServiceData extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -97,6 +96,18 @@ class ProductAndServiceData extends BaseObject
 
     /**
      * @param string $orderType
+     * @return ProductAndServiceData
+     */
+    public function withOrderType($orderType)
+    {
+        $new = clone $this;
+        $new->orderType = $orderType;
+
+        return $new;
+    }
+
+    /**
+     * @param string $orderType
      * @return $this
      */
     public function setOrderType(string $orderType) : \lujie\dpd\soap\Type\ProductAndServiceData
@@ -106,23 +117,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param string $orderType
-     * @return ProductAndServiceData
-     */
-    public function withOrderType(string $orderType) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->orderType = $orderType;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getSaturdayDelivery()
     {
         return $this->saturdayDelivery;
+    }
+
+    /**
+     * @param bool $saturdayDelivery
+     * @return ProductAndServiceData
+     */
+    public function withSaturdayDelivery($saturdayDelivery)
+    {
+        $new = clone $this;
+        $new->saturdayDelivery = $saturdayDelivery;
+
+        return $new;
     }
 
     /**
@@ -136,23 +147,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param bool $saturdayDelivery
-     * @return ProductAndServiceData
-     */
-    public function withSaturdayDelivery(bool $saturdayDelivery) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->saturdayDelivery = $saturdayDelivery;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getExWorksDelivery()
     {
         return $this->exWorksDelivery;
+    }
+
+    /**
+     * @param bool $exWorksDelivery
+     * @return ProductAndServiceData
+     */
+    public function withExWorksDelivery($exWorksDelivery)
+    {
+        $new = clone $this;
+        $new->exWorksDelivery = $exWorksDelivery;
+
+        return $new;
     }
 
     /**
@@ -166,23 +177,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param bool $exWorksDelivery
-     * @return ProductAndServiceData
-     */
-    public function withExWorksDelivery(bool $exWorksDelivery) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->exWorksDelivery = $exWorksDelivery;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getGuarantee()
     {
         return $this->guarantee;
+    }
+
+    /**
+     * @param bool $guarantee
+     * @return ProductAndServiceData
+     */
+    public function withGuarantee($guarantee)
+    {
+        $new = clone $this;
+        $new->guarantee = $guarantee;
+
+        return $new;
     }
 
     /**
@@ -196,23 +207,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param bool $guarantee
-     * @return ProductAndServiceData
-     */
-    public function withGuarantee(bool $guarantee) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->guarantee = $guarantee;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getTyres()
     {
         return $this->tyres;
+    }
+
+    /**
+     * @param bool $tyres
+     * @return ProductAndServiceData
+     */
+    public function withTyres($tyres)
+    {
+        $new = clone $this;
+        $new->tyres = $tyres;
+
+        return $new;
     }
 
     /**
@@ -226,23 +237,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param bool $tyres
-     * @return ProductAndServiceData
-     */
-    public function withTyres(bool $tyres) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->tyres = $tyres;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getFood()
     {
         return $this->food;
+    }
+
+    /**
+     * @param bool $food
+     * @return ProductAndServiceData
+     */
+    public function withFood($food)
+    {
+        $new = clone $this;
+        $new->food = $food;
+
+        return $new;
     }
 
     /**
@@ -256,23 +267,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param bool $food
-     * @return ProductAndServiceData
-     */
-    public function withFood(bool $food) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->food = $food;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\PersonalDelivery
      */
     public function getPersonalDelivery()
     {
         return $this->personalDelivery;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\PersonalDelivery $personalDelivery
+     * @return ProductAndServiceData
+     */
+    public function withPersonalDelivery($personalDelivery)
+    {
+        $new = clone $this;
+        $new->personalDelivery = $personalDelivery;
+
+        return $new;
     }
 
     /**
@@ -286,23 +297,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\PersonalDelivery $personalDelivery
-     * @return ProductAndServiceData
-     */
-    public function withPersonalDelivery(\lujie\dpd\soap\Type\PersonalDelivery $personalDelivery) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->personalDelivery = $personalDelivery;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Pickup
      */
     public function getPickup()
     {
         return $this->pickup;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Pickup $pickup
+     * @return ProductAndServiceData
+     */
+    public function withPickup($pickup)
+    {
+        $new = clone $this;
+        $new->pickup = $pickup;
+
+        return $new;
     }
 
     /**
@@ -316,23 +327,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Pickup $pickup
-     * @return ProductAndServiceData
-     */
-    public function withPickup(\lujie\dpd\soap\Type\Pickup $pickup) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->pickup = $pickup;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ParcelShopDelivery
      */
     public function getParcelShopDelivery()
     {
         return $this->parcelShopDelivery;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ParcelShopDelivery $parcelShopDelivery
+     * @return ProductAndServiceData
+     */
+    public function withParcelShopDelivery($parcelShopDelivery)
+    {
+        $new = clone $this;
+        $new->parcelShopDelivery = $parcelShopDelivery;
+
+        return $new;
     }
 
     /**
@@ -346,23 +357,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ParcelShopDelivery $parcelShopDelivery
-     * @return ProductAndServiceData
-     */
-    public function withParcelShopDelivery(\lujie\dpd\soap\Type\ParcelShopDelivery $parcelShopDelivery) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->parcelShopDelivery = $parcelShopDelivery;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Notification
      */
     public function getPredict()
     {
         return $this->predict;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Notification $predict
+     * @return ProductAndServiceData
+     */
+    public function withPredict($predict)
+    {
+        $new = clone $this;
+        $new->predict = $predict;
+
+        return $new;
     }
 
     /**
@@ -376,23 +387,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Notification $predict
-     * @return ProductAndServiceData
-     */
-    public function withPredict(\lujie\dpd\soap\Type\Notification $predict) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->predict = $predict;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Notification
      */
     public function getPersonalDeliveryNotification()
     {
         return $this->personalDeliveryNotification;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Notification $personalDeliveryNotification
+     * @return ProductAndServiceData
+     */
+    public function withPersonalDeliveryNotification($personalDeliveryNotification)
+    {
+        $new = clone $this;
+        $new->personalDeliveryNotification = $personalDeliveryNotification;
+
+        return $new;
     }
 
     /**
@@ -406,23 +417,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Notification $personalDeliveryNotification
-     * @return ProductAndServiceData
-     */
-    public function withPersonalDeliveryNotification(\lujie\dpd\soap\Type\Notification $personalDeliveryNotification) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->personalDeliveryNotification = $personalDeliveryNotification;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ProactiveNotification
      */
     public function getProactiveNotification()
     {
         return $this->proactiveNotification;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ProactiveNotification $proactiveNotification
+     * @return ProductAndServiceData
+     */
+    public function withProactiveNotification($proactiveNotification)
+    {
+        $new = clone $this;
+        $new->proactiveNotification = $proactiveNotification;
+
+        return $new;
     }
 
     /**
@@ -436,23 +447,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ProactiveNotification $proactiveNotification
-     * @return ProductAndServiceData
-     */
-    public function withProactiveNotification(\lujie\dpd\soap\Type\ProactiveNotification $proactiveNotification) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->proactiveNotification = $proactiveNotification;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Delivery
      */
     public function getDelivery()
     {
         return $this->delivery;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Delivery $delivery
+     * @return ProductAndServiceData
+     */
+    public function withDelivery($delivery)
+    {
+        $new = clone $this;
+        $new->delivery = $delivery;
+
+        return $new;
     }
 
     /**
@@ -466,23 +477,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Delivery $delivery
-     * @return ProductAndServiceData
-     */
-    public function withDelivery(\lujie\dpd\soap\Type\Delivery $delivery) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->delivery = $delivery;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Address
      */
     public function getInvoiceAddress()
     {
         return $this->invoiceAddress;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Address $invoiceAddress
+     * @return ProductAndServiceData
+     */
+    public function withInvoiceAddress($invoiceAddress)
+    {
+        $new = clone $this;
+        $new->invoiceAddress = $invoiceAddress;
+
+        return $new;
     }
 
     /**
@@ -496,23 +507,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Address $invoiceAddress
-     * @return ProductAndServiceData
-     */
-    public function withInvoiceAddress(\lujie\dpd\soap\Type\Address $invoiceAddress) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->invoiceAddress = $invoiceAddress;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCountrySpecificService()
     {
         return $this->countrySpecificService;
+    }
+
+    /**
+     * @param string $countrySpecificService
+     * @return ProductAndServiceData
+     */
+    public function withCountrySpecificService($countrySpecificService)
+    {
+        $new = clone $this;
+        $new->countrySpecificService = $countrySpecificService;
+
+        return $new;
     }
 
     /**
@@ -526,23 +537,23 @@ class ProductAndServiceData extends BaseObject
     }
 
     /**
-     * @param string $countrySpecificService
-     * @return ProductAndServiceData
-     */
-    public function withCountrySpecificService(string $countrySpecificService) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->countrySpecificService = $countrySpecificService;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\International
      */
     public function getInternational()
     {
         return $this->international;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\International $international
+     * @return ProductAndServiceData
+     */
+    public function withInternational($international)
+    {
+        $new = clone $this;
+        $new->international = $international;
+
+        return $new;
     }
 
     /**
@@ -554,19 +565,5 @@ class ProductAndServiceData extends BaseObject
         $this->international = $international;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\International $international
-     * @return ProductAndServiceData
-     */
-    public function withInternational(\lujie\dpd\soap\Type\International $international) : \lujie\dpd\soap\Type\ProductAndServiceData
-    {
-        $new = clone $this;
-        $new->international = $international;
-
-        return $new;
-    }
-
-
 }
 

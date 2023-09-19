@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class Address extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -102,6 +101,18 @@ class Address extends BaseObject
 
     /**
      * @param string $name1
+     * @return Address
+     */
+    public function withName1($name1)
+    {
+        $new = clone $this;
+        $new->name1 = $name1;
+
+        return $new;
+    }
+
+    /**
+     * @param string $name1
      * @return $this
      */
     public function setName1(string $name1) : \lujie\dpd\soap\Type\Address
@@ -111,23 +122,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $name1
-     * @return Address
-     */
-    public function withName1(string $name1) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->name1 = $name1;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getName2()
     {
         return $this->name2;
+    }
+
+    /**
+     * @param string $name2
+     * @return Address
+     */
+    public function withName2($name2)
+    {
+        $new = clone $this;
+        $new->name2 = $name2;
+
+        return $new;
     }
 
     /**
@@ -141,23 +152,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $name2
-     * @return Address
-     */
-    public function withName2(string $name2) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->name2 = $name2;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getStreet()
     {
         return $this->street;
+    }
+
+    /**
+     * @param string $street
+     * @return Address
+     */
+    public function withStreet($street)
+    {
+        $new = clone $this;
+        $new->street = $street;
+
+        return $new;
     }
 
     /**
@@ -171,23 +182,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $street
-     * @return Address
-     */
-    public function withStreet(string $street) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->street = $street;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getHouseNo()
     {
         return $this->houseNo;
+    }
+
+    /**
+     * @param string $houseNo
+     * @return Address
+     */
+    public function withHouseNo($houseNo)
+    {
+        $new = clone $this;
+        $new->houseNo = $houseNo;
+
+        return $new;
     }
 
     /**
@@ -201,23 +212,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $houseNo
-     * @return Address
-     */
-    public function withHouseNo(string $houseNo) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->houseNo = $houseNo;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @param string $state
+     * @return Address
+     */
+    public function withState($state)
+    {
+        $new = clone $this;
+        $new->state = $state;
+
+        return $new;
     }
 
     /**
@@ -231,23 +242,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $state
-     * @return Address
-     */
-    public function withState(string $state) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->state = $state;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @param string $country
+     * @return Address
+     */
+    public function withCountry($country)
+    {
+        $new = clone $this;
+        $new->country = $country;
+
+        return $new;
     }
 
     /**
@@ -261,23 +272,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $country
-     * @return Address
-     */
-    public function withCountry(string $country) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->country = $country;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getZipCode()
     {
         return $this->zipCode;
+    }
+
+    /**
+     * @param string $zipCode
+     * @return Address
+     */
+    public function withZipCode($zipCode)
+    {
+        $new = clone $this;
+        $new->zipCode = $zipCode;
+
+        return $new;
     }
 
     /**
@@ -291,23 +302,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $zipCode
-     * @return Address
-     */
-    public function withZipCode(string $zipCode) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->zipCode = $zipCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * @param string $city
+     * @return Address
+     */
+    public function withCity($city)
+    {
+        $new = clone $this;
+        $new->city = $city;
+
+        return $new;
     }
 
     /**
@@ -321,23 +332,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $city
-     * @return Address
-     */
-    public function withCity(string $city) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->city = $city;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getGln()
     {
         return $this->gln;
+    }
+
+    /**
+     * @param int $gln
+     * @return Address
+     */
+    public function withGln($gln)
+    {
+        $new = clone $this;
+        $new->gln = $gln;
+
+        return $new;
     }
 
     /**
@@ -351,23 +362,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param int $gln
-     * @return Address
-     */
-    public function withGln(int $gln) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->gln = $gln;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomerNumber()
     {
         return $this->customerNumber;
+    }
+
+    /**
+     * @param string $customerNumber
+     * @return Address
+     */
+    public function withCustomerNumber($customerNumber)
+    {
+        $new = clone $this;
+        $new->customerNumber = $customerNumber;
+
+        return $new;
     }
 
     /**
@@ -381,23 +392,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $customerNumber
-     * @return Address
-     */
-    public function withCustomerNumber(string $customerNumber) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->customerNumber = $customerNumber;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getContact()
     {
         return $this->contact;
+    }
+
+    /**
+     * @param string $contact
+     * @return Address
+     */
+    public function withContact($contact)
+    {
+        $new = clone $this;
+        $new->contact = $contact;
+
+        return $new;
     }
 
     /**
@@ -411,23 +422,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $contact
-     * @return Address
-     */
-    public function withContact(string $contact) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->contact = $contact;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return Address
+     */
+    public function withPhone($phone)
+    {
+        $new = clone $this;
+        $new->phone = $phone;
+
+        return $new;
     }
 
     /**
@@ -441,23 +452,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $phone
-     * @return Address
-     */
-    public function withPhone(string $phone) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->phone = $phone;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMobile()
     {
         return $this->mobile;
+    }
+
+    /**
+     * @param string $mobile
+     * @return Address
+     */
+    public function withMobile($mobile)
+    {
+        $new = clone $this;
+        $new->mobile = $mobile;
+
+        return $new;
     }
 
     /**
@@ -471,23 +482,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $mobile
-     * @return Address
-     */
-    public function withMobile(string $mobile) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->mobile = $mobile;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getFax()
     {
         return $this->fax;
+    }
+
+    /**
+     * @param string $fax
+     * @return Address
+     */
+    public function withFax($fax)
+    {
+        $new = clone $this;
+        $new->fax = $fax;
+
+        return $new;
     }
 
     /**
@@ -501,23 +512,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $fax
-     * @return Address
-     */
-    public function withFax(string $fax) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->fax = $fax;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return Address
+     */
+    public function withEmail($email)
+    {
+        $new = clone $this;
+        $new->email = $email;
+
+        return $new;
     }
 
     /**
@@ -531,23 +542,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $email
-     * @return Address
-     */
-    public function withEmail(string $email) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->email = $email;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getComment()
     {
         return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     * @return Address
+     */
+    public function withComment($comment)
+    {
+        $new = clone $this;
+        $new->comment = $comment;
+
+        return $new;
     }
 
     /**
@@ -561,23 +572,23 @@ class Address extends BaseObject
     }
 
     /**
-     * @param string $comment
-     * @return Address
-     */
-    public function withComment(string $comment) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->comment = $comment;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getIaccount()
     {
         return $this->iaccount;
+    }
+
+    /**
+     * @param string $iaccount
+     * @return Address
+     */
+    public function withIaccount($iaccount)
+    {
+        $new = clone $this;
+        $new->iaccount = $iaccount;
+
+        return $new;
     }
 
     /**
@@ -589,19 +600,5 @@ class Address extends BaseObject
         $this->iaccount = $iaccount;
         return $this;
     }
-
-    /**
-     * @param string $iaccount
-     * @return Address
-     */
-    public function withIaccount(string $iaccount) : \lujie\dpd\soap\Type\Address
-    {
-        $new = clone $this;
-        $new->iaccount = $iaccount;
-
-        return $new;
-    }
-
-
 }
 

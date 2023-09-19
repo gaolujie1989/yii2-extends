@@ -3,15 +3,14 @@
 namespace lujie\dpd\soap;
 
 use lujie\dpd\soap\Type;
-use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
-use Phpro\SoapClient\Soap\ClassMap\ClassMap;
+use Soap\ExtSoapEngine\Configuration\ClassMap\ClassMapCollection;
+use Soap\ExtSoapEngine\Configuration\ClassMap\ClassMap;
 
 class ShipmentServiceClassmap
 {
-
-    public static function getCollection() : \Phpro\SoapClient\Soap\ClassMap\ClassMapCollection
+    public static function getCollection() : \Soap\ExtSoapEngine\Configuration\ClassMap\ClassMapCollection
     {
-        return new ClassMapCollection([
+        return new ClassMapCollection(
             new ClassMap('storeOrders', Type\StoreOrders::class),
             new ClassMap('storeOrdersResponse', Type\StoreOrdersResponse::class),
             new ClassMap('storeOrdersResponseType', Type\StoreOrdersResponseType::class),
@@ -41,9 +40,7 @@ class ShipmentServiceClassmap
             new ClassMap('OutputType', Type\OutputType::class),
             new ClassMap('authentication', Type\Authentication::class),
             new ClassMap('authenticationFault', Type\AuthenticationFault::class),
-        ]);
+        );
     }
-
-
 }
 

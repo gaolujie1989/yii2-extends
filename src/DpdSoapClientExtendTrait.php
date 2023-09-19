@@ -32,6 +32,7 @@ trait DpdSoapClientExtendTrait
      * @param string $orderType
      * @return ParcelInformationType
      * @throws UserException
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function createSingleParcel(

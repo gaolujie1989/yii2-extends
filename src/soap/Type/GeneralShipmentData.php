@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class GeneralShipmentData extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -107,6 +106,18 @@ class GeneralShipmentData extends BaseObject
 
     /**
      * @param string $mpsId
+     * @return GeneralShipmentData
+     */
+    public function withMpsId($mpsId)
+    {
+        $new = clone $this;
+        $new->mpsId = $mpsId;
+
+        return $new;
+    }
+
+    /**
+     * @param string $mpsId
      * @return $this
      */
     public function setMpsId(string $mpsId) : \lujie\dpd\soap\Type\GeneralShipmentData
@@ -116,23 +127,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsId
-     * @return GeneralShipmentData
-     */
-    public function withMpsId(string $mpsId) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsId = $mpsId;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCUser()
     {
         return $this->cUser;
+    }
+
+    /**
+     * @param string $cUser
+     * @return GeneralShipmentData
+     */
+    public function withCUser($cUser)
+    {
+        $new = clone $this;
+        $new->cUser = $cUser;
+
+        return $new;
     }
 
     /**
@@ -146,23 +157,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $cUser
-     * @return GeneralShipmentData
-     */
-    public function withCUser(string $cUser) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->cUser = $cUser;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsCustomerReferenceNumber1()
     {
         return $this->mpsCustomerReferenceNumber1;
+    }
+
+    /**
+     * @param string $mpsCustomerReferenceNumber1
+     * @return GeneralShipmentData
+     */
+    public function withMpsCustomerReferenceNumber1($mpsCustomerReferenceNumber1)
+    {
+        $new = clone $this;
+        $new->mpsCustomerReferenceNumber1 = $mpsCustomerReferenceNumber1;
+
+        return $new;
     }
 
     /**
@@ -176,23 +187,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsCustomerReferenceNumber1
-     * @return GeneralShipmentData
-     */
-    public function withMpsCustomerReferenceNumber1(string $mpsCustomerReferenceNumber1) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsCustomerReferenceNumber1 = $mpsCustomerReferenceNumber1;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsCustomerReferenceNumber2()
     {
         return $this->mpsCustomerReferenceNumber2;
+    }
+
+    /**
+     * @param string $mpsCustomerReferenceNumber2
+     * @return GeneralShipmentData
+     */
+    public function withMpsCustomerReferenceNumber2($mpsCustomerReferenceNumber2)
+    {
+        $new = clone $this;
+        $new->mpsCustomerReferenceNumber2 = $mpsCustomerReferenceNumber2;
+
+        return $new;
     }
 
     /**
@@ -206,23 +217,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsCustomerReferenceNumber2
-     * @return GeneralShipmentData
-     */
-    public function withMpsCustomerReferenceNumber2(string $mpsCustomerReferenceNumber2) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsCustomerReferenceNumber2 = $mpsCustomerReferenceNumber2;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsCustomerReferenceNumber3()
     {
         return $this->mpsCustomerReferenceNumber3;
+    }
+
+    /**
+     * @param string $mpsCustomerReferenceNumber3
+     * @return GeneralShipmentData
+     */
+    public function withMpsCustomerReferenceNumber3($mpsCustomerReferenceNumber3)
+    {
+        $new = clone $this;
+        $new->mpsCustomerReferenceNumber3 = $mpsCustomerReferenceNumber3;
+
+        return $new;
     }
 
     /**
@@ -236,23 +247,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsCustomerReferenceNumber3
-     * @return GeneralShipmentData
-     */
-    public function withMpsCustomerReferenceNumber3(string $mpsCustomerReferenceNumber3) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsCustomerReferenceNumber3 = $mpsCustomerReferenceNumber3;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsCustomerReferenceNumber4()
     {
         return $this->mpsCustomerReferenceNumber4;
+    }
+
+    /**
+     * @param string $mpsCustomerReferenceNumber4
+     * @return GeneralShipmentData
+     */
+    public function withMpsCustomerReferenceNumber4($mpsCustomerReferenceNumber4)
+    {
+        $new = clone $this;
+        $new->mpsCustomerReferenceNumber4 = $mpsCustomerReferenceNumber4;
+
+        return $new;
     }
 
     /**
@@ -266,23 +277,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsCustomerReferenceNumber4
-     * @return GeneralShipmentData
-     */
-    public function withMpsCustomerReferenceNumber4(string $mpsCustomerReferenceNumber4) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsCustomerReferenceNumber4 = $mpsCustomerReferenceNumber4;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getIdentificationNumber()
     {
         return $this->identificationNumber;
+    }
+
+    /**
+     * @param string $identificationNumber
+     * @return GeneralShipmentData
+     */
+    public function withIdentificationNumber($identificationNumber)
+    {
+        $new = clone $this;
+        $new->identificationNumber = $identificationNumber;
+
+        return $new;
     }
 
     /**
@@ -296,23 +307,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $identificationNumber
-     * @return GeneralShipmentData
-     */
-    public function withIdentificationNumber(string $identificationNumber) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->identificationNumber = $identificationNumber;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSendingDepot()
     {
         return $this->sendingDepot;
+    }
+
+    /**
+     * @param string $sendingDepot
+     * @return GeneralShipmentData
+     */
+    public function withSendingDepot($sendingDepot)
+    {
+        $new = clone $this;
+        $new->sendingDepot = $sendingDepot;
+
+        return $new;
     }
 
     /**
@@ -326,23 +337,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $sendingDepot
-     * @return GeneralShipmentData
-     */
-    public function withSendingDepot(string $sendingDepot) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->sendingDepot = $sendingDepot;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @param string $product
+     * @return GeneralShipmentData
+     */
+    public function withProduct($product)
+    {
+        $new = clone $this;
+        $new->product = $product;
+
+        return $new;
     }
 
     /**
@@ -356,23 +367,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $product
-     * @return GeneralShipmentData
-     */
-    public function withProduct(string $product) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->product = $product;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getMpsCompleteDelivery()
     {
         return $this->mpsCompleteDelivery;
+    }
+
+    /**
+     * @param bool $mpsCompleteDelivery
+     * @return GeneralShipmentData
+     */
+    public function withMpsCompleteDelivery($mpsCompleteDelivery)
+    {
+        $new = clone $this;
+        $new->mpsCompleteDelivery = $mpsCompleteDelivery;
+
+        return $new;
     }
 
     /**
@@ -386,23 +397,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param bool $mpsCompleteDelivery
-     * @return GeneralShipmentData
-     */
-    public function withMpsCompleteDelivery(bool $mpsCompleteDelivery) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsCompleteDelivery = $mpsCompleteDelivery;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getMpsCompleteDeliveryLabel()
     {
         return $this->mpsCompleteDeliveryLabel;
+    }
+
+    /**
+     * @param bool $mpsCompleteDeliveryLabel
+     * @return GeneralShipmentData
+     */
+    public function withMpsCompleteDeliveryLabel($mpsCompleteDeliveryLabel)
+    {
+        $new = clone $this;
+        $new->mpsCompleteDeliveryLabel = $mpsCompleteDeliveryLabel;
+
+        return $new;
     }
 
     /**
@@ -416,23 +427,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param bool $mpsCompleteDeliveryLabel
-     * @return GeneralShipmentData
-     */
-    public function withMpsCompleteDeliveryLabel(bool $mpsCompleteDeliveryLabel) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsCompleteDeliveryLabel = $mpsCompleteDeliveryLabel;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getMpsVolume()
     {
         return $this->mpsVolume;
+    }
+
+    /**
+     * @param int $mpsVolume
+     * @return GeneralShipmentData
+     */
+    public function withMpsVolume($mpsVolume)
+    {
+        $new = clone $this;
+        $new->mpsVolume = $mpsVolume;
+
+        return $new;
     }
 
     /**
@@ -446,23 +457,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param int $mpsVolume
-     * @return GeneralShipmentData
-     */
-    public function withMpsVolume(int $mpsVolume) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsVolume = $mpsVolume;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getMpsWeight()
     {
         return $this->mpsWeight;
+    }
+
+    /**
+     * @param int $mpsWeight
+     * @return GeneralShipmentData
+     */
+    public function withMpsWeight($mpsWeight)
+    {
+        $new = clone $this;
+        $new->mpsWeight = $mpsWeight;
+
+        return $new;
     }
 
     /**
@@ -476,23 +487,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param int $mpsWeight
-     * @return GeneralShipmentData
-     */
-    public function withMpsWeight(int $mpsWeight) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsWeight = $mpsWeight;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsExpectedSendingDate()
     {
         return $this->mpsExpectedSendingDate;
+    }
+
+    /**
+     * @param string $mpsExpectedSendingDate
+     * @return GeneralShipmentData
+     */
+    public function withMpsExpectedSendingDate($mpsExpectedSendingDate)
+    {
+        $new = clone $this;
+        $new->mpsExpectedSendingDate = $mpsExpectedSendingDate;
+
+        return $new;
     }
 
     /**
@@ -506,23 +517,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsExpectedSendingDate
-     * @return GeneralShipmentData
-     */
-    public function withMpsExpectedSendingDate(string $mpsExpectedSendingDate) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsExpectedSendingDate = $mpsExpectedSendingDate;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsExpectedSendingTime()
     {
         return $this->mpsExpectedSendingTime;
+    }
+
+    /**
+     * @param string $mpsExpectedSendingTime
+     * @return GeneralShipmentData
+     */
+    public function withMpsExpectedSendingTime($mpsExpectedSendingTime)
+    {
+        $new = clone $this;
+        $new->mpsExpectedSendingTime = $mpsExpectedSendingTime;
+
+        return $new;
     }
 
     /**
@@ -536,23 +547,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param string $mpsExpectedSendingTime
-     * @return GeneralShipmentData
-     */
-    public function withMpsExpectedSendingTime(string $mpsExpectedSendingTime) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->mpsExpectedSendingTime = $mpsExpectedSendingTime;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\AddressWithType
      */
     public function getSender()
     {
         return $this->sender;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\AddressWithType $sender
+     * @return GeneralShipmentData
+     */
+    public function withSender($sender)
+    {
+        $new = clone $this;
+        $new->sender = $sender;
+
+        return $new;
     }
 
     /**
@@ -566,23 +577,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\AddressWithType $sender
-     * @return GeneralShipmentData
-     */
-    public function withSender(\lujie\dpd\soap\Type\AddressWithType $sender) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->sender = $sender;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\AddressWithType
      */
     public function getRecipient()
     {
         return $this->recipient;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\AddressWithType $recipient
+     * @return GeneralShipmentData
+     */
+    public function withRecipient($recipient)
+    {
+        $new = clone $this;
+        $new->recipient = $recipient;
+
+        return $new;
     }
 
     /**
@@ -596,23 +607,23 @@ class GeneralShipmentData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\AddressWithType $recipient
-     * @return GeneralShipmentData
-     */
-    public function withRecipient(\lujie\dpd\soap\Type\AddressWithType $recipient) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->recipient = $recipient;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\AddressWithType
      */
     public function getReturnAddress()
     {
         return $this->returnAddress;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\AddressWithType $returnAddress
+     * @return GeneralShipmentData
+     */
+    public function withReturnAddress($returnAddress)
+    {
+        $new = clone $this;
+        $new->returnAddress = $returnAddress;
+
+        return $new;
     }
 
     /**
@@ -624,19 +635,5 @@ class GeneralShipmentData extends BaseObject
         $this->returnAddress = $returnAddress;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\AddressWithType $returnAddress
-     * @return GeneralShipmentData
-     */
-    public function withReturnAddress(\lujie\dpd\soap\Type\AddressWithType $returnAddress) : \lujie\dpd\soap\Type\GeneralShipmentData
-    {
-        $new = clone $this;
-        $new->returnAddress = $returnAddress;
-
-        return $new;
-    }
-
-
 }
 

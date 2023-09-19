@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class International extends BaseObject
 {
-
     /**
      * @var bool
      */
@@ -142,6 +141,18 @@ class International extends BaseObject
 
     /**
      * @param bool $parcelType
+     * @return International
+     */
+    public function withParcelType($parcelType)
+    {
+        $new = clone $this;
+        $new->parcelType = $parcelType;
+
+        return $new;
+    }
+
+    /**
+     * @param bool $parcelType
      * @return $this
      */
     public function setParcelType(bool $parcelType) : \lujie\dpd\soap\Type\International
@@ -151,23 +162,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param bool $parcelType
-     * @return International
-     */
-    public function withParcelType(bool $parcelType) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->parcelType = $parcelType;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCustomsAmount()
     {
         return $this->customsAmount;
+    }
+
+    /**
+     * @param int $customsAmount
+     * @return International
+     */
+    public function withCustomsAmount($customsAmount)
+    {
+        $new = clone $this;
+        $new->customsAmount = $customsAmount;
+
+        return $new;
     }
 
     /**
@@ -181,23 +192,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param int $customsAmount
-     * @return International
-     */
-    public function withCustomsAmount(int $customsAmount) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsAmount = $customsAmount;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsCurrency()
     {
         return $this->customsCurrency;
+    }
+
+    /**
+     * @param string $customsCurrency
+     * @return International
+     */
+    public function withCustomsCurrency($customsCurrency)
+    {
+        $new = clone $this;
+        $new->customsCurrency = $customsCurrency;
+
+        return $new;
     }
 
     /**
@@ -211,23 +222,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsCurrency
-     * @return International
-     */
-    public function withCustomsCurrency(string $customsCurrency) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsCurrency = $customsCurrency;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCustomsAmountExport()
     {
         return $this->customsAmountExport;
+    }
+
+    /**
+     * @param int $customsAmountExport
+     * @return International
+     */
+    public function withCustomsAmountExport($customsAmountExport)
+    {
+        $new = clone $this;
+        $new->customsAmountExport = $customsAmountExport;
+
+        return $new;
     }
 
     /**
@@ -241,23 +252,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param int $customsAmountExport
-     * @return International
-     */
-    public function withCustomsAmountExport(int $customsAmountExport) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsAmountExport = $customsAmountExport;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsCurrencyExport()
     {
         return $this->customsCurrencyExport;
+    }
+
+    /**
+     * @param string $customsCurrencyExport
+     * @return International
+     */
+    public function withCustomsCurrencyExport($customsCurrencyExport)
+    {
+        $new = clone $this;
+        $new->customsCurrencyExport = $customsCurrencyExport;
+
+        return $new;
     }
 
     /**
@@ -271,23 +282,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsCurrencyExport
-     * @return International
-     */
-    public function withCustomsCurrencyExport(string $customsCurrencyExport) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsCurrencyExport = $customsCurrencyExport;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsTerms()
     {
         return $this->customsTerms;
+    }
+
+    /**
+     * @param string $customsTerms
+     * @return International
+     */
+    public function withCustomsTerms($customsTerms)
+    {
+        $new = clone $this;
+        $new->customsTerms = $customsTerms;
+
+        return $new;
     }
 
     /**
@@ -301,23 +312,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsTerms
-     * @return International
-     */
-    public function withCustomsTerms(string $customsTerms) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsTerms = $customsTerms;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsPaper()
     {
         return $this->customsPaper;
+    }
+
+    /**
+     * @param string $customsPaper
+     * @return International
+     */
+    public function withCustomsPaper($customsPaper)
+    {
+        $new = clone $this;
+        $new->customsPaper = $customsPaper;
+
+        return $new;
     }
 
     /**
@@ -331,23 +342,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsPaper
-     * @return International
-     */
-    public function withCustomsPaper(string $customsPaper) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsPaper = $customsPaper;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getCustomsEnclosure()
     {
         return $this->customsEnclosure;
+    }
+
+    /**
+     * @param bool $customsEnclosure
+     * @return International
+     */
+    public function withCustomsEnclosure($customsEnclosure)
+    {
+        $new = clone $this;
+        $new->customsEnclosure = $customsEnclosure;
+
+        return $new;
     }
 
     /**
@@ -361,23 +372,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param bool $customsEnclosure
-     * @return International
-     */
-    public function withCustomsEnclosure(bool $customsEnclosure) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsEnclosure = $customsEnclosure;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsInvoice()
     {
         return $this->customsInvoice;
+    }
+
+    /**
+     * @param string $customsInvoice
+     * @return International
+     */
+    public function withCustomsInvoice($customsInvoice)
+    {
+        $new = clone $this;
+        $new->customsInvoice = $customsInvoice;
+
+        return $new;
     }
 
     /**
@@ -391,23 +402,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsInvoice
-     * @return International
-     */
-    public function withCustomsInvoice(string $customsInvoice) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsInvoice = $customsInvoice;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCustomsInvoiceDate()
     {
         return $this->customsInvoiceDate;
+    }
+
+    /**
+     * @param int $customsInvoiceDate
+     * @return International
+     */
+    public function withCustomsInvoiceDate($customsInvoiceDate)
+    {
+        $new = clone $this;
+        $new->customsInvoiceDate = $customsInvoiceDate;
+
+        return $new;
     }
 
     /**
@@ -421,23 +432,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param int $customsInvoiceDate
-     * @return International
-     */
-    public function withCustomsInvoiceDate(int $customsInvoiceDate) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsInvoiceDate = $customsInvoiceDate;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsOrigin()
     {
         return $this->customsOrigin;
+    }
+
+    /**
+     * @param string $customsOrigin
+     * @return International
+     */
+    public function withCustomsOrigin($customsOrigin)
+    {
+        $new = clone $this;
+        $new->customsOrigin = $customsOrigin;
+
+        return $new;
     }
 
     /**
@@ -451,23 +462,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsOrigin
-     * @return International
-     */
-    public function withCustomsOrigin(string $customsOrigin) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsOrigin = $customsOrigin;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsOrder()
     {
         return $this->customsOrder;
+    }
+
+    /**
+     * @param string $customsOrder
+     * @return International
+     */
+    public function withCustomsOrder($customsOrder)
+    {
+        $new = clone $this;
+        $new->customsOrder = $customsOrder;
+
+        return $new;
     }
 
     /**
@@ -481,23 +492,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $customsOrder
-     * @return International
-     */
-    public function withCustomsOrder(string $customsOrder) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->customsOrder = $customsOrder;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getLinehaul()
     {
         return $this->linehaul;
+    }
+
+    /**
+     * @param string $linehaul
+     * @return International
+     */
+    public function withLinehaul($linehaul)
+    {
+        $new = clone $this;
+        $new->linehaul = $linehaul;
+
+        return $new;
     }
 
     /**
@@ -511,23 +522,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $linehaul
-     * @return International
-     */
-    public function withLinehaul(string $linehaul) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->linehaul = $linehaul;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getShipMrn()
     {
         return $this->shipMrn;
+    }
+
+    /**
+     * @param string $shipMrn
+     * @return International
+     */
+    public function withShipMrn($shipMrn)
+    {
+        $new = clone $this;
+        $new->shipMrn = $shipMrn;
+
+        return $new;
     }
 
     /**
@@ -541,23 +552,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $shipMrn
-     * @return International
-     */
-    public function withShipMrn(string $shipMrn) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->shipMrn = $shipMrn;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getCollectiveCustomsClearance()
     {
         return $this->collectiveCustomsClearance;
+    }
+
+    /**
+     * @param bool $collectiveCustomsClearance
+     * @return International
+     */
+    public function withCollectiveCustomsClearance($collectiveCustomsClearance)
+    {
+        $new = clone $this;
+        $new->collectiveCustomsClearance = $collectiveCustomsClearance;
+
+        return $new;
     }
 
     /**
@@ -571,23 +582,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param bool $collectiveCustomsClearance
-     * @return International
-     */
-    public function withCollectiveCustomsClearance(bool $collectiveCustomsClearance) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->collectiveCustomsClearance = $collectiveCustomsClearance;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getInvoicePosition()
     {
         return $this->invoicePosition;
+    }
+
+    /**
+     * @param int $invoicePosition
+     * @return International
+     */
+    public function withInvoicePosition($invoicePosition)
+    {
+        $new = clone $this;
+        $new->invoicePosition = $invoicePosition;
+
+        return $new;
     }
 
     /**
@@ -601,23 +612,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param int $invoicePosition
-     * @return International
-     */
-    public function withInvoicePosition(int $invoicePosition) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->invoicePosition = $invoicePosition;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getComment1()
     {
         return $this->comment1;
+    }
+
+    /**
+     * @param string $comment1
+     * @return International
+     */
+    public function withComment1($comment1)
+    {
+        $new = clone $this;
+        $new->comment1 = $comment1;
+
+        return $new;
     }
 
     /**
@@ -631,23 +642,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $comment1
-     * @return International
-     */
-    public function withComment1(string $comment1) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->comment1 = $comment1;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getComment2()
     {
         return $this->comment2;
+    }
+
+    /**
+     * @param string $comment2
+     * @return International
+     */
+    public function withComment2($comment2)
+    {
+        $new = clone $this;
+        $new->comment2 = $comment2;
+
+        return $new;
     }
 
     /**
@@ -661,23 +672,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $comment2
-     * @return International
-     */
-    public function withComment2(string $comment2) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->comment2 = $comment2;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getNumberOfArticle()
     {
         return $this->numberOfArticle;
+    }
+
+    /**
+     * @param int $numberOfArticle
+     * @return International
+     */
+    public function withNumberOfArticle($numberOfArticle)
+    {
+        $new = clone $this;
+        $new->numberOfArticle = $numberOfArticle;
+
+        return $new;
     }
 
     /**
@@ -691,23 +702,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param int $numberOfArticle
-     * @return International
-     */
-    public function withNumberOfArticle(int $numberOfArticle) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->numberOfArticle = $numberOfArticle;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCountryRegistrationNumber()
     {
         return $this->countryRegistrationNumber;
+    }
+
+    /**
+     * @param string $countryRegistrationNumber
+     * @return International
+     */
+    public function withCountryRegistrationNumber($countryRegistrationNumber)
+    {
+        $new = clone $this;
+        $new->countryRegistrationNumber = $countryRegistrationNumber;
+
+        return $new;
     }
 
     /**
@@ -721,23 +732,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $countryRegistrationNumber
-     * @return International
-     */
-    public function withCountryRegistrationNumber(string $countryRegistrationNumber) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->countryRegistrationNumber = $countryRegistrationNumber;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCommercialInvoiceConsigneeVatNumber()
     {
         return $this->commercialInvoiceConsigneeVatNumber;
+    }
+
+    /**
+     * @param string $commercialInvoiceConsigneeVatNumber
+     * @return International
+     */
+    public function withCommercialInvoiceConsigneeVatNumber($commercialInvoiceConsigneeVatNumber)
+    {
+        $new = clone $this;
+        $new->commercialInvoiceConsigneeVatNumber = $commercialInvoiceConsigneeVatNumber;
+
+        return $new;
     }
 
     /**
@@ -751,23 +762,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $commercialInvoiceConsigneeVatNumber
-     * @return International
-     */
-    public function withCommercialInvoiceConsigneeVatNumber(string $commercialInvoiceConsigneeVatNumber) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->commercialInvoiceConsigneeVatNumber = $commercialInvoiceConsigneeVatNumber;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\AddressWithBusinessUnit
      */
     public function getCommercialInvoiceConsignee()
     {
         return $this->commercialInvoiceConsignee;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\AddressWithBusinessUnit $commercialInvoiceConsignee
+     * @return International
+     */
+    public function withCommercialInvoiceConsignee($commercialInvoiceConsignee)
+    {
+        $new = clone $this;
+        $new->commercialInvoiceConsignee = $commercialInvoiceConsignee;
+
+        return $new;
     }
 
     /**
@@ -781,23 +792,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\AddressWithBusinessUnit $commercialInvoiceConsignee
-     * @return International
-     */
-    public function withCommercialInvoiceConsignee(\lujie\dpd\soap\Type\AddressWithBusinessUnit $commercialInvoiceConsignee) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->commercialInvoiceConsignee = $commercialInvoiceConsignee;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCommercialInvoiceConsignorVatNumber()
     {
         return $this->commercialInvoiceConsignorVatNumber;
+    }
+
+    /**
+     * @param string $commercialInvoiceConsignorVatNumber
+     * @return International
+     */
+    public function withCommercialInvoiceConsignorVatNumber($commercialInvoiceConsignorVatNumber)
+    {
+        $new = clone $this;
+        $new->commercialInvoiceConsignorVatNumber = $commercialInvoiceConsignorVatNumber;
+
+        return $new;
     }
 
     /**
@@ -811,23 +822,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param string $commercialInvoiceConsignorVatNumber
-     * @return International
-     */
-    public function withCommercialInvoiceConsignorVatNumber(string $commercialInvoiceConsignorVatNumber) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->commercialInvoiceConsignorVatNumber = $commercialInvoiceConsignorVatNumber;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Address
      */
     public function getCommercialInvoiceConsignor()
     {
         return $this->commercialInvoiceConsignor;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Address $commercialInvoiceConsignor
+     * @return International
+     */
+    public function withCommercialInvoiceConsignor($commercialInvoiceConsignor)
+    {
+        $new = clone $this;
+        $new->commercialInvoiceConsignor = $commercialInvoiceConsignor;
+
+        return $new;
     }
 
     /**
@@ -841,23 +852,23 @@ class International extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Address $commercialInvoiceConsignor
-     * @return International
-     */
-    public function withCommercialInvoiceConsignor(\lujie\dpd\soap\Type\Address $commercialInvoiceConsignor) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->commercialInvoiceConsignor = $commercialInvoiceConsignor;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\AdditionalInvoiceLine
      */
     public function getAdditionalInvoiceLines()
     {
         return $this->additionalInvoiceLines;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\AdditionalInvoiceLine $additionalInvoiceLines
+     * @return International
+     */
+    public function withAdditionalInvoiceLines($additionalInvoiceLines)
+    {
+        $new = clone $this;
+        $new->additionalInvoiceLines = $additionalInvoiceLines;
+
+        return $new;
     }
 
     /**
@@ -869,19 +880,5 @@ class International extends BaseObject
         $this->additionalInvoiceLines = $additionalInvoiceLines;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\AdditionalInvoiceLine $additionalInvoiceLines
-     * @return International
-     */
-    public function withAdditionalInvoiceLines(\lujie\dpd\soap\Type\AdditionalInvoiceLine $additionalInvoiceLines) : \lujie\dpd\soap\Type\International
-    {
-        $new = clone $this;
-        $new->additionalInvoiceLines = $additionalInvoiceLines;
-
-        return $new;
-    }
-
-
 }
 

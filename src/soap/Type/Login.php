@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class Login extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -37,6 +36,18 @@ class Login extends BaseObject
 
     /**
      * @param string $delisId
+     * @return Login
+     */
+    public function withDelisId($delisId)
+    {
+        $new = clone $this;
+        $new->delisId = $delisId;
+
+        return $new;
+    }
+
+    /**
+     * @param string $delisId
      * @return $this
      */
     public function setDelisId(string $delisId) : \lujie\dpd\soap\Type\Login
@@ -46,23 +57,23 @@ class Login extends BaseObject
     }
 
     /**
-     * @param string $delisId
-     * @return Login
-     */
-    public function withDelisId(string $delisId) : \lujie\dpd\soap\Type\Login
-    {
-        $new = clone $this;
-        $new->delisId = $delisId;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomerUid()
     {
         return $this->customerUid;
+    }
+
+    /**
+     * @param string $customerUid
+     * @return Login
+     */
+    public function withCustomerUid($customerUid)
+    {
+        $new = clone $this;
+        $new->customerUid = $customerUid;
+
+        return $new;
     }
 
     /**
@@ -76,23 +87,23 @@ class Login extends BaseObject
     }
 
     /**
-     * @param string $customerUid
-     * @return Login
-     */
-    public function withCustomerUid(string $customerUid) : \lujie\dpd\soap\Type\Login
-    {
-        $new = clone $this;
-        $new->customerUid = $customerUid;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getAuthToken()
     {
         return $this->authToken;
+    }
+
+    /**
+     * @param string $authToken
+     * @return Login
+     */
+    public function withAuthToken($authToken)
+    {
+        $new = clone $this;
+        $new->authToken = $authToken;
+
+        return $new;
     }
 
     /**
@@ -106,23 +117,23 @@ class Login extends BaseObject
     }
 
     /**
-     * @param string $authToken
-     * @return Login
-     */
-    public function withAuthToken(string $authToken) : \lujie\dpd\soap\Type\Login
-    {
-        $new = clone $this;
-        $new->authToken = $authToken;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getDepot()
     {
         return $this->depot;
+    }
+
+    /**
+     * @param string $depot
+     * @return Login
+     */
+    public function withDepot($depot)
+    {
+        $new = clone $this;
+        $new->depot = $depot;
+
+        return $new;
     }
 
     /**
@@ -134,19 +145,5 @@ class Login extends BaseObject
         $this->depot = $depot;
         return $this;
     }
-
-    /**
-     * @param string $depot
-     * @return Login
-     */
-    public function withDepot(string $depot) : \lujie\dpd\soap\Type\Login
-    {
-        $new = clone $this;
-        $new->depot = $depot;
-
-        return $new;
-    }
-
-
 }
 

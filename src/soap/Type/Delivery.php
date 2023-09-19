@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class Delivery extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -42,6 +41,18 @@ class Delivery extends BaseObject
 
     /**
      * @param string $day
+     * @return Delivery
+     */
+    public function withDay($day)
+    {
+        $new = clone $this;
+        $new->day = $day;
+
+        return $new;
+    }
+
+    /**
+     * @param string $day
      * @return $this
      */
     public function setDay(string $day) : \lujie\dpd\soap\Type\Delivery
@@ -51,23 +62,23 @@ class Delivery extends BaseObject
     }
 
     /**
-     * @param string $day
-     * @return Delivery
-     */
-    public function withDay(string $day) : \lujie\dpd\soap\Type\Delivery
-    {
-        $new = clone $this;
-        $new->day = $day;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getDateFrom()
     {
         return $this->dateFrom;
+    }
+
+    /**
+     * @param int $dateFrom
+     * @return Delivery
+     */
+    public function withDateFrom($dateFrom)
+    {
+        $new = clone $this;
+        $new->dateFrom = $dateFrom;
+
+        return $new;
     }
 
     /**
@@ -81,23 +92,23 @@ class Delivery extends BaseObject
     }
 
     /**
-     * @param int $dateFrom
-     * @return Delivery
-     */
-    public function withDateFrom(int $dateFrom) : \lujie\dpd\soap\Type\Delivery
-    {
-        $new = clone $this;
-        $new->dateFrom = $dateFrom;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getDateTo()
     {
         return $this->dateTo;
+    }
+
+    /**
+     * @param int $dateTo
+     * @return Delivery
+     */
+    public function withDateTo($dateTo)
+    {
+        $new = clone $this;
+        $new->dateTo = $dateTo;
+
+        return $new;
     }
 
     /**
@@ -111,23 +122,23 @@ class Delivery extends BaseObject
     }
 
     /**
-     * @param int $dateTo
-     * @return Delivery
-     */
-    public function withDateTo(int $dateTo) : \lujie\dpd\soap\Type\Delivery
-    {
-        $new = clone $this;
-        $new->dateTo = $dateTo;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getTimeFrom()
     {
         return $this->timeFrom;
+    }
+
+    /**
+     * @param string $timeFrom
+     * @return Delivery
+     */
+    public function withTimeFrom($timeFrom)
+    {
+        $new = clone $this;
+        $new->timeFrom = $timeFrom;
+
+        return $new;
     }
 
     /**
@@ -141,23 +152,23 @@ class Delivery extends BaseObject
     }
 
     /**
-     * @param string $timeFrom
-     * @return Delivery
-     */
-    public function withTimeFrom(string $timeFrom) : \lujie\dpd\soap\Type\Delivery
-    {
-        $new = clone $this;
-        $new->timeFrom = $timeFrom;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getTimeTo()
     {
         return $this->timeTo;
+    }
+
+    /**
+     * @param string $timeTo
+     * @return Delivery
+     */
+    public function withTimeTo($timeTo)
+    {
+        $new = clone $this;
+        $new->timeTo = $timeTo;
+
+        return $new;
     }
 
     /**
@@ -169,19 +180,5 @@ class Delivery extends BaseObject
         $this->timeTo = $timeTo;
         return $this;
     }
-
-    /**
-     * @param string $timeTo
-     * @return Delivery
-     */
-    public function withTimeTo(string $timeTo) : \lujie\dpd\soap\Type\Delivery
-    {
-        $new = clone $this;
-        $new->timeTo = $timeTo;
-
-        return $new;
-    }
-
-
 }
 

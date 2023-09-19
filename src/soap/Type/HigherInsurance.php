@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class HigherInsurance extends BaseObject
 {
-
     /**
      * @var int
      */
@@ -27,24 +26,24 @@ class HigherInsurance extends BaseObject
 
     /**
      * @param int $amount
+     * @return HigherInsurance
+     */
+    public function withAmount($amount)
+    {
+        $new = clone $this;
+        $new->amount = $amount;
+
+        return $new;
+    }
+
+    /**
+     * @param int $amount
      * @return $this
      */
     public function setAmount(int $amount) : \lujie\dpd\soap\Type\HigherInsurance
     {
         $this->amount = $amount;
         return $this;
-    }
-
-    /**
-     * @param int $amount
-     * @return HigherInsurance
-     */
-    public function withAmount(int $amount) : \lujie\dpd\soap\Type\HigherInsurance
-    {
-        $new = clone $this;
-        $new->amount = $amount;
-
-        return $new;
     }
 
     /**
@@ -57,19 +56,9 @@ class HigherInsurance extends BaseObject
 
     /**
      * @param string $currency
-     * @return $this
-     */
-    public function setCurrency(string $currency) : \lujie\dpd\soap\Type\HigherInsurance
-    {
-        $this->currency = $currency;
-        return $this;
-    }
-
-    /**
-     * @param string $currency
      * @return HigherInsurance
      */
-    public function withCurrency(string $currency) : \lujie\dpd\soap\Type\HigherInsurance
+    public function withCurrency($currency)
     {
         $new = clone $this;
         $new->currency = $currency;
@@ -77,6 +66,14 @@ class HigherInsurance extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param string $currency
+     * @return $this
+     */
+    public function setCurrency(string $currency) : \lujie\dpd\soap\Type\HigherInsurance
+    {
+        $this->currency = $currency;
+        return $this;
+    }
 }
 

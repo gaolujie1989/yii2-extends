@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class AdditionalInvoiceLine extends BaseObject
 {
-
     /**
      * @var int
      */
@@ -72,6 +71,18 @@ class AdditionalInvoiceLine extends BaseObject
 
     /**
      * @param int $customsInvoicePosition
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsInvoicePosition($customsInvoicePosition)
+    {
+        $new = clone $this;
+        $new->customsInvoicePosition = $customsInvoicePosition;
+
+        return $new;
+    }
+
+    /**
+     * @param int $customsInvoicePosition
      * @return $this
      */
     public function setCustomsInvoicePosition(int $customsInvoicePosition) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
@@ -81,23 +92,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param int $customsInvoicePosition
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsInvoicePosition(int $customsInvoicePosition) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsInvoicePosition = $customsInvoicePosition;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getQuantityItems()
     {
         return $this->quantityItems;
+    }
+
+    /**
+     * @param int $quantityItems
+     * @return AdditionalInvoiceLine
+     */
+    public function withQuantityItems($quantityItems)
+    {
+        $new = clone $this;
+        $new->quantityItems = $quantityItems;
+
+        return $new;
     }
 
     /**
@@ -111,23 +122,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param int $quantityItems
-     * @return AdditionalInvoiceLine
-     */
-    public function withQuantityItems(int $quantityItems) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->quantityItems = $quantityItems;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsContent()
     {
         return $this->customsContent;
+    }
+
+    /**
+     * @param string $customsContent
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsContent($customsContent)
+    {
+        $new = clone $this;
+        $new->customsContent = $customsContent;
+
+        return $new;
     }
 
     /**
@@ -141,23 +152,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param string $customsContent
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsContent(string $customsContent) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsContent = $customsContent;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsTarif()
     {
         return $this->customsTarif;
+    }
+
+    /**
+     * @param string $customsTarif
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsTarif($customsTarif)
+    {
+        $new = clone $this;
+        $new->customsTarif = $customsTarif;
+
+        return $new;
     }
 
     /**
@@ -171,23 +182,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param string $customsTarif
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsTarif(string $customsTarif) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsTarif = $customsTarif;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCustomsAmountLine()
     {
         return $this->customsAmountLine;
+    }
+
+    /**
+     * @param int $customsAmountLine
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsAmountLine($customsAmountLine)
+    {
+        $new = clone $this;
+        $new->customsAmountLine = $customsAmountLine;
+
+        return $new;
     }
 
     /**
@@ -201,23 +212,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param int $customsAmountLine
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsAmountLine(int $customsAmountLine) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsAmountLine = $customsAmountLine;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCustomsOrigin()
     {
         return $this->customsOrigin;
+    }
+
+    /**
+     * @param string $customsOrigin
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsOrigin($customsOrigin)
+    {
+        $new = clone $this;
+        $new->customsOrigin = $customsOrigin;
+
+        return $new;
     }
 
     /**
@@ -231,23 +242,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param string $customsOrigin
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsOrigin(string $customsOrigin) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsOrigin = $customsOrigin;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCustomsNetWeight()
     {
         return $this->customsNetWeight;
+    }
+
+    /**
+     * @param int $customsNetWeight
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsNetWeight($customsNetWeight)
+    {
+        $new = clone $this;
+        $new->customsNetWeight = $customsNetWeight;
+
+        return $new;
     }
 
     /**
@@ -261,23 +272,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param int $customsNetWeight
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsNetWeight(int $customsNetWeight) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsNetWeight = $customsNetWeight;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCustomsGrossWeight()
     {
         return $this->customsGrossWeight;
+    }
+
+    /**
+     * @param int $customsGrossWeight
+     * @return AdditionalInvoiceLine
+     */
+    public function withCustomsGrossWeight($customsGrossWeight)
+    {
+        $new = clone $this;
+        $new->customsGrossWeight = $customsGrossWeight;
+
+        return $new;
     }
 
     /**
@@ -291,23 +302,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param int $customsGrossWeight
-     * @return AdditionalInvoiceLine
-     */
-    public function withCustomsGrossWeight(int $customsGrossWeight) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->customsGrossWeight = $customsGrossWeight;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getProductFabricComposition()
     {
         return $this->productFabricComposition;
+    }
+
+    /**
+     * @param string $productFabricComposition
+     * @return AdditionalInvoiceLine
+     */
+    public function withProductFabricComposition($productFabricComposition)
+    {
+        $new = clone $this;
+        $new->productFabricComposition = $productFabricComposition;
+
+        return $new;
     }
 
     /**
@@ -321,23 +332,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param string $productFabricComposition
-     * @return AdditionalInvoiceLine
-     */
-    public function withProductFabricComposition(string $productFabricComposition) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->productFabricComposition = $productFabricComposition;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getProductCode()
     {
         return $this->productCode;
+    }
+
+    /**
+     * @param string $productCode
+     * @return AdditionalInvoiceLine
+     */
+    public function withProductCode($productCode)
+    {
+        $new = clone $this;
+        $new->productCode = $productCode;
+
+        return $new;
     }
 
     /**
@@ -351,23 +362,23 @@ class AdditionalInvoiceLine extends BaseObject
     }
 
     /**
-     * @param string $productCode
-     * @return AdditionalInvoiceLine
-     */
-    public function withProductCode(string $productCode) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->productCode = $productCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getProductShortDescription()
     {
         return $this->productShortDescription;
+    }
+
+    /**
+     * @param string $productShortDescription
+     * @return AdditionalInvoiceLine
+     */
+    public function withProductShortDescription($productShortDescription)
+    {
+        $new = clone $this;
+        $new->productShortDescription = $productShortDescription;
+
+        return $new;
     }
 
     /**
@@ -379,19 +390,5 @@ class AdditionalInvoiceLine extends BaseObject
         $this->productShortDescription = $productShortDescription;
         return $this;
     }
-
-    /**
-     * @param string $productShortDescription
-     * @return AdditionalInvoiceLine
-     */
-    public function withProductShortDescription(string $productShortDescription) : \lujie\dpd\soap\Type\AdditionalInvoiceLine
-    {
-        $new = clone $this;
-        $new->productShortDescription = $productShortDescription;
-
-        return $new;
-    }
-
-
 }
 

@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\RequestInterface;
 
 class GetAuth extends BaseObject implements RequestInterface
 {
-
     /**
      * @var string
      */
@@ -33,6 +32,18 @@ class GetAuth extends BaseObject implements RequestInterface
 
     /**
      * @param string $delisId
+     * @return GetAuth
+     */
+    public function withDelisId($delisId)
+    {
+        $new = clone $this;
+        $new->delisId = $delisId;
+
+        return $new;
+    }
+
+    /**
+     * @param string $delisId
      * @return $this
      */
     public function setDelisId(string $delisId) : \lujie\dpd\soap\Type\GetAuth
@@ -42,23 +53,23 @@ class GetAuth extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $delisId
-     * @return GetAuth
-     */
-    public function withDelisId(string $delisId) : \lujie\dpd\soap\Type\GetAuth
-    {
-        $new = clone $this;
-        $new->delisId = $delisId;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @param string $password
+     * @return GetAuth
+     */
+    public function withPassword($password)
+    {
+        $new = clone $this;
+        $new->password = $password;
+
+        return $new;
     }
 
     /**
@@ -72,23 +83,23 @@ class GetAuth extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $password
-     * @return GetAuth
-     */
-    public function withPassword(string $password) : \lujie\dpd\soap\Type\GetAuth
-    {
-        $new = clone $this;
-        $new->password = $password;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMessageLanguage()
     {
         return $this->messageLanguage;
+    }
+
+    /**
+     * @param string $messageLanguage
+     * @return GetAuth
+     */
+    public function withMessageLanguage($messageLanguage)
+    {
+        $new = clone $this;
+        $new->messageLanguage = $messageLanguage;
+
+        return $new;
     }
 
     /**
@@ -100,19 +111,5 @@ class GetAuth extends BaseObject implements RequestInterface
         $this->messageLanguage = $messageLanguage;
         return $this;
     }
-
-    /**
-     * @param string $messageLanguage
-     * @return GetAuth
-     */
-    public function withMessageLanguage(string $messageLanguage) : \lujie\dpd\soap\Type\GetAuth
-    {
-        $new = clone $this;
-        $new->messageLanguage = $messageLanguage;
-
-        return $new;
-    }
-
-
 }
 

@@ -12,7 +12,6 @@ use lujie\dpd\soap\Type\GeneralShipmentData;
 use lujie\dpd\soap\Type\PrintOption;
 use lujie\dpd\soap\Type\PrintOptions;
 use lujie\dpd\soap\Type\ProductAndServiceData;
-use lujie\extend\constants\StatusConst;
 use lujie\extend\models\AddressInterface;
 use lujie\extend\models\ItemInterface;
 
@@ -80,7 +79,7 @@ class DpdSoapHelper
 //            'mpsVolume' => 120000,
 //            'mpsWeight' => 120,
             'mpsExpectedSendingDate' => date('Ymd'),
-            'mpsExpectedSendingTime' => '170000',
+            'mpsExpectedSendingTime' => '160000',
             'sender' => static::createDpdAddress($sender, $senderAddressType),
             'recipient' => static::createDpdAddress($recipient, $recipientAddressType),
         ]);
@@ -120,7 +119,7 @@ class DpdSoapHelper
             'country' => $address->getCountry(),
             'zipCode' => $address->getPostalCode(),
             'city' => $address->getCity(),
-            'customerNumber' => preg_replace('/[\D]/', '', $address->getPhone()),
+            'customerNumber' => preg_replace('/\D/', '', $address->getPhone()),
             'contact' => $address->getCompanyName(),
             'phone' => $address->getPhone(),
             'email' => $address->getEmail(),

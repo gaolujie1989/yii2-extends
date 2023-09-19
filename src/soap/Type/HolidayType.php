@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class HolidayType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -27,24 +26,24 @@ class HolidayType extends BaseObject
 
     /**
      * @param string $holidayStart
+     * @return HolidayType
+     */
+    public function withHolidayStart($holidayStart)
+    {
+        $new = clone $this;
+        $new->holidayStart = $holidayStart;
+
+        return $new;
+    }
+
+    /**
+     * @param string $holidayStart
      * @return $this
      */
     public function setHolidayStart(string $holidayStart) : \lujie\dpd\soap\Type\HolidayType
     {
         $this->holidayStart = $holidayStart;
         return $this;
-    }
-
-    /**
-     * @param string $holidayStart
-     * @return HolidayType
-     */
-    public function withHolidayStart(string $holidayStart) : \lujie\dpd\soap\Type\HolidayType
-    {
-        $new = clone $this;
-        $new->holidayStart = $holidayStart;
-
-        return $new;
     }
 
     /**
@@ -57,19 +56,9 @@ class HolidayType extends BaseObject
 
     /**
      * @param string $holidayEnd
-     * @return $this
-     */
-    public function setHolidayEnd(string $holidayEnd) : \lujie\dpd\soap\Type\HolidayType
-    {
-        $this->holidayEnd = $holidayEnd;
-        return $this;
-    }
-
-    /**
-     * @param string $holidayEnd
      * @return HolidayType
      */
-    public function withHolidayEnd(string $holidayEnd) : \lujie\dpd\soap\Type\HolidayType
+    public function withHolidayEnd($holidayEnd)
     {
         $new = clone $this;
         $new->holidayEnd = $holidayEnd;
@@ -77,6 +66,14 @@ class HolidayType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param string $holidayEnd
+     * @return $this
+     */
+    public function setHolidayEnd(string $holidayEnd) : \lujie\dpd\soap\Type\HolidayType
+    {
+        $this->holidayEnd = $holidayEnd;
+        return $this;
+    }
 }
 

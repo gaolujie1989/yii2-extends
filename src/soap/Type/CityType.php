@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class CityType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -42,6 +41,18 @@ class CityType extends BaseObject
 
     /**
      * @param string $country
+     * @return CityType
+     */
+    public function withCountry($country)
+    {
+        $new = clone $this;
+        $new->country = $country;
+
+        return $new;
+    }
+
+    /**
+     * @param string $country
      * @return $this
      */
     public function setCountry(string $country) : \lujie\dpd\soap\Type\CityType
@@ -51,23 +62,23 @@ class CityType extends BaseObject
     }
 
     /**
-     * @param string $country
-     * @return CityType
-     */
-    public function withCountry(string $country) : \lujie\dpd\soap\Type\CityType
-    {
-        $new = clone $this;
-        $new->country = $country;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCountryNum()
     {
         return $this->countryNum;
+    }
+
+    /**
+     * @param int $countryNum
+     * @return CityType
+     */
+    public function withCountryNum($countryNum)
+    {
+        $new = clone $this;
+        $new->countryNum = $countryNum;
+
+        return $new;
     }
 
     /**
@@ -81,23 +92,23 @@ class CityType extends BaseObject
     }
 
     /**
-     * @param int $countryNum
-     * @return CityType
-     */
-    public function withCountryNum(int $countryNum) : \lujie\dpd\soap\Type\CityType
-    {
-        $new = clone $this;
-        $new->countryNum = $countryNum;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getZipCode()
     {
         return $this->zipCode;
+    }
+
+    /**
+     * @param string $zipCode
+     * @return CityType
+     */
+    public function withZipCode($zipCode)
+    {
+        $new = clone $this;
+        $new->zipCode = $zipCode;
+
+        return $new;
     }
 
     /**
@@ -111,23 +122,23 @@ class CityType extends BaseObject
     }
 
     /**
-     * @param string $zipCode
-     * @return CityType
-     */
-    public function withZipCode(string $zipCode) : \lujie\dpd\soap\Type\CityType
-    {
-        $new = clone $this;
-        $new->zipCode = $zipCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return CityType
+     */
+    public function withName($name)
+    {
+        $new = clone $this;
+        $new->name = $name;
+
+        return $new;
     }
 
     /**
@@ -141,23 +152,23 @@ class CityType extends BaseObject
     }
 
     /**
-     * @param string $name
-     * @return CityType
-     */
-    public function withName(string $name) : \lujie\dpd\soap\Type\CityType
-    {
-        $new = clone $this;
-        $new->name = $name;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getTown()
     {
         return $this->town;
+    }
+
+    /**
+     * @param string $town
+     * @return CityType
+     */
+    public function withTown($town)
+    {
+        $new = clone $this;
+        $new->town = $town;
+
+        return $new;
     }
 
     /**
@@ -169,19 +180,5 @@ class CityType extends BaseObject
         $this->town = $town;
         return $this;
     }
-
-    /**
-     * @param string $town
-     * @return CityType
-     */
-    public function withTown(string $town) : \lujie\dpd\soap\Type\CityType
-    {
-        $new = clone $this;
-        $new->town = $town;
-
-        return $new;
-    }
-
-
 }
 

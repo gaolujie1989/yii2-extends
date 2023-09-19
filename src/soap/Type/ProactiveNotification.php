@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ProactiveNotification extends BaseObject
 {
-
     /**
      * @var int
      */
@@ -37,6 +36,18 @@ class ProactiveNotification extends BaseObject
 
     /**
      * @param int $channel
+     * @return ProactiveNotification
+     */
+    public function withChannel($channel)
+    {
+        $new = clone $this;
+        $new->channel = $channel;
+
+        return $new;
+    }
+
+    /**
+     * @param int $channel
      * @return $this
      */
     public function setChannel(int $channel) : \lujie\dpd\soap\Type\ProactiveNotification
@@ -46,23 +57,23 @@ class ProactiveNotification extends BaseObject
     }
 
     /**
-     * @param int $channel
-     * @return ProactiveNotification
-     */
-    public function withChannel(int $channel) : \lujie\dpd\soap\Type\ProactiveNotification
-    {
-        $new = clone $this;
-        $new->channel = $channel;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * @param string $value
+     * @return ProactiveNotification
+     */
+    public function withValue($value)
+    {
+        $new = clone $this;
+        $new->value = $value;
+
+        return $new;
     }
 
     /**
@@ -76,23 +87,23 @@ class ProactiveNotification extends BaseObject
     }
 
     /**
-     * @param string $value
-     * @return ProactiveNotification
-     */
-    public function withValue(string $value) : \lujie\dpd\soap\Type\ProactiveNotification
-    {
-        $new = clone $this;
-        $new->value = $value;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getRule()
     {
         return $this->rule;
+    }
+
+    /**
+     * @param int $rule
+     * @return ProactiveNotification
+     */
+    public function withRule($rule)
+    {
+        $new = clone $this;
+        $new->rule = $rule;
+
+        return $new;
     }
 
     /**
@@ -106,23 +117,23 @@ class ProactiveNotification extends BaseObject
     }
 
     /**
-     * @param int $rule
-     * @return ProactiveNotification
-     */
-    public function withRule(int $rule) : \lujie\dpd\soap\Type\ProactiveNotification
-    {
-        $new = clone $this;
-        $new->rule = $rule;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * @param string $language
+     * @return ProactiveNotification
+     */
+    public function withLanguage($language)
+    {
+        $new = clone $this;
+        $new->language = $language;
+
+        return $new;
     }
 
     /**
@@ -134,19 +145,5 @@ class ProactiveNotification extends BaseObject
         $this->language = $language;
         return $this;
     }
-
-    /**
-     * @param string $language
-     * @return ProactiveNotification
-     */
-    public function withLanguage(string $language) : \lujie\dpd\soap\Type\ProactiveNotification
-    {
-        $new = clone $this;
-        $new->language = $language;
-
-        return $new;
-    }
-
-
 }
 

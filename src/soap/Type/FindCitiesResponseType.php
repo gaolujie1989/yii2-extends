@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\ResultInterface;
 
 class FindCitiesResponseType extends BaseObject implements ResultInterface
 {
-
     /**
      * @var \lujie\dpd\soap\Type\CityType
      */
@@ -23,19 +22,9 @@ class FindCitiesResponseType extends BaseObject implements ResultInterface
 
     /**
      * @param \lujie\dpd\soap\Type\CityType $city
-     * @return $this
-     */
-    public function setCity($city) : \lujie\dpd\soap\Type\FindCitiesResponseType
-    {
-        $this->city = $city;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\CityType $city
      * @return FindCitiesResponseType
      */
-    public function withCity(\lujie\dpd\soap\Type\CityType $city) : \lujie\dpd\soap\Type\FindCitiesResponseType
+    public function withCity($city)
     {
         $new = clone $this;
         $new->city = $city;
@@ -43,6 +32,14 @@ class FindCitiesResponseType extends BaseObject implements ResultInterface
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\CityType $city
+     * @return $this
+     */
+    public function setCity($city) : \lujie\dpd\soap\Type\FindCitiesResponseType
+    {
+        $this->city = $city;
+        return $this;
+    }
 }
 

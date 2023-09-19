@@ -16,5 +16,3 @@ soap-client generate:classmap --config=config/ShipmentServiceV44.php
 soap-client generate:client --config=config/ShipmentServiceV44.php
 soap-client generate:clientfactory --config=config/ShipmentServiceV44.php
 soap-client generate:types --config=config/ShipmentServiceV44.php
-
-rm soap/Type/*.backup

@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\RequestInterface;
 
 class StoreOrders extends BaseObject implements RequestInterface
 {
-
     /**
      * @var \lujie\dpd\soap\Type\PrintOptions
      */
@@ -28,24 +27,24 @@ class StoreOrders extends BaseObject implements RequestInterface
 
     /**
      * @param \lujie\dpd\soap\Type\PrintOptions $printOptions
+     * @return StoreOrders
+     */
+    public function withPrintOptions($printOptions)
+    {
+        $new = clone $this;
+        $new->printOptions = $printOptions;
+
+        return $new;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\PrintOptions $printOptions
      * @return $this
      */
     public function setPrintOptions($printOptions) : \lujie\dpd\soap\Type\StoreOrders
     {
         $this->printOptions = $printOptions;
         return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\PrintOptions $printOptions
-     * @return StoreOrders
-     */
-    public function withPrintOptions(\lujie\dpd\soap\Type\PrintOptions $printOptions) : \lujie\dpd\soap\Type\StoreOrders
-    {
-        $new = clone $this;
-        $new->printOptions = $printOptions;
-
-        return $new;
     }
 
     /**
@@ -58,19 +57,9 @@ class StoreOrders extends BaseObject implements RequestInterface
 
     /**
      * @param \lujie\dpd\soap\Type\ShipmentServiceData $order
-     * @return $this
-     */
-    public function setOrder($order) : \lujie\dpd\soap\Type\StoreOrders
-    {
-        $this->order = $order;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ShipmentServiceData $order
      * @return StoreOrders
      */
-    public function withOrder(\lujie\dpd\soap\Type\ShipmentServiceData $order) : \lujie\dpd\soap\Type\StoreOrders
+    public function withOrder($order)
     {
         $new = clone $this;
         $new->order = $order;
@@ -78,6 +67,14 @@ class StoreOrders extends BaseObject implements RequestInterface
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\ShipmentServiceData $order
+     * @return $this
+     */
+    public function setOrder($order) : \lujie\dpd\soap\Type\StoreOrders
+    {
+        $this->order = $order;
+        return $this;
+    }
 }
 

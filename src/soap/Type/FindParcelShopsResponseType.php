@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\ResultInterface;
 
 class FindParcelShopsResponseType extends BaseObject implements ResultInterface
 {
-
     /**
      * @var \lujie\dpd\soap\Type\ParcelShopType
      */
@@ -23,19 +22,9 @@ class FindParcelShopsResponseType extends BaseObject implements ResultInterface
 
     /**
      * @param \lujie\dpd\soap\Type\ParcelShopType $parcelShop
-     * @return $this
-     */
-    public function setParcelShop($parcelShop) : \lujie\dpd\soap\Type\FindParcelShopsResponseType
-    {
-        $this->parcelShop = $parcelShop;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ParcelShopType $parcelShop
      * @return FindParcelShopsResponseType
      */
-    public function withParcelShop(\lujie\dpd\soap\Type\ParcelShopType $parcelShop) : \lujie\dpd\soap\Type\FindParcelShopsResponseType
+    public function withParcelShop($parcelShop)
     {
         $new = clone $this;
         $new->parcelShop = $parcelShop;
@@ -43,6 +32,14 @@ class FindParcelShopsResponseType extends BaseObject implements ResultInterface
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\ParcelShopType $parcelShop
+     * @return $this
+     */
+    public function setParcelShop($parcelShop) : \lujie\dpd\soap\Type\FindParcelShopsResponseType
+    {
+        $this->parcelShop = $parcelShop;
+        return $this;
+    }
 }
 

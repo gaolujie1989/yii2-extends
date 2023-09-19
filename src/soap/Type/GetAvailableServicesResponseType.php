@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\ResultInterface;
 
 class GetAvailableServicesResponseType extends BaseObject implements ResultInterface
 {
-
     /**
      * @var \lujie\dpd\soap\Type\ServicesType
      */
@@ -23,19 +22,9 @@ class GetAvailableServicesResponseType extends BaseObject implements ResultInter
 
     /**
      * @param \lujie\dpd\soap\Type\ServicesType $services
-     * @return $this
-     */
-    public function setServices($services) : \lujie\dpd\soap\Type\GetAvailableServicesResponseType
-    {
-        $this->services = $services;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ServicesType $services
      * @return GetAvailableServicesResponseType
      */
-    public function withServices(\lujie\dpd\soap\Type\ServicesType $services) : \lujie\dpd\soap\Type\GetAvailableServicesResponseType
+    public function withServices($services)
     {
         $new = clone $this;
         $new->services = $services;
@@ -43,6 +32,14 @@ class GetAvailableServicesResponseType extends BaseObject implements ResultInter
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\ServicesType $services
+     * @return $this
+     */
+    public function setServices($services) : \lujie\dpd\soap\Type\GetAvailableServicesResponseType
+    {
+        $this->services = $services;
+        return $this;
+    }
 }
 

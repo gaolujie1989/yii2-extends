@@ -47,42 +47,41 @@ class DpdSoapHelper
      * @param AddressInterface $recipient
      * @param string $recipientAddressType
      * @param string $sendingDepot
-     * @param string $id
-     * @param array $refs
+     * @param string $refId
+     * @param array $refNos
      * @param ItemInterface|null $item
      * @return GeneralShipmentData
      * @inheritdoc
      */
     public static function createGeneralShipmentData(
         AddressInterface $sender,
-        string $senderAddressType,
+        string           $senderAddressType,
         AddressInterface $recipient,
-        string $recipientAddressType,
-        string $sendingDepot,
-        string $id,
-        array $refs = [],
-        ?ItemInterface $item = null
+        string           $recipientAddressType,
+        string           $sendingDepot,
+        string           $refId,
+        array            $refNos = [],
+        int              $weightG = 0,
+        int              $volumeMM3 = 0,
     ): GeneralShipmentData
     {
-//        $volumeCm3 = (int)round($item->getLengthMM() * $item->getWidthMM() * $item->getHeightMM() / 1000);
-//        $weight10G = (int)round($item->getWeightG() / 10);
-        return new GeneralShipmentData([
-            'mpsCustomerReferenceNumber1' => $refs ? array_shift($refs) : '',
-            'mpsCustomerReferenceNumber2' => $refs ? array_shift($refs) : '',
-            'mpsCustomerReferenceNumber3' => $refs ? array_shift($refs) : '',
-            'mpsCustomerReferenceNumber4' => $refs ? array_shift($refs) : '',
-            'identificationNumber' => $id,
+        return new GeneralShipmentData(array_filter([
+            'mpsCustomerReferenceNumber1' => $refNos ? array_shift($refNos) : '',
+            'mpsCustomerReferenceNumber2' => $refNos ? array_shift($refNos) : '',
+            'mpsCustomerReferenceNumber3' => $refNos ? array_shift($refNos) : '',
+            'mpsCustomerReferenceNumber4' => $refNos ? array_shift($refNos) : '',
+            'identificationNumber' => $refId,
             'sendingDepot' => $sendingDepot,
             'product' => DpdConst::PRODUCT_DPD_CLASSIC,
             'mpsCompleteDelivery' => false,
             'mpsCompleteDeliveryLabel' => false,
-//            'mpsVolume' => 120000,
-//            'mpsWeight' => 120,
+            'mpsVolume' => $volumeMM3 ? (int)round($volumeMM3 / 1000) : null,
+            'mpsWeight' => $weightG ? (int)round($weightG / 10) : null,
             'mpsExpectedSendingDate' => date('Ymd'),
             'mpsExpectedSendingTime' => '160000',
             'sender' => static::createDpdAddress($sender, $senderAddressType),
             'recipient' => static::createDpdAddress($recipient, $recipientAddressType),
-        ]);
+        ], static fn ($v) => $v !== null));
     }
 
     /**

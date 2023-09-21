@@ -9,6 +9,7 @@ use lujie\dpd\constants\DpdConst;
 use lujie\dpd\helpers\DpdSoapHelper;
 use lujie\dpd\soap\Type\FaultCodeType;
 use lujie\dpd\soap\Type\ParcelInformationType;
+use lujie\dpd\soap\Type\ShipmentResponse;
 use lujie\dpd\soap\Type\ShipmentServiceData;
 use lujie\dpd\soap\Type\StoreOrders;
 use lujie\extend\models\AddressInterface;
@@ -27,8 +28,8 @@ trait DpdSoapClientExtendTrait
      * @param string $senderAddressType
      * @param AddressInterface $recipient
      * @param string $recipientAddressType
-     * @param string $id
-     * @param array $refs
+     * @param string $refId
+     * @param array $refNos
      * @param string $orderType
      * @return ParcelInformationType
      * @throws UserException
@@ -40,10 +41,11 @@ trait DpdSoapClientExtendTrait
         string           $senderAddressType,
         AddressInterface $recipient,
         string           $recipientAddressType,
-        string           $id,
-        array            $refs = [],
-        string $orderType = DpdConst::ORDER_TYPE_CONSIGNMENT
-
+        string           $refId,
+        array            $refNos = [],
+        string           $orderType = DpdConst::ORDER_TYPE_CONSIGNMENT,
+        int              $weightG = 0,
+        int              $volumeMM3 = 0
     ): ParcelInformationType
     {
         $generalShipmentData = DpdSoapHelper::createGeneralShipmentData(
@@ -52,8 +54,10 @@ trait DpdSoapClientExtendTrait
             $recipient,
             $recipientAddressType,
             $this->getSendingDepot(),
-            $id,
-            $refs
+            $refId,
+            $refNos,
+            $weightG,
+            $volumeMM3,
         );
         $order = new ShipmentServiceData([
             'generalShipmentData' => $generalShipmentData,
@@ -65,17 +69,21 @@ trait DpdSoapClientExtendTrait
         $storeOrders->setOrder($order);
 
         $storeOrdersResponse = $this->storeOrders($storeOrders);
-        $shipmentResponse = $storeOrdersResponse->getOrderResult()->getShipmentResponses()[0];
+        $shipmentResponse = $storeOrdersResponse->getOrderResult()->getShipmentResponses();
+        if (is_array($shipmentResponse)) {
+            $shipmentResponse = $shipmentResponse[0];
+        }
         $faults = $shipmentResponse->getFaults();
         if ($faults) {
-            $faults = array_map(static function(FaultCodeType $fault) {
+            $faults = array_map(static function (FaultCodeType $fault) {
                 return [
                     'faultCode' => $fault->getFaultCode(),
                     'message' => $fault->getMessage(),
                 ];
-            }, $faults);
+            }, is_array($faults) ? $faults : [$faults]);
             throw new UserException('DPD StoreOrders with faults: ' . Json::encode($faults));
         }
-        return $shipmentResponse->getParcelInformation()[0];
+        $parcelInformation = $shipmentResponse->getParcelInformation();
+        return is_array($parcelInformation) ? $parcelInformation[0] : $parcelInformation;
     }
 }

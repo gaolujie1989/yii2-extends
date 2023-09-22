@@ -81,12 +81,19 @@ class PlentyMarketsAdminClient extends BaseCookieClient
 
     /**
      * @return string|null
+     * @throws InvalidConfigException
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
     protected function getDomainHash(): ?string
     {
-        return $this->getCookies()?->getValue('domainHash');
+        $cookies = $this->getCookies();
+        $value = $cookies->getValue('domainHash');
+        if (empty($value)) {
+            $cookies = $this->login();
+            $value = $cookies->getValue('domainHash');
+        }
+        return $value;
     }
 
     /**

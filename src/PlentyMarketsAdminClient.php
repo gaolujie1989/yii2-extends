@@ -86,8 +86,20 @@ class PlentyMarketsAdminClient extends BaseCookieClient
      */
     protected function getDomainHash(): ?string
     {
-        $cookies = $this->getCookies();
-        return $cookies ? $cookies->getValue('domainHash') : null;
+        return $this->getCookies()?->getValue('domainHash');
+    }
+
+    /**
+     * @param CookieCollection $cookies
+     * @inheritdoc
+     */
+    public function setCookies(CookieCollection $cookies): void
+    {
+        $defaultExpireAt = time() + $this->expireDuration;
+        foreach ($cookies as $cookie) {
+            $cookie->expire = $defaultExpireAt;
+        }
+        parent::setCookies($cookies);
     }
 
     /**
@@ -99,11 +111,9 @@ class PlentyMarketsAdminClient extends BaseCookieClient
     protected function getAuthorization(): string
     {
         $cookies = $this->getCookies();
-        if ($cookies !== null) {
-            foreach ($cookies as $cookie) {
-                if (strpos($cookie->name, 'at') === 0 && strlen($cookie->name) === 7) {
-                    return $cookie->value;
-                }
+        foreach ($cookies as $cookie) {
+            if (str_starts_with($cookie->name, 'at') && strlen($cookie->name) === 7) {
+                return $cookie->value;
             }
         }
         throw new InvalidConfigException('Invalid Cookies');

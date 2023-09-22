@@ -14,6 +14,7 @@ use lujie\dpd\soap\ShipmentServiceClassmap;
 use lujie\dpd\soap\ShipmentServiceClient;
 use lujie\dpd\soap\Type\GetAuth;
 use lujie\dpd\soap\Type\Login;
+use lujie\extend\authclient\BaseSoapClient;
 use lujie\extend\caching\CachingTrait;
 use lujie\extend\psr\http\Yii2HttpHandler;
 use Phpro\SoapClient\Caller\EngineCaller;
@@ -46,7 +47,7 @@ use yii\helpers\FileHelper;
  * @document https://esolutions.dpd.com/entwickler/dpdwebservices.aspx
  * @document https://esolutions.dpd.com/entwickler/entwicklerdaten/sandbox.aspx
  */
-class DpdSoapClient extends Component
+class DpdSoapClient extends BaseSoapClient
 {
     use CachingTrait;
     use DpdSoapClientExtendTrait;
@@ -65,11 +66,6 @@ class DpdSoapClient extends Component
      * @var string
      */
     public $productionUrl = 'https://public-ws.dpd.com/services';
-
-    /**
-     * @var bool
-     */
-    protected $sandbox = false;
 
     /**
      * @var string
@@ -94,36 +90,6 @@ class DpdSoapClient extends Component
         'ShipmentService/V4_4/?wsdl' => [ShipmentServiceClient::class, ShipmentServiceClassmap::class],
         'ParcelShopFinderService/V5_0/?wsdl' => [ParcelShopFinderServiceClient::class, ParcelShopFinderServiceClassmap::class],
     ];
-
-    /**
-     * @var ShipmentServiceClient[]
-     */
-    private $clients = [];
-
-    /**
-     * @var Yii2HttpHandler
-     */
-    public $httpHandler = [];
-
-    /**
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function init(): void
-    {
-        parent::init();
-        $this->httpHandler = Instance::ensure($this->httpHandler, Yii2HttpHandler::class);
-    }
-
-    /**
-     * @param bool $sandbox
-     * @inheritdoc
-     */
-    public function setSandbox(bool $sandbox = true): void
-    {
-        $this->sandbox = $sandbox;
-        $this->baseUrl = $this->sandbox ? $this->sandboxUrl : $this->productionUrl;
-    }
 
     /**
      * @return Login
@@ -154,67 +120,19 @@ class DpdSoapClient extends Component
     }
 
     /**
-     * @param string $wsdl
-     * @param LoginServiceClient|ShipmentServiceClient|ParcelShopFinderServiceClient $clientClass
-     * @param LoginServiceClassmap|ShipmentServiceClassmap|ParcelShopFinderServiceClassmap $classMapClass
-     * @return LoginServiceClient|ShipmentServiceClient|ParcelShopFinderServiceClient
-     * @throws \yii\base\Exception
+     * @param string $clientClass
+     * @return array|DpdSoapAuthPlugin[]
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function createClient(string $wsdl, string $clientClass, string $classMapClass): mixed
+    public function getHttpPlugins(string $clientClass): array
     {
-        $plugins = [];
         if ($clientClass !== LoginServiceClient::class) {
             $dpdLogin = $this->getDpdLogin();
-            $plugins = [
+            return [
                 new DpdSoapAuthPlugin($dpdLogin->getDelisId(), $dpdLogin->getAuthToken(), $this->language),
             ];
         }
-
-        $cacheDir = Yii::getAlias('@runtime/wsdl');
-        FileHelper::createDirectory($cacheDir);
-        $engine = DefaultEngineFactory::create(
-            ExtSoapOptions::defaults($wsdl, [])
-                ->withWsdlProvider(new PermanentWsdlLoaderProvider(
-                    new FlatteningLoader(new StreamWrapperLoader()),
-                    new Md5Strategy(),
-                    $cacheDir
-                ))
-                ->withClassMap($classMapClass::getCollection()),
-            Psr18Transport::createForClient(
-                new PluginClient(
-                    $this->httpHandler,
-                    $plugins
-                )
-            ),
-        );
-
-        $eventDispatcher = new EventDispatcher();
-        $caller = new EventDispatchingCaller(new EngineCaller($engine), $eventDispatcher);
-
-        return new $clientClass($caller);
-    }
-
-    /**
-     * @param $name
-     * @param $params
-     * @return mixed
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function __call($name, $params)
-    {
-        foreach ($this->clientFactories as $wsdlPath => [$clientClass, $classMapClass]) {
-            if (empty($this->clients[$wsdlPath])) {
-                $wsdlUrl = trim($this->baseUrl, '/') . '/' . trim($wsdlPath, '/');
-                $this->clients[$wsdlPath] = $this->createClient($wsdlUrl, $clientClass, $classMapClass);
-            }
-            $client = $this->clients[$wsdlPath];
-            if (method_exists($client, $name)) {
-                return call_user_func_array([$client, $name], $params);
-            }
-        }
-        return parent::__call($name, $params);
+        return [];
     }
 }

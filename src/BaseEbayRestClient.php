@@ -6,8 +6,6 @@
 namespace lujie\ebay;
 
 use lujie\extend\authclient\RestOAuth2;
-use lujie\extend\httpclient\Response;
-use yii\helpers\Inflector;
 use yii\httpclient\Client;
 
 /**
@@ -18,8 +16,6 @@ use yii\httpclient\Client;
  */
 class BaseEbayRestClient extends RestOAuth2
 {
-    protected $sandbox = false;
-
     public $sandboxUrlMap = [
         'auth.ebay.com' => 'auth.sandbox.ebay.com',
         'api.ebay.com' => 'api.sandbox.ebay.com',

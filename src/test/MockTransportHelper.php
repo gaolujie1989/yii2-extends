@@ -31,7 +31,7 @@ class MockTransportHelper
             $mockResponse = new Response([
                 'headers' => [
                     'http-code' => 200,
-                    'content-type' => 'json'
+                    'content-type' => pathinfo($responseFile, PATHINFO_EXTENSION),
                 ],
                 'content' => file_get_contents($responseFile),
             ]);

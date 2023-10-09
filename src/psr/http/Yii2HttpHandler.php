@@ -87,7 +87,7 @@ class Yii2HttpHandler extends BaseClient implements ClientInterface
             ->setMethod($request->getMethod())
             ->setUrl((string)$request->getUri())
             ->setHeaders($request->getHeaders())
-            ->setOptions($this->formatOptions($options));
+            ->addOptions($this->formatOptions($options));
 
         $contents = $request->getBody()->getContents();
         if ($contents) {

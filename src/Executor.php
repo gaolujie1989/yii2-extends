@@ -83,7 +83,7 @@ class Executor extends Component
             return null;
         }
 
-        $event->jobId = $queue->push($job);
+        $event->jobId = $queue->delay($queueable->getDelay())->push($job);
 
         $this->trigger(self::EVENT_AFTER_QUEUED, $event);
         return (string)$event->jobId;

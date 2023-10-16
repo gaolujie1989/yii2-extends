@@ -1232,7 +1232,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *states* - array
      *          - The history of tracking states of the returnShipment
      */
-    public function getV1ReturnShipmentReturnShipmentByCarrierAndTrackingNumber(string $carrier, string $trackingNumber): array
+    public function getV1ReturnShipmentByCarrierAndTrackingNumber(string $carrier, string $trackingNumber): array
     {
         return $this->api("/v1/return-shipments/carriers/{$carrier}/trackingnumbers/{$trackingNumber}");
     }
@@ -1251,7 +1251,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *states* - array
      *          - The history of tracking states of the returnShipment
      */
-    public function getV1ReturnShipmentReturnShipment(string $returnShipmentId): array
+    public function getV1ReturnShipment(string $returnShipmentId): array
     {
         return $this->api("/v1/return-shipments/{$returnShipmentId}");
     }
@@ -1352,7 +1352,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *states* - array
      *          - The history of tracking states of the shipment
      */
-    public function getV1ShipmentShipmentByCarrierAndTrackingNumber(string $carrier, string $trackingNumber): array
+    public function getV1ShipmentByCarrierAndTrackingNumber(string $carrier, string $trackingNumber): array
     {
         return $this->api("/v1/shipments/carriers/{$carrier}/trackingnumbers/{$trackingNumber}");
     }
@@ -1373,7 +1373,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *states* - array
      *          - The history of tracking states of the shipment
      */
-    public function getV1ShipmentShipment(string $shipmentId): array
+    public function getV1Shipment(string $shipmentId): array
     {
         return $this->api("/v1/shipments/{$shipmentId}");
     }

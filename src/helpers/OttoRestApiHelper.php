@@ -30,11 +30,11 @@ class OttoRestApiHelper
         $methodVersion = array_pop($methodPrefixParts);
         $methodGroups = $methodPrefixParts;
         foreach ($methodGroups as $key => $methodGroup) {
-            if (str_contains($methodName, $methodGroup)) {
+            if (str_contains(strtolower($methodName), strtolower($methodGroup))) {
                 $methodGroup = '';
             }
             $methodGroup = Inflector::singularize($methodGroup);
-            if (str_contains($methodName, $methodGroup)) {
+            if (str_contains(strtolower($methodName), strtolower($methodGroup))) {
                 $methodGroup = '';
             }
             $methodGroups[$key] = $methodGroup;

@@ -855,10 +855,11 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - The available quantity of a specific SKU, which can be any integer value >= 0.
      *      - *sku* - string
      *          - StockKeepingUnit given by partner configuration. e.g. 'shirt-red-M', external identifier of article variation.
+     * @return array
      */
-    public function storeV2AvailableQuantities(array $data): void
+    public function storeV2AvailableQuantities(array $data): array
     {
-        $this->api("/v2/quantities", 'POST', $data);
+        return $this->api("/v2/quantities", 'POST', $data);
     }
 
     /**
@@ -1492,10 +1493,11 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param array $data acceptedPartnerReturn
      *      - *positionItems* - array
      *          - List of all the items received from partner
+     * @return array
      */
-    public function receiveV2AcceptedReturn(array $data): void
+    public function receiveV2AcceptedReturn(array $data): array
     {
-        $this->api("/v2/returns/acceptance", 'POST', $data);
+        return $this->api("/v2/returns/acceptance", 'POST', $data);
     }
 
     /**
@@ -1504,20 +1506,22 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param array $data rejectedPartnerReturn
      *      - *positionItems* - array
      *          - List of all the items received from partner
+     * @return array
      */
-    public function receiveV2RejectedReturn(array $data): void
+    public function receiveV2RejectedReturn(array $data): array
     {
-        $this->api("/v2/returns/rejection", 'POST', $data);
+        return $this->api("/v2/returns/rejection", 'POST', $data);
     }
 
     /**
      * @description
      * @tag Receipts-V3
      * @param string $receiptNumber ReceiptNumber
+     * @return string
      */
-    public function getV3ReceiptPdf(string $receiptNumber): void
+    public function getV3ReceiptPdf(string $receiptNumber): string
     {
-        $this->api("/v3/receipts/{$receiptNumber}.pdf");
+        return $this->api("/v3/receipts/{$receiptNumber}.pdf");
     }
 
     /**

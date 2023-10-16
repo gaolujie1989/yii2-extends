@@ -135,10 +135,16 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         $batchMethod = false;
         if ($successResponse && isset($successResponse['content'])) {
             $responseContent = reset($successResponse['content']);
-            $ref = $responseContent['schema']['$ref'] ?? $responseContent['schema']['items']['$ref'] ?? null;
-            if ($ref) {
+            $type = array_keys($successResponse['content'])[0];
+            if (str_contains($type, 'pdf')) {
+                $returnType = ': string';
+                $docParams[] = '     * @return string';
+            } else {
+                $ref = $responseContent['schema']['$ref'] ?? $responseContent['schema']['items']['$ref'] ?? null;
                 $returnType = ': array';
                 $docParams[] = '     * @return array';
+            }
+            if ($ref) {
                 $refPath = strtr(substr($ref, 2), ['/' => '.']);
                 $component = ArrayHelper::getValue($openapi, $refPath);
                 $properties = $component['properties'] ?? [];

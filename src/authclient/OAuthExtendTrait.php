@@ -18,6 +18,7 @@ use lujie\extend\httpclient\Response as ExtendResponse;
  * @property string $tokenParamKey = 'access_token'
  * @property string $tokenSecretParamKey = 'refresh_token'
  * @property int $tokenExpireDuration = 3600
+ * @property int $tokenExpireBefore = 300
  *
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -54,7 +55,7 @@ trait OAuthExtendTrait
         $tokenConfig['tokenSecretParamKey'] = $this->tokenSecretParamKey ?? 'refresh_token';
         $authToken = parent::createToken($tokenConfig);
         //To Avoid 401
-        $authToken->setExpireDuration(($authToken->getExpireDuration() ?: ($this->tokenExpireDuration ?? 3600)) - 60);
+        $authToken->setExpireDuration(($authToken->getExpireDuration() ?: ($this->tokenExpireDuration ?? 3600)) - ($this->tokenExpireBefore ?? 300));
         return $authToken;
     }
 

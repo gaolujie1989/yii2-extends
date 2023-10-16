@@ -5,6 +5,7 @@
 
 namespace lujie\otto;
 
+use lujie\common\account\models\Account;
 use yii\base\BaseObject;
 
 /**
@@ -14,36 +15,28 @@ use yii\base\BaseObject;
  */
 class BaseOttoRestClientFactory extends BaseObject
 {
-    public $username;
-    public $password;
-
     /**
      * @var array
      */
     private static $_clients = [];
 
     /**
-     * @return array
-     */
-    protected function getConfig(): array
-    {
-        return [
-            'username' => $this->username,
-            'password' => $this->password,
-        ];
-    }
-
-    /**
      * @param string $clientClass
+     * @param Account $account
      * @return BaseOttoRestClient
      * @inheritdoc
      */
-    protected function createClient(string $clientClass): BaseOttoRestClient
+    protected function createClient(string $clientClass, Account $account): BaseOttoRestClient
     {
-        $key = $clientClass;
+        $accountId = $account->account_id;
+        $key = $clientClass . '-' . $account::class . '-' . $accountId;
         if (empty(self::$_clients[$key])) {
             /** @var BaseOttoRestClient $client */
-            $client = new $clientClass($this->getConfig());
+            $client = new $clientClass([
+                'username' => $account->username,
+                'password' => $account->password,
+            ]);
+            $client->setId($client->getName() . '-' . $accountId);
             self::$_clients[$key] = $client;
         }
         return self::$_clients[$key];

@@ -1140,7 +1140,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @tag Orders-V4
      * @param string $salesOrderId The salesOrderIds of the orders to cancel
      */
-    public function cancelV4Orders(string $salesOrderId): void
+    public function cancelV4Order(string $salesOrderId): void
     {
         $this->api("/v4/orders/{$salesOrderId}/cancellation", 'POST');
     }

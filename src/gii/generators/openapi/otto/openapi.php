@@ -94,6 +94,9 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         }
 
         $requestBody = $method['requestBody'] ?? null;
+        if ($apiMethod === 'cancelV4Orders') {
+            $apiMethod = Inflector::singularize($apiMethod);
+        }
         if ($requestBody) {
             $requestContent = reset($requestBody['content']);
             $ref = $requestContent['schema']['$ref'] ?? $requestContent['schema']['items']['$ref'] ?? null;

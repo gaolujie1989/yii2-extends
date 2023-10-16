@@ -35,9 +35,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *links* - array
      *          - a list of links that can be used for pagination.
      */
-    public function eachV3PartnerProducts(array $query = []): Iterator
+    public function eachV3Products(array $query = []): Iterator
     {
-        return $this->eachInternal('getV3PartnerProducts', func_get_args());
+        return $this->eachInternal('getV3Products', func_get_args());
     }
 
     /**
@@ -61,9 +61,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *links* - array
      *          - a list of links that can be used for pagination.
      */
-    public function batchV3PartnerProducts(array $query = []): Iterator
+    public function batchV3Products(array $query = []): Iterator
     {
-        return $this->batchInternal('getV3PartnerProducts', func_get_args());
+        return $this->batchInternal('getV3Products', func_get_args());
     }
 
     /**
@@ -87,7 +87,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *links* - array
      *          - a list of links that can be used for pagination.
      */
-    public function getV3PartnerProducts(array $query = []): array
+    public function getV3Products(array $query = []): array
     {
         return $this->api(array_merge(["/v3/products"], $query));
     }
@@ -937,13 +937,103 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - Cursor for paging requests. If a next cursor is provided, the only other request parameter being considered is 'limit'
 
     Note: Only the cursor string is required - not the whole link
+     * @return Iterator
+     *      - *links* - array
+     *          - Links related to the list. E.g. the link to the successive list used during paging.
+     *      - *resources* - array
+     *          - The list of queried resources. In this case partner orders.
+     */
+    public function eachV4Orders(array $query = []): Iterator
+    {
+        return $this->eachInternal('findV4Orders', func_get_args());
+    }
+
+    /**
+     * @description Retrieve orders sorted by order date from oldest to newest. The number of returned orders is limited to 128; cursor based pagination is supported.
+     * @tag Orders-V4
+     * @param array $query
+     *      - *fromDate* - string - optional
+     *          - Defines earliest change date (ISO 8601) the returned orders should have
+     *      - *fromOrderDate* - string - optional
+     *          - Only orders newer than the date specified (ISO 8601) will be returned
+     *      - *toOrderDate* - string - optional
+     *          - Only orders older than the date specified (ISO 8601) will be returned
+     *      - *fulfillmentStatus* - string - optional
+     *          -
+    ANNOUNCED: Orders with at least one position item in state ANNOUNCED
+    PROCESSABLE: Orders with at least one position item in state PROCESSABLE and none in ANNOUNCED
+    SENT: Orders with at least one position item in state SENT and none in either ANNOUNCED or PROCESSABLE
+    RETURNED: Orders with at least one position item in state RETURNED and none in either ANNOUNCED, PROCESSABLE, or SENT
+    CANCELLED_BY_PARTNER: Orders with at least one position item in state CANCELLED_BY_PARTNER
+    CANCELLED_BY_MARKETPLACE: Orders with at least one position item in state CANCELLED_BY_MARKETPLACE
+
+    If no state is provided, orders in all possible states are returned.
+    Several values can be passed; it will return a combination of these states without duplicates.
+    Also see parameter 'mode'.
+     *      - *limit* - integer - optional
+     *          - The maximum amount of orders to return
+     *      - *orderDirection* - string - optional
+     *          - Sort result by 'orderColumnType' in ASCending or DESCending order
+     *      - *orderColumnType* - string - optional
+     *          - The column on which to apply 'orderDirection' parameter
+     *      - *mode* - string - optional
+     *          - In search mode AT_LEAST_ONE orders with at least one  position item in given 'fulfillmentStatus' will always be returned
+     *      - *nextcursor* - string - optional
+     *          - Cursor for paging requests. If a next cursor is provided, the only other request parameter being considered is 'limit'
+
+    Note: Only the cursor string is required - not the whole link
+     * @return Iterator
+     *      - *links* - array
+     *          - Links related to the list. E.g. the link to the successive list used during paging.
+     *      - *resources* - array
+     *          - The list of queried resources. In this case partner orders.
+     */
+    public function batchV4Orders(array $query = []): Iterator
+    {
+        return $this->batchInternal('findV4Orders', func_get_args());
+    }
+
+    /**
+     * @description Retrieve orders sorted by order date from oldest to newest. The number of returned orders is limited to 128; cursor based pagination is supported.
+     * @tag Orders-V4
+     * @param array $query
+     *      - *fromDate* - string - optional
+     *          - Defines earliest change date (ISO 8601) the returned orders should have
+     *      - *fromOrderDate* - string - optional
+     *          - Only orders newer than the date specified (ISO 8601) will be returned
+     *      - *toOrderDate* - string - optional
+     *          - Only orders older than the date specified (ISO 8601) will be returned
+     *      - *fulfillmentStatus* - string - optional
+     *          -
+    ANNOUNCED: Orders with at least one position item in state ANNOUNCED
+    PROCESSABLE: Orders with at least one position item in state PROCESSABLE and none in ANNOUNCED
+    SENT: Orders with at least one position item in state SENT and none in either ANNOUNCED or PROCESSABLE
+    RETURNED: Orders with at least one position item in state RETURNED and none in either ANNOUNCED, PROCESSABLE, or SENT
+    CANCELLED_BY_PARTNER: Orders with at least one position item in state CANCELLED_BY_PARTNER
+    CANCELLED_BY_MARKETPLACE: Orders with at least one position item in state CANCELLED_BY_MARKETPLACE
+
+    If no state is provided, orders in all possible states are returned.
+    Several values can be passed; it will return a combination of these states without duplicates.
+    Also see parameter 'mode'.
+     *      - *limit* - integer - optional
+     *          - The maximum amount of orders to return
+     *      - *orderDirection* - string - optional
+     *          - Sort result by 'orderColumnType' in ASCending or DESCending order
+     *      - *orderColumnType* - string - optional
+     *          - The column on which to apply 'orderDirection' parameter
+     *      - *mode* - string - optional
+     *          - In search mode AT_LEAST_ONE orders with at least one  position item in given 'fulfillmentStatus' will always be returned
+     *      - *nextcursor* - string - optional
+     *          - Cursor for paging requests. If a next cursor is provided, the only other request parameter being considered is 'limit'
+
+    Note: Only the cursor string is required - not the whole link
      * @return array
      *      - *links* - array
      *          - Links related to the list. E.g. the link to the successive list used during paging.
      *      - *resources* - array
      *          - The list of queried resources. In this case partner orders.
      */
-    public function getV4FindPartnerOrders(array $query = []): array
+    public function findV4Orders(array $query = []): array
     {
         return $this->api(array_merge(["/v4/orders"], $query));
     }
@@ -974,7 +1064,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *salesOrderId* - string
      *          - The id of the corresponding sales order. For one partner the sales order id is unique
      */
-    public function getV4PartnerOrderByOrderNumber(string $orderNumber): array
+    public function getV4OrderByOrderNumber(string $orderNumber): array
     {
         return $this->api("/v4/orders/{$orderNumber}");
     }
@@ -1005,7 +1095,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *salesOrderId* - string
      *          - The id of the corresponding sales order. For one partner the sales order id is unique
      */
-    public function getV4PartnerOrderBySalesOrderId(string $salesOrderId): array
+    public function getV4OrderBySalesOrderId(string $salesOrderId): array
     {
         return $this->api("/v4/orders/{$salesOrderId}");
     }
@@ -1015,7 +1105,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @tag Orders-V4
      * @param string $salesOrderId The salesOrderIds of the orders to cancel
      */
-    public function cancelV4PartnerOrders(string $salesOrderId): void
+    public function cancelV4Orders(string $salesOrderId): void
     {
         $this->api("/v4/orders/{$salesOrderId}/cancellation", 'POST');
     }
@@ -1026,9 +1116,49 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param string $salesOrderId The salesOrderId of the order
      * @param string $positionItemIds The positionItemIds of the order to cancel
      */
-    public function cancelV4PartnerOrderPositionItems(string $salesOrderId, string $positionItemIds): void
+    public function cancelV4OrderPositionItems(string $salesOrderId, string $positionItemIds): void
     {
         $this->api("/v4/orders/{$salesOrderId}/positionItems/{$positionItemIds}/cancellation", 'POST');
+    }
+
+    /**
+     * @description This endpoint can be used to retrieve the returned shipments for a given authorized partner.
+     * @tag ReturnShipments-V1
+     * @param array $query
+     *      - *datefrom* - string - required
+     *          - ReturnShipments which are announced after this date or had an status update after this date will be returned for the partner which is determined from the authorization token. The date is considered as UTC.
+     *      - *limit* - integer - optional
+     *          - The maximum number of returnShipments to be returned in each response.
+     *      - *next* - string - optional
+     *          - The cursor which points to the next returnShipment that should be queried. It is used to paginate the results.
+     * @return Iterator
+     *      - *links* - array
+     *          - Contains one single link, which can be used as pointer for Cursor-based pagination.
+     *      - *resources* - array
+     */
+    public function eachV1ReturnShipments(array $query): Iterator
+    {
+        return $this->eachInternal('listV1ReturnShipments', func_get_args());
+    }
+
+    /**
+     * @description This endpoint can be used to retrieve the returned shipments for a given authorized partner.
+     * @tag ReturnShipments-V1
+     * @param array $query
+     *      - *datefrom* - string - required
+     *          - ReturnShipments which are announced after this date or had an status update after this date will be returned for the partner which is determined from the authorization token. The date is considered as UTC.
+     *      - *limit* - integer - optional
+     *          - The maximum number of returnShipments to be returned in each response.
+     *      - *next* - string - optional
+     *          - The cursor which points to the next returnShipment that should be queried. It is used to paginate the results.
+     * @return Iterator
+     *      - *links* - array
+     *          - Contains one single link, which can be used as pointer for Cursor-based pagination.
+     *      - *resources* - array
+     */
+    public function batchV1ReturnShipments(array $query): Iterator
+    {
+        return $this->batchInternal('listV1ReturnShipments', func_get_args());
     }
 
     /**
@@ -1100,6 +1230,46 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
     public function createdAndSentV1Shipment(): array
     {
         return $this->api("/v1/shipments", 'POST');
+    }
+
+    /**
+     * @description This endpoint can be used to retrieve the shipments for a given authorized partner.
+     * @tag Shipments-V1
+     * @param array $query
+     *      - *datefrom* - string - required
+     *          - Shipments created from this date onwards for the given authorized partner will be returned. The date is considered as UTC.
+     *      - *limit* - integer - optional
+     *          - The maximum number of shipments to be returned in each response.
+     *      - *next* - string - optional
+     *          - The cursor which points to the next shipment that should be queried. It is used to paginate the results.
+     * @return Iterator
+     *      - *links* - array
+     *          - Contains one single link, which can be used as pointer for Cursor-based pagination.
+     *      - *resources* - array
+     */
+    public function eachV1Shipments(array $query): Iterator
+    {
+        return $this->eachInternal('listV1Shipments', func_get_args());
+    }
+
+    /**
+     * @description This endpoint can be used to retrieve the shipments for a given authorized partner.
+     * @tag Shipments-V1
+     * @param array $query
+     *      - *datefrom* - string - required
+     *          - Shipments created from this date onwards for the given authorized partner will be returned. The date is considered as UTC.
+     *      - *limit* - integer - optional
+     *          - The maximum number of shipments to be returned in each response.
+     *      - *next* - string - optional
+     *          - The cursor which points to the next shipment that should be queried. It is used to paginate the results.
+     * @return Iterator
+     *      - *links* - array
+     *          - Contains one single link, which can be used as pointer for Cursor-based pagination.
+     *      - *resources* - array
+     */
+    public function batchV1Shipments(array $query): Iterator
+    {
+        return $this->batchInternal('listV1Shipments', func_get_args());
     }
 
     /**
@@ -1466,9 +1636,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *links* - array
      *          - Links related to the list. E.g. the link to the successive list used during paging.
      */
-    public function eachV1PriceAllReductionsForPartner(array $query = []): Iterator
+    public function eachV1PriceAllReductions(array $query = []): Iterator
     {
-        return $this->eachInternal('getV1PriceAllReductionsForPartner', func_get_args());
+        return $this->eachInternal('getV1PriceAllReductions', func_get_args());
     }
 
     /**
@@ -1487,9 +1657,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *links* - array
      *          - Links related to the list. E.g. the link to the successive list used during paging.
      */
-    public function batchV1PriceAllReductionsForPartner(array $query = []): Iterator
+    public function batchV1PriceAllReductions(array $query = []): Iterator
     {
-        return $this->batchInternal('getV1PriceAllReductionsForPartner', func_get_args());
+        return $this->batchInternal('getV1PriceAllReductions', func_get_args());
     }
 
     /**
@@ -1508,7 +1678,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *      - *links* - array
      *          - Links related to the list. E.g. the link to the successive list used during paging.
      */
-    public function getV1PriceAllReductionsForPartner(array $query = []): array
+    public function getV1PriceAllReductions(array $query = []): array
     {
         return $this->api(array_merge(["/v1/price-reductions"], $query));
     }

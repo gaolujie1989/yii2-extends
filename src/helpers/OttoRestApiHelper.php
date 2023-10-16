@@ -42,10 +42,10 @@ class OttoRestApiHelper
         }
         $methodGroup = implode('', $methodGroups);
 
-        $methodName = strtr($methodName, ['UsingGET' => '', 'UsingPOST' => '', $methodVersion => '']);
+        $methodName = strtr($methodName, ['UsingGET' => '', 'UsingPOST' => '', $methodVersion => '', 'ForPartner' => '', 'Partner' => '']);
         [$methodName] = explode('_', $methodName);
         $methodNameParts = explode('-', Inflector::camel2id($methodName));
-        if ($httpMethod === 'GET' && !in_array(reset($methodNameParts), ['get', 'list'], true)) {
+        if ($httpMethod === 'GET' && !in_array(reset($methodNameParts), ['get', 'list', 'find'], true)) {
             $action = 'get';
         } else  {
             $action = array_shift($methodNameParts);

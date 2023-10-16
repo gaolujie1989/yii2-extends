@@ -141,9 +141,14 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                         $docParams[] = "     *          - {$description}";
                     }
                 }
-                if ($httpMethod === 'GET' && isset($queryParams['page'])) {
-                    $eachMethod = 'each' . substr($apiMethod, 3);
-                    $batchMethod = 'batch' . substr($apiMethod, 3);
+                if ($httpMethod === 'GET' && isset($queryParams['limit'])) {
+                    if (str_starts_with($apiMethod, 'get')) {
+                        $eachMethod = 'each' . substr($apiMethod, 3);
+                        $batchMethod = 'batch' . substr($apiMethod, 3);
+                    } else {
+                        $eachMethod = 'each' . substr($apiMethod, 4);
+                        $batchMethod = 'batch' . substr($apiMethod, 4);
+                    }
                 }
             }
         }

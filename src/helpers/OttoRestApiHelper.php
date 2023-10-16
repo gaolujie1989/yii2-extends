@@ -5,7 +5,6 @@
 
 namespace lujie\otto\helpers;
 
-use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
 /**
@@ -42,7 +41,7 @@ class OttoRestApiHelper
         }
         $methodGroup = implode('', $methodGroups);
 
-        $methodName = strtr($methodName, ['UsingGET' => '', 'UsingPOST' => '', $methodVersion => '', 'ForPartner' => '', 'Partner' => '']);
+        $methodName = strtr($methodName, ['UsingGET' => '', 'UsingPOST' => '', $methodVersion => '', 'For' => '', 'Partner' => '']);
         [$methodName] = explode('_', $methodName);
         $methodNameParts = explode('-', Inflector::camel2id($methodName));
         if ($httpMethod === 'GET' && !in_array(reset($methodNameParts), ['get', 'list', 'find'], true)) {

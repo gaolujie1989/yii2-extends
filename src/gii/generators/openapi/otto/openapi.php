@@ -93,12 +93,18 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
             $functionParams[] = $hasRequiredQuery ? 'array $query' : 'array $query = []';
         }
 
-        $requestBody = $params['requestBody'] ?? null;
+        $requestBody = $method['requestBody'] ?? null;
         if ($requestBody) {
             $requestContent = reset($requestBody['content']);
-            $functionParams[] = 'array $data';
-            $docParams[] = '     * @param array $data' . ' ' . ($requestBody['description'] ?? '');
             $ref = $requestContent['schema']['$ref'] ?? $requestContent['schema']['items']['$ref'] ?? null;
+            $isMulti = isset($requestContent['schema']['items']);
+            if ($isMulti) {
+                $docParams[] = '     * @param array $data' . ' list of ' . ($requestBody['description'] ?? '');
+            } else {
+                $apiMethod = Inflector::singularize($apiMethod);
+                $docParams[] = '     * @param array $data' . ' ' . ($requestBody['description'] ?? '');
+            }
+            $functionParams[] = 'array $data';
             if ($ref) {
                 $refPath = strtr(substr($ref, 2), ['/' => '.']);
                 $component = ArrayHelper::getValue($openapi, $refPath);

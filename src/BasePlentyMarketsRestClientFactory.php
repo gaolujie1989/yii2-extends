@@ -2,6 +2,7 @@
 
 namespace lujie\plentyMarkets;
 
+use lujie\common\account\models\Account;
 use yii\base\BaseObject;
 
 /**
@@ -9,38 +10,28 @@ use yii\base\BaseObject;
 */
 class BasePlentyMarketsRestClientFactory extends BaseObject
 {
-    public $apiBaseUrl;
-    public $username;
-    public $password;
-
-    /**
+   /**
      * @var array
      */
     private static $_clients = [];
-
-    /**
-     * @return array
-     */
-    protected function getConfig(): array
-    {
-        return [
-            'apiBaseUrl' => $this->apiBaseUrl,
-            'username' => $this->username,
-            'password' => $this->password,
-        ];
-    }
 
     /**
      * @param string $clientClass
      * @return BasePlentyMarketsRestClient
      * @inheritdoc
      */
-    protected function createClient(string $clientClass): BasePlentyMarketsRestClient
+    protected function createClient(string $clientClass, Account $account): BasePlentyMarketsRestClient
     {
-        $key = $clientClass;
+        $accountId = $account->account_id;
+        $key = $clientClass . '-' . $account::class . '-' . $accountId;
         if (empty(self::$_clients[$key])) {
             /** @var BasePlentyMarketsRestClient $client */
-            $client = new $clientClass($this->getConfig());
+            $client = new $clientClass([
+                'apiBaseUrl' => $account->url,
+                'username' => $account->username,
+                'password' => $account->password,
+            ]);
+            $client->setId($client->getName() . '-' . $accountId);
             self::$_clients[$key] = $client;
         }
         return self::$_clients[$key];

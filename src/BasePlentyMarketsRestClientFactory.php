@@ -30,7 +30,7 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
     protected function createClient(string $clientClass, ?Account $account = null): BasePlentyMarketsRestClient
     {
         $accountId = $account->account_id ?? 0;
-        $key = $clientClass . '-' . $account::class . '-' . $accountId;
+        $key = $clientClass . '-' . '-' . $accountId;
         if (empty(self::$_clients[$key])) {
             /** @var BasePlentyMarketsRestClient $client */
             $client = new $clientClass([

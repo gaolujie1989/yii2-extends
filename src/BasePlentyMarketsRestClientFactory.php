@@ -15,21 +15,28 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
      */
     private static $_clients = [];
 
+    public $url;
+
+    public $username;
+
+    public $password;
+
     /**
      * @param string $clientClass
+     * @param Account|null $account
      * @return BasePlentyMarketsRestClient
      * @inheritdoc
      */
-    protected function createClient(string $clientClass, Account $account): BasePlentyMarketsRestClient
+    protected function createClient(string $clientClass, ?Account $account = null): BasePlentyMarketsRestClient
     {
-        $accountId = $account->account_id;
+        $accountId = $account->account_id ?? 0;
         $key = $clientClass . '-' . $account::class . '-' . $accountId;
         if (empty(self::$_clients[$key])) {
             /** @var BasePlentyMarketsRestClient $client */
             $client = new $clientClass([
-                'apiBaseUrl' => $account->url,
-                'username' => $account->username,
-                'password' => $account->password,
+                'apiBaseUrl' => $account->url ?? $this->url,
+                'username' => $account->username ?? $this->username,
+                'password' => $account->password ?? $this->password,
             ]);
             $client->setId($client->getName() . '-' . $accountId);
             self::$_clients[$key] = $client;

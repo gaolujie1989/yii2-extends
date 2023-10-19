@@ -41,7 +41,7 @@ trait ExecutorTrait
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function handle(ExecutableInterface $executable): bool
+    public function handleExecutable(ExecutableInterface $executable): bool
     {
         return $this->getExecutor()->handle($executable);
     }

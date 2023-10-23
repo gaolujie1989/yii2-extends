@@ -203,19 +203,21 @@ class RelationSavableBehavior extends Behavior
     #region relation action set/validate/save
 
     /**
-     * @return BaseActiveRecord[]|\yii\db\BaseActiveRecord[][]
+     * @param string $name
+     * @return array|BaseActiveRecord
      * @inheritdoc
      */
-    public function getSavedRelations(string $name): array
+    public function getSavedRelations(string $name): array|BaseActiveRecord
     {
         return $this->savedRelations[$name] ?? [];
     }
 
     /**
-     * @return BaseActiveRecord[]|\yii\db\BaseActiveRecord[][]
+     * @param string $name
+     * @return array|BaseActiveRecord
      * @inheritdoc
      */
-    public function getDeletedRelations(string $name): array
+    public function getDeletedRelations(string $name): array|BaseActiveRecord
     {
         return $this->deletedRelations[$name] ?? [];
     }

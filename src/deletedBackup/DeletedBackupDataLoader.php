@@ -48,14 +48,14 @@ class DeletedBackupDataLoader extends BaseDataLoader
 
     /**
      * @param BaseActiveRecord $model
-     * @param string|null $rowKeyAttribute
+     * @param string|null $keyAttribute
      * @return string|null
      * @inheritdoc
      */
-    protected function getRowKey(BaseActiveRecord $model, ?string $rowKeyAttribute): ?string
+    protected function getRowKey(BaseActiveRecord $model, ?string $keyAttribute): ?string
     {
-        if ($rowKeyAttribute) {
-            return $model->{$rowKeyAttribute};
+        if ($keyAttribute) {
+            return $model->{$keyAttribute};
         }
         $attributes = $model->getAttributes(null, $model::primaryKey());
         foreach ($attributes as $key => $value) {
@@ -68,14 +68,14 @@ class DeletedBackupDataLoader extends BaseDataLoader
 
     /**
      * @param BaseActiveRecord $model
-     * @param string|null $rowParentIdAttribute
+     * @param string|null $parentIdAttribute
      * @return int|null
      * @inheritdoc
      */
-    protected function getRowParentId(BaseActiveRecord $model, ?string $rowParentIdAttribute): ?int
+    protected function getRowParentId(BaseActiveRecord $model, ?string $parentIdAttribute): ?int
     {
-        if ($rowParentIdAttribute) {
-            return $model->{$rowParentIdAttribute};
+        if ($parentIdAttribute) {
+            return $model->{$parentIdAttribute};
         }
         $attributes = $model->getAttributes(null, $model::primaryKey());
         foreach ($attributes as $key => $value) {

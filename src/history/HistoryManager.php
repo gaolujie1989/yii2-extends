@@ -14,6 +14,7 @@ use yii\base\Event;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
+use function Psl\Vec\filter_nulls;
 
 /**
  * Class ActiveRecordSnapshotManager
@@ -35,18 +36,7 @@ class HistoryManager extends BaseActiveRecordManager
     /**
      * @var DataLoaderInterface
      */
-    public $historyDataLoader;
-
-    /**
-     * @var string[] Attributes that will not be saved in history.
-     */
-    public $skipAttributes = [
-        'created_at',
-        'created_by',
-        'updated_at',
-        'updated_by',
-        'version',
-    ];
+    public $historyDataLoader = HistoryDataLoader::class;
 
     /**
      * @param Application $app
@@ -64,9 +54,7 @@ class HistoryManager extends BaseActiveRecordManager
     public function init(): void
     {
         parent::init();
-        if ($this->historyDataLoader) {
-            $this->historyDataLoader = Instance::ensure($this->historyDataLoader, DataLoaderInterface::class);
-        }
+        $this->historyDataLoader = Instance::ensure($this->historyDataLoader, DataLoaderInterface::class);
     }
 
     /**
@@ -77,67 +65,21 @@ class HistoryManager extends BaseActiveRecordManager
      */
     public function createHistory(AfterSaveEvent $event): ?BaseActiveRecord
     {
-        $changedAttributes = $event->changedAttributes;
-        $changedAttributes = array_diff_key($changedAttributes, array_flip($this->skipAttributes));
-        if (empty($changedAttributes)) {
-            return null;
-        }
-
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
         if (!$this->isActive($model)) {
             return null;
         }
 
-        $historyData = $this->historyDataLoader
-            ? $this->historyDataLoader->get($event)
-            : $this->getHistoryData($model, $changedAttributes);
-
+        $historyData = $this->historyDataLoader->get($event);
+        if (empty($historyData)) {
+            return null;
+        }
         $baseRecordClass = ClassHelper::getBaseRecordClass($model);
         $historyClass = $this->historyClasses[$baseRecordClass] ?? $this->historyClass;
         $historyModel = new $historyClass();
         $historyModel->setAttributes($historyData);
         $historyModel->save(false);
         return $historyModel;
-    }
-
-    /**
-     * @param BaseActiveRecord $model
-     * @param array $changedAttributes
-     * @return array
-     * @inheritdoc
-     */
-    protected function getHistoryData(BaseActiveRecord $model, array $changedAttributes): array
-    {
-        $details = [];
-        foreach ($changedAttributes as $changedAttribute => $oldValue) {
-            $details[] = [
-                'changed_attribute' => $changedAttribute,
-                'old_value' => $oldValue,
-                'new_value' => $model->{$changedAttribute},
-            ];
-        }
-        $data = [
-            'model_type' => ClassHelper::getClassShortName(ClassHelper::getBaseRecordClass($model)),
-            'model_class' => $model::class,
-            'model_id' => $model->getPrimaryKey() ?: 0,
-            'model_key' => '',
-            'model_parent_id' => 0,
-            'details' => $details,
-        ];
-        $attributes = $model->getAttributes(null, $model::primaryKey());
-        foreach ($attributes as $key => $value) {
-            if (empty($data['model_key'])
-                && (str_ends_with($key, '_key') || str_ends_with($key, '_no') || str_ends_with($key, '_code'))) {
-                $data['model_key'] = $value;
-            }
-            if (empty($data['model_parent_id']) && str_ends_with($key, '_id')) {
-                $data['model_parent_id'] = $value;
-            }
-            if ($data['model_key'] && $data['model_parent_id']) {
-                break;
-            }
-        }
-        return $data;
     }
 }

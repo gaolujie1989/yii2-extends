@@ -10,6 +10,7 @@ use Yii;
  * @property int $deleted_backup_id
  * @property string $model_type
  * @property string $model_class
+ * @property string $table_name
  * @property int $row_id
  * @property string $row_key
  * @property int $row_parent_id
@@ -34,12 +35,12 @@ class DeletedBackup extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['model_type', 'model_class', 'row_key'], 'default', 'value' => ''],
+            [['model_type', 'model_class', 'table_name', 'row_key'], 'default', 'value' => ''],
             [['row_id', 'row_parent_id'], 'default', 'value' => 0],
             [['row_data'], 'default', 'value' => []],
             [['row_id', 'row_parent_id'], 'integer'],
             [['row_data'], 'safe'],
-            [['model_type', 'row_key'], 'string', 'max' => 50],
+            [['model_type', 'table_name', 'row_key'], 'string', 'max' => 50],
             [['model_class'], 'string', 'max' => 200],
         ];
     }
@@ -53,6 +54,7 @@ class DeletedBackup extends \lujie\extend\db\ActiveRecord
             'deleted_backup_id' => Yii::t('lujie/common', 'Deleted Backup ID'),
             'model_type' => Yii::t('lujie/common', 'Model Type'),
             'model_class' => Yii::t('lujie/common', 'Model Class'),
+            'table_name' => Yii::t('lujie/common', 'Table Name'),
             'row_id' => Yii::t('lujie/common', 'Row ID'),
             'row_key' => Yii::t('lujie/common', 'Row Key'),
             'row_parent_id' => Yii::t('lujie/common', 'Row Parent ID'),

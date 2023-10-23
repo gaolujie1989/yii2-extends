@@ -16,6 +16,8 @@ use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\mongodb\ActiveRecord as MongoActiveRecord;
+use yii\mongodb\ActiveRecord as MongodbActiveRecord;
+use yii\redis\ActiveRecord as RedisActiveRecord;
 
 /**
  * Class ActiveRecordDeletedBackupManager
@@ -96,6 +98,7 @@ class DeletedBackupManager extends BaseActiveRecordManager
         $data = [
             'model_type' => ClassHelper::getClassShortName(ClassHelper::getBaseRecordClass($model)),
             'model_class' => $model::class,
+            'table_name' => $this->getTableName($model),
             'row_id' => $model->getPrimaryKey() ?: 0,
             'row_key' => '',
             'row_parent_id' => 0,
@@ -115,6 +118,25 @@ class DeletedBackupManager extends BaseActiveRecordManager
             }
         }
         return $data;
+    }
+
+    /**
+     * @param BaseActiveRecord $model
+     * @return string
+     * @inheritdoc
+     */
+    protected function getTableName(BaseActiveRecord $model): string
+    {
+        if ($model instanceof DbActiveRecord) {
+            return $model::tableName();
+        }
+        if ($model instanceof MongodbActiveRecord) {
+            return $model::collectionName();
+        }
+        if ($model instanceof RedisActiveRecord) {
+            return $model::keyPrefix();
+        }
+        return '';
     }
 
     /**

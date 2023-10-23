@@ -17,6 +17,7 @@ class m230824_102839_deleted_backup extends \lujie\extend\db\Migration
             'deleted_backup_id' => $this->bigPrimaryKey(),
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_class' => $this->string(200)->notNull()->defaultValue(''),
+            'table_name' => $this->string(50)->notNull()->defaultValue(''),
             'row_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'row_key' => $this->string(50)->notNull()->defaultValue(''),
             'row_parent_id' => $this->bigInteger()->notNull()->defaultValue(0),

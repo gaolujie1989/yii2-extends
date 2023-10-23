@@ -18,7 +18,7 @@ class m230824_104122_model_history extends \lujie\extend\db\Migration
             'model_type' => $this->string(50)->notNull()->defaultValue(''),
             'model_class' => $this->string(200)->notNull()->defaultValue(''),
             'model_id' => $this->bigInteger()->notNull()->defaultValue(0),
-            'model_key' => $this->bigInteger()->notNull()->defaultValue(0),
+            'model_key' => $this->string(50)->notNull()->defaultValue(''),
             'model_parent_id' => $this->bigInteger()->notNull()->defaultValue(0),
         ]);
 

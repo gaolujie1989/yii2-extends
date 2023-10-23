@@ -36,10 +36,10 @@ class ModelHistory extends \lujie\extend\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['model_type', 'model_class'], 'default', 'value' => ''],
-            [['model_id', 'model_key', 'model_parent_id'], 'default', 'value' => 0],
-            [['model_id', 'model_key', 'model_parent_id'], 'integer'],
-            [['model_type'], 'string', 'max' => 50],
+            [['model_type', 'model_class', 'model_key'], 'default', 'value' => ''],
+            [['model_id', 'model_parent_id'], 'default', 'value' => 0],
+            [['model_id', 'model_parent_id'], 'integer'],
+            [['model_type', 'model_key'], 'string', 'max' => 50],
             [['model_class'], 'string', 'max' => 200],
         ];
     }

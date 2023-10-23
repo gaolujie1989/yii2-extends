@@ -12,7 +12,6 @@ use lujie\extend\helpers\ClassHelper;
 use yii\base\Application;
 use yii\base\Event;
 use yii\db\ActiveRecord as DbActiveRecord;
-use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
 use yii\mongodb\ActiveRecord as MongoActiveRecord;
@@ -63,11 +62,11 @@ class DeletedBackupManager extends BaseActiveRecordManager
     }
 
     /**
-     * @param AfterSaveEvent $event
-     * @return BaseActiveRecord
+     * @param Event $event
+     * @return BaseActiveRecord|null
      * @inheritdoc
      */
-    public function backupDeleted(AfterSaveEvent $event): ?BaseActiveRecord
+    public function backupDeleted(Event $event): ?BaseActiveRecord
     {
         /** @var BaseActiveRecord $model */
         $model = $event->sender;

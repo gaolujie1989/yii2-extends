@@ -107,7 +107,7 @@ class DeletedBackupManager extends BaseActiveRecordManager
         foreach ($attributes as $key => $value) {
             if (empty($data['row_key'])
                 && (str_ends_with($key, '_key') || str_ends_with($key, '_no') || str_ends_with($key, '_code'))) {
-                $data['key'] = $value;
+                $data['row_key'] = $value;
             }
             if (empty($data['row_parent_id']) && str_ends_with($key, '_id')) {
                 $data['row_parent_id'] = $value;

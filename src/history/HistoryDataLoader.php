@@ -74,13 +74,17 @@ class HistoryDataLoader extends BaseDataLoader
         }
 
         $modelFields = $this->modelFields[$baseRecordClass] ?? $this->modelFields[$modelType] ?? [];
+        $changedDetails = $this->getChangedDetails($model, $changedAttributes);
+        if (empty($changedDetails)) {
+            return null;
+        }
         return [
             'model_type' => $modelType,
             'model_class' => $model::class,
             'model_id' => $model->getPrimaryKey() ?: 0,
             'model_key' => $this->getModelKey($model, $modelFields['model_key'] ?? null) ?: '',
             'model_parent_id' => $this->getModelParentId($model, $modelFields['model_parent_id'] ?? null) ?: 0,
-            'details' => $this->getChangedDetails($model, $changedAttributes),
+            'details' => $changedDetails,
         ];
     }
 
@@ -94,6 +98,9 @@ class HistoryDataLoader extends BaseDataLoader
     {
         $details = [];
         foreach ($changedAttributes as $changedAttribute => $oldValue) {
+            if (is_array($oldValue) || is_array($model->{$changedAttribute})) {
+                continue;
+            }
             $details[] = [
                 'changed_attribute' => $changedAttribute,
                 'old_value' => $oldValue,

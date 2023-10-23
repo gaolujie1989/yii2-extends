@@ -5,17 +5,10 @@
 
 namespace lujie\common\history;
 
-use Illuminate\Support\Arr;
-use lujie\common\history\forms\ModelHistoryForLog;
 use lujie\data\loader\BaseDataLoader;
-use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\ar\BaseActiveRecordManager;
 use lujie\extend\helpers\ClassHelper;
-use yii\base\Application;
-use yii\base\Event;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
-use yii\di\Instance;
 
 /**
  * Class ActiveRecordSnapshotManager
@@ -60,15 +53,16 @@ class HistoryDataLoader extends BaseDataLoader
         $event = $key;
         /** @var BaseActiveRecord $model */
         $model = $event->sender;
-        $modelType = ClassHelper::getClassShortName(ClassHelper::getBaseRecordClass($model));
+        $baseRecordClass = ClassHelper::getBaseRecordClass($model);
+        $modelType = ClassHelper::getClassShortName($baseRecordClass);
 
         $changedAttributes = $event->changedAttributes;
         $changedAttributes = array_diff_key($changedAttributes, array_flip($this->skipAttributes));
         if (empty($changedAttributes)) {
             return null;
         }
-        $onlyAttributes = $this->onlyAttributes[$modelType] ?? [];
-        $exceptAttributes = $this->exceptAttributes[$modelType] ?? [];
+        $onlyAttributes = $this->onlyAttributes[$baseRecordClass] ?? $this->onlyAttributes[$modelType] ?? [];
+        $exceptAttributes = $this->exceptAttributes[$baseRecordClass] ?? $this->exceptAttributes[$modelType] ?? [];
         if ($onlyAttributes) {
             $changedAttributes = array_intersect_key($changedAttributes, $onlyAttributes);
         }
@@ -79,7 +73,7 @@ class HistoryDataLoader extends BaseDataLoader
             return null;
         }
 
-        $modelFields = $this->modelFields[$modelType] ?? [];
+        $modelFields = $this->modelFields[$baseRecordClass] ?? $this->modelFields[$modelType] ?? [];
         return [
             'model_type' => $modelType,
             'model_class' => $model::class,

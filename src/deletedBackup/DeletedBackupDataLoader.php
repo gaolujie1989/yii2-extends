@@ -33,8 +33,9 @@ class DeletedBackupDataLoader extends BaseDataLoader
     {
         /** @var BaseActiveRecord $model */
         $model = $key;
-        $modelType = ClassHelper::getClassShortName(ClassHelper::getBaseRecordClass($model));
-        $rowFields = $this->rowFields[$modelType] ?? [];
+        $baseRecordClass = ClassHelper::getBaseRecordClass($model);
+        $modelType = ClassHelper::getClassShortName($baseRecordClass);
+        $rowFields = $this->rowFields[$baseRecordClass] ?? $this->rowFields[$modelType] ?? [];
         return [
             'model_type' => $modelType,
             'model_class' => $model::class,

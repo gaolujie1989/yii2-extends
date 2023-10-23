@@ -64,10 +64,10 @@ class HistoryDataLoader extends BaseDataLoader
         $onlyAttributes = $this->onlyAttributes[$baseRecordClass] ?? $this->onlyAttributes[$modelType] ?? [];
         $exceptAttributes = $this->exceptAttributes[$baseRecordClass] ?? $this->exceptAttributes[$modelType] ?? [];
         if ($onlyAttributes) {
-            $changedAttributes = array_intersect_key($changedAttributes, $onlyAttributes);
+            $changedAttributes = array_intersect_key($changedAttributes, array_flip($onlyAttributes));
         }
         if ($exceptAttributes) {
-            $changedAttributes = array_diff_key($changedAttributes, $exceptAttributes);
+            $changedAttributes = array_diff_key($changedAttributes, array_flip($exceptAttributes));
         }
         if (empty($changedAttributes)) {
             return null;

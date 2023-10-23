@@ -40,8 +40,8 @@ class DeletedBackupDataLoader extends BaseDataLoader
             'model_class' => $model::class,
             'table_name' => $this->getTableName($model),
             'row_id' => $model->getPrimaryKey() ?: 0,
-            'row_key' => $this->getRowKey($model, $rowFields['row_key'] ?? null),
-            'row_parent_id' => $this->getRowParentId($model, $rowFields['row_parent_id'] ?? null),
+            'row_key' => $this->getRowKey($model, $rowFields['row_key'] ?? null) ?: '',
+            'row_parent_id' => $this->getRowParentId($model, $rowFields['row_parent_id'] ?? null) ?: 0,
             'row_data' => $model->attributes,
         ];
     }

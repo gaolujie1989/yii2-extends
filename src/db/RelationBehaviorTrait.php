@@ -73,7 +73,7 @@ trait RelationBehaviorTrait
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function setRelation(string $name, $data): void
+    public function setRelation(string $name, array|BaseActiveRecord $data): void
     {
         /** @var RelationSavableBehavior $behavior */
         $behavior = $this->getBehavior('relationSave');
@@ -84,7 +84,7 @@ trait RelationBehaviorTrait
      * @return array
      * @inheritdoc
      */
-    public function getSavedRelations(string $name): array
+    public function getSavedRelations(string $name): array|BaseActiveRecord
     {
         /** @var RelationSavableBehavior $behavior */
         $behavior = $this->getBehavior('relationSave');

@@ -194,7 +194,9 @@ class Executor extends Component
                         break;
                     }
                 }
-                $event->result = $result->getReturn();
+                if (empty($event->error)) {
+                    $event->result = $result->getReturn();
+                }
             } else {
                 $event->result = $result;
             }

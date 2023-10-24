@@ -177,11 +177,20 @@ class Executor extends Component
             $result = $newExecutable->execute();
             if ($newExecutable instanceof ProgressInterface && $result instanceof \Generator) {
                 $event->progress = $newExecutable->getProgress();
+                $startTime = time();
+                $timeLimit = 0;
+                if ($newExecutable instanceof QueueableInterface) {
+                    $timeLimit = $newExecutable->getTtr() - 30;
+                }
                 foreach ($result as $item) {
                     $event->result = $item;
                     $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
                     if ($event->progress->break) {
                         $event->error = new UserException('User Break');
+                        break;
+                    }
+                    if ($timeLimit > 0 && time() - $startTime >= $timeLimit) {
+                        $event->error = new UserException('Time Limit');
                         break;
                     }
                 }

@@ -113,6 +113,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                     'GET,HEAD totals' => 'totals',
                     'GET,HEAD counts' => 'counts',
                     'GET,HEAD statistics' => 'statistics',
+                    'GET,HEAD dashboard' => 'dashboard',
                 ]
             ],
         ]);

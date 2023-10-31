@@ -5,7 +5,9 @@
 
 namespace lujie\extend\db;
 
+use lujie\common\history\models\ModelHistoryRelationTrait;
 use lujie\extend\flysystem\Filesystem;
+use lujie\extend\helpers\ModelHelper;
 use yii\di\Instance;
 
 /**
@@ -29,7 +31,7 @@ trait ModelFileDeleteTrait
      */
     public function getFileAttributes(): array
     {
-        return ['file'];
+        return ModelHelper::filterAttributes($this->attributes(), ['file']);
     }
 
     /**

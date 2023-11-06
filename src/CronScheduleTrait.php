@@ -7,6 +7,7 @@ namespace lujie\scheduling;
 
 use Cron\CronExpression;
 use Yii;
+use function Psl\PseudoRandom\int;
 
 /**
  * Class CronScheduleTrait
@@ -60,5 +61,18 @@ trait CronScheduleTrait
     public function getTimezone(): string
     {
         return $this->timezone ?? Yii::$app->timeZone;
+    }
+
+    /**
+     * @param int $hour
+     * @param int $minutes
+     * @return bool
+     * @inheritdoc
+     */
+    public function isInTime(int $hour, int $minute): bool
+    {
+        $currentHour = (int)date('H');
+        $currentMinute = (int)date('i');
+        return $currentHour <= $hour && $currentMinute <= $minute;
     }
 }

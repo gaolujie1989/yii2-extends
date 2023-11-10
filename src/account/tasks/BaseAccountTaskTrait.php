@@ -35,7 +35,7 @@ trait BaseAccountTaskTrait
      */
     public function getParams(): array
     {
-        return ['accountNames', 'accountIds', 'id'];
+        return array_merge(['accountNames', 'accountIds'], parent::getParams());
     }
 
     /**

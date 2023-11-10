@@ -7,7 +7,6 @@ namespace lujie\scheduling;
 
 use Cron\CronExpression;
 use Yii;
-use function Psl\PseudoRandom\int;
 
 /**
  * Class CronScheduleTrait

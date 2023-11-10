@@ -25,7 +25,7 @@ class CronTask extends Model implements ScheduleTaskInterface
      */
     public function getParams(): array
     {
-        return ['id', 'ttr'];
+        return ['ttr', 'id'];
     }
 
     /**

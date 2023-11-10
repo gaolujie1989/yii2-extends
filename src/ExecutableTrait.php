@@ -95,7 +95,10 @@ trait ExecutableTrait
             $paramValues[array_shift($paramKeys)] = array_shift($params);
         }
         foreach ($paramValues as $key => $value) {
-            $this->{$key} = is_array($this->{$key}) ? ValueHelper::strToArray($value) : $value;
+            $value = is_array($this->{$key}) ? ValueHelper::strToArray($value) : $value;
+            if (ValueHelper::notEmpty($value)) {
+                $this->{$key} = $value;
+            }
         }
     }
 

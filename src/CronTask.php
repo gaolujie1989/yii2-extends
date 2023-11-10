@@ -20,6 +20,15 @@ class CronTask extends Model implements ScheduleTaskInterface
     use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait;
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return ['id', 'ttr'];
+    }
+
+    /**
      * @return int
      * @inheritdoc
      */

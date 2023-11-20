@@ -1495,7 +1495,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - List of all the items received from partner
      * @return array
      */
-    public function receiveV2AcceptedReturn(array $data): array
+    public function receiveV2AcceptedReturn(array $data): array|string
     {
         return $this->api("/v2/returns/acceptance", 'POST', $data);
     }
@@ -1508,7 +1508,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - List of all the items received from partner
      * @return array
      */
-    public function receiveV2RejectedReturn(array $data): array
+    public function receiveV2RejectedReturn(array $data): array|string
     {
         return $this->api("/v2/returns/rejection", 'POST', $data);
     }

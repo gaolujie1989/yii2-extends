@@ -22,6 +22,8 @@ use yii\db\ActiveQuery;
  */
 class ModelHistory extends \lujie\extend\db\ActiveRecord
 {
+    public $detailClass = ModelHistoryDetail::class;
+
     /**
      * {@inheritdoc}
      */
@@ -85,7 +87,6 @@ class ModelHistory extends \lujie\extend\db\ActiveRecord
      */
     public function getDetails(): ActiveQuery
     {
-        $detailClass = self::class . 'Detail';
-        return $this->hasMany($detailClass, ['model_history_id' => 'model_history_id']);
+        return $this->hasMany($this->detailClass, ['model_history_id' => 'model_history_id']);
     }
 }

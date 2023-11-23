@@ -15,21 +15,5 @@ use lujie\extend\db\FormTrait;
  */
 class ModelHistoryForLog extends ModelHistory
 {
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'details' => 'changed_attribute'
-    ];
-
-    /**
-     * @return array
-     * @inheritdoc
-     */
-    public function rules(): array
-    {
-        return array_merge(parent::rules(), [
-            [['details'], 'safe'],
-        ]);
-    }
+    use ModelHistoryForLogTrait;
 }

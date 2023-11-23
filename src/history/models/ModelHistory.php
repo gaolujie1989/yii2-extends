@@ -85,6 +85,7 @@ class ModelHistory extends \lujie\extend\db\ActiveRecord
      */
     public function getDetails(): ActiveQuery
     {
-        return $this->hasMany(ModelHistoryDetail::class, ['model_history_id' => 'model_history_id']);
+        $detailClass = self::class . 'Detail';
+        return $this->hasMany($detailClass, ['model_history_id' => 'model_history_id']);
     }
 }

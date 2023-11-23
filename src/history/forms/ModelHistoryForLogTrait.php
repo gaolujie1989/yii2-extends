@@ -20,12 +20,12 @@ trait ModelHistoryForLogTrait
      */
     public function init(): void
     {
-        parent::init();
         if (empty($this->relations)) {
             $this->relations = [
                 'details' => 'changed_attribute'
             ];
         }
+        parent::init();
     }
 
     /**

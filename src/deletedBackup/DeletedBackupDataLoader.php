@@ -80,7 +80,7 @@ class DeletedBackupDataLoader extends BaseDataLoader
         }
         $attributes = $model->getAttributes(null, $model::primaryKey());
         foreach ($attributes as $key => $value) {
-            if (str_ends_with($key, '_id')) {
+            if (is_int($value) && str_ends_with($key, '_id')) {
                 return $value;
             }
         }

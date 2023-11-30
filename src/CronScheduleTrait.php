@@ -63,15 +63,18 @@ trait CronScheduleTrait
     }
 
     /**
-     * @param int $hour
-     * @param int $minutes
+     * @param int|array $hours
+     * @param int $minute
      * @return bool
      * @inheritdoc
      */
-    public function isInTime(int $hour, int $minute = 4): bool
+    public function isInTime(int|array $hours, int $minute = 4): bool
     {
+        if (is_int($hours)) {
+            $hours = [$hours];
+        }
         $currentHour = (int)date('H');
         $currentMinute = (int)date('i');
-        return $currentHour === $hour && $currentMinute <= $minute;
+        return in_array($currentHour, $hours,  true) && $currentMinute <= $minute;
     }
 }

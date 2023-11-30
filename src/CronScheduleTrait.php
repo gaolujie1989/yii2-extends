@@ -72,6 +72,6 @@ trait CronScheduleTrait
     {
         $currentHour = (int)date('H');
         $currentMinute = (int)date('i');
-        return $currentHour <= $hour && $currentMinute <= $minute;
+        return $currentHour === $hour && $currentMinute <= $minute;
     }
 }

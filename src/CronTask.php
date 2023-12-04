@@ -6,6 +6,7 @@
 namespace lujie\scheduling;
 
 use lujie\executing\ExecutableTrait;
+use lujie\executing\FollowTaskInterface;
 use lujie\executing\FollowTaskTrait;
 use lujie\executing\LockableTrait;
 use lujie\executing\QueueableTrait;
@@ -16,7 +17,7 @@ use yii\base\Model;
  * @package lujie\scheduling
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CronTask extends Model implements ScheduleTaskInterface
+class CronTask extends Model implements ScheduleTaskInterface, FollowTaskInterface
 {
     use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait, FollowTaskTrait;
 

@@ -68,7 +68,7 @@ trait CronScheduleTrait
      * @return bool
      * @inheritdoc
      */
-    public function isInTime(int|array|null $hours = null, int $minute = 4): bool
+    public function isInTime(int|array|null $hours, int $minute = 4): bool
     {
         $currentMinute = (int)date('i');
         if ($hours === null) {

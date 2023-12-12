@@ -855,9 +855,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - The available quantity of a specific SKU, which can be any integer value >= 0.
      *      - *sku* - string
      *          - StockKeepingUnit given by partner configuration. e.g. 'shirt-red-M', external identifier of article variation.
-     * @return array
+     * @return array|null
      */
-    public function storeV2AvailableQuantities(array $data): array
+    public function storeV2AvailableQuantities(array $data): ?array
     {
         return $this->api("/v2/quantities", 'POST', $data);
     }

@@ -141,8 +141,13 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                 $docParams[] = '     * @return string';
             } else {
                 $ref = $responseContent['schema']['$ref'] ?? $responseContent['schema']['items']['$ref'] ?? null;
-                $returnType = ': array';
-                $docParams[] = '     * @return array';
+                if ($apiMethod === 'storeV2AvailableQuantities') {
+                    $returnType = ': ?array';
+                    $docParams[] = '     * @return array|null';
+                } else {
+                    $returnType = ': array';
+                    $docParams[] = '     * @return array';
+                }
             }
             if ($ref) {
                 $refPath = strtr(substr($ref, 2), ['/' => '.']);

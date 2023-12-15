@@ -5,13 +5,11 @@
 
 namespace lujie\charging\calculators;
 
+use lujie\charging\CalculatedPrice;
 use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
-use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\helpers\TemplateHelper;
-use yii\di\Instance;
 
 /**
  * Class ShippingPriceCalculator
@@ -31,35 +29,17 @@ class ShippingTableCalculator extends BaseChargeCalculator
     public $defaultCarrier = 'DEFAULT';
 
     /**
-     * @param $chargeItemLoader
-     * @inheritdoc
-     * @deprecated
-     */
-    public function setShippingItemLoader($chargeItemLoader): void
-    {
-        $this->chargeItemLoader = $chargeItemLoader;
-    }
-
-    /**
      * @param BaseChargeItem|ShippingItem $chargeItem
-     * @param ChargePrice $chargePrice
+     * @return CalculatedPrice|null
      * @inheritdoc
      */
-    protected function calculateInternal(BaseChargeItem $chargeItem, ChargePrice $chargePrice): void
+    protected function calculateInternal(BaseChargeItem $chargeItem): ?CalculatedPrice
     {
-        $chargePrice->custom_type = $chargeItem->carrier;
-        $shippingTablePrice = $this->getShippingTablePrice($chargeItem);
+        $shippingTablePrice = $this->getShippingTable($chargeItem);
         if ($shippingTablePrice === null) {
-            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $chargeItem);
-            return;
+            return CalculatedPrice::createWithFailed('ShippingTable not found');
         }
-        $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
-        $chargePrice->price_cent = $shippingTablePrice->price_cent;
-        $chargePrice->currency = $shippingTablePrice->currency;
-        $chargePrice->note = strtr('[{carrier}] {price}', [
-            '{carrier}' => $shippingTablePrice->carrier,
-            '{price}' => $shippingTablePrice->price_cent / 100,
-        ]);
+        return CalculatedPrice::create($shippingTablePrice->price_cent, $shippingTablePrice->currency, $shippingTablePrice);
     }
 
     /**
@@ -67,7 +47,7 @@ class ShippingTableCalculator extends BaseChargeCalculator
      * @return ShippingTable|null
      * @inheritdoc
      */
-    protected function getShippingTablePrice(ShippingItem $shippingItem): ?ShippingTable
+    protected function getShippingTable(ShippingItem $shippingItem): ?ShippingTable
     {
         $query = $this->getShippingTableQuery($shippingItem);
         $query->orderByPrice(SORT_ASC);

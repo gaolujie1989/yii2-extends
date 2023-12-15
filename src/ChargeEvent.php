@@ -5,7 +5,6 @@
 
 namespace lujie\charging;
 
-use lujie\charging\models\ChargePrice;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
 
@@ -38,7 +37,7 @@ class ChargeEvent extends Event
     public $model;
 
     /**
-     * @var ChargePrice[]
+     * @var CalculatedPrice[]
      */
-    public $chargePrices = [];
+    public $calculatedPrices = [];
 }

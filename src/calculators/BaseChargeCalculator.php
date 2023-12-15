@@ -5,18 +5,13 @@
 
 namespace lujie\charging\calculators;
 
+use lujie\charging\CalculatedPrice;
 use lujie\charging\ChargeCalculatorInterface;
 use lujie\charging\models\ChargePrice;
-use lujie\charging\models\ShippingTable;
-use lujie\charging\models\ShippingTableQuery;
-use lujie\charging\models\ShippingZone;
 use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\helpers\TemplateHelper;
 use yii\base\BaseObject;
-use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class BaseChargeCalculator
@@ -31,6 +26,11 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
     public $chargeItemLoader;
 
     /**
+     * @var string
+     */
+    public $chargeType;
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -42,41 +42,33 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
 
     /**
      * @param BaseActiveRecord $model
-     * @param ChargePrice $chargePrice
-     * @return ChargePrice
+     * @param string $chargeType
+     * @return CalculatedPrice|null
      * @inheritdoc
      */
-    public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
+    public function calculate(BaseActiveRecord $model): array
     {
-        $chargePrice->resetPrice();
-
         /** @var BaseChargeItem[] $chargeItems */
         $chargeItems = $this->chargeItemLoader->get($model);
         if (empty($chargeItems)) {
-            $chargePrice->error = 'Empty Charge Items';
-            return $chargePrice;
+            return [];
         }
 
         if (!is_array($chargeItems)) {
             $chargeItems = [$chargeItems];
         }
 
-        $internalChargePrices = [];
+        $calculatedPrices = [];
         foreach ($chargeItems as $chargeItem) {
-            $internalChargePrice = new ChargePrice();
-            $internalChargePrice->qty = $chargeItem->qty ?: 0;
-            $internalChargePrice->setAttributes($chargeItem->additional);
-
-            $this->calculateInternal($chargeItem, $internalChargePrice);
-            if ($internalChargePrice->error) {
-                $chargePrice->error = $internalChargePrice->error;
-                return $chargePrice;
+            $calculatedPrice = $this->calculateInternal($chargeItem);
+            if ($calculatedPrice) {
+                $calculatedPrice->chargeType = $this->chargeType;
+                $calculatedPrice->chargeKey = $chargeItem->chargeKey;
+                $calculatedPrices[] = $calculatedPrice;
             }
-            $internalChargePrices[] = $internalChargePrice;
         }
 
-        $this->mergeChargePrices($chargePrice, $internalChargePrices);
-        return $chargePrice;
+        return $calculatedPrices;
     }
 
     /**
@@ -84,34 +76,5 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
      * @param ChargePrice $chargePrice
      * @inheritdoc
      */
-    abstract protected function calculateInternal(BaseChargeItem $chargeItem, ChargePrice $chargePrice): void;
-
-    /**
-     * @param ChargePrice $chargePrice
-     * @param array $mergeChargePrices
-     * @inheritdoc
-     */
-    protected function mergeChargePrices(ChargePrice $chargePrice, array $mergeChargePrices): void
-    {
-        if (empty($mergeChargePrices)) {
-            return;
-        }
-        $mergeChargePrice = reset($mergeChargePrices);
-        $chargePrice->setAttribute($mergeChargePrice->getDirtyAttributes(), false);
-        if (count($mergeChargePrices) > 1) {
-            $notes = [];
-            foreach ($mergeChargePrices as $mergeChargePrice) {
-                $mergeChargePrice->calculateTotal();
-                $notes[] = $mergeChargePrice->note . ($mergeChargePrice->qty > 1 ? ' x ' . $mergeChargePrice->qty : '');
-            }
-            $chargePrice->subtotal_cent = array_sum(ArrayHelper::getColumn($mergeChargePrices, 'subtotal_cent'));
-            $chargePrice->price_cent = $chargePrice->subtotal_cent;
-            $chargePrice->qty = 1;
-            $chargePrice->discount_cent = array_sum(ArrayHelper::getColumn($mergeChargePrices, 'discount_cent'));
-            $chargePrice->surcharge_cent = array_sum(ArrayHelper::getColumn($mergeChargePrices, 'surcharge_cent'));
-            $chargePrice->grand_total_cent = array_sum(ArrayHelper::getColumn($mergeChargePrices, 'grand_total_cent'));
-            $chargePrice->note = implode(' + ', $notes);
-            $chargePrice->additional = array_merge(...ArrayHelper::getColumn($mergeChargePrices, 'additional'));
-        }
-    }
+    abstract protected function calculateInternal(BaseChargeItem $chargeItem): ?CalculatedPrice;
 }

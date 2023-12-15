@@ -121,8 +121,9 @@ trait LockingTrait
             } elseif ($onFailure && is_callable($onFailure)) {
                 return $onFailure();
             }
+        } else {
+            return $onSuccess();
         }
-        return $onSuccess();
     }
 
     /**

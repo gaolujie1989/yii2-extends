@@ -82,6 +82,7 @@ class Charger extends Component
             foreach ($calculatedPrices as $calculatedPrice) {
                 $calculatedPrice->chargeModel = $model;
                 $calculatedPrice->modelType = $chargeEvent->modelType;
+                $calculatedPrice->chargeType = $chargeType;
             }
             $chargeEvent->calculatedPrices[] = $calculatedPrices;
         }

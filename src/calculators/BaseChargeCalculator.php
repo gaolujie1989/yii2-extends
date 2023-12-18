@@ -62,8 +62,8 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
         foreach ($chargeItems as $chargeItem) {
             $calculatedPrice = $this->calculateInternal($chargeItem);
             if ($calculatedPrice) {
-                $calculatedPrice->chargeItem = $chargeItem;
-                $calculatedPrice->chargeType = $this->chargeType;
+                $calculatedPrice->chargeItem = $calculatedPrice->chargeItem ?: $chargeItem;
+                $calculatedPrice->chargeType = $calculatedPrice->chargeType ?: $this->chargeType;
                 $calculatedPrices[] = $calculatedPrice;
             }
         }

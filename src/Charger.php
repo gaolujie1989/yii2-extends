@@ -84,9 +84,9 @@ class Charger extends Component
             $chargeCalculator = $this->getChargeCalculator($chargeType);
             $calculatedPrices = $chargeCalculator->calculate($model, $chargeType);
             foreach ($calculatedPrices as $calculatedPrice) {
-                $calculatedPrice->modelType = $chargeEvent->modelType;
-                $calculatedPrice->chargeModel = $model;
-                $calculatedPrice->chargeType = $chargeType;
+                $calculatedPrice->modelType = $calculatedPrice->modelType ?: $chargeEvent->modelType;
+                $calculatedPrice->chargeModel = $calculatedPrice->chargeModel ?: $model;
+                $calculatedPrice->chargeType = $calculatedPrice->chargeType ?: $chargeType;
             }
             $chargeEvent->calculatedPrices[] = $calculatedPrices;
         }

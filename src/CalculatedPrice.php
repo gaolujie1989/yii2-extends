@@ -5,9 +5,8 @@
 
 namespace lujie\charging;
 
-use lujie\charging\models\ChargePrice;
+use lujie\charging\calculators\BaseChargeItem;
 use yii\base\BaseObject;
-use yii\base\Event;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -23,6 +22,11 @@ class CalculatedPrice extends BaseObject
     public $chargeModel;
 
     /**
+     * @var BaseChargeItem
+     */
+    public $chargeItem;
+
+    /**
      * @var string
      */
     public $modelType;
@@ -33,11 +37,6 @@ class CalculatedPrice extends BaseObject
     public $chargeType;
 
     /**
-     * @var string
-     */
-    public $chargeKey;
-
-    /**
      * @var BaseActiveRecord
      */
     public $priceTable;
@@ -46,11 +45,6 @@ class CalculatedPrice extends BaseObject
      * @var int
      */
     public $priceCent;
-
-    /**
-     * @var int
-     */
-    public $qty = 1;
 
     /**
      * @var string

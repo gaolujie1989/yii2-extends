@@ -6,7 +6,6 @@
 namespace lujie\charging\calculators;
 
 use lujie\charging\CalculatedPrice;
-use lujie\charging\models\ChargePrice;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
@@ -50,7 +49,7 @@ class ShippingTableCalculator extends BaseChargeCalculator
     protected function getShippingTable(ShippingItem $shippingItem): ?ShippingTable
     {
         $query = $this->getShippingTableQuery($shippingItem);
-        $query->orderByPrice(SORT_ASC);
+        $query->orderByPrice();
         $shippingOwnerId = $shippingItem->additional['ownerId'] ?? $shippingItem->additional['owner_id'] ?? 0;
 
         $carriers = [$shippingItem->carrier];

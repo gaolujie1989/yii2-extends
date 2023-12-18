@@ -14,7 +14,7 @@ use yii\base\BaseObject;
  */
 class BaseChargeItem extends BaseObject
 {
-    public $chargeKey;
+    public $itemKey;
 
     /**
      * @var ?int

@@ -58,6 +58,7 @@ class ShippingItem extends BaseChargeItem
     public $heightMM;
 
     /**
+     * @param string $itemKey
      * @param int $weightG
      * @param int $lengthMM
      * @param int $widthMM
@@ -71,6 +72,7 @@ class ShippingItem extends BaseChargeItem
      * @inheritdoc
      */
     public static function create(
+        string $itemKey,
         int $weightG,
         int $lengthMM,
         int $widthMM,
@@ -83,6 +85,7 @@ class ShippingItem extends BaseChargeItem
     ): static
     {
         $shippingItem = new ShippingItem();
+        $shippingItem->itemKey = $itemKey;
         $shippingItem->weightG = $weightG;
         $shippingItem->lengthMM = $lengthMM;
         $shippingItem->widthMM = $widthMM;

@@ -38,6 +38,7 @@ class ChargeableItem extends BaseChargeItem
     public $basePriceCurrency;
 
     /**
+     * @param string $
      * @param int $limitValue
      * @param string $customType
      * @param int|null $chargedAt
@@ -45,12 +46,14 @@ class ChargeableItem extends BaseChargeItem
      * @inheritdoc
      */
     public static function create(
+        string $itemKey,
         int $limitValue,
         string $customType = '',
         ?int $chargedAt = null,
     ): static
     {
         $item = new static();
+        $item->itemKey = $itemKey;
         $item->limitValue = $limitValue;
         $item->customType = $customType;
         $item->chargedAt = $chargedAt ?: time();
@@ -58,13 +61,16 @@ class ChargeableItem extends BaseChargeItem
     }
 
     /**
+     * @param string $
      * @param int $basePriceCent
      * @param string $basePriceCurrency
+     * @param string $customType
      * @param int|null $chargedAt
      * @return static
      * @inheritdoc
      */
     public static function createWithPrice(
+        string $itemKey,
         int $basePriceCent,
         string $basePriceCurrency,
         string $customType = '',
@@ -72,6 +78,7 @@ class ChargeableItem extends BaseChargeItem
     ): static
     {
         $item = new static();
+        $item->itemKey = $itemKey;
         $item->basePriceCent = $basePriceCent;
         $item->basePriceCurrency = $basePriceCurrency;
         $item->customType = $customType;

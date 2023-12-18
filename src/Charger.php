@@ -45,6 +45,11 @@ class Charger extends Component
     public $calculatedPriceImporter;
 
     /**
+     * @var ChargeCalculatorInterface[]
+     */
+    private $_calculators = [];
+
+    /**
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
@@ -76,8 +81,7 @@ class Charger extends Component
         }
 
         foreach ($chargeEvent->chargeTypes as $chargeType) {
-            /** @var ChargeCalculatorInterface $chargeCalculator */
-            $chargeCalculator = $this->chargeCalculatorLoader->get($chargeType);
+            $chargeCalculator = $this->getChargeCalculator($chargeType);
             $calculatedPrices = $chargeCalculator->calculate($model, $chargeType);
             foreach ($calculatedPrices as $calculatedPrice) {
                 $calculatedPrice->modelType = $chargeEvent->modelType;
@@ -93,6 +97,21 @@ class Charger extends Component
         $this->trigger(self::EVENT_AFTER_CHARGE, $chargeEvent);
         $this->calculatedPriceImporter->exchange($chargeEvent->calculatedPrices);
         return $chargeEvent->calculatedPrices;
+    }
+
+    /**
+     * @param string $chargeType
+     * @return ChargeCalculatorInterface
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function getChargeCalculator(string $chargeType): ChargeCalculatorInterface
+    {
+        if (empty($this->_calculators[$chargeType])) {
+            $chargeCalculator = $this->chargeCalculatorLoader->get($chargeType);
+            $this->_calculators[$chargeType] = Instance::ensure($chargeCalculator, ChargeCalculatorInterface::class);
+        }
+        return $this->_calculators[$chargeType];
     }
 
     /**

@@ -58,7 +58,6 @@ class ShippingItem extends BaseChargeItem
     public $heightMM;
 
     /**
-     * @param string $itemKey
      * @param int $weightG
      * @param int $lengthMM
      * @param int $widthMM
@@ -68,11 +67,11 @@ class ShippingItem extends BaseChargeItem
      * @param string $destination
      * @param string $departure
      * @param int|null $shippedAt
+     * @param string|null $itemKey
      * @return static
      * @inheritdoc
      */
     public static function create(
-        string $itemKey,
         int $weightG,
         int $lengthMM,
         int $widthMM,
@@ -81,11 +80,11 @@ class ShippingItem extends BaseChargeItem
         string $postalCode,
         string $destination,
         string $departure,
-        int $shippedAt = null,
+        ?int $shippedAt = null,
+        ?string $itemKey = null,
     ): static
     {
         $shippingItem = new ShippingItem();
-        $shippingItem->itemKey = $itemKey;
         $shippingItem->weightG = $weightG;
         $shippingItem->lengthMM = $lengthMM;
         $shippingItem->widthMM = $widthMM;
@@ -95,6 +94,7 @@ class ShippingItem extends BaseChargeItem
         $shippingItem->destination = $destination;
         $shippingItem->departure = $departure;
         $shippingItem->shippedAt = $shippedAt ?: time();
+        $shippingItem->itemKey = $itemKey;
         return $shippingItem;
     }
 }

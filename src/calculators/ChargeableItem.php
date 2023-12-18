@@ -61,28 +61,28 @@ class ChargeableItem extends BaseChargeItem
     }
 
     /**
-     * @param string $
      * @param int $basePriceCent
      * @param string $basePriceCurrency
      * @param string $customType
      * @param int|null $chargedAt
+     * @param string|null $itemKey
      * @return static
      * @inheritdoc
      */
     public static function createWithPrice(
-        string $itemKey,
         int $basePriceCent,
         string $basePriceCurrency,
         string $customType = '',
         ?int $chargedAt = null,
+        ?string $itemKey = null,
     ): static
     {
         $item = new static();
-        $item->itemKey = $itemKey;
         $item->basePriceCent = $basePriceCent;
         $item->basePriceCurrency = $basePriceCurrency;
         $item->customType = $customType;
         $item->chargedAt = $chargedAt ?: time();
+        $item->itemKey = $itemKey;
         return $item;
     }
 }

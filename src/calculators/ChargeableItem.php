@@ -46,17 +46,17 @@ class ChargeableItem extends BaseChargeItem
      * @inheritdoc
      */
     public static function create(
-        string $itemKey,
         int $limitValue,
         string $customType = '',
         ?int $chargedAt = null,
+        ?string $itemKey = null,
     ): static
     {
         $item = new static();
-        $item->itemKey = $itemKey;
         $item->limitValue = $limitValue;
         $item->customType = $customType;
         $item->chargedAt = $chargedAt ?: time();
+        $item->itemKey = $itemKey;
         return $item;
     }
 

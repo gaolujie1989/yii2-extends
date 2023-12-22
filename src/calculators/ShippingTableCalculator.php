@@ -102,6 +102,7 @@ class ShippingTableCalculator extends BaseChargeCalculator
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)
             ->postalCode($shippingItem->postalCode)
+            ->activeAt($shippingItem->shippedAt ?: time())
             ->getCarrierZones($carriers);
     }
 

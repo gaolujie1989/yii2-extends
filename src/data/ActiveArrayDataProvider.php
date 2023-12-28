@@ -50,6 +50,9 @@ class ActiveArrayDataProvider extends ActiveDataProvider
             $this->query->asArray();
         }
         $models = parent::prepareModels();
+        if (empty($models)) {
+            return [];
+        }
         if ($this->query->asArray && $this->typecast) {
             $models = ActiveDataHelper::typecast($models, $this->query->modelClass);
         }

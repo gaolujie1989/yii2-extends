@@ -34,6 +34,12 @@ abstract class Filesystem extends Component implements FilesystemOperator
      */
     protected $adapter;
 
+
+    /**
+     * @var string
+     */
+    public $cdn = '';
+
     /**
      * @inheritdoc
      */

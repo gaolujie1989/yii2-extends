@@ -29,7 +29,6 @@ class QCosFilesystem extends Filesystem
     public $useHttps = true;
 
     public $domain;
-    public $cdn;
 
     /**
      * @return FilesystemAdapter

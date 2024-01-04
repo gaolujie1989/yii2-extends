@@ -22,11 +22,6 @@ class LocalFilesystem extends Filesystem
     public $path = '@statics';
 
     /**
-     * @var string
-     */
-    public $cdn = '';
-
-    /**
      * @return FilesystemAdapter
      * @inheritdoc
      */

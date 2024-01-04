@@ -78,6 +78,20 @@ class QCosFilesystem extends Filesystem
 
     /**
      * @param string $path
+     * @param int $width
+     * @param int $height
+     * @param array $config
+     * @return string
+     * @throws \Overtrue\CosClient\Exceptions\InvalidConfigException
+     * @inheritdoc
+     */
+    public function thumbnailUrl(string $path, int $width, int $height, array $config = []): string
+    {
+        return $this->publicUrl($path, $config) . '?imageMogr2/thumbnail/' . $width . 'x' . $height;
+    }
+
+    /**
+     * @param string $path
      * @param DateTimeInterface $expiresAt
      * @param array $config
      * @return string

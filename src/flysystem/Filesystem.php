@@ -79,6 +79,30 @@ abstract class Filesystem extends Component implements FilesystemOperator
         return $this->adapter;
     }
 
+    /**
+     * @param string $path
+     * @param array $config
+     * @return string
+     * @inheritdoc
+     */
+    public function publicUrl(string $path, array $config = []): string
+    {
+        return rtrim($this->cdn, '/') . '/' . ltrim($path, '/');
+    }
+
+    /**
+     * @param string $path
+     * @param int $width
+     * @param int $height
+     * @param array $config
+     * @return string
+     * @inheritdoc
+     */
+    public function thumbnailUrl(string $path, int $width, int $height, array $config = []): string
+    {
+        return $this->publicUrl($path, $config);
+    }
+
     #region FilesystemReader
 
     public function fileExists(string $location): bool

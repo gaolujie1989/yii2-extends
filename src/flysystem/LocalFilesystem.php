@@ -34,15 +34,4 @@ class LocalFilesystem extends Filesystem
     {
         return new LocalFilesystemAdapter(Yii::getAlias($this->path));
     }
-
-    /**
-     * @param string $path
-     * @param array $config
-     * @return string
-     * @inheritdoc
-     */
-    public function publicUrl(string $path, array $config = []): string
-    {
-        return rtrim($this->cdn, '/') . '/' . ltrim($path, '/');
-    }
 }

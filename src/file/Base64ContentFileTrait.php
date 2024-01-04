@@ -11,7 +11,7 @@ use yii\di\Instance;
 /**
  * Trait Base64ContentTrait
  *
- * @property Filesystem $fs
+ * @property Filesystem|string $fs
  * @property string $filePathTemplate
  * @property string $fileAttribute = 'file'
  * @property string $extAttribute = 'ext'

@@ -13,7 +13,7 @@ use lujie\extend\db\ModelFileDeleteTrait;
 use lujie\extend\db\SaveTrait;
 use lujie\extend\db\TraceableBehaviorTrait;
 use lujie\extend\db\TransactionTrait;
-use lujie\extend\file\Base64ContentTrait;
+use lujie\extend\file\Base64ContentFileTrait;
 use yii\db\ActiveRecord;
 
 /**
@@ -25,7 +25,7 @@ class MockActiveRecord extends ActiveRecord
 {
     use TraceableBehaviorTrait, AliasBehaviorTrait,
         AliasFieldTrait, SaveTrait, DeleteTrait, ModelFileDeleteTrait,
-        TransactionTrait, DbConnectionTrait, Base64ContentTrait;
+        TransactionTrait, DbConnectionTrait, Base64ContentFileTrait;
 
     public static $inserts = [];
 

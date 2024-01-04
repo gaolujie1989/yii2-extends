@@ -43,12 +43,15 @@ trait Base64ContentFileTrait
         $extAttribute = $this->extAttribute ?? 'ext';
         $fileContent = base64_decode($this->base64_content);
 
-        $filePathParams = array_merge([
-            '{date}' => date('Y-m-d'),
-            '{rand}' => random_int(1000, 9999),
-        ], $filePathParams);
-        $filePath = strtr($this->filePathTemplate, $filePathParams);
-        $this->setAttribute($fileAttribute, $filePath);
+        $filePath = $this->getAttribute($fileAttribute);
+        if (empty($filePath)) {
+            $filePathParams = array_merge([
+                '{date}' => date('Y-m-d'),
+                '{rand}' => random_int(1000, 9999),
+            ], $filePathParams);
+            $filePath = strtr($this->filePathTemplate, $filePathParams);
+            $this->setAttribute($fileAttribute, $filePath);
+        }
         if ($this->hasAttribute($extAttribute)) {
             $this->setAttribute($extAttribute, strtolower(pathinfo($filePath, PATHINFO_EXTENSION)));
         }

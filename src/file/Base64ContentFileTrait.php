@@ -50,7 +50,7 @@ trait Base64ContentFileTrait
         $filePath = strtr($this->filePathTemplate, $filePathParams);
         $this->setAttribute($fileAttribute, $filePath);
         if ($this->hasAttribute($extAttribute)) {
-            $this->setAttribute($extAttribute, pathinfo($filePath, PATHINFO_EXTENSION));
+            $this->setAttribute($extAttribute, strtolower(pathinfo($filePath, PATHINFO_EXTENSION)));
         }
         if ($this->hasAttribute($sizeAttribute)) {
             $this->setAttribute($sizeAttribute, strlen($fileContent));

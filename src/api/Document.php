@@ -68,9 +68,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Document
      * @param int $categoryId The ID of the category
      */
-    public function getCategoriesDocumentsDownloadsByCategoryId(int $categoryId): void
+    public function getCategoriesDocumentsDownloadsByCategoryId(int $categoryId)
     {
-        $this->api("/rest/categories/{$categoryId}/documents/downloads");
+        return $this->api("/rest/categories/{$categoryId}/documents/downloads");
     }
                     
     /**
@@ -79,9 +79,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $categoryId 
      * @param int $documentId 
      */
-    public function deleteCategoriesDocumentByCategoryIdDocumentId(int $categoryId, int $documentId): void
+    public function deleteCategoriesDocumentByCategoryIdDocumentId(int $categoryId, int $documentId)
     {
-        $this->api("/rest/categories/{$categoryId}/documents/{$documentId}", 'DELETE');
+        return $this->api("/rest/categories/{$categoryId}/documents/{$documentId}", 'DELETE');
     }
                     
     /**
@@ -104,9 +104,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Document
      * @param int $documentHash 
      */
-    public function getDocumentsPreviewByDocumentHash(int $documentHash): void
+    public function getDocumentsPreviewByDocumentHash(int $documentHash)
     {
-        $this->api("/rest/documents/preview/{$documentHash}");
+        return $this->api("/rest/documents/preview/{$documentHash}");
     }
                     
     /**
@@ -114,9 +114,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Document
      * @param int $documentId The ID of the document
      */
-    public function getDocumentByDocumentId(int $documentId): void
+    public function getDocumentByDocumentId(int $documentId)
     {
-        $this->api("/rest/documents/{$documentId}");
+        return $this->api("/rest/documents/{$documentId}");
     }
                     
     /**
@@ -288,9 +288,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *filename* - string - optional
      *          - The filename to be used for the zip file
      */
-    public function getOrdersDocumentsDownloadsAsZip(array $query): void
+    public function getOrdersDocumentsDownloadsAsZip(array $query)
     {
-        $this->api(array_merge(["/rest/orders/documents/downloads/as_zip"], $query));
+        return $this->api(array_merge(["/rest/orders/documents/downloads/as_zip"], $query));
     }
                     
     /**
@@ -319,9 +319,9 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *itemsPerPage* - int - required
      *          - The number of documents to display per page. The default number displayed is 50. The maximum number is 6000.
      */
-    public function getOrdersDocumentsDownloadByType(string $type, array $query): void
+    public function getOrdersDocumentsDownloadByType(string $type, array $query)
     {
-        $this->api(array_merge(["/rest/orders/documents/downloads/{$type}"], $query));
+        return $this->api(array_merge(["/rest/orders/documents/downloads/{$type}"], $query));
     }
                 
     /**
@@ -720,9 +720,9 @@ The document can only be generated for orders of the type 'credit note'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsCorrectionDocumentGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsCorrectionDocumentGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/correction_document/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/correction_document/generate"], $query), 'POST');
     }
                     
     /**
@@ -738,9 +738,9 @@ The document can only be generated for orders of the type 'credit note'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsCreditNoteGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsCreditNoteGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/credit_note/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/credit_note/generate"], $query), 'POST');
     }
                     
     /**
@@ -756,9 +756,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *storehouseId* - int - optional
      *          - If set, only items with the given warehouse ID are included on the document.
      */
-    public function createOrdersDocumentsDeliveryNoteGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsDeliveryNoteGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/delivery_note/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/delivery_note/generate"], $query), 'POST');
     }
                     
     /**
@@ -767,9 +767,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      * @param int $orderId The ID of the order
      * @param string $type The type of the document. The types available are receipt, zReport, tillCount, posCouponReceipt, cancellation, posInvoice, posInvoiceCancellation, invoiceExternal, invoice, deliveryNote, poDeliveryNote, creditNote, creditNoreExternal, orderConfirmation, offer, dunningLetter, reversalDunningLetter, returnNote, successConfirmation, reorder, correction and uploaded.
      */
-    public function getOrdersDocumentsDownloadsTypeByOrderIdType(int $orderId, string $type): void
+    public function getOrdersDocumentsDownloadsTypeByOrderIdType(int $orderId, string $type)
     {
-        $this->api("/rest/orders/{$orderId}/documents/downloads/{type?}");
+        return $this->api("/rest/orders/{$orderId}/documents/downloads/{type?}");
     }
                     
     /**
@@ -787,9 +787,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *variationId* - int - optional
      *          - Add a variation to the order.
      */
-    public function createOrdersDocumentsDunningLetterGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsDunningLetterGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/dunning_letter/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/dunning_letter/generate"], $query), 'POST');
     }
                     
     /**
@@ -817,9 +817,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *paymentDueDays* - int - optional
      *          - Deprecated. This parameter has no effect anymore.
      */
-    public function createOrdersDocumentsInvoiceGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsInvoiceGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/invoice/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/invoice/generate"], $query), 'POST');
     }
                     
     /**
@@ -833,9 +833,9 @@ The document can only be generated for orders of the type 'multi credit note'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsMultiCreditNoteGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsMultiCreditNoteGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/multi_credit_note/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/multi_credit_note/generate"], $query), 'POST');
     }
                     
     /**
@@ -849,9 +849,9 @@ The document can only be generated for orders of the type 'multi order'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsMultiInvoiceGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsMultiInvoiceGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/multi_invoice/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/multi_invoice/generate"], $query), 'POST');
     }
                     
     /**
@@ -865,9 +865,9 @@ The document can only be generated for orders of the type 'offer'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsOfferGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsOfferGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/offer/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/offer/generate"], $query), 'POST');
     }
                     
     /**
@@ -893,9 +893,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *paymentDueDays* - int - optional
      *          - Deprecated. This parameter has no effect anymore.
      */
-    public function createOrdersDocumentsOrderConfirmationGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsOrderConfirmationGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/order_confirmation/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/order_confirmation/generate"], $query), 'POST');
     }
                     
     /**
@@ -908,9 +908,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsOrderCustomGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsOrderCustomGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/order_custom/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/order_custom/generate"], $query), 'POST');
     }
                     
     /**
@@ -924,9 +924,9 @@ The document can only be generated for orders of the type 'order', 'warranty' an
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsPickupDeliveryGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsPickupDeliveryGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/pickup_delivery/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/pickup_delivery/generate"], $query), 'POST');
     }
                     
     /**
@@ -938,9 +938,9 @@ The document can only be generated for orders of the type 'redistribution'.
      *      - *documentDate* - string - optional
      *          - If not set, the current date will be used. The date has to be entered in W3C format, e.g. '2019-05-29T13:33:23+02:00'.
      */
-    public function createOrdersDocumentsPoDeliveryNoteGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsPoDeliveryNoteGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/po_delivery_note/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/po_delivery_note/generate"], $query), 'POST');
     }
                     
     /**
@@ -966,9 +966,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *paymentDueDays* - int - optional
      *          - Deprecated. This parameter has no effect anymore.
      */
-    public function createOrdersDocumentsProFormaInvoiceGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsProFormaInvoiceGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/pro_forma_invoice/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/pro_forma_invoice/generate"], $query), 'POST');
     }
                     
     /**
@@ -982,9 +982,9 @@ The document can only be generated for orders of the type 'reorder'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsReorderGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsReorderGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/reorder/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/reorder/generate"], $query), 'POST');
     }
                     
     /**
@@ -998,9 +998,9 @@ The document can only be generated for orders of the type 'repair'.
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsRepairBillGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsRepairBillGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/repair_bill/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/repair_bill/generate"], $query), 'POST');
     }
                     
     /**
@@ -1014,9 +1014,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsReturnNoteGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsReturnNoteGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/return_note/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/return_note/generate"], $query), 'POST');
     }
                     
     /**
@@ -1030,9 +1030,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsReversalDocumentGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsReversalDocumentGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/reversal_document/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/reversal_document/generate"], $query), 'POST');
     }
                     
     /**
@@ -1046,9 +1046,9 @@ The document can only be generated for orders of the type 'order', 'repair' and 
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsReversalDunningLetterGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsReversalDunningLetterGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/reversal_dunning_letter/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/reversal_dunning_letter/generate"], $query), 'POST');
     }
                     
     /**
@@ -1062,9 +1062,9 @@ The document can only be generated for orders of the type 'credit note'. A valid
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsReversalRefundGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsReversalRefundGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/reversal_refund/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/reversal_refund/generate"], $query), 'POST');
     }
                     
     /**
@@ -1078,9 +1078,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      *      - *comment* - string - optional
      *          - Comment that appears below the stock units.
      */
-    public function createOrdersDocumentsSuccessConfirmationGenerateByOrderId(int $orderId, array $query = []): void
+    public function createOrdersDocumentsSuccessConfirmationGenerateByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/documents/success_confirmation/generate"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/documents/success_confirmation/generate"], $query), 'POST');
     }
                     
     /**
@@ -1089,9 +1089,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      * @param int $orderId The ID of the order
      * @param int $documentId The ID of the document
      */
-    public function deleteOrdersDocumentByOrderIdDocumentId(int $orderId, int $documentId): void
+    public function deleteOrdersDocumentByOrderIdDocumentId(int $orderId, int $documentId)
     {
-        $this->api("/rest/orders/{$orderId}/documents/{$documentId}", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/documents/{$documentId}", 'DELETE');
     }
                     
     /**
@@ -1100,9 +1100,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      * @param int $orderId The ID of the order
      * @param int $documentId The ID of the document
      */
-    public function createOrdersDocumentsArchiveByOrderIdDocumentId(int $orderId, int $documentId): void
+    public function createOrdersDocumentsArchiveByOrderIdDocumentId(int $orderId, int $documentId)
     {
-        $this->api("/rest/orders/{$orderId}/documents/{$documentId}/archive", 'POST');
+        return $this->api("/rest/orders/{$orderId}/documents/{$documentId}/archive", 'POST');
     }
                     
     /**
@@ -1247,9 +1247,9 @@ The document can only be generated for orders of the type 'order', 'warranty', '
      * @param int $orderId 
      * @param int $type 
      */
-    public function createOrdersDocumentsGenerateByOrderIdType(int $orderId, int $type): void
+    public function createOrdersDocumentsGenerateByOrderIdType(int $orderId, int $type)
     {
-        $this->api("/rest/orders/{$orderId}/documents/{$type}/generate", 'POST');
+        return $this->api("/rest/orders/{$orderId}/documents/{$type}/generate", 'POST');
     }
                     
     /**

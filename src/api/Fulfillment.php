@@ -18,9 +18,9 @@ class Fulfillment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Fulfillment
 
      */
-    public function getFulfillmentPicklist(): void
+    public function getFulfillmentPicklist()
     {
-        $this->api("/rest/fulfillment/picklist");
+        return $this->api("/rest/fulfillment/picklist");
     }
                     
     /**
@@ -87,9 +87,9 @@ class Fulfillment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Fulfillment
 
      */
-    public function createFulfillmentPicklistTrolleyTag(): void
+    public function createFulfillmentPicklistTrolleyTag()
     {
-        $this->api("/rest/fulfillment/picklist/trolley_tags", 'POST');
+        return $this->api("/rest/fulfillment/picklist/trolley_tags", 'POST');
     }
                     
     /**
@@ -97,9 +97,9 @@ class Fulfillment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Fulfillment
      * @param string $trolleyTag The trolley tag for the pick list
      */
-    public function deleteFulfillmentPicklistTrolleyTagByTrolleyTag(string $trolleyTag): void
+    public function deleteFulfillmentPicklistTrolleyTagByTrolleyTag(string $trolleyTag)
     {
-        $this->api("/rest/fulfillment/picklist/trolley_tags/{$trolleyTag}", 'DELETE');
+        return $this->api("/rest/fulfillment/picklist/trolley_tags/{$trolleyTag}", 'DELETE');
     }
                 
     /**
@@ -174,9 +174,9 @@ class Fulfillment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Fulfillment
      * @param int $pickingOrderId 
      */
-    public function deleteFulfillmentPicklistTrolleyTagByPickingOrderId(int $pickingOrderId): void
+    public function deleteFulfillmentPicklistTrolleyTagByPickingOrderId(int $pickingOrderId)
     {
-        $this->api("/rest/fulfillment/picklist/{$pickingOrderId}/trolley_tags", 'DELETE');
+        return $this->api("/rest/fulfillment/picklist/{$pickingOrderId}/trolley_tags", 'DELETE');
     }
     
 }

@@ -324,9 +324,9 @@ class Log extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Log
      * @param array $data 
      */
-    public function createLog(array $data): void
+    public function createLog(array $data)
     {
-        $this->api("/rest/logs", 'POST', $data);
+        return $this->api("/rest/logs", 'POST', $data);
     }
                     
     /**
@@ -334,9 +334,9 @@ class Log extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Log
 
      */
-    public function getLogsIntegrationKeys(): void
+    public function getLogsIntegrationKeys()
     {
-        $this->api("/rest/logs/integration_keys");
+        return $this->api("/rest/logs/integration_keys");
     }
                     
     /**
@@ -344,9 +344,9 @@ class Log extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Log
 
      */
-    public function getLogsReferenceTypes(): void
+    public function getLogsReferenceTypes()
     {
-        $this->api("/rest/logs/reference_types");
+        return $this->api("/rest/logs/reference_types");
     }
                     
     /**
@@ -354,9 +354,9 @@ class Log extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Log
 
      */
-    public function getLogsSettings(): void
+    public function getLogsSettings()
     {
-        $this->api("/rest/logs/settings");
+        return $this->api("/rest/logs/settings");
     }
                 
     /**
@@ -364,9 +364,9 @@ class Log extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Log
 
      */
-    public function createLogsSetting(): void
+    public function createLogsSetting()
     {
-        $this->api("/rest/logs/settings", 'POST');
+        return $this->api("/rest/logs/settings", 'POST');
     }
                     
     /**

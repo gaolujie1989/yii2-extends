@@ -20,9 +20,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to be deleted. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function deleteConversation(array $query): void
+    public function deleteConversation(array $query)
     {
-        $this->api(array_merge(["/rest/conversations"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/conversations"], $query), 'DELETE');
     }
                 
     /**
@@ -174,9 +174,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to archive. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsArchive(array $query): void
+    public function updateConversationsArchive(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/archive"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/archive"], $query), 'PUT');
     }
                     
     /**
@@ -186,9 +186,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to restore from archive. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function deleteConversationsArchiveDelete(array $query): void
+    public function deleteConversationsArchiveDelete(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/archiveDelete"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/conversations/archiveDelete"], $query), 'DELETE');
     }
                     
     /**
@@ -198,9 +198,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to restore from archive. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsArchiveRestore(array $query): void
+    public function updateConversationsArchiveRestore(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/archiveRestore"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/archiveRestore"], $query), 'PUT');
     }
                     
     /**
@@ -210,9 +210,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to restore from trash. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsBatchRestoreConversation(array $query): void
+    public function updateConversationsBatchRestoreConversation(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/batchRestoreConversations"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/batchRestoreConversations"], $query), 'PUT');
     }
                     
     /**
@@ -224,9 +224,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - Array of conversations UUID's. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsClose(array $query): void
+    public function updateConversationsClose(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/close"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/close"], $query), 'PUT');
     }
                     
     /**
@@ -238,9 +238,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to update deadline. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsDeadline(array $query): void
+    public function updateConversationsDeadline(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/deadline"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/deadline"], $query), 'PUT');
     }
                     
     /**
@@ -248,9 +248,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
 
      */
-    public function deleteConversationsEmptyTrash(): void
+    public function deleteConversationsEmptyTrash()
     {
-        $this->api("/rest/conversations/emptyTrash", 'DELETE');
+        return $this->api("/rest/conversations/emptyTrash", 'DELETE');
     }
                 
     /**
@@ -447,9 +447,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param int $id 
      */
-    public function deleteConversationsEventById(int $id): void
+    public function deleteConversationsEventById(int $id)
     {
-        $this->api("/rest/conversations/events/{$id}", 'DELETE');
+        return $this->api("/rest/conversations/events/{$id}", 'DELETE');
     }
                 
     /**
@@ -670,9 +670,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *conversationsUuids* - array - required
      *          - The list of conversations UUID's to assign to folders. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsFolder(array $query): void
+    public function updateConversationsFolder(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/folders"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/folders"], $query), 'PUT');
     }
                     
     /**
@@ -684,9 +684,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *conversationsUuids* - array - required
      *          - The list of conversations UUID's to assign to folders. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsFoldersAdd(array $query): void
+    public function updateConversationsFoldersAdd(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/folders/add"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/folders/add"], $query), 'PUT');
     }
                     
     /**
@@ -698,9 +698,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *conversationsUuids* - array - required
      *          - The list of conversations UUID's to assign to folders. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsFoldersRemove(array $query): void
+    public function updateConversationsFoldersRemove(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/folders/remove"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/folders/remove"], $query), 'PUT');
     }
                     
     /**
@@ -708,9 +708,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param int $uuid5 
      */
-    public function deleteConversationsFolderByUuid5(int $uuid5): void
+    public function deleteConversationsFolderByUuid5(int $uuid5)
     {
-        $this->api("/rest/conversations/folders/{$uuid5}", 'DELETE');
+        return $this->api("/rest/conversations/folders/{$uuid5}", 'DELETE');
     }
                 
     /**
@@ -766,9 +766,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to update priority. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsPriority(array $query): void
+    public function updateConversationsPriority(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/priority"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/priority"], $query), 'PUT');
     }
                     
     /**
@@ -782,9 +782,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to update read status. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsRead(array $query): void
+    public function updateConversationsRead(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/read"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/read"], $query), 'PUT');
     }
                     
     /**
@@ -807,9 +807,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *ids* - array - required
      *          - Array of conversation statuses ID's. Expected values: [1, 2]
      */
-    public function deleteConversationsStatus(array $query): void
+    public function deleteConversationsStatus(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/statuses"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/conversations/statuses"], $query), 'DELETE');
     }
             
     /**
@@ -966,9 +966,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param int $id 
      */
-    public function deleteConversationsStatusById(int $id): void
+    public function deleteConversationsStatusById(int $id)
     {
-        $this->api("/rest/conversations/statuses/{$id}", 'DELETE');
+        return $this->api("/rest/conversations/statuses/{$id}", 'DELETE');
     }
                 
     /**
@@ -1020,9 +1020,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to subscribe to. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsSubscribe(array $query): void
+    public function updateConversationsSubscribe(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/subscribe"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/subscribe"], $query), 'PUT');
     }
                     
     /**
@@ -1034,9 +1034,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - Array of conversations UUID's. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsTag(array $query): void
+    public function updateConversationsTag(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/tags"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/tags"], $query), 'PUT');
     }
                     
     /**
@@ -1060,9 +1060,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to update type and status. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsTypeStatus(array $query): void
+    public function updateConversationsTypeStatus(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/type_status"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/type_status"], $query), 'PUT');
     }
                     
     /**
@@ -1072,9 +1072,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *ids* - array - required
      *          - Array of conversation types ID's. Expected values: [1, 2]
      */
-    public function deleteConversationsType(array $query): void
+    public function deleteConversationsType(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/types"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/conversations/types"], $query), 'DELETE');
     }
             
     /**
@@ -1229,9 +1229,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param int $id 
      */
-    public function deleteConversationsTypeById(int $id): void
+    public function deleteConversationsTypeById(int $id)
     {
-        $this->api("/rest/conversations/types/{$id}", 'DELETE');
+        return $this->api("/rest/conversations/types/{$id}", 'DELETE');
     }
                 
     /**
@@ -1279,9 +1279,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *uuids* - array - required
      *          - The list of conversations UUID's to unsubscribe from. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
      */
-    public function updateConversationsUnsubscribe(array $query): void
+    public function updateConversationsUnsubscribe(array $query)
     {
-        $this->api(array_merge(["/rest/conversations/unsubscribe"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/unsubscribe"], $query), 'PUT');
     }
                     
     /**
@@ -1289,9 +1289,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param int $uuid5 
      */
-    public function deleteConversationByUuid5(int $uuid5): void
+    public function deleteConversationByUuid5(int $uuid5)
     {
-        $this->api("/rest/conversations/{$uuid5}", 'DELETE');
+        return $this->api("/rest/conversations/{$uuid5}", 'DELETE');
     }
                 
     /**
@@ -1420,9 +1420,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *userId* - int - required
      *          - The ID of the user to be subscribed. Expected format: 1
      */
-    public function updateConversationsSubscribeByUuid5(int $uuid5, array $query): void
+    public function updateConversationsSubscribeByUuid5(int $uuid5, array $query)
     {
-        $this->api(array_merge(["/rest/conversations/{$uuid5}/subscribe"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/{$uuid5}/subscribe"], $query), 'PUT');
     }
                     
     /**
@@ -1433,9 +1433,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *tagIds* - array - required
      *          - The list of tags to be added. Expected values: [17, 18]
      */
-    public function updateConversationsTagByUuid5(int $uuid5, array $query): void
+    public function updateConversationsTagByUuid5(int $uuid5, array $query)
     {
-        $this->api(array_merge(["/rest/conversations/{$uuid5}/tags"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/{$uuid5}/tags"], $query), 'PUT');
     }
                     
     /**
@@ -1446,9 +1446,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *userId* - int - required
      *          - The ID of the user to be unsubscribed. Expected format: 1
      */
-    public function updateConversationsUnsubscribeByUuid5(int $uuid5, array $query): void
+    public function updateConversationsUnsubscribeByUuid5(int $uuid5, array $query)
     {
-        $this->api(array_merge(["/rest/conversations/{$uuid5}/unsubscribe"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/conversations/{$uuid5}/unsubscribe"], $query), 'PUT');
     }
                     
     /**
@@ -1560,9 +1560,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param string $uuid5 The UUID of the message to be deleted
      */
-    public function deleteMessageByUuid5(string $uuid5): void
+    public function deleteMessageByUuid5(string $uuid5)
     {
-        $this->api("/rest/messages/{$uuid5}", 'DELETE');
+        return $this->api("/rest/messages/{$uuid5}", 'DELETE');
     }
                 
     /**
@@ -1584,9 +1584,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *filename* - string - required
      *          - The file name of the attachment
      */
-    public function getMessagesAttachmentsByUuid5(string $uuid5, array $query): void
+    public function getMessagesAttachmentsByUuid5(string $uuid5, array $query)
     {
-        $this->api(array_merge(["/rest/messages/{$uuid5}/attachments"], $query));
+        return $this->api(array_merge(["/rest/messages/{$uuid5}/attachments"], $query));
     }
                     
     /**
@@ -1594,9 +1594,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
      * @param string $uuid5 The UUID of the message
      */
-    public function getMessagesAttachmentsAllByUuid5(string $uuid5): void
+    public function getMessagesAttachmentsAllByUuid5(string $uuid5)
     {
-        $this->api("/rest/messages/{$uuid5}/attachments/all");
+        return $this->api("/rest/messages/{$uuid5}/attachments/all");
     }
                     
     /**
@@ -1735,9 +1735,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
 
      */
-    public function getMessengerSettings(): void
+    public function getMessengerSettings()
     {
-        $this->api("/rest/messenger/settings");
+        return $this->api("/rest/messenger/settings");
     }
                 
     /**
@@ -1745,9 +1745,9 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Messenger
 
      */
-    public function updateMessengerSetting(): void
+    public function updateMessengerSetting()
     {
-        $this->api("/rest/messenger/settings", 'PUT');
+        return $this->api("/rest/messenger/settings", 'PUT');
     }
     
 }

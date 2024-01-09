@@ -148,9 +148,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *file* - array - required
      *          - The file data
      */
-    public function createElasticSyncSyncImport(array $query): void
+    public function createElasticSyncSyncImport(array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/sync/import"], $query), 'POST');
+        return $this->api(array_merge(["/rest/elastic-sync/sync/import"], $query), 'POST');
     }
                     
     /**
@@ -160,9 +160,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *file* - array - required
      *          - The file data
      */
-    public function createElasticSyncSyncImportDifferent(array $query): void
+    public function createElasticSyncSyncImportDifferent(array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/sync/import-different"], $query), 'POST');
+        return $this->api(array_merge(["/rest/elastic-sync/sync/import-different"], $query), 'POST');
     }
                     
     /**
@@ -172,9 +172,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *file* - array - required
      *          - The file data
      */
-    public function createElasticSyncSyncImportFilePublicUrl(array $query): void
+    public function createElasticSyncSyncImportFilePublicUrl(array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/sync/import/file/public-url"], $query), 'POST');
+        return $this->api(array_merge(["/rest/elastic-sync/sync/import/file/public-url"], $query), 'POST');
     }
                     
     /**
@@ -184,9 +184,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *file* - array - required
      *          - The file data
      */
-    public function createElasticSyncSyncImportFilePublicUrlDifferent(array $query): void
+    public function createElasticSyncSyncImportFilePublicUrlDifferent(array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/sync/import/file/public-url/different"], $query), 'POST');
+        return $this->api(array_merge(["/rest/elastic-sync/sync/import/file/public-url/different"], $query), 'POST');
     }
                     
     /**
@@ -446,9 +446,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
      * @param int $mappingId 
      */
-    public function getElasticSyncSyncMappingFiltersByMappingId(int $mappingId): void
+    public function getElasticSyncSyncMappingFiltersByMappingId(int $mappingId)
     {
-        $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/filters");
+        return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/filters");
     }
                 
     /**
@@ -531,9 +531,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
      * @param int $mappingId 
      */
-    public function getElasticSyncSyncMappingRowsByMappingId(int $mappingId): void
+    public function getElasticSyncSyncMappingRowsByMappingId(int $mappingId)
     {
-        $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/rows");
+        return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/rows");
     }
                 
     /**
@@ -599,9 +599,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
 
      */
-    public function deleteElasticSyncSyncMapping(): void
+    public function deleteElasticSyncSyncMapping()
     {
-        $this->api("/rest/elastic-sync/sync/mappings", 'DELETE');
+        return $this->api("/rest/elastic-sync/sync/mappings", 'DELETE');
     }
                     
     /**
@@ -755,9 +755,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
      * @param int $id 
      */
-    public function getElasticSyncSyncReportById(int $id): void
+    public function getElasticSyncSyncReportById(int $id)
     {
-        $this->api("/rest/elastic-sync/sync/report/{$id}");
+        return $this->api("/rest/elastic-sync/sync/report/{$id}");
     }
                     
     /**
@@ -810,9 +810,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
 
      */
-    public function getElasticSyncSyncScheduleTimes(): void
+    public function getElasticSyncSyncScheduleTimes()
     {
-        $this->api("/rest/elastic-sync/sync/schedule/times");
+        return $this->api("/rest/elastic-sync/sync/schedule/times");
     }
                     
     /**
@@ -842,9 +842,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $syncId 
      * @param int $page 
      */
-    public function createElasticSyncSyncLiveProcessingByStatusIdSyncIdPage(int $statusId, int $syncId, int $page): void
+    public function createElasticSyncSyncLiveProcessingByStatusIdSyncIdPage(int $statusId, int $syncId, int $page)
     {
-        $this->api("/rest/elastic-sync/sync/{$statusId}/live/processing/{$syncId}/{$page}", 'POST');
+        return $this->api("/rest/elastic-sync/sync/{$statusId}/live/processing/{$syncId}/{$page}", 'POST');
     }
                     
     /**
@@ -916,9 +916,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
      * @param int $syncId 
      */
-    public function createElasticSyncSyncLiveInitiateBySyncId(int $syncId): void
+    public function createElasticSyncSyncLiveInitiateBySyncId(int $syncId)
     {
-        $this->api("/rest/elastic-sync/sync/{$syncId}/live/initiate", 'POST');
+        return $this->api("/rest/elastic-sync/sync/{$syncId}/live/initiate", 'POST');
     }
                     
     /**
@@ -973,9 +973,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
      * @param int $syncId 
      */
-    public function getElasticSyncSyncMatchesBySyncId(int $syncId): void
+    public function getElasticSyncSyncMatchesBySyncId(int $syncId)
     {
-        $this->api("/rest/elastic-sync/sync/{$syncId}/matches");
+        return $this->api("/rest/elastic-sync/sync/{$syncId}/matches");
     }
                 
     /**
@@ -1078,9 +1078,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
      * @param int $syncId 
      */
-    public function getElasticSyncSyncOptionsBySyncId(int $syncId): void
+    public function getElasticSyncSyncOptionsBySyncId(int $syncId)
     {
-        $this->api("/rest/elastic-sync/sync/{$syncId}/options");
+        return $this->api("/rest/elastic-sync/sync/{$syncId}/options");
     }
                 
     /**
@@ -1144,9 +1144,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *testrun* - int - required
      *          - The test run variable
      */
-    public function createElasticSyncSyncRunBySyncId(int $syncId, array $query): void
+    public function createElasticSyncSyncRunBySyncId(int $syncId, array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/sync/{$syncId}/run"], $query), 'POST');
+        return $this->api(array_merge(["/rest/elastic-sync/sync/{$syncId}/run"], $query), 'POST');
     }
                     
     /**
@@ -1224,9 +1224,9 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ElasticSync
 
      */
-    public function createElasticSyncSyncsCopy(): void
+    public function createElasticSyncSyncsCopy()
     {
-        $this->api("/rest/elastic-sync/syncs/copy", 'POST');
+        return $this->api("/rest/elastic-sync/syncs/copy", 'POST');
     }
                     
     /**

@@ -47,9 +47,9 @@ class Boards extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Boards
      * @param string $boardId The ID of the board
      */
-    public function deleteBoardByBoardId(string $boardId): void
+    public function deleteBoardByBoardId(string $boardId)
     {
-        $this->api("/rest/boards/{$boardId}", 'DELETE');
+        return $this->api("/rest/boards/{$boardId}", 'DELETE');
     }
                 
     /**

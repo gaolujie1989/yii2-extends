@@ -267,9 +267,9 @@ as filter, targets, dimensions, dimensionsValues
      * @tag BI
      * @param int $keyFigureConfigId 
      */
-    public function deleteBiKeyFiguresConfigByKeyFigureConfigId(int $keyFigureConfigId): void
+    public function deleteBiKeyFiguresConfigByKeyFigureConfigId(int $keyFigureConfigId)
     {
-        $this->api("/rest/bi/key-figures/config/{$keyFigureConfigId}", 'DELETE');
+        return $this->api("/rest/bi/key-figures/config/{$keyFigureConfigId}", 'DELETE');
     }
                 
     /**
@@ -373,9 +373,9 @@ as filter, targets, dimensions, dimensionsValues
      * @tag BI
 
      */
-    public function deleteBiKeyFiguresConfig(): void
+    public function deleteBiKeyFiguresConfig()
     {
-        $this->api("/rest/bi/key-figures/configs", 'DELETE');
+        return $this->api("/rest/bi/key-figures/configs", 'DELETE');
     }
                     
     /**
@@ -625,9 +625,9 @@ Can add page - int ,itemsPerPage - int or filters - array as parameters
      *      - *startingCell* - string - required
      *          - The top-left cell inside the spreadsheet from which the export will fill data
      */
-    public function createBiKeyFiguresRawDataExportSpreadsheetByKeyFigureConfigId(int $keyFigureConfigId, array $query): void
+    public function createBiKeyFiguresRawDataExportSpreadsheetByKeyFigureConfigId(int $keyFigureConfigId, array $query)
     {
-        $this->api(array_merge(["/rest/bi/key-figures/raw-data/{$keyFigureConfigId}/export-spreadsheet"], $query), 'POST');
+        return $this->api(array_merge(["/rest/bi/key-figures/raw-data/{$keyFigureConfigId}/export-spreadsheet"], $query), 'POST');
     }
                     
     /**
@@ -636,9 +636,9 @@ returns KeyFigureResultSearchResponse including KeyFigureResultSearchResult chil
      * @tag BI
      * @param array $data 
      */
-    public function createBiKeyFiguresResult(array $data): void
+    public function createBiKeyFiguresResult(array $data)
     {
-        $this->api("/rest/bi/key-figures/results", 'POST', $data);
+        return $this->api("/rest/bi/key-figures/results", 'POST', $data);
     }
                     
     /**
@@ -772,9 +772,9 @@ returns KeyFigureResultSearchResponse including KeyFigureResultSearchResult chil
      *      - *itemsPerPage* - int - required
      *          - The number of raw data creators to be displayed per page. The default number of raw data creators per page is 50.
      */
-    public function getBiRawDataCreatorsConfigs(array $query): void
+    public function getBiRawDataCreatorsConfigs(array $query)
     {
-        $this->api(array_merge(["/rest/bi/raw-data/creators-configs"], $query));
+        return $this->api(array_merge(["/rest/bi/raw-data/creators-configs"], $query));
     }
                     
     /**
@@ -784,9 +784,9 @@ returns KeyFigureResultSearchResponse including KeyFigureResultSearchResult chil
      *      - *path* - string - required
      *          - The raw data file path
      */
-    public function getBiRawDataFile(array $query): void
+    public function getBiRawDataFile(array $query)
     {
-        $this->api(array_merge(["/rest/bi/raw-data/file"], $query));
+        return $this->api(array_merge(["/rest/bi/raw-data/file"], $query));
     }
                     
     /**
@@ -799,9 +799,9 @@ the method will return a json response with the message:
      *      - *path* - array - required
      *          - List of primary keys of the records to be deleted
      */
-    public function deleteBiRawDatumByDataName(int $dataName, array $query): void
+    public function deleteBiRawDatumByDataName(int $dataName, array $query)
     {
-        $this->api(array_merge(["/rest/bi/raw-data/{$dataName}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/bi/raw-data/{$dataName}"], $query), 'DELETE');
     }
                 
     /**
@@ -913,9 +913,9 @@ the method will return a json response with the message:
      *      - *itemsPerPage* - int - required
      *          - The number of raw data creators to be displayed per page. The default number of raw data creators per page is 50.
      */
-    public function getReportsRawDataCreatorsConfigs(array $query): void
+    public function getReportsRawDataCreatorsConfigs(array $query)
     {
-        $this->api(array_merge(["/rest/reports/raw-data/creators-configs"], $query));
+        return $this->api(array_merge(["/rest/reports/raw-data/creators-configs"], $query));
     }
                     
     /**
@@ -925,9 +925,9 @@ the method will return a json response with the message:
      *      - *path* - string - required
      *          - The raw data file path
      */
-    public function getReportsRawDataFile(array $query): void
+    public function getReportsRawDataFile(array $query)
     {
-        $this->api(array_merge(["/rest/reports/raw-data/file"], $query));
+        return $this->api(array_merge(["/rest/reports/raw-data/file"], $query));
     }
     
 }

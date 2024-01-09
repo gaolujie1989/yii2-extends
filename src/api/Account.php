@@ -37,9 +37,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
 
      */
-    public function createAccountLoginRefresh(): void
+    public function createAccountLoginRefresh()
     {
-        $this->api("/rest/account/login/refresh", 'POST');
+        return $this->api("/rest/account/login/refresh", 'POST');
     }
                     
     /**
@@ -47,9 +47,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
 
      */
-    public function createAccountLogout(): void
+    public function createAccountLogout()
     {
-        $this->api("/rest/account/logout", 'POST');
+        return $this->api("/rest/account/logout", 'POST');
     }
                     
     /**
@@ -540,9 +540,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $addressContactRelationId The ID of the address contact relation
      */
-    public function deleteAccountsAddressesContactRelationByAddressContactRelationId(int $addressContactRelationId): void
+    public function deleteAccountsAddressesContactRelationByAddressContactRelationId(int $addressContactRelationId)
     {
-        $this->api("/rest/accounts/addresses/contact_relations/{$addressContactRelationId}", 'DELETE');
+        return $this->api("/rest/accounts/addresses/contact_relations/{$addressContactRelationId}", 'DELETE');
     }
                 
     /**
@@ -617,9 +617,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $optionTypeId The ID of the address option type
      */
-    public function deleteAccountsAddressesOptionTypeByOptionTypeId(int $optionTypeId): void
+    public function deleteAccountsAddressesOptionTypeByOptionTypeId(int $optionTypeId)
     {
-        $this->api("/rest/accounts/addresses/option_types/{$optionTypeId}", 'DELETE');
+        return $this->api("/rest/accounts/addresses/option_types/{$optionTypeId}", 'DELETE');
     }
                 
     /**
@@ -692,9 +692,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $optionId The ID of the address option
      */
-    public function deleteAccountsAddressesOptionByOptionId(int $optionId): void
+    public function deleteAccountsAddressesOptionByOptionId(int $optionId)
     {
-        $this->api("/rest/accounts/addresses/options/{$optionId}", 'DELETE');
+        return $this->api("/rest/accounts/addresses/options/{$optionId}", 'DELETE');
     }
                 
     /**
@@ -870,9 +870,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $addressPosRelationId The ID of the address POS relation
      */
-    public function deleteAccountsAddressesPosRelationByAddressPosRelationId(int $addressPosRelationId): void
+    public function deleteAccountsAddressesPosRelationByAddressPosRelationId(int $addressPosRelationId)
     {
-        $this->api("/rest/accounts/addresses/pos_relations/{$addressPosRelationId}", 'DELETE');
+        return $this->api("/rest/accounts/addresses/pos_relations/{$addressPosRelationId}", 'DELETE');
     }
                 
     /**
@@ -938,9 +938,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param string $application The application type
      * @param string $lang The language as ISO 639-1 code (e.g. `en` for English)
      */
-    public function getAccountsAddressesRelationsTypesApplicationByApplicationLang(string $application, string $lang): void
+    public function getAccountsAddressesRelationsTypesApplicationByApplicationLang(string $application, string $lang)
     {
-        $this->api("/rest/accounts/addresses/relations/types/applications/{$application}/{$lang}");
+        return $this->api("/rest/accounts/addresses/relations/types/applications/{$application}/{$lang}");
     }
                     
     /**
@@ -966,9 +966,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $relationId The ID of the address warehouse relation
      */
-    public function deleteAccountsAddressesWarehouseRelationByRelationId(int $relationId): void
+    public function deleteAccountsAddressesWarehouseRelationByRelationId(int $relationId)
     {
-        $this->api("/rest/accounts/addresses/warehouse_relations/{$relationId}", 'DELETE');
+        return $this->api("/rest/accounts/addresses/warehouse_relations/{$relationId}", 'DELETE');
     }
                 
     /**
@@ -995,9 +995,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $addressId The ID of the address
      */
-    public function deleteAccountsAddressByAddressId(int $addressId): void
+    public function deleteAccountsAddressByAddressId(int $addressId)
     {
-        $this->api("/rest/accounts/addresses/{$addressId}", 'DELETE');
+        return $this->api("/rest/accounts/addresses/{$addressId}", 'DELETE');
     }
                 
     /**
@@ -1195,9 +1195,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $addressId The ID of the address
      */
-    public function deleteAccountsAddressesOptionByAddressId(int $addressId): void
+    public function deleteAccountsAddressesOptionByAddressId(int $addressId)
     {
-        $this->api("/rest/accounts/addresses/{$addressId}/options", 'DELETE');
+        return $this->api("/rest/accounts/addresses/{$addressId}/options", 'DELETE');
     }
                 
     /**
@@ -1357,9 +1357,9 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Account
      * @param int $accountContactRelationId The ID of the company contact relation
      */
-    public function deleteAccountsContactRelationByAccountContactRelationId(int $accountContactRelationId): void
+    public function deleteAccountsContactRelationByAccountContactRelationId(int $accountContactRelationId)
     {
-        $this->api("/rest/accounts/contact_relations/{$accountContactRelationId}", 'DELETE');
+        return $this->api("/rest/accounts/contact_relations/{$accountContactRelationId}", 'DELETE');
     }
                 
     /**
@@ -1968,9 +1968,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactBankId The ID of the bank account
      */
-    public function deleteAccountsContactsBankByContactBankId(int $contactBankId): void
+    public function deleteAccountsContactsBankByContactBankId(int $contactBankId)
     {
-        $this->api("/rest/accounts/contacts/banks/{$contactBankId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/banks/{$contactBankId}", 'DELETE');
     }
                 
     /**
@@ -2091,9 +2091,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactClassId The ID of the contact class
      */
-    public function getAccountsContactsClassByContactClassId(int $contactClassId): void
+    public function getAccountsContactsClassByContactClassId(int $contactClassId)
     {
-        $this->api("/rest/accounts/contacts/classes/{$contactClassId}");
+        return $this->api("/rest/accounts/contacts/classes/{$contactClassId}");
     }
                     
     /**
@@ -2253,9 +2253,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactEventId The ID of the contact event
      */
-    public function deleteAccountsContactsContactEventByContactEventId(int $contactEventId): void
+    public function deleteAccountsContactsContactEventByContactEventId(int $contactEventId)
     {
-        $this->api("/rest/accounts/contacts/contact_events/{$contactEventId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/contact_events/{$contactEventId}", 'DELETE');
     }
                 
     /**
@@ -2346,9 +2346,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $departmentId The ID of the department
      */
-    public function deleteAccountsContactsDepartmentByDepartmentId(int $departmentId): void
+    public function deleteAccountsContactsDepartmentByDepartmentId(int $departmentId)
     {
-        $this->api("/rest/accounts/contacts/departments/{$departmentId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/departments/{$departmentId}", 'DELETE');
     }
                 
     /**
@@ -2433,9 +2433,9 @@ the debtor number in your financial accounting.
      * @tag Account
 
      */
-    public function getAccountsContactsGroupFunctions(): void
+    public function getAccountsContactsGroupFunctions()
     {
-        $this->api("/rest/accounts/contacts/group_functions");
+        return $this->api("/rest/accounts/contacts/group_functions");
     }
                 
     /**
@@ -2451,9 +2451,9 @@ the debtor number in your financial accounting.
      *      - *addressLabelTemplate* - int - optional
      *          - An address label template ID
      */
-    public function createAccountsContactsGroupFunction(array $query = []): void
+    public function createAccountsContactsGroupFunction(array $query = [])
     {
-        $this->api(array_merge(["/rest/accounts/contacts/group_functions"], $query), 'POST');
+        return $this->api(array_merge(["/rest/accounts/contacts/group_functions"], $query), 'POST');
     }
                     
     /**
@@ -2504,9 +2504,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $optionSubTypeId The ID of the contact option sub-type
      */
-    public function deleteAccountsContactsOptionSubTypeByOptionSubTypeId(int $optionSubTypeId): void
+    public function deleteAccountsContactsOptionSubTypeByOptionSubTypeId(int $optionSubTypeId)
     {
-        $this->api("/rest/accounts/contacts/option_sub_types/{$optionSubTypeId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/option_sub_types/{$optionSubTypeId}", 'DELETE');
     }
                 
     /**
@@ -2625,9 +2625,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $optionTypeId The ID of the contact option type
      */
-    public function deleteAccountsContactsOptionTypeByOptionTypeId(int $optionTypeId): void
+    public function deleteAccountsContactsOptionTypeByOptionTypeId(int $optionTypeId)
     {
-        $this->api("/rest/accounts/contacts/option_types/{$optionTypeId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/option_types/{$optionTypeId}", 'DELETE');
     }
                 
     /**
@@ -2698,9 +2698,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $optionId The ID of the option
      */
-    public function deleteAccountsContactsOptionByOptionId(int $optionId): void
+    public function deleteAccountsContactsOptionByOptionId(int $optionId)
     {
-        $this->api("/rest/accounts/contacts/options/{$optionId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/options/{$optionId}", 'DELETE');
     }
                 
     /**
@@ -2883,9 +2883,9 @@ The following types are available by default and cannot be deleted:
      * @tag Account
      * @param int $positionId The ID of the position
      */
-    public function deleteAccountsContactsPositionByPositionId(int $positionId): void
+    public function deleteAccountsContactsPositionByPositionId(int $positionId)
     {
-        $this->api("/rest/accounts/contacts/positions/{$positionId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/positions/{$positionId}", 'DELETE');
     }
                 
     /**
@@ -3038,9 +3038,9 @@ The following types are available by default and cannot be deleted:
      * @tag Account
      * @param int $typeId The ID of the contact type
      */
-    public function deleteAccountsContactsTypeByTypeId(int $typeId): void
+    public function deleteAccountsContactsTypeByTypeId(int $typeId)
     {
-        $this->api("/rest/accounts/contacts/types/{$typeId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/types/{$typeId}", 'DELETE');
     }
                 
     /**
@@ -3104,9 +3104,9 @@ The following types are available by default and cannot be deleted:
      * If the contact is linked to orders, CustomerDeleteException is thrown
      * and the contact will not be deleted.
      */
-    public function deleteAccountsContactByContactId(int $contactId, array $query = []): void
+    public function deleteAccountsContactByContactId(int $contactId, array $query = [])
     {
-        $this->api(array_merge(["/rest/accounts/contacts/{$contactId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}"], $query), 'DELETE');
     }
                 
     /**
@@ -3386,9 +3386,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function getAccountsContactsAccessDataLoginUrlByContactId(int $contactId): void
+    public function getAccountsContactsAccessDataLoginUrlByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/access_data/login_url");
+        return $this->api("/rest/accounts/contacts/{$contactId}/access_data/login_url");
     }
                     
     /**
@@ -3399,9 +3399,9 @@ the debtor number in your financial accounting.
      *      - *password* - string - required
      *          - The new password
      */
-    public function updateAccountsContactsAccessDataNewPasswordByContactId(int $contactId, array $query): void
+    public function updateAccountsContactsAccessDataNewPasswordByContactId(int $contactId, array $query)
     {
-        $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/access_data/new_password"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/access_data/new_password"], $query), 'PUT');
     }
                     
     /**
@@ -3412,9 +3412,9 @@ the debtor number in your financial accounting.
      *      - *password* - string - required
      *          - The new password
      */
-    public function updateAccountsContactsAccessDataSetPasswordByContactId(int $contactId, array $query): void
+    public function updateAccountsContactsAccessDataSetPasswordByContactId(int $contactId, array $query)
     {
-        $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/access_data/set_password"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/access_data/set_password"], $query), 'PUT');
     }
                     
     /**
@@ -3422,9 +3422,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function updateAccountsContactsAccessDataUnblockUserByContactId(int $contactId): void
+    public function updateAccountsContactsAccessDataUnblockUserByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/access_data/unblock_user", 'PUT');
+        return $this->api("/rest/accounts/contacts/{$contactId}/access_data/unblock_user", 'PUT');
     }
                     
     /**
@@ -3475,9 +3475,9 @@ the debtor number in your financial accounting.
      * @param int $contactId The ID of the contact
      * @param int $accountId The ID of the company
      */
-    public function deleteAccountsContactsAccountByContactIdAccountId(int $contactId, int $accountId): void
+    public function deleteAccountsContactsAccountByContactIdAccountId(int $contactId, int $accountId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/accounts/{$accountId}", 'DELETE');
+        return $this->api("/rest/accounts/contacts/{$contactId}/accounts/{$accountId}", 'DELETE');
     }
                 
     /**
@@ -3669,9 +3669,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function getAccountsContactsAddressesPrimaryByContactId(int $contactId): void
+    public function getAccountsContactsAddressesPrimaryByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/addresses/primary");
+        return $this->api("/rest/accounts/contacts/{$contactId}/addresses/primary");
     }
                     
     /**
@@ -3683,9 +3683,9 @@ the debtor number in your financial accounting.
      *      - *typeId* - int - optional
      *          - The type ID of the address. Possible values: <ul><li>Invoice address = 1</li><li> Delivery address = 2</li></ul>
      */
-    public function deleteAccountsContactsAddressByContactIdAddressId(int $contactId, int $addressId, array $query = []): void
+    public function deleteAccountsContactsAddressByContactIdAddressId(int $contactId, int $addressId, array $query = [])
     {
-        $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/addresses/{$addressId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/addresses/{$addressId}"], $query), 'DELETE');
     }
                 
     /**
@@ -4208,9 +4208,9 @@ the debtor number in your financial accounting.
      *      - *key* - string - required
      *          - The storage key to get temporary url for
      */
-    public function getAccountsContactsDocumentUrlByContactId(int $contactId, array $query): void
+    public function getAccountsContactsDocumentUrlByContactId(int $contactId, array $query)
     {
-        $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/document/url"], $query));
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/document/url"], $query));
     }
                     
     /**
@@ -4221,9 +4221,9 @@ the debtor number in your financial accounting.
      *      - *keyList* - array - required
      *          - List of storage keys to delete
      */
-    public function deleteAccountsContactsDocumentByContactId(int $contactId, array $query): void
+    public function deleteAccountsContactsDocumentByContactId(int $contactId, array $query)
     {
-        $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/documents"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/documents"], $query), 'DELETE');
     }
                 
     /**
@@ -4248,9 +4248,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function deleteAccountsContactsOptionByContactId(int $contactId): void
+    public function deleteAccountsContactsOptionByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/options", 'DELETE');
+        return $this->api("/rest/accounts/contacts/{$contactId}/options", 'DELETE');
     }
                 
     /**
@@ -4296,9 +4296,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function getAccountsContactsOptionsValidateByContactId(int $contactId): void
+    public function getAccountsContactsOptionsValidateByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/options/validate");
+        return $this->api("/rest/accounts/contacts/{$contactId}/options/validate");
     }
                     
     /**
@@ -4437,9 +4437,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function getAccountsContactsSalesRepresentativeRegionsByContactId(int $contactId): void
+    public function getAccountsContactsSalesRepresentativeRegionsByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/sales_representative_regions");
+        return $this->api("/rest/accounts/contacts/{$contactId}/sales_representative_regions");
     }
                     
     /**
@@ -4447,9 +4447,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $contactId The ID of the contact
      */
-    public function getAccountsContactsVcardByContactId(int $contactId): void
+    public function getAccountsContactsVcardByContactId(int $contactId)
     {
-        $this->api("/rest/accounts/contacts/{$contactId}/vcard");
+        return $this->api("/rest/accounts/contacts/{$contactId}/vcard");
     }
                     
     /**
@@ -4590,9 +4590,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $salesRepresentativeRegionId The ID of the account contact relation
      */
-    public function deleteAccountsSalesRepresentativeRegionBySalesRepresentativeRegionId(int $salesRepresentativeRegionId): void
+    public function deleteAccountsSalesRepresentativeRegionBySalesRepresentativeRegionId(int $salesRepresentativeRegionId)
     {
-        $this->api("/rest/accounts/sales_representative_regions/{$salesRepresentativeRegionId}", 'DELETE');
+        return $this->api("/rest/accounts/sales_representative_regions/{$salesRepresentativeRegionId}", 'DELETE');
     }
                 
     /**
@@ -4634,9 +4634,9 @@ the debtor number in your financial accounting.
      * @tag Account
      * @param int $accountId The ID of the company
      */
-    public function deleteAccountByAccountId(int $accountId): void
+    public function deleteAccountByAccountId(int $accountId)
     {
-        $this->api("/rest/accounts/{$accountId}", 'DELETE');
+        return $this->api("/rest/accounts/{$accountId}", 'DELETE');
     }
                 
     /**
@@ -4739,9 +4739,9 @@ the debtor number in your financial accounting.
      *      When you want to sort the results in ascending order, use <code>asc</code>.
      *      When you want to sort the result in descending order, use <code>desc</code>.
      */
-    public function getAccountsContactsByAccountId(int $accountId, array $query = []): void
+    public function getAccountsContactsByAccountId(int $accountId, array $query = [])
     {
-        $this->api(array_merge(["/rest/accounts/{$accountId}/contacts"], $query));
+        return $this->api(array_merge(["/rest/accounts/{$accountId}/contacts"], $query));
     }
                     
     /**

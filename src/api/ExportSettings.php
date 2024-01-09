@@ -164,9 +164,9 @@ class ExportSettings extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ExportSettings
      * @param int $exportId 
      */
-    public function deleteExportByExportId(int $exportId): void
+    public function deleteExportByExportId(int $exportId)
     {
-        $this->api("/rest/exports/{$exportId}", 'DELETE');
+        return $this->api("/rest/exports/{$exportId}", 'DELETE');
     }
                 
     /**
@@ -234,9 +234,9 @@ class ExportSettings extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $exportId 
      * @param int $key 
      */
-    public function deleteExportsFilterByExportIdKey(int $exportId, int $key): void
+    public function deleteExportsFilterByExportIdKey(int $exportId, int $key)
     {
-        $this->api("/rest/exports/{$exportId}/filters/{$key}", 'DELETE');
+        return $this->api("/rest/exports/{$exportId}/filters/{$key}", 'DELETE');
     }
     
 }

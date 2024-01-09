@@ -19,9 +19,9 @@ class LegalInformation extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $plentyId 
      * @param int $lang 
      */
-    public function getLegalinformationAllByPlentyIdLang(int $plentyId, int $lang): void
+    public function getLegalinformationAllByPlentyIdLang(int $plentyId, int $lang)
     {
-        $this->api("/rest/legalinformation/all/{$plentyId}/{$lang}");
+        return $this->api("/rest/legalinformation/all/{$plentyId}/{$lang}");
     }
                 
     /**
@@ -30,9 +30,9 @@ class LegalInformation extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $plentyId 
      * @param int $lang 
      */
-    public function createLegalinformationAllByPlentyIdLang(int $plentyId, int $lang): void
+    public function createLegalinformationAllByPlentyIdLang(int $plentyId, int $lang)
     {
-        $this->api("/rest/legalinformation/all/{$plentyId}/{$lang}", 'POST');
+        return $this->api("/rest/legalinformation/all/{$plentyId}/{$lang}", 'POST');
     }
                     
     /**

@@ -18,9 +18,9 @@ class Comment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Comment
      * @param array $data 
      */
-    public function createComment(array $data): void
+    public function createComment(array $data)
     {
-        $this->api("/rest/comments", 'POST', $data);
+        return $this->api("/rest/comments", 'POST', $data);
     }
                     
     /**
@@ -28,9 +28,9 @@ class Comment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Comment
      * @param int $commentId The ID of the comment
      */
-    public function deleteCommentByCommentId(int $commentId): void
+    public function deleteCommentByCommentId(int $commentId)
     {
-        $this->api("/rest/comments/{$commentId}", 'DELETE');
+        return $this->api("/rest/comments/{$commentId}", 'DELETE');
     }
                 
     /**
@@ -38,9 +38,9 @@ class Comment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Comment
      * @param int $commentId The ID of the comment
      */
-    public function getCommentByCommentId(int $commentId): void
+    public function getCommentByCommentId(int $commentId)
     {
-        $this->api("/rest/comments/{$commentId}");
+        return $this->api("/rest/comments/{$commentId}");
     }
                 
     /**
@@ -57,9 +57,9 @@ class Comment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *isVisibleForContact* - boolean - optional
      *          - If true, the comment is visible for the associated contact.
      */
-    public function updateCommentByCommentId(int $commentId, array $query): void
+    public function updateCommentByCommentId(int $commentId, array $query)
     {
-        $this->api(array_merge(["/rest/comments/{$commentId}"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/comments/{$commentId}"], $query), 'PUT');
     }
                     
     /**

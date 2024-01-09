@@ -18,9 +18,9 @@ class PlentyMarketplace extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag plentyMarketplace
      * @param array $data 
      */
-    public function createIoCustomerLogin(array $data): void
+    public function createIoCustomerLogin(array $data)
     {
-        $this->api("/rest/io/customer/login", 'POST', $data);
+        return $this->api("/rest/io/customer/login", 'POST', $data);
     }
                     
     /**
@@ -28,9 +28,9 @@ class PlentyMarketplace extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag plentyMarketplace
      * @param array $data 
      */
-    public function createPartnerPortalPartnerPluginVisibility(array $data): void
+    public function createPartnerPortalPartnerPluginVisibility(array $data)
     {
-        $this->api("/rest/partner-portal/partner-plugin/visibility", 'POST', $data);
+        return $this->api("/rest/partner-portal/partner-plugin/visibility", 'POST', $data);
     }
     
 }

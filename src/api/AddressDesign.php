@@ -18,9 +18,9 @@ class AddressDesign extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AddressDesign
 
      */
-    public function getAddressLayout(): void
+    public function getAddressLayout()
     {
-        $this->api("/rest/address_layout");
+        return $this->api("/rest/address_layout");
     }
                 
     /**
@@ -45,9 +45,9 @@ class AddressDesign extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AddressDesign
      * @param int $countryId The ID of the country
      */
-    public function getAddressLayoutCountryByCountryId(int $countryId): void
+    public function getAddressLayoutCountryByCountryId(int $countryId)
     {
-        $this->api("/rest/address_layout/country/{$countryId}");
+        return $this->api("/rest/address_layout/country/{$countryId}");
     }
                     
     /**
@@ -55,9 +55,9 @@ class AddressDesign extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AddressDesign
 
      */
-    public function getAddressLayoutDefault(): void
+    public function getAddressLayoutDefault()
     {
-        $this->api("/rest/address_layout/default");
+        return $this->api("/rest/address_layout/default");
     }
                     
     /**
@@ -76,9 +76,9 @@ class AddressDesign extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AddressDesign
      * @param string $uuid The UUID of the layout
      */
-    public function deleteAddressLayoutByUuid(string $uuid): void
+    public function deleteAddressLayoutByUuid(string $uuid)
     {
-        $this->api("/rest/address_layout/{$uuid}", 'DELETE');
+        return $this->api("/rest/address_layout/{$uuid}", 'DELETE');
     }
                 
     /**
@@ -119,9 +119,9 @@ class AddressDesign extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AddressDesign
 
      */
-    public function getAddressLayoutFields(): void
+    public function getAddressLayoutFields()
     {
-        $this->api("/rest/address_layout_fields");
+        return $this->api("/rest/address_layout_fields");
     }
     
 }

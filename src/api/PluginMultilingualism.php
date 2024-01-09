@@ -58,9 +58,9 @@ class PluginMultilingualism extends \lujie\plentyMarkets\BasePlentyMarketsRestCl
      *      - *$translationId* - int - required
      *          - The ID of the translation
      */
-    public function deleteLanguagesTranslationByTranslationId(int $translationId, array $query): void
+    public function deleteLanguagesTranslationByTranslationId(int $translationId, array $query)
     {
-        $this->api(array_merge(["/rest/languages/translations/{$translationId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/languages/translations/{$translationId}"], $query), 'DELETE');
     }
                 
     /**
@@ -142,9 +142,9 @@ class PluginMultilingualism extends \lujie\plentyMarkets\BasePlentyMarketsRestCl
      *      - *$languageCode* - string - required
      *          - The code of the language
      */
-    public function deletePluginSetsLanguageByPluginSetIdLanguageCode(int $pluginSetId, int $languageCode, array $query): void
+    public function deletePluginSetsLanguageByPluginSetIdLanguageCode(int $pluginSetId, int $languageCode, array $query)
     {
-        $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/{$languageCode}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/{$languageCode}"], $query), 'DELETE');
     }
     
 }

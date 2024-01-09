@@ -64,9 +64,9 @@ class Sync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *key* - string - required
      *          - The storage key to get temporary url for
      */
-    public function getElasticSyncDocumentUrl(array $query): void
+    public function getElasticSyncDocumentUrl(array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/document/url"], $query));
+        return $this->api(array_merge(["/rest/elastic-sync/document/url"], $query));
     }
                     
     /**
@@ -76,9 +76,9 @@ class Sync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *keyList* - array - required
      *          - List of storage keys to delete
      */
-    public function deleteElasticSyncDocument(array $query): void
+    public function deleteElasticSyncDocument(array $query)
     {
-        $this->api(array_merge(["/rest/elastic-sync/documents"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/elastic-sync/documents"], $query), 'DELETE');
     }
                 
     /**

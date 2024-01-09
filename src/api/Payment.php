@@ -83,9 +83,9 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Payment
      * @param int $paymentId 
      */
-    public function deletePaymentContactByPaymentId(int $paymentId): void
+    public function deletePaymentContactByPaymentId(int $paymentId)
     {
-        $this->api("/rest/payment/{$paymentId}/contact", 'DELETE');
+        return $this->api("/rest/payment/{$paymentId}/contact", 'DELETE');
     }
                     
     /**
@@ -113,9 +113,9 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Payment
      * @param int $paymentId 
      */
-    public function deletePaymentOrderByPaymentId(int $paymentId): void
+    public function deletePaymentOrderByPaymentId(int $paymentId)
     {
-        $this->api("/rest/payment/{$paymentId}/order", 'DELETE');
+        return $this->api("/rest/payment/{$paymentId}/order", 'DELETE');
     }
                     
     /**
@@ -568,9 +568,9 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Payment
      * @param int $orderId An order ID.
      */
-    public function deletePaymentsOrderByOrderId(int $orderId): void
+    public function deletePaymentsOrderByOrderId(int $orderId)
     {
-        $this->api("/rest/payments/order/{$orderId}", 'DELETE');
+        return $this->api("/rest/payments/order/{$orderId}", 'DELETE');
     }
                     
     /**
@@ -1186,9 +1186,9 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Payment
      * @param int $paymentId 
      */
-    public function deletePaymentByPaymentId(int $paymentId): void
+    public function deletePaymentByPaymentId(int $paymentId)
     {
-        $this->api("/rest/payments/{$paymentId}", 'DELETE');
+        return $this->api("/rest/payments/{$paymentId}", 'DELETE');
     }
                 
     /**

@@ -112,9 +112,9 @@ class Item extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemSetById(int $id): void
+    public function deleteItemSetById(int $id)
     {
-        $this->api("/rest/item_sets/{$id}", 'DELETE');
+        return $this->api("/rest/item_sets/{$id}", 'DELETE');
     }
                 
     /**
@@ -237,9 +237,9 @@ class Item extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $setId 
      * @param int $id 
      */
-    public function deleteItemSetsComponentBySetIdId(int $setId, int $id): void
+    public function deleteItemSetsComponentBySetIdId(int $setId, int $id)
     {
-        $this->api("/rest/item_sets/{$setId}/components/{$id}", 'DELETE');
+        return $this->api("/rest/item_sets/{$setId}/components/{$id}", 'DELETE');
     }
                 
     /**
@@ -325,9 +325,9 @@ class Item extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Item
      * @param int $setId 
      */
-    public function createItemSetsConfigSalesPriceBySetId(int $setId): void
+    public function createItemSetsConfigSalesPriceBySetId(int $setId)
     {
-        $this->api("/rest/item_sets/{$setId}/config/sales_prices", 'POST');
+        return $this->api("/rest/item_sets/{$setId}/config/sales_prices", 'POST');
     }
                 
     /**
@@ -675,9 +675,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param array $data 
      */
-    public function updateItem(array $data): void
+    public function updateItem(array $data)
     {
-        $this->api("/rest/items", 'PUT', $data);
+        return $this->api("/rest/items", 'PUT', $data);
     }
                     
     /**
@@ -715,9 +715,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $valueId 
      * @param int $lang 
      */
-    public function deleteItemsAttributeValuesNameByValueIdLang(int $valueId, int $lang): void
+    public function deleteItemsAttributeValuesNameByValueIdLang(int $valueId, int $lang)
     {
-        $this->api("/rest/items/attribute_values/{$valueId}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/attribute_values/{$valueId}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -927,9 +927,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $attributeId 
      * @param int $marketId 
      */
-    public function deleteItemsAttributesMarketsMapByAttributeIdMarketId(int $attributeId, int $marketId): void
+    public function deleteItemsAttributesMarketsMapByAttributeIdMarketId(int $attributeId, int $marketId)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/markets/{$marketId}/maps", 'DELETE');
+        return $this->api("/rest/items/attributes/{$attributeId}/markets/{$marketId}/maps", 'DELETE');
     }
                 
     /**
@@ -1011,9 +1011,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $attributeId 
      * @param int $lang 
      */
-    public function deleteItemsAttributesNameByAttributeIdLang(int $attributeId, int $lang): void
+    public function deleteItemsAttributesNameByAttributeIdLang(int $attributeId, int $lang)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/attributes/{$attributeId}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -1179,9 +1179,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $lang 
      * @param int $referenceType 
      */
-    public function deleteItemsAttributesValueMarketNameByAttributeIdValueIdLangReferenceType(int $attributeId, int $valueId, int $lang, int $referenceType): void
+    public function deleteItemsAttributesValueMarketNameByAttributeIdValueIdLangReferenceType(int $attributeId, int $valueId, int $lang, int $referenceType)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/value_market_names/{$valueId}/{$lang}/{$referenceType}", 'DELETE');
+        return $this->api("/rest/items/attributes/{$attributeId}/value_market_names/{$valueId}/{$lang}/{$referenceType}", 'DELETE');
     }
                 
     /**
@@ -1247,9 +1247,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $attributeId 
      * @param array $data 
      */
-    public function createItemsAttributesValueByAttributeId(int $attributeId, array $data): void
+    public function createItemsAttributesValueByAttributeId(int $attributeId, array $data)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/values", 'POST', $data);
+        return $this->api("/rest/items/attributes/{$attributeId}/values", 'POST', $data);
     }
                     
     /**
@@ -1259,9 +1259,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $attributeValueId 
      * @param int $marketId 
      */
-    public function deleteItemsAttributesValuesMarketsMapByAttributeIdAttributeValueIdMarketId(int $attributeId, int $attributeValueId, int $marketId): void
+    public function deleteItemsAttributesValuesMarketsMapByAttributeIdAttributeValueIdMarketId(int $attributeId, int $attributeValueId, int $marketId)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/values/{$attributeValueId}/markets/{$marketId}/maps", 'DELETE');
+        return $this->api("/rest/items/attributes/{$attributeId}/values/{$attributeValueId}/markets/{$marketId}/maps", 'DELETE');
     }
                 
     /**
@@ -1320,9 +1320,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $attributeId 
      * @param int $id 
      */
-    public function deleteItemsAttributesValueByAttributeIdId(int $attributeId, int $id): void
+    public function deleteItemsAttributesValueByAttributeIdId(int $attributeId, int $id)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/values/{$id}", 'DELETE');
+        return $this->api("/rest/items/attributes/{$attributeId}/values/{$id}", 'DELETE');
     }
                 
     /**
@@ -1334,9 +1334,9 @@ usually a 11 digit code number based on the Harmonised System
      *      - *with* - string - optional
      *          - Includes the specified attribute value information in the results. The following parameters are available:<ul><li>attribute = The attribute of the value</li><li>names = The attribute value names in all languages</li><li>marketNames = The market attribute value links (amazon only)</li><li>valueMaps = The market attribute links (amazon excluded)</li></ul>
      */
-    public function getItemsAttributesValueByAttributeIdId(int $attributeId, int $id, array $query = []): void
+    public function getItemsAttributesValueByAttributeIdId(int $attributeId, int $id, array $query = [])
     {
-        $this->api(array_merge(["/rest/items/attributes/{$attributeId}/values/{$id}"], $query));
+        return $this->api(array_merge(["/rest/items/attributes/{$attributeId}/values/{$id}"], $query));
     }
                 
     /**
@@ -1346,9 +1346,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $id 
      * @param array $data 
      */
-    public function updateItemsAttributesValueByAttributeIdId(int $attributeId, int $id, array $data): void
+    public function updateItemsAttributesValueByAttributeIdId(int $attributeId, int $id, array $data)
     {
-        $this->api("/rest/items/attributes/{$attributeId}/values/{$id}", 'PUT', $data);
+        return $this->api("/rest/items/attributes/{$attributeId}/values/{$id}", 'PUT', $data);
     }
                     
     /**
@@ -1356,9 +1356,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemsAttributeById(int $id): void
+    public function deleteItemsAttributeById(int $id)
     {
-        $this->api("/rest/items/attributes/{$id}", 'DELETE');
+        return $this->api("/rest/items/attributes/{$id}", 'DELETE');
     }
                 
     /**
@@ -1477,9 +1477,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param array $data 
      */
-    public function createItemsBarcode(array $data): void
+    public function createItemsBarcode(array $data)
     {
-        $this->api("/rest/items/barcodes", 'POST', $data);
+        return $this->api("/rest/items/barcodes", 'POST', $data);
     }
                     
     /**
@@ -1509,9 +1509,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param int $barcodeId 
      */
-    public function deleteItemsBarcodeByBarcodeId(int $barcodeId): void
+    public function deleteItemsBarcodeByBarcodeId(int $barcodeId)
     {
-        $this->api("/rest/items/barcodes/{$barcodeId}", 'DELETE');
+        return $this->api("/rest/items/barcodes/{$barcodeId}", 'DELETE');
     }
                 
     /**
@@ -1519,9 +1519,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param int $barcodeId 
      */
-    public function getItemsBarcodeByBarcodeId(int $barcodeId): void
+    public function getItemsBarcodeByBarcodeId(int $barcodeId)
     {
-        $this->api("/rest/items/barcodes/{$barcodeId}");
+        return $this->api("/rest/items/barcodes/{$barcodeId}");
     }
                 
     /**
@@ -1530,9 +1530,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $barcodeId 
      * @param array $data 
      */
-    public function updateItemsBarcodeByBarcodeId(int $barcodeId, array $data): void
+    public function updateItemsBarcodeByBarcodeId(int $barcodeId, array $data)
     {
-        $this->api("/rest/items/barcodes/{$barcodeId}", 'PUT', $data);
+        return $this->api("/rest/items/barcodes/{$barcodeId}", 'PUT', $data);
     }
                     
     /**
@@ -1560,9 +1560,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $barcodeId 
      * @param int $referrerId 
      */
-    public function deleteItemsBarcodesReferrerByBarcodeIdReferrerId(int $barcodeId, int $referrerId): void
+    public function deleteItemsBarcodesReferrerByBarcodeIdReferrerId(int $barcodeId, int $referrerId)
     {
-        $this->api("/rest/items/barcodes/{$barcodeId}/referrer/{$referrerId}", 'DELETE');
+        return $this->api("/rest/items/barcodes/{$barcodeId}/referrer/{$referrerId}", 'DELETE');
     }
                     
     /**
@@ -1604,9 +1604,9 @@ Example: updated=gt:2018-04-16 16:00:00 returns all items with shipping profiles
      * @tag Item
 
      */
-    public function createItemsItemShippingProfile(): void
+    public function createItemsItemShippingProfile()
     {
-        $this->api("/rest/items/item_shipping_profiles", 'POST');
+        return $this->api("/rest/items/item_shipping_profiles", 'POST');
     }
                     
     /**
@@ -1624,9 +1624,9 @@ Example: updated=gt:2018-04-16 16:00:00 returns all items with shipping profiles
      * @tag Item
 
      */
-    public function getItemsListingsCategories(): void
+    public function getItemsListingsCategories()
     {
-        $this->api("/rest/items/listings/categories");
+        return $this->api("/rest/items/listings/categories");
     }
                     
     /**
@@ -1650,9 +1650,9 @@ Example: updated=gt:2018-04-16 16:00:00 returns all items with shipping profiles
      * @tag Item
      * @param int $ebayAccountId 
      */
-    public function getItemsListingsShopCategoryByEbayAccountId(int $ebayAccountId): void
+    public function getItemsListingsShopCategoryByEbayAccountId(int $ebayAccountId)
     {
-        $this->api("/rest/items/listings/shop_categories/{$ebayAccountId}");
+        return $this->api("/rest/items/listings/shop_categories/{$ebayAccountId}");
     }
                     
     /**
@@ -1743,9 +1743,9 @@ Display a listing of the resource.
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemsManufacturerById(int $id): void
+    public function deleteItemsManufacturerById(int $id)
     {
-        $this->api("/rest/items/manufacturers/{$id}", 'DELETE');
+        return $this->api("/rest/items/manufacturers/{$id}", 'DELETE');
     }
                 
     /**
@@ -1884,9 +1884,9 @@ Display a listing of the resource.
      * @param int $id 
      * @param int $manufacturerId 
      */
-    public function deleteItemsManufacturersCommissionByIdManufacturerId(int $id, int $manufacturerId): void
+    public function deleteItemsManufacturersCommissionByIdManufacturerId(int $id, int $manufacturerId)
     {
-        $this->api("/rest/items/manufacturers/{$id}/commissions/{$manufacturerId}", 'DELETE');
+        return $this->api("/rest/items/manufacturers/{$id}/commissions/{$manufacturerId}", 'DELETE');
     }
                 
     /**
@@ -2111,9 +2111,9 @@ Display a listing of the resource.
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemsPropertyById(int $id): void
+    public function deleteItemsPropertyById(int $id)
     {
-        $this->api("/rest/items/properties/{$id}", 'DELETE');
+        return $this->api("/rest/items/properties/{$id}", 'DELETE');
     }
                 
     /**
@@ -2192,9 +2192,9 @@ Display a listing of the resource.
      * @param int $id 
      * @param int $marketId 
      */
-    public function deleteItemsPropertiesMarketReferenceByIdMarketId(int $id, int $marketId): void
+    public function deleteItemsPropertiesMarketReferenceByIdMarketId(int $id, int $marketId)
     {
-        $this->api("/rest/items/properties/{$id}/market_references/{$marketId}", 'DELETE');
+        return $this->api("/rest/items/properties/{$id}/market_references/{$marketId}", 'DELETE');
     }
                 
     /**
@@ -2277,9 +2277,9 @@ Display a listing of the resource.
      * @param int $id 
      * @param int $lang 
      */
-    public function deleteItemsPropertiesNameByIdLang(int $id, int $lang): void
+    public function deleteItemsPropertiesNameByIdLang(int $id, int $lang)
     {
-        $this->api("/rest/items/properties/{$id}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/properties/{$id}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -2362,9 +2362,9 @@ Display a listing of the resource.
      * @param int $propertyId 
      * @param int $id 
      */
-    public function deleteItemsPropertiesSelectionByPropertyIdId(int $propertyId, int $id): void
+    public function deleteItemsPropertiesSelectionByPropertyIdId(int $propertyId, int $id)
     {
-        $this->api("/rest/items/properties/{$propertyId}/selections/{$id}", 'DELETE');
+        return $this->api("/rest/items/properties/{$propertyId}/selections/{$id}", 'DELETE');
     }
                 
     /**
@@ -2405,9 +2405,9 @@ Display a listing of the resource.
      * @param int $id 
      * @param int $lang 
      */
-    public function deleteItemsPropertiesSelectionByPropertyIdIdLang(int $propertyId, int $id, int $lang): void
+    public function deleteItemsPropertiesSelectionByPropertyIdIdLang(int $propertyId, int $id, int $lang)
     {
-        $this->api("/rest/items/properties/{$propertyId}/selections/{$id}/{$lang}", 'DELETE');
+        return $this->api("/rest/items/properties/{$propertyId}/selections/{$id}/{$lang}", 'DELETE');
     }
                 
     /**
@@ -2510,9 +2510,9 @@ Display a listing of the resource.
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemsPropertyGroupById(int $id): void
+    public function deleteItemsPropertyGroupById(int $id)
     {
-        $this->api("/rest/items/property_groups/{$id}", 'DELETE');
+        return $this->api("/rest/items/property_groups/{$id}", 'DELETE');
     }
                 
     /**
@@ -2585,9 +2585,9 @@ Display a listing of the resource.
      * @param int $id 
      * @param int $lang 
      */
-    public function deleteItemsPropertyGroupsNameByIdLang(int $id, int $lang): void
+    public function deleteItemsPropertyGroupsNameByIdLang(int $id, int $lang)
     {
-        $this->api("/rest/items/property_groups/{$id}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/property_groups/{$id}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -2669,9 +2669,9 @@ Display a listing of the resource.
      * @tag Item
      * @param array $data 
      */
-    public function createItemsSalesPrice(array $data): void
+    public function createItemsSalesPrice(array $data)
     {
-        $this->api("/rest/items/sales_prices", 'POST', $data);
+        return $this->api("/rest/items/sales_prices", 'POST', $data);
     }
                     
     /**
@@ -2681,9 +2681,9 @@ Delete salesPrice
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemsSalesPriceById(int $id): void
+    public function deleteItemsSalesPriceById(int $id)
     {
-        $this->api("/rest/items/sales_prices/{$id}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}", 'DELETE');
     }
                 
     /**
@@ -2691,9 +2691,9 @@ Delete salesPrice
      * @tag Item
      * @param int $id 
      */
-    public function getItemsSalesPriceById(int $id): void
+    public function getItemsSalesPriceById(int $id)
     {
-        $this->api("/rest/items/sales_prices/{$id}");
+        return $this->api("/rest/items/sales_prices/{$id}");
     }
                 
     /**
@@ -2702,9 +2702,9 @@ Delete salesPrice
      * @param int $id 
      * @param array $data 
      */
-    public function updateItemsSalesPriceById(int $id, array $data): void
+    public function updateItemsSalesPriceById(int $id, array $data)
     {
-        $this->api("/rest/items/sales_prices/{$id}", 'PUT', $data);
+        return $this->api("/rest/items/sales_prices/{$id}", 'PUT', $data);
     }
                     
     /**
@@ -2747,9 +2747,9 @@ Delete salesPrice
      * @param int $accountType 
      * @param int $accountId 
      */
-    public function deleteItemsSalesPricesAccountByIdAccountTypeAccountId(int $id, int $accountType, int $accountId): void
+    public function deleteItemsSalesPricesAccountByIdAccountTypeAccountId(int $id, int $accountType, int $accountId)
     {
-        $this->api("/rest/items/sales_prices/{$id}/accounts/{$accountType}/{$accountId}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/accounts/{$accountType}/{$accountId}", 'DELETE');
     }
                     
     /**
@@ -2789,9 +2789,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $countryId 
      */
-    public function deleteItemsSalesPricesCountryByIdCountryId(int $id, int $countryId): void
+    public function deleteItemsSalesPricesCountryByIdCountryId(int $id, int $countryId)
     {
-        $this->api("/rest/items/sales_prices/{$id}/countries/{$countryId}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/countries/{$countryId}", 'DELETE');
     }
                     
     /**
@@ -2831,9 +2831,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $currency 
      */
-    public function deleteItemsSalesPricesCurrencyByIdCurrency(int $id, int $currency): void
+    public function deleteItemsSalesPricesCurrencyByIdCurrency(int $id, int $currency)
     {
-        $this->api("/rest/items/sales_prices/{$id}/currencies/{$currency}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/currencies/{$currency}", 'DELETE');
     }
                     
     /**
@@ -2873,9 +2873,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $customerClassId 
      */
-    public function deleteItemsSalesPricesCustomerClassByIdCustomerClassId(int $id, int $customerClassId): void
+    public function deleteItemsSalesPricesCustomerClassByIdCustomerClassId(int $id, int $customerClassId)
     {
-        $this->api("/rest/items/sales_prices/{$id}/customer_classes/{$customerClassId}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/customer_classes/{$customerClassId}", 'DELETE');
     }
                     
     /**
@@ -2919,9 +2919,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $lang 
      */
-    public function deleteItemsSalesPricesNameByIdLang(int $id, int $lang): void
+    public function deleteItemsSalesPricesNameByIdLang(int $id, int $lang)
     {
-        $this->api("/rest/items/sales_prices/{$id}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -3010,9 +3010,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $webstoreId 
      */
-    public function deleteItemsSalesPricesOnlineStoreByIdWebstoreId(int $id, int $webstoreId): void
+    public function deleteItemsSalesPricesOnlineStoreByIdWebstoreId(int $id, int $webstoreId)
     {
-        $this->api("/rest/items/sales_prices/{$id}/online_stores/{$webstoreId}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/online_stores/{$webstoreId}", 'DELETE');
     }
                     
     /**
@@ -3052,9 +3052,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $referrerId 
      */
-    public function deleteItemsSalesPricesReferrerByIdReferrerId(int $id, int $referrerId): void
+    public function deleteItemsSalesPricesReferrerByIdReferrerId(int $id, int $referrerId)
     {
-        $this->api("/rest/items/sales_prices/{$id}/referrers/{$referrerId}", 'DELETE');
+        return $this->api("/rest/items/sales_prices/{$id}/referrers/{$referrerId}", 'DELETE');
     }
                     
     /**
@@ -3091,9 +3091,9 @@ Delete salesPrice
      * @tag Item
      * @param array $data 
      */
-    public function createItemsUnit(array $data): void
+    public function createItemsUnit(array $data)
     {
-        $this->api("/rest/items/units", 'POST', $data);
+        return $this->api("/rest/items/units", 'POST', $data);
     }
                     
     /**
@@ -3114,9 +3114,9 @@ Delete salesPrice
      * @tag Item
      * @param int $id 
      */
-    public function deleteItemsUnitById(int $id): void
+    public function deleteItemsUnitById(int $id)
     {
-        $this->api("/rest/items/units/{$id}", 'DELETE');
+        return $this->api("/rest/items/units/{$id}", 'DELETE');
     }
                 
     /**
@@ -3124,9 +3124,9 @@ Delete salesPrice
      * @tag Item
      * @param int $id 
      */
-    public function getItemsUnitById(int $id): void
+    public function getItemsUnitById(int $id)
     {
-        $this->api("/rest/items/units/{$id}");
+        return $this->api("/rest/items/units/{$id}");
     }
                 
     /**
@@ -3135,9 +3135,9 @@ Delete salesPrice
      * @param int $id 
      * @param array $data 
      */
-    public function updateItemsUnitById(int $id, array $data): void
+    public function updateItemsUnitById(int $id, array $data)
     {
-        $this->api("/rest/items/units/{$id}", 'PUT', $data);
+        return $this->api("/rest/items/units/{$id}", 'PUT', $data);
     }
                     
     /**
@@ -3174,9 +3174,9 @@ Delete salesPrice
      * @param int $id 
      * @param int $lang 
      */
-    public function deleteItemsUnitsNameByIdLang(int $id, int $lang): void
+    public function deleteItemsUnitsNameByIdLang(int $id, int $lang)
     {
-        $this->api("/rest/items/units/{$id}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/units/{$id}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -3475,9 +3475,9 @@ Delete salesPrice
      * @tag Item
      * @param array $data 
      */
-    public function updateItemsVariation(array $data): void
+    public function updateItemsVariation(array $data)
     {
-        $this->api("/rest/items/variations", 'PUT', $data);
+        return $this->api("/rest/items/variations", 'PUT', $data);
     }
                     
     /**
@@ -3485,9 +3485,9 @@ Delete salesPrice
      * @tag Item
      * @param array $data 
      */
-    public function createItemsVariationsVariationCategory(array $data): void
+    public function createItemsVariationsVariationCategory(array $data)
     {
-        $this->api("/rest/items/variations/variation_categories", 'POST', $data);
+        return $this->api("/rest/items/variations/variation_categories", 'POST', $data);
     }
                 
     /**
@@ -3495,9 +3495,9 @@ Delete salesPrice
      * @tag Item
      * @param array $data 
      */
-    public function updateItemsVariationsVariationCategory(array $data): void
+    public function updateItemsVariationsVariationCategory(array $data)
     {
-        $this->api("/rest/items/variations/variation_categories", 'PUT', $data);
+        return $this->api("/rest/items/variations/variation_categories", 'PUT', $data);
     }
                     
     /**
@@ -3533,9 +3533,9 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param array $data 
      */
-    public function createItemsVariationsVariationMarket(array $data): void
+    public function createItemsVariationsVariationMarket(array $data)
     {
-        $this->api("/rest/items/variations/variation_markets", 'POST', $data);
+        return $this->api("/rest/items/variations/variation_markets", 'POST', $data);
     }
                     
     /**
@@ -3543,9 +3543,9 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param array $data 
      */
-    public function createItemsVariationsVariationProperty(array $data): void
+    public function createItemsVariationsVariationProperty(array $data)
     {
-        $this->api("/rest/items/variations/variation_properties", 'POST', $data);
+        return $this->api("/rest/items/variations/variation_properties", 'POST', $data);
     }
                 
     /**
@@ -3553,9 +3553,9 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param array $data 
      */
-    public function updateItemsVariationsVariationProperty(array $data): void
+    public function updateItemsVariationsVariationProperty(array $data)
     {
-        $this->api("/rest/items/variations/variation_properties", 'PUT', $data);
+        return $this->api("/rest/items/variations/variation_properties", 'PUT', $data);
     }
                     
     /**
@@ -3595,9 +3595,9 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param array $data 
      */
-    public function createItemsVariationsVariationSalesPrice(array $data): void
+    public function createItemsVariationsVariationSalesPrice(array $data)
     {
-        $this->api("/rest/items/variations/variation_sales_prices", 'POST', $data);
+        return $this->api("/rest/items/variations/variation_sales_prices", 'POST', $data);
     }
                 
     /**
@@ -3605,9 +3605,9 @@ lists all links of the variation with the ID 1030.
      * @tag Item
      * @param array $data 
      */
-    public function updateItemsVariationsVariationSalesPrice(array $data): void
+    public function updateItemsVariationsVariationSalesPrice(array $data)
     {
-        $this->api("/rest/items/variations/variation_sales_prices", 'PUT', $data);
+        return $this->api("/rest/items/variations/variation_sales_prices", 'PUT', $data);
     }
                     
     /**
@@ -3638,9 +3638,9 @@ lists all links of the variation with the ID 1030.
      *      - *attributeId* - int - optional
      *          - The unique ID of the attribute
      */
-    public function getItemsImagesAttributeValueMarketsById(int $id, array $query = []): void
+    public function getItemsImagesAttributeValueMarketsById(int $id, array $query = [])
     {
-        $this->api(array_merge(["/rest/items/{$id}/images/attribute_value_markets"], $query));
+        return $this->api(array_merge(["/rest/items/{$id}/images/attribute_value_markets"], $query));
     }
                     
     /**
@@ -3695,9 +3695,9 @@ lists all links of the variation with the ID 1030.
      * @param int $id 
      * @param int $imageId 
      */
-    public function deleteItemsImageByIdImageId(int $id, int $imageId): void
+    public function deleteItemsImageByIdImageId(int $id, int $imageId)
     {
-        $this->api("/rest/items/{$id}/images/{$imageId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/images/{$imageId}", 'DELETE');
     }
                 
     /**
@@ -3824,9 +3824,9 @@ lists all links of the variation with the ID 1030.
      *      - *itemId* - int - required
      *          - The unique ID of the item
      */
-    public function deleteItemsImagesAttributeValueMarketByImageIdValueIdId(int $imageId, int $valueId, int $id, array $query): void
+    public function deleteItemsImagesAttributeValueMarketByImageIdValueIdId(int $imageId, int $valueId, int $id, array $query)
     {
-        $this->api(array_merge(["/rest/items/{$id}/images/{$imageId}/attribute_value_markets/{$valueId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/items/{$id}/images/{$imageId}/attribute_value_markets/{$valueId}"], $query), 'DELETE');
     }
                 
     /**
@@ -3887,9 +3887,9 @@ lists all links of the variation with the ID 1030.
      * @param int $imageId 
      * @param array $data 
      */
-    public function deleteItemsImagesAvailabilityByIdImageId(int $id, int $imageId, array $data): void
+    public function deleteItemsImagesAvailabilityByIdImageId(int $id, int $imageId, array $data)
     {
-        $this->api("/rest/items/{$id}/images/{$imageId}/availabilities", 'DELETE', $data);
+        return $this->api("/rest/items/{$id}/images/{$imageId}/availabilities", 'DELETE', $data);
     }
                 
     /**
@@ -3969,9 +3969,9 @@ lists all links of the variation with the ID 1030.
      * @param int $imageId 
      * @param int $lang 
      */
-    public function deleteItemsImagesNameByIdImageIdLang(int $id, int $imageId, int $lang): void
+    public function deleteItemsImagesNameByIdImageIdLang(int $id, int $imageId, int $lang)
     {
-        $this->api("/rest/items/{$id}/images/{$imageId}/names/{$lang}", 'DELETE');
+        return $this->api("/rest/items/{$id}/images/{$imageId}/names/{$lang}", 'DELETE');
     }
                 
     /**
@@ -4086,9 +4086,9 @@ lists all links of the variation with the ID 1030.
      * @param int $id 
      * @param int $crossItemId 
      */
-    public function deleteItemsItemCrossSellingByIdCrossItemId(int $id, int $crossItemId): void
+    public function deleteItemsItemCrossSellingByIdCrossItemId(int $id, int $crossItemId)
     {
-        $this->api("/rest/items/{$id}/item_cross_selling/{$crossItemId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/item_cross_selling/{$crossItemId}", 'DELETE');
     }
                 
     /**
@@ -4201,9 +4201,9 @@ lists all links of the variation with the ID 1030.
      * @param int $variationId 
      * @param int $lang 
      */
-    public function deleteItemsVariationsDescriptionByIdVariationIdLang(int $id, int $variationId, int $lang): void
+    public function deleteItemsVariationsDescriptionByIdVariationIdLang(int $id, int $variationId, int $lang)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/descriptions/{$lang}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/descriptions/{$lang}", 'DELETE');
     }
                 
     /**
@@ -4349,9 +4349,9 @@ lists all links of the variation with the ID 1030.
      * @param int $variationId 
      * @param int $marketIdentNumberId 
      */
-    public function deleteItemsVariationsMarketIdentNumberByIdVariationIdMarketIdentNumberId(int $id, int $variationId, int $marketIdentNumberId): void
+    public function deleteItemsVariationsMarketIdentNumberByIdVariationIdMarketIdentNumberId(int $id, int $variationId, int $marketIdentNumberId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/market_ident_numbers/{$marketIdentNumberId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/market_ident_numbers/{$marketIdentNumberId}", 'DELETE');
     }
                 
     /**
@@ -4810,9 +4810,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $additionalSkuId 
      */
-    public function deleteItemsVariationsVariationAdditionalSkusByIdVariationIdAdditionalSkuId(int $id, int $variationId, int $additionalSkuId): void
+    public function deleteItemsVariationsVariationAdditionalSkusByIdVariationIdAdditionalSkuId(int $id, int $variationId, int $additionalSkuId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_additional_skus/{$additionalSkuId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_additional_skus/{$additionalSkuId}", 'DELETE');
     }
                 
     /**
@@ -4913,9 +4913,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $barcodeId 
      */
-    public function deleteItemsVariationsVariationBarcodeByIdVariationIdBarcodeId(int $id, int $variationId, int $barcodeId): void
+    public function deleteItemsVariationsVariationBarcodeByIdVariationIdBarcodeId(int $id, int $variationId, int $barcodeId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_barcodes/{$barcodeId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_barcodes/{$barcodeId}", 'DELETE');
     }
                 
     /**
@@ -5005,9 +5005,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $bundleId 
      */
-    public function deleteItemsVariationsVariationBundleByIdVariationIdBundleId(int $id, int $variationId, int $bundleId): void
+    public function deleteItemsVariationsVariationBundleByIdVariationIdBundleId(int $id, int $variationId, int $bundleId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_bundles/{$bundleId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_bundles/{$bundleId}", 'DELETE');
     }
                 
     /**
@@ -5109,9 +5109,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $catId 
      */
-    public function deleteItemsVariationsVariationCategoryByIdVariationIdCatId(int $id, int $variationId, int $catId): void
+    public function deleteItemsVariationsVariationCategoryByIdVariationIdCatId(int $id, int $variationId, int $catId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_categories/{$catId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_categories/{$catId}", 'DELETE');
     }
                 
     /**
@@ -5195,9 +5195,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $plentyId 
      */
-    public function deleteItemsVariationsVariationClientByIdVariationIdPlentyId(int $id, int $variationId, int $plentyId): void
+    public function deleteItemsVariationsVariationClientByIdVariationIdPlentyId(int $id, int $variationId, int $plentyId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_clients/{$plentyId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_clients/{$plentyId}", 'DELETE');
     }
                     
     /**
@@ -5250,9 +5250,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $plentyId 
      */
-    public function deleteItemsVariationsVariationDefaultCategoryByIdVariationIdPlentyId(int $id, int $variationId, int $plentyId): void
+    public function deleteItemsVariationsVariationDefaultCategoryByIdVariationIdPlentyId(int $id, int $variationId, int $plentyId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_default_categories/{$plentyId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_default_categories/{$plentyId}", 'DELETE');
     }
                 
     /**
@@ -5334,9 +5334,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $imageId 
      */
-    public function deleteItemsVariationsVariationImageByIdVariationIdImageId(int $id, int $variationId, int $imageId): void
+    public function deleteItemsVariationsVariationImageByIdVariationIdImageId(int $id, int $variationId, int $imageId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_images/{$imageId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_images/{$imageId}", 'DELETE');
     }
                     
     /**
@@ -5345,9 +5345,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $id 
      * @param int $variationId 
      */
-    public function deleteItemsVariationsVariationMarketByIdVariationId(int $id, int $variationId): void
+    public function deleteItemsVariationsVariationMarketByIdVariationId(int $id, int $variationId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_markets", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_markets", 'DELETE');
     }
                 
     /**
@@ -5388,9 +5388,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $marketplaceId 
      */
-    public function deleteItemsVariationsVariationMarketByIdVariationIdMarketplaceId(int $id, int $variationId, int $marketplaceId): void
+    public function deleteItemsVariationsVariationMarketByIdVariationIdMarketplaceId(int $id, int $variationId, int $marketplaceId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_markets/{$marketplaceId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_markets/{$marketplaceId}", 'DELETE');
     }
                     
     /**
@@ -5399,9 +5399,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $id 
      * @param int $variationId 
      */
-    public function deleteItemsVariationsVariationPropertyByIdVariationId(int $id, int $variationId): void
+    public function deleteItemsVariationsVariationPropertyByIdVariationId(int $id, int $variationId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_properties", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_properties", 'DELETE');
     }
                 
     /**
@@ -5452,9 +5452,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $propertyId 
      */
-    public function deleteItemsVariationsVariationPropertyByIdVariationIdPropertyId(int $id, int $variationId, int $propertyId): void
+    public function deleteItemsVariationsVariationPropertyByIdVariationIdPropertyId(int $id, int $variationId, int $propertyId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_properties/{$propertyId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_properties/{$propertyId}", 'DELETE');
     }
                 
     /**
@@ -5522,9 +5522,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $id 
      * @param int $variationId 
      */
-    public function deleteItemsVariationsVariationSalesPriceByIdVariationId(int $id, int $variationId): void
+    public function deleteItemsVariationsVariationSalesPriceByIdVariationId(int $id, int $variationId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_sales_prices", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_sales_prices", 'DELETE');
     }
                 
     /**
@@ -5573,9 +5573,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $priceId 
      */
-    public function deleteItemsVariationsVariationSalesPriceByIdVariationIdPriceId(int $id, int $variationId, int $priceId): void
+    public function deleteItemsVariationsVariationSalesPriceByIdVariationIdPriceId(int $id, int $variationId, int $priceId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_sales_prices/{$priceId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_sales_prices/{$priceId}", 'DELETE');
     }
                 
     /**
@@ -5694,9 +5694,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $skuId 
      */
-    public function deleteItemsVariationsVariationSkusByIdVariationIdSkuId(int $id, int $variationId, int $skuId): void
+    public function deleteItemsVariationsVariationSkusByIdVariationIdSkuId(int $id, int $variationId, int $skuId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_skus/{$skuId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_skus/{$skuId}", 'DELETE');
     }
                 
     /**
@@ -5845,9 +5845,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $variationSupplierId 
      */
-    public function deleteItemsVariationsVariationSupplierByIdVariationIdVariationSupplierId(int $id, int $variationId, int $variationSupplierId): void
+    public function deleteItemsVariationsVariationSupplierByIdVariationIdVariationSupplierId(int $id, int $variationId, int $variationSupplierId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_suppliers/{$variationSupplierId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_suppliers/{$variationSupplierId}", 'DELETE');
     }
                 
     /**
@@ -5993,9 +5993,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @param int $variationId 
      * @param int $warehouseId 
      */
-    public function deleteItemsVariationsVariationWarehouseByIdVariationIdWarehouseId(int $id, int $variationId, int $warehouseId): void
+    public function deleteItemsVariationsVariationWarehouseByIdVariationIdWarehouseId(int $id, int $variationId, int $warehouseId)
     {
-        $this->api("/rest/items/{$id}/variations/{$variationId}/variation_warehouses/{$warehouseId}", 'DELETE');
+        return $this->api("/rest/items/{$id}/variations/{$variationId}/variation_warehouses/{$warehouseId}", 'DELETE');
     }
                 
     /**
@@ -6081,9 +6081,9 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      * @tag Item
      * @param int $itemId 
      */
-    public function deleteItemByItemId(int $itemId): void
+    public function deleteItemByItemId(int $itemId)
     {
-        $this->api("/rest/items/{$itemId}", 'DELETE');
+        return $this->api("/rest/items/{$itemId}", 'DELETE');
     }
                 
     /**
@@ -6457,9 +6457,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param int $itemId 
      */
-    public function createItemsCopyByItemId(int $itemId): void
+    public function createItemsCopyByItemId(int $itemId)
     {
-        $this->api("/rest/items/{$itemId}/copy", 'POST');
+        return $this->api("/rest/items/{$itemId}/copy", 'POST');
     }
                     
     /**
@@ -6467,9 +6467,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param int $itemId 
      */
-    public function createItemsFillByItemId(int $itemId): void
+    public function createItemsFillByItemId(int $itemId)
     {
-        $this->api("/rest/items/{$itemId}/fill", 'POST');
+        return $this->api("/rest/items/{$itemId}/fill", 'POST');
     }
                     
     /**
@@ -6477,9 +6477,9 @@ usually a 11 digit code number based on the Harmonised System
      * @tag Item
      * @param int $itemId 
      */
-    public function deleteItemsItemShippingProfileByItemId(int $itemId): void
+    public function deleteItemsItemShippingProfileByItemId(int $itemId)
     {
-        $this->api("/rest/items/{$itemId}/item_shipping_profiles", 'DELETE');
+        return $this->api("/rest/items/{$itemId}/item_shipping_profiles", 'DELETE');
     }
                 
     /**
@@ -6516,9 +6516,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $itemId The unique ID of the item
      * @param int $id The unique ID of the link between item and shipping profile
      */
-    public function deleteItemsItemShippingProfileByItemIdId(int $itemId, int $id): void
+    public function deleteItemsItemShippingProfileByItemIdId(int $itemId, int $id)
     {
-        $this->api("/rest/items/{$itemId}/item_shipping_profiles/{$id}", 'DELETE');
+        return $this->api("/rest/items/{$itemId}/item_shipping_profiles/{$id}", 'DELETE');
     }
                 
     /**
@@ -6716,9 +6716,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $itemId 
      * @param int $variationId 
      */
-    public function deleteItemsVariationByItemIdVariationId(int $itemId, int $variationId): void
+    public function deleteItemsVariationByItemIdVariationId(int $itemId, int $variationId)
     {
-        $this->api("/rest/items/{$itemId}/variations/{$variationId}", 'DELETE');
+        return $this->api("/rest/items/{$itemId}/variations/{$variationId}", 'DELETE');
     }
                 
     /**
@@ -6761,9 +6761,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $itemId 
      * @param int $variationId 
      */
-    public function createItemsVariationsFillByItemIdVariationId(int $itemId, int $variationId): void
+    public function createItemsVariationsFillByItemIdVariationId(int $itemId, int $variationId)
     {
-        $this->api("/rest/items/{$itemId}/variations/{$variationId}/fill", 'POST');
+        return $this->api("/rest/items/{$itemId}/variations/{$variationId}/fill", 'POST');
     }
                     
     /**
@@ -6807,9 +6807,9 @@ usually a 11 digit code number based on the Harmonised System
      * @param int $propertyId 
      * @param int $lang 
      */
-    public function deleteItemsVariationsVariationPropertiesTextByItemIdVariationIdPropertyIdLang(int $itemId, int $variationId, int $propertyId, int $lang): void
+    public function deleteItemsVariationsVariationPropertiesTextByItemIdVariationIdPropertyIdLang(int $itemId, int $variationId, int $propertyId, int $lang)
     {
-        $this->api("/rest/items/{$itemId}/variations/{$variationId}/variation_properties/{$propertyId}/texts/{$lang}", 'DELETE');
+        return $this->api("/rest/items/{$itemId}/variations/{$variationId}/variation_properties/{$propertyId}/texts/{$lang}", 'DELETE');
     }
                 
     /**

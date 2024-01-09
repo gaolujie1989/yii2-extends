@@ -69,9 +69,9 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Accounting
      * @param int $id The ID of the posting account
      */
-    public function deleteAccountingLocationsPostingAccountById(int $id): void
+    public function deleteAccountingLocationsPostingAccountById(int $id)
     {
-        $this->api("/rest/accounting/locations/posting_accounts/{$id}", 'DELETE');
+        return $this->api("/rest/accounting/locations/posting_accounts/{$id}", 'DELETE');
     }
                 
     /**
@@ -190,9 +190,9 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Accounting
      * @param int $locationId The ID of the accounting location
      */
-    public function deleteAccountingLocationByLocationId(int $locationId): void
+    public function deleteAccountingLocationByLocationId(int $locationId)
     {
-        $this->api("/rest/accounting/locations/{$locationId}", 'DELETE');
+        return $this->api("/rest/accounting/locations/{$locationId}", 'DELETE');
     }
                 
     /**
@@ -300,9 +300,9 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
       <li>country_payment  = The debtor accounts are selected based on two criteria. The first criteria is the country and if the country is same as the country of the accounting location then the payment method is used to select the deptor account.</li>
      </ul>
      */
-    public function getAccountingLocationsDebtorAccountByLocationIdMode(int $locationId, string $mode): void
+    public function getAccountingLocationsDebtorAccountByLocationIdMode(int $locationId, string $mode)
     {
-        $this->api("/rest/accounting/locations/{$locationId}/debtor_accounts/{$mode}");
+        return $this->api("/rest/accounting/locations/{$locationId}/debtor_accounts/{$mode}");
     }
                     
     /**
@@ -595,9 +595,9 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *columns[]* - array - optional
      *          - The attributes of the VAT configuration
      */
-    public function getVatLocationByLocationId(int $locationId, array $query = []): void
+    public function getVatLocationByLocationId(int $locationId, array $query = [])
     {
-        $this->api(array_merge(["/rest/vat/locations/{$locationId}"], $query));
+        return $this->api(array_merge(["/rest/vat/locations/{$locationId}"], $query));
     }
                     
     /**

@@ -18,9 +18,9 @@ class Plugins extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Plugins
      * @param int $pluginSetId 
      */
-    public function getPluginSetsUpdateReversedDependenciesByPluginSetId(int $pluginSetId): void
+    public function getPluginSetsUpdateReversedDependenciesByPluginSetId(int $pluginSetId)
     {
-        $this->api("/rest/plugin_sets/{$pluginSetId}/updateReversedDependencies");
+        return $this->api("/rest/plugin_sets/{$pluginSetId}/updateReversedDependencies");
     }
                     
     /**
@@ -212,9 +212,9 @@ plugin must be provisioned in Stage or Productive. The ID of the plugin must be 
      * @tag Plugins
      * @param int $pluginId 
      */
-    public function deletePluginByPluginId(int $pluginId): void
+    public function deletePluginByPluginId(int $pluginId)
     {
-        $this->api("/rest/plugins/{$pluginId}", 'DELETE');
+        return $this->api("/rest/plugins/{$pluginId}", 'DELETE');
     }
                 
     /**
@@ -457,9 +457,9 @@ plugin must be provisioned in Stage or Productive. The ID of the plugin must be 
      * @param int $pluginId 
      * @param int $pluginSetId 
      */
-    public function deletePluginsPluginSetByPluginIdPluginSetId(int $pluginId, int $pluginSetId): void
+    public function deletePluginsPluginSetByPluginIdPluginSetId(int $pluginId, int $pluginSetId)
     {
-        $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}", 'DELETE');
+        return $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}", 'DELETE');
     }
                     
     /**
@@ -468,9 +468,9 @@ plugin must be provisioned in Stage or Productive. The ID of the plugin must be 
      * @param int $pluginName 
      * @param int $pluginSetId 
      */
-    public function createPluginsPluginSetsReversedDependencyByPluginNamePluginSetId(int $pluginName, int $pluginSetId): void
+    public function createPluginsPluginSetsReversedDependencyByPluginNamePluginSetId(int $pluginName, int $pluginSetId)
     {
-        $this->api("/rest/plugins/{$pluginName}/plugin_sets/{$pluginSetId}/reversedDependencies", 'POST');
+        return $this->api("/rest/plugins/{$pluginName}/plugin_sets/{$pluginSetId}/reversedDependencies", 'POST');
     }
                     
     /**

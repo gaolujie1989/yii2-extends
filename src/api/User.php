@@ -134,9 +134,9 @@ class User extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag User
 
      */
-    public function createUserBackendPluginset(): void
+    public function createUserBackendPluginset()
     {
-        $this->api("/rest/user/backend_pluginset", 'POST');
+        return $this->api("/rest/user/backend_pluginset", 'POST');
     }
                     
     /**
@@ -144,9 +144,9 @@ class User extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag User
 
      */
-    public function getUserPinUsers(): void
+    public function getUserPinUsers()
     {
-        $this->api("/rest/user/pin_users");
+        return $this->api("/rest/user/pin_users");
     }
     
 }

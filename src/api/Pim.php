@@ -18,9 +18,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function getPimAmazonProductTypes(): void
+    public function getPimAmazonProductTypes()
     {
-        $this->api("/rest/pim/amazon-product-types");
+        return $this->api("/rest/pim/amazon-product-types");
     }
                     
     /**
@@ -28,9 +28,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimAttribute(): void
+    public function deletePimAttribute()
     {
-        $this->api("/rest/pim/attributes", 'DELETE');
+        return $this->api("/rest/pim/attributes", 'DELETE');
     }
                 
     /**
@@ -77,9 +77,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function createPimAttribute(array $data): void
+    public function createPimAttribute(array $data)
     {
-        $this->api("/rest/pim/attributes", 'POST', $data);
+        return $this->api("/rest/pim/attributes", 'POST', $data);
     }
                 
     /**
@@ -87,9 +87,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimAttribute(array $data): void
+    public function updatePimAttribute(array $data)
     {
-        $this->api("/rest/pim/attributes", 'PUT', $data);
+        return $this->api("/rest/pim/attributes", 'PUT', $data);
     }
                     
     /**
@@ -97,9 +97,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimAttributesName(): void
+    public function deletePimAttributesName()
     {
-        $this->api("/rest/pim/attributes/names", 'DELETE');
+        return $this->api("/rest/pim/attributes/names", 'DELETE');
     }
                 
     /**
@@ -142,9 +142,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function createPimAttributesName(array $data): void
+    public function createPimAttributesName(array $data)
     {
-        $this->api("/rest/pim/attributes/names", 'POST', $data);
+        return $this->api("/rest/pim/attributes/names", 'POST', $data);
     }
                 
     /**
@@ -152,9 +152,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimAttributesName(array $data): void
+    public function updatePimAttributesName(array $data)
     {
-        $this->api("/rest/pim/attributes/names", 'PUT', $data);
+        return $this->api("/rest/pim/attributes/names", 'PUT', $data);
     }
                     
     /**
@@ -162,9 +162,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimAttributesValue(): void
+    public function deletePimAttributesValue()
     {
-        $this->api("/rest/pim/attributes/values", 'DELETE');
+        return $this->api("/rest/pim/attributes/values", 'DELETE');
     }
                 
     /**
@@ -213,9 +213,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function createPimAttributesValue(): void
+    public function createPimAttributesValue()
     {
-        $this->api("/rest/pim/attributes/values", 'POST');
+        return $this->api("/rest/pim/attributes/values", 'POST');
     }
                 
     /**
@@ -223,9 +223,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimAttributesValue(): void
+    public function updatePimAttributesValue()
     {
-        $this->api("/rest/pim/attributes/values", 'PUT');
+        return $this->api("/rest/pim/attributes/values", 'PUT');
     }
                     
     /**
@@ -233,9 +233,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimAttributesValuesName(): void
+    public function deletePimAttributesValuesName()
     {
-        $this->api("/rest/pim/attributes/values/names", 'DELETE');
+        return $this->api("/rest/pim/attributes/values/names", 'DELETE');
     }
                 
     /**
@@ -278,9 +278,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function createPimAttributesValuesName(array $data): void
+    public function createPimAttributesValuesName(array $data)
     {
-        $this->api("/rest/pim/attributes/values/names", 'POST', $data);
+        return $this->api("/rest/pim/attributes/values/names", 'POST', $data);
     }
                 
     /**
@@ -288,9 +288,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimAttributesValuesName(array $data): void
+    public function updatePimAttributesValuesName(array $data)
     {
-        $this->api("/rest/pim/attributes/values/names", 'PUT', $data);
+        return $this->api("/rest/pim/attributes/values/names", 'PUT', $data);
     }
                     
     /**
@@ -298,9 +298,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param int $id 
      */
-    public function getPimAttributesValueById(int $id): void
+    public function getPimAttributesValueById(int $id)
     {
-        $this->api("/rest/pim/attributes/values/{$id}");
+        return $this->api("/rest/pim/attributes/values/{$id}");
     }
                     
     /**
@@ -347,9 +347,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimBarcode(): void
+    public function deletePimBarcode()
     {
-        $this->api("/rest/pim/barcodes", 'DELETE');
+        return $this->api("/rest/pim/barcodes", 'DELETE');
     }
                 
     /**
@@ -394,9 +394,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function createPimBarcode(array $data): void
+    public function createPimBarcode(array $data)
     {
-        $this->api("/rest/pim/barcodes", 'POST', $data);
+        return $this->api("/rest/pim/barcodes", 'POST', $data);
     }
                 
     /**
@@ -404,9 +404,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimBarcode(array $data): void
+    public function updatePimBarcode(array $data)
     {
-        $this->api("/rest/pim/barcodes", 'PUT', $data);
+        return $this->api("/rest/pim/barcodes", 'PUT', $data);
     }
                     
     /**
@@ -665,9 +665,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param int $id 
      */
-    public function getPimCategoryById(int $id): void
+    public function getPimCategoryById(int $id)
     {
-        $this->api("/rest/pim/categories/{$id}");
+        return $this->api("/rest/pim/categories/{$id}");
     }
                     
     /**
@@ -675,9 +675,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimItemSerialNumber(): void
+    public function deletePimItemSerialNumber()
     {
-        $this->api("/rest/pim/item-serial-numbers", 'DELETE');
+        return $this->api("/rest/pim/item-serial-numbers", 'DELETE');
     }
                 
     /**
@@ -711,9 +711,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function createPimItemSerialNumber(array $data): void
+    public function createPimItemSerialNumber(array $data)
     {
-        $this->api("/rest/pim/item-serial-numbers", 'POST', $data);
+        return $this->api("/rest/pim/item-serial-numbers", 'POST', $data);
     }
                 
     /**
@@ -721,9 +721,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimItemSerialNumber(array $data): void
+    public function updatePimItemSerialNumber(array $data)
     {
-        $this->api("/rest/pim/item-serial-numbers", 'PUT', $data);
+        return $this->api("/rest/pim/item-serial-numbers", 'PUT', $data);
     }
                     
     /**
@@ -754,9 +754,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function deletePimSalesPrice(array $data): void
+    public function deletePimSalesPrice(array $data)
     {
-        $this->api("/rest/pim/sales_prices", 'DELETE', $data);
+        return $this->api("/rest/pim/sales_prices", 'DELETE', $data);
     }
                 
     /**
@@ -811,9 +811,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function createPimSalesPrice(array $data): void
+    public function createPimSalesPrice(array $data)
     {
-        $this->api("/rest/pim/sales_prices", 'POST', $data);
+        return $this->api("/rest/pim/sales_prices", 'POST', $data);
     }
                 
     /**
@@ -821,9 +821,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimSalesPrice(array $data): void
+    public function updatePimSalesPrice(array $data)
     {
-        $this->api("/rest/pim/sales_prices", 'PUT', $data);
+        return $this->api("/rest/pim/sales_prices", 'PUT', $data);
     }
                     
     /**
@@ -834,9 +834,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *with* - string - optional
      *          - Includes the specified information in the results. More than one parameter should be separated by commas. The following parameters are available:<ul><li>accounts</li><li>clients</li><li>countries</li><li>currencies</li><li>customerClasses</li><li>names</li><li>referrers</li></ub>
      */
-    public function getPimSalesPriceById(int $id, array $query = []): void
+    public function getPimSalesPriceById(int $id, array $query = [])
     {
-        $this->api(array_merge(["/rest/pim/sales_prices/{$id}"], $query));
+        return $this->api(array_merge(["/rest/pim/sales_prices/{$id}"], $query));
     }
                     
     /**
@@ -844,9 +844,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function deletePimVariation(array $data): void
+    public function deletePimVariation(array $data)
     {
-        $this->api("/rest/pim/variations", 'DELETE', $data);
+        return $this->api("/rest/pim/variations", 'DELETE', $data);
     }
             
     /**
@@ -1421,9 +1421,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
      * @param array $data 
      */
-    public function updatePimVariation(array $data): void
+    public function updatePimVariation(array $data)
     {
-        $this->api("/rest/pim/variations", 'PUT', $data);
+        return $this->api("/rest/pim/variations", 'PUT', $data);
     }
                     
     /**
@@ -1431,9 +1431,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsAdditionalSkus(): void
+    public function deletePimVariationsAdditionalSkus()
     {
-        $this->api("/rest/pim/variations/additional_skus", 'DELETE');
+        return $this->api("/rest/pim/variations/additional_skus", 'DELETE');
     }
                 
     /**
@@ -1441,9 +1441,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsAdditionalSkus(): void
+    public function updatePimVariationsAdditionalSkus()
     {
-        $this->api("/rest/pim/variations/additional_skus", 'PUT');
+        return $this->api("/rest/pim/variations/additional_skus", 'PUT');
     }
                     
     /**
@@ -1451,9 +1451,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsBarcode(): void
+    public function deletePimVariationsBarcode()
     {
-        $this->api("/rest/pim/variations/barcodes", 'DELETE');
+        return $this->api("/rest/pim/variations/barcodes", 'DELETE');
     }
                 
     /**
@@ -1461,9 +1461,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsBarcode(): void
+    public function updatePimVariationsBarcode()
     {
-        $this->api("/rest/pim/variations/barcodes", 'PUT');
+        return $this->api("/rest/pim/variations/barcodes", 'PUT');
     }
                     
     /**
@@ -1471,9 +1471,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsBase(): void
+    public function updatePimVariationsBase()
     {
-        $this->api("/rest/pim/variations/bases", 'PUT');
+        return $this->api("/rest/pim/variations/bases", 'PUT');
     }
                     
     /**
@@ -1481,9 +1481,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsBundleComponent(): void
+    public function deletePimVariationsBundleComponent()
     {
-        $this->api("/rest/pim/variations/bundle_components", 'DELETE');
+        return $this->api("/rest/pim/variations/bundle_components", 'DELETE');
     }
                 
     /**
@@ -1491,9 +1491,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsBundleComponent(): void
+    public function updatePimVariationsBundleComponent()
     {
-        $this->api("/rest/pim/variations/bundle_components", 'PUT');
+        return $this->api("/rest/pim/variations/bundle_components", 'PUT');
     }
                     
     /**
@@ -1501,9 +1501,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsCategory(): void
+    public function deletePimVariationsCategory()
     {
-        $this->api("/rest/pim/variations/categories", 'DELETE');
+        return $this->api("/rest/pim/variations/categories", 'DELETE');
     }
                 
     /**
@@ -1511,9 +1511,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsCategory(): void
+    public function updatePimVariationsCategory()
     {
-        $this->api("/rest/pim/variations/categories", 'PUT');
+        return $this->api("/rest/pim/variations/categories", 'PUT');
     }
                     
     /**
@@ -1521,9 +1521,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsClient(): void
+    public function deletePimVariationsClient()
     {
-        $this->api("/rest/pim/variations/clients", 'DELETE');
+        return $this->api("/rest/pim/variations/clients", 'DELETE');
     }
                 
     /**
@@ -1531,9 +1531,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsClient(): void
+    public function updatePimVariationsClient()
     {
-        $this->api("/rest/pim/variations/clients", 'PUT');
+        return $this->api("/rest/pim/variations/clients", 'PUT');
     }
                     
     /**
@@ -1541,9 +1541,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsComment(): void
+    public function deletePimVariationsComment()
     {
-        $this->api("/rest/pim/variations/comments", 'DELETE');
+        return $this->api("/rest/pim/variations/comments", 'DELETE');
     }
                 
     /**
@@ -1551,9 +1551,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsComment(): void
+    public function updatePimVariationsComment()
     {
-        $this->api("/rest/pim/variations/comments", 'PUT');
+        return $this->api("/rest/pim/variations/comments", 'PUT');
     }
                     
     /**
@@ -1561,9 +1561,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsDefaultCategory(): void
+    public function deletePimVariationsDefaultCategory()
     {
-        $this->api("/rest/pim/variations/default_categories", 'DELETE');
+        return $this->api("/rest/pim/variations/default_categories", 'DELETE');
     }
                 
     /**
@@ -1571,9 +1571,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsDefaultCategory(): void
+    public function updatePimVariationsDefaultCategory()
     {
-        $this->api("/rest/pim/variations/default_categories", 'PUT');
+        return $this->api("/rest/pim/variations/default_categories", 'PUT');
     }
                     
     /**
@@ -1581,9 +1581,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsImage(): void
+    public function deletePimVariationsImage()
     {
-        $this->api("/rest/pim/variations/images", 'DELETE');
+        return $this->api("/rest/pim/variations/images", 'DELETE');
     }
                 
     /**
@@ -1591,9 +1591,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsImage(): void
+    public function updatePimVariationsImage()
     {
-        $this->api("/rest/pim/variations/images", 'PUT');
+        return $this->api("/rest/pim/variations/images", 'PUT');
     }
                     
     /**
@@ -1601,9 +1601,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsMarketIdentNumber(): void
+    public function deletePimVariationsMarketIdentNumber()
     {
-        $this->api("/rest/pim/variations/market_ident_numbers", 'DELETE');
+        return $this->api("/rest/pim/variations/market_ident_numbers", 'DELETE');
     }
                 
     /**
@@ -1611,9 +1611,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsMarketIdentNumber(): void
+    public function updatePimVariationsMarketIdentNumber()
     {
-        $this->api("/rest/pim/variations/market_ident_numbers", 'PUT');
+        return $this->api("/rest/pim/variations/market_ident_numbers", 'PUT');
     }
                     
     /**
@@ -1621,9 +1621,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsMarket(): void
+    public function deletePimVariationsMarket()
     {
-        $this->api("/rest/pim/variations/markets", 'DELETE');
+        return $this->api("/rest/pim/variations/markets", 'DELETE');
     }
                 
     /**
@@ -1631,9 +1631,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsMarket(): void
+    public function updatePimVariationsMarket()
     {
-        $this->api("/rest/pim/variations/markets", 'PUT');
+        return $this->api("/rest/pim/variations/markets", 'PUT');
     }
                     
     /**
@@ -1641,9 +1641,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsProperty(): void
+    public function deletePimVariationsProperty()
     {
-        $this->api("/rest/pim/variations/properties", 'DELETE');
+        return $this->api("/rest/pim/variations/properties", 'DELETE');
     }
                 
     /**
@@ -1651,9 +1651,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsProperty(): void
+    public function updatePimVariationsProperty()
     {
-        $this->api("/rest/pim/variations/properties", 'PUT');
+        return $this->api("/rest/pim/variations/properties", 'PUT');
     }
                     
     /**
@@ -1661,9 +1661,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsSalesPrice(): void
+    public function deletePimVariationsSalesPrice()
     {
-        $this->api("/rest/pim/variations/sales_prices", 'DELETE');
+        return $this->api("/rest/pim/variations/sales_prices", 'DELETE');
     }
                 
     /**
@@ -1671,9 +1671,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsSalesPrice(): void
+    public function updatePimVariationsSalesPrice()
     {
-        $this->api("/rest/pim/variations/sales_prices", 'PUT');
+        return $this->api("/rest/pim/variations/sales_prices", 'PUT');
     }
                     
     /**
@@ -1829,9 +1829,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *cursor* - string - optional
      *          - The cursor to get the next entries
      */
-    public function getPimVariationsScroll(array $query = []): void
+    public function getPimVariationsScroll(array $query = [])
     {
-        $this->api(array_merge(["/rest/pim/variations/scroll"], $query));
+        return $this->api(array_merge(["/rest/pim/variations/scroll"], $query));
     }
                     
     /**
@@ -1839,9 +1839,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsSkus(): void
+    public function deletePimVariationsSkus()
     {
-        $this->api("/rest/pim/variations/skus", 'DELETE');
+        return $this->api("/rest/pim/variations/skus", 'DELETE');
     }
                 
     /**
@@ -1849,9 +1849,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsSkus(): void
+    public function updatePimVariationsSkus()
     {
-        $this->api("/rest/pim/variations/skus", 'PUT');
+        return $this->api("/rest/pim/variations/skus", 'PUT');
     }
                     
     /**
@@ -1859,9 +1859,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsSupplier(): void
+    public function deletePimVariationsSupplier()
     {
-        $this->api("/rest/pim/variations/supplier", 'DELETE');
+        return $this->api("/rest/pim/variations/supplier", 'DELETE');
     }
                 
     /**
@@ -1869,9 +1869,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsSupplier(): void
+    public function updatePimVariationsSupplier()
     {
-        $this->api("/rest/pim/variations/supplier", 'PUT');
+        return $this->api("/rest/pim/variations/supplier", 'PUT');
     }
                     
     /**
@@ -1879,9 +1879,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsTag(): void
+    public function deletePimVariationsTag()
     {
-        $this->api("/rest/pim/variations/tags", 'DELETE');
+        return $this->api("/rest/pim/variations/tags", 'DELETE');
     }
                 
     /**
@@ -1889,9 +1889,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsTag(): void
+    public function updatePimVariationsTag()
     {
-        $this->api("/rest/pim/variations/tags", 'PUT');
+        return $this->api("/rest/pim/variations/tags", 'PUT');
     }
                     
     /**
@@ -1899,9 +1899,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function deletePimVariationsWarehouse(): void
+    public function deletePimVariationsWarehouse()
     {
-        $this->api("/rest/pim/variations/warehouses", 'DELETE');
+        return $this->api("/rest/pim/variations/warehouses", 'DELETE');
     }
                 
     /**
@@ -1909,9 +1909,9 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Pim
 
      */
-    public function updatePimVariationsWarehouse(): void
+    public function updatePimVariationsWarehouse()
     {
-        $this->api("/rest/pim/variations/warehouses", 'PUT');
+        return $this->api("/rest/pim/variations/warehouses", 'PUT');
     }
     
 }

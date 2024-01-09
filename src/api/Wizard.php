@@ -38,9 +38,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Wizard
 
      */
-    public function getWizardsPluginSets(): void
+    public function getWizardsPluginSets()
     {
-        $this->api("/rest/wizards/pluginSets");
+        return $this->api("/rest/wizards/pluginSets");
     }
                     
     /**
@@ -82,9 +82,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $actionKey 
      */
-    public function createWizardsActionByWizardKeyActionKey(int $wizardKey, int $actionKey): void
+    public function createWizardsActionByWizardKeyActionKey(int $wizardKey, int $actionKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/actions/{$actionKey}", 'POST');
+        return $this->api("/rest/wizards/{$wizardKey}/actions/{$actionKey}", 'POST');
     }
                     
     /**
@@ -92,9 +92,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Wizard
      * @param int $wizardKey 
      */
-    public function deleteWizardsDatumByWizardKey(int $wizardKey): void
+    public function deleteWizardsDatumByWizardKey(int $wizardKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data", 'DELETE');
+        return $this->api("/rest/wizards/{$wizardKey}/data", 'DELETE');
     }
                 
     /**
@@ -102,9 +102,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Wizard
      * @param int $wizardKey 
      */
-    public function getWizardsDataByWizardKey(int $wizardKey): void
+    public function getWizardsDataByWizardKey(int $wizardKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data");
+        return $this->api("/rest/wizards/{$wizardKey}/data");
     }
                 
     /**
@@ -112,9 +112,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Wizard
      * @param int $wizardKey 
      */
-    public function createWizardsDatumByWizardKey(int $wizardKey): void
+    public function createWizardsDatumByWizardKey(int $wizardKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data", 'POST');
+        return $this->api("/rest/wizards/{$wizardKey}/data", 'POST');
     }
                 
     /**
@@ -122,9 +122,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Wizard
      * @param int $wizardKey 
      */
-    public function updateWizardsDatumByWizardKey(int $wizardKey): void
+    public function updateWizardsDatumByWizardKey(int $wizardKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data", 'PUT');
+        return $this->api("/rest/wizards/{$wizardKey}/data", 'PUT');
     }
                     
     /**
@@ -133,9 +133,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $optionId 
      */
-    public function deleteWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId): void
+    public function deleteWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}", 'DELETE');
+        return $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}", 'DELETE');
     }
                 
     /**
@@ -144,9 +144,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $optionId 
      */
-    public function getWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId): void
+    public function getWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}");
+        return $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}");
     }
                 
     /**
@@ -155,9 +155,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $optionId 
      */
-    public function createWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId): void
+    public function createWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}", 'POST');
+        return $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}", 'POST');
     }
                 
     /**
@@ -166,9 +166,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $optionId 
      */
-    public function updateWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId): void
+    public function updateWizardsDatumByWizardKeyOptionId(int $wizardKey, int $optionId)
     {
-        $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}", 'PUT');
+        return $this->api("/rest/wizards/{$wizardKey}/data/{$optionId}", 'PUT');
     }
                     
     /**
@@ -177,9 +177,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $formfieldKey 
      */
-    public function createWizardsFormfieldByWizardKeyFormfieldKey(int $wizardKey, int $formfieldKey): void
+    public function createWizardsFormfieldByWizardKeyFormfieldKey(int $wizardKey, int $formfieldKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/formfields/{$formfieldKey}", 'POST');
+        return $this->api("/rest/wizards/{$wizardKey}/formfields/{$formfieldKey}", 'POST');
     }
                     
     /**
@@ -187,9 +187,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Wizard
      * @param int $wizardKey 
      */
-    public function getWizardsRebuildCacheByWizardKey(int $wizardKey): void
+    public function getWizardsRebuildCacheByWizardKey(int $wizardKey)
     {
-        $this->api("/rest/wizards/{$wizardKey}/rebuildCache");
+        return $this->api("/rest/wizards/{$wizardKey}/rebuildCache");
     }
                     
     /**
@@ -198,9 +198,9 @@ class Wizard extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $wizardKey 
      * @param int $optionId 
      */
-    public function createWizardsSettingByWizardKeyOptionId(int $wizardKey, int $optionId): void
+    public function createWizardsSettingByWizardKeyOptionId(int $wizardKey, int $optionId)
     {
-        $this->api("/rest/wizards/{$wizardKey}/settings/{$optionId}", 'POST');
+        return $this->api("/rest/wizards/{$wizardKey}/settings/{$optionId}", 'POST');
     }
     
 }

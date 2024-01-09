@@ -28,9 +28,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *color* - string - optional
      *          - Filter restricts the list of results to tags with the specified color. The color must be specified.
      */
-    public function getTags(array $query = []): void
+    public function getTags(array $query = [])
     {
-        $this->api(array_merge(["/rest/tags"], $query));
+        return $this->api(array_merge(["/rest/tags"], $query));
     }
                 
     /**
@@ -82,9 +82,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Tag
 
      */
-    public function deleteTagsRelationship(): void
+    public function deleteTagsRelationship()
     {
-        $this->api("/rest/tags/relationships", 'DELETE');
+        return $this->api("/rest/tags/relationships", 'DELETE');
     }
                 
     /**
@@ -100,9 +100,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *relationshipValue* - int - optional
      *          - Filter restricts the list of results to tag relationships with the specified relationship value. This is the ID of the data record. The relationship value must be specified.
      */
-    public function getTagsRelationships(array $query = []): void
+    public function getTagsRelationships(array $query = [])
     {
-        $this->api(array_merge(["/rest/tags/relationships"], $query));
+        return $this->api(array_merge(["/rest/tags/relationships"], $query));
     }
                 
     /**
@@ -143,9 +143,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *relationshipType* - string - required
      *          - The type of the relationship, e.g. <b>category</b>, <b>item</b> or <b>ticket</b>
      */
-    public function deleteTagsRelationshipByRelationshipValueTagTypeId(int $relationshipValue, string $tagType, int $id, array $query): void
+    public function deleteTagsRelationshipByRelationshipValueTagTypeId(int $relationshipValue, string $tagType, int $id, array $query)
     {
-        $this->api(array_merge(["/rest/tags/relationships/{$relationshipValue}/{$tagType}/{$id}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/tags/relationships/{$relationshipValue}/{$tagType}/{$id}"], $query), 'DELETE');
     }
                     
     /**
@@ -153,9 +153,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Tag
      * @param int $id The ID of the tag
      */
-    public function deleteTagById(int $id): void
+    public function deleteTagById(int $id)
     {
-        $this->api("/rest/tags/{$id}", 'DELETE');
+        return $this->api("/rest/tags/{$id}", 'DELETE');
     }
                 
     /**
@@ -200,9 +200,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param string $tagType The type of the relationship, i.e. <b>board</b>
      * @param string $relationshipUUID The UUID of the relationship
      */
-    public function deleteTagsRelationshipByIdTagTypeRelationshipUUID(int $id, string $tagType, string $relationshipUUID): void
+    public function deleteTagsRelationshipByIdTagTypeRelationshipUUID(int $id, string $tagType, string $relationshipUUID)
     {
-        $this->api("/rest/tags/{$id}/relationships/{$tagType}/{$relationshipUUID}", 'DELETE');
+        return $this->api("/rest/tags/{$id}/relationships/{$tagType}/{$relationshipUUID}", 'DELETE');
     }
                     
     /**
@@ -265,9 +265,9 @@ class Tag extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Tag
      * @param int $id The ID of the tag name
      */
-    public function deleteV2TagsNameById(int $id): void
+    public function deleteV2TagsNameById(int $id)
     {
-        $this->api("/rest/v2/tags/names/{$id}", 'DELETE');
+        return $this->api("/rest/v2/tags/names/{$id}", 'DELETE');
     }
                     
     /**
@@ -323,9 +323,9 @@ value
      * @tag Tag
      * @param int $relationshipId The ID of the tag relationship
      */
-    public function deleteV2TagsRelationshipByRelationshipId(int $relationshipId): void
+    public function deleteV2TagsRelationshipByRelationshipId(int $relationshipId)
     {
-        $this->api("/rest/v2/tags/relationships/{$relationshipId}", 'DELETE');
+        return $this->api("/rest/v2/tags/relationships/{$relationshipId}", 'DELETE');
     }
                     
     /**
@@ -333,9 +333,9 @@ value
      * @tag Tag
      * @param int $tagId The ID of the tag
      */
-    public function deleteV2TagByTagId(int $tagId): void
+    public function deleteV2TagByTagId(int $tagId)
     {
-        $this->api("/rest/v2/tags/{$tagId}", 'DELETE');
+        return $this->api("/rest/v2/tags/{$tagId}", 'DELETE');
     }
                 
     /**

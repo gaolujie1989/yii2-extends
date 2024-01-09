@@ -18,9 +18,9 @@ class Export extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Export
      * @param int $exportKey 
      */
-    public function getExportByExportKey(int $exportKey): void
+    public function getExportByExportKey(int $exportKey)
     {
-        $this->api("/export/{$exportKey}");
+        return $this->api("/export/{$exportKey}");
     }
                     
     /**
@@ -29,9 +29,9 @@ class Export extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $exportKey 
      * @param int $token 
      */
-    public function getExportByExportKeyToken(int $exportKey, int $token): void
+    public function getExportByExportKeyToken(int $exportKey, int $token)
     {
-        $this->api("/export/{$exportKey}/{$token}");
+        return $this->api("/export/{$exportKey}/{$token}");
     }
                     
     /**
@@ -60,9 +60,9 @@ class Export extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Export
 
      */
-    public function getExportsGenerateToken(): void
+    public function getExportsGenerateToken()
     {
-        $this->api("/rest/exports/generate_token");
+        return $this->api("/rest/exports/generate_token");
     }
                     
     /**

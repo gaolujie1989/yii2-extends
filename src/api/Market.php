@@ -139,9 +139,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *id* - int - required
      *          - The ID of the credentials to be deleted.
      */
-    public function deleteMarketsCredentialByCredentialsId(int $credentialsId, array $query): void
+    public function deleteMarketsCredentialByCredentialsId(int $credentialsId, array $query)
     {
-        $this->api(array_merge(["/rest/markets/credentials/{$credentialsId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/markets/credentials/{$credentialsId}"], $query), 'DELETE');
     }
                 
     /**
@@ -203,9 +203,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Market
 
      */
-    public function getMarketsEbayAuthLogin(): void
+    public function getMarketsEbayAuthLogin()
     {
-        $this->api("/rest/markets/ebay/auth/login");
+        return $this->api("/rest/markets/ebay/auth/login");
     }
                     
     /**
@@ -213,9 +213,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Market
 
      */
-    public function updateMarketsEbayAuthRefreshToken(): void
+    public function updateMarketsEbayAuthRefreshToken()
     {
-        $this->api("/rest/markets/ebay/auth/refresh-token", 'PUT');
+        return $this->api("/rest/markets/ebay/auth/refresh-token", 'PUT');
     }
                     
     /**
@@ -238,9 +238,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Market
      * @param int $id The ID of the category to be found.
      */
-    public function getMarketsEbayCategoryById(int $id): void
+    public function getMarketsEbayCategoryById(int $id)
     {
-        $this->api("/rest/markets/ebay/categories/{$id}");
+        return $this->api("/rest/markets/ebay/categories/{$id}");
     }
                     
     /**
@@ -284,9 +284,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *credentialsId* - int - required
      *          - The ID of credentials for which to get the policy.
      */
-    public function deleteMarketsEbayFulfillmentPolicyById(int $id, array $query): void
+    public function deleteMarketsEbayFulfillmentPolicyById(int $id, array $query)
     {
-        $this->api(array_merge(["/rest/markets/ebay/fulfillment_policies/{$id}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/markets/ebay/fulfillment_policies/{$id}"], $query), 'DELETE');
     }
                 
     /**
@@ -559,9 +559,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *id* - int - required
      *          - The fitment ID.
      */
-    public function deleteMarketsEbayPartsFitmentByFitmentId(int $fitmentId, array $query): void
+    public function deleteMarketsEbayPartsFitmentByFitmentId(int $fitmentId, array $query)
     {
-        $this->api(array_merge(["/rest/markets/ebay/parts-fitments/{$fitmentId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/markets/ebay/parts-fitments/{$fitmentId}"], $query), 'DELETE');
     }
                 
     /**
@@ -646,9 +646,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *credentialsId* - int - required
      *          - The ID of credentials for which to get the policy.
      */
-    public function deleteMarketsEbayPaymentPolicyById(int $id, array $query): void
+    public function deleteMarketsEbayPaymentPolicyById(int $id, array $query)
     {
-        $this->api(array_merge(["/rest/markets/ebay/payment_policies/{$id}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/markets/ebay/payment_policies/{$id}"], $query), 'DELETE');
     }
                 
     /**
@@ -756,9 +756,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *credentialsId* - int - required
      *          - The ID of credentials for which to get the policy.
      */
-    public function deleteMarketsEbayReturnPolicyById(int $id, array $query): void
+    public function deleteMarketsEbayReturnPolicyById(int $id, array $query)
     {
-        $this->api(array_merge(["/rest/markets/ebay/return_policies/{$id}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/markets/ebay/return_policies/{$id}"], $query), 'DELETE');
     }
                 
     /**
@@ -1087,9 +1087,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Market
 
      */
-    public function createMarketsSettingsCorrelation(): void
+    public function createMarketsSettingsCorrelation()
     {
-        $this->api("/rest/markets/settings/correlations", 'POST');
+        return $this->api("/rest/markets/settings/correlations", 'POST');
     }
                     
     /**
@@ -1097,9 +1097,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Market
 
      */
-    public function createMarketsSettingsCorrelationsBulk(): void
+    public function createMarketsSettingsCorrelationsBulk()
     {
-        $this->api("/rest/markets/settings/correlations/bulk", 'POST');
+        return $this->api("/rest/markets/settings/correlations/bulk", 'POST');
     }
                     
     /**
@@ -1107,9 +1107,9 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Market
      * @param int $settingId 
      */
-    public function deleteMarketsSettingBySettingId(int $settingId): void
+    public function deleteMarketsSettingBySettingId(int $settingId)
     {
-        $this->api("/rest/markets/settings/{$settingId}", 'DELETE');
+        return $this->api("/rest/markets/settings/{$settingId}", 'DELETE');
     }
                 
     /**

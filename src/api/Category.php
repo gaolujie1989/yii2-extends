@@ -199,9 +199,9 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Category
      * @param int $id 
      */
-    public function deleteCategoryById(int $id): void
+    public function deleteCategoryById(int $id)
     {
-        $this->api("/rest/categories/{$id}", 'DELETE');
+        return $this->api("/rest/categories/{$id}", 'DELETE');
     }
             
     /**
@@ -360,9 +360,9 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $id 
      * @param array $data 
      */
-    public function updateCategoryById(int $id, array $data): void
+    public function updateCategoryById(int $id, array $data)
     {
-        $this->api("/rest/categories/{$id}", 'PUT', $data);
+        return $this->api("/rest/categories/{$id}", 'PUT', $data);
     }
                     
     /**
@@ -370,9 +370,9 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Category
      * @param int $id 
      */
-    public function deleteCategoriesClientById(int $id): void
+    public function deleteCategoriesClientById(int $id)
     {
-        $this->api("/rest/categories/{$id}/clients", 'DELETE');
+        return $this->api("/rest/categories/{$id}/clients", 'DELETE');
     }
                     
     /**
@@ -381,9 +381,9 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $id 
      * @param array $data 
      */
-    public function deleteCategoriesDetailById(int $id, array $data): void
+    public function deleteCategoriesDetailById(int $id, array $data)
     {
-        $this->api("/rest/categories/{$id}/details", 'DELETE', $data);
+        return $this->api("/rest/categories/{$id}/details", 'DELETE', $data);
     }
                     
     /**
@@ -462,9 +462,9 @@ class Category extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *type* - string - optional
      *          - The category type. Available values: item, container, content, blog 
      */
-    public function getCategoryBranches(array $query = []): void
+    public function getCategoryBranches(array $query = [])
     {
-        $this->api(array_merge(["/rest/category_branches"], $query));
+        return $this->api(array_merge(["/rest/category_branches"], $query));
     }
                     
     /**

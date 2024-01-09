@@ -44,9 +44,9 @@ class Feedback extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *feedbackCommentId* - int - required
      *          - The ID of the feedback comment
      */
-    public function deleteFeedbacksCommentByCommentId(int $commentId, array $query): void
+    public function deleteFeedbacksCommentByCommentId(int $commentId, array $query)
     {
-        $this->api(array_merge(["/rest/feedbacks/comment/{$commentId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/feedbacks/comment/{$commentId}"], $query), 'DELETE');
     }
                 
     /**
@@ -84,9 +84,9 @@ class Feedback extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Feedback
      * @param string $feedbackIds The list of feedback IDs, separated by commas
      */
-    public function deleteFeedbacksDeleteFeedbackByFeedbackIds(string $feedbackIds): void
+    public function deleteFeedbacksDeleteFeedbackByFeedbackIds(string $feedbackIds)
     {
-        $this->api("/rest/feedbacks/delete_feedbacks/{$feedbackIds}", 'DELETE');
+        return $this->api("/rest/feedbacks/delete_feedbacks/{$feedbackIds}", 'DELETE');
     }
                     
     /**
@@ -140,9 +140,9 @@ class Feedback extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Feedback
      * @param int $feedbackId The ID of the feedback
      */
-    public function deleteFeedbacksFeedbackByFeedbackId(int $feedbackId): void
+    public function deleteFeedbacksFeedbackByFeedbackId(int $feedbackId)
     {
-        $this->api("/rest/feedbacks/feedback/{$feedbackId}", 'DELETE');
+        return $this->api("/rest/feedbacks/feedback/{$feedbackId}", 'DELETE');
     }
                 
     /**
@@ -213,9 +213,9 @@ class Feedback extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Feedback
 
      */
-    public function createFeedbacksMigrate(): void
+    public function createFeedbacksMigrate()
     {
-        $this->api("/rest/feedbacks/migrate", 'POST');
+        return $this->api("/rest/feedbacks/migrate", 'POST');
     }
                     
     /**
@@ -249,9 +249,9 @@ class Feedback extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *feedbackRatingId* - int - required
      *          - The ID of the feedback rating
      */
-    public function deleteFeedbacksRatingByRatingId(int $ratingId, array $query): void
+    public function deleteFeedbacksRatingByRatingId(int $ratingId, array $query)
     {
-        $this->api(array_merge(["/rest/feedbacks/rating/{$ratingId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/feedbacks/rating/{$ratingId}"], $query), 'DELETE');
     }
                 
     /**

@@ -188,7 +188,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
      * @tag <?= implode(',', $method['tags']) . "\n" ?>
 <?= $docParams . "\n" ?>
      */
-    public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= $returnType === ': void' ? '' : $returnType . "\n" ?>
+    public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= ($returnType === ': void' ? '' : $returnType) . "\n" ?>
     {
         return $this->api(<?= $apiParams ?>);
     }

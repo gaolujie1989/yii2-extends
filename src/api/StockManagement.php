@@ -146,9 +146,9 @@ Note: If variation has Batch or BBD, they need to be included in the redistribut
      * @tag StockManagement
      * @param array $data 
      */
-    public function updateStockmanagementStockRedistribute(array $data): void
+    public function updateStockmanagementStockRedistribute(array $data)
     {
-        $this->api("/rest/stockmanagement/stock/redistribute", 'PUT', $data);
+        return $this->api("/rest/stockmanagement/stock/redistribute", 'PUT', $data);
     }
                 
     /**
@@ -278,9 +278,9 @@ Note: If variation has Batch or BBD, they need to be included in the redistribut
      *      - *with* - array - optional
      *          - Related objects to be loaded. repairWarehouse is the only relation currently available.
      */
-    public function getStockmanagementWarehouses(array $query = []): void
+    public function getStockmanagementWarehouses(array $query = [])
     {
-        $this->api(array_merge(["/rest/stockmanagement/warehouses"], $query));
+        return $this->api(array_merge(["/rest/stockmanagement/warehouses"], $query));
     }
                 
     /**
@@ -561,9 +561,9 @@ Note: If variation has Batch or BBD, they need to be included in the redistribut
      * @param int $warehouseId The ID of the warehouse.
      * @param array $data 
      */
-    public function updateStockmanagementWarehousesStockBookIncomingItemByWarehouseId(int $warehouseId, array $data): void
+    public function updateStockmanagementWarehousesStockBookIncomingItemByWarehouseId(int $warehouseId, array $data)
     {
-        $this->api("/rest/stockmanagement/warehouses/{$warehouseId}/stock/bookIncomingItems", 'PUT', $data);
+        return $this->api("/rest/stockmanagement/warehouses/{$warehouseId}/stock/bookIncomingItems", 'PUT', $data);
     }
                     
     /**
@@ -572,9 +572,9 @@ Note: If variation has Batch or BBD, they need to be included in the redistribut
      * @param int $warehouseId The ID of the warehouse.
      * @param array $data 
      */
-    public function updateStockmanagementWarehousesStockBookOutgoingItemByWarehouseId(int $warehouseId, array $data): void
+    public function updateStockmanagementWarehousesStockBookOutgoingItemByWarehouseId(int $warehouseId, array $data)
     {
-        $this->api("/rest/stockmanagement/warehouses/{$warehouseId}/stock/bookOutgoingItems", 'PUT', $data);
+        return $this->api("/rest/stockmanagement/warehouses/{$warehouseId}/stock/bookOutgoingItems", 'PUT', $data);
     }
                     
     /**
@@ -583,9 +583,9 @@ Note: If variation has Batch or BBD, they need to be included in the redistribut
      * @param int $warehouseId The ID of the warehouse.
      * @param array $data 
      */
-    public function updateStockmanagementWarehousesStockCorrectionByWarehouseId(int $warehouseId, array $data): void
+    public function updateStockmanagementWarehousesStockCorrectionByWarehouseId(int $warehouseId, array $data)
     {
-        $this->api("/rest/stockmanagement/warehouses/{$warehouseId}/stock/correction", 'PUT', $data);
+        return $this->api("/rest/stockmanagement/warehouses/{$warehouseId}/stock/correction", 'PUT', $data);
     }
                 
     /**
@@ -1089,9 +1089,9 @@ in the request will be set to quantity 0.
      *      - *$warehouseLocationId* - int - required
      *          - The ID of the warehouseLocation.
      */
-    public function updateStockmanagementWarehousesStockBookStocktakingByWarehouseIdWarehouseLocationId(int $warehouseId, int $warehouseLocationId, array $data, array $query): void
+    public function updateStockmanagementWarehousesStockBookStocktakingByWarehouseIdWarehouseLocationId(int $warehouseId, int $warehouseLocationId, array $data, array $query)
     {
-        $this->api(array_merge(["/rest/stockmanagement/warehouses/{$warehouseId}/{$warehouseLocationId}/stock/bookStocktaking"], $query), 'PUT', $data);
+        return $this->api(array_merge(["/rest/stockmanagement/warehouses/{$warehouseId}/{$warehouseLocationId}/stock/bookStocktaking"], $query), 'PUT', $data);
     }
     
 }

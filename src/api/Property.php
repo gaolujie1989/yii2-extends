@@ -114,9 +114,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $propertyAmazonId The ID of the property amazon
      */
-    public function deletePropertiesAmazonByPropertyAmazonId(int $propertyAmazonId): void
+    public function deletePropertiesAmazonByPropertyAmazonId(int $propertyAmazonId)
     {
-        $this->api("/rest/properties/amazons/{$propertyAmazonId}", 'DELETE');
+        return $this->api("/rest/properties/amazons/{$propertyAmazonId}", 'DELETE');
     }
                 
     /**
@@ -181,9 +181,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $availabilityId The ID of the availability
      */
-    public function deletePropertiesAvailabilityByAvailabilityId(int $availabilityId): void
+    public function deletePropertiesAvailabilityByAvailabilityId(int $availabilityId)
     {
-        $this->api("/rest/properties/availabilities/{$availabilityId}", 'DELETE');
+        return $this->api("/rest/properties/availabilities/{$availabilityId}", 'DELETE');
     }
                 
     /**
@@ -229,9 +229,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
 
      */
-    public function getPropertiesDestinations(): void
+    public function getPropertiesDestinations()
     {
-        $this->api("/rest/properties/destinations");
+        return $this->api("/rest/properties/destinations");
     }
                     
     /**
@@ -312,9 +312,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $groupNameId The ID of the group name
      */
-    public function deletePropertiesGroupsNameByGroupNameId(int $groupNameId): void
+    public function deletePropertiesGroupsNameByGroupNameId(int $groupNameId)
     {
-        $this->api("/rest/properties/groups/names/{$groupNameId}", 'DELETE');
+        return $this->api("/rest/properties/groups/names/{$groupNameId}", 'DELETE');
     }
                 
     /**
@@ -400,9 +400,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $groupOptionId The ID of the group option
      */
-    public function deletePropertiesGroupsOptionByGroupOptionId(int $groupOptionId): void
+    public function deletePropertiesGroupsOptionByGroupOptionId(int $groupOptionId)
     {
-        $this->api("/rest/properties/groups/options/{$groupOptionId}", 'DELETE');
+        return $this->api("/rest/properties/groups/options/{$groupOptionId}", 'DELETE');
     }
                 
     /**
@@ -448,9 +448,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
 
      */
-    public function getPropertiesGroupsSurchargeTypes(): void
+    public function getPropertiesGroupsSurchargeTypes()
     {
-        $this->api("/rest/properties/groups/surcharge/types");
+        return $this->api("/rest/properties/groups/surcharge/types");
     }
                     
     /**
@@ -458,9 +458,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
 
      */
-    public function getPropertiesGroupsTypes(): void
+    public function getPropertiesGroupsTypes()
     {
-        $this->api("/rest/properties/groups/types");
+        return $this->api("/rest/properties/groups/types");
     }
                     
     /**
@@ -506,9 +506,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $groupId The ID of the group
      */
-    public function createPropertiesGroupsPropertyByGroupId(int $groupId): void
+    public function createPropertiesGroupsPropertyByGroupId(int $groupId)
     {
-        $this->api("/rest/properties/groups/{$groupId}/properties", 'POST');
+        return $this->api("/rest/properties/groups/{$groupId}/properties", 'POST');
     }
                     
     /**
@@ -517,9 +517,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $groupId The ID of the group
      * @param int $propertyId The ID of the property
      */
-    public function deletePropertiesGroupsPropertyByGroupIdPropertyId(int $groupId, int $propertyId): void
+    public function deletePropertiesGroupsPropertyByGroupIdPropertyId(int $groupId, int $propertyId)
     {
-        $this->api("/rest/properties/groups/{$groupId}/properties/{$propertyId}", 'DELETE');
+        return $this->api("/rest/properties/groups/{$groupId}/properties/{$propertyId}", 'DELETE');
     }
                 
     /**
@@ -528,9 +528,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $groupId The ID of the group
      * @param int $propertyId The ID of the property
      */
-    public function createPropertiesGroupsPropertyByGroupIdPropertyId(int $groupId, int $propertyId): void
+    public function createPropertiesGroupsPropertyByGroupIdPropertyId(int $groupId, int $propertyId)
     {
-        $this->api("/rest/properties/groups/{$groupId}/properties/{$propertyId}", 'POST');
+        return $this->api("/rest/properties/groups/{$groupId}/properties/{$propertyId}", 'POST');
     }
                     
     /**
@@ -541,9 +541,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *groupId* - int - required
      *          - The ID of the group
      */
-    public function deletePropertiesGroupByPropertyId(int $propertyId, array $query): void
+    public function deletePropertiesGroupByPropertyId(int $propertyId, array $query)
     {
-        $this->api(array_merge(["/rest/properties/groups/{$propertyId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/properties/groups/{$propertyId}"], $query), 'DELETE');
     }
                     
     /**
@@ -594,9 +594,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *propertyMarketId* - int - required
      *          - The ID of the property market
      */
-    public function deletePropertiesMarketByPropertiesMarketId(int $propertiesMarketId, array $query): void
+    public function deletePropertiesMarketByPropertiesMarketId(int $propertiesMarketId, array $query)
     {
-        $this->api(array_merge(["/rest/properties/markets/{$propertiesMarketId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/properties/markets/{$propertiesMarketId}"], $query), 'DELETE');
     }
                 
     /**
@@ -650,9 +650,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
 
      */
-    public function deletePropertiesMultipleOption(): void
+    public function deletePropertiesMultipleOption()
     {
-        $this->api("/rest/properties/multiple/options", 'DELETE');
+        return $this->api("/rest/properties/multiple/options", 'DELETE');
     }
                 
     /**
@@ -723,9 +723,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $nameId The ID of the property name
      */
-    public function deletePropertiesNameByNameId(int $nameId): void
+    public function deletePropertiesNameByNameId(int $nameId)
     {
-        $this->api("/rest/properties/names/{$nameId}", 'DELETE');
+        return $this->api("/rest/properties/names/{$nameId}", 'DELETE');
     }
                 
     /**
@@ -809,9 +809,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $propertyOptionId The ID of the property option
      */
-    public function deletePropertiesOptionByPropertyOptionId(int $propertyOptionId): void
+    public function deletePropertiesOptionByPropertyOptionId(int $propertyOptionId)
     {
-        $this->api("/rest/properties/options/{$propertyOptionId}", 'DELETE');
+        return $this->api("/rest/properties/options/{$propertyOptionId}", 'DELETE');
     }
                 
     /**
@@ -862,9 +862,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *relationId* - int - required
      *          - The ID of the property relation
      */
-    public function deletePropertiesRelation(array $query): void
+    public function deletePropertiesRelation(array $query)
     {
-        $this->api(array_merge(["/rest/properties/relations"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/properties/relations"], $query), 'DELETE');
     }
                 
     /**
@@ -1003,9 +1003,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *propertyRelationValueId* - int - required
      *          - The ID of the property relation value
      */
-    public function deletePropertiesRelationsValueByPropertiesRelationValueId(int $propertiesRelationValueId, array $query): void
+    public function deletePropertiesRelationsValueByPropertiesRelationValueId(int $propertiesRelationValueId, array $query)
     {
-        $this->api(array_merge(["/rest/properties/relations/values/{$propertiesRelationValueId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/properties/relations/values/{$propertiesRelationValueId}"], $query), 'DELETE');
     }
                 
     /**
@@ -1061,9 +1061,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationId The ID of the property relation
      */
-    public function deletePropertiesRelationByRelationId(int $relationId): void
+    public function deletePropertiesRelationByRelationId(int $relationId)
     {
-        $this->api("/rest/properties/relations/{$relationId}", 'DELETE');
+        return $this->api("/rest/properties/relations/{$relationId}", 'DELETE');
     }
                 
     /**
@@ -1128,9 +1128,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *deleteIfExists* - boolean - required
      *          - Condition for the check of already existing file
      */
-    public function createPropertiesRelationsFileByRelationId(int $relationId, array $query): void
+    public function createPropertiesRelationsFileByRelationId(int $relationId, array $query)
     {
-        $this->api(array_merge(["/rest/properties/relations/{$relationId}/file"], $query), 'POST');
+        return $this->api(array_merge(["/rest/properties/relations/{$relationId}/file"], $query), 'POST');
     }
                     
     /**
@@ -1138,9 +1138,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationId 
      */
-    public function deletePropertiesRelationsValueByRelationId(int $relationId): void
+    public function deletePropertiesRelationsValueByRelationId(int $relationId)
     {
-        $this->api("/rest/properties/relations/{$relationId}/values", 'DELETE');
+        return $this->api("/rest/properties/relations/{$relationId}/values", 'DELETE');
     }
                     
     /**
@@ -1180,9 +1180,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $propertySelectionId The ID of the property selection
      */
-    public function deletePropertiesSelectionByPropertySelectionId(int $propertySelectionId): void
+    public function deletePropertiesSelectionByPropertySelectionId(int $propertySelectionId)
     {
-        $this->api("/rest/properties/selections/{$propertySelectionId}", 'DELETE');
+        return $this->api("/rest/properties/selections/{$propertySelectionId}", 'DELETE');
     }
                 
     /**
@@ -1227,9 +1227,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
 
      */
-    public function getPropertiesSystemlang(): void
+    public function getPropertiesSystemlang()
     {
-        $this->api("/rest/properties/systemlang");
+        return $this->api("/rest/properties/systemlang");
     }
                     
     /**
@@ -1237,9 +1237,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $propertyId The ID of the property
      */
-    public function deletePropertyByPropertyId(int $propertyId): void
+    public function deletePropertyByPropertyId(int $propertyId)
     {
-        $this->api("/rest/properties/{$propertyId}", 'DELETE');
+        return $this->api("/rest/properties/{$propertyId}", 'DELETE');
     }
                 
     /**
@@ -1538,9 +1538,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $amazonId The ID of the property amazon
      */
-    public function deleteV2PropertiesAmazonByAmazonId(int $amazonId): void
+    public function deleteV2PropertiesAmazonByAmazonId(int $amazonId)
     {
-        $this->api("/rest/v2/properties/amazon/{$amazonId}", 'DELETE');
+        return $this->api("/rest/v2/properties/amazon/{$amazonId}", 'DELETE');
     }
                 
     /**
@@ -1732,9 +1732,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $nameId The ID of the group name
      */
-    public function deleteV2PropertiesGroupsNameByNameId(int $nameId): void
+    public function deleteV2PropertiesGroupsNameByNameId(int $nameId)
     {
-        $this->api("/rest/v2/properties/groups/names/{$nameId}", 'DELETE');
+        return $this->api("/rest/v2/properties/groups/names/{$nameId}", 'DELETE');
     }
                 
     /**
@@ -1804,9 +1804,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $optionId The ID of the group option
      */
-    public function deleteV2PropertiesGroupsOptionByOptionId(int $optionId): void
+    public function deleteV2PropertiesGroupsOptionByOptionId(int $optionId)
     {
-        $this->api("/rest/v2/properties/groups/options/{$optionId}", 'DELETE');
+        return $this->api("/rest/v2/properties/groups/options/{$optionId}", 'DELETE');
     }
                 
     /**
@@ -1855,9 +1855,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *relationId* - int - required
      *          - The ID of the group relation
      */
-    public function deleteV2PropertiesGroupsRelation(array $query): void
+    public function deleteV2PropertiesGroupsRelation(array $query)
     {
-        $this->api(array_merge(["/rest/v2/properties/groups/relations"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/v2/properties/groups/relations"], $query), 'DELETE');
     }
             
     /**
@@ -1998,9 +1998,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationId The ID of the group relation
      */
-    public function deleteV2PropertiesGroupsRelationByRelationId(int $relationId): void
+    public function deleteV2PropertiesGroupsRelationByRelationId(int $relationId)
     {
-        $this->api("/rest/v2/properties/groups/relations/{$relationId}", 'DELETE');
+        return $this->api("/rest/v2/properties/groups/relations/{$relationId}", 'DELETE');
     }
                 
     /**
@@ -2028,9 +2028,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $groupId The ID of the property
      */
-    public function deleteV2PropertiesGroupByGroupId(int $groupId): void
+    public function deleteV2PropertiesGroupByGroupId(int $groupId)
     {
-        $this->api("/rest/v2/properties/groups/{$groupId}", 'DELETE');
+        return $this->api("/rest/v2/properties/groups/{$groupId}", 'DELETE');
     }
                 
     /**
@@ -2115,9 +2115,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $nameId The ID of the property name
      */
-    public function deleteV2PropertiesNameByNameId(int $nameId): void
+    public function deleteV2PropertiesNameByNameId(int $nameId)
     {
-        $this->api("/rest/v2/properties/names/{$nameId}", 'DELETE');
+        return $this->api("/rest/v2/properties/names/{$nameId}", 'DELETE');
     }
                 
     /**
@@ -2187,9 +2187,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $optionId The ID of the property option
      */
-    public function deleteV2PropertiesOptionByOptionId(int $optionId): void
+    public function deleteV2PropertiesOptionByOptionId(int $optionId)
     {
-        $this->api("/rest/v2/properties/options/{$optionId}", 'DELETE');
+        return $this->api("/rest/v2/properties/options/{$optionId}", 'DELETE');
     }
                 
     /**
@@ -2430,9 +2430,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationSelectionId The ID of the relation selection
      */
-    public function deleteV2PropertiesRelationsSelectionByRelationSelectionId(int $relationSelectionId): void
+    public function deleteV2PropertiesRelationsSelectionByRelationSelectionId(int $relationSelectionId)
     {
-        $this->api("/rest/v2/properties/relations/selections/{$relationSelectionId}", 'DELETE');
+        return $this->api("/rest/v2/properties/relations/selections/{$relationSelectionId}", 'DELETE');
     }
                 
     /**
@@ -2499,9 +2499,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationValueId The ID of the relation value
      */
-    public function deleteV2PropertiesRelationsValueByRelationValueId(int $relationValueId): void
+    public function deleteV2PropertiesRelationsValueByRelationValueId(int $relationValueId)
     {
-        $this->api("/rest/v2/properties/relations/values/{$relationValueId}", 'DELETE');
+        return $this->api("/rest/v2/properties/relations/values/{$relationValueId}", 'DELETE');
     }
                 
     /**
@@ -2555,9 +2555,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationId The ID of the relation
      */
-    public function deleteV2PropertiesRelationByRelationId(int $relationId): void
+    public function deleteV2PropertiesRelationByRelationId(int $relationId)
     {
-        $this->api("/rest/v2/properties/relations/{$relationId}", 'DELETE');
+        return $this->api("/rest/v2/properties/relations/{$relationId}", 'DELETE');
     }
                 
     /**
@@ -2619,9 +2619,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationId The ID of the property relation
      */
-    public function deleteV2PropertiesRelationsFileByRelationId(int $relationId): void
+    public function deleteV2PropertiesRelationsFileByRelationId(int $relationId)
     {
-        $this->api("/rest/v2/properties/relations/{$relationId}/file", 'DELETE');
+        return $this->api("/rest/v2/properties/relations/{$relationId}/file", 'DELETE');
     }
                 
     /**
@@ -2720,9 +2720,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $nameId The ID of the selection name
      */
-    public function deleteV2PropertiesSelectionsNameByNameId(int $nameId): void
+    public function deleteV2PropertiesSelectionsNameByNameId(int $nameId)
     {
-        $this->api("/rest/v2/properties/selections/names/{$nameId}", 'DELETE');
+        return $this->api("/rest/v2/properties/selections/names/{$nameId}", 'DELETE');
     }
                 
     /**
@@ -2773,9 +2773,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $selectionId The ID of the selection
      */
-    public function deleteV2PropertiesSelectionBySelectionId(int $selectionId): void
+    public function deleteV2PropertiesSelectionBySelectionId(int $selectionId)
     {
-        $this->api("/rest/v2/properties/selections/{$selectionId}", 'DELETE');
+        return $this->api("/rest/v2/properties/selections/{$selectionId}", 'DELETE');
     }
                 
     /**
@@ -3026,9 +3026,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationSelectionId The ID of the relation selection
      */
-    public function deleteV2PropertiesUuidRelationsSelectionByRelationSelectionId(int $relationSelectionId): void
+    public function deleteV2PropertiesUuidRelationsSelectionByRelationSelectionId(int $relationSelectionId)
     {
-        $this->api("/rest/v2/properties/uuid/relations/selections/{$relationSelectionId}", 'DELETE');
+        return $this->api("/rest/v2/properties/uuid/relations/selections/{$relationSelectionId}", 'DELETE');
     }
                 
     /**
@@ -3095,9 +3095,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationValueId The ID of the relation value
      */
-    public function deleteV2PropertiesUuidRelationsValueByRelationValueId(int $relationValueId): void
+    public function deleteV2PropertiesUuidRelationsValueByRelationValueId(int $relationValueId)
     {
-        $this->api("/rest/v2/properties/uuid/relations/values/{$relationValueId}", 'DELETE');
+        return $this->api("/rest/v2/properties/uuid/relations/values/{$relationValueId}", 'DELETE');
     }
                 
     /**
@@ -3151,9 +3151,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $relationId The ID of the relation
      */
-    public function deleteV2PropertiesUuidRelationByRelationId(int $relationId): void
+    public function deleteV2PropertiesUuidRelationByRelationId(int $relationId)
     {
-        $this->api("/rest/v2/properties/uuid/relations/{$relationId}", 'DELETE');
+        return $this->api("/rest/v2/properties/uuid/relations/{$relationId}", 'DELETE');
     }
                 
     /**
@@ -3243,9 +3243,9 @@ class Property extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Property
      * @param int $propertyId The ID of the property
      */
-    public function deleteV2PropertyByPropertyId(int $propertyId): void
+    public function deleteV2PropertyByPropertyId(int $propertyId)
     {
-        $this->api("/rest/v2/properties/{$propertyId}", 'DELETE');
+        return $this->api("/rest/v2/properties/{$propertyId}", 'DELETE');
     }
                 
     /**

@@ -21,9 +21,9 @@ class Returns extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$returnsId* - int - required
      *          - Return order ID
      */
-    public function deleteOrdersShippingReturnByReturnsId(int $returnsId, array $query): void
+    public function deleteOrdersShippingReturnByReturnsId(int $returnsId, array $query)
     {
-        $this->api(array_merge(["/rest/orders/shipping/returns/{$returnsId}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/orders/shipping/returns/{$returnsId}"], $query), 'DELETE');
     }
                 
     /**
@@ -77,9 +77,9 @@ class Returns extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$base64Label* - string - optional
      *          - Label in base64 format
      */
-    public function updateOrdersShippingReturnByReturnsId(int $returnsId, array $query): void
+    public function updateOrdersShippingReturnByReturnsId(int $returnsId, array $query)
     {
-        $this->api(array_merge(["/rest/orders/shipping/returns/{$returnsId}"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/orders/shipping/returns/{$returnsId}"], $query), 'PUT');
     }
                 
     /**
@@ -219,9 +219,9 @@ class Returns extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$base64Label* - string - optional
      *          - Label in base64 format
      */
-    public function createOrdersShippingReturnByOrderId(int $orderId, array $query): void
+    public function createOrdersShippingReturnByOrderId(int $orderId, array $query)
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/shipping/returns"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/shipping/returns"], $query), 'POST');
     }
                     
     /**

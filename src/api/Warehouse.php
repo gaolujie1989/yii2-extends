@@ -165,9 +165,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *warehouseLocationIds* - array - required
      *          - An array containing all the ID's for the storage locations that need to be deleted
      */
-    public function deleteWarehousesLocation(array $query): void
+    public function deleteWarehousesLocation(array $query)
     {
-        $this->api(array_merge(["/rest/warehouses/locations"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/warehouses/locations"], $query), 'DELETE');
     }
                 
     /**
@@ -251,9 +251,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Warehouse
 
      */
-    public function getWarehousesLocationsDetails(): void
+    public function getWarehousesLocationsDetails()
     {
-        $this->api("/rest/warehouses/locations/details");
+        return $this->api("/rest/warehouses/locations/details");
     }
                     
     /**
@@ -304,9 +304,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Warehouse
      * @param int $warehouseLocationDimensionId The ID of the storage location dimension
      */
-    public function deleteWarehousesLocationsDimensionByWarehouseLocationDimensionId(int $warehouseLocationDimensionId): void
+    public function deleteWarehousesLocationsDimensionByWarehouseLocationDimensionId(int $warehouseLocationDimensionId)
     {
-        $this->api("/rest/warehouses/locations/dimensions/{$warehouseLocationDimensionId}", 'DELETE');
+        return $this->api("/rest/warehouses/locations/dimensions/{$warehouseLocationDimensionId}", 'DELETE');
     }
                 
     /**
@@ -514,9 +514,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *side* - string - required
      *          - The actual position from the left or right side of target
      */
-    public function createWarehousesLocationsLevelsPosition(array $query): void
+    public function createWarehousesLocationsLevelsPosition(array $query)
     {
-        $this->api(array_merge(["/rest/warehouses/locations/levels/positions"], $query), 'POST');
+        return $this->api(array_merge(["/rest/warehouses/locations/levels/positions"], $query), 'POST');
     }
                     
     /**
@@ -524,9 +524,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Warehouse
      * @param int $warehouseLocationLevelId The ID of the storage location level
      */
-    public function deleteWarehousesLocationsLevelByWarehouseLocationLevelId(int $warehouseLocationLevelId): void
+    public function deleteWarehousesLocationsLevelByWarehouseLocationLevelId(int $warehouseLocationLevelId)
     {
-        $this->api("/rest/warehouses/locations/levels/{$warehouseLocationLevelId}", 'DELETE');
+        return $this->api("/rest/warehouses/locations/levels/{$warehouseLocationLevelId}", 'DELETE');
     }
                 
     /**
@@ -603,9 +603,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *side* - string - required
      *          - The actual position from the left or right side of target
      */
-    public function createWarehousesLocationsPosition(array $query): void
+    public function createWarehousesLocationsPosition(array $query)
     {
-        $this->api(array_merge(["/rest/warehouses/locations/positions"], $query), 'POST');
+        return $this->api(array_merge(["/rest/warehouses/locations/positions"], $query), 'POST');
     }
                     
     /**
@@ -621,9 +621,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *save* - int - required
      *          - The save parameter that triggers the preview method or the process save method
      */
-    public function createWarehousesLocationsPreview(array $query): void
+    public function createWarehousesLocationsPreview(array $query)
     {
-        $this->api(array_merge(["/rest/warehouses/locations/previews"], $query), 'POST');
+        return $this->api(array_merge(["/rest/warehouses/locations/previews"], $query), 'POST');
     }
                     
     /**
@@ -664,9 +664,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *warehouseLocationIds* - string - required
      *          - A string with all storage location ID's for which a label needs to be generated
      */
-    public function createWarehousesLocationsLabelByWarehouseId(int $warehouseId, array $query): void
+    public function createWarehousesLocationsLabelByWarehouseId(int $warehouseId, array $query)
     {
-        $this->api(array_merge(["/rest/warehouses/locations/{$warehouseId}/label"], $query), 'POST');
+        return $this->api(array_merge(["/rest/warehouses/locations/{$warehouseId}/label"], $query), 'POST');
     }
                     
     /**
@@ -674,9 +674,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Warehouse
      * @param int $warehouseLocationId The ID of the storage location
      */
-    public function deleteWarehousesLocationByWarehouseLocationId(int $warehouseLocationId): void
+    public function deleteWarehousesLocationByWarehouseLocationId(int $warehouseLocationId)
     {
-        $this->api("/rest/warehouses/locations/{$warehouseLocationId}", 'DELETE');
+        return $this->api("/rest/warehouses/locations/{$warehouseLocationId}", 'DELETE');
     }
                 
     /**
@@ -742,9 +742,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Warehouse
      * @param int $warehouseId The actual warehouse ID
      */
-    public function getWarehousesStructureByWarehouseId(int $warehouseId): void
+    public function getWarehousesStructureByWarehouseId(int $warehouseId)
     {
-        $this->api("/rest/warehouses/structure/{$warehouseId}");
+        return $this->api("/rest/warehouses/structure/{$warehouseId}");
     }
                     
     /**
@@ -752,9 +752,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Warehouse
      * @param int $warehouseId The actual warehouse ID
      */
-    public function getWarehousesStructureMovingByWarehouseId(int $warehouseId): void
+    public function getWarehousesStructureMovingByWarehouseId(int $warehouseId)
     {
-        $this->api("/rest/warehouses/structure/{$warehouseId}/moving");
+        return $this->api("/rest/warehouses/structure/{$warehouseId}/moving");
     }
                     
     /**
@@ -765,9 +765,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *newWarehouseId* - int - optional
      *          - The ID of the warehouse to which the orders should be transferred
      */
-    public function deleteWarehouseById(int $id, array $query = []): void
+    public function deleteWarehouseById(int $id, array $query = [])
     {
-        $this->api(array_merge(["/rest/warehouses/{$id}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/warehouses/{$id}"], $query), 'DELETE');
     }
                 
     /**
@@ -891,9 +891,9 @@ class Warehouse extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *levelId* - int - required
      *          - The ID of the storage location level
      */
-    public function getWarehousesLocationsLevelByWarehouseIdWarehouseLocationLevelId(int $warehouseId, int $warehouseLocationLevelId, array $query): void
+    public function getWarehousesLocationsLevelByWarehouseIdWarehouseLocationLevelId(int $warehouseId, int $warehouseLocationLevelId, array $query)
     {
-        $this->api(array_merge(["/rest/warehouses/{$warehouseId}/locations/level/{$warehouseLocationLevelId}"], $query));
+        return $this->api(array_merge(["/rest/warehouses/{$warehouseId}/locations/level/{$warehouseLocationLevelId}"], $query));
     }
                     
     /**

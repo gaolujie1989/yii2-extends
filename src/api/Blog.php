@@ -31,9 +31,9 @@ class Blog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Blog
      * @param int $postId 
      */
-    public function deleteBlogsPostByPostId(int $postId): void
+    public function deleteBlogsPostByPostId(int $postId)
     {
-        $this->api("/rest/blogs/post/{$postId}", 'DELETE');
+        return $this->api("/rest/blogs/post/{$postId}", 'DELETE');
     }
                 
     /**

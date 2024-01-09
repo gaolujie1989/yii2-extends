@@ -59,9 +59,9 @@ class ShopBuilder extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag ShopBuilder
      * @param int $contentLinkId 
      */
-    public function deleteShopBuilderContentLinkByContentLinkId(int $contentLinkId): void
+    public function deleteShopBuilderContentLinkByContentLinkId(int $contentLinkId)
     {
-        $this->api("/rest/shop_builder/content_links/{$contentLinkId}", 'DELETE');
+        return $this->api("/rest/shop_builder/content_links/{$contentLinkId}", 'DELETE');
     }
                 
     /**
@@ -182,9 +182,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *pluginSetId* - int - optional
      *          - Layout container to regenerate contents for.
      */
-    public function updateShopBuilderContent(array $query = []): void
+    public function updateShopBuilderContent(array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/contents"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/shop_builder/contents"], $query), 'PUT');
     }
                 
     /**
@@ -336,9 +336,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @tag ShopBuilder
      * @param int $contentId The ID of the content to delete.
      */
-    public function deleteShopBuilderContentByContentId(int $contentId): void
+    public function deleteShopBuilderContentByContentId(int $contentId)
     {
-        $this->api("/rest/shop_builder/contents/{$contentId}", 'DELETE');
+        return $this->api("/rest/shop_builder/contents/{$contentId}", 'DELETE');
     }
                 
     /**
@@ -349,9 +349,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *frontendLang* - string - optional
      *          - Language to be used when rendering frontend widgets.
      */
-    public function getShopBuilderContentByContentId(int $contentId, array $query = []): void
+    public function getShopBuilderContentByContentId(int $contentId, array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}"], $query));
+        return $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}"], $query));
     }
                 
     /**
@@ -359,9 +359,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @tag ShopBuilder
      * @param int $contentId 
      */
-    public function optionsShopBuilderContentByContentId(int $contentId): void
+    public function optionsShopBuilderContentByContentId(int $contentId)
     {
-        $this->api("/rest/shop_builder/contents/{$contentId}", 'OPTIONS');
+        return $this->api("/rest/shop_builder/contents/{$contentId}", 'OPTIONS');
     }
                 
     /**
@@ -403,9 +403,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *frontendLang* - string - optional
      *          - Language to be used when rendering frontend widgets.
      */
-    public function updateShopBuilderContentByContentId(int $contentId, array $data, array $query = []): void
+    public function updateShopBuilderContentByContentId(int $contentId, array $data, array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}"], $query), 'PUT', $data);
+        return $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}"], $query), 'PUT', $data);
     }
                     
     /**
@@ -418,9 +418,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *versionIdMarker* - string - optional
      *          - ID of a version to get subsequent versions from.
      */
-    public function getShopBuilderContentsVersionsByContentId(int $contentId, array $query = []): void
+    public function getShopBuilderContentsVersionsByContentId(int $contentId, array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}/versions"], $query));
+        return $this->api(array_merge(["/rest/shop_builder/contents/{$contentId}/versions"], $query));
     }
                     
     /**
@@ -429,9 +429,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @param int $contentId The ID of the content to be restored to a previous version.
      * @param string $versionId ID of the version to restore the content to.
      */
-    public function updateShopBuilderContentsVersionByContentIdVersionId(int $contentId, string $versionId): void
+    public function updateShopBuilderContentsVersionByContentIdVersionId(int $contentId, string $versionId)
     {
-        $this->api("/rest/shop_builder/contents/{$contentId}/versions/{$versionId}", 'PUT');
+        return $this->api("/rest/shop_builder/contents/{$contentId}/versions/{$versionId}", 'PUT');
     }
                     
     /**
@@ -441,9 +441,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *providerClass* - string - optional
      *          - Class name of the data field provider to resolve.
      */
-    public function getShopBuilderDataFields(array $query = []): void
+    public function getShopBuilderDataFields(array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/data_fields"], $query));
+        return $this->api(array_merge(["/rest/shop_builder/data_fields"], $query));
     }
                 
     /**
@@ -451,9 +451,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @tag ShopBuilder
 
      */
-    public function optionsShopBuilderDataField(): void
+    public function optionsShopBuilderDataField()
     {
-        $this->api("/rest/shop_builder/data_fields", 'OPTIONS');
+        return $this->api("/rest/shop_builder/data_fields", 'OPTIONS');
     }
                     
     /**
@@ -474,9 +474,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @tag ShopBuilder
 
      */
-    public function getShopBuilderGlobalSettings(): void
+    public function getShopBuilderGlobalSettings()
     {
-        $this->api("/rest/shop_builder/global_settings");
+        return $this->api("/rest/shop_builder/global_settings");
     }
                 
     /**
@@ -484,9 +484,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @tag ShopBuilder
 
      */
-    public function updateShopBuilderGlobalSetting(): void
+    public function updateShopBuilderGlobalSetting()
     {
-        $this->api("/rest/shop_builder/global_settings", 'PUT');
+        return $this->api("/rest/shop_builder/global_settings", 'PUT');
     }
                     
     /**
@@ -508,9 +508,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *variables* - string - optional
      *          - An optional sass formatted string to be prepended to the file content.
      */
-    public function getShopBuilderSassCompile(array $query = []): void
+    public function getShopBuilderSassCompile(array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/sass/compile"], $query));
+        return $this->api(array_merge(["/rest/shop_builder/sass/compile"], $query));
     }
                     
     /**
@@ -524,9 +524,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *sources* - array - optional
      *          - Sources to consider during search.
      */
-    public function getShopBuilderSearch(array $query = []): void
+    public function getShopBuilderSearch(array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/search"], $query));
+        return $this->api(array_merge(["/rest/shop_builder/search"], $query));
     }
                     
     /**
@@ -553,9 +553,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *contentType* - string - optional
      *          - Filter results that are allowed for the given content type.
      */
-    public function getShopBuilderWidgets(array $query = []): void
+    public function getShopBuilderWidgets(array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/widgets"], $query));
+        return $this->api(array_merge(["/rest/shop_builder/widgets"], $query));
     }
                 
     /**
@@ -563,9 +563,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      * @tag ShopBuilder
 
      */
-    public function optionsShopBuilderWidget(): void
+    public function optionsShopBuilderWidget()
     {
-        $this->api("/rest/shop_builder/widgets", 'OPTIONS');
+        return $this->api("/rest/shop_builder/widgets", 'OPTIONS');
     }
                 
     /**
@@ -577,9 +577,9 @@ Inactive contents will be regenerated when opening them in the editor or after a
      *      - *contentType* - string - optional
      *          - Provide a content type to widgets should be rendered within.
      */
-    public function createShopBuilderWidget(array $query = []): void
+    public function createShopBuilderWidget(array $query = [])
     {
-        $this->api(array_merge(["/rest/shop_builder/widgets"], $query), 'POST');
+        return $this->api(array_merge(["/rest/shop_builder/widgets"], $query), 'POST');
     }
     
 }

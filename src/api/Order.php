@@ -237,9 +237,9 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteAdvanceOrderByOrderId(int $orderId): void
+    public function deleteAdvanceOrderByOrderId(int $orderId)
     {
-        $this->api("/rest/advance_orders/{$orderId}", 'DELETE');
+        return $this->api("/rest/advance_orders/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -547,9 +547,9 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteCreditNoteByOrderId(int $orderId): void
+    public function deleteCreditNoteByOrderId(int $orderId)
     {
-        $this->api("/rest/credit_notes/{$orderId}", 'DELETE');
+        return $this->api("/rest/credit_notes/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -857,9 +857,9 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteDeliveryOrderByOrderId(int $orderId): void
+    public function deleteDeliveryOrderByOrderId(int $orderId)
     {
-        $this->api("/rest/delivery_orders/{$orderId}", 'DELETE');
+        return $this->api("/rest/delivery_orders/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -938,9 +938,9 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $orderId 
      * @param array $data 
      */
-    public function createDeliveryOrdersBookByOrderId(int $orderId, array $data): void
+    public function createDeliveryOrdersBookByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/delivery_orders/{$orderId}/book", 'POST', $data);
+        return $this->api("/rest/delivery_orders/{$orderId}/book", 'POST', $data);
     }
                     
     /**
@@ -949,9 +949,9 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $orderId 
      * @param array $data 
      */
-    public function createDeliveryOrdersCancelBookingByOrderId(int $orderId, array $data): void
+    public function createDeliveryOrdersCancelBookingByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/delivery_orders/{$orderId}/cancel_booking", 'POST', $data);
+        return $this->api("/rest/delivery_orders/{$orderId}/cancel_booking", 'POST', $data);
     }
                     
     /**
@@ -1340,9 +1340,9 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteOfferByOrderId(int $orderId): void
+    public function deleteOfferByOrderId(int $orderId)
     {
-        $this->api("/rest/offers/{$orderId}", 'DELETE');
+        return $this->api("/rest/offers/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -1989,9 +1989,9 @@ Searches for orders. The results can be restricted by using filter options.
      *      - *addOrderItems* - boolean - optional
      *          - Add the order items to the result. Default = true.
      */
-    public function getOrdersBatch(array $query): void
+    public function getOrdersBatch(array $query)
     {
-        $this->api(array_merge(["/rest/orders/batch"], $query));
+        return $this->api(array_merge(["/rest/orders/batch"], $query));
     }
                 
     /**
@@ -2243,9 +2243,9 @@ Searches for orders. The results can be restricted by using filter options.
      *      - *withoutUsed* - int - optional
      *          - Do not delete used coupons
      */
-    public function deleteOrdersCouponsCampaignsCodeByCode(int $code, array $query = []): void
+    public function deleteOrdersCouponsCampaignsCodeByCode(int $code, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/coupons/campaigns/codes/{$code}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/orders/coupons/campaigns/codes/{$code}"], $query), 'DELETE');
     }
                 
     /**
@@ -2290,9 +2290,9 @@ Searches for orders. The results can be restricted by using filter options.
      * @param int $code 
      * @param int $isDisabled 
      */
-    public function updateOrdersCouponsCampaignsCodesDisabledByCodeIsDisabled(int $code, int $isDisabled): void
+    public function updateOrdersCouponsCampaignsCodesDisabledByCodeIsDisabled(int $code, int $isDisabled)
     {
-        $this->api("/rest/orders/coupons/campaigns/codes/{$code}/disabled/{$isDisabled}", 'PUT');
+        return $this->api("/rest/orders/coupons/campaigns/codes/{$code}/disabled/{$isDisabled}", 'PUT');
     }
                     
     /**
@@ -2950,9 +2950,9 @@ Deletes the date of an order item. The ID of the date must be specified.
      * @tag Order
      * @param int $id The ID of the order item date
      */
-    public function deleteOrdersItemsDateById(int $id): void
+    public function deleteOrdersItemsDateById(int $id)
     {
-        $this->api("/rest/orders/items/dates/{$id}", 'DELETE');
+        return $this->api("/rest/orders/items/dates/{$id}", 'DELETE');
     }
                 
     /**
@@ -3028,9 +3028,9 @@ Reverts the booking of the given order items of an order. The order items have t
      * @tag Order
      * @param array $data 
      */
-    public function deleteOrdersItemsOutgoingStock(array $data): void
+    public function deleteOrdersItemsOutgoingStock(array $data)
     {
-        $this->api("/rest/orders/items/outgoing_stocks", 'DELETE', $data);
+        return $this->api("/rest/orders/items/outgoing_stocks", 'DELETE', $data);
     }
                     
     /**
@@ -3142,9 +3142,9 @@ Deletes an order item property. The ID of the order item property must be specif
      * @tag Order
      * @param int $id The ID of the order item property.
      */
-    public function deleteOrdersItemsPropertyById(int $id): void
+    public function deleteOrdersItemsPropertyById(int $id)
     {
-        $this->api("/rest/orders/items/properties/{$id}", 'DELETE');
+        return $this->api("/rest/orders/items/properties/{$id}", 'DELETE');
     }
                 
     /**
@@ -3440,9 +3440,9 @@ Updates an order item property. The ID of the order item property must be specif
      *      - *deliveryNoteNumber* - string - optional
      *          - If desired, set a delivery note number. The delivery note number has to match the type of order item transaction. For incoming items, set an external delivery note number. For outgoing items, set an external or an internal delivery note number.
      */
-    public function createOrdersItemsTransactionsBooking(array $query): void
+    public function createOrdersItemsTransactionsBooking(array $query)
     {
-        $this->api(array_merge(["/rest/orders/items/transactions/booking"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/items/transactions/booking"], $query), 'POST');
     }
                     
     /**
@@ -3450,9 +3450,9 @@ Updates an order item property. The ID of the order item property must be specif
      * @tag Order
      * @param int $transactionId 
      */
-    public function deleteOrdersItemsTransactionByTransactionId(int $transactionId): void
+    public function deleteOrdersItemsTransactionByTransactionId(int $transactionId)
     {
-        $this->api("/rest/orders/items/transactions/{$transactionId}", 'DELETE');
+        return $this->api("/rest/orders/items/transactions/{$transactionId}", 'DELETE');
     }
                 
     /**
@@ -3503,9 +3503,9 @@ Updates an order item property. The ID of the order item property must be specif
      *      - *deliveryNoteNumber* - string - optional
      *          - If desired, set the delivery note number provided by the supplier.
      */
-    public function createOrdersItemsBookingByOrderItemId(int $orderItemId, array $query = []): void
+    public function createOrdersItemsBookingByOrderItemId(int $orderItemId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/items/{$orderItemId}/booking"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/items/{$orderItemId}/booking"], $query), 'POST');
     }
                     
     /**
@@ -3542,9 +3542,9 @@ Deletes a date of an order item. The ID of the order item and the ID of the date
      * @param int $orderItemId The ID of the order item
      * @param int $typeId The ID of the order date
      */
-    public function deleteOrdersItemsDateByOrderItemIdTypeId(int $orderItemId, int $typeId): void
+    public function deleteOrdersItemsDateByOrderItemIdTypeId(int $orderItemId, int $typeId)
     {
-        $this->api("/rest/orders/items/{$orderItemId}/dates/{$typeId}", 'DELETE');
+        return $this->api("/rest/orders/items/{$orderItemId}/dates/{$typeId}", 'DELETE');
     }
                 
     /**
@@ -3728,9 +3728,9 @@ Deletes an order item property. The order item ID and the order item property ty
      * @param int $orderItemId The order item ID.
      * @param int $typeId The order item property type ID.
      */
-    public function deleteOrdersItemsPropertyByOrderItemIdTypeId(int $orderItemId, int $typeId): void
+    public function deleteOrdersItemsPropertyByOrderItemIdTypeId(int $orderItemId, int $typeId)
     {
-        $this->api("/rest/orders/items/{$orderItemId}/properties/{$typeId}", 'DELETE');
+        return $this->api("/rest/orders/items/{$orderItemId}/properties/{$typeId}", 'DELETE');
     }
                 
     /**
@@ -4177,9 +4177,9 @@ Updates an order item property. The order item ID and the order item property ty
      * @tag Order
      * @param int $typeId The ID of the property type
      */
-    public function deleteOrdersPropertiesTypeByTypeId(int $typeId): void
+    public function deleteOrdersPropertiesTypeByTypeId(int $typeId)
     {
-        $this->api("/rest/orders/properties/types/{$typeId}", 'DELETE');
+        return $this->api("/rest/orders/properties/types/{$typeId}", 'DELETE');
     }
                 
     /**
@@ -4274,9 +4274,9 @@ Deletes a property of an order. The ID of the property must be specified.
      * @tag Order
      * @param int $id The ID of the property to be deleted.
      */
-    public function deleteOrdersPropertyById(int $id): void
+    public function deleteOrdersPropertyById(int $id)
     {
-        $this->api("/rest/orders/properties/{$id}", 'DELETE');
+        return $this->api("/rest/orders/properties/{$id}", 'DELETE');
     }
                 
     /**
@@ -4352,9 +4352,9 @@ Updates the value of a property. The ID of the property must be specified.
      * @tag Order
 
      */
-    public function getOrdersReferrersNextFreeMain(): void
+    public function getOrdersReferrersNextFreeMain()
     {
-        $this->api("/rest/orders/referrers/next_free_main");
+        return $this->api("/rest/orders/referrers/next_free_main");
     }
                 
     /**
@@ -4516,9 +4516,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @tag Order
      * @param int $referrerId The ID of the referrer.
      */
-    public function deleteOrdersReferrerByReferrerId(int $referrerId): void
+    public function deleteOrdersReferrerByReferrerId(int $referrerId)
     {
-        $this->api("/rest/orders/referrers/{$referrerId}", 'DELETE');
+        return $this->api("/rest/orders/referrers/{$referrerId}", 'DELETE');
     }
                 
     /**
@@ -5139,9 +5139,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      *      - *onlyEUCountries* - int - optional
      *          - Returns only the EU shipping countries.
      */
-    public function getOrdersShippingCountries(array $query = []): void
+    public function getOrdersShippingCountries(array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/shipping/countries"], $query));
+        return $this->api(array_merge(["/rest/orders/shipping/countries"], $query));
     }
                     
     /**
@@ -5213,9 +5213,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @tag Order
      * @param int $id The ID of the order package item variation
      */
-    public function deleteOrdersShippingPackagesItemById(int $id): void
+    public function deleteOrdersShippingPackagesItemById(int $id)
     {
-        $this->api("/rest/orders/shipping/packages/items/{$id}", 'DELETE');
+        return $this->api("/rest/orders/shipping/packages/items/{$id}", 'DELETE');
     }
                 
     /**
@@ -5223,9 +5223,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @tag Order
      * @param int $id The ID of the order package item variation
      */
-    public function updateOrdersShippingPackagesItemById(int $id): void
+    public function updateOrdersShippingPackagesItemById(int $id)
     {
-        $this->api("/rest/orders/shipping/packages/items/{$id}", 'PUT');
+        return $this->api("/rest/orders/shipping/packages/items/{$id}", 'PUT');
     }
                     
     /**
@@ -5235,9 +5235,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @param int $itemId The ID of the item
      * @param int $variationId The ID of the variation
      */
-    public function deleteOrdersShippingPackagesItemByPackageIdItemIdVariationId(int $packageId, int $itemId, int $variationId): void
+    public function deleteOrdersShippingPackagesItemByPackageIdItemIdVariationId(int $packageId, int $itemId, int $variationId)
     {
-        $this->api("/rest/orders/shipping/packages/items/{$packageId}/{$itemId}/{$variationId}", 'DELETE');
+        return $this->api("/rest/orders/shipping/packages/items/{$packageId}/{$itemId}/{$variationId}", 'DELETE');
     }
                 
     /**
@@ -5247,9 +5247,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @param int $itemId The ID of the item
      * @param int $variationId The ID of the variation
      */
-    public function updateOrdersShippingPackagesItemByPackageIdItemIdVariationId(int $packageId, int $itemId, int $variationId): void
+    public function updateOrdersShippingPackagesItemByPackageIdItemIdVariationId(int $packageId, int $itemId, int $variationId)
     {
-        $this->api("/rest/orders/shipping/packages/items/{$packageId}/{$itemId}/{$variationId}", 'PUT');
+        return $this->api("/rest/orders/shipping/packages/items/{$packageId}/{$itemId}/{$variationId}", 'PUT');
     }
                     
     /**
@@ -6007,9 +6007,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @tag Order
 
      */
-    public function getOrdersStatusesAll(): void
+    public function getOrdersStatusesAll()
     {
-        $this->api("/rest/orders/statuses/all");
+        return $this->api("/rest/orders/statuses/all");
     }
                     
     /**
@@ -6021,9 +6021,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      *      - *selectedStatusList* - array - required
      *          - Set a list with the IDs of the order statuses that should be changed.
      */
-    public function createOrdersStatusesGroupFunction(array $query): void
+    public function createOrdersStatusesGroupFunction(array $query)
     {
-        $this->api(array_merge(["/rest/orders/statuses/group_functions"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/statuses/group_functions"], $query), 'POST');
     }
                     
     /**
@@ -6031,9 +6031,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @tag Order
      * @param number $statusId The ID of the status, which shall be deleted.
      */
-    public function deleteOrdersStatusByStatusId(number $statusId): void
+    public function deleteOrdersStatusByStatusId(number $statusId)
     {
-        $this->api("/rest/orders/statuses/{$statusId}", 'DELETE');
+        return $this->api("/rest/orders/statuses/{$statusId}", 'DELETE');
     }
                 
     /**
@@ -6096,9 +6096,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @tag Order
      * @param int $orderId The ID of the order to be deleted.
      */
-    public function deleteOrderByOrderId(int $orderId): void
+    public function deleteOrderByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -6420,9 +6420,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      *      - *deliveryNoteNumber* - string - optional
      *          - If desired, set the delivery note number provided by the supplier.
      */
-    public function createOrdersBookingByOrderId(int $orderId, array $query = []): void
+    public function createOrdersBookingByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/booking"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/booking"], $query), 'POST');
     }
                     
     /**
@@ -6431,9 +6431,9 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @param int $orderId The ID of the order to be canceled.
      * @param array $data 
      */
-    public function updateOrdersCancelByOrderId(int $orderId, array $data): void
+    public function updateOrdersCancelByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/orders/{$orderId}/cancel", 'PUT', $data);
+        return $this->api("/rest/orders/{$orderId}/cancel", 'PUT', $data);
     }
                     
     /**
@@ -6808,9 +6808,9 @@ Gets a date. The ID of the order and the ID of the date type must be specified. 
      * @tag Order
      * @param int $orderId The ID of the order.
      */
-    public function createOrdersDeliveryOrdersAutomaticByOrderId(int $orderId): void
+    public function createOrdersDeliveryOrdersAutomaticByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/delivery_orders/automatic", 'POST');
+        return $this->api("/rest/orders/{$orderId}/delivery_orders/automatic", 'POST');
     }
                     
     /**
@@ -6999,9 +6999,9 @@ Gets a date. The ID of the order and the ID of the date type must be specified. 
      * @tag Order
      * @param int $orderId 
      */
-    public function createOrdersItemsWarehouseLocationsAttachByOrderId(int $orderId): void
+    public function createOrdersItemsWarehouseLocationsAttachByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/items/warehouse_locations/attach", 'POST');
+        return $this->api("/rest/orders/{$orderId}/items/warehouse_locations/attach", 'POST');
     }
                     
     /**
@@ -7009,9 +7009,9 @@ Gets a date. The ID of the order and the ID of the date type must be specified. 
      * @tag Order
      * @param int $orderId 
      */
-    public function createOrdersItemsWarehouseLocationsDetachByOrderId(int $orderId): void
+    public function createOrdersItemsWarehouseLocationsDetachByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/items/warehouse_locations/detach", 'POST');
+        return $this->api("/rest/orders/{$orderId}/items/warehouse_locations/detach", 'POST');
     }
                     
     /**
@@ -7020,9 +7020,9 @@ Gets a date. The ID of the order and the ID of the date type must be specified. 
      * @param int $orderId The ID of the order that the item belongs to.
      * @param int $orderItemId The ID of the order item to be deleted.
      */
-    public function deleteOrdersItemByOrderIdOrderItemId(int $orderId, int $orderItemId): void
+    public function deleteOrdersItemByOrderIdOrderItemId(int $orderId, int $orderItemId)
     {
-        $this->api("/rest/orders/{$orderId}/items/{$orderItemId}", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/items/{$orderItemId}", 'DELETE');
     }
                     
     /**
@@ -7145,9 +7145,9 @@ Cancellation the booking of an order. The ID of the order must be specified.
      * @tag Order
      * @param int $orderId The ID of the order
      */
-    public function deleteOrdersOutgoingStockByOrderId(int $orderId): void
+    public function deleteOrdersOutgoingStockByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/outgoing_stocks", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/outgoing_stocks", 'DELETE');
     }
                 
     /**
@@ -7159,9 +7159,9 @@ Books out the order items of an order. The ID of the order must be specified and
      *      - *date* - string - optional
      *          - The date that is saved as booking date for the outgoing stock.
      */
-    public function createOrdersOutgoingStockByOrderId(int $orderId, array $query = []): void
+    public function createOrdersOutgoingStockByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/outgoing_stocks"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/outgoing_stocks"], $query), 'POST');
     }
                     
     /**
@@ -7315,9 +7315,9 @@ Deletes a property of an order. The ID of the order and the ID of the order prop
      * @param int $typeId 
      * @param array $data 
      */
-    public function deleteOrdersPropertyByOrderIdTypeId(int $orderId, int $typeId, array $data): void
+    public function deleteOrdersPropertyByOrderIdTypeId(int $orderId, int $typeId, array $data)
     {
-        $this->api("/rest/orders/{$orderId}/properties/{$typeId}", 'DELETE', $data);
+        return $this->api("/rest/orders/{$orderId}/properties/{$typeId}", 'DELETE', $data);
     }
                 
     /**
@@ -7880,9 +7880,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId The ID of the order
      */
-    public function deleteOrdersShippingCancelShipmentByOrderId(int $orderId): void
+    public function deleteOrdersShippingCancelShipmentByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/cancel_shipment", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/shipping/cancel_shipment", 'DELETE');
     }
                     
     /**
@@ -7890,9 +7890,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId The ID of the order
      */
-    public function deleteOrdersShippingPackageByOrderId(int $orderId): void
+    public function deleteOrdersShippingPackageByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/packages", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/shipping/packages", 'DELETE');
     }
                 
     /**
@@ -8064,9 +8064,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId The ID of the order
      * @param int $orderShippingPackageId The ID of the order shipping package
      */
-    public function deleteOrdersShippingPackageByOrderIdOrderShippingPackageId(int $orderId, int $orderShippingPackageId): void
+    public function deleteOrdersShippingPackageByOrderIdOrderShippingPackageId(int $orderId, int $orderShippingPackageId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/packages/{$orderShippingPackageId}", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/shipping/packages/{$orderShippingPackageId}", 'DELETE');
     }
                 
     /**
@@ -8288,9 +8288,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId The ID of the order
      * @param int $palletId The ID of the pallet
      */
-    public function deleteOrdersShippingPalletsPackageByOrderIdPalletId(int $orderId, int $palletId): void
+    public function deleteOrdersShippingPalletsPackageByOrderIdPalletId(int $orderId, int $palletId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/pallets/{$palletId}/packages", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/shipping/pallets/{$palletId}/packages", 'DELETE');
     }
                 
     /**
@@ -8311,9 +8311,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId The ID of the order
      * @param int $palletId The ID of the pallet
      */
-    public function updateOrdersShippingPalletsPackageByOrderIdPalletId(int $orderId, int $palletId): void
+    public function updateOrdersShippingPalletsPackageByOrderIdPalletId(int $orderId, int $palletId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/pallets/{$palletId}/packages", 'PUT');
+        return $this->api("/rest/orders/{$orderId}/shipping/pallets/{$palletId}/packages", 'PUT');
     }
                     
     /**
@@ -8324,9 +8324,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *shippingProviderCode* - string - optional
      *          - The code of the shipping service provider
      */
-    public function createOrdersShippingRegisterShipmentByOrderId(int $orderId, array $query = []): void
+    public function createOrdersShippingRegisterShipmentByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/orders/{$orderId}/shipping/register_shipment"], $query), 'POST');
+        return $this->api(array_merge(["/rest/orders/{$orderId}/shipping/register_shipment"], $query), 'POST');
     }
                     
     /**
@@ -8334,9 +8334,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId The ID of the order
      */
-    public function deleteOrdersShippingResetShipmentByOrderId(int $orderId): void
+    public function deleteOrdersShippingResetShipmentByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/reset_shipment", 'DELETE');
+        return $this->api("/rest/orders/{$orderId}/shipping/reset_shipment", 'DELETE');
     }
                     
     /**
@@ -8425,9 +8425,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId The ID of the order
      */
-    public function getOrdersShippingShippingInformationExportLabelByOrderId(int $orderId): void
+    public function getOrdersShippingShippingInformationExportLabelByOrderId(int $orderId)
     {
-        $this->api("/rest/orders/{$orderId}/shipping/shipping_information/export_label");
+        return $this->api("/rest/orders/{$orderId}/shipping/shipping_information/export_label");
     }
                     
     /**
@@ -8729,9 +8729,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteRedistributionByOrderId(int $orderId): void
+    public function deleteRedistributionByOrderId(int $orderId)
     {
-        $this->api("/rest/redistributions/{$orderId}", 'DELETE');
+        return $this->api("/rest/redistributions/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -8813,9 +8813,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *deliveryNoteNumber* - string - optional
      *          - If desired, set the delivery note number provided by the supplier.
      */
-    public function createRedistributionsBookByOrderId(int $orderId, array $query = []): void
+    public function createRedistributionsBookByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/redistributions/{$orderId}/book"], $query), 'POST');
+        return $this->api(array_merge(["/rest/redistributions/{$orderId}/book"], $query), 'POST');
     }
                     
     /**
@@ -8914,9 +8914,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteReorderByOrderId(int $orderId): void
+    public function deleteReorderByOrderId(int $orderId)
     {
-        $this->api("/rest/reorders/{$orderId}", 'DELETE');
+        return $this->api("/rest/reorders/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -8998,9 +8998,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *deliveryNoteNumber* - string - optional
      *          - If desired, set the delivery note number provided by the supplier.
      */
-    public function createReordersBookByOrderId(int $orderId, array $query = []): void
+    public function createReordersBookByOrderId(int $orderId, array $query = [])
     {
-        $this->api(array_merge(["/rest/reorders/{$orderId}/book"], $query), 'POST');
+        return $this->api(array_merge(["/rest/reorders/{$orderId}/book"], $query), 'POST');
     }
                     
     /**
@@ -9078,9 +9078,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId The ID of the order.
      */
-    public function getReordersDeliveryDateByOrderId(int $orderId): void
+    public function getReordersDeliveryDateByOrderId(int $orderId)
     {
-        $this->api("/rest/reorders/{$orderId}/delivery_date");
+        return $this->api("/rest/reorders/{$orderId}/delivery_date");
     }
                     
     /**
@@ -9408,9 +9408,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $repairReasonId 
      */
-    public function deleteRepairsReasonByRepairReasonId(int $repairReasonId): void
+    public function deleteRepairsReasonByRepairReasonId(int $repairReasonId)
     {
-        $this->api("/rest/repairs/reasons/{$repairReasonId}", 'DELETE');
+        return $this->api("/rest/repairs/reasons/{$repairReasonId}", 'DELETE');
     }
                 
     /**
@@ -9453,9 +9453,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $repairStatusId 
      */
-    public function deleteRepairsStatusByRepairStatusId(int $repairStatusId): void
+    public function deleteRepairsStatusByRepairStatusId(int $repairStatusId)
     {
-        $this->api("/rest/repairs/status/{$repairStatusId}", 'DELETE');
+        return $this->api("/rest/repairs/status/{$repairStatusId}", 'DELETE');
     }
                 
     /**
@@ -9478,9 +9478,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteRepairByOrderId(int $orderId): void
+    public function deleteRepairByOrderId(int $orderId)
     {
-        $this->api("/rest/repairs/{$orderId}", 'DELETE');
+        return $this->api("/rest/repairs/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -9559,9 +9559,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId 
      * @param array $data 
      */
-    public function createRepairsBookByOrderId(int $orderId, array $data): void
+    public function createRepairsBookByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/repairs/{$orderId}/book", 'POST', $data);
+        return $this->api("/rest/repairs/{$orderId}/book", 'POST', $data);
     }
                     
     /**
@@ -9570,9 +9570,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId 
      * @param array $data 
      */
-    public function createRepairsCancelBookingByOrderId(int $orderId, array $data): void
+    public function createRepairsCancelBookingByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/repairs/{$orderId}/cancel_booking", 'POST', $data);
+        return $this->api("/rest/repairs/{$orderId}/cancel_booking", 'POST', $data);
     }
                     
     /**
@@ -9841,9 +9841,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $returnReasonsId 
      */
-    public function deleteReturnsReasonByReturnReasonsId(int $returnReasonsId): void
+    public function deleteReturnsReasonByReturnReasonsId(int $returnReasonsId)
     {
-        $this->api("/rest/returns/reasons/{$returnReasonsId}", 'DELETE');
+        return $this->api("/rest/returns/reasons/{$returnReasonsId}", 'DELETE');
     }
                 
     /**
@@ -9886,9 +9886,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $returnStatusId 
      */
-    public function deleteReturnsStatusByReturnStatusId(int $returnStatusId): void
+    public function deleteReturnsStatusByReturnStatusId(int $returnStatusId)
     {
-        $this->api("/rest/returns/status/{$returnStatusId}", 'DELETE');
+        return $this->api("/rest/returns/status/{$returnStatusId}", 'DELETE');
     }
                 
     /**
@@ -9911,9 +9911,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteReturnByOrderId(int $orderId): void
+    public function deleteReturnByOrderId(int $orderId)
     {
-        $this->api("/rest/returns/{$orderId}", 'DELETE');
+        return $this->api("/rest/returns/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -9992,9 +9992,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId 
      * @param array $data 
      */
-    public function createReturnsBookByOrderId(int $orderId, array $data): void
+    public function createReturnsBookByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/returns/{$orderId}/book", 'POST', $data);
+        return $this->api("/rest/returns/{$orderId}/book", 'POST', $data);
     }
                     
     /**
@@ -10322,9 +10322,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteSalesOrderByOrderId(int $orderId): void
+    public function deleteSalesOrderByOrderId(int $orderId)
     {
-        $this->api("/rest/sales_orders/{$orderId}", 'DELETE');
+        return $this->api("/rest/sales_orders/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -10403,9 +10403,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId 
      * @param array $data 
      */
-    public function createSalesOrdersBookByOrderId(int $orderId, array $data): void
+    public function createSalesOrdersBookByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/sales_orders/{$orderId}/book", 'POST', $data);
+        return $this->api("/rest/sales_orders/{$orderId}/book", 'POST', $data);
     }
                     
     /**
@@ -10414,9 +10414,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @param int $orderId 
      * @param array $data 
      */
-    public function createSalesOrdersCancelBookingByOrderId(int $orderId, array $data): void
+    public function createSalesOrdersCancelBookingByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/sales_orders/{$orderId}/cancel_booking", 'POST', $data);
+        return $this->api("/rest/sales_orders/{$orderId}/cancel_booking", 'POST', $data);
     }
                     
     /**
@@ -10446,9 +10446,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function createSalesOrdersSplitByOrderId(int $orderId): void
+    public function createSalesOrdersSplitByOrderId(int $orderId)
     {
-        $this->api("/rest/sales_orders/{$orderId}/split", 'POST');
+        return $this->api("/rest/sales_orders/{$orderId}/split", 'POST');
     }
                     
     /**
@@ -10458,9 +10458,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *orderIds* - array - required
      *          - The IDs of the orders that you want to reset the shipments for
      */
-    public function deleteShippingCenterResetShipment(array $query): void
+    public function deleteShippingCenterResetShipment(array $query)
     {
-        $this->api(array_merge(["/rest/shipping_center/reset_shipments"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/shipping_center/reset_shipments"], $query), 'DELETE');
     }
                     
     /**
@@ -10547,9 +10547,9 @@ Updates the value of a property already linked to an order. The ID of the order 
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteSubscriptionByOrderId(int $orderId): void
+    public function deleteSubscriptionByOrderId(int $orderId)
     {
-        $this->api("/rest/subscriptions/{$orderId}", 'DELETE');
+        return $this->api("/rest/subscriptions/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -10888,9 +10888,9 @@ specified in the request.
      * @param int $countryId The country id.
      * @param array $data 
      */
-    public function deleteSystemSettingsTaricVatAssignmentByTaricCodeCountryId(string $taricCode, int $countryId, array $data): void
+    public function deleteSystemSettingsTaricVatAssignmentByTaricCodeCountryId(string $taricCode, int $countryId, array $data)
     {
-        $this->api("/rest/system/settings/taric_vat_assignment/{$taricCode}/{$countryId}", 'DELETE', $data);
+        return $this->api("/rest/system/settings/taric_vat_assignment/{$taricCode}/{$countryId}", 'DELETE', $data);
     }
                 
     /**
@@ -11179,9 +11179,9 @@ specified in the request.
      * @tag Order
      * @param int $orderId 
      */
-    public function deleteWarrantyByOrderId(int $orderId): void
+    public function deleteWarrantyByOrderId(int $orderId)
     {
-        $this->api("/rest/warranties/{$orderId}", 'DELETE');
+        return $this->api("/rest/warranties/{$orderId}", 'DELETE');
     }
                 
     /**
@@ -11260,9 +11260,9 @@ specified in the request.
      * @param int $orderId 
      * @param array $data 
      */
-    public function createWarrantiesBookByOrderId(int $orderId, array $data): void
+    public function createWarrantiesBookByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/warranties/{$orderId}/book", 'POST', $data);
+        return $this->api("/rest/warranties/{$orderId}/book", 'POST', $data);
     }
                     
     /**
@@ -11271,9 +11271,9 @@ specified in the request.
      * @param int $orderId 
      * @param array $data 
      */
-    public function createWarrantiesCancelBookingByOrderId(int $orderId, array $data): void
+    public function createWarrantiesCancelBookingByOrderId(int $orderId, array $data)
     {
-        $this->api("/rest/warranties/{$orderId}/cancel_booking", 'POST', $data);
+        return $this->api("/rest/warranties/{$orderId}/cancel_booking", 'POST', $data);
     }
                     
     /**

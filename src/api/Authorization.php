@@ -19,9 +19,9 @@ This information is used for correctly displaying the plentymarkets back end.
      * @tag Authorization
 
      */
-    public function getAuthorizedUser(): void
+    public function getAuthorizedUser()
     {
-        $this->api("/rest/authorized_user");
+        return $this->api("/rest/authorized_user");
     }
                     
     /**
@@ -30,9 +30,9 @@ the user after login. This information is used for correctly displaying the plen
      * @tag Authorization
 
      */
-    public function getUserAuthorizedUserWithUiConfig(): void
+    public function getUserAuthorizedUserWithUiConfig()
     {
-        $this->api("/rest/user/authorized_user_with_ui_config");
+        return $this->api("/rest/user/authorized_user_with_ui_config");
     }
                     
     /**
@@ -41,9 +41,9 @@ This information is used for correctly displaying the plentymarkets back end.
      * @tag Authorization
 
      */
-    public function getUsersMe(): void
+    public function getUsersMe()
     {
-        $this->api("/rest/users/me");
+        return $this->api("/rest/users/me");
     }
     
 }

@@ -18,9 +18,9 @@ class Todo extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Todo
 
      */
-    public function deleteTodo(): void
+    public function deleteTodo()
     {
-        $this->api("/rest/todo", 'DELETE');
+        return $this->api("/rest/todo", 'DELETE');
     }
             
     /**
@@ -115,9 +115,9 @@ class Todo extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Todo
 
      */
-    public function createTodo(): void
+    public function createTodo()
     {
-        $this->api("/rest/todo", 'POST');
+        return $this->api("/rest/todo", 'POST');
     }
                 
     /**
@@ -125,9 +125,9 @@ class Todo extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Todo
 
      */
-    public function updateTodo(): void
+    public function updateTodo()
     {
-        $this->api("/rest/todo", 'PUT');
+        return $this->api("/rest/todo", 'PUT');
     }
     
 }

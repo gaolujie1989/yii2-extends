@@ -49,9 +49,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag PluginSet
 
      */
-    public function getPluginSetsInfo(): void
+    public function getPluginSetsInfo()
     {
-        $this->api("/rest/plugin_sets/info");
+        return $this->api("/rest/plugin_sets/info");
     }
                     
     /**
@@ -59,9 +59,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag PluginSet
 
      */
-    public function getPluginSetsPreviewHash(): void
+    public function getPluginSetsPreviewHash()
     {
-        $this->api("/rest/plugin_sets/preview_hash");
+        return $this->api("/rest/plugin_sets/preview_hash");
     }
                     
     /**
@@ -82,9 +82,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$pluginSetId* - int - required
      *          - The ID of the plugin set
      */
-    public function getPluginSetsLanguagesByPluginSetId(int $pluginSetId, array $query): void
+    public function getPluginSetsLanguagesByPluginSetId(int $pluginSetId, array $query)
     {
-        $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages"], $query));
+        return $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages"], $query));
     }
                     
     /**
@@ -98,9 +98,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$languageCode* - string - required
      *          - The code of the language
      */
-    public function getPluginSetsLanguagesCsvByPluginSetIdLanguageCode(int $pluginSetId, int $languageCode, array $query): void
+    public function getPluginSetsLanguagesCsvByPluginSetIdLanguageCode(int $pluginSetId, int $languageCode, array $query)
     {
-        $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/csv/{$languageCode}"], $query));
+        return $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/csv/{$languageCode}"], $query));
     }
                     
     /**
@@ -108,9 +108,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag PluginSet
      * @param int $pluginSetId 
      */
-    public function createPluginSetsLanguagesUploadTranslationByPluginSetId(int $pluginSetId): void
+    public function createPluginSetsLanguagesUploadTranslationByPluginSetId(int $pluginSetId)
     {
-        $this->api("/rest/plugin_sets/{$pluginSetId}/languages/upload_translations", 'POST');
+        return $this->api("/rest/plugin_sets/{$pluginSetId}/languages/upload_translations", 'POST');
     }
                     
     /**
@@ -124,9 +124,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$targetLanguage* - string - required
      *          - The code of the language we target
      */
-    public function getPluginSetsLanguageByPluginSetIdTargetLanguage(int $pluginSetId, int $targetLanguage, array $query): void
+    public function getPluginSetsLanguageByPluginSetIdTargetLanguage(int $pluginSetId, int $targetLanguage, array $query)
     {
-        $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/{$targetLanguage}"], $query));
+        return $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/{$targetLanguage}"], $query));
     }
                 
     /**
@@ -140,9 +140,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *$targetLanguage* - string - required
      *          - The code of the language
      */
-    public function createPluginSetsLanguageByPluginSetIdTargetLanguage(int $pluginSetId, int $targetLanguage, array $query): void
+    public function createPluginSetsLanguageByPluginSetIdTargetLanguage(int $pluginSetId, int $targetLanguage, array $query)
     {
-        $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/{$targetLanguage}"], $query), 'POST');
+        return $this->api(array_merge(["/rest/plugin_sets/{$pluginSetId}/languages/{$targetLanguage}"], $query), 'POST');
     }
                     
     /**
@@ -150,9 +150,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag PluginSet
      * @param int $setId 
      */
-    public function deletePluginSetBySetId(int $setId): void
+    public function deletePluginSetBySetId(int $setId)
     {
-        $this->api("/rest/plugin_sets/{$setId}", 'DELETE');
+        return $this->api("/rest/plugin_sets/{$setId}", 'DELETE');
     }
                 
     /**
@@ -178,9 +178,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $setId 
      * @param array $data 
      */
-    public function updatePluginSetBySetId(int $setId, array $data): void
+    public function updatePluginSetBySetId(int $setId, array $data)
     {
-        $this->api("/rest/plugin_sets/{$setId}", 'PUT', $data);
+        return $this->api("/rest/plugin_sets/{$setId}", 'PUT', $data);
     }
                     
     /**
@@ -191,9 +191,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *'includeStage* - boolean - optional
      *          - Include staged plugins in the result.
      */
-    public function getPluginSetsPluginsBySetId(int $setId, array $query = []): void
+    public function getPluginSetsPluginsBySetId(int $setId, array $query = [])
     {
-        $this->api(array_merge(["/rest/plugin_sets/{$setId}/plugins"], $query));
+        return $this->api(array_merge(["/rest/plugin_sets/{$setId}/plugins"], $query));
     }
                     
     /**
@@ -203,9 +203,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $pluginName 
      * @param int $variationId 
      */
-    public function getPluginSetsPluginsGetCompatibilityBySetIdPluginNameVariationId(int $setId, int $pluginName, int $variationId): void
+    public function getPluginSetsPluginsGetCompatibilityBySetIdPluginNameVariationId(int $setId, int $pluginName, int $variationId)
     {
-        $this->api("/rest/plugin_sets/{$setId}/plugins/get_compatibility/{$pluginName}/{$variationId}");
+        return $this->api("/rest/plugin_sets/{$setId}/plugins/get_compatibility/{$pluginName}/{$variationId}");
     }
                     
     /**
@@ -268,9 +268,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $setId 
      * @param int $pluginId 
      */
-    public function deletePluginSetsPluginBySetIdPluginId(int $setId, int $pluginId): void
+    public function deletePluginSetsPluginBySetIdPluginId(int $setId, int $pluginId)
     {
-        $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}", 'DELETE');
+        return $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}", 'DELETE');
     }
                 
     /**
@@ -279,9 +279,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $setId 
      * @param int $pluginId 
      */
-    public function createPluginSetsPluginBySetIdPluginId(int $setId, int $pluginId): void
+    public function createPluginSetsPluginBySetIdPluginId(int $setId, int $pluginId)
     {
-        $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}", 'POST');
+        return $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}", 'POST');
     }
                 
     /**
@@ -290,9 +290,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $setId 
      * @param int $pluginId 
      */
-    public function updatePluginSetsPluginBySetIdPluginId(int $setId, int $pluginId): void
+    public function updatePluginSetsPluginBySetIdPluginId(int $setId, int $pluginId)
     {
-        $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}", 'PUT');
+        return $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}", 'PUT');
     }
                     
     /**
@@ -301,9 +301,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $setId 
      * @param int $pluginId 
      */
-    public function createPluginSetsPluginsInstallGitPluginBySetIdPluginId(int $setId, int $pluginId): void
+    public function createPluginSetsPluginsInstallGitPluginBySetIdPluginId(int $setId, int $pluginId)
     {
-        $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}/install_git_plugin", 'POST');
+        return $this->api("/rest/plugin_sets/{$setId}/plugins/{$pluginId}/install_git_plugin", 'POST');
     }
                     
     /**
@@ -367,9 +367,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *'includeStage* - boolean - optional
      *          - Include staged plugins in the result.
      */
-    public function getPluginsPluginSetsPluginsByPluginSetId(int $pluginSetId, array $query = []): void
+    public function getPluginsPluginSetsPluginsByPluginSetId(int $pluginSetId, array $query = [])
     {
-        $this->api(array_merge(["/rest/plugins/plugin_sets/{$pluginSetId}/plugins"], $query));
+        return $this->api(array_merge(["/rest/plugins/plugin_sets/{$pluginSetId}/plugins"], $query));
     }
                     
     /**
@@ -378,9 +378,9 @@ class PluginSet extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $pluginId 
      * @param int $pluginSetId 
      */
-    public function getPluginsPluginSetsContainersByPluginIdPluginSetId(int $pluginId, int $pluginSetId): void
+    public function getPluginsPluginSetsContainersByPluginIdPluginSetId(int $pluginId, int $pluginSetId)
     {
-        $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}/containers");
+        return $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}/containers");
     }
     
 }

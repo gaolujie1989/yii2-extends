@@ -44,9 +44,9 @@ class AuditLog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AuditLog
      * @param int $key 
      */
-    public function createAuditLogArchiveOreByKey(int $key): void
+    public function createAuditLogArchiveOreByKey(int $key)
     {
-        $this->api("/rest/audit-log/archive/{$key}/restore", 'POST');
+        return $this->api("/rest/audit-log/archive/{$key}/restore", 'POST');
     }
                     
     /**
@@ -54,9 +54,9 @@ class AuditLog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AuditLog
      * @param int $key 
      */
-    public function getAuditLogArchiveSignedUrlByKey(int $key): void
+    public function getAuditLogArchiveSignedUrlByKey(int $key)
     {
-        $this->api("/rest/audit-log/archive/{$key}/signed-url");
+        return $this->api("/rest/audit-log/archive/{$key}/signed-url");
     }
                     
     /**
@@ -84,9 +84,9 @@ class AuditLog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag AuditLog
      * @param int $key 
      */
-    public function getAuditLogFilesSignedUrlByKey(int $key): void
+    public function getAuditLogFilesSignedUrlByKey(int $key)
     {
-        $this->api("/rest/audit-log/files/{$key}/signed-url");
+        return $this->api("/rest/audit-log/files/{$key}/signed-url");
     }
                     
     /**

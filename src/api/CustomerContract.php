@@ -57,9 +57,9 @@ class CustomerContract extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag CustomerContract
      * @param int $contractId 
      */
-    public function getCustomerContractsDocumentByContractId(int $contractId): void
+    public function getCustomerContractsDocumentByContractId(int $contractId)
     {
-        $this->api("/rest/customer_contracts/{$contractId}/document");
+        return $this->api("/rest/customer_contracts/{$contractId}/document");
     }
                     
     /**
@@ -97,9 +97,9 @@ class CustomerContract extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag CustomerContract
      * @param int $contractId 
      */
-    public function getCustomerContractsSignDocumentByContractId(int $contractId): void
+    public function getCustomerContractsSignDocumentByContractId(int $contractId)
     {
-        $this->api("/rest/customer_contracts/{$contractId}/sign/document");
+        return $this->api("/rest/customer_contracts/{$contractId}/sign/document");
     }
     
 }

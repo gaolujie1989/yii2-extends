@@ -20,9 +20,9 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *key* - string - required
      *          - The key of the object to delete.
      */
-    public function deleteStorageFrontendFile(array $query): void
+    public function deleteStorageFrontendFile(array $query)
     {
-        $this->api(array_merge(["/rest/storage/frontend/file"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/storage/frontend/file"], $query), 'DELETE');
     }
                 
     /**
@@ -103,9 +103,9 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *keyList* - array - required
      *          - List of storage keys for the files to be deleted.
      */
-    public function deleteStorageFrontendFile(array $query): void
+    public function deleteStorageFrontendFile(array $query)
     {
-        $this->api(array_merge(["/rest/storage/frontend/files"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/storage/frontend/files"], $query), 'DELETE');
     }
                 
     /**
@@ -128,9 +128,9 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *key* - string - required
      *          - The storage key for the frontend document to retrieve the URL for. Include the storage key in the request in a <code>key</code> field.
      */
-    public function getStorageFrontendObjectUrl(array $query): void
+    public function getStorageFrontendObjectUrl(array $query)
     {
-        $this->api(array_merge(["/rest/storage/frontend/object-url"], $query));
+        return $this->api(array_merge(["/rest/storage/frontend/object-url"], $query));
     }
                     
     /**
@@ -140,9 +140,9 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *keyList* - array - required
      *          - List of storage keys for the files to be deleted.
      */
-    public function deleteStorageLayout(array $query): void
+    public function deleteStorageLayout(array $query)
     {
-        $this->api(array_merge(["/rest/storage/layout"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/storage/layout"], $query), 'DELETE');
     }
                 
     /**
@@ -197,9 +197,9 @@ results.
      *      - *key* - string - required
      *          - The storage key for the layout document to retrieve the URL for. Include the storage key in the request in a <code>key</code> field.
      */
-    public function getStorageLayoutObjectUrl(array $query): void
+    public function getStorageLayoutObjectUrl(array $query)
     {
-        $this->api(array_merge(["/rest/storage/layout/object-url"], $query));
+        return $this->api(array_merge(["/rest/storage/layout/object-url"], $query));
     }
                     
     /**
@@ -212,9 +212,9 @@ minutes.
      *                        file to retrieve the URL for. Include the storage key in the request in a
      *                        <code>key</code> field.
      */
-    public function getStorageOrderPropertiesObjectUrl(array $query): void
+    public function getStorageOrderPropertiesObjectUrl(array $query)
     {
-        $this->api(array_merge(["/rest/storage/order-properties/object-url"], $query));
+        return $this->api(array_merge(["/rest/storage/order-properties/object-url"], $query));
     }
                     
     /**
@@ -224,9 +224,9 @@ minutes.
      *      - *keyList* - array - required
      *          - List of storage keys for the files to be deleted.
      */
-    public function deleteStoragePluginsInbox(array $query): void
+    public function deleteStoragePluginsInbox(array $query)
     {
-        $this->api(array_merge(["/rest/storage/plugins/inbox"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/storage/plugins/inbox"], $query), 'DELETE');
     }
                 
     /**
@@ -285,9 +285,9 @@ plugin folder only.
      *      - *key* - string - optional
      *          - The storage key for the file to retrieve. Include the storage key in the request in a <code>key</code> field.
      */
-    public function getStoragePluginsInboxObjectUrl(array $query = []): void
+    public function getStoragePluginsInboxObjectUrl(array $query = [])
     {
-        $this->api(array_merge(["/rest/storage/plugins/inbox/object-url"], $query));
+        return $this->api(array_merge(["/rest/storage/plugins/inbox/object-url"], $query));
     }
                     
     /**
@@ -309,9 +309,9 @@ plugin folder only.
      * @param int $plentyId 
      * @param int $date 
      */
-    public function getSystemMetricByPlentyIdDate(int $plentyId, int $date): void
+    public function getSystemMetricByPlentyIdDate(int $plentyId, int $date)
     {
-        $this->api("/rest/system/metrics/{$plentyId}/{$date}");
+        return $this->api("/rest/system/metrics/{$plentyId}/{$date}");
     }
     
 }

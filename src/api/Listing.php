@@ -204,9 +204,9 @@ class Listing extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Listing
      * @param int $id The layout template ID.
      */
-    public function deleteListingsLayoutTemplateById(int $id): void
+    public function deleteListingsLayoutTemplateById(int $id)
     {
-        $this->api("/rest/listings/layout_templates/{$id}", 'DELETE');
+        return $this->api("/rest/listings/layout_templates/{$id}", 'DELETE');
     }
                 
     /**
@@ -515,9 +515,9 @@ than one listing market will be created for each market.
      * @tag Listing
      * @param int $id The listing market directory ID.
      */
-    public function deleteListingsMarketsDirectoryById(int $id): void
+    public function deleteListingsMarketsDirectoryById(int $id)
     {
-        $this->api("/rest/listings/markets/directories/{$id}", 'DELETE');
+        return $this->api("/rest/listings/markets/directories/{$id}", 'DELETE');
     }
                 
     /**
@@ -1307,9 +1307,9 @@ they are added to the batch processing lists, waiting to be revised by automated
      * @tag Listing
      * @param int $id 
      */
-    public function deleteListingsMarketsItemSpecificById(int $id): void
+    public function deleteListingsMarketsItemSpecificById(int $id)
     {
-        $this->api("/rest/listings/markets/item_specifics/{$id}", 'DELETE');
+        return $this->api("/rest/listings/markets/item_specifics/{$id}", 'DELETE');
     }
                 
     /**
@@ -1520,9 +1520,9 @@ they are added to the batch processing lists, waiting to be revised by automated
      *      - *listingMarketId* - int - required
      *          - The listing market ID this text belongs to.
      */
-    public function deleteListingsMarketsTextById(int $id, array $query): void
+    public function deleteListingsMarketsTextById(int $id, array $query)
     {
-        $this->api(array_merge(["/rest/listings/markets/texts/{$id}"], $query), 'DELETE');
+        return $this->api(array_merge(["/rest/listings/markets/texts/{$id}"], $query), 'DELETE');
     }
                 
     /**
@@ -1589,9 +1589,9 @@ they are added to the batch processing lists, waiting to be revised by automated
      * @tag Listing
      * @param int $id The listing market ID.
      */
-    public function deleteListingsMarketById(int $id): void
+    public function deleteListingsMarketById(int $id)
     {
-        $this->api("/rest/listings/markets/{$id}", 'DELETE');
+        return $this->api("/rest/listings/markets/{$id}", 'DELETE');
     }
                 
     /**
@@ -1711,9 +1711,9 @@ they are added to the batch processing lists, waiting to be revised by automated
      * @tag Listing
      * @param int $id The option template ID.
      */
-    public function deleteListingsOptionTemplateById(int $id): void
+    public function deleteListingsOptionTemplateById(int $id)
     {
-        $this->api("/rest/listings/option_templates/{$id}", 'DELETE');
+        return $this->api("/rest/listings/option_templates/{$id}", 'DELETE');
     }
                 
     /**
@@ -2135,9 +2135,9 @@ they are added to the batch processing lists, waiting to be revised by automated
      * @tag Listing
      * @param int $id The listing ID.
      */
-    public function deleteListingById(int $id): void
+    public function deleteListingById(int $id)
     {
-        $this->api("/rest/listings/{$id}", 'DELETE');
+        return $this->api("/rest/listings/{$id}", 'DELETE');
     }
                 
     /**

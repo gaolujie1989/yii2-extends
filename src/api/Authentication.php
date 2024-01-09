@@ -18,9 +18,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
 
      */
-    public function createCheckPassword(): void
+    public function createCheckPassword()
     {
-        $this->api("/rest/check_password", 'POST');
+        return $this->api("/rest/check_password", 'POST');
     }
                     
     /**
@@ -28,9 +28,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
 
      */
-    public function createCheckPin(): void
+    public function createCheckPin()
     {
-        $this->api("/rest/check_pin", 'POST');
+        return $this->api("/rest/check_pin", 'POST');
     }
                     
     /**
@@ -38,9 +38,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
      * @param array $data 
      */
-    public function createLogin(array $data): void
+    public function createLogin(array $data)
     {
-        $this->api("/rest/login", 'POST', $data);
+        return $this->api("/rest/login", 'POST', $data);
     }
                     
     /**
@@ -66,9 +66,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
 
      */
-    public function createLogout(): void
+    public function createLogout()
     {
-        $this->api("/rest/logout", 'POST');
+        return $this->api("/rest/logout", 'POST');
     }
                     
     /**
@@ -76,9 +76,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
 
      */
-    public function createQuickLogin(): void
+    public function createQuickLogin()
     {
-        $this->api("/rest/quick_login", 'POST');
+        return $this->api("/rest/quick_login", 'POST');
     }
                     
     /**
@@ -86,9 +86,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
 
      */
-    public function getSessionLimits(): void
+    public function getSessionLimits()
     {
-        $this->api("/rest/session_limits");
+        return $this->api("/rest/session_limits");
     }
                     
     /**
@@ -174,9 +174,9 @@ class Authentication extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Authentication
      * @param int $id 
      */
-    public function createUsersResetFailedAttemptById(int $id): void
+    public function createUsersResetFailedAttemptById(int $id)
     {
-        $this->api("/rest/users/{$id}/reset_failed_attempts", 'POST');
+        return $this->api("/rest/users/{$id}/reset_failed_attempts", 'POST');
     }
     
 }

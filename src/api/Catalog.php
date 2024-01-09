@@ -71,9 +71,9 @@ class Catalog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Catalog
      * @param int $id 
      */
-    public function createCatalogsCatalogsActivateById(int $id): void
+    public function createCatalogsCatalogsActivateById(int $id)
     {
-        $this->api("/rest/catalogs/catalogs/activate/{$id}", 'POST');
+        return $this->api("/rest/catalogs/catalogs/activate/{$id}", 'POST');
     }
                     
     /**
@@ -158,9 +158,9 @@ class Catalog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Catalog
 
      */
-    public function createCatalogsCatalogsMigrate(): void
+    public function createCatalogsCatalogsMigrate()
     {
-        $this->api("/rest/catalogs/catalogs/migrate", 'POST');
+        return $this->api("/rest/catalogs/catalogs/migrate", 'POST');
     }
                     
     /**
@@ -178,9 +178,9 @@ class Catalog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Catalog
 
      */
-    public function getCatalogsCatalogsToken(): void
+    public function getCatalogsCatalogsToken()
     {
-        $this->api("/rest/catalogs/catalogs/token");
+        return $this->api("/rest/catalogs/catalogs/token");
     }
                     
     /**
@@ -199,9 +199,9 @@ class Catalog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Catalog
      * @param int $id 
      */
-    public function deleteCatalogsCatalogById(int $id): void
+    public function deleteCatalogsCatalogById(int $id)
     {
-        $this->api("/rest/catalogs/catalogs/{$id}", 'DELETE');
+        return $this->api("/rest/catalogs/catalogs/{$id}", 'DELETE');
     }
                 
     /**
@@ -300,9 +300,9 @@ class Catalog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsCatalogsPreviewById(int $id): void
+    public function getCatalogsCatalogsPreviewById(int $id)
     {
-        $this->api("/rest/catalogs/catalogs/{$id}/preview");
+        return $this->api("/rest/catalogs/catalogs/{$id}/preview");
     }
                     
     /**
@@ -311,9 +311,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsCatalogsUrlPrivateById(int $id): void
+    public function getCatalogsCatalogsUrlPrivateById(int $id)
     {
-        $this->api("/rest/catalogs/catalogs/{$id}/url/private");
+        return $this->api("/rest/catalogs/catalogs/{$id}/url/private");
     }
                     
     /**
@@ -322,9 +322,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsCatalogsUrlPublicById(int $id): void
+    public function getCatalogsCatalogsUrlPublicById(int $id)
     {
-        $this->api("/rest/catalogs/catalogs/{$id}/url/public");
+        return $this->api("/rest/catalogs/catalogs/{$id}/url/public");
     }
                     
     /**
@@ -332,9 +332,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsCatalogsVersionsById(int $id): void
+    public function getCatalogsCatalogsVersionsById(int $id)
     {
-        $this->api("/rest/catalogs/catalogs/{$id}/versions");
+        return $this->api("/rest/catalogs/catalogs/{$id}/versions");
     }
                     
     /**
@@ -402,9 +402,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $protocol 
      */
-    public function createCatalogsConnectionCheckByProtocol(int $protocol): void
+    public function createCatalogsConnectionCheckByProtocol(int $protocol)
     {
-        $this->api("/rest/catalogs/connection/check/{$protocol}", 'POST');
+        return $this->api("/rest/catalogs/connection/check/{$protocol}", 'POST');
     }
                     
     /**
@@ -437,9 +437,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsStatusById(int $id): void
+    public function getCatalogsStatusById(int $id)
     {
-        $this->api("/rest/catalogs/statuses/{$id}");
+        return $this->api("/rest/catalogs/statuses/{$id}");
     }
                     
     /**
@@ -447,9 +447,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsStatusesDataById(int $id): void
+    public function getCatalogsStatusesDataById(int $id)
     {
-        $this->api("/rest/catalogs/statuses/{$id}/data");
+        return $this->api("/rest/catalogs/statuses/{$id}/data");
     }
                     
     /**
@@ -457,9 +457,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsStatusesHistoriesById(int $id): void
+    public function getCatalogsStatusesHistoriesById(int $id)
     {
-        $this->api("/rest/catalogs/statuses/{$id}/histories");
+        return $this->api("/rest/catalogs/statuses/{$id}/histories");
     }
                     
     /**
@@ -468,9 +468,9 @@ The data should use the same structure as the catalog options
      * @param int $id 
      * @param int $filename 
      */
-    public function getCatalogsStatusesHistoryByIdFilename(int $id, int $filename): void
+    public function getCatalogsStatusesHistoryByIdFilename(int $id, int $filename)
     {
-        $this->api("/rest/catalogs/statuses/{$id}/histories/{$filename}");
+        return $this->api("/rest/catalogs/statuses/{$id}/histories/{$filename}");
     }
                     
     /**
@@ -478,9 +478,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsStatusesLogsById(int $id): void
+    public function getCatalogsStatusesLogsById(int $id)
     {
-        $this->api("/rest/catalogs/statuses/{$id}/logs");
+        return $this->api("/rest/catalogs/statuses/{$id}/logs");
     }
                     
     /**
@@ -488,9 +488,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $id 
      */
-    public function getCatalogsStatusesPerformancesById(int $id): void
+    public function getCatalogsStatusesPerformancesById(int $id)
     {
-        $this->api("/rest/catalogs/statuses/{$id}/performances");
+        return $this->api("/rest/catalogs/statuses/{$id}/performances");
     }
                     
     /**
@@ -498,9 +498,9 @@ The data should use the same structure as the catalog options
      * @tag Catalog
      * @param int $statusId 
      */
-    public function createCatalogsStatusesCancelByStatusId(int $statusId): void
+    public function createCatalogsStatusesCancelByStatusId(int $statusId)
     {
-        $this->api("/rest/catalogs/statuses/{$statusId}/cancel", 'POST');
+        return $this->api("/rest/catalogs/statuses/{$statusId}/cancel", 'POST');
     }
     
 }

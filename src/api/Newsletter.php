@@ -62,9 +62,9 @@ class Newsletter extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Newsletter
      * @param int $contactId The ID of the costumer contact
      */
-    public function createNewslettersDoubleOptInByContactId(int $contactId): void
+    public function createNewslettersDoubleOptInByContactId(int $contactId)
     {
-        $this->api("/rest/newsletters/double_opt_in/{$contactId}", 'POST');
+        return $this->api("/rest/newsletters/double_opt_in/{$contactId}", 'POST');
     }
                     
     /**

@@ -18,9 +18,9 @@ class Configuration extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Configuration
      * @param int $pluginSetId 
      */
-    public function getPluginsPluginSetsConfigurationsExportByPluginSetId(int $pluginSetId): void
+    public function getPluginsPluginSetsConfigurationsExportByPluginSetId(int $pluginSetId)
     {
-        $this->api("/rest/plugins/plugin_sets/{$pluginSetId}/configurations/export");
+        return $this->api("/rest/plugins/plugin_sets/{$pluginSetId}/configurations/export");
     }
                     
     /**
@@ -28,9 +28,9 @@ class Configuration extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag Configuration
      * @param int $pluginSetId 
      */
-    public function createPluginsPluginSetsConfigurationsImportByPluginSetId(int $pluginSetId): void
+    public function createPluginsPluginSetsConfigurationsImportByPluginSetId(int $pluginSetId)
     {
-        $this->api("/rest/plugins/plugin_sets/{$pluginSetId}/configurations/import", 'POST');
+        return $this->api("/rest/plugins/plugin_sets/{$pluginSetId}/configurations/import", 'POST');
     }
                     
     /**
@@ -39,9 +39,9 @@ class Configuration extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $pluginId 
      * @param int $pluginSetId 
      */
-    public function getPluginsPluginSetsConfigurationLayoutByPluginIdPluginSetId(int $pluginId, int $pluginSetId): void
+    public function getPluginsPluginSetsConfigurationLayoutByPluginIdPluginSetId(int $pluginId, int $pluginSetId)
     {
-        $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}/configuration_layout");
+        return $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}/configuration_layout");
     }
                     
     /**
@@ -62,9 +62,9 @@ class Configuration extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param int $pluginId 
      * @param int $pluginSetId 
      */
-    public function updatePluginsPluginSetsConfigurationByPluginIdPluginSetId(int $pluginId, int $pluginSetId): void
+    public function updatePluginsPluginSetsConfigurationByPluginIdPluginSetId(int $pluginId, int $pluginSetId)
     {
-        $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}/configurations", 'PUT');
+        return $this->api("/rest/plugins/{$pluginId}/plugin_sets/{$pluginSetId}/configurations", 'PUT');
     }
     
 }

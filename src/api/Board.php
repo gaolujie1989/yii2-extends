@@ -50,9 +50,9 @@ class Board extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param string $boardId The ID of the board
      * @param string $columnId The ID of the column
      */
-    public function deleteBoardsColumnByBoardIdColumnId(string $boardId, string $columnId): void
+    public function deleteBoardsColumnByBoardIdColumnId(string $boardId, string $columnId)
     {
-        $this->api("/rest/boards/{$boardId}/columns/{$columnId}", 'DELETE');
+        return $this->api("/rest/boards/{$boardId}/columns/{$columnId}", 'DELETE');
     }
                 
     /**
@@ -105,9 +105,9 @@ class Board extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *position* - int - required
      *          - The position number
      */
-    public function updateBoardsColumnsPositionByBoardIdColumnId(string $boardId, string $columnId, array $query): void
+    public function updateBoardsColumnsPositionByBoardIdColumnId(string $boardId, string $columnId, array $query)
     {
-        $this->api(array_merge(["/rest/boards/{$boardId}/columns/{$columnId}/position"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/boards/{$boardId}/columns/{$columnId}/position"], $query), 'PUT');
     }
                     
     /**
@@ -159,9 +159,9 @@ class Board extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param string $columnId The ID of the column
      * @param string $taskId The ID of the task
      */
-    public function deleteBoardsColumnsTaskByBoardIdColumnIdTaskId(string $boardId, string $columnId, string $taskId): void
+    public function deleteBoardsColumnsTaskByBoardIdColumnIdTaskId(string $boardId, string $columnId, string $taskId)
     {
-        $this->api("/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}", 'DELETE');
+        return $this->api("/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}", 'DELETE');
     }
                 
     /**
@@ -250,9 +250,9 @@ class Board extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *position* - int - required
      *          - The new position of the task
      */
-    public function updateBoardsColumnsTasksPositionByBoardIdColumnIdTaskId(string $boardId, string $columnId, string $taskId, array $query): void
+    public function updateBoardsColumnsTasksPositionByBoardIdColumnIdTaskId(string $boardId, string $columnId, string $taskId, array $query)
     {
-        $this->api(array_merge(["/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}/position"], $query), 'PUT');
+        return $this->api(array_merge(["/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}/position"], $query), 'PUT');
     }
                     
     /**
@@ -285,9 +285,9 @@ class Board extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param string $taskId The ID of the task
      * @param string $referenceId The ID of the reference
      */
-    public function deleteBoardsColumnsTasksReferenceByBoardIdColumnIdTaskIdReferenceId(string $boardId, string $columnId, string $taskId, string $referenceId): void
+    public function deleteBoardsColumnsTasksReferenceByBoardIdColumnIdTaskIdReferenceId(string $boardId, string $columnId, string $taskId, string $referenceId)
     {
-        $this->api("/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}/references/{$referenceId}", 'DELETE');
+        return $this->api("/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}/references/{$referenceId}", 'DELETE');
     }
                     
     /**
@@ -299,9 +299,9 @@ class Board extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @param string $referenceType The type of the reference
      * @param int $referenceKey The key of the reference
      */
-    public function getBoardsColumnsTasksReferenceByBoardIdColumnIdTaskIdReferenceTypeReferenceKey(string $boardId, string $columnId, string $taskId, string $referenceType, int $referenceKey): void
+    public function getBoardsColumnsTasksReferenceByBoardIdColumnIdTaskIdReferenceTypeReferenceKey(string $boardId, string $columnId, string $taskId, string $referenceType, int $referenceKey)
     {
-        $this->api("/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}/references/{$referenceType}/{$referenceKey}");
+        return $this->api("/rest/boards/{$boardId}/columns/{$columnId}/tasks/{$taskId}/references/{$referenceType}/{$referenceKey}");
     }
     
 }

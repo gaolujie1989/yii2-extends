@@ -134,9 +134,9 @@ class OrderSummary extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      * @tag OrderSummary
      * @param int $orderSummaryId 
      */
-    public function deleteAccountsOrderSummaryByOrderSummaryId(int $orderSummaryId): void
+    public function deleteAccountsOrderSummaryByOrderSummaryId(int $orderSummaryId)
     {
-        $this->api("/rest/accounts/order_summaries/{$orderSummaryId}", 'DELETE');
+        return $this->api("/rest/accounts/order_summaries/{$orderSummaryId}", 'DELETE');
     }
                 
     /**

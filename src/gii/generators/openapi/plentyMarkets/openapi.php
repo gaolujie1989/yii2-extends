@@ -136,8 +136,8 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                     $batchMethod = 'batch' . substr($apiMethod, 3);
                 }
             } else if ($returnSchemaType) {
-                $returnType = ': ' .$returnSchemaType;
-                $docParams[] = '     * @return ' .$returnSchemaType;
+                $returnType = ': ' . $returnSchemaType;
+                $docParams[] = '     * @return ' . $returnSchemaType;
             }
         }
 
@@ -188,9 +188,9 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
      * @tag <?= implode(',', $method['tags']) . "\n" ?>
 <?= $docParams . "\n" ?>
      */
-    public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= $returnType . "\n" ?>
+    public function <?= $apiMethod ?>(<?= $functionParams ?>)<?= $returnType === ': void' ? '' : $returnType . "\n" ?>
     {
-        <?= $returnType === ': void' ? '' : 'return ' ?>$this->api(<?= $apiParams ?>);
+        return $this->api(<?= $apiParams ?>);
     }
     <?php endforeach; ?>
 <?php endforeach; ?>

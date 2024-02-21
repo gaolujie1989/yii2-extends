@@ -7,6 +7,7 @@ namespace lujie\plentyMarkets;
 
 use lujie\extend\helpers\ValueHelper;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 
 /**
  * Trait PlentyMarketsBatchRestTrait
@@ -77,64 +78,122 @@ trait PlentyMarketsRestExtendTrait
 
     /**
      * @param int $itemId
-     * @param int $variationId
-     * @param array $data
+     * @param int $imageId
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
+     * @inheritdoc
+     */
+    public function saveItemImageAttributeValueMarkets(int $itemId, int $imageId, array $values = [], ?array $existValues = null): array
+    {
+        $relationIds = ['itemId' => $itemId, 'imageId' => $imageId];
+        return $this->saveRelationParts($relationIds, 'ItemImageAttributeValueMarket', $values, $existValues, ['valueId'], ['valueId']);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $variationId
+     * @param array $values
+     * @param array|null $existValues
+     * @return array
+     * @throws \yii\authclient\InvalidResponseException
+     * @inheritdoc
+     */
+    public function saveVariationSalesPrices(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
+    {
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationSalesPrice', $values, $existValues, ['salesPriceId'], ['price']);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $variationId
+     * @param array $values
+     * @param array|null $existValues
+     * @return array
+     * @throws \yii\authclient\InvalidResponseException
+     * @inheritdoc
+     */
+    public function saveVariationBarcodes(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
+    {
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationBarcode', $values, $existValues, ['barcodeId'], ['code']);
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $variationId
+     * @param array $values
+     * @param array|null $existValues
+     * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationBundleComponents(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationBundle', $values, $existValues, ['componentVariationId'], ['componentQuantity']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationBundle', $values, $existValues, ['componentVariationId'], ['componentQuantity']);
     }
 
     /**
      * @param int $itemId
      * @param int $variationId
-     * @param array $data
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationMarkets(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationMarket', $values, $existValues, ['marketId']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationMarket', $values, $existValues, ['marketId']);
     }
 
     /**
      * @param int $itemId
      * @param int $variationId
-     * @param array $data
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationSkus(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationSku', $values, $existValues, ['marketId', 'accountId'], ['sku', 'parentSku']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationSku', $values, $existValues, ['marketId', 'accountId'], ['sku', 'parentSku']);
     }
 
     /**
      * @param int $itemId
      * @param int $variationId
-     * @param array $data
+     * @param array $values
+     * @param array|null $existValues
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
     public function saveVariationImages(int $itemId, int $variationId, array $values = [], ?array $existValues = null): array
     {
-        return $this->saveVariationRelationParts($itemId, $variationId, 'ItemVariationImage', $values, $existValues, ['imageId']);
+        $relationIds = ['itemId' => $itemId, 'variationId' => $variationId];
+        return $this->saveRelationParts($relationIds, 'ItemVariationImage', $values, $existValues, ['imageId']);
     }
 
-
     /**
-     * @param int $itemId
-     * @param int $variationId
+     * @param array $relationIds
      * @param string $relationType
-     * @param array $relationValues
+     * @param array $saveRelationValues
+     * @param array|null $existRelationValues
+     * @param array $indexKeys
+     * @param array $updateKeys
      * @return array
+     * @throws \yii\authclient\InvalidResponseException
      * @inheritdoc
      */
-    protected function saveVariationRelationParts(
-        int    $itemId,
-        int    $variationId,
+    protected function saveRelationParts(
+        array  $relationIds,
         string $relationType,
         array  $saveRelationValues = [],
         ?array $existRelationValues = null,
@@ -143,16 +202,16 @@ trait PlentyMarketsRestExtendTrait
     {
         $relationType = ucfirst($relationType);
         $eachMethod = 'each' . $relationType;
-        $createMethod = 'create' . $relationType;
-        $updateMethod = 'update' . $relationType;
-        $deleteMethod = 'delete' . $relationType;
         if ($existRelationValues === null) {
-            $existRelationValues = $this->{$eachMethod}([
-                'variationId' => $variationId,
-                'itemId' => $itemId,
-            ]);
+            $existRelationValues = $this->{$eachMethod}($relationIds);
             $existRelationValues = iterator_to_array($existRelationValues, false);
         }
+
+        $mergeRelationIdsFuck = static function($values) use ($relationIds) {
+            return array_merge($values, $relationIds);
+        };
+        $saveRelationValues = array_map($mergeRelationIdsFuck, $saveRelationValues);
+        $existRelationValues = array_map($mergeRelationIdsFuck, $existRelationValues);
 
         $indexKeyFunc = static function ($values) use ($indexKeys) {
             return ValueHelper::getIndexValues($values, $indexKeys);
@@ -160,34 +219,72 @@ trait PlentyMarketsRestExtendTrait
         $saveRelationValues = ArrayHelper::index($saveRelationValues, $indexKeyFunc);
         $existRelationValues = ArrayHelper::index($existRelationValues, $indexKeyFunc);
 
-        $batchRequest = $this->createBatchRequest();
         $toCreateValues = array_diff_key($saveRelationValues, $existRelationValues);
         $toDeleteValues = array_diff_key($existRelationValues, $saveRelationValues);
         $toUpdateValues = [];
-        if ($updateKeys) {
-            $shouldUpdateValues = array_intersect_key($saveRelationValues, $existRelationValues);
+        $shouldUpdateValues = array_intersect_key($saveRelationValues, $existRelationValues);
+        if ($updateKeys && $shouldUpdateValues) {
             foreach ($shouldUpdateValues as $key => $toUpdateValue) {
                 $existValue = $existRelationValues[$key];
                 foreach ($updateKeys as $updateKey) {
                     if ((string)$toUpdateValue[$updateKey] !== (string)$existValue[$updateKey]) {
-                        $toUpdateValue['id'] = $existValue['id'];
+                        if (isset($existValue['id'])) {
+                            $toUpdateValue['id'] = $existValue['id'];
+                        }
                         $toUpdateValues[] = $toUpdateValue;
                     }
                 }
             }
         }
-        $actionMethodValues = [
-            $deleteMethod => $toDeleteValues,
-            $updateMethod => $toUpdateValues,
-            $createMethod => $toCreateValues,
-        ];
-        foreach ($actionMethodValues as $actionMethod => $actionValues) {
-            foreach ($actionValues as $actionValue) {
-                $actionValue['variationId'] = $variationId;
-                $actionValue['itemId'] = $itemId;
-                $batchRequest->{$actionMethod}($actionValue);
+
+        $bulkParts = ['ItemVariationSalesPrice', 'ItemVariationMarket', 'ItemVariationProperty', 'ItemShippingProfile'];
+        $isBulkParts = in_array($relationType, $bulkParts, true);
+        if ($isBulkParts) {
+            $bulkCreateMethod = 'bulkCreate' . Inflector::pluralize($relationType);
+            $bulkUpdateMethod = 'bulkUpdate' . Inflector::pluralize($relationType);
+            $bulkDeleteMethod = 'bulkDelete' . Inflector::pluralize($relationType);
+            $responseData = [];
+            //傻逼PM, 如果删除了所有ItemVariationSalesPrice，价格会从MainVariation里面复制过来
+            if ($toDeleteValues && $relationType !== 'ItemVariationSalesPrice') {
+                $this->{$bulkDeleteMethod}($relationIds);
+                if ($createValues = array_merge($toCreateValues, $shouldUpdateValues)) {
+                    return $this->{$bulkCreateMethod}($createValues);
+                }
+                return [];
+            } else {
+                if ($toDeleteValues) {
+                    $deleteMethod = 'delete' . $relationType;
+                    $batchRequest = $this->createBatchRequest();
+                    foreach ($toDeleteValues as $toDeleteValue) {
+                        $batchRequest->{$deleteMethod}($toDeleteValue);
+                    }
+                    $batchRequest->send();
+                }
+                $actionMethodValues = array_filter([
+                    $bulkUpdateMethod => $toUpdateValues,
+                    $bulkCreateMethod => $toCreateValues,
+                ]);
+                foreach ($actionMethodValues as $actionMethod => $actionValues) {
+                    $responseData[$actionMethod] = $this->{$actionMethod}($actionValues);
+                }
+                return array_merge(...array_values($responseData));
             }
+        } else {
+            $createMethod = 'create' . $relationType;
+            $updateMethod = 'update' . $relationType;
+            $deleteMethod = 'delete' . $relationType;
+            $actionMethodValues = array_filter([
+                $deleteMethod => $toDeleteValues,
+                $updateMethod => $toUpdateValues,
+                $createMethod => $toCreateValues,
+            ]);
+            $batchRequest = $this->createBatchRequest();
+            foreach ($actionMethodValues as $actionMethod => $actionValues) {
+                foreach ($actionValues as $actionValue) {
+                    $batchRequest->{$actionMethod}($actionValue);
+                }
+            }
+            return $batchRequest->send();
         }
-        return $batchRequest->send();
     }
 }

@@ -13,6 +13,7 @@ use Yii;
 use yii\base\UserException;
 use yii\console\Controller;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
 /**
@@ -75,47 +76,33 @@ class SchedulerController extends Controller
     }
 
     /**
-     * @param string $taskCode
-     * @throws \Throwable
-     * @inheritdoc
+     * @var bool
      */
-    public function actionHandle(string $taskCode): void
-    {
-        $task = $this->scheduler->getTask($taskCode);
-        $this->scheduler->handle($task);
-    }
+    public $usage = false;
 
     /**
-     * @param string $taskCode
-     * @throws \Throwable
+     * @param $actionID
+     * @return string[]
      * @inheritdoc
      */
-    public function actionExecute(string $taskCode): void
+    public function options($actionID): array
     {
-        $task = $this->scheduler->getTask($taskCode);
-        $this->scheduler->execute($task);
-    }
-
-    /**
-     * @param string $taskCode
-     * @param string $timeFrom
-     * @param string $timeTo
-     * @param int $timeStep
-     * @throws UserException
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionExecuteTimeStepped(string $taskCode, string $timeFrom = '-10 days', string $timeTo = 'now', int $timeStep = 864000): void
-    {
-        /** @var ExecutableInterface|TimeStepProgressTrait $task */
-        $task = $this->scheduler->getTask($taskCode);
-        if (!ClassHelper::useTrait($task, TimeStepProgressTrait::class)) {
-            throw new UserException('Task must use TimeStepProgressTrait');
+        $options = [];
+        if ($actionID === 'execute' || $actionID === 'handle') {
+            $options = ['usage'];
         }
-        $task->timeFrom = $timeFrom;
-        $task->timeTo = $timeTo;
-        $task->timeStep = $timeStep;
-        $this->scheduler->execute($task);
+        return array_merge(parent::options($actionID), $options);
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function optionAliases(): array
+    {
+        return array_merge(parent::optionAliases(), [
+            'u' => 'usage',
+        ]);
     }
 
     /**
@@ -123,7 +110,7 @@ class SchedulerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function actionTasks(string $d = ''): void
+    public function actionIndex(string $d = ''): void
     {
         $tasks = $this->scheduler->getTasks();
         if ($d) {
@@ -131,5 +118,41 @@ class SchedulerController extends Controller
         } else {
             $this->stdout(VarDumper::dumpAsString(array_keys($tasks)));
         }
+    }
+
+    /**
+     * @param string $taskCode
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionHandle(string $taskCode): void
+    {
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
+        $this->scheduler->handle($task);
+    }
+
+    /**
+     * @param string $taskCode
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionExecute(string $taskCode): void
+    {
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
+        $this->scheduler->execute($task);
     }
 }

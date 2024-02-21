@@ -61,4 +61,24 @@ trait CronScheduleTrait
     {
         return $this->timezone ?? Yii::$app->timeZone;
     }
+
+    /**
+     * @param int|array|null $hours
+     * @param int $minute
+     * @return bool
+     * @inheritdoc
+     */
+    public function isInTime(int|array|null $hours, int $minute = 4): bool
+    {
+        $currentMinute = (int)date('i');
+        if ($hours === null) {
+            return $currentMinute <= $minute;
+        }
+
+        if (is_int($hours)) {
+            $hours = [$hours];
+        }
+        $currentHour = (int)date('H');
+        return in_array($currentHour, $hours, true) && $currentMinute <= $minute;
+    }
 }

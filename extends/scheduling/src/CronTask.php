@@ -6,6 +6,8 @@
 namespace lujie\scheduling;
 
 use lujie\executing\ExecutableTrait;
+use lujie\executing\FollowTaskInterface;
+use lujie\executing\FollowTaskTrait;
 use lujie\executing\LockableTrait;
 use lujie\executing\QueueableTrait;
 use yii\base\Model;
@@ -15,7 +17,36 @@ use yii\base\Model;
  * @package lujie\scheduling
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class CronTask extends Model implements ScheduleTaskInterface
+class CronTask extends Model implements ScheduleTaskInterface, FollowTaskInterface
 {
-    use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait;
+    use CronScheduleTrait, ExecutableTrait, LockableTrait, QueueableTrait, FollowTaskTrait;
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return ['ttr', 'id'];
+    }
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getTtr(): int
+    {
+        if ($this->ttr > 0) {
+            return $this->ttr;
+        }
+        $expressionParts = explode(' ', $this->expression);
+        $firstPart = reset($expressionParts);
+        if (str_starts_with($firstPart, '*/')) {
+            return ((int)substr($firstPart, 2)) * 60 - 30;
+        }
+        if (is_numeric($firstPart)) {
+            return 1800;
+        }
+        return $this->ttr;
+    }
 }

@@ -5,7 +5,10 @@
 
 namespace lujie\scheduling\tasks;
 
-use yii\base\BaseObject;
+use Generator;
+use lujie\executing\ProgressInterface;
+use lujie\executing\ProgressTrait;
+use lujie\scheduling\CronTask;
 use yii\caching\CacheInterface;
 use yii\di\Instance;
 
@@ -14,8 +17,10 @@ use yii\di\Instance;
  * @package lujie\scheduling
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class HeartBeatTask extends BaseObject
+class HeartBeatTask extends CronTask implements ProgressInterface
 {
+    use ProgressTrait;
+
     /**
      * @var CacheInterface
      */
@@ -29,19 +34,46 @@ class HeartBeatTask extends BaseObject
     /**
      * @var int
      */
-    public $sleep = 0;
+    public $sleep = 1;
+
+    public $loops = 300;
 
     /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getTtr(): int
+    {
+        return 60;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return ['cache', 'cacheKey', 'sleep'];
+    }
+
+    /**
+     * @return Generator
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function execute(): void
+    public function execute(): Generator
     {
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
-        $value = 'HeatBeatTask:' . date('Y-m-d H:i:s');
-        $this->cache->set($this->cacheKey, $value, 3600);
-        if ($this->sleep) {
-            sleep($this->sleep);
+        $loops = $this->loops;
+        $progress = $this->getProgress($this->loops);
+        while($loops-- > 0) {
+            $value = 'HeatBeatTask:' . date('Y-m-d H:i:s');
+            $this->cache->set($this->cacheKey, $value, 3600);
+            if ($this->sleep) {
+                sleep($this->sleep);
+            }
+            $progress->done++;
+            yield $value;
         }
     }
 }

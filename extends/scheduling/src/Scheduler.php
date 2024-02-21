@@ -71,11 +71,12 @@ class Scheduler extends Executor
 
     /**
      * @param string|int $taskId
+     * @param array $params
      * @return ScheduleTaskInterface
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function getTask($taskId): ScheduleTaskInterface
+    public function getTask($taskId, array $params = []): ScheduleTaskInterface
     {
         $task = $this->taskLoader->get($taskId);
         if (empty($task)) {
@@ -84,6 +85,7 @@ class Scheduler extends Executor
         if (!($task instanceof ScheduleTaskInterface)) {
             $task = $this->createTask($taskId, $task);
         }
+        $task->setParams($params);
         return $task;
     }
 

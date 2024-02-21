@@ -64,6 +64,9 @@ use Yii;
  * @property <?= $relation[1] . ($relation[2] ? '[]' : '') . ' $' . lcfirst($name) . "\n" ?>
 <?php endforeach; ?>
 <?php endif; ?>
+ *
+ * @method array|<?= $className ?>|null findOne($condition)
+ * @method array|<?= $className ?>[] findAll($condition)
  */
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
 {

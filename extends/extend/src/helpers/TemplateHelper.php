@@ -48,7 +48,7 @@ class TemplateHelper
     {
         $replaces = array_merge([
             '{timestamp}' => time(),
-            '{microSecond}' => microtime(true) * 1000 % 1000,
+            '{microSecond}' => (int)(microtime(true) * 1000) % 1000,
             '{datetime}' => date('YmdHis'),
             '{date}' => date('Ymd'),
             '{time}' => date('His'),

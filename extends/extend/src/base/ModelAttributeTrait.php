@@ -18,6 +18,15 @@ trait ModelAttributeTrait
     private $modelAttributes = [];
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function attributes(): array
+    {
+        return $this->safeAttributes();
+    }
+
+    /**
      * @param string $name
      * @return bool
      */

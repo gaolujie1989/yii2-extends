@@ -5,9 +5,11 @@
 
 namespace lujie\extend\authclient;
 
+use lujie\extend\httpclient\Response;
 use Yii;
 use yii\authclient\CacheStateStorage;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -18,6 +20,7 @@ use yii\helpers\Inflector;
  * @property array $extraActions
  * @property array $extraMethods
  * @property string $suffix
+ * @property bool $contentEncoding
  *
  * @property string|array $cacheStorage
  * @property array $httpClientOptions
@@ -57,6 +60,23 @@ trait RestApiTrait
         $this->initRest();
     }
 
+    /**
+     * @return string
+     * @throws InvalidConfigException
+     * @inheritdoc
+     */
+    protected function getStateKeyPrefix(): string
+    {
+        if ($this->getId() !== $this->getName()) {
+            return parent::getStateKeyPrefix();
+        }
+        $identityKey = $this->username ?? $this->apiKey ?? '';
+        if (empty($identityKey)) {
+            throw new InvalidConfigException('The identity key is required.');
+        }
+        return parent::getStateKeyPrefix() . '_' . $identityKey;
+    }
+
     #region Rest method generate
 
     /**
@@ -66,15 +86,27 @@ trait RestApiTrait
     {
         Yii::info('Init rest config and api methods', __METHOD__);
         $this->setStateStorage($this->cacheStorage ?? CacheStateStorage::class);
-        $this->setHttpClient($this->httpClientOptions ?? [
+        $this->setHttpClient(array_merge(
+            [
                 'requestConfig' => [
-                    'format' => 'json'
+                    'headers' => [
+                        'Accept-Encoding' => 'gzip, deflate',
+                    ],
+                    'format' => 'json',
                 ],
                 'responseConfig' => [
-                    'format' => 'json'
+                    'class' => Response::class,
                 ],
-            ]);
+            ],
+            $this->httpClientOptions ?? []
+        ));
         $this->methods = array_merge($this->createRestApiMethods(), $this->extraMethods ?? []);
+        if (isset($this->suffix)) {
+            $this->methods = array_map(function (array $method) {
+                $method[1] .= $this->suffix;
+                return $method;
+            }, $this->methods);
+        }
     }
 
     /**
@@ -90,7 +122,7 @@ trait RestApiTrait
         foreach ($resources as $resource => $resourcePath) {
             $resourceActions = array_filter(array_merge($this->actions, $extraActions[$resource] ?? []));
             foreach ($resourceActions as $action => [$httpMethod, $actionPath]) {
-                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '') . ($this->suffix ?? '');
+                $url = $resourcePath . ($actionPath ? '/' . trim($actionPath) : '');
                 $method = $action . (in_array($action, $pluralize, true) ? Inflector::pluralize($resource) : $resource);
                 $apiMethods[$method] = [$httpMethod, $url];
             }
@@ -141,11 +173,11 @@ trait RestApiTrait
     /**
      * @param string $name
      * @param array $data
-     * @return array
-     * @inheritdoc
+     * @return array|string|null
      * @throws \Exception
+     * @inheritdoc
      */
-    public function restApi(string $name, array $data): ?array
+    public function restApi(string $name, array $data)
     {
         if (empty($this->methods[$name])) {
             throw new InvalidArgumentException("API method {$name} not found.");
@@ -175,15 +207,15 @@ trait RestApiTrait
             return $this->restApi($name, $params[0] ?? []);
         }
 
-        if (strpos($name, 'batch') === 0) {
+        if (str_starts_with($name, 'batch')) {
             return $this->batch(substr($name, 5), $params[0] ?? [], $params[1] ?? 100);
         }
 
-        if (strpos($name, 'each') === 0) {
+        if (str_starts_with($name, 'each')) {
             return $this->each(substr($name, 4), $params[0] ?? [], $params[1] ?? 100);
         }
 
-        parent::__call($name, $params);
+        return parent::__call($name, $params);
     }
 
     /**
@@ -194,7 +226,7 @@ trait RestApiTrait
     {
         $apiMethodDocs = [];
         foreach ($this->methods as $method => [$httpMethod, $url]) {
-            if (strpos($method, 'list') === 0) {
+            if (str_starts_with($method, 'list')) {
                 $name = substr($method, 4);
                 $apiMethodDocs[] = " * ";
                 $apiMethodDocs[] = " * @method array {$method}(\$data = [])";

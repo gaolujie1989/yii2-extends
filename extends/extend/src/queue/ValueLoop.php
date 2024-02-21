@@ -48,12 +48,12 @@ class ValueLoop extends BaseObject implements LoopInterface
      */
     public function canContinue(): bool
     {
-        static::$exit = $this->valueLoader->get($this->exitKey) ?: false;
-        static::$pause = $this->valueLoader->get($this->pauseKey) ?: false;
+        self::$exit = $this->valueLoader->get($this->exitKey) ?: false;
+        self::$pause = $this->valueLoader->get($this->pauseKey) ?: false;
         while (self::$pause && !self::$exit) {
             sleep($this->parseWait);
-            static::$exit = $this->valueLoader->get($this->exitKey) ?: false;
-            static::$pause = $this->valueLoader->get($this->pauseKey) ?: false;
+            self::$exit = $this->valueLoader->get($this->exitKey) ?: false;
+            self::$pause = $this->valueLoader->get($this->pauseKey) ?: false;
         }
         return !self::$exit;
     }

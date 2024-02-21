@@ -72,18 +72,12 @@ abstract class BaseCookieClient extends BaseClient
         if ($this->httpClientOptions) {
             $this->setHttpClient($this->httpClientOptions);
         }
+        if ($this->getId() === $this->getName()) {
+            $this->setId($this->getId() . '-' . $this->username);
+        }
     }
 
     #region Base Auth
-
-    /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getId(): string
-    {
-        return parent::getId() . '_' . $this->username;
-    }
 
     /**
      * @param array $params

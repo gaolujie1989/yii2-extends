@@ -6,19 +6,23 @@
 namespace lujie\extend;
 
 use lujie\extend\helpers\MemoryHelper;
+use lujie\extend\httpclient\JsonFormatter;
 use lujie\extend\httpclient\Response;
 use lujie\extend\rest\DeleteAction;
 use lujie\extend\validators\DateValidator;
 use lujie\extend\validators\LinkerValidator;
 use lujie\extend\validators\NumberValidator;
+use lujie\extend\validators\SkipValidator;
 use lujie\extend\validators\StringValidator;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
+use yii\console\Application as YiiConsoleApplication;
 use yii\data\Pagination;
 use yii\data\Sort;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
+use yii\httpclient\MockTransport;
 use yii\rest\DeleteAction as YiiDeleteAction;
 use yii\rest\Serializer;
 use yii\rest\UrlRule;
@@ -46,6 +50,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
     public function bootstrap($app): void
     {
         Validator::$builtInValidators['linker'] = LinkerValidator::class;
+        Validator::$builtInValidators['skip'] = SkipValidator::class;
         $this->setDefinitions();
         if ($this->memoryLimit) {
             MemoryHelper::setMemoryLimit($this->memoryLimit);
@@ -60,21 +65,8 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
             YiiStringValidator::class => StringValidator::class,
             YiiNumberValidator::class => NumberValidator::class,
             //BatchQueryResult::class => SortableBatchQueryResult::class,
+//            YiiEmailTarget::class => EmailTarget::class,
 
-            Client::class => [
-                'transport' => CurlTransport::class,
-                'requestConfig' => [
-                    'options' => [
-                        CURLOPT_SSL_VERIFYHOST => 0,
-                        CURLOPT_SSL_VERIFYPEER => 0,
-                        CURLOPT_CONNECTTIMEOUT => 15,
-                        CURLOPT_TIMEOUT => 75,
-                    ]
-                ],
-                'responseConfig' => [
-                    'class' => Response::class,
-                ],
-            ],
             Pagination::class => [
                 'pageSizeParam' => 'limit',
                 'pageSizeLimit' => [0, 500],
@@ -112,8 +104,8 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
 
                     'PUT,PATCH {ids}/batch' => 'batch-update',
                     'DELETE {ids}/batch' => 'batch-delete',
-                    'GET,HEAD {ids}/batch' => 'batch-download',
-                    'POST batch' => 'batch-save',
+                    'PUT,PATCH batch' => 'batch-update',
+                    'DELETE batch' => 'batch-delete',
 
                     'POST {id}/prev' => 'move-prev',
                     'POST {id}/next' => 'move-next',
@@ -121,8 +113,37 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                     'GET,HEAD totals' => 'totals',
                     'GET,HEAD counts' => 'counts',
                     'GET,HEAD statistics' => 'statistics',
+                    'GET,HEAD dashboard' => 'dashboard',
                 ]
             ],
         ]);
+        if (YII_ENV_TEST && Yii::$app instanceof YiiConsoleApplication) {
+            Yii::$container->setDefinitions([
+                Client::class => [
+                    'transport' => MockTransport::class,
+                ],
+            ]);
+        } else {
+            $curlOptions = [
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_TIMEOUT => 75,
+            ];
+            Yii::$container->setDefinitions([
+                Client::class => [
+                    'transport' => CurlTransport::class,
+                    'requestConfig' => [
+                        'options' => $curlOptions
+                    ],
+                    'responseConfig' => [
+                        'class' => Response::class,
+                    ],
+                    'formatters' => [
+                        Client::FORMAT_JSON => JsonFormatter::class,
+                    ]
+                ],
+            ]);
+        }
     }
 }

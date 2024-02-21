@@ -15,6 +15,7 @@ namespace lujie\extend\db;
 trait DropTableTrait
 {
     /**
+     * @return false|void|mixed
      * @inheritdoc
      */
     public function safeDown()

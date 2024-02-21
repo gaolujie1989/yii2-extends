@@ -12,7 +12,7 @@ use yii\helpers\Inflector;
 /**
  * Trait SandboxApiTrait
  *
- * @property $sandboxUrlMap = []
+ * @property array $sandboxUrlMap = []
  *
  * @package lujie\extend\authclient
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -34,7 +34,7 @@ trait SandboxApiTrait
         $sandboxUrlMap = $this->sandboxUrlMap ?? [];
         $map = $this->sandbox ? $sandboxUrlMap : array_flip($sandboxUrlMap);
         $this->apiBaseUrl = strtr($this->apiBaseUrl, $map);
-        $this->authUrl = strtr($this->authUrl, $map);
-        $this->tokenUrl = strtr($this->tokenUrl, $map);
+        $this->authUrl = $this->authUrl ? strtr($this->authUrl, $map) : $this->authUrl;
+        $this->tokenUrl = $this->tokenUrl ? strtr($this->tokenUrl, $map) : $this->tokenUrl;
     }
 }

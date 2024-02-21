@@ -25,7 +25,7 @@ class DateValidator extends \yii\validators\DateValidator
     public $parseDateValueFunc = 'strtotime';
 
     /**
-     * @var string
+     * @var ?string
      */
     public $timestampAttribute = self::TIMESTAMP_ATTRIBUTE_SELF;
 

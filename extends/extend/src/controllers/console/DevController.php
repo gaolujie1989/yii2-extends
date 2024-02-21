@@ -6,7 +6,6 @@
 namespace lujie\extend\controllers\console;
 
 use lujie\extend\dev\DependencyChecker;
-use lujie\extend\gii\VueViewGenerator;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\console\Controller;
@@ -24,20 +23,6 @@ class DevController extends Controller
      * @var DependencyChecker|array
      */
     public $dependencyChecker = [];
-
-    /**
-     * @param string $name
-     * @inheritdoc
-     */
-    public function actionGenerateVueView(string $name): void
-    {
-        if (empty(Yii::$app->params['vueViews'][$name])) {
-            throw new InvalidArgumentException('Vue View not found');
-        }
-        $config = Yii::$app->params['vueViews'][$name];
-        $vueViewGenerator = new VueViewGenerator($config);
-        echo $vueViewGenerator->generate();
-    }
 
     /**
      * @throws \yii\base\InvalidConfigException

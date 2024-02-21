@@ -51,7 +51,7 @@ trait CachingTrait
     /**
      * @var bool
      */
-    private $initialized = false;
+    private $cacheInitialized = false;
 
     /**
      * @throws InvalidConfigException
@@ -59,7 +59,7 @@ trait CachingTrait
      */
     public function initCache(): void
     {
-        if ($this->initialized) {
+        if ($this->cacheInitialized) {
             return;
         }
 
@@ -85,7 +85,7 @@ trait CachingTrait
                 $this->dependency = new TagDependency(['tags' => (array)$this->cacheTags]);
             }
         }
-        $this->initialized = true;
+        $this->cacheInitialized = true;
     }
 
     /**

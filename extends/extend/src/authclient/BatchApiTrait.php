@@ -33,13 +33,55 @@ trait BatchApiTrait
     }
 
     /**
-     * @param string $resource
-     * @return string
+     * @param string $method
+     * @param array $params
+     * @return Iterator
+     * @throws NotSupportedException
      * @inheritdoc
      */
-    protected function getBatchInternalMethod(string $resource): string
+    public function eachInternal(string $method, array $params = []): Iterator
     {
-        return 'list' . ucfirst(Inflector::pluralize($resource));
+        $iterator = $this->batchInternal($method, $params);
+        foreach ($iterator as $items) {
+            yield from $items;
+        }
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @return Iterator
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    protected function batchInternal(string $method, array $params = []): Iterator
+    {
+        $conditionIndex = count($params) - 1;
+        $condition = $params[$conditionIndex] ?? [];
+        $nextPageCondition = $condition;
+        $firstPageItems = [];
+
+        do {
+            $params[$conditionIndex] = $nextPageCondition;
+            $responseData = call_user_func_array([$this, $method], $params);
+            $items = $this->getPageData($responseData, $method);
+
+            if ($this->reverse) {
+                if (empty($firstPageItems)) {
+                    $firstPageItems = $items;
+                } else {
+                    yield array_reverse($firstPageItems);
+                }
+            } else {
+                yield $items;
+            }
+
+            $nextPageCondition = $this->getNextPageCondition($responseData, $condition);
+        } while ($nextPageCondition);
+
+        if ($this->reverse && $firstPageItems) {
+            yield array_reverse($firstPageItems);
+        }
     }
 
     /**
@@ -51,6 +93,18 @@ trait BatchApiTrait
     protected function getPageData(array $responseData, string $method): array
     {
         return $responseData['data'] ?? [];
+    }
+
+    /**
+     * @param array $responseData
+     * @param array $condition
+     * @return array|null
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    protected function getNextPageCondition(array $responseData, array $condition): ?array
+    {
+        throw new NotSupportedException('Not supported');
     }
 
     /**
@@ -90,16 +144,16 @@ trait BatchApiTrait
         return $condition;
     }
 
+    #region @deprecated methods
+
     /**
-     * @param array $responseData
-     * @param array $condition
-     * @return array|null
-     * @throws NotSupportedException
-     * @inheritdoc
+     * @param string $resource
+     * @return string
+     * @deprecated
      */
-    protected function getNextPageCondition(array $responseData, array $condition): ?array
+    protected function getBatchInternalMethod(string $resource): string
     {
-        throw new NotSupportedException('Not supported');
+        return 'list' . ucfirst(Inflector::pluralize($resource));
     }
 
     /**
@@ -108,34 +162,12 @@ trait BatchApiTrait
      * @param int $batchSize
      * @return Iterator
      * @throws \Exception
-     * @inheritdoc
+     * @deprecated
      */
     public function batch(string $resource, array $condition = [], int $batchSize = 100): Iterator
     {
         $listMethod = $this->getBatchInternalMethod($resource);
-        $nextPageCondition = $condition;
-        $firstPageItems = [];
-
-        do {
-            $responseData = $this->{$listMethod}($nextPageCondition);
-            $items = $this->getPageData($responseData, $listMethod);
-
-            if ($this->reverse) {
-                if (empty($firstPageItems)) {
-                    $firstPageItems = $items;
-                } else {
-                    yield array_reverse($firstPageItems);
-                }
-            } else {
-                yield $items;
-            }
-
-            $nextPageCondition = $this->getNextPageCondition($responseData, $condition);
-        } while ($nextPageCondition);
-
-        if ($this->reverse && $firstPageItems) {
-            yield array_reverse($firstPageItems);
-        }
+        return $this->batchInternal($listMethod, [$condition]);
     }
 
     /**
@@ -144,13 +176,15 @@ trait BatchApiTrait
      * @param int $batchSize
      * @return Iterator
      * @throws \Exception
-     * @inheritdoc
+     * @deprecated
      */
     public function each(string $resource, array $condition = [], int $batchSize = 100): Iterator
     {
-        $iterator = $this->batch($resource, $condition, $batchSize);
+        $iterator = $this->batch($resource, $condition);
         foreach ($iterator as $items) {
             yield from $items;
         }
     }
+
+    #endregion
 }

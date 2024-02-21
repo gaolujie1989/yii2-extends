@@ -69,18 +69,12 @@ abstract class BaseJsonRpcClient extends BaseClient
         if ($this->httpClientOptions) {
             $this->setHttpClient($this->httpClientOptions);
         }
+        if ($this->getId() === $this->getName()) {
+            $this->setId($this->getId() . '-' . $this->appKey);
+        }
     }
 
     #region Base Auth
-
-    /**
-     * @return string
-     * @inheritdoc
-     */
-    public function getId(): string
-    {
-        return parent::getId() . '_' . $this->appKey;
-    }
 
     /**
      * @return Request

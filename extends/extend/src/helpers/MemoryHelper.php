@@ -25,6 +25,17 @@ class MemoryHelper
     ];
 
     /**
+     * @return string
+     * @inheritdoc
+     */
+    public static function getMemoryUsage(): string
+    {
+        $memoryUsage = memory_get_usage(true);
+        $memoryUsageMB = round($memoryUsage / 1024 / 1024);
+        return $memoryUsageMB . 'M';
+    }
+
+    /**
      * @param string $memoryString
      * @return int
      * @inheritdoc

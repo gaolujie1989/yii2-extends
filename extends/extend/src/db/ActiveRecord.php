@@ -17,8 +17,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
     use RowPrepareTrait;
     use RelationClassTrait;
     use TraceableBehaviorTrait;
-    use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait;
+    use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait, AliasErrorsTrait;
     use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
+
+    public $relations;
 
     /**
      * @return array
@@ -31,5 +33,17 @@ class ActiveRecord extends \yii\db\ActiveRecord
             $behaviors = array_merge($behaviors, $this->aliasBehaviors());
         }
         return $behaviors;
+    }
+
+    /**
+     * @return string|null
+     * @inheritdoc
+     */
+    public function optimisticLock(): ?string
+    {
+        if (substr(static::class, -4) === 'Form' && $this->hasAttribute('version')) {
+            return 'version';
+        }
+        return parent::optimisticLock();
     }
 }

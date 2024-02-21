@@ -270,7 +270,7 @@ class QueryHelper
     public static function normalizeDivisionSelect(array $columns, bool $percent = true, int $precision = 2, int $default = 999): array
     {
         foreach ($columns as $key => $column) {
-            if (is_string($key) && is_string($column) && strpos($column, '/') !== false) {
+            if (is_string($key) && is_string($column) && str_contains($column, '/')) {
                 if ($percent) {
                     $column .= ' * 100';
                 }
@@ -295,11 +295,11 @@ class QueryHelper
     ): void
     {
         $query->andWhere(['OR',
-            ['!=', $statusColumn, ExecStatusConst::EXEC_STATUS_QUEUED],
+            ['IN', $statusColumn, [ExecStatusConst::EXEC_STATUS_PENDING, ExecStatusConst::EXEC_STATUS_FAILED]],
             ['AND',
                 [$statusColumn => [ExecStatusConst::EXEC_STATUS_QUEUED, ExecStatusConst::EXEC_STATUS_RUNNING]],
                 ['<=', $updatedAtColumn, time() - $queuedDuration],
             ]
-        ]);
+        ])->addOrderBy([$updatedAtColumn => SORT_ASC]);
     }
 }

@@ -35,11 +35,14 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function removeAttributesRules(array &$rules, $attributes, ?string $rule = null): array
+    public static function removeAttributesRules(array &$rules, array|string $attributes, ?string $rule = null): array
     {
         $attributes = (array)$attributes;
         foreach ($rules as $key => $ruleConfig) {
             [$ruleAttributes, $ruleName] = $ruleConfig;
+            if ($ruleName === 'unique' && $rule !== $ruleName) {
+                continue;
+            }
             if ($rule === null || $rule === $ruleName) {
                 if (is_string($ruleAttributes) && in_array($ruleAttributes, $attributes, true)) {
                     unset($rules[$key]);
@@ -129,7 +132,7 @@ class ModelHelper
             'carrier', 'departure', 'destination',
         ],
         'BOTH_LIKE' => [],
-        'LEFT_LIKE' => ['no', 'key', 'code'],
+        'LEFT_LIKE' => ['no', 'key', 'code', 'sku'],
         'RIGHT_LIKE' => [],
         'LIKE' => ['name', 'title'],
         'DATETIME_RANGE' => ['at', 'date', 'time'],
@@ -143,7 +146,7 @@ class ModelHelper
      * @return array
      * @inheritdoc
      */
-    public static function filterAttributes(array $attributes, array $keys, bool $prefix = true): array
+    public static function filterAttributes(array $attributes, array $keys, bool $prefix = false): array
     {
         return array_values(array_filter($attributes, static function ($attribute) use ($keys, $prefix) {
             foreach ($keys as $key) {
@@ -180,7 +183,7 @@ class ModelHelper
         $filterKeySuffixes = array_filter(array_map('array_filter', $filterKeySuffixes));
         $filterKeyAttributes = [];
         foreach ($filterKeySuffixes as $key => $keySuffixes) {
-            $filterKeyAttributes[$key] = static::filterAttributes($model->attributes(), $keySuffixes, false);
+            $filterKeyAttributes[$key] = static::filterAttributes($model->attributes(), $keySuffixes);
         }
         $query = $query ?: $model::find();
         if ($alias && $query instanceof ActiveQuery) {
@@ -228,8 +231,8 @@ class ModelHelper
 
         $filterKeySuffixes = array_merge($defaultFilterKeySuffixes, $filterKeySuffixes);
         $datetimeKeySuffixes = array_merge($defaultDateTimeKeySuffixes, $datetimeKeySuffixes);
-        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes, false);
-        $datetimeAttributes = static::filterAttributes($model->attributes(), $datetimeKeySuffixes, false);
+        $filterAttributes = static::filterAttributes($model->attributes(), $filterKeySuffixes);
+        $datetimeAttributes = static::filterAttributes($model->attributes(), $datetimeKeySuffixes);
 
         $rules = [];
         if ($filterAttributes) {
@@ -283,7 +286,13 @@ class ModelHelper
             $relationRelations = $relationConfig[2] ?? [];
             $relationPk = $relationClass::primaryKey()[0];
             if (isset($row[$relation][$relationPk])) { //mean is one relation, else is many relation
-                $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
+                if (method_exists($relationClass, 'prepareArray')) {
+                    $row[$relation] = $relationClass::prepareArray($row[$relation]);
+                } else {
+                    $row[$relation] = static::prepareArray($row[$relation], $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
+                }
+            } else if (method_exists($relationClass, 'prepareRows')) {
+                $row[$relation] = $relationClass::prepareRows($row[$relation]);
             } else {
                 foreach ($row[$relation] as $index => $value) {
                     $row[$relation][$index] = static::prepareArray($value, $relationClass, $relationAlias, $relationRelations, $unsetAttributes);
@@ -348,7 +357,7 @@ class ModelHelper
         $defaultRemoveKeySuffixes = array_combine($defaultRemoveKeySuffixes, $defaultRemoveKeySuffixes);
 
         $removeKeySuffixes = array_filter(array_merge($defaultRemoveKeySuffixes, $removeKeySuffixes));
-        $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes, false);
+        $removeRuleAttributes = static::filterAttributes($model->attributes(), $removeKeySuffixes);
         $removeRuleAttributes = [$removeRuleAttributes];
 
         $aliasSafeRules = [];

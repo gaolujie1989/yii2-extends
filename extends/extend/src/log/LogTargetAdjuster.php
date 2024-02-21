@@ -5,6 +5,8 @@
 
 namespace lujie\extend\log;
 
+use lujie\extend\log\targets\ExtendDbTarget;
+use lujie\extend\log\targets\ExtendEmailTarget;
 use Yii;
 use yii\base\Application;
 use yii\base\BaseObject;
@@ -27,26 +29,26 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
      */
     public $defaultTargets = [
         'appErrorEmail' => [
-            'class' => EmailTarget::class,
+            'class' => ExtendEmailTarget::class,
             'levels' => ['error'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
 
         'appErrorDb' => [
-            'class' => DbTarget::class,
+            'class' => ExtendDbTarget::class,
             'levels' => ['error'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
         'appWarningDb' => [
-            'class' => DbTarget::class,
+            'class' => ExtendDbTarget::class,
             'levels' => ['warning'],
             'logVars' => [],
             'except' => ['yii\*'],
         ],
         'appProfileDb' => [
-            'class' => DbTarget::class,
+            'class' => ExtendDbTarget::class,
             'levels' => ['profile'],
             'logVars' => [],
             'except' => ['yii\*'],
@@ -89,7 +91,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         ],
 
         'yiiErrorEmail' => [
-            'class' => EmailTarget::class,
+            'class' => ExtendEmailTarget::class,
             'levels' => ['error'],
             'logVars' => [],
             'categories' => ['yii\*'],
@@ -97,15 +99,21 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         ],
 
         'yiiErrorDb' => [
-            'class' => DbTarget::class,
+            'class' => ExtendDbTarget::class,
             'levels' => ['error'],
             'logVars' => [],
             'categories' => ['yii\*'],
             'except' => ['yii\web\HttpException:4*', 'yii\console\UnknownCommandException*'], //4xx httpCode not need send mail
         ],
         'yiiWarningDb' => [
-            'class' => DbTarget::class,
+            'class' => ExtendDbTarget::class,
             'levels' => ['warning'],
+            'logVars' => [],
+            'categories' => ['yii\*'],
+        ],
+        'yiiProfileDb' => [
+            'class' => ExtendDbTarget::class,
+            'levels' => ['profile'],
             'logVars' => [],
             'categories' => ['yii\*'],
         ],
@@ -266,7 +274,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             $this->defaultScenarioTargets[$scenario] = array_combine($scenarioTargets, $scenarioTargets);
         }
         foreach ($this->defaultTargets as $key => $target) {
-            if ($target['class'] === EmailTarget::class) {
+            if ($target['class'] === EmailTarget::class || $target['class'] === ExtendEmailTarget::class) {
                 $this->defaultTargets[$key] = array_merge($target, $this->emailTargetConfig);
             }
         }
@@ -274,7 +282,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
             $this->scenarioTargets[$scenario] = array_combine($scenarioTargets, $scenarioTargets);
         }
         foreach ($this->targets as $key => $target) {
-            if ($target['class'] === EmailTarget::class) {
+            if ($target['class'] === EmailTarget::class || $target['class'] === ExtendEmailTarget::class) {
                 $this->targets[$key] = array_merge($target, $this->emailTargetConfig);
             }
         }

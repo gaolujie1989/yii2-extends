@@ -58,7 +58,7 @@ trait RateLimitTrait
      * @return array
      * @inheritdoc
      */
-    public function getRateLimit($request, $action)
+    public function getRateLimit($request, $action): array
     {
         if ($this->rateLimits) {
             if (empty($this->rateLimits['default'])) {
@@ -84,7 +84,7 @@ trait RateLimitTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function loadAllowance($request, $action)
+    public function loadAllowance($request, $action): array
     {
         $cacheKey = $this->rateKey . ':' . ($this->getId() ?: 0);
         if ($value = $this->getCacheValue($cacheKey)) {
@@ -101,7 +101,7 @@ trait RateLimitTrait
      * @throws InvalidConfigException
      * @inheritdoc
      */
-    public function saveAllowance($request, $action, $allowance, $timestamp)
+    public function saveAllowance($request, $action, $allowance, $timestamp): void
     {
         $cacheKey = $this->rateKey . ':' . ($this->getId() ?: 0);
         $this->allowance = $allowance;

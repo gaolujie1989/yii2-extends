@@ -5,7 +5,7 @@
 
 namespace lujie\extend\file;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\extend\helpers\ZipHelper;
 use Yii;
 use yii\base\BaseObject;
@@ -53,7 +53,7 @@ class FileArchiver extends BaseObject
     public $removeArchived = true;
 
     /**
-     * @return Filesystem|object|null
+     * @return Filesystem|null|object
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

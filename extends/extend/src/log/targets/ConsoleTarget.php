@@ -19,20 +19,12 @@ use yii\log\Target;
  */
 class ConsoleTarget extends Target
 {
-    /**
-     * @var bool If true context message will be added to the end of output
-     */
-    public $enableContextMassage = false;
+    use LogContextMassageTrait;
 
     /**
      * @var string
      */
-    public $dateFormat = 'Y-m-d H:i:s';
-
-    /**
-     * @var string
-     */
-    public $labelTemplate = '[{datetime}][{level}][{memory}][{category}]';
+    public $labelTemplate = '[{datetime}][{level}][{category}][{memory}]';
 
     /**
      * @var int
@@ -44,15 +36,6 @@ class ConsoleTarget extends Target
      * @var int
      */
     public $exportInterval = 1;
-
-    /**
-     * @inheritdoc
-     * @return string
-     */
-    protected function getContextMessage(): string
-    {
-        return $this->enableContextMassage ? parent::getContextMessage() : '';
-    }
 
     /**
      * @inheritdoc
@@ -93,11 +76,12 @@ class ConsoleTarget extends Target
      */
     private function generateLabel(array $message): string
     {
+        [$text, $level, $category, $timestamp, $traces, $memoryUsage] = $message;
         $labelData = [
-            'datetime' => date($this->dateFormat, $message[3]),
-            'category' => $message[2],
-            'level' => Logger::getLevelName($message[1]),
-            'memory' => number_format(($message[5] ?? 0) / 1024 / 1024, 2) . ' MB',
+            'datetime' => $this->getTime($timestamp),
+            'level' => Logger::getLevelName($level),
+            'category' => $category,
+            'memory' => number_format($memoryUsage / 1024 / 1024, 2) . ' MB',
         ];
 
         $labelText = TemplateHelper::render($this->labelTemplate, $labelData);

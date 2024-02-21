@@ -5,8 +5,10 @@
 
 namespace lujie\sales\channel\channels\otto;
 
+use lujie\data\exchange\transformers\TransformerInterface;
 use lujie\otto\OttoRestClient;
 use lujie\sales\channel\BaseSalesChannel;
+use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
 use yii\base\InvalidConfigException;
@@ -38,9 +40,9 @@ class OttoSalesChannel extends BaseSalesChannel
     public $externalOrderKeyField = 'salesOrderId';
 
     /**
-     * @var string
+     * @var TransformerInterface
      */
-    public $externalOrderStatusField = 'status';
+    public $orderTransformer = OttoSalesChannelOrderTransformer::class;
 
     /**
      * @throws InvalidConfigException
@@ -85,47 +87,37 @@ class OttoSalesChannel extends BaseSalesChannel
 
     #endregion
 
-    #region Order Push ship/cancel
+    #region Order Push
 
-    /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @inheritdoc
-     */
-    public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
+    protected function getExternalOrder(string $externalOrderKey): ?array
     {
-        $additional = $channelOrder->additional;
-        $this->client->createV1Shipment([
-            'trackingKey' => [
-                'carrier' => $additional['carrier'],
-                'trackingNumber' => $additional['trackingNumbers'],
-            ],
-            'shipDate' => date('c', $additional['shipped_at']),
-            'shipFromAddress' => [
-                'city' => '',
-                'countryCode' => '',
-                'zipCode' => '',
-            ],
-            'positionItems' => [
-                [
-                    'positionItemId' => '',
-                    'salesOrderId' => '',
-                    'returnTrackingKey' => '',
-                ]
-            ]
-        ]);
-        return true;
+        return $this->client->getV4Order(['salesOrderId' => $externalOrderKey]);
     }
 
-    /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @inheritdoc
-     */
-    public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
+    protected function saveExternalOrder(array $externalOrder, SalesChannelOrder $salesChannelOrder): ?array
     {
-        $this->client->cancelV4Order(['salesOrderId' => $channelOrder->external_order_key]);
-        return true;
+        if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
+            $this->client->cancelV4Order(['salesOrderId' => $salesChannelOrder->external_order_key]);
+            return $this->getExternalOrder($salesChannelOrder->external_order_key);
+        }
+        if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
+            $this->client->createV1Shipment(array_merge($externalOrder, [
+                'shipFromAddress' => [
+                    'city' => '',
+                    'countryCode' => '',
+                    'zipCode' => '',
+                ],
+                'positionItems' => [
+                    [
+                        'positionItemId' => '',
+                        'salesOrderId' => '',
+                        'returnTrackingKey' => '',
+                    ]
+                ]
+            ]));
+            return $this->getExternalOrder($salesChannelOrder->external_order_key);
+        }
+        return null;
     }
 
     #endregion

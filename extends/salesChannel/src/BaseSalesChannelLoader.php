@@ -8,6 +8,7 @@ namespace lujie\sales\channel;
 use lujie\data\loader\BaseDataLoader;
 use lujie\sales\channel\models\SalesChannelAccount;
 use Yii;
+use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 
 /**
@@ -57,7 +58,7 @@ abstract class BaseSalesChannelLoader extends BaseDataLoader
         if ($account === null || $account->type !== $this->salesChannelAccountType) {
             return null;
         }
-        /** @var SalesChannelInterface $salesChannel */
+        /** @var SalesChannelInterface|BaseObject $salesChannel */
         $salesChannel = Yii::createObject(array_merge(
             [
                 'class' => $this->salesChannelClass,

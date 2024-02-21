@@ -25,7 +25,7 @@ use yii\helpers\VarDumper;
  * @package lujie\sales\channel\controllers\console
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class SalesChannelController extends Controller
+class BaseSalesChannelController extends Controller
 {
     /**
      * @var SalesChannelManager
@@ -67,47 +67,7 @@ class SalesChannelController extends Controller
         return $this->salesChannelManager->salesChannelLoader->get($account->account_id);
     }
 
-    #region ITEM
-
-    /**
-     * @param string $fulfillmentItemIdsStr
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
-     * @inheritdoc
-     */
-    public function actionPushItems(string $salesChannelItemIdsStr): void
-    {
-        $salesChannelItemIds = ValueHelper::strToArray($salesChannelItemIdsStr);
-        $query = SalesChannelItem::find()->salesChannelItemId($salesChannelItemIds);
-        foreach ($query->each() as $salesChannelItem) {
-            $this->salesChannelManager->pushSalesChannelItem($salesChannelItem);
-            VarDumper::dump($salesChannelItem->item_pushed_result);
-        }
-    }
-
-    #endregion
-
     #region ORDER
-
-    /**
-     * @param string $createdAtFrom
-     * @param string $createdAtTo
-     * @param int $timeStep
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionPullNewOrders(string $createdAtFrom = '-1 days', string $createdAtTo = 'now', int $timeStep = 43200): void
-    {
-        /** @var Executor $executor */
-        $executor = Instance::ensure('executor', Executor::class);
-        $pullSalesChannelOrderTask = new PullSalesChannelOrderTask();
-        $pullSalesChannelOrderTask->memoryLimit = '1G';
-        $pullSalesChannelOrderTask->timeFrom = $createdAtFrom;
-        $pullSalesChannelOrderTask->timeTo = $createdAtTo;
-        $pullSalesChannelOrderTask->timeStep = $timeStep;
-        $executor->execute($pullSalesChannelOrderTask);
-    }
 
     /**
      * @param string $accountName
@@ -119,28 +79,11 @@ class SalesChannelController extends Controller
         $account = $this->getAccount($accountName);
         $salesChannel = $this->getService($accountName);
         $orderIds = ValueHelper::strToArray($orderIdsStr);
-        $salesChannelOrders = SalesChannelOrder::find()->salesChannelAccountId($account->account_id)->orderId($orderIds)->all();
+        $salesChannelOrders = SalesChannelOrder::find()
+            ->salesChannelAccountId($account->account_id)
+            ->orderId($orderIds)
+            ->all();
         $salesChannel->pullSalesOrders($salesChannelOrders);
-    }
-
-    #endregion
-
-    #region OTTO
-
-    /**
-     * @param string $accountName
-     * @param int $page
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionPullOttoCategories(string $accountName, int $page = 0): void
-    {
-        /** @var Executor $executor */
-        $executor = Instance::ensure('executor', Executor::class);
-        $pullOttoCategoryTask = new PullOttoCategoryTask();
-        $pullOttoCategoryTask->accountName = $accountName;
-        $pullOttoCategoryTask->page = $page;
-        $executor->execute($pullOttoCategoryTask);
     }
 
     #endregion

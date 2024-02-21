@@ -14,7 +14,7 @@ class m220812_111611_sales_channel_item extends Migration
     {
         $this->createTable($this->tableName, [
             'sales_channel_item_id' => $this->bigPrimaryKey(),
-            'sales_channel_account_id' => $this->bigInteger()->notNull(),
+            'sales_channel_account_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_type' => $this->string(20)->notNull()->defaultValue(0),
             'item_id' => $this->bigInteger()->notNull()->defaultValue(0),
             'item_updated_at' => $this->integer()->unsigned()->notNull()->defaultValue(0),

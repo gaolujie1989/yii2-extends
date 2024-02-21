@@ -46,6 +46,19 @@ class PullSalesChannelOrderTask extends BaseSalesChannelTask implements Progress
     public $pullBatchSize = 20;
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return array_merge(
+            $this->getTimeStepProgressParams(),
+            ['pullLimit', 'pullBatchSize'],
+            parent::getParams()
+        );
+    }
+
+    /**
      * @return \Generator
      * @throws InvalidConfigException
      * @inheritdoc

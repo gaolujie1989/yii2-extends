@@ -11,12 +11,15 @@ use lujie\sales\channel\BaseSalesChannel;
 use lujie\sales\channel\constants\SalesChannelConst;
 use lujie\sales\channel\models\SalesChannelItem;
 use lujie\sales\channel\models\SalesChannelOrder;
+use Yii;
 use yii\authclient\InvalidResponseException;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\UserException;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
+use yii\helpers\ReplaceArrayValue;
 
 /**
  * Class PmSalesChannel
@@ -30,12 +33,11 @@ class PmSalesChannel extends BaseSalesChannel
      */
     public $client;
 
-    #region External Model Key Field
+    public $orderTransformer = PmSalesChannelOrderTransformer::class;
 
-    /**
-     * @var string
-     */
-    public $externalOrderKeyField = 'id';
+    public $orderDataStorage = null;
+
+    #region External Model Key Field
 
     /**
      * @var string
@@ -61,13 +63,6 @@ class PmSalesChannel extends BaseSalesChannel
     ];
 
     #endregion
-
-    public $orderCancelledStatus = 8;
-
-    public $orderShippingWarehouseIds = [
-        'F4PX_ES' => 121,
-        'F4PX_DE' => 124,
-    ];
 
     /**
      * @throws InvalidConfigException
@@ -122,7 +117,6 @@ class PmSalesChannel extends BaseSalesChannel
     {
         $salesChannelOrder->external_created_at = strtotime($externalOrder['createdAt']);
         $salesChannelOrder->external_updated_at = strtotime($externalOrder['updatedAt']);
-        $salesChannelOrder->external_order_status = $externalOrder['statusId'];
         $orderDates = ArrayHelper::map($externalOrder['dates'], 'typeId', 'date');
         $orderProperties = ArrayHelper::map($externalOrder['properties'], 'typeId', 'value');
 
@@ -136,106 +130,95 @@ class PmSalesChannel extends BaseSalesChannel
             'externalOrderNo' => $orderProperties[PlentyMarketsConst::ORDER_PROPERTY_TYPE_IDS['EXTERNAL_ORDER_ID']] ?? '',
         ];
 
-        $this->updateSalesChannelOrderStatus($salesChannelOrder);
         return parent::updateSalesChannelOrder($salesChannelOrder, $externalOrder, $changeActionStatus);
     }
 
     /**
-     * @param SalesChannelOrder $salesChannelOrder
+     * @param array $externalOrder
+     * @return int|null
      * @inheritdoc
      */
-    protected function updateSalesChannelOrderStatus(SalesChannelOrder $salesChannelOrder, bool $changeActionStatus = false): void
+    protected function getSalesChannelStatus(array $externalOrder): ?int
     {
-        if (empty($this->salesChannelStatusMap[$salesChannelOrder->external_order_status])) {
-            $newSalesChannelStatus = null;
-            if ($salesChannelOrder->external_order_status < 4) {
-                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT;
-            } elseif ($salesChannelOrder->external_order_status >= 4 && $salesChannelOrder->external_order_status < 7) {
-                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_PAID;
-            } elseif ($salesChannelOrder->external_order_status >= 7 && $salesChannelOrder->external_order_status < 8) {
-                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_SHIPPED;
-            } elseif ($salesChannelOrder->external_order_status >= 8 && $salesChannelOrder->external_order_status < 9) {
-                $newSalesChannelStatus = SalesChannelConst::CHANNEL_STATUS_CANCELLED;
-            }
-            if ($newSalesChannelStatus) {
-                $statusTransitions = $this->salesChannelStatusActionTransitions[$salesChannelOrder->sales_channel_status] ?? null;
-                if ($statusTransitions === null
-                    || ($changeActionStatus && in_array($newSalesChannelStatus, $statusTransitions, true))) {
-                    $salesChannelOrder->sales_channel_status = $newSalesChannelStatus;
-                }
-            }
+        $externalOrderStatus = $externalOrder[$this->externalOrderStatusField];
+        $salesChannelStatus = parent::getSalesChannelStatus($externalOrderStatus);
+        if ($salesChannelStatus !== null) {
+            return $salesChannelStatus;
         }
+        if ($externalOrderStatus < 4) {
+            return SalesChannelConst::CHANNEL_STATUS_WAIT_PAYMENT;
+        }
+        if ($externalOrderStatus < 7) {
+            return SalesChannelConst::CHANNEL_STATUS_PAID;
+        }
+        if ($externalOrderStatus < 8) {
+            return SalesChannelConst::CHANNEL_STATUS_SHIPPED;
+        }
+        if ($externalOrderStatus < 9) {
+            return SalesChannelConst::CHANNEL_STATUS_CANCELLED;
+        }
+        return null;
     }
 
     #endregion
 
-    #region Order Push ship/cancel
+    #region Order Push
 
     /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
+     * @param string $externalOrderKey
+     * @return array|null
      * @inheritdoc
      */
-    public function shipSalesOrder(SalesChannelOrder $channelOrder): bool
+    protected function getExternalOrder(string $externalOrderKey): ?array
     {
-        $orderId = (int)$channelOrder->external_order_key;
-        $pmOrder = $this->client->getOrder(['id' => $orderId, 'with' => 'comments']);
-
-        $additional = $channelOrder->additional;
-        $notes = $additional['notes'] ?? [];
-        //kiwi data userId 96, if kiwi data already commented, skip
-        if ($notes && (empty($pmOrder['comments']) || !in_array(96, ArrayHelper::getColumn($pmOrder['comments'], 'userId'), true))) {
-            $this->client->createComment([
-                'referenceValue' => $orderId,
-                'text' => '<p>' . strtr($notes[0], ["\n" => '<br />']) . '</p>',
-                'referenceType' => 'order',
-                'isVisibleForContact' => false,
-                'userId' => 96,
-            ]);
-        }
-
-        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
-            throw new InvalidArgumentException("Sales order {$orderId} is cancelled, can not be shipped");
-        }
-        $trackingNumbers = $additional['trackingNumbers'] ?? [];
-        if (empty($trackingNumbers)) {
-            throw new InvalidArgumentException("Empty trackingNumbers of order {$channelOrder->order_id}");
-        }
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
-            $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
-        }
-        $warehouseCode = $additional['warehouseCode'] ?? '';
-        if ($warehouseId = $this->orderShippingWarehouseIds[$warehouseCode] ?? null) {
-            $this->client->updateOrderWarehouse($orderId, $warehouseId);
-        }
-        $this->client->updateOrderShippingNumbers($orderId, $trackingNumbers);
-        $pmOrder = $this->client->getOrder(['id' => $orderId]);
-        return $this->updateSalesChannelOrder($channelOrder, $pmOrder, true);
+        return $this->client->getOrder(['id' => $externalOrderKey]);
     }
 
     /**
-     * @param SalesChannelOrder $channelOrder
-     * @return bool
-     * @throws InvalidConfigException
-     * @throws \Throwable
+     * @param array $externalOrder
+     * @param SalesChannelOrder $salesChannelOrder
+     * @return array|null
      * @inheritdoc
      */
-    public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool
+    protected function saveExternalOrder(array $externalOrder, SalesChannelOrder $salesChannelOrder): ?array
     {
-        $pmOrder = $this->client->getOrder(['id' => $channelOrder->external_order_key]);
-        $channelStatus = $this->salesChannelStatusMap[$pmOrder['statusId']] ?? null;
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_SHIPPED) {
-            throw new InvalidArgumentException("Sales order {$channelOrder->external_order_key} is shipped, can not be cancelled");
+        if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_CANCELLED) {
+            return $this->client->updateOrder($externalOrder);
         }
-        if ($channelStatus === SalesChannelConst::CHANNEL_STATUS_CANCELLED) {
-            return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+        if ($salesChannelOrder->sales_channel_status === SalesChannelConst::CHANNEL_STATUS_TO_SHIPPED) {
+            $trackingNumbers = $externalOrder['trackingNumbers'] ?? [];
+            if (empty($trackingNumbers)) {
+                $message = "Empty trackingNumbers of channel order {$salesChannelOrder->sales_channel_order_id}";
+                $salesChannelOrder->addError('order_id', $message);
+                return null;
+            }
+
+            $externalOrderId = $salesChannelOrder->external_order_key;
+            $comments = $externalOrder['notes'] ?? $externalOrder['coments'] ?? [];
+            if ($comments) {
+                $pmOrder = $this->client->getOrder(['id' => $externalOrderId, 'with' => 'comments']);
+                $userComments = ArrayHelper::index($pmOrder['comments'], 'userId');
+                $userId = 96;
+                if (empty($userComments[$userId])) {
+                    $this->client->createComment([
+                        'referenceValue' => $externalOrderId,
+                        'text' => '<p>' . strtr(implode("\n", $comments), ["\n" => '<br />']) . '</p>',
+                        'referenceType' => 'order',
+                        'isVisibleForContact' => false,
+                        'userId' => $userId,
+                    ]);
+                }
+            }
+
+            $warehouseId = $externalOrder['warehouseId'] ?? '';
+            if ($warehouseId) {
+                $this->client->updateOrderWarehouse($externalOrderId, $warehouseId);
+            }
+
+            $this->client->updateOrderShippingNumbers($externalOrderId, $trackingNumbers);
+            return $this->client->getOrder(['id' => $externalOrderId]);
         }
-        $pmOrder = $this->client->updateOrder(['id' => $this->orderCancelledStatus]);
-        return $this->updateSalesChannelOrder($channelOrder, $pmOrder);
+        return null;
     }
 
     #endregion
@@ -273,7 +256,7 @@ class PmSalesChannel extends BaseSalesChannel
             return [SalesChannelConst::ITEM_PUSH_PART_ALL];
         }
         $pmSaveParts = array_intersect_key($this->pushedPartsMap, array_flip($pushedParts));
-        return array_merge(...$pmSaveParts);
+        return array_merge(...array_values($pmSaveParts));
     }
 
     /**
@@ -326,10 +309,13 @@ class PmSalesChannel extends BaseSalesChannel
         if (isset($externalItem['backendName'])) {
             return $this->savePmAttribute($externalItem, $salesChannelItem);
         }
-        if (isset($externalItem['manufacturerId'],$externalItem['producingCountryId'])) {
+        if (isset($externalItem['manufacturerId'], $externalItem['producingCountryId'])) {
             return $this->savePmItem($externalItem, $salesChannelItem);
         }
-        throw new InvalidArgumentException('Unknown external item data');
+        $message = 'Unknown external item data: ' . Json::encode($externalItem);
+        $salesChannelItem->addError('item_id', $message);
+        Yii::error($message, __METHOD__);
+        return null;
     }
 
     /**
@@ -365,6 +351,7 @@ class PmSalesChannel extends BaseSalesChannel
      * @param array $externalItem
      * @param SalesChannelItem $salesChannelItem
      * @return array|null
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmItem(array $externalItem, SalesChannelItem $salesChannelItem): ?array
@@ -377,50 +364,59 @@ class PmSalesChannel extends BaseSalesChannel
         ];
         $relatedParts = array_intersect_key($externalItem, $relatedParts);
         $externalItem = array_diff_key($externalItem, $relatedParts);
-        $additional = $salesChannelItem->additional;
-        $additional['step'] = $additional['step'] ?? 'item';
+
+        $pushParts = ['item', 'itemTexts', 'itemImages'];
+        $pushPartsCount = count($pushParts);
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+        $doneIndex = $pushedResult['progress']['done'] ?? 0;
+
         $savedItem = null;
-        if ($additional['step'] === 'item') {
-            if ($externalItem) {
-                $itemId = $salesChannelItem->external_item_key;
-                if (empty($itemId)) {
-                    $savedItem = $this->client->createItem($externalItem);
-                    $this->updateSalesChannelItem($salesChannelItem, $savedItem);
-                    $additional = $salesChannelItem->additional;
-                } else {
-                    unset($externalItem['variations']);
-                    $savedItem = $this->client->updateItem($externalItem);
-                }
+        foreach ($pushParts as $index => $pushPart) {
+            if ($doneIndex > $index) {
+                continue;
             }
-            $additional['step'] = 'itemTexts';
-            $salesChannelItem->additional = $additional;
+            $doneIndex = $index;
+            $pushedResult['progress'] = ['done' => $index, 'total' => $pushPartsCount, 'message' => $pushPart];
+            $salesChannelItem->item_pushed_result = $pushedResult;
             $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'itemTexts') {
-            if ($relatedParts['itemTexts'] !== null) {
-                $this->savePmItemTexts($relatedParts['itemTexts'], $salesChannelItem);
-                $additional = $salesChannelItem->additional;
+
+            switch ($pushPart) {
+                case 'item':
+                    if ($externalItem) {
+                        if (empty($salesChannelItem->external_item_key)) {
+                            $savedItem = $this->client->createItem($externalItem);
+                            $this->updateSalesChannelItem($salesChannelItem, $savedItem);
+                            $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+                        } else {
+                            unset($externalItem['variations']);
+                            $savedItem = $this->client->updateItem($externalItem);
+                        }
+                    }
+                    break;
+                case 'itemTexts':
+                    if (isset($relatedParts['itemTexts'])) {
+                        $this->savePmItemTexts($relatedParts['itemTexts'], $salesChannelItem);
+                    }
+                    break;
+                case 'itemImages':
+                    if (isset($relatedParts['itemImages'])) {
+                        $this->savePmItemImages($relatedParts['itemImages'], $salesChannelItem);
+                    }
+                    break;
+                default:
+                    break;
             }
-            $additional['step'] = 'itemImages';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
         }
-        if ($additional['step'] === 'itemImages') {
-            if ($relatedParts['itemImages'] !== null) {
-                $this->savePmItemImages($relatedParts['itemImages'], $salesChannelItem);
-                $additional = $salesChannelItem->additional;
-            }
-            unset($additional['step']);
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        return $savedItem;
+        unset($pushedResult['progress']);
+        $salesChannelItem->item_pushed_result = $pushedResult;
+        $salesChannelItem->save(false);
+        return $savedItem ?: $this->client->getItem(['id' => $salesChannelItem->external_item_key]);
     }
 
     /**
      * @param array $itemTexts
-     * @param int $itemId
-     * @param int $mainVariationId
+     * @param SalesChannelItem $salesChannelItem
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmItemTexts(array $itemTexts, SalesChannelItem $salesChannelItem): void
@@ -445,19 +441,30 @@ class PmSalesChannel extends BaseSalesChannel
 
     /**
      * @param array $itemImages
-     * @param int $itemId
      * @param SalesChannelItem $salesChannelItem
+     * @throws InvalidResponseException
      * @inheritdoc
      */
     protected function savePmItemImages(array $itemImages, SalesChannelItem $salesChannelItem): void
     {
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+
         $itemId = $salesChannelItem->external_item_key;
-        $externalAdditional = $salesChannelItem->external_item_additional;
-        $existItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
-        $pmItemImages = iterator_to_array($existItemImages, false);
+        $pmItemImages = $this->client->eachItemImages(['itemId' => $itemId]);
+        $pmItemImages = iterator_to_array($pmItemImages, false);
         $pmItemImageIds = ArrayHelper::getColumn($pmItemImages, 'id');
+
+        $externalAdditional = $salesChannelItem->external_item_additional ?: [];
         $itemImageIds = $externalAdditional['itemImageIds'] ?? [];
-        $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
+        $linkedItemImageIds = $this->linkItemImageIds($itemImages, $pmItemImages);
+        $linkedItemImageIds = array_map(static function($value) {
+            return new ReplaceArrayValue($value);
+        }, $linkedItemImageIds);
+        $itemImageIds = ArrayHelper::merge($itemImageIds, $linkedItemImageIds);
+
+        $itemImageModelIds = ArrayHelper::map($itemImages, 'modelId', 'modelId');
+        //过滤Kiwi已经删除的Image
+        $itemImageIds = array_intersect_key($itemImageIds, $itemImageModelIds);
         $toDeleteItemImageIds = array_diff($pmItemImageIds, $itemImageIds);
         if ($toDeleteItemImageIds) {
             $batchRequest = $this->client->createBatchRequest();
@@ -466,8 +473,18 @@ class PmSalesChannel extends BaseSalesChannel
             }
             $batchRequest->send();
         }
+        //过滤PM已经删除的Image
+        $itemImageIds = array_intersect($itemImageIds, $pmItemImageIds);
+//        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
+//        $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
+//        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
         $batchRequest = $this->client->createBatchRequest();
+        $itemImageCount = count($itemImages);
+        $itemDone = 0;
         foreach ($itemImages as $itemImage) {
+            $itemDone++;
+            $attributeValueMarkets = $itemImage['attributeValueMarkets'] ?? null;
+            unset($itemImage['attributeValueMarkets']);
             $itemImage['itemId'] = $itemId;
             $modelId = $itemImage['modelId'] ?? null;
             unset($itemImage['modelId']);
@@ -485,13 +502,50 @@ class PmSalesChannel extends BaseSalesChannel
                 }
                 unset($itemImage['uploadImageUrl']);
                 $createdItemImage = $this->client->createItemImage($itemImage);
-                $itemImageIds[$modelId] = $createdItemImage['id'];
+                $imageId = $createdItemImage['id'];
+                $itemImageIds[$modelId] = $imageId;
                 $externalAdditional['itemImageIds'] = $itemImageIds;
                 $salesChannelItem->external_item_additional = $externalAdditional;
+                $pushedResult['progress']['message'] = "itemImages[{$itemDone}/{$itemImageCount}]";
+                $salesChannelItem->item_pushed_result = $pushedResult;
                 $salesChannelItem->save(false);
             }
+            //放到VariationImage中执行
+//            if ($attributeValueMarkets !== null) {
+//                $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $attributeValueMarkets, $itemImageAttributeValueMarkets[$imageId] ?? []);
+//            }
         }
+        $externalAdditional['itemImageIds'] = $itemImageIds;
+        $salesChannelItem->external_item_additional = $externalAdditional;
+        $salesChannelItem->save(false);
         $batchRequest->send();
+    }
+
+    /**
+     * @param array $itemImages
+     * @param array $pmItemImages
+     * @return array
+     * @inheritdoc
+     */
+    protected function linkItemImageIds(array $itemImages, array $pmItemImages): array
+    {
+        $itemImageIds = [];
+        $pmItemImageNameIds = ArrayHelper::map($pmItemImages, 'cleanImageName', 'id');
+        foreach ($itemImages as $itemImage) {
+            if (empty($itemImage['uploadImageUrl'])) {
+                continue;
+            }
+            $modelId = $itemImage['modelId'] ?? null;
+            if (empty($modelId)) {
+                continue;
+            }
+            $imageName = pathinfo(parse_url($itemImage['uploadImageUrl'], PHP_URL_PATH), PATHINFO_BASENAME);
+            $imageName = strtr($imageName, ['_' => '-']);
+            if (isset($pmItemImageNameIds[$imageName])) {
+                $itemImageIds[(string)$modelId] = $pmItemImageNameIds[$imageName];
+            }
+        }
+        return $itemImageIds;
     }
 
     #endregion
@@ -512,91 +566,121 @@ class PmSalesChannel extends BaseSalesChannel
             throw new InvalidArgumentException('variation data must with item id');
         }
         // 可以自动关联保存:
-        // variationBarcodes, variationSalesPrices,
+        // variationSalesPrices, 傻逼PM, 原先可以，后来不行了
         // variationAttributeValues, variationProperties, variationCategories, variationClients,
+        // variationBarcodes 傻逼PM, 原先可以，后来不行了
         $relatedParts = [
+            'variationSalesPrices' => null,
+            'variationBarcodes' => null,
             'variationBundleComponents' => null,
             'variationMarkets' => null,
             'variationSkus' => null,
             'variationImages' => null,
+            'itemImageAttributeValues' => null,
         ];
-        $relatedParts = array_intersect_key($externalItem, $relatedParts);
+        $relatedParts = array_merge($relatedParts, array_intersect_key($externalItem, $relatedParts));
         $externalItem = array_diff_key($externalItem, $relatedParts);
-        $additional = $salesChannelItem->additional;
-        $additional['step'] = $additional['step'] ?? 'variation';
+
+        $pushParts = [
+            'variation',
+            'variationSalesPrices',
+            'variationBarcodes',
+            'variationBundleComponents',
+            'variationMarkets',
+            'variationSkus',
+            'variationImages',
+            'itemImageAttributeValues'
+        ];
+        $pushPartsCount = count($pushParts);
+        $pushedResult = $salesChannelItem->item_pushed_result ?: [];
+        $doneIndex = $pushedResult['progress']['done'] ?? 0;
+
         $savedVariation = null;
-        if ($additional['step'] === 'variation') {
-            if (empty($salesChannelItem->external_item_key)) {
-                try {
-                    $savedVariation = $this->client->createItemVariation($externalItem);
-                    $this->updateSalesChannelItem($salesChannelItem, $savedVariation);
-                } catch (InvalidResponseException $exception) {
-                    if ((string)$exception->response->getStatusCode() === '422') {
-                        $variations = $this->client->eachItemVariations(['itemId' => $externalItem['itemId']]);
-                        $variations = iterator_to_array($variations, false);
-                        $variations = ArrayHelper::index($variations, 'number');
-                        $variation = $variations[$externalItem['number']] ?? null;
-                        if ($variation) {
-                            $this->updateSalesChannelItem($salesChannelItem, $variation);
-                            $externalItem['id'] = $variation['id'];
-                            unset($externalItem['variationAttributeValues']);
-                            $savedVariation = $this->client->updateItemVariation($externalItem);
+        $pmVariation = null;
+        foreach ($pushParts as $index => $pushPart) {
+            if ($doneIndex > $index) {
+                continue;
+            }
+            $doneIndex = $index;
+            $pushedResult['progress'] = ['done' => $index, 'total' => $pushPartsCount, 'message' => $pushPart];
+            $salesChannelItem->item_pushed_result = $pushedResult;
+            $salesChannelItem->save(false);
+
+            if ($pushPart === 'variation') {
+                if (empty($salesChannelItem->external_item_key)) {
+                    try {
+                        $savedVariation = $this->client->createItemVariation($externalItem);
+                        $this->updateSalesChannelItem($salesChannelItem, $savedVariation);
+                    } catch (InvalidResponseException $exception) {
+                        if ((string)$exception->response->getStatusCode() === '422') {
+                            $variations = $this->client->eachItemVariations(['itemId' => $externalItem['itemId']]);
+                            $variations = iterator_to_array($variations, false);
+                            $variations = ArrayHelper::index($variations, 'number');
+                            $variation = $variations[$externalItem['number']] ?? null;
+                            if ($variation) {
+                                $this->updateSalesChannelItem($salesChannelItem, $variation);
+                                $externalItem['id'] = $variation['id'];
+                                unset($externalItem['variationAttributeValues']);
+                                $savedVariation = $this->client->updateItemVariation($externalItem);
+                            } else {
+                                throw $exception;
+                            }
                         } else {
                             throw $exception;
                         }
-                    } else {
-                        throw $exception;
                     }
+                } else {
+                    unset(
+                        $externalItem['variationAttributeValues'],
+                        $externalItem['unit'],
+                        $externalItem['variationClients'],
+                        $externalItem['variationCategories'],
+                        $externalItem['mainWarehouseId'],
+                    );
+                    $savedVariation = $this->client->updateItemVariation($externalItem);
                 }
-                $additional = $salesChannelItem->additional;
-            } else {
-                unset($externalItem['variationAttributeValues']);
-                $savedVariation = $this->client->updateItemVariation($externalItem);
             }
-            $additional['step'] = 'variationBundleComponents';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        $variationId = $salesChannelItem->external_item_key;
-        $itemId = $externalItem['itemId'];
-        $pmVariation = $this->client->getItemVariation([
-            'id' => $variationId,
-            'itemId' => $itemId,
-            'with' => 'variationBundleComponents,variationMarkets,variationSkus'
-        ]);
-        if ($additional['step'] === 'variationBundleComponents') {
-            if ($relatedParts['variationBundleComponents'] !== null) {
-                $this->client->saveVariationBundleComponents($itemId, $variationId, $relatedParts['variationBundleComponents'], $pmVariation['variationBundleComponents']);
+
+            $variationId = $salesChannelItem->external_item_key;
+            $itemId = $externalItem['itemId'];
+            if ($pmVariation === null) {
+                $pmVariation = $this->client->getItemVariation([
+                    'id' => $variationId,
+                    'itemId' => $itemId,
+                    'with' => 'variationAttributeValues,variationSalesPrices,variationBarcodes,variationBundleComponents,variationMarkets,variationSkus'
+                ]);
             }
-            $additional['step'] = 'variationMarkets';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'variationMarkets') {
-            if ($relatedParts['variationMarkets'] !== null) {
-                $this->client->saveVariationMarkets($itemId, $variationId, $relatedParts['variationMarkets'], $pmVariation['variationMarkets']);
+            switch ($pushPart) {
+                case 'variationSalesPrices':
+                case 'variationBarcodes':
+                case 'variationBundleComponents':
+                case 'variationMarkets':
+                case 'variationSkus':
+                case 'variationImages':
+                    if (isset($relatedParts[$pushPart])) {
+                        $saveMethod = 'save' . ucfirst($pushPart);
+                        $this->client->{$saveMethod}($itemId, $variationId, $relatedParts[$pushPart], $pmVariation[$pushPart] ?? null);
+                    }
+                    break;
+                case 'itemImageAttributeValues':
+                    if (isset($relatedParts['itemImageAttributeValues']) && $pmVariation['variationAttributeValues']) {
+                        $itemImageAttributeValueMarkets = $this->client->eachItemImageAttributeValueMarkets(['itemId' => $itemId]);
+                        $itemImageAttributeValueMarkets = iterator_to_array($itemImageAttributeValueMarkets, false);
+                        $itemImageAttributeValueMarkets = ArrayHelper::index($itemImageAttributeValueMarkets, 'valueId', ['imageId']);
+                        $relatedItemImageAttributeValues = ArrayHelper::index($relatedParts['itemImageAttributeValues'], 'valueId', ['imageId']);
+                        foreach ($relatedItemImageAttributeValues as $imageId => $imageAttributeValues) {
+                            $this->client->saveItemImageAttributeValueMarkets($itemId, $imageId, $imageAttributeValues, $itemImageAttributeValueMarkets[$imageId] ?? []);
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
-            $additional['step'] = 'variationSkus';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
         }
-        if ($additional['step'] === 'variationSkus') {
-            if ($relatedParts['variationSkus'] !== null) {
-                $this->client->saveVariationSkus($itemId, $variationId, $relatedParts['variationSkus'], $pmVariation['variationSkus']);
-            }
-            $additional['step'] = 'variationImages';
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        if ($additional['step'] === 'variationImages') {
-            if ($relatedParts['variationImages'] !== null) {
-                $this->client->saveVariationImages($itemId, $variationId, $relatedParts['variationImages']);
-            }
-            unset($additional['step']);
-            $salesChannelItem->additional = $additional;
-            $salesChannelItem->save(false);
-        }
-        return $savedVariation;
+        unset($pushedResult['progress']);
+        $salesChannelItem->item_pushed_result = $pushedResult;
+        $salesChannelItem->save(false);
+        return $savedVariation ?: $pmVariation;
     }
 
     #endregion

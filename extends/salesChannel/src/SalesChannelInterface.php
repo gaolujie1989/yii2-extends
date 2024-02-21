@@ -32,16 +32,23 @@ interface SalesChannelInterface
     public function pullNewSalesOrders(int $createdAtFrom, int $createdAtTo): void;
 
     /**
-     * @param SalesChannelOrder $channelOrder
+     * @param SalesChannelOrder $salesChannelOrder
      * @return bool
      * @inheritdoc
+     */
+    public function pushSalesOrder(SalesChannelOrder $salesChannelOrder): bool;
+
+    /**
+     * @param SalesChannelOrder $channelOrder
+     * @return bool
+     * @deprecated
      */
     public function shipSalesOrder(SalesChannelOrder $channelOrder): bool;
 
     /**
      * @param SalesChannelOrder $channelOrder
      * @return bool
-     * @inheritdoc
+     * @deprecated
      */
     public function cancelSalesOrder(SalesChannelOrder $channelOrder): bool;
 

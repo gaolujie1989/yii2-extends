@@ -9,6 +9,7 @@ use Yii;
 use yii\base\Model;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
+use yii\rbac\BaseManager;
 use yii\rbac\ManagerInterface;
 use yii\rbac\Role;
 use yii\web\IdentityInterface;
@@ -45,7 +46,7 @@ class AuthAssignmentForm extends Model
     private $_roles;
 
     /**
-     * @var ManagerInterface
+     * @var ManagerInterface|BaseManager
      */
     public $authManager = 'authManager';
 
@@ -91,11 +92,13 @@ class AuthAssignmentForm extends Model
      * @return array
      * @inheritdoc
      */
-    public function validateRoles(): void
+    public function validateRoles(): bool
     {
         $roleNames = $this->_roleNames;
         $invalidRoleNames = [];
         $validRoles = [];
+        $defaultRoles = $this->authManager->getDefaultRoles();
+        $roleNames = array_diff($roleNames, $defaultRoles);
         foreach ($roleNames as $roleName) {
             $role = $this->authManager->getRole($roleName);
             if ($role === null) {
@@ -106,8 +109,10 @@ class AuthAssignmentForm extends Model
         }
         if ($invalidRoleNames) {
             $this->addError('roles', 'Invalid roles:' . implode(',', $invalidRoleNames));
+            return false;
         }
         $this->_roles = $validRoles;
+        return true;
     }
 
     /**

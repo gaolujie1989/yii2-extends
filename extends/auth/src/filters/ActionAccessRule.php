@@ -67,6 +67,16 @@ class ActionAccessRule extends AccessRule
     public $replaces = ['/' => '_'];
 
     /**
+     * @var bool
+     */
+    public $supportPrefix = false;
+
+    /**
+     * @var string
+     */
+    public $separator = '_';
+
+    /**
      * @param Action $action
      * @param bool|\yii\web\User $user
      * @param \yii\web\Request $request
@@ -74,6 +84,16 @@ class ActionAccessRule extends AccessRule
      * @inheritdoc
      */
     public function allows($action, $user, $request): ?bool
+    {
+        $this->appendActionIdToPermissions($action);
+        return parent::allows($action, $user, $request);
+    }
+
+    /**
+     * @param Action $action
+     * @inheritdoc
+     */
+    protected function appendActionIdToPermissions(Action $action): void
     {
         $actionId = $action->getUniqueId();
         if ($this->actionPermissionNameCallback) {
@@ -83,10 +103,18 @@ class ActionAccessRule extends AccessRule
                 $actionId = call_user_func($this->actionPermissionNameCallback, $actionId);
             }
         }
-        $actionId = $this->prefix . strtr($actionId, $this->replaces) . $this->suffix;
+        $actionId = strtr($actionId, $this->replaces);
         $this->permissions = $this->permissions ?: [];
-        $this->permissions[] = $actionId;
-        return parent::allows($action, $user, $request);
+        $this->permissions[] = $this->prefix . $actionId . $this->suffix;
+        if ($this->supportPrefix && $this->separator) {
+            $actionIdParts = explode($this->separator, $actionId);
+            array_pop($actionIdParts);
+            while($actionIdParts) {
+                $prefixActionId = implode($this->separator, $actionIdParts);
+                $this->permissions[] = $this->prefix . $prefixActionId . $this->suffix;
+                array_pop($actionIdParts);
+            }
+        }
     }
 
     /**
@@ -96,6 +124,7 @@ class ActionAccessRule extends AccessRule
      */
     public function formatActionId(string $actionId): string
     {
+        //replace from xxx-controller/xxx-action => xxxController/xxxAction
         return preg_replace_callback('/-([a-z0-9_])/i', static function ($matches) {
             return ucfirst($matches[1]);
         }, $actionId);

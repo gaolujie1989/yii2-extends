@@ -12,6 +12,15 @@ namespace lujie\charging\models;
  */
 trait ChargePriceTrait
 {
+    public function resetPrice(): void
+    {
+        $this->price_table_id = 0;
+        $this->price_cent = 0;
+        $this->currency = '';
+        $this->note = '';
+        $this->error = '';
+    }
+
     /**
      * @param bool $insert
      * @return bool
@@ -20,6 +29,7 @@ trait ChargePriceTrait
     public function beforeSave($insert): bool
     {
         $this->calculateTotal();
+        $this->appendTotalNote();
         $this->setChargePriceStatus();
         return parent::beforeSave($insert);
     }
@@ -27,7 +37,7 @@ trait ChargePriceTrait
     /**
      * @inheritdoc
      */
-    protected function calculateTotal(): void
+    public function calculateTotal(): void
     {
         if (empty($this->discount_cent)) {
             $this->discount_cent = 0;
@@ -37,6 +47,31 @@ trait ChargePriceTrait
         }
         $this->subtotal_cent = $this->price_cent * $this->qty;
         $this->grand_total_cent = $this->subtotal_cent - $this->discount_cent + $this->surcharge_cent;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function appendTotalNote(): void
+    {
+        if (empty($this->note)) {
+            return;
+        }
+        $appendNote = '';
+        if ($this->qty > 1) {
+            $appendNote .= ' x ' . $this->qty;
+        }
+        if ($this->discount_cent !== 0) {
+            $appendNote .= ' - ' . ($this->discount_cent / 100);
+        }
+        if ($this->surcharge_cent !== 0) {
+            $appendNote .= ' + ' . ($this->subtotal_cent / 100);
+        }
+
+        if ($appendNote) {
+            $this->note .= $appendNote;
+            $this->note .= ' = ' . $this->grand_total_cent / 100 . ' ' . $this->currency;
+        }
     }
 
     /**

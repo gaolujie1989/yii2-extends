@@ -48,8 +48,8 @@ class LogBehavior extends Behavior
     {
         $chargeTypes = implode('/', $event->chargeTypes);
         $chargePrices = [];
-        foreach ($event->chargePrices as $chargePrice) {
-            $chargePrices[] = "Type:{$chargePrice->charge_type}, ID:{$chargePrice->price_table_id}, Price:{$chargePrice->price_cent}";
+        foreach ($event->calculatedPrices as $calculatedPrice) {
+            $chargePrices[] = "Type:{$calculatedPrice->chargeType}, ID:{$calculatedPrice->priceTableId}, Price:{$calculatedPrice->priceCent}";
         }
         $chargePrices = implode(' + ', $chargePrices);
         $message = "charge {$event->modelType} {$event->model->getPrimaryKey()} with {$chargeTypes} finished, chargePrices: {$chargePrices}";

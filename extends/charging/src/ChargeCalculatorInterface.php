@@ -16,9 +16,9 @@ interface ChargeCalculatorInterface
 {
     /**
      * @param BaseActiveRecord $model
-     * @param ChargePrice $chargePrice
-     * @return ChargePrice|null
+     * @param string $chargeType
+     * @return CalculatedPrice[]
      * @inheritdoc
      */
-    public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ?ChargePrice;
+    public function calculate(BaseActiveRecord $model): array;
 }

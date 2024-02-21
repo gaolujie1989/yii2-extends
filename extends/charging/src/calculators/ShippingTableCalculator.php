@@ -5,24 +5,17 @@
 
 namespace lujie\charging\calculators;
 
-use lujie\charging\ChargeCalculatorInterface;
-use lujie\charging\models\ChargePrice;
+use lujie\charging\CalculatedPrice;
 use lujie\charging\models\ShippingTable;
 use lujie\charging\models\ShippingTableQuery;
 use lujie\charging\models\ShippingZone;
-use lujie\data\loader\DataLoaderInterface;
-use lujie\extend\helpers\TemplateHelper;
-use yii\base\BaseObject;
-use yii\db\BaseActiveRecord;
-use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class ShippingPriceCalculator
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInterface
+class ShippingTableCalculator extends BaseChargeCalculator
 {
     /**
      * @var ?int
@@ -35,53 +28,17 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     public $defaultCarrier = 'DEFAULT';
 
     /**
-     * @var DataLoaderInterface
-     */
-    public $shippingItemLoader = 'shippingItemLoader';
-
-    /**
-     * @throws \yii\base\InvalidConfigException
+     * @param BaseChargeItem|ShippingItem $chargeItem
+     * @return CalculatedPrice|null
      * @inheritdoc
      */
-    public function init(): void
+    protected function calculateInternal(BaseChargeItem $chargeItem): ?CalculatedPrice
     {
-        parent::init();
-        $this->shippingItemLoader = Instance::ensure($this->shippingItemLoader, DataLoaderInterface::class);
-    }
-
-    /**
-     * @param BaseActiveRecord $model
-     * @param ChargePrice $chargePrice
-     * @return ChargePrice
-     * @inheritdoc
-     */
-    public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
-    {
-        $chargePrice->price_table_id = 0;
-        $chargePrice->price_cent = 0;
-        $chargePrice->currency = '';
-        $chargePrice->error = '';
-
-        /** @var ?ShippingItem $shippingItem */
-        $shippingItem = $this->shippingItemLoader->get($model);
-        if ($shippingItem === null) {
-            $chargePrice->error = 'Null ShippingItem';
-            return $chargePrice;
-        }
-
-        $chargePrice->custom_type = $shippingItem->carrier;
-        $chargePrice->setAttributes($shippingItem->additional);
-
-        $shippingTablePrice = $this->getShippingTablePrice($shippingItem);
+        $shippingTablePrice = $this->getShippingTable($chargeItem);
         if ($shippingTablePrice === null) {
-            $chargePrice->error = TemplateHelper::render('Null ShippingTablePrice of Item[{weightG}G][{lengthMM}x{widthMM}x{heightMM}MM]', $shippingItem);
-            return $chargePrice;
+            return CalculatedPrice::createWithFailed('ShippingTable not found');
         }
-
-        $chargePrice->price_table_id = $shippingTablePrice->shipping_table_id;
-        $chargePrice->price_cent = $shippingTablePrice->price_cent;
-        $chargePrice->currency = $shippingTablePrice->currency;
-        return $chargePrice;
+        return CalculatedPrice::create($shippingTablePrice->price_cent, $shippingTablePrice->currency, $shippingTablePrice);
     }
 
     /**
@@ -89,10 +46,10 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
      * @return ShippingTable|null
      * @inheritdoc
      */
-    protected function getShippingTablePrice(ShippingItem $shippingItem): ?ShippingTable
+    protected function getShippingTable(ShippingItem $shippingItem): ?ShippingTable
     {
         $query = $this->getShippingTableQuery($shippingItem);
-        $query->orderByPrice(SORT_ASC);
+        $query->orderByPrice();
         $shippingOwnerId = $shippingItem->additional['ownerId'] ?? $shippingItem->additional['owner_id'] ?? 0;
 
         $carriers = [$shippingItem->carrier];
@@ -145,6 +102,7 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
             ->departure($shippingItem->departure)
             ->destination($shippingItem->destination)
             ->postalCode($shippingItem->postalCode)
+            ->activeAt($shippingItem->shippedAt ?: time())
             ->getCarrierZones($carriers);
     }
 
@@ -159,6 +117,6 @@ class ShippingTableCalculator extends BaseObject implements ChargeCalculatorInte
     {
         $carrierZones = $this->getCarrierZones($shippingItem, $carriers, $ownerId);
         $query = $this->getShippingTableQuery($shippingItem);
-        return $query->carrierZones($carrierZones)->getShippingPrices($carriers);
+        return $query->carrierZones($carrierZones)->getCarrierPrices($carriers);
     }
 }

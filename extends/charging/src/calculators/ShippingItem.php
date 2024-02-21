@@ -5,14 +5,12 @@
 
 namespace lujie\charging\calculators;
 
-use yii\base\Model;
-
 /**
  * Class ShippingPackage
  * @package lujie\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ShippingItem extends Model
+class ShippingItem extends BaseChargeItem
 {
     /**
      * @var string
@@ -37,7 +35,7 @@ class ShippingItem extends Model
     /**
      * @var int
      */
-    public $shippedAt = 0;
+    public $shippedAt;
 
     /**
      * @var int
@@ -60,7 +58,43 @@ class ShippingItem extends Model
     public $heightMM;
 
     /**
-     * @var array
+     * @param int $weightG
+     * @param int $lengthMM
+     * @param int $widthMM
+     * @param int $heightMM
+     * @param string $carrier
+     * @param string $postalCode
+     * @param string $destination
+     * @param string $departure
+     * @param int|null $shippedAt
+     * @param string|null $itemKey
+     * @return static
+     * @inheritdoc
      */
-    public $additional = [];
+    public static function create(
+        int $weightG,
+        int $lengthMM,
+        int $widthMM,
+        int $heightMM,
+        string $carrier,
+        string $postalCode,
+        string $destination,
+        string $departure,
+        ?int $shippedAt = null,
+        ?string $itemKey = null,
+    ): static
+    {
+        $shippingItem = new ShippingItem();
+        $shippingItem->weightG = $weightG;
+        $shippingItem->lengthMM = $lengthMM;
+        $shippingItem->widthMM = $widthMM;
+        $shippingItem->heightMM = $heightMM;
+        $shippingItem->carrier = $carrier;
+        $shippingItem->postalCode = $postalCode;
+        $shippingItem->destination = $destination;
+        $shippingItem->departure = $departure;
+        $shippingItem->shippedAt = $shippedAt ?: time();
+        $shippingItem->itemKey = $itemKey;
+        return $shippingItem;
+    }
 }

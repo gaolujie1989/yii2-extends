@@ -5,26 +5,16 @@
 
 namespace lujie\charging\calculators;
 
-use lujie\charging\ChargeCalculatorInterface;
-use lujie\charging\models\ChargePrice;
+use lujie\charging\CalculatedPrice;
 use lujie\charging\models\ChargeTable;
-use lujie\data\loader\DataLoaderInterface;
-use yii\base\BaseObject;
-use yii\db\BaseActiveRecord;
-use yii\di\Instance;
 
 /**
  * Class BaseChargeCalculator
  * @package lujie\charging
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterface
+class ChargeTableCalculator extends BaseChargeCalculator
 {
-    /**
-     * @var DataLoaderInterface
-     */
-    public $chargeableItemLoader = 'chargeableItemLoader';
-
     /**
      * @var bool
      */
@@ -36,70 +26,43 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
     public $roundUp = true;
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @param BaseChargeItem|ChargeableItem $chargeItem
+     * @return CalculatedPrice|null
      * @inheritdoc
      */
-    public function init(): void
+    protected function calculateInternal(BaseChargeItem $chargeItem): ?CalculatedPrice
     {
-        parent::init();
-        $this->chargeableItemLoader = Instance::ensure($this->chargeableItemLoader, DataLoaderInterface::class);
-    }
-
-    /**
-     * @param BaseActiveRecord $model
-     * @param ChargePrice $chargePrice
-     * @return ChargePrice
-     * @inheritdoc
-     */
-    public function calculate(BaseActiveRecord $model, ChargePrice $chargePrice): ChargePrice
-    {
-        $chargePrice->price_table_id = 0;
-        $chargePrice->price_cent = 0;
-        $chargePrice->currency = '';
-        $chargePrice->error = '';
-
-        /** @var ?ChargeableItem $chargeableItem */
-        $chargeableItem = $this->chargeableItemLoader->get($model);
-        if ($chargeableItem === null) {
-            $chargePrice->error = 'Null ChargeableItem';
-            return $chargePrice;
-        }
-
-        $chargePrice->custom_type = is_array($chargeableItem->customType)
-            ? implode(',', $chargeableItem->customType)
-            : $chargeableItem->customType;
-        $chargePrice->setAttributes($chargeableItem->additional);
-
-        $chargeTablePrice = $this->getChargeTablePrice($chargeableItem, $chargePrice->charge_type);
+        $chargeTablePrice = $this->getChargeTable($chargeItem);
         if ($chargeTablePrice === null) {
-            $chargePrice->error = 'Null ChargeTablePrice';
-            return $chargePrice;
+            return CalculatedPrice::createWithFailed('ChargeTable not found');
         }
 
-        $chargePrice->price_table_id = $chargeTablePrice->charge_table_id;
-        if ($chargeableItem->basePriceCurrency) {
-            $chargePrice->currency = $chargeableItem->basePriceCurrency;
-            $chargePrice->price_cent = round($chargeableItem->basePriceCent * $chargeTablePrice->percent / 100);
-            $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-                'base_price_cent' => $chargeableItem->basePriceCent,
-                'percent' => $chargeTablePrice->percent,
+        if ($chargeItem->basePriceCurrency) {
+            $priceCent =  round($chargeItem->basePriceCent * $chargeTablePrice->percent / 100);
+            $currency = $chargeItem->basePriceCurrency;
+            $note = strtr("{basePrice} x {percent}%", [
+                '{basePrice}' => $chargeItem->basePriceCent / 100,
+                '{percent}' => $chargeTablePrice->percent,
             ]);
         } else {
-            $chargePrice->price_cent = $chargeTablePrice->price_cent;
-            $chargePrice->currency = $chargeTablePrice->currency;
-            $chargePrice->additional = array_merge($chargePrice->additional ?: [], [
-                'limit_value' => $chargeableItem->limitValue,
-            ]);
-            if ($chargeableItem->limitValue > $chargeTablePrice->max_limit) {
-                $overLimit = ($chargeableItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
+            $priceCent = $chargeTablePrice->price_cent;
+            $currency = $chargeTablePrice->currency;
+            $note = $chargeTablePrice->price_cent / 100;
+            if ($chargeItem->limitValue > $chargeTablePrice->max_limit) {
+                $overLimit = ($chargeItem->limitValue - $chargeTablePrice->max_limit) / $chargeTablePrice->per_limit;
                 if ($this->roundUp) {
                     $overLimit = (int)ceil($overLimit);
                 }
-                $chargePrice->price_cent += $overLimit * $chargeTablePrice->over_limit_price_cent;
+                $priceCent += $overLimit * $chargeTablePrice->over_limit_price_cent;
+                $note = strtr("({limitPrice} + {overLimitPrice} * {overLimitValue})", [
+                    '{limitPrice}' => $chargeTablePrice->price_cent / 100,
+                    '{overLimitPrice}' => $chargeTablePrice->over_limit_price_cent / 100,
+                    '{overLimitValue}' => $overLimit,
+                ]);
             }
         }
-        $chargePrice->setAttributes($chargeTablePrice->additional);
-        return $chargePrice;
+
+        return CalculatedPrice::create($priceCent, $currency, $chargeTablePrice, $note);
     }
 
     /**
@@ -108,11 +71,11 @@ class ChargeTableCalculator extends BaseObject implements ChargeCalculatorInterf
      * @return ChargeTable|null
      * @inheritdoc
      */
-    protected function getChargeTablePrice(ChargeableItem $chargeableItem, string $chargeType): ?ChargeTable
+    protected function getChargeTable(ChargeableItem $chargeableItem): ?ChargeTable
     {
         $query = ChargeTable::find()
             ->activeAt($chargeableItem->chargedAt ?: time())
-            ->chargeType($chargeType)
+            ->chargeType($this->chargeType)
             ->customType($chargeableItem->customType)
             ->limitValue($chargeableItem->limitValue)
             ->orderByPrice($this->cheapFirst ? SORT_ASC : SORT_DESC);

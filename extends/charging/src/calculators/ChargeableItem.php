@@ -5,19 +5,17 @@
 
 namespace lujie\charging\calculators;
 
-use yii\base\BaseObject;
-
 /**
  * Class ChargeLine
  * @package lujie\charging\calculators
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ChargeableItem extends BaseObject
+class ChargeableItem extends BaseChargeItem
 {
     /**
-     * @var string|array
+     * @var string
      */
-    public $customType = '';
+    public $customType;
 
     /**
      * @var int
@@ -25,7 +23,6 @@ class ChargeableItem extends BaseObject
     public $chargedAt;
 
     /**
-     * for matching limit
      * @var int
      */
     public $limitValue;
@@ -41,7 +38,49 @@ class ChargeableItem extends BaseObject
     public $basePriceCurrency;
 
     /**
-     * @var array
+     * @param string $
+     * @param int $limitValue
+     * @param string $customType
+     * @param int|null $chargedAt
+     * @return static
+     * @inheritdoc
      */
-    public $additional = [];
+    public static function create(
+        int $limitValue,
+        string $customType = '',
+        ?int $chargedAt = null,
+        ?string $itemKey = null,
+    ): static
+    {
+        $item = new static();
+        $item->limitValue = $limitValue;
+        $item->customType = $customType;
+        $item->chargedAt = $chargedAt ?: time();
+        $item->itemKey = $itemKey;
+        return $item;
+    }
+
+    /**
+     * @param int $basePriceCent
+     * @param string $basePriceCurrency
+     * @param string $customType
+     * @param int|null $chargedAt
+     * @param string|null $itemKey
+     * @return static
+     * @inheritdoc
+     */
+    public static function createWithPrice(
+        int $basePriceCent,
+        string $basePriceCurrency,
+        int $limitValue = 0,
+        string $customType = '',
+        ?int $chargedAt = null,
+        ?string $itemKey = null,
+    ): static
+    {
+        $item = static::create($limitValue, $customType, $chargedAt, $itemKey);;
+        $item->basePriceCent = $basePriceCent;
+        $item->basePriceCurrency = $basePriceCurrency;
+        return $item;
+    }
 }

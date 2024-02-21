@@ -31,7 +31,7 @@ class BatchForm extends Model
     /**
      * @var array the condition to load models
      */
-    public $condition;
+    public $batchCondition;
 
     /**
      * @var bool
@@ -66,14 +66,38 @@ class BatchForm extends Model
     ];
 
     /**
+     * @var array
+     */
+    private $_batchModels;
+
+    /**
+     * @return array|BaseActiveRecord[]
+     * @inheritdoc
+     */
+    public function getBatchModels(): array
+    {
+        if ($this->_batchModels === null) {
+            $this->_batchModels = $this->findModels();
+        }
+        return $this->_batchModels;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getBatchAttributes(): array
+    {
+        return array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
+    }
+
+    /**
      * @return array
      * @inheritdoc
      */
     public function attributes(): array
     {
-        /** @var BaseActiveRecord $model */
-        $model = new $this->modelClass();
-        return $model->safeAttributes();
+        return array_diff($this->safeAttributes(), ['batchModels', 'batchAttributes']);
     }
 
     /**
@@ -93,7 +117,9 @@ class BatchForm extends Model
                 $rules[$key] = [$ruleAttributes, $this->convertRules[$ruleName]];
             }
         }
-        return $rules;
+        return array_merge($rules, [
+            [['batchModels', 'batchAttributes'], 'required'],
+        ]);
     }
 
     /**
@@ -109,18 +135,10 @@ class BatchForm extends Model
             return false;
         }
 
-        $attributes = array_filter($this->getAttributes(), [ValueHelper::class, 'notEmpty']);
-        if (empty($attributes)) {
-            return true;
-        }
-
-        $models = $this->findModels();
-        if (empty($models)) {
-            return true;
-        }
-
+        $models = $this->getBatchModels();
+        $attributes = $this->getBatchAttributes();
         foreach ($models as $model) {
-            $model->setAttributes($attributes, $this->modelSafeOnly);
+            $this->setModelAttributes($model, $attributes);
         }
 
         if ($this->validateModels && !Model::validateMultiple($models, $attributeNames)) {
@@ -142,13 +160,23 @@ class BatchForm extends Model
     }
 
     /**
+     * @param BaseActiveRecord $model
+     * @param array $attributes
+     * @inheritdoc
+     */
+    protected function setModelAttributes(BaseActiveRecord $model, array $attributes): void
+    {
+        $model->setAttributes($attributes, $this->modelSafeOnly);
+    }
+
+    /**
      * @return bool
      * @throws \Throwable
      * @inheritdoc
      */
     public function batchDelete(): bool
     {
-        $models = $this->findModels();
+        $models = $this->getBatchModels();
         if (empty($models)) {
             return true;
         }
@@ -171,6 +199,9 @@ class BatchForm extends Model
      */
     protected function findModels(): array
     {
-        return $this->modelClass::find()->andWhere($this->condition)->all();
+        if (empty($this->batchCondition)) {
+            return [];
+        }
+        return $this->modelClass::find()->andWhere($this->batchCondition)->all();
     }
 }

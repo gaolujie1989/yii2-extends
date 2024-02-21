@@ -46,3 +46,6 @@ Dock to each shipping warehouse, push shipping products, synchronise product inv
 
 ### salesChannel
 Docking to various sales platforms, pushing sales products, synchronising sales inventory, getting sales orders and pushing order dispatch information
+
+## 感谢
++ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="GitHub license" style="width：96px" width="96" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)

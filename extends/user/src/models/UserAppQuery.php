@@ -21,6 +21,7 @@ use lujie\extend\constants\StatusConst;
  * @method array|UserApp|null one($db = null)
  *
  * @see UserApp
+ * @deprecated
  */
 class UserAppQuery extends \yii\db\ActiveQuery
 {

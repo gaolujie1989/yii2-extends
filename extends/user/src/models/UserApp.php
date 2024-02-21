@@ -18,6 +18,7 @@ use yii\db\ActiveQuery;
  * @property int $status
  *
  * @property User $user
+ * @deprecated
  */
 class UserApp extends \lujie\extend\db\ActiveRecord
 {

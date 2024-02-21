@@ -10,6 +10,12 @@ use lujie\user\models\UserApp;
 use Yii;
 use yii\base\Model;
 
+/**
+ * Class AppLoginForm
+ * @package lujie\user\forms
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
+ */
 class AppLoginForm extends Model
 {
     /**

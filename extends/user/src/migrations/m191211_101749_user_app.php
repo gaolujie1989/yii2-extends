@@ -7,6 +7,11 @@ use lujie\extend\db\DropTableTrait;
 use lujie\extend\db\TraceableColumnTrait;
 use yii\db\Migration;
 
+/**
+ * Class m191211_101749_user_app
+ * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
+ */
 class m191211_101749_user_app extends Migration
 {
     use TraceableColumnTrait, DropTableTrait;

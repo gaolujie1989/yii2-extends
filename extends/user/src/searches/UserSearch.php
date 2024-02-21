@@ -1,6 +1,9 @@
 <?php
 
-namespace lujie\user\models;
+namespace lujie\user\searches;
+
+use lujie\user\models\User;
+use lujie\user\models\UserQuery;
 
 /**
  * Class UserSearch

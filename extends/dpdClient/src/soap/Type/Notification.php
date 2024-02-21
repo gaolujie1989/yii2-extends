@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class Notification extends BaseObject
 {
-
     /**
      * @var int
      */
@@ -32,6 +31,18 @@ class Notification extends BaseObject
 
     /**
      * @param int $channel
+     * @return Notification
+     */
+    public function withChannel($channel)
+    {
+        $new = clone $this;
+        $new->channel = $channel;
+
+        return $new;
+    }
+
+    /**
+     * @param int $channel
      * @return $this
      */
     public function setChannel(int $channel) : \lujie\dpd\soap\Type\Notification
@@ -41,23 +52,23 @@ class Notification extends BaseObject
     }
 
     /**
-     * @param int $channel
-     * @return Notification
-     */
-    public function withChannel(int $channel) : \lujie\dpd\soap\Type\Notification
-    {
-        $new = clone $this;
-        $new->channel = $channel;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * @param string $value
+     * @return Notification
+     */
+    public function withValue($value)
+    {
+        $new = clone $this;
+        $new->value = $value;
+
+        return $new;
     }
 
     /**
@@ -71,23 +82,23 @@ class Notification extends BaseObject
     }
 
     /**
-     * @param string $value
-     * @return Notification
-     */
-    public function withValue(string $value) : \lujie\dpd\soap\Type\Notification
-    {
-        $new = clone $this;
-        $new->value = $value;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * @param string $language
+     * @return Notification
+     */
+    public function withLanguage($language)
+    {
+        $new = clone $this;
+        $new->language = $language;
+
+        return $new;
     }
 
     /**
@@ -99,19 +110,5 @@ class Notification extends BaseObject
         $this->language = $language;
         return $this;
     }
-
-    /**
-     * @param string $language
-     * @return Notification
-     */
-    public function withLanguage(string $language) : \lujie\dpd\soap\Type\Notification
-    {
-        $new = clone $this;
-        $new->language = $language;
-
-        return $new;
-    }
-
-
 }
 

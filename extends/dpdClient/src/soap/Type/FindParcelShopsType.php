@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\RequestInterface;
 
 class FindParcelShopsType extends BaseObject implements RequestInterface
 {
-
     /**
      * @var string
      */
@@ -68,6 +67,18 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
 
     /**
      * @param string $country
+     * @return FindParcelShopsType
+     */
+    public function withCountry($country)
+    {
+        $new = clone $this;
+        $new->country = $country;
+
+        return $new;
+    }
+
+    /**
+     * @param string $country
      * @return $this
      */
     public function setCountry(string $country) : \lujie\dpd\soap\Type\FindParcelShopsType
@@ -77,23 +88,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $country
-     * @return FindParcelShopsType
-     */
-    public function withCountry(string $country) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->country = $country;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getZipCode()
     {
         return $this->zipCode;
+    }
+
+    /**
+     * @param string $zipCode
+     * @return FindParcelShopsType
+     */
+    public function withZipCode($zipCode)
+    {
+        $new = clone $this;
+        $new->zipCode = $zipCode;
+
+        return $new;
     }
 
     /**
@@ -107,23 +118,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $zipCode
-     * @return FindParcelShopsType
-     */
-    public function withZipCode(string $zipCode) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->zipCode = $zipCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * @param string $city
+     * @return FindParcelShopsType
+     */
+    public function withCity($city)
+    {
+        $new = clone $this;
+        $new->city = $city;
+
+        return $new;
     }
 
     /**
@@ -137,23 +148,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $city
-     * @return FindParcelShopsType
-     */
-    public function withCity(string $city) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->city = $city;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getStreet()
     {
         return $this->street;
+    }
+
+    /**
+     * @param string $street
+     * @return FindParcelShopsType
+     */
+    public function withStreet($street)
+    {
+        $new = clone $this;
+        $new->street = $street;
+
+        return $new;
     }
 
     /**
@@ -167,23 +178,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $street
-     * @return FindParcelShopsType
-     */
-    public function withStreet(string $street) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->street = $street;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getHouseNo()
     {
         return $this->houseNo;
+    }
+
+    /**
+     * @param string $houseNo
+     * @return FindParcelShopsType
+     */
+    public function withHouseNo($houseNo)
+    {
+        $new = clone $this;
+        $new->houseNo = $houseNo;
+
+        return $new;
     }
 
     /**
@@ -197,23 +208,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $houseNo
-     * @return FindParcelShopsType
-     */
-    public function withHouseNo(string $houseNo) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->houseNo = $houseNo;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @param int $limit
+     * @return FindParcelShopsType
+     */
+    public function withLimit($limit)
+    {
+        $new = clone $this;
+        $new->limit = $limit;
+
+        return $new;
     }
 
     /**
@@ -227,23 +238,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param int $limit
-     * @return FindParcelShopsType
-     */
-    public function withLimit(int $limit) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->limit = $limit;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getAvailabilityDate()
     {
         return $this->availabilityDate;
+    }
+
+    /**
+     * @param string $availabilityDate
+     * @return FindParcelShopsType
+     */
+    public function withAvailabilityDate($availabilityDate)
+    {
+        $new = clone $this;
+        $new->availabilityDate = $availabilityDate;
+
+        return $new;
     }
 
     /**
@@ -257,23 +268,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $availabilityDate
-     * @return FindParcelShopsType
-     */
-    public function withAvailabilityDate(string $availabilityDate) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->availabilityDate = $availabilityDate;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getHideClosed()
     {
         return $this->hideClosed;
+    }
+
+    /**
+     * @param bool $hideClosed
+     * @return FindParcelShopsType
+     */
+    public function withHideClosed($hideClosed)
+    {
+        $new = clone $this;
+        $new->hideClosed = $hideClosed;
+
+        return $new;
     }
 
     /**
@@ -287,23 +298,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param bool $hideClosed
-     * @return FindParcelShopsType
-     */
-    public function withHideClosed(bool $hideClosed) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->hideClosed = $hideClosed;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSearchCountry()
     {
         return $this->searchCountry;
+    }
+
+    /**
+     * @param string $searchCountry
+     * @return FindParcelShopsType
+     */
+    public function withSearchCountry($searchCountry)
+    {
+        $new = clone $this;
+        $new->searchCountry = $searchCountry;
+
+        return $new;
     }
 
     /**
@@ -317,23 +328,23 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $searchCountry
-     * @return FindParcelShopsType
-     */
-    public function withSearchCountry(string $searchCountry) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->searchCountry = $searchCountry;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ServicesRequestType
      */
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ServicesRequestType $services
+     * @return FindParcelShopsType
+     */
+    public function withServices($services)
+    {
+        $new = clone $this;
+        $new->services = $services;
+
+        return $new;
     }
 
     /**
@@ -345,19 +356,5 @@ class FindParcelShopsType extends BaseObject implements RequestInterface
         $this->services = $services;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ServicesRequestType $services
-     * @return FindParcelShopsType
-     */
-    public function withServices(\lujie\dpd\soap\Type\ServicesRequestType $services) : \lujie\dpd\soap\Type\FindParcelShopsType
-    {
-        $new = clone $this;
-        $new->services = $services;
-
-        return $new;
-    }
-
-
 }
 

@@ -3,15 +3,14 @@
 namespace lujie\dpd\soap;
 
 use lujie\dpd\soap\Type;
-use Phpro\SoapClient\Soap\ClassMap\ClassMapCollection;
-use Phpro\SoapClient\Soap\ClassMap\ClassMap;
+use Soap\ExtSoapEngine\Configuration\ClassMap\ClassMapCollection;
+use Soap\ExtSoapEngine\Configuration\ClassMap\ClassMap;
 
 class ParcelShopFinderServiceClassmap
 {
-
-    public static function getCollection() : \Phpro\SoapClient\Soap\ClassMap\ClassMapCollection
+    public static function getCollection() : \Soap\ExtSoapEngine\Configuration\ClassMap\ClassMapCollection
     {
-        return new ClassMapCollection([
+        return new ClassMapCollection(
             new ClassMap('FindParcelShopsType', Type\FindParcelShopsType::class),
             new ClassMap('FindParcelShopsResponseType', Type\FindParcelShopsResponseType::class),
             new ClassMap('FindParcelShopsByGeoDataType', Type\FindParcelShopsByGeoDataType::class),
@@ -35,9 +34,7 @@ class ParcelShopFinderServiceClassmap
             new ClassMap('OpeningHoursType', Type\OpeningHoursType::class),
             new ClassMap('authentication', Type\Authentication::class),
             new ClassMap('authenticationFault', Type\AuthenticationFault::class),
-        ]);
+        );
     }
-
-
 }
 

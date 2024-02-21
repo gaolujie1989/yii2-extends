@@ -2,12 +2,10 @@
 
 namespace lujie\dpd\soap\Type;
 
-
 use yii\base\BaseObject;
 
 class Authentication extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -33,6 +31,18 @@ class Authentication extends BaseObject
 
     /**
      * @param string $delisId
+     * @return Authentication
+     */
+    public function withDelisId($delisId)
+    {
+        $new = clone $this;
+        $new->delisId = $delisId;
+
+        return $new;
+    }
+
+    /**
+     * @param string $delisId
      * @return $this
      */
     public function setDelisId(string $delisId) : \lujie\dpd\soap\Type\Authentication
@@ -42,23 +52,23 @@ class Authentication extends BaseObject
     }
 
     /**
-     * @param string $delisId
-     * @return Authentication
-     */
-    public function withDelisId(string $delisId) : \lujie\dpd\soap\Type\Authentication
-    {
-        $new = clone $this;
-        $new->delisId = $delisId;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getAuthToken()
     {
         return $this->authToken;
+    }
+
+    /**
+     * @param string $authToken
+     * @return Authentication
+     */
+    public function withAuthToken($authToken)
+    {
+        $new = clone $this;
+        $new->authToken = $authToken;
+
+        return $new;
     }
 
     /**
@@ -72,23 +82,23 @@ class Authentication extends BaseObject
     }
 
     /**
-     * @param string $authToken
-     * @return Authentication
-     */
-    public function withAuthToken(string $authToken) : \lujie\dpd\soap\Type\Authentication
-    {
-        $new = clone $this;
-        $new->authToken = $authToken;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMessageLanguage()
     {
         return $this->messageLanguage;
+    }
+
+    /**
+     * @param string $messageLanguage
+     * @return Authentication
+     */
+    public function withMessageLanguage($messageLanguage)
+    {
+        $new = clone $this;
+        $new->messageLanguage = $messageLanguage;
+
+        return $new;
     }
 
     /**
@@ -100,19 +110,5 @@ class Authentication extends BaseObject
         $this->messageLanguage = $messageLanguage;
         return $this;
     }
-
-    /**
-     * @param string $messageLanguage
-     * @return Authentication
-     */
-    public function withMessageLanguage(string $messageLanguage) : \lujie\dpd\soap\Type\Authentication
-    {
-        $new = clone $this;
-        $new->messageLanguage = $messageLanguage;
-
-        return $new;
-    }
-
-
 }
 

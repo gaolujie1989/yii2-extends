@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ShipmentServiceData extends BaseObject
 {
-
     /**
      * @var \lujie\dpd\soap\Type\GeneralShipmentData
      */
@@ -32,6 +31,18 @@ class ShipmentServiceData extends BaseObject
 
     /**
      * @param \lujie\dpd\soap\Type\GeneralShipmentData $generalShipmentData
+     * @return ShipmentServiceData
+     */
+    public function withGeneralShipmentData($generalShipmentData)
+    {
+        $new = clone $this;
+        $new->generalShipmentData = $generalShipmentData;
+
+        return $new;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\GeneralShipmentData $generalShipmentData
      * @return $this
      */
     public function setGeneralShipmentData($generalShipmentData) : \lujie\dpd\soap\Type\ShipmentServiceData
@@ -41,23 +52,23 @@ class ShipmentServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\GeneralShipmentData $generalShipmentData
-     * @return ShipmentServiceData
-     */
-    public function withGeneralShipmentData(\lujie\dpd\soap\Type\GeneralShipmentData $generalShipmentData) : \lujie\dpd\soap\Type\ShipmentServiceData
-    {
-        $new = clone $this;
-        $new->generalShipmentData = $generalShipmentData;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\Parcel
      */
     public function getParcels()
     {
         return $this->parcels;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\Parcel $parcels
+     * @return ShipmentServiceData
+     */
+    public function withParcels($parcels)
+    {
+        $new = clone $this;
+        $new->parcels = $parcels;
+
+        return $new;
     }
 
     /**
@@ -71,23 +82,23 @@ class ShipmentServiceData extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\Parcel $parcels
-     * @return ShipmentServiceData
-     */
-    public function withParcels(\lujie\dpd\soap\Type\Parcel $parcels) : \lujie\dpd\soap\Type\ShipmentServiceData
-    {
-        $new = clone $this;
-        $new->parcels = $parcels;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ProductAndServiceData
      */
     public function getProductAndServiceData()
     {
         return $this->productAndServiceData;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ProductAndServiceData $productAndServiceData
+     * @return ShipmentServiceData
+     */
+    public function withProductAndServiceData($productAndServiceData)
+    {
+        $new = clone $this;
+        $new->productAndServiceData = $productAndServiceData;
+
+        return $new;
     }
 
     /**
@@ -99,19 +110,5 @@ class ShipmentServiceData extends BaseObject
         $this->productAndServiceData = $productAndServiceData;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ProductAndServiceData $productAndServiceData
-     * @return ShipmentServiceData
-     */
-    public function withProductAndServiceData(\lujie\dpd\soap\Type\ProductAndServiceData $productAndServiceData) : \lujie\dpd\soap\Type\ShipmentServiceData
-    {
-        $new = clone $this;
-        $new->productAndServiceData = $productAndServiceData;
-
-        return $new;
-    }
-
-
 }
 

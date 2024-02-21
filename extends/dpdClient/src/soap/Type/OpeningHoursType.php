@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class OpeningHoursType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -42,6 +41,18 @@ class OpeningHoursType extends BaseObject
 
     /**
      * @param string $weekday
+     * @return OpeningHoursType
+     */
+    public function withWeekday($weekday)
+    {
+        $new = clone $this;
+        $new->weekday = $weekday;
+
+        return $new;
+    }
+
+    /**
+     * @param string $weekday
      * @return $this
      */
     public function setWeekday(string $weekday) : \lujie\dpd\soap\Type\OpeningHoursType
@@ -51,23 +62,23 @@ class OpeningHoursType extends BaseObject
     }
 
     /**
-     * @param string $weekday
-     * @return OpeningHoursType
-     */
-    public function withWeekday(string $weekday) : \lujie\dpd\soap\Type\OpeningHoursType
-    {
-        $new = clone $this;
-        $new->weekday = $weekday;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getOpenMorning()
     {
         return $this->openMorning;
+    }
+
+    /**
+     * @param string $openMorning
+     * @return OpeningHoursType
+     */
+    public function withOpenMorning($openMorning)
+    {
+        $new = clone $this;
+        $new->openMorning = $openMorning;
+
+        return $new;
     }
 
     /**
@@ -81,23 +92,23 @@ class OpeningHoursType extends BaseObject
     }
 
     /**
-     * @param string $openMorning
-     * @return OpeningHoursType
-     */
-    public function withOpenMorning(string $openMorning) : \lujie\dpd\soap\Type\OpeningHoursType
-    {
-        $new = clone $this;
-        $new->openMorning = $openMorning;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCloseMorning()
     {
         return $this->closeMorning;
+    }
+
+    /**
+     * @param string $closeMorning
+     * @return OpeningHoursType
+     */
+    public function withCloseMorning($closeMorning)
+    {
+        $new = clone $this;
+        $new->closeMorning = $closeMorning;
+
+        return $new;
     }
 
     /**
@@ -111,23 +122,23 @@ class OpeningHoursType extends BaseObject
     }
 
     /**
-     * @param string $closeMorning
-     * @return OpeningHoursType
-     */
-    public function withCloseMorning(string $closeMorning) : \lujie\dpd\soap\Type\OpeningHoursType
-    {
-        $new = clone $this;
-        $new->closeMorning = $closeMorning;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCloseAfternoon()
     {
         return $this->closeAfternoon;
+    }
+
+    /**
+     * @param string $closeAfternoon
+     * @return OpeningHoursType
+     */
+    public function withCloseAfternoon($closeAfternoon)
+    {
+        $new = clone $this;
+        $new->closeAfternoon = $closeAfternoon;
+
+        return $new;
     }
 
     /**
@@ -141,23 +152,23 @@ class OpeningHoursType extends BaseObject
     }
 
     /**
-     * @param string $closeAfternoon
-     * @return OpeningHoursType
-     */
-    public function withCloseAfternoon(string $closeAfternoon) : \lujie\dpd\soap\Type\OpeningHoursType
-    {
-        $new = clone $this;
-        $new->closeAfternoon = $closeAfternoon;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getOpenAfternoon()
     {
         return $this->openAfternoon;
+    }
+
+    /**
+     * @param string $openAfternoon
+     * @return OpeningHoursType
+     */
+    public function withOpenAfternoon($openAfternoon)
+    {
+        $new = clone $this;
+        $new->openAfternoon = $openAfternoon;
+
+        return $new;
     }
 
     /**
@@ -169,19 +180,5 @@ class OpeningHoursType extends BaseObject
         $this->openAfternoon = $openAfternoon;
         return $this;
     }
-
-    /**
-     * @param string $openAfternoon
-     * @return OpeningHoursType
-     */
-    public function withOpenAfternoon(string $openAfternoon) : \lujie\dpd\soap\Type\OpeningHoursType
-    {
-        $new = clone $this;
-        $new->openAfternoon = $openAfternoon;
-
-        return $new;
-    }
-
-
 }
 

@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class Hazardous extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -77,6 +76,18 @@ class Hazardous extends BaseObject
 
     /**
      * @param string $identificationUnNo
+     * @return Hazardous
+     */
+    public function withIdentificationUnNo($identificationUnNo)
+    {
+        $new = clone $this;
+        $new->identificationUnNo = $identificationUnNo;
+
+        return $new;
+    }
+
+    /**
+     * @param string $identificationUnNo
      * @return $this
      */
     public function setIdentificationUnNo(string $identificationUnNo) : \lujie\dpd\soap\Type\Hazardous
@@ -86,23 +97,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $identificationUnNo
-     * @return Hazardous
-     */
-    public function withIdentificationUnNo(string $identificationUnNo) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->identificationUnNo = $identificationUnNo;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getIdentificationClass()
     {
         return $this->identificationClass;
+    }
+
+    /**
+     * @param string $identificationClass
+     * @return Hazardous
+     */
+    public function withIdentificationClass($identificationClass)
+    {
+        $new = clone $this;
+        $new->identificationClass = $identificationClass;
+
+        return $new;
     }
 
     /**
@@ -116,23 +127,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $identificationClass
-     * @return Hazardous
-     */
-    public function withIdentificationClass(string $identificationClass) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->identificationClass = $identificationClass;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getClassificationCode()
     {
         return $this->classificationCode;
+    }
+
+    /**
+     * @param string $classificationCode
+     * @return Hazardous
+     */
+    public function withClassificationCode($classificationCode)
+    {
+        $new = clone $this;
+        $new->classificationCode = $classificationCode;
+
+        return $new;
     }
 
     /**
@@ -146,23 +157,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $classificationCode
-     * @return Hazardous
-     */
-    public function withClassificationCode(string $classificationCode) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->classificationCode = $classificationCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPackingGroup()
     {
         return $this->packingGroup;
+    }
+
+    /**
+     * @param string $packingGroup
+     * @return Hazardous
+     */
+    public function withPackingGroup($packingGroup)
+    {
+        $new = clone $this;
+        $new->packingGroup = $packingGroup;
+
+        return $new;
     }
 
     /**
@@ -176,23 +187,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $packingGroup
-     * @return Hazardous
-     */
-    public function withPackingGroup(string $packingGroup) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->packingGroup = $packingGroup;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPackingCode()
     {
         return $this->packingCode;
+    }
+
+    /**
+     * @param string $packingCode
+     * @return Hazardous
+     */
+    public function withPackingCode($packingCode)
+    {
+        $new = clone $this;
+        $new->packingCode = $packingCode;
+
+        return $new;
     }
 
     /**
@@ -206,23 +217,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $packingCode
-     * @return Hazardous
-     */
-    public function withPackingCode(string $packingCode) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->packingCode = $packingCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Hazardous
+     */
+    public function withDescription($description)
+    {
+        $new = clone $this;
+        $new->description = $description;
+
+        return $new;
     }
 
     /**
@@ -236,23 +247,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $description
-     * @return Hazardous
-     */
-    public function withDescription(string $description) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->description = $description;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSubsidiaryRisk()
     {
         return $this->subsidiaryRisk;
+    }
+
+    /**
+     * @param string $subsidiaryRisk
+     * @return Hazardous
+     */
+    public function withSubsidiaryRisk($subsidiaryRisk)
+    {
+        $new = clone $this;
+        $new->subsidiaryRisk = $subsidiaryRisk;
+
+        return $new;
     }
 
     /**
@@ -266,23 +277,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $subsidiaryRisk
-     * @return Hazardous
-     */
-    public function withSubsidiaryRisk(string $subsidiaryRisk) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->subsidiaryRisk = $subsidiaryRisk;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getTunnelRestrictionCode()
     {
         return $this->tunnelRestrictionCode;
+    }
+
+    /**
+     * @param string $tunnelRestrictionCode
+     * @return Hazardous
+     */
+    public function withTunnelRestrictionCode($tunnelRestrictionCode)
+    {
+        $new = clone $this;
+        $new->tunnelRestrictionCode = $tunnelRestrictionCode;
+
+        return $new;
     }
 
     /**
@@ -296,23 +307,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param string $tunnelRestrictionCode
-     * @return Hazardous
-     */
-    public function withTunnelRestrictionCode(string $tunnelRestrictionCode) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->tunnelRestrictionCode = $tunnelRestrictionCode;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getHazardousWeight()
     {
         return $this->hazardousWeight;
+    }
+
+    /**
+     * @param float $hazardousWeight
+     * @return Hazardous
+     */
+    public function withHazardousWeight($hazardousWeight)
+    {
+        $new = clone $this;
+        $new->hazardousWeight = $hazardousWeight;
+
+        return $new;
     }
 
     /**
@@ -326,23 +337,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param float $hazardousWeight
-     * @return Hazardous
-     */
-    public function withHazardousWeight(float $hazardousWeight) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->hazardousWeight = $hazardousWeight;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getNetWeight()
     {
         return $this->netWeight;
+    }
+
+    /**
+     * @param float $netWeight
+     * @return Hazardous
+     */
+    public function withNetWeight($netWeight)
+    {
+        $new = clone $this;
+        $new->netWeight = $netWeight;
+
+        return $new;
     }
 
     /**
@@ -356,23 +367,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param float $netWeight
-     * @return Hazardous
-     */
-    public function withNetWeight(float $netWeight) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->netWeight = $netWeight;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getFactor()
     {
         return $this->factor;
+    }
+
+    /**
+     * @param int $factor
+     * @return Hazardous
+     */
+    public function withFactor($factor)
+    {
+        $new = clone $this;
+        $new->factor = $factor;
+
+        return $new;
     }
 
     /**
@@ -386,23 +397,23 @@ class Hazardous extends BaseObject
     }
 
     /**
-     * @param int $factor
-     * @return Hazardous
-     */
-    public function withFactor(int $factor) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->factor = $factor;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getNotOtherwiseSpecified()
     {
         return $this->notOtherwiseSpecified;
+    }
+
+    /**
+     * @param string $notOtherwiseSpecified
+     * @return Hazardous
+     */
+    public function withNotOtherwiseSpecified($notOtherwiseSpecified)
+    {
+        $new = clone $this;
+        $new->notOtherwiseSpecified = $notOtherwiseSpecified;
+
+        return $new;
     }
 
     /**
@@ -414,19 +425,5 @@ class Hazardous extends BaseObject
         $this->notOtherwiseSpecified = $notOtherwiseSpecified;
         return $this;
     }
-
-    /**
-     * @param string $notOtherwiseSpecified
-     * @return Hazardous
-     */
-    public function withNotOtherwiseSpecified(string $notOtherwiseSpecified) : \lujie\dpd\soap\Type\Hazardous
-    {
-        $new = clone $this;
-        $new->notOtherwiseSpecified = $notOtherwiseSpecified;
-
-        return $new;
-    }
-
-
 }
 

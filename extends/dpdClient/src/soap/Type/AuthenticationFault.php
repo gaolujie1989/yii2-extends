@@ -2,12 +2,10 @@
 
 namespace lujie\dpd\soap\Type;
 
-
 use yii\base\BaseObject;
 
 class AuthenticationFault extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -28,24 +26,24 @@ class AuthenticationFault extends BaseObject
 
     /**
      * @param string $errorCode
+     * @return AuthenticationFault
+     */
+    public function withErrorCode($errorCode)
+    {
+        $new = clone $this;
+        $new->errorCode = $errorCode;
+
+        return $new;
+    }
+
+    /**
+     * @param string $errorCode
      * @return $this
      */
     public function setErrorCode(string $errorCode) : \lujie\dpd\soap\Type\AuthenticationFault
     {
         $this->errorCode = $errorCode;
         return $this;
-    }
-
-    /**
-     * @param string $errorCode
-     * @return AuthenticationFault
-     */
-    public function withErrorCode(string $errorCode) : \lujie\dpd\soap\Type\AuthenticationFault
-    {
-        $new = clone $this;
-        $new->errorCode = $errorCode;
-
-        return $new;
     }
 
     /**
@@ -58,19 +56,9 @@ class AuthenticationFault extends BaseObject
 
     /**
      * @param string $errorMessage
-     * @return $this
-     */
-    public function setErrorMessage(string $errorMessage) : \lujie\dpd\soap\Type\AuthenticationFault
-    {
-        $this->errorMessage = $errorMessage;
-        return $this;
-    }
-
-    /**
-     * @param string $errorMessage
      * @return AuthenticationFault
      */
-    public function withErrorMessage(string $errorMessage) : \lujie\dpd\soap\Type\AuthenticationFault
+    public function withErrorMessage($errorMessage)
     {
         $new = clone $this;
         $new->errorMessage = $errorMessage;
@@ -78,6 +66,14 @@ class AuthenticationFault extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param string $errorMessage
+     * @return $this
+     */
+    public function setErrorMessage(string $errorMessage) : \lujie\dpd\soap\Type\AuthenticationFault
+    {
+        $this->errorMessage = $errorMessage;
+        return $this;
+    }
 }
 

@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ServiceDetailType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -27,24 +26,24 @@ class ServiceDetailType extends BaseObject
 
     /**
      * @param string $code
+     * @return ServiceDetailType
+     */
+    public function withCode($code)
+    {
+        $new = clone $this;
+        $new->code = $code;
+
+        return $new;
+    }
+
+    /**
+     * @param string $code
      * @return $this
      */
     public function setCode(string $code) : \lujie\dpd\soap\Type\ServiceDetailType
     {
         $this->code = $code;
         return $this;
-    }
-
-    /**
-     * @param string $code
-     * @return ServiceDetailType
-     */
-    public function withCode(string $code) : \lujie\dpd\soap\Type\ServiceDetailType
-    {
-        $new = clone $this;
-        $new->code = $code;
-
-        return $new;
     }
 
     /**
@@ -57,19 +56,9 @@ class ServiceDetailType extends BaseObject
 
     /**
      * @param string $description
-     * @return $this
-     */
-    public function setDescription(string $description) : \lujie\dpd\soap\Type\ServiceDetailType
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * @param string $description
      * @return ServiceDetailType
      */
-    public function withDescription(string $description) : \lujie\dpd\soap\Type\ServiceDetailType
+    public function withDescription($description)
     {
         $new = clone $this;
         $new->description = $description;
@@ -77,6 +66,14 @@ class ServiceDetailType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription(string $description) : \lujie\dpd\soap\Type\ServiceDetailType
+    {
+        $this->description = $description;
+        return $this;
+    }
 }
 

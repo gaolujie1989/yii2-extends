@@ -6,7 +6,5 @@ use yii\base\BaseObject;
 
 class DataFaultType extends BaseObject
 {
-
-
 }
 

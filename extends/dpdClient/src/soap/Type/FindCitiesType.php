@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\RequestInterface;
 
 class FindCitiesType extends BaseObject implements RequestInterface
 {
-
     /**
      * @var string
      */
@@ -43,6 +42,18 @@ class FindCitiesType extends BaseObject implements RequestInterface
 
     /**
      * @param string $country
+     * @return FindCitiesType
+     */
+    public function withCountry($country)
+    {
+        $new = clone $this;
+        $new->country = $country;
+
+        return $new;
+    }
+
+    /**
+     * @param string $country
      * @return $this
      */
     public function setCountry(string $country) : \lujie\dpd\soap\Type\FindCitiesType
@@ -52,23 +63,23 @@ class FindCitiesType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $country
-     * @return FindCitiesType
-     */
-    public function withCountry(string $country) : \lujie\dpd\soap\Type\FindCitiesType
-    {
-        $new = clone $this;
-        $new->country = $country;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getZipCode()
     {
         return $this->zipCode;
+    }
+
+    /**
+     * @param string $zipCode
+     * @return FindCitiesType
+     */
+    public function withZipCode($zipCode)
+    {
+        $new = clone $this;
+        $new->zipCode = $zipCode;
+
+        return $new;
     }
 
     /**
@@ -82,23 +93,23 @@ class FindCitiesType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $zipCode
-     * @return FindCitiesType
-     */
-    public function withZipCode(string $zipCode) : \lujie\dpd\soap\Type\FindCitiesType
-    {
-        $new = clone $this;
-        $new->zipCode = $zipCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * @param string $city
+     * @return FindCitiesType
+     */
+    public function withCity($city)
+    {
+        $new = clone $this;
+        $new->city = $city;
+
+        return $new;
     }
 
     /**
@@ -112,23 +123,23 @@ class FindCitiesType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param string $city
-     * @return FindCitiesType
-     */
-    public function withCity(string $city) : \lujie\dpd\soap\Type\FindCitiesType
-    {
-        $new = clone $this;
-        $new->city = $city;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @param int $limit
+     * @return FindCitiesType
+     */
+    public function withLimit($limit)
+    {
+        $new = clone $this;
+        $new->limit = $limit;
+
+        return $new;
     }
 
     /**
@@ -142,23 +153,23 @@ class FindCitiesType extends BaseObject implements RequestInterface
     }
 
     /**
-     * @param int $limit
-     * @return FindCitiesType
-     */
-    public function withLimit(int $limit) : \lujie\dpd\soap\Type\FindCitiesType
-    {
-        $new = clone $this;
-        $new->limit = $limit;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * @param string $order
+     * @return FindCitiesType
+     */
+    public function withOrder($order)
+    {
+        $new = clone $this;
+        $new->order = $order;
+
+        return $new;
     }
 
     /**
@@ -170,19 +181,5 @@ class FindCitiesType extends BaseObject implements RequestInterface
         $this->order = $order;
         return $this;
     }
-
-    /**
-     * @param string $order
-     * @return FindCitiesType
-     */
-    public function withOrder(string $order) : \lujie\dpd\soap\Type\FindCitiesType
-    {
-        $new = clone $this;
-        $new->order = $order;
-
-        return $new;
-    }
-
-
 }
 

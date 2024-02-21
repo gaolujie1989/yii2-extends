@@ -2,12 +2,12 @@
 
 namespace lujie\dpd;
 
+use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
-use Phpro\SoapClient\Middleware\Middleware;
 use Psr\Http\Message\RequestInterface;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 
-class DpdSoapAuthMiddleware extends Middleware
+class DpdSoapAuthPlugin implements Plugin
 {
     /**
      * @var string
@@ -24,6 +24,11 @@ class DpdSoapAuthMiddleware extends Middleware
      */
     private $messageLanguage;
 
+    /**
+     * @param string $delisId
+     * @param string $authToken
+     * @param string $messageLanguage
+     */
     public function __construct(string $delisId, string $authToken, string $messageLanguage)
     {
         $this->delisId = $delisId;
@@ -33,10 +38,10 @@ class DpdSoapAuthMiddleware extends Middleware
 
     public function getName(): string
     {
-        return 'dpd_auth_middleware';
+        return 'dpd_auth_plugin';
     }
 
-    public function beforeRequest(callable $handler, RequestInterface $request): Promise
+    public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         $headerNs = 'xmlns:ns="http://dpd.com/common/service/types/Authentication/2.0"';
         $headerXml = '<SOAP-ENV:Header><ns:authentication>'
@@ -52,8 +57,8 @@ class DpdSoapAuthMiddleware extends Middleware
             'xmlns:ns1' => $headerNs . ' xmlns:ns1',
             '<SOAP-ENV:Body>' => $headerXml . '<SOAP-ENV:Body>',
         ]);
-        $request = $request->withBody(stream_for($soapXml));
+        $request = $request->withBody(Utils::streamFor($soapXml));
 
-        return $handler($request);
+        return $next($request);
     }
 }

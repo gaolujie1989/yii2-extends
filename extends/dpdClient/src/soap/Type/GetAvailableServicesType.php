@@ -7,7 +7,5 @@ use Phpro\SoapClient\Type\RequestInterface;
 
 class GetAvailableServicesType extends BaseObject implements RequestInterface
 {
-
-
 }
 

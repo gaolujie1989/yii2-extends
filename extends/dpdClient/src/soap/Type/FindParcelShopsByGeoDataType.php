@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\RequestInterface;
 
 class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterface
 {
-
     /**
      * @var float
      */
@@ -53,6 +52,18 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
 
     /**
      * @param float $longitude
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withLongitude($longitude)
+    {
+        $new = clone $this;
+        $new->longitude = $longitude;
+
+        return $new;
+    }
+
+    /**
+     * @param float $longitude
      * @return $this
      */
     public function setLongitude(float $longitude) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
@@ -62,23 +73,23 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     }
 
     /**
-     * @param float $longitude
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withLongitude(float $longitude) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->longitude = $longitude;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getLatitude()
     {
         return $this->latitude;
+    }
+
+    /**
+     * @param float $latitude
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withLatitude($latitude)
+    {
+        $new = clone $this;
+        $new->latitude = $latitude;
+
+        return $new;
     }
 
     /**
@@ -92,23 +103,23 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     }
 
     /**
-     * @param float $latitude
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withLatitude(float $latitude) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->latitude = $latitude;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @param int $limit
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withLimit($limit)
+    {
+        $new = clone $this;
+        $new->limit = $limit;
+
+        return $new;
     }
 
     /**
@@ -122,23 +133,23 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     }
 
     /**
-     * @param int $limit
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withLimit(int $limit) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->limit = $limit;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getAvailabilityDate()
     {
         return $this->availabilityDate;
+    }
+
+    /**
+     * @param string $availabilityDate
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withAvailabilityDate($availabilityDate)
+    {
+        $new = clone $this;
+        $new->availabilityDate = $availabilityDate;
+
+        return $new;
     }
 
     /**
@@ -152,23 +163,23 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     }
 
     /**
-     * @param string $availabilityDate
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withAvailabilityDate(string $availabilityDate) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->availabilityDate = $availabilityDate;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getHideClosed()
     {
         return $this->hideClosed;
+    }
+
+    /**
+     * @param bool $hideClosed
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withHideClosed($hideClosed)
+    {
+        $new = clone $this;
+        $new->hideClosed = $hideClosed;
+
+        return $new;
     }
 
     /**
@@ -182,23 +193,23 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     }
 
     /**
-     * @param bool $hideClosed
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withHideClosed(bool $hideClosed) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->hideClosed = $hideClosed;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getSearchCountry()
     {
         return $this->searchCountry;
+    }
+
+    /**
+     * @param string $searchCountry
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withSearchCountry($searchCountry)
+    {
+        $new = clone $this;
+        $new->searchCountry = $searchCountry;
+
+        return $new;
     }
 
     /**
@@ -212,23 +223,23 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
     }
 
     /**
-     * @param string $searchCountry
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withSearchCountry(string $searchCountry) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->searchCountry = $searchCountry;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ServicesRequestType
      */
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ServicesRequestType $services
+     * @return FindParcelShopsByGeoDataType
+     */
+    public function withServices($services)
+    {
+        $new = clone $this;
+        $new->services = $services;
+
+        return $new;
     }
 
     /**
@@ -240,19 +251,5 @@ class FindParcelShopsByGeoDataType extends BaseObject implements RequestInterfac
         $this->services = $services;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ServicesRequestType $services
-     * @return FindParcelShopsByGeoDataType
-     */
-    public function withServices(\lujie\dpd\soap\Type\ServicesRequestType $services) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataType
-    {
-        $new = clone $this;
-        $new->services = $services;
-
-        return $new;
-    }
-
-
 }
 

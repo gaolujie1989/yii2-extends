@@ -7,7 +7,6 @@ use Phpro\SoapClient\Type\ResultInterface;
 
 class StoreOrdersResponse extends BaseObject implements ResultInterface
 {
-
     /**
      * @var \lujie\dpd\soap\Type\StoreOrdersResponseType
      */
@@ -23,19 +22,9 @@ class StoreOrdersResponse extends BaseObject implements ResultInterface
 
     /**
      * @param \lujie\dpd\soap\Type\StoreOrdersResponseType $orderResult
-     * @return $this
-     */
-    public function setOrderResult($orderResult) : \lujie\dpd\soap\Type\StoreOrdersResponse
-    {
-        $this->orderResult = $orderResult;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\StoreOrdersResponseType $orderResult
      * @return StoreOrdersResponse
      */
-    public function withOrderResult(\lujie\dpd\soap\Type\StoreOrdersResponseType $orderResult) : \lujie\dpd\soap\Type\StoreOrdersResponse
+    public function withOrderResult($orderResult)
     {
         $new = clone $this;
         $new->orderResult = $orderResult;
@@ -43,6 +32,14 @@ class StoreOrdersResponse extends BaseObject implements ResultInterface
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\StoreOrdersResponseType $orderResult
+     * @return $this
+     */
+    public function setOrderResult($orderResult) : \lujie\dpd\soap\Type\StoreOrdersResponse
+    {
+        $this->orderResult = $orderResult;
+        return $this;
+    }
 }
 

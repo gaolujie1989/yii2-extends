@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ParcelShopType extends BaseObject
 {
-
     /**
      * @var int
      */
@@ -147,6 +146,18 @@ class ParcelShopType extends BaseObject
 
     /**
      * @param int $parcelShopId
+     * @return ParcelShopType
+     */
+    public function withParcelShopId($parcelShopId)
+    {
+        $new = clone $this;
+        $new->parcelShopId = $parcelShopId;
+
+        return $new;
+    }
+
+    /**
+     * @param int $parcelShopId
      * @return $this
      */
     public function setParcelShopId(int $parcelShopId) : \lujie\dpd\soap\Type\ParcelShopType
@@ -156,23 +167,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param int $parcelShopId
-     * @return ParcelShopType
-     */
-    public function withParcelShopId(int $parcelShopId) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->parcelShopId = $parcelShopId;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPudoId()
     {
         return $this->pudoId;
+    }
+
+    /**
+     * @param string $pudoId
+     * @return ParcelShopType
+     */
+    public function withPudoId($pudoId)
+    {
+        $new = clone $this;
+        $new->pudoId = $pudoId;
+
+        return $new;
     }
 
     /**
@@ -186,23 +197,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $pudoId
-     * @return ParcelShopType
-     */
-    public function withPudoId(string $pudoId) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->pudoId = $pudoId;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCompany()
     {
         return $this->company;
+    }
+
+    /**
+     * @param string $company
+     * @return ParcelShopType
+     */
+    public function withCompany($company)
+    {
+        $new = clone $this;
+        $new->company = $company;
+
+        return $new;
     }
 
     /**
@@ -216,23 +227,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $company
-     * @return ParcelShopType
-     */
-    public function withCompany(string $company) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->company = $company;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getStreet()
     {
         return $this->street;
+    }
+
+    /**
+     * @param string $street
+     * @return ParcelShopType
+     */
+    public function withStreet($street)
+    {
+        $new = clone $this;
+        $new->street = $street;
+
+        return $new;
     }
 
     /**
@@ -246,23 +257,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $street
-     * @return ParcelShopType
-     */
-    public function withStreet(string $street) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->street = $street;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getHouseNo()
     {
         return $this->houseNo;
+    }
+
+    /**
+     * @param string $houseNo
+     * @return ParcelShopType
+     */
+    public function withHouseNo($houseNo)
+    {
+        $new = clone $this;
+        $new->houseNo = $houseNo;
+
+        return $new;
     }
 
     /**
@@ -276,23 +287,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $houseNo
-     * @return ParcelShopType
-     */
-    public function withHouseNo(string $houseNo) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->houseNo = $houseNo;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @param string $country
+     * @return ParcelShopType
+     */
+    public function withCountry($country)
+    {
+        $new = clone $this;
+        $new->country = $country;
+
+        return $new;
     }
 
     /**
@@ -306,23 +317,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $country
-     * @return ParcelShopType
-     */
-    public function withCountry(string $country) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->country = $country;
-
-        return $new;
-    }
-
-    /**
      * @return int
      */
     public function getCountryNum()
     {
         return $this->countryNum;
+    }
+
+    /**
+     * @param int $countryNum
+     * @return ParcelShopType
+     */
+    public function withCountryNum($countryNum)
+    {
+        $new = clone $this;
+        $new->countryNum = $countryNum;
+
+        return $new;
     }
 
     /**
@@ -336,23 +347,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param int $countryNum
-     * @return ParcelShopType
-     */
-    public function withCountryNum(int $countryNum) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->countryNum = $countryNum;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @param string $state
+     * @return ParcelShopType
+     */
+    public function withState($state)
+    {
+        $new = clone $this;
+        $new->state = $state;
+
+        return $new;
     }
 
     /**
@@ -366,23 +377,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $state
-     * @return ParcelShopType
-     */
-    public function withState(string $state) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->state = $state;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getZipCode()
     {
         return $this->zipCode;
+    }
+
+    /**
+     * @param string $zipCode
+     * @return ParcelShopType
+     */
+    public function withZipCode($zipCode)
+    {
+        $new = clone $this;
+        $new->zipCode = $zipCode;
+
+        return $new;
     }
 
     /**
@@ -396,23 +407,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $zipCode
-     * @return ParcelShopType
-     */
-    public function withZipCode(string $zipCode) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->zipCode = $zipCode;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * @param string $city
+     * @return ParcelShopType
+     */
+    public function withCity($city)
+    {
+        $new = clone $this;
+        $new->city = $city;
+
+        return $new;
     }
 
     /**
@@ -426,23 +437,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $city
-     * @return ParcelShopType
-     */
-    public function withCity(string $city) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->city = $city;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getTown()
     {
         return $this->town;
+    }
+
+    /**
+     * @param string $town
+     * @return ParcelShopType
+     */
+    public function withTown($town)
+    {
+        $new = clone $this;
+        $new->town = $town;
+
+        return $new;
     }
 
     /**
@@ -456,23 +467,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $town
-     * @return ParcelShopType
-     */
-    public function withTown(string $town) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->town = $town;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return ParcelShopType
+     */
+    public function withPhone($phone)
+    {
+        $new = clone $this;
+        $new->phone = $phone;
+
+        return $new;
     }
 
     /**
@@ -486,23 +497,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $phone
-     * @return ParcelShopType
-     */
-    public function withPhone(string $phone) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->phone = $phone;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getFax()
     {
         return $this->fax;
+    }
+
+    /**
+     * @param string $fax
+     * @return ParcelShopType
+     */
+    public function withFax($fax)
+    {
+        $new = clone $this;
+        $new->fax = $fax;
+
+        return $new;
     }
 
     /**
@@ -516,23 +527,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $fax
-     * @return ParcelShopType
-     */
-    public function withFax(string $fax) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->fax = $fax;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return ParcelShopType
+     */
+    public function withEmail($email)
+    {
+        $new = clone $this;
+        $new->email = $email;
+
+        return $new;
     }
 
     /**
@@ -546,23 +557,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $email
-     * @return ParcelShopType
-     */
-    public function withEmail(string $email) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->email = $email;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getHomepage()
     {
         return $this->homepage;
+    }
+
+    /**
+     * @param string $homepage
+     * @return ParcelShopType
+     */
+    public function withHomepage($homepage)
+    {
+        $new = clone $this;
+        $new->homepage = $homepage;
+
+        return $new;
     }
 
     /**
@@ -576,23 +587,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $homepage
-     * @return ParcelShopType
-     */
-    public function withHomepage(string $homepage) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->homepage = $homepage;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getLatitude()
     {
         return $this->latitude;
+    }
+
+    /**
+     * @param float $latitude
+     * @return ParcelShopType
+     */
+    public function withLatitude($latitude)
+    {
+        $new = clone $this;
+        $new->latitude = $latitude;
+
+        return $new;
     }
 
     /**
@@ -606,23 +617,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param float $latitude
-     * @return ParcelShopType
-     */
-    public function withLatitude(float $latitude) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->latitude = $latitude;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getLongitude()
     {
         return $this->longitude;
+    }
+
+    /**
+     * @param float $longitude
+     * @return ParcelShopType
+     */
+    public function withLongitude($longitude)
+    {
+        $new = clone $this;
+        $new->longitude = $longitude;
+
+        return $new;
     }
 
     /**
@@ -636,23 +647,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param float $longitude
-     * @return ParcelShopType
-     */
-    public function withLongitude(float $longitude) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->longitude = $longitude;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getCoordinateX()
     {
         return $this->coordinateX;
+    }
+
+    /**
+     * @param float $coordinateX
+     * @return ParcelShopType
+     */
+    public function withCoordinateX($coordinateX)
+    {
+        $new = clone $this;
+        $new->coordinateX = $coordinateX;
+
+        return $new;
     }
 
     /**
@@ -666,23 +677,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param float $coordinateX
-     * @return ParcelShopType
-     */
-    public function withCoordinateX(float $coordinateX) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->coordinateX = $coordinateX;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getCoordinateY()
     {
         return $this->coordinateY;
+    }
+
+    /**
+     * @param float $coordinateY
+     * @return ParcelShopType
+     */
+    public function withCoordinateY($coordinateY)
+    {
+        $new = clone $this;
+        $new->coordinateY = $coordinateY;
+
+        return $new;
     }
 
     /**
@@ -696,23 +707,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param float $coordinateY
-     * @return ParcelShopType
-     */
-    public function withCoordinateY(float $coordinateY) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->coordinateY = $coordinateY;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getCoordinateZ()
     {
         return $this->coordinateZ;
+    }
+
+    /**
+     * @param float $coordinateZ
+     * @return ParcelShopType
+     */
+    public function withCoordinateZ($coordinateZ)
+    {
+        $new = clone $this;
+        $new->coordinateZ = $coordinateZ;
+
+        return $new;
     }
 
     /**
@@ -726,23 +737,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param float $coordinateZ
-     * @return ParcelShopType
-     */
-    public function withCoordinateZ(float $coordinateZ) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->coordinateZ = $coordinateZ;
-
-        return $new;
-    }
-
-    /**
      * @return float
      */
     public function getDistance()
     {
         return $this->distance;
+    }
+
+    /**
+     * @param float $distance
+     * @return ParcelShopType
+     */
+    public function withDistance($distance)
+    {
+        $new = clone $this;
+        $new->distance = $distance;
+
+        return $new;
     }
 
     /**
@@ -756,23 +767,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param float $distance
-     * @return ParcelShopType
-     */
-    public function withDistance(float $distance) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->distance = $distance;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getExpressPickupTime()
     {
         return $this->expressPickupTime;
+    }
+
+    /**
+     * @param string $expressPickupTime
+     * @return ParcelShopType
+     */
+    public function withExpressPickupTime($expressPickupTime)
+    {
+        $new = clone $this;
+        $new->expressPickupTime = $expressPickupTime;
+
+        return $new;
     }
 
     /**
@@ -786,23 +797,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $expressPickupTime
-     * @return ParcelShopType
-     */
-    public function withExpressPickupTime(string $expressPickupTime) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->expressPickupTime = $expressPickupTime;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getExtraInfo()
     {
         return $this->extraInfo;
+    }
+
+    /**
+     * @param string $extraInfo
+     * @return ParcelShopType
+     */
+    public function withExtraInfo($extraInfo)
+    {
+        $new = clone $this;
+        $new->extraInfo = $extraInfo;
+
+        return $new;
     }
 
     /**
@@ -816,23 +827,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param string $extraInfo
-     * @return ParcelShopType
-     */
-    public function withExtraInfo(string $extraInfo) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->extraInfo = $extraInfo;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\OpeningHoursType
      */
     public function getOpeningHours()
     {
         return $this->openingHours;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\OpeningHoursType $openingHours
+     * @return ParcelShopType
+     */
+    public function withOpeningHours($openingHours)
+    {
+        $new = clone $this;
+        $new->openingHours = $openingHours;
+
+        return $new;
     }
 
     /**
@@ -846,23 +857,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\OpeningHoursType $openingHours
-     * @return ParcelShopType
-     */
-    public function withOpeningHours(\lujie\dpd\soap\Type\OpeningHoursType $openingHours) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->openingHours = $openingHours;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\HolidayType
      */
     public function getHoliday()
     {
         return $this->holiday;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\HolidayType $holiday
+     * @return ParcelShopType
+     */
+    public function withHoliday($holiday)
+    {
+        $new = clone $this;
+        $new->holiday = $holiday;
+
+        return $new;
     }
 
     /**
@@ -876,23 +887,23 @@ class ParcelShopType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\HolidayType $holiday
-     * @return ParcelShopType
-     */
-    public function withHoliday(\lujie\dpd\soap\Type\HolidayType $holiday) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->holiday = $holiday;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ServicesType
      */
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ServicesType $services
+     * @return ParcelShopType
+     */
+    public function withServices($services)
+    {
+        $new = clone $this;
+        $new->services = $services;
+
+        return $new;
     }
 
     /**
@@ -904,19 +915,5 @@ class ParcelShopType extends BaseObject
         $this->services = $services;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ServicesType $services
-     * @return ParcelShopType
-     */
-    public function withServices(\lujie\dpd\soap\Type\ServicesType $services) : \lujie\dpd\soap\Type\ParcelShopType
-    {
-        $new = clone $this;
-        $new->services = $services;
-
-        return $new;
-    }
-
-
 }
 

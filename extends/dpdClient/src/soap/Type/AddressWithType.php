@@ -2,9 +2,10 @@
 
 namespace lujie\dpd\soap\Type;
 
+use yii\base\BaseObject;
+
 class AddressWithType extends AddressWithBusinessUnit
 {
-
     /**
      * @var string
      */
@@ -20,19 +21,9 @@ class AddressWithType extends AddressWithBusinessUnit
 
     /**
      * @param string $addressType
-     * @return $this
-     */
-    public function setAddressType(string $addressType) : \lujie\dpd\soap\Type\AddressWithType
-    {
-        $this->addressType = $addressType;
-        return $this;
-    }
-
-    /**
-     * @param string $addressType
      * @return AddressWithType
      */
-    public function withAddressType(string $addressType) : \lujie\dpd\soap\Type\AddressWithType
+    public function withAddressType($addressType)
     {
         $new = clone $this;
         $new->addressType = $addressType;
@@ -40,6 +31,14 @@ class AddressWithType extends AddressWithBusinessUnit
         return $new;
     }
 
-
+    /**
+     * @param string $addressType
+     * @return $this
+     */
+    public function setAddressType(string $addressType) : \lujie\dpd\soap\Type\AddressWithType
+    {
+        $this->addressType = $addressType;
+        return $this;
+    }
 }
 

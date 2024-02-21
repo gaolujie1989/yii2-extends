@@ -2,13 +2,23 @@
 
 namespace lujie\dpd\soap;
 
+use Phpro\SoapClient\Caller\Caller;
 use lujie\dpd\soap\Type;
 use Phpro\SoapClient\Type\ResultInterface;
 use Phpro\SoapClient\Exception\SoapException;
 use Phpro\SoapClient\Type\RequestInterface;
 
-class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
+class ParcelShopFinderServiceClient
 {
+    /**
+     * @var Caller
+     */
+    private $caller;
+
+    public function __construct(\Phpro\SoapClient\Caller\Caller $caller)
+    {
+        $this->caller = $caller;
+    }
 
     /**
      * @param RequestInterface|Type\FindParcelShopsType $parameters
@@ -17,7 +27,7 @@ class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
      */
     public function findParcelShops(\lujie\dpd\soap\Type\FindParcelShopsType $parameters) : \lujie\dpd\soap\Type\FindParcelShopsResponseType
     {
-        return $this->call('findParcelShops', $parameters);
+        return ($this->caller)('findParcelShops', $parameters);
     }
 
     /**
@@ -27,7 +37,7 @@ class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
      */
     public function findParcelShopsByGeoData(\lujie\dpd\soap\Type\FindParcelShopsByGeoDataType $parameters) : \lujie\dpd\soap\Type\FindParcelShopsByGeoDataResponseType
     {
-        return $this->call('findParcelShopsByGeoData', $parameters);
+        return ($this->caller)('findParcelShopsByGeoData', $parameters);
     }
 
     /**
@@ -37,7 +47,7 @@ class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
      */
     public function findCities(\lujie\dpd\soap\Type\FindCitiesType $parameters) : \lujie\dpd\soap\Type\FindCitiesResponseType
     {
-        return $this->call('findCities', $parameters);
+        return ($this->caller)('findCities', $parameters);
     }
 
     /**
@@ -47,9 +57,7 @@ class ParcelShopFinderServiceClient extends \Phpro\SoapClient\Client
      */
     public function getAvailableServices(\lujie\dpd\soap\Type\GetAvailableServicesType $parameters) : \lujie\dpd\soap\Type\GetAvailableServicesResponseType
     {
-        return $this->call('getAvailableServices', $parameters);
+        return ($this->caller)('getAvailableServices', $parameters);
     }
-
-
 }
 

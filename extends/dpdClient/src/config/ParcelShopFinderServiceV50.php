@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__DIR__) . '/helpers/SoapClientCodeGeneratorConfigHelper.php';
+require_once dirname(__DIR__) . '/helpers/DpdSoapClientConfigHelper.php';
 
-use lujie\dpd\helpers\SoapClientCodeGeneratorConfigHelper;
+use lujie\dpd\helpers\DpdSoapClientConfigHelper;
 
-return SoapClientCodeGeneratorConfigHelper::createDPDSoapConfig(
+return DpdSoapClientConfigHelper::createSoapConfig(
     'ParcelShopFinderService',
-    'https://public-ws-stage.dpd.com/services/ParcelShopFinderService/V5_0/?wsdl'
+    'https://public-ws.dpd.com/services/ParcelShopFinderService/V5_0/?wsdl'
 );

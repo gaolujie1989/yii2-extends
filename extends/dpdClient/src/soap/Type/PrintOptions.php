@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class PrintOptions extends BaseObject
 {
-
     /**
      * @var \lujie\dpd\soap\Type\PrintOption
      */
@@ -27,24 +26,24 @@ class PrintOptions extends BaseObject
 
     /**
      * @param \lujie\dpd\soap\Type\PrintOption $printOption
+     * @return PrintOptions
+     */
+    public function withPrintOption($printOption)
+    {
+        $new = clone $this;
+        $new->printOption = $printOption;
+
+        return $new;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\PrintOption $printOption
      * @return $this
      */
     public function setPrintOption($printOption) : \lujie\dpd\soap\Type\PrintOptions
     {
         $this->printOption = $printOption;
         return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\PrintOption $printOption
-     * @return PrintOptions
-     */
-    public function withPrintOption(\lujie\dpd\soap\Type\PrintOption $printOption) : \lujie\dpd\soap\Type\PrintOptions
-    {
-        $new = clone $this;
-        $new->printOption = $printOption;
-
-        return $new;
     }
 
     /**
@@ -57,19 +56,9 @@ class PrintOptions extends BaseObject
 
     /**
      * @param bool $splitByParcel
-     * @return $this
-     */
-    public function setSplitByParcel(bool $splitByParcel) : \lujie\dpd\soap\Type\PrintOptions
-    {
-        $this->splitByParcel = $splitByParcel;
-        return $this;
-    }
-
-    /**
-     * @param bool $splitByParcel
      * @return PrintOptions
      */
-    public function withSplitByParcel(bool $splitByParcel) : \lujie\dpd\soap\Type\PrintOptions
+    public function withSplitByParcel($splitByParcel)
     {
         $new = clone $this;
         $new->splitByParcel = $splitByParcel;
@@ -77,6 +66,14 @@ class PrintOptions extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param bool $splitByParcel
+     * @return $this
+     */
+    public function setSplitByParcel(bool $splitByParcel) : \lujie\dpd\soap\Type\PrintOptions
+    {
+        $this->splitByParcel = $splitByParcel;
+        return $this;
+    }
 }
 

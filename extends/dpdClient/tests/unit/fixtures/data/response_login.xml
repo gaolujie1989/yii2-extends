@@ -1,0 +1,13 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:getAuthResponse xmlns:ns2="http://dpd.com/common/service/types/LoginService/2.0"
+                             xmlns:ns3="http://dpd.com/common/service/exceptions">
+            <return>
+                <delisId>sandboxdpd</delisId>
+                <customerUid>sandboxdpd</customerUid>
+                <authToken>LTU1OTgxNjU2Mzk1Njg0MTczMQRRMTY2MTMzMDI2NjY1NQRR</authToken>
+                <depot>0998</depot>
+            </return>
+        </ns2:getAuthResponse>
+    </soap:Body>
+</soap:Envelope>

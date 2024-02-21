@@ -2,9 +2,10 @@
 
 namespace lujie\dpd\soap\Type;
 
+use yii\base\BaseObject;
+
 class AddressWithBusinessUnit extends Address
 {
-
     /**
      * @var int
      */
@@ -20,19 +21,9 @@ class AddressWithBusinessUnit extends Address
 
     /**
      * @param int $businessUnit
-     * @return $this
-     */
-    public function setBusinessUnit(int $businessUnit) : \lujie\dpd\soap\Type\AddressWithBusinessUnit
-    {
-        $this->businessUnit = $businessUnit;
-        return $this;
-    }
-
-    /**
-     * @param int $businessUnit
      * @return AddressWithBusinessUnit
      */
-    public function withBusinessUnit(int $businessUnit) : \lujie\dpd\soap\Type\AddressWithBusinessUnit
+    public function withBusinessUnit($businessUnit)
     {
         $new = clone $this;
         $new->businessUnit = $businessUnit;
@@ -40,6 +31,14 @@ class AddressWithBusinessUnit extends Address
         return $new;
     }
 
-
+    /**
+     * @param int $businessUnit
+     * @return $this
+     */
+    public function setBusinessUnit(int $businessUnit) : \lujie\dpd\soap\Type\AddressWithBusinessUnit
+    {
+        $this->businessUnit = $businessUnit;
+        return $this;
+    }
 }
 

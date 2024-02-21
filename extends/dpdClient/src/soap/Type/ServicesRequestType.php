@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ServicesRequestType extends BaseObject
 {
-
     /**
      * @var \lujie\dpd\soap\Type\ServiceRequestType
      */
@@ -22,19 +21,9 @@ class ServicesRequestType extends BaseObject
 
     /**
      * @param \lujie\dpd\soap\Type\ServiceRequestType $service
-     * @return $this
-     */
-    public function setService($service) : \lujie\dpd\soap\Type\ServicesRequestType
-    {
-        $this->service = $service;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ServiceRequestType $service
      * @return ServicesRequestType
      */
-    public function withService(\lujie\dpd\soap\Type\ServiceRequestType $service) : \lujie\dpd\soap\Type\ServicesRequestType
+    public function withService($service)
     {
         $new = clone $this;
         $new->service = $service;
@@ -42,6 +31,14 @@ class ServicesRequestType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\ServiceRequestType $service
+     * @return $this
+     */
+    public function setService($service) : \lujie\dpd\soap\Type\ServicesRequestType
+    {
+        $this->service = $service;
+        return $this;
+    }
 }
 

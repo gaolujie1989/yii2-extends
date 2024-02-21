@@ -6,14 +6,13 @@ use yii\base\BaseObject;
 
 class StoreOrdersResponseType extends BaseObject
 {
-
     /**
      * @var \lujie\dpd\soap\Type\OutputType
      */
     private $output;
 
     /**
-     * @var \lujie\dpd\soap\Type\ShipmentResponse[]
+     * @var \lujie\dpd\soap\Type\ShipmentResponse
      */
     private $shipmentResponses;
 
@@ -27,6 +26,18 @@ class StoreOrdersResponseType extends BaseObject
 
     /**
      * @param \lujie\dpd\soap\Type\OutputType $output
+     * @return StoreOrdersResponseType
+     */
+    public function withOutput($output)
+    {
+        $new = clone $this;
+        $new->output = $output;
+
+        return $new;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\OutputType $output
      * @return $this
      */
     public function setOutput($output) : \lujie\dpd\soap\Type\StoreOrdersResponseType
@@ -36,19 +47,7 @@ class StoreOrdersResponseType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\OutputType $output
-     * @return StoreOrdersResponseType
-     */
-    public function withOutput(\lujie\dpd\soap\Type\OutputType $output) : \lujie\dpd\soap\Type\StoreOrdersResponseType
-    {
-        $new = clone $this;
-        $new->output = $output;
-
-        return $new;
-    }
-
-    /**
-     * @return \lujie\dpd\soap\Type\ShipmentResponse[]
+     * @return \lujie\dpd\soap\Type\ShipmentResponse
      */
     public function getShipmentResponses()
     {
@@ -56,20 +55,10 @@ class StoreOrdersResponseType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ShipmentResponse[] $shipmentResponses
-     * @return $this
-     */
-    public function setShipmentResponses($shipmentResponses) : \lujie\dpd\soap\Type\StoreOrdersResponseType
-    {
-        $this->shipmentResponses = $shipmentResponses;
-        return $this;
-    }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ShipmentResponse[] $shipmentResponses
+     * @param \lujie\dpd\soap\Type\ShipmentResponse $shipmentResponses
      * @return StoreOrdersResponseType
      */
-    public function withShipmentResponses($shipmentResponses) : \lujie\dpd\soap\Type\StoreOrdersResponseType
+    public function withShipmentResponses($shipmentResponses)
     {
         $new = clone $this;
         $new->shipmentResponses = $shipmentResponses;
@@ -77,6 +66,14 @@ class StoreOrdersResponseType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\ShipmentResponse $shipmentResponses
+     * @return $this
+     */
+    public function setShipmentResponses($shipmentResponses) : \lujie\dpd\soap\Type\StoreOrdersResponseType
+    {
+        $this->shipmentResponses = $shipmentResponses;
+        return $this;
+    }
 }
 

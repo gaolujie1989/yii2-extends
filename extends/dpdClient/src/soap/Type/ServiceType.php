@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ServiceType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -37,6 +36,18 @@ class ServiceType extends BaseObject
 
     /**
      * @param string $code
+     * @return ServiceType
+     */
+    public function withCode($code)
+    {
+        $new = clone $this;
+        $new->code = $code;
+
+        return $new;
+    }
+
+    /**
+     * @param string $code
      * @return $this
      */
     public function setCode(string $code) : \lujie\dpd\soap\Type\ServiceType
@@ -46,23 +57,23 @@ class ServiceType extends BaseObject
     }
 
     /**
-     * @param string $code
-     * @return ServiceType
-     */
-    public function withCode(string $code) : \lujie\dpd\soap\Type\ServiceType
-    {
-        $new = clone $this;
-        $new->code = $code;
-
-        return $new;
-    }
-
-    /**
      * @return bool
      */
     public function getAvailable()
     {
         return $this->available;
+    }
+
+    /**
+     * @param bool $available
+     * @return ServiceType
+     */
+    public function withAvailable($available)
+    {
+        $new = clone $this;
+        $new->available = $available;
+
+        return $new;
     }
 
     /**
@@ -76,23 +87,23 @@ class ServiceType extends BaseObject
     }
 
     /**
-     * @param bool $available
-     * @return ServiceType
-     */
-    public function withAvailable(bool $available) : \lujie\dpd\soap\Type\ServiceType
-    {
-        $new = clone $this;
-        $new->available = $available;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return ServiceType
+     */
+    public function withDescription($description)
+    {
+        $new = clone $this;
+        $new->description = $description;
+
+        return $new;
     }
 
     /**
@@ -106,23 +117,23 @@ class ServiceType extends BaseObject
     }
 
     /**
-     * @param string $description
-     * @return ServiceType
-     */
-    public function withDescription(string $description) : \lujie\dpd\soap\Type\ServiceType
-    {
-        $new = clone $this;
-        $new->description = $description;
-
-        return $new;
-    }
-
-    /**
      * @return \lujie\dpd\soap\Type\ServiceDetailType
      */
     public function getServiceDetail()
     {
         return $this->serviceDetail;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ServiceDetailType $serviceDetail
+     * @return ServiceType
+     */
+    public function withServiceDetail($serviceDetail)
+    {
+        $new = clone $this;
+        $new->serviceDetail = $serviceDetail;
+
+        return $new;
     }
 
     /**
@@ -134,19 +145,5 @@ class ServiceType extends BaseObject
         $this->serviceDetail = $serviceDetail;
         return $this;
     }
-
-    /**
-     * @param \lujie\dpd\soap\Type\ServiceDetailType $serviceDetail
-     * @return ServiceType
-     */
-    public function withServiceDetail(\lujie\dpd\soap\Type\ServiceDetailType $serviceDetail) : \lujie\dpd\soap\Type\ServiceType
-    {
-        $new = clone $this;
-        $new->serviceDetail = $serviceDetail;
-
-        return $new;
-    }
-
-
 }
 

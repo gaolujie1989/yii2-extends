@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ParcelInformationType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -18,7 +17,7 @@ class ParcelInformationType extends BaseObject
     private $dpdReference;
 
     /**
-     * @var \lujie\dpd\soap\Type\OutputType[]
+     * @var \lujie\dpd\soap\Type\OutputType
      */
     private $output;
 
@@ -32,6 +31,18 @@ class ParcelInformationType extends BaseObject
 
     /**
      * @param string $parcelLabelNumber
+     * @return ParcelInformationType
+     */
+    public function withParcelLabelNumber($parcelLabelNumber)
+    {
+        $new = clone $this;
+        $new->parcelLabelNumber = $parcelLabelNumber;
+
+        return $new;
+    }
+
+    /**
+     * @param string $parcelLabelNumber
      * @return $this
      */
     public function setParcelLabelNumber(string $parcelLabelNumber) : \lujie\dpd\soap\Type\ParcelInformationType
@@ -41,23 +52,23 @@ class ParcelInformationType extends BaseObject
     }
 
     /**
-     * @param string $parcelLabelNumber
-     * @return ParcelInformationType
-     */
-    public function withParcelLabelNumber(string $parcelLabelNumber) : \lujie\dpd\soap\Type\ParcelInformationType
-    {
-        $new = clone $this;
-        $new->parcelLabelNumber = $parcelLabelNumber;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getDpdReference()
     {
         return $this->dpdReference;
+    }
+
+    /**
+     * @param string $dpdReference
+     * @return ParcelInformationType
+     */
+    public function withDpdReference($dpdReference)
+    {
+        $new = clone $this;
+        $new->dpdReference = $dpdReference;
+
+        return $new;
     }
 
     /**
@@ -71,19 +82,7 @@ class ParcelInformationType extends BaseObject
     }
 
     /**
-     * @param string $dpdReference
-     * @return ParcelInformationType
-     */
-    public function withDpdReference(string $dpdReference) : \lujie\dpd\soap\Type\ParcelInformationType
-    {
-        $new = clone $this;
-        $new->dpdReference = $dpdReference;
-
-        return $new;
-    }
-
-    /**
-     * @return \lujie\dpd\soap\Type\OutputType[]
+     * @return \lujie\dpd\soap\Type\OutputType
      */
     public function getOutput()
     {
@@ -91,20 +90,10 @@ class ParcelInformationType extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\OutputType[] $output
-     * @return $this
-     */
-    public function setOutput($output) : \lujie\dpd\soap\Type\ParcelInformationType
-    {
-        $this->output = $output;
-        return $this;
-    }
-
-    /**
      * @param \lujie\dpd\soap\Type\OutputType $output
      * @return ParcelInformationType
      */
-    public function withOutput(\lujie\dpd\soap\Type\OutputType $output) : \lujie\dpd\soap\Type\ParcelInformationType
+    public function withOutput($output)
     {
         $new = clone $this;
         $new->output = $output;
@@ -112,6 +101,14 @@ class ParcelInformationType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\OutputType $output
+     * @return $this
+     */
+    public function setOutput($output) : \lujie\dpd\soap\Type\ParcelInformationType
+    {
+        $this->output = $output;
+        return $this;
+    }
 }
 

@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class OutputType extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -27,24 +26,24 @@ class OutputType extends BaseObject
 
     /**
      * @param string $format
+     * @return OutputType
+     */
+    public function withFormat($format)
+    {
+        $new = clone $this;
+        $new->format = $format;
+
+        return $new;
+    }
+
+    /**
+     * @param string $format
      * @return $this
      */
     public function setFormat(string $format) : \lujie\dpd\soap\Type\OutputType
     {
         $this->format = $format;
         return $this;
-    }
-
-    /**
-     * @param string $format
-     * @return OutputType
-     */
-    public function withFormat(string $format) : \lujie\dpd\soap\Type\OutputType
-    {
-        $new = clone $this;
-        $new->format = $format;
-
-        return $new;
     }
 
     /**
@@ -57,19 +56,9 @@ class OutputType extends BaseObject
 
     /**
      * @param string $content
-     * @return $this
-     */
-    public function setContent(string $content) : \lujie\dpd\soap\Type\OutputType
-    {
-        $this->content = $content;
-        return $this;
-    }
-
-    /**
-     * @param string $content
      * @return OutputType
      */
-    public function withContent(string $content) : \lujie\dpd\soap\Type\OutputType
+    public function withContent($content)
     {
         $new = clone $this;
         $new->content = $content;
@@ -77,6 +66,14 @@ class OutputType extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param string $content
+     * @return $this
+     */
+    public function setContent(string $content) : \lujie\dpd\soap\Type\OutputType
+    {
+        $this->content = $content;
+        return $this;
+    }
 }
 

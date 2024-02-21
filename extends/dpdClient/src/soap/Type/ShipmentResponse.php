@@ -6,7 +6,6 @@ use yii\base\BaseObject;
 
 class ShipmentResponse extends BaseObject
 {
-
     /**
      * @var string
      */
@@ -18,12 +17,12 @@ class ShipmentResponse extends BaseObject
     private $mpsId;
 
     /**
-     * @var \lujie\dpd\soap\Type\ParcelInformationType[]
+     * @var \lujie\dpd\soap\Type\ParcelInformationType
      */
     private $parcelInformation;
 
     /**
-     * @var \lujie\dpd\soap\Type\FaultCodeType[]
+     * @var \lujie\dpd\soap\Type\FaultCodeType
      */
     private $faults;
 
@@ -37,6 +36,18 @@ class ShipmentResponse extends BaseObject
 
     /**
      * @param string $identificationNumber
+     * @return ShipmentResponse
+     */
+    public function withIdentificationNumber($identificationNumber)
+    {
+        $new = clone $this;
+        $new->identificationNumber = $identificationNumber;
+
+        return $new;
+    }
+
+    /**
+     * @param string $identificationNumber
      * @return $this
      */
     public function setIdentificationNumber(string $identificationNumber) : \lujie\dpd\soap\Type\ShipmentResponse
@@ -46,23 +57,23 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param string $identificationNumber
-     * @return ShipmentResponse
-     */
-    public function withIdentificationNumber(string $identificationNumber) : \lujie\dpd\soap\Type\ShipmentResponse
-    {
-        $new = clone $this;
-        $new->identificationNumber = $identificationNumber;
-
-        return $new;
-    }
-
-    /**
      * @return string
      */
     public function getMpsId()
     {
         return $this->mpsId;
+    }
+
+    /**
+     * @param string $mpsId
+     * @return ShipmentResponse
+     */
+    public function withMpsId($mpsId)
+    {
+        $new = clone $this;
+        $new->mpsId = $mpsId;
+
+        return $new;
     }
 
     /**
@@ -76,19 +87,7 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param string $mpsId
-     * @return ShipmentResponse
-     */
-    public function withMpsId(string $mpsId) : \lujie\dpd\soap\Type\ShipmentResponse
-    {
-        $new = clone $this;
-        $new->mpsId = $mpsId;
-
-        return $new;
-    }
-
-    /**
-     * @return \lujie\dpd\soap\Type\ParcelInformationType[]
+     * @return \lujie\dpd\soap\Type\ParcelInformationType
      */
     public function getParcelInformation()
     {
@@ -96,7 +95,19 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ParcelInformationType[] $parcelInformation
+     * @param \lujie\dpd\soap\Type\ParcelInformationType $parcelInformation
+     * @return ShipmentResponse
+     */
+    public function withParcelInformation($parcelInformation)
+    {
+        $new = clone $this;
+        $new->parcelInformation = $parcelInformation;
+
+        return $new;
+    }
+
+    /**
+     * @param \lujie\dpd\soap\Type\ParcelInformationType $parcelInformation
      * @return $this
      */
     public function setParcelInformation($parcelInformation) : \lujie\dpd\soap\Type\ShipmentResponse
@@ -106,19 +117,7 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\ParcelInformationType $parcelInformation
-     * @return ShipmentResponse
-     */
-    public function withParcelInformation(\lujie\dpd\soap\Type\ParcelInformationType $parcelInformation) : \lujie\dpd\soap\Type\ShipmentResponse
-    {
-        $new = clone $this;
-        $new->parcelInformation = $parcelInformation;
-
-        return $new;
-    }
-
-    /**
-     * @return \lujie\dpd\soap\Type\FaultCodeType[]
+     * @return \lujie\dpd\soap\Type\FaultCodeType
      */
     public function getFaults()
     {
@@ -126,20 +125,10 @@ class ShipmentResponse extends BaseObject
     }
 
     /**
-     * @param \lujie\dpd\soap\Type\FaultCodeType[] $faults
-     * @return $this
-     */
-    public function setFaults($faults) : \lujie\dpd\soap\Type\ShipmentResponse
-    {
-        $this->faults = $faults;
-        return $this;
-    }
-
-    /**
      * @param \lujie\dpd\soap\Type\FaultCodeType $faults
      * @return ShipmentResponse
      */
-    public function withFaults(\lujie\dpd\soap\Type\FaultCodeType $faults) : \lujie\dpd\soap\Type\ShipmentResponse
+    public function withFaults($faults)
     {
         $new = clone $this;
         $new->faults = $faults;
@@ -147,6 +136,14 @@ class ShipmentResponse extends BaseObject
         return $new;
     }
 
-
+    /**
+     * @param \lujie\dpd\soap\Type\FaultCodeType $faults
+     * @return $this
+     */
+    public function setFaults($faults) : \lujie\dpd\soap\Type\ShipmentResponse
+    {
+        $this->faults = $faults;
+        return $this;
+    }
 }
 

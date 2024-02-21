@@ -43,15 +43,15 @@ class AliasPropertyBehavior extends Behavior
      * @param string $name
      * @return mixed
      * @throws \yii\base\UnknownPropertyException
+     * @throws \Exception
      * @inheritdoc
      */
     public function __get($name)
     {
         if ($this->isAliasProperty($name)) {
             return $this->getAliasProperty($name);
-        } else {
-            return parent::__get($name);
         }
+        return parent::__get($name);
     }
 
     /**
@@ -112,6 +112,7 @@ class AliasPropertyBehavior extends Behavior
     /**
      * @param string $name
      * @return mixed
+     * @throws \Exception
      * @inheritdoc
      */
     public function getAliasProperty(string $name)

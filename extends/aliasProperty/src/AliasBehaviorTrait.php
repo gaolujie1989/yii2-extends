@@ -11,6 +11,7 @@ use yii\db\BaseActiveRecord;
  * Trait AliasBehaviorTrait
  *
  * @property array $additionalAliases = []
+ * @property array $attributeAliases = []
  *
  * @package lujie\extend\db
  * @author Lujie Zhou <gao_lujie@live.cn>
@@ -86,6 +87,20 @@ trait AliasBehaviorTrait
                 $aliasDefaults[$alias] = $default;
             }
             $behaviors['additionalAliases'] = [
+                'class' => AliasPropertyBehavior::class,
+                'aliasProperties' => $aliasProperties,
+                'aliasDefaults' => $aliasDefaults,
+            ];
+        }
+        if (!empty($this->attributeAliases)) {
+            $aliasProperties = [];
+            $aliasDefaults = [];
+            foreach ($this->attributeAliases as $aliasKey => $alias) {
+                $alias = (array)$alias;
+                $aliasProperties[$aliasKey] = $alias[0];
+                $aliasDefaults[$aliasKey] = $alias[1] ?? null;
+            }
+            $behaviors['attributeAliases'] = [
                 'class' => AliasPropertyBehavior::class,
                 'aliasProperties' => $aliasProperties,
                 'aliasDefaults' => $aliasDefaults,

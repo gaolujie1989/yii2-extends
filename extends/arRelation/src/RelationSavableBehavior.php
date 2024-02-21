@@ -55,6 +55,7 @@ class RelationSavableBehavior extends Behavior
 
     /**
      * @var array
+     * @deprecated
      */
     public $relationFilters;
 
@@ -202,6 +203,26 @@ class RelationSavableBehavior extends Behavior
     #region relation action set/validate/save
 
     /**
+     * @param string $name
+     * @return array|BaseActiveRecord
+     * @inheritdoc
+     */
+    public function getSavedRelations(string $name): array|BaseActiveRecord
+    {
+        return $this->savedRelations[$name] ?? [];
+    }
+
+    /**
+     * @param string $name
+     * @return array|BaseActiveRecord
+     * @inheritdoc
+     */
+    public function getDeletedRelations(string $name): array|BaseActiveRecord
+    {
+        return $this->deletedRelations[$name] ?? [];
+    }
+
+    /**
      * convert array data to models
      * for not multi relations, should set link attribute first, then set relation data,
      * because it will load one relation model first and check, then set with relation
@@ -230,7 +251,7 @@ class RelationSavableBehavior extends Behavior
                     $indexKey = reset($indexKey);
                 } else {
                     $indexKey = static function ($values) use ($indexKey) {
-                        ValueHelper::getIndexValues($values, $indexKey);
+                        return ValueHelper::getIndexValues($values, $indexKey);
                     };
                 }
             }
@@ -242,7 +263,7 @@ class RelationSavableBehavior extends Behavior
                 $indexKey = $primaryKeys[0];
             } elseif (count($primaryKeys) > 1) {
                 $indexKey = static function ($values) use ($primaryKeys) {
-                    ValueHelper::getIndexValues($values, $primaryKeys);
+                    return ValueHelper::getIndexValues($values, $primaryKeys);
                 };
             } else {
                 throw new InvalidConfigException('Model must have a primaryKey');
@@ -281,10 +302,10 @@ class RelationSavableBehavior extends Behavior
                         $model->$fk = $owner->$pk ?: 0;
                     }
                 }
-                if ($values instanceof BaseActiveRecord) {
-                    $model->setAttributes($values->getAttributes());
-                } else {
+                if (!($values instanceof BaseActiveRecord)) {
                     $model->setAttributes($values);
+                } else if ($values !== $model) {
+                    $model->setAttributes($values->getAttributes($values->safeAttributes()));
                 }
                 $models[$key] = $model;
             }

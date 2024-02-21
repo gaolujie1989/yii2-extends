@@ -5,7 +5,7 @@
 
 namespace lujie\upload\behaviors;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\FileHelper;
@@ -103,21 +103,21 @@ trait FileTrait
             if (($fp = fopen($source, 'rb')) === false) {
                 return false;
             }
-            $result = $this->fs->writeStream($path, $fp);
+            $this->fs->writeStream($path, $fp);
             if (is_resource($fp)) {
                 fclose($fp);
             }
-            if ($result && $deleteFile) {
+            if ($deleteFile) {
                 unlink($source);
             }
+            return true;
         } else {
             $dir = pathinfo($path, PATHINFO_DIRNAME);
             if (!file_exists($dir)) {
                 FileHelper::createDirectory($this->path, 0777);
             }
-            $result = $deleteFile ? rename($source, $path) : copy($source, $path);
+            return $deleteFile ? rename($source, $path) : copy($source, $path);
         }
-        return $result;
     }
 
     /**
@@ -130,7 +130,8 @@ trait FileTrait
         $path = $this->path . $filePath;
         if ($this->fs) {
             if ($this->fs->has($path)) {
-                return $this->fs->delete($path);
+                $this->fs->delete($path);
+                return true;
             }
         } else if (file_exists($path)) {
             return unlink($path);

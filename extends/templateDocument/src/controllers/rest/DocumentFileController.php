@@ -5,7 +5,7 @@
 
 namespace lujie\template\document\controllers\rest;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\extend\rest\ActiveController;
 use lujie\extend\rest\MethodAction;
 use lujie\template\document\forms\DocumentGenerateForm;

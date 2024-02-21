@@ -5,7 +5,7 @@
 
 namespace lujie\template\document\forms;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\extend\helpers\TemplateHelper;
 use lujie\template\document\models\DocumentFile;
 use lujie\template\document\TemplateDocumentManager;

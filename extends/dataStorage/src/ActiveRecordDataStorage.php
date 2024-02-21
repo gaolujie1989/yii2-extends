@@ -17,6 +17,8 @@ use yii\db\BaseActiveRecord;
  */
 class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStorageInterface
 {
+    use BaseDataStorageTrait;
+
     /**
      * @var bool
      */
@@ -37,14 +39,21 @@ class ActiveRecordDataStorage extends ActiveRecordDataLoader implements DataStor
 
     /**
      * @param int|string $key
-     * @param mixed $data
+     * @param mixed $value
      * @return bool
      * @inheritdoc
      */
-    public function set($key, $data): bool
+    public function set($key, $value): bool
     {
         $model = $this->getModel($key) ?: new $this->modelClass();
-        $model->setAttributes($data);
+        if ($model->getIsNewRecord()) {
+            $model->setAttribute($this->key, $key);
+        }
+        if ($this->value) {
+            $model->setAttribute($this->value, $value);
+        } else {
+            $model->setAttributes($value);
+        }
         return $model->save($this->runValidation);
     }
 

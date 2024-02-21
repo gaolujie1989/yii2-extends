@@ -22,9 +22,23 @@ interface DataStorageInterface extends DataLoaderInterface
     public function set($key, $value);
 
     /**
+     * @param array $values
+     * @return mixed
+     * @inheritdoc
+     */
+    public function multiSet(array $values);
+
+    /**
      * @param string|int $key
      * @return mixed
      * @inheritdoc
      */
     public function remove($key);
+
+    /**
+     * @param array $key
+     * @return mixed
+     * @inheritdoc
+     */
+    public function multiRemove(array $keys);
 }

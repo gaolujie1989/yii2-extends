@@ -21,6 +21,8 @@ use yii\helpers\ArrayHelper;
  */
 class FileDataStorage extends ArrayDataLoader implements DataStorageInterface
 {
+    use BaseDataStorageTrait;
+
     /**
      * @var string
      */

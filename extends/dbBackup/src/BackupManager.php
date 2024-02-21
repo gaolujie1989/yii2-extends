@@ -12,20 +12,14 @@ use BackupManager\Config\Config;
 use BackupManager\Databases\DatabaseProvider;
 use BackupManager\Databases\MysqlDatabase;
 use BackupManager\Databases\PostgresqlDatabase;
-use BackupManager\Filesystems\Awss3Filesystem;
 use BackupManager\Filesystems\Destination;
-use BackupManager\Filesystems\DropboxFilesystem;
-use BackupManager\Filesystems\DropboxV2Filesystem;
 use BackupManager\Filesystems\FilesystemProvider;
-use BackupManager\Filesystems\FtpFilesystem;
-use BackupManager\Filesystems\GcsFilesystem;
-use BackupManager\Filesystems\LocalFilesystem;
-use BackupManager\Filesystems\RackspaceFilesystem;
-use BackupManager\Filesystems\SftpFilesystem;
 use BackupManager\Manager;
-use creocoder\flysystem\Filesystem;
-use lujie\backup\manager\Filesystems\AliyunOssFilesystem;
-use lujie\backup\manager\Filesystems\QCloudCosFilesystem;
+use lujie\backup\manager\databases\YiiComponentDatabase;
+use lujie\backup\manager\filesystems\LocalFilesystem;
+use lujie\backup\manager\filesystems\YiiComponentFilesystem;
+use lujie\extend\flysystem\Filesystem;
+use Yii;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -40,19 +34,22 @@ use yii\di\Instance;
 class BackupManager extends Component
 {
     /**
-     * @var Manager
+     * @var string[]
      */
-    private $manager;
-
-    /**
-     * @var array
-     */
-    public $databases;
+    public $filesystems = [
+        LocalFilesystem::class,
+        YiiComponentFilesystem::class,
+    ];
 
     /**
      * @var array
      */
     public $storages;
+
+    /**
+     * @var array
+     */
+    public $databases;
 
     /**
      * 'xxx' => [
@@ -84,43 +81,33 @@ class BackupManager extends Component
     public $restore = [];
 
     /**
-     * @throws InvalidConfigException
+     * @var Manager
+     */
+    private $manager;
+
+    /**
      * @inheritdoc
      */
     public function init(): void
     {
         parent::init();
-        foreach ($this->databases as $key => $config) {
-            $this->databases[$key] = $this->getDatabaseConfig($config);
-        }
-        foreach ($this->storages as $key => $config) {
-            if (is_string($config)) {
-                $this->storages[$key] = $this->getStorageConfig($config);
-            }
-        }
         $this->initManager();
     }
 
     /**
      * @inheritdoc
      */
-    public function initManager(): void
+    protected function initManager(): void
     {
         $filesystems = new FilesystemProvider(new Config($this->storages));
-        $filesystems->add(new LocalFilesystem());
-        $filesystems->add(new AliyunOssFilesystem());
-        $filesystems->add(new QCloudCosFilesystem());
-        $filesystems->add(new Awss3Filesystem());
-        $filesystems->add(new RackspaceFilesystem());
-        $filesystems->add(new GcsFilesystem());
-        $filesystems->add(new DropboxFilesystem());
-        $filesystems->add(new DropboxV2Filesystem());
-        $filesystems->add(new FtpFilesystem());
-        $filesystems->add(new SftpFilesystem());
+        foreach ($this->filesystems as $filesystemClass) {
+            $filesystems->add(new $filesystemClass());
+        }
 
         $databases = new DatabaseProvider(new Config($this->databases));
         $databases->add(new MysqlDatabase());
         $databases->add(new PostgresqlDatabase());
+        $databases->add(new YiiComponentDatabase());
 
         $compressors = new CompressorProvider();
         $compressors->add(new GzipCompressor());
@@ -205,104 +192,6 @@ class BackupManager extends Component
             $restore['database'],
             $restore['compression']
         );
-    }
-
-    /**
-     * @param string|array $config
-     * @return array
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function getDatabaseConfig($config): array
-    {
-        if (is_string($config)) {
-            /** @var Connection $db */
-            $db = Instance::ensure($config, Connection::class);
-            $config = [];
-        } else if (is_array($config) && (isset($config['db']) || isset($config[0]))) {
-            $db = Instance::ensure($config['db'] ?? $config[0], Connection::class);
-            unset($config['db'], $config[0]);
-        } else {
-            return $config;
-        }
-
-        $driverName = $db->getDriverName();
-        if (!in_array($driverName, ['mysql', 'pgsql'], true)) {
-            throw new InvalidConfigException('Invalid db');
-        }
-
-        $dsn = substr($db->dsn, strpos($db->dsn, ':') + 1);
-        $dsnParts = explode(';', $dsn);
-        foreach ($dsnParts as $dsnPart) {
-            [$k, $v] = explode('=', $dsnPart);
-            $config[$k] = $v;
-        }
-
-        return [
-            'type' => $driverName,
-            'host' => $config['host'],
-            'port' => $config['port'] ?? ($driverName === 'mysql' ? 3306 : 5432),
-            'user' => $db->username,
-            'pass' => $db->password,
-            'database' => $config['dbname'],
-            'singleTransaction' => $config['singleTransaction'] ?? true,
-            // ignore tables only support mysql
-            'ignoreTables' => $config['ignoreTables'] ?? null,
-            // add additional options to dump-command (like '--max-allowed-packet')
-            'extraParams' => $config['extraParams'] ?? '',
-        ];
-    }
-
-    /**
-     * @param string|array $config
-     * @return array
-     * @throws InvalidConfigException
-     * @inheritdoc
-     */
-    protected function getStorageConfig($config): array
-    {
-        $filesystem = Instance::ensure($config, Filesystem::class);
-        if ($filesystem instanceof \creocoder\flysystem\LocalFilesystem) {
-            return [
-                'type' => 'Local',
-                'root' => $filesystem->path,
-            ];
-        }
-        if ($filesystem instanceof \lujie\flysystem\AliyunOssFilesystem) {
-            return [
-                'type' => 'aliyunOss',
-                'bucket' => $filesystem->bucket,
-                'endpoint' => $filesystem->endpoint ?: 'oss-cn-hangzhou.aliyuncs.com',
-                'timeout' => $filesystem->timeout,
-                'connectTimeout' => $filesystem->connectTimeout,
-                'isCName' => $filesystem->isCName,
-                'token' => $filesystem->token,
-                'accessId' => $filesystem->accessId,
-                'accessSecret' => $filesystem->accessSecret,
-            ];
-        }
-        if ($filesystem instanceof \lujie\flysystem\QCloudCosFilesystem) {
-            return [
-                'type' => 'qCloudCos',
-                'region' => $filesystem->region,
-                'credentials' => [
-                    'appId' => $filesystem->appId,
-                    'secretId' => $filesystem->accessId,
-                    'secretKey' => $filesystem->accessSecret,
-                    'token' => $filesystem->token,
-                ],
-
-                'bucket' => $filesystem->bucket,
-                'timeout' => $filesystem->timeout,
-                'connect_timeout' => $filesystem->connectTimeout,
-                'cdn' => '',
-                'scheme' => 'https',
-                'read_from_cdn' => false,
-                'cdn_key' => '',
-                'encrypt' => false,
-            ];
-        }
-        throw new InvalidArgumentException('Invalid filesystem to get config');
     }
 
     /**

@@ -205,7 +205,7 @@ class FieldQueryBehavior extends Behavior
      */
     protected function getAlias(): string
     {
-        if ($this->alias === null) {
+        if (empty($this->alias)) {
             $this->alias = '';
             $owner = $this->owner;
             if (empty($owner->from)) {
@@ -333,7 +333,7 @@ class FieldQueryBehavior extends Behavior
                         $owner->andWhere(['LIKE', $field, $value . '%', false]);
                     } else if ($like === 'R') {
                         $owner->andWhere(['LIKE', $field, '%' . $value, false]);
-                    } else if (strpos($value, '%') !== false) {
+                    } else if (str_contains($value, '%')) {
                         $owner->andWhere(['LIKE', $field, $value, false]);
                     } else {
                         $owner->andWhere(['LIKE', $field, $value]);
@@ -416,9 +416,9 @@ class FieldQueryBehavior extends Behavior
             case self::RETURN_MIN:
                 return $owner->min($field);
             case self::RETURN_SUM:
-                return $owner->sum($field);
+                return (int)$owner->sum($field);
             case self::RETURN_AVG:
-                return $owner->average($field);
+                return (int)$owner->average($field);
             default:
                 throw new InvalidConfigException('Invalid return method');
         }

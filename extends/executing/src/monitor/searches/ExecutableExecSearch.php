@@ -27,6 +27,20 @@ class ExecutableExecSearch extends ExecutableExec
     }
 
     /**
+     * @return array
+     * @inheritdoc
+     */
+    protected function filterKeySuffixes(): array
+    {
+        return [
+            'FILTER' => [
+                'id' => false,
+            ],
+            'LEFT_LIKE' => ['id' => 'id'],
+        ];
+    }
+
+    /**
      * @return ActiveQueryInterface
      * @inheritdoc
      */
@@ -34,6 +48,6 @@ class ExecutableExecSearch extends ExecutableExec
     {
         $query = $this->searchQuery();
         QueryHelper::filterValue($query, $this->getAttributes(['executor']));
-        return $query->addOrderBy(['started_at' => SORT_DESC]);
+        return $query;
     }
 }

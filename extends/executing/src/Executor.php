@@ -28,6 +28,7 @@ class Executor extends Component
     public const EVENT_BEFORE_EXEC = 'beforeExec';
     public const EVENT_AFTER_EXEC = 'afterExec';
     public const EVENT_AFTER_SKIP = 'afterSkip';
+    public const EVENT_AFTER_FOLLOW_TASK = 'afterSubTask';
     public const EVENT_UPDATE_PROGRESS = 'updateProgress';
 
     /**
@@ -82,7 +83,7 @@ class Executor extends Component
             return null;
         }
 
-        $event->jobId = $queue->push($job);
+        $event->jobId = $queue->delay($queueable->getDelay())->push($job);
 
         $this->trigger(self::EVENT_AFTER_QUEUED, $event);
         return (string)$event->jobId;
@@ -145,27 +146,67 @@ class Executor extends Component
                 return false;
             }
 
-            if (($event->executable instanceof Model) && !$event->executable->validate()) {
+            $newExecutable = $event->executable;
+            if (($newExecutable instanceof Model) && !$newExecutable->validate()) {
                 $event->isValid = false;
-                $event->error = new UserException(Json::encode($event->executable->getErrors()));
+                $event->error = new UserException(Json::encode($newExecutable->getErrors()));
                 $this->trigger(self::EVENT_AFTER_EXEC, $event);
                 return false;
             }
 
-            $result = $event->executable->execute();
-            if ($event->executable instanceof ProgressInterface && $result instanceof \Generator) {
+            if ($newExecutable instanceof SubTaskInterface && $newExecutable->shouldSubTask()) {
+                if ($newExecutable instanceof ProgressInterface) {
+                    $event->progress = $newExecutable->getProgress();
+                }
+                $subTasks = $newExecutable->createSubTasks();
+                foreach ($subTasks as $subTask) {
+                    $this->handle($subTask);
+
+                    if ($event->progress) {
+                        $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
+                        if ($event->progress->break) {
+                            $event->error = new UserException('User Break');
+                            break;
+                        }
+                    }
+                }
+                $this->trigger(self::EVENT_AFTER_EXEC, $event);
+                return true;
+            }
+
+            $result = $newExecutable->execute();
+            if ($newExecutable instanceof ProgressInterface && $result instanceof \Generator) {
+                $event->progress = $newExecutable->getProgress();
+                $startTime = time();
+                $timeLimit = 0;
+                if ($newExecutable instanceof QueueableInterface) {
+                    $timeLimit = $newExecutable->getTtr() - 30;
+                }
                 foreach ($result as $item) {
                     $event->result = $item;
-                    $event->progress = $event->executable->getProgress();
                     $this->trigger(self::EVENT_UPDATE_PROGRESS, $event);
                     if ($event->progress->break) {
                         $event->error = new UserException('User Break');
                         break;
                     }
+                    if ($timeLimit > 0 && time() - $startTime >= $timeLimit) {
+                        $event->error = new UserException('Time Limit');
+                        break;
+                    }
                 }
-                $event->result = $result->getReturn();
+                if (empty($event->error)) {
+                    $event->result = $result->getReturn();
+                }
             } else {
                 $event->result = $result;
+            }
+
+            if ($newExecutable instanceof FollowTaskInterface && $newExecutable->shouldFollowTask()) {
+                $followTasks = $newExecutable->createFollowTasks();
+                foreach ($followTasks as $subTask) {
+                    $this->handle($subTask);
+                }
+                $this->trigger(self::EVENT_AFTER_FOLLOW_TASK, $event);
             }
 
             $this->trigger(self::EVENT_AFTER_EXEC, $event);

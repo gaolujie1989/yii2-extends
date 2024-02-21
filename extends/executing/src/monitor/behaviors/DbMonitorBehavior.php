@@ -19,9 +19,9 @@ use yii\di\Instance;
 class DbMonitorBehavior extends BaseMonitorBehavior
 {
     /**
-     * @var int|mixed
+     * @var array
      */
-    private $executableExecId;
+    private $executableExecIds = [];
 
     /**
      * @var string
@@ -57,27 +57,26 @@ class DbMonitorBehavior extends BaseMonitorBehavior
             'executable_exec_uid' => $executable->getExecUid(),
             'executor' => $executeManagerName
         ];
-        if (!$this->executableExecId) {
-            $this->executableExecId = (new Query())
+        $execId = $this->executableExecIds[$executable->getExecUid()]
+            ?? (new Query())
                 ->from($this->execTable)
                 ->andWhere($condition)
                 ->scalar();
-        }
 
-        if ($this->executableExecId) {
+        if ($execId) {
             $this->db->createCommand()
-                ->update($this->execTable, $data, ['executable_exec_id' => $this->executableExecId])
+                ->update($this->execTable, $data, ['executable_exec_id' => $execId])
                 ->execute();
         } else {
             $columns = array_merge($data, $condition);
             $this->db->createCommand()
                 ->insert($this->execTable, $columns)
                 ->execute();
-            $this->executableExecId = $this->db->getLastInsertID();
+            $this->executableExecIds[$executable->getExecUid()] = $this->db->getLastInsertID();
         }
 
-        if ($data['status'] !== ExecStatusConst::EXEC_STATUS_RUNNING) {
-            $this->executableExecId = null;
+        while (count($this->executableExecIds) > 10) {
+            array_shift($this->executableExecIds);
         }
     }
 

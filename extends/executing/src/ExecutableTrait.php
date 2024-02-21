@@ -6,6 +6,7 @@
 namespace lujie\executing;
 
 use lujie\extend\helpers\ClassHelper;
+use lujie\extend\helpers\ValueHelper;
 use Yii;
 
 /**
@@ -68,6 +69,37 @@ trait ExecutableTrait
     public function getMemoryLimit(): ?string
     {
         return $this->memoryLimit;
+    }
+
+    /**
+     * @return array
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return ['id'];
+    }
+
+    /**
+     * @param array $params
+     * @inheritdoc
+     */
+    public function setParams(array $params): void
+    {
+        if (empty($params)) {
+            return;
+        }
+        $paramValues = [];
+        $paramKeys = $this->getParams();
+        while($paramKeys && $params) {
+            $paramValues[array_shift($paramKeys)] = array_shift($params);
+        }
+        foreach ($paramValues as $key => $value) {
+            $value = is_array($this->{$key}) ? ValueHelper::strToArray($value) : $value;
+            if (ValueHelper::notEmpty($value)) {
+                $this->{$key} = $value;
+            }
+        }
     }
 
     /**

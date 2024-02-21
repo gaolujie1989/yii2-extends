@@ -32,6 +32,8 @@ class ConsoleBehavior extends Behavior
      */
     public $autoFlush = true;
 
+    public $displayMemoryUsage = true;
+
     /**
      * @inheritdoc
      */
@@ -86,7 +88,12 @@ class ConsoleBehavior extends Behavior
     {
         $progress = $event->progress;
         if ($progress) {
-            Console::updateProgress($progress->done, $progress->total, $progress->message);
+            if ($this->displayMemoryUsage) {
+                $memoryUsage = '[' . round(memory_get_peak_usage() / 1024 / 1024) . 'M]';
+                Console::updateProgress($progress->done, $progress->total, $memoryUsage . $progress->message);
+            } else {
+                Console::updateProgress($progress->done, $progress->total, $progress->message);
+            }
         }
     }
 }

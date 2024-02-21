@@ -18,9 +18,9 @@ use Yii;
 class ActiveRecordMonitorBehavior extends BaseMonitorBehavior
 {
     /**
-     * @var ?ExecutableExec
+     * @var ExecutableExec[]
      */
-    private $executableExec;
+    private $executableExecs = [];
 
     /**
      * @var ExecutableExec
@@ -41,19 +41,21 @@ class ActiveRecordMonitorBehavior extends BaseMonitorBehavior
             'executable_exec_uid' => $executable->getExecUid(),
             'executor' => $executeManagerName
         ];
-        if (!$this->executableExec) {
-            $this->executableExec = $this->executableExecClass::findOne($condition)
-                ?: $this->executableExec = Yii::createObject($this->executableExecClass);
 
-            if ($this->executableExec->getIsNewRecord()) {
-                $this->executableExec->setAttributes($condition);
-            }
+        $executableExec = $this->executableExecs[$executable->getExecUid()]
+            ?? ($this->executableExecClass::findOne($condition) ?: Yii::createObject($this->executableExecClass));
+
+        if ($executableExec->getIsNewRecord()) {
+            $executableExec->setAttributes($condition);
         }
-        $this->executableExec->setAttributes($data);
-        $this->executableExec->save(false);
 
-        if ($data['status'] !== ExecStatusConst::EXEC_STATUS_RUNNING) {
-            $this->executableExec = null;
+        $executableExec->setAttributes($data);
+        $executableExec->save(false);
+
+        $this->executableExecs[$executable->getExecUid()] = $executableExec;
+
+        while (count($this->executableExecs) > 10) {
+            array_shift($this->executableExecs);
         }
     }
 

@@ -17,12 +17,17 @@ trait QueueableTrait
     /**
      * @var bool
      */
-    public $shouldQueued = false;
+    public $shouldQueued = true;
 
     /**
      * @var string
      */
     public $queue;
+
+    /**
+     * @var ?int
+     */
+    public $delay;
 
     /**
      * @var int
@@ -51,6 +56,15 @@ trait QueueableTrait
     public function getQueue(): ?Queue
     {
         return $this->queue ? Instance::ensure($this->queue, Queue::class) : null;
+    }
+
+    /**
+     * @return int|null
+     * @inheritdoc
+     */
+    public function getDelay(): ?int
+    {
+        return $this->delay;
     }
 
     /**

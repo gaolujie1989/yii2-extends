@@ -26,6 +26,12 @@ interface QueueableInterface
     public function getQueue(): ?Queue;
 
     /**
+     * @return int|null
+     * @inheritdoc
+     */
+    public function getDelay(): ?int;
+
+    /**
      * @return int
      * @inheritdoc
      */

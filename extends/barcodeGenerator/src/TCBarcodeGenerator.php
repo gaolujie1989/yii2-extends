@@ -29,6 +29,7 @@ class TCBarcodeGenerator extends BaseObject implements BarcodeGeneratorInterface
      * @var array
      */
     public $codeTypeMap = [
+        self::CODE39 => BarcodeGenerator::TYPE_CODE_39,
         self::CODE128 => BarcodeGenerator::TYPE_CODE_128,
         self::EAN13 => BarcodeGenerator::TYPE_EAN_13,
     ];

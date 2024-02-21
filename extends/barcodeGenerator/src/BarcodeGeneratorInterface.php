@@ -12,6 +12,7 @@ namespace lujie\barcode\generating;
  */
 interface BarcodeGeneratorInterface
 {
+    public const CODE39 = 'CODE39';
     public const CODE128 = 'CODE128';
     public const EAN13 = 'EAN13';
 

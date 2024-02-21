@@ -5,7 +5,7 @@
 
 namespace lujie\data\exchange\forms;
 
-use creocoder\flysystem\Filesystem;
+use lujie\extend\flysystem\Filesystem;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
@@ -206,7 +206,7 @@ class FileImportForm extends Model
                 array_unshift($transformer->transformers, $fillOwnerIdTransformer);
             } else {
                 $this->fileImporter->transformer = new ChainedTransformer([
-                    'transformers' => [$fillOwnerIdTransformer, $transformer]
+                    'transformers' => array_filter([$fillOwnerIdTransformer, $transformer])
                 ]);
             }
         }

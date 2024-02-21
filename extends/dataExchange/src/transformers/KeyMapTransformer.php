@@ -23,6 +23,11 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
     /**
      * @var bool
      */
+    public $keyMapFlip = false;
+
+    /**
+     * @var bool
+     */
     public $unsetOriginalKey = true;
 
     /**
@@ -42,29 +47,54 @@ class KeyMapTransformer extends BaseObject implements TransformerInterface
      */
     public function transform(array $data): array
     {
-        return array_map(function ($values) {
-            if (is_object($values)) {
-                $values = ArrayHelper::toArray($values);
+        $this->formatKeyMap();
+        return array_map([$this, 'transformInternal'], $data);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function formatKeyMap(): void
+    {
+        if (!ArrayHelper::isAssociative($this->keyMap)) {
+            return;
+        }
+        $keyMap = [];
+        foreach ($this->keyMap as $form => $to) {
+            $keyMap[] = $this->keyMapFlip ? [$to, $form] : [$form, $to];
+        }
+        $this->keyMap = $keyMap;
+    }
+
+    /**
+     * @param $values
+     * @return array
+     * @inheritdoc
+     */
+    protected function transformInternal($values): array
+    {
+        if (is_object($values)) {
+            $values = ArrayHelper::toArray($values);
+        }
+        foreach ($this->keyMap as [$from, $to]) {
+            if ($from === $to) {
+                continue;
             }
-            foreach ($this->keyMap as $from => $to) {
-                if ($from === $to) {
-                    continue;
+            if (array_key_exists($from, $values)) {
+                if ($values[$from] || empty($values[$to])) {
+                    $values[$to] = $values[$from];
                 }
-                if (array_key_exists($from, $values)) {
-                    if ($values[$from] || empty($values[$to])) {
-                        $values[$to] = $values[$from];
-                    }
-                    if ($this->unsetOriginalKey) {
-                        unset($values[$from]);
-                    }
-                } else if (!array_key_exists($to, $values)) {
-                    $values[$to] = $this->default;
+                if ($this->unsetOriginalKey) {
+                    unset($values[$from]);
                 }
+            } else if (!array_key_exists($to, $values)) {
+                $values[$to] = $this->default;
             }
-            if ($this->unsetNotInMapKey) {
-                $values = array_intersect_key($values, array_flip($this->keyMap));
-            }
-            return $values;
-        }, $data);
+        }
+        if ($this->unsetNotInMapKey) {
+            $mappedKeys = array_flip(ArrayHelper::getColumn($this->keyMap, 1));
+            $values = array_intersect_key($values, $mappedKeys);
+        }
+        return $values;
     }
 }

@@ -34,17 +34,17 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
     use ExecutableTrait, LockableTrait, QueueableTrait, ProgressTrait;
 
     /**
-     * @var ?SourceInterface
+     * @var ?SourceInterface|array
      */
     public $source;
 
     /**
-     * @var ?TransformerInterface
+     * @var ?TransformerInterface|array
      */
     public $transformer;
 
     /**
-     * @var PipelineInterface
+     * @var PipelineInterface|array
      */
     public $pipeline;
 
@@ -84,7 +84,7 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
         if ($this->useProgress) {
             return $result;
         }
-        iterator_to_array($result);
+        iterator_to_array($result, false);
         return $result->getReturn();
     }
 

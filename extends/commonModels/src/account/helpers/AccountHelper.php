@@ -28,16 +28,17 @@ class AccountHelper
         $copyAccount = $copyAccountClass::find()
             ->type($accountType)
             ->username($account->username)
-            ->one() ?: new $copyAccountClass(['name' => $account->name, 'type' => $accountType]);
+            ->one() ?: new $copyAccountClass(['name' => $account->name . '-' . $account->model_type, 'type' => $accountType]);
         $copyAccount->setAttributes($account->getAttributes(null, ['name', 'type', 'status']));
         $copyAccount->save(false);
 
         if ($copyToken && $account->authToken) {
             $authToken = $copyAccount->authToken ?: new AuthToken();
-            $authToken->setAttributes($account->authToken->getAttributes());
+            $authToken->setAttributes($account->authToken->getAttributes(null, ['auth_token_id']), false);
             $authToken->user_id = $copyAccount->account_id;
             $authToken->auth_user_id = $copyAccount->account_id;
             $authToken->auth_service = $copyAccount->type;
+            $authToken->detachBehavior('timestampTrace');
             $authToken->save(false);
         }
         return $copyAccount;

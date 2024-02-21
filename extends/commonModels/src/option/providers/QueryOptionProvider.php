@@ -62,12 +62,39 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @var array
      */
+    public $paramKeys;
+
+    /**
+     * @var array
+     */
+    public $valueKeys;
+
+    /**
+     * @var array
+     */
     public $keyMap = [];
 
     /**
      * @var bool
      */
     public $like = true;
+
+    /**
+     * @inheritdoc
+     */
+    public function init(): void
+    {
+        parent::init();
+        if (!isset($this->keyMap['value']) && in_array('value', $this->keyMap, true)) {
+            $this->keyMap = array_flip($this->keyMap);
+        }
+        if ($this->filterKeys === null && isset($this->keyMap['label'])) {
+            $this->filterKeys = [$this->keyMap['label']];
+        }
+        if ($this->valueKeys === null && isset($this->keyMap['value'])) {
+            $this->valueKeys = [$this->keyMap['value']];
+        }
+    }
 
     /**
      * @param string $type
@@ -81,15 +108,15 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
 
     /**
      * @param string $type
-     * @param string $key
-     * @param bool|string $like
+     * @param string|null $key
+     * @param string|null $values
      * @return array
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
-     * @throws \Exception
      */
-    public function getOptions(string $type, ?string $key = null): array
+    public function getOptions(string $type, ?string $key = null, ?array $values = null, ?array $params = null): array
     {
-        $query = $this->getQuery($type, $key);
+        $query = $this->getQuery($type, $key, $values, $params);
         $data = $query->all($this->db);
         if ($query instanceof ActiveQueryInterface) {
             /** @var ActiveQuery $query */
@@ -100,6 +127,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
         }
         $transformer = new KeyMapTransformer([
             'keyMap' => $this->keyMap,
+            'keyMapFlip' => true,
             'unsetOriginalKey' => true,
             'unsetNotInMapKey' => true,
         ]);
@@ -107,39 +135,38 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     }
 
     /**
+     * @param string $type
+     * @param string|null $key
+     * @param string|null $values
      * @return QueryInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    protected function getQuery(string $type, ?string $key = null): QueryInterface
+    protected function getQuery(string $type, ?string $key = null, ?array $values = null, ?array $params = null): QueryInterface
     {
         if ($this->db) {
             $this->db = Instance::ensure($this->db);
         }
         $query = clone $this->query;
-        $query->andFilterWhere($this->condition)->addOrderBy($this->orderBy)->limit($this->limit);
+        $query->andWhere($this->condition)->addOrderBy($this->orderBy);
         if ($this->filterKeys && $key) {
             QueryHelper::filterKey($query, $this->filterKeys, $key, $this->like);
+        }
+        if ($this->paramKeys && $params) {
+            $params = array_intersect_key($params, array_flip($this->paramKeys));
+            QueryHelper::filterValue($query, $params);
+        }
+        if ($this->valueKeys && $values) {
+            QueryHelper::filterKey($query, $this->valueKeys, $values);
+        } else if ($this->limit) {
+            $query->limit($this->limit);
         }
         if ($query instanceof ActiveQueryInterface) {
             $query->asArray();
         }
         if ($this->keyMap) {
-            $query->select(array_keys($this->keyMap))->distinct();
+            $query->select($this->keyMap)->distinct();
         }
         return $query;
-    }
-
-    /**
-     * @param string $type
-     * @param string $value
-     * @param array $data
-     * @return bool
-     * @throws NotSupportedException
-     * @inheritdoc
-     */
-    public function addOption(string $type, string $value, array $data = []): bool
-    {
-        throw new NotSupportedException('QueryOptionProvider not support add option');
     }
 }

@@ -53,11 +53,11 @@ class AccountOptionProvider extends DbOptionProvider
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function getQuery(string $type, ?string $key = null): QueryInterface
+    protected function getQuery(string $type, ?string $key = null, ?array $values = null, ?array $params = null): QueryInterface
     {
         $accountType = $this->getAccountType($type);
         /** @var AccountQuery $query */
-        $query = parent::getQuery($type, $key);
+        $query = parent::getQuery($type, $key, $values, $params);
         if ($accountType) {
             $query->type($accountType);
         }

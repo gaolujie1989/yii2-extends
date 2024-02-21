@@ -24,6 +24,7 @@ class AccountForm extends Account
     public function rules(): array
     {
         return array_merge($this->formRules(), [
+            [['type', 'username'], 'required'],
             [['additional'], 'default', 'value' => []],
             [['additional'], 'safe'],
         ]);

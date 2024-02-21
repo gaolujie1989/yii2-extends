@@ -16,6 +16,8 @@ use Yii;
  */
 class AddressPostalCode extends \lujie\extend\db\ActiveRecord
 {
+    public const TYPE_ISLAND = 'ISLAND';
+
     /**
      * {@inheritdoc}
      */

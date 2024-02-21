@@ -23,7 +23,7 @@ class AddressPostalCodeBatchForm extends BatchForm
      */
     public function attributes(): array
     {
-        return ['status'];
+        return ['status', 'note'];
     }
 
     /**
@@ -35,6 +35,7 @@ class AddressPostalCodeBatchForm extends BatchForm
         return [
             [['status'], 'required'],
             [['status'], 'in', 'range' => StatusConst::STATUS_LIST],
+            [['note'], 'string'],
         ];
     }
 }

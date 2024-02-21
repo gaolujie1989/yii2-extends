@@ -20,8 +20,8 @@ use yii\db\ActiveQuery;
  * @method AccountQuery modelType($modelType)
  * @method AccountQuery type($type)
  * @method AccountQuery status($status)
- * @method AccountQuery name($name)
- * @method AccountQuery username($username)
+ * @method AccountQuery name($name, bool|string $like = false)
+ * @method AccountQuery username($username, bool|string $like = false)
  *
  * @method AccountQuery createdAtBetween($from, $to = null)
  * @method AccountQuery updatedAtBetween($from, $to = null)

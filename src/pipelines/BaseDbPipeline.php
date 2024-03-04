@@ -49,9 +49,29 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     public $insert = true;
 
     /**
+     * @var array
+     */
+    public $insertOnlyAttributes = [];
+
+    /**
+     * @var array
+     */
+    public $insertExceptAttributes = [];
+
+    /**
      * @var bool
      */
     public $update = true;
+
+    /**
+     * @var array
+     */
+    public $updateOnlyAttributes = [];
+
+    /**
+     * @var array
+     */
+    public $updateExceptAttributes = [];
 
     /**
      * @var int
@@ -130,5 +150,23 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     protected function getIndexValue($values): string
     {
         return ValueHelper::getIndexValues($values, $this->indexKeys);
+    }
+
+    /**
+     * @param array $values
+     * @param array $onlyAttributes
+     * @param array $exceptAttributes
+     * @return array
+     * @inheritdoc
+     */
+    protected function filterValues(array $values, array $onlyAttributes, array $exceptAttributes): array
+    {
+        if ($onlyAttributes) {
+            $values = array_intersect_key($values, array_flip($onlyAttributes));
+        }
+        if ($exceptAttributes) {
+            $values = array_diff_key($values, array_flip($exceptAttributes));
+        }
+        return $values;
     }
 }

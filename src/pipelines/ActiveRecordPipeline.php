@@ -80,16 +80,6 @@ class ActiveRecordPipeline extends BaseDbPipeline
             }
             return false;
         }
-        if (!$this->insert) {
-            $models = array_filter($models, static function($model) {
-                return !$model->getIsNewRecord();
-            });
-        }
-        if (!$this->update) {
-            $models = array_filter($models, static function($model) {
-                return $model->getIsNewRecord();
-            });
-        }
 
         $callable = function () use ($models) {
             $affectedRowCounts = $this->affectedRowCounts;
@@ -122,6 +112,8 @@ class ActiveRecordPipeline extends BaseDbPipeline
     protected function createModels(array $data): array
     {
         $models = [];
+        $filterInsertAttributes = $this->insertOnlyAttributes || $this->insertExceptAttributes;
+        $filterUpdateAttributes = $this->updateOnlyAttributes || $this->updateExceptAttributes;
         $modelClass = $this->modelClass;
         $dataChunks = array_chunk($data, $this->chunkSize, true);
         foreach ($dataChunks as $chunkedData) {
@@ -143,6 +135,21 @@ class ActiveRecordPipeline extends BaseDbPipeline
                     $model = $existModels[$indexValue] ?? new $modelClass();
                 } else {
                     $model = new $modelClass();
+                }
+                if ($model->getIsNewRecord()) {
+                    if (!$this->insert) {
+                        continue;
+                    }
+                    if ($filterInsertAttributes) {
+                        $values = $this->filterValues($values, $this->insertOnlyAttributes, $this->insertExceptAttributes);
+                    }
+                } else {
+                    if (!$this->update) {
+                        continue;
+                    }
+                    if ($filterUpdateAttributes) {
+                        $values = $this->filterValues($values, $this->updateOnlyAttributes, $this->updateExceptAttributes);
+                    }
                 }
                 if ($this->modelScenario) {
                     $model->setScenario($this->modelScenario);

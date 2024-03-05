@@ -7,7 +7,7 @@ namespace lujie\extend\file\readers;
 
 use lujie\extend\file\FileReaderInterface;
 use yii\base\BaseObject;
-use yii\base\InvalidArgumentException;
+use yii\base\NotSupportedException;
 use yii\base\UserException;
 use ZipArchive;
 
@@ -62,5 +62,16 @@ class ZipReader extends BaseObject implements FileReaderInterface
         }
         $zipArchive->close();
         return $this->entries;
+    }
+
+    /**
+     * @param string $content
+     * @return array
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function readContent(string $content): array
+    {
+        throw new NotSupportedException('Not support read content for excel file.');
     }
 }

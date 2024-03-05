@@ -24,4 +24,14 @@ class TextReader extends BaseObject implements FileReaderInterface
     {
         return file($file);
     }
+
+    /**
+     * @param string $content
+     * @return array
+     * @inheritdoc
+     */
+    public function readContent(string $content): array
+    {
+        return explode("\n", $content);
+    }
 }

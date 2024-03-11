@@ -15,7 +15,7 @@ class VendorDirectFulfillmentPaymentsV1Const
         public const TAX_DETAIL_TAX_TYPE_CESS = 'CESS';
         public const TAX_DETAIL_TAX_TYPE_UTGST = 'UTGST';
         public const TAX_DETAIL_TAX_TYPE_IGST = 'IGST';
-        public const TAX_DETAIL_TAX_TYPE_MW_ST. = 'MwSt.';
+        public const TAX_DETAIL_TAX_TYPE_MW_ST = 'MwSt.';
         public const TAX_DETAIL_TAX_TYPE_PST = 'PST';
         public const TAX_DETAIL_TAX_TYPE_TVA = 'TVA';
         public const TAX_DETAIL_TAX_TYPE_VAT = 'VAT';

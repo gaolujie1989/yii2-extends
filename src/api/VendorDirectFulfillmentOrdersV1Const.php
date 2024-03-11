@@ -19,7 +19,7 @@ class VendorDirectFulfillmentOrdersV1Const
         
         public const TAX_DETAILS_TYPE_CONSUMPTION = 'CONSUMPTION';
         public const TAX_DETAILS_TYPE_GST = 'GST';
-        public const TAX_DETAILS_TYPE_MW_ST. = 'MwSt.';
+        public const TAX_DETAILS_TYPE_MW_ST = 'MwSt.';
         public const TAX_DETAILS_TYPE_PST = 'PST';
         public const TAX_DETAILS_TYPE_TOTAL = 'TOTAL';
         public const TAX_DETAILS_TYPE_TVA = 'TVA';

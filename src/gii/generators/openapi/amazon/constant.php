@@ -31,7 +31,8 @@ foreach ($definitions as $definitionKey => $definition) {
             if (empty($propertyEnumValue)) {
                 continue;
             }
-            $propertyEnumKey = strtr($propertyEnumValue, ['-' => '_', ':' => '_', '/' => '_']);
+
+            $propertyEnumKey = strtr(trim(preg_replace('/[^a-zA-Z0-9]/', '_', $propertyEnumValue), '_'), ['__' => '_']);
             if ($propertyEnumKey[0] === strtoupper($propertyEnumKey[0]) && $propertyEnumKey !== strtoupper($propertyEnumKey)) {
                 $propertyEnumKey = strtoupper(Inflector::underscore($propertyEnumKey));
             } else {

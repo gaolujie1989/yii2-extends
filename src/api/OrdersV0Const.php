@@ -51,7 +51,7 @@ class OrdersV0Const
         
         public const TAX_COLLECTION_MODEL_MARKETPLACE_FACILITATOR = 'MarketplaceFacilitator';
         
-        public const TAX_COLLECTION_RESPONSIBLE_PARTY_AMAZON SERVICES, INC. = 'Amazon Services, Inc.';
+        public const TAX_COLLECTION_RESPONSIBLE_PARTY_AMAZON_SERVICES_INC = 'Amazon Services, Inc.';
         
         public const CONFIRM_SHIPMENT_REQUEST_COD_COLLECTION_METHOD_DIRECT_PAYMENT = 'DirectPayment';
         

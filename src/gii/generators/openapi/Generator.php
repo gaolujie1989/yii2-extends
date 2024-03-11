@@ -103,6 +103,14 @@ class Generator extends \yii\gii\Generator
                 Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $apiClassName . '.php',
                 $this->render('openapi.php', $params)
             );
+            $params = [
+                'className' => $apiClassName . 'Const',
+                'openapi' => Json::decode(file_get_contents($openApiJsonFile)),
+            ];
+            $files[] = new CodeFile(
+                Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $apiClassName . 'Const.php',
+                $this->render('constant.php', $params)
+            );
         }
         if ($this->factoryClass) {
             $this->factoryNs = $this->factoryNs ?: $this->ns;

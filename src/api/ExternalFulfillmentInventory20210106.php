@@ -16,8 +16,8 @@ class ExternalFulfillmentInventory20210106 extends \lujie\amazon\sp\BaseAmazonSP
     /**
      * @description Get the current inventory for a given SKU at a given location.
      * @tag 
-     * @param String $locationId String
-     * @param String $skuId String
+     * @param string $locationId String
+     * @param string $skuId String
      * @return array
      *      - *sellableQuantity* - integer
      *          - The number of items of the specified SKU that are available for being purchased.
@@ -26,7 +26,7 @@ class ExternalFulfillmentInventory20210106 extends \lujie\amazon\sp\BaseAmazonSP
      *      - *marketplaceChannelInventories* - array
      *          - Provides a break-up of how many items of the specified SKU are available in different channels.
      */
-    public function getInventory(String $locationId, String $skuId): array
+    public function getInventory(string $locationId, string $skuId): array
     {
         return $this->api("/externalFulfillment/inventory/2021-01-06/locations/{$locationId}/skus/{$skuId}");
     }
@@ -34,10 +34,10 @@ class ExternalFulfillmentInventory20210106 extends \lujie\amazon\sp\BaseAmazonSP
     /**
      * @description Update the inventory quantity of the given SKU in the specified location to the provided value across all channel where listing exists.
      * @tag 
-     * @param String $locationId String
-     * @param String $skuId String
+     * @param string $locationId String
+     * @param string $skuId String
      * @param array $query
-     *      - *quantity* - Integer - required
+     *      - *quantity* - integer - required
      *          - Integer
      * @return array
      *      - *sellableQuantity* - integer
@@ -47,7 +47,7 @@ class ExternalFulfillmentInventory20210106 extends \lujie\amazon\sp\BaseAmazonSP
      *      - *marketplaceChannelInventories* - array
      *          - Provides a break-up of how many items of the specified SKU are available in different channels.
      */
-    public function updateInventory(String $locationId, String $skuId, array $query): array
+    public function updateInventory(string $locationId, string $skuId, array $query): array
     {
         return $this->api(array_merge(["/externalFulfillment/inventory/2021-01-06/locations/{$locationId}/skus/{$skuId}"], $query), 'PUT');
     }

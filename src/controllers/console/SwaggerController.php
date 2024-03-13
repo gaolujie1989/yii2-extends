@@ -100,7 +100,7 @@ class SwaggerController extends Controller
                             'in' => $parameterIn,
                             'description' => $parameterDescription,
                             'required' => $parameterRequired,
-                            'type' => $parameterType,
+                            'type' => strtolower($parameterType),
                         ];
                     }
                     $parameters[] = $parameter;

@@ -26,14 +26,14 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "skuId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -253,35 +253,35 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "skuId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "If-Match",
             "in": "header",
             "description": "String",
             "required": false,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "If-Unmodified-Since",
             "in": "header",
             "description": "String",
             "required": false,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "quantity",
             "in": "query",
             "description": "Integer",
             "required": true,
-            "type": "Integer"
+            "type": "integer"
           }
         ],
         "responses": {

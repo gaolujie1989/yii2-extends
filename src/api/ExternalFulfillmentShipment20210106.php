@@ -16,12 +16,12 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Provides details about the packages that will be used to fulfill the specified shipment.
      * @tag 
-     * @param String $shipmentId String
+     * @param string $shipmentId String
      * @param array $data 
      * @return array
      *      - *errors* - array
      */
-    public function createPackages(String $shipmentId, array $data): array
+    public function createPackages(string $shipmentId, array $data): array
     {
         return $this->api("/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages", 'POST', $data);
     }
@@ -29,13 +29,13 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Generates and retrieves the invoice for the specified shipment and package.
      * @tag 
-     * @param String $shipmentId String
-     * @param String $packageId String
+     * @param string $shipmentId String
+     * @param string $packageId String
      * @return array
      *      - *document* - 
      *          - The invoice content.
      */
-    public function generateInvoice(String $shipmentId, String $packageId): array
+    public function generateInvoice(string $shipmentId, string $packageId): array
     {
         return $this->api("/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages/{$packageId}/invoice", 'POST');
     }
@@ -43,13 +43,13 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Retrieves invoice for the specified shipment.
      * @tag 
-     * @param String $shipmentId String
-     * @param String $packageId String
+     * @param string $shipmentId String
+     * @param string $packageId String
      * @return array
      *      - *document* - 
      *          - The invoice content.
      */
-    public function retrieveInvoice(String $shipmentId, String $packageId): array
+    public function retrieveInvoice(string $shipmentId, string $packageId): array
     {
         return $this->api("/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages/{$packageId}/invoice");
     }
@@ -57,12 +57,12 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Generates and retrieves a ship-label for the specified package in the specified shipment.
      * @tag 
-     * @param String $shipmentId String
-     * @param String $packageId String
+     * @param string $shipmentId String
+     * @param string $packageId String
      * @param array $query
-     *      - *shippingOptionId* - String - optional
+     *      - *shippingOptionId* - string - optional
      *          - String
-     *      - *operation* - String - required
+     *      - *operation* - string - required
      *          - String
      * @param array $data 
      * @return array
@@ -71,7 +71,7 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
      *      - *metadata* - 
      *          - Contains Metadata about the ship label document.
      */
-    public function generateShipLabel(String $shipmentId, String $packageId, array $query, array $data): array
+    public function generateShipLabel(string $shipmentId, string $packageId, array $query, array $data): array
     {
         return $this->api(array_merge(["/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages/{$packageId}/shipLabel"], $query), 'POST', $data);
     }
@@ -79,15 +79,15 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description retrieves a ship-label for the specified package in the specified shipment.
      * @tag 
-     * @param String $shipmentId String
-     * @param String $packageId String
+     * @param string $shipmentId String
+     * @param string $packageId String
      * @return array
      *      - *document* - 
      *          - The ship label content.
      *      - *metadata* - 
      *          - Contains Metadata about the ship label document.
      */
-    public function retrieveShipLabel(String $shipmentId, String $packageId): array
+    public function retrieveShipLabel(string $shipmentId, string $packageId): array
     {
         return $this->api("/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages/{$packageId}/shipLabel");
     }
@@ -95,15 +95,15 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Confirms/Rejects that a seller will be fulfilling or cancelling the specified shipment.
      * @tag 
-     * @param String $shipmentId String
+     * @param string $shipmentId String
      * @param array $query
-     *      - *operation* - String - required
+     *      - *operation* - string - required
      *          - String
      * @param array $data 
      * @return array
      *      - *errors* - array
      */
-    public function processShipment(String $shipmentId, array $query, array $data): array
+    public function processShipment(string $shipmentId, array $query, array $data): array
     {
         return $this->api(array_merge(["/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}"], $query), 'POST', $data);
     }
@@ -111,7 +111,7 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Get a single shipment with the specified id.
      * @tag 
-     * @param String $shipmentId String
+     * @param string $shipmentId String
      * @return array
      *      - *id* - string
      *          - The shipment's id.
@@ -136,7 +136,7 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
      *      - *lastUpdatedDateTime* - 
      *          - The date/time at which the shipment was last updated.
      */
-    public function getShipment(String $shipmentId): array
+    public function getShipment(string $shipmentId): array
     {
         return $this->api("/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}");
     }
@@ -145,9 +145,9 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
      * @description An API for a client to retrieve an optional list of shippingOptions that marketplace/channel provides for the pickup of the packages of an shipment. This API will return a list of shippingOptions if the marketplace/channel provides transportation and allows the seller to choose a shippingOption. If the marketplace/channel does not allow for a shippingOption to be selected, but has a pre-determined shippingOption, then this API will return an empty response.
      * @tag 
      * @param array $query
-     *      - *shipmentId* - String - required
+     *      - *shipmentId* - string - required
      *          - String
-     *      - *packageId* - String - required
+     *      - *packageId* - string - required
      *          - String
      * @return array
      *      - *shippingOptions* - array
@@ -161,13 +161,13 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Updates the details about the packages that will be used to fulfill the specified shipment.
      * @tag 
-     * @param String $shipmentId String
-     * @param String $packageId String
+     * @param string $shipmentId String
+     * @param string $packageId String
      * @param array $data 
      * @return array
      *      - *errors* - array
      */
-    public function updatePackage(String $shipmentId, String $packageId, array $data): array
+    public function updatePackage(string $shipmentId, string $packageId, array $data): array
     {
         return $this->api("/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages/{$packageId}", 'PUT', $data);
     }
@@ -175,15 +175,15 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
     /**
      * @description Updates the status of the packages.
      * @tag 
-     * @param String $shipmentId String
-     * @param String $packageId String
+     * @param string $shipmentId String
+     * @param string $packageId String
      * @param array $query
-     *      - *status* - String - required
+     *      - *status* - string - required
      *          - String
      * @return array
      *      - *errors* - array
      */
-    public function updatePackageStatus(String $shipmentId, String $packageId, array $query): array
+    public function updatePackageStatus(string $shipmentId, string $packageId, array $query): array
     {
         return $this->api(array_merge(["/externalFulfillment/shipments/2021-01-06/shipments/{$shipmentId}/packages/{$packageId}"], $query), 'PATCH');
     }
@@ -192,17 +192,17 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
      * @description Get a list of shipments dropped for the seller in the specified status. Shipments can be further filtered based on the fulfillment node and/or shipments' last updated date and time.
      * @tag 
      * @param array $query
-     *      - *locationId* - String - optional
+     *      - *locationId* - string - optional
      *          - String
-     *      - *status* - String - required
+     *      - *status* - string - required
      *          - String
-     *      - *lastUpdatedAfter* - Date - optional
+     *      - *lastUpdatedAfter* - date - optional
      *          - Date
-     *      - *lastUpdatedBefore* - Date - optional
+     *      - *lastUpdatedBefore* - date - optional
      *          - Date
-     *      - *maxResults* - Integer - optional
+     *      - *maxResults* - integer - optional
      *          - Integer
-     *      - *nextToken* - String - optional
+     *      - *nextToken* - string - optional
      *          - String
      * @return Iterator
      *      - *shipments* - array
@@ -219,17 +219,17 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
      * @description Get a list of shipments dropped for the seller in the specified status. Shipments can be further filtered based on the fulfillment node and/or shipments' last updated date and time.
      * @tag 
      * @param array $query
-     *      - *locationId* - String - optional
+     *      - *locationId* - string - optional
      *          - String
-     *      - *status* - String - required
+     *      - *status* - string - required
      *          - String
-     *      - *lastUpdatedAfter* - Date - optional
+     *      - *lastUpdatedAfter* - date - optional
      *          - Date
-     *      - *lastUpdatedBefore* - Date - optional
+     *      - *lastUpdatedBefore* - date - optional
      *          - Date
-     *      - *maxResults* - Integer - optional
+     *      - *maxResults* - integer - optional
      *          - Integer
-     *      - *nextToken* - String - optional
+     *      - *nextToken* - string - optional
      *          - String
      * @return Iterator
      *      - *shipments* - array
@@ -246,17 +246,17 @@ class ExternalFulfillmentShipment20210106 extends \lujie\amazon\sp\BaseAmazonSPC
      * @description Get a list of shipments dropped for the seller in the specified status. Shipments can be further filtered based on the fulfillment node and/or shipments' last updated date and time.
      * @tag 
      * @param array $query
-     *      - *locationId* - String - optional
+     *      - *locationId* - string - optional
      *          - String
-     *      - *status* - String - required
+     *      - *status* - string - required
      *          - String
-     *      - *lastUpdatedAfter* - Date - optional
+     *      - *lastUpdatedAfter* - date - optional
      *          - Date
-     *      - *lastUpdatedBefore* - Date - optional
+     *      - *lastUpdatedBefore* - date - optional
      *          - Date
-     *      - *maxResults* - Integer - optional
+     *      - *maxResults* - integer - optional
      *          - Integer
-     *      - *nextToken* - String - optional
+     *      - *nextToken* - string - optional
      *          - String
      * @return array
      *      - *shipments* - array

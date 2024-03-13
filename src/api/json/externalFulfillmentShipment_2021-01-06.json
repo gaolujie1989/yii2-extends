@@ -26,7 +26,7 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",
@@ -254,14 +254,14 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -493,14 +493,14 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -718,14 +718,14 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",
@@ -741,14 +741,14 @@
             "in": "query",
             "description": "String",
             "required": false,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "operation",
             "in": "query",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1066,14 +1066,14 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1307,7 +1307,7 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",
@@ -1323,7 +1323,7 @@
             "in": "query",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1594,7 +1594,7 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -2842,14 +2842,14 @@
             "in": "query",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "query",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -3094,14 +3094,14 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",
@@ -3333,21 +3333,21 @@
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "packageId",
             "in": "path",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "status",
             "in": "query",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -3572,42 +3572,42 @@
             "in": "query",
             "description": "String",
             "required": false,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "status",
             "in": "query",
             "description": "String",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "lastUpdatedAfter",
             "in": "query",
             "description": "Date",
             "required": false,
-            "type": "Date"
+            "type": "date"
           },
           {
             "name": "lastUpdatedBefore",
             "in": "query",
             "description": "Date",
             "required": false,
-            "type": "Date"
+            "type": "date"
           },
           {
             "name": "maxResults",
             "in": "query",
             "description": "Integer",
             "required": false,
-            "type": "Integer"
+            "type": "integer"
           },
           {
             "name": "nextToken",
             "in": "query",
             "description": "String",
             "required": false,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {

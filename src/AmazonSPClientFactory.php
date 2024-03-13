@@ -9,6 +9,8 @@ use lujie\amazon\sp\api\CatalogItems20201201;
 use lujie\amazon\sp\api\CatalogItems20220401;
 use lujie\amazon\sp\api\DefinitionsProductTypes20200901;
 use lujie\amazon\sp\api\EasyShip20220323;
+use lujie\amazon\sp\api\ExternalFulfillmentInventory20210106;
+use lujie\amazon\sp\api\ExternalFulfillmentShipment20210106;
 use lujie\amazon\sp\api\FbaInbound;
 use lujie\amazon\sp\api\FbaInventory;
 use lujie\amazon\sp\api\FbaSmallandLight;
@@ -128,6 +130,26 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
     public function getEasyShip20220323(Account $account): EasyShip20220323|BaseAmazonSPClient|null
     {
         return $this->createClient(EasyShip20220323::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return ExternalFulfillmentInventory20210106|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getExternalFulfillmentInventory20210106(Account $account): ExternalFulfillmentInventory20210106|BaseAmazonSPClient|null
+    {
+        return $this->createClient(ExternalFulfillmentInventory20210106::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return ExternalFulfillmentShipment20210106|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getExternalFulfillmentShipment20210106(Account $account): ExternalFulfillmentShipment20210106|BaseAmazonSPClient|null
+    {
+        return $this->createClient(ExternalFulfillmentShipment20210106::class, $account);
     }
 
     /**

@@ -26,7 +26,7 @@ class JsonFormatter extends \yii\httpclient\JsonFormatter
             $request->getHeaders()->set('Content-Type', 'application/json; charset=UTF-8');
         }
         if (($data = $request->getData()) !== null) {
-            $request->setContent(Json::encode($request->getData(), $this->encodeOptions));
+            $request->setContent(Json::encode($data, $this->encodeOptions));
         }
         return $request;
     }

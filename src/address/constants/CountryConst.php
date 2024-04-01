@@ -423,7 +423,7 @@ class CountryConst
         'NF' => "Norfolk Island",
         'NG' => "Nigeria",
         'NI' => "Nicaragua",
-        'NL' => "Netherlands, Kingdom of the",
+        'NL' => "Netherlands",
         'NO' => "Norway",
         'NP' => "Nepal",
         'NR' => "Nauru",

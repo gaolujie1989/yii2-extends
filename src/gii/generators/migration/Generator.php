@@ -152,7 +152,7 @@ class Generator extends \yii\gii\Generator
         $firstNRows = array_slice($data, 0, $this->detectRows);
         $columns = [];
         foreach ($firstRow as $key => $value) {
-            $columnKey = Inflector::underscore(strtr($key, ['-' => '_']));
+            $columnKey = strtolower(strtr($key, ['-' => '_', ' ' => '_']));
             if (str_contains($key, 'time') || str_contains($key, 'date')) {
                 $columnKey = strtr($columnKey, ['_time' => '_at', '_date' => '_at']);
                 $columns[$columnKey] = 'integer()->unsigned()->notNull()->defaultValue(0)';

@@ -139,10 +139,10 @@ class ActiveRecordPipeline extends BaseDbPipeline
                 }
                 if ($values instanceof BaseActiveRecord) {
                     if (!$model->getIsNewRecord()) {
-                        $values->setOldAttributes($model->getOldAttributes());
                         $values->setIsNewRecord(false);
+                        $values->setOldAttributes($model->getOldAttributes());
                     }
-                    $models[] = $model;
+                    $models[] = $values;
                     continue;
                 }
                 if ($model->getIsNewRecord()) {

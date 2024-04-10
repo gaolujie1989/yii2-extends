@@ -120,7 +120,8 @@ class ActiveRecordPipeline extends BaseDbPipeline
             $existModels = [];
             if ($this->indexKeys) {
                 $conditions = ArrayHelper::getColumn($chunkedData, function ($values) {
-                    return array_intersect_key($values, array_flip($this->indexKeys));
+                    $array = is_array($values) ? $values : ArrayHelper::toArray($values, [], false);
+                    return array_intersect_key($array, array_flip($this->indexKeys));
                 }, false);
                 array_unshift($conditions, 'OR');
                 $existModels = $modelClass::find()
@@ -135,6 +136,14 @@ class ActiveRecordPipeline extends BaseDbPipeline
                     $model = $existModels[$indexValue] ?? new $modelClass();
                 } else {
                     $model = new $modelClass();
+                }
+                if ($values instanceof BaseActiveRecord) {
+                    if (!$model->getIsNewRecord()) {
+                        $values->setOldAttributes($model->getOldAttributes());
+                        $values->setIsNewRecord(false);
+                    }
+                    $models[] = $model;
+                    continue;
                 }
                 if ($model->getIsNewRecord()) {
                     if (!$this->insert) {

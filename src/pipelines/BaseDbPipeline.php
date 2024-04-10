@@ -97,9 +97,12 @@ abstract class BaseDbPipeline extends BaseObject implements DbPipelineInterface
     {
         if ($this->filterNull) {
             $data = array_map(static function ($values) {
-                return array_filter($values, static function ($value) {
-                    return $value !== null;
-                });
+                if (is_array($values)) {
+                    return array_filter($values, static function ($value) {
+                        return $value !== null;
+                    });
+                }
+                return $values;
             }, $data);
         }
 

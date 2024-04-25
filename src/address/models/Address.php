@@ -192,6 +192,20 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
     }
 
     /**
+     * @return bool|int
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
+     */
+    public function delete(): bool|int
+    {
+        if ($this->identifyBySignature) {
+            return true;
+        }
+        return parent::delete();
+    }
+
+    /**
      * @param bool $insert
      * @return bool
      * @inheritdoc
@@ -200,18 +214,6 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
     {
         $this->signature = $this->generateSignature();
         return parent::beforeSave($insert);
-    }
-
-    /**
-     * @return bool
-     * @inheritdoc
-     */
-    public function beforeDelete(): bool
-    {
-        if ($this->identifyBySignature) {
-            return false;
-        }
-        return parent::beforeDelete();
     }
 
     /**

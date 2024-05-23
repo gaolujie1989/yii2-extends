@@ -143,7 +143,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
     }
 
     /**
-     * @description The total number of results could be limited by specifying query parameters. Generally the resulting active status values will be paginated. The default page length is 100 active status entries per response, also the page size limit. The links specified in the result can be used to page through the total result space. Replaces corresponding online-status endpoint which now is marked as deprecated.
+     * @description The total number of results could be limited by specifying query parameters. Generally the resulting active status values will be paginated. The default page length is 100 active status entries per response, also the page size limit. The links specified in the result can be used to page through the total result space.
      * @tag Products-V3
      * @param array $query
      *      - *sku* - string - optional
@@ -169,7 +169,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
     }
 
     /**
-     * @description The total number of results could be limited by specifying query parameters. Generally the resulting active status values will be paginated. The default page length is 100 active status entries per response, also the page size limit. The links specified in the result can be used to page through the total result space. Replaces corresponding online-status endpoint which now is marked as deprecated.
+     * @description The total number of results could be limited by specifying query parameters. Generally the resulting active status values will be paginated. The default page length is 100 active status entries per response, also the page size limit. The links specified in the result can be used to page through the total result space.
      * @tag Products-V3
      * @param array $query
      *      - *sku* - string - optional
@@ -195,7 +195,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
     }
 
     /**
-     * @description The total number of results could be limited by specifying query parameters. Generally the resulting active status values will be paginated. The default page length is 100 active status entries per response, also the page size limit. The links specified in the result can be used to page through the total result space. Replaces corresponding online-status endpoint which now is marked as deprecated.
+     * @description The total number of results could be limited by specifying query parameters. Generally the resulting active status values will be paginated. The default page length is 100 active status entries per response, also the page size limit. The links specified in the result can be used to page through the total result space.
      * @tag Products-V3
      * @param array $query
      *      - *sku* - string - optional
@@ -312,6 +312,8 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - the number (starting with 0) of the page, that should be delivered.
      *      - *limit* - integer - optional
      *          - proposed limit for the number of product categories per response page  (at most 2000)
+     *      - *category* - string - optional
+     *          - read a single category
      * @return Iterator
      *      - *categoryGroups* - array
      *          - a list of the category groups defined on the OTTO market place.
@@ -331,6 +333,8 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - the number (starting with 0) of the page, that should be delivered.
      *      - *limit* - integer - optional
      *          - proposed limit for the number of product categories per response page  (at most 2000)
+     *      - *category* - string - optional
+     *          - read a single category
      * @return Iterator
      *      - *categoryGroups* - array
      *          - a list of the category groups defined on the OTTO market place.
@@ -350,6 +354,8 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - the number (starting with 0) of the page, that should be delivered.
      *      - *limit* - integer - optional
      *          - proposed limit for the number of product categories per response page  (at most 2000)
+     *      - *category* - string - optional
+     *          - read a single category
      * @return array
      *      - *categoryGroups* - array
      *          - a list of the category groups defined on the OTTO market place.
@@ -600,7 +606,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @tag Products-V3
      * @param array $data list of
      *      - *sku* - string
-     *          - The standard price as defined by the partner.
+     *          - Partner-unique identifier for a product variation provided by the partner.
      *      - *standardPrice* -
      *      - *sale* -
      * @return array
@@ -836,7 +842,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param string $sku search for a product variation by its SKU value
      * @return array
      *      - *sku* - string
-     *          - The standard price as defined by the partner.
+     *          - Partner-unique identifier for a product variation provided by the partner.
      *      - *standardPrice* -
      *      - *sale* -
      */
@@ -1280,7 +1286,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @tag Shipments-V1
      * @param array $query
      *      - *datefrom* - string - required
-     *          - Shipments created from this date onwards for the given authorized partner will be returned. The date is considered as UTC.
+     *          - Shipments created from this date onwards for the given authorized partner will be returned. Can be specified as either an ISO date (`YYYY-MM-DD`), which will be inferred to be in UTC time, or an ISO date time (`YYYY-MM-DD'T'HH:mm:ss.SSSXXX`).
+
+    For example, `2024-01-10` would be interpreted the same as `2024-01-10T00:00:00Z`.
      *      - *limit* - integer - optional
      *          - The maximum number of shipments to be returned in each response.
      *      - *next* - string - optional
@@ -1300,7 +1308,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @tag Shipments-V1
      * @param array $query
      *      - *datefrom* - string - required
-     *          - Shipments created from this date onwards for the given authorized partner will be returned. The date is considered as UTC.
+     *          - Shipments created from this date onwards for the given authorized partner will be returned. Can be specified as either an ISO date (`YYYY-MM-DD`), which will be inferred to be in UTC time, or an ISO date time (`YYYY-MM-DD'T'HH:mm:ss.SSSXXX`).
+
+    For example, `2024-01-10` would be interpreted the same as `2024-01-10T00:00:00Z`.
      *      - *limit* - integer - optional
      *          - The maximum number of shipments to be returned in each response.
      *      - *next* - string - optional
@@ -1320,7 +1330,9 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @tag Shipments-V1
      * @param array $query
      *      - *datefrom* - string - required
-     *          - Shipments created from this date onwards for the given authorized partner will be returned. The date is considered as UTC.
+     *          - Shipments created from this date onwards for the given authorized partner will be returned. Can be specified as either an ISO date (`YYYY-MM-DD`), which will be inferred to be in UTC time, or an ISO date time (`YYYY-MM-DD'T'HH:mm:ss.SSSXXX`).
+
+    For example, `2024-01-10` would be interpreted the same as `2024-01-10T00:00:00Z`.
      *      - *limit* - integer - optional
      *          - The maximum number of shipments to be returned in each response.
      *      - *next* - string - optional
@@ -1412,7 +1424,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
     }
 
     /**
-     * @description This endpoint should be used to create a multiparcel shipment with a list of parcels for one position item. A shipment is a "multiparcel shipment" if one article (position item) is sent in several different shipments. Each shipment has its own tracking key. It confirms that the position item in the list has been handed over to the carrier for final delivery to the customer. At this point, the position item is marked with the state ''SENT'' in OTTO Market. This is the trigger for the generation of a purchase receipt.
+     * @description This endpoint should be used to create a multiparcel shipment with a list of parcels for one position item. A shipment is a "multiparcel shipment" if one article (position item) is sent in several different shipments. Multiparcel shipments can be created for parcel deliveries where each shipment has its own tracking key. It confirms that the position item in the list has been handed over to the carrier for final delivery to the customer. At this point, the position item is marked with the state ''SENT'' in OTTO Market. This is the trigger for the generation of a purchase receipt.
      * @tag Shipments-V1
      * @param array $data request
      * @return array
@@ -1495,7 +1507,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - List of all the items received from partner
      * @return array
      */
-    public function receiveV2AcceptedReturn(array $data): array|string
+    public function receiveV2AcceptedReturn(array $data): array
     {
         return $this->api("/v2/returns/acceptance", 'POST', $data);
     }
@@ -1508,9 +1520,98 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - List of all the items received from partner
      * @return array
      */
-    public function receiveV2RejectedReturn(array $data): array|string
+    public function receiveV2RejectedReturn(array $data): array
     {
         return $this->api("/v2/returns/rejection", 'POST', $data);
+    }
+
+    /**
+     * @description The items will be sorted on status modified time in reverse chronological order. Additionally we provide cursor based pagination via next link. This endpoint is limited to at max 50 results per page
+     * @tag Returns-V3
+     * @param array $query
+     *      - *limit* - integer - optional
+     *          - Page size to limit the number of items returned in the response. Maximum value for limit can 50
+     *      - *page* - integer - optional
+     *          - Page number to fetch. This parameter is required to fetch data for specific page number
+     *      - *status* - string - optional
+     *          - Return status for which items are being queried for (case-insensitive)
+     * @return Iterator
+     *      - *positionItems* - array
+     *          - The list of queried items.
+     *      - *links* - array
+     *          - Links related to the list. E.g. the link to the successive list used during paging.
+     */
+    public function eachV3ReturnPositionItems(array $query = []): Iterator
+    {
+        return $this->eachInternal('getV3ReturnPositionItems', func_get_args());
+    }
+
+    /**
+     * @description The items will be sorted on status modified time in reverse chronological order. Additionally we provide cursor based pagination via next link. This endpoint is limited to at max 50 results per page
+     * @tag Returns-V3
+     * @param array $query
+     *      - *limit* - integer - optional
+     *          - Page size to limit the number of items returned in the response. Maximum value for limit can 50
+     *      - *page* - integer - optional
+     *          - Page number to fetch. This parameter is required to fetch data for specific page number
+     *      - *status* - string - optional
+     *          - Return status for which items are being queried for (case-insensitive)
+     * @return Iterator
+     *      - *positionItems* - array
+     *          - The list of queried items.
+     *      - *links* - array
+     *          - Links related to the list. E.g. the link to the successive list used during paging.
+     */
+    public function batchV3ReturnPositionItems(array $query = []): Iterator
+    {
+        return $this->batchInternal('getV3ReturnPositionItems', func_get_args());
+    }
+
+    /**
+     * @description The items will be sorted on status modified time in reverse chronological order. Additionally we provide cursor based pagination via next link. This endpoint is limited to at max 50 results per page
+     * @tag Returns-V3
+     * @param array $query
+     *      - *limit* - integer - optional
+     *          - Page size to limit the number of items returned in the response. Maximum value for limit can 50
+     *      - *page* - integer - optional
+     *          - Page number to fetch. This parameter is required to fetch data for specific page number
+     *      - *status* - string - optional
+     *          - Return status for which items are being queried for (case-insensitive)
+     * @return array
+     *      - *positionItems* - array
+     *          - The list of queried items.
+     *      - *links* - array
+     *          - Links related to the list. E.g. the link to the successive list used during paging.
+     */
+    public function getV3ReturnPositionItems(array $query = []): array
+    {
+        return $this->api(array_merge(["/v3/returns"], $query));
+    }
+
+    /**
+     * @description
+     * @tag Returns-V3
+     * @param array $data acceptedPartnerReturn
+     *      - *positionItems* - array
+     *          - List of all the items received from partner
+     * @return array
+     */
+    public function receiveV3AcceptedReturn(array $data): array
+    {
+        return $this->api("/v3/returns/acceptance", 'POST', $data);
+    }
+
+    /**
+     * @description
+     * @tag Returns-V3
+     * @param array $data rejectedPartnerReturn
+     *      - *positionItems* - array
+     *          - List of all the items received from partner
+     * @return array
+     */
+    public function receiveV3RejectedReturn(array $data): array
+    {
+        return $this->api("/v3/returns/rejection", 'POST', $data);
     }
 
     /**
@@ -1551,6 +1652,7 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      *          - Order date of corresponding sales order (UTC in ISO-8601 format)
      *      - *shipmentDate* - string
      *          - Date when physical items of this receipt were handed over to the carrier to be delivered to the customer (UTC in ISO-8601 format).</br>Only available on receipts of receiptType PURCHASE.
+     *      - *shipment* -
      *      - *linkedReceiptNumber* - string
      *          - Human-readable identifier of linked receipt.</br> In case of receiptType PARTIAL_REFUND or REFUND it is the receiptINumber of purchase receipt.
 
@@ -1579,14 +1681,16 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
     </br>Only available on receipts of receiptType PARTIAL_REFUND and not reliable provides on older partial refunds receipts.
 
     Possible values:
-     * **REFUND_COMPLAINT_ITEM** - Refund because of justified customer complaint on item. Will replace first partial refund business case DEFECT_COMPENSATION, that was introduced without having a partialRefundType at all.
+     * **REFUND_COMPLAINT_ITEM** - Refund because of justified customer complaint on item
+     * **REFUND_PAYPAL_DISPUTE** - Partial or full amount of item price was refunded due to a dispute in Paypal payment
+     * **REFUND_ESCALATION** - Partial amount of item price was refunded due to an escalation
      *      - *amountDue* -
      *          - The amountDue documents the gross amount a customer still has to pay or will be refunded respectively owes less (the latter decision depends on the chosen payment method) with this receipt.
     </br>As in case of receiptType PURCHASE and a prepaid payment method we know for sure that the customer has already paid in advance, so the amount is 0 € otherwise the content is identically with totalsGrossAmount
      *      - *totalsGrossAmount* -
      *          - Gross amounts of totals summed up over all prices. Only available on receipts of receiptType PURCHASE
      *      - *totalsReductions* - array
-     *          - Reduction amounts on total value of receipts
+     *          - Reduction amounts on total value of receipts (currently it includes voucher reduction)
      */
     public function getV3Receipt(string $receiptNumber): array
     {

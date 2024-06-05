@@ -1505,11 +1505,10 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param array $data acceptedPartnerReturn
      *      - *positionItems* - array
      *          - List of all the items received from partner
-     * @return array
      */
-    public function receiveV2AcceptedReturn(array $data): array
+    public function receiveV2AcceptedReturn(array $data): void
     {
-        return $this->api("/v2/returns/acceptance", 'POST', $data);
+        $this->api("/v2/returns/acceptance", 'POST', $data);
     }
 
     /**
@@ -1518,11 +1517,10 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param array $data rejectedPartnerReturn
      *      - *positionItems* - array
      *          - List of all the items received from partner
-     * @return array
      */
-    public function receiveV2RejectedReturn(array $data): array
+    public function receiveV2RejectedReturn(array $data): void
     {
-        return $this->api("/v2/returns/rejection", 'POST', $data);
+        $this->api("/v2/returns/rejection", 'POST', $data);
     }
 
     /**
@@ -1594,11 +1592,10 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param array $data acceptedPartnerReturn
      *      - *positionItems* - array
      *          - List of all the items received from partner
-     * @return array
      */
-    public function receiveV3AcceptedReturn(array $data): array
+    public function receiveV3AcceptedReturn(array $data): void
     {
-        return $this->api("/v3/returns/acceptance", 'POST', $data);
+        $this->api("/v3/returns/acceptance", 'POST', $data);
     }
 
     /**
@@ -1607,11 +1604,10 @@ class OttoMarketApi extends \lujie\otto\BaseOttoRestClient
      * @param array $data rejectedPartnerReturn
      *      - *positionItems* - array
      *          - List of all the items received from partner
-     * @return array
      */
-    public function receiveV3RejectedReturn(array $data): array
+    public function receiveV3RejectedReturn(array $data): void
     {
-        return $this->api("/v3/returns/rejection", 'POST', $data);
+        $this->api("/v3/returns/rejection", 'POST', $data);
     }
 
     /**

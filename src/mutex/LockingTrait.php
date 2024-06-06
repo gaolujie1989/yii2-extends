@@ -6,6 +6,7 @@
 namespace lujie\extend\mutex;
 
 use lujie\extend\helpers\ClassHelper;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\mutex\Mutex;
@@ -99,13 +100,13 @@ trait LockingTrait
     /**
      * @param string $name
      * @param callable $onSuccess
-     * @param callable|null $onFailure
-     * @return mixed
+     * @param bool $logException
+     * @return false
+     * @throws InvalidConfigException
      * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function lockingRun(string $name, callable $onSuccess, ?callable $onFailure = null)
+    public function lockingRun(string $name, callable $onSuccess, bool $logException = true)
     {
         if ($this->mutex) {
             $this->initMutex();
@@ -114,12 +115,14 @@ trait LockingTrait
                 try {
                     return $onSuccess();
                 } catch (\Throwable $e) {
+                    if ($logException) {
+                        Yii::error($e->getMessage() . "\n" . $e->getTraceAsString(), $name);
+                        return false;
+                    }
                     throw $e;
                 } finally {
                     $this->mutex->release($name);
                 }
-            } elseif ($onFailure && is_callable($onFailure)) {
-                return $onFailure();
             } else {
                 return false;
             }

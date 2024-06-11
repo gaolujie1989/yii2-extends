@@ -127,7 +127,7 @@ class ModelHelper
 
     public static $FILTER_KEY_SUFFIXES = [
         'FILTER' => [
-            'id', 'type', 'group', 'state', 'status',
+            'id', 'type', 'group', 'state', 'status', 'flag',
             'country', 'currency', 'language',
             'carrier', 'departure', 'destination',
         ],

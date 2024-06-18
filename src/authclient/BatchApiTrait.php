@@ -76,7 +76,7 @@ trait BatchApiTrait
                 yield $items;
             }
 
-            $nextPageCondition = $this->getNextPageCondition($responseData, $condition);
+            $nextPageCondition = $this->getNextPageCondition($responseData, $nextPageCondition);
         } while ($nextPageCondition);
 
         if ($this->reverse && $firstPageItems) {

@@ -155,4 +155,26 @@ class SchedulerController extends Controller
         }
         $this->scheduler->execute($task);
     }
+
+    /**
+     * @param string $taskCode
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionH(string $taskCode): void
+    {
+        $this->actionHandle($taskCode);
+    }
+
+    /**
+     * @param string $taskCode
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionE(string $taskCode): void
+    {
+        $this->actionExecute($taskCode);
+    }
 }

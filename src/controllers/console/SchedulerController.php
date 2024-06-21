@@ -88,7 +88,7 @@ class SchedulerController extends Controller
     public function options($actionID): array
     {
         $options = [];
-        if ($actionID === 'execute' || $actionID === 'handle') {
+        if ($actionID === 'execute' || $actionID === 'handle' || $actionID === 'e' || $actionID === 'h') {
             $options = ['usage'];
         }
         return array_merge(parent::options($actionID), $options);
@@ -164,7 +164,14 @@ class SchedulerController extends Controller
      */
     public function actionH(string $taskCode): void
     {
-        $this->actionHandle($taskCode);
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
+        $this->scheduler->handle($task);
     }
 
     /**
@@ -175,6 +182,13 @@ class SchedulerController extends Controller
      */
     public function actionE(string $taskCode): void
     {
-        $this->actionExecute($taskCode);
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
+        $this->scheduler->execute($task);
     }
 }

@@ -117,25 +117,33 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                 ]
             ],
         ]);
-        $curlOptions = [
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_CONNECTTIMEOUT => 15,
-            CURLOPT_TIMEOUT => 75,
-        ];
-        Yii::$container->setDefinitions([
-            Client::class => [
-                'transport' => CurlTransport::class,
-                'requestConfig' => [
-                    'options' => $curlOptions
+        if (YII_ENV_TEST && Yii::$app instanceof YiiConsoleApplication) {
+            Yii::$container->setDefinitions([
+                Client::class => [
+                    'transport' => MockTransport::class,
                 ],
-                'responseConfig' => [
-                    'class' => Response::class,
+            ]);
+        } else {
+            $curlOptions = [
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_TIMEOUT => 75,
+            ];
+            Yii::$container->setDefinitions([
+                Client::class => [
+                    'transport' => CurlTransport::class,
+                    'requestConfig' => [
+                        'options' => $curlOptions
+                    ],
+                    'responseConfig' => [
+                        'class' => Response::class,
+                    ],
+                    'formatters' => [
+                        Client::FORMAT_JSON => JsonFormatter::class,
+                    ]
                 ],
-                'formatters' => [
-                    Client::FORMAT_JSON => JsonFormatter::class,
-                ]
-            ],
-        ]);
+            ]);
+        }
     }
 }

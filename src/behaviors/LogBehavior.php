@@ -12,6 +12,7 @@ use lujie\executing\QueuedEvent;
 use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
+use yii\base\UserException;
 
 /**
  * Class LogBehavior
@@ -70,8 +71,12 @@ class LogBehavior extends Behavior
         $title = $this->getExecutableTitle($event->executable);
         Yii::endProfile($title, Executor::class);
         if ($event->error) {
-            $error = ExceptionHelper::getMessage($event->error);
-            Yii::error("$title is finished with error: $error.", Executor::class);
+            if ($event->error instanceof UserException) {
+                Yii::error("$title is finished by {$event->error->getMessage()}", Executor::class);
+            } else {
+                $error = ExceptionHelper::getMessage($event->error);
+                Yii::error("$title is finished with error: $error.", Executor::class);
+            }
         } else {
             Yii::info("$title is finished.", Executor::class);
         }

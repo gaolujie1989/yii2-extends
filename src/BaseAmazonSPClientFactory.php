@@ -56,7 +56,7 @@ class BaseAmazonSPClientFactory extends BaseObject
     /**
      * @var array
      */
-    private static $_clients = [];
+    private $_clients = [];
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -116,7 +116,7 @@ class BaseAmazonSPClientFactory extends BaseObject
     {
         $accountId = $account->account_id;
         $key = $clientClass . '-' . $account::class . '-' . $accountId;
-        if (empty(self::$_clients[$key])) {
+        if (empty($this->_clients[$key])) {
             $authService = $authService ?: $account->type;
             $authToken = AuthToken::find()->userId($accountId)->authService($authService)->one();
             if ($authToken === null) {
@@ -136,8 +136,8 @@ class BaseAmazonSPClientFactory extends BaseObject
 
             /** @var BaseAmazonSPClient $client */
             $client = new $clientClass($credentials, $config);
-            self::$_clients[$key] = $client;
+            $this->_clients[$key] = $client;
         }
-        return self::$_clients[$key];
+        return $this->_clients[$key];
     }
 }

@@ -53,7 +53,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyBrowseV1(Account $account): BuyBrowseV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyBrowseV1::class, $account, $this->getConfig());
+        return $this->createClient(BuyBrowseV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -64,7 +64,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyDealV1(Account $account): BuyDealV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyDealV1::class, $account, $this->getConfig());
+        return $this->createClient(BuyDealV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -75,7 +75,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyFeedV1(Account $account): BuyFeedV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyFeedV1::class, $account, $this->getConfig());
+        return $this->createClient(BuyFeedV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -86,7 +86,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyFeedV1Beta(Account $account): BuyFeedV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyFeedV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(BuyFeedV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -97,7 +97,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyMarketingV1Beta(Account $account): BuyMarketingV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyMarketingV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(BuyMarketingV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -108,7 +108,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyMarketplaceInsightsV1Beta(Account $account): BuyMarketplaceInsightsV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyMarketplaceInsightsV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(BuyMarketplaceInsightsV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -119,7 +119,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyOfferV1Beta(Account $account): BuyOfferV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyOfferV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(BuyOfferV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -130,7 +130,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getBuyOrderV2(Account $account): BuyOrderV2|OAuth2|null
     {
-        return OAuthClientFactory::createClient(BuyOrderV2::class, $account, $this->getConfig());
+        return $this->createClient(BuyOrderV2::class, $account, $this->getConfig());
     }
 
     /**
@@ -141,7 +141,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceCatalogV1Beta(Account $account): CommerceCatalogV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceCatalogV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(CommerceCatalogV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -152,7 +152,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceCharityV1(Account $account): CommerceCharityV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceCharityV1::class, $account, $this->getConfig());
+        return $this->createClient(CommerceCharityV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -163,7 +163,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceIdentityV1(Account $account): CommerceIdentityV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceIdentityV1::class, $account, $this->getConfig());
+        return $this->createClient(CommerceIdentityV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -174,7 +174,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceMediaV1Beta(Account $account): CommerceMediaV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceMediaV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(CommerceMediaV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -185,7 +185,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceNotificationV1(Account $account): CommerceNotificationV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceNotificationV1::class, $account, $this->getConfig());
+        return $this->createClient(CommerceNotificationV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -196,7 +196,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceTaxonomyV1(Account $account): CommerceTaxonomyV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceTaxonomyV1::class, $account, $this->getConfig());
+        return $this->createClient(CommerceTaxonomyV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -207,7 +207,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getCommerceTranslationV1Beta(Account $account): CommerceTranslationV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(CommerceTranslationV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(CommerceTranslationV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -218,7 +218,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getDeveloperAnalyticsV1Beta(Account $account): DeveloperAnalyticsV1Beta|OAuth2|null
     {
-        return OAuthClientFactory::createClient(DeveloperAnalyticsV1Beta::class, $account, $this->getConfig());
+        return $this->createClient(DeveloperAnalyticsV1Beta::class, $account, $this->getConfig());
     }
 
     /**
@@ -229,7 +229,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getDeveloperClientRegistrationV1(Account $account): DeveloperClientRegistrationV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(DeveloperClientRegistrationV1::class, $account, $this->getConfig());
+        return $this->createClient(DeveloperClientRegistrationV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -240,7 +240,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getDeveloperKeyManagementV1(Account $account): DeveloperKeyManagementV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(DeveloperKeyManagementV1::class, $account, $this->getConfig());
+        return $this->createClient(DeveloperKeyManagementV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -251,7 +251,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellAccountV1(Account $account): SellAccountV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellAccountV1::class, $account, $this->getConfig());
+        return $this->createClient(SellAccountV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -262,7 +262,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellAccountV2(Account $account): SellAccountV2|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellAccountV2::class, $account, $this->getConfig());
+        return $this->createClient(SellAccountV2::class, $account, $this->getConfig());
     }
 
     /**
@@ -273,7 +273,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellAnalyticsV1(Account $account): SellAnalyticsV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellAnalyticsV1::class, $account, $this->getConfig());
+        return $this->createClient(SellAnalyticsV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -284,7 +284,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellComplianceV1(Account $account): SellComplianceV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellComplianceV1::class, $account, $this->getConfig());
+        return $this->createClient(SellComplianceV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -295,7 +295,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellFeedV1(Account $account): SellFeedV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellFeedV1::class, $account, $this->getConfig());
+        return $this->createClient(SellFeedV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -306,7 +306,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellFinancesV1(Account $account): SellFinancesV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellFinancesV1::class, $account, $this->getConfig());
+        return $this->createClient(SellFinancesV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -317,7 +317,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellFulfillmentV1(Account $account): SellFulfillmentV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellFulfillmentV1::class, $account, $this->getConfig());
+        return $this->createClient(SellFulfillmentV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -328,7 +328,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellInventoryV1(Account $account): SellInventoryV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellInventoryV1::class, $account, $this->getConfig());
+        return $this->createClient(SellInventoryV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -339,7 +339,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellLogisticsV1(Account $account): SellLogisticsV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellLogisticsV1::class, $account, $this->getConfig());
+        return $this->createClient(SellLogisticsV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -350,7 +350,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellMarketingV1(Account $account): SellMarketingV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellMarketingV1::class, $account, $this->getConfig());
+        return $this->createClient(SellMarketingV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -361,7 +361,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellMetadataV1(Account $account): SellMetadataV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellMetadataV1::class, $account, $this->getConfig());
+        return $this->createClient(SellMetadataV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -372,7 +372,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellNegotiationV1(Account $account): SellNegotiationV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellNegotiationV1::class, $account, $this->getConfig());
+        return $this->createClient(SellNegotiationV1::class, $account, $this->getConfig());
     }
 
     /**
@@ -383,7 +383,7 @@ class EbayRestClientFactory extends BaseEbayRestClientFactory
      */
     public function getSellRecommendationV1(Account $account): SellRecommendationV1|OAuth2|null
     {
-        return OAuthClientFactory::createClient(SellRecommendationV1::class, $account, $this->getConfig());
+        return $this->createClient(SellRecommendationV1::class, $account, $this->getConfig());
     }
 
 }

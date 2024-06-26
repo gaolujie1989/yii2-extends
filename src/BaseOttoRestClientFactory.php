@@ -18,7 +18,7 @@ class BaseOttoRestClientFactory extends BaseObject
     /**
      * @var array
      */
-    private static $_clients = [];
+    private $_clients = [];
 
     public $requestOptions = [];
 
@@ -42,15 +42,15 @@ class BaseOttoRestClientFactory extends BaseObject
     {
         $accountId = $account->account_id;
         $key = $clientClass . '-' . $account::class . '-' . $accountId;
-        if (empty(self::$_clients[$key])) {
+        if (empty($this->_clients[$key])) {
             /** @var BaseOttoRestClient $client */
             $client = new $clientClass(array_merge([
                 'username' => $account->username,
                 'password' => $account->password,
             ], $this->getConfig()));
             $client->setId($client->getName() . '-' . $accountId);
-            self::$_clients[$key] = $client;
+            $this->_clients[$key] = $client;
         }
-        return self::$_clients[$key];
+        return $this->_clients[$key];
     }
 }

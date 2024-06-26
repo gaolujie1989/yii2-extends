@@ -166,6 +166,8 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
     {
         $except = ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by'];
         $addressData = $this->getAttributes(null, $except);
+        $defaultData = array_fill_keys(array_keys($addressData), '');
+        $addressData = array_merge($defaultData, array_filter($addressData));
         return md5(Json::encode($addressData));
     }
 

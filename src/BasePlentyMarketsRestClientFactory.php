@@ -13,7 +13,7 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
    /**
      * @var array
      */
-    private static $_clients = [];
+    private $_clients = [];
 
     public $url;
 
@@ -31,7 +31,7 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
     {
         $accountId = $account->account_id ?? 0;
         $key = $clientClass . '-' . '-' . $accountId;
-        if (empty(self::$_clients[$key])) {
+        if (empty($this->_clients[$key])) {
             /** @var BasePlentyMarketsRestClient $client */
             $client = new $clientClass([
                 'apiBaseUrl' => $account->url ?? $this->url,
@@ -39,8 +39,8 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
                 'password' => $account->password ?? $this->password,
             ]);
             $client->setId($client->getName() . '-' . $accountId);
-            self::$_clients[$key] = $client;
+            $this->_clients[$key] = $client;
         }
-        return self::$_clients[$key];
+        return $this->_clients[$key];
     }
 }

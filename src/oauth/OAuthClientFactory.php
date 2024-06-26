@@ -10,18 +10,19 @@ use lujie\common\oauth\models\AuthToken;
 use lujie\extend\authclient\RestOAuth2;
 use Yii;
 use yii\authclient\OAuth2;
+use yii\base\BaseObject;
 
 /**
  * Class OAuthClientFactory
  * @package lujie\common\oauth
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class OAuthClientFactory
+class OAuthClientFactory extends BaseObject
 {
     /**
      * @var array
      */
-    private static $_clients = [];
+    private $_clients = [];
 
     /**
      * @param string $clientClass
@@ -33,11 +34,11 @@ class OAuthClientFactory
      * @throws \yii\httpclient\Exception
      * @inheritdoc
      */
-    public static function createClient(string $clientClass, Account $account, array $config, ?string $authService = null): ?OAuth2
+    public function createClient(string $clientClass, Account $account, array $config, ?string $authService = null): ?OAuth2
     {
         $accountId = $account->account_id;
         $key = $clientClass . '-' . $account::class . '-' . $accountId;
-        if (empty(self::$_clients[$key])) {
+        if (empty($this->_clients[$key])) {
             /** @var OAuth2 $client */
             $client = new $clientClass($config);
             $client->setId($client->getName() . '-' . $accountId);
@@ -58,8 +59,8 @@ class OAuthClientFactory
                 'params' => $authToken->additional['token'],
                 'createTimestamp' => $authToken->updated_at,
             ]);
-            self::$_clients[$key] = $client;
+            $this->_clients[$key] = $client;
         }
-        return self::$_clients[$key];
+        return $this->_clients[$key];
     }
 }

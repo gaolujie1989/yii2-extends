@@ -170,7 +170,7 @@ class QueryHelper
             if ($like) {
                 $andOr = 'OR';
                 if (is_string($like) && str_contains($like, 'A')) {
-                    $andOr = 'AND';
+                    $andOr = '';
                     $like = str_replace('A', '', $like);
                 }
                 if ($like === 'L') {
@@ -234,7 +234,7 @@ class QueryHelper
         if ($like) {
             $andOr = 'OR';
             if (is_string($like) && str_contains($like, 'A')) {
-                $andOr = 'AND';
+                $andOr = '';
                 $like = str_replace('A', '', $like);
             }
             foreach ($attributes as $attribute) {

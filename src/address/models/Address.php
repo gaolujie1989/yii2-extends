@@ -3,6 +3,7 @@
 namespace lujie\common\address\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\extend\helpers\ValueHelper;
 use lujie\extend\models\AddressInterface;
 use Yii;
 use yii\helpers\Json;
@@ -162,12 +163,11 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
      * @return string
      * @inheritdoc
      */
-    protected function generateSignature(): string
+    public function generateSignature(): string
     {
         $except = ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by'];
         $addressData = $this->getAttributes(null, $except);
-        $defaultData = array_fill_keys(array_keys($addressData), '');
-        $addressData = array_merge($defaultData, array_filter($addressData));
+        $addressData = array_filter($addressData, [ValueHelper::class, 'notEmpty']);
         return md5(Json::encode($addressData));
     }
 

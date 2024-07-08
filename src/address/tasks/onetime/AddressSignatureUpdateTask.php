@@ -28,7 +28,7 @@ class AddressSignatureUpdateTask extends CronTask implements ProgressInterface
 
     public function getParams(): array
     {
-        return array_merge(['idFrom', 'idTo'], parent::getParams());
+        return array_merge(['idFrom', 'idTo', 'idStep'], parent::getParams());
     }
 
     /**

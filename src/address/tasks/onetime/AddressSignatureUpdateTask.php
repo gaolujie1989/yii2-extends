@@ -24,6 +24,8 @@ class AddressSignatureUpdateTask extends CronTask implements ProgressInterface
 
     public $idTo = 0;
 
+    public $idStep = 1000000;
+
     public function getParams(): array
     {
         return array_merge(['idFrom', 'idTo'], parent::getParams());
@@ -35,17 +37,18 @@ class AddressSignatureUpdateTask extends CronTask implements ProgressInterface
      */
     public function execute(): Generator
     {
-        $query = Address::find();
-        if ($this->idFrom) {
-            $query->andWhere(['>=', 'address_id', $this->idFrom]);
-        }
-        if ($this->idTo) {
-            $query->andWhere(['<=', 'address_id', $this->idTo]);
-        }
-        $progress = $this->getProgress($query->count());
-        foreach ($query->each() as $address) {
-            $address->updateAttributes(['signature' => $address->generateSignature()]);
-            yield ++$progress->done;
+        $progress = $this->getProgress($this->idTo - $this->idFrom + 1);
+        $stepDone = 0;
+        for ($idFrom = $this->idFrom; $idFrom <= $this->idTo; $idFrom += $this->idStep) {
+            $stepToId = min($idFrom + $this->idStep - 1, $idFrom);
+            $query = Address::find()
+                ->andWhere(['BETWEEN', 'address_id', $idFrom, $stepToId]);
+            foreach ($query->each() as $address) {
+                $address->updateAttributes(['signature' => $address->generateSignature()]);
+                yield ++$progress->done;
+            }
+            $stepDone += $stepToId - $idFrom + 1;
+            yield $progress->done = $stepDone;
         }
     }
 }

@@ -39,15 +39,15 @@ class AddressSignatureUpdateTask extends CronTask implements ProgressInterface
     {
         $progress = $this->getProgress($this->idTo - $this->idFrom + 1);
         $stepDone = 0;
-        for ($idFrom = $this->idFrom; $idFrom <= $this->idTo; $idFrom += $this->idStep) {
-            $stepToId = min($idFrom + $this->idStep - 1, $idFrom);
+        for ($stepIdFrom = $this->idFrom; $stepIdFrom <= $this->idTo; $stepIdFrom += $this->idStep) {
+            $stepIdTo = min($stepIdFrom + $this->idStep - 1, $this->idTo);
             $query = Address::find()
-                ->andWhere(['BETWEEN', 'address_id', $idFrom, $stepToId]);
+                ->andWhere(['BETWEEN', 'address_id', $stepIdFrom, $stepIdTo]);
             foreach ($query->each() as $address) {
                 $address->updateAttributes(['signature' => $address->generateSignature()]);
                 yield ++$progress->done;
             }
-            $stepDone += $stepToId - $idFrom + 1;
+            $stepDone += $stepIdTo - $stepIdFrom + 1;
             yield $progress->done = $stepDone;
         }
     }

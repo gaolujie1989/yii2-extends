@@ -51,8 +51,9 @@ class OAuthClientFactory extends BaseObject
                 Yii::error("Account {$account->name} is not authed", __METHOD__);
                 return null;
             }
-            if ($authToken->refresh_token_expires_at && $authToken->refresh_token_expires_at < time()) {
-                Yii::error("Refresh token of account {$account->name} is expired", __METHOD__);
+            if ($authToken->refresh_token_expires_at && $authToken->refresh_token_expires_at - time() < 86400 * 10) {
+                $day = round(($authToken->refresh_token_expires_at - time()) / 86400);
+                Yii::error("Refresh token of account {$account->name} is expires in {$day} days.", __METHOD__);
                 return null;
             }
             $client->setAccessTokenIfTokenIsValid([

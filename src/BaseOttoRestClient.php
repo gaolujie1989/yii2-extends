@@ -22,11 +22,7 @@ class BaseOttoRestClient extends RestOAuth2
 
     public $tokenUrl = 'v1/token';
 
-    public $clientId = 'token-otto-api';
-
-    public $username;
-
-    public $password;
+    public $scope = 'products orders receipts returns price-reduction shipments quantities';
 
     #region Auth token
 
@@ -36,11 +32,11 @@ class BaseOttoRestClient extends RestOAuth2
      */
     public function getAccessToken(): OAuthToken
     {
-        $authToken = parent::getAccessToken();
-        if (!is_object($authToken)) {
-            $authToken = $this->authenticateUser($this->username, $this->password);
+        $accessToken = parent::getAccessToken();
+        if (empty($accessToken)) {
+            return $this->authenticateClient();
         }
-        return $authToken;
+        return $accessToken;
     }
 
     /**
@@ -51,33 +47,17 @@ class BaseOttoRestClient extends RestOAuth2
      */
     public function refreshAccessToken(OAuthToken $token): OAuthToken
     {
-        $refreshExpiresAt = ($token->getParam('refresh_expires_in') ?: 0) + $token->createTimestamp - 5;
-        if ($refreshExpiresAt > time()) {
-            try {
-                return parent::refreshAccessToken($token);
-            } catch (InvalidResponseException $exception) {
-                $response = $exception->response;
-                $statusCode = (string)$response->statusCode;
-                $error = $response->data['error'] ?? null;
-                if ($statusCode === '400' && $error === 'invalid_grant') {
-                    return $this->authenticateUser($this->username, $this->password);
-                }
-                throw $exception;
-            }
-        }
-        return $this->authenticateUser($this->username, $this->password);
+        return $this->authenticateClient();
     }
 
     /**
-     * @param \yii\httpclient\Request $request
+     * @param $request
      * @inheritdoc
      */
     protected function applyClientCredentialsToRequest($request): void
     {
-        if ($request->getUrl() === $this->tokenUrl) {
-            $request->addData(['client_id' => $this->clientId]);
-            $request->format = Client::FORMAT_URLENCODED;
-        }
+        parent::applyClientCredentialsToRequest($request);
+        $request->format = Client::FORMAT_URLENCODED;
     }
 
     #endregion

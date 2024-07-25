@@ -43,10 +43,11 @@ class BaseOttoRestClientFactory extends BaseObject
         $accountId = $account->account_id;
         $key = $clientClass . '-' . $account::class . '-' . $accountId;
         if (empty($this->_clients[$key])) {
+            $additional = $account->additional ?: [];
             /** @var BaseOttoRestClient $client */
             $client = new $clientClass(array_merge([
-                'username' => $account->username,
-                'password' => $account->password,
+                'clientId' => $additional['clientId'] ?? $account->username,
+                'clientSecret' => $additional['clientSecret'] ?? $account->password,
             ], $this->getConfig()));
             $client->setId($client->getName() . '-' . $accountId);
             $this->_clients[$key] = $client;

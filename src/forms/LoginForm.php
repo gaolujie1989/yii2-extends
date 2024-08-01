@@ -120,7 +120,7 @@ class LoginForm extends Model
     public function getAccessToken(): ?string
     {
         if ($user = $this->getUser()) {
-            return $user->getAccessToken($user::LOGIN_TYPE, $this->rememberDuration);
+            return $user->createAccessToken($user::LOGIN_TYPE, $this->rememberDuration);
         }
         return null;
     }

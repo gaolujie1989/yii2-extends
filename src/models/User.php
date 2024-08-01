@@ -20,6 +20,8 @@ use yii\web\IdentityInterface;
  */
 class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
 {
+    public const LOGIN_TYPE = 'UserLogin';
+    
     public static $cacheDuration = 86400;
 
     public static $cacheTags = ['user'];

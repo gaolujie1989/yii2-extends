@@ -13,6 +13,7 @@ use yii\authclient\CacheStateStorage;
 use yii\authclient\StateStorageInterface;
 use yii\base\BaseObject;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
@@ -98,9 +99,11 @@ class BaseAmazonSPClientFactory extends BaseObject
             'host' => $this->host
         ];
         if ($this->configLoader) {
-            return array_merge($config, $this->configLoader->get($account) ?: []);
+            $config = array_merge($config, $this->configLoader->get($account) ?: []);
         }
-        return $config;
+        $additional = $account->additional ?: [];
+        $accountConfig = array_filter(ArrayHelper::filter($additional, array_keys($config)));
+        return array_merge($config, $accountConfig);
     }
 
     /**

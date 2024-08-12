@@ -112,7 +112,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
             return $text;
         }
         if ($text instanceof \Throwable) {
-            return $text->getMessage();
+            return $text->getMessage() ?: '';
         }
         if (is_array($text) && isset($text[0])) {
             return $text[0];

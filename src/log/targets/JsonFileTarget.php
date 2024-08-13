@@ -17,6 +17,17 @@ use yii\log\Logger;
  */
 class JsonFileTarget extends FileTarget
 {
+    use LogContextMassageTrait, LogProfilingTrait;
+
+    /**
+     * @var array the messages that need to be profiled on duration bigger.
+     */
+    public $profilingOn = [
+        'yii\db\Command::query' => 0.1,
+        'yii\db\Command::execute' => 0.05,
+        '*' => 1,
+    ];
+
     /**
      * @param $message
      * @return string
@@ -69,9 +80,23 @@ class JsonFileTarget extends FileTarget
             'exception' => $exceptionName,
             'prefix' => $prefix,
             'message' => $text,
+            'memory_usage' => $message[5] ?? 0,
+            'memory_diff' => $message[6] ?? 0,
+            'duration' => $message[7] ?? 0,
             'trace' => $traces,
             'meta' => $meta,
         ]);
         return json_encode($msg);
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\log\LogRuntimeException
+     * @inheritdoc
+     */
+    public function export(): void
+    {
+        $this->calculateProfiling();
+        parent::export();
     }
 }

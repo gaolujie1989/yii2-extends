@@ -52,8 +52,9 @@ trait LogProfilingTrait
     protected function isProfiling(array $timing): bool
     {
         $profilingOn = $this->profilingOn ?? [
-            'yii\db\Command::query' => 0.1,
+            'yii\db\Command::query' => 0.5,
             'yii\db\Command::execute' => 0.05,
+            'yii\httpclient\CurlTransport::send' => 5,
             '*' => 1,
         ];
         if (!$profilingOn) {

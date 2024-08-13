@@ -23,8 +23,9 @@ class JsonFileTarget extends FileTarget
      * @var array the messages that need to be profiled on duration bigger.
      */
     public $profilingOn = [
-        'yii\db\Command::query' => 0.1,
+        'yii\db\Command::query' => 0.5,
         'yii\db\Command::execute' => 0.05,
+        'yii\httpclient\CurlTransport::send' => 5,
         '*' => 1,
     ];
 

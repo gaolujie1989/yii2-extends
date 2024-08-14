@@ -8,6 +8,7 @@ namespace lujie\extend\mutex;
 use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\base\UserException;
 use yii\di\Instance;
 use yii\mutex\Mutex;
 
@@ -107,7 +108,7 @@ trait LockingTrait
      * @throws \Throwable
      * @inheritdoc
      */
-    public function lockingRun(string $name, callable $onSuccess, bool $logException = true, array $throwExceptions = [])
+    public function lockingRun(string $name, callable $onSuccess, bool $logException = true, array $throwExceptions = [UserException::class])
     {
         if ($this->mutex) {
             $this->initMutex();

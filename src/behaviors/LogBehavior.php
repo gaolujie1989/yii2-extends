@@ -30,6 +30,11 @@ class LogBehavior extends Behavior
     public $autoFlush = true;
 
     /**
+     * @var bool
+     */
+    public $profiling = false;
+
+    /**
      * @inheritdoc
      */
     public function events(): array
@@ -59,7 +64,9 @@ class LogBehavior extends Behavior
     {
         $title = $this->getExecutableTitle($event->executable);
         Yii::info("$title is started.", Executor::class);
-        Yii::beginProfile($title, Executor::class);
+        if ($this->profiling) {
+            Yii::beginProfile($title, Executor::class);
+        }
     }
 
     /**
@@ -69,10 +76,12 @@ class LogBehavior extends Behavior
     public function afterExec(ExecuteEvent $event): void
     {
         $title = $this->getExecutableTitle($event->executable);
-        Yii::endProfile($title, Executor::class);
+        if ($this->profiling) {
+            Yii::endProfile($title, Executor::class);
+        }
         if ($event->error) {
             if ($event->error instanceof UserException) {
-                Yii::error("$title is finished by {$event->error->getMessage()}", Executor::class);
+                Yii::info("$title is finished by {$event->error->getMessage()}", Executor::class);
             } else {
                 $error = ExceptionHelper::getMessage($event->error);
                 Yii::error("$title is finished with error: $error.", Executor::class);

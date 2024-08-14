@@ -101,12 +101,13 @@ trait LockingTrait
      * @param string $name
      * @param callable $onSuccess
      * @param bool $logException
-     * @return false|mixed
+     * @param array $throwExceptions
+     * @return mixed
      * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
      */
-    public function lockingRun(string $name, callable $onSuccess, bool $logException = true)
+    public function lockingRun(string $name, callable $onSuccess, bool $logException = true, array $throwExceptions = [])
     {
         if ($this->mutex) {
             $this->initMutex();
@@ -116,6 +117,11 @@ trait LockingTrait
                     return $onSuccess();
                 } catch (\Throwable $e) {
                     if ($logException) {
+                        foreach ($throwExceptions as $skipException) {
+                            if ($e instanceof $skipException) {
+                                throw $e;
+                            }
+                        }
                         Yii::error($e->getMessage() . "\n" . $e->getTraceAsString(), $name);
                         return false;
                     }

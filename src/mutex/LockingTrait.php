@@ -101,7 +101,7 @@ trait LockingTrait
      * @param string $name
      * @param callable $onSuccess
      * @param bool $logException
-     * @return false
+     * @return false|mixed
      * @throws InvalidConfigException
      * @throws \Throwable
      * @inheritdoc
@@ -110,8 +110,8 @@ trait LockingTrait
     {
         if ($this->mutex) {
             $this->initMutex();
-            $name = $this->keyPrefix . $name;
-            if ($this->mutex->acquire($name, $this->timeout)) {
+            $lockName = $this->keyPrefix . $name;
+            if ($this->mutex->acquire($lockName, $this->timeout)) {
                 try {
                     return $onSuccess();
                 } catch (\Throwable $e) {
@@ -121,7 +121,7 @@ trait LockingTrait
                     }
                     throw $e;
                 } finally {
-                    $this->mutex->release($name);
+                    $this->mutex->release($lockName);
                 }
             } else {
                 return false;

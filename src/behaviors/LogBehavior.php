@@ -13,6 +13,7 @@ use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
 use yii\base\UserException;
+use yii\httpclient\Exception;
 
 /**
  * Class LogBehavior
@@ -79,12 +80,17 @@ class LogBehavior extends Behavior
         if ($this->profiling) {
             Yii::endProfile($title, Executor::class);
         }
-        if ($event->error) {
-            if ($event->error instanceof UserException) {
-                Yii::info("$title is finished by {$event->error->getMessage()}", Executor::class);
+        $exception = $event->error;
+        if ($exception) {
+            if ($exception instanceof UserException) {
+                Yii::info("$title is finished by {$exception->getMessage()}", Executor::class);
             } else {
-                $error = ExceptionHelper::getMessage($event->error);
-                Yii::error("$title is finished with error: $error.", Executor::class);
+                $error = ExceptionHelper::getMessage($exception);
+                if ($exception instanceof Exception && str_contains($error, 'Curl error')) {
+                    Yii::warning("$title is finished with $error.", $event->executable::class);
+                } else {
+                    Yii::error("$title is finished with error: $error.", $event->executable::class);
+                }
             }
         } else {
             Yii::info("$title is finished.", Executor::class);

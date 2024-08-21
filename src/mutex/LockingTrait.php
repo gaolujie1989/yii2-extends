@@ -6,6 +6,7 @@
 namespace lujie\extend\mutex;
 
 use lujie\extend\helpers\ClassHelper;
+use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\UserException;
@@ -123,7 +124,7 @@ trait LockingTrait
                                 throw $e;
                             }
                         }
-                        Yii::error($e->getMessage() . "\n" . $e->getTraceAsString(), $name);
+                        Yii::error(ExceptionHelper::getMessage($e), $name);
                         return false;
                     }
                     throw $e;

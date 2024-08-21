@@ -75,7 +75,7 @@ class DocumentAction extends Action
      */
     public function download(string $type, $key): void
     {
-        $data = ['{documentType}' => $type, '{documentKey}' => $key];
+        $data = ['{documentType}' => $type, '{documentKey}' => substr($key, 0, 50)];
         $generateFile = Yii::getAlias(TemplateHelper::generate($this->filePathTemplate, $data));
         $this->documentManager->generate($type, $key, $generateFile);
         $ext = pathinfo($generateFile, PATHINFO_EXTENSION);

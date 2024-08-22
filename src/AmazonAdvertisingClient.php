@@ -515,7 +515,10 @@ class AmazonAdvertisingClient extends RestOAuth2
         if (empty($headers['Accept'])) {
             $headers['Accept'] = 'application/json';
         }
-        $request->addHeaders($headers);
+        $headerCollection = $request->getHeaders();
+        foreach ($headers as $key => $header) {
+            $headerCollection->set($key, $header);
+        }
     }
 
     #endregion

@@ -85,11 +85,11 @@ class LogBehavior extends Behavior
             if ($exception instanceof UserException) {
                 Yii::info("$title is finished by {$exception->getMessage()}", Executor::class);
             } else {
-                $error = ExceptionHelper::getMessage($exception);
+                $error = $exception->getMessage();
                 if ($exception instanceof Exception && str_contains($error, 'Curl error')) {
-                    Yii::warning("$title is finished with $error.", $event->executable::class);
+                    Yii::warning(["$title is finished with $error.", $exception], $event->executable::class);
                 } else {
-                    Yii::error("$title is finished with error: $error.", $event->executable::class);
+                    Yii::error(["$title is finished with error: $error.", $exception], $event->executable::class);
                 }
             }
         } else {

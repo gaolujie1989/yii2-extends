@@ -11,6 +11,7 @@ use Yii;
 use yii\authclient\InvalidResponseException;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
+use yii\httpclient\Exception;
 use yii\mutex\Mutex;
 
 /**
@@ -125,7 +126,12 @@ trait LockingTrait
                                 throw $e;
                             }
                         }
-                        Yii::error(ExceptionHelper::getMessage($e), $name);
+                        $error = ExceptionHelper::getMessage($e);
+                        if ($e instanceof Exception && str_contains($error, 'Curl error')) {
+                            Yii::warning($error, $name);
+                        } else {
+                            Yii::error($error, $name);
+                        }
                         return false;
                     }
                     throw $e;

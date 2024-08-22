@@ -43,7 +43,7 @@ class HttpClientHelper
             } catch (Exception $exception) {
                 $try++;
                 if ($try <= $retry && strtoupper($request->method) === 'GET') { //only GET method can retry
-                    Yii::warning("Http {$request->method} request to {$request->fullUrl} failed and retry {$try}... Message: {$exception->getMessage()}", __METHOD__);
+                    Yii::info("Http {$request->method} request to {$request->fullUrl} failed and retry {$try}... Message: {$exception->getMessage()}", __METHOD__);
                 } else {
                     throw $exception;
                 }

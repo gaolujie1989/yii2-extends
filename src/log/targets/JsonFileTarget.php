@@ -40,17 +40,24 @@ class JsonFileTarget extends FileTarget
         $level = Logger::getLevelName($level);
 
         $meta = [];
-        $exceptionName = '';
+        $exception = null;
         if (!is_string($text)) {
             // exceptions may not be serializable if in the call stack somewhere is a Closure
-            if ($text instanceof \Exception || $text instanceof \Throwable) {
-                $exceptionName = $text::class;
-                $text = $text->getMessage();
+            if ($text instanceof \Throwable) {
+                $exception = $text;
+                $text = $exception->getMessage();
             } else if (is_array($text) || $text instanceof Arrayable) {
                 if ($text instanceof Arrayable) {
                     $text = $text->toArray();
                 }
-                $t = $text['message'] ?? $text['msg'] ?? $text[0] ?? null;
+                foreach ($text as $key => $item) {
+                    if ($item instanceof \Throwable) {
+                        $exception = $item;
+                        unset($text[$key]);
+                        break;
+                    }
+                }
+                $t = $text['message'] ?? $text['msg'] ?? $text[0] ?? ($exception?->getMessage());
                 if ($t) {
                     unset($text['message'], $text['msg'], $text[0]);
                     $meta = $text;
@@ -63,11 +70,16 @@ class JsonFileTarget extends FileTarget
             }
         }
 
-        $traces = [];
-        if (isset($message[4])) {
-            foreach ($message[4] as $trace) {
-                $traces[] = "in {$trace['file']}:{$trace['line']}";
+        if ($exception) {
+            $traces = $exception->getTraceAsString();
+        } else {
+            $traces = [];
+            if (isset($message[4])) {
+                foreach ($message[4] as $trace) {
+                    $traces[] = "in {$trace['file']}:{$trace['line']}";
+                }
             }
+            $traces = implode("\n", $traces);
         }
 
         $prefix = $this->getMessagePrefix($message);
@@ -78,13 +90,13 @@ class JsonFileTarget extends FileTarget
             'level' => $level,
             'module' => $module,
             'category' => $category,
-            'exception' => $exceptionName,
+            'exception' => $exception ? $exception::class : '',
             'prefix' => $prefix,
             'message' => $text,
             'memory_usage' => $message[5] ?? 0,
             'memory_diff' => $message[6] ?? 0,
             'duration' => $message[7] ?? 0,
-            'trace' => $traces,
+            'trace' => mb_substr($traces, 0, 2000),
             'meta' => $meta,
         ]);
         return json_encode($msg);

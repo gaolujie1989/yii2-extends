@@ -8,8 +8,8 @@ namespace lujie\extend\mutex;
 use lujie\extend\helpers\ClassHelper;
 use lujie\extend\helpers\ExceptionHelper;
 use Yii;
+use yii\authclient\InvalidResponseException;
 use yii\base\InvalidConfigException;
-use yii\base\UserException;
 use yii\di\Instance;
 use yii\mutex\Mutex;
 
@@ -109,7 +109,7 @@ trait LockingTrait
      * @throws \Throwable
      * @inheritdoc
      */
-    public function lockingRun(string $name, callable $onSuccess, bool $logException = true, array $throwExceptions = [UserException::class])
+    public function lockingRun(string $name, callable $onSuccess, bool $logException = true)
     {
         if ($this->mutex) {
             $this->initMutex();
@@ -119,8 +119,9 @@ trait LockingTrait
                     return $onSuccess();
                 } catch (\Throwable $e) {
                     if ($logException) {
-                        foreach ($throwExceptions as $skipException) {
-                            if ($e instanceof $skipException) {
+                        if ($e instanceof InvalidResponseException) {
+                            $statusCode = (string)$e->response->getStatusCode();
+                            if ($statusCode === '429') {
                                 throw $e;
                             }
                         }

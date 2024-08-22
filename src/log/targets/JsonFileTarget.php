@@ -46,7 +46,7 @@ class JsonFileTarget extends FileTarget
             // exceptions may not be serializable if in the call stack somewhere is a Closure
             if ($text instanceof \Throwable) {
                 $exception = $text;
-                $text = ExceptionHelper::getMessage($exception);
+                $text = $exception->getMessage();
             } else if (is_array($text) || $text instanceof Arrayable) {
                 if ($text instanceof Arrayable) {
                     $text = $text->toArray();
@@ -71,11 +71,16 @@ class JsonFileTarget extends FileTarget
             }
         }
 
-        $traces = [];
-        if (isset($message[4])) {
-            foreach ($message[4] as $trace) {
-                $traces[] = "in {$trace['file']}:{$trace['line']}";
+        if ($exception) {
+            $traces = $exception->getTraceAsString();
+        } else {
+            $traces = [];
+            if (isset($message[4])) {
+                foreach ($message[4] as $trace) {
+                    $traces[] = "in {$trace['file']}:{$trace['line']}";
+                }
             }
+            $traces = implode("\n", $traces);
         }
 
         $prefix = $this->getMessagePrefix($message);

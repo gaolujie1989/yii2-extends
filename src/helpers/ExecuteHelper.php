@@ -131,7 +131,7 @@ class ExecuteHelper
                 $model->setAttribute($resultAttribute, $resultValue);
             }
             $model->save(false);
-            Yii::error($message, __METHOD__);
+            Yii::error($exception, __METHOD__);
             return false;
         } catch (\Throwable $exception) {
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
@@ -147,14 +147,14 @@ class ExecuteHelper
             $model->save(false);
             foreach ($warningExceptions as $warningException) {
                 if ($exception instanceof $warningException) {
-                    Yii::warning($message, __METHOD__);
+                    Yii::warning($exception, __METHOD__);
                     return false;
                 }
             }
             if ($throwException) {
                 throw $exception;
             }
-            Yii::error($message, __METHOD__);
+            Yii::error($exception, __METHOD__);
             return false;
         } finally {
             if (isset($oldMemoryLimit)) {

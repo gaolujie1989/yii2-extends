@@ -126,11 +126,11 @@ trait LockingTrait
                                 throw $e;
                             }
                         }
-                        $error = ExceptionHelper::getMessage($e);
+                        $error = $e->getMessage();
                         if ($e instanceof Exception && str_contains($error, 'Curl error')) {
-                            Yii::warning($error, $name);
+                            Yii::warning($e, $name);
                         } else {
-                            Yii::error($error, $name);
+                            Yii::error($e, $name);
                         }
                         return false;
                     }

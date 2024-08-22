@@ -5,6 +5,7 @@
 
 namespace lujie\extend\log\targets;
 
+use lujie\extend\helpers\ExceptionHelper;
 use yii\base\Arrayable;
 use yii\helpers\VarDumper;
 use yii\log\FileTarget;
@@ -45,7 +46,7 @@ class JsonFileTarget extends FileTarget
             // exceptions may not be serializable if in the call stack somewhere is a Closure
             if ($text instanceof \Throwable) {
                 $exception = $text;
-                $text = $exception->getMessage();
+                $text = ExceptionHelper::getMessage($exception);
             } else if (is_array($text) || $text instanceof Arrayable) {
                 if ($text instanceof Arrayable) {
                     $text = $text->toArray();
@@ -70,16 +71,11 @@ class JsonFileTarget extends FileTarget
             }
         }
 
-        if ($exception) {
-            $traces = $exception->getTraceAsString();
-        } else {
-            $traces = [];
-            if (isset($message[4])) {
-                foreach ($message[4] as $trace) {
-                    $traces[] = "in {$trace['file']}:{$trace['line']}";
-                }
+        $traces = [];
+        if (isset($message[4])) {
+            foreach ($message[4] as $trace) {
+                $traces[] = "in {$trace['file']}:{$trace['line']}";
             }
-            $traces = implode("\n", $traces);
         }
 
         $prefix = $this->getMessagePrefix($message);
@@ -96,7 +92,7 @@ class JsonFileTarget extends FileTarget
             'memory_usage' => $message[5] ?? 0,
             'memory_diff' => $message[6] ?? 0,
             'duration' => $message[7] ?? 0,
-            'trace' => mb_substr($traces, 0, 2000),
+            'trace' => $traces,
             'meta' => $meta,
         ]);
         return json_encode($msg);

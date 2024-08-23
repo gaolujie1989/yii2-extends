@@ -7,6 +7,7 @@ namespace lujie\extend\helpers;
 
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
+use yii\authclient\InvalidResponseException;
 use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\Json;
@@ -80,7 +81,7 @@ class ExecuteHelper
         string           $statusAttribute = 'execute_status',
         string           $resultAttribute = 'execute_result',
         bool             $throwException = false,
-        array            $warningExceptions = [Exception::class],
+        array            $warningExceptions = [Exception::class, InvalidResponseException::class],
         ?string          $memoryLimit = null
     ): bool
     {
@@ -111,7 +112,7 @@ class ExecuteHelper
                     $modelClass = get_class($model);
                     $primaryKey = implode(',', $model->getPrimaryKey(true));
                     $message = "Execute {$modelClass}:{$primaryKey} with errors: " . Json::encode($model->getErrors());
-                    Yii::error($message, __METHOD__);
+                    Yii::warning($message, __METHOD__);
                 }
             } else {
                 $timeAttribute && $model->setAttribute($timeAttribute, time());

@@ -5,7 +5,7 @@
 
 namespace lujie\extend\log\targets;
 
-use lujie\extend\helpers\ExceptionHelper;
+use Yii;
 use yii\base\Arrayable;
 use yii\helpers\VarDumper;
 use yii\log\FileTarget;
@@ -91,7 +91,8 @@ class JsonFileTarget extends FileTarget
             'level' => $level,
             'module' => $module,
             'category' => $category,
-            'exception' => $exception ? $exception::class : '',
+            'requestId' => Yii::$app->params['requestId'] ?? null,
+            'exception' => $exception ? $exception::class : null,
             'prefix' => $prefix,
             'message' => $text,
             'memory_usage' => $message[5] ?? 0,

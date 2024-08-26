@@ -8,6 +8,7 @@ namespace lujie\extend\helpers;
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
 use yii\authclient\InvalidResponseException;
+use yii\base\UserException;
 use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\Json;
@@ -81,7 +82,7 @@ class ExecuteHelper
         string           $statusAttribute = 'execute_status',
         string           $resultAttribute = 'execute_result',
         bool             $throwException = false,
-        array            $warningExceptions = [Exception::class, InvalidResponseException::class],
+        array            $warningExceptions = [Exception::class, InvalidResponseException::class, UserException::class],
         ?string          $memoryLimit = null
     ): bool
     {

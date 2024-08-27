@@ -11,7 +11,7 @@ use yii\helpers\Json;
 /**
  * This is the model class for table "{{%address}}".
  *
- * @property string $address_id
+ * @property int $address_id
  * @property string $country
  * @property string $state
  * @property string $city

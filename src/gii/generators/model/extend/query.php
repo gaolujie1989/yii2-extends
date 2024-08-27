@@ -74,7 +74,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
 <?php
 foreach ($queryFields as $name => $field) {
-    if (substr($field, -3) === '_no' || substr($field, -4) === '_key' || substr($field, -5) === '_code') {
+    $fieldType = $tableSchema->columns[$field]->type;
+    if ($fieldType === \yii\db\Schema::TYPE_STRING) {
         echo " * @method $className $name(\$$name, bool|string \$like = false)\n";
     } else {
         echo " * @method $className $name(\$$name)\n";

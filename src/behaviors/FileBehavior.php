@@ -111,11 +111,6 @@ class FileBehavior extends Behavior
 
     #region get file path url and content
 
-    public function getAbsolutePath(): string
-    {
-
-    }
-
     /**
      * @param int $expiresAt
      * @param array $config

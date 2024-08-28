@@ -73,6 +73,7 @@ class FileActionForm extends Model
     }
 
     /**
+     * @throws \League\Flysystem\FilesystemException
      * @inheritdoc
      */
     public function validatePath(): void
@@ -83,6 +84,7 @@ class FileActionForm extends Model
     }
 
     /**
+     * @throws \League\Flysystem\FilesystemException
      * @inheritdoc
      */
     public function validateNewPath(): void
@@ -95,6 +97,7 @@ class FileActionForm extends Model
     /**
      * @param string $path
      * @return bool
+     * @throws \League\Flysystem\FilesystemException
      * @inheritdoc
      */
     protected function isFile(string $path): bool
@@ -105,6 +108,7 @@ class FileActionForm extends Model
 
     /**
      * @return bool
+     * @throws \League\Flysystem\FilesystemException
      * @inheritdoc
      */
     public function move(): bool
@@ -113,11 +117,13 @@ class FileActionForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        return $this->fs->rename($this->path, $this->newPath);
+        $this->fs->rename($this->path, $this->newPath);
+        return true;
     }
 
     /**
      * @return bool
+     * @throws \League\Flysystem\FilesystemException
      * @inheritdoc
      */
     public function copy(): bool
@@ -126,11 +132,13 @@ class FileActionForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        return $this->fs->copy($this->path, $this->newPath);
+        $this->fs->copy($this->path, $this->newPath);
+        return true;
     }
 
     /**
      * @return bool
+     * @throws \League\Flysystem\FilesystemException
      * @inheritdoc
      */
     public function delete(): bool
@@ -139,8 +147,9 @@ class FileActionForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        return $this->isFile($this->path)
+        $this->isFile($this->path)
             ? $this->fs->delete($this->path)
             : $this->fs->deleteDir($this->path);
+        return true;
     }
 }

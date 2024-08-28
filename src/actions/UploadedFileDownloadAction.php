@@ -19,8 +19,8 @@ use yii\web\NotFoundHttpException;
 class UploadedFileDownloadAction extends Action
 {
     /**
-     * @var string|UploadModelFile
- */
+     * @var string
+     */
     public $modelClass = UploadModelFile::class;
 
     /**

@@ -20,7 +20,7 @@ use yii\di\Instance;
 class RestClientSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
-     * @var BatchSourceInterface
+     * @var RestClientTrait
      */
     public $client;
 

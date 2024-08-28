@@ -1,0 +1,67 @@
+---
+kind: pipeline
+type: docker
+name: phpstan
+
+clone:
+  disable: true
+
+volumes:
+  - name: code
+    host:
+      path: /code/drone/yii2exts
+
+  - name: composer-cache
+    host:
+      path: /home/lujie/.composer-docker/cache
+
+steps:
+  - name: clone-or-update
+    image: alpine/git:2.45.2
+    volumes:
+      - name: code
+        path: /app
+    commands:
+      - cd /app/exts/yii2-scheduling
+      - git pull origin master
+      - git checkout master
+
+  - name: phpstan-level-0
+    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
+    volumes:
+      - name: code
+        path: /app
+    commands:
+      - cd /app/exts/yii2-scheduling
+      - sh dev/phpstan.sh 0
+
+  - name: phpstan-level-1
+    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
+    volumes:
+      - name: code
+        path: /app
+    commands:
+      - cd /app/exts/yii2-scheduling
+      - sh dev/phpstan.sh 1
+
+  - name: phpstan-level-2
+    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
+    volumes:
+      - name: code
+        path: /app
+    commands:
+      - cd /app/exts/yii2-scheduling
+      - sh dev/phpstan.sh 2
+
+  - name: phpstan-level-3
+    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
+    volumes:
+      - name: code
+        path: /app
+    commands:
+      - cd /app/exts/yii2-scheduling
+      - sh dev/phpstan.sh 3
+
+trigger:
+  branch:
+    - master

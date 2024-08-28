@@ -4,6 +4,3 @@ parameters:
         - bootstrap.php
     excludePaths:
         - */gii/*
-        - */tests/*
-        - */migrations/*
-        - */db/*

@@ -57,7 +57,6 @@ steps:
         path: /app
     commands:
       - cd /app/exts/10-yii2-extend
-      - sleep 300
       - sh dev/phpstan.sh 0
 
   - name: phpstan-level-1

@@ -10,6 +10,7 @@ use lujie\extend\queue\ExecForm;
 use lujie\extend\rest\MethodAction;
 use Yii;
 use yii\authclient\InvalidResponseException;
+use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\httpclient\Client;
 use yii\httpclient\CurlTransport;
@@ -108,7 +109,7 @@ abstract class Command extends Controller
      * @param int $ttr time to reserve
      * @param int $attempt number
      * @return bool
-     * @throws
+     * @throws InvalidConfigException
      * @see actionExec()
      */
     protected function handleMessage($id, string $message, int $ttr, int $attempt): bool

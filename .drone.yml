@@ -25,7 +25,6 @@ steps:
       - cd /app
       - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-apps-template .; fi
       - git checkout master
-      - bash git-clone-exts.sh
 
 #  - name: composer-install
 #    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
@@ -46,6 +45,7 @@ steps:
       - name: code
         path: /app
     commands:
+      - bash git-clone-exts.sh
       - cd /app/exts/yii2-extend
       - git pull origin master
       - git checkout master

@@ -46,6 +46,7 @@ steps:
       - name: code
         path: /app
     commands:
+      - if [ ! -d "/app/exts/10-yii2-extend" ]; then mkdir 10-yii2-extend; fi
       - cd /app/exts/10-yii2-extend
       - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-extend .; fi
       - git checkout master

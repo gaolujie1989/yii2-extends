@@ -10,6 +10,7 @@ use lujie\template\document\actions\DocumentAction;
 use lujie\template\document\forms\DocumentTemplateForm;
 use lujie\template\document\models\DocumentTemplate;
 use lujie\template\document\TemplateDocumentManager;
+use yii\base\UserException;
 
 /**
  * Class DocumentTemplateController
@@ -19,7 +20,7 @@ use lujie\template\document\TemplateDocumentManager;
 class DocumentTemplateController extends ActiveController
 {
     /**
-     * @var DocumentTemplate
+     * @var string
      */
     public $modelClass = DocumentTemplate::class;
 
@@ -58,6 +59,7 @@ class DocumentTemplateController extends ActiveController
      * @param $id
      * @param string|null $type
      * @return array
+     * @throws UserException
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      * @inheritdoc

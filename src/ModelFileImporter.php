@@ -23,7 +23,7 @@ use yii\db\BaseActiveRecord;
 class ModelFileImporter extends FileImporter
 {
     /**
-     * @var BaseActiveRecord
+     * @var string
      */
     public $modelClass;
 

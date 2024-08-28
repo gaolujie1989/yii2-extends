@@ -46,7 +46,7 @@ class AuthAssignmentForm extends Model
     private $_roles;
 
     /**
-     * @var ManagerInterface|BaseManager
+     * @var BaseManager
      */
     public $authManager = 'authManager';
 
@@ -89,7 +89,7 @@ class AuthAssignmentForm extends Model
     }
 
     /**
-     * @return array
+     * @return bool
      * @inheritdoc
      */
     public function validateRoles(): bool
@@ -172,7 +172,7 @@ class AuthAssignmentForm extends Model
     }
 
     /**
-     * @param array $permissions
+     * @param array $roles
      * @inheritdoc
      */
     public function setRoles(array $roles): void

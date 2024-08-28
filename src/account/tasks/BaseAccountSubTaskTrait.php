@@ -12,7 +12,7 @@ use lujie\executing\Progress;
 /**
  * Trait BaseAccountSubTaskTrait
  *
- * @property $subTaskDelay = 3
+ * @property int $subTaskDelay = 3
  *
  * @package lujie\common\account\tasks
  * @author Lujie Zhou <gao_lujie@live.cn>

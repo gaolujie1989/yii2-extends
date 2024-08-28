@@ -22,7 +22,7 @@ interface OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|array|null $values
+     * @param array|null $values
      * @return array
      * @inheritdoc
      */

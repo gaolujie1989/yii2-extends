@@ -75,7 +75,7 @@ class OptionListSearch extends Model
     }
 
     /**
-     * @return array|bool
+     * @return bool
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
      * @inheritdoc

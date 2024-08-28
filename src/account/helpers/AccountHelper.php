@@ -18,8 +18,10 @@ class AccountHelper
     /**
      * @param Account $account
      * @param string|Account $copyAccountClass
+     * @param string|null $accountType
      * @param bool $copyToken
      * @return Account
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
     public static function copyAccount(Account $account, string $copyAccountClass, string $accountType = null, bool $copyToken = true): Account

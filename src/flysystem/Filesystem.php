@@ -77,7 +77,7 @@ abstract class Filesystem extends Component implements FilesystemOperator
     }
 
     /**
-     * @return LeagueFilesystem
+     * @return FilesystemAdapter
      * @inheritdoc
      */
     public function getFilesystemAdapter(): FilesystemAdapter

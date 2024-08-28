@@ -62,7 +62,6 @@ abstract class BaseCommander extends BaseObject
     /**
      * @param string $binPath
      * @param array $options
-     * @param string $pdf
      * @return string
      * @inheritdoc
      */

@@ -122,7 +122,7 @@ trait SearchTrait
     }
 
     /**
-     * @param array $row
+     * @param array $rows
      * @return array
      * @throws \Exception
      * @inheritdoc

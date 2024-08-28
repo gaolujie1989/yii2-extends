@@ -10,6 +10,7 @@ use lujie\alias\behaviors\MoneyAliasBehavior;
 use lujie\alias\behaviors\TimestampAliasBehavior;
 use lujie\alias\behaviors\UnitAliasBehavior;
 use lujie\ar\relation\behaviors\RelationSavableBehavior;
+use lujie\extend\db\ActiveRecord;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
@@ -246,7 +247,7 @@ class ModelHelper
 
     /**
      * @param array $row
-     * @param string|BaseActiveRecord $class
+     * @param string|BaseActiveRecord|ActiveRecord $class
      * @param array $aliasProperties
      * @param array $relations
      * @param array $unsetAttributes
@@ -280,7 +281,7 @@ class ModelHelper
                 continue;
             }
             $relationConfig = (array)$relationConfig;
-            /** @var BaseActiveRecord|string $relationClass */
+            /** @var BaseActiveRecord|ActiveRecord|string $relationClass */
             $relationClass = $relationConfig[0];
             $relationAlias = $relationConfig[1] ?? [];
             $relationRelations = $relationConfig[2] ?? [];

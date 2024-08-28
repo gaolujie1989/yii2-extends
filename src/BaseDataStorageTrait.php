@@ -24,7 +24,7 @@ trait BaseDataStorageTrait
     }
 
     /**
-     * @param array $key
+     * @param array $keys
      * @return mixed
      * @inheritdoc
      */

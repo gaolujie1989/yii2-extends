@@ -1,3 +1,7 @@
 parameters:
     ignoreErrors:
         - '#does not accept default value of type (string|array)#'
+        -
+            message: "#^Property lujie\\\\scheduling\\\\controllers\\\\rest\\\\ScheduleTaskController\\:\\:\\$modelClass \\(string\\) does not accept default value of type false\\.$#"
+            count: 1
+            path: ../../src/controllers/rest/ScheduleTaskController.php

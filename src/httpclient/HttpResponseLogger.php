@@ -26,7 +26,7 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
     /**
      * @var int
      */
-    public $contentLoggingMaxSize = 2000;
+    public $contentLoggingMaxSize = 20000;
 
     /**
      * @var string

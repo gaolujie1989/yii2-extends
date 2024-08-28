@@ -20,7 +20,7 @@ use yii\di\Instance;
 class ScheduleTaskController extends ActiveController
 {
     /**
-     * @var string
+     * @var string|bool
      */
     public $modelClass = false;
 

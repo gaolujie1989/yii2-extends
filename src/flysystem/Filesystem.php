@@ -232,11 +232,11 @@ abstract class Filesystem extends Component implements FilesystemOperator
 
     /**
      * @param string $path
-     * @return string
+     * @return int
      * @throws FilesystemException
      * @deprecated Use `fileSize` instead
      */
-    public function getSize(string $path): string
+    public function getSize(string $path): int
     {
         return $this->fileSize($path);
     }
@@ -254,11 +254,11 @@ abstract class Filesystem extends Component implements FilesystemOperator
 
     /**
      * @param string $path
-     * @return string
+     * @return int
      * @throws FilesystemException
      * @deprecated Use `lastModified` instead
      */
-    public function getTimestamp(string $path): string
+    public function getTimestamp(string $path): int
     {
         return $this->lastModified($path);
     }

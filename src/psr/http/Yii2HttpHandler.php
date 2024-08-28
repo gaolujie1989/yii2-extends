@@ -54,7 +54,7 @@ class Yii2HttpHandler extends BaseClient implements ClientInterface
      * @throws NotSupportedException
      * @inheritdoc
      */
-    protected function initUserAttributes(): void
+    protected function initUserAttributes(): array
     {
         throw new NotSupportedException('Not supported.');
     }

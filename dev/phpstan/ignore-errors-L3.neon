@@ -1,10 +1,2 @@
 parameters:
     ignoreErrors:
-        - '#should return yii\\db\\ActiveQuery but returns yii\\db\\ActiveQueryInterface#'
-        - '#does not accept default value of type (string|array)#'
-        - '#\(string\) does not accept default value of type int#'
-        - '#does not accept (string|array|null)#'
-        - '#\(string\) does not accept (int|float)#'
-        - '#\(string\|null\) does not accept (int|float)#'
-        - '#\(string\) does not accept \(float\|int\)#'
-        - '#Query but returns yii\\db\\ActiveQuery#'

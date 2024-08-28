@@ -47,7 +47,7 @@ use yii\filters\AccessRule;
 class ActionAccessRule extends AccessRule
 {
     /**
-     * @var ?callable
+     * @var string|callable|null
      */
     public $actionPermissionNameCallback = 'formatActionId';
 

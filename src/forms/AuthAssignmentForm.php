@@ -25,7 +25,7 @@ use yii\web\IdentityInterface;
 class AuthAssignmentForm extends Model
 {
     /**
-     * @var IdentityInterface
+     * @var string|IdentityInterface
      */
     public $userClass;
 

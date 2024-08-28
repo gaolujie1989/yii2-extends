@@ -161,7 +161,6 @@ class AuthHelper
     /**
      * @param array $permissionTree
      * @param ManagerInterface $manager
-     * @param string $prefix
      * @param string $separator
      * @param array $replaces
      * @throws \yii\base\Exception

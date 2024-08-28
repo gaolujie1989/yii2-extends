@@ -46,10 +46,10 @@ class AuthRoleForm extends AuthItemForm
     }
 
     /**
-     * @return array
+     * @return bool
      * @inheritdoc
      */
-    public function validatePermissions(): void
+    public function validatePermissions(): bool
     {
         $permissionNames = $this->_permissionsNames;
         $invalidPermissionNames = [];
@@ -64,9 +64,11 @@ class AuthRoleForm extends AuthItemForm
         }
         if ($invalidPermissionNames) {
             $this->addError('permissions', 'Invalid permissions:' . implode(',', $invalidPermissionNames));
+            return false;
         } else {
             $this->_permissions = $validPermissions;
         }
+        return true;
     }
 
     /**

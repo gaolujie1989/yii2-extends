@@ -48,7 +48,7 @@ trait BaseAccountSubTaskTrait
     /**
      * @param Account $account
      * @param int|null $delay
-     * @return $this
+     * @return static
      * @inheritdoc
      */
     protected function createAccountSubTask(Account $account, ?int $delay = null): static

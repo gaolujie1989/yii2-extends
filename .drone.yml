@@ -35,7 +35,7 @@ steps:
         path: /root/.composer/cache
     commands:
       - cd /app/apps
-      - if [ -f "yii" ]; then a | php init --env=Development; fi
+      - if [ -f "yii" ]; then echo n | php init --env=Development; fi
       - composer install
       - composer dump-autoload --optimize
 

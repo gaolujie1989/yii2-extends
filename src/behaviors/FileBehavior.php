@@ -48,7 +48,7 @@ class FileBehavior extends Behavior
     public $path = '@statics';
 
     /**
-     * @var string
+     * @var ?string
      */
     public $url = 'staticUrl';
 
@@ -62,7 +62,7 @@ class FileBehavior extends Behavior
         parent::init();
         $this->initFsAndPath();
         $this->url = Yii::$app->params[$this->url] ?? $this->url;
-        if (strpos($this->url, 'http') === 0) {
+        if (str_starts_with($this->url, 'http')) {
             $this->url = rtrim($this->url, '/') . '/';
         } else {
             $this->url = null;

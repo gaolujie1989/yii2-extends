@@ -16,28 +16,28 @@ volumes:
       path: /home/lujie/.composer-docker/cache
 
 steps:
-  - name: clone-or-update-template
-    image: alpine/git:2.45.2
-    volumes:
-      - name: code
-        path: /app
-    commands:
-      - cd /app
-      - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-apps-template .; fi
-      - git checkout master
-
-  - name: composer-install
-    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
-    volumes:
-      - name: code
-        path: /app
-      - name: composer-cache
-        path: /root/.composer/cache
-    commands:
-      - cd /app/apps
-      - if [ -f "yii" ]; then echo n | php init --env=Development; fi
-      - composer install
-      - composer dump-autoload --optimize
+#  - name: clone-or-update-template
+#    image: alpine/git:2.45.2
+#    volumes:
+#      - name: code
+#        path: /app
+#    commands:
+#      - cd /app
+#      - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-apps-template .; fi
+#      - git checkout master
+#
+#  - name: composer-install
+#    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
+#    volumes:
+#      - name: code
+#        path: /app
+#      - name: composer-cache
+#        path: /root/.composer/cache
+#    commands:
+#      - cd /app/apps
+#      - if [ -f "yii" ]; then echo n | php init --env=Development; fi
+#      - composer install
+#      - composer dump-autoload --optimize
 
   - name: clone-or-update
     image: alpine/git:2.45.2
@@ -45,7 +45,7 @@ steps:
       - name: code
         path: /app
     commands:
-      - if [ ! -d "/app/exts/10-yii2-extend" ]; then mkdir 10-yii2-extend; fi
+      - if [ ! -d "/app/exts/10-yii2-extend" ]; then mkdir /app/exts/10-yii2-extend; fi
       - cd /app/exts/10-yii2-extend
       - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-extend .; fi
       - git checkout master

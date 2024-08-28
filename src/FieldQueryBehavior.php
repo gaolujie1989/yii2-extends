@@ -20,7 +20,6 @@ use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use function RingCentral\Psr7\str;
 
 /**
  * Class FieldQueryBehavior

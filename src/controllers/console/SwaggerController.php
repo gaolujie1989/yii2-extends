@@ -18,8 +18,6 @@ use yii\helpers\Json;
 class SwaggerController extends Controller
 {
     /**
-     * @param string $html
-     * @return array
      * @inheritdoc
      */
     public function actionGenerate(): void
@@ -34,7 +32,8 @@ class SwaggerController extends Controller
     }
 
     /**
-     * @return bool
+     * @param string $html
+     * @return array
      * @inheritdoc
      */
     public function actionGenerateFromHtml(string $html): array

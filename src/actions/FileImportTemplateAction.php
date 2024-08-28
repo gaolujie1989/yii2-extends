@@ -47,11 +47,8 @@ class FileImportTemplateAction extends Action
     }
 
     /**
-     * @return FileImportForm
-     * @throws ServerErrorHttpException
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\base\NotSupportedException
+     * @throws NotFoundHttpException
+     * @throws \Exception
      * @inheritdoc
      */
     public function run(): void

@@ -10,7 +10,6 @@ use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 use yii\db\Connection;
 use yii\db\Query;
-use yii\db\QueryInterface;
 use yii\di\Instance;
 
 /**
@@ -21,12 +20,12 @@ use yii\di\Instance;
 class QuerySource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {
     /**
-     * @var ?Connection
+     * @var Connection|null
      */
     public $db;
 
     /**
-     * @var Query|QueryInterface
+     * @var Query
      */
     public $query;
 
@@ -42,7 +41,7 @@ class QuerySource extends BaseObject implements BatchSourceInterface, ConditionS
     public function init(): void
     {
         parent::init();
-        if (!($this->query instanceof QueryInterface)) {
+        if (!($this->query instanceof Query)) {
             throw new InvalidConfigException('Query must be a query object');
         }
         if ($this->condition) {

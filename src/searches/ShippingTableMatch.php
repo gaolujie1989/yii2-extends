@@ -68,7 +68,6 @@ class ShippingTableMatch extends ShippingTable
     }
 
     /**
-     * @return Item|null
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

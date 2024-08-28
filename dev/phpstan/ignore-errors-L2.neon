@@ -1,3 +1,5 @@
 parameters:
     ignoreErrors:
-
+        -
+            message: '#Access to an undefined property lujie\\charging\\calculators\\BaseChargeItem::#'
+            path: ../../src/calculators/ChargeTableCalculator.php

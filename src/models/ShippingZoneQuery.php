@@ -70,7 +70,8 @@ class ShippingZoneQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @param false $fillEmpty
+     * @param array $carriers
+     * @param bool $keepEmpty
      * @return array
      * @inheritdoc
      */

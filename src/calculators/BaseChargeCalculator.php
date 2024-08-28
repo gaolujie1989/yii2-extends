@@ -42,8 +42,7 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
 
     /**
      * @param BaseActiveRecord $model
-     * @param string $chargeType
-     * @return CalculatedPrice|null
+     * @return array|CalculatedPrice[]
      * @inheritdoc
      */
     public function calculate(BaseActiveRecord $model): array
@@ -73,7 +72,7 @@ abstract class BaseChargeCalculator extends BaseObject implements ChargeCalculat
 
     /**
      * @param BaseChargeItem $chargeItem
-     * @param ChargePrice $chargePrice
+     * @return CalculatedPrice|null
      * @inheritdoc
      */
     abstract protected function calculateInternal(BaseChargeItem $chargeItem): ?CalculatedPrice;

@@ -62,7 +62,6 @@ class Charger extends Component
 
     /**
      * @param BaseActiveRecord $model
-     * @param bool $force
      * @return array
      * @throws \Throwable
      * @throws \yii\base\InvalidConfigException
@@ -82,7 +81,7 @@ class Charger extends Component
 
         foreach ($chargeEvent->chargeTypes as $chargeType) {
             $chargeCalculator = $this->getChargeCalculator($chargeType);
-            $calculatedPrices = $chargeCalculator->calculate($model, $chargeType);
+            $calculatedPrices = $chargeCalculator->calculate($model);
             foreach ($calculatedPrices as $calculatedPrice) {
                 $calculatedPrice->modelType = $calculatedPrice->modelType ?: $chargeEvent->modelType;
                 $calculatedPrice->chargeModel = $calculatedPrice->chargeModel ?: $model;

@@ -70,7 +70,6 @@ class CalculatedPrice extends BaseObject
      * @param int $priceCent
      * @param string $currency
      * @param BaseActiveRecord|null $priceTable
-     * @param string|null $chargeKey
      * @param string|null $note
      * @return static
      * @inheritdoc
@@ -82,7 +81,7 @@ class CalculatedPrice extends BaseObject
         ?string $note = null,
     ): static
     {
-        $calculatedPrice = new CalculatedPrice();
+        $calculatedPrice = new static();
         $calculatedPrice->priceTable = $priceTable;
         $calculatedPrice->priceCent = $priceCent;
         $calculatedPrice->currency = $currency;
@@ -100,7 +99,7 @@ class CalculatedPrice extends BaseObject
         ?string $note = null,
     ): static
     {
-        $calculatedPrice = new CalculatedPrice();
+        $calculatedPrice = new static();
         $calculatedPrice->note = $note;
         $calculatedPrice->isSuccess = false;
         return $calculatedPrice;

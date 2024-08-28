@@ -33,15 +33,15 @@ class ChargeableItem extends BaseChargeItem
     public $basePriceCent;
 
     /**
-     * @var int
+     * @var string
      */
     public $basePriceCurrency;
 
     /**
-     * @param string $
      * @param int $limitValue
      * @param string $customType
      * @param int|null $chargedAt
+     * @param string|null $itemKey
      * @return static
      * @inheritdoc
      */

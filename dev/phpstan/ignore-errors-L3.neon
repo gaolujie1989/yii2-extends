@@ -1,2 +1,6 @@
 parameters:
     ignoreErrors:
+        -
+            message: "#^Method lujie\\\\otto\\\\api\\\\OttoMarketApi\\:\\:getV3ReceiptPdf\\(\\) should return string but returns array\\.$#"
+            count: 1
+            path: ../../src/api/OttoMarketApi.php

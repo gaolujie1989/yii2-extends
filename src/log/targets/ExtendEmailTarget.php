@@ -89,5 +89,6 @@ class ExtendEmailTarget extends \yii\log\EmailTarget
         if (is_array($text) && isset($text[0])) {
             return $text[0];
         }
+        return 'NoMessage';
     }
 }

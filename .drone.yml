@@ -46,7 +46,6 @@ steps:
       - name: code
         path: /app
     commands:
-      - bash git-clone-exts.sh
       - cd /app/exts/yii2-extend
       - git pull origin master
       - git checkout master

@@ -6,4 +6,4 @@ parameters:
         - */gii/*
         - */tests/*
         - */migrations/*
-        - ../src/db/ActiveRecord.php
+        - */db/ActiveRecord.php

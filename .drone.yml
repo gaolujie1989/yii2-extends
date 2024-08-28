@@ -1,4 +1,3 @@
-#file: noinspection YAMLSchemaValidation
 ---
 kind: pipeline
 type: docker

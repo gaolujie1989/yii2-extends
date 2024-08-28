@@ -16,16 +16,16 @@ volumes:
       path: /home/lujie/.composer-docker/cache
 
 steps:
-#  - name: clone-or-update-template
-#    image: alpine/git:2.45.2
-#    volumes:
-#      - name: code
-#        path: /app
-#    commands:
-#      - cd /app
-#      - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-apps-template .; fi
-#      - git checkout master
-#
+  - name: clone-or-update-template
+    image: alpine/git:2.45.2
+    volumes:
+      - name: code
+        path: /app
+    commands:
+      - cd /app
+      - if [ -d ".git" ]; then git pull origin master; else git clone https://gitee.com/code4dream/yii2-apps-template .; fi
+      - git checkout master
+
 #  - name: composer-install
 #    image: ccr.ccs.tencentyun.com/kiwi/php:8.1.27-apache-24.3.1
 #    volumes:

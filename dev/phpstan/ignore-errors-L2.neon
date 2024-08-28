@@ -1,5 +1,3 @@
 parameters:
     ignoreErrors:
-        - '#Cannot access property \$[\w]+ on array|yii\\db\\ActiveRecord#'
         - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required#'
-        - '#(object|null|BaseActiveRecord) is not subtype of native type#'

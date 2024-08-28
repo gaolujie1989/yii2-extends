@@ -1,0 +1,35 @@
+parameters:
+    ignoreErrors:
+        - '#Cannot access property \$[\w]+ on array|yii\\db\\ActiveRecord#'
+        - '#Call to an undefined method yii\\db\\ActiveQuery#'
+        - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required#'
+        - '#type object is not subtype of native type#'
+        - '#Call to an undefined method yii\\authclient\\OAuth2#'
+        - '#Call to an undefined method lujie\\amazon\\sp\\BaseAmazonSPClient#'
+        - '#Call to an undefined method lujie\\kaufland\\BaseKauflandRestClient#'
+        - '#Unsafe access to private property wawi\\sales\\searches\\WawiSalesDailyArticleSalesStatisticSearch#'
+        -
+            message: "#Access to an undefined property yii\\\\db\\\\BaseActiveRecord#"
+            paths:
+                - ../../modules/amazonAdvertising/src/forms/AmazonAdvertisingKeywordBatchAddForm.php
+                - ../../modules/amazonAdvertising/src/forms/AmazonAdvertisingKeywordBatchForm.php
+                - ../../modules/amazonAdvertising/src/models/AmazonAdvertisingAction.php
+                - ../../modules/ebayAdvertising/src/forms/EbayAdvertisingKeywordBatchAddForm.php
+                - ../../modules/ebayAdvertising/src/forms/EbayAdvertisingKeywordBatchForm.php
+                - ../../modules/ebayAdvertising/src/models/EbayAdvertisingAction.php
+        -
+            message: "#^Comparison operation#"
+            paths:
+                - ../../modules/article/src/exporters/ArticleFileExporter.php
+                - ../../modules/inventory/src/DailyInventoryManager.php
+        -
+            message: "#^Binary operation#"
+            count: 1
+            path: ../../modules/sales/src/loaders/SalesOrderInvoiceDataLoader.php
+        -
+            message: "#^Access to an undefined property lujie\\\\carrier\\\\models\\\\CarrierShippingTracking#"
+            count: 1
+            path: ../../modules/salesAfter/src/tasks/onetime/AfterSalesOrderReturnTrackingUpdateTask.php
+        -
+            message: "#^Access to an undefined property lujie\\\\charging\\\\calculators\\\\BaseChargeItem#"
+            path: ../../modules/charging/src/calculators/PurchaseCostCalculator.php

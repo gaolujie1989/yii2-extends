@@ -1,0 +1,17 @@
+parameters:
+    ignoreErrors:
+        ### LEVEL 1
+        -
+            message: "#^Variable \\$fulfillmentShipper in empty\\(\\) always exists and is always falsy\\.$#"
+            count: 1
+            path: ../../modules/inventory/src/BaseShipmentManager.php
+
+        -
+            message: "#^Variable \\$fulfillmentShipper in empty\\(\\) always exists and is always falsy\\.$#"
+            count: 1
+            path: ../../modules/sales/src/SalesOrderShipmentManager.php
+
+        -
+            message: "#^Variable \\$fulfillmentReturner in empty\\(\\) always exists and is always falsy\\.$#"
+            count: 1
+            path: ../../modules/salesAfter/src/AfterSalesOrderManager.php

@@ -1,0 +1,19 @@
+parameters:
+    ignoreErrors:
+        - '#should return yii\\db\\ActiveQuery but returns yii\\db\\ActiveQueryInterface#'
+        - '#does not accept default value of type (string|array)#'
+        - '#\(string\) does not accept default value of type int#'
+        - '#does not accept (string|array|null)#'
+        - '#\(string\) does not accept (int|float)#'
+        - '#\(string\|null\) does not accept (int|float)#'
+        - '#\(string\) does not accept \(float\|int\)#'
+        - '#Query but returns yii\\db\\ActiveQuery#'
+        - '#Query but returns lujie\\common\\account\\models\\AccountQuery#'
+        - "#Account\\|null but returns array\\|lujie\\\\common\\\\account\\\\models\\\\Account\\|null#"
+        - "#should return lujie\\\\otto\\\\api\\\\OttoMarketApi but returns lujie\\\\otto\\\\BaseOttoRestClient\\|null#"
+        -
+            message: "#^Property lujie\\\\auth\\\\forms\\\\AuthAssignmentForm\\:\\:\\$userClass \\(yii\\\\web\\\\IdentityInterface\\) does not accept class\\-string\\<static\\(kiwi\\\\auth\\\\forms\\\\UserForm\\)\\>\\.$#"
+            path: ../../modules/auth/src/forms/UserForm.php
+        -
+            message: "# is not covariant with PHPDoc type#"
+            path: ../../modules/ebayAdvertising/src/forms/EbayAdvertisingCampaignBatchForm.php

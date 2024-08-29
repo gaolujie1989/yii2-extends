@@ -4,3 +4,4 @@ parameters:
         - bootstrap.php
     excludePaths:
         - */gii/*
+        - */migrations/*

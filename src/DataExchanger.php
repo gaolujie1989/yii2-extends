@@ -39,7 +39,7 @@ class DataExchanger extends BaseObject implements ExecutableInterface, LockableI
     public $source;
 
     /**
-     * @var TransformerInterface|array|null
+     * @var TransformerInterface|array|string|null
      */
     public $transformer;
 

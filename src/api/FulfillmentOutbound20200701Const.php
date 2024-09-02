@@ -7,6 +7,15 @@ namespace lujie\amazon\sp\api;
 */
 class FulfillmentOutbound20200701Const
 {
+        public const DROP_OFF_LOCATION_TYPE_FRONT_DOOR = 'FRONT_DOOR';
+        public const DROP_OFF_LOCATION_TYPE_DELIVERY_BOX = 'DELIVERY_BOX';
+        public const DROP_OFF_LOCATION_TYPE_GAS_METER_BOX = 'GAS_METER_BOX';
+        public const DROP_OFF_LOCATION_TYPE_BICYCLE_BASKET = 'BICYCLE_BASKET';
+        public const DROP_OFF_LOCATION_TYPE_GARAGE = 'GARAGE';
+        public const DROP_OFF_LOCATION_TYPE_RECEPTIONIST = 'RECEPTIONIST';
+        public const DROP_OFF_LOCATION_TYPE_FALLBACK_NEIGHBOR_DELIVERY = 'FALLBACK_NEIGHBOR_DELIVERY';
+        public const DROP_OFF_LOCATION_TYPE_DO_NOT_LEAVE_UNATTENDED = 'DO_NOT_LEAVE_UNATTENDED';
+        
         public const FEE_NAME_F_B_A_PER_UNIT_FULFILLMENT_FEE = 'FBAPerUnitFulfillmentFee';
         public const FEE_NAME_F_B_A_PER_ORDER_FULFILLMENT_FEE = 'FBAPerOrderFulfillmentFee';
         public const FEE_NAME_F_B_A_TRANSPORTATION_FEE = 'FBATransportationFee';
@@ -19,6 +28,10 @@ class FulfillmentOutbound20200701Const
         public const FULFILLMENT_SHIPMENT_FULFILLMENT_SHIPMENT_STATUS_SHIPPED = 'SHIPPED';
         public const FULFILLMENT_SHIPMENT_FULFILLMENT_SHIPMENT_STATUS_CANCELLED_BY_FULFILLER = 'CANCELLED_BY_FULFILLER';
         public const FULFILLMENT_SHIPMENT_FULFILLMENT_SHIPMENT_STATUS_CANCELLED_BY_SELLER = 'CANCELLED_BY_SELLER';
+        
+        public const AMOUNT_UNIT_OF_MEASURE_EACHES = 'Eaches';
+        
+        public const DELIVERY_QUANTITY_UNIT_OF_MEASURE_EACH = 'Each';
         
         public const WEIGHT_UNIT_KG = 'KG';
         public const WEIGHT_UNIT_KILOGRAMS = 'KILOGRAMS';

@@ -136,6 +136,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @param array $data 
      * @return array
      *      - *packages* - array
+     *          - A list of packages.
      */
     public function updateScheduledPackages(array $data): array
     {

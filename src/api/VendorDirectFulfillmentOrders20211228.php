@@ -43,7 +43,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - When true, returns the complete purchase order details. Otherwise, only purchase order numbers are returned.
      * @return Iterator
      *      - *pagination* - 
+     *          - The pagination elements required to retrieve the remaining data.
      *      - *orders* - array
+     *          - Represents a purchase order within the OrderList.
      */
     public function eachOrders(array $query): Iterator
     {
@@ -80,7 +82,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - When true, returns the complete purchase order details. Otherwise, only purchase order numbers are returned.
      * @return Iterator
      *      - *pagination* - 
+     *          - The pagination elements required to retrieve the remaining data.
      *      - *orders* - array
+     *          - Represents a purchase order within the OrderList.
      */
     public function batchOrders(array $query): Iterator
     {
@@ -117,7 +121,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - When true, returns the complete purchase order details. Otherwise, only purchase order numbers are returned.
      * @return array
      *      - *pagination* - 
+     *          - The pagination elements required to retrieve the remaining data.
      *      - *orders* - array
+     *          - Represents a purchase order within the OrderList.
      */
     public function getOrders(array $query): array
     {

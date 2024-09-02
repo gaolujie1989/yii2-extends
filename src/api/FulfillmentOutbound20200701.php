@@ -22,18 +22,41 @@ class FulfillmentOutbound20200701 extends \lujie\amazon\sp\BaseAmazonSPClient
 | ---- | ---- |
 | 2 | 30 |
 
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @tag fbaOutbound
+     * @param array $data 
+     * @return array
+     *      - *payload* - 
+     *          - The response payload for the `getFulfillmentPreview` operation.
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the `getFulfillmentPreview` operation.
+     */
+    public function getFulfillmentPreview(array $data): array
+    {
+        return $this->api("/fba/outbound/2020-07-01/fulfillmentOrders/preview", 'POST', $data);
+    }
+                        
+    /**
+     * @description Returns delivery options that include an estimated delivery date and offer expiration, based on criteria that you specify.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 5 | 30 |
+
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param array $data 
      * @return array
      *      - *payload* - 
-     *          - The response payload for the getFulfillmentPreview operation.
+     *          - The response payload for the getDeliveryOffers operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the getFulfillmentPreview operation.
+     *          - One or more unexpected errors occurred during the getDeliveryOffers operation.
      */
-    public function getFulfillmentPreview(array $data): array
+    public function deliveryOffers(array $data): array
     {
-        return $this->api("/fba/outbound/2020-07-01/fulfillmentOrders/preview", 'POST', $data);
+        return $this->api("/fba/outbound/2020-07-01/deliveryOffers", 'POST', $data);
     }
                     
     /**
@@ -45,7 +68,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
      * @tag fbaOutbound
      * @param array $query
      *      - *queryStartDate* - string - optional
@@ -54,9 +77,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - A string token returned in the response to your previous request.
      * @return Iterator
      *      - *payload* - 
-     *          - The payload for the listAllFulfillmentOrders operation.
+     *          - The payload for the `listAllFulfillmentOrders` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the listAllFulfillmentOrders operation.
+     *          - One or more unexpected errors occurred during the `listAllFulfillmentOrders` operation.
      */
     public function eachtAllFulfillmentOrders(array $query = []): Iterator
     {
@@ -72,7 +95,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
      * @tag fbaOutbound
      * @param array $query
      *      - *queryStartDate* - string - optional
@@ -81,9 +104,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - A string token returned in the response to your previous request.
      * @return Iterator
      *      - *payload* - 
-     *          - The payload for the listAllFulfillmentOrders operation.
+     *          - The payload for the `listAllFulfillmentOrders` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the listAllFulfillmentOrders operation.
+     *          - One or more unexpected errors occurred during the `listAllFulfillmentOrders` operation.
      */
     public function batchtAllFulfillmentOrders(array $query = []): Iterator
     {
@@ -99,7 +122,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
      * @tag fbaOutbound
      * @param array $query
      *      - *queryStartDate* - string - optional
@@ -108,9 +131,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - A string token returned in the response to your previous request.
      * @return array
      *      - *payload* - 
-     *          - The payload for the listAllFulfillmentOrders operation.
+     *          - The payload for the `listAllFulfillmentOrders` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the listAllFulfillmentOrders operation.
+     *          - One or more unexpected errors occurred during the `listAllFulfillmentOrders` operation.
      */
     public function listAllFulfillmentOrders(array $query = []): array
     {
@@ -126,12 +149,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
      * @tag fbaOutbound
      * @param array $data 
      * @return array
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the createFulfillmentOrder operation.
+     *          - One or more unexpected errors occurred during the `createFulfillmentOrder` operation.
      */
     public function createFulfillmentOrder(array $data): array
     {
@@ -147,16 +170,16 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param array $query
      *      - *packageNumber* - integer - required
-     *          - The unencrypted package identifier returned by the getFulfillmentOrder operation.
+     *          - The unencrypted package identifier returned by the `getFulfillmentOrder` operation.
      * @return array
      *      - *payload* - 
-     *          - The payload for the getPackageTrackingDetails operation.
+     *          - The payload for the `getPackageTrackingDetails` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the getPackageTrackingDetails operation.
+     *          - One or more unexpected errors occurred during the `getPackageTrackingDetails` operation.
      */
     public function getPackageTrackingDetails(array $query): array
     {
@@ -172,7 +195,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param array $query
      *      - *sellerSku* - string - required
@@ -181,13 +204,13 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *          - The marketplace for which the seller wants return reason codes.
      *      - *sellerFulfillmentOrderId* - string - optional
      *          - The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
-     *      - *language* - string - required
-     *          - The language that the TranslatedDescription property of the ReasonCodeDetails response object should be translated into.
+     *      - *language* - string - optional
+     *          - The language that the `TranslatedDescription` property of the `ReasonCodeDetails` response object should be translated into.
      * @return array
      *      - *payload* - 
-     *          - The payload for the listReturnReasonCodes operation.
+     *          - The payload for the `listReturnReasonCodes` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the listReturnReasonCodes operation.
+     *          - One or more unexpected errors occurred during the `listReturnReasonCodes` operation.
      */
     public function listReturnReasonCodes(array $query): array
     {
@@ -203,15 +226,15 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
-     * @param string $sellerFulfillmentOrderId An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct SellerFulfillmentOrderId value based on the buyer's request to return items.
+     * @param string $sellerFulfillmentOrderId An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct `SellerFulfillmentOrderId` value based on the buyer's request to return items.
      * @param array $data 
      * @return array
      *      - *payload* - 
-     *          - The payload for the createFulfillmentReturn operation.
+     *          - The payload for the `createFulfillmentReturn` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the createFulfillmentReturn operation.
+     *          - One or more unexpected errors occurred during the `createFulfillmentReturn` operation.
      */
     public function createFulfillmentReturn(string $sellerFulfillmentOrderId, array $data): array
     {
@@ -227,14 +250,14 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param string $sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
      * @return array
      *      - *payload* - 
-     *          - The payload for the getFulfillmentOrder operation.
+     *          - The payload for the `getFulfillmentOrder` operation.
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the getFulfillmentOrder operation.
+     *          - One or more unexpected errors occurred during the `getFulfillmentOrder` operation.
      */
     public function getFulfillmentOrder(string $sellerFulfillmentOrderId): array
     {
@@ -250,13 +273,13 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param string $sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
      * @param array $data 
      * @return array
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the updateFulfillmentOrder operation.
+     *          - One or more unexpected errors occurred during the `updateFulfillmentOrder` operation.
      */
     public function updateFulfillmentOrder(string $sellerFulfillmentOrderId, array $data): array
     {
@@ -272,12 +295,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param string $sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
      * @return array
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the cancelFulfillmentOrder operation.
+     *          - One or more unexpected errors occurred during the `cancelFulfillmentOrder` operation.
      */
     public function cancelFulfillmentOrder(string $sellerFulfillmentOrderId): array
     {
@@ -291,7 +314,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @param array $data 
      * @return array
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the SubmitFulfillmentOrderStatusUpdate operation.
+     *          - One or more unexpected errors occurred during the `SubmitFulfillmentOrderStatusUpdate` operation.
      */
     public function submitFulfillmentOrderStatusUpdate(string $sellerFulfillmentOrderId, array $data): array
     {
@@ -307,7 +330,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param array $query
      *      - *marketplaceId* - string - required
@@ -330,7 +353,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
      * @tag fbaOutbound
      * @param string $featureName The name of the feature for which to return a list of eligible inventory.
      * @param array $query
@@ -341,7 +364,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @return Iterator
      *      - *payload* - 
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the getFeatureInventory operation.
+     *          - One or more unexpected errors occurred during the `getFeatureInventory` operation.
      */
     public function eachFeatureInventory(string $featureName, array $query): Iterator
     {
@@ -357,7 +380,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
      * @tag fbaOutbound
      * @param string $featureName The name of the feature for which to return a list of eligible inventory.
      * @param array $query
@@ -368,7 +391,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @return Iterator
      *      - *payload* - 
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the getFeatureInventory operation.
+     *          - One or more unexpected errors occurred during the `getFeatureInventory` operation.
      */
     public function batchFeatureInventory(string $featureName, array $query): Iterator
     {
@@ -384,7 +407,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
      * @tag fbaOutbound
      * @param string $featureName The name of the feature for which to return a list of eligible inventory.
      * @param array $query
@@ -395,7 +418,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @return array
      *      - *payload* - 
      *      - *errors* - 
-     *          - One or more unexpected errors occurred during the getFeatureInventory operation.
+     *          - One or more unexpected errors occurred during the `getFeatureInventory` operation.
      */
     public function getFeatureInventory(string $featureName, array $query): array
     {
@@ -411,10 +434,10 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 2 | 30 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag fbaOutbound
      * @param string $featureName The name of the feature.
-     * @param string $sellerSku Used to identify an item in the given marketplace. SellerSKU is qualified by the seller's SellerId, which is included with every operation that you submit.
+     * @param string $sellerSku Used to identify an item in the given marketplace. `SellerSKU` is qualified by the seller's `SellerId`, which is included with every operation that you submit.
      * @param array $query
      *      - *marketplaceId* - string - required
      *          - The marketplace for which to return the count.

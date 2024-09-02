@@ -25,6 +25,10 @@ class ListingsItems20210801Const
         public const ISSUE_SEVERITY_WARNING = 'WARNING';
         public const ISSUE_SEVERITY_INFO = 'INFO';
         
+        public const ISSUE_EXEMPTION_STATUS_EXEMPT = 'EXEMPT';
+        public const ISSUE_EXEMPTION_STATUS_EXEMPT_UNTIL_EXPIRY_DATE = 'EXEMPT_UNTIL_EXPIRY_DATE';
+        public const ISSUE_EXEMPTION_STATUS_NOT_EXEMPT = 'NOT_EXEMPT';
+        
         public const ITEM_OFFER_BY_MARKETPLACE_OFFER_TYPE_B2C = 'B2C';
         public const ITEM_OFFER_BY_MARKETPLACE_OFFER_TYPE_B2B = 'B2B';
         
@@ -38,5 +42,6 @@ class ListingsItems20210801Const
         
         public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_ACCEPTED = 'ACCEPTED';
         public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_INVALID = 'INVALID';
+        public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_VALID = 'VALID';
         
 }

@@ -33,11 +33,6 @@ class VendorShipmentsConst
         public const SHIPMENT_SHIPMENT_FREIGHT_TERM_COLLECT = 'Collect';
         public const SHIPMENT_SHIPMENT_FREIGHT_TERM_PREPAID = 'Prepaid';
         
-        public const SHIPMENT_INFORMATION_SHIP_MODE_SMALL_PARCEL = 'SmallParcel';
-        public const SHIPMENT_INFORMATION_SHIP_MODE_LTL = 'LTL';
-        
-        public const LABEL_DATA_LABEL_FORMAT_PDF = 'PDF';
-        
         public const SHIPMENT_STATUS_DETAILS_SHIPMENT_STATUS_CREATED = 'Created';
         public const SHIPMENT_STATUS_DETAILS_SHIPMENT_STATUS_TRANSPORTATION_REQUESTED = 'TransportationRequested';
         public const SHIPMENT_STATUS_DETAILS_SHIPMENT_STATUS_CARRIER_ASSIGNED = 'CarrierAssigned';
@@ -50,6 +45,10 @@ class VendorShipmentsConst
         public const TRANSPORTATION_DETAILS_TRANSPORTATION_MODE_ROAD = 'Road';
         public const TRANSPORTATION_DETAILS_TRANSPORTATION_MODE_AIR = 'Air';
         public const TRANSPORTATION_DETAILS_TRANSPORTATION_MODE_OCEAN = 'Ocean';
+        
+        public const TRANSPORTATION_DETAILS_FOR_SHIPMENT_CONFIRMATION_TRANSPORTATION_MODE_ROAD = 'Road';
+        public const TRANSPORTATION_DETAILS_FOR_SHIPMENT_CONFIRMATION_TRANSPORTATION_MODE_AIR = 'Air';
+        public const TRANSPORTATION_DETAILS_FOR_SHIPMENT_CONFIRMATION_TRANSPORTATION_MODE_OCEAN = 'Ocean';
         
         public const IMPORT_DETAILS_METHOD_OF_PAYMENT_PAID_BY_BUYER = 'PaidByBuyer';
         public const IMPORT_DETAILS_METHOD_OF_PAYMENT_COLLECT_ON_DELIVERY = 'CollectOnDelivery';
@@ -101,9 +100,6 @@ class VendorShipmentsConst
         
         public const ITEM_QUANTITY_UNIT_OF_MEASURE_CASES = 'Cases';
         public const ITEM_QUANTITY_UNIT_OF_MEASURE_EACHES = 'Eaches';
-        
-        public const PACKED_QUANTITY_UNIT_OF_MEASURE_CASES = 'Cases';
-        public const PACKED_QUANTITY_UNIT_OF_MEASURE_EACHES = 'Eaches';
         
         public const DURATION_DURATION_UNIT_DAYS = 'Days';
         public const DURATION_DURATION_UNIT_MONTHS = 'Months';

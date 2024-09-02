@@ -20,28 +20,6 @@ class MerchantFulfillmentV0 extends \lujie\amazon\sp\BaseAmazonSPClient
 
 | Rate (requests per second) | Burst |
 | ---- | ---- |
-| 1 | 1 |
-
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag merchantFulfillment
-     * @param array $data 
-     * @return array
-     *      - *payload* - 
-     *      - *errors* - 
-     *          - One or more unexpected errors occurred during this operation.
-     */
-    public function getEligibleShipmentServicesOld(array $data): array
-    {
-        return $this->api("/mfn/v0/eligibleServices", 'POST', $data);
-    }
-                    
-    /**
-     * @description Returns a list of shipping service offers that satisfy the specified shipment request details.
-
-**Usage Plan:**
-
-| Rate (requests per second) | Burst |
-| ---- | ---- |
 | 5 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
@@ -104,29 +82,6 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
                     
     /**
-     * @description Cancel the shipment indicated by the specified shipment identifer.
-
-**Usage Plan:**
-
-| Rate (requests per second) | Burst |
-| ---- | ---- |
-| 1 | 1 |
-
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag merchantFulfillment
-     * @param string $shipmentId The Amazon-defined shipment identifier for the shipment to cancel.
-     * @return array
-     *      - *payload* - 
-     *          - The payload for the cancelShipment operation.
-     *      - *errors* - 
-     *          - One or more unexpected errors occurred during the cancelShipment operation.
-     */
-    public function cancelShipmentOld(string $shipmentId): array
-    {
-        return $this->api("/mfn/v0/shipments/{$shipmentId}/cancel", 'PUT');
-    }
-                    
-    /**
      * @description Create a shipment with the information provided.
 
 **Usage Plan:**
@@ -147,27 +102,6 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     public function createShipment(array $data): array
     {
         return $this->api("/mfn/v0/shipments", 'POST', $data);
-    }
-                    
-    /**
-     * @description Get a list of additional seller inputs required for a ship method. This is generally used for international shipping.
-
-**Usage Plan:**
-
-| Rate (requests per second) | Burst |
-| ---- | ---- |
-| 1 | 1 |
-
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag merchantFulfillment
-     * @param array $data 
-     * @return array
-     *      - *payload* - 
-     *      - *errors* - 
-     */
-    public function getAdditionalSellerInputsOld(array $data): array
-    {
-        return $this->api("/mfn/v0/sellerInputs", 'POST', $data);
     }
                     
     /**

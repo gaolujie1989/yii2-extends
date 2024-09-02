@@ -19,6 +19,7 @@ class VendorDirectFulfillmentSandboxData20211028 extends \lujie\amazon\sp\BaseAm
      * @param array $data 
      * @return array
      *      - *transactionId* - string
+     *          - A GUID (Globally Unique Identifier) assigned by Amazon to uniquely identify the transaction.
      */
     public function generateOrderScenarios(array $data): array
     {
@@ -26,9 +27,9 @@ class VendorDirectFulfillmentSandboxData20211028 extends \lujie\amazon\sp\BaseAm
     }
                     
     /**
-     * @description Returns the status of the transaction indicated by the specified transactionId. If the transaction was successful, also returns the requested test order data.
+     * @description Retrieves the transaction status identified by the specified `transactionId`, and returns the requested test order data if the transaction is successful.
      * @tag vendorDFSandboxtransactionstatus
-     * @param string $transactionId The transaction identifier returned in the response to the generateOrderScenarios operation.
+     * @param string $transactionId The transaction identifier returned in the response for the `generateOrderScenarios` operation.
      * @return array
      *      - *transactionStatus* - 
      */

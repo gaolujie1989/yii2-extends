@@ -90,6 +90,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @return array
      *      - *asin* - 
      *      - *attributes* - 
+     *      - *classifications* - 
      *      - *dimensions* - 
      *      - *identifiers* - 
      *      - *images* - 

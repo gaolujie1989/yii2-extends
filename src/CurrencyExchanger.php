@@ -45,7 +45,9 @@ class CurrencyExchanger extends BaseObject
         $query = CurrencyExchangeRate::find()
             ->fromTo($from, $to)
             ->beforeDate($date)
-            ->orderByDate(SORT_DESC);
+            ->orderByDate(SORT_DESC)
+            ->limit(1)
+            ->cache();
         return $query->getRate() ?: null;
     }
 

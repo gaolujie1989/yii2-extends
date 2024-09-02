@@ -29,7 +29,7 @@
         "tags": [
           "vendorOrders"
         ],
-        "description": "Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the createdAfter, createdBefore, changedAfter and changedBefore parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting includeDetails to false. You can then use the getPurchaseOrder operation to receive details for a specific purchase order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getPurchaseOrders",
         "parameters": [
           {
@@ -255,11 +255,13 @@
                         "isBackOrderAllowed": true,
                         "netCost": {
                           "amount": "1800",
-                          "currencyCode": "INR"
+                          "currencyCode": "INR",
+                          "unitOfMeasure": "POUNDS"
                         },
                         "listPrice": {
                           "amount": "2000",
-                          "currencyCode": "INR"
+                          "currencyCode": "INR",
+                          "unitOfMeasure": "POUNDS"
                         }
                       }
                     ]
@@ -430,11 +432,13 @@
                                 "isBackOrderAllowed": true,
                                 "netCost": {
                                   "amount": "94.97",
-                                  "currencyCode": "USD"
+                                  "currencyCode": "USD",
+                                  "unitOfMeasure": "POUNDS"
                                 },
                                 "listPrice": {
                                   "amount": "94.97",
-                                  "currencyCode": "USD"
+                                  "currencyCode": "USD",
+                                  "unitOfMeasure": "POUNDS"
                                 }
                               }
                             ]
@@ -985,7 +989,8 @@
                                 "isBackOrderAllowed": true,
                                 "netCost": {
                                   "amount": "94.97",
-                                  "currencyCode": "INR"
+                                  "currencyCode": "INR",
+                                  "unitOfMeasure": "POUNDS"
                                 }
                               }
                             ]
@@ -1153,7 +1158,7 @@
         "tags": [
           "vendorOrders"
         ],
-        "description": "Returns a purchase order based on the purchaseOrderNumber value that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns a purchase order based on the `purchaseOrderNumber` value that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getPurchaseOrder",
         "parameters": [
           {
@@ -1558,7 +1563,7 @@
         "tags": [
           "vendorOrders"
         ],
-        "description": "Submits acknowledgements for one or more purchase orders.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Submits acknowledgements for one or more purchase orders.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "submitAcknowledgement",
         "parameters": [
           {
@@ -1566,51 +1571,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SubmitAcknowledgementRequest",
-              "example": {
-                "acknowledgements": [
-                  {
-                    "purchaseOrderNumber": "L8266355",
-                    "sellingParty": {
-                      "partyId": "999US"
-                    },
-                    "acknowledgementDate": "2019-07-17T19:17:34.304Z",
-                    "items": [
-                      {
-                        "itemSequenceNumber": "1",
-                        "amazonProductIdentifier": "ABC123434",
-                        "vendorProductIdentifier": "028877454078",
-                        "orderedQuantity": {
-                          "amount": 10,
-                          "unitOfMeasure": "Cases"
-                        },
-                        "netCost": {
-                          "currencyCode": "USD",
-                          "amount": "18.0"
-                        },
-                        "listPrice": {
-                          "currencyCode": "USD",
-                          "amount": "22.2"
-                        },
-                        "discountMultiplier": "0.44",
-                        "itemAcknowledgements": [
-                          {
-                            "acknowledgementCode": "Rejected",
-                            "acknowledgedQuantity": {
-                              "amount": 6,
-                              "unitOfMeasure": "Cases",
-                              "unitSize": 2
-                            },
-                            "scheduledShipDate": "2019-07-17T19:17:34.304Z",
-                            "scheduledDeliveryDate": "2019-07-17T19:17:34.304Z",
-                            "rejectionReason": "TemporarilyUnavailable"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
+              "$ref": "#/definitions/SubmitAcknowledgementRequest"
             }
           }
         ],
@@ -1862,7 +1823,7 @@
         "tags": [
           "vendorOrders"
         ],
-        "description": "Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 10 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getPurchaseOrdersStatus",
         "parameters": [
           {
@@ -3299,11 +3260,11 @@
           "description": "When true, we will accept backorder confirmations for this item."
         },
         "netCost": {
-          "description": "The price to Amazon each (cost).",
+          "description": "The net cost of an item per each or weight unit.",
           "$ref": "#/definitions/Money"
         },
         "listPrice": {
-          "description": "The price to Amazon each (list).",
+          "description": "The list price of an item per each or weight unit.",
           "$ref": "#/definitions/Money"
         }
       }
@@ -3318,9 +3279,37 @@
         },
         "amount": {
           "$ref": "#/definitions/Decimal"
+        },
+        "unitOfMeasure": {
+          "type": "string",
+          "description": "The unit of measure for prices of items sold by weight. If this field is absent, the item is sold by eaches.",
+          "enum": [
+            "POUNDS",
+            "OUNCES",
+            "GRAMS",
+            "KILOGRAMS"
+          ],
+          "x-docgen-enum-table-extension": [
+            {
+              "value": "POUNDS",
+              "description": "Priced per Pound."
+            },
+            {
+              "value": "OUNCES",
+              "description": "Priced per Ounce."
+            },
+            {
+              "value": "GRAMS",
+              "description": "Priced per Gram."
+            },
+            {
+              "value": "KILOGRAMS",
+              "description": "Priced per Kilogram."
+            }
+          ]
         }
       },
-      "description": "An amount of money, including units in the form of currency."
+      "description": "An amount of money. Includes the currency code and an optional unit of measure for items priced by weight."
     },
     "Decimal": {
       "type": "string",
@@ -3422,11 +3411,11 @@
           "$ref": "#/definitions/ItemQuantity"
         },
         "netCost": {
-          "description": "The cost to Amazon, which should match the cost on the invoice. This is a required field. If this is left blank the file will reject in Amazon systems. Price information should not be zero or negative. Indicates a net unit price.",
+          "description": "The net cost of an item per each or weight unit that must match the cost on the invoice. This is a required field. If left blank, Amazon systems will reject the file. Price information must not be zero or negative.",
           "$ref": "#/definitions/Money"
         },
         "listPrice": {
-          "description": "The list price. This is required only if a vendor sells books with a list price.",
+          "description": "The list price of an item per each or weight unit. Required only if a vendor sells books at list price.",
           "$ref": "#/definitions/Money"
         },
         "discountMultiplier": {
@@ -3655,11 +3644,11 @@
           "description": "The vendor selected product identification of the item."
         },
         "netCost": {
-          "description": "The net cost to Amazon each (cost).",
+          "description": "The net cost of an item per each or weight unit.",
           "$ref": "#/definitions/Money"
         },
         "listPrice": {
-          "description": "The list Price to Amazon each (list).",
+          "description": "The list price of an item per each or weight unit.",
           "$ref": "#/definitions/Money"
         },
         "orderedQuantity": {

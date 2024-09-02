@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API only supports orders that are less than two years old. Orders more than two years old will not show in the API response.",
+    "description": "The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API supports orders that are two years old or less. Orders more than two years old will not show in the API response.\n\n**Note:** The Orders API supports orders from 2016 and after for the JP, AU, and SG marketplaces.",
     "version": "v0",
     "title": "Selling Partner API for Orders",
     "contact": {
@@ -29,34 +29,34 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 20 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 20 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrders",
         "parameters": [
           {
             "name": "CreatedAfter",
             "in": "query",
-            "description": "A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.",
+            "description": "A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.\n\n**Note**: Either the `CreatedAfter` parameter or the `LastUpdatedAfter` parameter is required. You could specify `CreatedBefore` but not provide `LastUpdatedAfter` or `LastUpdatedBefore` when `CreatedAfter` is specified.",
             "required": false,
             "type": "string"
           },
           {
             "name": "CreatedBefore",
             "in": "query",
-            "description": "A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.",
+            "description": "A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.\n\n**Note**: `CreatedBefore` is optional when `CreatedAfter` is specified. But if specified, `CreatedBefore` should be equal to or after the `CreatedAfter` date and at least 2 minutes before the current time.",
             "required": false,
             "type": "string"
           },
           {
             "name": "LastUpdatedAfter",
             "in": "query",
-            "description": "A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.",
+            "description": "A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.\n\n**Note**: `LastUpdatedBefore` is optional when `LastUpdatedAfter` is specified. But if specified, `LastUpdatedBefore` should be equal to or after the `LastUpdatedAfter` date and at least 2 minutes before current time.",
             "required": false,
             "type": "string"
           },
           {
             "name": "LastUpdatedBefore",
             "in": "query",
-            "description": "A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.",
+            "description": "A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.\n\n**Note**: LastUpdatedBefore is optional when LastUpdatedAfter is set. But if specified, LastUpdatedBefore should be equal to or after the LastUpdatedAfter date and at least 2 minutes before current time.",
             "required": false,
             "type": "string"
           },
@@ -73,7 +73,7 @@
           {
             "name": "MarketplaceIds",
             "in": "query",
-            "description": "A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.\n\nSee the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.",
+            "description": "A list of `MarketplaceId` values. Used to select orders that were placed in the specified marketplaces.\n\nRefer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of `MarketplaceId` values.",
             "required": true,
             "type": "array",
             "items": {
@@ -84,7 +84,7 @@
           {
             "name": "FulfillmentChannels",
             "in": "query",
-            "description": "A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: AFN (Fulfillment by Amazon); MFN (Fulfilled by the seller).",
+            "description": "A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. \n\n**Possible values**: `AFN` (Fulfillment by Amazon); `MFN` (Fulfilled by the seller).",
             "required": false,
             "type": "array",
             "items": {
@@ -94,7 +94,7 @@
           {
             "name": "PaymentMethods",
             "in": "query",
-            "description": "A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).",
+            "description": "A list of payment method values. Used to select orders paid using the specified payment methods.\n\n**Possible values**: `COD` (Cash on delivery); `CVS` (Convenience store payment); `Other` (Any payment method other than `COD` or `CVS`).",
             "required": false,
             "type": "array",
             "items": {
@@ -178,6 +178,34 @@
             "name": "StoreChainStoreId",
             "in": "query",
             "description": "The store chain store identifier. Linked to a specific store in a store chain.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "EarliestDeliveryDateBefore",
+            "in": "query",
+            "description": "A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "EarliestDeliveryDateAfter",
+            "in": "query",
+            "description": "A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "LatestDeliveryDateBefore",
+            "in": "query",
+            "description": "A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "LatestDeliveryDateAfter",
+            "in": "query",
+            "description": "A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.",
             "required": false,
             "type": "string"
           }
@@ -535,10 +563,6 @@
               "$ref": "#/definitions/GetOrdersResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -551,10 +575,6 @@
               "$ref": "#/definitions/GetOrdersResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -567,10 +587,6 @@
               "$ref": "#/definitions/GetOrdersResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -585,7 +601,7 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 20 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrder",
         "parameters": [
           {
@@ -879,10 +895,6 @@
               "$ref": "#/definitions/GetOrderResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -895,10 +907,6 @@
               "$ref": "#/definitions/GetOrderResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -911,10 +919,6 @@
               "$ref": "#/definitions/GetOrderResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -929,13 +933,13 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns buyer information for the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 20 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns buyer information for the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrderBuyerInfo",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "An orderId is an Amazon-defined order identifier, in 3-7-7 format.",
+            "description": "An `orderId` is an Amazon-defined order identifier, in 3-7-7 format.",
             "required": true,
             "type": "string"
           }
@@ -1061,10 +1065,6 @@
               "$ref": "#/definitions/GetOrderBuyerInfoResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1077,10 +1077,6 @@
               "$ref": "#/definitions/GetOrderBuyerInfoResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1093,10 +1089,6 @@
               "$ref": "#/definitions/GetOrderBuyerInfoResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1111,13 +1103,13 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns the shipping address for the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 20 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns the shipping address for the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrderAddress",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "An orderId is an Amazon-defined order identifier, in 3-7-7 format.",
+            "description": "An `orderId` is an Amazon-defined order identifier, in 3-7-7 format.",
             "required": true,
             "type": "string"
           }
@@ -1253,10 +1245,6 @@
               "$ref": "#/definitions/GetOrderAddressResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1269,10 +1257,6 @@
               "$ref": "#/definitions/GetOrderAddressResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1285,10 +1269,6 @@
               "$ref": "#/definitions/GetOrderAddressResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1303,7 +1283,7 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns detailed order item information for the order that you specify. If NextToken is provided, it's used to retrieve the next page of order items.\n\n__Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns detailed order item information for the order that you specify. If `NextToken` is provided, it's used to retrieve the next page of order items.\n\n**Note**: When an order is in the Pending state (the order has been placed but payment has not been authorized), the `getOrderItems` operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the `Unshipped`, `Partially Shipped`, or `Shipped` state, the `getOrderItems` operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrderItems",
         "parameters": [
           {
@@ -1378,7 +1358,7 @@
                         "GiftWrapLevel": "Classic"
                       },
                       "BuyerRequestedCancel": {
-                        "IsBuyerRequestedCancel": true,
+                        "IsBuyerRequestedCancel": "true",
                         "BuyerCancelReason": "Found cheaper somewhere else."
                       },
                       "SerialNumbers": ["854"]
@@ -1412,7 +1392,7 @@
                         "GiftWrapLevel": "Classic"
                       },
                       "BuyerRequestedCancel": {
-                        "IsBuyerRequestedCancel": true,
+                        "IsBuyerRequestedCancel": "true",
                         "BuyerCancelReason": "Found cheaper somewhere else."
                       }
                     }
@@ -1452,7 +1432,7 @@
                         "QuantityOrdered": 1,
                         "QuantityShipped": 0,
                         "ProductInfo": {
-                          "NumberOfItems": 1
+                          "NumberOfItems": "1"
                         },
                         "ItemPrice": {
                           "CurrencyCode": "USD",
@@ -1466,7 +1446,7 @@
                           "CurrencyCode": "USD",
                           "Amount": "0.00"
                         },
-                        "IsGift": false,
+                        "IsGift": "false",
                         "ConditionId": "New",
                         "ConditionSubtypeId": "New",
                         "IsTransparency": false,
@@ -1475,7 +1455,7 @@
                         "DeemedResellerCategory": "IOSS",
                         "StoreChainStoreId": "ISPU_StoreId",
                         "BuyerRequestedCancel": {
-                          "IsBuyerRequestedCancel": true,
+                          "IsBuyerRequestedCancel": "true",
                           "BuyerCancelReason": "Found cheaper somewhere else."
                         }
                       }
@@ -1557,10 +1537,6 @@
               "$ref": "#/definitions/GetOrderItemsResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1573,10 +1549,6 @@
               "$ref": "#/definitions/GetOrderItemsResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1589,10 +1561,6 @@
               "$ref": "#/definitions/GetOrderItemsResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1607,7 +1575,7 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns buyer information for the order items in the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns buyer information for the order items in the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrderItemsBuyerInfo",
         "parameters": [
           {
@@ -1760,10 +1728,6 @@
               "$ref": "#/definitions/GetOrderItemsBuyerInfoResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1776,10 +1740,6 @@
               "$ref": "#/definitions/GetOrderItemsBuyerInfoResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1792,10 +1752,6 @@
               "$ref": "#/definitions/GetOrderItemsBuyerInfoResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -1810,7 +1766,7 @@
         "tags": [
           "shipment"
         ],
-        "description": "Update the shipment status for an order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 15 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Update the shipment status for an order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 15 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "updateShipmentStatus",
         "parameters": [
           {
@@ -1823,7 +1779,7 @@
           {
             "name": "payload",
             "in": "body",
-            "description": "The request body for the updateShipmentStatus operation.",
+            "description": "The request body for the `updateShipmentStatus` operation.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/UpdateShipmentStatusRequest"
@@ -1991,13 +1947,13 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Returns regulated information for the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Returns regulated information for the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getOrderRegulatedInfo",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "An orderId is an Amazon-defined order identifier, in 3-7-7 format.",
+            "description": "An Amazon-defined order identifier, in 3-7-7 format.",
             "required": true,
             "type": "string"
           }
@@ -2283,20 +2239,20 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Updates (approves or rejects) the verification status of an order containing regulated products.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Updates (approves or rejects) the verification status of an order containing regulated products.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "updateVerificationStatus",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "An orderId is an Amazon-defined order identifier, in 3-7-7 format.",
+            "description": "An Amazon-defined order identifier, in 3-7-7 format.",
             "required": true,
             "type": "string"
           },
           {
             "name": "payload",
             "in": "body",
-            "description": "The request body for the updateVerificationStatus operation.",
+            "description": "The request body for the `updateVerificationStatus` operation.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/UpdateVerificationStatusRequest"
@@ -2509,7 +2465,7 @@
         "tags": [
           "ordersV0"
         ],
-        "description": "Updates the shipment confirmation status for a specified order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 2 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).",
+        "description": "Updates the shipment confirmation status for a specified order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 2 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "confirmShipment",
         "parameters": [
           {
@@ -2522,7 +2478,7 @@
           {
             "name": "payload",
             "in": "body",
-            "description": "Request body of confirmShipment.",
+            "description": "The request body of the `confirmShipment` operation.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/ConfirmShipmentRequest"
@@ -2647,10 +2603,6 @@
               "$ref": "#/definitions/ConfirmShipmentErrorResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -2691,10 +2643,6 @@
               "$ref": "#/definitions/ConfirmShipmentErrorResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -2707,10 +2655,6 @@
               "$ref": "#/definitions/ConfirmShipmentErrorResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -2723,10 +2667,6 @@
               "$ref": "#/definitions/ConfirmShipmentErrorResponse"
             },
             "headers": {
-              "x-amzn-RateLimit-Limit": {
-                "type": "string",
-                "description": "Your rate limit (requests per second) for this operation.\n_Note:_ For this status code, the rate limit header is deprecated and no longer returned."
-              },
               "x-amzn-RequestId": {
                 "type": "string",
                 "description": "Unique request reference identifier."
@@ -2739,7 +2679,7 @@
   },
   "definitions": {
     "UpdateShipmentStatusRequest": {
-      "description": "The request body for the updateShipmentStatus operation.",
+      "description": "The request body for the `updateShipmentStatus` operation.",
       "type": "object",
       "properties": {
         "marketplaceId": {
@@ -2758,11 +2698,11 @@
       ]
     },
     "UpdateVerificationStatusRequest": {
-      "description": "The request body for the updateVerificationStatus operation.",
+      "description": "The request body for the `updateVerificationStatus` operation.",
       "type": "object",
       "properties": {
         "regulatedOrderVerificationStatus": {
-          "description": "The updated values of the VerificationStatus field.",
+          "description": "The updated values of the `VerificationStatus` field.",
           "$ref": "#/definitions/UpdateVerificationStatusRequestBody"
         }
       },
@@ -2771,7 +2711,7 @@
       ]
     },
     "UpdateVerificationStatusRequestBody": {
-      "description": "The updated values of the VerificationStatus field.",
+      "description": "The updated values of the `VerificationStatus` field.",
       "type": "object",
       "properties": {
         "status": {
@@ -2840,119 +2780,119 @@
       "type": "object",
       "properties": {
         "errors": {
-          "description": "One or more unexpected errors occurred during the UpdateShipmentStatus operation.",
+          "description": "One or more unexpected errors occurred during the `UpdateShipmentStatus` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The error response schema for the UpdateShipmentStatus operation."
+      "description": "The error response schema for the `UpdateShipmentStatus` operation."
     },
     "UpdateVerificationStatusErrorResponse": {
       "type": "object",
       "properties": {
         "errors": {
-          "description": "One or more unexpected errors occurred during the UpdateVerificationStatus operation.",
+          "description": "One or more unexpected errors occurred during the `UpdateVerificationStatus` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The error response schema for the UpdateVerificationStatus operation."
+      "description": "The error response schema for the `UpdateVerificationStatus` operation."
     },
     "GetOrdersResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrders operation.",
+          "description": "The payload for the `getOrders` operation.",
           "$ref": "#/definitions/OrdersList"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrders operation.",
+          "description": "One or more unexpected errors occurred during the `getOrders` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrders operation."
+      "description": "The response schema for the `getOrders` operation."
     },
     "GetOrderResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrder operation.",
+          "description": "The payload for the `getOrder` operation.",
           "$ref": "#/definitions/Order"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrder operation.",
+          "description": "One or more unexpected errors occurred during the `getOrder` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrder operation."
+      "description": "The response schema for the `getOrder` operation."
     },
     "GetOrderBuyerInfoResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrderBuyerInfo operation.",
+          "description": "The payload for the `getOrderBuyerInfo` operation.",
           "$ref": "#/definitions/OrderBuyerInfo"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrderBuyerInfo operation.",
+          "description": "One or more unexpected errors occurred during the `getOrderBuyerInfo` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrderBuyerInfo operation."
+      "description": "The response schema for the `getOrderBuyerInfo` operation."
     },
     "GetOrderRegulatedInfoResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrderRegulatedInfo operation.",
+          "description": "The payload for the `getOrderRegulatedInfo` operation.",
           "$ref": "#/definitions/OrderRegulatedInfo"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrderRegulatedInfo operation.",
+          "description": "One or more unexpected errors occurred during the `getOrderRegulatedInfo` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrderRegulatedInfo operation."
+      "description": "The response schema for the `getOrderRegulatedInfo` operation."
     },
     "GetOrderAddressResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrderAddress operations.",
+          "description": "The payload for the `getOrderAddress` operations.",
           "$ref": "#/definitions/OrderAddress"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrderAddress operation.",
+          "description": "One or more unexpected errors occurred during the `getOrderAddress` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrderAddress operation."
+      "description": "The response schema for the `getOrderAddress` operation."
     },
     "GetOrderItemsResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrderItems operation.",
+          "description": "The payload for the `getOrderItems` operation.",
           "$ref": "#/definitions/OrderItemsList"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrderItems operation.",
+          "description": "One or more unexpected errors occurred during the `getOrderItems` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrderItems operation."
+      "description": "The response schema for the `getOrderItems` operation."
     },
     "GetOrderItemsBuyerInfoResponse": {
       "type": "object",
       "properties": {
         "payload": {
-          "description": "The payload for the getOrderItemsBuyerInfo operation.",
+          "description": "The payload for the `getOrderItemsBuyerInfo` operation.",
           "$ref": "#/definitions/OrderItemsBuyerInfoList"
         },
         "errors": {
-          "description": "One or more unexpected errors occurred during the getOrderItemsBuyerInfo operation.",
+          "description": "One or more unexpected errors occurred during the `getOrderItemsBuyerInfo` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       },
-      "description": "The response schema for the getOrderItemsBuyerInfo operation."
+      "description": "The response schema for the `getOrderItemsBuyerInfo` operation."
     },
     "OrdersList": {
       "type": "object",
@@ -2969,11 +2909,11 @@
         },
         "LastUpdatedBefore": {
           "type": "string",
-          "description": "A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. All dates must be in ISO 8601 format."
+          "description": "A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. All dates must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format."
         },
         "CreatedBefore": {
           "type": "string",
-          "description": "A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format."
+          "description": "A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format."
         }
       },
       "description": "A list of orders along with additional information to make subsequent API calls."
@@ -3008,7 +2948,7 @@
         },
         "LastUpdateDate": {
           "type": "string",
-          "description": "The date when the order was last updated.\n\n__Note__: LastUpdateDate is returned with an incorrect date for orders that were last updated before 2009-04-01."
+          "description": "The date when the order was last updated.\n\n**Note**: `LastUpdateDate` is returned with an incorrect date for orders that were last updated before 2009-04-01."
         },
         "OrderStatus": {
           "type": "string",
@@ -3101,12 +3041,12 @@
           "description": "The number of items unshipped."
         },
         "PaymentExecutionDetail": {
-          "description": "Information about sub-payment methods for a Cash On Delivery (COD) order.\n\n__Note__: For a COD order that is paid for using one sub-payment method, one PaymentExecutionDetailItem object is returned, with PaymentExecutionDetailItem/PaymentMethod = COD. For a COD order that is paid for using multiple sub-payment methods, two or more PaymentExecutionDetailItem objects are returned.",
+          "description": "Information about sub-payment methods for a Cash On Delivery (COD) order.\n\n**Note**: For a COD order that is paid for using one sub-payment method, one `PaymentExecutionDetailItem` object is returned, with `PaymentExecutionDetailItem`/`PaymentMethod` = COD. For a COD order that is paid for using multiple sub-payment methods, two or more `PaymentExecutionDetailItem` objects are returned.",
           "$ref": "#/definitions/PaymentExecutionDetailItemList"
         },
         "PaymentMethod": {
           "type": "string",
-          "description": "The payment method for the order. This property is limited to Cash On Delivery (COD) and Convenience Store (CVS) payment methods. Unless you need the specific COD payment information provided by the PaymentExecutionDetailItem object, we recommend using the PaymentMethodDetails property to get payment method information.",
+          "description": "The payment method for the order. This property is limited to Cash On Delivery (COD) and Convenience Store (CVS) payment methods. Unless you need the specific COD payment information provided by the `PaymentExecutionDetailItem` object, we recommend using the `PaymentMethodDetails` property to get payment method information.",
           "enum": [
             "COD",
             "CVS",
@@ -3137,7 +3077,7 @@
         },
         "ShipmentServiceLevelCategory": {
           "type": "string",
-          "description": "The shipment service level category of the order.\n\nPossible values: Expedited, FreeEconomy, NextDay, Priority, SameDay, SecondDay, Scheduled, Standard."
+          "description": "The shipment service level category of the order.\n\n**Possible values**: `Expedited`, `FreeEconomy`, `NextDay`, `Priority`, `SameDay`, `SecondDay`, `Scheduled`, `Standard`."
         },
         "EasyShipShipmentStatus": {
           "description": "The status of the Amazon Easy Ship order. This property is included only for Amazon Easy Ship orders.",
@@ -3182,19 +3122,19 @@
         },
         "EarliestShipDate": {
           "type": "string",
-          "description": "The start of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.\n\n__Note__: EarliestShipDate might not be returned for orders placed before February 1, 2013."
+          "description": "The start of the time period within which you have committed to ship the order. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders.\n\n**Note**: `EarliestShipDate` might not be returned for orders placed before February 1, 2013."
         },
         "LatestShipDate": {
           "type": "string",
-          "description": "The end of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.\n\n__Note__: LatestShipDate might not be returned for orders placed before February 1, 2013."
+          "description": "The end of the time period within which you have committed to ship the order. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders.\n\n**Note**: `LatestShipDate` might not be returned for orders placed before February 1, 2013."
         },
         "EarliestDeliveryDate": {
           "type": "string",
-          "description": "The start of the time period within which you have committed to fulfill the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders."
+          "description": "The start of the time period within which you have committed to fulfill the order. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders."
         },
         "LatestDeliveryDate": {
           "type": "string",
-          "description": "The end of the time period within which you have committed to fulfill the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders that do not have a PendingAvailability, Pending, or Canceled status."
+          "description": "The end of the time period within which you have committed to fulfill the order. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders that do not have a `PendingAvailability`, Pending, or Canceled status."
         },
         "IsBusinessOrder": {
           "type": "boolean",
@@ -3214,7 +3154,7 @@
         },
         "ReplacedOrderId": {
           "type": "string",
-          "description": "The order ID value for the order that is being replaced. Returned only if IsReplacementOrder = true."
+          "description": "The order ID value for the order that is being replaced. Returned only if `IsReplacementOrder` = true."
         },
         "IsReplacementOrder": {
           "type": "boolean",
@@ -3226,7 +3166,7 @@
         },
         "IsEstimatedShipDateSet": {
           "type": "boolean",
-          "description": "When true, the estimated ship date is set for the order. Returned only for Sourcing on Demand orders."
+          "description": "When true, the estimated ship date is specified for the order. Returned only for Sourcing on Demand orders."
         },
         "IsSoldByAB": {
           "type": "boolean",
@@ -3253,13 +3193,13 @@
             },
             {
               "value": "BUSINESS",
-              "description": "Buyer should be issued a business invoice. Tax information is available in BuyerTaxInformation structure."
+              "description": "Buyer should be issued a business invoice. Tax information is available in `BuyerTaxInformation` structure."
             }
           ],
-          "description": "The buyer's invoicing preference. Available only in the TR marketplace."
+          "description": "The buyer's invoicing preference. Sellers can use this data to issue electronic invoices for orders in Turkey.\n\n**Note**: This attribute is only available in the Turkey marketplace."
         },
         "BuyerTaxInformation": {
-          "description": "Contains the business invoice tax information.",
+          "description": "Contains the business invoice tax information. Sellers can use this data to issue electronic invoices for business orders in Turkey.\n\n**Note**:\n1. This attribute is only available in the Turkey marketplace for the orders that `BuyerInvoicePreference` is BUSINESS.\n2. The `BuyerTaxInformation` is a restricted data. Use a Restricted Data Token (RDT) and restricted Selling Partner API roles to access this restricted data.",
           "$ref": "#/definitions/BuyerTaxInformation"
         },
         "FulfillmentInstruction": {
@@ -3275,17 +3215,19 @@
           "description": "When true, this order is marked to be delivered to an Access Point. The access location is chosen by the customer. Access Points include Amazon Hub Lockers, Amazon Hub Counters, and pickup points operated by carriers."
         },
         "MarketplaceTaxInfo": {
-          "description": "Tax information about the marketplace.",
+          "description": "Tax information about the marketplace where the sale took place. Sellers can use this data to issue electronic invoices for orders in Brazil.\n\n**Note**: This attribute is only available in the Brazil marketplace for the orders with `Pending` or `Unshipped` status.",
           "$ref": "#/definitions/MarketplaceTaxInfo"
         },
         "SellerDisplayName": {
           "type": "string",
-          "description": "The seller’s friendly name registered in the marketplace."
+          "description": "The seller’s friendly name registered in the marketplace where the sale took place. Sellers can use this data to issue electronic invoices for orders in Brazil.\n\n**Note**: This attribute is only available in the Brazil marketplace for the orders with `Pending` or `Unshipped` status."
         },
         "ShippingAddress": {
+          "description": "The shipping address for the order.\n\n**Note**:\n1. `ShippingAddress` is only available for orders with the following status values: `Unshipped`, `PartiallyShipped`, `Shipped` and `InvoiceUnconfirmed`.\n2. The `ShippingAddress` contains restricted data. Use a Restricted Data Token (RDT) and restricted Selling Partner API roles to access the restricted data in `ShippingAddress`, for example, `Name`, `AddressLine1`, `AddressLine2`, `AddressLine3`, `Phone`, `AddressType` and `ExtendedFields`.",
           "$ref": "#/definitions/Address"
         },
         "BuyerInfo": {
+          "description": "Buyer information.\n\n**Note**: The `BuyerInfo` contains restricted data. Use a Restricted Data Token (RDT) and restricted Selling Partner API roles to access the restricted data in `BuyerInfo`, for example, `BuyerName`, `BuyerTaxInfo`, `PurchaseOrderNumber`.",
           "$ref": "#/definitions/BuyerInfo"
         },
         "AutomatedShippingSettings": {
@@ -3323,10 +3265,10 @@
         },
         "BuyerCounty": {
           "type": "string",
-          "description": "The county of the buyer."
+          "description": "The county of the buyer.\n\n**Note**: This attribute is only available in the Brazil marketplace."
         },
         "BuyerTaxInfo": {
-          "description": "Tax information about the buyer.",
+          "description": "Tax information about the buyer. Sellers can use this data to issue electronic invoices for business orders.\n\n**Note**: This attribute is only available for business orders in the Brazil, Mexico and India marketplaces.",
           "$ref": "#/definitions/BuyerTaxInfo"
         },
         "PurchaseOrderNumber": {
@@ -3394,7 +3336,7 @@
         },
         "ReviewDate": {
           "type": "string",
-          "description": "The date the order was reviewed. In ISO 8601 date time format."
+          "description": "The date the order was reviewed. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format."
         },
         "ExternalReviewerId": {
           "type": "string",
@@ -3433,7 +3375,7 @@
       "x-docgen-enum-table-extension": [
         {
           "value": "Pending",
-          "description": "The order is pending approval. Note that the approval might be needed from someone other than the merchant as determined by the RequiresMerchantAction property."
+          "description": "The order is pending approval. Note that the approval might be needed from someone other than the merchant as determined by the `RequiresMerchantAction` property."
         },
         {
           "value": "Approved",
@@ -3507,7 +3449,7 @@
         },
         "FieldValue": {
           "type": "string",
-          "description": "The content of the field as collected in regulatory form. Note that FileAttachment type fields will contain a URL to download the attachment here."
+          "description": "The content of the field as collected in regulatory form. Note that `FileAttachment` type fields will contain a URL to download the attachment here."
         }
       }
     },
@@ -3523,9 +3465,10 @@
         },
         "BuyerCompanyName": {
           "type": "string",
-          "description": "Company name of the destination address."
+          "description": "The company name of the contact buyer. For Invoice By Amazon (IBA) orders, the buyer company should be Amazon entities."
         },
         "ShippingAddress": {
+          "description": "The shipping address for the order.\n\n**Note**: `ShippingAddress` is only available for orders with the following status values: `Unshipped`, `PartiallyShipped`, `Shipped` and `InvoiceUnconfirmed`.",
           "$ref": "#/definitions/Address"
         },
         "DeliveryPreferences": {
@@ -3544,6 +3487,10 @@
           "type": "string",
           "description": "The name."
         },
+        "CompanyName": {
+          "type": "string",
+          "description": "The company name of the recipient.\n\n**Note**: This attribute is only available for shipping address."
+        },
         "AddressLine1": {
           "type": "string",
           "description": "The street address."
@@ -3558,7 +3505,7 @@
         },
         "City": {
           "type": "string",
-          "description": "The city "
+          "description": "The city."
         },
         "County": {
           "type": "string",
@@ -3586,7 +3533,11 @@
         },
         "Phone": {
           "type": "string",
-          "description": "The phone number. Not returned for Fulfillment by Amazon (FBA) orders."
+          "description": "The phone number of the buyer.\n\n**Note**: \n1. This attribute is only available for shipping address.\n2. The buyer `Phone` number is suppressed in some cases, including but not limited to \na. `Phone` is suppressed for all Fulfillment by Amazon (FBA) orders.\nb. `Phone` is suppressed for the shipped MFN(Fulfilled by the seller) order when current date is past Latest Delivery Date."
+        },
+        "ExtendedFields": {
+          "description": "The container for address extended fields. For example, street name or street number.\n\nNote: Only available for Brazil shipping addresses.",
+          "$ref": "#/definitions/AddressExtendedFields"
         },
         "AddressType": {
           "type": "string",
@@ -3608,6 +3559,28 @@
         }
       },
       "description": "The shipping address for the order."
+    },
+    "AddressExtendedFields": {
+      "type": "object",
+      "properties": {
+        "StreetName": {
+          "type": "string",
+          "description": "The street name."
+        },
+        "StreetNumber": {
+          "type": "string",
+          "description": "The house number/building number/property number in the street."
+        },
+        "Complement": {
+          "type": "string",
+          "description": "The floor number/unit number in the building/private house number."
+        },
+        "Neighborhood": {
+          "type": "string",
+          "description": "The neighborhood. It's smaller than a region and an integral part of an address. It is used in some countries like Brazil."
+        }
+      },
+      "description": "The container of extended address fields. For example, street name, street number. Only available with Brazil shipping addresses as of now."
     },
     "DeliveryPreferences": {
       "type": "object",
@@ -3716,7 +3689,7 @@
       "properties": {
         "ExceptionDate": {
           "type": "string",
-          "description": "Date when the business is closed, in ISO-8601 date format."
+          "description": "Date when the business is closed, in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date format."
         },
         "IsOpen": {
           "type": "boolean",
@@ -3822,7 +3795,7 @@
         },
         "PaymentMethod": {
           "type": "string",
-          "description": "A sub-payment method for a COD order.\n\nPossible values:\n* `COD`: Cash On Delivery.\n* `GC`: Gift Card.\n* `PointsAccount`: Amazon Points.\n* `Invoice`: Invoice."
+          "description": "A sub-payment method for a COD order.\n\n**Possible values**:\n* `COD`: Cash On Delivery.\n* `GC`: Gift Card.\n* `PointsAccount`: Amazon Points.\n* `Invoice`: Invoice."
         }
       },
       "description": "Information about a sub-payment method used to pay for a COD order."
@@ -3923,6 +3896,13 @@
           "type": "string",
           "description": "An Amazon-defined order item identifier."
         },
+        "AssociatedItems": {
+          "type": "array",
+          "description": "A list of associated items that a customer has purchased with a product. For example, a tire installation service purchased with tires.",
+          "items": {
+            "$ref": "#/definitions/AssociatedItem"
+          }
+        },
         "Title": {
           "type": "string",
           "description": "The name of the item."
@@ -3944,7 +3924,7 @@
           "$ref": "#/definitions/PointsGrantedDetail"
         },
         "ItemPrice": {
-          "description": "The selling price of the order item. Note that an order item is an item and a quantity. This means that the value of ItemPrice is equal to the selling price of the item multiplied by the quantity ordered. Note that ItemPrice excludes ShippingPrice and GiftWrapPrice.",
+          "description": "The selling price of the order item. An order item is an item and a quantity. This means that the value of `ItemPrice` is equal to the selling price of the item multiplied by the quantity ordered. Note that `ItemPrice` excludes `ShippingPrice` and `GiftWrapPrice`.",
           "$ref": "#/definitions/Money"
         },
         "ShippingPrice": {
@@ -3987,8 +3967,8 @@
           "$ref": "#/definitions/Money"
         },
         "IsGift": {
-          "type": "boolean",
-          "description": "When true, the item is a gift."
+          "type": "string",
+          "description": "Indicates whether the item is a gift.\n\n**Possible values**: `true`, `false`."
         },
         "ConditionNote": {
           "type": "string",
@@ -3996,23 +3976,23 @@
         },
         "ConditionId": {
           "type": "string",
-          "description": "The condition of the item.\n\nPossible values: New, Used, Collectible, Refurbished, Preorder, Club."
+          "description": "The condition of the item.\n\n**Possible values**: `New`, `Used`, `Collectible`, `Refurbished`, `Preorder`, `Club`."
         },
         "ConditionSubtypeId": {
           "type": "string",
-          "description": "The subcondition of the item.\n\nPossible values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, Any, Other."
+          "description": "The subcondition of the item.\n\n**Possible values**: `New`, `Mint`, `Very Good`, `Good`, `Acceptable`, `Poor`, `Club`, `OEM`, `Warranty`, `Refurbished Warranty`, `Refurbished`, `Open Box`, `Any`, `Other`."
         },
         "ScheduledDeliveryStartDate": {
           "type": "string",
-          "description": "The start date of the scheduled delivery window in the time zone of the order destination. In ISO 8601 date time format."
+          "description": "The start date of the scheduled delivery window in the time zone of the order destination. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format."
         },
         "ScheduledDeliveryEndDate": {
           "type": "string",
-          "description": "The end date of the scheduled delivery window in the time zone of the order destination. In ISO 8601 date time format."
+          "description": "The end date of the scheduled delivery window in the time zone of the order destination. In <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date time format."
         },
         "PriceDesignation": {
           "type": "string",
-          "description": "Indicates that the selling price is a special price that is available only for Amazon Business orders. For more information about the Amazon Business Seller Program, see the [Amazon Business website](https://www.amazon.com/b2b/info/amazon-business). \n\nPossible values: BusinessPrice - A special price that is available only for Amazon Business orders."
+          "description": "Indicates that the selling price is a special price that is available only for Amazon Business orders. For more information about the Amazon Business Seller Program, refer to [Amazon Business](https://business.amazon.com). \n\n**Possible values**: `BusinessPrice` - A special price that is available only for Amazon Business orders."
         },
         "TaxCollection": {
           "description": "Information about withheld taxes.",
@@ -4024,7 +4004,7 @@
         },
         "IsTransparency": {
           "type": "boolean",
-          "description": "When true, transparency codes are required."
+          "description": "When true, the ASIN is enrolled in Transparency and the Transparency serial number that needs to be submitted can be determined by the following:\n\n**1D or 2D Barcode:** This has a **T** logo. Submit either the 29-character alpha-numeric identifier beginning with **AZ** or **ZA**, or the 38-character Serialized Global Trade Item Number (SGTIN).\n**2D Barcode SN:** Submit the 7- to 20-character serial number barcode, which likely has the prefix **SN**. The serial number will be applied to the same side of the packaging as the GTIN (UPC/EAN/ISBN) barcode.\n**QR code SN:** Submit the URL that the QR code generates."
         },
         "IossNumber": {
           "type": "string",
@@ -4053,6 +4033,7 @@
           ]
         },
         "BuyerInfo": {
+          "description": "A single item's buyer information.\n\n**Note**: The `BuyerInfo` contains restricted data. Use a Restricted Data Token (RDT) and restricted Selling Partner API roles to access the restricted data in `BuyerInfo`, for example, `BuyerCustomizedInfo` and `GiftMessageText`.",
           "$ref": "#/definitions/ItemBuyerInfo"
         },
         "BuyerRequestedCancel": {
@@ -4065,9 +4046,262 @@
           "items": {
             "type": "string"
           }
+        },
+        "SubstitutionPreferences": {
+          "description": "Substitution preferences for the order item. This is an optional field and will only be present if seller supports substitutions like in case of some grocery sellers.",
+          "$ref": "#/definitions/SubstitutionPreferences"
+        },
+        "Measurement": {
+          "description": "Measurement information for the order item.",
+          "$ref": "#/definitions/Measurement"
+        },
+        "ShippingConstraints" : {
+          "description" : "Shipping constraints applicable to this order.",
+          "$ref" : "#/definitions/ShippingConstraints"
         }
       },
       "description": "A single order item."
+    },
+    "SubstitutionPreferences": {
+      "type": "object",
+      "description": "Substitution preferences for an order item.",
+      "required": [
+        "SubstitutionType"
+      ],
+      "properties": {
+        "SubstitutionType": {
+          "type": "string",
+          "description": "The type of substitution that these preferences represent.",
+          "enum": [
+            "CUSTOMER_PREFERENCE",
+            "AMAZON_RECOMMENDED",
+            "DO_NOT_SUBSTITUTE"
+          ],
+          "x-docgen-enum-table-extension": [
+            {
+              "value": "CUSTOMER_PREFERENCE",
+              "description": "Customer has provided the substitution preferences."
+            },
+            {
+              "value": "AMAZON_RECOMMENDED",
+              "description": "Amazon has provided the substitution preferences."
+            },
+            {
+              "value": "DO_NOT_SUBSTITUTE",
+              "description": "Do not provide substitute if item is not found."
+            }
+          ]
+        },
+        "SubstitutionOptions": {
+          "description": "Substitution options for the order item.",
+          "$ref": "#/definitions/SubstitutionOptionList"
+        }
+      }
+    },
+    "SubstitutionOptionList": {
+      "type": "array",
+      "description": "A collection of substitution options.",
+      "items": {
+        "$ref": "#/definitions/SubstitutionOption"
+      }
+    },
+    "SubstitutionOption": {
+      "type": "object",
+      "description": "Substitution options for an order item.",
+      "properties": {
+        "ASIN": {
+          "type": "string",
+          "description": "The Amazon Standard Identification Number (ASIN) of the item."
+        },
+        "QuantityOrdered": {
+          "type": "integer",
+          "description": "The number of items to be picked for this substitution option. "
+        },
+        "SellerSKU": {
+          "type": "string",
+          "description": "The seller stock keeping unit (SKU) of the item."
+        },
+        "Title": {
+          "type": "string",
+          "description": "The title of the item."
+        },
+        "Measurement": {
+          "description": "Measurement information for the substitution option.",
+          "$ref": "#/definitions/Measurement"
+        }
+      }
+    },
+    "Measurement": {
+      "type": "object",
+      "description": "Measurement information for an order item.",
+      "required": [
+        "Unit",
+        "Value"
+      ],
+      "properties": {
+        "Unit": {
+          "type": "string",
+          "description": "The unit of measure for this measurement.",
+          "enum": [
+            "OUNCES",
+            "POUNDS",
+            "KILOGRAMS",
+            "GRAMS",
+            "MILLIGRAMS",
+            "INCHES",
+            "FEET",
+            "METERS",
+            "CENTIMETERS",
+            "MILLIMETERS",
+            "SQUARE_METERS",
+            "SQUARE_CENTIMETERS",
+            "SQUARE_FEET",
+            "SQUARE_INCHES",
+            "GALLONS",
+            "PINTS",
+            "QUARTS",
+            "FLUID_OUNCES",
+            "LITERS",
+            "CUBIC_METERS",
+            "CUBIC_FEET",
+            "CUBIC_INCHES",
+            "CUBIC_CENTIMETERS",
+            "COUNT"
+          ],
+          "x-docgen-enum-table-extension": [
+            {
+              "value": "OUNCES",
+              "description": "Indicates the item's measurement is measured in ounces."
+            },
+            {
+              "value": "POUNDS",
+              "description": "Indicates the item's measurement is measured in pounds."
+            },
+            {
+              "value": "KILOGRAMS",
+              "description": "Indicates the item's measurement is measured in kilograms."
+            },
+            {
+              "value": "GRAMS",
+              "description": "Indicates the item's measurement is measured in grams."
+            },
+            {
+              "value": "MILLIGRAMS",
+              "description": "Indicates the item's measurement is measured in milligrams."
+            },
+            {
+              "value": "INCHES",
+              "description": "Indicates the item's measurement is measured in inches."
+            },
+            {
+              "value": "FEET",
+              "description": "Indicates the item's measurement is measured in feet."
+            },
+            {
+              "value": "METERS",
+              "description": "Indicates the item's measurement is measured in meters."
+            },
+            {
+              "value": "CENTIMETERS",
+              "description": "Indicates the item's measurement is measured in centimeters."
+            },
+            {
+              "value": "MILLIMETERS",
+              "description": "Indicates the item's measurement is measured in millimeters."
+            },
+            {
+              "value": "SQUARE_METERS",
+              "description": "Indicates the item's measurement is measured in square meters."
+            },
+            {
+              "value": "SQUARE_CENTIMETERS",
+              "description": "Indicates the item's measurement is measured in square centimeters."
+            },
+            {
+              "value": "SQUARE_FEET",
+              "description": "Indicates the item's measurement is measured in square feet."
+            },
+            {
+              "value": "SQUARE_INCHES",
+              "description": "Indicates the item's measurement is measured in square inches."
+            },
+            {
+              "value": "GALLONS",
+              "description": "Indicates the item's measurement is measured in gallons."
+            },
+            {
+              "value": "PINTS",
+              "description": "Indicates the item's measurement is measured in pints."
+            },
+            {
+              "value": "QUARTS",
+              "description": "Indicates the item's measurement is measured in quarts."
+            },
+            {
+              "value": "FLUID_OUNCES",
+              "description": "Indicates the item's measurement is measured in fluid ounces."
+            },
+            {
+              "value": "LITERS",
+              "description": "Indicates the item's measurement is measured in liters."
+            },
+            {
+              "value": "CUBIC_METERS",
+              "description": "Indicates the item's measurement is measured in cubic meters."
+            },
+            {
+              "value": "CUBIC_FEET",
+              "description": "Indicates the item's measurement is measured in cubic feet."
+            },
+            {
+              "value": "CUBIC_INCHES",
+              "description": "Indicates the item's measurement is measured in cubic inches."
+            },
+            {
+              "value": "CUBIC_CENTIMETERS",
+              "description": "Indicates the item's measurement is measured in cubic centimeters."
+            },
+            {
+              "value": "COUNT",
+              "description": "Indicates the item's measurement is measured by count."
+            }
+          ]
+        },
+        "Value": {
+          "type": "number",
+          "description": "The value of the measurement."
+        }
+      }
+    },
+    "AssociatedItem": {
+      "description": "An item associated with an order item. For example, a tire installation service purchased with tires.",
+      "type": "object",
+      "properties": {
+        "OrderId": {
+          "type": "string",
+          "description": "The order item's order identifier, in 3-7-7 format."
+        },
+        "OrderItemId": {
+          "type": "string",
+          "description": "An Amazon-defined item identifier for the associated item."
+        },
+        "AssociationType": {
+          "$ref": "#/definitions/AssociationType"
+        }
+      }
+    },
+    "AssociationType": {
+      "type": "string",
+      "description": "The type of association an item has with an order item.",
+      "enum": [
+        "VALUE_ADD_SERVICE"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "VALUE_ADD_SERVICE",
+          "description": "The associated item is a service order."
+        }
+      ]
     },
     "OrderItemsBuyerInfoList": {
       "type": "object",
@@ -4108,7 +4342,7 @@
           "description": "An Amazon-defined order item identifier."
         },
         "BuyerCustomizedInfo": {
-          "description": "Buyer information for custom orders from the Amazon Custom program.",
+          "description": "Buyer information for custom orders from the Amazon Custom program.\n\n**Note**: This attribute is only available for MFN (Fulfilled by the seller) orders.",
           "$ref": "#/definitions/BuyerCustomizedInfoDetail"
         },
         "GiftWrapPrice": {
@@ -4121,7 +4355,7 @@
         },
         "GiftMessageText": {
           "type": "string",
-          "description": "A gift message provided by the buyer."
+          "description": "A gift message provided by the buyer.\n\n**Note**: This attribute is only available for MFN (Fulfilled by the seller) orders."
         },
         "GiftWrapLevel": {
           "type": "string",
@@ -4148,7 +4382,7 @@
       "type": "object",
       "properties": {
         "NumberOfItems": {
-          "type": "integer",
+          "type": "string",
           "description": "The total number of items that are included in the ASIN."
         }
       },
@@ -4196,7 +4430,7 @@
           "x-docgen-enum-table-extension": [
             {
               "value": "Amazon Services, Inc.",
-              "description": "Amazon Services, Inc."
+              "description": "The `MarketplaceFacilitator` entity for the US marketplace."
             }
           ]
         }
@@ -4229,11 +4463,34 @@
       "type": "object",
       "properties": {
         "FulfillmentSupplySourceId": {
-          "description": "Denotes the recommended sourceId where the order should be fulfilled from.",
+          "description": "Denotes the recommended `sourceId` where the order should be fulfilled from.",
           "type": "string"
         }
       },
       "description": "Contains the instructions about the fulfillment like where should it be fulfilled from."
+    },
+    "ShippingConstraints": {
+      "type": "object",
+      "description": "Delivery constraints applicable to this order.",
+      "properties": {
+        "PalletDelivery": {
+          "description": "Indicates if the line item needs to be delivered by pallet",
+          "$ref": "#/definitions/ConstraintType"
+        }
+      }
+    },
+    "ConstraintType": {
+      "type": "string",
+      "description": "Details the importance of the constraint present on the item",
+      "enum": [
+        "MANDATORY"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "MANDATORY",
+          "description": "Item must follow the constraint to ensure order is met with buyer's delivery requirements."
+        }
+      ]
     },
     "BuyerInfo": {
       "type": "object",
@@ -4248,10 +4505,10 @@
         },
         "BuyerCounty": {
           "type": "string",
-          "description": "The county of the buyer."
+          "description": "The county of the buyer.\n\n**Note**: This attribute is only available in the Brazil marketplace."
         },
         "BuyerTaxInfo": {
-          "description": "Tax information about the buyer.",
+          "description": "Tax information about the buyer. Sellers can use this data to issue electronic invoices for business orders.\n\n**Note**: This attribute is only available for business orders in the Brazil, Mexico and India marketplaces.",
           "$ref": "#/definitions/BuyerTaxInfo"
         },
         "PurchaseOrderNumber": {
@@ -4265,7 +4522,7 @@
       "type": "object",
       "properties": {
         "BuyerCustomizedInfo": {
-          "description": "Buyer information for custom orders from the Amazon Custom program.",
+          "description": "Buyer information for custom orders from the Amazon Custom program.\n\n**Note**: This attribute is only available for MFN (Fulfilled by the seller) orders.",
           "$ref": "#/definitions/BuyerCustomizedInfoDetail"
         },
         "GiftWrapPrice": {
@@ -4278,7 +4535,7 @@
         },
         "GiftMessageText": {
           "type": "string",
-          "description": "A gift message provided by the buyer."
+          "description": "A gift message provided by the buyer.\n\n**Note**: This attribute is only available for MFN (Fulfilled by the seller) orders."
         },
         "GiftWrapLevel": {
           "type": "string",
@@ -4309,8 +4566,8 @@
       "type": "object",
       "properties": {
         "IsBuyerRequestedCancel": {
-          "type": "boolean",
-          "description": "When true, the buyer has requested cancellation."
+          "type": "string",
+          "description": "Indicate whether the buyer has requested cancellation.\n\n**Possible Values**: `true`, `false`."
         },
         "BuyerCancelReason": {
           "type": "string",
@@ -4408,7 +4665,7 @@
       ]
     },
     "ElectronicInvoiceStatus": {
-      "description": "The status of the electronic invoice.",
+      "description": "The status of the electronic invoice. Only available for Easy Ship orders and orders in the BR marketplace.",
       "type": "string",
       "enum": [
         "NotRequired",
@@ -4463,10 +4720,10 @@
     },
     "ConfirmShipmentErrorResponse": {
       "type": "object",
-      "description": "The error response schema for an shipment confirmation.",
+      "description": "The error response schema for the `confirmShipment` operation.",
       "properties": {
         "errors": {
-          "description": "One or more unexpected errors occurred during the confirmShipment operation.",
+          "description": "One or more unexpected errors occurred during the `confirmShipment` operation.",
           "$ref": "#/definitions/ErrorList"
         }
       }
@@ -4487,7 +4744,7 @@
         },
         "carrierCode": {
           "type": "string",
-          "description": "Identifies the carrier that will deliver the package. This field is required for all marketplaces, see [reference](https://developer-docs.amazon.com/sp-api/changelog/carriercode-value-required-in-shipment-confirmations-for-br-mx-ca-sg-au-in-jp-marketplaces)."
+          "description": "Identifies the carrier that will deliver the package. This field is required for all marketplaces. For the acceptable `CarrierCode` value, refer to the list of <a href='https://images-na.ssl-images-amazon.com/images/G/01/rainier/help/xsd/release_1_9/amzn-base._TTH_.xsd'>CarrierCode</a>."
         },
         "carrierName": {
           "type": "string",
@@ -4503,7 +4760,7 @@
         },
         "shipDate": {
           "type": "string",
-          "description": "The shipping date for the package. Must be in ISO-8601 date/time format.",
+          "description": "The shipping date for the package. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.",
           "format": "date-time"
         },
         "shipFromSupplySourceId": {

@@ -6,7 +6,6 @@
 namespace lujie\data\exchange\forms;
 
 use lujie\data\exchange\DataExchanger;
-use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\sources\ArraySource;
 use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
@@ -74,7 +73,7 @@ class TextImportForm extends Model
     public function init(): void
     {
         parent::init();
-        $this->dataImporter = Instance::ensure($this->dataImporter, FileImporter::class);
+        $this->dataImporter = Instance::ensure($this->dataImporter, DataExchanger::class);
         if ($this->executor && Yii::$app->has($this->executor)) {
             $this->executor = Instance::ensure($this->executor, Executor::class);
         } else {

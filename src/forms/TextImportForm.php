@@ -141,7 +141,7 @@ class TextImportForm extends Model
         }
 
         if ($this->textFormat === 'json') {
-            $textData = Json::encode($this->{$this->textAttribute});
+            $textData = Json::decode($this->{$this->textAttribute});
         } else if ($this->textFormat === 'csv') {
             $textData = CsvHelper::readCsv($this->{$this->textAttribute});
         } else {

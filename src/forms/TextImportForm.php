@@ -12,14 +12,11 @@ use lujie\data\exchange\transformers\ChainedTransformer;
 use lujie\data\exchange\transformers\FillDefaultValueTransformer;
 use lujie\executing\Executor;
 use lujie\extend\base\ModelAttributeTrait;
-use lujie\extend\flysystem\Filesystem;
 use lujie\extend\helpers\CsvHelper;
-use lujie\upload\behaviors\FileTrait;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**

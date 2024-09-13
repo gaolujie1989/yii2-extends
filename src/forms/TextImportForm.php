@@ -5,6 +5,7 @@
 
 namespace lujie\data\exchange\forms;
 
+use lujie\data\exchange\DataExchanger;
 use lujie\data\exchange\FileImporter;
 use lujie\data\exchange\sources\ArraySource;
 use lujie\data\exchange\transformers\ChainedTransformer;
@@ -54,7 +55,7 @@ class TextImportForm extends Model
     public $dataAttributes = [];
 
     /**
-     * @var FileImporter
+     * @var DataExchanger
      */
     public $dataImporter;
 

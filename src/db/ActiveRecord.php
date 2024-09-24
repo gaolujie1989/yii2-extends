@@ -29,7 +29,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public function behaviors(): array
     {
         $behaviors = array_merge(parent::behaviors(), $this->traceableBehaviors(), $this->relationBehaviors());
-        if (substr(static::class, -4) === 'Form') {
+        if (str_ends_with(static::class, 'Form')) {
             $behaviors = array_merge($behaviors, $this->aliasBehaviors());
         }
         return $behaviors;
@@ -41,7 +41,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function optimisticLock(): ?string
     {
-        if (substr(static::class, -4) === 'Form' && $this->hasAttribute('version')) {
+        if ($this->hasAttribute('version')) {
             return 'version';
         }
         return parent::optimisticLock();

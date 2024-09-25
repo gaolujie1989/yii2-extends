@@ -36,11 +36,24 @@ class ServicesConst
         public const ERROR_ERROR_LEVEL_ERROR = 'ERROR';
         public const ERROR_ERROR_LEVEL_WARNING = 'WARNING';
         
+        public const DAY_OF_WEEK_MONDAY = 'MONDAY';
+        public const DAY_OF_WEEK_TUESDAY = 'TUESDAY';
+        public const DAY_OF_WEEK_WEDNESDAY = 'WEDNESDAY';
+        public const DAY_OF_WEEK_THURSDAY = 'THURSDAY';
+        public const DAY_OF_WEEK_FRIDAY = 'FRIDAY';
+        public const DAY_OF_WEEK_SATURDAY = 'SATURDAY';
+        public const DAY_OF_WEEK_SUNDAY = 'SUNDAY';
+        
         public const RESERVATION_TYPE_APPOINTMENT = 'APPOINTMENT';
         public const RESERVATION_TYPE_TRAVEL = 'TRAVEL';
         public const RESERVATION_TYPE_VACATION = 'VACATION';
         public const RESERVATION_TYPE_BREAK = 'BREAK';
         public const RESERVATION_TYPE_TRAINING = 'TRAINING';
+        
+        public const CAPACITY_TYPE_SCHEDULED_CAPACITY = 'SCHEDULED_CAPACITY';
+        public const CAPACITY_TYPE_AVAILABLE_CAPACITY = 'AVAILABLE_CAPACITY';
+        public const CAPACITY_TYPE_ENCUMBERED_CAPACITY = 'ENCUMBERED_CAPACITY';
+        public const CAPACITY_TYPE_RESERVED_CAPACITY = 'RESERVED_CAPACITY';
         
         public const APPOINTMENT_SLOT_REPORT_SCHEDULING_TYPE_REAL_TIME_SCHEDULING = 'REAL_TIME_SCHEDULING';
         public const APPOINTMENT_SLOT_REPORT_SCHEDULING_TYPE_NON_REAL_TIME_SCHEDULING = 'NON_REAL_TIME_SCHEDULING';

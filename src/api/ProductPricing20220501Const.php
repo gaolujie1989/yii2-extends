@@ -7,6 +7,10 @@ namespace lujie\amazon\sp\api;
 */
 class ProductPricing20220501Const
 {
+        public const COMPETITIVE_SUMMARY_INCLUDED_DATA_FEATUREDBUYINGOPTIONS = 'featuredBuyingOptions';
+        public const COMPETITIVE_SUMMARY_INCLUDED_DATA_REFERENCEPRICES = 'referencePrices';
+        public const COMPETITIVE_SUMMARY_INCLUDED_DATA_LOWESTPRICEDOFFERS = 'lowestPricedOffers';
+        
         public const LOWEST_PRICED_OFFERS_INPUT_OFFER_TYPE_CONSUMER = 'CONSUMER';
         
         public const FEATURED_BUYING_OPTION_BUYING_OPTION_TYPE_NEW = 'New';
@@ -33,5 +37,20 @@ class ProductPricing20220501Const
         
         public const FEATURED_OFFER_SEGMENT_CUSTOMER_MEMBERSHIP_PRIME = 'PRIME';
         public const FEATURED_OFFER_SEGMENT_CUSTOMER_MEMBERSHIP_NON_PRIME = 'NON_PRIME';
+        
+        public const HTTP_METHOD_GET = 'GET';
+        public const HTTP_METHOD_PUT = 'PUT';
+        public const HTTP_METHOD_PATCH = 'PATCH';
+        public const HTTP_METHOD_DELETE = 'DELETE';
+        public const HTTP_METHOD_POST = 'POST';
+        
+        public const FULFILLMENT_TYPE_AFN = 'AFN';
+        public const FULFILLMENT_TYPE_MFN = 'MFN';
+        
+        public const CONDITION_NEW = 'New';
+        public const CONDITION_USED = 'Used';
+        public const CONDITION_COLLECTIBLE = 'Collectible';
+        public const CONDITION_REFURBISHED = 'Refurbished';
+        public const CONDITION_CLUB = 'Club';
         
 }

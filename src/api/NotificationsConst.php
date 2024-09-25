@@ -7,4 +7,10 @@ namespace lujie\amazon\sp\api;
 */
 class NotificationsConst
 {
+        public const AGGREGATION_TIME_PERIOD_FIVE_MINUTES = 'FiveMinutes';
+        public const AGGREGATION_TIME_PERIOD_TEN_MINUTES = 'TenMinutes';
+        
+        public const ORDER_CHANGE_TYPE_ENUM_ORDER_STATUS_CHANGE = 'OrderStatusChange';
+        public const ORDER_CHANGE_TYPE_ENUM_BUYER_REQUESTED_CHANGE = 'BuyerRequestedChange';
+        
 }

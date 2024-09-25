@@ -7,4 +7,54 @@ namespace lujie\amazon\sp\api;
 */
 class FulfillmentInbound20240320Const
 {
+        public const BOX_CONTENT_INFORMATION_SOURCE_BOX_CONTENT_PROVIDED = 'BOX_CONTENT_PROVIDED';
+        public const BOX_CONTENT_INFORMATION_SOURCE_MANUAL_PROCESS = 'MANUAL_PROCESS';
+        public const BOX_CONTENT_INFORMATION_SOURCE_BARCODE_2D = 'BARCODE_2D';
+        
+        public const ITEM_LABEL_PAGE_TYPE_A4_21 = 'A4_21';
+        public const ITEM_LABEL_PAGE_TYPE_A4_24 = 'A4_24';
+        public const ITEM_LABEL_PAGE_TYPE_A4_24_64X33 = 'A4_24_64x33';
+        public const ITEM_LABEL_PAGE_TYPE_A4_24_66X35 = 'A4_24_66x35';
+        public const ITEM_LABEL_PAGE_TYPE_A4_24_70X36 = 'A4_24_70x36';
+        public const ITEM_LABEL_PAGE_TYPE_A4_24_70X37 = 'A4_24_70x37';
+        public const ITEM_LABEL_PAGE_TYPE_A4_24I = 'A4_24i';
+        public const ITEM_LABEL_PAGE_TYPE_A4_27 = 'A4_27';
+        public const ITEM_LABEL_PAGE_TYPE_A4_40_52X29 = 'A4_40_52x29';
+        public const ITEM_LABEL_PAGE_TYPE_A4_44_48X25 = 'A4_44_48x25';
+        public const ITEM_LABEL_PAGE_TYPE_LETTER_30 = 'Letter_30';
+        
+        public const LABEL_OWNER_AMAZON = 'AMAZON';
+        public const LABEL_OWNER_SELLER = 'SELLER';
+        public const LABEL_OWNER_NONE = 'NONE';
+        
+        public const LABEL_PRINT_TYPE_STANDARD_FORMAT = 'STANDARD_FORMAT';
+        public const LABEL_PRINT_TYPE_THERMAL_PRINTING = 'THERMAL_PRINTING';
+        
+        public const OPERATION_STATUS_SUCCESS = 'SUCCESS';
+        public const OPERATION_STATUS_FAILED = 'FAILED';
+        public const OPERATION_STATUS_IN_PROGRESS = 'IN_PROGRESS';
+        
+        public const PREP_OWNER_AMAZON = 'AMAZON';
+        public const PREP_OWNER_SELLER = 'SELLER';
+        public const PREP_OWNER_NONE = 'NONE';
+        
+        public const REASON_COMMENT_APPOINTMENT_REQUESTED_BY_MISTAKE = 'APPOINTMENT_REQUESTED_BY_MISTAKE';
+        public const REASON_COMMENT_VEHICLE_DELAY = 'VEHICLE_DELAY';
+        public const REASON_COMMENT_SLOT_NOT_SUITABLE = 'SLOT_NOT_SUITABLE';
+        public const REASON_COMMENT_OUTSIDE_CARRIER_BUSINESS_HOURS = 'OUTSIDE_CARRIER_BUSINESS_HOURS';
+        public const REASON_COMMENT_UNFAVOURABLE_EXTERNAL_CONDITIONS = 'UNFAVOURABLE_EXTERNAL_CONDITIONS';
+        public const REASON_COMMENT_PROCUREMENT_DELAY = 'PROCUREMENT_DELAY';
+        public const REASON_COMMENT_SHIPPING_PLAN_CHANGED = 'SHIPPING_PLAN_CHANGED';
+        public const REASON_COMMENT_INCREASED_QUANTITY = 'INCREASED_QUANTITY';
+        public const REASON_COMMENT_OTHER = 'OTHER';
+        
+        public const STACKABILITY_STACKABLE = 'STACKABLE';
+        public const STACKABILITY_NON_STACKABLE = 'NON_STACKABLE';
+        
+        public const UNIT_OF_MEASUREMENT_IN = 'IN';
+        public const UNIT_OF_MEASUREMENT_CM = 'CM';
+        
+        public const UNIT_OF_WEIGHT_LB = 'LB';
+        public const UNIT_OF_WEIGHT_KG = 'KG';
+        
 }

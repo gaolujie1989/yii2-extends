@@ -16,6 +16,25 @@ $className = $className ?: Inflector::camelize($openapi['info']['title']) . 'Con
 $apiConstants = [];
 $definitions = $openapi['definitions'] ?? [];
 foreach ($definitions as $definitionKey => $definition) {
+    $propertyEnums = $definition['enum'] ?? null;
+    if ($propertyEnums) {
+        $propertyConstants = [];
+        $constantPrefix = strtoupper(Inflector::underscore($definitionKey)) . '_';
+        foreach ($propertyEnums as $propertyEnumValue) {
+            if (empty($propertyEnumValue)) {
+                continue;
+            }
+
+            $propertyEnumKey = strtr(trim(preg_replace('/[^a-zA-Z0-9]/', '_', $propertyEnumValue), '_'), ['__' => '_']);
+            if ($propertyEnumKey[0] === strtoupper($propertyEnumKey[0]) && $propertyEnumKey !== strtoupper($propertyEnumKey)) {
+                $propertyEnumKey = strtoupper(Inflector::underscore($propertyEnumKey));
+            } else {
+                $propertyEnumKey = strtoupper(Inflector::underscore(strtolower($propertyEnumKey)));
+            }
+            $propertyConstants[$constantPrefix . $propertyEnumKey] = $propertyEnumValue;
+        }
+        $apiConstants[$constantPrefix] = $propertyConstants;
+    }
     $properties = $definition['properties'] ?? null;
     if (empty($properties)) {
         continue;

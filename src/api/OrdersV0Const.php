@@ -7,6 +7,10 @@ namespace lujie\amazon\sp\api;
 */
 class OrdersV0Const
 {
+        public const SHIPMENT_STATUS_READY_FOR_PICKUP = 'ReadyForPickup';
+        public const SHIPMENT_STATUS_PICKED_UP = 'PickedUp';
+        public const SHIPMENT_STATUS_REFUSED_PICKUP = 'RefusedPickup';
+        
         public const ORDER_ORDER_STATUS_PENDING = 'Pending';
         public const ORDER_ORDER_STATUS_UNSHIPPED = 'Unshipped';
         public const ORDER_ORDER_STATUS_PARTIALLY_SHIPPED = 'PartiallyShipped';
@@ -32,6 +36,12 @@ class OrdersV0Const
         public const ORDER_BUYER_INVOICE_PREFERENCE_INDIVIDUAL = 'INDIVIDUAL';
         public const ORDER_BUYER_INVOICE_PREFERENCE_BUSINESS = 'BUSINESS';
         
+        public const VERIFICATION_STATUS_PENDING = 'Pending';
+        public const VERIFICATION_STATUS_APPROVED = 'Approved';
+        public const VERIFICATION_STATUS_REJECTED = 'Rejected';
+        public const VERIFICATION_STATUS_EXPIRED = 'Expired';
+        public const VERIFICATION_STATUS_CANCELLED = 'Cancelled';
+        
         public const REGULATED_INFORMATION_FIELD_FIELD_TYPE_TEXT = 'Text';
         public const REGULATED_INFORMATION_FIELD_FIELD_TYPE_FILE_ATTACHMENT = 'FileAttachment';
         
@@ -45,6 +55,10 @@ class OrdersV0Const
         public const BUSINESS_HOURS_DAY_OF_WEEK_THU = 'THU';
         public const BUSINESS_HOURS_DAY_OF_WEEK_FRI = 'FRI';
         public const BUSINESS_HOURS_DAY_OF_WEEK_SAT = 'SAT';
+        
+        public const OTHER_DELIVERY_ATTRIBUTES_HAS_ACCESS_POINT = 'HAS_ACCESS_POINT';
+        public const OTHER_DELIVERY_ATTRIBUTES_PALLET_ENABLED = 'PALLET_ENABLED';
+        public const OTHER_DELIVERY_ATTRIBUTES_PALLET_DISABLED = 'PALLET_DISABLED';
         
         public const ORDER_ITEM_DEEMED_RESELLER_CATEGORY_IOSS = 'IOSS';
         public const ORDER_ITEM_DEEMED_RESELLER_CATEGORY_UOSS = 'UOSS';
@@ -78,9 +92,36 @@ class OrdersV0Const
         public const MEASUREMENT_UNIT_CUBIC_CENTIMETERS = 'CUBIC_CENTIMETERS';
         public const MEASUREMENT_UNIT_COUNT = 'COUNT';
         
+        public const ASSOCIATION_TYPE_VALUE_ADD_SERVICE = 'VALUE_ADD_SERVICE';
+        
         public const TAX_COLLECTION_MODEL_MARKETPLACE_FACILITATOR = 'MarketplaceFacilitator';
         
         public const TAX_COLLECTION_RESPONSIBLE_PARTY_AMAZON_SERVICES_INC = 'Amazon Services, Inc.';
+        
+        public const CONSTRAINT_TYPE_MANDATORY = 'MANDATORY';
+        
+        public const EASY_SHIP_SHIPMENT_STATUS_PENDING_SCHEDULE = 'PendingSchedule';
+        public const EASY_SHIP_SHIPMENT_STATUS_PENDING_PICK_UP = 'PendingPickUp';
+        public const EASY_SHIP_SHIPMENT_STATUS_PENDING_DROP_OFF = 'PendingDropOff';
+        public const EASY_SHIP_SHIPMENT_STATUS_LABEL_CANCELED = 'LabelCanceled';
+        public const EASY_SHIP_SHIPMENT_STATUS_PICKED_UP = 'PickedUp';
+        public const EASY_SHIP_SHIPMENT_STATUS_DROPPED_OFF = 'DroppedOff';
+        public const EASY_SHIP_SHIPMENT_STATUS_AT_ORIGIN_F_C = 'AtOriginFC';
+        public const EASY_SHIP_SHIPMENT_STATUS_AT_DESTINATION_F_C = 'AtDestinationFC';
+        public const EASY_SHIP_SHIPMENT_STATUS_DELIVERED = 'Delivered';
+        public const EASY_SHIP_SHIPMENT_STATUS_REJECTED_BY_BUYER = 'RejectedByBuyer';
+        public const EASY_SHIP_SHIPMENT_STATUS_UNDELIVERABLE = 'Undeliverable';
+        public const EASY_SHIP_SHIPMENT_STATUS_RETURNING_TO_SELLER = 'ReturningToSeller';
+        public const EASY_SHIP_SHIPMENT_STATUS_RETURNED_TO_SELLER = 'ReturnedToSeller';
+        public const EASY_SHIP_SHIPMENT_STATUS_LOST = 'Lost';
+        public const EASY_SHIP_SHIPMENT_STATUS_OUT_FOR_DELIVERY = 'OutForDelivery';
+        public const EASY_SHIP_SHIPMENT_STATUS_DAMAGED = 'Damaged';
+        
+        public const ELECTRONIC_INVOICE_STATUS_NOT_REQUIRED = 'NotRequired';
+        public const ELECTRONIC_INVOICE_STATUS_NOT_FOUND = 'NotFound';
+        public const ELECTRONIC_INVOICE_STATUS_PROCESSING = 'Processing';
+        public const ELECTRONIC_INVOICE_STATUS_ERRORED = 'Errored';
+        public const ELECTRONIC_INVOICE_STATUS_ACCEPTED = 'Accepted';
         
         public const CONFIRM_SHIPMENT_REQUEST_COD_COLLECTION_METHOD_DIRECT_PAYMENT = 'DirectPayment';
         

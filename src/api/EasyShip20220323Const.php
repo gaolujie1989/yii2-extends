@@ -7,4 +7,40 @@ namespace lujie\amazon\sp\api;
 */
 class EasyShip20220323Const
 {
+        public const PACKAGE_STATUS_READY_FOR_PICKUP = 'ReadyForPickup';
+        public const PACKAGE_STATUS_PICKED_UP = 'PickedUp';
+        public const PACKAGE_STATUS_AT_ORIGIN_F_C = 'AtOriginFC';
+        public const PACKAGE_STATUS_AT_DESTINATION_F_C = 'AtDestinationFC';
+        public const PACKAGE_STATUS_DELIVERED = 'Delivered';
+        public const PACKAGE_STATUS_REJECTED = 'Rejected';
+        public const PACKAGE_STATUS_UNDELIVERABLE = 'Undeliverable';
+        public const PACKAGE_STATUS_RETURNED_TO_SELLER = 'ReturnedToSeller';
+        public const PACKAGE_STATUS_LOST_IN_TRANSIT = 'LostInTransit';
+        public const PACKAGE_STATUS_LABEL_CANCELED = 'LabelCanceled';
+        public const PACKAGE_STATUS_DAMAGED_IN_TRANSIT = 'DamagedInTransit';
+        public const PACKAGE_STATUS_OUT_FOR_DELIVERY = 'OutForDelivery';
+        
+        public const HANDOVER_METHOD_PICKUP = 'Pickup';
+        public const HANDOVER_METHOD_DROPOFF = 'Dropoff';
+        
+        public const UNIT_OF_LENGTH_CM = 'Cm';
+        
+        public const UNIT_OF_WEIGHT_GRAMS = 'Grams';
+        public const UNIT_OF_WEIGHT_G = 'G';
+        
+        public const LABEL_FORMAT_PDF = 'PDF';
+        public const LABEL_FORMAT_ZPL = 'ZPL';
+        
+        public const CODE_INVALID_INPUT = 'InvalidInput';
+        public const CODE_INVALID_TIME_SLOT_ID = 'InvalidTimeSlotId';
+        public const CODE_SCHEDULED_PACKAGE_ALREADY_EXISTS = 'ScheduledPackageAlreadyExists';
+        public const CODE_SCHEDULE_WINDOW_EXPIRED = 'ScheduleWindowExpired';
+        public const CODE_RETRYABLE_AFTER_GETTING_NEW_SLOTS = 'RetryableAfterGettingNewSlots';
+        public const CODE_TIME_SLOT_NOT_AVAILABLE = 'TimeSlotNotAvailable';
+        public const CODE_RESOURCE_NOT_FOUND = 'ResourceNotFound';
+        public const CODE_INVALID_ORDER_STATE = 'InvalidOrderState';
+        public const CODE_REGION_NOT_SUPPORTED = 'RegionNotSupported';
+        public const CODE_ORDER_NOT_ELIGIBLE_FOR_RESCHEDULING = 'OrderNotEligibleForRescheduling';
+        public const CODE_INTERNAL_SERVER_ERROR = 'InternalServerError';
+        
 }

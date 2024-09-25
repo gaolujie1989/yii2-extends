@@ -7,4 +7,11 @@ namespace lujie\amazon\sp\api;
 */
 class ProductFeesV0Const
 {
+        public const OPTIONAL_FULFILLMENT_PROGRAM_FBA_CORE = 'FBA_CORE';
+        public const OPTIONAL_FULFILLMENT_PROGRAM_FBA_SNL = 'FBA_SNL';
+        public const OPTIONAL_FULFILLMENT_PROGRAM_FBA_EFN = 'FBA_EFN';
+        
+        public const ID_TYPE_ASIN = 'ASIN';
+        public const ID_TYPE_SELLER_S_K_U = 'SellerSKU';
+        
 }

@@ -7,6 +7,10 @@ namespace lujie\amazon\sp\api;
 */
 class ShippingConst
 {
+        public const SERVICE_TYPE_AMAZON_SHIPPING_GROUND = 'Amazon Shipping Ground';
+        public const SERVICE_TYPE_AMAZON_SHIPPING_STANDARD = 'Amazon Shipping Standard';
+        public const SERVICE_TYPE_AMAZON_SHIPPING_PREMIUM = 'Amazon Shipping Premium';
+        
         public const DIMENSIONS_UNIT_IN = 'IN';
         public const DIMENSIONS_UNIT_CM = 'CM';
         

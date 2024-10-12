@@ -21,10 +21,10 @@ use yii\web\IdentityInterface;
 class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
 {
     public const LOGIN_TYPE = 'UserLogin';
-    
-    public static $cacheDuration = 86400;
 
-    public static $cacheTags = ['user'];
+    public static $userCacheDuration = 86400;
+
+    public static $userCacheTags = ['user'];
 
     /**
      * {@inheritdoc}
@@ -93,7 +93,7 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
         return static::find()
             ->userId($id)
             ->active()
-            ->cache(static::$cacheDuration, new TagDependency(['tags' => static::$cacheTags]))
+            ->cache(static::$userCacheDuration, new TagDependency(['tags' => static::$userCacheTags]))
             ->one();
     }
 
@@ -108,7 +108,7 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
         $query = UserAccessToken::find()
             ->accessToken($token)
             ->expiredAtBetween(0, time())
-            ->cache(static::$cacheDuration, new TagDependency(['tags' => static::$cacheTags]));
+            ->cache(static::$userCacheDuration, new TagDependency(['tags' => static::$userCacheTags]));
         if ($type) {
             $query->tokenType($type);
         }
@@ -229,7 +229,7 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
         if ($connection->enableQueryCache && $connection->queryCache) {
             /** @var CacheInterface $queryCache */
             $queryCache = Instance::ensure($connection->queryCache);
-            TagDependency::invalidate($queryCache, static::$cacheTags);
+            TagDependency::invalidate($queryCache, static::$userCacheTags);
         }
     }
 

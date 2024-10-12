@@ -91,11 +91,12 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param string|null $type
      * @return AccessTokenManagerInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public static function getAccessTokenManager(): AccessTokenManagerInterface
+    public static function getAccessTokenManager(?string $type = null): AccessTokenManagerInterface
     {
         return Yii::$app->get('accessTokenManager', false) ?: new CacheAccessTokenManager();
     }
@@ -110,7 +111,7 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null): ?self
     {
         $tokenType = $type ? (static::$tokenTypes[$type] ?? null) : null;
-        $userId = static::getAccessTokenManager()->getUserId($token, $tokenType);
+        $userId = static::getAccessTokenManager($type)->getUserId($token, $tokenType);
         return static::findIdentity($userId);
     }
 
@@ -124,7 +125,7 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
      */
     public function createAccessToken(?string $type = null, int $duration = 86400, int $length = 64): string
     {
-        return static::getAccessTokenManager()->createAccessToken($type, $duration, $length);
+        return static::getAccessTokenManager($type)->createAccessToken($type, $duration, $length);
     }
 
     /**

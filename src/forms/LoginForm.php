@@ -114,13 +114,13 @@ class LoginForm extends Model
 
     /**
      * @return string|null
-     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function getAccessToken(): ?string
     {
         if ($user = $this->getUser()) {
-            return $user->createAccessToken($user::LOGIN_TYPE, $this->rememberDuration)->access_token;
+            return $user->createAccessToken('UserLogin', $this->rememberDuration);
         }
         return null;
     }

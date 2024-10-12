@@ -2,6 +2,8 @@
 
 namespace lujie\user\models;
 
+use lujie\user\accessToken\AccessTokenManagerInterface;
+use lujie\user\accessToken\CacheAccessTokenManager;
 use Yii;
 use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
@@ -20,8 +22,6 @@ use yii\web\IdentityInterface;
  */
 class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
 {
-    public const LOGIN_TYPE = 'UserLogin';
-
     public static $userCacheDuration = 86400;
 
     public static $userCacheTags = ['user'];
@@ -77,15 +77,6 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     #region implements IdentityInterface
 
     /**
-     * @return CacheInterface
-     * @inheritdoc
-     */
-    public static function getCache(): CacheInterface
-    {
-        return Yii::$app->getCache();
-    }
-
-    /**
      * @param int|string $id
      * @return User|null
      * @inheritdoc
@@ -100,25 +91,27 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param mixed $token
-     * @param null $type
-     * @return User|null
+     * @return AccessTokenManagerInterface
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public static function getAccessTokenManager(): AccessTokenManagerInterface
+    {
+        return Yii::$app->get('accessTokenManager', false) ?: new CacheAccessTokenManager();
+    }
+
+    /**
+     * @param $token
+     * @param $type
+     * @return self|null
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null): ?self
     {
-        $query = UserAccessToken::find()
-            ->accessToken($token)
-            ->expiredAtBetween(time())
-            ->cache(static::$userCacheDuration, new TagDependency(['tags' => static::$userCacheTags]));
-        if ($type && isset(static::$tokenTypes[$type])) {
-            $query->tokenType(static::$tokenTypes[$type]);
-        }
-        $userAccessToken = $query->one();
-        if ($userAccessToken === null || $userAccessToken->expired_at < time()) {
-            return null;
-        }
-        return static::findIdentity($userAccessToken->user_id);
+        $tokenType = $type ? (static::$tokenTypes[$type] ?? null) : null;
+        $userId = static::getAccessTokenManager()->getUserId($token, $tokenType);
+        return static::findIdentity($userId);
     }
 
     /**
@@ -126,19 +119,12 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
      * @param int $duration
      * @param int $length
      * @return string
-     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function createAccessToken(?string $type = null, int $duration = 86400, int $length = 64): UserAccessToken
+    public function createAccessToken(?string $type = null, int $duration = 86400, int $length = 64): string
     {
-        $userAccessToken = new UserAccessToken();
-        $userAccessToken->user_id = $this->user_id;
-        $userAccessToken->access_token = Yii::$app->security->generateRandomString($length);
-        $userAccessToken->token_type = $type ?? '';
-        $userAccessToken->expired_at = time() + $duration;
-        $userAccessToken->last_accessed_at = 0;
-        $userAccessToken->save(false);
-        return $userAccessToken;
+        return static::getAccessTokenManager()->createAccessToken($type, $duration, $length);
     }
 
     /**

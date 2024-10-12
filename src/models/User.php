@@ -26,6 +26,8 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
 
     public static $userCacheTags = ['user'];
 
+    public static $tokenTypes = [];
+
     /**
      * {@inheritdoc}
      */
@@ -107,10 +109,10 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
     {
         $query = UserAccessToken::find()
             ->accessToken($token)
-            ->expiredAtBetween(0, time())
+            ->expiredAtBetween(time())
             ->cache(static::$userCacheDuration, new TagDependency(['tags' => static::$userCacheTags]));
-        if ($type) {
-            $query->tokenType($type);
+        if ($type && isset(static::$tokenTypes[$type])) {
+            $query->tokenType(static::$tokenTypes[$type]);
         }
         $userAccessToken = $query->one();
         if ($userAccessToken === null || $userAccessToken->expired_at < time()) {

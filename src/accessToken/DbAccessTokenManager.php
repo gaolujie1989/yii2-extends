@@ -32,7 +32,7 @@ class DbAccessTokenManager extends BaseObject implements AccessTokenManagerInter
             $query->tokenType($tokenType);
         }
         $userAccessToken = $query->one();
-        return $userAccessToken?->access_token;
+        return $userAccessToken?->user_id;
     }
 
     /**

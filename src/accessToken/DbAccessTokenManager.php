@@ -51,7 +51,7 @@ class DbAccessTokenManager extends BaseObject implements AccessTokenManagerInter
         $userAccessToken = new UserAccessToken();
         $userAccessToken->user_id = $userId;
         $userAccessToken->access_token = $token;
-        $userAccessToken->token_type = $type ?? '';
+        $userAccessToken->token_type = $tokenType ?? '';
         $userAccessToken->expired_at = time() + $duration;
         $userAccessToken->last_accessed_at = 0;
         $userAccessToken->save(false);

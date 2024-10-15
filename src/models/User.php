@@ -125,7 +125,7 @@ class User extends \lujie\extend\db\ActiveRecord implements IdentityInterface
      */
     public function createAccessToken(?string $type = null, int $duration = 86400, int $length = 64): string
     {
-        return static::getAccessTokenManager($type)->createAccessToken($type, $duration, $length);
+        return static::getAccessTokenManager($type)->createAccessToken($this->user_id, $type, $duration, $length);
     }
 
     /**

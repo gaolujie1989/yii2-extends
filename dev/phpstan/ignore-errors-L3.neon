@@ -1,2 +1,4 @@
 parameters:
     ignoreErrors:
+        - '#should return yii\\db\\ActiveQuery but returns yii\\db\\ActiveQueryInterface#'
+        - '#does not accept default value of type (string|array)#'

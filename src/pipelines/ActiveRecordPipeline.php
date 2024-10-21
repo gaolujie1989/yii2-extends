@@ -141,6 +141,7 @@ class ActiveRecordPipeline extends BaseDbPipeline
                     if (!$model->getIsNewRecord()) {
                         $values->setIsNewRecord(false);
                         $values->setOldAttributes($model->getOldAttributes());
+                        $values->setAttributes($model->getPrimaryKey(true), false);
                     }
                     $models[] = $values;
                     continue;

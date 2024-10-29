@@ -105,8 +105,6 @@ class PdfCommander extends BaseCommander
     /**
      * @param string $inputPdf
      * @param string $outputPdf
-     * @param int $firstPage
-     * @param int $lastPage
      * @param array $options
      * @return string
      * @inheritdoc

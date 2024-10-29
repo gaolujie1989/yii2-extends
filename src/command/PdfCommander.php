@@ -26,6 +26,7 @@ class PdfCommander extends BaseCommander
         'pdftops' => 'pdftops',
         'pdftotext' => 'pdftotext',
         'pdfunite' => 'pdfunite',
+        'pdftk' => 'pdftk',
         'gs' => 'gs',
         'tesseract' => 'tesseract',
     ];
@@ -50,7 +51,7 @@ class PdfCommander extends BaseCommander
      * @return string
      * @inheritdoc
      */
-    public function pdfToImages(string $pdf, string $outputImageFilePrefix, array $options): string
+    public function pdfToImages(string $pdf, string $outputImageFilePrefix, array $options = ['-png', '-r 300']): string
     {
         $options = $this->parseOptions($options);
         $options[] = $pdf;
@@ -110,11 +111,18 @@ class PdfCommander extends BaseCommander
      * @return string
      * @inheritdoc
      */
-    public function separatePdf(string $inputPdf, string $outputPdf, int $firstPage = 1, int $lastPage = 1, array $options = []): string
+    public function separatePdf(string $inputPdf, string $outputPdf, array $options = []): string
     {
+        if (isset($options['firstPage'])) {
+            $options[] = '-dFirstPage=' . $options['firstPage'];
+            unset($options['firstPage']);
+        }
+        if (isset($options['lastPage'])) {
+            $options[] = '-dLastPage=' . $options['lastPage'];
+            unset($options['lastPage']);
+        }
         $options = array_merge($options, [
             '-dBATCH', '-dNOPAUSE', '-dSAFER', '-dQUIET', '-sDEVICE=pdfwrite',
-            '-dFirstPage=' . $firstPage, '-dLastPage=' . $lastPage,
             '-sOutputFile=' . $outputPdf
         ]);
         $options = $this->parseOptions($options);

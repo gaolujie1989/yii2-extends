@@ -7,6 +7,7 @@ namespace lujie\extend\command;
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Yii;
 use yii\base\BaseObject;
 
 /**
@@ -54,7 +55,7 @@ abstract class BaseCommander extends BaseObject
             $process->setTimeout($this->timeout);
         }
         if ($this->workingDir) {
-            $process->setWorkingDirectory($this->workingDir);
+            $process->setWorkingDirectory(Yii::getAlias($this->workingDir));
         }
         return $process;
     }

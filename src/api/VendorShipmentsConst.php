@@ -33,6 +33,11 @@ class VendorShipmentsConst
         public const SHIPMENT_SHIPMENT_FREIGHT_TERM_COLLECT = 'Collect';
         public const SHIPMENT_SHIPMENT_FREIGHT_TERM_PREPAID = 'Prepaid';
         
+        public const SHIPMENT_INFORMATION_SHIP_MODE_SMALL_PARCEL = 'SmallParcel';
+        public const SHIPMENT_INFORMATION_SHIP_MODE_LTL = 'LTL';
+        
+        public const LABEL_DATA_LABEL_FORMAT_PDF = 'PDF';
+        
         public const SHIPMENT_STATUS_DETAILS_SHIPMENT_STATUS_CREATED = 'Created';
         public const SHIPMENT_STATUS_DETAILS_SHIPMENT_STATUS_TRANSPORTATION_REQUESTED = 'TransportationRequested';
         public const SHIPMENT_STATUS_DETAILS_SHIPMENT_STATUS_CARRIER_ASSIGNED = 'CarrierAssigned';
@@ -100,6 +105,14 @@ class VendorShipmentsConst
         
         public const ITEM_QUANTITY_UNIT_OF_MEASURE_CASES = 'Cases';
         public const ITEM_QUANTITY_UNIT_OF_MEASURE_EACHES = 'Eaches';
+        
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_POUNDS = 'POUNDS';
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_OUNCES = 'OUNCES';
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_GRAMS = 'GRAMS';
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_KILOGRAMS = 'KILOGRAMS';
+        
+        public const PACKED_QUANTITY_UNIT_OF_MEASURE_CASES = 'Cases';
+        public const PACKED_QUANTITY_UNIT_OF_MEASURE_EACHES = 'Eaches';
         
         public const DURATION_DURATION_UNIT_DAYS = 'Days';
         public const DURATION_DURATION_UNIT_MONTHS = 'Months';

@@ -27,4 +27,9 @@ class VendorDirectFulfillmentShipping20211228Const
         public const CONTAINER_CONTAINER_TYPE_CARTON = 'Carton';
         public const CONTAINER_CONTAINER_TYPE_PALLET = 'Pallet';
         
+        public const CARRIER_ID_SWA = 'SWA';
+        
+        public const CONTAINER_LABEL_FORMAT_PNG = 'PNG';
+        public const CONTAINER_LABEL_FORMAT_ZPL = 'ZPL';
+        
 }

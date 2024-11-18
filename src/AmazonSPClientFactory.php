@@ -2,7 +2,9 @@
 
 namespace lujie\amazon\sp;
 
+use lujie\amazon\sp\api\InvoicesApiModel20240619;
 use lujie\amazon\sp\api\AplusContent20201101;
+use lujie\amazon\sp\api\AppIntegrations20240401;
 use lujie\amazon\sp\api\Application20231130;
 use lujie\amazon\sp\api\Awd20240509;
 use lujie\amazon\sp\api\CatalogItemsV0;
@@ -18,6 +20,7 @@ use lujie\amazon\sp\api\FbaInventory;
 use lujie\amazon\sp\api\Feeds20200904;
 use lujie\amazon\sp\api\Feeds20210630;
 use lujie\amazon\sp\api\FinancesV0;
+use lujie\amazon\sp\api\Finances20240619;
 use lujie\amazon\sp\api\FulfillmentInboundV0;
 use lujie\amazon\sp\api\FulfillmentInbound20240320;
 use lujie\amazon\sp\api\FulfillmentOutbound20200701;
@@ -68,12 +71,32 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
+     * @return InvoicesApiModel20240619|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getInvoicesApiModel20240619(Account $account): InvoicesApiModel20240619|BaseAmazonSPClient|null
+    {
+        return $this->createClient(InvoicesApiModel20240619::class, $account);
+    }
+
+    /**
+     * @param Account $account
      * @return AplusContent20201101|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
     public function getAplusContent20201101(Account $account): AplusContent20201101|BaseAmazonSPClient|null
     {
         return $this->createClient(AplusContent20201101::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return AppIntegrations20240401|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getAppIntegrations20240401(Account $account): AppIntegrations20240401|BaseAmazonSPClient|null
+    {
+        return $this->createClient(AppIntegrations20240401::class, $account);
     }
 
     /**
@@ -224,6 +247,16 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
     public function getFinancesV0(Account $account): FinancesV0|BaseAmazonSPClient|null
     {
         return $this->createClient(FinancesV0::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return Finances20240619|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getFinances20240619(Account $account): Finances20240619|BaseAmazonSPClient|null
+    {
+        return $this->createClient(Finances20240619::class, $account);
     }
 
     /**

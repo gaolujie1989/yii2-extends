@@ -14,7 +14,7 @@ class VendorDirectFulfillmentShippingV1 extends \lujie\amazon\sp\BaseAmazonSPCli
 
             
     /**
-     * @description Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.
+     * @description Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.
 
 **Usage Plan:**
 
@@ -22,17 +22,17 @@ class VendorDirectFulfillmentShippingV1 extends \lujie\amazon\sp\BaseAmazonSPCli
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShippingLabels
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned.
      *      - *createdAfter* - string - required
-     *          - Shipping labels that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Shipping labels that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by order creation date.
      *      - *nextToken* - string - optional
@@ -48,7 +48,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
         
     /**
-     * @description Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.
+     * @description Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.
 
 **Usage Plan:**
 
@@ -56,17 +56,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShippingLabels
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned.
      *      - *createdAfter* - string - required
-     *          - Shipping labels that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Shipping labels that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by order creation date.
      *      - *nextToken* - string - optional
@@ -82,7 +82,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
     
     /**
-     * @description Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.
+     * @description Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.
 
 **Usage Plan:**
 
@@ -90,17 +90,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShippingLabels
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned.
      *      - *createdAfter* - string - required
-     *          - Shipping labels that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Shipping labels that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by order creation date.
      *      - *nextToken* - string - optional
@@ -116,7 +116,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
                 
     /**
-     * @description Creates a shipping label for a purchase order and returns a `transactionId` for reference.
+     * @description Creates a shipping label for a purchase order and returns a transactionId for reference.
 
 **Usage Plan:**
 
@@ -124,12 +124,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShippingLabels
      * @param array $data 
      * @return array
      *      - *payload* - 
-     *          - The response payload for the `submitShippingLabelRequest` operation.
+     *          - The response payload for the submitShippingLabelRequest operation.
      *      - *errors* - 
      */
     public function submitShippingLabelRequest(array $data): array
@@ -138,7 +138,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
                     
     /**
-     * @description Returns a shipping label for the `purchaseOrderNumber` that you specify.
+     * @description Returns a shipping label for the purchaseOrderNumber that you specify.
 
 **Usage Plan:**
 
@@ -146,12 +146,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShippingLabels
-     * @param string $purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same `purchaseOrderNumber` as received in the order.
+     * @param string $purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
      * @return array
      *      - *payload* - 
-     *          - The payload for the `getShippingLabel` operation.
+     *          - The payload for the getShippingLabel operation.
      *      - *errors* - 
      */
     public function getShippingLabel(string $purchaseOrderNumber): array
@@ -168,12 +168,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShipping
      * @param array $data 
      * @return array
      *      - *payload* - 
-     *          - The response payload for the `submitShipmentConfirmations` operation.
+     *          - The response payload for the submitShipmentConfirmations operation.
      *      - *errors* - 
      */
     public function submitShipmentConfirmations(array $data): array
@@ -190,12 +190,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShipping
      * @param array $data 
      * @return array
      *      - *payload* - 
-     *          - The response payload for the `submitShipmentStatusUpdates` operation.
+     *          - The response payload for the submitShipmentStatusUpdates operation.
      *      - *errors* - 
      */
     public function submitShipmentStatusUpdates(array $data): array
@@ -204,7 +204,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
                 
     /**
-     * @description Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.
+     * @description Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.
 
 **Usage Plan:**
 
@@ -212,17 +212,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag customerInvoices
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned
      *      - *createdAfter* - string - required
-     *          - Orders that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Orders that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by order creation date.
      *      - *nextToken* - string - optional
@@ -238,7 +238,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
         
     /**
-     * @description Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.
+     * @description Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.
 
 **Usage Plan:**
 
@@ -246,17 +246,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag customerInvoices
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned
      *      - *createdAfter* - string - required
-     *          - Orders that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Orders that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by order creation date.
      *      - *nextToken* - string - optional
@@ -272,7 +272,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
     
     /**
-     * @description Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.
+     * @description Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.
 
 **Usage Plan:**
 
@@ -280,17 +280,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag customerInvoices
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned
      *      - *createdAfter* - string - required
-     *          - Orders that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Orders that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by order creation date.
      *      - *nextToken* - string - optional
@@ -306,7 +306,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
                     
     /**
-     * @description Returns a customer invoice based on the `purchaseOrderNumber` that you specify.
+     * @description Returns a customer invoice based on the purchaseOrderNumber that you specify.
 
 **Usage Plan:**
 
@@ -314,12 +314,12 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag customerInvoices
      * @param string $purchaseOrderNumber Purchase order number of the shipment for which to return the invoice.
      * @return array
      *      - *payload* - 
-     *          - The payload for the `getCustomerInvoice` operation.
+     *          - The payload for the getCustomerInvoice operation.
      *      - *errors* - 
      */
     public function getCustomerInvoice(string $purchaseOrderNumber): array
@@ -336,17 +336,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShipping
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned
      *      - *createdAfter* - string - required
-     *          - Packing slips that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Packing slips that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by packing slip creation date.
      *      - *nextToken* - string - optional
@@ -369,17 +369,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShipping
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned
      *      - *createdAfter* - string - required
-     *          - Packing slips that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Packing slips that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by packing slip creation date.
      *      - *nextToken* - string - optional
@@ -402,17 +402,17 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShipping
      * @param array $query
      *      - *shipFromPartyId* - string - optional
-     *          - The vendor `warehouseId` for order fulfillment. If not specified the result will contain orders for all warehouses.
+     *          - The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned
      *      - *createdAfter* - string - required
-     *          - Packing slips that became available after this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *createdBefore* - string - required
-     *          - Packing slips that became available before this date and time will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> date/time format.
+     *          - Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      *      - *sortOrder* - string - optional
      *          - Sort ASC or DESC by packing slip creation date.
      *      - *nextToken* - string - optional
@@ -427,7 +427,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
                     
     /**
-     * @description Returns a packing slip based on the `purchaseOrderNumber` that you specify.
+     * @description Returns a packing slip based on the purchaseOrderNumber that you specify.
 
 **Usage Plan:**
 
@@ -435,9 +435,9 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | ---- | ---- |
 | 10 | 10 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @tag vendorShipping
-     * @param string $purchaseOrderNumber The `purchaseOrderNumber` for the packing slip you want.
+     * @param string $purchaseOrderNumber The purchaseOrderNumber for the packing slip you want.
      * @return array
      *      - *payload* - 
      *      - *errors* - 

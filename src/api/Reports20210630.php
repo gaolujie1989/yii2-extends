@@ -23,7 +23,7 @@ class Reports20210630 extends \lujie\amazon\sp\BaseAmazonSPClient
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param array $query
      *      - *reportTypes* - array - optional
      *          - A list of report types used to filter reports. Refer to [Report Type Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values) for more information. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
@@ -60,7 +60,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param array $query
      *      - *reportTypes* - array - optional
      *          - A list of report types used to filter reports. Refer to [Report Type Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values) for more information. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
@@ -97,7 +97,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param array $query
      *      - *reportTypes* - array - optional
      *          - A list of report types used to filter reports. Refer to [Report Type Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values) for more information. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
@@ -134,7 +134,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0167 | 15 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param array $data 
      * @return array
      *      - *reportId* - string
@@ -155,7 +155,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param string $reportId The identifier for the report. This identifier is unique only in combination with a seller ID.
      */
     public function cancelReport(string $reportId): void
@@ -173,7 +173,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 2 | 15 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param string $reportId The identifier for the report. This identifier is unique only in combination with a seller ID.
      * @return array
      *      - *marketplaceIds* - array
@@ -214,7 +214,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param array $query
      *      - *reportTypes* - array - required
      *          - A list of report types used to filter report schedules. Refer to [Report Type Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values) for more information.
@@ -237,7 +237,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param array $data 
      * @return array
      *      - *reportScheduleId* - string
@@ -258,7 +258,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param string $reportScheduleId The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
      */
     public function cancelReportSchedule(string $reportScheduleId): void
@@ -276,7 +276,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param string $reportScheduleId The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
      * @return array
      *      - *reportScheduleId* - string
@@ -306,7 +306,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0167 | 15 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag reports
+     * @tag Reports
      * @param string $reportDocumentId The identifier for the report document.
      * @return array
      *      - *reportDocumentId* - string

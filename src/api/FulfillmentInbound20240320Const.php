@@ -7,6 +7,8 @@ namespace lujie\amazon\sp\api;
 */
 class FulfillmentInbound20240320Const
 {
+        public const ALL_OWNERS_CONSTRAINT_MUST_MATCH = 'MUST_MATCH';
+        
         public const BOX_CONTENT_INFORMATION_SOURCE_BOX_CONTENT_PROVIDED = 'BOX_CONTENT_PROVIDED';
         public const BOX_CONTENT_INFORMATION_SOURCE_MANUAL_PROCESS = 'MANUAL_PROCESS';
         public const BOX_CONTENT_INFORMATION_SOURCE_BARCODE_2D = 'BARCODE_2D';
@@ -34,9 +36,45 @@ class FulfillmentInbound20240320Const
         public const OPERATION_STATUS_FAILED = 'FAILED';
         public const OPERATION_STATUS_IN_PROGRESS = 'IN_PROGRESS';
         
+        public const OWNER_CONSTRAINT_AMAZON_ONLY = 'AMAZON_ONLY';
+        public const OWNER_CONSTRAINT_NONE_ONLY = 'NONE_ONLY';
+        public const OWNER_CONSTRAINT_SELLER_ONLY = 'SELLER_ONLY';
+        
+        public const PREP_CATEGORY_ADULT = 'ADULT';
+        public const PREP_CATEGORY_BABY = 'BABY';
+        public const PREP_CATEGORY_FC_PROVIDED = 'FC_PROVIDED';
+        public const PREP_CATEGORY_FRAGILE = 'FRAGILE';
+        public const PREP_CATEGORY_GRANULAR = 'GRANULAR';
+        public const PREP_CATEGORY_HANGER = 'HANGER';
+        public const PREP_CATEGORY_LIQUID = 'LIQUID';
+        public const PREP_CATEGORY_PERFORATED = 'PERFORATED';
+        public const PREP_CATEGORY_SET = 'SET';
+        public const PREP_CATEGORY_SHARP = 'SHARP';
+        public const PREP_CATEGORY_SMALL = 'SMALL';
+        public const PREP_CATEGORY_TEXTILE = 'TEXTILE';
+        public const PREP_CATEGORY_UNKNOWN = 'UNKNOWN';
+        public const PREP_CATEGORY_NONE = 'NONE';
+        
         public const PREP_OWNER_AMAZON = 'AMAZON';
         public const PREP_OWNER_SELLER = 'SELLER';
         public const PREP_OWNER_NONE = 'NONE';
+        
+        public const PREP_TYPE_ITEM_BLACK_SHRINKWRAP = 'ITEM_BLACK_SHRINKWRAP';
+        public const PREP_TYPE_ITEM_BLANKSTK = 'ITEM_BLANKSTK';
+        public const PREP_TYPE_ITEM_BOXING = 'ITEM_BOXING';
+        public const PREP_TYPE_ITEM_BUBBLEWRAP = 'ITEM_BUBBLEWRAP';
+        public const PREP_TYPE_ITEM_CAP_SEALING = 'ITEM_CAP_SEALING';
+        public const PREP_TYPE_ITEM_DEBUNDLE = 'ITEM_DEBUNDLE';
+        public const PREP_TYPE_ITEM_HANG_GARMENT = 'ITEM_HANG_GARMENT';
+        public const PREP_TYPE_ITEM_LABELING = 'ITEM_LABELING';
+        public const PREP_TYPE_ITEM_NO_PREP = 'ITEM_NO_PREP';
+        public const PREP_TYPE_ITEM_POLYBAGGING = 'ITEM_POLYBAGGING';
+        public const PREP_TYPE_ITEM_RMOVHANG = 'ITEM_RMOVHANG';
+        public const PREP_TYPE_ITEM_SETCREAT = 'ITEM_SETCREAT';
+        public const PREP_TYPE_ITEM_SETSTK = 'ITEM_SETSTK';
+        public const PREP_TYPE_ITEM_SIOC = 'ITEM_SIOC';
+        public const PREP_TYPE_ITEM_SUFFOSTK = 'ITEM_SUFFOSTK';
+        public const PREP_TYPE_ITEM_TAPING = 'ITEM_TAPING';
         
         public const REASON_COMMENT_APPOINTMENT_REQUESTED_BY_MISTAKE = 'APPOINTMENT_REQUESTED_BY_MISTAKE';
         public const REASON_COMMENT_VEHICLE_DELAY = 'VEHICLE_DELAY';

@@ -58,7 +58,17 @@ class VendorInvoicesConst
         public const PAYMENT_TERMS_TYPE_PAYMENT_DUE_UPON_RECEIPT_OF_INVOICE = 'PaymentDueUponReceiptOfInvoice';
         public const PAYMENT_TERMS_TYPE_LETTEROF_CREDIT = 'LetterofCredit';
         
+        public const NET_COST_UNIT_OF_MEASURE_POUNDS = 'POUNDS';
+        public const NET_COST_UNIT_OF_MEASURE_OUNCES = 'OUNCES';
+        public const NET_COST_UNIT_OF_MEASURE_GRAMS = 'GRAMS';
+        public const NET_COST_UNIT_OF_MEASURE_KILOGRAMS = 'KILOGRAMS';
+        
         public const ITEM_QUANTITY_UNIT_OF_MEASURE_CASES = 'Cases';
         public const ITEM_QUANTITY_UNIT_OF_MEASURE_EACHES = 'Eaches';
+        
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_POUNDS = 'POUNDS';
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_OUNCES = 'OUNCES';
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_GRAMS = 'GRAMS';
+        public const TOTAL_WEIGHT_UNIT_OF_MEASURE_KILOGRAMS = 'KILOGRAMS';
         
 }

@@ -51,8 +51,6 @@ class FulfillmentOutbound20200701Const
         
         public const AMOUNT_UNIT_OF_MEASURE_EACHES = 'Eaches';
         
-        public const DELIVERY_QUANTITY_UNIT_OF_MEASURE_EACH = 'Each';
-        
         public const INVALID_ITEM_REASON_CODE_INVALID_VALUES = 'InvalidValues';
         public const INVALID_ITEM_REASON_CODE_DUPLICATE_REQUEST = 'DuplicateRequest';
         public const INVALID_ITEM_REASON_CODE_NO_COMPLETED_SHIP_ITEMS = 'NoCompletedShipItems';

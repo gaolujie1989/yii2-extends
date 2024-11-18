@@ -309,7 +309,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *      - *PackageLabelsToPrint* - array - optional
      *          - A list of identifiers that specify packages for which you want package labels printed.
 
-Must match CartonId values previously passed using the FBA Inbound Shipment Carton Information Feed. If not, the operation returns the IncorrectPackageIdentifier error code.
+If you provide box content information with the [FBA Inbound Shipment Carton Information Feed](https://developer-docs.amazon.com/sp-api/docs/fulfillment-by-amazon-feed-type-values#fba-inbound-shipment-carton-information-feed), then `PackageLabelsToPrint` must match the `CartonId` values you provide through that feed. If you provide box content information with the Fulfillment Inbound API v2024-03-20, then `PackageLabelsToPrint` must match the `boxID` values from the [`listShipmentBoxes`](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-reference#listshipmentboxes) response. If these values do not match as required, the operation returns the `IncorrectPackageIdentifier` error code.
      *      - *NumberOfPallets* - integer - optional
      *          - The number of pallets in the shipment. This returns four identical labels for each pallet.
      *      - *PageSize* - integer - optional

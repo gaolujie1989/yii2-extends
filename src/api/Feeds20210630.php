@@ -23,7 +23,7 @@ class Feeds20210630 extends \lujie\amazon\sp\BaseAmazonSPClient
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param array $query
      *      - *feedTypes* - array - optional
      *          - A list of feed types used to filter feeds. When feedTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either feedTypes or nextToken is required.
@@ -60,7 +60,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param array $query
      *      - *feedTypes* - array - optional
      *          - A list of feed types used to filter feeds. When feedTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either feedTypes or nextToken is required.
@@ -97,7 +97,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param array $query
      *      - *feedTypes* - array - optional
      *          - A list of feed types used to filter feeds. When feedTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either feedTypes or nextToken is required.
@@ -136,7 +136,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
 
 The rate limit for the [`JSON_LISTINGS_FEED`](https://developer-docs.amazon.com/sp-api/docs/listings-feed-type-values#listings-feed) feed type differs from the rate limit for the [`createFeed`](https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#post-feeds2021-06-30feeds) operation. For more information, refer to the [Building Listings Management Workflows Guide](https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#should-i-submit-in-bulk-using-the-json_listings_feed-or-individually-with-the-listings-items-api).
-     * @tag feeds
+     * @tag Feeds
      * @param array $data 
      * @return array
      *      - *feedId* - string
@@ -157,7 +157,7 @@ The rate limit for the [`JSON_LISTINGS_FEED`](https://developer-docs.amazon.com/
 | 2 | 15 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param string $feedId The identifier for the feed. This identifier is unique only in combination with a seller ID.
      */
     public function cancelFeed(string $feedId): void
@@ -175,7 +175,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 2 | 15 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param string $feedId The identifier for the feed. This identifier is unique only in combination with a seller ID.
      * @return array
      *      - *feedId* - string
@@ -210,7 +210,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.5 | 15 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param array $data 
      * @return array
      *      - *feedDocumentId* - string
@@ -233,7 +233,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 0.0222 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag feeds
+     * @tag Feeds
      * @param string $feedDocumentId The identifier of the feed document.
      * @return array
      *      - *feedDocumentId* - string

@@ -23,7 +23,7 @@ class VendorShipments extends \lujie\amazon\sp\BaseAmazonSPClient
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $data 
      * @return array
      *      - *payload* - 
@@ -45,7 +45,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $data 
      * @return array
      *      - *payload* - 
@@ -67,7 +67,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -136,7 +136,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -205,7 +205,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -262,6 +262,117 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     public function GetShipmentDetails(array $query = []): array
     {
         return $this->api(array_merge(["/vendor/shipping/v1/shipments"], $query));
+    }
+                
+    /**
+     * @description Returns transport Labels based on the filters that you specify.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 10 | 10 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @tag Vendor Shipments
+     * @param array $query
+     *      - *limit* - integer - optional
+     *          - The limit to the number of records returned. Default value is 50 records.
+     *      - *sortOrder* - string - optional
+     *          - Sort in ascending or descending order by transport label creation date.
+     *      - *nextToken* - string - optional
+     *          - Used for pagination when there are more transport label than the specified result size limit.
+     *      - *labelCreatedAfter* - string - optional
+     *          - transport Labels that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *      - *labelcreatedBefore* - string - optional
+     *          - transport Labels that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *      - *buyerReferenceNumber* - string - optional
+     *          - Get transport labels by passing Buyer Reference Number to retreive the corresponding transport label.
+     *      - *vendorShipmentIdentifier* - string - optional
+     *          - Get transport labels by passing Vendor Shipment ID to retreive the corresponding transport label.
+     *      - *sellerWarehouseCode* - string - optional
+     *          - Get Shipping labels based Vendor Warehouse code. This value should be same as 'shipFromParty.partyId' in the Shipment.
+     * @return Iterator
+     *      - *payload* - 
+     *      - *errors* - 
+     */
+    public function eachShipmentLabels(array $query = []): Iterator
+    {
+        return $this->eachInternal('GetShipmentLabels', func_get_args());
+    }
+        
+    /**
+     * @description Returns transport Labels based on the filters that you specify.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 10 | 10 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @tag Vendor Shipments
+     * @param array $query
+     *      - *limit* - integer - optional
+     *          - The limit to the number of records returned. Default value is 50 records.
+     *      - *sortOrder* - string - optional
+     *          - Sort in ascending or descending order by transport label creation date.
+     *      - *nextToken* - string - optional
+     *          - Used for pagination when there are more transport label than the specified result size limit.
+     *      - *labelCreatedAfter* - string - optional
+     *          - transport Labels that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *      - *labelcreatedBefore* - string - optional
+     *          - transport Labels that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *      - *buyerReferenceNumber* - string - optional
+     *          - Get transport labels by passing Buyer Reference Number to retreive the corresponding transport label.
+     *      - *vendorShipmentIdentifier* - string - optional
+     *          - Get transport labels by passing Vendor Shipment ID to retreive the corresponding transport label.
+     *      - *sellerWarehouseCode* - string - optional
+     *          - Get Shipping labels based Vendor Warehouse code. This value should be same as 'shipFromParty.partyId' in the Shipment.
+     * @return Iterator
+     *      - *payload* - 
+     *      - *errors* - 
+     */
+    public function batchShipmentLabels(array $query = []): Iterator
+    {
+        return $this->batchInternal('GetShipmentLabels', func_get_args());
+    }
+    
+    /**
+     * @description Returns transport Labels based on the filters that you specify.
+
+**Usage Plan:**
+
+| Rate (requests per second) | Burst |
+| ---- | ---- |
+| 10 | 10 |
+
+The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @tag Vendor Shipments
+     * @param array $query
+     *      - *limit* - integer - optional
+     *          - The limit to the number of records returned. Default value is 50 records.
+     *      - *sortOrder* - string - optional
+     *          - Sort in ascending or descending order by transport label creation date.
+     *      - *nextToken* - string - optional
+     *          - Used for pagination when there are more transport label than the specified result size limit.
+     *      - *labelCreatedAfter* - string - optional
+     *          - transport Labels that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *      - *labelcreatedBefore* - string - optional
+     *          - transport Labels that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *      - *buyerReferenceNumber* - string - optional
+     *          - Get transport labels by passing Buyer Reference Number to retreive the corresponding transport label.
+     *      - *vendorShipmentIdentifier* - string - optional
+     *          - Get transport labels by passing Vendor Shipment ID to retreive the corresponding transport label.
+     *      - *sellerWarehouseCode* - string - optional
+     *          - Get Shipping labels based Vendor Warehouse code. This value should be same as 'shipFromParty.partyId' in the Shipment.
+     * @return array
+     *      - *payload* - 
+     *      - *errors* - 
+     */
+    public function GetShipmentLabels(array $query = []): array
+    {
+        return $this->api(array_merge(["/vendor/shipping/v1/transportLabels"], $query));
     }
     
 }

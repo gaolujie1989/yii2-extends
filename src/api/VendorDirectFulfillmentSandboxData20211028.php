@@ -27,9 +27,9 @@ class VendorDirectFulfillmentSandboxData20211028 extends \lujie\amazon\sp\BaseAm
     }
                     
     /**
-     * @description Retrieves the transaction status identified by the specified `transactionId`, and returns the requested test order data if the transaction is successful.
+     * @description Returns the status of the transaction indicated by the specified transactionId. If the transaction was successful, also returns the requested test order data.
      * @tag vendorDFSandboxtransactionstatus
-     * @param string $transactionId The transaction identifier returned in the response for the `generateOrderScenarios` operation.
+     * @param string $transactionId The transaction identifier returned in the response to the generateOrderScenarios operation.
      * @return array
      *      - *transactionStatus* - 
      */

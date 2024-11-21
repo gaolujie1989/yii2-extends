@@ -11,4 +11,6 @@ class FbaInventoryConst
         public const RESEARCHING_QUANTITY_ENTRY_NAME_RESEARCHINGQUANTITYINMIDTERM = 'researchingQuantityInMidTerm';
         public const RESEARCHING_QUANTITY_ENTRY_NAME_RESEARCHINGQUANTITYINLONGTERM = 'researchingQuantityInLongTerm';
         
+        public const GRANULARITY_TYPE_MARKETPLACE = 'Marketplace';
+        
 }

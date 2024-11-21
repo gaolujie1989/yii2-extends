@@ -27,4 +27,18 @@ class ListingsRestrictions20210801Const
         
         public const LINK_VERB_GET = 'GET';
         
+        public const CONDITION_TYPE_NEW_NEW = 'new_new';
+        public const CONDITION_TYPE_NEW_OPEN_BOX = 'new_open_box';
+        public const CONDITION_TYPE_NEW_OEM = 'new_oem';
+        public const CONDITION_TYPE_REFURBISHED_REFURBISHED = 'refurbished_refurbished';
+        public const CONDITION_TYPE_USED_LIKE_NEW = 'used_like_new';
+        public const CONDITION_TYPE_USED_VERY_GOOD = 'used_very_good';
+        public const CONDITION_TYPE_USED_GOOD = 'used_good';
+        public const CONDITION_TYPE_USED_ACCEPTABLE = 'used_acceptable';
+        public const CONDITION_TYPE_COLLECTIBLE_LIKE_NEW = 'collectible_like_new';
+        public const CONDITION_TYPE_COLLECTIBLE_VERY_GOOD = 'collectible_very_good';
+        public const CONDITION_TYPE_COLLECTIBLE_GOOD = 'collectible_good';
+        public const CONDITION_TYPE_COLLECTIBLE_ACCEPTABLE = 'collectible_acceptable';
+        public const CONDITION_TYPE_CLUB_CLUB = 'club_club';
+        
 }

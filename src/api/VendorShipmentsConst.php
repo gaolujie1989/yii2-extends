@@ -117,4 +117,7 @@ class VendorShipmentsConst
         public const DURATION_DURATION_UNIT_DAYS = 'Days';
         public const DURATION_DURATION_UNIT_MONTHS = 'Months';
         
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
 }

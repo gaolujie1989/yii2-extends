@@ -46,4 +46,21 @@ class Awd20240509Const
         public const WEIGHT_UNIT_OF_MEASUREMENT_POUNDS = 'POUNDS';
         public const WEIGHT_UNIT_OF_MEASUREMENT_KILOGRAMS = 'KILOGRAMS';
         
+        public const SKU_QUANTITIES_SHOW = 'SHOW';
+        public const SKU_QUANTITIES_HIDE = 'HIDE';
+        
+        public const SORT_BY_UPDATED_AT = 'UPDATED_AT';
+        public const SORT_BY_CREATED_AT = 'CREATED_AT';
+        
+        public const SHIPMENT_STATUS_CREATED = 'CREATED';
+        public const SHIPMENT_STATUS_SHIPPED = 'SHIPPED';
+        public const SHIPMENT_STATUS_IN_TRANSIT = 'IN_TRANSIT';
+        public const SHIPMENT_STATUS_RECEIVING = 'RECEIVING';
+        public const SHIPMENT_STATUS_DELIVERED = 'DELIVERED';
+        public const SHIPMENT_STATUS_CLOSED = 'CLOSED';
+        public const SHIPMENT_STATUS_CANCELLED = 'CANCELLED';
+        
+        public const DETAILS_SHOW = 'SHOW';
+        public const DETAILS_HIDE = 'HIDE';
+        
 }

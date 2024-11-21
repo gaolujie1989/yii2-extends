@@ -37,4 +37,13 @@ class CatalogItems20220401Const
         public const ITEM_VENDOR_DETAILS_BY_MARKETPLACE_REPLENISHMENT_CATEGORY_OBSOLETE = 'OBSOLETE';
         public const ITEM_VENDOR_DETAILS_BY_MARKETPLACE_REPLENISHMENT_CATEGORY_PLANNED_REPLENISHMENT = 'PLANNED_REPLENISHMENT';
         
+        public const IDENTIFIERS_TYPE_ASIN = 'ASIN';
+        public const IDENTIFIERS_TYPE_EAN = 'EAN';
+        public const IDENTIFIERS_TYPE_GTIN = 'GTIN';
+        public const IDENTIFIERS_TYPE_ISBN = 'ISBN';
+        public const IDENTIFIERS_TYPE_JAN = 'JAN';
+        public const IDENTIFIERS_TYPE_MINSAN = 'MINSAN';
+        public const IDENTIFIERS_TYPE_SKU = 'SKU';
+        public const IDENTIFIERS_TYPE_UPC = 'UPC';
+        
 }

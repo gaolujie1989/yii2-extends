@@ -27,4 +27,7 @@ class VendorDirectFulfillmentShippingV1Const
         public const CONTAINER_CONTAINER_TYPE_CARTON = 'carton';
         public const CONTAINER_CONTAINER_TYPE_PALLET = 'pallet';
         
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
 }

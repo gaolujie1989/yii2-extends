@@ -63,6 +63,22 @@ foreach ($definitions as $definitionKey => $definition) {
     }
 }
 
+foreach ($openapi['paths'] as $path => $pathMethods) {
+    foreach ($pathMethods as $httpMethod => $method) {
+        foreach ($method['parameters'] ?? [] as $parameter) {
+            if (isset($parameter['enum'])) {
+                $constantPrefix = strtoupper(Inflector::underscore($parameter['name'])) . '_';
+                $propertyConstants = [];
+                foreach ($parameter['enum'] as $emumValue) {
+                    $propertyEnumKey = strtoupper(Inflector::underscore(strtolower($emumValue)));
+                    $propertyConstants[$constantPrefix . $propertyEnumKey] = $emumValue;
+                }
+                $apiConstants[$constantPrefix] = $propertyConstants;
+            }
+        }
+    }
+}
+
 echo "<?php\n";
 ?>
 

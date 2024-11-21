@@ -7,4 +7,18 @@ namespace lujie\amazon\sp\api;
 */
 class SalesConst
 {
+        public const GRANULARITY_HOUR = 'Hour';
+        public const GRANULARITY_DAY = 'Day';
+        public const GRANULARITY_WEEK = 'Week';
+        public const GRANULARITY_MONTH = 'Month';
+        public const GRANULARITY_YEAR = 'Year';
+        public const GRANULARITY_TOTAL = 'Total';
+        
+        public const BUYER_TYPE_B2B = 'B2B';
+        public const BUYER_TYPE_B2C = 'B2C';
+        public const BUYER_TYPE_ALL = 'All';
+        
+        public const FIRST_DAY_OF_WEEK_MONDAY = 'Monday';
+        public const FIRST_DAY_OF_WEEK_SUNDAY = 'Sunday';
+        
 }

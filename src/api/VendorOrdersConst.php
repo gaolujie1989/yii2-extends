@@ -62,4 +62,25 @@ class VendorOrdersConst
         public const ORDER_STATUS_PURCHASE_ORDER_STATUS_OPEN = 'OPEN';
         public const ORDER_STATUS_PURCHASE_ORDER_STATUS_CLOSED = 'CLOSED';
         
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
+        public const PO_ITEM_STATE_CANCELLED = 'Cancelled';
+        
+        public const PURCHASE_ORDER_STATE_NEW = 'New';
+        public const PURCHASE_ORDER_STATE_ACKNOWLEDGED = 'Acknowledged';
+        public const PURCHASE_ORDER_STATE_CLOSED = 'Closed';
+        
+        public const PURCHASE_ORDER_STATUS_OPEN = 'OPEN';
+        public const PURCHASE_ORDER_STATUS_CLOSED = 'CLOSED';
+        
+        public const ITEM_CONFIRMATION_STATUS_ACCEPTED = 'ACCEPTED';
+        public const ITEM_CONFIRMATION_STATUS_PARTIALLY_ACCEPTED = 'PARTIALLY_ACCEPTED';
+        public const ITEM_CONFIRMATION_STATUS_REJECTED = 'REJECTED';
+        public const ITEM_CONFIRMATION_STATUS_UNCONFIRMED = 'UNCONFIRMED';
+        
+        public const ITEM_RECEIVE_STATUS_NOT_RECEIVED = 'NOT_RECEIVED';
+        public const ITEM_RECEIVE_STATUS_PARTIALLY_RECEIVED = 'PARTIALLY_RECEIVED';
+        public const ITEM_RECEIVE_STATUS_RECEIVED = 'RECEIVED';
+        
 }

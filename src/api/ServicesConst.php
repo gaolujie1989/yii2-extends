@@ -67,4 +67,10 @@ class ServicesConst
         
         public const ENCRYPTION_DETAILS_STANDARD_AES = 'AES';
         
+        public const SORT_FIELD_JOB_DATE = 'JOB_DATE';
+        public const SORT_FIELD_JOB_STATUS = 'JOB_STATUS';
+        
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
 }

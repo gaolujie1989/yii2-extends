@@ -25,4 +25,12 @@ class VendorDirectFulfillmentOrdersV1Const
         public const TAX_DETAILS_TYPE_TVA = 'TVA';
         public const TAX_DETAILS_TYPE_VAT = 'VAT';
         
+        public const STATUS_NEW = 'NEW';
+        public const STATUS_SHIPPED = 'SHIPPED';
+        public const STATUS_ACCEPTED = 'ACCEPTED';
+        public const STATUS_CANCELLED = 'CANCELLED';
+        
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
 }

@@ -95,4 +95,14 @@ class FulfillmentInbound20240320Const
         public const UNIT_OF_WEIGHT_LB = 'LB';
         public const UNIT_OF_WEIGHT_KG = 'KG';
         
+        public const STATUS_ACTIVE = 'ACTIVE';
+        public const STATUS_VOIDED = 'VOIDED';
+        public const STATUS_SHIPPED = 'SHIPPED';
+        
+        public const SORT_BY_LAST_UPDATED_TIME = 'LAST_UPDATED_TIME';
+        public const SORT_BY_CREATION_TIME = 'CREATION_TIME';
+        
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
 }

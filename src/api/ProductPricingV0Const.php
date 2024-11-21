@@ -40,4 +40,10 @@ class ProductPricingV0Const
         public const CUSTOMER_TYPE_CONSUMER = 'Consumer';
         public const CUSTOMER_TYPE_BUSINESS = 'Business';
         
+        public const ITEM_TYPE_ASIN = 'Asin';
+        public const ITEM_TYPE_SKU = 'Sku';
+        
+        public const OFFER_TYPE_B2C = 'B2C';
+        public const OFFER_TYPE_B2B = 'B2B';
+        
 }

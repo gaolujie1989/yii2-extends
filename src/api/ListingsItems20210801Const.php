@@ -44,4 +44,15 @@ class ListingsItems20210801Const
         public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_INVALID = 'INVALID';
         public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_VALID = 'VALID';
         
+        public const MODE_VALIDATION_PREVIEW = 'VALIDATION_PREVIEW';
+        
+        public const IDENTIFIERS_TYPE_ASIN = 'ASIN';
+        public const IDENTIFIERS_TYPE_EAN = 'EAN';
+        public const IDENTIFIERS_TYPE_GTIN = 'GTIN';
+        public const IDENTIFIERS_TYPE_ISBN = 'ISBN';
+        public const IDENTIFIERS_TYPE_JAN = 'JAN';
+        public const IDENTIFIERS_TYPE_MINSAN = 'MINSAN';
+        public const IDENTIFIERS_TYPE_SKU = 'SKU';
+        public const IDENTIFIERS_TYPE_UPC = 'UPC';
+        
 }

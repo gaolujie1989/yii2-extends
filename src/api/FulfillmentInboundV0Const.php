@@ -142,4 +142,24 @@ class FulfillmentInboundV0Const
         public const UNIT_OF_WEIGHT_POUNDS = 'pounds';
         public const UNIT_OF_WEIGHT_KILOGRAMS = 'kilograms';
         
+        public const PAGE_TYPE_PACKAGELABEL_LETTER_2 = 'PackageLabel_Letter_2';
+        public const PAGE_TYPE_PACKAGELABEL_LETTER_4 = 'PackageLabel_Letter_4';
+        public const PAGE_TYPE_PACKAGELABEL_LETTER_6 = 'PackageLabel_Letter_6';
+        public const PAGE_TYPE_PACKAGELABEL_LETTER_6_CARRIERLEFT = 'PackageLabel_Letter_6_CarrierLeft';
+        public const PAGE_TYPE_PACKAGELABEL_A4_2 = 'PackageLabel_A4_2';
+        public const PAGE_TYPE_PACKAGELABEL_A4_4 = 'PackageLabel_A4_4';
+        public const PAGE_TYPE_PACKAGELABEL_PLAIN_PAPER = 'PackageLabel_Plain_Paper';
+        public const PAGE_TYPE_PACKAGELABEL_PLAIN_PAPER_CARRIERBOTTOM = 'PackageLabel_Plain_Paper_CarrierBottom';
+        public const PAGE_TYPE_PACKAGELABEL_THERMAL = 'PackageLabel_Thermal';
+        public const PAGE_TYPE_PACKAGELABEL_THERMAL_UNIFIED = 'PackageLabel_Thermal_Unified';
+        public const PAGE_TYPE_PACKAGELABEL_THERMAL_NONPCP = 'PackageLabel_Thermal_NonPCP';
+        public const PAGE_TYPE_PACKAGELABEL_THERMAL_NO_CARRIER_ROTATION = 'PackageLabel_Thermal_No_Carrier_Rotation';
+        
+        public const LABEL_TYPE_BARCODE_2D = 'BARCODE_2D';
+        public const LABEL_TYPE_UNIQUE = 'UNIQUE';
+        public const LABEL_TYPE_PALLET = 'PALLET';
+        
+        public const QUERY_TYPE_DATE_RANGE = 'DATE_RANGE';
+        public const QUERY_TYPE_NEXT_TOKEN = 'NEXT_TOKEN';
+        
 }

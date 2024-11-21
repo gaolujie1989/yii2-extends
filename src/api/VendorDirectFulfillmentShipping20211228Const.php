@@ -32,4 +32,7 @@ class VendorDirectFulfillmentShipping20211228Const
         public const CONTAINER_LABEL_FORMAT_PNG = 'PNG';
         public const CONTAINER_LABEL_FORMAT_ZPL = 'ZPL';
         
+        public const SORT_ORDER_ASC = 'ASC';
+        public const SORT_ORDER_DESC = 'DESC';
+        
 }

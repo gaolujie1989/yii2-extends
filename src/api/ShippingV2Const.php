@@ -163,15 +163,15 @@ class ShippingV2Const
         public const RATE_ITEM_TYPE_OPTIONAL = 'OPTIONAL';
         public const RATE_ITEM_TYPE_INCLUDED = 'INCLUDED';
         
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_US = 'AmazonShipping_US';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_IN = 'AmazonShipping_IN';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_UK = 'AmazonShipping_UK';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_UAE = 'AmazonShipping_UAE';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_SA = 'AmazonShipping_SA';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_EG = 'AmazonShipping_EG';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_IT = 'AmazonShipping_IT';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_ES = 'AmazonShipping_ES';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_FR = 'AmazonShipping_FR';
-        public const X-AMZN-SHIPPING-BUSINESS-ID_AMAZONSHIPPING_JP = 'AmazonShipping_JP';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_US = 'AmazonShipping_US';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_IN = 'AmazonShipping_IN';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_UK = 'AmazonShipping_UK';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_UAE = 'AmazonShipping_UAE';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_SA = 'AmazonShipping_SA';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_EG = 'AmazonShipping_EG';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_IT = 'AmazonShipping_IT';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_ES = 'AmazonShipping_ES';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_FR = 'AmazonShipping_FR';
+        public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_JP = 'AmazonShipping_JP';
         
 }

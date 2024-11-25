@@ -67,7 +67,7 @@ foreach ($openapi['paths'] as $path => $pathMethods) {
     foreach ($pathMethods as $httpMethod => $method) {
         foreach ($method['parameters'] ?? [] as $parameter) {
             if (isset($parameter['enum'])) {
-                $constantPrefix = strtoupper(Inflector::underscore($parameter['name'])) . '_';
+                $constantPrefix = strtr(strtoupper(Inflector::underscore($parameter['name'])) . '_', ['-' => '_']);
                 $propertyConstants = [];
                 foreach ($parameter['enum'] as $emumValue) {
                     $propertyEnumKey = strtoupper(Inflector::underscore(strtolower($emumValue)));

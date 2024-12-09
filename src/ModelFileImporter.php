@@ -80,7 +80,7 @@ class ModelFileImporter extends FileImporter
             $this->keyMap = array_combine($safeAttributes, $safeAttributes);
         }
         if (empty($this->filterKey)) {
-            $this->filterKey = reset($this->keyMap);
+            $this->filterKey = $this->keyMapFlip ? array_keys($this->keyMap)[0] : reset($this->keyMap);
         }
         $this->transformer = [
             'class' => ChainedTransformer::class,

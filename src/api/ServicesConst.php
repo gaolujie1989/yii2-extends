@@ -67,6 +67,14 @@ class ServicesConst
         
         public const ENCRYPTION_DETAILS_STANDARD_AES = 'AES';
         
+        public const SERVICE_JOB_STATUS_NOT_SERVICED = 'NOT_SERVICED';
+        public const SERVICE_JOB_STATUS_CANCELLED = 'CANCELLED';
+        public const SERVICE_JOB_STATUS_COMPLETED = 'COMPLETED';
+        public const SERVICE_JOB_STATUS_PENDING_SCHEDULE = 'PENDING_SCHEDULE';
+        public const SERVICE_JOB_STATUS_NOT_FULFILLABLE = 'NOT_FULFILLABLE';
+        public const SERVICE_JOB_STATUS_HOLD = 'HOLD';
+        public const SERVICE_JOB_STATUS_PAYMENT_DECLINED = 'PAYMENT_DECLINED';
+        
         public const SORT_FIELD_JOB_DATE = 'JOB_DATE';
         public const SORT_FIELD_JOB_STATUS = 'JOB_STATUS';
         

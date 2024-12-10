@@ -174,4 +174,13 @@ class ShippingV2Const
         public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_FR = 'AmazonShipping_FR';
         public const X_AMZN_SHIPPING_BUSINESS_ID_AMAZONSHIPPING_JP = 'AmazonShipping_JP';
         
+        public const ACCESS_POINT_TYPES_HELIX = 'HELIX';
+        public const ACCESS_POINT_TYPES_CAMPUS_LOCKER = 'CAMPUS_LOCKER';
+        public const ACCESS_POINT_TYPES_OMNI_LOCKER = 'OMNI_LOCKER';
+        public const ACCESS_POINT_TYPES_ODIN_LOCKER = 'ODIN_LOCKER';
+        public const ACCESS_POINT_TYPES_DOBBY_LOCKER = 'DOBBY_LOCKER';
+        public const ACCESS_POINT_TYPES_CORE_LOCKER = 'CORE_LOCKER';
+        public const ACCESS_POINT_TYPES_3P = '3P';
+        public const ACCESS_POINT_TYPES_CAMPUS_ROOM = 'CAMPUS_ROOM';
+        
 }

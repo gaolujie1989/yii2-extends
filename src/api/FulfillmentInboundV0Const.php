@@ -159,6 +159,18 @@ class FulfillmentInboundV0Const
         public const LABEL_TYPE_UNIQUE = 'UNIQUE';
         public const LABEL_TYPE_PALLET = 'PALLET';
         
+        public const SHIPMENT_STATUS_LIST_WORKING = 'WORKING';
+        public const SHIPMENT_STATUS_LIST_READY_TO_SHIP = 'READY_TO_SHIP';
+        public const SHIPMENT_STATUS_LIST_SHIPPED = 'SHIPPED';
+        public const SHIPMENT_STATUS_LIST_RECEIVING = 'RECEIVING';
+        public const SHIPMENT_STATUS_LIST_CANCELLED = 'CANCELLED';
+        public const SHIPMENT_STATUS_LIST_DELETED = 'DELETED';
+        public const SHIPMENT_STATUS_LIST_CLOSED = 'CLOSED';
+        public const SHIPMENT_STATUS_LIST_ERROR = 'ERROR';
+        public const SHIPMENT_STATUS_LIST_IN_TRANSIT = 'IN_TRANSIT';
+        public const SHIPMENT_STATUS_LIST_DELIVERED = 'DELIVERED';
+        public const SHIPMENT_STATUS_LIST_CHECKED_IN = 'CHECKED_IN';
+        
         public const QUERY_TYPE_SHIPMENT = 'SHIPMENT';
         public const QUERY_TYPE_DATE_RANGE = 'DATE_RANGE';
         public const QUERY_TYPE_NEXT_TOKEN = 'NEXT_TOKEN';

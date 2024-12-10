@@ -66,10 +66,14 @@ foreach ($definitions as $definitionKey => $definition) {
 foreach ($openapi['paths'] as $path => $pathMethods) {
     foreach ($pathMethods as $httpMethod => $method) {
         foreach ($method['parameters'] ?? [] as $parameter) {
-            if (isset($parameter['enum'])) {
+            $emuns = array_filter([
+                $parameter['enum'] ?? null,
+                $parameter['items']['enum'] ?? null,
+            ]);
+            foreach ($emuns as $emun) {
                 $constantPrefix = strtr(strtoupper(Inflector::underscore($parameter['name'])) . '_', ['-' => '_']);
                 $propertyConstants = [];
-                foreach ($parameter['enum'] as $emumValue) {
+                foreach ($emun as $emumValue) {
                     $propertyEnumKey = strtoupper(Inflector::underscore(strtolower($emumValue)));
                     $propertyConstants[$constantPrefix . $propertyEnumKey] = $emumValue;
                 }

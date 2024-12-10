@@ -57,4 +57,7 @@ class AplusContent20201101Const
         public const DECORATOR_TYPE_STYLE_PARAGRAPH = 'STYLE_PARAGRAPH';
         public const DECORATOR_TYPE_STYLE_UNDERLINE = 'STYLE_UNDERLINE';
         
+        public const INCLUDED_DATA_SET_CONTENTS = 'CONTENTS';
+        public const INCLUDED_DATA_SET_METADATA = 'METADATA';
+        
 }

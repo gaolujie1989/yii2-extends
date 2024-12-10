@@ -32,4 +32,13 @@ class CatalogItems20201201Const
         public const ITEM_VENDOR_DETAILS_BY_MARKETPLACE_REPLENISHMENT_CATEGORY_OBSOLETE = 'OBSOLETE';
         public const ITEM_VENDOR_DETAILS_BY_MARKETPLACE_REPLENISHMENT_CATEGORY_PLANNED_REPLENISHMENT = 'PLANNED_REPLENISHMENT';
         
+        public const INCLUDED_DATA_IDENTIFIERS = 'identifiers';
+        public const INCLUDED_DATA_IMAGES = 'images';
+        public const INCLUDED_DATA_PRODUCTTYPES = 'productTypes';
+        public const INCLUDED_DATA_SALESRANKS = 'salesRanks';
+        public const INCLUDED_DATA_SUMMARIES = 'summaries';
+        public const INCLUDED_DATA_VARIATIONS = 'variations';
+        public const INCLUDED_DATA_VENDORDETAILS = 'vendorDetails';
+        public const INCLUDED_DATA_ATTRIBUTES = 'attributes';
+        
 }

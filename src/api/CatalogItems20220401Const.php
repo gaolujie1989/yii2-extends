@@ -46,4 +46,15 @@ class CatalogItems20220401Const
         public const IDENTIFIERS_TYPE_SKU = 'SKU';
         public const IDENTIFIERS_TYPE_UPC = 'UPC';
         
+        public const INCLUDED_DATA_ATTRIBUTES = 'attributes';
+        public const INCLUDED_DATA_CLASSIFICATIONS = 'classifications';
+        public const INCLUDED_DATA_DIMENSIONS = 'dimensions';
+        public const INCLUDED_DATA_IDENTIFIERS = 'identifiers';
+        public const INCLUDED_DATA_IMAGES = 'images';
+        public const INCLUDED_DATA_PRODUCTTYPES = 'productTypes';
+        public const INCLUDED_DATA_RELATIONSHIPS = 'relationships';
+        public const INCLUDED_DATA_SALESRANKS = 'salesRanks';
+        public const INCLUDED_DATA_SUMMARIES = 'summaries';
+        public const INCLUDED_DATA_VENDORDETAILS = 'vendorDetails';
+        
 }

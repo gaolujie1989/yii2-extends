@@ -44,6 +44,14 @@ class ListingsItems20210801Const
         public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_INVALID = 'INVALID';
         public const LISTINGS_ITEM_SUBMISSION_RESPONSE_STATUS_VALID = 'VALID';
         
+        public const INCLUDED_DATA_SUMMARIES = 'summaries';
+        public const INCLUDED_DATA_ATTRIBUTES = 'attributes';
+        public const INCLUDED_DATA_ISSUES = 'issues';
+        public const INCLUDED_DATA_OFFERS = 'offers';
+        public const INCLUDED_DATA_FULFILLMENTAVAILABILITY = 'fulfillmentAvailability';
+        public const INCLUDED_DATA_PROCUREMENT = 'procurement';
+        public const INCLUDED_DATA_IDENTIFIERS = 'identifiers';
+        
         public const MODE_VALIDATION_PREVIEW = 'VALIDATION_PREVIEW';
         
         public const IDENTIFIERS_TYPE_ASIN = 'ASIN';

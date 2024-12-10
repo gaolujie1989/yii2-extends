@@ -13,4 +13,10 @@ class DataKiosk20231115Const
         public const QUERY_PROCESSING_STATUS_IN_PROGRESS = 'IN_PROGRESS';
         public const QUERY_PROCESSING_STATUS_IN_QUEUE = 'IN_QUEUE';
         
+        public const PROCESSING_STATUSES_CANCELLED = 'CANCELLED';
+        public const PROCESSING_STATUSES_DONE = 'DONE';
+        public const PROCESSING_STATUSES_FATAL = 'FATAL';
+        public const PROCESSING_STATUSES_IN_PROGRESS = 'IN_PROGRESS';
+        public const PROCESSING_STATUSES_IN_QUEUE = 'IN_QUEUE';
+        
 }

@@ -17,4 +17,10 @@ class Feeds20200904Const
         
         public const FEED_DOCUMENT_COMPRESSION_ALGORITHM_GZIP = 'GZIP';
         
+        public const PROCESSING_STATUSES_CANCELLED = 'CANCELLED';
+        public const PROCESSING_STATUSES_DONE = 'DONE';
+        public const PROCESSING_STATUSES_FATAL = 'FATAL';
+        public const PROCESSING_STATUSES_IN_PROGRESS = 'IN_PROGRESS';
+        public const PROCESSING_STATUSES_IN_QUEUE = 'IN_QUEUE';
+        
 }

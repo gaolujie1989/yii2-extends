@@ -59,7 +59,7 @@ foreach ($definitions as $definitionKey => $definition) {
             }
             $propertyConstants[$constantPrefix . $propertyEnumKey] = $propertyEnumValue;
         }
-        $apiConstants[$constantPrefix] = $propertyConstants;
+        $apiConstants[$constantPrefix] = array_merge($apiConstants[$constantPrefix] ?? [], $propertyConstants);
     }
 }
 
@@ -73,7 +73,7 @@ foreach ($openapi['paths'] as $path => $pathMethods) {
                     $propertyEnumKey = strtoupper(Inflector::underscore(strtolower($emumValue)));
                     $propertyConstants[$constantPrefix . $propertyEnumKey] = $emumValue;
                 }
-                $apiConstants[$constantPrefix] = $propertyConstants;
+                $apiConstants[$constantPrefix] = array_merge($apiConstants[$constantPrefix] ?? [], $propertyConstants);
             }
         }
     }

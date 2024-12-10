@@ -159,6 +159,7 @@ class FulfillmentInboundV0Const
         public const LABEL_TYPE_UNIQUE = 'UNIQUE';
         public const LABEL_TYPE_PALLET = 'PALLET';
         
+        public const QUERY_TYPE_SHIPMENT = 'SHIPMENT';
         public const QUERY_TYPE_DATE_RANGE = 'DATE_RANGE';
         public const QUERY_TYPE_NEXT_TOKEN = 'NEXT_TOKEN';
         

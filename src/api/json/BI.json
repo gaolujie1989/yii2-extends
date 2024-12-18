@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -534,11 +534,11 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "id": "cec3837d-fb48-3b26-8bff-c04e13ec5eb2",
+                                        "id": "7f242cb2-04f3-3412-b84f-db9337110fc9",
                                         "plentyId": 100,
-                                        "plentyIdHash": "ee08022ddfdd5a67c551db7421901fd6",
+                                        "plentyIdHash": "2ff85f409741f89f001d21cc553f6a43",
                                         "keyFigure": "sales",
-                                        "keyFigureName": "quia89bf04a0a57a3ef518a67026c6771fb9",
+                                        "keyFigureName": "quibusdam41b6e3b01d161d57207ac85a1985ffe2",
                                         "filter": {
                                             "dimension": "creationDate",
                                             "calculation": "grossSales"
@@ -548,15 +548,15 @@
                                             "creatorUserId": 3,
                                             "creatorRealName": "Test user"
                                         },
-                                        "updatedAt": "2023-07-08T21:08:31+02:00",
-                                        "createdAt": "2023-07-22T21:22:21+02:00"
+                                        "updatedAt": "2024-09-22T22:30:26+02:00",
+                                        "createdAt": "2024-09-10T13:29:43+02:00"
                                     },
                                     {
-                                        "id": "0350d751-bce1-3f08-9d3e-020125d71a91",
+                                        "id": "db01ced2-1ae2-33fa-8087-3d38b5b7f855",
                                         "plentyId": 100,
-                                        "plentyIdHash": "4aabfce75117e31e5944a2a5adefcc90",
+                                        "plentyIdHash": "ffad4ff6de74c8a260550df6fa867fbd",
                                         "keyFigure": "sales",
-                                        "keyFigureName": "quisebec1c3947e221b7dd6ec9ada4fd0aa1",
+                                        "keyFigureName": "exf5441acba896a9944eebdfbc10e05a72",
                                         "filter": {
                                             "dimension": "creationDate",
                                             "calculation": "grossSales"
@@ -566,8 +566,8 @@
                                             "creatorUserId": 3,
                                             "creatorRealName": "Test user"
                                         },
-                                        "updatedAt": "2023-07-01T19:18:50+02:00",
-                                        "createdAt": "2023-07-07T19:45:08+02:00"
+                                        "updatedAt": "2024-09-10T20:16:00+02:00",
+                                        "createdAt": "2024-10-03T22:18:54+02:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -649,11 +649,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "8b5c11de-3d0a-3a12-a25f-9377bda0b245",
+                                "id": "ec4a10d3-ca2c-32d1-b7fe-7dca9ddc2afe",
                                 "plentyId": 100,
-                                "plentyIdHash": "de430e2a723bf4259d61adece92ba048",
+                                "plentyIdHash": "53623d593700a35375c5a56bc68e9ec1",
                                 "keyFigure": "sales",
-                                "keyFigureName": "error2f02d78e51af70b72641827f2088bd09",
+                                "keyFigureName": "ut6aec5b89efcf351e43e7eeb335978dbd",
                                 "filter": {
                                     "dimension": "creationDate",
                                     "calculation": "grossSales"
@@ -663,8 +663,8 @@
                                     "creatorUserId": 3,
                                     "creatorRealName": "Test user"
                                 },
-                                "updatedAt": "2023-07-13T16:07:49+02:00",
-                                "createdAt": "2023-07-13T15:50:38+02:00"
+                                "updatedAt": "2024-09-29T17:28:13+02:00",
+                                "createdAt": "2024-09-25T19:34:08+02:00"
                             }
                         }
                     },
@@ -694,11 +694,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "a301745d-832c-3037-8fd7-ada47cdf9103",
+                                "id": "f5476d40-a63f-3249-97a0-5ff8411153aa",
                                 "plentyId": 100,
-                                "plentyIdHash": "f62f95c8cba1c416445110f31e35109b",
+                                "plentyIdHash": "f3a9814e7b0fc53cccd26ba59cde6018",
                                 "keyFigure": "sales",
-                                "keyFigureName": "impedit39d3a2e379cf7fe76f1662924795d496",
+                                "keyFigureName": "etdc6e22b1c9ecccb9eada5642cfc6c300",
                                 "filter": {
                                     "dimension": "creationDate",
                                     "calculation": "grossSales"
@@ -708,8 +708,8 @@
                                     "creatorUserId": 3,
                                     "creatorRealName": "Test user"
                                 },
-                                "updatedAt": "2023-07-25T14:34:02+02:00",
-                                "createdAt": "2023-07-01T01:31:25+02:00"
+                                "updatedAt": "2024-09-25T23:14:05+02:00",
+                                "createdAt": "2024-09-10T16:10:56+02:00"
                             }
                         }
                     },
@@ -818,11 +818,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "6877ea52-2f3b-38f4-8fc7-e38d8c94ded0",
+                                "id": "116d58a4-5567-30f9-9eec-384f0c172e51",
                                 "plentyId": 100,
-                                "plentyIdHash": "dd005a6090c84c7cfde50c3620e6d291",
+                                "plentyIdHash": "b1c258f4caaa256526aa253f8d9ee297",
                                 "keyFigure": "sales",
-                                "keyFigureName": "quia4a0aa109121a78f180bf79e9dd8c9bc0",
+                                "keyFigureName": "repudiandaef366f81f805543f83c7e7bd4eabe414c",
                                 "filter": {
                                     "dimension": "creationDate",
                                     "calculation": "grossSales"
@@ -832,8 +832,8 @@
                                     "creatorUserId": 3,
                                     "creatorRealName": "Test user"
                                 },
-                                "updatedAt": "2023-06-28T14:27:27+02:00",
-                                "createdAt": "2023-07-17T14:03:52+02:00"
+                                "updatedAt": "2024-09-26T16:07:00+02:00",
+                                "createdAt": "2024-09-25T15:00:54+02:00"
                             }
                         }
                     },
@@ -882,11 +882,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "be3b9244-248a-3225-b9c6-ed9a8d92b9a2",
+                                "id": "a6dcd2df-70ba-387c-9493-521a4a15c35c",
                                 "plentyId": 100,
-                                "plentyIdHash": "0e3b90b636c8aacb1a82b36999ebb7d9",
+                                "plentyIdHash": "2af3a14025afeb48bbc5d39ea06a54bb",
                                 "keyFigure": "sales",
-                                "keyFigureName": "animi90dbe2fb073844319aec00529308a707",
+                                "keyFigureName": "fugiatdabfca8fdacdd32b0101b73ae27707ec",
                                 "filter": {
                                     "dimension": "creationDate",
                                     "calculation": "grossSales"
@@ -896,8 +896,8 @@
                                     "creatorUserId": 3,
                                     "creatorRealName": "Test user"
                                 },
-                                "updatedAt": "2023-06-29T04:00:21+02:00",
-                                "createdAt": "2023-07-02T05:04:58+02:00"
+                                "updatedAt": "2024-10-05T09:12:05+02:00",
+                                "createdAt": "2024-10-01T02:18:17+02:00"
                             }
                         }
                     },
@@ -997,11 +997,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "192909a7-51ac-357c-9676-883cba9f9dba",
+                                "id": "c25f77b0-0b24-3895-99c0-bbe03127538b",
                                 "plentyId": 100,
-                                "plentyIdHash": "70e1335d5947cc3febe7e332506f41fe",
+                                "plentyIdHash": "982a59f18c9c17cc6528d02a47fdd642",
                                 "keyFigure": "sales",
-                                "keyFigureName": "itaqueaaa25c795cc006fe1e5cb7215768b442",
+                                "keyFigureName": "omnis7921e31ce562a04fb64ab9489c5aa67f",
                                 "filter": {
                                     "dimension": "creationDate",
                                     "calculation": "grossSales"
@@ -1011,8 +1011,8 @@
                                     "creatorUserId": 3,
                                     "creatorRealName": "Test user"
                                 },
-                                "updatedAt": "2023-07-19T08:08:59+02:00",
-                                "createdAt": "2023-07-13T11:33:49+02:00"
+                                "updatedAt": "2024-09-27T16:10:40+02:00",
+                                "createdAt": "2024-10-08T19:01:33+02:00"
                             }
                         }
                     },
@@ -1333,6 +1333,31 @@
                         "in": "path"
                     }
                 ]
+            }
+        },
+        "/rest/bi/key-figures/recalculate": {
+            "post": {
+                "summary": "Recalculates one or more raw data based key figures by key figure config ids",
+                "description": "Returns \"1\" if recalculations were queued, or \"0\" otherwise",
+                "tags": [
+                    "BI"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/int"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                }
             }
         },
         "/rest/bi/key-figures/results": {
@@ -2706,6 +2731,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -2794,9 +2823,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -3018,6 +3261,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -3068,6 +3315,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -4023,6 +4291,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -4091,6 +4363,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -4514,10 +4790,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -4606,6 +4878,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -4621,12 +4898,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -4682,6 +5004,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -4725,48 +5068,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -4792,6 +5097,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -5961,6 +6287,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -6823,6 +7181,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -8192,6 +8554,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -8216,6 +8598,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -8272,7 +8669,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -8310,6 +8707,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -8434,6 +8856,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -9052,6 +9575,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -9874,6 +10405,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -11505,6 +12040,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -583,12 +583,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parentId": 6,
-                                "warehouseId": 822435533,
-                                "level": 154,
-                                "name": "Nobis non quae error.",
-                                "displayInName": true,
-                                "shortcut": "Architecto dolores sed.",
+                                "parentId": 1,
+                                "warehouseId": 37909460,
+                                "level": 81,
+                                "name": "Rerum omnis sed dolorem ut.",
+                                "displayInName": false,
+                                "shortcut": "Ut quia ut.",
                                 "separator": "#",
                                 "isActiveForPickupPath": true
                             }
@@ -801,21 +801,21 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "label": "Similique.",
-                                        "purposeKey": "Culpa.",
-                                        "statusKey": "Magnam laborum.",
-                                        "position": 0,
+                                        "label": "Architecto.",
+                                        "purposeKey": "Quis.",
+                                        "statusKey": "Ab facere.",
+                                        "position": 2,
                                         "type": "europallet",
-                                        "fullLabel": "Similique.",
+                                        "fullLabel": "Architecto.",
                                         "warehouseLocationLevel": null
                                     },
                                     {
-                                        "label": "Veniam aut.",
-                                        "purposeKey": "Vel voluptatibus.",
-                                        "statusKey": "Aut autem.",
-                                        "position": 7,
-                                        "type": "small",
-                                        "fullLabel": "Veniam aut.",
+                                        "label": "Ut ipsa.",
+                                        "purposeKey": "Soluta dolorum.",
+                                        "statusKey": "Quo aut.",
+                                        "position": 4,
+                                        "type": "medium",
+                                        "fullLabel": "Ut ipsa.",
                                         "warehouseLocationLevel": null
                                     }
                                 ],
@@ -850,12 +850,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "label": "Sit beatae.",
-                                "purposeKey": "Vel quam.",
-                                "statusKey": "Omnis non.",
-                                "position": 1,
-                                "type": "large",
-                                "fullLabel": "Sit beatae.",
+                                "label": "Est.",
+                                "purposeKey": "Aut.",
+                                "statusKey": "Doloremque.",
+                                "position": 2,
+                                "type": "medium",
+                                "fullLabel": "Est.",
                                 "warehouseLocationLevel": null
                             }
                         }
@@ -991,13 +991,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parentId": 6,
-                                "warehouseId": 715326720,
-                                "level": 246,
-                                "name": "Aut ullam nihil aut.",
+                                "parentId": 7,
+                                "warehouseId": 17834615,
+                                "level": 227,
+                                "name": "Ullam minus ad non.",
                                 "displayInName": false,
-                                "shortcut": "Optio dolores.",
-                                "separator": "@",
+                                "shortcut": "Aut sit dolores.",
+                                "separator": "_",
                                 "isActiveForPickupPath": true
                             }
                         }
@@ -1117,12 +1117,12 @@
                         "examples": {
                             "application/json": {
                                 "parentId": 1,
-                                "warehouseId": 494304168,
-                                "level": 1,
-                                "name": "Rerum vel sit numquam doloribus non autem.",
+                                "warehouseId": 883173011,
+                                "level": 80,
+                                "name": "Qui fuga autem voluptate labore nesciunt fugiat ad.",
                                 "displayInName": false,
-                                "shortcut": "Odit magnam consequuntur.",
-                                "separator": "@",
+                                "shortcut": "Consectetur sed.",
+                                "separator": "/",
                                 "isActiveForPickupPath": true
                             }
                         }
@@ -1162,12 +1162,12 @@
                         "examples": {
                             "application/json": {
                                 "parentId": 9,
-                                "warehouseId": 670077783,
-                                "level": 192,
-                                "name": "Ex tenetur vitae ab cumque ut ratione.",
-                                "displayInName": true,
-                                "shortcut": "Reprehenderit ut.",
-                                "separator": "_",
+                                "warehouseId": 43992604,
+                                "level": 146,
+                                "name": "Eum sit iste minima consectetur eum omnis.",
+                                "displayInName": false,
+                                "shortcut": "Repellat sit.",
+                                "separator": "-",
                                 "isActiveForPickupPath": true
                             }
                         }
@@ -1252,21 +1252,21 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "label": "Officiis.",
-                                    "purposeKey": "Neque.",
-                                    "statusKey": "Omnis hic.",
-                                    "position": 0,
-                                    "type": "large",
-                                    "fullLabel": "Officiis.",
+                                    "label": "Omnis aut.",
+                                    "purposeKey": "Ipsam.",
+                                    "statusKey": "Molestias.",
+                                    "position": 6,
+                                    "type": "europallet",
+                                    "fullLabel": "Omnis aut.",
                                     "warehouseLocationLevel": null
                                 },
                                 {
-                                    "label": "Molestiae.",
-                                    "purposeKey": "Enim.",
-                                    "statusKey": "Unde molestiae.",
-                                    "position": 0,
-                                    "type": "europallet",
-                                    "fullLabel": "Molestiae.",
+                                    "label": "Sunt.",
+                                    "purposeKey": "Sit.",
+                                    "statusKey": "Quam.",
+                                    "position": 6,
+                                    "type": "medium",
+                                    "fullLabel": "Sunt.",
                                     "warehouseLocationLevel": null
                                 }
                             ]
@@ -1456,11 +1456,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parentId": 2,
-                                "position": 8,
-                                "pickupPathPosition": 0,
-                                "pathName": "Quaerat ullam.",
-                                "name": "Fugiat illo tempore magnam autem excepturi."
+                                "parentId": 1,
+                                "position": 1,
+                                "pickupPathPosition": 1,
+                                "pathName": "Ea.",
+                                "name": "Voluptas dolor quia iste quia."
                             }
                         }
                     },
@@ -1602,11 +1602,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parentId": 2,
-                                "position": 0,
-                                "pickupPathPosition": 2,
-                                "pathName": "Ut odit.",
-                                "name": "Enim modi vero sint inventore."
+                                "parentId": 6,
+                                "position": 3,
+                                "pickupPathPosition": 8,
+                                "pathName": "Odit qui.",
+                                "name": "Asperiores eum magni minima excepturi."
                             }
                         }
                     },
@@ -1644,11 +1644,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parentId": 1,
-                                "position": 0,
-                                "pickupPathPosition": 6,
-                                "pathName": "Est.",
-                                "name": "Minus aut nulla dolorem."
+                                "parentId": 9,
+                                "position": 6,
+                                "pickupPathPosition": 8,
+                                "pathName": "Explicabo.",
+                                "name": "Doloribus sunt sit ex pariatur sit."
                             }
                         }
                     },
@@ -1692,23 +1692,23 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "parentId": 8,
-                                    "warehouseId": 628629056,
-                                    "level": 184,
-                                    "name": "Tempora illo labore ad.",
+                                    "parentId": 6,
+                                    "warehouseId": 61774078,
+                                    "level": 9,
+                                    "name": "Molestiae at consequatur ipsum est animi.",
                                     "displayInName": true,
-                                    "shortcut": "Officia laudantium.",
+                                    "shortcut": "Eligendi ratione.",
                                     "separator": "_",
-                                    "isActiveForPickupPath": false
+                                    "isActiveForPickupPath": true
                                 },
                                 {
-                                    "parentId": 7,
-                                    "warehouseId": 506355163,
-                                    "level": 21,
-                                    "name": "Excepturi dolorem corrupti corporis amet.",
-                                    "displayInName": false,
-                                    "shortcut": "Itaque non et.",
-                                    "separator": "@",
+                                    "parentId": 3,
+                                    "warehouseId": 182177792,
+                                    "level": 138,
+                                    "name": "Dignissimos perferendis iusto natus.",
+                                    "displayInName": true,
+                                    "shortcut": "Fuga nam.",
+                                    "separator": "#",
                                     "isActiveForPickupPath": true
                                 }
                             ]
@@ -1911,21 +1911,21 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "label": "Non.",
-                                        "purposeKey": "Velit porro.",
-                                        "statusKey": "Ut.",
-                                        "position": 9,
+                                        "label": "Recusandae.",
+                                        "purposeKey": "Mollitia quaerat.",
+                                        "statusKey": "Inventore incidunt.",
+                                        "position": 5,
                                         "type": "small",
-                                        "fullLabel": "Non.",
+                                        "fullLabel": "Recusandae.",
                                         "warehouseLocationLevel": null
                                     },
                                     {
-                                        "label": "Aut et.",
-                                        "purposeKey": "Sed.",
-                                        "statusKey": "Est vel.",
+                                        "label": "Sed.",
+                                        "purposeKey": "Voluptatem.",
+                                        "statusKey": "Debitis ipsa.",
                                         "position": 0,
-                                        "type": "medium",
-                                        "fullLabel": "Aut et.",
+                                        "type": "large",
+                                        "fullLabel": "Sed.",
                                         "warehouseLocationLevel": null
                                     }
                                 ],
@@ -2053,12 +2053,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "label": "Id.",
-                                "purposeKey": "Sunt.",
-                                "statusKey": "Ipsa et.",
+                                "label": "Et pariatur.",
+                                "purposeKey": "Rerum.",
+                                "statusKey": "Fuga aliquid.",
                                 "position": 8,
-                                "type": "medium",
-                                "fullLabel": "Id.",
+                                "type": "small",
+                                "fullLabel": "Et pariatur.",
                                 "warehouseLocationLevel": null
                             }
                         }
@@ -2097,12 +2097,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "label": "Culpa.",
-                                "purposeKey": "Numquam.",
-                                "statusKey": "Recusandae quisquam.",
-                                "position": 8,
-                                "type": "medium",
-                                "fullLabel": "Culpa.",
+                                "label": "Officia.",
+                                "purposeKey": "Odio.",
+                                "statusKey": "Quisquam.",
+                                "position": 4,
+                                "type": "europallet",
+                                "fullLabel": "Officia.",
                                 "warehouseLocationLevel": null
                             }
                         }
@@ -2336,21 +2336,21 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "label": "Ipsa amet.",
-                                        "purposeKey": "Minus.",
-                                        "statusKey": "Voluptatum.",
-                                        "position": 5,
-                                        "type": "europallet",
-                                        "fullLabel": "Ipsa amet.",
+                                        "label": "Qui error.",
+                                        "purposeKey": "Et accusantium.",
+                                        "statusKey": "Enim dolor.",
+                                        "position": 0,
+                                        "type": "large",
+                                        "fullLabel": "Qui error.",
                                         "warehouseLocationLevel": null
                                     },
                                     {
-                                        "label": "Dolorem totam.",
-                                        "purposeKey": "Et.",
-                                        "statusKey": "Tenetur.",
-                                        "position": 1,
-                                        "type": "europallet",
-                                        "fullLabel": "Dolorem totam.",
+                                        "label": "Pariatur.",
+                                        "purposeKey": "Et rem.",
+                                        "statusKey": "Accusamus inventore.",
+                                        "position": 5,
+                                        "type": "large",
+                                        "fullLabel": "Pariatur.",
                                         "warehouseLocationLevel": null
                                     }
                                 ],
@@ -2397,12 +2397,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parentId": 7,
-                                "warehouseId": 46591551,
-                                "level": 164,
-                                "name": "Error soluta ipsa et qui hic autem.",
+                                "parentId": 1,
+                                "warehouseId": 539086586,
+                                "level": 208,
+                                "name": "Rerum eum ex cum.",
                                 "displayInName": false,
-                                "shortcut": "Quae excepturi facilis.",
+                                "shortcut": "Quos rerum distinctio.",
                                 "separator": "@",
                                 "isActiveForPickupPath": true
                             }
@@ -2499,18 +2499,18 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "parentId": 6,
-                                    "position": 2,
-                                    "pickupPathPosition": 3,
-                                    "pathName": "Porro.",
-                                    "name": "Enim nobis rerum delectus similique dolorum."
+                                    "parentId": 0,
+                                    "position": 8,
+                                    "pickupPathPosition": 1,
+                                    "pathName": "Nam debitis.",
+                                    "name": "Totam id praesentium non pariatur et dolore."
                                 },
                                 {
-                                    "parentId": 1,
-                                    "position": 2,
-                                    "pickupPathPosition": 3,
-                                    "pathName": "Numquam.",
-                                    "name": "Aut autem odio laboriosam reiciendis aperiam."
+                                    "parentId": 5,
+                                    "position": 4,
+                                    "pickupPathPosition": 6,
+                                    "pathName": "Beatae nisi.",
+                                    "name": "Esse tempore voluptates quam."
                                 }
                             ]
                         }
@@ -3325,6 +3325,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -3413,9 +3417,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -3637,6 +3855,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -3687,6 +3909,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -4642,6 +4885,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -4710,6 +4957,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -5133,10 +5384,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -5225,6 +5472,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -5240,12 +5492,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -5301,6 +5598,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -5344,48 +5662,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -5411,6 +5691,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -6580,6 +6881,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -7442,6 +7775,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -8811,6 +9148,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -8835,6 +9192,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -8891,7 +9263,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -8929,6 +9301,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -9053,6 +9450,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -9671,6 +10169,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -10493,6 +10999,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -12124,6 +12634,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

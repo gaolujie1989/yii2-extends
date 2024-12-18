@@ -977,6 +977,16 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
+     * @description Deletes a multi credit note. The order ID must be specified.
+     * @tag Order
+     * @param int $orderId 
+     */
+    public function deleteMultiCreditNoteByOrderId(int $orderId)
+    {
+        return $this->api("/rest/multi_credit_notes/{$orderId}", 'DELETE');
+    }
+                
+    /**
      * @description Updates a multi credit note. The order ID must be specified.
      * @tag Order
      * @param int $orderId 
@@ -1046,6 +1056,16 @@ class Order extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
         return $this->api("/rest/multi_credit_notes/{$orderId}", 'PUT');
     }
                     
+    /**
+     * @description Deletes a multi sales order. The order ID must be specified.
+     * @tag Order
+     * @param int $orderId 
+     */
+    public function deleteMultiOrderByOrderId(int $orderId)
+    {
+        return $this->api("/rest/multi_orders/{$orderId}", 'DELETE');
+    }
+                
     /**
      * @description Updates a multi order. The order ID must be specified.
      * @tag Order
@@ -2236,6 +2256,32 @@ Searches for orders. The results can be restricted by using filter options.
     }
                     
     /**
+     * @description Get the list of campaigns paginated
+     * @tag Order
+     * @return array
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of CouponCampaign
+     */
+    public function getOrdersCouponsCampaigns(): array
+    {
+        return $this->api("/rest/orders/coupons/campaigns");
+    }
+                    
+    /**
      * @description Deletes a coupon by the coupon code.
      * @tag Order
      * @param int $code 
@@ -2254,7 +2300,8 @@ Searches for orders. The results can be restricted by using filter options.
      * @param string $code The coupon code
      * @param array $query
      *      - *with* - string - optional
-     *          - Load additional relations for a coupon code. Currently possible are:
+     *          - Load additional relations for a coupon code.
+     *     Currently possible are:
      * <ul>
      *   <li>'campaign' = The coupon campaign to which this code belongs to.</li>
      * </ul>
@@ -2296,7 +2343,88 @@ Searches for orders. The results can be restricted by using filter options.
     }
                     
     /**
-     * @description Creates a coupon code. The ID of the campaign must be specified. A code can optionally be specified. A random code will be generated if the code is not specified. A coupon value can also be optionally specified. The value of the campaign will be used if no individual value is specified.
+     * @description Get details for specific campaign by id
+     * @tag Order
+     * @param int $campaignId 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of a coupon campaign
+     *      - *externalId* - string
+     *          - DEPRECATED! The external ID of a coupon campaign
+     *      - *name* - string
+     *          - The name of the coupon campaign
+     *      - *variable* - integer
+     *          - The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1.
+     *      - *isPermittedForExternalReferrers* - boolean
+     *          - Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.
+<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer </li>
+<li>FALSE = The coupon can not be redeemed</li></ul>
+     *      - *includeShipping* - boolean
+     *          - The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set.
+     *      - *unusedCodesCount* - integer
+     *          - The number of codes that have been redeemed
+     *      - *usedCodesCount* - integer
+     *          - The number of codes that have not been redeemed
+     *      - *endsAt* - string
+     *          - The date that the campaign ends
+     *      - *startsAt* - string
+     *          - The date that the campaign starts
+     *      - *minOrderValue* - number
+     *          - The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed.
+     *      - *codeDurationWeeks* - integer
+     *          - The number of weeks that codes of this campaign can be redeemed after they have been generated.
+     *      - *codeAssignment* - string
+     *          - The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.
+<ul><li>generate = a new code is generated on demand</li>
+<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>
+<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>
+     *      - *codeLength* - string
+     *          - There are 3 different length available. The code can be 6, 16, 24 or 32 characters long.
+     *      - *usage* - string
+     *          - The usage defines what the coupon codes from this campaign can be used for. There are three options available:
+<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>
+<li>single_order = The codes can be used for single orders only</li>
+<li>subscription = The codes can be used for subscriptions only</li></ul>
+     *      - *concept* - string
+     *          - The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:
+<ul><li>single_code = The campaign has only one code</li>
+<li>multi_code = The campaign has several codes</li></ul>
+     *      - *redeemType* - string
+     *          - The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:
+<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>
+<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>
+<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>
+<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>
+The redeem type interacts with the concept. Pay attention to the combination these two options form.
+     *      - *discountType* - string
+     *          - There are 4 discount types available:
+<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>
+<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>
+<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>
+<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>
+     *      - *itemDiscountToPay* - integer
+     *          - The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy
+     *      - *itemDiscountToBuy* - integer
+     *          - The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay.
+     *      - *campaignType* - string
+     *          - The two campaign types available are coupon or voucher.
+     *      - *couponType* - string
+     *          - The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales.
+     *      - *description* - string
+     *          - The description of the campaign
+     *      - *value* - number
+     *          - The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent.
+     */
+    public function getOrdersCouponsCampaignByCampaignId(int $campaignId): array
+    {
+        return $this->api("/rest/orders/coupons/campaigns/{$campaignId}");
+    }
+                    
+    /**
+     * @description Creates a coupon code. The ID of the campaign must be specified.
+A code can optionally be specified. A random code will be generated if the code is not specified.
+A coupon value can also be optionally specified.
+The value of the campaign will be used if no individual value is specified.
      * @tag Order
      * @param int $campaignId 
      * @param array $data 
@@ -5329,6 +5457,10 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      *      - *updatedAt* - string
      *      - *packageSscc* - string
      *          - Amazon Vendor PackageSscc
+     *      - *mrn* - string
+     *          - Movement Reference Number (MRN)
+     *      - *atlasRegistration* - integer
+     *          - ATLAS export declaration
      */
     public function updateOrdersShippingPackageByOrderShippingPackageId(int $orderShippingPackageId, array $data): array
     {
@@ -5607,9 +5739,13 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      *      - *columns* - array - optional
      *          - The attributes to be loaded in the shipping profile
      *      - *parcelServiceName* - string - optional
-     *          - Filter that restricts the search result to parcel service presets with a specified service name (e.g. 'DHL' for DHL)
+     *          - Filter that restricts the search result to parcel service presets with a specified backend name (e.g. 'DHL' for DHL)
      *      - *shippingServiceProvider* - string - optional
      *          - Filter that restricts the search result to a shipping service provider
+     *      - *name* - string - optional
+     *          - Filter that restricts the search result to parcel service presets with a specified backend name
+     *      - *shippingGroup* - string - optional
+     *          - Filter that restricts the search result to parcel service preset with specific shipping_group name
      *      - *with* - string - optional
      *          - The name of an relation to the preset. The following parameter is available: parcelServiceRegion, parcelServiceRegionConstraint, parcelServicePresetNames and parcelServiceNames.
      *      - *updatedAtBefore* - string - optional
@@ -5720,9 +5856,13 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      * @description Lists all returns service providers.
      * @tag Order
      * @param array $query
-     *      - *isPlugin* - int - optional
-     *          - Possible values are 1 (true) and 0 (false).
-     *      - *pluginId* - int - optional
+     *      - *id* - int - required
+     *          - The ID of the returns service provider
+     *      - *name* - string - required
+     *          - The name of the returns service provider
+     *      - *label* - string - required
+     *          - The label of the returns service provider (if provided by plugin)
+     *      - *pluginId* - int - required
      *          - The ID of the plugin
      * @return array
      *      - *page* - integer
@@ -5742,7 +5882,7 @@ If the ID is not specified, but a parent referrer ID is given, then the new refe
      *      - *entries* - array
      *          - List of ReturnsServiceProvider
      */
-    public function getOrdersShippingReturnsReturnsServiceProviders(array $query = []): array
+    public function getOrdersShippingReturnsReturnsServiceProviders(array $query): array
     {
         return $this->api(array_merge(["/rest/orders/shipping/returns/returns_service_providers"], $query));
     }
@@ -7876,6 +8016,17 @@ Updates the value of a property already linked to an order. The ID of the order 
     }
                     
     /**
+     * @description Validate order items for create a sales order from a parent order. The parent order ID must be specified.
+     * @tag Order
+     * @param int $orderId 
+     * @return array
+     */
+    public function createOrdersSalesOrdersValidateByOrderId(int $orderId): array
+    {
+        return $this->api("/rest/orders/{$orderId}/sales_orders/validate", 'POST');
+    }
+                    
+    /**
      * @description Cancel a shipment for an order. The ID of the order must be specified.
      * @tag Order
      * @param int $orderId The ID of the order
@@ -7988,6 +8139,10 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *updatedAt* - string
      *      - *packageSscc* - string
      *          - Amazon Vendor PackageSscc
+     *      - *mrn* - string
+     *          - Movement Reference Number (MRN)
+     *      - *atlasRegistration* - integer
+     *          - ATLAS export declaration
      */
     public function createOrdersShippingPackageByOrderId(int $orderId, array $data): array
     {
@@ -8149,6 +8304,10 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *updatedAt* - string
      *      - *packageSscc* - string
      *          - Amazon Vendor PackageSscc
+     *      - *mrn* - string
+     *          - Movement Reference Number (MRN)
+     *      - *atlasRegistration* - integer
+     *          - ATLAS export declaration
      */
     public function getOrdersShippingPackageByOrderIdOrderShippingPackageId(int $orderId, int $orderShippingPackageId, array $query = []): array
     {
@@ -8233,6 +8392,10 @@ Updates the value of a property already linked to an order. The ID of the order 
      *      - *updatedAt* - string
      *      - *packageSscc* - string
      *          - Amazon Vendor PackageSscc
+     *      - *mrn* - string
+     *          - Movement Reference Number (MRN)
+     *      - *atlasRegistration* - integer
+     *          - ATLAS export declaration
      */
     public function updateOrdersShippingPackageByOrderIdOrderShippingPackageId(int $orderId, int $orderShippingPackageId, array $data): array
     {

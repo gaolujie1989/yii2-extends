@@ -631,6 +631,16 @@ Can add page - int ,itemsPerPage - int or filters - array as parameters
     }
                     
     /**
+     * @description Returns "1" if recalculations were queued, or "0" otherwise
+     * @tag BI
+
+     */
+    public function createBiKeyFiguresRecalculate()
+    {
+        return $this->api("/rest/bi/key-figures/recalculate", 'POST');
+    }
+                    
+    /**
      * @description Search for key figure calculation results,
 returns KeyFigureResultSearchResponse including KeyFigureResultSearchResult children
      * @tag BI

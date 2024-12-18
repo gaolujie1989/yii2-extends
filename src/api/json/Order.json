@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -465,8 +465,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 6,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -523,8 +523,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 6,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -591,8 +591,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 6,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -720,8 +720,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 7,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -826,8 +826,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -884,8 +884,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 7,
+                                "plentyId": 64487,
+                                "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -952,8 +952,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1081,8 +1081,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 2,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1187,8 +1187,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 6,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1245,8 +1245,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1313,8 +1313,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 2,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1442,8 +1442,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1670,6 +1670,39 @@
             }
         },
         "/rest/multi_credit_notes/{orderId}": {
+            "delete": {
+                "summary": "Delete a multi credit note",
+                "description": "Deletes a multi credit note. The order ID must be specified.",
+                "tags": [
+                    "Order"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SimpleRestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "",
+                        "format": "integer",
+                        "in": "path"
+                    }
+                ]
+            },
             "put": {
                 "summary": "Update a multi credit note",
                 "description": "Updates a multi credit note. The order ID must be specified.",
@@ -1690,8 +1723,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 3,
+                                "plentyId": 64487,
+                                "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1738,6 +1771,39 @@
             }
         },
         "/rest/multi_orders/{orderId}": {
+            "delete": {
+                "summary": "Delete a multi sales order",
+                "description": "Deletes a multi sales order. The order ID must be specified.",
+                "tags": [
+                    "Order"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SimpleRestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "",
+                        "format": "integer",
+                        "in": "path"
+                    }
+                ]
+            },
             "put": {
                 "summary": "Update a multi order",
                 "description": "Updates a multi order. The order ID must be specified.",
@@ -1758,8 +1824,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1826,8 +1892,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 9,
+                                "plentyId": 64487,
+                                "typeId": 7,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1884,8 +1950,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 7,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -1952,8 +2018,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 6,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -2081,8 +2147,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 9,
+                                "plentyId": 64487,
+                                "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -2229,8 +2295,8 @@
                                 "entries": [
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 9,
+                                        "plentyId": 64487,
+                                        "typeId": 1,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -2260,7 +2326,7 @@
                                     },
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
+                                        "plentyId": 64487,
                                         "typeId": 5,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
@@ -2674,8 +2740,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 5,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -2889,8 +2955,8 @@
                                 "entries": [
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 7,
+                                        "plentyId": 64487,
+                                        "typeId": 9,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -2920,8 +2986,8 @@
                                     },
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 5,
+                                        "plentyId": 64487,
+                                        "typeId": 8,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -3021,8 +3087,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 3,
+                                "plentyId": 64487,
+                                "typeId": 7,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -3066,6 +3132,127 @@
                         "in": "path"
                     }
                 ]
+            }
+        },
+        "/rest/orders/coupons/campaigns": {
+            "get": {
+                "summary": "Get list of campaigns",
+                "description": "Get the list of campaigns paginated",
+                "tags": [
+                    "Order"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "page": {
+                                    "type": "integer",
+                                    "description": "Current page of the response"
+                                },
+                                "totalsCount": {
+                                    "type": "integer",
+                                    "description": "The total number of entries in the response"
+                                },
+                                "isLastPage": {
+                                    "type": "boolean",
+                                    "description": "Flag that indicates if the page shown is the last page of the response"
+                                },
+                                "lastPageNumber": {
+                                    "type": "integer",
+                                    "description": "The last page number"
+                                },
+                                "firstOnPage": {
+                                    "type": "integer",
+                                    "description": "The index of the first item of the current page result"
+                                },
+                                "lastOnPage": {
+                                    "type": "integer",
+                                    "description": "The index of the last item of the current page result"
+                                },
+                                "itemsPerPage": {
+                                    "type": "integer",
+                                    "description": "The requested amount of items per result page"
+                                },
+                                "entries": {
+                                    "type": "array",
+                                    "description": "List of CouponCampaign",
+                                    "items": {
+                                        "$ref": "#/definitions/CouponCampaign"
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "page": 1,
+                                "totalsCount": 2,
+                                "isLastPage": true,
+                                "entries": [
+                                    {
+                                        "name": "mollitia",
+                                        "variable": 6,
+                                        "isPermittedForExternalReferrers": false,
+                                        "includeShipping": true,
+                                        "unusedCodesCount": 7,
+                                        "usedCodesCount": 3,
+                                        "endsAt": "2018-07-18T09:23:21+02:00",
+                                        "startsAt": "1982-03-09T16:49:28+01:00",
+                                        "minOrderValue": 36114.4,
+                                        "codeDurationWeeks": 90,
+                                        "codeAssignment": "only_use_existing",
+                                        "codeLength": "small",
+                                        "usage": "single_and_subscription",
+                                        "redeemType": "multi_redeem_per_user",
+                                        "concept": "single_code",
+                                        "type": "plenty",
+                                        "discountType": "fixed",
+                                        "couponType": "sales",
+                                        "campaignType": "coupon",
+                                        "description": "Quisquam quis voluptas autem enim blanditiis et aut. Natus aperiam qui voluptatem debitis enim. Quod omnis maiores ea sunt. Aut quo ut a excepturi.",
+                                        "value": 9681204.24
+                                    },
+                                    {
+                                        "name": "cumque",
+                                        "variable": 4,
+                                        "isPermittedForExternalReferrers": false,
+                                        "includeShipping": false,
+                                        "unusedCodesCount": 8,
+                                        "usedCodesCount": 9,
+                                        "endsAt": "2014-11-25T20:29:55+01:00",
+                                        "startsAt": "2004-08-31T18:30:14+02:00",
+                                        "minOrderValue": 29.26,
+                                        "codeDurationWeeks": 66,
+                                        "codeAssignment": "generate",
+                                        "codeLength": "medium",
+                                        "usage": "subscription",
+                                        "redeemType": "redeem_until_value_reached",
+                                        "concept": "single_code",
+                                        "type": "plenty",
+                                        "discountType": "shipping",
+                                        "couponType": "promotion",
+                                        "campaignType": "voucher",
+                                        "description": "Autem deserunt sint provident. Quas error quaerat qui omnis. Et ut esse qui veritatis. Omnis quidem et voluptatibus optio est.",
+                                        "value": 264799.93
+                                    }
+                                ],
+                                "lastPageNumber": 1,
+                                "firstOnPage": 1,
+                                "lastOnPage": 2,
+                                "itemsPerPage": 25
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                }
             }
         },
         "/rest/orders/coupons/campaigns/codes/{code}": {
@@ -3129,15 +3316,15 @@
                         },
                         "examples": {
                             "application/json": {
-                                "code": "t8n4c4z1",
-                                "campaignId": 4,
+                                "code": "c1g6b7z0",
+                                "campaignId": 2,
                                 "disabled": 0,
-                                "consumed": 0,
-                                "usedCount": 496,
-                                "usedAmount": 553.31,
-                                "generatedAt": "1978-09-25T11:46:46+01:00",
-                                "lastUsedAt": "1982-01-10T19:20:43+01:00",
-                                "consumedAt": "1988-06-05T15:45:36+02:00"
+                                "consumed": 1,
+                                "usedCount": 683,
+                                "usedAmount": 323316.55,
+                                "generatedAt": "1991-04-02T12:13:21+02:00",
+                                "lastUsedAt": "1996-12-21T09:20:16+01:00",
+                                "consumedAt": "1998-04-03T02:03:47+02:00"
                             }
                         }
                     },
@@ -3158,7 +3345,7 @@
                         "name": "with",
                         "type": "string",
                         "required": false,
-                        "description": "Load additional relations for a coupon code. Currently possible are:\n     * <ul>\n     *   <li>'campaign' = The coupon campaign to which this code belongs to.</li>\n     * </ul>\n     * Example: <code>?with=campaign</code>",
+                        "description": "Load additional relations for a coupon code.\n     *     Currently possible are:\n     * <ul>\n     *   <li>'campaign' = The coupon campaign to which this code belongs to.</li>\n     * </ul>\n     * Example: <code>?with=campaign</code>",
                         "format": "string",
                         "in": "query"
                     }
@@ -3208,10 +3395,70 @@
                 ]
             }
         },
+        "/rest/orders/coupons/campaigns/{campaignId}": {
+            "get": {
+                "summary": "Get campaign by Id",
+                "description": "Get details for specific campaign by id",
+                "tags": [
+                    "Order"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CouponCampaign"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "name": "rerum",
+                                "variable": 0,
+                                "isPermittedForExternalReferrers": false,
+                                "includeShipping": false,
+                                "unusedCodesCount": 7,
+                                "usedCodesCount": 8,
+                                "endsAt": "2007-08-19T08:41:33+02:00",
+                                "startsAt": "1988-08-11T03:44:46+02:00",
+                                "minOrderValue": 1242.9,
+                                "codeDurationWeeks": 4168,
+                                "codeAssignment": "only_use_existing",
+                                "codeLength": "large",
+                                "usage": "single_and_subscription",
+                                "redeemType": "unique_redeem",
+                                "concept": "multi_code",
+                                "type": "plenty",
+                                "discountType": "percent",
+                                "couponType": "promotion",
+                                "campaignType": "coupon",
+                                "description": "At perferendis dicta et illum. Harum esse aliquam rerum est qui commodi. Voluptatem quo modi dolorem voluptatem maiores.",
+                                "value": 29.19
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "campaignId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "",
+                        "format": "integer",
+                        "in": "path"
+                    }
+                ]
+            }
+        },
         "/rest/orders/coupons/campaigns/{campaignId}/codes": {
             "post": {
                 "summary": "Create a coupon code",
-                "description": "Creates a coupon code. The ID of the campaign must be specified. A code can optionally be specified. A random code will be generated if the code is not specified. A coupon value can also be optionally specified. The value of the campaign will be used if no individual value is specified.",
+                "description": "Creates a coupon code. The ID of the campaign must be specified.\nA code can optionally be specified. A random code will be generated if the code is not specified.\nA coupon value can also be optionally specified.\nThe value of the campaign will be used if no individual value is specified.",
                 "tags": [
                     "Order"
                 ],
@@ -3228,15 +3475,15 @@
                         },
                         "examples": {
                             "application/json": {
-                                "code": "a6b3h3u0",
-                                "campaignId": 4,
+                                "code": "b4n4c1s4",
+                                "campaignId": 5,
                                 "disabled": 0,
                                 "consumed": 1,
-                                "usedCount": 762,
-                                "usedAmount": 2.49,
-                                "generatedAt": "2012-04-24T10:56:27+02:00",
-                                "lastUsedAt": "2018-05-25T01:03:41+02:00",
-                                "consumedAt": "2014-03-19T04:26:53+01:00"
+                                "usedCount": 769,
+                                "usedAmount": 9313565.3,
+                                "generatedAt": "2010-07-24T23:56:23+02:00",
+                                "lastUsedAt": "2010-10-21T09:57:15+02:00",
+                                "consumedAt": "2022-09-26T17:16:54+02:00"
                             }
                         }
                     },
@@ -3312,37 +3559,37 @@
                                     "validationType": "plenty",
                                     "items": [
                                         {
-                                            "amount": 418.36,
+                                            "amount": 538.8,
                                             "noCoupon": 0,
-                                            "quantity": 4,
-                                            "singlePrice": 104.59,
-                                            "itemId": 708,
+                                            "quantity": 6,
+                                            "singlePrice": 89.8,
+                                            "itemId": 445,
                                             "vatField": 0
                                         }
                                     ],
-                                    "contactId": 98,
-                                    "couponCode": "8N32TS",
+                                    "contactId": 93,
+                                    "couponCode": "XJI8ER",
                                     "currency": "EUR",
-                                    "referrer": 58.13,
-                                    "salesDiscount": -12,
-                                    "salesDiscountNet": -10.084033613445378,
-                                    "itemDiscount": -12,
-                                    "itemDiscountNet": -10.084033613445378,
+                                    "referrer": 28.28,
+                                    "salesDiscount": -16,
+                                    "salesDiscountNet": -13.445378151261,
+                                    "itemDiscount": -16,
+                                    "itemDiscountNet": -13.445378151261,
                                     "shippingDiscount": 0,
                                     "shippingDiscountNet": 0,
                                     "usedVatFields": [
-                                        -12
+                                        -16
                                     ],
                                     "restCouponAmount": 0,
                                     "checkedItems": {
-                                        "708": 418.36
+                                        "445": 538.8
                                     },
                                     "validateParams": {
                                         "callFromScheduler": false,
                                         "webstoreId": 0,
                                         "shipToCountry": 1,
                                         "taxIdNumber": 19,
-                                        "contactClass": 1,
+                                        "contactClass": 5,
                                         "contactType": 1
                                     }
                                 },
@@ -3350,37 +3597,37 @@
                                     "validationType": "plenty",
                                     "items": [
                                         {
-                                            "amount": 511.21000000000004,
+                                            "amount": 503.65,
                                             "noCoupon": 0,
                                             "quantity": 7,
-                                            "singlePrice": 73.03,
-                                            "itemId": 561,
+                                            "singlePrice": 71.95,
+                                            "itemId": 315,
                                             "vatField": 0
                                         }
                                     ],
-                                    "contactId": 18,
-                                    "couponCode": "PS6AF0",
+                                    "contactId": 86,
+                                    "couponCode": "DEOKPF",
                                     "currency": "EUR",
-                                    "referrer": 69.52,
-                                    "salesDiscount": -15,
-                                    "salesDiscountNet": -12.605042016806724,
-                                    "itemDiscount": -15,
-                                    "itemDiscountNet": -12.605042016806724,
+                                    "referrer": 18.7,
+                                    "salesDiscount": -10,
+                                    "salesDiscountNet": -8.4033613445378,
+                                    "itemDiscount": -10,
+                                    "itemDiscountNet": -8.4033613445378,
                                     "shippingDiscount": 0,
                                     "shippingDiscountNet": 0,
                                     "usedVatFields": [
-                                        -15
+                                        -10
                                     ],
                                     "restCouponAmount": 0,
                                     "checkedItems": {
-                                        "561": 511.21000000000004
+                                        "315": 503.65
                                     },
                                     "validateParams": {
                                         "callFromScheduler": false,
                                         "webstoreId": 0,
                                         "shipToCountry": 1,
                                         "taxIdNumber": 19,
-                                        "contactClass": 9,
+                                        "contactClass": 3,
                                         "contactType": 1
                                     }
                                 }
@@ -3545,22 +3792,22 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "code": "neque",
-                                        "contactId": 3,
-                                        "openAmount": 285445.34,
-                                        "redeemCount": 87753957,
-                                        "updatedAt": "2023-07-26T16:39:36+02:00",
-                                        "campaignId": 27,
-                                        "externalTransactionId": 95017
+                                        "code": "architecto",
+                                        "contactId": 8,
+                                        "openAmount": 55293.95,
+                                        "redeemCount": 6,
+                                        "updatedAt": "2024-10-10T12:56:19+02:00",
+                                        "campaignId": 6,
+                                        "externalTransactionId": 346
                                     },
                                     {
-                                        "code": "excepturi",
-                                        "contactId": 8,
-                                        "openAmount": 27690.33,
-                                        "redeemCount": 748724,
-                                        "updatedAt": "2023-07-26T16:39:36+02:00",
-                                        "campaignId": 5864126,
-                                        "externalTransactionId": 7317
+                                        "code": "dolor",
+                                        "contactId": 5,
+                                        "openAmount": 885770.14,
+                                        "redeemCount": 78062033,
+                                        "updatedAt": "2024-10-10T12:56:19+02:00",
+                                        "campaignId": 8,
+                                        "externalTransactionId": 8
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -3625,22 +3872,22 @@
                                 "validationType": "plenty",
                                 "items": [
                                     {
-                                        "amount": 336.1,
+                                        "amount": 507,
                                         "noCoupon": 0,
-                                        "quantity": 2,
-                                        "singlePrice": 168.05,
-                                        "itemId": 687,
+                                        "quantity": 3,
+                                        "singlePrice": 169,
+                                        "itemId": 393,
                                         "vatField": 0
                                     }
                                 ],
-                                "contactId": 70,
-                                "couponCode": "E9WCHS",
+                                "contactId": 84,
+                                "couponCode": "SYJPO3",
                                 "currency": "EUR",
-                                "referrer": 4.24,
+                                "referrer": 50.79,
                                 "salesDiscount": -12,
-                                "salesDiscountNet": -10.084033613445378,
+                                "salesDiscountNet": -10.084033613445,
                                 "itemDiscount": -12,
-                                "itemDiscountNet": -10.084033613445378,
+                                "itemDiscountNet": -10.084033613445,
                                 "shippingDiscount": 0,
                                 "shippingDiscountNet": 0,
                                 "usedVatFields": [
@@ -3648,14 +3895,14 @@
                                 ],
                                 "restCouponAmount": 0,
                                 "checkedItems": {
-                                    "687": 336.1
+                                    "393": 507
                                 },
                                 "validateParams": {
                                     "callFromScheduler": false,
                                     "webstoreId": 0,
                                     "shipToCountry": 1,
                                     "taxIdNumber": 19,
-                                    "contactClass": 6,
+                                    "contactClass": 8,
                                     "contactType": 1
                                 }
                             }
@@ -4060,24 +4307,24 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "name": "Puerto Rico",
-                                    "shippingDestinationId": 187,
-                                    "active": 1,
-                                    "storehouseId": 46,
-                                    "isoCode2": "GS",
-                                    "isoCode3": "SK",
-                                    "lang": "ki",
+                                    "name": "Turkey",
+                                    "shippingDestinationId": 163,
+                                    "active": 3,
+                                    "storehouseId": 24,
+                                    "isoCode2": "CM",
+                                    "isoCode3": "CX",
+                                    "lang": "az",
                                     "isCountryStateMandatory": false,
                                     "vatCodes": []
                                 },
                                 {
-                                    "name": "Sri Lanka",
-                                    "shippingDestinationId": 112,
+                                    "name": "Nepal",
+                                    "shippingDestinationId": 143,
                                     "active": 0,
-                                    "storehouseId": 30,
-                                    "isoCode2": "NF",
-                                    "isoCode3": "TC",
-                                    "lang": "tn",
+                                    "storehouseId": 18,
+                                    "isoCode2": "SD",
+                                    "isoCode3": "AW",
+                                    "lang": "ug",
                                     "isCountryStateMandatory": false,
                                     "vatCodes": []
                                 }
@@ -4233,14 +4480,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "typeId": 32,
-                                    "lang": "iu",
-                                    "name": "impedit"
+                                    "typeId": 5,
+                                    "lang": "sg",
+                                    "name": "cumque"
                                 },
                                 {
-                                    "typeId": 6,
-                                    "lang": "ar",
-                                    "name": "modi"
+                                    "typeId": 83507092,
+                                    "lang": "eo",
+                                    "name": "velit"
                                 }
                             ]
                         }
@@ -4281,9 +4528,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "typeId": 984947,
-                                "lang": "ch",
-                                "name": "corporis"
+                                "typeId": 56625,
+                                "lang": "nl",
+                                "name": "voluptatem"
                             }
                         }
                     },
@@ -4500,11 +4747,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 54262,
+                                "orderItemId": 26019,
                                 "typeId": 9,
-                                "date": "1976-03-20T09:00:12+01:00",
-                                "createdAt": "2023-04-07T12:18:38+02:00",
-                                "updatedAt": "2023-03-18T22:06:28+01:00"
+                                "date": "2005-01-25T19:48:19+01:00",
+                                "createdAt": "2024-04-26T08:28:48+02:00",
+                                "updatedAt": "2024-03-23T13:35:25+01:00"
                             }
                         }
                     },
@@ -4586,11 +4833,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 56895,
+                                "orderItemId": 55208,
                                 "typeId": 9,
-                                "date": "2011-11-28T05:29:46+01:00",
-                                "createdAt": "2023-01-02T09:09:34+01:00",
-                                "updatedAt": "2023-03-26T07:22:25+02:00"
+                                "date": "2003-12-29T20:27:40+01:00",
+                                "createdAt": "2024-05-15T04:59:59+02:00",
+                                "updatedAt": "2024-02-18T00:53:34+01:00"
                             }
                         }
                     },
@@ -4628,11 +4875,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 25329,
+                                "orderItemId": 20413,
                                 "typeId": 9,
-                                "date": "1993-03-04T00:29:47+01:00",
-                                "createdAt": "2023-06-07T06:18:37+02:00",
-                                "updatedAt": "2023-01-07T21:08:34+01:00"
+                                "date": "2004-01-01T22:33:24+01:00",
+                                "createdAt": "2024-03-01T12:58:50+01:00",
+                                "updatedAt": "2024-03-20T00:07:33+01:00"
                             }
                         }
                     },
@@ -4749,11 +4996,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 60186,
-                                "typeId": 7,
-                                "value": "recusandae",
-                                "createdAt": "2023-02-25T07:12:03+01:00",
-                                "updatedAt": "2023-06-22T03:21:20+02:00"
+                                "orderItemId": 59367,
+                                "typeId": 2,
+                                "value": "cumque",
+                                "createdAt": "2024-01-06T21:34:02+01:00",
+                                "updatedAt": "2024-03-19T20:24:05+01:00"
                             }
                         }
                     },
@@ -4836,11 +5083,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 18542,
-                                "typeId": 11,
-                                "value": "dolores",
-                                "createdAt": "2023-04-28T23:44:16+02:00",
-                                "updatedAt": "2023-06-22T19:46:12+02:00"
+                                "orderItemId": 22722,
+                                "typeId": 2,
+                                "value": "est",
+                                "createdAt": "2024-08-10T02:21:09+02:00",
+                                "updatedAt": "2024-04-07T12:54:31+02:00"
                             }
                         }
                     },
@@ -4878,11 +5125,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 29730,
-                                "typeId": 6,
-                                "value": "itaque",
-                                "createdAt": "2023-03-20T20:53:15+01:00",
-                                "updatedAt": "2023-06-24T12:19:06+02:00"
+                                "orderItemId": 16371,
+                                "typeId": 17,
+                                "value": "et",
+                                "createdAt": "2024-01-24T16:12:47+01:00",
+                                "updatedAt": "2024-01-01T09:55:11+01:00"
                             }
                         }
                     },
@@ -4985,30 +5232,30 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "orderItemId": 440,
-                                        "quantity": 44.35,
-                                        "userId": 57,
-                                        "identification": "rem",
-                                        "direction": "in",
+                                        "orderItemId": 342,
+                                        "quantity": 86.15,
+                                        "userId": 18,
+                                        "identification": "est",
+                                        "direction": "out",
                                         "status": "cancelled",
-                                        "warehouseLocationId": 95,
-                                        "batch": "alias",
-                                        "bestBeforeDate": "2008-02-11",
-                                        "createdAt": "2023-07-04T03:57:26+02:00",
-                                        "updatedAt": "2023-07-13T20:18:25+02:00"
+                                        "warehouseLocationId": 337,
+                                        "batch": "consequuntur",
+                                        "bestBeforeDate": "2010-07-20",
+                                        "createdAt": "2024-09-22T13:54:00+02:00",
+                                        "updatedAt": "2024-09-29T07:57:11+02:00"
                                     },
                                     {
-                                        "orderItemId": 337,
-                                        "quantity": 52.3,
-                                        "userId": 60,
-                                        "identification": "autem",
-                                        "direction": "in",
+                                        "orderItemId": 309,
+                                        "quantity": 71.02,
+                                        "userId": 67,
+                                        "identification": "repellendus",
+                                        "direction": "out",
                                         "status": "cancelled",
-                                        "warehouseLocationId": 416,
-                                        "batch": "autem",
-                                        "bestBeforeDate": "2012-06-06",
-                                        "createdAt": "2023-06-28T16:57:32+02:00",
-                                        "updatedAt": "2023-07-08T00:59:22+02:00"
+                                        "warehouseLocationId": 419,
+                                        "batch": "recusandae",
+                                        "bestBeforeDate": "2002-08-15",
+                                        "createdAt": "2024-09-11T18:11:58+02:00",
+                                        "updatedAt": "2024-09-30T03:12:26+02:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -5219,17 +5466,17 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 182,
-                                "quantity": 40.5,
-                                "userId": 12,
-                                "identification": "voluptas",
-                                "direction": "out",
+                                "orderItemId": 206,
+                                "quantity": 86.27,
+                                "userId": 67,
+                                "identification": "cum",
+                                "direction": "in",
                                 "status": "cancelled",
-                                "warehouseLocationId": 976,
-                                "batch": "est",
-                                "bestBeforeDate": "2004-01-15",
-                                "createdAt": "2023-07-02T13:20:25+02:00",
-                                "updatedAt": "2023-07-10T04:18:02+02:00"
+                                "warehouseLocationId": 533,
+                                "batch": "ea",
+                                "bestBeforeDate": "2006-01-15",
+                                "createdAt": "2024-09-21T13:50:36+02:00",
+                                "updatedAt": "2024-09-14T04:40:52+02:00"
                             }
                         }
                     },
@@ -5337,18 +5584,18 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderItemId": 23225,
+                                    "orderItemId": 46961,
                                     "typeId": 9,
-                                    "date": "1987-03-15T05:32:07+01:00",
-                                    "createdAt": "2023-07-20T12:39:23+02:00",
-                                    "updatedAt": "2023-05-18T17:23:43+02:00"
+                                    "date": "1987-03-13T08:31:54+01:00",
+                                    "createdAt": "2024-04-25T11:17:37+02:00",
+                                    "updatedAt": "2024-08-07T18:17:10+02:00"
                                 },
                                 {
-                                    "orderItemId": 29643,
-                                    "typeId": 9,
-                                    "date": "1994-09-09T17:51:17+02:00",
-                                    "createdAt": "2023-05-13T06:29:04+02:00",
-                                    "updatedAt": "2023-05-05T00:40:28+02:00"
+                                    "orderItemId": 54399,
+                                    "typeId": 10,
+                                    "date": "2005-09-23T09:17:31+02:00",
+                                    "createdAt": "2024-08-11T12:20:57+02:00",
+                                    "updatedAt": "2024-08-18T12:16:46+02:00"
                                 }
                             ]
                         }
@@ -5427,11 +5674,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 33072,
+                                "orderItemId": 24602,
                                 "typeId": 9,
-                                "date": "1998-05-04T22:05:14+02:00",
-                                "createdAt": "2023-01-25T05:42:47+01:00",
-                                "updatedAt": "2023-07-03T08:12:43+02:00"
+                                "date": "1972-06-01T15:24:36+01:00",
+                                "createdAt": "2024-01-19T04:55:57+01:00",
+                                "updatedAt": "2024-06-07T18:47:33+02:00"
                             }
                         }
                     },
@@ -5477,11 +5724,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 42277,
-                                "typeId": 9,
-                                "date": "1984-09-21T00:45:51+02:00",
-                                "createdAt": "2023-03-02T23:29:20+01:00",
-                                "updatedAt": "2023-05-27T11:13:59+02:00"
+                                "orderItemId": 19792,
+                                "typeId": 10,
+                                "date": "2005-05-06T23:49:03+02:00",
+                                "createdAt": "2024-03-24T10:39:04+01:00",
+                                "updatedAt": "2024-05-08T15:56:12+02:00"
                             }
                         }
                     },
@@ -5547,11 +5794,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 43197,
-                                "typeId": 10,
-                                "date": "2003-01-09T06:46:35+01:00",
-                                "createdAt": "2023-06-23T15:35:46+02:00",
-                                "updatedAt": "2023-07-11T07:50:25+02:00"
+                                "orderItemId": 12594,
+                                "typeId": 9,
+                                "date": "2023-04-20T10:16:01+02:00",
+                                "createdAt": "2024-07-04T19:48:50+02:00",
+                                "updatedAt": "2024-08-29T14:27:17+02:00"
                             }
                         }
                     },
@@ -5623,18 +5870,18 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderItemId": 55215,
-                                    "typeId": 1,
-                                    "value": "minima",
-                                    "createdAt": "2023-05-07T03:20:39+02:00",
-                                    "updatedAt": "2023-02-25T13:52:54+01:00"
+                                    "orderItemId": 14584,
+                                    "typeId": 8,
+                                    "value": "blanditiis",
+                                    "createdAt": "2024-05-05T04:21:26+02:00",
+                                    "updatedAt": "2024-03-17T13:09:25+01:00"
                                 },
                                 {
-                                    "orderItemId": 27225,
-                                    "typeId": 17,
-                                    "value": "quis",
-                                    "createdAt": "2023-02-16T03:14:46+01:00",
-                                    "updatedAt": "2023-01-30T14:59:37+01:00"
+                                    "orderItemId": 43215,
+                                    "typeId": 11,
+                                    "value": "laborum",
+                                    "createdAt": "2024-02-20T12:46:19+01:00",
+                                    "updatedAt": "2024-04-08T00:01:04+02:00"
                                 }
                             ]
                         }
@@ -5713,11 +5960,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 24877,
-                                "typeId": 14,
-                                "value": "sit",
-                                "createdAt": "2023-05-31T22:07:14+02:00",
-                                "updatedAt": "2023-07-05T06:21:30+02:00"
+                                "orderItemId": 34209,
+                                "typeId": 17,
+                                "value": "itaque",
+                                "createdAt": "2024-02-03T07:47:27+01:00",
+                                "updatedAt": "2024-04-20T07:03:20+02:00"
                             }
                         }
                     },
@@ -5763,11 +6010,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 62767,
-                                "typeId": 7,
-                                "value": "ipsam",
-                                "createdAt": "2023-05-14T23:41:49+02:00",
-                                "updatedAt": "2023-01-24T19:35:05+01:00"
+                                "orderItemId": 58315,
+                                "typeId": 16,
+                                "value": "in",
+                                "createdAt": "2024-09-11T08:01:39+02:00",
+                                "updatedAt": "2024-04-01T21:50:45+02:00"
                             }
                         }
                     },
@@ -5834,11 +6081,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 38507,
-                                "typeId": 5,
-                                "value": "dicta",
-                                "createdAt": "2023-03-03T02:44:26+01:00",
-                                "updatedAt": "2023-03-29T19:30:53+02:00"
+                                "orderItemId": 30295,
+                                "typeId": 7,
+                                "value": "veniam",
+                                "createdAt": "2024-05-30T20:18:13+02:00",
+                                "updatedAt": "2024-04-14T21:56:06+02:00"
                             }
                         }
                     },
@@ -5911,30 +6158,30 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderItemId": 918,
-                                    "quantity": 35.22,
-                                    "userId": 49,
-                                    "identification": "ipsam",
+                                    "orderItemId": 881,
+                                    "quantity": 86.3,
+                                    "userId": 33,
+                                    "identification": "soluta",
                                     "direction": "out",
-                                    "status": "regular",
-                                    "warehouseLocationId": 713,
-                                    "batch": "alias",
-                                    "bestBeforeDate": "1983-11-22",
-                                    "createdAt": "2023-07-12T00:02:57+02:00",
-                                    "updatedAt": "2023-06-30T16:35:13+02:00"
+                                    "status": "cancelled",
+                                    "warehouseLocationId": 95,
+                                    "batch": "quidem",
+                                    "bestBeforeDate": "2020-04-20",
+                                    "createdAt": "2024-09-24T09:30:27+02:00",
+                                    "updatedAt": "2024-10-10T06:25:01+02:00"
                                 },
                                 {
-                                    "orderItemId": 214,
-                                    "quantity": 96.51,
-                                    "userId": 18,
-                                    "identification": "voluptatum",
+                                    "orderItemId": 486,
+                                    "quantity": 26.64,
+                                    "userId": 13,
+                                    "identification": "non",
                                     "direction": "out",
                                     "status": "regular",
-                                    "warehouseLocationId": 897,
-                                    "batch": "facere",
-                                    "bestBeforeDate": "2019-11-28",
-                                    "createdAt": "2023-07-16T11:32:32+02:00",
-                                    "updatedAt": "2023-07-09T03:01:36+02:00"
+                                    "warehouseLocationId": 452,
+                                    "batch": "ab",
+                                    "bestBeforeDate": "1976-03-19",
+                                    "createdAt": "2024-10-05T03:48:06+02:00",
+                                    "updatedAt": "2024-10-10T08:41:30+02:00"
                                 }
                             ]
                         }
@@ -5995,17 +6242,17 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderItemId": 198,
-                                "quantity": 6.09,
-                                "userId": 12,
-                                "identification": "est",
+                                "orderItemId": 351,
+                                "quantity": 32.27,
+                                "userId": 56,
+                                "identification": "et",
                                 "direction": "out",
-                                "status": "cancelled",
-                                "warehouseLocationId": 5,
-                                "batch": "sit",
-                                "bestBeforeDate": "2013-08-24",
-                                "createdAt": "2023-07-10T10:33:49+02:00",
-                                "updatedAt": "2023-07-01T06:16:58+02:00"
+                                "status": "regular",
+                                "warehouseLocationId": 797,
+                                "batch": "nisi",
+                                "bestBeforeDate": "1975-07-03",
+                                "createdAt": "2024-10-04T21:26:47+02:00",
+                                "updatedAt": "2024-10-03T08:01:37+02:00"
                             }
                         }
                     },
@@ -6098,16 +6345,16 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "id": 1187,
+                                    "id": 2472,
                                     "isErasable": true,
-                                    "position": 69,
-                                    "cast": "numeric"
+                                    "position": 12,
+                                    "cast": "int"
                                 },
                                 {
-                                    "id": 1523,
-                                    "isErasable": true,
-                                    "position": 41,
-                                    "cast": "enum(val1,val2,val3)"
+                                    "id": 1258,
+                                    "isErasable": false,
+                                    "position": 30,
+                                    "cast": "numeric"
                                 }
                             ]
                         }
@@ -6149,10 +6396,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 1165,
-                                "isErasable": true,
-                                "position": 67,
-                                "cast": null
+                                "id": 1367,
+                                "isErasable": false,
+                                "position": 34,
+                                "cast": "string"
                             }
                         }
                     },
@@ -6245,10 +6492,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 1246,
-                                "isErasable": false,
-                                "position": 38,
-                                "cast": null
+                                "id": 1022,
+                                "isErasable": true,
+                                "position": 25,
+                                "cast": "numeric"
                             }
                         }
                     },
@@ -6297,10 +6544,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 1019,
+                                "id": 2904,
                                 "isErasable": true,
-                                "position": 37,
-                                "cast": "enum(val1,val2,val3)"
+                                "position": 77,
+                                "cast": "boolean"
                             }
                         }
                     },
@@ -6400,11 +6647,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 103,
-                                "typeId": 9,
-                                "value": "dolore",
-                                "createdAt": "2023-05-27T23:47:05+02:00",
-                                "updatedAt": "2023-02-14T23:23:17+01:00"
+                                "orderId": 106,
+                                "typeId": 18,
+                                "value": "ratione",
+                                "createdAt": "2024-01-12T04:08:39+01:00",
+                                "updatedAt": "2024-02-04T01:44:29+01:00"
                             }
                         }
                     },
@@ -6469,22 +6716,22 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "id": 47.42,
+                                    "id": 65.7,
                                     "isEditable": true,
-                                    "backendName": "Herkunft 47.42",
-                                    "name": "HK 47.42",
-                                    "orderOwnerId": 7,
-                                    "isFilterable": true,
-                                    "origin": "some.plugin.name"
+                                    "backendName": "Herkunft 65.7",
+                                    "name": "HK 65.7",
+                                    "orderOwnerId": 140,
+                                    "isFilterable": false,
+                                    "origin": "plenty"
                                 },
                                 {
-                                    "id": 14.64,
+                                    "id": 24.13,
                                     "isEditable": true,
-                                    "backendName": "Herkunft 14.64",
-                                    "name": "HK 14.64",
-                                    "orderOwnerId": 11,
+                                    "backendName": "Herkunft 24.13",
+                                    "name": "HK 24.13",
+                                    "orderOwnerId": 153,
                                     "isFilterable": false,
-                                    "origin": "some.plugin.name"
+                                    "origin": "plenty"
                                 }
                             ]
                         }
@@ -6595,22 +6842,22 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "id": 37.87,
-                                        "isEditable": false,
-                                        "backendName": "Herkunft 37.87",
-                                        "name": "HK 37.87",
-                                        "orderOwnerId": 11,
+                                        "id": 92.21,
+                                        "isEditable": true,
+                                        "backendName": "Herkunft 92.21",
+                                        "name": "HK 92.21",
+                                        "orderOwnerId": 171,
                                         "isFilterable": false,
                                         "origin": "some.plugin.name"
                                     },
                                     {
-                                        "id": 63.52,
-                                        "isEditable": false,
-                                        "backendName": "Herkunft 63.52",
-                                        "name": "HK 63.52",
-                                        "orderOwnerId": 14,
-                                        "isFilterable": false,
-                                        "origin": "plenty"
+                                        "id": 93.31,
+                                        "isEditable": true,
+                                        "backendName": "Herkunft 93.31",
+                                        "name": "HK 93.31",
+                                        "orderOwnerId": 1,
+                                        "isFilterable": true,
+                                        "origin": "some.plugin.name"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -6696,13 +6943,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 66.57,
-                                "isEditable": true,
-                                "backendName": "Herkunft 66.57",
-                                "name": "HK 66.57",
-                                "orderOwnerId": 10,
-                                "isFilterable": true,
-                                "origin": "plenty"
+                                "id": 69.36,
+                                "isEditable": false,
+                                "backendName": "Herkunft 69.36",
+                                "name": "HK 69.36",
+                                "orderOwnerId": 143,
+                                "isFilterable": false,
+                                "origin": "some.plugin.name"
                             }
                         }
                     },
@@ -6786,11 +7033,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 24.21,
-                                "isEditable": true,
-                                "backendName": "Herkunft 24.21",
-                                "name": "HK 24.21",
-                                "orderOwnerId": 3,
+                                "id": 26.09,
+                                "isEditable": false,
+                                "backendName": "Herkunft 26.09",
+                                "name": "HK 26.09",
+                                "orderOwnerId": 5,
                                 "isFilterable": false,
                                 "origin": "plenty"
                             }
@@ -6830,12 +7077,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 55.82,
+                                "id": 89.95,
                                 "isEditable": false,
-                                "backendName": "Herkunft 55.82",
-                                "name": "HK 55.82",
-                                "orderOwnerId": 13,
-                                "isFilterable": false,
+                                "backendName": "Herkunft 89.95",
+                                "name": "HK 89.95",
+                                "orderOwnerId": 114,
+                                "isFilterable": true,
                                 "origin": "plenty"
                             }
                         }
@@ -6919,8 +7166,8 @@
                                 "entries": [
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 7,
+                                        "plentyId": 64487,
+                                        "typeId": 9,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -6950,8 +7197,8 @@
                                     },
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 6,
+                                        "plentyId": 64487,
+                                        "typeId": 5,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -7483,8 +7730,8 @@
                                 "entries": [
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 6,
+                                        "plentyId": 64487,
+                                        "typeId": 7,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -7514,8 +7761,8 @@
                                     },
                                     {
                                         "statusName": "",
-                                        "plentyId": 794,
-                                        "typeId": 8,
+                                        "plentyId": 64487,
+                                        "typeId": 6,
                                         "lockStatus": "unlocked",
                                         "locationId": null,
                                         "createdAt": null,
@@ -8387,13 +8634,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 114,
-                                "packageId": 6,
-                                "weight": 943,
-                                "packageNumber": "d7Hzs6Z1",
+                                "orderId": 924,
+                                "packageId": 7,
+                                "weight": 107,
+                                "packageNumber": "GEJv6jKh",
                                 "labelPath": "/path/to/label.pdf",
-                                "packageType": 34,
-                                "volume": 507.61
+                                "packageType": 26,
+                                "volume": 508.04
                             }
                         }
                     },
@@ -8807,22 +9054,22 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 734,
-                                    "packageId": 8,
-                                    "weight": 330,
-                                    "packageNumber": "bXPy9kBwwus",
+                                    "orderId": 723,
+                                    "packageId": 2,
+                                    "weight": 979,
+                                    "packageNumber": "U9Mbysa0",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 7,
-                                    "volume": 217.85
+                                    "packageType": 15,
+                                    "volume": 364.54
                                 },
                                 {
-                                    "orderId": 445,
+                                    "orderId": 853,
                                     "packageId": 7,
-                                    "weight": 453,
-                                    "packageNumber": "IxdRhgl2K",
+                                    "weight": 639,
+                                    "packageNumber": "j4KndFjs",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 3,
-                                    "volume": 284.5
+                                    "packageType": 12,
+                                    "volume": 511.89
                                 }
                             ]
                         }
@@ -8907,7 +9154,7 @@
                         "examples": {
                             "application/json": {
                                 "shippingRegionId": 101,
-                                "parcelServicePresetId": 17
+                                "parcelServicePresetId": 40
                             }
                         }
                     },
@@ -9000,17 +9247,17 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "parcelServiceId": 102,
-                                    "backendName": "#",
-                                    "flag": 4,
+                                    "parcelServiceId": 106,
+                                    "backendName": "z",
+                                    "flag": 26,
                                     "priority": 5,
                                     "category": 7,
                                     "useArticlePorto": 0,
-                                    "isInsured": 1,
+                                    "isInsured": 0,
                                     "isExpress": 0,
                                     "isPostident": 1,
                                     "isDefaultEnabled": 0,
-                                    "islandFee": 65.67,
+                                    "islandFee": 36.8,
                                     "shippingGroup": "MP295",
                                     "dispatchIdentifier": "",
                                     "auctionType": "1",
@@ -9031,16 +9278,16 @@
                                 },
                                 {
                                     "parcelServiceId": 104,
-                                    "backendName": "y",
-                                    "flag": 60,
-                                    "priority": 5,
-                                    "category": 6,
+                                    "backendName": "Q",
+                                    "flag": 83,
+                                    "priority": 1,
+                                    "category": 1,
                                     "useArticlePorto": 1,
-                                    "isInsured": 0,
+                                    "isInsured": 1,
                                     "isExpress": 0,
-                                    "isPostident": 1,
+                                    "isPostident": 0,
                                     "isDefaultEnabled": 1,
-                                    "islandFee": 88.96,
+                                    "islandFee": 16.96,
                                     "shippingGroup": "MP295",
                                     "dispatchIdentifier": "",
                                     "auctionType": "1",
@@ -9082,7 +9329,7 @@
                         "name": "parcelServiceName",
                         "type": "string",
                         "required": false,
-                        "description": "Filter that restricts the search result to parcel service presets with a specified service name (e.g. 'DHL' for DHL)",
+                        "description": "Filter that restricts the search result to parcel service presets with a specified backend name (e.g. 'DHL' for DHL)",
                         "format": "string",
                         "in": "query"
                     },
@@ -9091,6 +9338,22 @@
                         "type": "string",
                         "required": false,
                         "description": "Filter that restricts the search result to a shipping service provider",
+                        "format": "string",
+                        "in": "query"
+                    },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "required": false,
+                        "description": "Filter that restricts the search result to parcel service presets with a specified backend name",
+                        "format": "string",
+                        "in": "query"
+                    },
+                    {
+                        "name": "shippingGroup",
+                        "type": "string",
+                        "required": false,
+                        "description": "Filter that restricts the search result to parcel service preset with specific shipping_group name",
                         "format": "string",
                         "in": "query"
                     },
@@ -9179,17 +9442,17 @@
                         },
                         "examples": {
                             "application/json": {
-                                "parcelServiceId": 103,
-                                "backendName": "%",
-                                "flag": 97,
+                                "parcelServiceId": 115,
+                                "backendName": "x",
+                                "flag": 70,
                                 "priority": 2,
-                                "category": 3,
-                                "useArticlePorto": 0,
+                                "category": 19,
+                                "useArticlePorto": 1,
                                 "isInsured": 0,
                                 "isExpress": 0,
-                                "isPostident": 1,
-                                "isDefaultEnabled": 1,
-                                "islandFee": 14.67,
+                                "isPostident": 0,
+                                "isDefaultEnabled": 0,
+                                "islandFee": 83.3,
                                 "shippingGroup": "MP295",
                                 "dispatchIdentifier": "",
                                 "auctionType": "1",
@@ -9262,11 +9525,11 @@
                             "application/json": [
                                 {
                                     "shippingRegionId": 101,
-                                    "parcelServicePresetId": 6
+                                    "parcelServicePresetId": 73
                                 },
                                 {
                                     "shippingRegionId": 101,
-                                    "parcelServicePresetId": 6
+                                    "parcelServicePresetId": 43
                                 }
                             ]
                         }
@@ -9360,16 +9623,16 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "name": "voluptatem",
-                                        "pluginId": 1434323,
-                                        "createdAt": "1997-11-25T18:51:16+01:00",
-                                        "updatedAt": "2014-04-18T20:25:49+02:00"
+                                        "name": "quis",
+                                        "pluginId": 4566955,
+                                        "createdAt": "2014-08-18T09:43:35+02:00",
+                                        "updatedAt": "2016-12-20T13:45:26+01:00"
                                     },
                                     {
-                                        "name": "voluptate",
-                                        "pluginId": 7288363,
-                                        "createdAt": "1981-11-05T03:54:06+01:00",
-                                        "updatedAt": "2014-01-04T19:01:27+01:00"
+                                        "name": "similique",
+                                        "pluginId": 9935606,
+                                        "createdAt": "1994-10-27T14:22:32+01:00",
+                                        "updatedAt": "1999-09-20T21:51:29+02:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -9385,17 +9648,33 @@
                 },
                 "parameters": [
                     {
-                        "name": "isPlugin",
+                        "name": "id",
                         "type": "integer",
-                        "required": false,
-                        "description": "Possible values are 1 (true) and 0 (false).",
+                        "required": true,
+                        "description": "The ID of the returns service provider",
                         "format": "integer",
+                        "in": "query"
+                    },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "required": true,
+                        "description": "The name of the returns service provider",
+                        "format": "string",
+                        "in": "query"
+                    },
+                    {
+                        "name": "label",
+                        "type": "string",
+                        "required": true,
+                        "description": "The label of the returns service provider (if provided by plugin)",
+                        "format": "string",
                         "in": "query"
                     },
                     {
                         "name": "pluginId",
                         "type": "integer",
-                        "required": false,
+                        "required": true,
                         "description": "The ID of the plugin",
                         "format": "integer",
                         "in": "query"
@@ -9451,10 +9730,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "sunt",
-                                "pluginId": 8323838,
-                                "createdAt": "1998-09-11T21:57:34+02:00",
-                                "updatedAt": "2002-08-31T22:30:35+02:00"
+                                "name": "consequatur",
+                                "pluginId": 4767765,
+                                "createdAt": "1970-12-03T12:05:31+01:00",
+                                "updatedAt": "1974-10-24T10:47:29+01:00"
                             }
                         }
                     },
@@ -9522,12 +9801,12 @@
                             "application/json": {
                                 "orderId": 2,
                                 "shippingServiceProvider": "DpdCloudService",
-                                "transactionId": 8,
-                                "shippingStatus": "prepared",
+                                "transactionId": 3,
+                                "shippingStatus": "open",
                                 "shippingCosts": 9,
-                                "additionalData": "Sequi aut reiciendis non sed eveniet minus. Consectetur sit at ut et nemo et. Aut fugit quam mollitia eveniet iste consequatur nesciunt totam.",
-                                "registrationAt": "2007-01-04T03:33:12+01:00",
-                                "shipmentAt": "2015-04-14T22:06:27+02:00"
+                                "additionalData": "Consectetur illum ut molestias eligendi placeat aut rerum. Labore vero in quo iste quia officia. Sed alias fuga exercitationem et velit deleniti voluptas. Omnis cum maiores quia minus et molestias.",
+                                "registrationAt": "2007-11-24T03:14:46+01:00",
+                                "shipmentAt": "1995-01-03T18:29:13+01:00"
                             }
                         }
                     },
@@ -9599,16 +9878,16 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "name": "quinten.emmerich",
-                                        "pluginId": 8608410,
-                                        "createdAt": "1977-09-20T17:41:45+01:00",
-                                        "updatedAt": "2021-02-06T08:21:30+01:00"
+                                        "name": "drew18",
+                                        "pluginId": 2247818,
+                                        "createdAt": "1985-08-08T18:47:58+02:00",
+                                        "updatedAt": "2014-03-22T04:21:56+01:00"
                                     },
                                     {
-                                        "name": "xlangosh",
-                                        "pluginId": 3112549,
-                                        "createdAt": "2003-11-03T09:20:32+01:00",
-                                        "updatedAt": "2004-04-22T08:27:00+02:00"
+                                        "name": "tabitha57",
+                                        "pluginId": 8150060,
+                                        "createdAt": "1973-01-08T17:35:41+01:00",
+                                        "updatedAt": "2022-01-07T07:59:58+01:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -9668,10 +9947,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "christina.price",
-                                "pluginId": 2557967,
-                                "createdAt": "2000-07-16T00:02:56+02:00",
-                                "updatedAt": "2006-12-26T20:54:53+01:00"
+                                "name": "johnathon39",
+                                "pluginId": 8850258,
+                                "createdAt": "2006-03-19T03:06:55+01:00",
+                                "updatedAt": "2024-07-13T16:49:05+02:00"
                             }
                         }
                     },
@@ -9729,10 +10008,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "dasia24",
-                                "pluginId": 5308412,
-                                "createdAt": "2014-06-14T05:05:30+02:00",
-                                "updatedAt": "2015-02-20T13:59:31+01:00"
+                                "name": "edwardo49",
+                                "pluginId": 2636720,
+                                "createdAt": "1996-07-27T18:24:49+02:00",
+                                "updatedAt": "2016-04-28T03:15:24+02:00"
                             }
                         }
                     },
@@ -9822,18 +10101,18 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "orderId": 902,
+                                        "orderId": 433,
                                         "statusId": 8,
-                                        "createdAt": "2023-07-05T11:57:33+02:00",
-                                        "userId": 6,
-                                        "procedureText": "Voluptates aspernatur non exercitationem enim beatae."
+                                        "createdAt": "2024-10-09T20:08:19+02:00",
+                                        "userId": 3,
+                                        "procedureText": "Impedit eligendi dolores."
                                     },
                                     {
-                                        "orderId": 590,
-                                        "statusId": 4,
-                                        "createdAt": "2023-07-17T22:53:55+02:00",
-                                        "userId": 5,
-                                        "procedureText": "Ex iste enim fuga ut."
+                                        "orderId": 330,
+                                        "statusId": 1,
+                                        "createdAt": "2024-09-20T08:31:40+02:00",
+                                        "userId": 6,
+                                        "procedureText": "Et dolorem sit maiores."
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -9953,22 +10232,22 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "statusId": 10.9491,
-                                        "color": "#526f7a",
-                                        "isFrontendVisible": false,
-                                        "isReorderVisible": true,
-                                        "isRedistributionVisible": true,
-                                        "createdAt": "2023-07-01T07:05:27+02:00",
-                                        "updatedAt": "2023-07-08T22:51:39+02:00"
-                                    },
-                                    {
-                                        "statusId": 2.1547,
-                                        "color": "#e26bda",
+                                        "statusId": 7.9947,
+                                        "color": "#cb99a6",
                                         "isFrontendVisible": true,
                                         "isReorderVisible": true,
-                                        "isRedistributionVisible": false,
-                                        "createdAt": "2023-07-01T10:06:58+02:00",
-                                        "updatedAt": "2023-07-10T20:50:07+02:00"
+                                        "isRedistributionVisible": true,
+                                        "createdAt": "2024-09-28T07:31:34+02:00",
+                                        "updatedAt": "2024-09-15T02:08:56+02:00"
+                                    },
+                                    {
+                                        "statusId": 14.6109,
+                                        "color": "#0264d6",
+                                        "isFrontendVisible": true,
+                                        "isReorderVisible": true,
+                                        "isRedistributionVisible": true,
+                                        "createdAt": "2024-09-22T18:08:05+02:00",
+                                        "updatedAt": "2024-09-30T23:54:44+02:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -10028,13 +10307,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "statusId": 1.0467,
-                                "color": "#66befc",
+                                "statusId": 3.2735,
+                                "color": "#a88cbf",
                                 "isFrontendVisible": true,
                                 "isReorderVisible": false,
                                 "isRedistributionVisible": false,
-                                "createdAt": "2023-07-04T04:31:21+02:00",
-                                "updatedAt": "2023-07-05T08:06:00+02:00"
+                                "createdAt": "2024-09-28T23:45:15+02:00",
+                                "updatedAt": "2024-09-23T17:50:37+02:00"
                             }
                         }
                     },
@@ -10186,13 +10465,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "statusId": 10.4881,
-                                "color": "#3dda99",
-                                "isFrontendVisible": false,
+                                "statusId": 5.0821,
+                                "color": "#bb98cf",
+                                "isFrontendVisible": true,
                                 "isReorderVisible": true,
-                                "isRedistributionVisible": false,
-                                "createdAt": "2023-07-11T22:14:50+02:00",
-                                "updatedAt": "2023-07-19T02:30:30+02:00"
+                                "isRedistributionVisible": true,
+                                "createdAt": "2024-10-01T12:30:31+02:00",
+                                "updatedAt": "2024-09-29T20:20:47+02:00"
                             }
                         }
                     },
@@ -10230,13 +10509,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "statusId": 3.7462,
-                                "color": "#665c7c",
+                                "statusId": 15.9751,
+                                "color": "#4a5aa4",
                                 "isFrontendVisible": true,
                                 "isReorderVisible": false,
                                 "isRedistributionVisible": true,
-                                "createdAt": "2023-07-08T16:20:05+02:00",
-                                "updatedAt": "2023-07-05T20:05:22+02:00"
+                                "createdAt": "2024-10-03T22:10:00+02:00",
+                                "updatedAt": "2024-09-23T04:17:28+02:00"
                             }
                         }
                     },
@@ -10322,7 +10601,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 3,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -10407,8 +10686,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 6,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -10512,8 +10791,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 7,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -10593,8 +10872,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -10752,7 +11031,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "text": "Veniam accusamus voluptatibus iste distinctio modi ipsa aut laboriosam facere magnam eum reiciendis."
+                                "text": "Voluptatum quaerat aut sunt in quo qui et similique qui ipsum dicta."
                             }
                         }
                     },
@@ -10795,37 +11074,37 @@
                                 "validationType": "plenty",
                                 "items": [
                                     {
-                                        "amount": 1306.53,
+                                        "amount": 233.16,
                                         "noCoupon": 0,
-                                        "quantity": 9,
-                                        "singlePrice": 145.17,
-                                        "itemId": 953,
+                                        "quantity": 4,
+                                        "singlePrice": 58.29,
+                                        "itemId": 464,
                                         "vatField": 0
                                     }
                                 ],
-                                "contactId": 82,
-                                "couponCode": "FKXV8B",
+                                "contactId": 78,
+                                "couponCode": "TG51EU",
                                 "currency": "EUR",
-                                "referrer": 35.97,
-                                "salesDiscount": -14,
-                                "salesDiscountNet": -11.764705882352942,
-                                "itemDiscount": -14,
-                                "itemDiscountNet": -11.764705882352942,
+                                "referrer": 14.93,
+                                "salesDiscount": -21,
+                                "salesDiscountNet": -17.647058823529,
+                                "itemDiscount": -21,
+                                "itemDiscountNet": -17.647058823529,
                                 "shippingDiscount": 0,
                                 "shippingDiscountNet": 0,
                                 "usedVatFields": [
-                                    -14
+                                    -21
                                 ],
                                 "restCouponAmount": 0,
                                 "checkedItems": {
-                                    "953": 1306.53
+                                    "464": 233.16
                                 },
                                 "validateParams": {
                                     "callFromScheduler": false,
                                     "webstoreId": 0,
                                     "shipToCountry": 1,
                                     "taxIdNumber": 19,
-                                    "contactClass": 5,
+                                    "contactClass": 1,
                                     "contactType": 1
                                 }
                             }
@@ -10922,8 +11201,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -11053,7 +11332,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -11124,12 +11403,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "typeId": 1,
-                                    "date": "1981-01-24T15:26:42+01:00"
+                                    "typeId": 5,
+                                    "date": "1977-11-08T13:03:44+01:00"
                                 },
                                 {
-                                    "typeId": 4,
-                                    "date": "1997-01-08T19:07:31+01:00"
+                                    "typeId": 8,
+                                    "date": "1999-03-14T18:47:13+01:00"
                                 }
                             ]
                         }
@@ -11170,8 +11449,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "typeId": 6,
-                                "date": "1985-06-24T03:27:31+02:00"
+                                "typeId": 1,
+                                "date": "2008-02-16T10:42:40+01:00"
                             }
                         }
                     },
@@ -11220,7 +11499,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 3,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -11450,34 +11729,34 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "orderId": 2,
-                                        "typeId": 9,
-                                        "referrerId": 4.22,
-                                        "itemVariationId": 1024,
-                                        "quantity": 5,
-                                        "countryVatId": 2,
-                                        "vatField": 1,
-                                        "vatRate": 17,
-                                        "orderItemName": "Veritatis et explicabo rerum",
-                                        "attributeValues": "et iusto",
+                                        "orderId": 8,
+                                        "typeId": 2,
+                                        "referrerId": 4.03,
+                                        "itemVariationId": 1675,
+                                        "quantity": 7,
+                                        "countryVatId": 1,
+                                        "vatField": 0,
+                                        "vatRate": 19,
+                                        "orderItemName": "Voluptatem perspiciatis facilis laudantium",
+                                        "attributeValues": "expedita officiis",
                                         "shippingProfileId": 8,
-                                        "createdAt": "1998-05-02T17:32:44+02:00",
-                                        "updatedAt": "2017-02-01T10:16:08+01:00"
+                                        "createdAt": "2009-10-31T22:51:29+01:00",
+                                        "updatedAt": "1984-08-22T07:41:56+02:00"
                                     },
                                     {
-                                        "orderId": 4,
-                                        "typeId": 9,
-                                        "referrerId": 104.09,
-                                        "itemVariationId": 1167,
-                                        "quantity": 1,
+                                        "orderId": 9,
+                                        "typeId": 3,
+                                        "referrerId": 2.09,
+                                        "itemVariationId": 1984,
+                                        "quantity": 4,
                                         "countryVatId": 2,
-                                        "vatField": 2,
+                                        "vatField": 4,
                                         "vatRate": 0,
-                                        "orderItemName": "Non excepturi minima temporibus",
-                                        "attributeValues": "consequatur distinctio",
-                                        "shippingProfileId": 8,
-                                        "createdAt": "2000-02-28T20:07:28+01:00",
-                                        "updatedAt": "2020-10-14T13:09:07+02:00"
+                                        "orderItemName": "Alias doloremque magnam quod",
+                                        "attributeValues": "fugiat illum",
+                                        "shippingProfileId": 2,
+                                        "createdAt": "1976-01-08T04:57:29+01:00",
+                                        "updatedAt": "1979-06-14T13:49:55+01:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -11608,16 +11887,16 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 248,
-                                    "orderItemId": 413,
-                                    "serialNumberId": 394,
+                                    "orderId": 765,
+                                    "orderItemId": 455,
+                                    "serialNumberId": 503,
                                     "serialNumber": null,
                                     "itemSerialNumber": null
                                 },
                                 {
-                                    "orderId": 378,
-                                    "orderItemId": 987,
-                                    "serialNumberId": 364,
+                                    "orderId": 997,
+                                    "orderItemId": 510,
+                                    "serialNumberId": 681,
                                     "serialNumber": null,
                                     "itemSerialNumber": null
                                 }
@@ -11774,16 +12053,16 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 362,
-                                    "orderItemId": 156,
-                                    "serialNumberId": 672,
+                                    "orderId": 246,
+                                    "orderItemId": 151,
+                                    "serialNumberId": 836,
                                     "serialNumber": null,
                                     "itemSerialNumber": null
                                 },
                                 {
-                                    "orderId": 802,
-                                    "orderItemId": 180,
-                                    "serialNumberId": 939,
+                                    "orderId": 970,
+                                    "orderItemId": 998,
+                                    "serialNumberId": 153,
                                     "serialNumber": null,
                                     "itemSerialNumber": null
                                 }
@@ -11832,9 +12111,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 756,
-                                "orderItemId": 612,
-                                "serialNumberId": 902,
+                                "orderId": 421,
+                                "orderItemId": 297,
+                                "serialNumberId": 401,
                                 "serialNumber": null,
                                 "itemSerialNumber": null
                             }
@@ -11923,8 +12202,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 6,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12117,11 +12396,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 103,
-                                "typeId": 17,
-                                "value": "consequuntur",
-                                "createdAt": "2023-03-30T13:00:28+02:00",
-                                "updatedAt": "2023-01-01T12:13:06+01:00"
+                                "orderId": 106,
+                                "typeId": 8,
+                                "value": "tempora",
+                                "createdAt": "2024-03-31T20:07:38+02:00",
+                                "updatedAt": "2024-04-07T23:57:21+02:00"
                             }
                         }
                     },
@@ -12186,18 +12465,18 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 103,
-                                    "typeId": 10,
-                                    "value": "ab",
-                                    "createdAt": "2023-04-30T18:10:33+02:00",
-                                    "updatedAt": "2023-03-12T02:12:22+01:00"
+                                    "orderId": 106,
+                                    "typeId": 17,
+                                    "value": "maxime",
+                                    "createdAt": "2024-09-06T16:21:37+02:00",
+                                    "updatedAt": "2024-04-30T06:05:56+02:00"
                                 },
                                 {
-                                    "orderId": 103,
-                                    "typeId": 12,
-                                    "value": "sint",
-                                    "createdAt": "2023-06-15T01:13:54+02:00",
-                                    "updatedAt": "2023-01-18T12:55:30+01:00"
+                                    "orderId": 106,
+                                    "typeId": 9,
+                                    "value": "exercitationem",
+                                    "createdAt": "2024-09-02T11:39:06+02:00",
+                                    "updatedAt": "2024-06-19T14:58:26+02:00"
                                 }
                             ]
                         }
@@ -12304,11 +12583,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 103,
-                                "typeId": 15,
-                                "value": "quod",
-                                "createdAt": "2023-02-08T02:06:55+01:00",
-                                "updatedAt": "2023-01-09T12:49:28+01:00"
+                                "orderId": 106,
+                                "typeId": 12,
+                                "value": "quae",
+                                "createdAt": "2024-01-18T06:30:45+01:00",
+                                "updatedAt": "2024-05-11T08:54:43+02:00"
                             }
                         }
                     },
@@ -12378,8 +12657,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 3,
+                                "plentyId": 64487,
+                                "typeId": 5,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12446,8 +12725,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 7,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12590,8 +12869,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 6,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12721,8 +13000,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 6,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12860,8 +13139,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12945,8 +13224,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 7,
+                                "plentyId": 64487,
+                                "typeId": 2,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -12973,6 +13252,44 @@
                                         "date": null
                                     }
                                 ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "",
+                        "format": "integer",
+                        "in": "path"
+                    }
+                ]
+            }
+        },
+        "/rest/orders/{orderId}/sales_orders/validate": {
+            "post": {
+                "summary": "Validate order items for create a sales order from a parent order",
+                "description": "Validate order items for create a sales order from a parent order. The parent order ID must be specified.",
+                "tags": [
+                    "Order"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mixed"
                             }
                         }
                     },
@@ -13081,22 +13398,22 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 501,
-                                    "packageId": 8,
-                                    "weight": 269,
-                                    "packageNumber": "uxnuyllMvom",
+                                    "orderId": 696,
+                                    "packageId": 1,
+                                    "weight": 821,
+                                    "packageNumber": "oImGy2ECnl",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 27,
-                                    "volume": 432.63
+                                    "packageType": 19,
+                                    "volume": 746.02
                                 },
                                 {
-                                    "orderId": 224,
-                                    "packageId": 8,
-                                    "weight": 256,
-                                    "packageNumber": "9yoKvHzjiV",
+                                    "orderId": 328,
+                                    "packageId": 4,
+                                    "weight": 681,
+                                    "packageNumber": "puF2JH4KisX",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 10,
-                                    "volume": 176.98
+                                    "packageType": 2,
+                                    "volume": 122.34
                                 }
                             ]
                         }
@@ -13154,13 +13471,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 801,
-                                "packageId": 8,
-                                "weight": 913,
-                                "packageNumber": "GxrmhrAf",
+                                "orderId": 799,
+                                "packageId": 1,
+                                "weight": 552,
+                                "packageNumber": "p275Kl1OWpE",
                                 "labelPath": "/path/to/label.pdf",
-                                "packageType": 14,
-                                "volume": 305.28
+                                "packageType": 20,
+                                "volume": 432.99
                             }
                         }
                     },
@@ -13421,13 +13738,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 359,
-                                "packageId": 8,
-                                "weight": 891,
-                                "packageNumber": "qs3lrL93",
+                                "orderId": 877,
+                                "packageId": 5,
+                                "weight": 394,
+                                "packageNumber": "zT8CfMyvaTkR",
                                 "labelPath": "/path/to/label.pdf",
-                                "packageType": 12,
-                                "volume": 336.79
+                                "packageType": 8,
+                                "volume": 551.26
                             }
                         }
                     },
@@ -13484,13 +13801,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 801,
-                                "packageId": 1,
-                                "weight": 938,
-                                "packageNumber": "chAgTNQN9qm",
+                                "orderId": 258,
+                                "packageId": 7,
+                                "weight": 712,
+                                "packageNumber": "qp8Lvosq5",
                                 "labelPath": "/path/to/label.pdf",
-                                "packageType": 23,
-                                "volume": 470.75
+                                "packageType": 0,
+                                "volume": 292.67
                             }
                         }
                     },
@@ -13571,22 +13888,22 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 920,
-                                    "packageId": 4,
-                                    "weight": 485,
-                                    "packageNumber": "87aAHC3V",
+                                    "orderId": 271,
+                                    "packageId": 6,
+                                    "weight": 315,
+                                    "packageNumber": "bh2xA6LZ9t",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 18,
-                                    "volume": 342.93
+                                    "packageType": 16,
+                                    "volume": 840.58
                                 },
                                 {
-                                    "orderId": 893,
-                                    "packageId": 1,
-                                    "weight": 732,
-                                    "packageNumber": "aJutZNVbt2eg",
+                                    "orderId": 858,
+                                    "packageId": 7,
+                                    "weight": 922,
+                                    "packageNumber": "HtiUbC2c",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 3,
-                                    "volume": 994.45
+                                    "packageType": 24,
+                                    "volume": 846.58
                                 }
                             ]
                         }
@@ -13750,22 +14067,22 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 403,
-                                    "packageId": 8,
-                                    "weight": 972,
-                                    "packageNumber": "NzdoHZMzvwUa",
+                                    "orderId": 758,
+                                    "packageId": 2,
+                                    "weight": 248,
+                                    "packageNumber": "1w8WH2BB7jm",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 8,
-                                    "volume": 971.97
+                                    "packageType": 37,
+                                    "volume": 502.18
                                 },
                                 {
-                                    "orderId": 230,
-                                    "packageId": 8,
-                                    "weight": 438,
-                                    "packageNumber": "yVFnCkUbw0B",
+                                    "orderId": 270,
+                                    "packageId": 6,
+                                    "weight": 934,
+                                    "packageNumber": "n7sdL0Xko",
                                     "labelPath": "/path/to/label.pdf",
-                                    "packageType": 27,
-                                    "volume": 303.07
+                                    "packageType": 38,
+                                    "volume": 551.6
                                 }
                             ]
                         }
@@ -13933,14 +14250,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 5,
+                                "orderId": 2,
                                 "shippingServiceProvider": "DpdCloudService",
-                                "transactionId": 7,
+                                "transactionId": 1,
                                 "shippingStatus": "prepared",
-                                "shippingCosts": 5,
-                                "additionalData": "Ab ratione dolorum delectus libero unde animi vel. Omnis mollitia consequatur earum et veritatis aperiam. Pariatur adipisci error non laborum.",
-                                "registrationAt": "2016-10-03T13:15:50+02:00",
-                                "shipmentAt": "2012-10-28T02:48:05+01:00"
+                                "shippingCosts": 6,
+                                "additionalData": "Laborum animi sit et quia incidunt omnis. Quo vitae consequatur laborum nemo eveniet aperiam qui et. Odio aperiam autem quidem et corporis.",
+                                "registrationAt": "1994-09-02T09:24:33+02:00",
+                                "shipmentAt": "1974-07-29T08:54:31+01:00"
                             }
                         }
                     },
@@ -13978,14 +14295,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 5,
+                                "orderId": 0,
                                 "shippingServiceProvider": "DpdCloudService",
-                                "transactionId": 7,
-                                "shippingStatus": "open",
-                                "shippingCosts": 6,
-                                "additionalData": "Voluptatem sint iure voluptatem earum quas molestiae. Et consequuntur asperiores id ad. Sed incidunt dolores assumenda incidunt vitae.",
-                                "registrationAt": "2021-12-17T16:01:09+01:00",
-                                "shipmentAt": "2010-04-01T08:34:54+02:00"
+                                "transactionId": 5,
+                                "shippingStatus": "prepared",
+                                "shippingCosts": 7,
+                                "additionalData": "Alias dolor in cumque aliquid et. Accusantium dolorum eos esse. Quia doloremque qui earum neque possimus veniam voluptatum. Hic quia vero suscipit nesciunt sapiente officia minus id.",
+                                "registrationAt": "1988-05-23T08:46:45+02:00",
+                                "shipmentAt": "2004-03-19T18:43:12+01:00"
                             }
                         }
                     },
@@ -14025,14 +14342,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 2,
+                                "orderId": 6,
                                 "shippingServiceProvider": "DpdCloudService",
-                                "transactionId": 3,
+                                "transactionId": 8,
                                 "shippingStatus": "prepared",
-                                "shippingCosts": 9,
-                                "additionalData": "Aut dolorem praesentium ullam est. Ipsum porro quos quis maiores. Beatae expedita rerum consequatur quaerat harum nesciunt aspernatur recusandae.",
-                                "registrationAt": "2014-08-17T13:52:46+02:00",
-                                "shipmentAt": "2001-02-23T14:47:14+01:00"
+                                "shippingCosts": 0,
+                                "additionalData": "Non et magnam qui officia dolorem. Magnam consequatur perferendis quasi vitae harum perferendis minima. Dolores sed sint doloremque nemo blanditiis. Beatae odio aut laudantium recusandae in.",
+                                "registrationAt": "2021-03-31T00:56:38+02:00",
+                                "shipmentAt": "2007-08-11T23:47:32+02:00"
                             }
                         }
                     },
@@ -14107,14 +14424,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "orderId": 4,
+                                "orderId": 0,
                                 "shippingServiceProvider": "DpdCloudService",
-                                "transactionId": 6,
+                                "transactionId": 4,
                                 "shippingStatus": "registered",
                                 "shippingCosts": 4,
-                                "additionalData": "Quo quisquam blanditiis rem mollitia consequuntur ipsa et. In repellendus eveniet id et. Ut aut facilis facilis quae autem voluptas omnis.",
-                                "registrationAt": "2015-12-21T15:58:24+01:00",
-                                "shipmentAt": "2003-08-11T07:51:22+02:00"
+                                "additionalData": "Quasi eum ducimus expedita et. Illo maiores unde libero maiores voluptas et ut. Voluptas et omnis sunt quaerat blanditiis. Veritatis sequi quidem praesentium commodi nihil et nemo.",
+                                "registrationAt": "1992-10-27T19:51:35+01:00",
+                                "shipmentAt": "1988-07-10T11:45:40+02:00"
                             }
                         }
                     },
@@ -14158,18 +14475,18 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderId": 473,
-                                    "statusId": 4,
-                                    "createdAt": "2023-06-27T04:22:26+02:00",
+                                    "orderId": 309,
+                                    "statusId": 2,
+                                    "createdAt": "2024-09-28T23:00:24+02:00",
                                     "userId": 2,
-                                    "procedureText": "Laudantium non deserunt ipsam."
+                                    "procedureText": "Quidem debitis voluptatem recusandae."
                                 },
                                 {
-                                    "orderId": 754,
-                                    "statusId": 9,
-                                    "createdAt": "2023-07-09T03:16:41+02:00",
-                                    "userId": 4,
-                                    "procedureText": "Dicta nihil perspiciatis."
+                                    "orderId": 276,
+                                    "statusId": 5,
+                                    "createdAt": "2024-10-10T07:26:50+02:00",
+                                    "userId": 8,
+                                    "procedureText": "Laborum perspiciatis vero voluptatum aut."
                                 }
                             ]
                         }
@@ -14211,8 +14528,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 6,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -14357,30 +14674,30 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "orderItemId": 291,
-                                    "quantity": 64.99,
-                                    "userId": 49,
-                                    "identification": "quidem",
+                                    "orderItemId": 694,
+                                    "quantity": 62.8,
+                                    "userId": 80,
+                                    "identification": "esse",
                                     "direction": "out",
                                     "status": "regular",
-                                    "warehouseLocationId": 999,
-                                    "batch": "quos",
-                                    "bestBeforeDate": "1972-10-26",
-                                    "createdAt": "2023-07-08T00:42:12+02:00",
-                                    "updatedAt": "2023-06-30T21:06:04+02:00"
+                                    "warehouseLocationId": 487,
+                                    "batch": "soluta",
+                                    "bestBeforeDate": "2020-06-11",
+                                    "createdAt": "2024-09-17T18:18:04+02:00",
+                                    "updatedAt": "2024-09-28T07:51:47+02:00"
                                 },
                                 {
-                                    "orderItemId": 391,
-                                    "quantity": 96.47,
-                                    "userId": 92,
-                                    "identification": "delectus",
-                                    "direction": "in",
+                                    "orderItemId": 541,
+                                    "quantity": 61.82,
+                                    "userId": 64,
+                                    "identification": "magnam",
+                                    "direction": "out",
                                     "status": "cancelled",
-                                    "warehouseLocationId": 992,
-                                    "batch": "recusandae",
-                                    "bestBeforeDate": "2012-10-18",
-                                    "createdAt": "2023-07-23T14:36:13+02:00",
-                                    "updatedAt": "2023-07-10T21:34:36+02:00"
+                                    "warehouseLocationId": 662,
+                                    "batch": "expedita",
+                                    "bestBeforeDate": "1970-05-11",
+                                    "createdAt": "2024-09-25T19:08:44+02:00",
+                                    "updatedAt": "2024-10-09T00:36:43+02:00"
                                 }
                             ]
                         }
@@ -14439,8 +14756,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 3,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -14566,7 +14883,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 2,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -14708,7 +15025,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 3,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -14878,8 +15195,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 7,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -15020,7 +15337,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -15152,8 +15469,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 7,
+                                "plentyId": 64487,
+                                "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -15255,8 +15572,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 4,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -15361,8 +15678,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 3,
+                                "plentyId": 64487,
+                                "typeId": 5,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -15419,8 +15736,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -15487,8 +15804,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -15860,8 +16177,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 5,
+                                "plentyId": 64487,
+                                "typeId": 7,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -16108,8 +16425,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 9,
+                                "plentyId": 64487,
+                                "typeId": 5,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -16166,8 +16483,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -16234,7 +16551,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -16607,8 +16924,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 2,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -16799,8 +17116,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -16857,8 +17174,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 4,
+                                "plentyId": 64487,
+                                "typeId": 9,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -16943,8 +17260,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 2,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -17011,8 +17328,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 9,
+                                "plentyId": 64487,
+                                "typeId": 5,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -17140,8 +17457,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 8,
+                                "plentyId": 64487,
+                                "typeId": 4,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -17461,8 +17778,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 6,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -17580,8 +17897,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 4,
+                                "plentyId": 64487,
+                                "typeId": 3,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -17648,7 +17965,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 7,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -17716,7 +18033,7 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
+                                "plentyId": 64487,
                                 "typeId": 1,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
@@ -17863,14 +18180,14 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "taricCode": "4672915384",
-                                        "countryId": 10,
-                                        "vatField": 0
+                                        "taricCode": "1732340671",
+                                        "countryId": 3,
+                                        "vatField": 2
                                     },
                                     {
-                                        "taricCode": "6999218965",
-                                        "countryId": 4,
-                                        "vatField": 1
+                                        "taricCode": "2196612662",
+                                        "countryId": 8,
+                                        "vatField": 2
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -17998,9 +18315,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "taricCode": "7388961543",
-                                "countryId": 5,
-                                "vatField": 5
+                                "taricCode": "5070639018",
+                                "countryId": 3,
+                                "vatField": 2
                             }
                         }
                     },
@@ -18046,9 +18363,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "taricCode": "3278255426",
-                                "countryId": 1,
-                                "vatField": 3
+                                "taricCode": "5964582149",
+                                "countryId": 10,
+                                "vatField": 0
                             }
                         }
                     },
@@ -18115,9 +18432,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "taricCode": "4006090271",
-                                "countryId": 3,
-                                "vatField": 1
+                                "taricCode": "5831303260",
+                                "countryId": 7,
+                                "vatField": 5
                             }
                         }
                     },
@@ -18187,8 +18504,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 3,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -18245,8 +18562,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 4,
+                                "plentyId": 64487,
+                                "typeId": 8,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -18313,8 +18630,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 2,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -18442,8 +18759,8 @@
                         "examples": {
                             "application/json": {
                                 "statusName": "",
-                                "plentyId": 794,
-                                "typeId": 1,
+                                "plentyId": 64487,
+                                "typeId": 5,
                                 "lockStatus": "unlocked",
                                 "locationId": null,
                                 "createdAt": null,
@@ -19463,6 +19780,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -19551,9 +19872,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -19775,6 +20310,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -19825,6 +20364,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -20780,6 +21340,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -20848,6 +21412,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -21271,10 +21839,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -21363,6 +21927,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -21378,12 +21947,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -21439,6 +22053,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -21482,48 +22117,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -21549,6 +22146,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -22718,6 +23336,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -23580,6 +24230,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -24949,6 +25603,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -24973,6 +25647,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -25029,7 +25718,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -25067,6 +25756,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -25191,6 +25905,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -25809,6 +26624,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -26631,6 +27454,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -28262,6 +29089,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

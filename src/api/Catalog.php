@@ -306,6 +306,16 @@ class Catalog extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
+     * @description Gets the preview for an export with a specific VDI catalog
+     * @tag Catalog
+     * @param int $id 
+     */
+    public function getCatalogsCatalogsPreviewVdiById(int $id)
+    {
+        return $this->api("/rest/catalogs/catalogs/{$id}/preview/vdi");
+    }
+                    
+    /**
      * @description Builds the private download url with optional data
 The data should use the same structure as the catalog options
      * @tag Catalog

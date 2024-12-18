@@ -153,6 +153,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The storage key for the layout document to upload. Include the storage key (i.e. file path) in the request in a <code>key</code> field.
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -237,6 +238,7 @@ minutes.
      *          - The storage key for the file to upload. Include the storage key in the request in a <code>key</code> field.
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string

@@ -723,8 +723,8 @@ usually a 11 digit code number based on the Harmonised System
     /**
      * @description Gets the attribute value name. The attribute value ID and language must be specified.
      * @tag Item
-     * @param int $valueId 
-     * @param int $lang 
+     * @param int $valueId The ID of the attribute value.
+     * @param string $lang The language of the attribute value.
      * @return array
      *      - *valueId* - integer
      *          - The unique ID of the attribute value.
@@ -733,7 +733,7 @@ usually a 11 digit code number based on the Harmonised System
      *      - *name* - string
      *          - The name of the attribute value. This attribute value name is displayed in the online store.
      */
-    public function getItemsAttributeValuesNameByValueIdLang(int $valueId, int $lang): array
+    public function getItemsAttributeValuesNameByValueIdLang(int $valueId, string $lang): array
     {
         return $this->api("/rest/items/attribute_values/{$valueId}/names/{$lang}");
     }
@@ -1019,8 +1019,8 @@ usually a 11 digit code number based on the Harmonised System
     /**
      * @description Lists the attribute names of an attribute.
      * @tag Item
-     * @param int $attributeId 
-     * @param int $lang 
+     * @param int $attributeId The ID of the attribute.
+     * @param string $lang The language of the attribute.
      * @return array
      *      - *attributeId* - integer
      *          - The id of the attribute.
@@ -1029,7 +1029,7 @@ usually a 11 digit code number based on the Harmonised System
      *      - *name* - string
      *          - The name of the attribute. This attribute name is displayed in the online store.
      */
-    public function getItemsAttributesNameByAttributeIdLang(int $attributeId, int $lang): array
+    public function getItemsAttributesNameByAttributeIdLang(int $attributeId, string $lang): array
     {
         return $this->api("/rest/items/attributes/{$attributeId}/names/{$lang}");
     }
@@ -1732,6 +1732,22 @@ Display a listing of the resource.
      *          - Internal comments about the manufacturer (optional)
      *      - *updatedAt* - string
      *          - The time the manufacturer information was last updated.
+     *      - *responsibleName* - string
+     *          - The name of the EU-Responsible person
+     *      - *responsibleStreet* - string
+     *          - The street of the EU-Responsible person
+     *      - *responsibleHouseNo* - string
+     *          - The house number of the EU-Responsible person
+     *      - *responsiblePostCode* - string
+     *          - The postal code of the EU-Responsible person
+     *      - *responsibleTown* - string
+     *          - The town of the EU-Responsible person
+     *      - *responsibleCountry* - integer
+     *          - The country of the EU-Responsible person
+     *      - *responsibleEmail* - string
+     *          - The email address of the EU-Responsible person
+     *      - *responsiblePhoneNo* - string
+     *          - The phone number of the EU-Responsible person
      */
     public function createItemsManufacturer(): array
     {
@@ -1791,6 +1807,22 @@ Display a listing of the resource.
      *          - Internal comments about the manufacturer (optional)
      *      - *updatedAt* - string
      *          - The time the manufacturer information was last updated.
+     *      - *responsibleName* - string
+     *          - The name of the EU-Responsible person
+     *      - *responsibleStreet* - string
+     *          - The street of the EU-Responsible person
+     *      - *responsibleHouseNo* - string
+     *          - The house number of the EU-Responsible person
+     *      - *responsiblePostCode* - string
+     *          - The postal code of the EU-Responsible person
+     *      - *responsibleTown* - string
+     *          - The town of the EU-Responsible person
+     *      - *responsibleCountry* - integer
+     *          - The country of the EU-Responsible person
+     *      - *responsibleEmail* - string
+     *          - The email address of the EU-Responsible person
+     *      - *responsiblePhoneNo* - string
+     *          - The phone number of the EU-Responsible person
      */
     public function getItemsManufacturerById(int $id): array
     {
@@ -1840,6 +1872,22 @@ Display a listing of the resource.
      *          - Internal comments about the manufacturer (optional)
      *      - *updatedAt* - string
      *          - The time the manufacturer information was last updated.
+     *      - *responsibleName* - string
+     *          - The name of the EU-Responsible person
+     *      - *responsibleStreet* - string
+     *          - The street of the EU-Responsible person
+     *      - *responsibleHouseNo* - string
+     *          - The house number of the EU-Responsible person
+     *      - *responsiblePostCode* - string
+     *          - The postal code of the EU-Responsible person
+     *      - *responsibleTown* - string
+     *          - The town of the EU-Responsible person
+     *      - *responsibleCountry* - integer
+     *          - The country of the EU-Responsible person
+     *      - *responsibleEmail* - string
+     *          - The email address of the EU-Responsible person
+     *      - *responsiblePhoneNo* - string
+     *          - The phone number of the EU-Responsible person
      */
     public function updateItemsManufacturerById(int $id): array
     {
@@ -2894,6 +2942,9 @@ Delete salesPrice
      * @tag Item
      * @param int $id 
      * @param array $data 
+     * @param array $query
+     *      - *salesPriceId* - int - required
+     *          - The ID of the sales price.
      * @return array
      *      - *salesPriceId* - integer
      *          - The unique ID of the sales price
@@ -2908,27 +2959,33 @@ Delete salesPrice
      *      - *updatedAt* - string
      *          - The time the name was last updated.
      */
-    public function createItemsSalesPricesNameById(int $id, array $data): array
+    public function createItemsSalesPricesNameById(int $id, array $data, array $query): array
     {
-        return $this->api("/rest/items/sales_prices/{$id}/names", 'POST', $data);
+        return $this->api(array_merge(["/rest/items/sales_prices/{$id}/names"], $query), 'POST', $data);
     }
                     
     /**
      * @description Deletes the name of a sales price in the specified language. The ID of the sales price and the language code must be specified.
      * @tag Item
+     * @param string $lang The language of the sales price.
      * @param int $id 
-     * @param int $lang 
+     * @param array $query
+     *      - *salesPriceId* - int - required
+     *          - The ID of the sales price.
      */
-    public function deleteItemsSalesPricesNameByIdLang(int $id, int $lang)
+    public function deleteItemsSalesPricesNameByLangId(string $lang, int $id, array $query)
     {
-        return $this->api("/rest/items/sales_prices/{$id}/names/{$lang}", 'DELETE');
+        return $this->api(array_merge(["/rest/items/sales_prices/{$id}/names/{$lang}"], $query), 'DELETE');
     }
                 
     /**
      * @description Gets the sales price name of a sales price in the specified langauge. The ID of the sales price and the language code must be specified.
      * @tag Item
+     * @param string $lang The language of the sales price.
      * @param int $id 
-     * @param int $lang 
+     * @param array $query
+     *      - *salesPriceId* - int - required
+     *          - The ID of the sales price.
      * @return array
      *      - *salesPriceId* - integer
      *          - The unique ID of the sales price
@@ -2943,17 +3000,20 @@ Delete salesPrice
      *      - *updatedAt* - string
      *          - The time the name was last updated.
      */
-    public function getItemsSalesPricesNameByIdLang(int $id, int $lang): array
+    public function getItemsSalesPricesNameByLangId(string $lang, int $id, array $query): array
     {
-        return $this->api("/rest/items/sales_prices/{$id}/names/{$lang}");
+        return $this->api(array_merge(["/rest/items/sales_prices/{$id}/names/{$lang}"], $query));
     }
                 
     /**
      * @description Updates a sales price name in the specified language. The ID of the sales price and the language code must be specified.
      * @tag Item
+     * @param string $lang The language of the sales price.
      * @param int $id 
-     * @param int $lang 
      * @param array $data 
+     * @param array $query
+     *      - *salesPriceId* - int - required
+     *          - The ID of the sales price.
      * @return array
      *      - *salesPriceId* - integer
      *          - The unique ID of the sales price
@@ -2968,9 +3028,9 @@ Delete salesPrice
      *      - *updatedAt* - string
      *          - The time the name was last updated.
      */
-    public function updateItemsSalesPricesNameByIdLang(int $id, int $lang, array $data): array
+    public function updateItemsSalesPricesNameByLangId(string $lang, int $id, array $data, array $query): array
     {
-        return $this->api("/rest/items/sales_prices/{$id}/names/{$lang}", 'PUT', $data);
+        return $this->api(array_merge(["/rest/items/sales_prices/{$id}/names/{$lang}"], $query), 'PUT', $data);
     }
                     
     /**
@@ -3261,6 +3321,8 @@ Delete salesPrice
      *          - Filter restricts the list of results to variations that are visible in specified markets. Separate more than one referrer by commas.
      *      - *supplierNumber* - string - optional
      *          - Filter restricts the list of results to variations with the specified supplier number. A supplier number must be specified.
+     *      - *supplierNumberFuzzy* - string - optional
+     *          - Filter restricts the list of results to variations that contain the specified supplier number (SQL LIKE operator).
      *      - *sku* - string - optional
      *          - Filter restricts the list of results to variations with the specified SKU. In additional, results can also be restricted to a specific referrer by specifying the referrer ID after a colon. Example: L0R3MIP5UM:104.1
      *      - *manufacturerId* - int - optional
@@ -3346,6 +3408,8 @@ Delete salesPrice
      *          - Filter restricts the list of results to variations that are visible in specified markets. Separate more than one referrer by commas.
      *      - *supplierNumber* - string - optional
      *          - Filter restricts the list of results to variations with the specified supplier number. A supplier number must be specified.
+     *      - *supplierNumberFuzzy* - string - optional
+     *          - Filter restricts the list of results to variations that contain the specified supplier number (SQL LIKE operator).
      *      - *sku* - string - optional
      *          - Filter restricts the list of results to variations with the specified SKU. In additional, results can also be restricted to a specific referrer by specifying the referrer ID after a colon. Example: L0R3MIP5UM:104.1
      *      - *manufacturerId* - int - optional
@@ -3431,6 +3495,8 @@ Delete salesPrice
      *          - Filter restricts the list of results to variations that are visible in specified markets. Separate more than one referrer by commas.
      *      - *supplierNumber* - string - optional
      *          - Filter restricts the list of results to variations with the specified supplier number. A supplier number must be specified.
+     *      - *supplierNumberFuzzy* - string - optional
+     *          - Filter restricts the list of results to variations that contain the specified supplier number (SQL LIKE operator).
      *      - *sku* - string - optional
      *          - Filter restricts the list of results to variations with the specified SKU. In additional, results can also be restricted to a specific referrer by specifying the referrer ID after a colon. Example: L0R3MIP5UM:104.1
      *      - *manufacturerId* - int - optional
@@ -4172,6 +4238,8 @@ lists all links of the variation with the ID 1030.
      *          - The <a href="https://developers.plentymarkets.com/rest-doc/introduction#countries" target="_blank">language code</a> of the description
      *      - *name* - string
      *          - The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters.
+     *      - *title* - string
+     *          - The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters.
      *      - *name2* - string
      *          - Alternative item name that can be used e.g. for markets. Character limit: max. 240 characters.
      *      - *name3* - string
@@ -4221,6 +4289,8 @@ lists all links of the variation with the ID 1030.
      *          - The <a href="https://developers.plentymarkets.com/rest-doc/introduction#countries" target="_blank">language code</a> of the description
      *      - *name* - string
      *          - The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters.
+     *      - *title* - string
+     *          - The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters.
      *      - *name2* - string
      *          - Alternative item name that can be used e.g. for markets. Character limit: max. 240 characters.
      *      - *name3* - string
@@ -4259,6 +4329,8 @@ lists all links of the variation with the ID 1030.
      *          - The <a href="https://developers.plentymarkets.com/rest-doc/introduction#countries" target="_blank">language code</a> of the description
      *      - *name* - string
      *          - The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters.
+     *      - *title* - string
+     *          - The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters.
      *      - *name2* - string
      *          - Alternative item name that can be used e.g. for markets. Character limit: max. 240 characters.
      *      - *name3* - string
@@ -4962,7 +5034,8 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
     }
                     
     /**
-     * @description List all components of a bundle. The ID of the item and the ID of the variation to which bundle components were added must be specified.
+     * @description List all components of a bundle.
+The ID of the item and the ID of the variation to which bundle components were added must be specified.
      * @tag Item
      * @param int $id 
      * @param int $variationId 

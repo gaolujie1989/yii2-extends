@@ -1126,6 +1126,16 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
+     * @description Gets a computed preview of the mapped targets.
+     * @tag ElasticSync
+     * @param int $syncId 
+     */
+    public function getElasticSyncSyncPreviewComputedBySyncId(int $syncId)
+    {
+        return $this->api("/rest/elastic-sync/sync/{$syncId}/preview-computed");
+    }
+                    
+    /**
      * @description Gets preview of csv values. The sync ID is required.
      * @tag ElasticSync
      * @param int $syncId The id of the sync

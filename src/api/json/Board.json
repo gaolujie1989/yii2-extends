@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -468,15 +468,15 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "id": "738cf740-7314-53e0-aec1-a69d39518c72",
-                                    "boardId": "a51043f7-ba72-35b0-9cf5-597b6c0da13d",
-                                    "columnName": "Knave, 'I didn't mean it!'.",
+                                    "id": "4c4f5e4f-9dfa-506d-880d-030f8a2a0e5b",
+                                    "boardId": "deb59b98-928b-33c5-b92f-c2de9a6c4cf3",
+                                    "columnName": "Alice asked in a languid.",
                                     "position": 0
                                 },
                                 {
-                                    "id": "9b87dc40-3efa-5e97-aa82-293c78c3d478",
-                                    "boardId": "48809995-179d-3498-a097-9dd26fd5142a",
-                                    "columnName": "I think I can say.' This was.",
+                                    "id": "863bfd12-0ae4-54e5-9399-44c6c4b0b7aa",
+                                    "boardId": "5f3412a7-a244-3c60-81d1-f799495e8d18",
+                                    "columnName": "NEVER come to an end! 'I.",
                                     "position": 1
                                 }
                             ]
@@ -516,9 +516,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "a3baedc6-fca5-55bc-b904-74f00eca8476",
-                                "boardId": "2fb4713c-5b89-3aa9-97f5-6f1e560ab7b8",
-                                "columnName": "At last the Mouse, getting.",
+                                "id": "ae888428-033f-53c9-abb9-02cb59d11f69",
+                                "boardId": "0a950a58-1b56-365e-b152-eefbce105fe3",
+                                "columnName": "Mock Turtle replied in a.",
                                 "position": 2
                             }
                         }
@@ -617,9 +617,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "69808882-4fa5-5684-9a11-c77ec436b2f0",
-                                "boardId": "5557b0cf-7de7-3cb5-b3f6-9a55d2d1fe52",
-                                "columnName": "Puss,' she began, in a great.",
+                                "id": "045c2339-ba2f-550c-928d-534980b7e752",
+                                "boardId": "ad2921a7-c55b-37c3-91a7-917bfff6c095",
+                                "columnName": "YOU,\"' said Alice. 'What IS.",
                                 "position": 4
                             }
                         }
@@ -666,9 +666,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "32d16126-dc46-514d-a337-1eb146b3e0ea",
-                                "boardId": "6d36cbd8-0996-38c3-8dd5-e74b3470203e",
-                                "columnName": "Dodo in an angry tone, 'Why.",
+                                "id": "d75f2d0b-6510-592f-943b-77e8bfa7e084",
+                                "boardId": "e88888be-e9ae-336d-b208-8725dce21b69",
+                                "columnName": "Besides, SHE'S she, and I'm.",
                                 "position": 3
                             }
                         }
@@ -789,22 +789,22 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "id": "0ada9712-bf11-3a2e-8df6-44699b045ab8",
-                                    "taskName": "I was a very long silence.",
-                                    "description": "Cheshire Cat,' said Alice: 'she's so extremely--' Just then her head struck against the door.",
+                                    "id": "6a4fa2fc-3223-3568-9767-9f18aa9758ae",
+                                    "taskName": "ARE OLD, FATHER WILLIAM,' to.",
+                                    "description": "While the Duchess was sitting on the top of her sister, as well as if he doesn't begin.' But she.",
                                     "position": 0,
-                                    "columnId": "29c33349-191d-38ca-8896-3ca5cd82016d",
-                                    "boardId": "f990d7dd-282e-31ce-9816-ffddede92ca8",
-                                    "plentyIdHash": "794"
+                                    "columnId": "3fadfe79-f789-3489-88cf-3a595fe030a1",
+                                    "boardId": "90210906-6918-3147-8edf-3eec57131acb",
+                                    "plentyIdHash": "7xq4f7okxuim"
                                 },
                                 {
-                                    "id": "d5a70242-b82e-35b4-b60d-dea685bd297b",
-                                    "taskName": "D,' she added aloud. 'Do you.",
-                                    "description": "Mock Turtle, capering wildly about. 'Change lobsters again!' yelled the Gryphon answered, very.",
+                                    "id": "94f0944b-a09c-3865-8763-5f16bfe24fee",
+                                    "taskName": "I think?' 'I had NOT!' cried.",
+                                    "description": "Caterpillar. Alice said nothing: she had accidentally upset the milk-jug into his plate. Alice did.",
                                     "position": 1,
-                                    "columnId": "3c322996-316f-38de-8a8a-58f838829342",
-                                    "boardId": "fbee58b7-7315-35c9-a8c3-f3df04fb2af3",
-                                    "plentyIdHash": "794"
+                                    "columnId": "72fc785f-07bb-375c-919d-5cb1ab3fa9cb",
+                                    "boardId": "f57a3b6e-c21c-32c1-bcb2-122175f487ec",
+                                    "plentyIdHash": "7xq4f7okxuim"
                                 }
                             ]
                         }
@@ -867,13 +867,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "143cebb1-8a3a-3a38-b3e4-447729282763",
-                                "taskName": "The Duchess took her choice.",
-                                "description": "NOT be an old woman--but then--always to have any pepper in that ridiculous fashion.' And he added.",
+                                "id": "8bb39732-630c-3578-bbcb-9f3ac10a3555",
+                                "taskName": "Duchess. 'Everything's got a.",
+                                "description": "Duchess: 'and the moral of that is--\"Be what you mean,' the March Hare was said to herself, 'in my.",
                                 "position": 2,
-                                "columnId": "fd152240-2cdf-3a1d-9dc0-b92694625955",
-                                "boardId": "2f57a02d-aff5-3bca-833e-e59d6f4d1424",
-                                "plentyIdHash": "794"
+                                "columnId": "39569fbb-4483-375c-8c17-f2d633f6efa7",
+                                "boardId": "59665b68-453c-3b5e-90e3-6a7c09f86ab4",
+                                "plentyIdHash": "7xq4f7okxuim"
                             }
                         }
                     },
@@ -995,13 +995,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "3bf78419-23d3-3ebd-84d1-50f5417e219b",
-                                "taskName": "Caterpillar took the watch.",
-                                "description": "The great question is, Who in the trial one way of escape, and wondering whether she ought to have.",
+                                "id": "15367fd1-07ea-3959-bdc8-71fe8cd3a536",
+                                "taskName": "Alice indignantly, and she.",
+                                "description": "I get SOMEWHERE,' Alice added as an explanation; 'I've none of YOUR business, Two!' said Seven.",
                                 "position": 3,
-                                "columnId": "b4d50ee8-49ad-3568-b476-b2ecb8d60e17",
-                                "boardId": "8d51fb5f-4420-370d-a04a-aef369e5137d",
-                                "plentyIdHash": "794"
+                                "columnId": "c6f9e3af-ad67-335b-919f-c2d5a03b6019",
+                                "boardId": "98558444-bfe1-3a0e-91a6-f8080305f1bd",
+                                "plentyIdHash": "7xq4f7okxuim"
                             }
                         }
                     },
@@ -1055,13 +1055,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "c60939b3-e16a-3c92-bd25-374a17dda31a",
-                                "taskName": "Alice, 'they're sure to make.",
-                                "description": "I was going to be, from one minute to another! However, I've got to see that queer little toss of.",
+                                "id": "0f99c29c-411c-3670-b32a-98b8999f7976",
+                                "taskName": "ME' were beautifully marked.",
+                                "description": "Rabbit's--'Pat! Pat! Where are you?' And then a great hurry, muttering to himself as he fumbled.",
                                 "position": 5,
-                                "columnId": "5e68823a-9da8-344b-8e83-efc70cb6c5dc",
-                                "boardId": "54cf0e5b-503c-3892-abda-6eb681f9a010",
-                                "plentyIdHash": "794"
+                                "columnId": "71257741-7ed1-3027-87c6-99c760476fd0",
+                                "boardId": "f552e921-05a7-33b8-a816-fdb7ddf36688",
+                                "plentyIdHash": "7xq4f7okxuim"
                             }
                         }
                     },
@@ -1115,13 +1115,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "7565d7d4-3c10-33e0-889d-7b29612eea74",
-                                "taskName": "Mouse. '--I proceed. \"Edwin.",
-                                "description": "So she swallowed one of the cupboards as she had been to her, though, as they all cheered. Alice.",
+                                "id": "81ea8528-f94a-3b35-a73b-308d4f9cfa73",
+                                "taskName": "This answer so confused poor.",
+                                "description": "CHAPTER III. A Caucus-Race and a scroll of parchment in the morning, just time to begin with; and.",
                                 "position": 4,
-                                "columnId": "bd2aafa7-d66f-3fd9-8ef5-d24469df95ec",
-                                "boardId": "d3f64143-5f6d-3236-a376-466618a72ee7",
-                                "plentyIdHash": "794"
+                                "columnId": "807a76ae-f5f7-3fce-8d7f-946a6312a194",
+                                "boardId": "324b2e88-73d6-3190-b053-8f3872ee9ee0",
+                                "plentyIdHash": "7xq4f7okxuim"
                             }
                         }
                     },
@@ -1265,10 +1265,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": "43c7126f-f6b8-342a-bf11-1b92070655b7",
-                                "referenceValue": "item-334441",
-                                "taskId": "b9e55f06-d07b-30a5-bf99-d45a7e2e9baa",
-                                "plentyIdHash": "794"
+                                "id": "e8f9558e-e0ab-3b2c-9e1e-984158c6cb59",
+                                "referenceValue": "item-4466612",
+                                "taskId": "c796bc30-102f-3e5c-8c2b-8e3a54aeca42",
+                                "plentyIdHash": "7xq4f7okxuim"
                             }
                         }
                     },
@@ -2232,6 +2232,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -2320,9 +2324,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -2544,6 +2762,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -2594,6 +2816,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -3549,6 +3792,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -3617,6 +3864,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -4040,10 +4291,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -4132,6 +4379,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -4147,12 +4399,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -4208,6 +4505,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -4251,48 +4569,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -4318,6 +4598,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -5487,6 +5788,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -6349,6 +6682,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -7718,6 +8055,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -7742,6 +8099,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -7798,7 +8170,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -7836,6 +8208,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -7960,6 +8357,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -8578,6 +9076,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -9400,6 +9906,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -11031,6 +11541,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

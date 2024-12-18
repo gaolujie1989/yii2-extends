@@ -769,15 +769,15 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Filter restricts the result to sales prices with the specified IDs. More than one parameter should be separated by commas. Allowed comparators: 'eq', 'in', 'between', 'gte', 'lte', 'gt' and 'lt'.
      *      - *type* - string - optional
      *          - Filter restricts the result to sales prices with the specified type. Allowed comparators: 'eq' and 'in'.
-     *      - *customerClass* - int - optional
+     *      - *customerClassId* - int - optional
      *          - Filter restricts the result to sales prices with the specified customer class.
      *      - *currency* - int - optional
      *          - Filter restricts the result to sales prices with the specified currency.
-     *      - *country* - int - optional
+     *      - *countryId* - int - optional
      *          - Filter restricts the result to sales prices with the specified country.
      *      - *name* - string - optional
      *          - Filter restricts the result to sales prices with the specified name.
-     *      - *referrer* - int - optional
+     *      - *referrerId* - int - optional
      *          - Filter restricts the result to sales prices with the specified referrer.
      *      - *plentyId* - int - optional
      *          - Filter restricts the result to sales prices with the specified plenty ID.
@@ -1009,6 +1009,8 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Filter restricts the list of results to variations whose tags has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
      *      - *warehouseUpdatedAt* - string - optional
      *          - Filter restricts the list of results to variations whose warehouse has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
+     *      - *relatedUpdatedAt* - string - optional
+     *          - Filter restricts the list of results to variations whose relations (any) has been updated in the specified time frame. The from and to parameter should be separated by a coma. If there is no to value, The current time is used instead.
      *      - *page* - int - optional
      *          - The requested page of results. Default value is 1.
      *      - *itemsPerPage* - int - optional
@@ -1198,6 +1200,8 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Filter restricts the list of results to variations whose tags has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
      *      - *warehouseUpdatedAt* - string - optional
      *          - Filter restricts the list of results to variations whose warehouse has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
+     *      - *relatedUpdatedAt* - string - optional
+     *          - Filter restricts the list of results to variations whose relations (any) has been updated in the specified time frame. The from and to parameter should be separated by a coma. If there is no to value, The current time is used instead.
      *      - *page* - int - optional
      *          - The requested page of results. Default value is 1.
      *      - *itemsPerPage* - int - optional
@@ -1387,6 +1391,8 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Filter restricts the list of results to variations whose tags has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
      *      - *warehouseUpdatedAt* - string - optional
      *          - Filter restricts the list of results to variations whose warehouse has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
+     *      - *relatedUpdatedAt* - string - optional
+     *          - Filter restricts the list of results to variations whose relations (any) has been updated in the specified time frame. The from and to parameter should be separated by a coma. If there is no to value, The current time is used instead.
      *      - *page* - int - optional
      *          - The requested page of results. Default value is 1.
      *      - *itemsPerPage* - int - optional
@@ -1824,6 +1830,8 @@ class Pim extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Filter restricts the list of results to variations whose tags has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
      *      - *warehouseUpdatedAt* - string - optional
      *          - Filter restricts the list of results to variations whose warehouse has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.
+     *      - *relatedUpdatedAt* - string - optional
+     *          - Filter restricts the list of results to variations whose relations (any) has been updated in the specified time frame. The from and to parameter should be separated by a coma. If there is no to value, The current time is used instead.
      *      - *hasLowestPrice* - boolean - optional
      *          - Filter restricts the list of results to variations which has or has not lowest price.
      *      - *cursor* - string - optional

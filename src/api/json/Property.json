@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -468,14 +468,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "cast": "date",
-                                    "typeIdentifier": "Aut fuga quod est doloremque et voluptatem incidunt autem.",
-                                    "position": 9
+                                    "cast": "float",
+                                    "typeIdentifier": "Ea sint totam adipisci consequatur est repudiandae est.",
+                                    "position": 0
                                 },
                                 {
-                                    "cast": "date",
-                                    "typeIdentifier": "Odio magni aliquam reprehenderit cumque dolore reiciendis voluptatem.",
-                                    "position": 6
+                                    "cast": "file",
+                                    "typeIdentifier": "Harum nobis illum quasi illum et cum nam.",
+                                    "position": 8
                                 }
                             ]
                         }
@@ -504,9 +504,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "cast": "empty",
-                                "typeIdentifier": "Aut magnam fugit fugiat est temporibus aut pariatur.",
-                                "position": 0
+                                "cast": "int",
+                                "typeIdentifier": "Animi rerum aut voluptas ea eligendi placeat repellat est illum facilis.",
+                                "position": 8
                             }
                         }
                     },
@@ -589,14 +589,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "platform": "Sed.",
-                                    "category": "Consequuntur.",
-                                    "field": "Excepturi qui."
+                                    "platform": "Debitis.",
+                                    "category": "Id.",
+                                    "field": "Quae."
                                 },
                                 {
-                                    "platform": "Sed.",
-                                    "category": "Esse perferendis.",
-                                    "field": "Nam."
+                                    "platform": "Similique distinctio.",
+                                    "category": "Accusantium quisquam.",
+                                    "field": "Assumenda."
                                 }
                             ]
                         }
@@ -625,9 +625,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "platform": "Quia.",
-                                "category": "Alias.",
-                                "field": "Incidunt."
+                                "platform": "Eius.",
+                                "category": "Hic ab.",
+                                "field": "Cupiditate."
                             }
                         }
                     },
@@ -714,9 +714,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "platform": "Nihil omnis.",
-                                "category": "Et.",
-                                "field": "Minima voluptatibus."
+                                "platform": "Culpa.",
+                                "category": "Quae.",
+                                "field": "Dolor."
                             }
                         }
                     },
@@ -776,9 +776,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "platform": "Eos eum.",
-                                "category": "Consequatur.",
-                                "field": "Facilis voluptatibus."
+                                "platform": "Fuga eaque.",
+                                "category": "Molestiae molestiae.",
+                                "field": "Ipsa velit."
                             }
                         }
                     },
@@ -822,12 +822,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "type": "type3",
-                                    "value": 1
+                                    "type": "type2",
+                                    "value": 7
                                 },
                                 {
-                                    "type": "type2",
-                                    "value": 1
+                                    "type": "type3",
+                                    "value": 4
                                 }
                             ]
                         }
@@ -856,8 +856,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "type": "type1",
-                                "value": 7
+                                "type": "type3",
+                                "value": 3
                             }
                         }
                     },
@@ -964,8 +964,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "type": "type2",
-                                "value": 2
+                                "type": "type1",
+                                "value": 8
                             }
                         }
                     },
@@ -1003,8 +1003,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "type": "type1",
-                                "value": 7
+                                "type": "type2",
+                                "value": 4
                             }
                         }
                     },
@@ -1073,10 +1073,10 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "position": 8
+                                    "position": 4
                                 },
                                 {
-                                    "position": 5
+                                    "position": 1
                                 }
                             ]
                         }
@@ -1115,7 +1115,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 1
+                                "position": 8
                             }
                         }
                     },
@@ -1188,12 +1188,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "lang": "Impedit tempora.",
-                                    "name": "Doloremque harum ab aut quis magnam."
+                                    "lang": "Sint voluptatem illum.",
+                                    "name": "Error nobis earum ut."
                                 },
                                 {
-                                    "lang": "Unde aut repudiandae.",
-                                    "name": "Eligendi occaecati vel minus."
+                                    "lang": "Modi nostrum est.",
+                                    "name": "Dolor sed molestias ut voluptate a et."
                                 }
                             ]
                         }
@@ -1222,8 +1222,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Enim nihil est.",
-                                "name": "Voluptatem tenetur est et."
+                                "lang": "Consequatur aperiam.",
+                                "name": "Doloribus quia ut velit et sit est."
                             }
                         }
                     },
@@ -1334,8 +1334,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Et eius.",
-                                "name": "Debitis rerum sint omnis id quo est."
+                                "lang": "Ea facilis.",
+                                "name": "Libero eveniet et ipsam porro quaerat."
                             }
                         }
                     },
@@ -1373,8 +1373,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Est natus.",
-                                "name": "Nostrum qui a nulla hic ut."
+                                "lang": "Sunt rem asperiores.",
+                                "name": "Delectus esse rem quis necessitatibus earum."
                             }
                         }
                     },
@@ -1418,12 +1418,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "groupOptionIdentifier": "Cumque est inventore dignissimos laborum aperiam.",
-                                    "value": 5
+                                    "groupOptionIdentifier": "Distinctio unde voluptate id occaecati hic repudiandae.",
+                                    "value": 7
                                 },
                                 {
-                                    "groupOptionIdentifier": "Maxime illo nam sed amet.",
-                                    "value": 6
+                                    "groupOptionIdentifier": "Qui eaque qui ut voluptates minus porro.",
+                                    "value": 1
                                 }
                             ]
                         }
@@ -1452,8 +1452,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupOptionIdentifier": "Nesciunt dolor ducimus dolores sit incidunt recusandae.",
-                                "value": 7
+                                "groupOptionIdentifier": "Eos beatae reiciendis ratione aspernatur omnis.",
+                                "value": 0
                             }
                         }
                     },
@@ -1560,8 +1560,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupOptionIdentifier": "Quo et accusantium omnis necessitatibus fugit libero.",
-                                "value": 6
+                                "groupOptionIdentifier": "Id magnam laboriosam harum nihil praesentium.",
+                                "value": 9
                             }
                         }
                     },
@@ -1599,8 +1599,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupOptionIdentifier": "Corporis dolore necessitatibus rem excepturi.",
-                                "value": 1
+                                "groupOptionIdentifier": "Consequatur consequatur consequatur a.",
+                                "value": 4
                             }
                         }
                     },
@@ -1684,7 +1684,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 6
+                                "position": 5
                             }
                         }
                     },
@@ -1722,7 +1722,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 6
+                                "position": 7
                             }
                         }
                     },
@@ -1962,14 +1962,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "referrerId": 9,
-                                    "referrerSubId": 2,
-                                    "value": "Quas ut rerum ad eligendi et ut quia aut esse rerum quos accusantium."
+                                    "referrerId": 0,
+                                    "referrerSubId": 6,
+                                    "value": "Libero ea non iusto natus consequatur mollitia dolor consequuntur quis voluptates."
                                 },
                                 {
-                                    "referrerId": 0,
+                                    "referrerId": 1,
                                     "referrerSubId": 9,
-                                    "value": "Architecto ratione labore aut amet ea dolorem dolores."
+                                    "value": "Repellat ipsam a consectetur pariatur sapiente dolores beatae non."
                                 }
                             ]
                         }
@@ -1998,9 +1998,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "referrerId": 5,
+                                "referrerId": 3,
                                 "referrerSubId": 0,
-                                "value": "Dolores et corporis doloribus qui ut optio ex alias repellat."
+                                "value": "At aut placeat rem ipsa delectus quia nam repudiandae."
                             }
                         }
                     },
@@ -2127,9 +2127,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "referrerId": 4,
-                                "referrerSubId": 0,
-                                "value": "Rem alias neque aut ex corrupti molestiae in rerum enim."
+                                "referrerId": 0,
+                                "referrerSubId": 8,
+                                "value": "Enim non in qui qui est ut neque maiores est qui nemo."
                             }
                         }
                     },
@@ -2175,9 +2175,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "referrerId": 2,
-                                "referrerSubId": 9,
-                                "value": "Totam rerum ipsam amet repellendus aut mollitia nobis expedita."
+                                "referrerId": 8,
+                                "referrerSubId": 4,
+                                "value": "Quod laborum quaerat voluptatem voluptatem nulla dolores quos molestiae ratione laborum libero."
                             }
                         }
                     },
@@ -2250,7 +2250,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "typeOptionIdentifier": "Non harum maxime aliquam doloribus at nihil necessitatibus sed ullam."
+                                "typeOptionIdentifier": "Non voluptate voluptatem quis quo eligendi repudiandae."
                             }
                         }
                     },
@@ -2302,14 +2302,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "lang": "Aut ea assumenda.",
-                                    "name": "Consequatur sed minima sequi non modi adipisci nam repellat est.",
-                                    "description": "Alias earum eum quia cum dignissimos id quibusdam sed ut rerum dolorem illum."
+                                    "lang": "Modi impedit excepturi.",
+                                    "name": "Amet maxime maxime dolorem porro consequatur incidunt placeat.",
+                                    "description": "Quis sed ab hic minus saepe facilis voluptatem."
                                 },
                                 {
-                                    "lang": "Mollitia alias libero.",
-                                    "name": "Qui quisquam neque perspiciatis iusto delectus facere itaque amet maiores harum fugiat autem doloribus consequuntur.",
-                                    "description": "Iusto sed distinctio minus iste aut quis ipsa quo cumque et qui ipsa."
+                                    "lang": "Et autem ratione.",
+                                    "name": "Sapiente et harum ea omnis ipsum natus.",
+                                    "description": "Ut eius quam maxime ea dolor natus labore maiores."
                                 }
                             ]
                         }
@@ -2338,9 +2338,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Id sed error.",
-                                "name": "Dolor id sint fugit maiores dicta rerum quas consequatur.",
-                                "description": "Odit officia aut omnis quis omnis modi est consequatur sint perferendis."
+                                "lang": "Totam alias eum.",
+                                "name": "Hic eius dolores voluptas sunt aut autem neque.",
+                                "description": "Doloribus assumenda beatae nobis officia alias voluptatum quis soluta nesciunt dolor similique sed."
                             }
                         }
                     },
@@ -2459,9 +2459,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Quam ducimus aspernatur.",
-                                "name": "Laboriosam sapiente et et dolorem tempora error ipsa quo inventore aut dolorum.",
-                                "description": "Dolorum porro dolore eum odio blanditiis dolorum itaque."
+                                "lang": "Omnis voluptatem qui.",
+                                "name": "Autem sapiente quis non ad consequuntur occaecati alias quo occaecati quas optio odio.",
+                                "description": "Fugit voluptatibus ullam recusandae sint porro vitae dolorem perferendis."
                             }
                         }
                     },
@@ -2499,9 +2499,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Officiis est voluptatem.",
-                                "name": "Pariatur maxime sunt natus doloribus voluptas voluptates qui sint id.",
-                                "description": "Illum labore rerum laborum eius ad dicta pariatur vitae qui."
+                                "lang": "Dolores reprehenderit eaque.",
+                                "name": "Aliquid fugiat qui recusandae fuga sit dolor magnam aliquam dignissimos sint qui exercitationem.",
+                                "description": "Maiores hic est maxime ea nemo molestiae."
                             }
                         }
                     },
@@ -2545,10 +2545,10 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "typeOptionIdentifier": "Nisi ut blanditiis aliquid excepturi amet ut saepe enim qui recusandae amet aut."
+                                    "typeOptionIdentifier": "Ut alias numquam quis aliquid autem et ad."
                                 },
                                 {
-                                    "typeOptionIdentifier": "Dignissimos voluptatum eveniet aut est dolorem et enim numquam ut veniam."
+                                    "typeOptionIdentifier": "Ea sit eligendi quam unde nisi facere et mollitia ad quam et quam."
                                 }
                             ]
                         }
@@ -2577,7 +2577,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "typeOptionIdentifier": "Maiores quo aut et eum nobis ut aut unde."
+                                "typeOptionIdentifier": "Est quos et et libero harum eligendi maxime tempore ad et consectetur."
                             }
                         }
                     },
@@ -2672,7 +2672,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "typeOptionIdentifier": "Tempora aut mollitia eum provident necessitatibus iste illo quos debitis."
+                                "typeOptionIdentifier": "Tempora aspernatur qui velit explicabo et aut ut nisi."
                             }
                         }
                     },
@@ -2710,7 +2710,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "typeOptionIdentifier": "Assumenda qui magni aperiam amet voluptates sed dolorem sunt nesciunt voluptatum provident neque fugiat."
+                                "typeOptionIdentifier": "Iure rerum ut delectus dignissimos maxime saepe eligendi earum."
                             }
                         }
                     },
@@ -2792,15 +2792,15 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "propertyId": 23,
-                                    "relationTypeIdentifier": "Qui voluptatem voluptate nam quidem possimus omnis iusto repellendus nostrum esse.",
-                                    "relationTargetId": 5,
+                                    "propertyId": 142,
+                                    "relationTypeIdentifier": "Eum illo qui qui eos fugit dolorem iure soluta in accusantium excepturi excepturi veniam.",
+                                    "relationTargetId": 7,
                                     "selectionRelationId": null
                                 },
                                 {
-                                    "propertyId": 24,
-                                    "relationTypeIdentifier": "Facere illum debitis voluptatum occaecati reprehenderit modi ullam.",
-                                    "relationTargetId": 1,
+                                    "propertyId": 143,
+                                    "relationTypeIdentifier": "Optio consequatur sed aut et ut non illum at est pariatur nobis rerum reprehenderit.",
+                                    "relationTargetId": 7,
                                     "selectionRelationId": null
                                 }
                             ]
@@ -2880,9 +2880,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 25,
-                                "relationTypeIdentifier": "Quidem et pariatur similique a quia fugit iusto et adipisci nam sunt.",
-                                "relationTargetId": 6,
+                                "propertyId": 144,
+                                "relationTypeIdentifier": "Delectus rem voluptatem eligendi et quia ea ratione id.",
+                                "relationTargetId": 7,
                                 "selectionRelationId": null
                             }
                         }
@@ -2974,15 +2974,15 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "propertyId": 27,
-                                    "relationTypeIdentifier": "Sed quis modi voluptas aperiam nostrum sequi dolores omnis est corrupti et aut quis.",
-                                    "relationTargetId": 4,
+                                    "propertyId": 146,
+                                    "relationTypeIdentifier": "Sint ut aut voluptatem et sunt aut qui omnis ea ab illo repellendus repellat.",
+                                    "relationTargetId": 8,
                                     "selectionRelationId": null
                                 },
                                 {
-                                    "propertyId": 28,
-                                    "relationTypeIdentifier": "Laboriosam esse placeat modi possimus ut non aut nulla officia architecto rem.",
-                                    "relationTargetId": 8,
+                                    "propertyId": 147,
+                                    "relationTypeIdentifier": "Et id numquam ad quia ut ut aliquid quis voluptatem.",
+                                    "relationTargetId": 1,
                                     "selectionRelationId": null
                                 }
                             ]
@@ -3028,12 +3028,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "lang": "Nesciunt omnis ut.",
-                                    "value": "Sit vel corrupti temporibus."
+                                    "lang": "Molestiae labore aut.",
+                                    "value": "Atque eaque eius id provident."
                                 },
                                 {
-                                    "lang": "Eius et.",
-                                    "value": "Ut quidem et at in sequi soluta."
+                                    "lang": "Ea quisquam.",
+                                    "value": "Rem aut cum aperiam."
                                 }
                             ]
                         }
@@ -3062,8 +3062,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Suscipit nam id.",
-                                "value": "Architecto delectus voluptatem ut maxime."
+                                "lang": "Possimus dolores.",
+                                "value": "Modi quia architecto aliquam."
                             }
                         }
                     },
@@ -3138,8 +3138,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Et molestiae.",
-                                "value": "Consequuntur qui eaque quasi recusandae."
+                                "lang": "Tenetur inventore vel.",
+                                "value": "Aut quasi temporibus rerum illo blanditiis suscipit."
                             }
                         }
                     },
@@ -3207,8 +3207,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Quas recusandae.",
-                                "value": "Ut quam magni voluptates ut ducimus voluptates."
+                                "lang": "Quam quidem.",
+                                "value": "Omnis provident hic rerum repudiandae."
                             }
                         }
                     },
@@ -3254,8 +3254,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "Eum ex beatae.",
-                                "value": "Earum minus eaque occaecati."
+                                "lang": "Expedita ea tempore.",
+                                "value": "Reprehenderit esse corporis sint culpa quaerat."
                             }
                         }
                     },
@@ -3333,8 +3333,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 22,
-                                "relationTypeIdentifier": "Quis itaque at et illum et sint incidunt facilis et totam dolor voluptatum.",
+                                "propertyId": 141,
+                                "relationTypeIdentifier": "Illum exercitationem quas laudantium numquam amet quibusdam maiores accusantium beatae libero quis quo rerum.",
                                 "relationTargetId": 6,
                                 "selectionRelationId": null
                             }
@@ -3374,9 +3374,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 26,
-                                "relationTypeIdentifier": "Ex similique libero voluptatem veritatis recusandae debitis numquam.",
-                                "relationTargetId": 9,
+                                "propertyId": 145,
+                                "relationTypeIdentifier": "Enim aut exercitationem at nemo nobis perspiciatis enim est nobis pariatur eum dolor illum.",
+                                "relationTargetId": 0,
                                 "selectionRelationId": null
                             }
                         }
@@ -3512,10 +3512,10 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "position": 8
+                                    "position": 4
                                 },
                                 {
-                                    "position": 3
+                                    "position": 1
                                 }
                             ]
                         }
@@ -3544,7 +3544,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 6
+                                "position": 1
                             }
                         }
                     },
@@ -3645,7 +3645,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 6
+                                "position": 1
                             }
                         }
                     },
@@ -3683,7 +3683,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 0
+                                "position": 4
                             }
                         }
                     },
@@ -3786,9 +3786,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "cast": "shortText",
-                                "typeIdentifier": "Nulla praesentium eaque ullam at cupiditate error aut eum atque repellat doloribus consectetur ipsum.",
-                                "position": 8
+                                "cast": "int",
+                                "typeIdentifier": "Doloribus mollitia aut voluptas nulla modi aspernatur laudantium.",
+                                "position": 6
                             }
                         }
                     },
@@ -3826,9 +3826,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "cast": "longText",
-                                "typeIdentifier": "Ut excepturi aut magnam distinctio quos soluta laudantium.",
-                                "position": 3
+                                "cast": "shortText",
+                                "typeIdentifier": "Et magnam quaerat magni quae dolor voluptatum.",
+                                "position": 7
                             }
                         }
                     },
@@ -3910,14 +3910,14 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "cast": "multiSelection",
+                                        "cast": "float",
                                         "type": "stock",
-                                        "position": 2
+                                        "position": 6
                                     },
                                     {
-                                        "cast": "date",
-                                        "type": "contact",
-                                        "position": 6
+                                        "cast": "html",
+                                        "type": "item",
+                                        "position": 4
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -4129,9 +4129,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "cast": "empty",
-                                "type": "opportunity",
-                                "position": 7
+                                "cast": "int",
+                                "type": "contact",
+                                "position": 3
                             }
                         }
                     },
@@ -4187,6 +4187,10 @@
                                 "field": {
                                     "type": "string",
                                     "description": "The field of the property amazon"
+                                },
+                                "selections": {
+                                    "type": "array",
+                                    "items": []
                                 }
                             }
                         }
@@ -4215,9 +4219,9 @@
                         "examples": {
                             "application/json": {
                                 "propertyId": 1,
-                                "platform": "sk",
-                                "category": "veritatis",
-                                "field": "ex"
+                                "platform": "bg",
+                                "category": "ad",
+                                "field": "earum"
                             }
                         }
                     },
@@ -4313,9 +4317,9 @@
                         "examples": {
                             "application/json": {
                                 "propertyId": 1,
-                                "platform": "fr",
-                                "category": "numquam",
-                                "field": "eos"
+                                "platform": "pt",
+                                "category": "blanditiis",
+                                "field": "modi"
                             }
                         }
                     },
@@ -4354,9 +4358,9 @@
                         "examples": {
                             "application/json": {
                                 "propertyId": 1,
-                                "platform": "ru",
-                                "category": "dolorem",
-                                "field": "quis"
+                                "platform": "hr",
+                                "category": "reiciendis",
+                                "field": "quisquam"
                             }
                         }
                     },
@@ -4463,10 +4467,10 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "position": 9
+                                        "position": 7
                                     },
                                     {
-                                        "position": 7
+                                        "position": 1
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -4534,7 +4538,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 5
+                                "position": 6
                             }
                         }
                     },
@@ -4587,9 +4591,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 51,
+                                "groupId": 324,
                                 "lang": "da",
-                                "name": "Markus Ziemann"
+                                "name": "Josue Goyette"
                             }
                         }
                     },
@@ -4680,9 +4684,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 50,
-                                "lang": "lt",
-                                "name": "Sibyl Kulas"
+                                "groupId": 323,
+                                "lang": "pt",
+                                "name": "Dejon Brekke DDS"
                             }
                         }
                     },
@@ -4720,9 +4724,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 52,
-                                "lang": "fr",
-                                "name": "Noel Skiles"
+                                "groupId": 325,
+                                "lang": "nn",
+                                "name": "Jordy Littel MD"
                             }
                         }
                     },
@@ -4783,9 +4787,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 56,
-                                "type": "groupType",
-                                "value": "placeat"
+                                "groupId": 329,
+                                "type": "surchargeType",
+                                "value": "recusandae"
                             }
                         }
                     },
@@ -4876,9 +4880,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 55,
+                                "groupId": 328,
                                 "type": "groupType",
-                                "value": "quod"
+                                "value": "porro"
                             }
                         }
                     },
@@ -4916,9 +4920,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 57,
+                                "groupId": 330,
                                 "type": "surchargeType",
-                                "value": "nostrum"
+                                "value": "inventore"
                             }
                         }
                     },
@@ -5059,12 +5063,12 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "groupId": 60,
-                                        "propertyId": 166
+                                        "groupId": 333,
+                                        "propertyId": 1081
                                     },
                                     {
-                                        "groupId": 61,
-                                        "propertyId": 167
+                                        "groupId": 334,
+                                        "propertyId": 1082
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -5132,8 +5136,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 62,
-                                "propertyId": 168
+                                "groupId": 335,
+                                "propertyId": 1083
                             }
                         }
                     },
@@ -5184,12 +5188,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "groupId": 63,
-                                    "propertyId": 169
+                                    "groupId": 336,
+                                    "propertyId": 1084
                                 },
                                 {
-                                    "groupId": 64,
-                                    "propertyId": 170
+                                    "groupId": 337,
+                                    "propertyId": 1085
                                 }
                             ]
                         }
@@ -5277,8 +5281,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "groupId": 65,
-                                "propertyId": 171
+                                "groupId": 338,
+                                "propertyId": 1086
                             }
                         }
                     },
@@ -5364,7 +5368,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 9
+                                "position": 2
                             }
                         }
                     },
@@ -5410,7 +5414,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 8
+                                "position": 7
                             }
                         }
                     },
@@ -5475,14 +5479,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "groupId": 53,
-                                    "lang": "ro",
-                                    "name": "Eldridge Lind II"
+                                    "groupId": 326,
+                                    "lang": "hu",
+                                    "name": "Dr. Betty Olson"
                                 },
                                 {
-                                    "groupId": 54,
-                                    "lang": "tr",
-                                    "name": "Mr. Jarrod Kshlerin I"
+                                    "groupId": 327,
+                                    "lang": "hu",
+                                    "name": "Maegan Renner"
                                 }
                             ]
                         }
@@ -5527,14 +5531,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "groupId": 58,
+                                    "groupId": 331,
                                     "type": "groupType",
-                                    "value": "et"
+                                    "value": "corrupti"
                                 },
                                 {
-                                    "groupId": 59,
+                                    "groupId": 332,
                                     "type": "groupType",
-                                    "value": "tempora"
+                                    "value": "culpa"
                                 }
                             ]
                         }
@@ -5575,9 +5579,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 152,
-                                "lang": "nn",
-                                "name": "Merl Denesik"
+                                "propertyId": 1067,
+                                "lang": "lv",
+                                "name": "Colt Halvorson"
                             }
                         }
                     },
@@ -5672,9 +5676,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 151,
-                                "lang": "cn",
-                                "name": "Willow Deckow"
+                                "propertyId": 1066,
+                                "lang": "hu",
+                                "name": "Shyann Streich"
                             }
                         }
                     },
@@ -5712,9 +5716,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 153,
-                                "lang": "da",
-                                "name": "Dr. Mekhi Morissette DVM"
+                                "propertyId": 1068,
+                                "lang": "hu",
+                                "name": "Angel Franecki"
                             }
                         }
                     },
@@ -5779,9 +5783,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 157,
-                                "type": "referrers",
-                                "value": "Prof. Lee Lockman"
+                                "propertyId": 1072,
+                                "type": "display",
+                                "value": "General Langosh"
                             }
                         }
                     },
@@ -5868,9 +5872,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 156,
-                                "type": "markup",
-                                "value": "Vivien Mueller"
+                                "propertyId": 1071,
+                                "type": "displayOrder",
+                                "value": "Julius Jenkins"
                             }
                         }
                     },
@@ -5908,9 +5912,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 158,
-                                "type": "referrers",
-                                "value": "Kaela Upton I"
+                                "propertyId": 1073,
+                                "type": "display",
+                                "value": "Sherwood Williamson IV"
                             }
                         }
                     },
@@ -6009,20 +6013,20 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "propertyId": 172,
+                                        "propertyId": 1087,
                                         "groupId": 1,
                                         "type": "item",
-                                        "targetId": 1234,
-                                        "markup": 776440.38,
-                                        "value": "https://s3-eu-central-1.amazonaws.com/plentymarkets-public-dev/794/propertyItems/soluta.txt"
+                                        "targetId": 2201,
+                                        "markup": 210587253.17,
+                                        "value": null
                                     },
                                     {
-                                        "propertyId": 173,
+                                        "propertyId": 1088,
                                         "groupId": 1,
-                                        "type": "stock",
-                                        "targetId": 4,
-                                        "markup": 330035931.33,
-                                        "value": "42"
+                                        "type": "item",
+                                        "targetId": 2202,
+                                        "markup": 41.65,
+                                        "value": null
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -6138,12 +6142,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 174,
+                                "propertyId": 1089,
                                 "groupId": 1,
-                                "type": "stock",
-                                "targetId": 6,
-                                "markup": 6.24,
-                                "value": null
+                                "type": "opportunity",
+                                "targetId": 8,
+                                "markup": 283097232.03,
+                                "value": "967200794"
                             }
                         }
                     },
@@ -6234,20 +6238,20 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "propertyId": 176,
+                                    "propertyId": 1091,
                                     "groupId": 1,
-                                    "type": "item",
-                                    "targetId": 1235,
-                                    "markup": 5088964.1,
-                                    "value": null
+                                    "type": "stock",
+                                    "targetId": 3,
+                                    "markup": 15.76,
+                                    "value": "1970-03-07"
                                 },
                                 {
-                                    "propertyId": 177,
+                                    "propertyId": 1092,
                                     "groupId": 1,
-                                    "type": "opportunity",
-                                    "targetId": 3,
-                                    "markup": 317.45,
-                                    "value": null
+                                    "type": "item",
+                                    "targetId": 2203,
+                                    "markup": 317320688.96,
+                                    "value": "https://s3-eu-central-1.amazonaws.com/plentymarkets-public-114/7xq4f7okxuim/propertyItems/aut.txt"
                                 }
                             ]
                         }
@@ -6325,8 +6329,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "relationId": 74,
-                                "selectionId": 21
+                                "relationId": 240,
+                                "selectionId": 134
                             }
                         }
                     },
@@ -6413,8 +6417,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "relationId": 73,
-                                "selectionId": 20
+                                "relationId": 239,
+                                "selectionId": 133
                             }
                         }
                     },
@@ -6460,8 +6464,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "relationId": 75,
-                                "selectionId": 22
+                                "relationId": 241,
+                                "selectionId": 135
                             }
                         }
                     },
@@ -6518,10 +6522,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "relationId": 69,
-                                "lang": "se",
-                                "value": "Provident et voluptate et. Quis veniam nemo et. Culpa numquam nesciunt quos consequatur. Blanditiis cupiditate deserunt sed eum nam rerum error.",
-                                "description": "Ut doloremque error quas. Dolore consectetur consequatur natus quasi. Possimus in libero rerum id amet id."
+                                "relationId": 235,
+                                "lang": "vn",
+                                "value": "Et et adipisci consequatur omnis. Rerum voluptatem temporibus porro et. Libero aliquam blanditiis officia et corporis. Quia nesciunt quas tempora dolor.",
+                                "description": "Occaecati non eos quo consectetur. Et modi quas voluptatem amet odit sed eligendi ut. Sed animi vitae eos et aut."
                             }
                         }
                     },
@@ -6616,10 +6620,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "relationId": 68,
-                                "lang": "pt",
-                                "value": "Qui nemo incidunt voluptatem asperiores. Tempora sequi et eaque ut. Consequatur qui alias laboriosam necessitatibus sed est.",
-                                "description": "Animi et odio placeat non consectetur eveniet. Ut nulla natus maiores placeat eos. Dolorem aut occaecati qui quam. Consequatur adipisci qui vitae praesentium quae laborum quasi quae."
+                                "relationId": 234,
+                                "lang": "et",
+                                "value": "Et officia aut quae cupiditate molestiae assumenda et. Quisquam omnis tempore perferendis officia libero ea. Omnis consequuntur dolore voluptatem est illum dolorem.",
+                                "description": "Voluptas reiciendis eum ipsam nam et. Magni totam possimus iusto consequatur perspiciatis. Neque molestiae aliquid et ratione voluptate dignissimos exercitationem."
                             }
                         }
                     },
@@ -6665,10 +6669,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "relationId": 70,
+                                "relationId": 236,
                                 "lang": "pl",
-                                "value": "Est laborum et ducimus ipsum. Incidunt sapiente velit veniam rem atque beatae voluptas voluptates.",
-                                "description": "Dicta voluptatibus delectus laudantium. Consequuntur autem ea qui dolorem reiciendis ad vitae. Ea et minima et alias alias ut fugiat."
+                                "value": "Atque numquam quam numquam autem totam eos. Nobis corporis impedit rem dignissimos dolores debitis atque. Suscipit pariatur minus qui molestias esse non.",
+                                "description": "Nihil incidunt quia minima. Voluptatibus perferendis dolorem omnis aspernatur et. Iusto porro nostrum et atque eum enim."
                             }
                         }
                     },
@@ -6771,12 +6775,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 178,
+                                "propertyId": 1093,
                                 "groupId": 1,
-                                "type": "opportunity",
-                                "targetId": 2,
-                                "markup": 58503475.2,
-                                "value": "https://s3-eu-central-1.amazonaws.com/plentymarkets-public-dev/794/propertyItems/et.txt"
+                                "type": "contact",
+                                "targetId": 1,
+                                "markup": 3534.81,
+                                "value": "1980-06-08"
                             }
                         }
                     },
@@ -6822,11 +6826,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 175,
+                                "propertyId": 1090,
                                 "groupId": 1,
-                                "type": "opportunity",
-                                "targetId": 7,
-                                "markup": 21301117.23,
+                                "type": "stock",
+                                "targetId": 8,
+                                "markup": 112420.45,
                                 "value": null
                             }
                         }
@@ -6950,12 +6954,12 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 179,
+                                "propertyId": 1094,
                                 "groupId": 1,
-                                "type": "stock",
-                                "targetId": 5,
-                                "markup": 54.49,
-                                "value": "2022-09-21"
+                                "type": "opportunity",
+                                "targetId": 6,
+                                "markup": 0.75,
+                                "value": "https://s3-eu-central-1.amazonaws.com/plentymarkets-public-114/7xq4f7okxuim/propertyItems/enim.txt"
                             }
                         }
                     },
@@ -6999,12 +7003,12 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "relationId": 76,
-                                    "selectionId": 23
+                                    "relationId": 242,
+                                    "selectionId": 136
                                 },
                                 {
-                                    "relationId": 77,
-                                    "selectionId": 24
+                                    "relationId": 243,
+                                    "selectionId": 137
                                 }
                             ]
                         }
@@ -7057,16 +7061,16 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "relationId": 71,
-                                    "lang": "it",
-                                    "value": "Occaecati nisi dicta sit maxime. Voluptas error eum consequatur voluptatibus. Incidunt suscipit dolores dicta sed et commodi suscipit. Impedit optio quo dolorem.",
-                                    "description": "Eos incidunt eveniet quis occaecati perferendis. Quia quibusdam voluptatum occaecati quia illum voluptatem."
+                                    "relationId": 237,
+                                    "lang": "es",
+                                    "value": "Consectetur sed autem dicta culpa occaecati. Eos esse est est quaerat expedita delectus dignissimos quis. Deserunt nihil voluptatum vel. Dolorem maxime dolores reprehenderit quia soluta.",
+                                    "description": "Aperiam at incidunt alias. Sint quidem nemo voluptatem totam et accusamus possimus. Expedita nostrum quibusdam consequatur quam illum dolorum ullam voluptatem."
                                 },
                                 {
-                                    "relationId": 72,
-                                    "lang": "ro",
-                                    "value": "Commodi illum vitae possimus deleniti earum voluptas non et. Molestias consectetur dolorum quia velit. Quas et facilis consectetur modi. Cum totam natus ut ea.",
-                                    "description": "Sed vel sint quos molestiae id. Nihil quis ut quos voluptatem eius. Voluptatem explicabo voluptatem qui. Suscipit et dolores est explicabo ut rerum maxime. Veniam consequatur delectus et voluptas."
+                                    "relationId": 238,
+                                    "lang": "fr",
+                                    "value": "Quia sint modi sequi fugit autem inventore et. Libero ducimus earum dolore saepe. Eveniet alias enim itaque suscipit. Eius eum quia culpa id.",
+                                    "description": "Dolores esse magnam repudiandae autem. Possimus dolorem soluta dicta sint sit molestiae harum eius. Asperiores minima officia eius voluptatem harum. Ipsum aspernatur corporis molestiae et eum id."
                                 }
                             ]
                         }
@@ -7115,8 +7119,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 163,
-                                "position": 5
+                                "propertyId": 1078,
+                                "position": 4
                             }
                         }
                     },
@@ -7170,9 +7174,9 @@
                         "examples": {
                             "application/json": {
                                 "selectionId": 1,
-                                "lang": "vn",
-                                "name": "Nils Bogan",
-                                "description": "Id voluptates dolorem fugit. Est vitae fugiat tenetur architecto ea esse. Itaque aut aut ut et quaerat possimus."
+                                "lang": "it",
+                                "name": "Moshe Wiegand",
+                                "description": "Culpa aut ullam autem a numquam. Quasi occaecati amet architecto dolor quas vel. Tenetur expedita in consequatur aut expedita."
                             }
                         }
                     },
@@ -7268,9 +7272,9 @@
                         "examples": {
                             "application/json": {
                                 "selectionId": 1,
-                                "lang": "lt",
-                                "name": "Mr. Reid Treutel",
-                                "description": "Fugit nemo non vel labore non. Est provident a nihil quia laborum consequatur reiciendis. Occaecati adipisci laborum qui in et amet minus velit. Voluptas beatae enim nobis in necessitatibus."
+                                "lang": "sk",
+                                "name": "Newton Witting",
+                                "description": "Non recusandae omnis iste repudiandae. Sunt ipsam qui animi consectetur velit quasi totam. Dolores suscipit voluptas esse."
                             }
                         }
                     },
@@ -7309,9 +7313,9 @@
                         "examples": {
                             "application/json": {
                                 "selectionId": 1,
-                                "lang": "cz",
-                                "name": "Prof. Judah Maggio Sr.",
-                                "description": "Est totam est qui reprehenderit voluptatem. Repudiandae quia ea eos et qui nesciunt. Magnam voluptatem hic dolores velit eos ut."
+                                "lang": "fr",
+                                "name": "Nathan McKenzie",
+                                "description": "Enim voluptas voluptate ea repellendus est eum minus. Autem explicabo voluptatum ipsa perferendis. Quos et odio harum quis voluptas asperiores in."
                             }
                         }
                     },
@@ -7414,8 +7418,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 165,
-                                "position": 5
+                                "propertyId": 1080,
+                                "position": 4
                             }
                         }
                     },
@@ -7461,8 +7465,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "propertyId": 164,
-                                "position": 9
+                                "propertyId": 1079,
+                                "position": 2
                             }
                         }
                     },
@@ -7524,15 +7528,15 @@
                             "application/json": [
                                 {
                                     "selectionId": 1,
-                                    "lang": "fi",
-                                    "name": "Dr. Laverne Hauck",
-                                    "description": "Doloribus dolorum cum iste qui et aut eum. Autem ut explicabo vitae similique excepturi. Repellat reprehenderit deleniti illum voluptatem qui eos culpa ea."
+                                    "lang": "pt",
+                                    "name": "Mr. Parker Wilkinson Jr.",
+                                    "description": "Hic veniam ea cumque quia non. Maiores autem porro magnam qui modi labore voluptatibus nulla. Est quia nemo iste nemo ut hic neque. Et ut incidunt voluptas quisquam ut fugit distinctio a."
                                 },
                                 {
                                     "selectionId": 1,
-                                    "lang": "hr",
-                                    "name": "Dominique Jerde",
-                                    "description": "Corporis ut velit atque illum sed aperiam. Temporibus aut et debitis doloremque odio et. Amet voluptatibus ducimus nisi. Doloremque recusandae ad est molestias."
+                                    "lang": "fi",
+                                    "name": "Friedrich Paucek MD",
+                                    "description": "Natus fuga impedit esse suscipit consequatur. Hic debitis velit quas non minus."
                                 }
                             ]
                         }
@@ -7615,19 +7619,19 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "propertyId": 195,
+                                        "propertyId": 1110,
                                         "groupId": 1,
-                                        "type": "stock",
-                                        "targetId": 5,
-                                        "markup": 3272.76,
-                                        "value": null
+                                        "type": "opportunity",
+                                        "targetId": 1,
+                                        "markup": 22.41,
+                                        "value": "https://s3-eu-central-1.amazonaws.com/plentymarkets-public-114/7xq4f7okxuim/propertyItems/mollitia.txt"
                                     },
                                     {
-                                        "propertyId": 196,
+                                        "propertyId": 1111,
                                         "groupId": 1,
-                                        "type": "stock",
-                                        "targetId": 9,
-                                        "markup": 0.92,
+                                        "type": "item",
+                                        "targetId": 2208,
+                                        "markup": 613910886.16,
                                         "value": null
                                     }
                                 ],
@@ -8556,9 +8560,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "cast": "html",
-                                "type": "item",
-                                "position": 6
+                                "cast": "multiSelection",
+                                "type": "stock",
+                                "position": 3
                             }
                         }
                     },
@@ -8604,9 +8608,9 @@
                         },
                         "examples": {
                             "application/json": {
-                                "cast": "empty",
+                                "cast": "float",
                                 "type": "opportunity",
-                                "position": 1
+                                "position": 5
                             }
                         }
                     },
@@ -8702,15 +8706,15 @@
                             "application/json": [
                                 {
                                     "propertyId": 1,
-                                    "platform": "hu",
-                                    "category": "modi",
-                                    "field": "et"
+                                    "platform": "sk",
+                                    "category": "est",
+                                    "field": "ut"
                                 },
                                 {
                                     "propertyId": 1,
-                                    "platform": "ga",
-                                    "category": "maiores",
-                                    "field": "mollitia"
+                                    "platform": "lv",
+                                    "category": "voluptates",
+                                    "field": "est"
                                 }
                             ]
                         }
@@ -8755,14 +8759,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "propertyId": 154,
-                                    "lang": "ga",
-                                    "name": "Boris Senger"
+                                    "propertyId": 1069,
+                                    "lang": "ru",
+                                    "name": "Macey Casper"
                                 },
                                 {
-                                    "propertyId": 155,
-                                    "lang": "en",
-                                    "name": "Dr. Muhammad Predovic"
+                                    "propertyId": 1070,
+                                    "lang": "it",
+                                    "name": "Ellen Brekke"
                                 }
                             ]
                         }
@@ -8807,14 +8811,14 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "propertyId": 159,
-                                    "type": "vatId",
-                                    "value": "Cary Wilkinson"
+                                    "propertyId": 1074,
+                                    "type": "clients",
+                                    "value": "Makayla Champlin"
                                 },
                                 {
-                                    "propertyId": 160,
-                                    "type": "referrers",
-                                    "value": "Bart Smitham"
+                                    "propertyId": 1075,
+                                    "type": "displayOrder",
+                                    "value": "Cicero Ferry"
                                 }
                             ]
                         }
@@ -8913,12 +8917,12 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "propertyId": 161,
-                                        "position": 1
+                                        "propertyId": 1076,
+                                        "position": 8
                                     },
                                     {
-                                        "propertyId": 162,
-                                        "position": 5
+                                        "propertyId": 1077,
+                                        "position": 4
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -9794,6 +9798,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -9882,9 +9890,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -10106,6 +10328,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -10156,6 +10382,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -11111,6 +11358,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -11179,6 +11430,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -11602,10 +11857,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -11694,6 +11945,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -11709,12 +11965,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -11770,6 +12071,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -11813,48 +12135,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -11880,6 +12164,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -13049,6 +13354,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -13911,6 +14248,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -15280,6 +15621,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -15304,6 +15665,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -15360,7 +15736,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -15398,6 +15774,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -15522,6 +15923,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -16140,6 +16642,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -16962,6 +17472,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -18593,6 +19107,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

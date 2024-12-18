@@ -12,7 +12,7 @@ use Iterator;
 class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
 {
 
-                
+
     /**
      * @description Gets the csv rows. Sync ID is required.
      * @tag ElasticSync
@@ -23,7 +23,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/csv-rows/{$syncId}");
     }
-                    
+
     /**
      * @description Gets the plenty fields value map for a particular sync type. Sync type is required.
      * @tag ElasticSync
@@ -34,7 +34,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/fields/{$syncType}");
     }
-                    
+
     /**
      * @description Gets the label list for mapping filtration.
      * @tag ElasticSync
@@ -44,7 +44,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/filter/labels");
     }
-                    
+
     /**
      * @description Gets the csv columns of a sync. Sync ID is required.
      * @tag ElasticSync
@@ -55,7 +55,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/map/csv-columns/{$syncId}");
     }
-                    
+
     /**
      * @description Gets the mapping values. Sync data type is required.
      * @tag ElasticSync
@@ -65,7 +65,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/map/tree");
     }
-                    
+
     /**
      * @description Gets the model key to field value key. Sync type is required.
      * @tag ElasticSync
@@ -76,11 +76,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/model/{$syncType}");
     }
-                    
+
     /**
      * @description Gets the mapping values. Sync data type is required.
      * @tag ElasticSync
-     * @param int $syncType 
+     * @param int $syncType
      * @param array $query
      *      - *sync_type* - string - required
      *          - The sync type
@@ -90,7 +90,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/mapping/values/{$syncType}"], $query));
     }
-                    
+
     /**
      * @description Get a list with variation matches.
      * @tag ElasticSync
@@ -100,7 +100,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/mapping/variation");
     }
-                    
+
     /**
      * @description Creates a sync. The name, sync type, source type and source data type must be specified.
      * @tag ElasticSync
@@ -120,7 +120,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync", 'POST');
     }
-                    
+
     /**
      * @description Update the Csv of a Sync. The ID of the sync must be specified.
      * @tag ElasticSync
@@ -140,7 +140,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/change-csv", 'PUT');
     }
-                    
+
     /**
      * @description Saves the CSV on S3.
      * @tag ElasticSync
@@ -152,7 +152,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/sync/import"], $query), 'POST');
     }
-                    
+
     /**
      * @description Imports the sync with different plentyId.
      * @tag ElasticSync
@@ -164,7 +164,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/sync/import-different"], $query), 'POST');
     }
-                    
+
     /**
      * @description Saves the CSV on S3.
      * @tag ElasticSync
@@ -176,7 +176,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/sync/import/file/public-url"], $query), 'POST');
     }
-                    
+
     /**
      * @description Imports the sync with different plentyId.
      * @tag ElasticSync
@@ -188,7 +188,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/sync/import/file/public-url/different"], $query), 'POST');
     }
-                    
+
     /**
      * @description Gets list of sync intervals.
      * @tag ElasticSync
@@ -198,11 +198,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/intervals");
     }
-                    
+
     /**
      * @description Deletes a sync mapping. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $filterId 
+     * @param int $filterId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping filter
@@ -221,11 +221,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/filter/{$filterId}", 'DELETE');
     }
-                
+
     /**
      * @description Gets a sync mapping. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $filterId 
+     * @param int $filterId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping filter
@@ -244,11 +244,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/filter/{$filterId}");
     }
-                
+
     /**
      * @description Updates a sync mapping filter. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $filterId 
+     * @param int $filterId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping filter
@@ -267,11 +267,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/filter/{$filterId}", 'PUT');
     }
-                    
+
     /**
      * @description Deletes a sync mapping row. The ID of the sync mapping row must be specified.
      * @tag ElasticSync
-     * @param int $rowId 
+     * @param int $rowId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping row
@@ -296,11 +296,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/row/{$rowId}", 'DELETE');
     }
-                
+
     /**
      * @description Gets a sync mapping row. The ID of the sync mapping row must be specified.
      * @tag ElasticSync
-     * @param int $rowId 
+     * @param int $rowId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping row
@@ -325,11 +325,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/row/{$rowId}");
     }
-                
+
     /**
      * @description Updates a sync mapping row. The ID of the sync mapping row must be specified.
      * @tag ElasticSync
-     * @param int $rowId 
+     * @param int $rowId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping row
@@ -354,11 +354,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/row/{$rowId}", 'PUT');
     }
-                    
+
     /**
      * @description Deletes a sync mapping. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping
@@ -375,11 +375,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}", 'DELETE');
     }
-                
+
     /**
      * @description Gets a sync mapping. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping
@@ -396,11 +396,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}");
     }
-                
+
     /**
      * @description Updates a sync mapping. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping
@@ -417,44 +417,21 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}", 'PUT');
     }
-                    
-    /**
-     * @description Creates a sync mapping filter.
-     * @tag ElasticSync
-     * @param int $mappingId 
-     * @return array
-     *      - *id* - integer
-     *          - The ID of the elastic sync mapping filter
-     *      - *mappingId* - integer
-     *          - The ID of the elastic sync mapping
-     *      - *type* - string
-     *          - The type of the elastic sync mapping filter
-     *      - *operator* - string
-     *          - The operator of the elastic sync mapping filter
-     *      - *source* - string
-     *          - The source of the elastic sync mapping filter
-     *      - *value* - string
-     *          - The value of the elastic sync mapping filter
-     */
-    public function createElasticSyncSyncMappingFilterByMappingId(int $mappingId): array
-    {
-        return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/filter", 'POST');
-    }
-                    
+
     /**
      * @description Lists sync mappings.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      */
     public function getElasticSyncSyncMappingFiltersByMappingId(int $mappingId)
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/filters");
     }
-                
+
     /**
      * @description Creates sync mapping filters.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping filter
@@ -473,11 +450,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/filters", 'POST');
     }
-                
+
     /**
      * @description Updates sync mapping filters. The ID of the sync mapping must be specified.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping filter
@@ -496,50 +473,21 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/filters", 'PUT');
     }
-                    
-    /**
-     * @description Creates a sync mapping row.
-     * @tag ElasticSync
-     * @param int $mappingId 
-     * @return array
-     *      - *id* - integer
-     *          - The ID of the elastic sync mapping row
-     *      - *mappingId* - integer
-     *          - The ID of the elastic sync mapping
-     *      - *targetModel* - string
-     *          - The target model of the elastic sync mapping row
-     *      - *targetAttribute* - string
-     *          - The target attribute of the elastic sync mapping row
-     *      - *active* - boolean
-     *          - The state of the elastic sync mapping row
-     *      - *entityType* - string
-     *          - The entity type of the elastic sync mapping row (array values: 'ownValue', 'ownAssignment', 'regularExpression', 'csvColumn')
-     *      - *value* - string
-     *          - The value of the elastic sync mapping row
-     *      - *settings* - string
-     *          - The settings of the elastic sync mapping row
-     *      - *identifiers* - string
-     *          - The identifiers of the elastic sync mapping row
-     */
-    public function createElasticSyncSyncMappingRowByMappingId(int $mappingId): array
-    {
-        return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/row", 'POST');
-    }
-                    
+
     /**
      * @description Lists sync mapping rows.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      */
     public function getElasticSyncSyncMappingRowsByMappingId(int $mappingId)
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/rows");
     }
-                
+
     /**
      * @description Creates sync mapping rows.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping row
@@ -564,11 +512,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/rows", 'POST');
     }
-                
+
     /**
      * @description Updates sync mapping rows. The ID of the sync mapping row must be specified.
      * @tag ElasticSync
-     * @param int $mappingId 
+     * @param int $mappingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping row
@@ -593,7 +541,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mapping/{$mappingId}/rows", 'PUT');
     }
-                    
+
     /**
      * @description Deletes one or multiple mappings. The mapping ID must be specified.
      * @tag ElasticSync
@@ -603,7 +551,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mappings", 'DELETE');
     }
-                    
+
     /**
      * @description Copies one or multiple mappings. The mapping ID must be specified.
      * @tag ElasticSync
@@ -613,7 +561,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/mappings/copy", 'POST');
     }
-                    
+
     /**
      * @description Gets list of decimals.
      * @tag ElasticSync
@@ -623,11 +571,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/matching/decimals");
     }
-                    
+
     /**
      * @description Deletes a sync matching. The ID of the sync matching must be specified.
      * @tag ElasticSync
-     * @param int $matchingId 
+     * @param int $matchingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync matching
@@ -644,11 +592,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/matching/{$matchingId}", 'DELETE');
     }
-                
+
     /**
      * @description Gets a sync matching. The ID of the sync matching must be specified.
      * @tag ElasticSync
-     * @param int $matchingId 
+     * @param int $matchingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync matching
@@ -665,11 +613,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/matching/{$matchingId}");
     }
-                
+
     /**
      * @description Updates a sync matching. The ID of the sync matching must be specified.
      * @tag ElasticSync
-     * @param int $matchingId 
+     * @param int $matchingId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync matching
@@ -686,11 +634,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/matching/{$matchingId}", 'PUT');
     }
-                    
+
     /**
      * @description Deletes a sync. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $optionId 
+     * @param int $optionId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync sync
@@ -707,11 +655,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/option/{$optionId}", 'DELETE');
     }
-                
+
     /**
      * @description Gets a sync. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $optionId 
+     * @param int $optionId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync sync
@@ -728,11 +676,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/option/{$optionId}");
     }
-                
+
     /**
      * @description Updates a sync option. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $optionId 
+     * @param int $optionId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync sync
@@ -749,17 +697,17 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/option/{$optionId}", 'PUT');
     }
-                    
+
     /**
      * @description Gets Log ID. The id of the report must be specified.
      * @tag ElasticSync
-     * @param int $id 
+     * @param int $id
      */
     public function getElasticSyncSyncReportById(int $id)
     {
         return $this->api("/rest/elastic-sync/sync/report/{$id}");
     }
-                    
+
     /**
      * @description Check Report Log. Filters like sync id, row id, identifier, from date, to date, id, level can be provided.
      * @tag ElasticSync
@@ -778,13 +726,13 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The index of the last item of the current page result
      *      - *itemsPerPage* - integer
      *          - The requested amount of items per result page
-     *      - *entries* - 
+     *      - *entries* -
      */
     public function getElasticSyncSyncReports(): array
     {
         return $this->api("/rest/elastic-sync/sync/reports");
     }
-                    
+
     /**
      * @description Check Report Log.
      * @tag ElasticSync
@@ -794,7 +742,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/reports/availability");
     }
-                    
+
     /**
      * @description Resets the cache.
      * @tag ElasticSync
@@ -804,7 +752,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/reset-cache");
     }
-                    
+
     /**
      * @description Gets schedule times.
      * @tag ElasticSync
@@ -814,7 +762,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/schedule/times");
     }
-                    
+
     /**
      * @description Get syncs status.
      * @tag ElasticSync
@@ -824,7 +772,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/status");
     }
-                    
+
     /**
      * @description Gets list of sync types.
      * @tag ElasticSync
@@ -834,34 +782,34 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/types");
     }
-                    
+
     /**
      * @description Imports and processes every page.
      * @tag ElasticSync
-     * @param int $statusId 
-     * @param int $syncId 
-     * @param int $page 
+     * @param int $statusId
+     * @param int $syncId
+     * @param int $page
      */
     public function createElasticSyncSyncLiveProcessingByStatusIdSyncIdPage(int $statusId, int $syncId, int $page)
     {
         return $this->api("/rest/elastic-sync/sync/{$statusId}/live/processing/{$syncId}/{$page}", 'POST');
     }
-                    
+
     /**
      * @description Gets the list of jobs for Live Import
      * @tag ElasticSync
-     * @param int $statusId 
+     * @param int $statusId
      * @return array
      */
     public function createElasticSyncSyncLiveQueueingByStatusId(int $statusId): array
     {
         return $this->api("/rest/elastic-sync/sync/{$statusId}/live/queueing", 'POST');
     }
-                    
+
     /**
      * @description Deletes a sync. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync sync
@@ -878,22 +826,22 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}", 'DELETE');
     }
-                
+
     /**
      * @description Gets a sync. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      */
     public function getElasticSyncSyncBySyncId(int $syncId): array
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}");
     }
-                
+
     /**
      * @description Updates a sync. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync sync
@@ -910,21 +858,21 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}", 'PUT');
     }
-                    
+
     /**
      * @description Initiates + queueing the jobs for Live Import
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      */
     public function createElasticSyncSyncLiveInitiateBySyncId(int $syncId)
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/live/initiate", 'POST');
     }
-                    
+
     /**
      * @description Creates a sync mapping.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync mapping
@@ -941,11 +889,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/mapping", 'POST');
     }
-                    
+
     /**
      * @description Lists sync mappings.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *page* - integer
      *          - Current page of the response
@@ -961,27 +909,27 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The index of the last item of the current page result
      *      - *itemsPerPage* - integer
      *          - The requested amount of items per result page
-     *      - *entries* - 
+     *      - *entries* -
      */
     public function getElasticSyncSyncMappingsBySyncId(int $syncId): array
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/mappings");
     }
-                    
+
     /**
      * @description Lists sync matches.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      */
     public function getElasticSyncSyncMatchesBySyncId(int $syncId)
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/matches");
     }
-                
+
     /**
      * @description Creates sync matches.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync matching
@@ -998,11 +946,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/matches", 'POST');
     }
-                
+
     /**
      * @description Updates sync matches. The ID of the sync matching must be specified.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync matching
@@ -1019,11 +967,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/matches", 'PUT');
     }
-                    
+
     /**
      * @description Creates a sync matching.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync matching
@@ -1040,7 +988,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/matching", 'POST');
     }
-                    
+
     /**
      * @description Gets an entity by sync ID. The sync ID is required.
      * @tag ElasticSync
@@ -1051,42 +999,21 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/matching/entity");
     }
-                    
-    /**
-     * @description Creates a sync option.
-     * @tag ElasticSync
-     * @param int $syncId 
-     * @return array
-     *      - *id* - integer
-     *          - The ID of the elastic sync option
-     *      - *syncId* - integer
-     *          - The ID of the elastic sync sync
-     *      - *optionIdentifier* - string
-     *          - The option identifier of the elastic sync option
-     *      - *key* - string
-     *          - The key of the elastic sync option
-     *      - *value* - string
-     *          - The value of the elastic sync option
-     */
-    public function createElasticSyncSyncOptionBySyncId(int $syncId): array
-    {
-        return $this->api("/rest/elastic-sync/sync/{$syncId}/option", 'POST');
-    }
-                    
+
     /**
      * @description Lists syncs.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      */
     public function getElasticSyncSyncOptionsBySyncId(int $syncId)
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/options");
     }
-                
+
     /**
      * @description Creates sync options.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync option
@@ -1103,11 +1030,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/options", 'POST');
     }
-                
+
     /**
      * @description Updates sync options. The ID of the sync must be specified.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      *      - *id* - integer
      *          - The ID of the elastic sync sync
@@ -1124,17 +1051,17 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/options", 'PUT');
     }
-                    
+
     /**
      * @description Gets a computed preview of the mapped targets.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      */
     public function getElasticSyncSyncPreviewComputedBySyncId(int $syncId)
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/preview-computed");
     }
-                    
+
     /**
      * @description Gets preview of csv values. The sync ID is required.
      * @tag ElasticSync
@@ -1145,7 +1072,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/preview-values");
     }
-                    
+
     /**
      * @description Executes the run procedure. Data with sync ID must be specified.
      * @tag ElasticSync
@@ -1158,22 +1085,22 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/sync/{$syncId}/run"], $query), 'POST');
     }
-                    
+
     /**
      * @description Previews the syncs. The sync ID is required.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @return array
      */
     public function getElasticSyncSyncSourcePreviewBySyncId(int $syncId): array
     {
         return $this->api("/rest/elastic-sync/sync/{$syncId}/source-preview");
     }
-                    
+
     /**
      * @description Gets a list of all mappings for a particular sync type.
      * @tag ElasticSync
-     * @param int $syncType 
+     * @param int $syncType
      * @param array $query
      *      - *$syncType* - string - required
      *          - The sync type of the matching
@@ -1183,7 +1110,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/sync/{$syncType}/matching/fields"], $query));
     }
-                    
+
     /**
      * @description Deletes syncs. The IDs of the syncs must be specified.
      * @tag ElasticSync
@@ -1203,7 +1130,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/syncs", 'DELETE');
     }
-                
+
     /**
      * @description Get all Syncs. Filters like id, name, sync type and interval can be provided.
      * @tag ElasticSync
@@ -1222,13 +1149,13 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The index of the last item of the current page result
      *      - *itemsPerPage* - integer
      *          - The requested amount of items per result page
-     *      - *entries* - 
+     *      - *entries* -
      */
     public function getElasticSyncSyncs(): array
     {
         return $this->api("/rest/elastic-sync/syncs");
     }
-                    
+
     /**
      * @description Copies the syncs. The sync ID is required.
      * @tag ElasticSync
@@ -1238,7 +1165,7 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/elastic-sync/syncs/copy", 'POST');
     }
-                    
+
     /**
      * @description Exports the syncs. The sync ID is required.
      * @tag ElasticSync
@@ -1251,11 +1178,11 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/syncs/export"], $query), 'POST');
     }
-                    
+
     /**
      * @description Exports the sync. The sync ID is required.
      * @tag ElasticSync
-     * @param int $syncId 
+     * @param int $syncId
      * @param array $query
      *      - *syncIds* - int - required
      *          - The ID of the sync
@@ -1265,5 +1192,5 @@ class ElasticSync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/elastic-sync/syncs/export/{$syncId}"], $query));
     }
-    
+
 }

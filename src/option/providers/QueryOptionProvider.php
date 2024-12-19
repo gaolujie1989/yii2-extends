@@ -75,9 +75,9 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     public $keyMap = [];
 
     /**
-     * @var bool
+     * @var bool|string
      */
-    public $like = true;
+    public $like = 'A';
 
     /**
      * @inheritdoc

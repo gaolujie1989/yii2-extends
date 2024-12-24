@@ -6835,6 +6835,7 @@
         ],
         "summary": "Gets a requested optimization rule.",
         "description": "Gets an OptimizationRule object for a requested Sponsored Display optimization rule.",
+        "operationId": "getOptimizationRule",
         "parameters": [
           {
             "$ref": "#/components/parameters/clientHeader"
@@ -7045,6 +7046,7 @@
         ],
         "summary": "Gets a list of optimization rules associated to an adgroup specified by identifier.",
         "description": "Gets an OptimizationRule object for a requested Sponsored Display optimization rule.",
+        "operationId": "getOptimizationRulesByAdGroup",
         "parameters": [
           {
             "$ref": "#/components/parameters/clientHeader"

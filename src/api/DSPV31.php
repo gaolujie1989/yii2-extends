@@ -115,7 +115,13 @@ Callout - A future update will add support for multiple at a time.
     {
         return $this->api("/dsp/orders/{$orderId}/conversionTracking/products");
     }
-                        
+        array(2) {
+  [0]=>
+  string(49) "/dsp/orders/{orderId}/conversionTracking/products"
+  [1]=>
+  string(3) "put"
+}
+                
     /**
      * @description Export conversion tracking products as a file by identifier. The file URL will expire in 15 minutes.     * @tag Order
      * @param string $orderId The order identifier.

@@ -18,6 +18,7 @@
     "/dsp/advertisers/{advertiserId}": {
       "get": {
         "description": "Returns advertiser information based on given advertiser id.",
+        "operationId": "getDSPAdvertiser",
         "tags": [
           "Advertiser"
         ],
@@ -210,6 +211,7 @@
     "/dsp/advertisers": {
       "get": {
         "description": "Returns a list of advertisers with information which satisfy the filtering criteria.",
+        "operationId": "getDSPAdvertisers",
         "tags": [
           "Advertiser"
         ],

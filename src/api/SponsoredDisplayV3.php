@@ -1186,7 +1186,17 @@ Maximum size limit 50.
     {
         $this->api("/sd/optimizationRules", 'POST', $data, ['content-type' => 'application/json']);
     }
-                            
+                    
+    /**
+     * @description Gets an OptimizationRule object for a requested Sponsored Display optimization rule.     * @tag Optimization Rules (beta)
+     * @param string $optimizationRuleId The identifier of the requested optimization rule.
+     * @return array
+     */
+    public function getOptimizationRule(string $optimizationRuleId): array
+    {
+        return $this->api("/sd/optimizationRules/{$optimizationRuleId}");
+    }
+                    
     /**
      * @description 
 * When an optimization rule is associated to an ad group, manual bids for individual targets will be overridden.
@@ -1207,7 +1217,16 @@ For each ad group, only one optimization rule metric name is supported, based on
     {
         $this->api("/sd/adGroups/{$adGroupId}/optimizationRules", 'POST', $data, ['content-type' => 'application/json']);
     }
-                        
+                
+    /**
+     * @description Gets an OptimizationRule object for a requested Sponsored Display optimization rule.     * @tag Optimization Rules (beta)
+     * @param integer $adGroupId The identifier of the ad group.
+     */
+    public function getOptimizationRulesByAdGroup(integer $adGroupId): void
+    {
+        $this->api("/sd/adGroups/{$adGroupId}/optimizationRules");
+    }
+                    
     /**
      * @description 
 * Only one optimization rule can be disassociated per adGroup. This note will be removed when multiple rules are supported per adGroup.

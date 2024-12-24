@@ -31,6 +31,7 @@
           "Metadata"
         ],
         "summary": "Creates a new data provider audience. Note that the API call rate is limited to 1 transaction per second (TPS). Calls exceeding this rate are throttled.",
+        "operationId": "createAudienceMetadata",
         "parameters": [
           {
             "$ref": "#/components/parameters/authorizationHeader"
@@ -174,6 +175,7 @@
           "Metadata"
         ],
         "summary": "Updates metadata of an existing audience specified by identifier. Note that the API call rate is limited to 1 transaction per second (TPS). Calls exceeding this rate are throttled.",
+        "operationId": "updateAudienceMetadata",
         "parameters": [
           {
             "$ref": "#/components/parameters/authorizationHeader"
@@ -405,6 +407,7 @@
     "/v2/dp/audience": {
       "patch": {
         "summary": "Associates or disassociates a record with an audience. Note that the API call rate is limited to 100 transactions per second (TPS). Calls exceeding this rate are throttled. Payload size is limited to a maximum of 6MB or 2000 records. Calls with a payload exceeding limit receive a 413 response.",
+        "operationId": "updateAudience",
         "tags": [
           "Add or remove records"
         ],
@@ -588,6 +591,7 @@
       "patch": {
         "description": "Deletes user data sourced from data providers. Deletes users scoped either to an advertiser or for the data provider. The SLA for data deletion is 30 days.",
         "summary": "Deletes user data originally sourced from the client. The API call rate is limited to 1 transactions per second (TPS). Calls exceeding this rate are throttled. Payload size is limited to 1000 users or 1MB. Calls with a more than 1000 users or 1MB will receive a 413 response.",
+        "operationId": "updateUserData",
         "tags": [
           "User deletion"
         ],

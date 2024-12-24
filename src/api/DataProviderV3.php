@@ -12,5 +12,50 @@ use Iterator;
 class DataProviderV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
 {
 
-                                    
+                
+    /**
+     * @description 
+     * @tag Metadata
+     * @param array $data 
+     */
+    public function createAudienceMetadata(array $data): void
+    {
+        $this->api("/v2/dp/audiencemetadata/", 'POST', $data, ['content-type' => 'application/json']);
+    }
+                    
+    /**
+     * @description 
+     * @tag Metadata
+     * @param array $data 
+     */
+    public function updateAudienceMetadata(array $data): void
+    {
+        $this->api("/v2/dp/audiencemetadata/{audienceId}", 'PUT', $data, ['content-type' => 'application/json']);
+    }
+        array(2) {
+  [0]=>
+  string(36) "/v2/dp/audiencemetadata/{audienceId}"
+  [1]=>
+  string(3) "get"
+}
+                
+    /**
+     * @description 
+     * @tag Add or remove records
+     * @param array $data 
+     */
+    public function updateAudience(array $data): void
+    {
+        $this->api("/v2/dp/audience", 'PATCH', $data, ['content-type' => 'application/json']);
+    }
+                    
+    /**
+     * @description Deletes user data sourced from data providers. Deletes users scoped either to an advertiser or for the data provider. The SLA for data deletion is 30 days.     * @tag User deletion
+     * @param array $data 
+     */
+    public function updateUserData(array $data): void
+    {
+        $this->api("/v2/dp/users", 'PATCH', $data, ['content-type' => 'application/json']);
+    }
+    
 }

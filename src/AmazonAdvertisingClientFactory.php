@@ -2,7 +2,6 @@
 
 namespace lujie\amazon\advertising;
 
-use lujie\amazon\advertising\api\ADSPAudiencesV3;
 use lujie\amazon\advertising\api\AdvertisersV3;
 use lujie\amazon\advertising\api\AdvertisingAccountsV3;
 use lujie\amazon\advertising\api\AdvertisingBillingV3;
@@ -14,7 +13,12 @@ use lujie\amazon\advertising\api\AudiencesV3;
 use lujie\amazon\advertising\api\BrandMetricsV3;
 use lujie\amazon\advertising\api\ChangeHistoryV3;
 use lujie\amazon\advertising\api\ConversionsAPIV3;
+use lujie\amazon\advertising\api\CreativeAssetsV3;
+use lujie\amazon\advertising\api\DSPAdvertiserV3;
+use lujie\amazon\advertising\api\DSPAudiencesV3;
 use lujie\amazon\advertising\api\DSPReportsV3;
+use lujie\amazon\advertising\api\DSPV31;
+use lujie\amazon\advertising\api\DataProviderV3;
 use lujie\amazon\advertising\api\EligibilityV3;
 use lujie\amazon\advertising\api\GoalSeekingBidderTargetKPIRecommendationV3;
 use lujie\amazon\advertising\api\HashedRecordsV3;
@@ -26,12 +30,15 @@ use lujie\amazon\advertising\api\ModerationV3;
 use lujie\amazon\advertising\api\OfflineReportV3;
 use lujie\amazon\advertising\api\PartnerOpportunitiesV3;
 use lujie\amazon\advertising\api\PersonaBuilderAPIV3;
+use lujie\amazon\advertising\api\PortfoliosV2;
 use lujie\amazon\advertising\api\PreModerationV3;
 use lujie\amazon\advertising\api\ProductSelectorV3;
+use lujie\amazon\advertising\api\ProfilesV2;
 use lujie\amazon\advertising\api\RecommendationsV3;
+use lujie\amazon\advertising\api\SponsoredBrandsV4;
+use lujie\amazon\advertising\api\SponsoredDisplayV3;
 use lujie\amazon\advertising\api\SponsoredProductsV3;
 use lujie\amazon\advertising\api\StoresV3;
-use lujie\amazon\advertising\api\SponsoredBrandsV4;
 use lujie\common\account\models\Account;
 use yii\authclient\OAuth2;
 use yii\base\InvalidConfigException;
@@ -41,16 +48,6 @@ use yii\base\InvalidConfigException;
  */
 class AmazonAdvertisingClientFactory extends BaseAmazonAdvertisingClientFactory
 {
-
-    /**
-     * @param Account $account
-     * @return ADSPAudiencesV3|BaseAmazonAdvertisingClient|OAuth2|null
-     * @throws InvalidConfigException
-     */
-    public function getADSPAudiencesV3(Account $account): ADSPAudiencesV3|BaseAmazonAdvertisingClient|OAuth2|null
-    {
-        return $this->createClient(ADSPAudiencesV3::class, $account, $this->getConfig());
-    }
 
     /**
      * @param Account $account
@@ -164,12 +161,62 @@ class AmazonAdvertisingClientFactory extends BaseAmazonAdvertisingClientFactory
 
     /**
      * @param Account $account
+     * @return CreativeAssetsV3|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getCreativeAssetsV3(Account $account): CreativeAssetsV3|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(CreativeAssetsV3::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
+     * @return DSPAdvertiserV3|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getDSPAdvertiserV3(Account $account): DSPAdvertiserV3|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(DSPAdvertiserV3::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
+     * @return DSPAudiencesV3|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getDSPAudiencesV3(Account $account): DSPAudiencesV3|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(DSPAudiencesV3::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
      * @return DSPReportsV3|BaseAmazonAdvertisingClient|OAuth2|null
      * @throws InvalidConfigException
      */
     public function getDSPReportsV3(Account $account): DSPReportsV3|BaseAmazonAdvertisingClient|OAuth2|null
     {
         return $this->createClient(DSPReportsV3::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
+     * @return DSPV31|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getDSPV31(Account $account): DSPV31|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(DSPV31::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
+     * @return DataProviderV3|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getDataProviderV3(Account $account): DataProviderV3|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(DataProviderV3::class, $account, $this->getConfig());
     }
 
     /**
@@ -284,6 +331,16 @@ class AmazonAdvertisingClientFactory extends BaseAmazonAdvertisingClientFactory
 
     /**
      * @param Account $account
+     * @return PortfoliosV2|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getPortfoliosV2(Account $account): PortfoliosV2|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(PortfoliosV2::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
      * @return PreModerationV3|BaseAmazonAdvertisingClient|OAuth2|null
      * @throws InvalidConfigException
      */
@@ -304,12 +361,42 @@ class AmazonAdvertisingClientFactory extends BaseAmazonAdvertisingClientFactory
 
     /**
      * @param Account $account
+     * @return ProfilesV2|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getProfilesV2(Account $account): ProfilesV2|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(ProfilesV2::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
      * @return RecommendationsV3|BaseAmazonAdvertisingClient|OAuth2|null
      * @throws InvalidConfigException
      */
     public function getRecommendationsV3(Account $account): RecommendationsV3|BaseAmazonAdvertisingClient|OAuth2|null
     {
         return $this->createClient(RecommendationsV3::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
+     * @return SponsoredBrandsV4|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getSponsoredBrandsV4(Account $account): SponsoredBrandsV4|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(SponsoredBrandsV4::class, $account, $this->getConfig());
+    }
+
+    /**
+     * @param Account $account
+     * @return SponsoredDisplayV3|BaseAmazonAdvertisingClient|OAuth2|null
+     * @throws InvalidConfigException
+     */
+    public function getSponsoredDisplayV3(Account $account): SponsoredDisplayV3|BaseAmazonAdvertisingClient|OAuth2|null
+    {
+        return $this->createClient(SponsoredDisplayV3::class, $account, $this->getConfig());
     }
 
     /**
@@ -330,16 +417,6 @@ class AmazonAdvertisingClientFactory extends BaseAmazonAdvertisingClientFactory
     public function getStoresV3(Account $account): StoresV3|BaseAmazonAdvertisingClient|OAuth2|null
     {
         return $this->createClient(StoresV3::class, $account, $this->getConfig());
-    }
-
-    /**
-     * @param Account $account
-     * @return SponsoredBrandsV4|BaseAmazonAdvertisingClient|OAuth2|null
-     * @throws InvalidConfigException
-     */
-    public function getSponsoredBrandsV4(Account $account): SponsoredBrandsV4|BaseAmazonAdvertisingClient|OAuth2|null
-    {
-        return $this->createClient(SponsoredBrandsV4::class, $account, $this->getConfig());
     }
 
 }

@@ -32,13 +32,7 @@ class DataProviderV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClie
     {
         $this->api("/v2/dp/audiencemetadata/{audienceId}", 'PUT', $data, ['content-type' => 'application/json']);
     }
-        array(2) {
-  [0]=>
-  string(36) "/v2/dp/audiencemetadata/{audienceId}"
-  [1]=>
-  string(3) "get"
-}
-                
+                        
     /**
      * @description 
      * @tag Add or remove records

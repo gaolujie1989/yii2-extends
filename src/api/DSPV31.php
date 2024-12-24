@@ -115,13 +115,20 @@ Callout - A future update will add support for multiple at a time.
     {
         return $this->api("/dsp/orders/{$orderId}/conversionTracking/products");
     }
-        array(2) {
-  [0]=>
-  string(49) "/dsp/orders/{orderId}/conversionTracking/products"
-  [1]=>
-  string(3) "put"
-}
                 
+    /**
+     * @description Add or remove conversion tracking products from the order. It can be updated by either providing values for productList or productFile field. For productList, up to 2,000 ProductTrackingItems can be added, including up to 20 ProductTrackingItems per domain if FEATURED_WITH_VARIATIONS is specified in productAssociation. For productFile, up to 50,000 Products can be used. Check out our tutorial for more details.     * @tag Order
+     * @param string $orderId The order identifier.
+     * @param array $data Conversion tracking product tracking object
+     *      - *productList* - 
+     *      - *productFile* - string
+     *          - The URL of the product tracking file.
+     */
+    public function updateProductsByOrderId(string $orderId, array $data): void
+    {
+        $this->api("/dsp/orders/{$orderId}/conversionTracking/products", 'PUT', $data, ['content-type' => 'application/vnd.dspproducttracking.v1+json']);
+    }
+                    
     /**
      * @description Export conversion tracking products as a file by identifier. The file URL will expire in 15 minutes.     * @tag Order
      * @param string $orderId The order identifier.

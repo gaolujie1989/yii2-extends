@@ -1,0 +1,345 @@
+{
+  "info": {
+    "description": "Amazon DSP users can now use the hashed records API through the Amazon Advertising API to match Amazon shoppers with their hashed customer records including name, email, mobile, address, and zip code. Advertisers can further use the data provider APIs (https://advertising.amazon.com/API/docs/en-us/data-provider/openapi#/) to programmatically create audiences for use in their campaigns by their owned or sourced hashed customer records.",
+    "title": "Hashed Records",
+    "version": "3.0"
+  },
+  "paths": {
+    "/dp/records/hashed": {
+      "post": {
+        "summary": "Upload a batch of hashed records for matching",
+        "requestBody": {
+          "description": "Hashed PII records to be matched with Amazon identities for future use.  All inputs must be properly normalized and SHA-256 hashed as defined [in the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C). Max input size 5MB.",
+          "content": {
+            "application/vnd.dpuploadhashedrecordsrequest.v3+json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "records": {
+                    "$ref": "#/components/schemas/IngestionRecordsList"
+                  }
+                },
+                "required": [
+                  "records"
+                ]
+              }
+            }
+          }
+        },
+        "operationId": "UploadHashedRecords",
+        "description": "Saves a batch of hashed personally-identifiable information (PII) records to be matched with Amazon identities for future use.  All inputs must be properly normalized and SHA-256 hashed as defined [in the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+        "responses": {
+          "200": {
+            "description": "The records were successfully uploaded",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "requestId": {
+                      "type": "string",
+                      "example": "bcbeed64-d612-4f76-866e-8dbd25f73331"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request is malformed or contains invalid data",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3.1+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Hashed records associated with [externalId:dpid1] contains invalid hashed attributes [...]."
+                    }
+                  }
+                }
+              },
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Failed to parse request data. It might not be a valid JSON object."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The caller is not authorized for this operation.",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "The caller is not authorized to perform this operation."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Failed to persist request data due to unexpected internal server error."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "The caller is not authorized for this operation.",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "The request exceeded the max size acceptable by the API. Max request size is 5 MB."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type.",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Invalid `accept` header provided. Please ensure you are specifying supported version for the requested resource."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable.",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Service is currently not available."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "505": {
+            "description": "Dependency service timed out",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Failed to persist request data due to dependency service timeout. Please retry."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dpuploadhashedrecordsresponse.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "errorMessage": "Too Many Requests"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "A valid access token.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Content-Type",
+            "description": "The Content-Type is application/json.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Hashed Records"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "Sha256String": {
+        "minLength": 64,
+        "pattern": "[0-9a-f]{64}",
+        "type": "string",
+        "maxLength": 64
+      },
+      "HashedRecord": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The first name normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+          },
+          "lastName": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The last name normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3"
+          },
+          "address": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The street address normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06"
+          },
+          "phone": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The phone number normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d"
+          },
+          "city": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The city normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7"
+          },
+          "postalCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The postal code normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8"
+          },
+          "state": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The state or province normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58"
+          },
+          "email": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Sha256String"
+              }
+            ],
+            "description": "The email address normalized and hashed [according to the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).",
+            "example": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2"
+          }
+        }
+      },
+      "IngestionRecordsList": {
+        "description": "The list of hashed records.",
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/IngestionRecord"
+        }
+      },
+      "IngestionRecord": {
+        "type": "object",
+        "properties": {
+          "hashedRecords": {
+            "description": "list of hashed records data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HashedRecord"
+            }
+          },
+          "externalId": {
+            "pattern": "[0-9a-zA-Z\\-\\_]{1,128}",
+            "description": "The external identifier for this record.  This can be any ID unique to the record in the caller's own identity space, and following regex pattern [0-9a-zA-Z\\-\\_]{1,128}",
+            "type": "string",
+            "example": "dpid1"
+          }
+        },
+        "required": [
+          "externalId",
+          "hashedRecords"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

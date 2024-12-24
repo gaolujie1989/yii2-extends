@@ -1,0 +1,1170 @@
+{
+  "info": {
+    "description": "<br><br>**Purpose of the API**<br><br>The API is for partners to retrieve **'opportunities'** relevant to optimizing their book of business. Opportunities are actionable insights for partners that drive value to advertisers.<br><br>For a step by step guide to using our API, we recommend our official [developer guide](https://advertising.amazon.com/API/docs/en-us/guides/recommendations/partner-opportunities/overview).<br><br>**How should partners use this set of APIs?**<br><br>Partners should use this set of APIs by first calling the **GET** `/partnerOpportunities` route to obtain a list of opportunities that are pertinent (and exclusive) to their book of business (the advertisers they manage).<br><br>It should be noted that the opportunities returned in this list call may not have data for that day (opportunities are updated every 24 hours). To check if an opportunity has data, introspect on the value of the `opportunities[].dataMetadata.rowCount` field. If the value is greater than zero, data is available and a data file can be downloaded.<br><br>Once an opportunity of interest has been identified, the given opportunity data can be downloaded using the **GET** `/partnerOpportunities/{partnerOpportunityId}/file` route, which will redirect to a pre-signed file download URL containing all opportunity data in a CSV format. This operation will return a 404 if no data is available for the given opportunity.<br><br>Partners can get aggregated information about opportunities available to them using the **GET** `/partnerOpportunities/summary` route. This information includes total opportunity count, count of opportunities with data available to be downloaded, and a count of unique advertisers across all opportunities. <br><br>**Required Headers**<br><br>Currently, there are two headers that are required for all API calls. If these headers are not correctly provided and properly formatted, the API call requests will fail.<br><br>1. `Accept:` Must be set to a supported API version (see below), using the format described on the [Advertising API portal](https://advertising.amazon.com/API/docs/en-us/concepts/compatibility-versioning-policy). The request and response payloads are identical between versions v1, v1.1, and v1.2.<br>    - Version 1 (Recommended): `'application/vnd.partneropportunity.v1+json'`<br>    - Version 1.1: `'application/vnd.partneropportunity.v1.1+json'`<br>    - Version 1.2: `'application/vnd.partneropportunity.v1.2+json'`<br>  <br>2. `Amazon-Advertising-API-Manager-Account:` 'Partner Network Account ID' which is accessible from Partner Network under the ['User settings'](https://advertising.amazon.com/partner-network/settings) link in the upper right corner.<br>    - Example: `'amzn1.ads1.ma1.abcd1234...'`<br><br>**Applying Opportunities**<br>Partners can take action against opportunities based on their business needs. For example, partners may choose to use existing Advertising API resources to launch new ASINs or modify campaign settings. Some entries in your opportunity data file will have `recommendationId`s and `applyApiEndPoint`s. These opportunities will have objective type `AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS` and can be supplied back to the `/apply` endpoint to programmatically take action on each opportunity.<br><br>See [How to use the Partner Opportunities API](https://advertising.amazon.com/API/docs/en-us/guides/recommendations/partner-opportunities/how-to) for additional details. <br><br>**Advanced Usage**<br><br>**Pagination**<br><br>The `/partnerOpportunities` route supports pagination of results via query parameters. <br><br>**GET** `/partnerOpportunities` calls support using *optional* query parameters `maxResults` and `nextToken` for paginated requests and responses. <br>**GET** `/partnerOpportunities` responses include tokens which can be used to navigate to the first, previous, next, and last pages of results. To navigate to the desired page, pass one of these provided tokens as a query parameter for the next call to **GET** `/partnerOpportunities`.<br><br>Examples:<br>- **GET** `/partnerOpportunities?maxResults=10` will return 10 opportunities and a valid series of pagination tokens.<br>- **GET** `/partnerOpportunities?maxResults=10&nextToken=[next-page-token]` will get the next 10 opportunities. <br><br>**Filtering**<br><br>The `/partnerOpportunities` and `/partnerOpportunities/summary` routes support filtering results via query parameters.<br><br>**GET** `/partnerOpportunities` calls support using *optional* query parameters `audience`, `objectiveType`, and `product` for filtering responses.<br>**GET** `/partnerOpportunities` responses will include only opportunities which have values matching the requested filters. If no filters are specified, all opportunities are returned.<br><br>Examples:<br>- **GET** `/partnerOpportunities?objectiveType=UNLAUNCHED_ASINS&product=AMAZON_DSP,SPONSORED_PRODUCTS` will return all opportunities which have a `objectiveType` of `UNLAUNCHED_ASINS` and a `product` of `AMAZON_DSP` OR `SPONSORED_PRODUCTS`.<br><br>**GET** `/partnerOpportunities/summary` calls support using *optional* query parameters `audience`, `objectiveType`, and `product` for filtering responses.<br>**GET** `/partnerOpportunities/summary` responses will include metadata for the filter values for opportunities under the `availableAudiences`, `availableObjectiveTypes`, etc. fields. This metadata will include the available filter values along with the number of opportunities for those filter values.<br><br>Examples:<br>- **GET** `/partnerOpportunities/summary?product=SPONSORED_PRODUCTS` will provide a summary of all opportunities that have a `product` value of `SPONSORED_PRODUCTS`.<br><br>**Localization**<br><br>The `/partnerOpportunities` route supports a `locale` query parameter for retrieving opportunities in a localized manner.<br><br>**GET** `/partnerOpportunities` calls support the *optional* query parameter `locale` for localizing responses.<br>**GET** `/partnerOpportunities` responses will be localized to the requested `locale` if possible and filtered out if not.<br><br>Example:<br>- **GET** `/partnerOpportunities?locale=zh_CN` to request opportunity responses localized in Chinese.<br><br>**Additional Resources**<br><br>For more information on **CURL** command formatting, please see [the Amazon Ads Website](https://advertising.amazon.com/API/docs/en-us/getting-started/first-call).<br>",
+    "title": "Partner Opportunities",
+    "version": "3.0"
+  },
+  "paths": {
+    "/partnerOpportunities/{partnerOpportunityId}/apply": {
+      "post": {
+        "summary": "",
+        "description": "Applies a given set of recommendations. Application may be asynchronous. Application status may be checked using the applicationStatus operation. Note that all required parameters are retrieved from opportunity data.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Advertising-API-Manager-Account\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\"]",
+        "tags": [
+          "Partner Opportunities"
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.partneropportunity.v1.2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerOpportunitiesApplyRequestDtoV1"
+              }
+            },
+            "application/vnd.partneropportunity.v1.1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerOpportunitiesApplyRequestDtoV1"
+              }
+            },
+            "application/vnd.partneropportunity.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerOpportunitiesApplyRequestDtoV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "partnerOpportunitiesApply",
+        "responses": {
+          "202": {
+            "description": "Returns a 202 to indicate that all recommendations were accepted and will be processed over time."
+          },
+          "400": {
+            "description": "Bad request - check that all provided request data matches what is provided in your opportunity file and try again.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplyErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplyErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplyErrorDtoV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - please double check your authentication headers and be sure to follow our [getting started guide](https://advertising.amazon.com/API/docs/en-us/guides/recommendations/partner-opportunities/getting-started#authorization)"
+          },
+          "500": {
+            "description": "Internal Server Error - we have been notified of the error and are taking action to see the issue rectified. Please try again later.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplyErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplyErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplyErrorDtoV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests - Request was denied due to request throttling. Please try again later."
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "partnerOpportunityId",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a 'Login with Amazon' account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Manager-Account",
+            "description": "'Partner Network Account ID' which is accessible from Partner Network under the ['User settings'](https://advertising.amazon.com/partner-network/settings) link in the upper right corner.",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/partnerOpportunities/{partnerOpportunityId}/file": {
+      "get": {
+        "summary": "",
+        "operationId": "partnerOpportunitiesGetOpportunityFile",
+        "description": "Gets a 307 - TEMPORARY_REDIRECT to an opportunity data file.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Advertising-API-Manager-Account\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\"]",
+        "responses": {
+          "200": {
+            "description": "This response will never occur. Redirects will always happen instead, but OpenAPI requires a 200 response spec."
+          },
+          "404": {
+            "description": "Not Found - The requested partnerOpportunityId has no available data file or the file is empty."
+          },
+          "307": {
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The header containing the pre-signed URL (expires in 15 minutes) to which the browser/user agent will be redirected in order to complete the file download."
+              }
+            },
+            "description": "Redirect URL provided in Location header."
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "partnerOpportunityId",
+            "description": "The opportunity ID for which the file URL is desired.",
+            "required": true
+          },
+          {
+            "schema": {
+              "default": "CSV",
+              "type": "string",
+              "enum": [
+                "CSV",
+                "GZIP_JSON"
+              ]
+            },
+            "in": "query",
+            "name": "fileFormat",
+            "description": "Specify the desired file format for the opportunity data. Default is CSV.",
+            "required": false,
+            "example": "CSV"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a 'Login with Amazon' account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Manager-Account",
+            "description": "'Partner Network Account ID' which is accessible from Partner Network under the ['User settings'](https://advertising.amazon.com/partner-network/settings) link in the upper right corner.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Partner Opportunities"
+        ]
+      }
+    },
+    "/partnerOpportunities": {
+      "get": {
+        "summary": "",
+        "operationId": "partnerOpportunitiesListOpportunities",
+        "description": "Gets a list of opportunities specific to the partner making the request.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Advertising-API-Manager-Account\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\"]",
+        "responses": {
+          "200": {
+            "description": "A list of opportunities successfully retrieved.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesOpportunitiesPageV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesOpportunitiesPageV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesOpportunitiesPageV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "default": "10",
+              "maximum": 100,
+              "type": "number",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "The maximum number of results to return in a single page.",
+            "required": false,
+            "example": "10"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "An obfuscated cursor value that indicates which 'page' of results should be returned next.",
+            "required": false,
+            "example": "asdf1234"
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/Locale"
+            },
+            "in": "query",
+            "name": "locale",
+            "description": "The desired locale for opportunity data to be presented in. The `title`, `description`, and `callToAction` fields of the response items support localization.",
+            "required": false,
+            "example": "en_US"
+          },
+          {
+            "schema": {
+              "default": "false",
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "retrieveTranslationKeys",
+            "required": false
+          },
+          {
+            "schema": {
+              "minItems": 1,
+              "maxItems": 3,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "PARTNER_MANAGED_ADVERTISERS",
+                  "PARTNER_MANAGED_AD_BUSINESS",
+                  "PARTNER"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "audience",
+            "description": "Filter for opportunities with these audience values.\n* PARTNER_MANAGED_ADVERTISERS - Recommendation relates to advertisers the partner manages.\n* PARTNER_MANAGED_AD_BUSINESS - Recommendation relates to other partners the partner interacts with.\n* PARTNER - Recommendation relates to you, the partner.",
+            "required": false,
+            "example": "PARTNER"
+          },
+          {
+            "schema": {
+              "minItems": 1,
+              "maxItems": 13,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "AD_API_ENDPOINT_ADOPTION",
+                  "AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS",
+                  "CAMPAIGN_OPTIMIZATION",
+                  "CATEGORY_INSIGHTS",
+                  "CLICK_CREDITS",
+                  "DEALS",
+                  "MARKETPLACE_EXPANSION",
+                  "NEW_TO_BRAND_INSIGHTS",
+                  "PARTNER_GROWTH",
+                  "PATH_TO_PURCHASE_INSIGHTS",
+                  "RETAIL_INSIGHTS",
+                  "SHARE_OF_VOICE_INSIGHTS",
+                  "UNLAUNCHED_ASINS"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "objectiveType",
+            "description": "Filter for opportunities with these objectiveType values.\n* AD_API_ENDPOINT_ADOPTION - Recommendation relates to adopting a new API endpoint.\n* AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS - Recommendation is provided by the Amazon Ads Account Team.\n* CAMPAIGN_OPTIMIZATION - Recommendation relates to optimizing campaigns.\n* CATEGORY_INSIGHTS - Recommendation relates to advertising insights across product categories..\n* CLICK_CREDITS - Recommendation relates to available click credits.\n* DEALS - Recommendation relates to deals.\n* MARKETPLACE_EXPANSION - Recommendation relates to expanding to new marketplaces.\n* NEW_TO_BRAND_INSIGHTS - Recommendation relates to new to brand advertising insights.\n* PARTNER_GROWTH - Recommendation relates to growing your business as a partner.\n* PATH_TO_PURCHASE_INSIGHTS - Recommendation relates to path to purchase insights.\n* RETAIL_INSIGHTS - Recommendation related to retail insights about products you manage.\n* SHARE_OF_VOICE_INSIGHTS - Recommendation relates to share of voice for a particular audience.\n* UNLAUNCHED_ASINS - Recommendation relates to ASINs you manage that are not enrolled in advertising campaigns.\n",
+            "required": false,
+            "example": "DEALS"
+          },
+          {
+            "schema": {
+              "minItems": 1,
+              "maxItems": 10,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "AMAZON_DSP",
+                  "AMAZON_LIVE",
+                  "POSTS",
+                  "SPONSORED_BRANDS",
+                  "SPONSORED_BRANDS_VIDEO",
+                  "SPONSORED_DISPLAY",
+                  "SPONSORED_DISPLAY_VIDEO",
+                  "SPONSORED_PRODUCTS",
+                  "STORES",
+                  "VIDEO_ADS"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "product",
+            "description": "Filter for opportunities with these product values.\n* AMAZON_DSP - Recommendation relates to the Amazon DSP.\n* AMAZON_LIVE - Recommendation relates to Amazon's Live Show and Tell program.\n* POSTS - Recommendation relates to Amazon's social media Posts service.\n* SPONSORED_BRANDS - Recommendation relates to Sponsored Brands.\n* SPONSORED_BRANDS_VIDEO - Recommendation relates to Sponsored Brands Video.\n* SPONSORED_DISPLAY - Recommendation relates to Sponsored Display.\n* SPONSORED_DISPLAY_VIDEO - Recommendation relates to Sponsored Display Video.\n* SPONSORED_PRODUCTS - Recommendation relates to Sponsored Products.\n* STORES - Recommendation relates to building a storefront page on Amazon.\n* VIDEO_ADS - Deprecated value, replaced by SPONSORED_BRANDS_VIDEO and SPONSORED_DISPLAY_VIDEO values.",
+            "required": false,
+            "example": "SPONSORED_PRODUCTS"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a 'Login with Amazon' account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Manager-Account",
+            "description": "'Partner Network Account ID' which is accessible from Partner Network under the ['User settings'](https://advertising.amazon.com/partner-network/settings) link in the upper right corner.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Partner Opportunities"
+        ]
+      }
+    },
+    "/partnerOpportunities/summary": {
+      "get": {
+        "summary": "",
+        "operationId": "partnerOpportunitiesSummarizeOpportunities",
+        "description": "Gets aggregated information about all opportunities specific to the partner making the request. Supported since V1.1.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Advertising-API-Manager-Account\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\"]",
+        "responses": {
+          "200": {
+            "description": "Information about per-partner opportunity data.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesOpportunitiesSummaryV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesOpportunitiesSummaryV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesOpportunitiesSummaryV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "minItems": 1,
+              "maxItems": 3,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "PARTNER_MANAGED_ADVERTISERS",
+                  "PARTNER_MANAGED_AD_BUSINESS",
+                  "PARTNER"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "audience",
+            "description": "Filter for opportunities with these audience values.\n* PARTNER_MANAGED_ADVERTISERS - Recommendation relates to advertisers the partner manages.\n* PARTNER_MANAGED_AD_BUSINESS - Recommendation relates to other partners the partner interacts with.\n* PARTNER - Recommendation relates to you, the partner.",
+            "required": false,
+            "example": "PARTNER"
+          },
+          {
+            "schema": {
+              "minItems": 1,
+              "maxItems": 13,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "AD_API_ENDPOINT_ADOPTION",
+                  "AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS",
+                  "CAMPAIGN_OPTIMIZATION",
+                  "CATEGORY_INSIGHTS",
+                  "CLICK_CREDITS",
+                  "DEALS",
+                  "MARKETPLACE_EXPANSION",
+                  "NEW_TO_BRAND_INSIGHTS",
+                  "PARTNER_GROWTH",
+                  "PATH_TO_PURCHASE_INSIGHTS",
+                  "RETAIL_INSIGHTS",
+                  "SHARE_OF_VOICE_INSIGHTS",
+                  "UNLAUNCHED_ASINS"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "objectiveType",
+            "description": "Filter for opportunities with these objectiveType values.\n* AD_API_ENDPOINT_ADOPTION - Recommendation relates to adopting a new API endpoint.\n* AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS - Recommendation is provided by the Amazon Ads Account Team.\n* CAMPAIGN_OPTIMIZATION - Recommendation relates to optimizing campaigns.\n* CATEGORY_INSIGHTS - Recommendation relates to advertising insights across product categories..\n* CLICK_CREDITS - Recommendation relates to available click credits.\n* DEALS - Recommendation relates to deals.\n* MARKETPLACE_EXPANSION - Recommendation relates to expanding to new marketplaces.\n* NEW_TO_BRAND_INSIGHTS - Recommendation relates to new to brand advertising insights.\n* PARTNER_GROWTH - Recommendation relates to growing your business as a partner.\n* PATH_TO_PURCHASE_INSIGHTS - Recommendation relates to path to purchase insights.\n* RETAIL_INSIGHTS - Recommendation related to retail insights about products you manage.\n* SHARE_OF_VOICE_INSIGHTS - Recommendation relates to share of voice for a particular audience.\n* UNLAUNCHED_ASINS - Recommendation relates to ASINs you manage that are not enrolled in advertising campaigns.\n",
+            "required": false,
+            "example": "DEALS"
+          },
+          {
+            "schema": {
+              "minItems": 1,
+              "maxItems": 10,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "AMAZON_DSP",
+                  "AMAZON_LIVE",
+                  "POSTS",
+                  "SPONSORED_BRANDS",
+                  "SPONSORED_BRANDS_VIDEO",
+                  "SPONSORED_DISPLAY",
+                  "SPONSORED_DISPLAY_VIDEO",
+                  "SPONSORED_PRODUCTS",
+                  "STORES",
+                  "VIDEO_ADS"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "product",
+            "description": "Filter for opportunities with these product values.\n* AMAZON_DSP - Recommendation relates to the Amazon DSP.\n* AMAZON_LIVE - Recommendation relates to Amazon's Live Show and Tell program.\n* POSTS - Recommendation relates to Amazon's social media Posts service.\n* SPONSORED_BRANDS - Recommendation relates to Sponsored Brands.\n* SPONSORED_BRANDS_VIDEO - Recommendation relates to Sponsored Brands Video.\n* SPONSORED_DISPLAY - Recommendation relates to Sponsored Display.\n* SPONSORED_DISPLAY_VIDEO - Recommendation relates to Sponsored Display Video.\n* SPONSORED_PRODUCTS - Recommendation relates to Sponsored Products.\n* STORES - Recommendation relates to building a storefront page on Amazon.\n* VIDEO_ADS - Deprecated value, replaced by SPONSORED_BRANDS_VIDEO and SPONSORED_DISPLAY_VIDEO values.",
+            "required": false,
+            "example": "SPONSORED_PRODUCTS"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a 'Login with Amazon' account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Manager-Account",
+            "description": "'Partner Network Account ID' which is accessible from Partner Network under the ['User settings'](https://advertising.amazon.com/partner-network/settings) link in the upper right corner.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Partner Opportunities"
+        ]
+      }
+    },
+    "/partnerOpportunities/{partnerOpportunityId}/applicationStatus": {
+      "post": {
+        "summary": "",
+        "description": "Retrieves the current status of applied recommendations.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Advertising-API-Manager-Account\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\"]",
+        "tags": [
+          "Partner Opportunities"
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.partneropportunity.v1.2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusRequestDtoV1"
+              }
+            },
+            "application/vnd.partneropportunity.v1.1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusRequestDtoV1"
+              }
+            },
+            "application/vnd.partneropportunity.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusRequestDtoV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "partnerOpportunitiesApplicationStatus",
+        "responses": {
+          "200": {
+            "description": "Returns a JSON payload with a list of recommendations and their corresponding status.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusResponseDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusResponseDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusResponseDtoV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - check that all provided request data matches what is provided in your opportunity file and try again.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusErrorDtoV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - please double check your authentication headers and be sure to follow our [getting started guide](https://advertising.amazon.com/API/docs/en-us/guides/recommendations/partner-opportunities/getting-started#authorization)"
+          },
+          "500": {
+            "description": "Internal Server Error - we have been notified of the error and are taking action to see the issue rectified. Please try again later.",
+            "content": {
+              "application/vnd.partneropportunity.v1.2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1.1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusErrorDtoV1"
+                }
+              },
+              "application/vnd.partneropportunity.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatusErrorDtoV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests - Request was denied due to request throttling. Please try again later."
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "partnerOpportunityId",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a 'Login with Amazon' account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Manager-Account",
+            "description": "'Partner Network Account ID' which is accessible from Partner Network under the ['User settings'](https://advertising.amazon.com/partner-network/settings) link in the upper right corner.",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "Locale": {
+        "type": "string",
+        "enum": [
+          "ar_AE",
+          "cs_CZ",
+          "de_DE",
+          "en_AU",
+          "en_CA",
+          "en_GB",
+          "en_IN",
+          "en_SG",
+          "en_US",
+          "es_CO",
+          "es_ES",
+          "es_MX",
+          "es_US",
+          "fr_CA",
+          "fr_FR",
+          "he_IL",
+          "hi_IN",
+          "it_IT",
+          "ja_JP",
+          "ko_KR",
+          "nl_NL",
+          "pl_PL",
+          "pt_BR",
+          "sv_SE",
+          "ta_IN",
+          "th_TH",
+          "tr_TR",
+          "vi_VN",
+          "zh_CN",
+          "zh_TW"
+        ]
+      },
+      "PartnerOpportunitiesApplyRequestDtoV1": {
+        "type": "object",
+        "properties": {
+          "encryptedAdvertiserId": {
+            "description": "The encrypted advertiser ID.\n\nProvided in opportunity data.",
+            "type": "string",
+            "example": "A1234ABC890"
+          },
+          "marketplace": {
+            "$ref": "#/components/schemas/PartnerOpportunitiesApplicationMarketplace"
+          },
+          "recommendationIds": {
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "A list of recommendation IDs to apply for the given opportunity.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "50644397-f143-4375-b907-ffd2c20a076d",
+              "94ea8af3-36cb-4792-abcf-034db46bbce0"
+            ]
+          },
+          "entityId": {
+            "description": "Entity ID\n\nProvided in opportunity data.",
+            "type": "string",
+            "example": "ENTITY1234"
+          },
+          "advertiserType": {
+            "description": "Entity Type\n\nProvided in opportunity data as 'advertiserType'.",
+            "type": "string",
+            "enum": [
+              "SELLER",
+              "VENDOR"
+            ],
+            "example": "SELLER"
+          }
+        },
+        "required": [
+          "marketplace",
+          "recommendationIds",
+          "encryptedAdvertiserId",
+          "entityId",
+          "advertiserType"
+        ]
+      },
+      "PartnerOpportunitiesApplicationStatus": {
+        "type": "object",
+        "properties": {
+          "recommendationId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "IN_PROGRESS",
+              "SUCCESS",
+              "FAILED",
+              "PUBLISHED",
+              "REJECTED"
+            ]
+          }
+        },
+        "required": [
+          "recommendationId",
+          "status"
+        ]
+      },
+      "PartnerOpportunitiesOpportunityProductFilterSummaryV1": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string",
+            "enum": [
+              "AMAZON_DSP",
+              "AMAZON_LIVE",
+              "POSTS",
+              "SPONSORED_BRANDS",
+              "SPONSORED_BRANDS_VIDEO",
+              "SPONSORED_DISPLAY",
+              "SPONSORED_DISPLAY_VIDEO",
+              "SPONSORED_PRODUCTS",
+              "STORES",
+              "VIDEO_ADS"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "count"
+        ]
+      },
+      "PartnerOpportunitiesApplicationStatusErrorDtoV1": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "PO_APPLICATION_STATUS_BAD_REQUEST",
+              "PO_APPLICATION_STATUS_INTERNAL_SERVER_ERROR"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "PartnerOpportunitiesApplicationStatusResponseDtoV1": {
+        "type": "object",
+        "properties": {
+          "statuses": {
+            "minItems": 1,
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartnerOpportunitiesApplicationStatus"
+            }
+          }
+        },
+        "required": [
+          "statuses"
+        ]
+      },
+      "PartnerOpportunitiesApplyErrorDtoV1": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "PO_APPLY_BAD_REQUEST",
+              "PO_APPLY_INTERNAL_SERVER_ERROR",
+              "PO_APPLY_ALREADY_APPLIED",
+              "PO_APPLY_IN_TERMINAL_STATUS"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "PartnerOpportunitiesOpportunitiesPageV1": {
+        "type": "object",
+        "properties": {
+          "lastToken": {
+            "description": "Pagination token to the last page.",
+            "type": "string"
+          },
+          "totalResults": {
+            "description": "Total results contained in the list of opportunities.",
+            "type": "number"
+          },
+          "firstToken": {
+            "description": "Pagination token back to the first page/element.",
+            "type": "string"
+          },
+          "nextToken": {
+            "description": "Pagination token to the next page.",
+            "type": "string"
+          },
+          "opportunities": {
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "The list of partner opportunities.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartnerOpportunitiesOpportunityV1"
+            }
+          },
+          "prevToken": {
+            "description": "Pagination token back to the previous page.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "opportunities",
+          "totalResults"
+        ]
+      },
+      "PartnerOpportunitiesOpportunityFileV1": {
+        "type": "object",
+        "properties": {
+          "presignedUrl": {
+            "description": "A presigned URL for the requested data file.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "presignedUrl"
+        ]
+      },
+      "PartnerOpportunitiesApplicationMarketplace": {
+        "description": "Plain text marketplace value.\n\nProvided in opportunity data.",
+        "type": "string",
+        "enum": [
+          "US",
+          "CA",
+          "BR",
+          "MX",
+          "JP",
+          "AU",
+          "SG",
+          "UK",
+          "DE",
+          "FR",
+          "IT",
+          "ES",
+          "IN",
+          "NL",
+          "AE",
+          "SA",
+          "TR",
+          "EG",
+          "SE",
+          "PL"
+        ]
+      },
+      "PartnerOpportunitiesOpportunitiesSummaryV1": {
+        "type": "object",
+        "properties": {
+          "uniqueAdvertiserApproximateCount": {
+            "description": "Approximate number of unique advertisers across all opportunities for the partner.",
+            "type": "number"
+          },
+          "availableProducts": {
+            "minItems": 10,
+            "maxItems": 10,
+            "description": "All available opportunity product values with the number of opportunities for each.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartnerOpportunitiesOpportunityProductFilterSummaryV1"
+            }
+          },
+          "opportunitiesCount": {
+            "description": "Total number of opportunities for the partner.",
+            "type": "number"
+          },
+          "opportunitiesWithDataCount": {
+            "description": "Number of actionable opportunities with data for the partner.",
+            "type": "number"
+          },
+          "availableAudiences": {
+            "minItems": 3,
+            "maxItems": 3,
+            "description": "All available opportunity audience values with the number of opportunities for each.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartnerOpportunitiesOpportunityAudienceFilterSummaryV1"
+            }
+          },
+          "availableObjectiveTypes": {
+            "minItems": 12,
+            "maxItems": 12,
+            "description": "All available opportunity objective values with the number of opportunities for each.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartnerOpportunitiesOpportunityObjectiveTypeFilterSummaryV1"
+            }
+          }
+        },
+        "required": [
+          "availableAudiences",
+          "availableObjectiveTypes",
+          "availableProducts",
+          "opportunitiesCount",
+          "opportunitiesWithDataCount",
+          "uniqueAdvertiserApproximateCount"
+        ]
+      },
+      "PartnerOpportunitiesOpportunityDataMetadataV1": {
+        "type": "object",
+        "properties": {
+          "updatedDate": {
+            "format": "date-time",
+            "description": "Date the opportunity data file was generated/updated, in ISO 8601 format.",
+            "type": "string"
+          },
+          "rowCount": {
+            "description": "Number of rows present in the latest partner opportunity data file.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "updatedDate",
+          "rowCount"
+        ]
+      },
+      "PartnerOpportunitiesOpportunityAudienceFilterSummaryV1": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string",
+            "enum": [
+              "PARTNER_MANAGED_ADVERTISERS",
+              "PARTNER_MANAGED_AD_BUSINESS",
+              "PARTNER"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "count"
+        ]
+      },
+      "PartnerOpportunitiesOpportunityV1": {
+        "type": "object",
+        "properties": {
+          "dataUrl": {
+            "description": "The URL through which an opportunity's data file (in CSV format) can be downloaded.\n\nA simple GET request is all that is necessary, which will automatically redirect to a presigned, short-lived URL.\n\nURLs expire in 15 minutes.",
+            "type": "string"
+          },
+          "dataMetadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PartnerOpportunitiesOpportunityDataMetadataV1"
+              }
+            ],
+            "description": "Contains the most recent data file information for the opportunity.\n\nCan be used to track the availability of a partner opportunity data file:\n   if dataMetadata.rowCount > 0."
+          },
+          "audience": {
+            "description": "The intended audience of the opportunity. For example, it might be targeted towards optimizing partner metrics or the metrics of advertisers that the partner manages.",
+            "type": "string",
+            "enum": [
+              "PARTNER_MANAGED_ADVERTISERS",
+              "PARTNER_MANAGED_AD_BUSINESS",
+              "PARTNER"
+            ]
+          },
+          "product": {
+            "description": "The Amazon Advertising product to which the opportunity corresponds, like Amazon DSP, Video Ads, etc.",
+            "type": "string",
+            "enum": [
+              "AMAZON_DSP",
+              "AMAZON_LIVE",
+              "POSTS",
+              "SPONSORED_BRANDS",
+              "SPONSORED_BRANDS_VIDEO",
+              "SPONSORED_DISPLAY",
+              "SPONSORED_DISPLAY_VIDEO",
+              "SPONSORED_PRODUCTS",
+              "STORES",
+              "VIDEO_ADS"
+            ]
+          },
+          "createdDate": {
+            "format": "date-time",
+            "description": "When the opportunity was created, in ISO 8601 format. This should never change.",
+            "type": "string"
+          },
+          "description": {
+            "description": "A detailed description of the opportunity and how it is pertinent to partners. May provide a summary of the underlying data provided in the opportunity data file.",
+            "type": "string"
+          },
+          "updatedDate": {
+            "format": "date-time",
+            "description": "When the opportunity was last updated, in ISO 8601 format.",
+            "type": "string"
+          },
+          "title": {
+            "description": "The title of the opportunity.",
+            "type": "string"
+          },
+          "objectiveType": {
+            "description": "The objective type of the opportunity. For example, an objective type might be around providing the unlaunched ASINs you can optimize or deals you can action on.",
+            "type": "string",
+            "enum": [
+              "AD_API_ENDPOINT_ADOPTION",
+              "AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS",
+              "CAMPAIGN_OPTIMIZATION",
+              "CATEGORY_INSIGHTS",
+              "CLICK_CREDITS",
+              "DEALS",
+              "MARKETPLACE_EXPANSION",
+              "NEW_TO_BRAND_INSIGHTS",
+              "PARTNER_GROWTH",
+              "PATH_TO_PURCHASE_INSIGHTS",
+              "RETAIL_INSIGHTS",
+              "SHARE_OF_VOICE_INSIGHTS",
+              "UNLAUNCHED_ASINS"
+            ]
+          },
+          "partnerOpportunityId": {
+            "description": "The unique ID for the opportunity.",
+            "type": "string"
+          },
+          "callToAction": {
+            "description": "An explanation of why it's recommended to take the actions detailed in the opportunity's data file.",
+            "type": "string"
+          },
+          "objective": {
+            "description": "The objective of the opportunity. For example, an objective might be to drive sales, raise brand awareness, etc.\n\nDeprecated.",
+            "type": "string",
+            "enum": [
+              "SALES",
+              "AWARENESS",
+              "BRAND_ENGAGEMENT",
+              "RETENTION"
+            ]
+          }
+        },
+        "required": [
+          "partnerOpportunityId",
+          "createdDate",
+          "updatedDate",
+          "title",
+          "description",
+          "callToAction",
+          "audience",
+          "objectiveType",
+          "product",
+          "dataUrl",
+          "dataMetadata"
+        ]
+      },
+      "PartnerOpportunitiesApplicationStatusRequestDtoV1": {
+        "type": "object",
+        "properties": {
+          "encryptedAdvertiserId": {
+            "description": "The encrypted advertiser ID.\n\nProvided in opportunity data.",
+            "type": "string",
+            "example": "A1234ABC890"
+          },
+          "marketplace": {
+            "$ref": "#/components/schemas/PartnerOpportunitiesApplicationMarketplace"
+          },
+          "recommendationIds": {
+            "minItems": 1,
+            "maxItems": 500,
+            "description": "A list of recommendation IDs for which status will be retrieved.\n\nProvided in opportunity data.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "50644397-f143-4375-b907-ffd2c20a076d",
+              "94ea8af3-36cb-4792-abcf-034db46bbce0"
+            ]
+          },
+          "entityId": {
+            "description": "Entity ID\n\nProvided in opportunity data.",
+            "type": "string",
+            "example": "ENTITY1234"
+          },
+          "advertiserType": {
+            "description": "Entity Type\n\nProvided in opportunity data as 'advertiserType'.",
+            "type": "string",
+            "enum": [
+              "SELLER",
+              "VENDOR"
+            ],
+            "example": "SELLER"
+          }
+        },
+        "required": [
+          "marketplace",
+          "recommendationIds",
+          "encryptedAdvertiserId",
+          "entityId",
+          "advertiserType"
+        ]
+      },
+      "PartnerOpportunitiesOpportunityObjectiveTypeFilterSummaryV1": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string",
+            "enum": [
+              "AD_API_ENDPOINT_ADOPTION",
+              "AMAZON_ACCOUNT_TEAM_RECOMMENDATIONS",
+              "CAMPAIGN_OPTIMIZATION",
+              "CATEGORY_INSIGHTS",
+              "CLICK_CREDITS",
+              "DEALS",
+              "MARKETPLACE_EXPANSION",
+              "NEW_TO_BRAND_INSIGHTS",
+              "PARTNER_GROWTH",
+              "PATH_TO_PURCHASE_INSIGHTS",
+              "RETAIL_INSIGHTS",
+              "SHARE_OF_VOICE_INSIGHTS",
+              "UNLAUNCHED_ASINS"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "count"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

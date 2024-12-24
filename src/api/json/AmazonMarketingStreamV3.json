@@ -1,0 +1,1727 @@
+{
+  "info": {
+    "description": "",
+    "title": "Amazon Marketing Stream",
+    "version": "3.0"
+  },
+  "paths": {
+    "/streams/subscriptions/{subscriptionId}": {
+      "get": {
+        "description": "Fetch a specific subscription by Id\nNote: trailing slash in request uri is not allowed\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\"]",
+        "operationId": "GetStreamSubscription",
+        "responses": {
+          "200": {
+            "description": "GetStreamSubscription 200 response",
+            "content": {
+              "application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetStreamSubscriptionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UnauthorizedAccessError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedAccessErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "Unique subscription identifier",
+              "type": "string",
+              "maxLength": 255
+            },
+            "in": "path",
+            "name": "subscriptionId",
+            "description": "Unique subscription identifier",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Stream Subscription"
+        ]
+      },
+      "put": {
+        "requestBody": {
+          "content": {
+            "application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStreamSubscriptionRequestContent"
+              }
+            }
+          }
+        },
+        "description": "Update an existing subscription\nNote: trailing slash in request uri is not allowed\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\"]",
+        "operationId": "UpdateStreamSubscription",
+        "responses": {
+          "200": {
+            "description": "UpdateStreamSubscription 200 response"
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UnauthorizedAccessError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedAccessErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "OperationConflictError 409 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationConflictErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "Unique subscription identifier",
+              "type": "string",
+              "maxLength": 255
+            },
+            "in": "path",
+            "name": "subscriptionId",
+            "description": "Unique subscription identifier",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Stream Subscription"
+        ]
+      }
+    },
+    "/streams/subscriptions": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStreamSubscriptionRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Create a new subscription\nNote: trailing slash in request uri is not allowed\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\"]",
+        "operationId": "CreateStreamSubscription",
+        "responses": {
+          "200": {
+            "description": "CreateStreamSubscription 200 response",
+            "content": {
+              "application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateStreamSubscriptionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UnauthorizedAccessError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedAccessErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "OperationConflictError 409 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationConflictErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Stream Subscription"
+        ]
+      },
+      "get": {
+        "description": "List subscriptions\nNote: trailing slash in request uri is not allowed\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\"]",
+        "operationId": "ListStreamSubscriptions",
+        "responses": {
+          "200": {
+            "description": "ListStreamSubscriptions 200 response",
+            "content": {
+              "application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListStreamSubscriptionsResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UnauthorizedAccessError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedAccessErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "desired number of entries in the response, defaults to maximum value",
+              "maximum": 5000,
+              "type": "number",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "desired number of entries in the response, defaults to maximum value"
+          },
+          {
+            "schema": {
+              "description": "Token which can be used to get the next page of results, if more entries exist",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "startingToken",
+            "description": "Token which can be used to get the next page of results, if more entries exist"
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Stream Subscription"
+        ]
+      }
+    },
+    "/dsp/streams/subscriptions": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDspStreamSubscriptionRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Create a new subscription\nNote: trailing slash in request uri is not allowed\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"view_performance_dashboard\"]",
+        "operationId": "CreateDspStreamSubscription",
+        "responses": {
+          "200": {
+            "description": "CreateDspStreamSubscription 200 response",
+            "content": {
+              "application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateDspStreamSubscriptionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "OperationConflictError 409 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationConflictErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of a DSP advertiser level account",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Ads-Account-ID",
+            "description": "The identifier of a DSP advertiser level account",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "DSP Stream Subscription"
+        ]
+      },
+      "get": {
+        "description": "List subscriptions\nNote: trailing slash in request uri is not allowed\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"view_performance_dashboard\"]",
+        "operationId": "ListDspStreamSubscriptions",
+        "responses": {
+          "200": {
+            "description": "ListDspStreamSubscriptions 200 response",
+            "content": {
+              "application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListDspStreamSubscriptionsResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "desired number of entries in the response, defaults to maximum value",
+              "maximum": 5000,
+              "type": "number",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "desired number of entries in the response, defaults to maximum value"
+          },
+          {
+            "schema": {
+              "description": "Token which can be used to get the next page of results, if more entries exist",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "startingToken",
+            "description": "Token which can be used to get the next page of results, if more entries exist"
+          },
+          {
+            "schema": {
+              "description": "The identifier of a DSP advertiser level account",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Ads-Account-ID",
+            "description": "The identifier of a DSP advertiser level account",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "DSP Stream Subscription"
+        ]
+      }
+    },
+    "/dsp/streams/subscriptions/{subscriptionId}": {
+      "get": {
+        "description": "Fetch a specific subscription by Id\nNote: trailing slash in request uri is not allowed\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"view_performance_dashboard\"]",
+        "operationId": "GetDspStreamSubscription",
+        "responses": {
+          "200": {
+            "description": "GetDspStreamSubscription 200 response",
+            "content": {
+              "application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDspStreamSubscriptionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "Unique subscription identifier",
+              "type": "string",
+              "maxLength": 255
+            },
+            "in": "path",
+            "name": "subscriptionId",
+            "description": "Unique subscription identifier",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a DSP advertiser level account",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Ads-Account-ID",
+            "description": "The identifier of a DSP advertiser level account",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "DSP Stream Subscription"
+        ]
+      },
+      "put": {
+        "requestBody": {
+          "content": {
+            "application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDspStreamSubscriptionRequestContent"
+              }
+            }
+          }
+        },
+        "description": "Update an existing subscription\nNote: trailing slash in request uri is not allowed\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"view_performance_dashboard\"]",
+        "operationId": "UpdateDspStreamSubscription",
+        "responses": {
+          "200": {
+            "description": "UpdateDspStreamSubscription 200 response"
+          },
+          "400": {
+            "description": "InvalidRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds",
+                  "type": "number"
+                },
+                "description": "this type is used to convey a recommended delay before next re-try attempt to the operation given in seconds"
+              }
+            },
+            "description": "TooManyRequestsError 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "OperationConflictError 409 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationConflictErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "Unique subscription identifier",
+              "type": "string",
+              "maxLength": 255
+            },
+            "in": "path",
+            "name": "subscriptionId",
+            "description": "Unique subscription identifier",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a DSP advertiser level account",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Ads-Account-ID",
+            "description": "The identifier of a DSP advertiser level account",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "DSP Stream Subscription"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "CreateStreamSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "clientRequestToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "dataSetId": {
+            "description": "Identifier of data set, callers can be subscribed to. Please refer to https://advertising.amazon.com/API/docs/en-us/amazon-marketing-stream/data-guide for the list of all data sets.",
+            "type": "string"
+          },
+          "destinationArn": {
+            "minLength": 20,
+            "description": "AWS ARN of the destination endpoint associated with the subscription.\nSupported destination types:\n- SQS",
+            "type": "string",
+            "maxLength": 2048
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Destination"
+          }
+        },
+        "required": [
+          "clientRequestToken",
+          "dataSetId"
+        ]
+      },
+      "Destination": {
+        "type": "object",
+        "properties": {
+          "firehoseDestination": {
+            "$ref": "#/components/schemas/FirehoseDestination"
+          },
+          "sqsDestination": {
+            "$ref": "#/components/schemas/SqsDestination"
+          }
+        }
+      },
+      "CreateMessagesSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details which can be used to identity the  Destination. (Max Size of 128 characters)",
+            "type": "string",
+            "maxLength": 128
+          },
+          "dataSetId": {
+            "description": "Name of the dataset to create a  Subscription for.",
+            "type": "string"
+          },
+          "destinationUri": {
+            "description": "AWS ARN for the recipient of all data routed to the Consumer Destination.",
+            "type": "string",
+            "maxLength": 255
+          },
+          "clientToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Destination"
+          }
+        },
+        "required": [
+          "clientToken",
+          "dataSetId",
+          "notes"
+        ]
+      },
+      "InternalServerErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "ListLakeSubscriptionsResponseContent": {
+        "type": "object",
+        "properties": {
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LakeSubscription"
+            }
+          },
+          "nextToken": {
+            "description": "Token which can be used to get the next page of results, if more entries exist",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscriptions"
+        ]
+      },
+      "CreateLakeSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "clientRequestToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "subscriptionId": {
+            "description": "Unique subscription identifier",
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "clientRequestToken",
+          "subscriptionId"
+        ]
+      },
+      "GetDspStreamSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "$ref": "#/components/schemas/StreamSubscription"
+          }
+        },
+        "required": [
+          "subscription"
+        ]
+      },
+      "GetLakeSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "$ref": "#/components/schemas/LakeSubscription"
+          }
+        },
+        "required": [
+          "subscription"
+        ]
+      },
+      "UpdateMessagesSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details which can be used to identity the  Subscription. (Max Size of 128 characters)",
+            "type": "string",
+            "maxLength": 128
+          },
+          "version": {
+            "description": "version of the  Subscription to apply the update to. This should match the current active version for the selected consumerSubscriptionId.",
+            "type": "number",
+            "minimum": 1
+          },
+          "status": {
+            "$ref": "#/components/schemas/UpdateEntityStatus"
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "ListDspStreamSubscriptionsResponseContent": {
+        "type": "object",
+        "properties": {
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StreamSubscription"
+            }
+          },
+          "nextToken": {
+            "description": "Token which can be used to get the next page of results, if more entries exist",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscriptions"
+        ]
+      },
+      "CreateLakeSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "principal": {
+            "minLength": 20,
+            "description": "AWS ARN of the principal associated with the subscription.\nSupported principal types:\n- AWS Account Principal",
+            "type": "string",
+            "maxLength": 2048
+          },
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "clientRequestToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "dataSetId": {
+            "description": "Identifier of data set, callers can be subscribed to. Please refer to https://advertising.amazon.com/API/docs/en-us/amazon-marketing-stream/data-guide for the list of all data sets.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientRequestToken",
+          "dataSetId",
+          "principal"
+        ]
+      },
+      "FirehoseDestination": {
+        "type": "object",
+        "properties": {
+          "deliveryStreamArn": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "subscriptionRoleArn": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "subscriberRoleArn": {
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "deliveryStreamArn",
+          "subscriberRoleArn",
+          "subscriptionRoleArn"
+        ]
+      },
+      "UpdateStreamSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "status": {
+            "$ref": "#/components/schemas/UpdateEntityStatus"
+          }
+        }
+      },
+      "CreateDspStreamSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "clientRequestToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "dataSetId": {
+            "description": "Identifier of data set, callers can be subscribed to. Please refer to https://advertising.amazon.com/API/docs/en-us/amazon-marketing-stream/data-guide for the list of all data sets.",
+            "type": "string"
+          },
+          "destinationArn": {
+            "minLength": 20,
+            "description": "AWS ARN of the destination endpoint associated with the subscription.\nSupported destination types:\n- SQS",
+            "type": "string",
+            "maxLength": 2048
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Destination"
+          }
+        },
+        "required": [
+          "clientRequestToken",
+          "dataSetId"
+        ]
+      },
+      "SubscriptionEntityStatus": {
+        "description": "Current status of the entity. Possible values are PROVISIONING, PENDING_CONFIRMATION, ACTIVE, ARCHIVED, FAILED_CONFIRMATION, SUSPENDED, FAILED_PROVISIONING",
+        "type": "string",
+        "enum": [
+          "PROVISIONING",
+          "PENDING_CONFIRMATION",
+          "ACTIVE",
+          "ARCHIVED",
+          "FAILED_CONFIRMATION",
+          "SUSPENDED",
+          "FAILED_PROVISIONING"
+        ]
+      },
+      "LakeSubscription": {
+        "type": "object",
+        "properties": {
+          "principal": {
+            "minLength": 20,
+            "description": "AWS ARN of the principal associated with the subscription.\nSupported principal types:\n- AWS Account Principal",
+            "type": "string",
+            "maxLength": 2048
+          },
+          "createdDate": {
+            "format": "date-time",
+            "description": "ISO8601 Timestamp",
+            "type": "string"
+          },
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "dataSetId": {
+            "description": "Identifier of data set, callers can be subscribed to. Please refer to https://advertising.amazon.com/API/docs/en-us/amazon-marketing-stream/data-guide for the list of all data sets.",
+            "type": "string"
+          },
+          "updatedDate": {
+            "format": "date-time",
+            "description": "ISO8601 Timestamp",
+            "type": "string"
+          },
+          "subscriptionId": {
+            "description": "Unique subscription identifier",
+            "type": "string",
+            "maxLength": 255
+          },
+          "status": {
+            "$ref": "#/components/schemas/SubscriptionEntityStatus"
+          }
+        },
+        "required": [
+          "createdDate",
+          "dataSetId",
+          "principal",
+          "status",
+          "subscriptionId",
+          "updatedDate"
+        ]
+      },
+      "MessagesSubscription": {
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "format": "date-time",
+            "description": "ISO8601 Timestamp",
+            "type": "string"
+          },
+          "requiredIamPolicy": {
+            "description": "the IAM policy which is required on the destination in order for Amazon\nbeing able to send data to it",
+            "type": "string",
+            "maxLength": 10240
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "destinationUri": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "dataSetId": {
+            "description": "Identifier of data set, callers can be subscribed to. Please refer to https://advertising.amazon.com/API/docs/en-us/amazon-marketing-stream/data-guide for the list of all data sets.",
+            "type": "string"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Destination"
+          },
+          "messagesSubscriptionId": {
+            "description": "Generic resource identifier which will work in most of the cases",
+            "type": "string",
+            "maxLength": 255
+          },
+          "updatedDate": {
+            "format": "date-time",
+            "description": "ISO8601 Timestamp",
+            "type": "string"
+          },
+          "version": {
+            "type": "number",
+            "minimum": 1
+          },
+          "statusMessage": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "status": {
+            "$ref": "#/components/schemas/SubscriptionEntityStatus"
+          }
+        },
+        "required": [
+          "createdDate",
+          "dataSetId",
+          "messagesSubscriptionId",
+          "notes",
+          "requiredIamPolicy",
+          "status",
+          "updatedDate",
+          "version"
+        ]
+      },
+      "SqsDestination": {
+        "type": "object",
+        "properties": {
+          "queueArn": {
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "queueArn"
+        ]
+      },
+      "StreamSubscription": {
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "format": "date-time",
+            "description": "ISO8601 Timestamp",
+            "type": "string"
+          },
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "dataSetId": {
+            "description": "Identifier of data set, callers can be subscribed to. Please refer to https://advertising.amazon.com/API/docs/en-us/amazon-marketing-stream/data-guide for the list of all data sets.",
+            "type": "string"
+          },
+          "destinationArn": {
+            "minLength": 20,
+            "description": "AWS ARN of the destination endpoint associated with the subscription.\nSupported destination types:\n- SQS",
+            "type": "string",
+            "maxLength": 2048
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Destination"
+          },
+          "updatedDate": {
+            "format": "date-time",
+            "description": "ISO8601 Timestamp",
+            "type": "string"
+          },
+          "subscriptionId": {
+            "description": "Unique subscription identifier",
+            "type": "string",
+            "maxLength": 255
+          },
+          "status": {
+            "$ref": "#/components/schemas/SubscriptionEntityStatus"
+          }
+        },
+        "required": [
+          "createdDate",
+          "dataSetId",
+          "status",
+          "subscriptionId",
+          "updatedDate"
+        ]
+      },
+      "UpdateEntityStatus": {
+        "description": "Update the status of the entity",
+        "type": "string",
+        "enum": [
+          "ARCHIVED"
+        ]
+      },
+      "UpdateMessagesSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "messagesSubscriptionId": {
+            "description": "Subscription identifier. Ex: amzn1.fead.cd1.sample",
+            "type": "string",
+            "maxLength": 255
+          },
+          "version": {
+            "description": "Updated version of the  Subscription.",
+            "type": "number",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "messagesSubscriptionId",
+          "version"
+        ]
+      },
+      "CreateStreamSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "clientRequestToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "subscriptionId": {
+            "description": "Unique subscription identifier",
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "clientRequestToken",
+          "subscriptionId"
+        ]
+      },
+      "AccessForbiddenErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "UnauthorizedAccessErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "CreateMessagesSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "clientToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "messagesSubscriptionId": {
+            "description": "Subscription identifier. Ex: amzn1.fead.cs1.sample",
+            "type": "string",
+            "maxLength": 255
+          },
+          "version": {
+            "description": "version for the  Subscription. Defaults to 1 upon creation. This is used for tracking updates to the subscription. Every update increments the version by 1.",
+            "type": "number",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "clientToken",
+          "messagesSubscriptionId",
+          "version"
+        ]
+      },
+      "ListStreamSubscriptionsResponseContent": {
+        "type": "object",
+        "properties": {
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StreamSubscription"
+            }
+          },
+          "nextToken": {
+            "description": "Token which can be used to get the next page of results, if more entries exist",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscriptions"
+        ]
+      },
+      "TooManyRequestsErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "GetMessagesSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "messagesSubscription": {
+            "$ref": "#/components/schemas/MessagesSubscription"
+          }
+        },
+        "required": [
+          "messagesSubscription"
+        ]
+      },
+      "CreateDspStreamSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "clientRequestToken": {
+            "minLength": 22,
+            "description": "Unique value supplied by the caller used to track identical API requests.\nShould request be re-tried, the caller should supply the same value. We recommend using GUID.",
+            "type": "string",
+            "maxLength": 36
+          },
+          "subscriptionId": {
+            "description": "Unique subscription identifier",
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "clientRequestToken",
+          "subscriptionId"
+        ]
+      },
+      "ListMessagesSubscriptionsResponseContent": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "Token which can be used to get the next page of results, if more entries exist.",
+            "type": "string"
+          },
+          "messagesSubscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessagesSubscription"
+            }
+          }
+        },
+        "required": [
+          "messagesSubscriptions"
+        ]
+      },
+      "OperationConflictErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "InvalidRequestErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "GetStreamSubscriptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "$ref": "#/components/schemas/StreamSubscription"
+          }
+        },
+        "required": [
+          "subscription"
+        ]
+      },
+      "UpdateLakeSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "status": {
+            "$ref": "#/components/schemas/UpdateEntityStatus"
+          }
+        }
+      },
+      "ResourceNotFoundErrorResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "UpdateDspStreamSubscriptionRequestContent": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "description": "Additional details associated with the subscription",
+            "type": "string",
+            "maxLength": 128
+          },
+          "status": {
+            "$ref": "#/components/schemas/UpdateEntityStatus"
+          }
+        }
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

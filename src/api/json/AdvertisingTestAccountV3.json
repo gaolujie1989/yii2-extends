@@ -1,0 +1,371 @@
+{
+  "info": {
+    "description": "Create test advertising account for 3P API integrators",
+    "title": "AdvertisingTestAccount",
+    "version": "3.0"
+  },
+  "paths": {
+    "/testAccounts": {
+      "post": {
+        "summary": "API to create test accounts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccountRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Submit a account creation request. You can create up to 1 test account type per marketplace.",
+        "operationId": "createAccount",
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAccountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - Failed due to invalid parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Create test account"
+        ]
+      },
+      "get": {
+        "description": "API to get Account information.",
+        "operationId": "GetAccountInformation",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccountInformationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - Failed due to invalid parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "requestId",
+            "description": "request id."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Get test account information "
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "CreateAccountRequest": {
+        "type": "object",
+        "required": [
+          "countryCode",
+          "accountType"
+        ],
+        "properties": {
+          "countryCode": {
+            "description": "Country code of the test  account.",
+            "type": "string",
+            "enum": [
+              "US",
+              "CA",
+              "MX",
+              "BR",
+              "UK",
+              "DE",
+              "FR",
+              "ES",
+              "IT",
+              "JP",
+              "AU",
+              "AE",
+              "SA",
+              "NL",
+              "SE",
+              "TR",
+              "PL",
+              "BE",
+              "EG",
+              "SG"
+            ]
+          },
+          "accountMetaData": {
+            "properties": {
+              "vendorCode": {
+                "description": "Vendor code  that needs to  be associated with the vendor  account.",
+                "type": "string",
+                "example": "ABCDE"
+              }
+            }
+          },
+          "accountType": {
+            "description": "Type of test account.",
+            "type": "string",
+            "enum": [
+              "VENDOR",
+              "AUTHOR"
+            ]
+          }
+        }
+      },
+      "CreateAccountResponse": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "description": "request id.",
+            "type": "string",
+            "example": "A7BCDGCEVXQ1CJJ4301V"
+          }
+        }
+      },
+      "error": {
+        "description": "Error response object.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "The HTTP status code of the response.",
+            "type": "string"
+          },
+          "details": {
+            "description": "A human-readable description of the response.",
+            "type": "string"
+          }
+        }
+      },
+      "GetAccountInformationResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "asins": {
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "List of ASIN belonging to Author account.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "B0123456789",
+                "B0123456789",
+                "B0123456789"
+              ]
+            },
+            "countryCode": {
+              "description": "Country code of a test account.",
+              "type": "string",
+              "enum": [
+                "US",
+                "CA",
+                "MX",
+                "BR",
+                "UK",
+                "DE",
+                "FR",
+                "ES",
+                "IT",
+                "JP",
+                "AU",
+                "AE",
+                "SA",
+                "NL",
+                "SE",
+                "TR",
+                "PL",
+                "BE",
+                "EG",
+                "SG"
+              ],
+              "example": "US"
+            },
+            "accountType": {
+              "description": "Type of test account.",
+              "type": "string",
+              "enum": [
+                "VENDOR",
+                "AUTHOR"
+              ]
+            },
+            "id": {
+              "description": "Identifier for the account.",
+              "type": "string",
+              "example": "ENTITY012345678910"
+            },
+            "status": {
+              "description": "Status  of test account creation request.",
+              "type": "string",
+              "enum": [
+                "COMPLETED",
+                "FAILED",
+                "IN_PROGRESS"
+              ],
+              "example": "COMPLETED"
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

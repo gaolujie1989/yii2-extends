@@ -1,0 +1,1414 @@
+{
+  "info": {
+    "description": "Public API for managing advertising accounts.",
+    "title": "Advertising Accounts",
+    "version": "3.0"
+  },
+  "paths": {
+    "/adsAccounts/{advertisingAccountId}": {
+      "get": {
+        "summary": "Request attributes of a given advertising account.",
+        "operationId": "GetAccount",
+        "responses": {
+          "200": {
+            "description": "GetAccount 200 response",
+            "content": {
+              "application/vnd.accountresource.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccountResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "InvalidInputException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidInputExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "AdvertisingAccountNotFoundException 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertisingAccountNotFoundExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RateExceededException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateExceededExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "description": "Request attributes of a given advertising account.\n\n**Requires one of these permissions**:\n[]",
+        "parameters": [
+          {
+            "schema": {
+              "pattern": "^[A-Za-z0-9.-]+$",
+              "description": "This is the global advertising account Id from the client.",
+              "type": "string"
+            },
+            "in": "path",
+            "name": "advertisingAccountId",
+            "description": "This is the global advertising account Id from the client.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a Login with Amazon account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a Login with Amazon account."
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/termsTokens": {
+      "post": {
+        "summary": "Create a new UUID terms token for the customer to accept advertising terms",
+        "requestBody": {
+          "content": {
+            "application/vnd.GlobalRegistrationService.TermsTokenResource.v1.0+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTermsTokenRequestContent"
+              },
+              "examples": {
+                "CreateTermsToken_example1": {
+                  "summary": "Request with a valid input."
+                }
+              }
+            }
+          }
+        },
+        "operationId": "CreateTermsToken",
+        "responses": {
+          "201": {
+            "description": "CreateTermsToken 201 response",
+            "content": {
+              "application/vnd.termstokenresource.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTermsTokenResponseContent"
+                },
+                "examples": {
+                  "CreateTermsToken_example1": {
+                    "summary": "Request with a valid input.",
+                    "value": {
+                      "termsUrl": "https://advertising.amazon.com/terms/agreement/4de3327e-a595-44cb-b689-f7f746805c02",
+                      "termsToken": "4de3327e-a595-44cb-b689-f7f746805c02"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "V2InvalidInputException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InvalidInputExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "V2InternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "V2AccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2AccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "V2RateExceededException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2RateExceededExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new UUID terms token for the customer to accept advertising terms\n\n**Requires one of these permissions**:\n[]",
+        "parameters": [
+          {
+            "schema": {
+              "pattern": "^[A-Za-z0-9.-]+$",
+              "description": "An identifier of API client making the request on behalf of the customer.",
+              "type": "string"
+            },
+            "examples": {
+              "CreateTermsToken_example1": {
+                "summary": "Request with a valid input.",
+                "value": "amzn1.application-oa2-client.647610038d6d4f3d868b6207ec6ef9ca"
+              }
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "An identifier of API client making the request on behalf of the customer."
+          }
+        ],
+        "tags": [
+          "Terms Token"
+        ]
+      }
+    },
+    "/adsAccounts/list": {
+      "post": {
+        "summary": "List all advertising accounts for the user associated with the access token.",
+        "requestBody": {
+          "content": {
+            "application/vnd.listaccountsresource.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListAdsAccountsRequestContent"
+              }
+            }
+          }
+        },
+        "operationId": "ListAdsAccounts",
+        "responses": {
+          "200": {
+            "description": "ListAdsAccounts 200 response",
+            "content": {
+              "application/vnd.listaccountsresource.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAdsAccountsResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "V2InvalidInputException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InvalidInputExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "V2InternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "V2AccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2AccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "V2RateExceededException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2RateExceededExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "description": "List all advertising accounts for the user associated with the access token.\n\n**Requires one of these permissions**:\n[]",
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a Login with Amazon account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a Login with Amazon account."
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/adsAccounts": {
+      "post": {
+        "summary": "Create a new advertising account tied to a specific Amazon vendor, seller or author, or to a business who does not sell on Amazon.",
+        "requestBody": {
+          "content": {
+            "application/vnd.registeradsaccountresource.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterAdsAccountRequestContent"
+              }
+            }
+          }
+        },
+        "operationId": "RegisterAdsAccount",
+        "responses": {
+          "201": {
+            "description": "RegisterAdsAccount 201 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterAdsAccountResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "V2InvalidInputException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InvalidInputExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "V2InternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "V2AccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2AccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "V2RateExceededException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2RateExceededExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new advertising account tied to a specific Amazon vendor, seller or author, or to a business who does not sell on Amazon.\n\n**Requires one of these permissions**:\n[]",
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a Login with Amazon account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a Login with Amazon account."
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/termsTokens/{termsToken}": {
+      "get": {
+        "summary": "Get the terms token status for the customer",
+        "operationId": "GetTermsToken",
+        "responses": {
+          "200": {
+            "description": "GetTermsToken 200 response",
+            "content": {
+              "application/vnd.termstokenresource.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTermsTokenResponseContent"
+                },
+                "examples": {
+                  "GetTermsToken_example1": {
+                    "summary": "Request with a valid input.",
+                    "value": {
+                      "termsTokenStatus": "ACCEPTED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "V2InvalidInputException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InvalidInputExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "V2InternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2InternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "V2AccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2AccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "V2RateExceededException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2RateExceededExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get the terms token status for the customer\n\n**Requires one of these permissions**:\n[]",
+        "parameters": [
+          {
+            "schema": {
+              "description": "A Terms Token refers to an UUID token used for terms and conditions acceptance",
+              "type": "string"
+            },
+            "examples": {
+              "GetTermsToken_example1": {
+                "summary": "Request with a valid input.",
+                "value": "481cea33-463b-4cbe-9593-762ea68306ad"
+              }
+            },
+            "in": "path",
+            "name": "termsToken",
+            "description": "A Terms Token refers to an UUID token used for terms and conditions acceptance\n",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a Login with Amazon account.",
+              "type": "string"
+            },
+            "examples": {
+              "GetTermsToken_example1": {
+                "summary": "Request with a valid input.",
+                "value": "amzn1.application-oa2-client.ee9a9686317b4ef594d2cacbb41d30ea"
+              }
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a Login with Amazon account.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Terms Token"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "GetAccountResponseContent": {
+        "type": "object",
+        "properties": {
+          "adsAccount": {
+            "$ref": "#/components/schemas/AdsAccountWithMetaData"
+          }
+        }
+      },
+      "BulkRegisterAccountRequestContent": {
+        "type": "object",
+        "properties": {
+          "adsAccounts": {
+            "minItems": 1,
+            "maxItems": 1000,
+            "description": "List of advertising account registration requests.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterAdsAccountRequest"
+            }
+          }
+        }
+      },
+      "TermsType": {
+        "description": "There are different Terms and Conditions for different amazon advertising platforms.\nThis enum will keep track of these different types of terms and is used in validating\nwhether or not a given user in an advertising account has accepted T&C or not.",
+        "type": "string",
+        "enum": [
+          "MARKETING_CLOUD",
+          "PARTNER_NETWORK",
+          "ADVERTISING"
+        ]
+      },
+      "RegisterAdvertiserAccountErrorResponse": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "description": "The index number allows the users to correspond the responses to their requests",
+            "type": "number"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InternalServerExceptionResponseContent": {
+        "description": "Unexpected error during processing of request.",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessDeniedExceptionResponseContent": {
+        "description": "User does not have sufficient access to perform this action.",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ListAdsAccountsRequestContent": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "The token is used to fetch the next page of results if they exist.",
+            "type": "string"
+          },
+          "maxResults": {
+            "default": "100",
+            "maximum": 100,
+            "type": "number",
+            "minimum": 1
+          }
+        }
+      },
+      "BusinessFieldsV2": {
+        "description": "Applicable only for Non Selling Partner use case.\nThese fields are containing information about the client's business and will be used for business verification.",
+        "type": "object",
+        "properties": {
+          "zipCode": {
+            "description": "Zip code of the business.",
+            "type": "string"
+          },
+          "website": {
+            "description": "Website for the business to be advertised",
+            "type": "string"
+          },
+          "phone": {
+            "description": "The phone number of the business.",
+            "type": "string"
+          },
+          "city": {
+            "description": "The city of the business.",
+            "type": "string"
+          },
+          "countryCode": {
+            "description": "Country code of the business.",
+            "type": "string"
+          },
+          "businessRegistrationNumber": {
+            "description": "Business Registration Number (BRN) for the business to be advertised",
+            "type": "string"
+          },
+          "businessName": {
+            "description": "The name of the business.",
+            "type": "string"
+          },
+          "addressLine1": {
+            "description": "Address line 1 of the business",
+            "type": "string"
+          },
+          "addressLine2": {
+            "description": "Address line 2 of the business.",
+            "type": "string"
+          },
+          "state": {
+            "description": "The state of the business.",
+            "type": "string"
+          }
+        }
+      },
+      "Business": {
+        "description": "Represent a business who does not sell on Amazon.\nThese fields are containing information about the client's business and will be used for business verification.",
+        "type": "object",
+        "properties": {
+          "zipCode": {
+            "description": "Zip code of the business.",
+            "type": "string"
+          },
+          "phone": {
+            "description": "The phone number of the business.",
+            "type": "string"
+          },
+          "websiteUrl": {
+            "description": "The website url of the business.",
+            "type": "string"
+          },
+          "city": {
+            "description": "The city of the business.",
+            "type": "string"
+          },
+          "countryCode": {
+            "description": "Country code of the business.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the business.",
+            "type": "string"
+          },
+          "addressLine1": {
+            "description": "Address line 1 of the business",
+            "type": "string"
+          },
+          "addressLine2": {
+            "description": "Address line 2 of the business.",
+            "type": "string"
+          },
+          "state": {
+            "description": "The state of the business.",
+            "type": "string"
+          }
+        }
+      },
+      "Status": {
+        "description": "The current state of the account. Statuses include Pending, Partially Created, Created, and Disabled.\nIf the account is in pending, it's registration is in progress and you'll need to call back again for an updated status.\nPartially Created means that the account is registered for some, but not all marketplaces,\nand the user may proceed with their global account for those marketplaces.\nCreated means that it has been fully registered, and Disabled means that the account is no longer accessible.\n",
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "PARTIALLY_CREATED",
+          "CREATED",
+          "DISABLED"
+        ]
+      },
+      "BulkRegisterAccountResponseContent": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 1,
+            "maxItems": 1000,
+            "description": "List of account registration responses.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BulkRegisterAccountResponseItem"
+            }
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 1000,
+            "description": "List of errors and their corresponding requests",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BulkRegisterAccountErrorResponseItem"
+            }
+          }
+        }
+      },
+      "AdsAccountV2": {
+        "description": "Ads Account structure response consists of the GlobalAccountID\n(advertisingAccountId) and other account metadata.",
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "adsAccountId": {
+            "pattern": "^[A-Za-z0-9.-]+$",
+            "description": "This is the global advertising account Id from the client.",
+            "type": "string"
+          },
+          "retailerId": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          }
+        },
+        "required": [
+          "adsAccountId"
+        ]
+      },
+      "AmazonSeller": {
+        "description": "Represent an Amazon Seller.",
+        "type": "object",
+        "properties": {
+          "sellerCentralAccount": {
+            "description": "The merchant customer id of the seller central account",
+            "type": "string"
+          }
+        }
+      },
+      "AmazonVendorV2": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "description": "The vendorCentralAccountId that you have admin permissions on.",
+            "type": "string"
+          },
+          "country": {
+            "description": "The country that you wish to register the business identity in.",
+            "type": "string"
+          },
+          "emailIdForApproval": {
+            "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
+            "description": "vendor's email to get this account approved.",
+            "type": "string"
+          }
+        }
+      },
+      "RegisterAdvertiserAccountRequest": {
+        "type": "object",
+        "properties": {
+          "billingDetails": {
+            "$ref": "#/components/schemas/BillingDetails"
+          },
+          "displayName": {
+            "description": "Account names are typically the name of the company or brand being advertised. We recommend that you avoid using personal details such as first name, last name, phone number, social security number, credit card or other personally identifiable information.",
+            "type": "string"
+          },
+          "advertisingCountries": {
+            "description": "The marketplaces that you want this account to operate in.",
+            "type": "array",
+            "items": {
+              "description": "A Country Code refers to 2-digit (UPPER CASE) country code",
+              "type": "string"
+            }
+          },
+          "businessDetails": {
+            "minItems": 0,
+            "maxItems": 1,
+            "description": "Data used to identify the business to be advertised",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BusinessDetail"
+            }
+          }
+        }
+      },
+      "ListAdvertiserAccountsResponseContent": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "adsAccounts": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdsAccountV2WithMetaData"
+            }
+          }
+        }
+      },
+      "RateExceededExceptionResponseContent": {
+        "description": "Maximum sending rate exceeded.",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateTermsTokenRequestContent": {
+        "type": "object",
+        "properties": {
+          "termsType": {
+            "$ref": "#/components/schemas/TermsType"
+          }
+        }
+      },
+      "GetTermsTokenResponseContent": {
+        "type": "object",
+        "properties": {
+          "termsTokenStatus": {
+            "$ref": "#/components/schemas/TermsTokenStatus"
+          },
+          "termsType": {
+            "$ref": "#/components/schemas/TermsType"
+          }
+        },
+        "required": [
+          "termsTokenStatus"
+        ]
+      },
+      "V2AccessDeniedExceptionResponseContent": {
+        "description": "User does not have sufficient access to perform this action.",
+        "type": "object",
+        "properties": {
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "AlternateId": {
+        "description": "A construct that represents alternate Id an Ads Account could have, such profile Id",
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "description": "The Profile Id of the advertising account",
+            "type": "number"
+          },
+          "countryCode": {
+            "description": "The country code of the advertising account",
+            "type": "string"
+          },
+          "entityId": {
+            "description": "The entity id of the advertising account",
+            "type": "string"
+          }
+        }
+      },
+      "V2InvalidInputExceptionResponseContent": {
+        "description": "Request failed because invalid parameters were provided.\nEnsure that all required parameters are provided.\n",
+        "type": "object",
+        "properties": {
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "BulkRegisterAccountResponseItem": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "description": "The index number allows the users to correspond the errors to their succeeded requests",
+            "type": "number"
+          },
+          "adsAccount": {
+            "$ref": "#/components/schemas/AdsAccount"
+          }
+        }
+      },
+      "AdvertisingAccountNotFoundExceptionResponseContent": {
+        "description": "Advertising Account not found.",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AmazonAuthor": {
+        "description": "Represent an Amazon Author.",
+        "type": "object",
+        "properties": {
+          "email": {
+            "description": "The email address of the KDP or Author Central account",
+            "type": "string"
+          }
+        }
+      },
+      "RegisterAdsAccountRequest": {
+        "type": "object",
+        "properties": {
+          "associations": {
+            "minItems": 0,
+            "maxItems": 1,
+            "description": "Associations you would like to link to this advertising account, could be Amazon Vendor, Seller, or just a regular business",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Association"
+            }
+          },
+          "countryCodes": {
+            "minItems": 0,
+            "maxItems": 1,
+            "description": "The countries that you want this account to operate in.",
+            "type": "array",
+            "items": {
+              "description": "A Country Code refers to 2-digit (UPPER CASE) country code",
+              "type": "string"
+            }
+          },
+          "clientId": {
+            "description": "The identifier of a client associated with a Login with Amazon account.",
+            "type": "string"
+          },
+          "accountName": {
+            "description": "Account names are typically the name of the company or brand being advertised. We recommend that you avoid using personal details such as first name, last name, phone number, social security number, credit card or other personally identifiable information.",
+            "type": "string"
+          },
+          "termsToken": {
+            "description": "We recommend you do not provide this field since we can determine if the customer has accepted the terms for you. An obfuscated identifier of the termsToken, which is activated when an advertisers accepts the Amazon Ads Agreement in relation to the ads account being register.",
+            "type": "string"
+          }
+        }
+      },
+      "RegisterAdvertiserAccountResponse": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "description": "The index number allows the users to correspond the responses to their requests",
+            "type": "number"
+          },
+          "errors": {
+            "$ref": "#/components/schemas/CountryCodeToErrorListMap"
+          },
+          "adsAccount": {
+            "$ref": "#/components/schemas/AdsAccountV2"
+          }
+        }
+      },
+      "BulkRegisterAccountErrorResponseItem": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "description": "The index number allows the users to correspond the errors to their failed requests",
+            "type": "number"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "RegisterAdsAccountResponseContent": {
+        "type": "object",
+        "properties": {
+          "adsAccount": {
+            "$ref": "#/components/schemas/AdsAccount"
+          }
+        }
+      },
+      "BusinessDetail": {
+        "description": "Business details provide information on the business that will be advertised,\nas part of a new account registration. These can include information such as\nselling relationships, business address etc.",
+        "type": "object",
+        "properties": {
+          "sellingAccount": {
+            "$ref": "#/components/schemas/SellingAccount"
+          },
+          "business": {
+            "$ref": "#/components/schemas/BusinessFieldsV2"
+          }
+        }
+      },
+      "V2RateExceededExceptionResponseContent": {
+        "description": "Maximum sending rate exceeded.",
+        "type": "object",
+        "properties": {
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ListAdvertiserAccountsRequestContent": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "The token is used to fetch the next page of results if they exist.",
+            "type": "string"
+          },
+          "maxResults": {
+            "description": "Number of records to include in the paginated response.",
+            "maximum": 100,
+            "type": "number",
+            "minimum": 1
+          },
+          "advertiserAccountIdsFilter": {
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "Filter specific account ids. if no ids are provided, all account ids that the customer has access to.",
+            "type": "array",
+            "items": {
+              "pattern": "^[A-Za-z0-9.-]+$",
+              "description": "This is the global advertising account Id from the client.",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "RegisterAdvertiserAccountsResponseContent": {
+        "type": "object",
+        "properties": {
+          "failures": {
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "List of failed advertising account responses.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterAdvertiserAccountErrorResponse"
+            }
+          },
+          "responses": {
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "List of successful advertising account responses.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterAdvertiserAccountResponse"
+            }
+          }
+        }
+      },
+      "Association": {
+        "description": "Association can represent an Amazon Vendor, Seller or business who does not sell on Amazon",
+        "type": "object",
+        "properties": {
+          "business": {
+            "$ref": "#/components/schemas/Business"
+          },
+          "amazonSeller": {
+            "$ref": "#/components/schemas/AmazonSeller"
+          },
+          "amazonVendor": {
+            "$ref": "#/components/schemas/AmazonVendor"
+          },
+          "amazonAuthor": {
+            "$ref": "#/components/schemas/AmazonAuthor"
+          }
+        }
+      },
+      "AdsAccountV2WithMetaData": {
+        "description": "Ads Account structure response consists of the GlobalAccountID\n(advertisingAccountId) and other account metadata.",
+        "type": "object",
+        "properties": {
+          "alternateIds": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlternateId"
+            }
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "adsAccountId": {
+            "pattern": "^[A-Za-z0-9.-]+$",
+            "description": "This is the global advertising account Id from the client.",
+            "type": "string"
+          },
+          "advertisingCountries": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "Amazon Ads is available in many but not all countries where Amazon sells goods.\nFor vendors, Global accounts come stock with all countries where Amazon Ads is available.\nFor sellers, Global Accounts will contain only countries where the seller is registered to sell.\nFor non-endemic, Global Accounts only support US now",
+            "type": "array",
+            "items": {
+              "description": "A Country Code refers to 2-digit (UPPER CASE) country code",
+              "type": "string"
+            }
+          },
+          "retailerId": {
+            "type": "string"
+          },
+          "errors": {
+            "$ref": "#/components/schemas/CountryCodeToErrorListMap"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          }
+        },
+        "required": [
+          "adsAccountId"
+        ]
+      },
+      "TermsTokenStatus": {
+        "description": "The current state of the terms token.\nCreated is the initial state, that's after the integrator requests a token.\nAccepted is set once the customer has viewed the terms page and accepted it.\nRedeemed means when the token is used and cannot be used again.",
+        "type": "string",
+        "enum": [
+          "CREATED",
+          "ACCEPTED",
+          "REDEEMED"
+        ]
+      },
+      "CreateTermsTokenResponseContent": {
+        "type": "object",
+        "properties": {
+          "termsUrl": {
+            "description": "The link to advertising terms page where the advertiser can view and accept.",
+            "type": "string"
+          },
+          "termsToken": {
+            "description": "A Terms Token refers to an UUID token used for terms and conditions acceptance",
+            "type": "string"
+          }
+        },
+        "required": [
+          "termsToken",
+          "termsUrl"
+        ]
+      },
+      "BillingType": {
+        "description": "The type of billing to be used for this account. Types include ManagerAccount and AdvertiserAccount.\nIf the billing type is set to ManagerAccount, it means that billing details on the authorized ManagerAccount for this request, will be applied on the Advertising Account as well.\nIf the billing type is set to AdvertiserAccount, it means the billing details on the advertiser account will be used instead.",
+        "type": "string",
+        "enum": [
+          "MANAGER_ACCOUNT",
+          "ADVERTISER_ACCOUNT"
+        ]
+      },
+      "AdsAccountWithMetaData": {
+        "description": "Ads Account structure response consists of the GlobalAccountID\n(advertisingAccountId) and other account metadata.\n",
+        "type": "object",
+        "properties": {
+          "countryCodes": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "Amazon Ads is available in many but not all countries where Amazon sells goods.\nFor vendors, Global accounts come stock with all countries where Amazon Ads is available.\nFor sellers, Global Accounts will contain only countries where the seller is registered to sell.\nFor non-endemic, Global Accounts only support US now\n",
+            "type": "array",
+            "items": {
+              "description": "A Country Code refers to 2-digit (UPPER CASE) country code\n",
+              "type": "string"
+            }
+          },
+          "alternateIds": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlternateId"
+            }
+          },
+          "accountName": {
+            "type": "string"
+          },
+          "adsAccountId": {
+            "pattern": "^[A-Za-z0-9.-]+$",
+            "description": "This is the global advertising account Id from the client.",
+            "type": "string"
+          },
+          "errors": {
+            "$ref": "#/components/schemas/CountryCodeToErrorListMap"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          }
+        },
+        "required": [
+          "adsAccountId"
+        ]
+      },
+      "Retailer": {
+        "type": "object",
+        "properties": {
+          "invitationToken": {
+            "description": "Invitation token created via XenosInvitationService for PLD registration",
+            "type": "string"
+          }
+        }
+      },
+      "RegisterAdsAccountRequestContent": {
+        "type": "object",
+        "properties": {
+          "associations": {
+            "minItems": 0,
+            "maxItems": 1,
+            "description": "Associations you would like to link to this advertising account, could be Amazon Vendor, Seller, or just a regular business",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Association"
+            }
+          },
+          "countryCodes": {
+            "minItems": 0,
+            "maxItems": 1,
+            "description": "The countries that you want this account to operate in.",
+            "type": "array",
+            "items": {
+              "description": "A Country Code refers to 2-digit (UPPER CASE) country code",
+              "type": "string"
+            }
+          },
+          "accountName": {
+            "description": "Account names are typically the name of the company or brand being advertised. We recommend that you avoid using personal details such as first name, last name, phone number, social security number, credit card or other personally identifiable information.",
+            "type": "string"
+          },
+          "termsToken": {
+            "description": "We recommend you do not provide this field since we can determine if the customer has accepted the terms for you. An obfuscated identifier of the termsToken, which is activated when an advertisers accepts the Amazon Ads Agreement in relation to the ads account being register.",
+            "type": "string"
+          }
+        }
+      },
+      "InvalidInputExceptionResponseContent": {
+        "description": "Request failed because invalid parameters were provided.\nEnsure that all required parameters are provided.\n",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AmazonKdpAuthorV2": {
+        "type": "object",
+        "properties": {
+          "emailId": {
+            "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "description": "Error structure is to describe the various errors consist of\nerror id, error code, and a readable error message",
+        "type": "object",
+        "properties": {
+          "errorMessage": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "errorCode": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "errorId": {
+            "type": "number"
+          }
+        }
+      },
+      "AdsAccount": {
+        "description": "Ads Account structure response consists of the GlobalAccountID\n(advertisingAccountId) and other account metadata.",
+        "type": "object",
+        "properties": {
+          "accountName": {
+            "type": "string"
+          },
+          "adsAccountId": {
+            "pattern": "^[A-Za-z0-9.-]+$",
+            "description": "This is the global advertising account Id from the client.",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          }
+        },
+        "required": [
+          "adsAccountId"
+        ]
+      },
+      "BillingDetails": {
+        "description": "Billing details are the set of data that can be used to set up billing\nas part of a new account registration. These include features such as\nproviding consent to bill to the address on the Partner's Manager Account",
+        "type": "object",
+        "properties": {
+          "billTo": {
+            "$ref": "#/components/schemas/BillingType"
+          }
+        }
+      },
+      "SellingAccount": {
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "amazonSeller",
+            "properties": {
+              "amazonSeller": {
+                "$ref": "#/components/schemas/AmazonSellerV2"
+              }
+            },
+            "required": [
+              "amazonSeller"
+            ]
+          },
+          {
+            "type": "object",
+            "title": "amazonVendor",
+            "properties": {
+              "amazonVendor": {
+                "$ref": "#/components/schemas/AmazonVendorV2"
+              }
+            },
+            "required": [
+              "amazonVendor"
+            ]
+          },
+          {
+            "type": "object",
+            "title": "amazonAuthor",
+            "properties": {
+              "amazonAuthor": {
+                "$ref": "#/components/schemas/AmazonKdpAuthorV2"
+              }
+            },
+            "required": [
+              "amazonAuthor"
+            ]
+          },
+          {
+            "type": "object",
+            "title": "retailer",
+            "properties": {
+              "retailer": {
+                "$ref": "#/components/schemas/Retailer"
+              }
+            },
+            "required": [
+              "retailer"
+            ]
+          }
+        ],
+        "description": "Selling Account, also known as Selling Partner Identity,\nare the ID's tied to a vendor or sellers retail account.\nThese ID's are used to determine ASIN and marketplace eligibility.\nVendor identities types include Vendor Codes and Vendor Groups;\nand Seller identities include Partner Accounts (Global Seller Central Account IDs)\nand Merchant Customer IDs (Regional Seller Central Account IDs)."
+      },
+      "ListAdsAccountsResponseContent": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "adsAccounts": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdsAccountWithMetaData"
+            }
+          }
+        }
+      },
+      "AmazonVendor": {
+        "description": "Represent an Amazon Vendor.",
+        "type": "object",
+        "properties": {
+          "vendorGroup": {
+            "description": "The vendor group id of the vendor",
+            "type": "string"
+          }
+        }
+      },
+      "AmazonSellerV2": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "country": {
+            "description": "The country that you wish to register the business identity in.",
+            "type": "string"
+          }
+        }
+      },
+      "CountryCodeToErrorListMap": {
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Error"
+          }
+        },
+        "type": "object"
+      },
+      "V2InternalServerExceptionResponseContent": {
+        "description": "Unexpected error during processing of request.",
+        "type": "object",
+        "properties": {
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "RegisterAdvertiserAccountsRequestContent": {
+        "type": "object",
+        "properties": {
+          "adsAccounts": {
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "List of advertising account registration requests.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterAdvertiserAccountRequest"
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

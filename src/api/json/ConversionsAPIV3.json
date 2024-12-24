@@ -1,0 +1,3082 @@
+{
+  "info": {
+    "description": "Conversion management.",
+    "title": "Conversions API",
+    "version": "3.0"
+  },
+  "paths": {
+    "/accounts/{accountId}/dsp/mobileMeasurementPartners/list": {
+      "post": {
+        "summary": "List Mobile Measurement Partner App Registrations",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListMobileMeasurementPartnerAppRegistrationsRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonListMobileMeasurementPartnerAppRegistrations",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMobileMeasurementPartnerAppRegistrationsResponseV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Apps"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/conversionDefinitions/eventData": {
+      "post": {
+        "summary": "Import conversion event data. This API expects one source per request across all conversion event data and supports partial import. Only conversion event data with matching conversion source will be imported, the rest will be rejected.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspconversioneventimport.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchImportConversionEventDataRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonIngestConversionData",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversioneventimport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversioneventimport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-status.",
+            "content": {
+              "application/vnd.dspconversioneventimport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchImportConversionEventDataResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversioneventimport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Conversion Event Data"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/amazonAdTag": {
+      "get": {
+        "summary": "Gets an Amazon Ad Tag for a given advertiser",
+        "operationId": "dspAmazonAdTagGetAdTagByAdvertiserId",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspamazonadtags.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAdTagResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspamazonadtags.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspamazonadtags.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspamazonadtags.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspamazonadtags.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Amazon Ad Tag"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/mobileMeasurementPartners": {
+      "post": {
+        "summary": "Create a new Mobile Measurement Partner app registration.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateMobileMeasurementPartnerAppRegistrationRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonBatchCreateMobileMeasurementPartnerAppRegistration",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-status.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MobileMeasurementPartnerAppBatchResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Apps"
+        ]
+      },
+      "put": {
+        "summary": "Update a Mobile Measurement Partner app registration. Updates may sever the data connection between the Mobile Measurement Partner and Amazon.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateMobileMeasurementPartnerAppRegistrationRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonBatchUpdateMobileMeasurementPartnerAppRegistration",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-status.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MobileMeasurementPartnerAppBatchResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Apps"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/conversionDefinitions/delete": {
+      "post": {
+        "summary": "Deletes existing event data associated with user(s). Supply all match keys associated with the user. Events processed before the deletion request will be deleted from our advertising systems. However, any events for these users sent after the deletion request will not be deleted. Therefore you must stop sending events for opted-out users after the deletion request is made in order to effectuate the opt-out.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspuserdeletionrequest.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchDeleteUserEventsRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonDeletionRequest",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspuserdeletionrequest.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspuserdeletionrequest.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Accepted.",
+            "content": {
+              "application/vnd.dspuserdeletionrequest.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchDeleteUserEventsResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspuserdeletionrequest.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Data Deletion Requests"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/batchOrders/conversionDefinitionAssociations": {
+      "post": {
+        "summary": "Retrieve associated conversion definitions for orders.",
+        "requestBody": {
+          "description": "A list of orderIds to retrieve the associated conversion definitions.",
+          "content": {
+            "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchGetConversionDefinitionsAssociatedForOrdersRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonBatchGetConversionDefinitionsForOrders",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchGetConversionDefinitionsForOrdersResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspbatchgetconversiondefinitions.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Conversion Order Association"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/conversionDefinitions/{conversionDefinitionId}/adTagEventAssociations": {
+      "post": {
+        "summary": "Associate/Dissociate an Amazon adTag event to a ConversionDefinition.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspconversionadtageventassociation.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversionDefinitionAdTagEventAssociationRequestV1"
+              }
+            }
+          }
+        },
+        "operationId": "dspAmazonUpdateAdTagAssociatedEvent",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversionDefinitionAssociatedAdTagEventV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "conversionDefinitionId",
+            "description": "The identifier of the ConversionDefinition.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Conversion Ad Tag Association"
+        ]
+      },
+      "get": {
+        "summary": "Retrieve associated Amazon adTag event for a ConversionDefinition.",
+        "operationId": "dspAmazonGetAdTagAssociatedEvent",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversionDefinitionAssociatedAdTagEventV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "conversionDefinitionId",
+            "description": "The identifier of the ConversionDefinition.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Conversion Ad Tag Association"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/conversionDefinitions": {
+      "post": {
+        "summary": "Batch create conversion definitions.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspconversiondefinition.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateConversionDefinitionsRequestV1"
+              }
+            },
+            "application/vnd.dspconversiondefinition.v2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateConversionDefinitionsRequestV2"
+              }
+            }
+          }
+        },
+        "operationId": "dspAmazonCreateConversionDefinitions",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-status.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversionDefinitionsBatchResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Amazon Conversion Definitions"
+        ]
+      },
+      "put": {
+        "summary": "Batch update conversion definitions.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspconversiondefinition.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateConversionDefinitionsRequestV1"
+              }
+            },
+            "application/vnd.dspconversiondefinition.v2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateConversionDefinitionsRequestV2"
+              }
+            }
+          }
+        },
+        "operationId": "dspAmazonUpdateConversionDefinitions",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-status.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversionDefinitionsBatchResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Amazon Conversion Definitions"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/mobileMeasurementPartners/delete": {
+      "post": {
+        "summary": "Marks a Mobile Measurement Partner app registration as deleted. Deleted Mobile Measurement Partner app registrations will sever the data connection between the Mobile Measurement Partner and Amazon.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchDeleteMobileMeasurementPartnerAppRegistrationRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonDeleteMeasurementPartnerAppRegistrations",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MobileMeasurementPartnerAppBatchResponseV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Apps"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/conversionDefinitions/{conversionDefinitionId}/mobileMeasurementPartnerAppRegistration": {
+      "get": {
+        "summary": "Retrieve associated Mobile Measurement Partner App for a ConversionDefinition.",
+        "operationId": "dspAmazonGetAssociatedMobileAppForConversionDefinition",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspassociatedmobilemeasurementpartnerappregistration.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssociatedMobileMeasurementPartnerAppRegistrationV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversionadtageventassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "conversionDefinitionId",
+            "description": "The identifier of the ConversionDefinition.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Apps"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/conversionDefinitions/list": {
+      "post": {
+        "summary": "Retrieve a list of conversion definitions based on filters.",
+        "requestBody": {
+          "description": "Filters to apply when retrieving conversion definitions.",
+          "content": {
+            "application/vnd.dspconversiondefinition.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListConversionDefinitionsRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "dspAmazonListConversionDefinitions",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListConversionDefinitionsResponseV1"
+                }
+              },
+              "application/vnd.dspconversiondefinition.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListConversionDefinitionsResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspconversiondefinition.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          }
+        ],
+        "tags": [
+          "Amazon Conversion Definitions"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/adTagEvents/{adTagId}/list": {
+      "get": {
+        "summary": "Gets a list of available event metadata for the given ad tag.",
+        "operationId": "dspAmazonAdTagGetEventsByAdTagId",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dspamazonadtagevents.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAdTagEventsResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dspamazonadtagevents.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dspamazonadtagevents.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dspamazonadtagevents.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dspamazonadtagevents.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dspamazonadtagevents.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "adTagId",
+            "description": "The identifier of the ad tag.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "searchTerm",
+            "description": "A string used to fuzzy search for event metadata by event name.",
+            "required": false
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "startDateTime",
+            "description": "A date string to create a time window for events that have seen activity. If not set, a start date 30 days before the request was sent will be chosen. The oldest start date is 1 year before the request was sent to this api.",
+            "required": false,
+            "example": "2022-02-20T23:49:00Z"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Token from a previous request. Use to control pagination of the returned array."
+          },
+          {
+            "schema": {
+              "default": "10",
+              "maximum": 100,
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "required": false
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "endDateTime",
+            "description": "A date string to create a time window for events that have seen activity. If not set, the day and time the request was sent will be chosen as the end date. The maximum end date is the day the request to this api was sent.",
+            "required": false,
+            "example": "2022-02-25T23:49:00Z"
+          }
+        ],
+        "tags": [
+          "Amazon Ad Tag"
+        ]
+      }
+    },
+    "/accounts/{accountId}/dsp/orders/{orderId}/conversionDefinitionAssociations": {
+      "post": {
+        "summary": "Associate/Dissociate conversion definitions to an order.",
+        "requestBody": {
+          "content": {
+            "application/vnd.dsporderconversionassociation.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchAssociateConversionDefinitionsRequestV1"
+              }
+            },
+            "application/vnd.dsporderconversionassociation.v2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchAssociateConversionDefinitionsRequestV2"
+              }
+            }
+          }
+        },
+        "operationId": "dspAmazonUpdateAssociatedConversionDefinitionsForOrder",
+        "responses": {
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchAssociateConversionDefinitionsResponseV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "orderId",
+            "description": "The identifier of the order.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Conversion Order Association"
+        ]
+      },
+      "get": {
+        "summary": "Retrieve associated conversion definitions for an order.",
+        "operationId": "dspAmazonGetAssociatedConversionDefinitionsForOrder",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderAssociatedConversionDefinitionsResponseV1"
+                }
+              },
+              "application/vnd.dsporderconversionassociation.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderAssociatedConversionDefinitionsResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/vnd.dsporderconversionassociation.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/clientHeader"
+          },
+          {
+            "$ref": "#/components/parameters/profileHeader"
+          },
+          {
+            "$ref": "#/components/parameters/accountId"
+          },
+          {
+            "$ref": "#/components/parameters/dspAccountId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "orderId",
+            "description": "The identifier of the order.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "10",
+              "maximum": 100,
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "required": false
+          }
+        ],
+        "tags": [
+          "Conversion Order Association"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "BatchGetConversionDefinitionsForOrdersResponseV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "string"
+          },
+          "conversionDefinitions": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "List of associated ConversionDefinitions.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BatchOrdersAssociatedConversionDefinitionsV1"
+            }
+          }
+        }
+      },
+      "MobileMeasurementPartnerNameV1": {
+        "type": "string",
+        "enum": [
+          "APPSFLYER",
+          "KOCHAVA",
+          "ADJUST",
+          "BRANCH",
+          "SINGULAR"
+        ]
+      },
+      "BatchUpdateConversionDefinitionsRequestV2": {
+        "minItems": 1,
+        "maxItems": 10,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UpdateConversionDefinitionV2"
+        }
+      },
+      "BatchUpdateConversionDefinitionsRequestV1": {
+        "minItems": 1,
+        "maxItems": 10,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UpdateConversionDefinitionV1"
+        }
+      },
+      "BatchUpdateMobileMeasurementPartnerAppRegistrationRequestV1": {
+        "minItems": 1,
+        "maxItems": 1,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UpdateMobileMeasurementPartnerAppRegistrationV1"
+        }
+      },
+      "ListMobileMeasurementPartnerAppRegistrationsRequestV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "type": "string"
+          },
+          "maxResults": {
+            "default": "10",
+            "description": "Sets the maximum number of conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "maximum": 100,
+            "type": "integer",
+            "minimum": 1
+          },
+          "filters": {
+            "minItems": 0,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileMeasurementPartnerAppRegistrationFilterV1"
+            }
+          }
+        }
+      },
+      "ConversionDeletionRequestSuccessResponseV1": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          }
+        }
+      },
+      "BatchImportConversionEventDataResponseV1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionEventDataSuccessResponseV1"
+            }
+          },
+          "error": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionEventDataErrorResponseV1"
+            }
+          }
+        }
+      },
+      "ListAdTagEventsResponseV1": {
+        "type": "object",
+        "properties": {
+          "amazonAdTagEvents": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "Array of Amazon ad tag events given filters.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmazonAdTagEventV1"
+            }
+          },
+          "nextToken": {
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetAdTagResponseV1": {
+        "type": "object",
+        "properties": {
+          "adTag": {
+            "$ref": "#/components/schemas/AmazonAdTagV1"
+          }
+        }
+      },
+      "BatchCreateConversionDefinitionsRequestV1": {
+        "minItems": 1,
+        "maxItems": 10,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ConversionDefinitionInputV1"
+        }
+      },
+      "ConversionEventDataV1": {
+        "type": "object",
+        "required": [
+          "name",
+          "conversionDefinitionId",
+          "timestamp",
+          "matchKeys",
+          "countryCode"
+        ],
+        "properties": {
+          "countryCode": {
+            "minLength": 2,
+            "description": "The country where the event originates from. e.g. US<br>\nThis value is based on [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes), two-letter country codes defined in ISO 3166-1, part of the ISO 3166 standard[1] published by the International Organization for Standardization (ISO), to represent countries, dependent territories, and special areas of geographical interest.",
+            "type": "string",
+            "maxLength": 2
+          },
+          "unitsSold": {
+            "format": "int64",
+            "description": "The number of items purchased. Only applicable for OFF_AMAZON_PURCHASES conversion type. If not provided on the conversion event, a default of 1 will be applied.",
+            "maximum": 9999999999999,
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "description": "The name of the imported event.",
+            "type": "string"
+          },
+          "dataProcessingOptions": {
+            "description": "A flag for signaling how an event shall be processed. Events marked for limited data use will not be processed.",
+            "type": "string",
+            "enum": [
+              "LIMITED_DATA_USE"
+            ]
+          },
+          "conversionDefinitionId": {
+            "description": "The id of the associated ConversionDefinition.",
+            "type": "string"
+          },
+          "matchKeys": {
+            "minItems": 1,
+            "maxItems": 9,
+            "description": "Array representing the user and device identifier types/values to be used for attribution to traffic events. Match key value must be normalized and hashed, except for MAID which should not be hashed. ADID, IDFA, or FIREADID can be passed into the MAID field for mobile identifiers.  All match keys provided must follow the [formatting guidelines](https://advertising.amazon.com/dsp/help/ss/en/audiences#GCCXMZYCK4RXWS6C). Only SHA-256 is supported.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionMatchKeyV1"
+            }
+          },
+          "value": {
+            "multipleOf": 0.01,
+            "format": "double",
+            "description": "The value of the event.<br>\nWhen the conversionType of the associated Conversion Definition is OFF_AMAZON_PURCHASES, this represents a monetary value. Must be a minimum of 0 and must not exceed 2 decimal points. If not provided, the static value provided on the conversion definition will be used.<br>\nWhen the conversionType of the associated Conversion Definition is not OFF_AMAZON_PURCHASES, this represents a non-monetary value based on a scale of your choosing. Can be negative and must not exceed 2 decimal points. If not provided, the static value provided on the conversion definition will be used.",
+            "maximum": 9.99999999999999E12,
+            "type": "number",
+            "minimum": -9.99999999999999E12
+          },
+          "currencyCode": {
+            "$ref": "#/components/schemas/ConversionDefinitionCurrencyCodeV1"
+          },
+          "clientDedupeId": {
+            "description": "An identifier chosen by the advertiser to represent a user event. This parameter is used for deduplication across all conversion definitions (events) and all sources (Amazon Ad tag, Conversions API, Mobile Measurement Partner). In case of multiple events containing the same cientDedupeId, only the first will be kept. Common values used for deduplication are transaction ID or order ID. Do not use user identifiers (hashed or unhashed) for this purpose.",
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "description": "The timestamp when the event occurred in ISO format (YYYY-MM-DDThh:mm:ssTZD). The event's timestamp must be no more than 7 days old at the time of import.",
+            "type": "string"
+          }
+        }
+      },
+      "BatchCreateConversionDefinitionsRequestV2": {
+        "minItems": 1,
+        "maxItems": 10,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ConversionDefinitionInputV2"
+        }
+      },
+      "MobileMeasurementPartnerAppBatchResponseV1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileMeasurementPartnerSuccessResponseV1"
+            }
+          },
+          "error": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileMeasurementPartnerErrorResponseV1"
+            }
+          }
+        }
+      },
+      "ConversionDefinitionCreatedByV1": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "description": "ID of the account which created the conversion definition. The value could be either DSP Advertiser ID or manager Account ID.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the account which created the conversion definition.",
+            "type": "string"
+          }
+        }
+      },
+      "DspErrorV1": {
+        "description": "The error response object.",
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "description": "A value created by Amazon API Gateway that uniquely identifies your request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable description of the response.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "DeleteMobileMeasurementPartnerAppRegistrationV1": {
+        "type": "object",
+        "required": [
+          "mmpAppId"
+        ],
+        "properties": {
+          "mmpAppId": {
+            "type": "string"
+          }
+        }
+      },
+      "ConversionDefinitionsBatchResponseV1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 0,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionSuccessResponseV1"
+            }
+          },
+          "error": {
+            "minItems": 0,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionErrorResponseV1"
+            }
+          }
+        }
+      },
+      "ConversionDefinitionSuccessResponseV1": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          },
+          "conversionDefinitionId": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderAssociatedConversionDefinitionsResponseV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "string"
+          },
+          "conversionDefinitionIds": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "List of associated ConversionDefinition identifiers for the order.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OrderAssociatedConversionDefinitionsResponseV2": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "string"
+          },
+          "conversionDefinitions": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "List of associated ConversionDefinitions for the order.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderAssociatedConversionDefinitionV1"
+            }
+          }
+        }
+      },
+      "BatchGetConversionDefinitionsAssociatedForOrdersRequestV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "type": "string"
+          },
+          "maxResults": {
+            "default": "10",
+            "description": "Sets the maximum number of conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "maximum": 100,
+            "type": "integer",
+            "minimum": 1
+          },
+          "orderIds": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AmazonAdTagEventAssociationStatusV1": {
+        "description": "The conversion definition association status of the event. If the event is associated to an existing conversion definition, it will be marked as IN_USE. If the event has no existing association, it will be marked as AVAILABLE for conversion definition purposes.",
+        "type": "string",
+        "enum": [
+          "IN_USE",
+          "AVAILABLE"
+        ]
+      },
+      "OrderAssociatedConversionDefinitionV1": {
+        "type": "object",
+        "properties": {
+          "isOptimized": {
+            "description": "Denotes whether this conversion definition is optimized for this order.",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Associated conversion definition identifier for the order.",
+            "type": "string"
+          }
+        }
+      },
+      "ListConversionDefinitionsResponseV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer"
+          },
+          "conversionDefinitions": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "Array of conversion definitions given filters.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionV1"
+            }
+          }
+        }
+      },
+      "ListConversionDefinitionsResponseV2": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer"
+          },
+          "conversionDefinitions": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "Array of conversion definitions given filters.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionV2"
+            }
+          }
+        }
+      },
+      "ConversionDefinitionInputV1": {
+        "description": "The conversion definition object.",
+        "type": "object",
+        "required": [
+          "name",
+          "conversionType",
+          "source",
+          "sourceType",
+          "countingMethod",
+          "value"
+        ],
+        "properties": {
+          "countingMethod": {
+            "$ref": "#/components/schemas/ConversionDefinitionCountingMethodV1"
+          },
+          "createTime": {
+            "format": "date-time",
+            "description": "The timestamp of when the ConversionDefinition was created in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceTypeV1"
+          },
+          "name": {
+            "minLength": 1,
+            "description": "The name of the ConversionDefinition.",
+            "type": "string",
+            "maxLength": 256
+          },
+          "lastUpdatedTime": {
+            "format": "date-time",
+            "description": "Date and time last edit was made to conversion settings in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceV1"
+          },
+          "conversionDefinitionId": {
+            "description": "The id of the ConversionDefinition.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "conversionType": {
+            "$ref": "#/components/schemas/ConversionDefinitionTypeV1"
+          },
+          "lastActivityTime": {
+            "format": "date-time",
+            "description": "The latest timestamp of when a conversion event for the ConversionDefinition was imported in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "value": {
+            "multipleOf": 0.01,
+            "format": "double",
+            "description": "The value of the event.<br>\nWhen the conversionType of the associated Conversion Definition is OFF_AMAZON_PURCHASES, this represents a monetary value. Must be a minimum of 0 and must not exceed 2 decimal points. If not specified, a default of 0 will be applied.<br>\nWhen the conversionType of the associated Conversion Definition is not OFF_AMAZON_PURCHASES, this represents a non-monetary value based on a scale of your choosing. Can be negative and must not exceed 2 decimal points. If not specified on the conversion definition, a default of 1 will be applied.",
+            "maximum": 9999999999999,
+            "type": "number"
+          }
+        }
+      },
+      "ConversionDefinitionInputV2": {
+        "description": "The conversion definition object.",
+        "type": "object",
+        "required": [
+          "name",
+          "conversionType",
+          "source",
+          "sourceType",
+          "countingMethod",
+          "value"
+        ],
+        "properties": {
+          "partner": {
+            "minLength": 1,
+            "description": "The name of the third-party service used to deliver the conversions (if applicable).",
+            "type": "string",
+            "maxLength": 256
+          },
+          "countingMethod": {
+            "$ref": "#/components/schemas/ConversionDefinitionCountingMethodV1"
+          },
+          "createTime": {
+            "format": "date-time",
+            "description": "The timestamp of when the ConversionDefinition was created in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceTypeV1"
+          },
+          "name": {
+            "minLength": 1,
+            "description": "The name of the ConversionDefinition.",
+            "type": "string",
+            "maxLength": 256
+          },
+          "lastUpdatedTime": {
+            "format": "date-time",
+            "description": "Date and time last edit was made to conversion settings in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceV1"
+          },
+          "conversionDefinitionId": {
+            "description": "The id of the ConversionDefinition.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "conversionType": {
+            "$ref": "#/components/schemas/ConversionDefinitionTypeV2"
+          },
+          "lastActivityTime": {
+            "format": "date-time",
+            "description": "The latest timestamp of when a conversion event for the ConversionDefinition was imported in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "value": {
+            "multipleOf": 0.01,
+            "format": "double",
+            "description": "The value of the event.<br>\nWhen the conversionType of the associated Conversion Definition is OFF_AMAZON_PURCHASES, this represents a monetary value. Must be a minimum of 0 and must not exceed 2 decimal points. If not specified, a default of 0 will be applied.<br>\nWhen the conversionType of the associated Conversion Definition is not OFF_AMAZON_PURCHASES, this represents a non-monetary value based on a scale of your choosing. Can be negative and must not exceed 2 decimal points. If not specified on the conversion definition, a default of 1 will be applied.",
+            "maximum": 9999999999999,
+            "type": "number"
+          }
+        }
+      },
+      "MobileMeasurementPartnerErrorResponseV1": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "An enumerated success or error code for machine use.",
+            "type": "string"
+          },
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          },
+          "message": {
+            "description": "A human-readable message of the code.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "BatchDeleteUserEventsRequestV1": {
+        "type": "object",
+        "required": [
+          "deletionRequests"
+        ],
+        "properties": {
+          "deletionRequests": {
+            "minItems": 1,
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventDeletionRequestV1"
+            }
+          }
+        }
+      },
+      "MobileMeasurementPartnerSuccessResponseV1": {
+        "type": "object",
+        "properties": {
+          "mmpAppId": {
+            "description": "ID of the create mobile measurement partner application registration.",
+            "type": "string"
+          },
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          }
+        }
+      },
+      "ConversionDefinitionAssociatedAdTagEventV1": {
+        "type": "object",
+        "properties": {
+          "adTagEventName": {
+            "type": "string"
+          },
+          "adTagId": {
+            "type": "string"
+          }
+        }
+      },
+      "ConversionDefinitionSourceTypeV1": {
+        "type": "string",
+        "enum": [
+          "ANDROID",
+          "FIRE_TV",
+          "IOS",
+          "OFFLINE",
+          "WEBSITE"
+        ]
+      },
+      "ConversionDefinitionAdTagEventAssociationRequestV1": {
+        "description": "The combination of adTagId and adTagEventName identifies an unique adTag event.",
+        "type": "object",
+        "required": [
+          "adTagId",
+          "adTagEventName",
+          "operation"
+        ],
+        "properties": {
+          "adTagEventName": {
+            "type": "string"
+          },
+          "adTagId": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE"
+            ]
+          }
+        }
+      },
+      "ConversionDefinitionCreatedSourceV1": {
+        "type": "string",
+        "enum": [
+          "AMAZON_AD_TAG",
+          "SERVER_TO_SERVER",
+          "MMP"
+        ]
+      },
+      "ConversionEventDataSuccessResponseV1": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          },
+          "message": {
+            "description": "A human-readable message containing further details.",
+            "type": "string"
+          }
+        }
+      },
+      "ConversionMatchKeyTypeV1": {
+        "type": "string",
+        "enum": [
+          "EMAIL",
+          "PHONE",
+          "FIRST_NAME",
+          "LAST_NAME",
+          "ADDRESS",
+          "CITY",
+          "STATE",
+          "POSTAL",
+          "MAID",
+          "RAMP_ID"
+        ]
+      },
+      "BatchImportConversionEventDataRequestV1": {
+        "type": "object",
+        "required": [
+          "source",
+          "eventData"
+        ],
+        "properties": {
+          "eventData": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionEventDataV1"
+            }
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceV1"
+          }
+        }
+      },
+      "ConversionDeletionRequestErrorResponseV1": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "An enumerated success or error code for machine use.",
+            "type": "string"
+          },
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          },
+          "message": {
+            "description": "A human-readable message of the code.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "ListConversionDefinitionsRequestV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "type": "string"
+          },
+          "maxResults": {
+            "default": "10",
+            "description": "Sets the maximum number of conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "maximum": 100,
+            "type": "integer",
+            "minimum": 1
+          },
+          "filters": {
+            "minItems": 0,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionFilterV1"
+            }
+          }
+        }
+      },
+      "DspSubErrorV1": {
+        "description": "The sub error object.",
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "errorType": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorType",
+          "message"
+        ]
+      },
+      "ConversionMatchKeyV1": {
+        "description": "The identifier used to match people for attribution. Match key value must be normalized and hashed, except for MAID which should not be hashed. ADID, IDFA, or FIREADID can be passed into the MAID field for mobile identifiers.  All match keys provided must follow the [formatting guidelines](https://advertising.amazon.com/dsp/help/ss/en/audiences#GCCXMZYCK4RXWS6C). Only SHA-256 is supported.",
+        "type": "object",
+        "required": [
+          "type",
+          "values"
+        ],
+        "properties": {
+          "values": {
+            "minItems": 1,
+            "maxItems": 1,
+            "description": "List of SHA-256 hashed identifier values of the customer who performed the event.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "$ref": "#/components/schemas/ConversionMatchKeyTypeV1"
+          }
+        }
+      },
+      "ConversionDefinitionCountingMethodV1": {
+        "description": "Method used to determine whether all or only the first conversion event per user, per conversion definition are ingested within a 24 hour window.",
+        "type": "string",
+        "enum": [
+          "EVERY",
+          "FIRST"
+        ]
+      },
+      "MobileMeasurementPartnerAppRegistrationFilterV1": {
+        "type": "object",
+        "required": [
+          "field",
+          "values"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "enum": [
+              "MMP_NAME",
+              "APP_STORE_ID",
+              "APP_NAME",
+              "PLATFORM"
+            ]
+          },
+          "values": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "BatchCreateMobileMeasurementPartnerAppRegistrationRequestV1": {
+        "minItems": 1,
+        "maxItems": 10,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MobileMeasurementPartnerAppRegistrationV1"
+        }
+      },
+      "BatchOrdersAssociatedConversionDefinitionsV1": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "description": "Order identifier for this conversion definition.",
+            "type": "string"
+          },
+          "conversionDefinitionId": {
+            "description": "Associated conversion definition identifier for the order.",
+            "type": "string"
+          }
+        }
+      },
+      "ConversionDefinitionErrorResponseV1": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "An enumerated success or error code for machine use.",
+            "type": "string"
+          },
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          },
+          "message": {
+            "description": "A human-readable message of the code.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "GetAssociatedConversionDefinitionsForMobileMeasurementPartner": {
+        "type": "object",
+        "properties": {
+          "sourceType": {
+            "description": "Platform the application is associated with.",
+            "type": "string"
+          },
+          "bundleId": {
+            "description": "The ID of the application with the app store it is registered with.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the conversion event",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/MobileMeasurementPartnerNameV1"
+          }
+        }
+      },
+      "EventDeletionRequestV1": {
+        "description": "All ConversionMatchKey objects for a single user should be grouped into a single EventDeletionRequest list.",
+        "type": "object",
+        "properties": {
+          "matchKeys": {
+            "minItems": 1,
+            "maxItems": 9,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionMatchKeyV1"
+            }
+          }
+        }
+      },
+      "ConversionEventDataErrorResponseV1": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "An enumerated success or error code for machine use.",
+            "type": "string"
+          },
+          "index": {
+            "format": "int32",
+            "description": "The index of the object in the request, starting from 1.",
+            "type": "integer"
+          },
+          "message": {
+            "description": "A human-readable message of the code.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "BatchAssociateConversionDefinitionsResponseV1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionSuccessResponseV1"
+            }
+          },
+          "error": {
+            "minItems": 0,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDefinitionErrorResponseV1"
+            }
+          }
+        }
+      },
+      "BatchDeleteUserEventsResponseV1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 1,
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDeletionRequestSuccessResponseV1"
+            }
+          },
+          "error": {
+            "minItems": 1,
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionDeletionRequestErrorResponseV1"
+            }
+          }
+        }
+      },
+      "UpdateConversionDefinitionV1": {
+        "type": "object",
+        "required": [
+          "conversionDefinitionId"
+        ],
+        "properties": {
+          "countingMethod": {
+            "$ref": "#/components/schemas/ConversionDefinitionCountingMethodV1"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceTypeV1"
+          },
+          "name": {
+            "description": "The name of the ConversionDefinition.",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceV1"
+          },
+          "conversionDefinitionId": {
+            "description": "The identifier of the ConversionDefinition.",
+            "type": "string"
+          },
+          "conversionType": {
+            "$ref": "#/components/schemas/ConversionDefinitionTypeV1"
+          },
+          "value": {
+            "format": "double",
+            "description": "The default value of each conversion event. Monetary value for OFF_AMAZON_PURCHASES ConversionDefinition type and non-monetary value for all other ConversionDefinition types.",
+            "type": "number"
+          }
+        }
+      },
+      "UpdateConversionDefinitionV2": {
+        "type": "object",
+        "required": [
+          "conversionDefinitionId"
+        ],
+        "properties": {
+          "partner": {
+            "description": "The name of the third-party service used to deliver the conversions (if applicable).",
+            "type": "string"
+          },
+          "countingMethod": {
+            "$ref": "#/components/schemas/ConversionDefinitionCountingMethodV1"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceTypeV1"
+          },
+          "name": {
+            "description": "The name of the ConversionDefinition.",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceV1"
+          },
+          "conversionDefinitionId": {
+            "description": "The identifier of the ConversionDefinition.",
+            "type": "string"
+          },
+          "conversionType": {
+            "$ref": "#/components/schemas/ConversionDefinitionTypeV2"
+          },
+          "value": {
+            "format": "double",
+            "description": "The default value of each conversion event. Monetary value for OFF_AMAZON_PURCHASES ConversionDefinition type and non-monetary value for all other ConversionDefinition types.",
+            "type": "number"
+          }
+        }
+      },
+      "ConversionDefinitionTypeV2": {
+        "description": "Conversion Types:\n* `ADD_TO_SHOPPING_CART` - When customers add a product to their shopping cart\t\n* `APPLICATION` - When customers submit an application\t\n* `CHECKOUT` - When customers submit an application\t\n* `CONTACT` - When customers provide supplies contact information, such as email, phone number, etc.\n* `LEAD` - When customers perform an action that initiates a sales lead\t\n* `OFF_AMAZON_PURCHASES` - When customers make a purchase for a service or product\t\n* `MOBILE_APP_FIRST_START` - When customers launch the downloaded app for the first time.\n* `PAGE_VIEW` - When customers make a purchase for a service or product\t\n* `SEARCH` - When customers perform a search for a product\n* `SIGN_UP` - When customers sign up for a product or service\t\n* `SUBSCRIBE` - When customers sign up for your service\t\n* `OTHER` - Customer actions that don't fit the definition of the standard conversion types\t",
+        "type": "string",
+        "enum": [
+          "ADD_TO_SHOPPING_CART",
+          "APPLICATION",
+          "CHECKOUT",
+          "CONTACT",
+          "LEAD",
+          "OFF_AMAZON_PURCHASES",
+          "MOBILE_APP_FIRST_START",
+          "PAGE_VIEW",
+          "SEARCH",
+          "SIGN_UP",
+          "SUBSCRIBE",
+          "OTHER"
+        ]
+      },
+      "ConversionDefinitionFilterV1": {
+        "type": "object",
+        "required": [
+          "field",
+          "values"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "enum": [
+              "CONVERSION_DEFINITION_ID"
+            ]
+          },
+          "values": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ConversionDefinitionTypeV1": {
+        "description": "Conversion Types:\n* `ADD_TO_SHOPPING_CART` - When customers add a product to their shopping cart\t\n* `APPLICATION` - When customers submit an application\t\n* `CHECKOUT` - When customers submit an application\t\n* `CONTACT` - When customers provide supplies contact information, such as email, phone number, etc.\n* `LEAD` - When customers perform an action that initiates a sales lead\t\n* `OFF_AMAZON_PURCHASES` - When customers make a purchase for a service or product\t\n* `PAGE_VIEW` - When customers make a purchase for a service or product\t\n* `SEARCH` - When customers perform a search for a product\n* `SIGN_UP` - When customers sign up for a product or service\t\n* `SUBSCRIBE` - When customers sign up for your service\t\n* `OTHER` - Customer actions that don't fit the definition of the standard conversion types\t",
+        "type": "string",
+        "enum": [
+          "ADD_TO_SHOPPING_CART",
+          "APPLICATION",
+          "CHECKOUT",
+          "CONTACT",
+          "LEAD",
+          "OFF_AMAZON_PURCHASES",
+          "PAGE_VIEW",
+          "SEARCH",
+          "SIGN_UP",
+          "SUBSCRIBE",
+          "OTHER"
+        ]
+      },
+      "AmazonAdTagEventV1": {
+        "type": "object",
+        "properties": {
+          "eventName": {
+            "description": "The name of the event.",
+            "type": "string"
+          },
+          "lastActivityDateTime": {
+            "format": "date-time",
+            "description": "The last time this event was triggered within the dates supplied by the startDateTime and endDateTime fields.",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AmazonAdTagEventAssociationStatusV1"
+          }
+        }
+      },
+      "AmazonAdTagV1": {
+        "description": "An Amazon ad tag for a given advertiser.",
+        "type": "object",
+        "properties": {
+          "tagId": {
+            "description": "A string depicting the ID of the ad tag.",
+            "type": "string"
+          },
+          "createDateTime": {
+            "format": "date-time",
+            "description": "The reported timestamp of when the ad tag was created in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "type": "string",
+            "example": "2023-01-01T23:49:00Z"
+          }
+        }
+      },
+      "ConversionDefinitionSourceV1": {
+        "type": "string",
+        "enum": [
+          "AMAZON_AD_TAG",
+          "SERVER_TO_SERVER"
+        ]
+      },
+      "UpdateMobileMeasurementPartnerAppRegistrationV1": {
+        "type": "object",
+        "properties": {
+          "mmpAppId": {
+            "description": "The identifier of the app registration.",
+            "type": "string"
+          },
+          "appName": {
+            "description": "The name of the application.",
+            "type": "string"
+          },
+          "bundleId": {
+            "description": "The ID of the application with the app store it is registered with.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mmpAppId"
+        ]
+      },
+      "ConversionDefinitionV2": {
+        "description": "The conversion definition object.",
+        "type": "object",
+        "required": [
+          "name",
+          "conversionType",
+          "source",
+          "sourceType",
+          "countingMethod",
+          "value"
+        ],
+        "properties": {
+          "partner": {
+            "minLength": 1,
+            "description": "The name of the third-party service used to deliver the conversions (if applicable).",
+            "type": "string",
+            "maxLength": 256
+          },
+          "countingMethod": {
+            "$ref": "#/components/schemas/ConversionDefinitionCountingMethodV1"
+          },
+          "createTime": {
+            "format": "date-time",
+            "description": "The timestamp of when the ConversionDefinition was created in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceTypeV1"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ConversionDefinitionCreatedByV1"
+          },
+          "name": {
+            "minLength": 1,
+            "description": "The name of the ConversionDefinition.",
+            "type": "string",
+            "maxLength": 256
+          },
+          "lastUpdatedTime": {
+            "format": "date-time",
+            "description": "Date and time last edit was made to conversion settings in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionCreatedSourceV1"
+          },
+          "conversionDefinitionId": {
+            "description": "The id of the ConversionDefinition.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "conversionType": {
+            "$ref": "#/components/schemas/ConversionDefinitionTypeV2"
+          },
+          "lastActivityTime": {
+            "format": "date-time",
+            "description": "The latest timestamp of when a conversion event for the ConversionDefinition was imported in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "value": {
+            "multipleOf": 0.01,
+            "format": "double",
+            "description": "The value of the event.<br>\nWhen the conversionType of the associated Conversion Definition is OFF_AMAZON_PURCHASES, this represents a monetary value. Must be a minimum of 0 and must not exceed 2 decimal points. If not specified, a default of 0 will be applied.<br>\nWhen the conversionType of the associated Conversion Definition is not OFF_AMAZON_PURCHASES, this represents a non-monetary value based on a scale of your choosing. Can be negative and must not exceed 2 decimal points. If not specified on the conversion definition, a default of 1 will be applied.",
+            "maximum": 9999999999999,
+            "type": "number"
+          }
+        }
+      },
+      "BatchAssociateConversionDefinitionsRequestV1": {
+        "minItems": 1,
+        "maxItems": 100,
+        "type": "array",
+        "items": {
+          "required": [
+            "conversionDefinitionId",
+            "operation"
+          ],
+          "properties": {
+            "conversionDefinitionId": {
+              "type": "string"
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "ADD",
+                "REMOVE"
+              ]
+            }
+          }
+        }
+      },
+      "ConversionDefinitionV1": {
+        "description": "The conversion definition object.",
+        "type": "object",
+        "required": [
+          "name",
+          "conversionType",
+          "source",
+          "sourceType",
+          "countingMethod",
+          "value"
+        ],
+        "properties": {
+          "countingMethod": {
+            "$ref": "#/components/schemas/ConversionDefinitionCountingMethodV1"
+          },
+          "createTime": {
+            "format": "date-time",
+            "description": "The timestamp of when the ConversionDefinition was created in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceTypeV1"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ConversionDefinitionCreatedByV1"
+          },
+          "name": {
+            "minLength": 1,
+            "description": "The name of the ConversionDefinition.",
+            "type": "string",
+            "maxLength": 256
+          },
+          "lastUpdatedTime": {
+            "format": "date-time",
+            "description": "Date and time last edit was made to conversion settings in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ConversionDefinitionSourceV1"
+          },
+          "conversionDefinitionId": {
+            "description": "The id of the ConversionDefinition.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "conversionType": {
+            "$ref": "#/components/schemas/ConversionDefinitionTypeV1"
+          },
+          "lastActivityTime": {
+            "format": "date-time",
+            "description": "The latest timestamp of when a conversion event for the ConversionDefinition was imported in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "value": {
+            "multipleOf": 0.01,
+            "format": "double",
+            "description": "The value of the event.<br>\nWhen the conversionType of the associated Conversion Definition is OFF_AMAZON_PURCHASES, this represents a monetary value. Must be a minimum of 0 and must not exceed 2 decimal points. If not specified, a default of 0 will be applied.<br>\nWhen the conversionType of the associated Conversion Definition is not OFF_AMAZON_PURCHASES, this represents a non-monetary value based on a scale of your choosing. Can be negative and must not exceed 2 decimal points. If not specified on the conversion definition, a default of 1 will be applied.",
+            "maximum": 9999999999999,
+            "type": "number"
+          }
+        }
+      },
+      "BatchAssociateConversionDefinitionsRequestV2": {
+        "minItems": 1,
+        "maxItems": 100,
+        "type": "array",
+        "items": {
+          "required": [
+            "conversionDefinitionId",
+            "operation",
+            "isOptimized"
+          ],
+          "properties": {
+            "isOptimized": {
+              "description": "Denotes the association should be considered as optimized.",
+              "type": "boolean"
+            },
+            "conversionDefinitionId": {
+              "type": "string"
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "ADD",
+                "REMOVE"
+              ]
+            }
+          }
+        }
+      },
+      "MobileMeasurementPartnerPlatformV1": {
+        "type": "string",
+        "enum": [
+          "FIRE_TV",
+          "ANDROID"
+        ]
+      },
+      "ConversionDefinitionCurrencyCodeV1": {
+        "description": "The currencyCode associated with the 'value' of the event in ISO-4217 format. Only applicable for OFF_AMAZON_PURCHASES conversion type. If not provided, the currencyCode setting on the conversion definition will be used.",
+        "type": "string",
+        "enum": [
+          "AED",
+          "AUD",
+          "BRL",
+          "CAD",
+          "CNY",
+          "EUR",
+          "GBP",
+          "INR",
+          "JPY",
+          "MXN",
+          "SAR",
+          "SEK",
+          "SGD",
+          "TRY",
+          "USD",
+          "DKK",
+          "NOK",
+          "NZD"
+        ]
+      },
+      "AssociatedMobileMeasurementPartnerAppRegistrationV1": {
+        "type": "object",
+        "properties": {
+          "associatedMobileApp": {
+            "$ref": "#/components/schemas/MobileMeasurementPartnerAppRegistrationV1"
+          },
+          "eventName": {
+            "description": "Mobile measurement partner event associated with this conversion definition",
+            "type": "string"
+          }
+        }
+      },
+      "MobileMeasurementPartnerAppRegistrationV1": {
+        "type": "object",
+        "properties": {
+          "mmpAppId": {
+            "description": "The id of the mobile measurement partner app registration.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "appName": {
+            "description": "The name of the application.",
+            "type": "string"
+          },
+          "lastEventReceived": {
+            "format": "date-time",
+            "description": "The latest timestamp of when a conversion event for the mobile application was imported in ISO format (YYYY-MM-DDThh:mm:ssTZD).",
+            "readOnly": true,
+            "type": "string"
+          },
+          "bundleId": {
+            "description": "The ID of the application with the app store it is registered with. The bundleId + platform + mmpName must be unique within your advertiser account.",
+            "type": "string"
+          },
+          "mmpName": {
+            "$ref": "#/components/schemas/MobileMeasurementPartnerNameV1"
+          },
+          "platform": {
+            "$ref": "#/components/schemas/MobileMeasurementPartnerPlatformV1"
+          },
+          "conversionsCreated": {
+            "description": "The number of conversions associated with this mobile application.",
+            "readOnly": true,
+            "type": "number"
+          }
+        },
+        "required": [
+          "mmpName",
+          "appName",
+          "bundleId",
+          "platform"
+        ]
+      },
+      "BatchDeleteMobileMeasurementPartnerAppRegistrationRequestV1": {
+        "minItems": 1,
+        "maxItems": 1,
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DeleteMobileMeasurementPartnerAppRegistrationV1"
+        }
+      },
+      "ListMobileMeasurementPartnerAppRegistrationsResponseV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer"
+          },
+          "appRegistrations": {
+            "minItems": 0,
+            "maxItems": 100,
+            "description": "Array of Mobile Measurement Partner app registrations given filters.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileMeasurementPartnerAppRegistrationV1"
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {
+      "accountId": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "path",
+        "name": "accountId",
+        "description": "Account Identifier you use to access the DSP. This is your DSP Advertiser ID. DSP Entity ID is not supported.",
+        "required": true
+      },
+      "mmpAppId": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "path",
+        "name": "mmpAppId",
+        "description": "Mobile Measurement Partner app registration identifier.",
+        "required": true
+      },
+      "clientHeader": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "header",
+        "name": "Amazon-Advertising-API-ClientId",
+        "description": "The identifier of a client associated with a `Login with Amazon` account.",
+        "required": true
+      },
+      "dspAccountId": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "header",
+        "name": "Amazon-Ads-AccountId",
+        "description": "Account Identifier you use to access the DSP. This is your DSP Advertiser ID. This header is required for access to any DSP data.",
+        "required": false
+      },
+      "profileHeader": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "header",
+        "name": "Amazon-Advertising-API-Scope",
+        "description": "The identifier of a profile associated with the advertiser account. Use GET method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id profileId from the response to pass it as input.",
+        "required": true
+      }
+    }
+  },
+  "openapi": "3.0.1"
+}

@@ -1,0 +1,390 @@
+openapi: 3.0.3
+info:
+  version: '2.0'
+  title: Amazon Ads API - Portfolios
+  description: |-
+    Portfolios consist of campaigns that are grouped together and linked to a distinct Advertiser Account. The term 'advertiser' refers to a brand, entity, account identifier, or claim identifier. Multiple portfolios are supported within an Advertiser Account.
+  contact:
+    name: Amazon Ads API Support
+    url: https://amzn-clicks.atlassian.net/servicedesk/customer/portals
+  license:
+    name: Amazon Ads API License Agreement
+    url: https://advertising.amazon.com/API/docs/license_agreement
+servers:
+  - url: https://advertising-api.amazon.com
+    description: Production endpoint for North America, which includes US and CA Amazon marketplaces.
+  - url: https://advertising-api-eu.amazon.com
+    description: Production endpoint for Europe, which includes UK, FR, IT, ES, DE, plus IN Amazon marketplaces.
+  - url: https://advertising-api-fe.amazon.com
+    description: Production endpoint for Far East, which includes JP Amazon marketplaces.
+tags:
+  - name: Portfolios
+  - name: Portfolios extended
+paths:
+  /v2/portfolios:
+    get:
+      tags:
+        - Portfolios
+      summary: Gets a list of portfolios.
+      description: Retrieves a list of portfolios, optionally filtered by identifier, name, or state. Note that this operation returns a maximum of 100 portfolios.
+      operationId: listPortfolios
+      parameters:
+        - $ref: '#/components/parameters/clientHeader'
+        - $ref: '#/components/parameters/profileHeader'
+        - $ref: '#/components/parameters/portfolioIdFilter'
+        - $ref: '#/components/parameters/portfolioNameFilter'
+        - $ref: '#/components/parameters/portfolioStateFilter'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Portfolio'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    put:
+      tags:
+        - Portfolios
+      summary: Updates one or more portfolios.
+      description: The request body is a list of portfolio resources with updated values. Note that the only valid `state` for Portfolio creation is `enabled`. Portfolios can't be updated with `state` set to `paused`, this will result in an `INVALID_ARGUMENT` error.
+      operationId: updatePortfolios
+      parameters:
+        - $ref: '#/components/parameters/clientHeader'
+        - $ref: '#/components/parameters/profileHeader'
+      requestBody:
+        description: A list of portfolio resources with updated values.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Portfolio'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      description: A string, 'SUCCESS', that indicates the portfolio was updated successfully.
+                      type: string
+                    portfolioId:
+                      description: The portfolio identifier.
+                      type: number
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    post:
+      tags:
+        - Portfolios
+      summary: Creates one or more portfolios.
+      description: The request body is a list of portfolio resources to be created. Note that this operation is limited to the creation of 100 portfolios. Also note that the only valid `state` for Portfolio creation is `enabled`. Portfolios can't be created with `state` set to `paused`, this will result in an `INVALID_ARGUMENT` error.
+      operationId: createPortfolios
+      parameters:
+        - $ref: '#/components/parameters/clientHeader'
+        - $ref: '#/components/parameters/profileHeader'
+      requestBody:
+        description: A list of portfolio resources with updated values.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Portfolio'
+              minItems: 0
+              maxItems: 100
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      description: A string, 'SUCCESS', that indicates the portfolio was updated successfully.
+                      type: string
+                    portfolioId:
+                      description: The portfolio identifier.
+                      type: number
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+  /v2/portfolios/{portfolioId}:
+    get:
+      tags:
+        - Portfolios
+      summary: Gets a requested portfolio.
+      description: Returns a Portfolio object for a requested portfolio.
+      operationId: getPortfolio
+      parameters:
+        - $ref: '#/components/parameters/clientHeader'
+        - $ref: '#/components/parameters/profileHeader'
+        - name: portfolioId
+          in: path
+          description: The identifier of an existing portfolio.
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+  /v2/portfolios/extended:
+    get:
+      tags:
+        - Portfolios extended
+      summary: Gets a list of portfolios with an extended set of properties.
+      description: Retrieves a list of portfolios with an extended set of properties, optionally filtered by identifier, name, or state. Note that this operation returns a maximum of 100 portfolios.
+      operationId: listPortfoliosEx
+      parameters:
+        - $ref: '#/components/parameters/clientHeader'
+        - $ref: '#/components/parameters/profileHeader'
+        - $ref: '#/components/parameters/portfolioIdFilter'
+        - $ref: '#/components/parameters/portfolioNameFilter'
+        - $ref: '#/components/parameters/portfolioStateFilter'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PortfolioEx'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+  /v2/portfolios/extended/{portfolioId}:
+    get:
+      tags:
+        - Portfolios extended
+      summary: Gets an extended set of properties for a portfolio specified by identifier.
+      description: Gets an extended set of properties for a portfolio specified by identifier.
+      operationId: listPortfolioEx
+      parameters:
+        - $ref: '#/components/parameters/clientHeader'
+        - $ref: '#/components/parameters/profileHeader'
+        - name: portfolioId
+          in: path
+          description: The identifier of an existing portfolio.
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioEx'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+components:
+  schemas:
+    Portfolio:
+      type: object
+      properties:
+        portfolioId:
+          type: number
+          description: The portfolio identifier.
+        name:
+          type: string
+          description: The portfolio name.
+        budget:
+          type: object
+          properties:
+            amount:
+              type: number
+              description: The budget amount associated with the portfolio. Cannot be `null`.
+            currencyCode:
+              type: string
+              description: |-
+                The currency used for all monetary values for entities under this profile. Cannot be `null`.
+                |Region|`countryCode`|Country Name|`currencyCode`|
+                |-----|------|------|------|
+                |NA|US|United States|USD|
+                |NA|CA|Canada|CAD|
+                |NA|MX|Mexico|MXN|
+                |NA|BR|Brazil|BRL|
+                |EU|UK|United Kingdom|GBP|
+                |EU|DE|Germany|EUR|
+                |EU|FR|France|EUR|
+                |EU|ES|Spain|EUR|
+                |EU|IT|Italy|EUR|
+                |EU|NL|The Netherlands|EUR|
+                |EU|SE|Sweden|SEK|
+                |EU|PL|Poland|PLN|
+                |EU|AE|United Arab Emirates|AED|
+                |EU|TR|Turkey|TRY|
+                |FE|JP|Japan|JPY|
+                |FE|AU|Australia|AUD|
+                |FE|SG|Singapore|SGD|
+              enum:
+                - USD
+                - CAD
+                - MXN
+                - BRL
+                - GBP
+                - JPY
+                - EUR
+                - AUD
+                - AED
+                - SEK
+                - PLN
+                - SGD
+                - TRY
+            policy:
+              type: string
+              description: The budget policy. Set to `dateRange` to specify a budget for a specific period of time. Set to `monthlyRecurring` to specify a budget that is automatically renewed at the beginning of each month. Cannot be `null`.
+              enum:
+                - dateRange
+                - monthlyRecurring
+            startDate:
+              type: string
+              description: The starting date in `YYYYMMDD` format to which the budget is applied. Required if `policy` is set to `dateRange`. Not specified if `policy` is set to `monthlyRecurring`. Note that the starting date for `monthlyRecurring` is the date when the policy is set.
+            endDate:
+              type: string
+              description: |-
+                The end date after which the budget is no longer applied. Optional if `policy` is set to `dateRange` or `monthlyRecurring`. Note: Once set, the `endDate` cannot be changed to `null`.
+        inBudget:
+          type: boolean
+          description: Indicates the current budget status of the portfolio. Set to `true` if the portfolio is in budget, set to `false` if the portfolio is out of budget.
+        state:
+          type: string
+          description: The current state of the portfolio.
+          enum:
+            - enabled
+    PortfolioEx:
+      allOf:
+        - $ref: '#/components/schemas/Portfolio'
+        - type: object
+          properties:
+            creationDate:
+              description: Date that the portfolio was created, in epoch time.
+              type: number
+            lastUpdatedDate:
+              description: Date at least one property value of the portfolio was updated, in epoch time.
+              type: number
+            servingStatus:
+              type: string
+              description: |-
+                The current serving status of the portfolio:
+                | Portfolio serving status | Description |
+                |--------------------------|-------------|
+                | PORTFOLIO_STATUS_ENABLED | The portfolio's status is ENABLED. |
+                | PORTFOLIO_STATUS_PAUSED  | The portfolio's status is PAUSED. |
+                | PORTFOLIO_ARCHIVED | The portfolio is archived. |
+                | PORTFOLIO_OUT_OF_BUDGET | The maximum budget cap at the portfolio level has been reached. |
+                | PENDING_START_DATE | The portfolio's start date is in the future. |
+                | ENDED | The portfolio's end date is in the past. |
+              enum:
+                - PORTFOLIO_STATUS_ENABLED
+                - PORTFOLIO_PAUSED
+                - PORTFOLIO_ARCHIVED
+                - PORTFOLIO_OUT_OF_BUDGET
+                - PENDING_START_DATE
+                - ENDED
+  parameters:
+    portfolioIdFilter:
+      name: portfolioIdFilter
+      in: query
+      description: The returned list includes portfolios with identifiers matching those in the specified comma-delimited list. There is a maximum of 100 identifiers allowed.
+      schema:
+        type: string
+    portfolioNameFilter:
+      name: portfolioNameFilter
+      in: query
+      description: The returned list includes portfolios with names matching those in the specified comma-delimited list. There is a maximum of 100 names allowed.
+      schema:
+        type: string
+    portfolioStateFilter:
+      name: portfolioStateFilter
+      in: query
+      description: The returned list includes portfolios with states matching those in the specified comma-delimited list.
+      schema:
+        type: string
+        enum:
+          - enabled
+          - paused
+          - archived
+    clientHeader:
+      name: Amazon-Advertising-API-ClientId
+      in: header
+      description: The identifier of a client associated with a "Login with Amazon" account.
+      required: true
+      schema:
+        type: string
+    profileHeader:
+      name: Amazon-Advertising-API-Scope
+      in: header
+      description: The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.
+      required: true
+      schema:
+        type: string
+  responses:
+    unauthorized:
+      description: The account associated with the authentication token passed in the `Authorization` header is not authorized to perform this action.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: The error code.
+              details:
+                type: string
+                description: A human-readable description of the error.
+    notFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: The error code.
+              details:
+                type: string
+                description: A human-readable description of the error.
+  securitySchemes:
+    oauth2AuthorizationCode:
+      type: oauth2
+      description: Login with Amazon. For more information see [Login with Amazon authorization code grant](https://developer.amazon.com/docs/login-with-amazon/authorization-code-grant.html).
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.amazon.com/ap/oa
+          tokenUrl: https://api.amazon.com/auth/o2/token
+          scopes:
+            cpc_advertising:campaign_management: Modify your advertising campaigns and access performance data
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - oauth2AuthorizationCode: [ "cpc_advertising:campaign_management" ]
+  - bearerAuth: [ ]

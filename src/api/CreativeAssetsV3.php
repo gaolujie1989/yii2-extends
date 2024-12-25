@@ -24,7 +24,7 @@ class CreativeAssetsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function getAsset(array $query, string $contentType = 'application/vnd.creativeassetsgetresponse.v3+json'): void
     {
-        $this->api(array_merge(["/assets"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/assets"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -34,7 +34,7 @@ class CreativeAssetsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function getAssetsBatchRegister(string $requestId, string $contentType = 'application/vnd.creativeassetsgetbatchregisterresponse.v3+json'): void
     {
-        $this->api("/assets/batchRegister/{$requestId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api("/assets/batchRegister/{$requestId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

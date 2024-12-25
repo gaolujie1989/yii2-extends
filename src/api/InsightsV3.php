@@ -37,7 +37,7 @@ class InsightsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function insightsGetAudiencesOverlappingAudiences(string $audienceId, array $query, string $contentType = 'application/vnd.insightsaudiencesoverlap.v2+json'): void
     {
-        $this->api(array_merge(["/insights/audiences/{$audienceId}/overlappingAudiences"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/insights/audiences/{$audienceId}/overlappingAudiences"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

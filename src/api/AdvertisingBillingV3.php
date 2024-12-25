@@ -86,7 +86,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getBillingProfileAgreementContent(string $billingProfileAgreementContentId, array $query = [], string $contentType = 'application/vnd.billingProfileAgreement.v1+json'): array
     {
-        return $this->api(array_merge(["/billingProfileAgreementContents/{$billingProfileAgreementContentId}"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/billingProfileAgreementContents/{$billingProfileAgreementContentId}"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -203,7 +203,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getCustomerPaymentMethods(array $query, string $contentType = 'application/vnd.paymentmethods.v1+json'): array
     {
-        return $this->api(array_merge(["/billing/paymentMethods/list"], $query), 'POST', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/billing/paymentMethods/list"], $query), 'POST', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -294,7 +294,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getAdvertiserInvoices(array $query = [], string $contentType = 'application/vnd.invoices.v1.1+json'): void
     {
-        $this->api(array_merge(["/invoices"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/invoices"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -318,7 +318,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getInvoice(string $invoiceId, string $contentType = 'application/vnd.invoice.v1.1+json'): array
     {
-        return $this->api("/invoices/{$invoiceId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/invoices/{$invoiceId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -334,7 +334,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getBillingStatement(string $billingStatementRequestId, string $contentType = 'application/vnd.createbillingstatementsrequest.v1+json'): array
     {
-        return $this->api("/billingStatements/{$billingStatementRequestId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/billingStatements/{$billingStatementRequestId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -361,7 +361,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getPaymentAgreements(array $query, string $contentType = 'application/vnd.paymentagreements.v1+json'): array
     {
-        return $this->api(array_merge(["/billing/paymentAgreements/list"], $query), 'POST', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/billing/paymentAgreements/list"], $query), 'POST', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -390,7 +390,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      */
     public function getDocument(string $documentId, array $query, string $contentType = 'application/vnd.billingDocuments.v1+json'): array
     {
-        return $this->api(array_merge(["/billing/documents/{$documentId}"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/billing/documents/{$documentId}"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

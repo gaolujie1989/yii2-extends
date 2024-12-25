@@ -31,7 +31,7 @@ class ProfilesV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function listProfiles(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/v2/profiles"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/v2/profiles"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -107,7 +107,7 @@ class ProfilesV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function getProfileById(int $profileId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/profiles/{$profileId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/v2/profiles/{$profileId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

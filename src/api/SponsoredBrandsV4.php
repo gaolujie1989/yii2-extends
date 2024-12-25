@@ -497,7 +497,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function sBTargetingGetNegativeBrands(array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/negativeTargets/brands/recommendations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sb/negativeTargets/brands/recommendations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -654,7 +654,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function sBTargetingGetTargetableCategories(array $query, string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/targets/categories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sb/targets/categories"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -768,7 +768,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function sBTargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/targets/categories/{$categoryRefinementId}/refinements"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sb/targets/categories/{$categoryRefinementId}/refinements"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -877,7 +877,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function getSBBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sb/budgetRules"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sb/budgetRules"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -891,7 +891,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function getBudgetRuleByRuleIdForSBCampaigns(string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/budgetRules/{$budgetRuleId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sb/budgetRules/{$budgetRuleId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -923,7 +923,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function listAssociatedBudgetRulesForSBCampaigns(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/campaigns/{$campaignId}/budgetRules", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sb/campaigns/{$campaignId}/budgetRules", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -983,7 +983,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function getCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sb/budgetRules/{$budgetRuleId}/campaigns"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sb/budgetRules/{$budgetRuleId}/campaigns"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -997,7 +997,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      */
     public function disassociateAssociatedBudgetRuleForSBCampaigns(int $campaignId, string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sb/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

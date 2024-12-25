@@ -21,7 +21,7 @@ class DSPV31 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function getOrder(string $orderId, string $contentType = 'application/vnd.dsporders.v2.6+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/orders/{$orderId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -42,7 +42,7 @@ class DSPV31 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function getOrders(array $query = [], string $contentType = 'application/vnd.dsporders.v2.6+json'): array
     {
-        return $this->api(array_merge(["/dsp/orders/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/orders/"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -91,7 +91,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function getConversionTrackings(string $orderId, string $contentType = 'application/vnd.dsporders.v2.1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -113,7 +113,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function getProductsByOrderId(string $orderId, string $contentType = 'application/vnd.dspproducttrackinglist.v1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -136,7 +136,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function exportProductsByOrderId(string $orderId, string $contentType = 'application/vnd.dspproducttrackingfile.v1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products/export", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products/export", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -146,7 +146,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function getPixelsByOrderId(string $orderId, string $contentType = 'application/vnd.dsppixeltracking.v1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking/pixels", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking/pixels", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -167,7 +167,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function getLineItem(string $lineItemId, string $contentType = 'application/vnd.dsplineitems.v3.3+json'): array
     {
-        return $this->api("/dsp/lineItems/{$lineItemId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/lineItems/{$lineItemId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -190,7 +190,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function getLineItems(array $query = [], string $contentType = 'application/vnd.dspbasiclineitems.v3+json'): array
     {
-        return $this->api(array_merge(["/dsp/lineItems/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/lineItems/"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -250,7 +250,7 @@ Callout - A future update will add support for multiple at a time.
      */
     public function getCreatives(array $query = [], string $contentType = 'application/vnd.dspcreatives.v2.1+json'): array
     {
-        return $this->api(array_merge(["/dsp/creatives/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/creatives/"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -263,7 +263,7 @@ Callout - A future update will add support to get multiple Image creatives at a 
      */
     public function getImageCreatives(string $contentType = 'application/vnd.dspimagecreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/image", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/creatives/image", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -319,7 +319,7 @@ Callout - A future update will add support to get multiple Video creatives at a 
      */
     public function getVideoCreatives(string $contentType = 'application/vnd.dspvideocreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/video", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/creatives/video", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -373,7 +373,7 @@ Callout - A future update will add support to get multiple REC creatives at a ti
      */
     public function getRecCreatives(string $contentType = 'application/vnd.dspreccreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/rec", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/creatives/rec", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -428,7 +428,7 @@ Note that a future update will add support to get multiple third party creatives
      */
     public function getThirdPartyCreatives(string $contentType = 'application/vnd.dspthirdpartycreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/thirdparty", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/creatives/thirdparty", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -480,7 +480,7 @@ Note that a future update will add support to update multiple third party creati
      */
     public function getCreativeModeration(string $contentType = 'application/vnd.dspmoderationcreatives.v1+json'): void
     {
-        $this->api("/dsp/moderation/creatives", ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api("/dsp/moderation/creatives", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -499,7 +499,7 @@ Note that a future update will add support to update multiple third party creati
      */
     public function listLineItemCreativeAssociations(array $query, string $contentType = 'application/vnd.dsplineitemcreativeassociations.v2.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/lineItemCreativeAssociations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/lineItemCreativeAssociations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -547,7 +547,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      */
     public function createFileUploadsPolicy(array $query, string $contentType = 'application/vnd.dspfileuploadpolicies.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/fileUploads/policy/"], $query), 'POST', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/fileUploads/policy/"], $query), 'POST', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -564,7 +564,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      */
     public function getPixels(array $query, string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/pixels"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/dsp/pixels"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -577,7 +577,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      */
     public function getProductCategories(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/productCategories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/dsp/productCategories"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -658,7 +658,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      */
     public function getSupplySources(array $query, string $contentType = 'application/vnd.supplysources.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/supplySources"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/supplySources"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -671,7 +671,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      */
     public function getDomains(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/domainLists"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/dsp/domainLists"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -700,7 +700,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getGeoLocations(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/geoLocations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/dsp/geoLocations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -715,7 +715,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getIabContentCategories(array $query = [], string $contentType = 'application/vnd.dspiabcontentcategories.v1+json'): void
     {
-        $this->api(array_merge(["/dsp/iabContentCategories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/dsp/iabContentCategories"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -769,7 +769,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getDvCustomContextualSegments(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/dsp/preBidTargeting/doubleVerify/customContextualSegments"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/preBidTargeting/doubleVerify/customContextualSegments"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -817,7 +817,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getOdcCustomPredicts(array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/customPredicts"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/customPredicts"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -859,7 +859,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getOdcStandardPredicts(array $query = [], string $contentType = 'application/vnd.odcstandardpredicts.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/standardPredicts"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/standardPredicts"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -870,7 +870,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getGoalConfigurations(array $query, string $contentType = 'application/vnd.goalconfigurations.v1.1+json'): void
     {
-        $this->api(array_merge(["/dsp/goalConfigurations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/dsp/goalConfigurations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -930,7 +930,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getApps(array $query = [], string $contentType = 'application/vnd.dspgetapps.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/apps"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/apps"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -943,7 +943,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      */
     public function getDomainTargeting(array $query, string $contentType = 'application/vnd.dspreaddomaintargeting.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/targeting/domain/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/targeting/domain/"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

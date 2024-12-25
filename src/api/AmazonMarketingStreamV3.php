@@ -25,7 +25,7 @@ Note: trailing slash in request uri is not allowed
      */
     public function getStreamSubscription(string $subscriptionId, string $contentType = 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api("/streams/subscriptions/{$subscriptionId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/streams/subscriptions/{$subscriptionId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -94,7 +94,7 @@ Note: trailing slash in request uri is not allowed
      */
     public function listStreamSubscriptions(array $query = [], string $contentType = 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api(array_merge(["/streams/subscriptions"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/streams/subscriptions"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -164,7 +164,7 @@ header
      */
     public function listDspStreamSubscriptions(array $query = [], string $contentType = 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api(array_merge(["/dsp/streams/subscriptions"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/streams/subscriptions"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -188,7 +188,7 @@ header
      */
     public function getDspStreamSubscription(string $subscriptionId, string $contentType = 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api("/dsp/streams/subscriptions/{$subscriptionId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/streams/subscriptions/{$subscriptionId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

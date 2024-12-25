@@ -29,7 +29,7 @@ class DSPAdvertiserV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCli
      */
     public function getDSPAdvertiser(string $advertiserId, string $contentType = 'application/json'): array
     {
-        return $this->api("/dsp/advertisers/{$advertiserId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/advertisers/{$advertiserId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -49,7 +49,7 @@ class DSPAdvertiserV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCli
      */
     public function getDSPAdvertisers(array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/dsp/advertisers"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/advertisers"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

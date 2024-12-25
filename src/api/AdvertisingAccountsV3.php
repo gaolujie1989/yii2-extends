@@ -24,7 +24,7 @@ class AdvertisingAccountsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertis
      */
     public function getAccount(string $advertisingAccountId, string $contentType = 'application/vnd.accountresource.v1+json'): array
     {
-        return $this->api("/adsAccounts/{$advertisingAccountId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/adsAccounts/{$advertisingAccountId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -98,7 +98,7 @@ class AdvertisingAccountsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertis
      */
     public function getTermsToken(string $termsToken, string $contentType = 'application/vnd.termstokenresource.v1+json'): array
     {
-        return $this->api("/termsTokens/{$termsToken}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/termsTokens/{$termsToken}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

@@ -32,7 +32,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function listCampaigns(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/campaigns"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/campaigns"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -67,7 +67,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function getCampaign(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/campaigns/{$campaignId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/campaigns/{$campaignId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -82,7 +82,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function archiveCampaign(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/campaigns/{$campaignId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/campaigns/{$campaignId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -103,7 +103,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function listCampaignsEx(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/campaigns/extended"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/campaigns/extended"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -143,7 +143,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function getCampaignResponseEx(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/campaigns/extended/{$campaignId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/campaigns/extended/{$campaignId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -164,7 +164,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function listAdGroups(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/adGroups"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/adGroups"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -194,7 +194,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function getAdGroup(int $adGroupId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/adGroups/{$adGroupId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/adGroups/{$adGroupId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -209,7 +209,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function archiveAdGroup(int $adGroupId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/adGroups/{$adGroupId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/adGroups/{$adGroupId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -230,7 +230,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function listAdGroupsEx(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/adGroups/extended"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/adGroups/extended"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -267,7 +267,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function getAdGroupResponseEx(int $adGroupId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/adGroups/extended/{$adGroupId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/adGroups/extended/{$adGroupId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -288,7 +288,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function listProductAds(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/productAds"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/productAds"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -318,7 +318,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function getProductAd(int $adId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/productAds/{$adId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/productAds/{$adId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -334,7 +334,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function archiveProductAd(int $adId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/productAds/{$adId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/productAds/{$adId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -355,7 +355,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function listProductAdsEx(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/productAds/extended"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/productAds/extended"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -387,7 +387,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      */
     public function getProductAdResponseEx(int $adId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/productAds/extended/{$adId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/productAds/extended/{$adId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -407,7 +407,7 @@ from the time a domain is added/deleted to the time it is reflected in the deny 
      */
     public function listDomains(array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sd/brandSafety/deny"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sd/brandSafety/deny"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -434,7 +434,7 @@ from the time a domain is added/deleted to the time it is reflected in the deny 
      */
     public function deleteBrandSafetyDenyList(string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/brandSafety/deny", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/brandSafety/deny", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -460,7 +460,7 @@ from the time a domain is added/deleted to the time it is reflected in the deny 
      */
     public function getReportStatus(string $reportId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/reports/{$reportId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/v2/reports/{$reportId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -538,7 +538,7 @@ Each report type supports different metrics. **To understand supported metrics f
      */
     public function listTargetingClauses(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/targets"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/targets"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -621,7 +621,7 @@ Note:
      */
     public function getTargets(int $targetId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/targets/{$targetId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/targets/{$targetId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -637,7 +637,7 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
      */
     public function archiveTargetingClause(int $targetId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/targets/{$targetId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/targets/{$targetId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -658,7 +658,7 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
      */
     public function listTargetingClausesEx(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/targets/extended"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/targets/extended"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -683,7 +683,7 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
      */
     public function getTargetsEx(int $targetId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/targets/extended/{$targetId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/targets/extended/{$targetId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -765,7 +765,7 @@ Therefore it's only supported if the product is a landing page url.
      */
     public function listNegativeTargetingClauses(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/negativeTargets"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/negativeTargets"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -798,7 +798,7 @@ Product negative targeting clause examples:
      */
     public function getNegativeTargets(int $negativeTargetId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/negativeTargets/{$negativeTargetId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/negativeTargets/{$negativeTargetId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -813,7 +813,7 @@ Product negative targeting clause examples:
      */
     public function archiveNegativeTargetingClause(int $negativeTargetId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/negativeTargets/{$negativeTargetId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/negativeTargets/{$negativeTargetId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -834,7 +834,7 @@ Product negative targeting clause examples:
      */
     public function listNegativeTargetingClausesEx(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/negativeTargets/extended"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/negativeTargets/extended"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -859,7 +859,7 @@ Product negative targeting clause examples:
      */
     public function getNegativeTargetsEx(int $negativeTargetId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/negativeTargets/extended/{$negativeTargetId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/negativeTargets/extended/{$negativeTargetId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -915,7 +915,7 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      */
     public function getSnapshot(string $snapshotId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/snapshots/{$snapshotId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/snapshots/{$snapshotId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -943,7 +943,7 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      */
     public function listCreatives(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/creatives"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/creatives"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -996,7 +996,7 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      */
     public function listCreativeModerations(array $query, string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/moderation/creatives"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/moderation/creatives"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1016,7 +1016,7 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      */
     public function getRequestResults(string $requestId, array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sd/brandSafety/{$requestId}/results"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sd/brandSafety/{$requestId}/results"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1028,7 +1028,7 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      */
     public function getRequestStatus(string $requestId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/brandSafety/{$requestId}/status", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/brandSafety/{$requestId}/status", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1040,7 +1040,7 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      */
     public function listRequestStatus(string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/brandSafety/status", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/brandSafety/status", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1157,7 +1157,7 @@ Maximum size limit 50.
      */
     public function listOptimizationRules(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/optimizationRules"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/optimizationRules"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1194,7 +1194,7 @@ Maximum size limit 50.
      */
     public function getOptimizationRule(string $optimizationRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/optimizationRules/{$optimizationRuleId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/optimizationRules/{$optimizationRuleId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1224,7 +1224,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      */
     public function getOptimizationRulesByAdGroup(int $adGroupId, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/adGroups/{$adGroupId}/optimizationRules", ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api("/sd/adGroups/{$adGroupId}/optimizationRules", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1286,7 +1286,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      */
     public function getBudgetRuleByRuleIdForSDCampaigns(string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/budgetRules/{$budgetRuleId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sd/budgetRules/{$budgetRuleId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1357,7 +1357,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      */
     public function getSDBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sd/budgetRules"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sd/budgetRules"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1407,7 +1407,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      */
     public function listLocations(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/sd/locations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api(array_merge(["/sd/locations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

@@ -56,7 +56,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function dspAmazonAdTagGetAdTagByAdvertiserId(string $contentType = 'application/vnd.dspamazonadtags.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/amazonAdTag", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/accounts/{accountId}/dsp/amazonAdTag", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -146,7 +146,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function dspAmazonGetAdTagAssociatedEvent(string $conversionDefinitionId, string $contentType = 'application/vnd.dspconversionadtageventassociation.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/{$conversionDefinitionId}/adTagEventAssociations", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/{$conversionDefinitionId}/adTagEventAssociations", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -199,7 +199,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function dspAmazonGetAssociatedMobileAppForConversionDefinition(string $conversionDefinitionId, string $contentType = 'application/vnd.dspassociatedmobilemeasurementpartnerappregistration.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/{$conversionDefinitionId}/mobileMeasurementPartnerAppRegistration", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/{$conversionDefinitionId}/mobileMeasurementPartnerAppRegistration", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -300,7 +300,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function dspAmazonAdTagGetEventsByAdTagId(string $adTagId, array $query = [], string $contentType = 'application/vnd.dspamazonadtagevents.v1+json'): array
     {
-        return $this->api(array_merge(["/accounts/{accountId}/dsp/adTagEvents/{$adTagId}/list"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/accounts/{accountId}/dsp/adTagEvents/{$adTagId}/list"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -374,7 +374,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function dspAmazonGetAssociatedConversionDefinitionsForOrder(string $orderId, array $query = [], string $contentType = 'application/vnd.dsporderconversionassociation.v1+json'): array
     {
-        return $this->api(array_merge(["/accounts/{accountId}/dsp/orders/{$orderId}/conversionDefinitionAssociations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/accounts/{accountId}/dsp/orders/{$orderId}/conversionDefinitionAssociations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

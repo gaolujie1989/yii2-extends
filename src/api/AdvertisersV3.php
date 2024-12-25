@@ -41,7 +41,7 @@ class AdvertisersV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getAccountBudgetFeatureFlags(string $contentType = 'application/vnd.accountBudgetFeatureFlags.v1+json'): array
     {
-        return $this->api("/accountBudgets/featureFlags", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/accountBudgets/featureFlags", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

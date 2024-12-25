@@ -57,7 +57,7 @@ class ManagerAccountV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      */
     public function getManagerAccountsForUser(string $contentType = 'application/vnd.getmanageraccountsresponse.v1+json'): array
     {
-        return $this->api("/managerAccounts", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/managerAccounts", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

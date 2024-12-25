@@ -129,7 +129,7 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      */
     public function getTargetableCategories(array $query = [], string $contentType = 'application/vnd.spproducttargetingresponse.v3+json'): array
     {
-        return $this->api(array_merge(["/sp/targets/categories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sp/targets/categories"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -221,7 +221,7 @@ header
      */
     public function listAssociatedBudgetRulesForSPCampaigns(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/campaigns/{$campaignId}/budgetRules", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sp/campaigns/{$campaignId}/budgetRules", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -254,7 +254,7 @@ header
      */
     public function getRefinementsForCategory(string $categoryId, array $query = [], string $contentType = 'application/vnd.spproducttargetingresponse.v3+json'): array
     {
-        return $this->api(array_merge(["/sp/targets/category/{$categoryId}/refinements"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sp/targets/category/{$categoryId}/refinements"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -568,7 +568,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      */
     public function getSPBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sp/budgetRules"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sp/budgetRules"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -700,7 +700,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      */
     public function getNegativeBrands(string $contentType = 'application/vnd.spproducttargetingresponse.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets/brands/recommendations", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sp/negativeTargets/brands/recommendations", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1065,7 +1065,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      */
     public function getCampaignRecommendations(array $query = [], string $contentType = 'application/vnd.spgetcampaignrecommendationsresponse.v1+json'): array
     {
-        return $this->api(array_merge(["/sp/campaign/recommendations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sp/campaign/recommendations"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1232,7 +1232,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      */
     public function getCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sp/budgetRules/{$budgetRuleId}/campaigns"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/sp/budgetRules/{$budgetRuleId}/campaigns"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1246,7 +1246,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      */
     public function disassociateAssociatedBudgetRuleForSPCampaigns(int $campaignId, string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sp/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1407,7 +1407,7 @@ header
      */
     public function getBudgetRuleByRuleIdForSPCampaigns(string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/budgetRules/{$budgetRuleId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sp/budgetRules/{$budgetRuleId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1421,7 +1421,7 @@ header
      */
     public function getCampaignOptimizationRule(string $campaignOptimizationId, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1439,7 +1439,7 @@ header
      */
     public function deleteCampaignOptimizationRule(string $campaignOptimizationId, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

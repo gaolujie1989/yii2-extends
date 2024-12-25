@@ -76,7 +76,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function vendorProductSurveyQuestionTemplates(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/vendorProducts/surveyQuestionTemplates"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/measurement/vendorProducts/surveyQuestionTemplates"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -149,7 +149,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPBrandLiftStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/brandLift"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/measurement/studies/brandLift"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -250,7 +250,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPCreativeTestingStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/creativeTesting"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/measurement/studies/creativeTesting"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -323,7 +323,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getSurveys(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/studies/surveys"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/measurement/studies/surveys"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -354,7 +354,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPBrandLiftStudyResult(string $studyId, string $contentType = 'application/vnd.measurementresult.v1.1+json'): array
     {
-        return $this->api("/measurement/studies/brandLift/{$studyId}/result", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/measurement/studies/brandLift/{$studyId}/result", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -453,7 +453,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPAudienceResearchStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/audienceResearch"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/measurement/studies/audienceResearch"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -562,7 +562,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/studies"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/measurement/studies"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -577,7 +577,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function cancelMeasurementStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/studies"], $query), 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/measurement/studies"], $query), 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -650,7 +650,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPOmnichannelMetricsStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/omnichannelMetrics"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/dsp/measurement/studies/omnichannelMetrics"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -741,7 +741,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function vendorProductPolicy(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/vendorProducts/policies"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/measurement/vendorProducts/policies"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -786,7 +786,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPAudienceResearchStudyResult(string $studyId, string $contentType = 'application/vnd.measurementresult.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/audienceResearch/{$studyId}/result", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/measurement/studies/audienceResearch/{$studyId}/result", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -802,7 +802,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      */
     public function getDSPCreativeTestingStudyResult(string $studyId, string $contentType = 'application/vnd.measurementresult.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/creativeTesting/{$studyId}/result", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/dsp/measurement/studies/creativeTesting/{$studyId}/result", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

@@ -192,7 +192,7 @@ To understand the call flow for asynchronous exports, see [Getting started with 
      */
     public function getExport(string $exportId, string $contentType = 'application/vnd.campaignsexport.v1+json'): array
     {
-        return $this->api("/exports/{$exportId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/exports/{$exportId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

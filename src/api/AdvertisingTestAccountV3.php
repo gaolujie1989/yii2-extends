@@ -39,7 +39,7 @@ class AdvertisingTestAccountV3 extends \lujie\amazon\advertising\BaseAmazonAdver
      */
     public function getAccountInformation(array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/testAccounts"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/testAccounts"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

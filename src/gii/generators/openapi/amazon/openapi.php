@@ -155,11 +155,11 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         } else {
             $apiParams[] = '"' . $apiUrl . '"';
         }
-        if ($httpMethod !== 'GET' || $requestBody) {
+        if ($httpMethod !== 'GET' || $requestBody || $contentType) {
             $apiParams[] = "'{$httpMethod}'";
         }
-        if ($requestBody) {
-            $apiParams[] = '$data';
+        if ($requestBody || $contentType) {
+            $apiParams[] = $requestBody ? '$data' : '[]';
         }
         if ($contentType) {
             $functionParams[] = "string \$contentType = '{$contentType}'";

@@ -19,7 +19,7 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function listPortfolios(string $contentType = 'application/json'): void
     {
-        $this->api("/v2/portfolios", ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api("/v2/portfolios", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -56,7 +56,7 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function getPortfolio(int $portfolioId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/portfolios/{$portfolioId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/v2/portfolios/{$portfolioId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -65,7 +65,7 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function listPortfoliosEx(string $contentType = 'application/json'): void
     {
-        $this->api("/v2/portfolios/extended", ['content-type' => $contentType, 'accept' => $contentType]);
+        $this->api("/v2/portfolios/extended", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -75,7 +75,7 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      */
     public function listPortfolioEx(int $portfolioId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/portfolios/extended/{$portfolioId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/v2/portfolios/extended/{$portfolioId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

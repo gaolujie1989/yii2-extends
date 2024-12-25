@@ -21,7 +21,7 @@ class AmazonAttributionV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      */
     public function getPublishers(string $contentType = 'application/json'): array
     {
-        return $this->api("/attribution/publishers", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/attribution/publishers", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -113,7 +113,7 @@ If no values are passed, all advertisers are returned.
      */
     public function getPublisherMacroAttributionTag(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/attribution/tags/nonMacroTemplateTag"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/attribution/tags/nonMacroTemplateTag"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -123,7 +123,7 @@ If no values are passed, all advertisers are returned.
      */
     public function getAdvertisersByProfile(string $contentType = 'application/json'): array
     {
-        return $this->api("/attribution/advertisers", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/attribution/advertisers", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -140,7 +140,7 @@ If no values are passed, all advertisers are returned.
      */
     public function getPublisherAttributionTagTemplate(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/attribution/tags/macroTag"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/attribution/tags/macroTag"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

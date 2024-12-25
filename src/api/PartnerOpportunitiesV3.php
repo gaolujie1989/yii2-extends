@@ -296,7 +296,7 @@ header
      */
     public function partnerOpportunitiesListOpportunities(array $query = [], string $contentType = 'application/vnd.partneropportunity.v1.2+json'): array
     {
-        return $this->api(array_merge(["/partnerOpportunities"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/partnerOpportunities"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -363,7 +363,7 @@ header
      */
     public function partnerOpportunitiesSummarizeOpportunities(array $query = [], string $contentType = 'application/vnd.partneropportunity.v1.2+json'): array
     {
-        return $this->api(array_merge(["/partnerOpportunities/summary"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api(array_merge(["/partnerOpportunities/summary"], $query), 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

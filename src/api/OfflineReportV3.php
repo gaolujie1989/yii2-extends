@@ -59,7 +59,7 @@ see [Retry logic with exponential backoff](concepts/rate-limiting#use-retry-logi
      */
     public function getAsyncReport(string $reportId, string $contentType = 'application/vnd.getasyncreportresponse.v3+json'): array
     {
-        return $this->api("/reporting/reports/{$reportId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/reporting/reports/{$reportId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -75,7 +75,7 @@ see [Retry logic with exponential backoff](concepts/rate-limiting#use-retry-logi
      */
     public function deleteAsyncReport(string $reportId, string $contentType = 'application/vnd.deleteasyncreportresponse.v3+json'): array
     {
-        return $this->api("/reporting/reports/{$reportId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/reporting/reports/{$reportId}", 'DELETE', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

@@ -37,7 +37,7 @@ class BrandMetricsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClie
      */
     public function getBrandMetricsReport(string $reportId, string $contentType = 'application/vnd.insightsbrandmetrics.v1+json'): array
     {
-        return $this->api("/insights/brandMetrics/report/{$reportId}", ['content-type' => $contentType, 'accept' => $contentType]);
+        return $this->api("/insights/brandMetrics/report/{$reportId}", 'GET', [], ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

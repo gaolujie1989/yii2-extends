@@ -100,9 +100,9 @@ path
      *      - *status* - string
      *          - The build status of the report.
      */
-    public function getCampaignReportV3(string $accountId, string $reportId): array
+    public function getCampaignReportV3(string $accountId, string $reportId, string $contentType = 'application/vnd.dspgetreports.v3+json'): array
     {
-        return $this->api("/accounts/{$accountId}/dsp/reports/{$reportId}");
+        return $this->api("/accounts/{$accountId}/dsp/reports/{$reportId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

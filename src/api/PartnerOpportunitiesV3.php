@@ -144,7 +144,7 @@ header
      *      - *prevToken* - string
      *          - Pagination token back to the previous page.
      */
-    public function eachtnerOpportunitiesListOpportunities(array $query = []): Iterator
+    public function eachtnerOpportunitiesListOpportunities(array $query = [], string $contentType = 'application/vnd.partneropportunity.v1.2+json'): Iterator
     {
         return $this->eachInternal('partnerOpportunitiesListOpportunities', func_get_args());
     }
@@ -219,7 +219,7 @@ header
      *      - *prevToken* - string
      *          - Pagination token back to the previous page.
      */
-    public function batchtnerOpportunitiesListOpportunities(array $query = []): Iterator
+    public function batchtnerOpportunitiesListOpportunities(array $query = [], string $contentType = 'application/vnd.partneropportunity.v1.2+json'): Iterator
     {
         return $this->batchInternal('partnerOpportunitiesListOpportunities', func_get_args());
     }
@@ -294,9 +294,9 @@ header
      *      - *prevToken* - string
      *          - Pagination token back to the previous page.
      */
-    public function partnerOpportunitiesListOpportunities(array $query = []): array
+    public function partnerOpportunitiesListOpportunities(array $query = [], string $contentType = 'application/vnd.partneropportunity.v1.2+json'): array
     {
-        return $this->api(array_merge(["/partnerOpportunities"], $query));
+        return $this->api(array_merge(["/partnerOpportunities"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -361,9 +361,9 @@ header
      *      - *availableObjectiveTypes* - array
      *          - All available opportunity objective values with the number of opportunities for each.
      */
-    public function partnerOpportunitiesSummarizeOpportunities(array $query = []): array
+    public function partnerOpportunitiesSummarizeOpportunities(array $query = [], string $contentType = 'application/vnd.partneropportunity.v1.2+json'): array
     {
-        return $this->api(array_merge(["/partnerOpportunities/summary"], $query));
+        return $this->api(array_merge(["/partnerOpportunities/summary"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

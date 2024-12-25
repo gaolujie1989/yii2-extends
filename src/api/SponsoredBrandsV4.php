@@ -453,7 +453,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function eachargetingGetNegativeBrands(array $query = []): Iterator
+    public function eachargetingGetNegativeBrands(array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): Iterator
     {
         return $this->eachInternal('sBTargetingGetNegativeBrands', func_get_args());
     }
@@ -474,7 +474,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function batchargetingGetNegativeBrands(array $query = []): Iterator
+    public function batchargetingGetNegativeBrands(array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): Iterator
     {
         return $this->batchInternal('sBTargetingGetNegativeBrands', func_get_args());
     }
@@ -495,9 +495,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function sBTargetingGetNegativeBrands(array $query = []): array
+    public function sBTargetingGetNegativeBrands(array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/negativeTargets/brands/recommendations"], $query));
+        return $this->api(array_merge(["/sb/negativeTargets/brands/recommendations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -588,7 +588,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *categoryTree* - array
      *          - List of categories.
      */
-    public function eachargetingGetTargetableCategories(array $query): Iterator
+    public function eachargetingGetTargetableCategories(array $query, string $contentType = 'application/vnd.sbtargeting.v4+json'): Iterator
     {
         return $this->eachInternal('sBTargetingGetTargetableCategories', func_get_args());
     }
@@ -620,7 +620,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *categoryTree* - array
      *          - List of categories.
      */
-    public function batchargetingGetTargetableCategories(array $query): Iterator
+    public function batchargetingGetTargetableCategories(array $query, string $contentType = 'application/vnd.sbtargeting.v4+json'): Iterator
     {
         return $this->batchInternal('sBTargetingGetTargetableCategories', func_get_args());
     }
@@ -652,9 +652,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *categoryTree* - array
      *          - List of categories.
      */
-    public function sBTargetingGetTargetableCategories(array $query): array
+    public function sBTargetingGetTargetableCategories(array $query, string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/targets/categories"], $query));
+        return $this->api(array_merge(["/sb/targets/categories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -710,7 +710,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function eachargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = []): Iterator
+    public function eachargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): Iterator
     {
         return $this->eachInternal('sBTargetingGetRefinementsForCategory', func_get_args());
     }
@@ -738,7 +738,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function batchargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = []): Iterator
+    public function batchargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): Iterator
     {
         return $this->batchInternal('sBTargetingGetRefinementsForCategory', func_get_args());
     }
@@ -766,9 +766,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function sBTargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = []): array
+    public function sBTargetingGetRefinementsForCategory(string $categoryRefinementId, array $query = [], string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/targets/categories/{$categoryRefinementId}/refinements"], $query));
+        return $this->api(array_merge(["/sb/targets/categories/{$categoryRefinementId}/refinements"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -837,7 +837,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function eachSBBudgetRulesForAdvertiser(array $query): Iterator
+    public function eachSBBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->eachInternal('getSBBudgetRulesForAdvertiser', func_get_args());
     }
@@ -856,7 +856,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function batchSBBudgetRulesForAdvertiser(array $query): Iterator
+    public function batchSBBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->batchInternal('getSBBudgetRulesForAdvertiser', func_get_args());
     }
@@ -875,9 +875,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function getSBBudgetRulesForAdvertiser(array $query): array
+    public function getSBBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sb/budgetRules"], $query));
+        return $this->api(array_merge(["/sb/budgetRules"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -889,9 +889,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *budgetRule* - 
      */
-    public function getBudgetRuleByRuleIdForSBCampaigns(string $budgetRuleId): array
+    public function getBudgetRuleByRuleIdForSBCampaigns(string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/budgetRules/{$budgetRuleId}");
+        return $this->api("/sb/budgetRules/{$budgetRuleId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -921,9 +921,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *associatedRules* - array
      *          - A list of associated budget rules.
      */
-    public function listAssociatedBudgetRulesForSBCampaigns(int $campaignId): array
+    public function listAssociatedBudgetRulesForSBCampaigns(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/campaigns/{$campaignId}/budgetRules");
+        return $this->api("/sb/campaigns/{$campaignId}/budgetRules", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -941,7 +941,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function eachCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query): Iterator
+    public function eachCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->eachInternal('getCampaignsAssociatedWithSBBudgetRule', func_get_args());
     }
@@ -961,7 +961,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function batchCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query): Iterator
+    public function batchCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->batchInternal('getCampaignsAssociatedWithSBBudgetRule', func_get_args());
     }
@@ -981,9 +981,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function getCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query): array
+    public function getCampaignsAssociatedWithSBBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sb/budgetRules/{$budgetRuleId}/campaigns"], $query));
+        return $this->api(array_merge(["/sb/budgetRules/{$budgetRuleId}/campaigns"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -995,9 +995,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param string $budgetRuleId The budget rule identifier.
      * @return array
      */
-    public function disassociateAssociatedBudgetRuleForSBCampaigns(int $campaignId, string $budgetRuleId): array
+    public function disassociateAssociatedBudgetRuleForSBCampaigns(int $campaignId, string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE');
+        return $this->api("/sb/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

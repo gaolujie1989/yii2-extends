@@ -35,9 +35,9 @@ class InsightsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *nextToken* - string - optional
      *          - Token to be used to request additional overlapping audiences. If not provided, the top 30 overlapping audiences are returned. Note: subsequent calls must be made using the same parameters as used in previous requests.
      */
-    public function insightsGetAudiencesOverlappingAudiences(string $audienceId, array $query): void
+    public function insightsGetAudiencesOverlappingAudiences(string $audienceId, array $query, string $contentType = 'application/vnd.insightsaudiencesoverlap.v2+json'): void
     {
-        $this->api(array_merge(["/insights/audiences/{$audienceId}/overlappingAudiences"], $query));
+        $this->api(array_merge(["/insights/audiences/{$audienceId}/overlappingAudiences"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

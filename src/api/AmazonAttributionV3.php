@@ -19,9 +19,9 @@ class AmazonAttributionV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *publisher* - array
      *          - A list of publishers.
      */
-    public function getPublishers(): array
+    public function getPublishers(string $contentType = 'application/json'): array
     {
-        return $this->api("/attribution/publishers");
+        return $this->api("/attribution/publishers", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -111,9 +111,9 @@ If no values are passed, all advertisers are returned.
      *      - *advertiserAttributionTagMap* - object
      *          - A list of advertisers and associated attribution tags.
      */
-    public function getPublisherMacroAttributionTag(array $query): array
+    public function getPublisherMacroAttributionTag(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/attribution/tags/nonMacroTemplateTag"], $query));
+        return $this->api(array_merge(["/attribution/tags/nonMacroTemplateTag"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -121,9 +121,9 @@ If no values are passed, all advertisers are returned.
      * @return array
      *      - *advertisers* - array
      */
-    public function getAdvertisersByProfile(): array
+    public function getAdvertisersByProfile(string $contentType = 'application/json'): array
     {
-        return $this->api("/attribution/advertisers");
+        return $this->api("/attribution/advertisers", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -138,9 +138,9 @@ If no values are passed, all advertisers are returned.
      *      - *advertiserAttributionTagMap* - object
      *          - A list of advertisers and associated attribution tags.
      */
-    public function getPublisherAttributionTagTemplate(array $query): array
+    public function getPublisherAttributionTagTemplate(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/attribution/tags/macroTag"], $query));
+        return $this->api(array_merge(["/attribution/tags/macroTag"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

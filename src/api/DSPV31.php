@@ -19,9 +19,9 @@ class DSPV31 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @return array
      *      - *optimization* - 
      */
-    public function getOrder(string $orderId): array
+    public function getOrder(string $orderId, string $contentType = 'application/vnd.dsporders.v2.6+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}");
+        return $this->api("/dsp/orders/{$orderId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -40,9 +40,9 @@ class DSPV31 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @return array
      *      - *optimization* - 
      */
-    public function getOrders(array $query = []): array
+    public function getOrders(array $query = [], string $contentType = 'application/vnd.dsporders.v2.6+json'): array
     {
-        return $this->api(array_merge(["/dsp/orders/"], $query));
+        return $this->api(array_merge(["/dsp/orders/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -89,9 +89,9 @@ Callout - A future update will add support for multiple at a time.
      *      - *products* - 
      *      - *pixels* - 
      */
-    public function getConversionTrackings(string $orderId): array
+    public function getConversionTrackings(string $orderId, string $contentType = 'application/vnd.dsporders.v2.1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking");
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -111,9 +111,9 @@ Callout - A future update will add support for multiple at a time.
      * @param string $orderId The order identifier.
      * @return array
      */
-    public function getProductsByOrderId(string $orderId): array
+    public function getProductsByOrderId(string $orderId, string $contentType = 'application/vnd.dspproducttrackinglist.v1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products");
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -134,9 +134,9 @@ Callout - A future update will add support for multiple at a time.
      * @param string $orderId The order identifier.
      * @return array
      */
-    public function exportProductsByOrderId(string $orderId): array
+    public function exportProductsByOrderId(string $orderId, string $contentType = 'application/vnd.dspproducttrackingfile.v1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products/export");
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking/products/export", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -144,9 +144,9 @@ Callout - A future update will add support for multiple at a time.
      * @param string $orderId The order identifier.
      * @return array
      */
-    public function getPixelsByOrderId(string $orderId): array
+    public function getPixelsByOrderId(string $orderId, string $contentType = 'application/vnd.dsppixeltracking.v1+json'): array
     {
-        return $this->api("/dsp/orders/{$orderId}/conversionTracking/pixels");
+        return $this->api("/dsp/orders/{$orderId}/conversionTracking/pixels", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -165,9 +165,9 @@ Callout - A future update will add support for multiple at a time.
      * @return array
      *      - *targeting* - 
      */
-    public function getLineItem(string $lineItemId): array
+    public function getLineItem(string $lineItemId, string $contentType = 'application/vnd.dsplineitems.v3.3+json'): array
     {
-        return $this->api("/dsp/lineItems/{$lineItemId}");
+        return $this->api("/dsp/lineItems/{$lineItemId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -188,9 +188,9 @@ Callout - A future update will add support for multiple at a time.
      *          - Total number of results which satisfy the filtering criteria. This will help to support pagination.
      *      - *response* - array
      */
-    public function getLineItems(array $query = []): array
+    public function getLineItems(array $query = [], string $contentType = 'application/vnd.dspbasiclineitems.v3+json'): array
     {
-        return $this->api(array_merge(["/dsp/lineItems/"], $query));
+        return $this->api(array_merge(["/dsp/lineItems/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -248,9 +248,9 @@ Callout - A future update will add support for multiple at a time.
      *          - Total number of results which satisfy the filtering criteria. This will help to support pagination.
      *      - *response* - array
      */
-    public function getCreatives(array $query = []): array
+    public function getCreatives(array $query = [], string $contentType = 'application/vnd.dspcreatives.v2.1+json'): array
     {
-        return $this->api(array_merge(["/dsp/creatives/"], $query));
+        return $this->api(array_merge(["/dsp/creatives/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -261,9 +261,9 @@ Callout - A future update will add support to get multiple Image creatives at a 
      * @return array
      *      - *creatives* - array
      */
-    public function getImageCreatives(): array
+    public function getImageCreatives(string $contentType = 'application/vnd.dspimagecreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/image");
+        return $this->api("/dsp/creatives/image", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -317,9 +317,9 @@ Callout - A future update will add support to get multiple Video creatives at a 
      * @return array
      *      - *creatives* - array
      */
-    public function getVideoCreatives(): array
+    public function getVideoCreatives(string $contentType = 'application/vnd.dspvideocreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/video");
+        return $this->api("/dsp/creatives/video", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -371,9 +371,9 @@ Callout - A future update will add support to get multiple REC creatives at a ti
      * @return array
      *      - *creatives* - array
      */
-    public function getRecCreatives(): array
+    public function getRecCreatives(string $contentType = 'application/vnd.dspreccreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/rec");
+        return $this->api("/dsp/creatives/rec", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -426,9 +426,9 @@ Note that a future update will add support to get multiple third party creatives
      * @return array
      *      - *creatives* - array
      */
-    public function getThirdPartyCreatives(): array
+    public function getThirdPartyCreatives(string $contentType = 'application/vnd.dspthirdpartycreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/thirdparty");
+        return $this->api("/dsp/creatives/thirdparty", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -478,9 +478,9 @@ Note that a future update will add support to update multiple third party creati
      * @description Get creative moderation summary by creativeId.     * @tag Moderation
 
      */
-    public function getCreativeModeration(): void
+    public function getCreativeModeration(string $contentType = 'application/vnd.dspmoderationcreatives.v1+json'): void
     {
-        $this->api("/dsp/moderation/creatives");
+        $this->api("/dsp/moderation/creatives", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -497,9 +497,9 @@ Note that a future update will add support to update multiple third party creati
      *          - Total number of results which satisfy the filtering criteria. This will help to support pagination.
      *      - *response* - array
      */
-    public function listLineItemCreativeAssociations(array $query): array
+    public function listLineItemCreativeAssociations(array $query, string $contentType = 'application/vnd.dsplineitemcreativeassociations.v2.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/lineItemCreativeAssociations"], $query));
+        return $this->api(array_merge(["/dsp/lineItemCreativeAssociations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -545,9 +545,9 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *fields* - object
      *          - Fields used in Post request. See more details at https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_s3_presigned_post.html#post-file-using-formdata-in-nodejs
      */
-    public function createFileUploadsPolicy(array $query): array
+    public function createFileUploadsPolicy(array $query, string $contentType = 'application/vnd.dspfileuploadpolicies.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/fileUploads/policy/"], $query), 'POST');
+        return $this->api(array_merge(["/dsp/fileUploads/policy/"], $query), 'POST', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -562,9 +562,9 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *maxResults* - int - optional
      *          - Sets the maximum number of pixels in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
-    public function getPixels(array $query): void
+    public function getPixels(array $query, string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/pixels"], $query));
+        $this->api(array_merge(["/dsp/pixels"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -575,9 +575,9 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *maxResults* - int - optional
      *          - Sets the maximum number of categories in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 250. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
-    public function getProductCategories(array $query = []): void
+    public function getProductCategories(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/productCategories"], $query));
+        $this->api(array_merge(["/dsp/productCategories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -602,7 +602,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *supplySources* - array
      *          - Array of supply source items sorted by deal start time (if available) then ID, ascending.
      */
-    public function eachSupplySources(array $query): Iterator
+    public function eachSupplySources(array $query, string $contentType = 'application/vnd.supplysources.v1.2+json'): Iterator
     {
         return $this->eachInternal('getSupplySources', func_get_args());
     }
@@ -629,7 +629,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *supplySources* - array
      *          - Array of supply source items sorted by deal start time (if available) then ID, ascending.
      */
-    public function batchSupplySources(array $query): Iterator
+    public function batchSupplySources(array $query, string $contentType = 'application/vnd.supplysources.v1.2+json'): Iterator
     {
         return $this->batchInternal('getSupplySources', func_get_args());
     }
@@ -656,9 +656,9 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *supplySources* - array
      *          - Array of supply source items sorted by deal start time (if available) then ID, ascending.
      */
-    public function getSupplySources(array $query): array
+    public function getSupplySources(array $query, string $contentType = 'application/vnd.supplysources.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/supplySources"], $query));
+        return $this->api(array_merge(["/dsp/supplySources"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -669,9 +669,9 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *maxResults* - int - optional
      *          - Sets the maximum number of domain lists in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
-    public function getDomains(array $query = []): void
+    public function getDomains(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/domainLists"], $query));
+        $this->api(array_merge(["/dsp/domainLists"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -698,9 +698,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *maxResults* - int - optional
      *          - Sets the maximum number of locations in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,2000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
-    public function getGeoLocations(array $query = []): void
+    public function getGeoLocations(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/dsp/geoLocations"], $query));
+        $this->api(array_merge(["/dsp/geoLocations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -713,9 +713,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *maxResults* - int - optional
      *          - Sets the maximum number of categories in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 250. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
-    public function getIabContentCategories(array $query = []): void
+    public function getIabContentCategories(array $query = [], string $contentType = 'application/vnd.dspiabcontentcategories.v1+json'): void
     {
-        $this->api(array_merge(["/dsp/iabContentCategories"], $query));
+        $this->api(array_merge(["/dsp/iabContentCategories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -731,7 +731,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *customContextualSegments* - array
      */
-    public function eachDvCustomContextualSegments(array $query): Iterator
+    public function eachDvCustomContextualSegments(array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->eachInternal('getDvCustomContextualSegments', func_get_args());
     }
@@ -749,7 +749,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *customContextualSegments* - array
      */
-    public function batchDvCustomContextualSegments(array $query): Iterator
+    public function batchDvCustomContextualSegments(array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->batchInternal('getDvCustomContextualSegments', func_get_args());
     }
@@ -767,9 +767,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *customContextualSegments* - array
      */
-    public function getDvCustomContextualSegments(array $query): array
+    public function getDvCustomContextualSegments(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/dsp/preBidTargeting/doubleVerify/customContextualSegments"], $query));
+        return $this->api(array_merge(["/dsp/preBidTargeting/doubleVerify/customContextualSegments"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -783,7 +783,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *customPredicts* - array
      */
-    public function eachOdcCustomPredicts(array $query = []): Iterator
+    public function eachOdcCustomPredicts(array $query = [], string $contentType = 'application/json'): Iterator
     {
         return $this->eachInternal('getOdcCustomPredicts', func_get_args());
     }
@@ -799,7 +799,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *customPredicts* - array
      */
-    public function batchOdcCustomPredicts(array $query = []): Iterator
+    public function batchOdcCustomPredicts(array $query = [], string $contentType = 'application/json'): Iterator
     {
         return $this->batchInternal('getOdcCustomPredicts', func_get_args());
     }
@@ -815,9 +815,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *customPredicts* - array
      */
-    public function getOdcCustomPredicts(array $query = []): array
+    public function getOdcCustomPredicts(array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/customPredicts"], $query));
+        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/customPredicts"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -829,7 +829,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *standardPredicts* - array
      */
-    public function eachOdcStandardPredicts(array $query = []): Iterator
+    public function eachOdcStandardPredicts(array $query = [], string $contentType = 'application/vnd.odcstandardpredicts.v1+json'): Iterator
     {
         return $this->eachInternal('getOdcStandardPredicts', func_get_args());
     }
@@ -843,7 +843,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *standardPredicts* - array
      */
-    public function batchOdcStandardPredicts(array $query = []): Iterator
+    public function batchOdcStandardPredicts(array $query = [], string $contentType = 'application/vnd.odcstandardpredicts.v1+json'): Iterator
     {
         return $this->batchInternal('getOdcStandardPredicts', func_get_args());
     }
@@ -857,9 +857,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *standardPredicts* - array
      */
-    public function getOdcStandardPredicts(array $query = []): array
+    public function getOdcStandardPredicts(array $query = [], string $contentType = 'application/vnd.odcstandardpredicts.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/standardPredicts"], $query));
+        return $this->api(array_merge(["/dsp/preBidTargeting/oracleDataCloud/standardPredicts"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -868,9 +868,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *productLocation* - string - required
      *          - Whether to retrieve the goal configurations available for an endemic (sold on Amazon) or non-endemic order.
      */
-    public function getGoalConfigurations(array $query): void
+    public function getGoalConfigurations(array $query, string $contentType = 'application/vnd.goalconfigurations.v1.1+json'): void
     {
-        $this->api(array_merge(["/dsp/goalConfigurations"], $query));
+        $this->api(array_merge(["/dsp/goalConfigurations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -888,7 +888,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *apps* - array
      */
-    public function eachApps(array $query = []): Iterator
+    public function eachApps(array $query = [], string $contentType = 'application/vnd.dspgetapps.v1+json'): Iterator
     {
         return $this->eachInternal('getApps', func_get_args());
     }
@@ -908,7 +908,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *apps* - array
      */
-    public function batchApps(array $query = []): Iterator
+    public function batchApps(array $query = [], string $contentType = 'application/vnd.dspgetapps.v1+json'): Iterator
     {
         return $this->batchInternal('getApps', func_get_args());
     }
@@ -928,9 +928,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      *      - *nextToken* - string
      *      - *apps* - array
      */
-    public function getApps(array $query = []): array
+    public function getApps(array $query = [], string $contentType = 'application/vnd.dspgetapps.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/apps"], $query));
+        return $this->api(array_merge(["/dsp/apps"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -941,9 +941,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      * @return array
      *      - *response* - array
      */
-    public function getDomainTargeting(array $query): array
+    public function getDomainTargeting(array $query, string $contentType = 'application/vnd.dspreaddomaintargeting.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/targeting/domain/"], $query));
+        return $this->api(array_merge(["/dsp/targeting/domain/"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

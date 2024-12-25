@@ -190,9 +190,9 @@ To understand the call flow for asynchronous exports, see [Getting started with 
 - FAILED: Export has failed. See the error message for more details.
 
      */
-    public function getExport(string $exportId): array
+    public function getExport(string $exportId, string $contentType = 'application/vnd.campaignsexport.v1+json'): array
     {
-        return $this->api("/exports/{$exportId}");
+        return $this->api("/exports/{$exportId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

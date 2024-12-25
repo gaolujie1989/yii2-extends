@@ -127,9 +127,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      * @return array
      *      - *categoryTree* - string
      */
-    public function getTargetableCategories(array $query = []): array
+    public function getTargetableCategories(array $query = [], string $contentType = 'application/vnd.spproducttargetingresponse.v3+json'): array
     {
-        return $this->api(array_merge(["/sp/targets/categories"], $query));
+        return $this->api(array_merge(["/sp/targets/categories"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -219,9 +219,9 @@ header
      *      - *associatedRules* - array
      *          - A list of associated budget rules.
      */
-    public function listAssociatedBudgetRulesForSPCampaigns(int $campaignId): array
+    public function listAssociatedBudgetRulesForSPCampaigns(int $campaignId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/campaigns/{$campaignId}/budgetRules");
+        return $this->api("/sp/campaigns/{$campaignId}/budgetRules", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -252,9 +252,9 @@ header
      *      - *brands* - 
      *      - *genres* - 
      */
-    public function getRefinementsForCategory(string $categoryId, array $query = []): array
+    public function getRefinementsForCategory(string $categoryId, array $query = [], string $contentType = 'application/vnd.spproducttargetingresponse.v3+json'): array
     {
-        return $this->api(array_merge(["/sp/targets/category/{$categoryId}/refinements"], $query));
+        return $this->api(array_merge(["/sp/targets/category/{$categoryId}/refinements"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -528,7 +528,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function eachSPBudgetRulesForAdvertiser(array $query): Iterator
+    public function eachSPBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->eachInternal('getSPBudgetRulesForAdvertiser', func_get_args());
     }
@@ -547,7 +547,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function batchSPBudgetRulesForAdvertiser(array $query): Iterator
+    public function batchSPBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->batchInternal('getSPBudgetRulesForAdvertiser', func_get_args());
     }
@@ -566,9 +566,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function getSPBudgetRulesForAdvertiser(array $query): array
+    public function getSPBudgetRulesForAdvertiser(array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sp/budgetRules"], $query));
+        return $this->api(array_merge(["/sp/budgetRules"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -698,9 +698,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
 ["advertiser_campaign_edit","advertiser_campaign_view"]     * @tag Product Targeting
      * @return array
      */
-    public function getNegativeBrands(): array
+    public function getNegativeBrands(string $contentType = 'application/vnd.spproducttargetingresponse.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets/brands/recommendations");
+        return $this->api("/sp/negativeTargets/brands/recommendations", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1021,7 +1021,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *recommendations* - array
      *          - List of campaign recommendations.
      */
-    public function eachCampaignRecommendations(array $query = []): Iterator
+    public function eachCampaignRecommendations(array $query = [], string $contentType = 'application/vnd.spgetcampaignrecommendationsresponse.v1+json'): Iterator
     {
         return $this->eachInternal('getCampaignRecommendations', func_get_args());
     }
@@ -1042,7 +1042,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *recommendations* - array
      *          - List of campaign recommendations.
      */
-    public function batchCampaignRecommendations(array $query = []): Iterator
+    public function batchCampaignRecommendations(array $query = [], string $contentType = 'application/vnd.spgetcampaignrecommendationsresponse.v1+json'): Iterator
     {
         return $this->batchInternal('getCampaignRecommendations', func_get_args());
     }
@@ -1063,9 +1063,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *recommendations* - array
      *          - List of campaign recommendations.
      */
-    public function getCampaignRecommendations(array $query = []): array
+    public function getCampaignRecommendations(array $query = [], string $contentType = 'application/vnd.spgetcampaignrecommendationsresponse.v1+json'): array
     {
-        return $this->api(array_merge(["/sp/campaign/recommendations"], $query));
+        return $this->api(array_merge(["/sp/campaign/recommendations"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1190,7 +1190,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function eachCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query): Iterator
+    public function eachCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->eachInternal('getCampaignsAssociatedWithSPBudgetRule', func_get_args());
     }
@@ -1210,7 +1210,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function batchCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query): Iterator
+    public function batchCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): Iterator
     {
         return $this->batchInternal('getCampaignsAssociatedWithSPBudgetRule', func_get_args());
     }
@@ -1230,9 +1230,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
      */
-    public function getCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query): array
+    public function getCampaignsAssociatedWithSPBudgetRule(string $budgetRuleId, array $query, string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/sp/budgetRules/{$budgetRuleId}/campaigns"], $query));
+        return $this->api(array_merge(["/sp/budgetRules/{$budgetRuleId}/campaigns"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1244,9 +1244,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param string $budgetRuleId The budget rule identifier.
      * @return array
      */
-    public function disassociateAssociatedBudgetRuleForSPCampaigns(int $campaignId, string $budgetRuleId): array
+    public function disassociateAssociatedBudgetRuleForSPCampaigns(int $campaignId, string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE');
+        return $this->api("/sp/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1405,9 +1405,9 @@ header
      * @return array
      *      - *budgetRule* - 
      */
-    public function getBudgetRuleByRuleIdForSPCampaigns(string $budgetRuleId): array
+    public function getBudgetRuleByRuleIdForSPCampaigns(string $budgetRuleId, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/budgetRules/{$budgetRuleId}");
+        return $this->api("/sp/budgetRules/{$budgetRuleId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1419,9 +1419,9 @@ header
      * @return array
      *      - *CampaignOptimizationRule* - 
      */
-    public function getCampaignOptimizationRule(string $campaignOptimizationId): array
+    public function getCampaignOptimizationRule(string $campaignOptimizationId, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}");
+        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1437,9 +1437,9 @@ header
      *      - *details* - string
      *          - A human-readable description of the error, if unsuccessful
      */
-    public function deleteCampaignOptimizationRule(string $campaignOptimizationId): array
+    public function deleteCampaignOptimizationRule(string $campaignOptimizationId, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", 'DELETE');
+        return $this->api("/sp/rules/campaignOptimization/{$campaignOptimizationId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

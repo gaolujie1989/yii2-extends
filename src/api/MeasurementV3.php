@@ -30,7 +30,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The total number of templates.
      *      - *nextToken* - string
      */
-    public function eachdorProductSurveyQuestionTemplates(array $query = []): Iterator
+    public function eachdorProductSurveyQuestionTemplates(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): Iterator
     {
         return $this->eachInternal('vendorProductSurveyQuestionTemplates', func_get_args());
     }
@@ -52,7 +52,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The total number of templates.
      *      - *nextToken* - string
      */
-    public function batchdorProductSurveyQuestionTemplates(array $query = []): Iterator
+    public function batchdorProductSurveyQuestionTemplates(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): Iterator
     {
         return $this->batchInternal('vendorProductSurveyQuestionTemplates', func_get_args());
     }
@@ -74,9 +74,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The total number of templates.
      *      - *nextToken* - string
      */
-    public function vendorProductSurveyQuestionTemplates(array $query = []): array
+    public function vendorProductSurveyQuestionTemplates(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/vendorProducts/surveyQuestionTemplates"], $query));
+        return $this->api(array_merge(["/measurement/vendorProducts/surveyQuestionTemplates"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -107,7 +107,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function eachDSPBrandLiftStudies(array $query = []): Iterator
+    public function eachDSPBrandLiftStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): Iterator
     {
         return $this->eachInternal('getDSPBrandLiftStudies', func_get_args());
     }
@@ -127,7 +127,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function batchDSPBrandLiftStudies(array $query = []): Iterator
+    public function batchDSPBrandLiftStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): Iterator
     {
         return $this->batchInternal('getDSPBrandLiftStudies', func_get_args());
     }
@@ -147,9 +147,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function getDSPBrandLiftStudies(array $query = []): array
+    public function getDSPBrandLiftStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/brandLift"], $query));
+        return $this->api(array_merge(["/dsp/measurement/studies/brandLift"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -208,7 +208,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function eachDSPCreativeTestingStudies(array $query = []): Iterator
+    public function eachDSPCreativeTestingStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): Iterator
     {
         return $this->eachInternal('getDSPCreativeTestingStudies', func_get_args());
     }
@@ -228,7 +228,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function batchDSPCreativeTestingStudies(array $query = []): Iterator
+    public function batchDSPCreativeTestingStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): Iterator
     {
         return $this->batchInternal('getDSPCreativeTestingStudies', func_get_args());
     }
@@ -248,9 +248,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function getDSPCreativeTestingStudies(array $query = []): array
+    public function getDSPCreativeTestingStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/creativeTesting"], $query));
+        return $this->api(array_merge(["/dsp/measurement/studies/creativeTesting"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -281,7 +281,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *surveys* - array
      */
-    public function eachSurveys(array $query = []): Iterator
+    public function eachSurveys(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): Iterator
     {
         return $this->eachInternal('getSurveys', func_get_args());
     }
@@ -301,7 +301,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *surveys* - array
      */
-    public function batchSurveys(array $query = []): Iterator
+    public function batchSurveys(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): Iterator
     {
         return $this->batchInternal('getSurveys', func_get_args());
     }
@@ -321,9 +321,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *surveys* - array
      */
-    public function getSurveys(array $query = []): array
+    public function getSurveys(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/studies/surveys"], $query));
+        return $this->api(array_merge(["/measurement/studies/surveys"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -352,9 +352,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *surveyResponses* - array
      *          - Detailed response rate for each response in Survey question aggregated by different segments.
      */
-    public function getDSPBrandLiftStudyResult(string $studyId): array
+    public function getDSPBrandLiftStudyResult(string $studyId, string $contentType = 'application/vnd.measurementresult.v1.1+json'): array
     {
-        return $this->api("/measurement/studies/brandLift/{$studyId}/result");
+        return $this->api("/measurement/studies/brandLift/{$studyId}/result", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -411,7 +411,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function eachDSPAudienceResearchStudies(array $query = []): Iterator
+    public function eachDSPAudienceResearchStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): Iterator
     {
         return $this->eachInternal('getDSPAudienceResearchStudies', func_get_args());
     }
@@ -431,7 +431,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function batchDSPAudienceResearchStudies(array $query = []): Iterator
+    public function batchDSPAudienceResearchStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): Iterator
     {
         return $this->batchInternal('getDSPAudienceResearchStudies', func_get_args());
     }
@@ -451,9 +451,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function getDSPAudienceResearchStudies(array $query = []): array
+    public function getDSPAudienceResearchStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/audienceResearch"], $query));
+        return $this->api(array_merge(["/dsp/measurement/studies/audienceResearch"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -520,7 +520,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function eachStudies(array $query = []): Iterator
+    public function eachStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): Iterator
     {
         return $this->eachInternal('getStudies', func_get_args());
     }
@@ -540,7 +540,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function batchStudies(array $query = []): Iterator
+    public function batchStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): Iterator
     {
         return $this->batchInternal('getStudies', func_get_args());
     }
@@ -560,9 +560,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function getStudies(array $query = []): array
+    public function getStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/studies"], $query));
+        return $this->api(array_merge(["/measurement/studies"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -575,9 +575,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function cancelMeasurementStudies(array $query = []): array
+    public function cancelMeasurementStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/studies"], $query), 'DELETE');
+        return $this->api(array_merge(["/measurement/studies"], $query), 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -608,7 +608,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function eachDSPOmnichannelMetricsStudies(array $query = []): Iterator
+    public function eachDSPOmnichannelMetricsStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): Iterator
     {
         return $this->eachInternal('getDSPOmnichannelMetricsStudies', func_get_args());
     }
@@ -628,7 +628,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function batchDSPOmnichannelMetricsStudies(array $query = []): Iterator
+    public function batchDSPOmnichannelMetricsStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): Iterator
     {
         return $this->batchInternal('getDSPOmnichannelMetricsStudies', func_get_args());
     }
@@ -648,9 +648,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *measurements* - array
      */
-    public function getDSPOmnichannelMetricsStudies(array $query = []): array
+    public function getDSPOmnichannelMetricsStudies(array $query = [], string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/studies/omnichannelMetrics"], $query));
+        return $this->api(array_merge(["/dsp/measurement/studies/omnichannelMetrics"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -699,7 +699,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *policies* - array
      */
-    public function eachdorProductPolicy(array $query = []): Iterator
+    public function eachdorProductPolicy(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): Iterator
     {
         return $this->eachInternal('vendorProductPolicy', func_get_args());
     }
@@ -719,7 +719,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *policies* - array
      */
-    public function batchdorProductPolicy(array $query = []): Iterator
+    public function batchdorProductPolicy(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): Iterator
     {
         return $this->batchInternal('vendorProductPolicy', func_get_args());
     }
@@ -739,9 +739,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *nextToken* - string
      *      - *policies* - array
      */
-    public function vendorProductPolicy(array $query = []): array
+    public function vendorProductPolicy(array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/vendorProducts/policies"], $query));
+        return $this->api(array_merge(["/measurement/vendorProducts/policies"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -784,9 +784,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *surveyResponses* - array
      *          - Detailed response rate for each response in Survey question aggregated by different segments.
      */
-    public function getDSPAudienceResearchStudyResult(string $studyId): array
+    public function getDSPAudienceResearchStudyResult(string $studyId, string $contentType = 'application/vnd.measurementresult.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/audienceResearch/{$studyId}/result");
+        return $this->api("/dsp/measurement/studies/audienceResearch/{$studyId}/result", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -800,9 +800,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *surveyResponses* - array
      *          - Detailed response rate for each response in Survey question aggregated by different segments.
      */
-    public function getDSPCreativeTestingStudyResult(string $studyId): array
+    public function getDSPCreativeTestingStudyResult(string $studyId, string $contentType = 'application/vnd.measurementresult.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/creativeTesting/{$studyId}/result");
+        return $this->api("/dsp/measurement/studies/creativeTesting/{$studyId}/result", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

@@ -22,9 +22,9 @@ class CreativeAssetsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *version* - string - optional
      *          - The versionId of the asset, if not included all versions will return.
      */
-    public function getAsset(array $query): void
+    public function getAsset(array $query, string $contentType = 'application/vnd.creativeassetsgetresponse.v3+json'): void
     {
-        $this->api(array_merge(["/assets"], $query));
+        $this->api(array_merge(["/assets"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -32,9 +32,9 @@ class CreativeAssetsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      * @tag Creative assets
      * @param string $requestId Batch asset registration request id. It is returned in response of POST /assets/batchRegister API.
      */
-    public function getAssetsBatchRegister(string $requestId): void
+    public function getAssetsBatchRegister(string $requestId, string $contentType = 'application/vnd.creativeassetsgetbatchregisterresponse.v3+json'): void
     {
-        $this->api("/assets/batchRegister/{$requestId}");
+        $this->api("/assets/batchRegister/{$requestId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

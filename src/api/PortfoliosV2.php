@@ -17,9 +17,9 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @description Retrieves a list of portfolios, optionally filtered by identifier, name, or state. Note that this operation returns a maximum of 100 portfolios.     * @tag Portfolios
 
      */
-    public function listPortfolios(): void
+    public function listPortfolios(string $contentType = 'application/json'): void
     {
-        $this->api("/v2/portfolios");
+        $this->api("/v2/portfolios", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -54,18 +54,18 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *state* - string
      *          - The current state of the portfolio.
      */
-    public function getPortfolio(int $portfolioId): array
+    public function getPortfolio(int $portfolioId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/portfolios/{$portfolioId}");
+        return $this->api("/v2/portfolios/{$portfolioId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Retrieves a list of portfolios with an extended set of properties, optionally filtered by identifier, name, or state. Note that this operation returns a maximum of 100 portfolios.     * @tag Portfolios extended
 
      */
-    public function listPortfoliosEx(): void
+    public function listPortfoliosEx(string $contentType = 'application/json'): void
     {
-        $this->api("/v2/portfolios/extended");
+        $this->api("/v2/portfolios/extended", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -73,9 +73,9 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @param int $portfolioId The identifier of an existing portfolio.
      * @return array
      */
-    public function listPortfolioEx(int $portfolioId): array
+    public function listPortfolioEx(int $portfolioId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/portfolios/extended/{$portfolioId}");
+        return $this->api("/v2/portfolios/extended/{$portfolioId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

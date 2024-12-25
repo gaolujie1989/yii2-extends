@@ -23,9 +23,9 @@ Note: trailing slash in request uri is not allowed
      * @return array
      *      - *subscription* - 
      */
-    public function getStreamSubscription(string $subscriptionId): array
+    public function getStreamSubscription(string $subscriptionId, string $contentType = 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api("/streams/subscriptions/{$subscriptionId}");
+        return $this->api("/streams/subscriptions/{$subscriptionId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -92,9 +92,9 @@ Note: trailing slash in request uri is not allowed
      *      - *nextToken* - string
      *          - Token which can be used to get the next page of results, if more entries exist
      */
-    public function listStreamSubscriptions(array $query = []): array
+    public function listStreamSubscriptions(array $query = [], string $contentType = 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api(array_merge(["/streams/subscriptions"], $query));
+        return $this->api(array_merge(["/streams/subscriptions"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -162,9 +162,9 @@ header
      *      - *nextToken* - string
      *          - Token which can be used to get the next page of results, if more entries exist
      */
-    public function listDspStreamSubscriptions(array $query = []): array
+    public function listDspStreamSubscriptions(array $query = [], string $contentType = 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api(array_merge(["/dsp/streams/subscriptions"], $query));
+        return $this->api(array_merge(["/dsp/streams/subscriptions"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -186,9 +186,9 @@ header
      * @return array
      *      - *subscription* - 
      */
-    public function getDspStreamSubscription(string $subscriptionId): array
+    public function getDspStreamSubscription(string $subscriptionId, string $contentType = 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api("/dsp/streams/subscriptions/{$subscriptionId}");
+        return $this->api("/dsp/streams/subscriptions/{$subscriptionId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

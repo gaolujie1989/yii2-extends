@@ -29,9 +29,9 @@ class ProfilesV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *validPaymentMethodFilter* - string - optional
      *          - Filter response to include profiles that have valid payment methods. Default is to include all profiles. Setting this filter to `true` returns only profiles with either no `validPaymentMethod` field, or the `validPaymentMethod` field set to `true`.  Setting this to `false` returns profiles with the `validPaymentMethod` field set to `false` only.
      */
-    public function listProfiles(array $query = []): void
+    public function listProfiles(array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/v2/profiles"], $query));
+        $this->api(array_merge(["/v2/profiles"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -105,9 +105,9 @@ class ProfilesV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
 |FE|SG|Singapore|Asia/Singapore|
      *      - *accountInfo* - 
      */
-    public function getProfileById(int $profileId): array
+    public function getProfileById(int $profileId, string $contentType = 'application/json'): array
     {
-        return $this->api("/v2/profiles/{$profileId}");
+        return $this->api("/v2/profiles/{$profileId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

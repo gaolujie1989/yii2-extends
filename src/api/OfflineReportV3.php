@@ -57,9 +57,9 @@ see [Retry logic with exponential backoff](concepts/rate-limiting#use-retry-logi
      *      - *updatedAt* - string
      *          - The date at which the report was last updated in ISO 8601 date time format.
      */
-    public function getAsyncReport(string $reportId): array
+    public function getAsyncReport(string $reportId, string $contentType = 'application/vnd.getasyncreportresponse.v3+json'): array
     {
-        return $this->api("/reporting/reports/{$reportId}");
+        return $this->api("/reporting/reports/{$reportId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -73,9 +73,9 @@ see [Retry logic with exponential backoff](concepts/rate-limiting#use-retry-logi
      *      - *detail* - string
      *          - A human-readable description of the response.
      */
-    public function deleteAsyncReport(string $reportId): array
+    public function deleteAsyncReport(string $reportId, string $contentType = 'application/vnd.deleteasyncreportresponse.v3+json'): array
     {
-        return $this->api("/reporting/reports/{$reportId}", 'DELETE');
+        return $this->api("/reporting/reports/{$reportId}", 'DELETE', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

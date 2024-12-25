@@ -84,9 +84,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *content* - string
      *          - An HTML document to be rendered and read. A consent needs to be provided against this content.
      */
-    public function getBillingProfileAgreementContent(string $billingProfileAgreementContentId, array $query = []): array
+    public function getBillingProfileAgreementContent(string $billingProfileAgreementContentId, array $query = [], string $contentType = 'application/vnd.billingProfileAgreement.v1+json'): array
     {
-        return $this->api(array_merge(["/billingProfileAgreementContents/{$billingProfileAgreementContentId}"], $query));
+        return $this->api(array_merge(["/billingProfileAgreementContents/{$billingProfileAgreementContentId}"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -201,9 +201,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *sellerPayablePaymentMethods* - 
      *      - *directDebitPaymentMethods* - 
      */
-    public function getCustomerPaymentMethods(array $query): array
+    public function getCustomerPaymentMethods(array $query, string $contentType = 'application/vnd.paymentmethods.v1+json'): array
     {
-        return $this->api(array_merge(["/billing/paymentMethods/list"], $query), 'POST');
+        return $this->api(array_merge(["/billing/paymentMethods/list"], $query), 'POST', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -292,9 +292,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *cursor* - string - optional
      *          - A cursor representing how far into a result set this query should begin. In the absence of a cursor the request will default to start index of 0 and page size of 100.
      */
-    public function getAdvertiserInvoices(array $query = []): void
+    public function getAdvertiserInvoices(array $query = [], string $contentType = 'application/vnd.invoices.v1.1+json'): void
     {
-        $this->api(array_merge(["/invoices"], $query));
+        $this->api(array_merge(["/invoices"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -316,9 +316,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *payments* - 
      *      - *portfolios* - 
      */
-    public function getInvoice(string $invoiceId): array
+    public function getInvoice(string $invoiceId, string $contentType = 'application/vnd.invoice.v1.1+json'): array
     {
-        return $this->api("/invoices/{$invoiceId}");
+        return $this->api("/invoices/{$invoiceId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -332,9 +332,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *s3DownloadLink* - string
      *          - Download link of the billing statement file. Only when reportStatus is SUCCESS.
      */
-    public function getBillingStatement(string $billingStatementRequestId): array
+    public function getBillingStatement(string $billingStatementRequestId, string $contentType = 'application/vnd.createbillingstatementsrequest.v1+json'): array
     {
-        return $this->api("/billingStatements/{$billingStatementRequestId}");
+        return $this->api("/billingStatements/{$billingStatementRequestId}", ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -359,9 +359,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *nextToken* - 
      *      - *paymentAgreements* - 
      */
-    public function getPaymentAgreements(array $query): array
+    public function getPaymentAgreements(array $query, string $contentType = 'application/vnd.paymentagreements.v1+json'): array
     {
-        return $this->api(array_merge(["/billing/paymentAgreements/list"], $query), 'POST');
+        return $this->api(array_merge(["/billing/paymentAgreements/list"], $query), 'POST', ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -388,9 +388,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *unavailableDocuments* - array
      *      - *availableDocuments* - array
      */
-    public function getDocument(string $documentId, array $query): array
+    public function getDocument(string $documentId, array $query, string $contentType = 'application/vnd.billingDocuments.v1+json'): array
     {
-        return $this->api(array_merge(["/billing/documents/{$documentId}"], $query));
+        return $this->api(array_merge(["/billing/documents/{$documentId}"], $query), ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

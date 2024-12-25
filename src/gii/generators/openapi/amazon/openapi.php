@@ -122,8 +122,11 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         }
         $eachMethod = false;
         $batchMethod = false;
-        if ($successResponse) {
-            $content = array_values($successResponse['content'] ?? []);
+        if ($successResponse && isset($successResponse['content'])) {
+            if (empty($contentType)) {
+                $contentType = array_keys($successResponse['content'])[0];
+            }
+            $content = array_values($successResponse['content']);
             $ref = $content[0]['schema']['$ref'] ?? null;
             if ($ref) {
                 $returnType = ': array';
@@ -157,10 +160,10 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         }
         if ($requestBody) {
             $apiParams[] = '$data';
-            if ($contentType) {
-                $functionParams[] = "string \$contentType = '{$contentType}'";
-                $apiParams[] = "['content-type' => \$contentType, 'accept' => \$contentType]";
-            }
+        }
+        if ($contentType) {
+            $functionParams[] = "string \$contentType = '{$contentType}'";
+            $apiParams[] = "['content-type' => \$contentType, 'accept' => \$contentType]";
         }
         $apiParams = implode(', ', $apiParams);
         $functionParams = implode(', ', $functionParams);

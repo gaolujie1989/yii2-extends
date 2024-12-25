@@ -29,9 +29,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *campaigns* - 
      */
-    public function createSponsoredBrandsCampaigns(array $data): array
+    public function createSponsoredBrandsCampaigns(array $data, string $contentType = 'application/vnd.sbcampaignresource.v4+json'): array
     {
-        return $this->api("/sb/v4/campaigns", 'POST', $data, ['content-type' => 'application/vnd.sbcampaignresource.v4+json']);
+        return $this->api("/sb/v4/campaigns", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -44,9 +44,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *campaigns* - 
      */
-    public function updateSponsoredBrandsCampaigns(array $data): array
+    public function updateSponsoredBrandsCampaigns(array $data, string $contentType = 'application/vnd.sbcampaignresource.v4+json'): array
     {
-        return $this->api("/sb/v4/campaigns", 'PUT', $data, ['content-type' => 'application/vnd.sbcampaignresource.v4+json']);
+        return $this->api("/sb/v4/campaigns", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -73,9 +73,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *totalCount* - number
      *          - The total number of entities.
      */
-    public function listSponsoredBrandsCampaigns(array $data): array
+    public function listSponsoredBrandsCampaigns(array $data, string $contentType = 'application/vnd.sbcampaignresource.v4+json'): array
     {
-        return $this->api("/sb/v4/campaigns/list", 'POST', $data, ['content-type' => 'application/vnd.sbcampaignresource.v4+json']);
+        return $this->api("/sb/v4/campaigns/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -88,9 +88,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *campaigns* - 
      */
-    public function deleteSponsoredBrandsCampaigns(array $data): array
+    public function deleteSponsoredBrandsCampaigns(array $data, string $contentType = 'application/vnd.sbcampaignresource.v4+json'): array
     {
-        return $this->api("/sb/v4/campaigns/delete", 'POST', $data, ['content-type' => 'application/vnd.sbcampaignresource.v4+json']);
+        return $this->api("/sb/v4/campaigns/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -103,9 +103,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *adGroups* - 
      */
-    public function createSponsoredBrandsAdGroups(array $data): array
+    public function createSponsoredBrandsAdGroups(array $data, string $contentType = 'application/vnd.sbadgroupresource.v4+json'): array
     {
-        return $this->api("/sb/v4/adGroups", 'POST', $data, ['content-type' => 'application/vnd.sbadgroupresource.v4+json']);
+        return $this->api("/sb/v4/adGroups", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -118,9 +118,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *adGroups* - 
      */
-    public function updateSponsoredBrandsAdGroups(array $data): array
+    public function updateSponsoredBrandsAdGroups(array $data, string $contentType = 'application/vnd.sbadgroupresource.v4+json'): array
     {
-        return $this->api("/sb/v4/adGroups", 'PUT', $data, ['content-type' => 'application/vnd.sbadgroupresource.v4+json']);
+        return $this->api("/sb/v4/adGroups", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -146,9 +146,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *nextToken* - string
      *          - Token value allowing to navigate to the next response page.
      */
-    public function listSponsoredBrandsAdGroups(array $data): array
+    public function listSponsoredBrandsAdGroups(array $data, string $contentType = 'application/vnd.sbadgroupresource.v4+json'): array
     {
-        return $this->api("/sb/v4/adGroups/list", 'POST', $data, ['content-type' => 'application/vnd.sbadgroupresource.v4+json']);
+        return $this->api("/sb/v4/adGroups/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -161,9 +161,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *adGroups* - 
      */
-    public function deleteSponsoredBrandsAdGroups(array $data): array
+    public function deleteSponsoredBrandsAdGroups(array $data, string $contentType = 'application/vnd.sbadgroupresource.v4+json'): array
     {
-        return $this->api("/sb/v4/adGroups/delete", 'POST', $data, ['content-type' => 'application/vnd.sbadgroupresource.v4+json']);
+        return $this->api("/sb/v4/adGroups/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -176,9 +176,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function createSponsoredBrandsBrandVideoAds(array $data): array
+    public function createSponsoredBrandsBrandVideoAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/brandVideo", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/brandVideo", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -192,9 +192,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function createSponsoredBrandsExtendedProductCollectionAds(array $data): array
+    public function createSponsoredBrandsExtendedProductCollectionAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/productCollectionExtended", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/productCollectionExtended", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -207,9 +207,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function createSponsoredBrandsVideoAds(array $data): array
+    public function createSponsoredBrandsVideoAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/video", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/video", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -222,9 +222,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function createSponsoredBrandsProductCollectionAds(array $data): array
+    public function createSponsoredBrandsProductCollectionAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/productCollection", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/productCollection", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -237,9 +237,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function createSponsoredBrandStoreSpotlightAds(array $data): array
+    public function createSponsoredBrandStoreSpotlightAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/storeSpotlight", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/storeSpotlight", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -252,9 +252,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function updateSponsoredBrandsAds(array $data): array
+    public function updateSponsoredBrandsAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads", 'PUT', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -279,9 +279,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *nextToken* - string
      *          - Token value allowing to navigate to the next response page.
      */
-    public function listSponsoredBrandsAds(array $data): array
+    public function listSponsoredBrandsAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/list", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -294,9 +294,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      * @return array
      *      - *ads* - 
      */
-    public function deleteSponsoredBrandsAds(array $data): array
+    public function deleteSponsoredBrandsAds(array $data, string $contentType = 'application/vnd.sbadresource.v4+json'): array
     {
-        return $this->api("/sb/v4/ads/delete", 'POST', $data, ['content-type' => 'application/vnd.sbadresource.v4+json']);
+        return $this->api("/sb/v4/ads/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -314,9 +314,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *creativeVersion* - string
      *          - The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.
      */
-    public function createBrandVideoCreative(array $data): array
+    public function createBrandVideoCreative(array $data, string $contentType = 'application/vnd.sbAdCreativeResource.v4+json'): array
     {
-        return $this->api("/sb/ads/creatives/brandVideo", 'POST', $data, ['content-type' => 'application/vnd.sbAdCreativeResource.v4+json']);
+        return $this->api("/sb/ads/creatives/brandVideo", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -334,9 +334,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *creativeVersion* - string
      *          - The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.
      */
-    public function createExtendedProductCollectionCreative(array $data): array
+    public function createExtendedProductCollectionCreative(array $data, string $contentType = 'application/vnd.sbAdCreativeResource.v4+json'): array
     {
-        return $this->api("/sb/ads/creatives/productCollectionExtended", 'POST', $data, ['content-type' => 'application/vnd.sbAdCreativeResource.v4+json']);
+        return $this->api("/sb/ads/creatives/productCollectionExtended", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -354,9 +354,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *creativeVersion* - string
      *          - The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.
      */
-    public function createVideoCreative(array $data): array
+    public function createVideoCreative(array $data, string $contentType = 'application/vnd.sbAdCreativeResource.v4+json'): array
     {
-        return $this->api("/sb/ads/creatives/video", 'POST', $data, ['content-type' => 'application/vnd.sbAdCreativeResource.v4+json']);
+        return $this->api("/sb/ads/creatives/video", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -374,9 +374,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *creativeVersion* - string
      *          - The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.
      */
-    public function createProductCollectionCreative(array $data): array
+    public function createProductCollectionCreative(array $data, string $contentType = 'application/vnd.sbAdCreativeResource.v4+json'): array
     {
-        return $this->api("/sb/ads/creatives/productCollection", 'POST', $data, ['content-type' => 'application/vnd.sbAdCreativeResource.v4+json']);
+        return $this->api("/sb/ads/creatives/productCollection", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -394,9 +394,9 @@ class SponsoredBrandsV4 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *      - *creativeVersion* - string
      *          - The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.
      */
-    public function createStoreSpotlightCreative(array $data): array
+    public function createStoreSpotlightCreative(array $data, string $contentType = 'application/vnd.sbAdCreativeResource.v4+json'): array
     {
-        return $this->api("/sb/ads/creatives/storeSpotlight", 'POST', $data, ['content-type' => 'application/vnd.sbAdCreativeResource.v4+json']);
+        return $this->api("/sb/ads/creatives/storeSpotlight", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -432,9 +432,9 @@ If the `NextToken` field is empty, there are no further results.
      *      - *creatives* - array
      *          - A list of creatives
      */
-    public function listCreatives(array $data): array
+    public function listCreatives(array $data, string $contentType = 'application/vnd.sbAdCreativeResource.v4+json'): array
     {
-        return $this->api("/sb/ads/creatives/list", 'POST', $data, ['content-type' => 'application/vnd.sbAdCreativeResource.v4+json']);
+        return $this->api("/sb/ads/creatives/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -515,9 +515,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *recommendedValue* - number
      *          - Recommended value for cost control metric.
      */
-    public function sBOptimizationRecommendation(array $data): array
+    public function sBOptimizationRecommendation(array $data, string $contentType = 'application/vnd.sboptimizationrecommendationresource.v4+json'): array
     {
-        return $this->api("/sb/recommendations/optimization", 'POST', $data, ['content-type' => 'application/vnd.sboptimizationrecommendationresource.v4+json']);
+        return $this->api("/sb/recommendations/optimization", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -537,9 +537,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *suggestions* - array
      *          - Suggestions are sorted, i.e., more suitable headline has lesser array index value
      */
-    public function getHeadlineRecommendations(array $data): array
+    public function getHeadlineRecommendations(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/recommendations/creative/headline", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sb/recommendations/creative/headline", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -556,9 +556,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *error* - array
      *          - List of errors that occurred when generating budget recommendations.
      */
-    public function getBudgetRecommendations(array $data): array
+    public function getBudgetRecommendations(array $data, string $contentType = 'application/vnd.sbbudgetrecommendation.v4+json'): array
     {
-        return $this->api("/sb/campaigns/budgetRecommendations", 'POST', $data, ['content-type' => 'application/vnd.sbbudgetrecommendation.v4+json']);
+        return $this->api("/sb/campaigns/budgetRecommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -682,9 +682,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *asinCounts* - 
      */
-    public function sBTargetingGetTargetableASINCounts(array $data): array
+    public function sBTargetingGetTargetableASINCounts(array $data, string $contentType = 'application/vnd.sbtargeting.v4+json'): array
     {
-        return $this->api("/sb/targets/products/count", 'POST', $data, ['content-type' => 'application/vnd.sbtargeting.v4+json']);
+        return $this->api("/sb/targets/products/count", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -786,9 +786,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *nextToken* - string
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the `NextToken` field is empty, there are no further results.
      */
-    public function sBInsightsCampaignInsights(array $data, array $query = []): array
+    public function sBInsightsCampaignInsights(array $data, array $query = [], string $contentType = 'application/vnd.sbinsights.v4+json'): array
     {
-        return $this->api(array_merge(["/sb/campaigns/insights"], $query), 'POST', $data, ['content-type' => 'application/vnd.sbinsights.v4+json']);
+        return $this->api(array_merge(["/sb/campaigns/insights"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -802,9 +802,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *responses* - array
      */
-    public function createBudgetRulesForSBCampaigns(array $data): array
+    public function createBudgetRulesForSBCampaigns(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/budgetRules", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sb/budgetRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -818,9 +818,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *responses* - array
      */
-    public function updateBudgetRulesForSBCampaigns(array $data): array
+    public function updateBudgetRulesForSBCampaigns(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/budgetRules", 'PUT', $data, ['content-type' => 'application/json']);
+        return $this->api("/sb/budgetRules", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -829,7 +829,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -848,7 +848,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -867,7 +867,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return array
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -899,16 +899,16 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
 
 **Requires one of these permissions**:
 ["advertiser_campaign_edit"]     * @tag Budget rules
-     * @param number $campaignId The campaign identifier.
+     * @param int $campaignId The campaign identifier.
      * @param array $data 
      *      - *budgetRuleIds* - array
      *          - A list of budget rule identifiers.
      * @return array
      *      - *responses* - array
      */
-    public function createAssociatedBudgetRulesForSBCampaigns(number $campaignId, array $data): array
+    public function createAssociatedBudgetRulesForSBCampaigns(int $campaignId, array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sb/campaigns/{$campaignId}/budgetRules", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sb/campaigns/{$campaignId}/budgetRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -916,12 +916,12 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
 
 **Requires one of these permissions**:
 ["advertiser_campaign_edit","advertiser_campaign_view"]     * @tag Budget rules
-     * @param number $campaignId The campaign identifier.
+     * @param int $campaignId The campaign identifier.
      * @return array
      *      - *associatedRules* - array
      *          - A list of associated budget rules.
      */
-    public function listAssociatedBudgetRulesForSBCampaigns(number $campaignId): array
+    public function listAssociatedBudgetRulesForSBCampaigns(int $campaignId): array
     {
         return $this->api("/sb/campaigns/{$campaignId}/budgetRules");
     }
@@ -933,7 +933,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *associatedCampaigns* - array
@@ -953,7 +953,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *associatedCampaigns* - array
@@ -973,7 +973,7 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return array
      *      - *associatedCampaigns* - array
@@ -991,11 +991,11 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
 
 **Requires one of these permissions**:
 ["advertiser_campaign_edit"]     * @tag Budget rules
-     * @param number $campaignId The campaign identifier.
+     * @param int $campaignId The campaign identifier.
      * @param string $budgetRuleId The budget rule identifier.
      * @return array
      */
-    public function disassociateAssociatedBudgetRuleForSBCampaigns(number $campaignId, string $budgetRuleId): array
+    public function disassociateAssociatedBudgetRuleForSBCampaigns(int $campaignId, string $budgetRuleId): array
     {
         return $this->api("/sb/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE');
     }
@@ -1014,9 +1014,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *      - *error* - array
      *          - List of budget usage percentages that failed to pull
      */
-    public function sbCampaignsBudgetUsage(array $data): array
+    public function sbCampaignsBudgetUsage(array $data, string $contentType = 'application/vnd.sbcampaignbudgetusage.v1+json'): array
     {
-        return $this->api("/sb/campaigns/budget/usage", 'POST', $data, ['content-type' => 'application/vnd.sbcampaignbudgetusage.v1+json']);
+        return $this->api("/sb/campaigns/budget/usage", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1028,9 +1028,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *campaigns* - 
      */
-    public function sBCampaignPerformanceForecasts(array $data): array
+    public function sBCampaignPerformanceForecasts(array $data, string $contentType = 'application/vnd.sbforecasting.v4+json'): array
     {
-        return $this->api("/sb/forecasts", 'POST', $data, ['content-type' => 'application/vnd.sbforecasting.v4+json']);
+        return $this->api("/sb/forecasts", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1043,9 +1043,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *optimizationRules* - 
      */
-    public function createSponsoredBrandsOptimizationRules(array $data): array
+    public function createSponsoredBrandsOptimizationRules(array $data, string $contentType = 'application/vnd.sbruleoptimization.v4+json'): array
     {
-        return $this->api("/sb/rules/optimization", 'POST', $data, ['content-type' => 'application/vnd.sbruleoptimization.v4+json']);
+        return $this->api("/sb/rules/optimization", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1058,9 +1058,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *optimizationRules* - 
      */
-    public function updateSponsoredBrandsOptimizationRules(array $data): array
+    public function updateSponsoredBrandsOptimizationRules(array $data, string $contentType = 'application/vnd.sbruleoptimization.v4+json'): array
     {
-        return $this->api("/sb/rules/optimization", 'PUT', $data, ['content-type' => 'application/vnd.sbruleoptimization.v4+json']);
+        return $this->api("/sb/rules/optimization", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1073,9 +1073,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *optimizationRuleAssociations* - 
      */
-    public function associateSponsoredBrandsOptimizationRules(array $data): array
+    public function associateSponsoredBrandsOptimizationRules(array $data, string $contentType = 'application/vnd.sbruleoptimization.v4+json'): array
     {
-        return $this->api("/sb/rules/optimization/associate", 'POST', $data, ['content-type' => 'application/vnd.sbruleoptimization.v4+json']);
+        return $this->api("/sb/rules/optimization/associate", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1097,9 +1097,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      *          - The total number of entities.
      *      - *optimizationRules* - array
      */
-    public function listSponsoredBrandsOptimizationRules(array $data): array
+    public function listSponsoredBrandsOptimizationRules(array $data, string $contentType = 'application/vnd.sbruleoptimization.v4+json'): array
     {
-        return $this->api("/sb/rules/optimization/list", 'POST', $data, ['content-type' => 'application/vnd.sbruleoptimization.v4+json']);
+        return $this->api("/sb/rules/optimization/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1112,9 +1112,9 @@ Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN
      * @return array
      *      - *optimizationRuleDisassociations* - 
      */
-    public function disassociateSponsoredBrandsOptimizationRules(array $data): array
+    public function disassociateSponsoredBrandsOptimizationRules(array $data, string $contentType = 'application/vnd.sbruleoptimization.v4+json'): array
     {
-        return $this->api("/sb/rules/optimization/disassociate", 'POST', $data, ['content-type' => 'application/vnd.sbruleoptimization.v4+json']);
+        return $this->api("/sb/rules/optimization/disassociate", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

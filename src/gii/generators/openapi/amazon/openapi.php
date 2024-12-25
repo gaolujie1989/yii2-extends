@@ -46,11 +46,15 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
                 $component = ArrayHelper::getValue($openapi, $refPath);
                 $parameter = array_merge($component, $parameter);
             }
+            $type = $parameter['schema']['type'] ?? '';
+            if ($type === 'number' || $type === 'integer') {
+                $type = 'int';
+            }
             return [
                 'var' => '$' . lcfirst(Inflector::camelize($parameter['name'])),
                 'name' => $parameter['name'],
                 'required' => $parameter['required'] ?? false,
-                'type' => $parameter['schema']['type'] ?? '',
+                'type' => $type,
                 'description' => $parameter['description'] ?? '',
             ];
         }, 'in');
@@ -142,9 +146,6 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
             }
         }
 
-        $functionParams = implode(', ', $functionParams);
-        $docParams = implode("\n", $docParams);
-
         $apiParams = [];
         if ($queryParams) {
             $apiParams[] = 'array_merge(["' . $apiUrl . '"], $query)';
@@ -157,10 +158,13 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         if ($requestBody) {
             $apiParams[] = '$data';
             if ($contentType) {
-                $apiParams[] = "['content-type' => '{$contentType}']";
+                $functionParams[] = "string \$contentType = '{$contentType}'";
+                $apiParams[] = "['content-type' => \$contentType, 'accept' => \$contentType]";
             }
         }
         $apiParams = implode(', ', $apiParams);
+        $functionParams = implode(', ', $functionParams);
+        $docParams = implode("\n", $docParams);
     ?>
     <?php if ($eachMethod): ?>
 

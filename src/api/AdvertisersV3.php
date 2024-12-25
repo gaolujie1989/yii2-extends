@@ -26,9 +26,9 @@ class AdvertisersV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *details* - string
      *          - A human-readable description of the response.
      */
-    public function updateAccountBudgetFeatureFlags(array $data): array
+    public function updateAccountBudgetFeatureFlags(array $data, string $contentType = 'application/vnd.accountBudgetFeatureFlags.v1+json'): array
     {
-        return $this->api("/accountBudgets/featureFlags", 'POST', $data, ['content-type' => 'application/vnd.accountBudgetFeatureFlags.v1+json']);
+        return $this->api("/accountBudgets/featureFlags", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

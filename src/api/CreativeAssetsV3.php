@@ -41,9 +41,9 @@ class CreativeAssetsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      * @description This is an asynchronous api that provides clients an identifier for their batch registration request. They need to check for the status of their request by calling the `GET /assets/batchRegister/{requestId}` api with the identifier.     * @tag Creative assets
      * @param array $data Batch Register Uploaded Assets.
      */
-    public function assetsBatchRegister(array $data): void
+    public function assetsBatchRegister(array $data, string $contentType = 'application/vnd.assetsbatchregisterrequest.v1+json'): void
     {
-        $this->api("/assets/batchRegister", 'POST', $data, ['content-type' => 'application/vnd.assetsbatchregisterrequest.v1+json']);
+        $this->api("/assets/batchRegister", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -51,9 +51,9 @@ class CreativeAssetsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
 provided by the /asset/upload API endpoint. See [Creating assets](guides/creative-asset/creating-assets) to understand the call flow.     * @tag Creative assets
      * @param array $data Note - **asinList**, **versionInfo**, and **tags** are optional in the request body.
      */
-    public function registerAsset(array $data): void
+    public function registerAsset(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/assets/register", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/assets/register", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -66,9 +66,9 @@ provided by the /asset/upload API endpoint. See [Creating assets](guides/creativ
 See [Creating assets](guides/creative-asset/creating-assets) to understand the call flow.     * @tag Creative assets
      * @param array $data Make sure to include file extension along with filename . (ie. "filename.mp4")
      */
-    public function getUploadLocation(array $data): void
+    public function getUploadLocation(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/assets/upload", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/assets/upload", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -87,9 +87,9 @@ pageCriteria - optional, this is used for pagination
      *      - *sortCriteria* - 
      *      - *pageCriteria* - 
      */
-    public function searchAssets(array $data): void
+    public function searchAssets(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/assets/search", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/assets/search", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

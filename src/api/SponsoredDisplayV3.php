@@ -17,9 +17,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description Gets an array of Campaign objects for a requested set of Sponsored Display campaigns. Note that the Campaign object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use the campaign operations that return the CampaignResponseEx object.     * @tag Campaigns
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of campaigns. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of Campaign objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten campaigns set `startIndex=0` and `count=10`. To return the next ten campaigns, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only campaigns with state set to one of the values in the specified comma-delimited list.
@@ -40,9 +40,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      * @tag Campaigns
      * @param array $data An array of Campaign objects. For each object, specify a campaign identifier and mutable fields with their updated values. The mutable fields are `name`, `state`, `budget`, `startDate`, and `endDate`. Maximum length of the array is 100 objects.
      */
-    public function updateCampaigns(array $data): void
+    public function updateCampaigns(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/campaigns", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/campaigns", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -55,24 +55,24 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
   - 20x the value of any COST_PER_CLICK threshold.
 
      */
-    public function createCampaigns(array $data): void
+    public function createCampaigns(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/campaigns", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/campaigns", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Returns a Campaign object for a requested campaign. Note that the Campaign object is designed for performance, with a small set of commonly used campaign fields to reduce size. If the extended set of fields is required, use the campaign operations that return the CampaignResponseEx object.     * @tag Campaigns
-     * @param integer $campaignId The identifier of the requested campaign.
+     * @param int $campaignId The identifier of the requested campaign.
      * @return array
      */
-    public function getCampaign(integer $campaignId): array
+    public function getCampaign(int $campaignId): array
     {
         return $this->api("/sd/campaigns/{$campaignId}");
     }
                 
     /**
      * @description This operation is equivalent to an update operation that sets the status field to 'archived'. Note that setting the status field to 'archived' is permanent and can't be undone. See [Developer Notes](https://advertising.amazon.com/API/docs/en-us/info/developer-notes#archiving) for more information.     * @tag Campaigns
-     * @param integer $campaignId The identifier of the campaign.
+     * @param int $campaignId The identifier of the campaign.
      * @return array
      *      - *code* - string
      *          - The HTTP status code of the response.
@@ -80,7 +80,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      *          - A human-readable description of the response.
      *      - *campaignId* - 
      */
-    public function archiveCampaign(integer $campaignId): array
+    public function archiveCampaign(int $campaignId): array
     {
         return $this->api("/sd/campaigns/{$campaignId}", 'DELETE');
     }
@@ -88,9 +88,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description Gets an array of CampaignResponseEx objects for a set of requested campaigns.     * @tag Campaigns
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of campaigns. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of Campaign objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten campaigns set `startIndex=0` and `count=10`. To return the next ten campaigns, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only campaigns with state set to one of the values in the specified comma-delimited list.
@@ -108,7 +108,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
                     
     /**
      * @description Returns a CampaignResponseEx object for a requested campaign. The CampaignResponseEx includes the extended set of available fields.     * @tag Campaigns
-     * @param integer $campaignId The identifier of the requested campaign.
+     * @param int $campaignId The identifier of the requested campaign.
      * @return array
      *      - *campaignId* - number
      *          - The identifier of the campaign.
@@ -141,7 +141,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      *          - Epoch date of the last update to any property associated with the campaign.
      *      - *ruleBasedBudget* - 
      */
-    public function getCampaignResponseEx(integer $campaignId): array
+    public function getCampaignResponseEx(int $campaignId): array
     {
         return $this->api("/sd/campaigns/extended/{$campaignId}");
     }
@@ -149,9 +149,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description Gets an array of AdGroup objects for a requested set of Sponsored Display ad groups. Note that the AdGroup object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use the ad group operations that return the AdGroupResponseEx object.     * @tag Ad Groups
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of campaigns. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of AdGroup objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten ad groups set `startIndex=0` and `count=10`. To return the next ten ad groups, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only ad groups with state set to one of the values in the specified comma-delimited list.
@@ -172,9 +172,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      * @tag Ad Groups
      * @param array $data An array of AdGroup objects. For each object, specify an ad group identifier and mutable fields with their updated values. The mutable fields are 'name', 'defaultBid', and 'state'. Maximum length of the array is 100 objects.
      */
-    public function updateAdGroups(array $data): void
+    public function updateAdGroups(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/adGroups", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/adGroups", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -182,24 +182,24 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      * @tag Ad Groups
      * @param array $data An array of AdGroup objects. For each object, specify required fields and their values. Required fields are `campaignId`, `name`, `state`, and `defaultBid`. Maximum length of the array is 100 objects. Note - when using landingPageType of OFF_AMAZON_LINK or STORES within productAds, only 1 adGroup is supported.
      */
-    public function createAdGroups(array $data): void
+    public function createAdGroups(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/adGroups", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/adGroups", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Returns an AdGroup object for a requested campaign. Note that the AdGroup object is designed for performance, with a small set of commonly used ad group fields to reduce size. If the extended set of fields is required, use the campaign operations that return the AdGroupResponseEx object.     * @tag Ad Groups
-     * @param integer $adGroupId The identifier of the requested ad group.
+     * @param int $adGroupId The identifier of the requested ad group.
      * @return array
      */
-    public function getAdGroup(integer $adGroupId): array
+    public function getAdGroup(int $adGroupId): array
     {
         return $this->api("/sd/adGroups/{$adGroupId}");
     }
                 
     /**
      * @description This operation is equivalent to an update operation that sets the status field to 'archived'. Note that setting the status field to 'archived' is permanent and can't be undone. See [Developer Notes](https://advertising.amazon.com/API/docs/en-us/info/developer-notes#archiving) for more information.     * @tag Ad Groups
-     * @param integer $adGroupId The identifier of the requested ad group.
+     * @param int $adGroupId The identifier of the requested ad group.
      * @return array
      *      - *code* - string
      *          - The HTTP status code of the response.
@@ -207,7 +207,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      *          - A human-readable description of the response.
      *      - *adGroupId* - 
      */
-    public function archiveAdGroup(integer $adGroupId): array
+    public function archiveAdGroup(int $adGroupId): array
     {
         return $this->api("/sd/adGroups/{$adGroupId}", 'DELETE');
     }
@@ -215,9 +215,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description Gets an array of AdGroupResponseEx objects for a set of requested ad groups.     * @tag Ad Groups
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of ad groups. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of Campaign objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten campaigns set `startIndex=0` and `count=10`. To return the next ten campaigns, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only campaigns with state set to one of the values in the comma-delimited list.
@@ -236,7 +236,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description 
      * @tag Ad Groups
-     * @param integer $adGroupId The identifier of the requested ad group.
+     * @param int $adGroupId The identifier of the requested ad group.
      * @return array
      *      - *adGroupId* - number
      *          - The identifier of the ad group.
@@ -265,7 +265,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      *      - *lastUpdatedDate* - integer
      *          - Epoch time any property in the ad group was last updated.
      */
-    public function getAdGroupResponseEx(integer $adGroupId): array
+    public function getAdGroupResponseEx(int $adGroupId): array
     {
         return $this->api("/sd/adGroups/extended/{$adGroupId}");
     }
@@ -273,9 +273,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description Gets an array of ProductAd objects for a requested set of Sponsored Display product ads. Note that the ProductAd object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use a product ad operation that returns the ProductAdResponseEx object.     * @tag Product Ads
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of product ads. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of ProductAd objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten product ad set `startIndex=0` and `count=10`. To return the next ten product ads, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only products ads associated with campaigns that have state set to one of the values in the comma-delimited list.
@@ -296,9 +296,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      * @tag Product Ads
      * @param array $data An array of ProductAd objects. For each object, specify a product ad identifier and the only mutable field, `state`. Maximum length of the array is 100 objects.
      */
-    public function updateProductAds(array $data): void
+    public function updateProductAds(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/productAds", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/productAds", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -306,24 +306,24 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      * @tag Product Ads
      * @param array $data An array of ProductAd objects. For each object, specify required fields and their values. Required fields are `adGroupId` and `state`. Within any campaign, you must pass consistent fields of either `asin` (for vendors), `sku` (for sellers), or `landingPageURL` (when linking to other pages), these cannot be mixed for any given campaign. Maximum length of the array is 100 objects.
      */
-    public function createProductAds(array $data): void
+    public function createProductAds(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/productAds", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/productAds", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Note that the ProductAd object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use a product ad operations that returns the ProductAdResponseEx object.     * @tag Product Ads
-     * @param integer $adId The identifier of the requested product ad.
+     * @param int $adId The identifier of the requested product ad.
      * @return array
      */
-    public function getProductAd(integer $adId): array
+    public function getProductAd(int $adId): array
     {
         return $this->api("/sd/productAds/{$adId}");
     }
                 
     /**
      * @description This operation is equivalent to an update operation that sets the status field to 'archived'. Note that setting the status field to 'archived' is permanent and can't be undone. See [Developer Notes](https://advertising.amazon.com/API/docs/en-us/info/developer-notes#archiving) for more information.     * @tag Product Ads
-     * @param integer $adId The identifier of the produce ad.
+     * @param int $adId The identifier of the produce ad.
      * @return array
      *      - *code* - string
      *          - The HTTP status code of the response.
@@ -332,7 +332,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      *      - *adId* - number
      *          - The identifier of the ad.
      */
-    public function archiveProductAd(integer $adId): array
+    public function archiveProductAd(int $adId): array
     {
         return $this->api("/sd/productAds/{$adId}", 'DELETE');
     }
@@ -340,9 +340,9 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description Gets an array of ProductAdResponseEx objects for a set of requested ad groups. The ProductAdResponseEx object includes the extended set of available fields.     * @tag Product Ads
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of product ads. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of ProduceAdEx objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten product ads set `startIndex=0` and `count=10`. To return the next ten campaigns, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only campaigns with state set to one of the values in the specified comma-delimited list.
@@ -361,7 +361,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
     /**
      * @description 
      * @tag Product Ads
-     * @param integer $adId The identifier of the requested product ad.
+     * @param int $adId The identifier of the requested product ad.
      * @return array
      *      - *adId* - number
      *          - The identifier of the ad.
@@ -385,7 +385,7 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      *      - *lastUpdatedDate* - integer
      *          - Epoch date of the last update to any property associated with the product ad.
      */
-    public function getProductAdResponseEx(integer $adId): array
+    public function getProductAdResponseEx(int $adId): array
     {
         return $this->api("/sd/productAds/extended/{$adId}");
     }
@@ -394,10 +394,10 @@ class SponsoredDisplayV3 extends \lujie\amazon\advertising\BaseAmazonAdvertising
      * @description Gets an array of websites/apps that are on the advertiser's Brand Safety Deny List. It can take up to 15 minutes
 from the time a domain is added/deleted to the time it is reflected in the deny list.     * @tag Brand Safety List
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of domains. Use in conjunction with the count parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
 
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of domain objects in the returned array. Use in conjunction with the startIndex parameter to control pagination. For example, to return the first 1000 domains set startIndex=0 and count=1000. To return the next 1000 domains, set startIndex=1000 and count=1000, and so on. Defaults to max page size(1000).
 
      * @return array
@@ -420,9 +420,9 @@ from the time a domain is added/deleted to the time it is reflected in the deny 
      *      - *requestId* - string
      *          - The identifier of the request
      */
-    public function createBrandSafetyDenyListDomains(array $data): array
+    public function createBrandSafetyDenyListDomains(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/brandSafety/deny", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/brandSafety/deny", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -515,17 +515,17 @@ Each report type supports different metrics. **To understand supported metrics f
      *      - *expiration* - integer
      *          - Epoch date of the expiration of the URI in the `location` property.
      */
-    public function requestReport(string $recordType, array $data): array
+    public function requestReport(string $recordType, array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/{$recordType}/report", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/{$recordType}/report", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Gets a list of targeting clauses objects for a requested set of Sponsored Display targets. Note that the Targeting Clause object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use the target operations that return the TargetingClauseEx object.     * @tag Targeting
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. 0-indexed record offset for the result set. Defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Number of records to include in the paged response. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. Restricts results to those with `state` set to values in the specified comma-separated list.
@@ -547,9 +547,9 @@ Each report type supports different metrics. **To understand supported metrics f
 * `state`
 * `bid` (only mutable when the targeting clause's adGroup does not have any enabled optimization rule)
      */
-    public function updateTargetingClauses(array $data): void
+    public function updateTargetingClauses(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/targets", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/targets", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -609,17 +609,17 @@ Note:
 5. If you receive the error of "Cannot create targeting clause: audience size is too small", please expand or broaden your targeting clause to increase the audience size.     * @tag Targeting
      * @param array $data A list of targeting clauses for creation.
      */
-    public function createTargetingClauses(array $data): void
+    public function createTargetingClauses(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/targets", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/targets", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description This call returns the minimal set of targeting clause fields.     * @tag Targeting
-     * @param integer $targetId The identifier of a targeting clause.
+     * @param int $targetId The identifier of a targeting clause.
      * @return array
      */
-    public function getTargets(integer $targetId): array
+    public function getTargets(int $targetId): array
     {
         return $this->api("/sd/targets/{$targetId}");
     }
@@ -627,7 +627,7 @@ Note:
     /**
      * @description Equivalent to using the `updateTargetingClauses` operation to set the `state` property of a targeting clause to `archived`. See [Developer
 Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) for more information.     * @tag Targeting
-     * @param integer $targetId The identifer of a targeting clause.
+     * @param int $targetId The identifer of a targeting clause.
      * @return array
      *      - *code* - string
      *          - The HTTP status code of the response.
@@ -635,7 +635,7 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
      *          - A human-readable description of the response.
      *      - *targetId* - 
      */
-    public function archiveTargetingClause(integer $targetId): array
+    public function archiveTargetingClause(int $targetId): array
     {
         return $this->api("/sd/targets/{$targetId}", 'DELETE');
     }
@@ -643,9 +643,9 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
     /**
      * @description Gets an array of TargetingClauseEx objects for a set of requested targets. Note that this call returns the full set of targeting clause extended fields, but is less efficient than getTargets.     * @tag Targeting
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. 0-indexed record offset for the result set. Defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Number of records to include in the paged response. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. Restricts results to keywords with state within the specified comma-separated list. Must be one of: `enabled`, `paused`, or `archived`. Default behavior is to include enabled, paused, and archived.
@@ -663,7 +663,7 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
                     
     /**
      * @description Gets a targeting clause object with extended fields. Note that this call returns the full set of targeting clause extended fields, but is less efficient than getTarget.     * @tag Targeting
-     * @param integer $targetId The identifier of a targeting clause.
+     * @param int $targetId The identifier of a targeting clause.
      * @return array
      *      - *targetId* - number
      *      - *adGroupId* - number
@@ -681,7 +681,7 @@ Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) 
      *      - *lastUpdatedDate* - integer
      *          - Epoch date of the last update to any property associated with the target.
      */
-    public function getTargetsEx(integer $targetId): array
+    public function getTargetsEx(int $targetId): array
     {
         return $this->api("/sd/targets/extended/{$targetId}");
     }
@@ -725,9 +725,9 @@ Therefore it's only supported if the product is a landing page url.
      * @return array
      *      - *recommendations* - 
      */
-    public function getTargetRecommendations(array $data, array $query = []): array
+    public function getTargetRecommendations(array $data, array $query = [], string $contentType = 'application/vnd.sdtargetingrecommendations.v3.5+json'): array
     {
-        return $this->api(array_merge(["/sd/targets/recommendations"], $query), 'POST', $data, ['content-type' => 'application/vnd.sdtargetingrecommendations.v3.5+json']);
+        return $this->api(array_merge(["/sd/targets/recommendations"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -744,17 +744,17 @@ Therefore it's only supported if the product is a landing page url.
      *      - *budgetRecommendationsErrorResults* - array
      *          - List of errors that occurred when generating budget recommendation.
      */
-    public function getSDBudgetRecommendations(array $data): array
+    public function getSDBudgetRecommendations(array $data, string $contentType = 'application/vnd.sdbudgetrecommendations.v3+json'): array
     {
-        return $this->api("/sd/campaigns/budgetRecommendations", 'POST', $data, ['content-type' => 'application/vnd.sdbudgetrecommendations.v3+json']);
+        return $this->api("/sd/campaigns/budgetRecommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Gets a list of negative targeting clauses objects for a requested set of Sponsored Display negative targets. Note that the Negative Targeting Clause object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use the negative target operations that return the NegativeTargetingClauseEx object.     * @tag Negative Targeting
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. 0-indexed record offset for the result set. Defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Number of records to include in the paged response. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. Restricts results to those with state within the specified comma-separated list. Must be one of: `enabled`, `paused`, or `archived`. Default behavior is to include enabled, paused, and archived.
@@ -772,9 +772,9 @@ Therefore it's only supported if the product is a landing page url.
      * @description Updates one or more negative targeting clauses. Negative targeting clauses are identified using their targetId. The mutable field is `state`. Maximum length of the array is 100 objects.     * @tag Negative Targeting
      * @param array $data A list of up to 100 negative targeting clauses. Note that the only mutable field is `state`.
      */
-    public function updateNegativeTargetingClauses(array $data): void
+    public function updateNegativeTargetingClauses(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/negativeTargets", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/negativeTargets", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -786,24 +786,24 @@ Product negative targeting clause examples:
 | asinBrandSameAs=12345 | Negatively target products in the brand.|     * @tag Negative Targeting
      * @param array $data A list of up to 100 negative targeting clauses for creation.
      */
-    public function createNegativeTargetingClauses(array $data): void
+    public function createNegativeTargetingClauses(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/negativeTargets", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/negativeTargets", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description This call returns the minimal set of negative targeting clause fields, but is more efficient than getNegativeTargetsEx.     * @tag Negative Targeting
-     * @param integer $negativeTargetId The negative targeting clause identifier.
+     * @param int $negativeTargetId The negative targeting clause identifier.
      * @return array
      */
-    public function getNegativeTargets(integer $negativeTargetId): array
+    public function getNegativeTargets(int $negativeTargetId): array
     {
         return $this->api("/sd/negativeTargets/{$negativeTargetId}");
     }
                 
     /**
      * @description Equivalent to using the updateNegativeTargetingClauses operation to set the `state` property of a targeting clause to `archived`. See [Developer Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) for more information.     * @tag Negative Targeting
-     * @param integer $negativeTargetId The identifier of a negative targeting clause.
+     * @param int $negativeTargetId The identifier of a negative targeting clause.
      * @return array
      *      - *code* - string
      *          - The HTTP status code of the response.
@@ -811,7 +811,7 @@ Product negative targeting clause examples:
      *          - A human-readable description of the response.
      *      - *targetId* - 
      */
-    public function archiveNegativeTargetingClause(integer $negativeTargetId): array
+    public function archiveNegativeTargetingClause(int $negativeTargetId): array
     {
         return $this->api("/sd/negativeTargets/{$negativeTargetId}", 'DELETE');
     }
@@ -819,9 +819,9 @@ Product negative targeting clause examples:
     /**
      * @description Gets an array of NegativeTargetingClauseEx objects for a set of requested negative targets. Note that this call returns the full set of negative targeting clause extended fields, but is less efficient than getNegativeTargets.     * @tag Negative Targeting
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. 0-indexed record offset for the result set. Defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Number of records to include in the paged response. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. Restricts results to keywords with state within the specified comma-separated list. Must be one of: `enabled`, `paused`, or `archived`. Default behavior is to include `enabled`, `paused`, and `archived`.
@@ -839,7 +839,7 @@ Product negative targeting clause examples:
                     
     /**
      * @description Gets a negative targeting clause with extended fields. Note that this call returns the full set of negative targeting clause extended fields, but is less efficient than getNegativeTarget.     * @tag Negative Targeting
-     * @param integer $negativeTargetId The negative targeting clause identifier.
+     * @param int $negativeTargetId The negative targeting clause identifier.
      * @return array
      *      - *targetId* - number
      *      - *adGroupId* - number
@@ -857,7 +857,7 @@ Product negative targeting clause examples:
      *      - *lastUpdatedDate* - integer
      *          - Epoch date of the last update to any property associated with the target.
      */
-    public function getNegativeTargetsEx(integer $negativeTargetId): array
+    public function getNegativeTargetsEx(int $negativeTargetId): array
     {
         return $this->api("/sd/negativeTargets/extended/{$negativeTargetId}");
     }
@@ -887,9 +887,9 @@ The type of entity for which the snapshot should be generated. Must be one of: `
      *      - *expiration* - number
      *          - The epoch time for expiration of the snapshot file and each snapshot file will be expired in 30 mins after generated. It's only available if status is SUCCESS.
      */
-    public function createSnapshot(string $recordType, array $data): array
+    public function createSnapshot(string $recordType, array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/{$recordType}/snapshot", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/{$recordType}/snapshot", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -932,9 +932,9 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
     /**
      * @description      * @tag Creatives
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Sets a cursor into the requested set of creatives. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Sets the number of creative objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten creatives set `startIndex=0` and `count=10`. To return the next ten creatives, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *adGroupIdFilter* - string - optional
      *          - The returned array includes only creatives associated with ad group identifiers matching those specified in the comma-delimited string. Cannot be used in conjunction with the `creativeIdFilter` parameter.
@@ -950,9 +950,9 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      * @description      * @tag Creatives
      * @param array $data An array of creative objects to update. Maximum length of the array is 100 objects.
      */
-    public function updateCreatives(array $data): void
+    public function updateCreatives(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/creatives", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/creatives", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -960,9 +960,9 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      * @param array $data An array of Creative objects to create. Maximum length of the array is 100 objects. Note - when using productAds with landingPageURL of OFF_AMAZON_LINK, STORE, or MOMENT, the following properties are required all together;
 1) headline, 2) brandLogo, and 3) rectCustomImage, squareCustomImage.
      */
-    public function createCreatives(array $data): void
+    public function createCreatives(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/creatives", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/creatives", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -975,9 +975,9 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      *      - *previewHtml* - string
      *      - *previewHtmls* - array
      */
-    public function postCreativePreview(array $data): array
+    public function postCreativePreview(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/creatives/preview", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/creatives/preview", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -985,9 +985,9 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      * @param array $query
      *      - *language* -  - required
      *          - The language of the returned creative moderation metadata.
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Sets a cursor into the requested set of creative moderations. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Sets the number of creative objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten creative moderations set `startIndex=0` and `count=10`. To return the next ten creative moderations, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *adGroupIdFilter* - string - optional
      *          - The returned array includes only creative moderations associated with ad group identifiers matching those specified in the comma-delimited string. Cannot be used in conjunction with the `creativeIdFilter` parameter.
@@ -1004,10 +1004,10 @@ To understand the call flow for asynchronous snapshots, see [Getting started wit
      * @tag Brand Safety List
      * @param string $requestId The ID of the request previously submitted.
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of results. Use in conjunction with the count parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
 
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of results in the returned array. Use in conjunction with the startIndex parameter to control pagination. For example, to return the first 1000 results set startIndex=0 and count=1000. To return the next 1000 results, set startIndex=1000 and count=1000, and so on. Defaults to max page size(1000).
 
      * @return array
@@ -1104,9 +1104,9 @@ If landingPageUrl is used, only one item is allowed for the list.
      *      - *costType* - 
      *      - *bidRecommendations* - 
      */
-    public function getTargetBidRecommendations(array $data): array
+    public function getTargetBidRecommendations(array $data, string $contentType = 'application/vnd.sdtargetingrecommendations.v3.4+json'): array
     {
-        return $this->api("/sd/targets/bid/recommendations", 'POST', $data, ['content-type' => 'application/vnd.sdtargetingrecommendations.v3.4+json']);
+        return $this->api("/sd/targets/bid/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1126,17 +1126,17 @@ If landingPageUrl is used, only one item is allowed for the list.
      *      - *recommendations* - array
      *          - Recommendations are sorted, i.e., more suitable headline has lesser array index value.
      */
-    public function getHeadlineRecommendationsForSD(array $data): array
+    public function getHeadlineRecommendationsForSD(array $data, string $contentType = 'application/vnd.sdheadlinerecommendationrequest.v4.0+json'): array
     {
-        return $this->api("/sd/recommendations/creative/headline", 'POST', $data, ['content-type' => 'application/vnd.sdheadlinerecommendationrequest.v4.0+json']);
+        return $this->api("/sd/recommendations/creative/headline", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Gets an array of OptimizationRule objects for a requested set of Sponsored Display optimization rules.     * @tag Optimization Rules (beta)
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a cursor into the requested set of optimization rules. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of OptimizationRule objects in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten optimization rules set `startIndex=0` and `count=10`. To return the next ten optimization rules, set `startIndex=10` and `count=10`, and so on. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. The returned array is filtered to include only optimization rules with state set to one of the values in the specified comma-delimited list.
@@ -1165,9 +1165,9 @@ Maximum size limit 50.
      * @tag Optimization Rules (beta)
      * @param array $data An array of OptimizationRule objects. For each object, specify an optimization rule identifier and mutable fields with their updated values. The mutable fields are `ruleName`, `state`, and `ruleConditions`.
      */
-    public function updateOptimizationRules(array $data): void
+    public function updateOptimizationRules(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/optimizationRules", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/optimizationRules", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1182,9 +1182,9 @@ Maximum size limit 50.
   - 20x the value of any COST_PER_CLICK threshold.     * @tag Optimization Rules (beta)
      * @param array $data An array of OptimizationRule objects. For each object, specify required fields and their values. Required fields are `state` and `ruleConditions`.
      */
-    public function createOptimizationRules(array $data): void
+    public function createOptimizationRules(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/optimizationRules", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/optimizationRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1201,7 +1201,7 @@ Maximum size limit 50.
      * @description 
 * When an optimization rule is associated to an ad group, manual bids for individual targets will be overridden.
 * Only one optimization rule can be associated per adGroup. This note will be removed when multiple rules are supported per adGroup.     * @tag Optimization Rules (beta)
-     * @param integer $adGroupId The identifier of the ad group.
+     * @param int $adGroupId The identifier of the ad group.
      * @param array $data A list of optimization rule identifiers. Only one optimization rule identifier is currently supported per request. This note will be removed when multiple rule identifiers are supported.
 
 For each ad group, only one optimization rule metric name is supported, based on the ad group's `bidOptimization` type. Refer to the following table for the metric names supported for each type.
@@ -1213,16 +1213,16 @@ For each ad group, only one optimization rule metric name is supported, based on
      *      - *optimizationRuleIds* - array
      *          - A list of optimization rule identifiers.
      */
-    public function associateOptimizationRulesWithAdGroup(integer $adGroupId, array $data): void
+    public function associateOptimizationRulesWithAdGroup(int $adGroupId, array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/adGroups/{$adGroupId}/optimizationRules", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/adGroups/{$adGroupId}/optimizationRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
      * @description Gets an OptimizationRule object for a requested Sponsored Display optimization rule.     * @tag Optimization Rules (beta)
-     * @param integer $adGroupId The identifier of the ad group.
+     * @param int $adGroupId The identifier of the ad group.
      */
-    public function getOptimizationRulesByAdGroup(integer $adGroupId): void
+    public function getOptimizationRulesByAdGroup(int $adGroupId): void
     {
         $this->api("/sd/adGroups/{$adGroupId}/optimizationRules");
     }
@@ -1231,7 +1231,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      * @description 
 * Only one optimization rule can be disassociated per adGroup. This note will be removed when multiple rules are supported per adGroup.
 * When an optimization rule is disassociated from an ad group, you can set the manual bids for the individual targets under the adGroup.     * @tag Optimization Rules (beta)
-     * @param integer $adGroupId The identifier of the ad group.
+     * @param int $adGroupId The identifier of the ad group.
      * @param array $data A list of optimization rule identifiers. Only one optimization rule identifier is currently supported per request. This note will be removed when multiple rule identifiers are supported.
      *      - *optimizationRuleIds* - array
      *          - A list of optimization rule identifiers.
@@ -1241,9 +1241,9 @@ For each ad group, only one optimization rule metric name is supported, based on
      *      - *responses* - array
      *          - An array of response objects. Each response object has code, details and optimizationRuleId.
      */
-    public function disassociateOptimizationRulesFromAdGroup(integer $adGroupId, array $data): array
+    public function disassociateOptimizationRulesFromAdGroup(int $adGroupId, array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/adGroups/{$adGroupId}/optimizationRules/disassociate", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/adGroups/{$adGroupId}/optimizationRules/disassociate", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1272,9 +1272,9 @@ For each ad group, only one optimization rule metric name is supported, based on
      *          - Forecasting curves.
      *      - *forecastStatus* - 
      */
-    public function createSDForecast(array $data): array
+    public function createSDForecast(array $data, string $contentType = 'application/vnd.sdforecasts.v3.1+json'): array
     {
-        return $this->api("/sd/forecasts", 'POST', $data, ['content-type' => 'application/vnd.sdforecasts.v3.1+json']);
+        return $this->api("/sd/forecasts", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1298,9 +1298,9 @@ For each ad group, only one optimization rule metric name is supported, based on
      * @return array
      *      - *responses* - array
      */
-    public function createBudgetRulesForSDCampaigns(array $data): array
+    public function createBudgetRulesForSDCampaigns(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/budgetRules", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/budgetRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -1309,7 +1309,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -1328,7 +1328,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -1347,7 +1347,7 @@ For each ad group, only one optimization rule metric name is supported, based on
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return array
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -1369,9 +1369,9 @@ For each ad group, only one optimization rule metric name is supported, based on
      * @return array
      *      - *responses* - array
      */
-    public function updateBudgetRulesForSDCampaigns(array $data): array
+    public function updateBudgetRulesForSDCampaigns(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sd/budgetRules", 'PUT', $data, ['content-type' => 'application/json']);
+        return $this->api("/sd/budgetRules", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1386,17 +1386,17 @@ For each ad group, only one optimization rule metric name is supported, based on
      *      - *error* - array
      *          - List of budget usage percentages that failed to pull
      */
-    public function sdCampaignsBudgetUsage(array $data): array
+    public function sdCampaignsBudgetUsage(array $data, string $contentType = 'application/vnd.sdcampaignbudgetusage.v1+json'): array
     {
-        return $this->api("/sd/campaigns/budget/usage", 'POST', $data, ['content-type' => 'application/vnd.sdcampaignbudgetusage.v1+json']);
+        return $this->api("/sd/campaigns/budget/usage", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Gets a list of Sponsored Display Location objects. This resource is not available when productAds have ASIN or SKU fields and only available for advertisers that do not sell products on Amazon. See [Developer Guide](https://advertising.amazon.com/API/docs/en-us/guides/sponsored-display/non-amazon-sellers/get-started)     * @tag Locations (beta)
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. 0-indexed record offset for the result set. Defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Number of records to include in the paged response. Defaults to max page size.
      *      - *stateFilter* - string - optional
      *          - Optional. Restricts results to those with state within the specified comma-separated list. Must be one of: `enabled`.
@@ -1430,9 +1430,9 @@ several example Locations.
 Using locations is optional.      * @tag Locations (beta)
      * @param array $data A list of up to 100 Locations for creation for each call.  1000 locations can be added for each ad group.
      */
-    public function createLocations(array $data): void
+    public function createLocations(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/locations", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/locations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1441,9 +1441,9 @@ This deletion operation is equivalent to using the `updateTargetingClauses` oper
      * @param array $data A list of up to 1000 Location Expression Ids for archival.
      *      - *locationExpressionIdFilter* - 
      */
-    public function archiveLocations(array $data): void
+    public function archiveLocations(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/sd/locations/delete", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/sd/locations/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

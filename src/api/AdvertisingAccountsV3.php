@@ -40,9 +40,9 @@ class AdvertisingAccountsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertis
      *      - *termsToken* - string
      *          - A Terms Token refers to an UUID token used for terms and conditions acceptance
      */
-    public function createTermsToken(array $data): array
+    public function createTermsToken(array $data, string $contentType = 'application/vnd.GlobalRegistrationService.TermsTokenResource.v1.0+json'): array
     {
-        return $this->api("/termsTokens", 'POST', $data, ['content-type' => 'application/vnd.GlobalRegistrationService.TermsTokenResource.v1.0+json']);
+        return $this->api("/termsTokens", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -58,9 +58,9 @@ class AdvertisingAccountsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertis
      *      - *nextToken* - string
      *      - *adsAccounts* - array
      */
-    public function listAdsAccounts(array $data): array
+    public function listAdsAccounts(array $data, string $contentType = 'application/vnd.listaccountsresource.v1+json'): array
     {
-        return $this->api("/adsAccounts/list", 'POST', $data, ['content-type' => 'application/vnd.listaccountsresource.v1+json']);
+        return $this->api("/adsAccounts/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -80,9 +80,9 @@ class AdvertisingAccountsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertis
      * @return array
      *      - *adsAccount* - 
      */
-    public function registerAdsAccount(array $data): array
+    public function registerAdsAccount(array $data, string $contentType = 'application/vnd.registeradsaccountresource.v1+json'): array
     {
-        return $this->api("/adsAccounts", 'POST', $data, ['content-type' => 'application/vnd.registeradsaccountresource.v1+json']);
+        return $this->api("/adsAccounts", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

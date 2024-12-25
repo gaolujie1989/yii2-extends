@@ -52,9 +52,9 @@ Callout - A future update will add support for multiple at a time.
      * @tag Order
      * @param array $data An array of order objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      */
-    public function createOrders(array $data): void
+    public function createOrders(array $data, string $contentType = 'application/vnd.dsporders.v2.6+json'): void
     {
-        $this->api("/dsp/orders/", 'POST', $data, ['content-type' => 'application/vnd.dsporders.v2.6+json']);
+        $this->api("/dsp/orders/", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -65,9 +65,9 @@ Callout - A future update will add support for multiple at a time.
      * @tag Order
      * @param array $data An array of order objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      */
-    public function updateOrders(array $data): void
+    public function updateOrders(array $data, string $contentType = 'application/vnd.dsporders.v2.6+json'): void
     {
-        $this->api("/dsp/orders/", 'PUT', $data, ['content-type' => 'application/vnd.dsporders.v2.6+json']);
+        $this->api("/dsp/orders/", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -101,9 +101,9 @@ Callout - A future update will add support for multiple at a time.
      *      - *products* - 
      *      - *pixels* - 
      */
-    public function updateConversionTracking(string $orderId, array $data): void
+    public function updateConversionTracking(string $orderId, array $data, string $contentType = 'application/vnd.dsporders.v2.1+json'): void
     {
-        $this->api("/dsp/orders/{$orderId}/conversionTracking", 'PUT', $data, ['content-type' => 'application/vnd.dsporders.v2.1+json']);
+        $this->api("/dsp/orders/{$orderId}/conversionTracking", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -124,9 +124,9 @@ Callout - A future update will add support for multiple at a time.
      *      - *productFile* - string
      *          - The URL of the product tracking file.
      */
-    public function updateProductsByOrderId(string $orderId, array $data): void
+    public function updateProductsByOrderId(string $orderId, array $data, string $contentType = 'application/vnd.dspproducttracking.v1+json'): void
     {
-        $this->api("/dsp/orders/{$orderId}/conversionTracking/products", 'PUT', $data, ['content-type' => 'application/vnd.dspproducttracking.v1+json']);
+        $this->api("/dsp/orders/{$orderId}/conversionTracking/products", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -154,9 +154,9 @@ Callout - A future update will add support for multiple at a time.
      * @param string $orderId The order identifier.
      * @param array $data Conversion tracking pixel tracking object
      */
-    public function updatePixelsByOrderId(string $orderId, array $data): void
+    public function updatePixelsByOrderId(string $orderId, array $data, string $contentType = 'application/vnd.dsppixeltracking.v1+json'): void
     {
-        $this->api("/dsp/orders/{$orderId}/conversionTracking/pixels", 'PUT', $data, ['content-type' => 'application/vnd.dsppixeltracking.v1+json']);
+        $this->api("/dsp/orders/{$orderId}/conversionTracking/pixels", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -200,9 +200,9 @@ Callout - A future update will add support for multiple at a time.
      * @tag LineItem
      * @param array $data An array of lineitem objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      */
-    public function createLineItems(array $data): void
+    public function createLineItems(array $data, string $contentType = 'application/vnd.dsplineitems.v3.3+json'): void
     {
-        $this->api("/dsp/lineItems/", 'POST', $data, ['content-type' => 'application/vnd.dsplineitems.v3.3+json']);
+        $this->api("/dsp/lineItems/", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -213,9 +213,9 @@ Callout - A future update will add support for multiple at a time.
      * @tag LineItem
      * @param array $data An array of line item objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      */
-    public function updateLineItems(array $data): void
+    public function updateLineItems(array $data, string $contentType = 'application/vnd.dsplineitems.v3.3+json'): void
     {
-        $this->api("/dsp/lineItems/", 'PUT', $data, ['content-type' => 'application/vnd.dsplineitems.v3.3+json']);
+        $this->api("/dsp/lineItems/", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -274,9 +274,9 @@ Callout - A future update will add support to create multiple Image creatives at
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function createImageCreative(array $data): array
+    public function createImageCreative(array $data, string $contentType = 'application/vnd.dspcreateimagecreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/image", 'POST', $data, ['content-type' => 'application/vnd.dspcreateimagecreatives.v1+json']);
+        return $this->api("/dsp/creatives/image", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -287,9 +287,9 @@ Callout - A future update will add support to update multiple Image creatives at
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function updateImageCreative(array $data): array
+    public function updateImageCreative(array $data, string $contentType = 'application/vnd.dspupdateimagecreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/image", 'PUT', $data, ['content-type' => 'application/vnd.dspupdateimagecreatives.v1+json']);
+        return $this->api("/dsp/creatives/image", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -304,9 +304,9 @@ Callout - A future update will add support to update multiple Image creatives at
      *      - *previewContent* - string
      *          - The HTML content
      */
-    public function previewImageCreative(array $data): array
+    public function previewImageCreative(array $data, string $contentType = 'application/vnd.dsppreviewimagecreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/image/preview", 'POST', $data, ['content-type' => 'application/vnd.dsppreviewimagecreatives.v1+json']);
+        return $this->api("/dsp/creatives/image/preview", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -330,9 +330,9 @@ Callout - A future update will add support to create multiple Video creatives at
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function createVideoCreatives(array $data): array
+    public function createVideoCreatives(array $data, string $contentType = 'application/vnd.dspcreatevideocreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/video", 'POST', $data, ['content-type' => 'application/vnd.dspcreatevideocreatives.v1+json']);
+        return $this->api("/dsp/creatives/video", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -343,9 +343,9 @@ Callout - A future update will add support to update multiple Video creatives at
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function updateVideoCreatives(array $data): array
+    public function updateVideoCreatives(array $data, string $contentType = 'application/vnd.dspupdatevideocreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/video", 'PUT', $data, ['content-type' => 'application/vnd.dspupdatevideocreatives.v1+json']);
+        return $this->api("/dsp/creatives/video", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -358,9 +358,9 @@ Callout - A future update will add support to update multiple Video creatives at
      *      - *previewContent* - string
      *          - The HTML content
      */
-    public function previewVideoCreative(array $data): array
+    public function previewVideoCreative(array $data, string $contentType = 'application/vnd.dsppreviewvideocreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/video/preview", 'POST', $data, ['content-type' => 'application/vnd.dsppreviewvideocreatives.v1+json']);
+        return $this->api("/dsp/creatives/video/preview", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -384,9 +384,9 @@ Callout - A future update will add support to create multiple REC creatives at a
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function createRecCreatives(array $data): array
+    public function createRecCreatives(array $data, string $contentType = 'application/vnd.dspcreatereccreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/rec", 'POST', $data, ['content-type' => 'application/vnd.dspcreatereccreatives.v1+json']);
+        return $this->api("/dsp/creatives/rec", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -397,9 +397,9 @@ Callout - A future update will add support for multiple at a time.
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function updateRecCreatives(array $data): array
+    public function updateRecCreatives(array $data, string $contentType = 'application/vnd.dspupdatereccreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/rec", 'PUT', $data, ['content-type' => 'application/vnd.dspupdatereccreatives.v1+json']);
+        return $this->api("/dsp/creatives/rec", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -413,9 +413,9 @@ Callout - A future update will add support for multiple at a time.
      *      - *previewContent* - string
      *          - The HTML content
      */
-    public function previewRecCreative(array $data): array
+    public function previewRecCreative(array $data, string $contentType = 'application/vnd.dsppreviewreccreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/rec/preview", 'POST', $data, ['content-type' => 'application/vnd.dsppreviewreccreatives.v1+json']);
+        return $this->api("/dsp/creatives/rec/preview", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -439,9 +439,9 @@ Note that a future update will add support to create multiple third party creati
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function createThirdPartyCreative(array $data): array
+    public function createThirdPartyCreative(array $data, string $contentType = 'application/vnd.dspcreatethirdpartycreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/thirdparty", 'POST', $data, ['content-type' => 'application/vnd.dspcreatethirdpartycreatives.v1+json']);
+        return $this->api("/dsp/creatives/thirdparty", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -452,9 +452,9 @@ Note that a future update will add support to update multiple third party creati
      * @param array $data An array of creative objects. For each object, specify required fields and their values. Maximum length of the array is 1.
      * @return array
      */
-    public function updateThirdPartyCreative(array $data): array
+    public function updateThirdPartyCreative(array $data, string $contentType = 'application/vnd.dspupdatethirdpartycreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/thirdparty", 'PUT', $data, ['content-type' => 'application/vnd.dspupdatethirdpartycreatives.v1+json']);
+        return $this->api("/dsp/creatives/thirdparty", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -469,9 +469,9 @@ Note that a future update will add support to update multiple third party creati
      *      - *previewContent* - string
      *          - The HTML content
      */
-    public function previewThirdPartyCreative(array $data): array
+    public function previewThirdPartyCreative(array $data, string $contentType = 'application/vnd.dsppreviewthirdpartycreatives.v1+json'): array
     {
-        return $this->api("/dsp/creatives/thirdparty/preview", 'POST', $data, ['content-type' => 'application/vnd.dsppreviewthirdpartycreatives.v1+json']);
+        return $this->api("/dsp/creatives/thirdparty/preview", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -488,9 +488,9 @@ Note that a future update will add support to update multiple third party creati
      * @param array $query
      *      - *lineItemIdFilter* - string - required
      *          - The returned array includes only associations to line items matching those specified in the comma-delimited string.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Optional. Sets the number of results in the returned array. Use in conjunction with the `startIndex` parameter to control pagination. For example, to return the first ten results set `startIndex=0` and `count=10`. To return the next ten results, set `startIndex=10` and `count=10`, and so on. Maximum of count is 20.
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Optional. Sets a zero-based offset into the requested set of results. Use in conjunction with the `count` parameter to control pagination of the returned array. Default startIndex is 0.
      * @return array
      *      - *totalResults* - integer
@@ -509,9 +509,9 @@ Callout - A future update will add support for multiple at a time.
      * @tag LineItemCreativeAssociation
      * @param array $data 
      */
-    public function updateLineItemCreativeAssociations(array $data): void
+    public function updateLineItemCreativeAssociations(array $data, string $contentType = 'application/vnd.dsplineitemcreativeassociations.v2.1+json'): void
     {
-        $this->api("/dsp/lineItemCreativeAssociations", 'PUT', $data, ['content-type' => 'application/vnd.dsplineitemcreativeassociations.v2.1+json']);
+        $this->api("/dsp/lineItemCreativeAssociations", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -529,9 +529,9 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *      - *success* - 
      *      - *errorDetails* - 
      */
-    public function associateLineItemsToCreatives(array $data): array
+    public function associateLineItemsToCreatives(array $data, string $contentType = 'application/vnd.dsplineitemcreativeassociations.v2.1+json'): array
     {
-        return $this->api("/dsp/lineItemCreativeAssociations", 'POST', $data, ['content-type' => 'application/vnd.dsplineitemcreativeassociations.v2.1+json']);
+        return $this->api("/dsp/lineItemCreativeAssociations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -559,7 +559,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *          - The returned array is filtered to include only pixels with ID matching those specified in the comma-delimited string. Limited to 25 pixel IDs per request. All pixels specified must belong to the same advertiser and therefore advertiserIdFilter is limited to a single advertiser if pixelIdFilter is non-null.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of pixels in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
     public function getPixels(array $query): void
@@ -572,7 +572,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of categories in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 250. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
     public function getProductCategories(array $query = []): void
@@ -595,7 +595,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *          - Restricts query to the specified device types. If not specified, all valid device types for a line item type will be returned.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of supply sources in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -622,7 +622,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *          - Restricts query to the specified device types. If not specified, all valid device types for a line item type will be returned.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of supply sources in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -649,7 +649,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      *          - Restricts query to the specified device types. If not specified, all valid device types for a line item type will be returned.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of supply sources in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -666,7 +666,7 @@ Callout -  Do not pass in startDate, endDate and weight. Use the PUT operation i
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of domain lists in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
     public function getDomains(array $query = []): void
@@ -695,7 +695,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - Filter by text such as city, state, country, dma, or postal code. Retrieves top 100 results in decreasing order of relevancy. Results may be paginated to retrieve these items in pages, but no query will return more than 100 items total.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of locations in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,2000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
     public function getGeoLocations(array $query = []): void
@@ -710,7 +710,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - The line item type to retrieve content categories for. This was introduced in version - `application/vnd.dspiabcontentcategories.v1+json`.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of categories in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 250. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      */
     public function getIabContentCategories(array $query = []): void
@@ -725,7 +725,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - The advertiser to retrieve pre-bid targeting for.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of segments in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -743,7 +743,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - The advertiser to retrieve pre-bid targeting for.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of segments in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -761,7 +761,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - The advertiser to retrieve pre-bid targeting for.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of segments in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -777,7 +777,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of segments in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -793,7 +793,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of segments in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -809,7 +809,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of segments in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -882,7 +882,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - Filter by text. Retrieves up to 1000 results in sorted lexicographically, descending order of relevancy. Results may be paginated to retrieve these items in pages, but no query will return more than 1000 items total.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of apps in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -902,7 +902,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - Filter by text. Retrieves up to 1000 results in sorted lexicographically, descending order of relevancy. Results may be paginated to retrieve these items in pages, but no query will return more than 1000 items total.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of apps in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -922,7 +922,7 @@ When you search for "US postal" only the postal codes in the US are returned.
      *          - Filter by text. Retrieves up to 1000 results in sorted lexicographically, descending order of relevancy. Results may be paginated to retrieve these items in pages, but no query will return more than 1000 items total.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of apps in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,1000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -951,9 +951,9 @@ When you search for "US postal" only the postal codes in the US are returned.
      * @tag Domain Targeting
      * @param array $data An array of domain targeting objects. Maximum length of the array is 1.
      */
-    public function updateDomainTargeting(array $data): void
+    public function updateDomainTargeting(array $data, string $contentType = 'application/vnd.dspupdatedomaintargeting.v1+json'): void
     {
-        $this->api("/dsp/targeting/domain/", 'PUT', $data, ['content-type' => 'application/vnd.dspupdatedomaintargeting.v1+json']);
+        $this->api("/dsp/targeting/domain/", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

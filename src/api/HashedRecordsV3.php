@@ -17,9 +17,9 @@ class HashedRecordsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCli
      * @description Saves a batch of hashed personally-identifiable information (PII) records to be matched with Amazon identities for future use.  All inputs must be properly normalized and SHA-256 hashed as defined [in the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C).     * @tag Hashed Records
      * @param array $data Hashed PII records to be matched with Amazon identities for future use.  All inputs must be properly normalized and SHA-256 hashed as defined [in the documentation](https://advertising.amazon.com/help/GCCXMZYCK4RXWS6C). Max input size 5MB.
      */
-    public function uploadHashedRecords(array $data): void
+    public function uploadHashedRecords(array $data, string $contentType = 'application/vnd.dpuploadhashedrecordsrequest.v3+json'): void
     {
-        $this->api("/dp/records/hashed", 'POST', $data, ['content-type' => 'application/vnd.dpuploadhashedrecordsrequest.v3+json']);
+        $this->api("/dp/records/hashed", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

@@ -40,9 +40,9 @@ Note: trailing slash in request uri is not allowed
      *          - Additional details associated with the subscription
      *      - *status* - 
      */
-    public function updateStreamSubscription(string $subscriptionId, array $data): void
+    public function updateStreamSubscription(string $subscriptionId, array $data, string $contentType = 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json'): void
     {
-        $this->api("/streams/subscriptions/{$subscriptionId}", 'PUT', $data, ['content-type' => 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json']);
+        $this->api("/streams/subscriptions/{$subscriptionId}", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -71,9 +71,9 @@ Should request be re-tried, the caller should supply the same value. We recommen
      *      - *subscriptionId* - string
      *          - Unique subscription identifier
      */
-    public function createStreamSubscription(array $data): array
+    public function createStreamSubscription(array $data, string $contentType = 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api("/streams/subscriptions", 'POST', $data, ['content-type' => 'application/vnd.MarketingStreamSubscriptions.StreamSubscriptionResource.v1.0+json']);
+        return $this->api("/streams/subscriptions", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -83,7 +83,7 @@ Note: trailing slash in request uri is not allowed
 **Requires one of these permissions**:
 ["advertiser_campaign_edit"]     * @tag Stream Subscription
      * @param array $query
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - desired number of entries in the response, defaults to maximum value
      *      - *startingToken* - string - optional
      *          - Token which can be used to get the next page of results, if more entries exist
@@ -132,9 +132,9 @@ Should request be re-tried, the caller should supply the same value. We recommen
      *      - *subscriptionId* - string
      *          - Unique subscription identifier
      */
-    public function createDspStreamSubscription(array $data): array
+    public function createDspStreamSubscription(array $data, string $contentType = 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json'): array
     {
-        return $this->api("/dsp/streams/subscriptions", 'POST', $data, ['content-type' => 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json']);
+        return $this->api("/dsp/streams/subscriptions", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -153,7 +153,7 @@ header
 **Requires one of these permissions**:
 ["view_performance_dashboard"]     * @tag DSP Stream Subscription
      * @param array $query
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - desired number of entries in the response, defaults to maximum value
      *      - *startingToken* - string - optional
      *          - Token which can be used to get the next page of results, if more entries exist
@@ -212,9 +212,9 @@ header
      *          - Additional details associated with the subscription
      *      - *status* - 
      */
-    public function updateDspStreamSubscription(string $subscriptionId, array $data): void
+    public function updateDspStreamSubscription(string $subscriptionId, array $data, string $contentType = 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json'): void
     {
-        $this->api("/dsp/streams/subscriptions/{$subscriptionId}", 'PUT', $data, ['content-type' => 'application/vnd.MarketingStreamSubscriptions.DspStreamSubscriptionResource.v1.0+json']);
+        $this->api("/dsp/streams/subscriptions/{$subscriptionId}", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

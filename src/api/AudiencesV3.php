@@ -25,9 +25,9 @@ class AudiencesV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *success* - array
      *      - *failed* - array
      */
-    public function dspAudienceEdit(array $data): array
+    public function dspAudienceEdit(array $data, string $contentType = 'application/vnd.dspaudiences.v1+json'): array
     {
-        return $this->api("/dsp/audiences/edit", 'PUT', $data, ['content-type' => 'application/vnd.dspaudiences.v1+json']);
+        return $this->api("/dsp/audiences/edit", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -42,9 +42,9 @@ class AudiencesV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *success* - array
      *      - *failed* - array
      */
-    public function dspAudienceDelete(array $data): array
+    public function dspAudienceDelete(array $data, string $contentType = 'application/vnd.dspaudiences.v1+json'): array
     {
-        return $this->api("/dsp/audiences/delete", 'POST', $data, ['content-type' => 'application/vnd.dspaudiences.v1+json']);
+        return $this->api("/dsp/audiences/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -61,7 +61,7 @@ class AudiencesV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *          - When set to true, only targetable audience segments will be returned.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of audiences in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -69,9 +69,9 @@ class AudiencesV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *          - Array of segments matching given filters sorted by create time, earliest first.
      *      - *matchCount* - integer
      */
-    public function listAudiences(array $data, array $query = []): array
+    public function listAudiences(array $data, array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/audiences/list"], $query), 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api(array_merge(["/audiences/list"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -86,16 +86,16 @@ class AudiencesV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *          - The advertiser associated with the advertising account. This parameter is required for the DSP adType, but optional for the SD adType.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of categories in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *categoryPath* - array
      *      - *nextToken* - string
      *      - *categories* - array
      */
-    public function fetchTaxonomy(array $data, array $query = []): array
+    public function fetchTaxonomy(array $data, array $query = [], string $contentType = 'application/json'): array
     {
-        return $this->api(array_merge(["/audiences/taxonomy/list"], $query), 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api(array_merge(["/audiences/taxonomy/list"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

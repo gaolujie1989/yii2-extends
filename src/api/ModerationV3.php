@@ -33,9 +33,9 @@ class ModerationV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *moderationResults* - array
      *      - *nextToken* - 
      */
-    public function moderationResults(array $data): array
+    public function moderationResults(array $data, string $contentType = 'application/vnd.moderationresultsrequest.v4.1+json'): array
     {
-        return $this->api("/moderation/results", 'POST', $data, ['content-type' => 'application/vnd.moderationresultsrequest.v4.1+json']);
+        return $this->api("/moderation/results", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

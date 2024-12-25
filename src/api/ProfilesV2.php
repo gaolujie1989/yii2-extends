@@ -38,14 +38,14 @@ class ProfilesV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @description Note that this operation is only used for Sellers using Sponsored Products. This operation is not enabled for vendor type accounts.     * @tag Profiles
      * @param array $data 
      */
-    public function updateProfiles(array $data): void
+    public function updateProfiles(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/profiles", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/profiles", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description This operation does not return a response unless the current account has created at least one campaign using the advertising console.     * @tag Profiles
-     * @param integer $profileId 
+     * @param int $profileId 
      * @return array
      *      - *profileId* - integer
      *      - *countryCode* - 
@@ -105,7 +105,7 @@ class ProfilesV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
 |FE|SG|Singapore|Asia/Singapore|
      *      - *accountInfo* - 
      */
-    public function getProfileById(integer $profileId): array
+    public function getProfileById(int $profileId): array
     {
         return $this->api("/v2/profiles/{$profileId}");
     }

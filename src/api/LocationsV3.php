@@ -24,12 +24,12 @@ class LocationsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the number of locations in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,2000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch the next 20 items.
      */
-    public function listLocations(array $data, array $query = []): void
+    public function listLocations(array $data, array $query = [], string $contentType = 'application/json'): void
     {
-        $this->api(array_merge(["/locations/list"], $query), 'POST', $data, ['content-type' => 'application/json']);
+        $this->api(array_merge(["/locations/list"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

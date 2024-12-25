@@ -18,9 +18,9 @@ class DataProviderV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClie
      * @tag Metadata
      * @param array $data 
      */
-    public function createAudienceMetadata(array $data): void
+    public function createAudienceMetadata(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/dp/audiencemetadata/", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/dp/audiencemetadata/", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -28,9 +28,9 @@ class DataProviderV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClie
      * @tag Metadata
      * @param array $data 
      */
-    public function updateAudienceMetadata(array $data): void
+    public function updateAudienceMetadata(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/dp/audiencemetadata/{audienceId}", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/dp/audiencemetadata/{audienceId}", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                         
     /**
@@ -38,18 +38,18 @@ class DataProviderV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClie
      * @tag Add or remove records
      * @param array $data 
      */
-    public function updateAudience(array $data): void
+    public function updateAudience(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/dp/audience", 'PATCH', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/dp/audience", 'PATCH', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Deletes user data sourced from data providers. Deletes users scoped either to an advertiser or for the data provider. The SLA for data deletion is 30 days.     * @tag User deletion
      * @param array $data 
      */
-    public function updateUserData(array $data): void
+    public function updateUserData(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/dp/users", 'PATCH', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/dp/users", 'PATCH', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

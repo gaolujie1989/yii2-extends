@@ -34,9 +34,9 @@ class StoresV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *metricsDetails* - array
      *      - *dimension* - 
      */
-    public function getAsinEngagementForStore(string $brandEntityId, array $data): array
+    public function getAsinEngagementForStore(string $brandEntityId, array $data, string $contentType = 'application/vnd.GetAsinEngagementForStoreRequest.v1+json'): array
     {
-        return $this->api("/stores/{$brandEntityId}/asinMetrics", 'POST', $data, ['content-type' => 'application/vnd.GetAsinEngagementForStoreRequest.v1+json']);
+        return $this->api("/stores/{$brandEntityId}/asinMetrics", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -264,9 +264,9 @@ ko-KR</th>
      *      - *metricsDetails* - array
      *      - *dimension* - 
      */
-    public function getInsightsForStoreAPI(string $brandEntityId, array $data): array
+    public function getInsightsForStoreAPI(string $brandEntityId, array $data, string $contentType = 'application/vnd.GetInsightsForStoreRequest.v1+json'): array
     {
-        return $this->api("/stores/{$brandEntityId}/insights", 'POST', $data, ['content-type' => 'application/vnd.GetInsightsForStoreRequest.v1+json']);
+        return $this->api("/stores/{$brandEntityId}/insights", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

@@ -22,9 +22,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      * @return array
      *      - *bidRecommendations* - array
      */
-    public function getThemeBasedBidRecommendationForAdGroup_v1(array $data): array
+    public function getThemeBasedBidRecommendationForAdGroup_v1(array $data, string $contentType = 'application/vnd.spthemebasedbidrecommendation.v4+json'): array
     {
-        return $this->api("/sp/targets/bid/recommendations", 'POST', $data, ['content-type' => 'application/vnd.spthemebasedbidrecommendation.v4+json']);
+        return $this->api("/sp/targets/bid/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -40,9 +40,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *rank* - number
      *          - The keyword target rank
      */
-    public function getRankedKeywordRecommendation(array $data): array
+    public function getRankedKeywordRecommendation(array $data, string $contentType = 'application/vnd.spkeywordsrecommendation.v3+json'): array
     {
-        return $this->api("/sp/targets/keywords/recommendations", 'POST', $data, ['content-type' => 'application/vnd.spkeywordsrecommendation.v3+json']);
+        return $this->api("/sp/targets/keywords/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -73,9 +73,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *nextToken* - string
      *          - token value allowing to navigate to the next response page
      */
-    public function listSponsoredProductsKeywords(array $data): array
+    public function listSponsoredProductsKeywords(array $data, string $contentType = 'application/vnd.spKeyword.v3+json'): array
     {
-        return $this->api("/sp/keywords/list", 'POST', $data, ['content-type' => 'application/vnd.spKeyword.v3+json']);
+        return $this->api("/sp/keywords/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -88,9 +88,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      * @return array
      *      - *negativeKeywords* - 
      */
-    public function deleteSponsoredProductsNegativeKeywords(array $data): array
+    public function deleteSponsoredProductsNegativeKeywords(array $data, string $contentType = 'application/vnd.spNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/negativeKeywords/delete", 'POST', $data, ['content-type' => 'application/vnd.spNegativeKeyword.v3+json']);
+        return $this->api("/sp/negativeKeywords/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -111,9 +111,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      * @return array
      *      - *asinCounts* - 
      */
-    public function getTargetableASINCounts(array $data): array
+    public function getTargetableASINCounts(array $data, string $contentType = 'application/vnd.spproducttargeting.v3+json'): array
     {
-        return $this->api("/sp/targets/products/count", 'POST', $data, ['content-type' => 'application/vnd.spproducttargeting.v3+json']);
+        return $this->api("/sp/targets/products/count", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -152,9 +152,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *details* - string
      *          - A human-readable description of the error, if unsuccessful
      */
-    public function createOptimizationRule(array $data): array
+    public function createOptimizationRule(array $data, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization", 'POST', $data, ['content-type' => 'application/vnd.optimizationrules.v1+json']);
+        return $this->api("/sp/rules/campaignOptimization", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -178,9 +178,9 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *details* - string
      *          - A human-readable description of the error, if unsuccessful
      */
-    public function updateOptimizationRule(array $data): array
+    public function updateOptimizationRule(array $data, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization", 'PUT', $data, ['content-type' => 'application/vnd.optimizationrules.v1+json']);
+        return $this->api("/sp/rules/campaignOptimization", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -188,16 +188,16 @@ class SponsoredProductsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
 
 **Requires one of these permissions**:
 ["advertiser_campaign_edit"]     * @tag BudgetRules
-     * @param number $campaignId The campaign identifier.
+     * @param int $campaignId The campaign identifier.
      * @param array $data 
      *      - *budgetRuleIds* - array
      *          - A list of budget rule identifiers.
      * @return array
      *      - *responses* - array
      */
-    public function createAssociatedBudgetRulesForSPCampaigns(number $campaignId, array $data): array
+    public function createAssociatedBudgetRulesForSPCampaigns(int $campaignId, array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/campaigns/{$campaignId}/budgetRules", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sp/campaigns/{$campaignId}/budgetRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -214,12 +214,12 @@ header
 
 **Requires one of these permissions**:
 ["advertiser_campaign_edit","advertiser_campaign_view"]     * @tag BudgetRules
-     * @param number $campaignId The campaign identifier.
+     * @param int $campaignId The campaign identifier.
      * @return array
      *      - *associatedRules* - array
      *          - A list of associated budget rules.
      */
-    public function listAssociatedBudgetRulesForSPCampaigns(number $campaignId): array
+    public function listAssociatedBudgetRulesForSPCampaigns(int $campaignId): array
     {
         return $this->api("/sp/campaigns/{$campaignId}/budgetRules");
     }
@@ -233,9 +233,9 @@ header
      *      - *keyword* - string
      * @return array
      */
-    public function searchBrands(array $data): array
+    public function searchBrands(array $data, string $contentType = 'application/vnd.spproducttargeting.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets/brands/search", 'POST', $data, ['content-type' => 'application/vnd.spproducttargeting.v3+json']);
+        return $this->api("/sp/negativeTargets/brands/search", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -271,9 +271,9 @@ header
      *      - *CampaignOptimizationNotifications* - array
      *          - List of successful campaign optimization notifications for campaigns.
      */
-    public function getRuleNotification(array $data): array
+    public function getRuleNotification(array $data, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization/state", 'POST', $data, ['content-type' => 'application/vnd.optimizationrules.v1+json']);
+        return $this->api("/sp/rules/campaignOptimization/state", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -297,9 +297,9 @@ promotion group id.
     request. If the nextToken field is empty, there are no further results.
      *      - *targetPromotionGroups* - array
      */
-    public function listTargetPromotionGroups(array $data): array
+    public function listTargetPromotionGroups(array $data, string $contentType = 'application/vnd.sptargetpromotiongroup.v2+json'): array
     {
-        return $this->api("/sp/targetPromotionGroups/list", 'POST', $data, ['content-type' => 'application/vnd.sptargetpromotiongroup.v2+json']);
+        return $this->api("/sp/targetPromotionGroups/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -325,9 +325,9 @@ promotion group id.
      *          - token value allowing to navigate to the next response page
      *      - *productAds* - array
      */
-    public function listSponsoredProductsProductAds(array $data): array
+    public function listSponsoredProductsProductAds(array $data, string $contentType = 'application/vnd.spProductAd.v3+json'): array
     {
-        return $this->api("/sp/productAds/list", 'POST', $data, ['content-type' => 'application/vnd.spProductAd.v3+json']);
+        return $this->api("/sp/productAds/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -342,9 +342,9 @@ promotion group id.
      *          - An enumerated error code for machine use.
      *      - *responses* - array
      */
-    public function createOptimizationRules(array $data): array
+    public function createOptimizationRules(array $data, string $contentType = 'application/vnd.spoptimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/optimization", 'POST', $data, ['content-type' => 'application/vnd.spoptimizationrules.v1+json']);
+        return $this->api("/sp/rules/optimization", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -359,9 +359,9 @@ promotion group id.
      *          - An enumerated error code for machine use.
      *      - *responses* - array
      */
-    public function updateOptimizationRules(array $data): array
+    public function updateOptimizationRules(array $data, string $contentType = 'application/vnd.spoptimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/optimization", 'PUT', $data, ['content-type' => 'application/vnd.spoptimizationrules.v1+json']);
+        return $this->api("/sp/rules/optimization", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -390,9 +390,9 @@ and manual-targeting adGroups, divided by keyword targeting adGroups, and produc
      * @return array
      *      - *targetPromotionGroup* - 
      */
-    public function createTargetPromotionGroups(array $data): array
+    public function createTargetPromotionGroups(array $data, string $contentType = 'application/vnd.sptargetpromotiongroup.v2+json'): array
     {
-        return $this->api("/sp/targetPromotionGroups", 'POST', $data, ['content-type' => 'application/vnd.sptargetpromotiongroup.v2+json']);
+        return $this->api("/sp/targetPromotionGroups", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -411,9 +411,9 @@ and manual-targeting adGroups, divided by keyword targeting adGroups, and produc
      *      - *errors* - array
      *          - List of targets that failed to create.
      */
-    public function createTargetPromotionGroupTargets(array $data): array
+    public function createTargetPromotionGroupTargets(array $data, string $contentType = 'application/vnd.sptargetpromotiongrouptarget.v1+json'): array
     {
-        return $this->api("/sp/targetPromotionGroups/targets", 'POST', $data, ['content-type' => 'application/vnd.sptargetpromotiongrouptarget.v1+json']);
+        return $this->api("/sp/targetPromotionGroups/targets", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -440,9 +440,9 @@ and manual-targeting adGroups, divided by keyword targeting adGroups, and produc
      *          - token value allowing to navigate to the next response page
      *      - *negativeTargetingClauses* - array
      */
-    public function listSponsoredProductsNegativeTargetingClauses(array $data): array
+    public function listSponsoredProductsNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets/list", 'POST', $data, ['content-type' => 'application/vnd.spNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/negativeTargets/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -461,9 +461,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *keywordGroups* - array
      *          - Keyword group recommendations for input list of ASINs.
      */
-    public function getKeywordGroupRecommendations(array $data): array
+    public function getKeywordGroupRecommendations(array $data, string $contentType = 'application/vnd.spkeywordgroupsrecommendations.v1.0+json'): array
     {
-        return $this->api("/sp/targeting/recommendations/keywordGroups", 'POST', $data, ['content-type' => 'application/vnd.spkeywordgroupsrecommendations.v1.0+json']);
+        return $this->api("/sp/targeting/recommendations/keywordGroups", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -477,9 +477,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *productAds* - 
      */
-    public function createSponsoredProductsProductAds(array $data): array
+    public function createSponsoredProductsProductAds(array $data, string $contentType = 'application/vnd.spProductAd.v3+json'): array
     {
-        return $this->api("/sp/productAds", 'POST', $data, ['content-type' => 'application/vnd.spProductAd.v3+json']);
+        return $this->api("/sp/productAds", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -493,9 +493,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *productAds* - 
      */
-    public function updateSponsoredProductsProductAds(array $data): array
+    public function updateSponsoredProductsProductAds(array $data, string $contentType = 'application/vnd.spProductAd.v3+json'): array
     {
-        return $this->api("/sp/productAds", 'PUT', $data, ['content-type' => 'application/vnd.spProductAd.v3+json']);
+        return $this->api("/sp/productAds", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -509,9 +509,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *responses* - array
      */
-    public function createBudgetRulesForSPCampaigns(array $data): array
+    public function createBudgetRulesForSPCampaigns(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/budgetRules", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sp/budgetRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -520,7 +520,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -539,7 +539,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -558,7 +558,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return array
      *      - *budgetRulesForAdvertiserResponse* - array
@@ -582,9 +582,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *responses* - array
      */
-    public function updateBudgetRulesForSPCampaigns(array $data): array
+    public function updateBudgetRulesForSPCampaigns(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/budgetRules", 'PUT', $data, ['content-type' => 'application/json']);
+        return $this->api("/sp/budgetRules", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -604,9 +604,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *categories* - array
      *          - List of category recommendations
      */
-    public function getCategoryRecommendationsForASINs(array $data, array $query = []): array
+    public function getCategoryRecommendationsForASINs(array $data, array $query = [], string $contentType = 'application/vnd.spproducttargeting.v3+json'): array
     {
-        return $this->api(array_merge(["/sp/targets/categories/recommendations"], $query), 'POST', $data, ['content-type' => 'application/vnd.spproducttargeting.v3+json']);
+        return $this->api(array_merge(["/sp/targets/categories/recommendations"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -630,9 +630,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *targets* - array
      *          - List of optimized targets for the request, as recommended by Amazon heuristics
      */
-    public function getTargetPromotionGroupsRecommendations(array $data): array
+    public function getTargetPromotionGroupsRecommendations(array $data, string $contentType = 'application/vnd.spTargetPromotionGroupsRecommendations.v1+json'): array
     {
-        return $this->api("/sp/targetPromotionGroups/recommendations", 'POST', $data, ['content-type' => 'application/vnd.spTargetPromotionGroupsRecommendations.v1+json']);
+        return $this->api("/sp/targetPromotionGroups/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -656,9 +656,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *          - Unique identifier for each recommendation.
      *      - *benchmark* - 
      */
-    public function getBudgetRecommendation(array $data): array
+    public function getBudgetRecommendation(array $data, string $contentType = 'application/vnd.spinitialbudgetrecommendation.v3.4+json'): array
     {
-        return $this->api("/sp/campaigns/initialBudgetRecommendation", 'POST', $data, ['content-type' => 'application/vnd.spinitialbudgetrecommendation.v3.4+json']);
+        return $this->api("/sp/campaigns/initialBudgetRecommendation", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -671,9 +671,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaignNegativeTargetingClauses* - 
      */
-    public function deleteSponsoredProductsCampaignNegativeTargetingClauses(array $data): array
+    public function deleteSponsoredProductsCampaignNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spCampaignNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeTargets/delete", 'POST', $data, ['content-type' => 'application/vnd.spCampaignNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/campaignNegativeTargets/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -686,9 +686,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *productAds* - 
      */
-    public function deleteSponsoredProductsProductAds(array $data): array
+    public function deleteSponsoredProductsProductAds(array $data, string $contentType = 'application/vnd.spProductAd.v3+json'): array
     {
-        return $this->api("/sp/productAds/delete", 'POST', $data, ['content-type' => 'application/vnd.spProductAd.v3+json']);
+        return $this->api("/sp/productAds/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -717,9 +717,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *budgetRecommendationsErrorResults* - array
      *          - List of errors that occured when generating bduget recommendation.
      */
-    public function getBudgetRecommendations(array $data): array
+    public function getBudgetRecommendations(array $data, string $contentType = 'application/vnd.budgetrecommendation.v3+json'): array
     {
-        return $this->api("/sp/campaigns/budgetRecommendations", 'POST', $data, ['content-type' => 'application/vnd.budgetrecommendation.v3+json']);
+        return $this->api("/sp/campaigns/budgetRecommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -733,9 +733,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *negativeTargetingClauses* - 
      */
-    public function createSponsoredProductsNegativeTargetingClauses(array $data): array
+    public function createSponsoredProductsNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets", 'POST', $data, ['content-type' => 'application/vnd.spNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/negativeTargets", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -749,9 +749,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *negativeTargetingClauses* - 
      */
-    public function updateSponsoredProductsNegativeTargetingClauses(array $data): array
+    public function updateSponsoredProductsNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets", 'PUT', $data, ['content-type' => 'application/vnd.spNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/negativeTargets", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -765,9 +765,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *targetingClauses* - 
      */
-    public function createSponsoredProductsTargetingClauses(array $data): array
+    public function createSponsoredProductsTargetingClauses(array $data, string $contentType = 'application/vnd.spTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/targets", 'POST', $data, ['content-type' => 'application/vnd.spTargetingClause.v3+json']);
+        return $this->api("/sp/targets", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -781,9 +781,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *targetingClauses* - 
      */
-    public function updateSponsoredProductsTargetingClauses(array $data): array
+    public function updateSponsoredProductsTargetingClauses(array $data, string $contentType = 'application/vnd.spTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/targets", 'PUT', $data, ['content-type' => 'application/vnd.spTargetingClause.v3+json']);
+        return $this->api("/sp/targets", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -796,9 +796,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *recommendedBudgetRuleEvents* - array
      *          - A list of recommended special events with date range and suggested budget increase.
      */
-    public function sPGetBudgetRulesRecommendation(array $data): array
+    public function sPGetBudgetRulesRecommendation(array $data, string $contentType = 'application/vnd.spbudgetrulesrecommendation.v3+json'): array
     {
-        return $this->api("/sp/campaigns/budgetRules/recommendations", 'POST', $data, ['content-type' => 'application/vnd.spbudgetrulesrecommendation.v3+json']);
+        return $this->api("/sp/campaigns/budgetRules/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -812,9 +812,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaignNegativeTargetingClauses* - 
      */
-    public function createSponsoredProductsCampaignNegativeTargetingClauses(array $data): array
+    public function createSponsoredProductsCampaignNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spCampaignNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeTargets", 'POST', $data, ['content-type' => 'application/vnd.spCampaignNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/campaignNegativeTargets", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -828,9 +828,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaignNegativeTargetingClauses* - 
      */
-    public function updateSponsoredProductsCampaignNegativeTargetingClauses(array $data): array
+    public function updateSponsoredProductsCampaignNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spCampaignNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeTargets", 'PUT', $data, ['content-type' => 'application/vnd.spCampaignNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/campaignNegativeTargets", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -844,9 +844,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *keywords* - 
      */
-    public function createSponsoredProductsKeywords(array $data): array
+    public function createSponsoredProductsKeywords(array $data, string $contentType = 'application/vnd.spKeyword.v3+json'): array
     {
-        return $this->api("/sp/keywords", 'POST', $data, ['content-type' => 'application/vnd.spKeyword.v3+json']);
+        return $this->api("/sp/keywords", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -860,9 +860,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *keywords* - 
      */
-    public function updateSponsoredProductsKeywords(array $data): array
+    public function updateSponsoredProductsKeywords(array $data, string $contentType = 'application/vnd.spKeyword.v3+json'): array
     {
-        return $this->api("/sp/keywords", 'PUT', $data, ['content-type' => 'application/vnd.spKeyword.v3+json']);
+        return $this->api("/sp/keywords", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -888,9 +888,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *          - token value allowing to navigate to the next response page
      *      - *campaignNegativeTargetingClauses* - array
      */
-    public function listSponsoredProductsCampaignNegativeTargetingClauses(array $data): array
+    public function listSponsoredProductsCampaignNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spCampaignNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeTargets/list", 'POST', $data, ['content-type' => 'application/vnd.spCampaignNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/campaignNegativeTargets/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -903,9 +903,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *targetingClauses* - 
      */
-    public function deleteSponsoredProductsTargetingClauses(array $data): array
+    public function deleteSponsoredProductsTargetingClauses(array $data, string $contentType = 'application/vnd.spTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/targets/delete", 'POST', $data, ['content-type' => 'application/vnd.spTargetingClause.v3+json']);
+        return $this->api("/sp/targets/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -924,9 +924,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *      - *optimizationRules* - array
      */
-    public function searchOptimizationRules(array $data): array
+    public function searchOptimizationRules(array $data, string $contentType = 'application/vnd.spoptimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/optimization/search", 'POST', $data, ['content-type' => 'application/vnd.spoptimizationrules.v1+json']);
+        return $this->api("/sp/rules/optimization/search", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -940,9 +940,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaigns* - 
      */
-    public function createSponsoredProductsCampaigns(array $data): array
+    public function createSponsoredProductsCampaigns(array $data, string $contentType = 'application/vnd.spCampaign.v3+json'): array
     {
-        return $this->api("/sp/campaigns", 'POST', $data, ['content-type' => 'application/vnd.spCampaign.v3+json']);
+        return $this->api("/sp/campaigns", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -956,9 +956,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaigns* - 
      */
-    public function updateSponsoredProductsCampaigns(array $data): array
+    public function updateSponsoredProductsCampaigns(array $data, string $contentType = 'application/vnd.spCampaign.v3+json'): array
     {
-        return $this->api("/sp/campaigns", 'PUT', $data, ['content-type' => 'application/vnd.spCampaign.v3+json']);
+        return $this->api("/sp/campaigns", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -985,9 +985,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - token value allowing to navigate to the next response page
      */
-    public function listSponsoredProductsAdGroups(array $data): array
+    public function listSponsoredProductsAdGroups(array $data, string $contentType = 'application/vnd.spAdGroup.v3+json'): array
     {
-        return $this->api("/sp/adGroups/list", 'POST', $data, ['content-type' => 'application/vnd.spAdGroup.v3+json']);
+        return $this->api("/sp/adGroups/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1000,9 +1000,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *adGroups* - 
      */
-    public function deleteSponsoredProductsAdGroups(array $data): array
+    public function deleteSponsoredProductsAdGroups(array $data, string $contentType = 'application/vnd.spAdGroup.v3+json'): array
     {
-        return $this->api("/sp/adGroups/delete", 'POST', $data, ['content-type' => 'application/vnd.spAdGroup.v3+json']);
+        return $this->api("/sp/adGroups/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1078,9 +1078,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaignNegativeKeywords* - 
      */
-    public function deleteSponsoredProductsCampaignNegativeKeywords(array $data): array
+    public function deleteSponsoredProductsCampaignNegativeKeywords(array $data, string $contentType = 'application/vnd.spCampaignNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeKeywords/delete", 'POST', $data, ['content-type' => 'application/vnd.spCampaignNegativeKeyword.v3+json']);
+        return $this->api("/sp/campaignNegativeKeywords/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1097,9 +1097,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *          - An enumerated error code for machine use.
      *      - *responses* - array
      */
-    public function associateOptimizationRulesToCampaign(string $campaignId, array $data): array
+    public function associateOptimizationRulesToCampaign(string $campaignId, array $data, string $contentType = 'application/vnd.spoptimizationrules.v1+json'): array
     {
-        return $this->api("/sp/campaigns/{$campaignId}/optimizationRules", 'POST', $data, ['content-type' => 'application/vnd.spoptimizationrules.v1+json']);
+        return $this->api("/sp/campaigns/{$campaignId}/optimizationRules", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1127,9 +1127,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *          - token value allowing to navigate to the next response page
      *      - *campaignNegativeKeywords* - array
      */
-    public function listSponsoredProductsCampaignNegativeKeywords(array $data): array
+    public function listSponsoredProductsCampaignNegativeKeywords(array $data, string $contentType = 'application/vnd.spCampaignNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeKeywords/list", 'POST', $data, ['content-type' => 'application/vnd.spCampaignNegativeKeyword.v3+json']);
+        return $this->api("/sp/campaignNegativeKeywords/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1142,9 +1142,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *campaigns* - 
      */
-    public function deleteSponsoredProductsCampaigns(array $data): array
+    public function deleteSponsoredProductsCampaigns(array $data, string $contentType = 'application/vnd.spCampaign.v3+json'): array
     {
-        return $this->api("/sp/campaigns/delete", 'POST', $data, ['content-type' => 'application/vnd.spCampaign.v3+json']);
+        return $this->api("/sp/campaigns/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1170,9 +1170,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *nextToken* - string
      *          - token value allowing to navigate to the next response page
      */
-    public function listSponsoredProductsCampaigns(array $data): array
+    public function listSponsoredProductsCampaigns(array $data, string $contentType = 'application/vnd.spCampaign.v3+json'): array
     {
-        return $this->api("/sp/campaigns/list", 'POST', $data, ['content-type' => 'application/vnd.spCampaign.v3+json']);
+        return $this->api("/sp/campaigns/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1182,7 +1182,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *associatedCampaigns* - array
@@ -1202,7 +1202,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return Iterator
      *      - *associatedCampaigns* - array
@@ -1222,7 +1222,7 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @param array $query
      *      - *nextToken* - string - optional
      *          - To retrieve the next page of results, call the same operation and specify this token in the request. If the `nextToken` field is empty, there are no further results.
-     *      - *pageSize* - number - required
+     *      - *pageSize* - int - required
      *          - Sets a limit on the number of results returned. Maximum limit of `pageSize` is 30.
      * @return array
      *      - *associatedCampaigns* - array
@@ -1240,11 +1240,11 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
 
 **Requires one of these permissions**:
 ["advertiser_campaign_edit"]     * @tag BudgetRules
-     * @param number $campaignId The campaign identifier.
+     * @param int $campaignId The campaign identifier.
      * @param string $budgetRuleId The budget rule identifier.
      * @return array
      */
-    public function disassociateAssociatedBudgetRuleForSPCampaigns(number $campaignId, string $budgetRuleId): array
+    public function disassociateAssociatedBudgetRuleForSPCampaigns(int $campaignId, string $budgetRuleId): array
     {
         return $this->api("/sp/campaigns/{$campaignId}/budgetRules/{$budgetRuleId}", 'DELETE');
     }
@@ -1260,9 +1260,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *adGroups* - 
      */
-    public function createSponsoredProductsAdGroups(array $data): array
+    public function createSponsoredProductsAdGroups(array $data, string $contentType = 'application/vnd.spAdGroup.v3+json'): array
     {
-        return $this->api("/sp/adGroups", 'POST', $data, ['content-type' => 'application/vnd.spAdGroup.v3+json']);
+        return $this->api("/sp/adGroups", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1276,9 +1276,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *adGroups* - 
      */
-    public function updateSponsoredProductsAdGroups(array $data): array
+    public function updateSponsoredProductsAdGroups(array $data, string $contentType = 'application/vnd.spAdGroup.v3+json'): array
     {
-        return $this->api("/sp/adGroups", 'PUT', $data, ['content-type' => 'application/vnd.spAdGroup.v3+json']);
+        return $this->api("/sp/adGroups", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1306,9 +1306,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      *      - *recommendations* - array
      *          - An array of `ThemeRecommendation` objects
      */
-    public function getProductRecommendations(array $data): array
+    public function getProductRecommendations(array $data, string $contentType = 'application/vnd.spproductrecommendation.v3+json'): array
     {
-        return $this->api("/sp/targets/products/recommendations", 'POST', $data, ['content-type' => 'application/vnd.spproductrecommendation.v3+json']);
+        return $this->api("/sp/targets/products/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1321,9 +1321,9 @@ Once a Keyword Group specification is created, the performance of Keyword Groups
      * @return array
      *      - *negativeTargetingClauses* - 
      */
-    public function deleteSponsoredProductsNegativeTargetingClauses(array $data): array
+    public function deleteSponsoredProductsNegativeTargetingClauses(array $data, string $contentType = 'application/vnd.spNegativeTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/negativeTargets/delete", 'POST', $data, ['content-type' => 'application/vnd.spNegativeTargetingClause.v3+json']);
+        return $this->api("/sp/negativeTargets/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1346,9 +1346,9 @@ header
      *      - *errors* - array
      *          - List of errors occurred while processing multi country request.
      */
-    public function getMultiCountryThemeBasedBidRecommendationForAdGroup_v1(array $data): array
+    public function getMultiCountryThemeBasedBidRecommendationForAdGroup_v1(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/global/targets/bid/recommendations", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sp/global/targets/bid/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1361,9 +1361,9 @@ header
      * @return array
      *      - *keywords* - 
      */
-    public function deleteSponsoredProductsKeywords(array $data): array
+    public function deleteSponsoredProductsKeywords(array $data, string $contentType = 'application/vnd.spKeyword.v3+json'): array
     {
-        return $this->api("/sp/keywords/delete", 'POST', $data, ['content-type' => 'application/vnd.spKeyword.v3+json']);
+        return $this->api("/sp/keywords/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1382,9 +1382,9 @@ header
      *      - *CampaignOptimizationRecommendationsError* - array
      *          - List of campaigns not eligible for optimization rule.
      */
-    public function getOptimizationRuleEligibility(array $data): array
+    public function getOptimizationRuleEligibility(array $data, string $contentType = 'application/vnd.optimizationrules.v1+json'): array
     {
-        return $this->api("/sp/rules/campaignOptimization/eligibility", 'POST', $data, ['content-type' => 'application/vnd.optimizationrules.v1+json']);
+        return $this->api("/sp/rules/campaignOptimization/eligibility", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1453,9 +1453,9 @@ header
      * @return array
      *      - *campaignNegativeKeywords* - 
      */
-    public function createSponsoredProductsCampaignNegativeKeywords(array $data): array
+    public function createSponsoredProductsCampaignNegativeKeywords(array $data, string $contentType = 'application/vnd.spCampaignNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeKeywords", 'POST', $data, ['content-type' => 'application/vnd.spCampaignNegativeKeyword.v3+json']);
+        return $this->api("/sp/campaignNegativeKeywords", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1469,9 +1469,9 @@ header
      * @return array
      *      - *campaignNegativeKeywords* - 
      */
-    public function updateSponsoredProductsCampaignNegativeKeywords(array $data): array
+    public function updateSponsoredProductsCampaignNegativeKeywords(array $data, string $contentType = 'application/vnd.spCampaignNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/campaignNegativeKeywords", 'PUT', $data, ['content-type' => 'application/vnd.spCampaignNegativeKeyword.v3+json']);
+        return $this->api("/sp/campaignNegativeKeywords", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1494,9 +1494,9 @@ header
     request. If the nextToken field is empty, there are no further results.
      *      - *targets* - array
      */
-    public function listTargetPromotionGroupTargets(array $data): array
+    public function listTargetPromotionGroupTargets(array $data, string $contentType = 'application/vnd.sptargetpromotiongrouptarget.v1+json'): array
     {
-        return $this->api("/sp/targetPromotionGroups/targets/list", 'POST', $data, ['content-type' => 'application/vnd.sptargetpromotiongrouptarget.v1+json']);
+        return $this->api("/sp/targetPromotionGroups/targets/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1524,9 +1524,9 @@ header
      *          - token value allowing to navigate to the next response page
      *      - *targetingClauses* - array
      */
-    public function listSponsoredProductsTargetingClauses(array $data): array
+    public function listSponsoredProductsTargetingClauses(array $data, string $contentType = 'application/vnd.spTargetingClause.v3+json'): array
     {
-        return $this->api("/sp/targets/list", 'POST', $data, ['content-type' => 'application/vnd.spTargetingClause.v3+json']);
+        return $this->api("/sp/targets/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1557,9 +1557,9 @@ header
      *      - *nextToken* - string
      *          - token value allowing to navigate to the next response page
      */
-    public function listSponsoredProductsNegativeKeywords(array $data): array
+    public function listSponsoredProductsNegativeKeywords(array $data, string $contentType = 'application/vnd.spNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/negativeKeywords/list", 'POST', $data, ['content-type' => 'application/vnd.spNegativeKeyword.v3+json']);
+        return $this->api("/sp/negativeKeywords/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1568,9 +1568,9 @@ header
      * @return array
      *      - *countryCodes* - object
      */
-    public function getGlobalRankedKeywordRecommendation(array $data): array
+    public function getGlobalRankedKeywordRecommendation(array $data, string $contentType = 'application/vnd.spkeywordsrecommendation.v5+json'): array
     {
-        return $this->api("/sp/global/targets/keywords/recommendations/list", 'POST', $data, ['content-type' => 'application/vnd.spkeywordsrecommendation.v5+json']);
+        return $this->api("/sp/global/targets/keywords/recommendations/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1584,9 +1584,9 @@ header
      * @return array
      *      - *negativeKeywords* - 
      */
-    public function createSponsoredProductsNegativeKeywords(array $data): array
+    public function createSponsoredProductsNegativeKeywords(array $data, string $contentType = 'application/vnd.spNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/negativeKeywords", 'POST', $data, ['content-type' => 'application/vnd.spNegativeKeyword.v3+json']);
+        return $this->api("/sp/negativeKeywords", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -1600,9 +1600,9 @@ header
      * @return array
      *      - *negativeKeywords* - 
      */
-    public function updateSponsoredProductsNegativeKeywords(array $data): array
+    public function updateSponsoredProductsNegativeKeywords(array $data, string $contentType = 'application/vnd.spNegativeKeyword.v3+json'): array
     {
-        return $this->api("/sp/negativeKeywords", 'PUT', $data, ['content-type' => 'application/vnd.spNegativeKeyword.v3+json']);
+        return $this->api("/sp/negativeKeywords", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1619,9 +1619,9 @@ header
      *      - *error* - array
      *          - List of budget usage percentages that failed to pull
      */
-    public function spCampaignsBudgetUsage(array $data): array
+    public function spCampaignsBudgetUsage(array $data, string $contentType = 'application/vnd.spcampaignbudgetusage.v1+json'): array
     {
-        return $this->api("/sp/campaigns/budget/usage", 'POST', $data, ['content-type' => 'application/vnd.spcampaignbudgetusage.v1+json']);
+        return $this->api("/sp/campaigns/budget/usage", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -1636,9 +1636,9 @@ header
      *      - *events* - array
      *          - A list of individual events with date range.
      */
-    public function sPGetAllRuleEvents(array $data): array
+    public function sPGetAllRuleEvents(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/sp/v1/events", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/sp/v1/events", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

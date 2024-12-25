@@ -120,9 +120,9 @@ see [Retry logic with exponential backoff](concepts/rate-limiting#use-retry-logi
      *      - *updatedAt* - string
      *          - The date at which the report was last updated in ISO 8601 date time format.
      */
-    public function createAsyncReport(array $data): array
+    public function createAsyncReport(array $data, string $contentType = 'application/vnd.createasyncreportrequest.v3+json'): array
     {
-        return $this->api("/reporting/reports", 'POST', $data, ['content-type' => 'application/vnd.createasyncreportrequest.v3+json']);
+        return $this->api("/reporting/reports", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

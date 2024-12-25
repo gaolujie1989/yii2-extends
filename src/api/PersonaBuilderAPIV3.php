@@ -23,7 +23,7 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      * @param array $query
      *      - *advertiserId* - string - required
      *          - The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of objects in the returned array. Use in conjunction with the nextToken parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.<br/>Default: 30; <br/>Minimum: 1; <br/>Maximum:250.
      *      - *nextToken* - string - optional
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the nextToken field is empty, there are no further results.
@@ -41,9 +41,9 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *          - Optional: If present, there are more insights than initially returned. Use this token to call the operation again
                     and have the additional insights returned. The token is valid for 8 hours from the initial request.
      */
-    public function topCategoriesPurchased(array $data, array $query): array
+    public function topCategoriesPurchased(array $data, array $query, string $contentType = 'application/vnd.topcategoriespurchasedinputexpression.v1+json'): array
     {
-        return $this->api(array_merge(["/insights/topCategoriesPurchased"], $query), 'POST', $data, ['content-type' => 'application/vnd.topcategoriespurchasedinputexpression.v1+json']);
+        return $this->api(array_merge(["/insights/topCategoriesPurchased"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -61,9 +61,9 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *lastUpdatedAt* - string
      *          - UTC timestamp in ISO 8601 format indicating when insight was last generated for the audience targeting expression.
      */
-    public function bandedSize(array $data, array $query): array
+    public function bandedSize(array $data, array $query, string $contentType = 'application/vnd.bandedsizeinputexpression.v1+json'): array
     {
-        return $this->api(array_merge(["/insights/bandedSize"], $query), 'POST', $data, ['content-type' => 'application/vnd.bandedsizeinputexpression.v1+json']);
+        return $this->api(array_merge(["/insights/bandedSize"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -81,9 +81,9 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *          - UTC timestamp in ISO 8601 format indicating when insight was last generated for the input audience set.
      *      - *demographics* - 
      */
-    public function demographics(array $data, array $query): array
+    public function demographics(array $data, array $query, string $contentType = 'application/vnd.demographicinputexpressions.v1+json'): array
     {
-        return $this->api(array_merge(["/insights/demographics"], $query), 'POST', $data, ['content-type' => 'application/vnd.demographicinputexpressions.v1+json']);
+        return $this->api(array_merge(["/insights/demographics"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -104,9 +104,9 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *          - UTC timestamp in ISO 8601 format indicating when insight was last generated for the input expression.
      *      - *primeVideoInsights* - 
      */
-    public function primeVideo(array $data, array $query): array
+    public function primeVideo(array $data, array $query, string $contentType = 'application/vnd.primevideoinputexpressions.v1+json'): array
     {
-        return $this->api(array_merge(["/insights/primeVideo"], $query), 'POST', $data, ['content-type' => 'application/vnd.primevideoinputexpressions.v1+json']);
+        return $this->api(array_merge(["/insights/primeVideo"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -118,7 +118,7 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      * @param array $query
      *      - *advertiserId* - string - required
      *          - The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of objects in the returned array. Use in conjunction with the nextToken parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.<br/>Default: 30; <br/>Minimum: 1; <br/>Maximum:250.
      *      - *nextToken* - string - optional
      *          - Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the nextToken field is empty, there are no further results.
@@ -134,9 +134,9 @@ class PersonaBuilderAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
                     audience. An affinity of 5 for some audience indicates that customers in the input expression set
                     are 5 times as likely to belong to this audience than the average of customers on Amazon.
      */
-    public function topOverlappingAudiences(array $data, array $query): array
+    public function topOverlappingAudiences(array $data, array $query, string $contentType = 'application/vnd.topoverlappingaudiencesinputexpression.v1+json'): array
     {
-        return $this->api(array_merge(["/insights/topOverlappingAudiences"], $query), 'POST', $data, ['content-type' => 'application/vnd.topoverlappingaudiencesinputexpression.v1+json']);
+        return $this->api(array_merge(["/insights/topOverlappingAudiences"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

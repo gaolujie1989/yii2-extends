@@ -25,9 +25,9 @@ class AdvertisingTestAccountV3 extends \lujie\amazon\advertising\BaseAmazonAdver
      *      - *requestId* - string
      *          - request id.
      */
-    public function createAccount(array $data): array
+    public function createAccount(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/testAccounts", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/testAccounts", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**

@@ -43,9 +43,9 @@ class GoalSeekingBidderTargetKPIRecommendationV3 extends \lujie\amazon\advertisi
      *      - *currencyCode* - string
      *          - The currency code of the recommended KPI value.
      */
-    public function getGsbTargetKpiRecommendation(array $data): array
+    public function getGsbTargetKpiRecommendation(array $data, string $contentType = 'application/vnd.gsbtargetkpirecommendation.v1+json'): array
     {
-        return $this->api("/dsp/campaigns/targetKpi/recommendations", 'POST', $data, ['content-type' => 'application/vnd.gsbtargetkpirecommendation.v1+json']);
+        return $this->api("/dsp/campaigns/targetKpi/recommendations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

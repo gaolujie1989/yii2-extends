@@ -26,23 +26,23 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      * @description The request body is a list of portfolio resources with updated values. Note that the only valid `state` for Portfolio creation is `enabled`. Portfolios can't be updated with `state` set to `paused`, this will result in an `INVALID_ARGUMENT` error.     * @tag Portfolios
      * @param array $data A list of portfolio resources with updated values.
      */
-    public function updatePortfolios(array $data): void
+    public function updatePortfolios(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/portfolios", 'PUT', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/portfolios", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
      * @description The request body is a list of portfolio resources to be created. Note that this operation is limited to the creation of 100 portfolios. Also note that the only valid `state` for Portfolio creation is `enabled`. Portfolios can't be created with `state` set to `paused`, this will result in an `INVALID_ARGUMENT` error.     * @tag Portfolios
      * @param array $data A list of portfolio resources with updated values.
      */
-    public function createPortfolios(array $data): void
+    public function createPortfolios(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/v2/portfolios", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/v2/portfolios", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
      * @description Returns a Portfolio object for a requested portfolio.     * @tag Portfolios
-     * @param number $portfolioId The identifier of an existing portfolio.
+     * @param int $portfolioId The identifier of an existing portfolio.
      * @return array
      *      - *portfolioId* - number
      *          - The portfolio identifier.
@@ -54,7 +54,7 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *      - *state* - string
      *          - The current state of the portfolio.
      */
-    public function getPortfolio(number $portfolioId): array
+    public function getPortfolio(int $portfolioId): array
     {
         return $this->api("/v2/portfolios/{$portfolioId}");
     }
@@ -70,10 +70,10 @@ class PortfoliosV2 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
                     
     /**
      * @description Gets an extended set of properties for a portfolio specified by identifier.     * @tag Portfolios extended
-     * @param number $portfolioId The identifier of an existing portfolio.
+     * @param int $portfolioId The identifier of an existing portfolio.
      * @return array
      */
-    public function listPortfolioEx(number $portfolioId): array
+    public function listPortfolioEx(int $portfolioId): array
     {
         return $this->api("/v2/portfolios/extended/{$portfolioId}");
     }

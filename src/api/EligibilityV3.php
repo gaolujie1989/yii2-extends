@@ -29,9 +29,9 @@ class EligibilityV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *productResponseList* - array
      *          - A list of product advertising eligibility responses.
      */
-    public function productEligibility(array $data): array
+    public function productEligibility(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/eligibility/product/list", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/eligibility/product/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -41,9 +41,9 @@ class EligibilityV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @return array
      *      - *eligibilityStatusMap* - 
      */
-    public function programEligibility(array $data): array
+    public function programEligibility(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/eligibility/programs", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/eligibility/programs", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

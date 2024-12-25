@@ -55,9 +55,9 @@ class ProductSelectorV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *          - Pagination token for later requests with specific sort type to use as the page index instead. Empty cursorToken means no further data is present at Server side.
      *      - *ProductMetadataList* - array
      */
-    public function productMetadata(array $data): array
+    public function productMetadata(array $data, string $contentType = 'application/vnd.productmetadatarequest.v1+json'): array
     {
-        return $this->api("/product/metadata", 'POST', $data, ['content-type' => 'application/vnd.productmetadatarequest.v1+json']);
+        return $this->api("/product/metadata", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

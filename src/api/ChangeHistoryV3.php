@@ -20,9 +20,9 @@ class ChangeHistoryV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCli
 ["advertiser_campaign_edit","advertiser_campaign_view"]     * @tag 
      * @param array $data HistoryQuery
      */
-    public function getHistory(array $data): void
+    public function getHistory(array $data, string $contentType = 'application/json'): void
     {
-        $this->api("/history", 'POST', $data, ['content-type' => 'application/json']);
+        $this->api("/history", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

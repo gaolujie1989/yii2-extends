@@ -94,9 +94,9 @@ class AmazonAttributionV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisin
      *      - *cursorId* - string
      *          - The identifier of the pagination cursor.
      */
-    public function getAttributionTagsByCampaign(array $data): array
+    public function getAttributionTagsByCampaign(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/attribution/report", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/attribution/report", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

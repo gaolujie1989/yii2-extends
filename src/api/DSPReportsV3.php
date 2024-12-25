@@ -63,9 +63,9 @@ path
      *      - *status* - string
      *          - The build status of the report.
      */
-    public function createReportV3(string $accountId, array $data): array
+    public function createReportV3(string $accountId, array $data, string $contentType = 'application/vnd.dspcreatereports.v3+json'): array
     {
-        return $this->api("/accounts/{$accountId}/dsp/reports", 'POST', $data, ['content-type' => 'application/vnd.dspcreatereports.v3+json']);
+        return $this->api("/accounts/{$accountId}/dsp/reports", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

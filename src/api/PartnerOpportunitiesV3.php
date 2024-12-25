@@ -45,9 +45,9 @@ Provided in opportunity data.
 
 Provided in opportunity data as 'advertiserType'.
      */
-    public function partnerOpportunitiesApply(string $partnerOpportunityId, array $data): void
+    public function partnerOpportunitiesApply(string $partnerOpportunityId, array $data, string $contentType = 'application/vnd.partneropportunity.v1.2+json'): void
     {
-        $this->api("/partnerOpportunities/{$partnerOpportunityId}/apply", 'POST', $data, ['content-type' => 'application/vnd.partneropportunity.v1.2+json']);
+        $this->api("/partnerOpportunities/{$partnerOpportunityId}/apply", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -89,7 +89,7 @@ header
 **Requires one of these permissions**:
 ["MasterAccount_Manager","ManagerAccount_Dev"]     * @tag Partner Opportunities
      * @param array $query
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - The maximum number of results to return in a single page.
      *      - *nextToken* - string - optional
      *          - An obfuscated cursor value that indicates which 'page' of results should be returned next.
@@ -164,7 +164,7 @@ header
 **Requires one of these permissions**:
 ["MasterAccount_Manager","ManagerAccount_Dev"]     * @tag Partner Opportunities
      * @param array $query
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - The maximum number of results to return in a single page.
      *      - *nextToken* - string - optional
      *          - An obfuscated cursor value that indicates which 'page' of results should be returned next.
@@ -239,7 +239,7 @@ header
 **Requires one of these permissions**:
 ["MasterAccount_Manager","ManagerAccount_Dev"]     * @tag Partner Opportunities
      * @param array $query
-     *      - *maxResults* - number - optional
+     *      - *maxResults* - int - optional
      *          - The maximum number of results to return in a single page.
      *      - *nextToken* - string - optional
      *          - An obfuscated cursor value that indicates which 'page' of results should be returned next.
@@ -402,9 +402,9 @@ Provided in opportunity data as 'advertiserType'.
      * @return array
      *      - *statuses* - array
      */
-    public function partnerOpportunitiesApplicationStatus(string $partnerOpportunityId, array $data): array
+    public function partnerOpportunitiesApplicationStatus(string $partnerOpportunityId, array $data, string $contentType = 'application/vnd.partneropportunity.v1.2+json'): array
     {
-        return $this->api("/partnerOpportunities/{$partnerOpportunityId}/applicationStatus", 'POST', $data, ['content-type' => 'application/vnd.partneropportunity.v1.2+json']);
+        return $this->api("/partnerOpportunities/{$partnerOpportunityId}/applicationStatus", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

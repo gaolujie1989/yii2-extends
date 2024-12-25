@@ -22,7 +22,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Vendor product survey question template identifier to filter with.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *surveyQuestionTemplates* - array
@@ -44,7 +44,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Vendor product survey question template identifier to filter with.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *surveyQuestionTemplates* - array
@@ -66,7 +66,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Vendor product survey question template identifier to filter with.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *surveyQuestionTemplates* - array
@@ -87,9 +87,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function createDSPBrandLiftStudies(array $data): array
+    public function createDSPBrandLiftStudies(array $data, string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api("/dsp/measurement/studies/brandLift", 'POST', $data, ['content-type' => 'application/vnd.studymanagement.v1.1+json']);
+        return $this->api("/dsp/measurement/studies/brandLift", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -101,7 +101,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIdFilters or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -121,7 +121,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIdFilters or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -141,7 +141,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIdFilters or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -160,9 +160,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function updateDSPBrandLiftStudies(array $data): array
+    public function updateDSPBrandLiftStudies(array $data, string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api("/dsp/measurement/studies/brandLift", 'PUT', $data, ['content-type' => 'application/vnd.studymanagement.v1.1+json']);
+        return $this->api("/dsp/measurement/studies/brandLift", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -171,16 +171,16 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *metadata* - 
      *      - *nextToken* - string
      *      - *vendorProductEligibilities* - array
      */
-    public function checkPlanningEligibility(array $data, array $query = []): array
+    public function checkPlanningEligibility(array $data, array $query = [], string $contentType = 'application/vnd.measurementeligibility.v1.3+json'): array
     {
-        return $this->api(array_merge(["/measurement/planning/eligibility"], $query), 'POST', $data, ['content-type' => 'application/vnd.measurementeligibility.v1.3+json']);
+        return $this->api(array_merge(["/measurement/planning/eligibility"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -188,9 +188,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $data Create object for DSP CREATIVE_TESTING study.
      * @return array
      */
-    public function createDSPCreativeTestingStudy(array $data): array
+    public function createDSPCreativeTestingStudy(array $data, string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/creativeTesting", 'POST', $data, ['content-type' => 'application/vnd.studymanagement.v1.2+json']);
+        return $this->api("/dsp/measurement/studies/creativeTesting", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -202,7 +202,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -222,7 +222,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -242,7 +242,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -261,9 +261,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function createSurveys(array $data): array
+    public function createSurveys(array $data, string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api("/measurement/studies/surveys", 'POST', $data, ['content-type' => 'application/vnd.studymanagement.v1.1+json']);
+        return $this->api("/measurement/studies/surveys", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -275,7 +275,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - A study canonical identifier. Either one of surveyIds or studyId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -295,7 +295,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - A study canonical identifier. Either one of surveyIds or studyId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -315,7 +315,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - A study canonical identifier. Either one of surveyIds or studyId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -334,9 +334,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function updateSurveys(array $data): array
+    public function updateSurveys(array $data, string $contentType = 'application/vnd.studymanagement.v1.1+json'): array
     {
-        return $this->api("/measurement/studies/surveys", 'PUT', $data, ['content-type' => 'application/vnd.studymanagement.v1.1+json']);
+        return $this->api("/measurement/studies/surveys", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -363,16 +363,16 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *metadata* - 
      *      - *nextToken* - string
      *      - *vendorProductEligibilities* - array
      */
-    public function checkDSPOmnichannelMetricsEligibility(array $data, array $query = []): array
+    public function checkDSPOmnichannelMetricsEligibility(array $data, array $query = [], string $contentType = 'application/vnd.measurementeligibility.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/eligibility/omnichannelMetrics"], $query), 'POST', $data, ['content-type' => 'application/vnd.measurementeligibility.v1.2+json']);
+        return $this->api(array_merge(["/dsp/measurement/eligibility/omnichannelMetrics"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -381,9 +381,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $data Update object for DSP CREATIVE_TESTING study.
      * @return array
      */
-    public function updateDSPCreativeTestingStudy(string $studyId, array $data): array
+    public function updateDSPCreativeTestingStudy(string $studyId, array $data, string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/creativeTesting/{$studyId}", 'PUT', $data, ['content-type' => 'application/vnd.studymanagement.v1.2+json']);
+        return $this->api("/dsp/measurement/studies/creativeTesting/{$studyId}", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -391,9 +391,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $data Create object for DSP AUDIENCE_RESEARCH study.
      * @return array
      */
-    public function createDSPAudienceResearchStudy(array $data): array
+    public function createDSPAudienceResearchStudy(array $data, string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/audienceResearch", 'POST', $data, ['content-type' => 'application/vnd.studymanagement.v1.2+json']);
+        return $this->api("/dsp/measurement/studies/audienceResearch", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -405,7 +405,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -425,7 +425,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -445,7 +445,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -462,16 +462,16 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *metadata* - 
      *      - *nextToken* - string
      *      - *vendorProductEligibilities* - array
      */
-    public function checkDSPAudienceResearchEligibility(array $data, array $query = []): array
+    public function checkDSPAudienceResearchEligibility(array $data, array $query = [], string $contentType = 'application/vnd.measurementeligibility.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/eligibility/audienceResearch"], $query), 'POST', $data, ['content-type' => 'application/vnd.measurementeligibility.v1.2+json']);
+        return $this->api(array_merge(["/dsp/measurement/eligibility/audienceResearch"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -492,7 +492,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *totalResults* - integer
@@ -500,9 +500,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *vendorProducts* - array
      *      - *nextToken* - string
      */
-    public function vendorProduct(array $data, array $query = []): array
+    public function vendorProduct(array $data, array $query = [], string $contentType = 'application/vnd.measurementvendor.v1.1+json'): array
     {
-        return $this->api(array_merge(["/measurement/vendorProducts/list"], $query), 'POST', $data, ['content-type' => 'application/vnd.measurementvendor.v1.1+json']);
+        return $this->api(array_merge(["/measurement/vendorProducts/list"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -514,7 +514,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -534,7 +534,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -554,7 +554,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIds or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -588,9 +588,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function createDSPOmnichannelMetricsStudies(array $data): array
+    public function createDSPOmnichannelMetricsStudies(array $data, string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/omnichannelMetrics", 'POST', $data, ['content-type' => 'application/vnd.studymanagement.v1.2+json']);
+        return $this->api("/dsp/measurement/studies/omnichannelMetrics", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -602,7 +602,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIdFilters or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -622,7 +622,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIdFilters or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -642,7 +642,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - The advertiser canonical identifier. Either one of studyIdFilters or advertiserId should be provided.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string
@@ -661,9 +661,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Request Id that uniquely identifies your request.
      *      - *responses* - array
      */
-    public function updateDSPOmnichannelMetricsStudies(array $data): array
+    public function updateDSPOmnichannelMetricsStudies(array $data, string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/omnichannelMetrics", 'PUT', $data, ['content-type' => 'application/vnd.studymanagement.v1.2+json']);
+        return $this->api("/dsp/measurement/studies/omnichannelMetrics", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -672,16 +672,16 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *metadata* - 
      *      - *nextToken* - string
      *      - *vendorProductEligibilities* - array
      */
-    public function checkDSPCreativeTestingEligibility(array $data, array $query = []): array
+    public function checkDSPCreativeTestingEligibility(array $data, array $query = [], string $contentType = 'application/vnd.measurementeligibility.v1.2+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/eligibility/creativeTesting"], $query), 'POST', $data, ['content-type' => 'application/vnd.measurementeligibility.v1.2+json']);
+        return $this->api(array_merge(["/dsp/measurement/eligibility/creativeTesting"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -691,7 +691,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Vendor product canonical identifier to filter with.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *totalResults* - integer
@@ -711,7 +711,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Vendor product canonical identifier to filter with.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *totalResults* - integer
@@ -731,7 +731,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *          - Vendor product canonical identifier to filter with.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *totalResults* - integer
@@ -750,16 +750,16 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of studies in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *metadata* - 
      *      - *nextToken* - string
      *      - *vendorProductEligibilities* - array
      */
-    public function checkDSPBrandLiftEligibility(array $data, array $query = []): array
+    public function checkDSPBrandLiftEligibility(array $data, array $query = [], string $contentType = 'application/vnd.measurementeligibility.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/measurement/eligibility/brandLift"], $query), 'POST', $data, ['content-type' => 'application/vnd.measurementeligibility.v1+json']);
+        return $this->api(array_merge(["/dsp/measurement/eligibility/brandLift"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -768,9 +768,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $data Update object for DSP AUDIENCE_RESEARCH study.
      * @return array
      */
-    public function updateDSPAudienceResearchStudy(string $studyId, array $data): array
+    public function updateDSPAudienceResearchStudy(string $studyId, array $data, string $contentType = 'application/vnd.studymanagement.v1.2+json'): array
     {
-        return $this->api("/dsp/measurement/studies/audienceResearch/{$studyId}", 'PUT', $data, ['content-type' => 'application/vnd.studymanagement.v1.2+json']);
+        return $this->api("/dsp/measurement/studies/audienceResearch/{$studyId}", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -815,7 +815,7 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of brands in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *totalResults* - integer
@@ -823,9 +823,9 @@ class MeasurementV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClien
      *      - *brands* - array
      *      - *nextToken* - string
      */
-    public function omnichannelMetricsBrandSearch(array $data, array $query = []): array
+    public function omnichannelMetricsBrandSearch(array $data, array $query = [], string $contentType = 'application/vnd.ocmbrands.v1.3+json'): array
     {
-        return $this->api(array_merge(["/measurement/vendorProducts/omnichannelMetrics/brands/list"], $query), 'POST', $data, ['content-type' => 'application/vnd.ocmbrands.v1.3+json']);
+        return $this->api(array_merge(["/measurement/vendorProducts/omnichannelMetrics/brands/list"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

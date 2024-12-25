@@ -35,9 +35,9 @@ class DSPAdvertiserV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCli
     /**
      * @description Returns a list of advertisers with information which satisfy the filtering criteria.     * @tag Advertiser
      * @param array $query
-     *      - *startIndex* - integer - optional
+     *      - *startIndex* - int - optional
      *          - Sets a cursor into the requested set of advertisers. Use in conjunction with the count parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Sets the number of advertisers to be returned in a single call. Maximum of 100 advertisers per call.
      *      - *advertiserIdFilter* - string - optional
      *          - List of comma separated advertiser ids to filter the advertisers. If no advertiser ids provided, all advertisers in this entity will be returned.

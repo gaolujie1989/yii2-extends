@@ -79,9 +79,9 @@ class PreModerationV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCli
      *      - *videoComponents* - array
      *          - Pre moderation result of the video components. It will have information regarding the policy violations present if any.
      */
-    public function preModeration(array $data): array
+    public function preModeration(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/preModeration", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/preModeration", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

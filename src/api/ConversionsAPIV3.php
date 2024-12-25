@@ -28,9 +28,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *appRegistrations* - array
      *          - Array of Mobile Measurement Partner app registrations given filters.
      */
-    public function dspAmazonListMobileMeasurementPartnerAppRegistrations(array $data): array
+    public function dspAmazonListMobileMeasurementPartnerAppRegistrations(array $data, string $contentType = 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners/list", 'POST', $data, ['content-type' => 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -43,9 +43,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonIngestConversionData(array $data): array
+    public function dspAmazonIngestConversionData(array $data, string $contentType = 'application/vnd.dspconversioneventimport.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/eventData", 'POST', $data, ['content-type' => 'application/vnd.dspconversioneventimport.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/eventData", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -67,9 +67,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonBatchCreateMobileMeasurementPartnerAppRegistration(array $data): array
+    public function dspAmazonBatchCreateMobileMeasurementPartnerAppRegistration(array $data, string $contentType = 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners", 'POST', $data, ['content-type' => 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -80,9 +80,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonBatchUpdateMobileMeasurementPartnerAppRegistration(array $data): array
+    public function dspAmazonBatchUpdateMobileMeasurementPartnerAppRegistration(array $data, string $contentType = 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners", 'PUT', $data, ['content-type' => 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -94,9 +94,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonDeletionRequest(array $data): array
+    public function dspAmazonDeletionRequest(array $data, string $contentType = 'application/vnd.dspuserdeletionrequest.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/delete", 'POST', $data, ['content-type' => 'application/vnd.dspuserdeletionrequest.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -114,9 +114,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *conversionDefinitions* - array
      *          - List of associated ConversionDefinitions.
      */
-    public function dspAmazonBatchGetConversionDefinitionsForOrders(array $data): array
+    public function dspAmazonBatchGetConversionDefinitionsForOrders(array $data, string $contentType = 'application/vnd.dspbatchgetconversiondefinitions.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/batchOrders/conversionDefinitionAssociations", 'POST', $data, ['content-type' => 'application/vnd.dspbatchgetconversiondefinitions.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/batchOrders/conversionDefinitionAssociations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -131,9 +131,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *adTagEventName* - string
      *      - *adTagId* - string
      */
-    public function dspAmazonUpdateAdTagAssociatedEvent(string $conversionDefinitionId, array $data): array
+    public function dspAmazonUpdateAdTagAssociatedEvent(string $conversionDefinitionId, array $data, string $contentType = 'application/vnd.dspconversionadtageventassociation.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/{$conversionDefinitionId}/adTagEventAssociations", 'POST', $data, ['content-type' => 'application/vnd.dspconversionadtageventassociation.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/{$conversionDefinitionId}/adTagEventAssociations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -157,9 +157,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonCreateConversionDefinitions(array $data): array
+    public function dspAmazonCreateConversionDefinitions(array $data, string $contentType = 'application/vnd.dspconversiondefinition.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions", 'POST', $data, ['content-type' => 'application/vnd.dspconversiondefinition.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -170,9 +170,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonUpdateConversionDefinitions(array $data): array
+    public function dspAmazonUpdateConversionDefinitions(array $data, string $contentType = 'application/vnd.dspconversiondefinition.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions", 'PUT', $data, ['content-type' => 'application/vnd.dspconversiondefinition.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -183,9 +183,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonDeleteMeasurementPartnerAppRegistrations(array $data): array
+    public function dspAmazonDeleteMeasurementPartnerAppRegistrations(array $data, string $contentType = 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners/delete", 'POST', $data, ['content-type' => 'application/vnd.dspmobilemeasurementpartnerappregistration.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/mobileMeasurementPartners/delete", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -217,9 +217,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *conversionDefinitions* - array
      *          - Array of conversion definitions given filters.
      */
-    public function dspAmazonListConversionDefinitions(array $data): array
+    public function dspAmazonListConversionDefinitions(array $data, string $contentType = 'application/vnd.dspconversiondefinition.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/list", 'POST', $data, ['content-type' => 'application/vnd.dspconversiondefinition.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/conversionDefinitions/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -233,7 +233,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *          - A date string to create a time window for events that have seen activity. If not set, a start date 30 days before the request was sent will be chosen. The oldest start date is 1 year before the request was sent to this api.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      *      - *endDateTime* - string - optional
      *          - A date string to create a time window for events that have seen activity. If not set, the day and time the request was sent will be chosen as the end date. The maximum end date is the day the request to this api was sent.
@@ -260,7 +260,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *          - A date string to create a time window for events that have seen activity. If not set, a start date 30 days before the request was sent will be chosen. The oldest start date is 1 year before the request was sent to this api.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      *      - *endDateTime* - string - optional
      *          - A date string to create a time window for events that have seen activity. If not set, the day and time the request was sent will be chosen as the end date. The maximum end date is the day the request to this api was sent.
@@ -287,7 +287,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *          - A date string to create a time window for events that have seen activity. If not set, a start date 30 days before the request was sent will be chosen. The oldest start date is 1 year before the request was sent to this api.
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      *      - *endDateTime* - string - optional
      *          - A date string to create a time window for events that have seen activity. If not set, the day and time the request was sent will be chosen as the end date. The maximum end date is the day the request to this api was sent.
@@ -312,9 +312,9 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *success* - array
      *      - *error* - array
      */
-    public function dspAmazonUpdateAssociatedConversionDefinitionsForOrder(string $orderId, array $data): array
+    public function dspAmazonUpdateAssociatedConversionDefinitionsForOrder(string $orderId, array $data, string $contentType = 'application/vnd.dsporderconversionassociation.v1+json'): array
     {
-        return $this->api("/accounts/{accountId}/dsp/orders/{$orderId}/conversionDefinitionAssociations", 'POST', $data, ['content-type' => 'application/vnd.dsporderconversionassociation.v1+json']);
+        return $this->api("/accounts/{accountId}/dsp/orders/{$orderId}/conversionDefinitionAssociations", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
             
     /**
@@ -324,7 +324,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -344,7 +344,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return Iterator
      *      - *nextToken* - string
@@ -364,7 +364,7 @@ class ConversionsAPIV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      * @param array $query
      *      - *nextToken* - string - optional
      *          - Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of associated conversions in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,100] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.
      * @return array
      *      - *nextToken* - string

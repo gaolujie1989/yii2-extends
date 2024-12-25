@@ -28,9 +28,9 @@ class DSPAudiencesV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClie
      *      - *error* - array
      *          - The items in this array represent items in the request that failed.
      */
-    public function dspCreateAudiencesPost(array $data, array $query): array
+    public function dspCreateAudiencesPost(array $data, array $query, string $contentType = 'application/vnd.dspaudiences.v1+json'): array
     {
-        return $this->api(array_merge(["/dsp/audiences"], $query), 'POST', $data, ['content-type' => 'application/vnd.dspaudiences.v1+json']);
+        return $this->api(array_merge(["/dsp/audiences"], $query), 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

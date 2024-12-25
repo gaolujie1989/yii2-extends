@@ -46,9 +46,9 @@ To understand the call flow for asynchronous exports, see [Getting started with 
 - FAILED: Export has failed. See the error message for more details.
 
      */
-    public function adExport(array $data): array
+    public function adExport(array $data, string $contentType = 'application/vnd.adsexport.v1+json'): array
     {
-        return $this->api("/ads/export", 'POST', $data, ['content-type' => 'application/vnd.adsexport.v1+json']);
+        return $this->api("/ads/export", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -84,9 +84,9 @@ To understand the call flow for asynchronous exports, see [Getting started with 
 - FAILED: Export has failed. See the error message for more details.
 
      */
-    public function campaignExport(array $data): array
+    public function campaignExport(array $data, string $contentType = 'application/vnd.campaignsexport.v1+json'): array
     {
-        return $this->api("/campaigns/export", 'POST', $data, ['content-type' => 'application/vnd.campaignsexport.v1+json']);
+        return $this->api("/campaigns/export", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -122,9 +122,9 @@ To understand the call flow for asynchronous exports, see [Getting started with 
 - FAILED: Export has failed. See the error message for more details.
 
      */
-    public function adGroupExport(array $data): array
+    public function adGroupExport(array $data, string $contentType = 'application/vnd.adgroupsexport.v1+json'): array
     {
-        return $this->api("/adGroups/export", 'POST', $data, ['content-type' => 'application/vnd.adgroupsexport.v1+json']);
+        return $this->api("/adGroups/export", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -156,9 +156,9 @@ To understand the call flow for asynchronous exports, see [Getting started with 
 - FAILED: Export has failed. See the error message for more details.
 
      */
-    public function targetExport(array $data): array
+    public function targetExport(array $data, string $contentType = 'application/vnd.targetsexport.v1+json'): array
     {
-        return $this->api("/targets/export", 'POST', $data, ['content-type' => 'application/vnd.targetsexport.v1+json']);
+        return $this->api("/targets/export", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

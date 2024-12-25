@@ -33,9 +33,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *maxResults* - integer
      *          - Max results / billing profile usage(s) to be shown in a single page.
      */
-    public function getBillingProfileUsages(array $data): array
+    public function getBillingProfileUsages(array $data, string $contentType = 'application/vnd.billingProfileUsage.v1+json'): array
     {
-        return $this->api("/billingProfileUsages/list", 'POST', $data, ['content-type' => 'application/vnd.billingProfileUsage.v1+json']);
+        return $this->api("/billingProfileUsages/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -55,9 +55,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *maxResults* - integer
      *          - Max results / billing profile(s) to be shown in a single page.
      */
-    public function getBillingProfiles(array $data): array
+    public function getBillingProfiles(array $data, string $contentType = 'application/vnd.billingProfile.v1+json'): array
     {
-        return $this->api("/billingProfiles/list", 'POST', $data, ['content-type' => 'application/vnd.billingProfile.v1+json']);
+        return $this->api("/billingProfiles/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -69,9 +69,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *billingProfileUsages* - object
      *          - Segregated list of success and error responses for each country and applied billing profile(s).
      */
-    public function applyBillingProfile(array $data): array
+    public function applyBillingProfile(array $data, string $contentType = 'application/vnd.billingProfileUsage.v1+json'): array
     {
-        return $this->api("/billingProfileUsages", 'POST', $data, ['content-type' => 'application/vnd.billingProfileUsage.v1+json']);
+        return $this->api("/billingProfileUsages", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -108,9 +108,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *details* - string
      *          - A human-readable description of the response.
      */
-    public function createBillingStatement(array $data): array
+    public function createBillingStatement(array $data, string $contentType = 'application/vnd.createbillingstatementsrequest.v1+json'): array
     {
-        return $this->api("/billingStatements", 'POST', $data, ['content-type' => 'application/vnd.createbillingstatementsrequest.v1+json']);
+        return $this->api("/billingStatements", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -121,9 +121,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *success* - array
      *      - *error* - array
      */
-    public function createPaymentProfiles(array $data): array
+    public function createPaymentProfiles(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/billing/paymentProfiles", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/billing/paymentProfiles", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -134,9 +134,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *billingProfiles* - object
      *          - Segregated list of success and error responses for each billing profile in request payload.
      */
-    public function createBillingProfiles(array $data): array
+    public function createBillingProfiles(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/billingProfiles", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/billingProfiles", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -147,9 +147,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *billingProfiles* - object
      *          - Segregated list of success and error responses for each billing profile in request payload.
      */
-    public function updateBillingProfiles(array $data): array
+    public function updateBillingProfiles(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/billingProfiles", 'PUT', $data, ['content-type' => 'application/json']);
+        return $this->api("/billingProfiles", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -183,9 +183,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *aggregation* - object
      *          - Object encapsulating the aggregation query and result(s) information
      */
-    public function getBillingInvoiceSummaries(array $data): array
+    public function getBillingInvoiceSummaries(array $data, string $contentType = 'application/vnd.billingInvoiceSummary.v1+json'): array
     {
-        return $this->api("/invoiceSummaries/list", 'POST', $data, ['content-type' => 'application/vnd.billingInvoiceSummary.v1+json']);
+        return $this->api("/invoiceSummaries/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -219,9 +219,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *success* - 
      *      - *failure* - 
      */
-    public function payInvoices(array $data): array
+    public function payInvoices(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/billing/invoices/pay", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/billing/invoices/pay", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -249,9 +249,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *maxResults* - number
      *          - This is the maximum number of promotions to return in a single page of results.
      */
-    public function listBillingPromotions(array $data): array
+    public function listBillingPromotions(array $data, string $contentType = 'application/vnd.billingpromotions.v1+json'): array
     {
-        return $this->api("/billing/promotions/list", 'POST', $data, ['content-type' => 'application/vnd.billingpromotions.v1+json']);
+        return $this->api("/billing/promotions/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -266,9 +266,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *success* - array
      *      - *error* - array
      */
-    public function bulkGetBillingStatus(array $data): array
+    public function bulkGetBillingStatus(array $data, string $contentType = 'application/vnd.bulkgetbillingstatusrequestbody.v1+json'): array
     {
-        return $this->api("/billing/statuses", 'POST', $data, ['content-type' => 'application/vnd.bulkgetbillingstatusrequestbody.v1+json']);
+        return $this->api("/billing/statuses", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -287,7 +287,7 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *          - The starting date (inclusive) of the date range for filtering invoices. Please provide the date in ISO-8601 format, representing a UTC date with only the date portion (no time).
      *      - *endDate* -  - optional
      *          - The ending date (inclusive) of the date range for filtering invoices. Please provide the date in ISO-8601 format, representing a UTC date with only the date portion (no time).
-     *      - *count* - integer - optional
+     *      - *count* - int - optional
      *          - Number of records to include in the paged response. Defaults to 100. Cannot be combined with the cursor parameter.
      *      - *cursor* - string - optional
      *          - A cursor representing how far into a result set this query should begin. In the absence of a cursor the request will default to start index of 0 and page size of 100.
@@ -345,9 +345,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *success* - array
      *      - *error* - array
      */
-    public function createPaymentAgreements(array $data): array
+    public function createPaymentAgreements(array $data, string $contentType = 'application/json'): array
     {
-        return $this->api("/billing/paymentAgreements", 'POST', $data, ['content-type' => 'application/json']);
+        return $this->api("/billing/paymentAgreements", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -373,9 +373,9 @@ class AdvertisingBillingV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisi
      *      - *success* - array
      *      - *error* - array
      */
-    public function bulkGetBillingNotifications(array $data): array
+    public function bulkGetBillingNotifications(array $data, string $contentType = 'application/vnd.billingnotifications.v1+json'): array
     {
-        return $this->api("/billing/notifications", 'POST', $data, ['content-type' => 'application/vnd.billingnotifications.v1+json']);
+        return $this->api("/billing/notifications", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**

@@ -25,9 +25,9 @@ class ManagerAccountV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *succeedAccounts* - array
      *          - List of Advertising accounts or advertisers successfully Link/Unlink with [Manager Account](https://advertising.amazon.com/help?ref_=a20m_us_blog_whtsnewfb2020_040120#GU3YDB26FR7XT3C8).
      */
-    public function unlinkAdvertisingAccountsToManagerAccountPublicAPI(string $managerAccountId, array $data): array
+    public function unlinkAdvertisingAccountsToManagerAccountPublicAPI(string $managerAccountId, array $data, string $contentType = 'application/vnd.updateadvertisingaccountsinmanageraccountrequest.v1+json'): array
     {
-        return $this->api("/managerAccounts/{$managerAccountId}/disassociate", 'POST', $data, ['content-type' => 'application/vnd.updateadvertisingaccountsinmanageraccountrequest.v1+json']);
+        return $this->api("/managerAccounts/{$managerAccountId}/disassociate", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -44,9 +44,9 @@ class ManagerAccountV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *managerAccountId* - string
      *          - Id of the Manager Account.
      */
-    public function createManagerAccount(array $data): array
+    public function createManagerAccount(array $data, string $contentType = 'application/vnd.createmanageraccountrequest.v1+json'): array
     {
-        return $this->api("/managerAccounts", 'POST', $data, ['content-type' => 'application/vnd.createmanageraccountrequest.v1+json']);
+        return $this->api("/managerAccounts", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                 
     /**
@@ -72,9 +72,9 @@ class ManagerAccountV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingCl
      *      - *succeedAccounts* - array
      *          - List of Advertising accounts or advertisers successfully Link/Unlink with [Manager Account](https://advertising.amazon.com/help?ref_=a20m_us_blog_whtsnewfb2020_040120#GU3YDB26FR7XT3C8).
      */
-    public function linkAdvertisingAccountsToManagerAccountPublicAPI(string $managerAccountId, array $data): array
+    public function linkAdvertisingAccountsToManagerAccountPublicAPI(string $managerAccountId, array $data, string $contentType = 'application/vnd.updateadvertisingaccountsinmanageraccountrequest.v1+json'): array
     {
-        return $this->api("/managerAccounts/{$managerAccountId}/associate", 'POST', $data, ['content-type' => 'application/vnd.updateadvertisingaccountsinmanageraccountrequest.v1+json']);
+        return $this->api("/managerAccounts/{$managerAccountId}/associate", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

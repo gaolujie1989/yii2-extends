@@ -24,13 +24,13 @@ class InsightsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingClient
      *          - The advertising program.
      *      - *advertiserId* - string - optional
      *          - The identifier of the advertiser you'd like to retrieve overlapping audiences for. This parameter is required for the DSP adType, but is optional for the SD adType.
-     *      - *minimumOverlapAffinity* - number - optional
+     *      - *minimumOverlapAffinity* - int - optional
      *          - If specified, the affinities of all returned overlapping audiences will be at least the provided affinity.
-     *      - *maximumOverlapAffinity* - number - optional
+     *      - *maximumOverlapAffinity* - int - optional
      *          - If specified, the affinities of all returned overlapping audiences will be at most the provided affinity.
      *      - *audienceCategory* - array - optional
      *          - If specified, the categories of all returned overlapping audiences will be one of the provided categories.
-     *      - *maxResults* - integer - optional
+     *      - *maxResults* - int - optional
      *          - Sets the maximum number of overlapping audiences in the response. This parameter is supported only for request to return `application/vnd.insightsaudiencesoverlap.v2+json`.
      *      - *nextToken* - string - optional
      *          - Token to be used to request additional overlapping audiences. If not provided, the top 30 overlapping audiences are returned. Note: subsequent calls must be made using the same parameters as used in previous requests.

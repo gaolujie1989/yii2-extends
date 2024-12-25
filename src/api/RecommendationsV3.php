@@ -29,9 +29,9 @@ class RecommendationsV3 extends \lujie\amazon\advertising\BaseAmazonAdvertisingC
      *          - Token to retrieve the next page of results.
      *      - *recommendations* - array
      */
-    public function listRecommendations(array $data): array
+    public function listRecommendations(array $data, string $contentType = 'application/vnd.listRecommendationsRequest.v1+json'): array
     {
-        return $this->api("/recommendations/list", 'POST', $data, ['content-type' => 'application/vnd.listRecommendationsRequest.v1+json']);
+        return $this->api("/recommendations/list", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -49,9 +49,9 @@ A recommendation's status will be APPLY_SUCCESS if it has been successfully appl
      *      - *failures* - array
      *      - *successes* - array
      */
-    public function applyRecommendations(array $data): array
+    public function applyRecommendations(array $data, string $contentType = 'application/vnd.applyRecommendationsRequest.v1+json'): array
     {
-        return $this->api("/recommendations/apply", 'POST', $data, ['content-type' => 'application/vnd.applyRecommendationsRequest.v1+json']);
+        return $this->api("/recommendations/apply", 'POST', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
                     
     /**
@@ -115,9 +115,9 @@ A recommendation's status will be APPLY_SUCCESS if it has been successfully appl
      *      - *status* - 
      *      - *budgetRule* - 
      */
-    public function updateRecommendation(string $recommendationId, array $data): array
+    public function updateRecommendation(string $recommendationId, array $data, string $contentType = 'application/vnd.updateRecommendationRequest.v1+json'): array
     {
-        return $this->api("/recommendations/{$recommendationId}", 'PUT', $data, ['content-type' => 'application/vnd.updateRecommendationRequest.v1+json']);
+        return $this->api("/recommendations/{$recommendationId}", 'PUT', $data, ['content-type' => $contentType, 'accept' => $contentType]);
     }
     
 }

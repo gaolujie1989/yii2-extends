@@ -64,11 +64,11 @@ class BaseAmazonAdvertisingClient extends RestOAuth2
     #region auth
 
     /**
-     * @param string $profileId
+     * @param int $profileId
      * @return $this
      * @inheritdoc
      */
-    public function setProfileId(string $profileId): self
+    public function setProfileId(int $profileId): self
     {
         $this->profileId = $profileId;
         return $this;

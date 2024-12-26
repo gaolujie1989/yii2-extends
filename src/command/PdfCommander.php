@@ -75,54 +75,107 @@ class PdfCommander extends BaseCommander
     }
 
     /**
-     * @param string $pdf
-     * @param array $options
+     * @param string $inputPdf
+     * @param string $outputPdf
+     * @param int $firstPage
+     * @param int $lastPage
+     * @param string $engine
      * @return string
      * @inheritdoc
      */
-    public function separatePdfByPopplerUtils(string $pdf, string $outputFile, array $options): string
+    public function separatePdf(string $inputPdf, string $outputPdf, int $firstPage = 1, int $lastPage = 1, string $engine = 'pdftk'): string
     {
-        $options = $this->parseOptions($options);
-        $options[] = $pdf;
-        $options[] = $outputFile;
+        return match ($engine) {
+            'pdftk' => $this->separatePdfByPdfTk($inputPdf, $outputPdf, $firstPage, $lastPage),
+            'pdfunite' => $this->separatePdfByPopplerUtils($inputPdf, $outputPdf, $firstPage, $lastPage),
+            'gs' => $this->separatePdfByGhostScript($inputPdf, $outputPdf, $firstPage, $lastPage),
+        };
+    }
+
+    /**
+     * @param array $inputPdfs
+     * @param string $outputPdf
+     * @param string $engine
+     * @return string
+     * @throws UserException
+     * @inheritdoc
+     */
+    public function mergePdf(array $inputPdfs, string $outputPdf, string $engine = 'pdftk'): string
+    {
+        return match ($engine) {
+            'pdftk' => $this->mergePdfByPdfTk($inputPdfs, $outputPdf),
+            'pdfunite' => $this->mergePdfByPopplerUtils($inputPdfs, $outputPdf),
+            'gs' => $this->mergePdfByGhostScript($inputPdfs, $outputPdf),
+        };
+    }
+
+    /**
+     * @param string $inputPdf
+     * @param string $outputPdf
+     * @param int $firstPage
+     * @param int $lastPage
+     * @return string
+     * @inheritdoc
+     */
+    protected function separatePdfByPopplerUtils(string $inputPdf, string $outputPdf, int $firstPage = 1, int $lastPage = 1): string
+    {
+        $options = [$inputPdf, $outputPdf];
         return $this->run($this->binPaths['pdfseparate'], $options);
     }
 
     /**
-     * @param array $pdfs
-     * @param string $outputFile
-     * @param array $options
+     * @param array $inputPdfs
+     * @param string $outputPdf
      * @return string
      * @inheritdoc
      */
-    public function mergePdfByPopplerUtils(array $pdfs, string $outputFile, array $options = []): string
+    protected function mergePdfByPopplerUtils(array $inputPdfs, string $outputPdf): string
     {
-        $options = $this->parseOptions($options);
-        $options = array_merge($options, $pdfs, [$outputFile]);
+        $options = array_merge($inputPdfs, [$outputPdf]);
         return $this->run($this->binPaths['pdfunite'], $options);
     }
 
     /**
      * @param string $inputPdf
      * @param string $outputPdf
-     * @param array $options
+     * @param int $firstPage
+     * @param int $lastPage
      * @return string
      * @inheritdoc
      */
-    public function separatePdf(string $inputPdf, string $outputPdf, array $options = []): string
+    protected function separatePdfByPdfTk(string $inputPdf, string $outputPdf, int $firstPage = 1, int $lastPage = 1): string
     {
-        if (isset($options['firstPage'])) {
-            $options[] = '-dFirstPage=' . $options['firstPage'];
-            unset($options['firstPage']);
-        }
-        if (isset($options['lastPage'])) {
-            $options[] = '-dLastPage=' . $options['lastPage'];
-            unset($options['lastPage']);
-        }
-        $options = array_merge($options, [
+        $options = [$inputPdf, 'cat', "$firstPage-$lastPage", 'output', $outputPdf];
+        return $this->run($this->binPaths['pdftk'], $options);
+    }
+
+    /**
+     * @param array $inputPdfs
+     * @param string $outputPdf
+     * @return string
+     * @inheritdoc
+     */
+    protected function mergePdfByPdfTk(array $inputPdfs, string $outputPdf): string
+    {
+        $options = array_merge($inputPdfs, ['cat', 'output', $outputPdf]);
+        return $this->run($this->binPaths['pdftk'], $options);
+    }
+
+    /**
+     * @param string $inputPdf
+     * @param string $outputPdf
+     * @param int $firstPage
+     * @param int $lastPage
+     * @return string
+     * @inheritdoc
+     */
+    protected function separatePdfByGhostScript(string $inputPdf, string $outputPdf, int $firstPage = 1, int $lastPage = 1): string
+    {
+        $options = [
             '-dBATCH', '-dNOPAUSE', '-dSAFER', '-dQUIET', '-sDEVICE=pdfwrite',
+            '-dFirstPage=' . $firstPage, '-dLastPage=' . $lastPage,
             '-sOutputFile=' . $outputPdf
-        ]);
+        ];
         $options = $this->parseOptions($options);
         $options[] = $inputPdf;
         return $this->run($this->binPaths['gs'], $options);
@@ -131,38 +184,19 @@ class PdfCommander extends BaseCommander
     /**
      * @param array $inputPdfs
      * @param string $outputPdf
-     * @param array $options
      * @return string
      * @inheritdoc
      */
-    public function mergePdf(array $inputPdfs, string $outputPdf, array $options = []): string
+    protected function mergePdfByGhostScript(array $inputPdfs, string $outputPdf): string
     {
-        $options = array_merge($options, [
+        $options = [
             '-dBATCH', '-dNOPAUSE', '-dQUIET', '-sDEVICE=pdfwrite',
+            '-dCompatibilityLevel=1.7',
+            '-dPDFSETTINGS=/prepress',
             '-sOutputFile=' . $outputPdf
-        ]);
+        ];
         $options = $this->parseOptions($options);
         $options = array_merge($options, $inputPdfs);
-        return $this->run($this->binPaths['gs'], $options);
-    }
-
-    /**
-     * @param string $inputPdf
-     * @param string $outputPdf
-     * @param array $options
-     * @return string
-     * @inheritdoc
-     */
-    public function compressPdf(string $inputPdf, string $outputPdf, array $options = []): string
-    {
-        $options = array_merge($options, [
-            '-dBATCH', '-dNOPAUSE', '-dQUIET', '-sDEVICE=pdfwrite',
-            '-dCompatibilityLevel=1.4',
-            '-dPDFSETTINGS=prepress',
-            '-sOutputFile=' . $outputPdf
-        ]);
-        $options = $this->parseOptions($options);
-        $options[] = $inputPdf;
         return $this->run($this->binPaths['gs'], $options);
     }
 }

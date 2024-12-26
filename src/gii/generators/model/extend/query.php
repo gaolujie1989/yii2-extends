@@ -27,7 +27,7 @@ $orderByFields = [];
 $indexByFields = [];
 $returnByFields = [];
 foreach ($labels as $name => $label) {
-    if (in_array($name, ['key', 'sku', 'asin', 'code', 'type', 'status'], true)
+    if (in_array($name, ['key', 'sku', 'asin', 'code', 'type', 'state', 'status'], true)
         || in_array(substr($name, -3), ['_id', '_no', 'sku'], true)
         || in_array(substr($name, -4), ['_key'], true)
         || in_array(substr($name, -5), ['_code', '_type'], true)

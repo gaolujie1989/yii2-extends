@@ -23,11 +23,11 @@ class BasePlentyMarketsRestClientFactory extends BaseObject
 
     /**
      * @param string $clientClass
-     * @param Account|null $account
+     * @param Account $account
      * @return BasePlentyMarketsRestClient
      * @inheritdoc
      */
-    protected function createClient(string $clientClass, ?Account $account = null): BasePlentyMarketsRestClient
+    protected function createClient(string $clientClass, Account $account): BasePlentyMarketsRestClient
     {
         $accountId = $account->account_id ?? 0;
         $key = $clientClass . '-' . '-' . $accountId;

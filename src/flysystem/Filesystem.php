@@ -5,11 +5,13 @@
 
 namespace lujie\extend\flysystem;
 
+use League\Flysystem\Config;
 use League\Flysystem\DirectoryListing;
 use League\Flysystem\Filesystem as LeagueFilesystem;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UrlGeneration\PublicUrlGenerator;
 use yii\base\Component;
 
 /**
@@ -93,7 +95,14 @@ abstract class Filesystem extends Component implements FilesystemOperator
      */
     public function publicUrl(string $path, array $config = []): string
     {
-        return rtrim($this->cdn, '/') . '/' . ltrim($path, '/');
+        $adapter = $this->getFilesystemAdapter();
+        if ($adapter instanceof PublicUrlGenerator) {
+            return $adapter->publicUrl($path, new Config($config));
+        }
+        if ($this->cdn) {
+            return rtrim($this->cdn, '/') . '/' . ltrim($path, '/');
+        }
+        return '';
     }
 
     /**

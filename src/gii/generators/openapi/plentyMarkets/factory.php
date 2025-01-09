@@ -15,6 +15,7 @@ echo "<?php\n";
 
 namespace <?= $generator->factoryNs ?>;
 
+use lujie\common\account\models\Account;
 <?php foreach ($apiClassNames as $apiClassName): ?>
 use <?= $generator->ns . '\\' . $apiClassName ?>;
 <?php endforeach; ?>
@@ -28,12 +29,13 @@ class <?= $generator->factoryClass ?> extends BasePlentyMarketsRestClientFactory
 <?php foreach ($apiClassNames as $apiClassName): ?>
 
     /**
+     * @param Account $account
      * @return <?= $apiClassName ?>|BasePlentyMarketsRestClient|null
      * @throws InvalidConfigException
      */
-    public function get<?= $apiClassName ?>(): <?= $apiClassName ?>|BasePlentyMarketsRestClient|null
+    public function get<?= $apiClassName ?>(Account $account): <?= $apiClassName ?>|BasePlentyMarketsRestClient|null
     {
-        return $this->createClient(<?= $apiClassName ?>::class);
+        return $this->createClient(<?= $apiClassName ?>::class, $account);
     }
 <?php endforeach; ?>
 

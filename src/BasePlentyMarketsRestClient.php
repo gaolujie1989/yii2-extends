@@ -70,7 +70,7 @@ class BasePlentyMarketsRestClient extends RestOAuth2
      */
     protected function getNextPageCondition(array $responseData, array $condition): ?array
     {
-        $pageCount = $responseData['lastPageNumber'] ?? 1;
+        $pageCount = (int)ceil($responseData['totalsCount'] / $condition['itemsPerPage']);
         $condition['page'] = $condition['page'] ?? 1;
         if ($condition['page'] >= $pageCount) {
             return null;

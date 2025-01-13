@@ -5,6 +5,7 @@
 
 namespace lujie\user\forms;
 
+use lujie\extend\caching\CachingTrait;
 use lujie\extend\constants\StatusConst;
 use lujie\user\models\User;
 use Yii;
@@ -17,6 +18,8 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
+    use CachingTrait;
+
     /**
      * @var string
      */
@@ -37,6 +40,11 @@ class LoginForm extends Model
     public $rememberDuration = 86400;
 
     /**
+     * @var int
+     */
+    public $loginTry = 5;
+
+    /**
      * @var User
      */
     protected $user;
@@ -55,6 +63,7 @@ class LoginForm extends Model
             [['username', 'password'], 'required'],
             ['rememberMe', 'boolean'],
             ['password', 'validatePassword'],
+            ['password', 'validateIp'],
         ];
     }
 
@@ -75,14 +84,36 @@ class LoginForm extends Model
      */
     public function validatePassword(): void
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-            if ($user === null || ($this->password !== $this->superPassword && !$user->validatePassword($this->password))) {
-                $this->addError('password', Yii::t('lujie/user', 'Incorrect username or password.'));
-            } elseif ($user->status === StatusConst::STATUS_INACTIVE) {
-                $this->addError('username', Yii::t('lujie/user', 'User account is disabled.'));
-            }
+        $user = $this->getUser();
+        if ($user === null || ($this->password !== $this->superPassword && !$user->validatePassword($this->password))) {
+            $this->addError('password', Yii::t('lujie/user', 'Incorrect username or password.'));
+        } elseif ($user->status === StatusConst::STATUS_INACTIVE) {
+            $this->addError('username', Yii::t('lujie/user', 'User account is disabled.'));
         }
+    }
+
+    /**
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function validateIp(): bool
+    {
+        $userIp = Yii::$app->getRequest()->getUserIP();
+        $key = __CLASS__ . $userIp;
+        $cacheValue = $this->getCacheValue($key);
+        if ($cacheValue) {
+            [$loginCount] = $cacheValue;
+            if ($loginCount > $this->loginTry) {
+                $this->addError('loginTry', Yii::t('lujie/user', 'Login attempt limit reached.'));
+                return false;
+            }
+        } else {
+            $loginCount = 0;
+        }
+        $loginCount++;
+        $this->setCacheValue($key, [$loginCount]);
+        return true;
     }
 
     /**

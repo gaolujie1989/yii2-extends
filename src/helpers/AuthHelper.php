@@ -28,22 +28,40 @@ class AuthHelper
         'index' => [
             'label' => 'List',
             'sort' => 10,
-            'actionKeys' => ['export'],
+        ],
+        'export' => [
+            'label' => 'Export',
+            'sort' => 11,
         ],
         'view' => [
             'label' => 'View',
             'sort' => 20,
-            'actionKeys' => ['download']
+        ],
+        'download' => [
+            'label' => 'Download',
+            'sort' => 21,
         ],
         'edit' => [
             'label' => 'Edit',
             'sort' => 30,
-            'actionKeys' => ['create', 'update', 'upload', 'import', 'batch-update'],
+            'actionKeys' => ['create', 'update'],
+        ],
+        'batch-update' => [
+            'label' => 'Batch Edit',
+            'sort' => 31,
+        ],
+        'import' => [
+            'label' => 'Import',
+            'sort' => 32,
         ],
         'delete' => [
             'label' => 'Delete',
             'sort' => 40,
             'actionKeys' => ['batch-delete']
+        ],
+        'batch-delete' => [
+            'label' => 'Batch Delete',
+            'sort' => 41,
         ],
     ];
 

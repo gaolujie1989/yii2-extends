@@ -5,6 +5,7 @@
 
 namespace lujie\user\forms;
 
+use lujie\extend\db\FormTrait;
 use lujie\user\models\User;
 
 /**
@@ -14,6 +15,8 @@ use lujie\user\models\User;
  */
 class UserForm extends User
 {
+    use FormTrait;
+
     public $password;
 
     /**

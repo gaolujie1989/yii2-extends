@@ -71,15 +71,12 @@ class UserController extends Controller
     }
 
     /**
-     * @throws \yii\base\InvalidRouteException
+     * @return bool
      * @inheritdoc
      */
-    public function actionLogout(): void
+    public function actionLogout(): bool
     {
-        Yii::$app->getUser()->logout();
-        if ($loginUrl = Yii::$app->getUser()->loginUrl) {
-            Yii::$app->getResponse()->redirect($loginUrl);
-        }
+        return Yii::$app->getUser()->logout();
     }
 
     /**

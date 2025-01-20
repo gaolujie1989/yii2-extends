@@ -70,12 +70,13 @@ class PasswordUpdateForm extends Model
     }
 
     /**
-     * @return mixed
+     * @return bool
      * @throws \Throwable
      * @throws \yii\base\Exception
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function updatePassword()
+    public function update(): bool
     {
         if (!$this->validate()) {
             return false;

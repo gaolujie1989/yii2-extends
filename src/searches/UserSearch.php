@@ -22,9 +22,9 @@ class UserSearch extends User
      */
     public function rules(): array
     {
-        return [
+        return array_merge($this->searchRules(), [
             [['username', 'email'], 'safe']
-        ];
+        ]);
     }
 
     /**

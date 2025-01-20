@@ -49,7 +49,7 @@ class UserController extends Controller
                 'modelClass' => LoginForm::class,
                 'method' => 'login',
             ],
-            'password-update' => [
+            'update-password' => [
                 'class' => MethodAction::class,
                 'modelClass' => PasswordUpdateForm::class,
                 'method' => 'update',

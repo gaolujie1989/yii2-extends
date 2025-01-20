@@ -8,6 +8,7 @@ namespace lujie\user\forms;
 use lujie\user\models\User;
 use Yii;
 use yii\base\Model;
+use yii\caching\TagDependency;
 
 /**
  * Class UpdatePasswordForm
@@ -85,6 +86,7 @@ class PasswordUpdateForm extends Model
         /** @var User $user */
         $user = Yii::$app->getUser()->getIdentity();
         $user->setPassword($this->newPassword);
+        TagDependency::invalidate(Yii::$app->cache, User::$userCacheTags);
         return $user->save(false);
     }
 

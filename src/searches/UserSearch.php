@@ -2,8 +2,10 @@
 
 namespace lujie\user\searches;
 
+use lujie\extend\db\SearchTrait;
+use lujie\extend\helpers\QueryHelper;
 use lujie\user\models\User;
-use lujie\user\models\UserQuery;
+use yii\db\ActiveQueryInterface;
 
 /**
  * Class UserSearch
@@ -12,6 +14,8 @@ use lujie\user\models\UserQuery;
  */
 class UserSearch extends User
 {
+    use SearchTrait;
+
 
     /**
      * {@inheritdoc}
@@ -19,19 +23,18 @@ class UserSearch extends User
     public function rules(): array
     {
         return [
-            [['username', 'email', 'status'], 'safe']
+            [['username', 'email'], 'safe']
         ];
     }
 
     /**
-     * @return UserQuery
+     * @return ActiveQueryInterface
      * @inheritdoc
      */
-    public function query(): UserQuery
+    public function query(): ActiveQueryInterface
     {
-        return static::find()
-            ->andFilterWhere(['status' => $this->status])
-            ->andFilterWhere(['LIKE', 'username', $this->username])
-            ->andFilterWhere(['LIKE', 'email', $this->email]);
+        $query = $this->searchQuery();
+        QueryHelper::filterValue($query, $this->getAttributes(['username', 'email']), true);
+        return $query;
     }
 }

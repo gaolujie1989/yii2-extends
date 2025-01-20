@@ -27,7 +27,7 @@ class UserForm extends User
             [['password'], 'match', 'pattern' => '/[0-9]+/', 'message' => 'New password needs number.'],
             [['password'], 'match', 'pattern' => '/[a-z]+/', 'message' => 'New password needs lowercase letters.'],
             [['password'], 'match', 'pattern' => '/[A-Z]+/', 'message' => 'New password needs uppercase letters.'],
-            [['password'], 'match', 'pattern' => '/[~!@#$%^&*()_+{}|:"<>?`-=[]\;\',./]/', 'message' => 'New password needs special characters.'],
+            [['newPassword'], 'match', 'pattern' => '/[~!@#$%^&*()_+`,.]+/', 'message' => 'New password needs special characters: [~!@#$%^&*()_+`,.].'],
         ]);
     }
 

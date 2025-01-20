@@ -38,7 +38,7 @@ class PasswordUpdateForm extends Model
             [['newPassword'], 'match', 'pattern' => '/[0-9]+/', 'message' => 'New password needs number.'],
             [['newPassword'], 'match', 'pattern' => '/[a-z]+/', 'message' => 'New password needs lowercase letters.'],
             [['newPassword'], 'match', 'pattern' => '/[A-Z]+/', 'message' => 'New password needs uppercase letters.'],
-            [['newPassword'], 'match', 'pattern' => '/[~!@#$%^&*()_+`,.]+/', 'message' => 'New password needs special characters.'],
+            [['newPassword'], 'match', 'pattern' => '/[~!@#$%^&*()_+`,.]+/', 'message' => 'New password needs special characters: [~!@#$%^&*()_+`,.].'],
         ];
     }
 

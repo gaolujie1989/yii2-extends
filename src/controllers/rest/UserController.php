@@ -5,9 +5,10 @@
 
 namespace lujie\user\controllers\rest;
 
+use lujie\extend\rest\MethodAction;
 use lujie\user\forms\LoginForm;
-use lujie\user\forms\ResetPasswordByEmailForm;
-use lujie\user\forms\UpdatePasswordForm;
+use lujie\user\forms\PasswordResetByEmailForm;
+use lujie\user\forms\PasswordUpdateForm;
 use lujie\user\models\User;
 use lujie\user\OAuthLoginCallback;
 use Yii;
@@ -38,11 +39,20 @@ class UserController extends Controller
      */
     public function actions(): array
     {
-
         return array_merge(parent::actions(), [
             'auth' => [
                 'class' => AuthAction::class,
                 'successCallback' => [$this, 'onAuthSuccess'],
+            ],
+            'login' => [
+                'class' => MethodAction::class,
+                'modelClass' => LoginForm::class,
+                'method' => 'login',
+            ],
+            'password-update' => [
+                'class' => MethodAction::class,
+                'modelClass' => PasswordUpdateForm::class,
+                'method' => 'update',
             ],
         ]);
     }
@@ -50,6 +60,7 @@ class UserController extends Controller
     /**
      * @param ClientInterface $client
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\UserException
      * @inheritdoc
      */
     public function onAuthSuccess(ClientInterface $client): void
@@ -60,23 +71,7 @@ class UserController extends Controller
     }
 
     /**
-     * @return LoginForm
-     * @throws ServerErrorHttpException
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionLogin(): LoginForm
-    {
-        /** @var LoginForm $loginForm */
-        $loginForm = Yii::createObject($this->loginForm);
-        $loginForm->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if ($loginForm->login() === false && $loginForm->hasErrors() === false) {
-            throw new ServerErrorHttpException('Failed to login for unknown reason.');
-        }
-        return $loginForm;
-    }
-
-    /**
+     * @throws \yii\base\InvalidRouteException
      * @inheritdoc
      */
     public function actionLogout(): void
@@ -113,59 +108,5 @@ class UserController extends Controller
             throw new ServerErrorHttpException('Failed to update info for unknown reason.');
         }
         return $user;
-    }
-
-    /**
-     * @return UpdatePasswordForm
-     * @throws ServerErrorHttpException
-     * @throws \Throwable
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionUpdatePassword(): UpdatePasswordForm
-    {
-        $passwordForm = new UpdatePasswordForm();
-        $passwordForm->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if ($passwordForm->updatePassword() === false && $passwordForm->hasErrors() === false) {
-            throw new ServerErrorHttpException('Failed to update password for unknown reason.');
-        }
-        return $passwordForm;
-    }
-
-    /**
-     * @return ResetPasswordByEmailForm
-     * @throws ServerErrorHttpException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionResetPassword(): ResetPasswordByEmailForm
-    {
-        $passwordForm = new ResetPasswordByEmailForm();
-        $passwordForm->setScenario(ResetPasswordByEmailForm::SCENARIO_UPDATE_PASSWORD);
-        $passwordForm->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if ($passwordForm->resetPassword() === false && $passwordForm->hasErrors() === false) {
-            throw new ServerErrorHttpException('Failed to reset password for unknown reason.');
-        }
-        return $passwordForm;
-    }
-
-    /**
-     * @return ResetPasswordByEmailForm
-     * @throws ServerErrorHttpException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @inheritdoc
-     */
-    public function actionSendResetPasswordVerifyCode(): ResetPasswordByEmailForm
-    {
-        $passwordForm = new ResetPasswordByEmailForm();
-        $passwordForm->setScenario(ResetPasswordByEmailForm::SCENARIO_SENDING_CODE);
-        $passwordForm->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if ($passwordForm->sendVerifyCode() === false && $passwordForm->hasErrors() === false) {
-            throw new ServerErrorHttpException('Failed to send verify code for unknown reason.');
-        }
-        return $passwordForm;
     }
 }

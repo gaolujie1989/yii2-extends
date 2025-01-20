@@ -14,7 +14,7 @@ use yii\base\Model;
  * @package lujie\user\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UpdatePasswordForm extends Model
+class PasswordUpdateForm extends Model
 {
     public $oldPassword;
     public $newPassword;
@@ -33,7 +33,11 @@ class UpdatePasswordForm extends Model
         return [
             [['oldPassword', 'newPassword'], 'required'],
             [['oldPassword'], 'validateOldPassword'],
-            ['newPassword', 'string', 'min' => 6],
+            [['newPassword'], 'string', 'min' => 8],
+            [['newPassword'], 'match', 'pattern' => '/[0-9]+/', 'message' => 'New password needs number.'],
+            [['newPassword'], 'match', 'pattern' => '/[a-z]+/', 'message' => 'New password needs lowercase letters.'],
+            [['newPassword'], 'match', 'pattern' => '/[A-Z]+/', 'message' => 'New password needs uppercase letters.'],
+            [['newPassword'], 'match', 'pattern' => '/[~!@#$%^&*()_+{}|:"<>?`-=[]\;\',./]/', 'message' => 'New password needs special characters.'],
         ];
     }
 

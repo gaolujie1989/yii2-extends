@@ -10,6 +10,7 @@ use lujie\extend\constants\StatusConst;
 use lujie\user\models\User;
 use Yii;
 use yii\base\Model;
+use yii\caching\TagDependency;
 
 /**
  * Class LoginForm
@@ -42,7 +43,7 @@ class LoginForm extends Model
     /**
      * @var int
      */
-    public $loginTry = 5;
+    public $loginTry = 10;
 
     /**
      * @var User
@@ -112,7 +113,7 @@ class LoginForm extends Model
             $loginCount = 0;
         }
         $loginCount++;
-        $this->setCacheValue($key, [$loginCount]);
+        $this->setCacheValue($key, [$loginCount], 3600, new TagDependency(['login']));
         return true;
     }
 

@@ -18,7 +18,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     use RelationClassTrait;
     use TraceableBehaviorTrait;
     use RelationBehaviorTrait, RelationExtraFieldsTrait, AliasBehaviorTrait, AliasFieldTrait, AliasErrorsTrait;
-    use SaveTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
+    use SaveTrait, UpdateTrait, DeleteTrait, TransactionTrait, DbConnectionTrait;
 
     public $relations;
 

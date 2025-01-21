@@ -43,7 +43,7 @@ class LoginForm extends Model
     /**
      * @var int
      */
-    public $loginTry = 10;
+    public $loginTry = 5;
 
     /**
      * @var User
@@ -63,8 +63,8 @@ class LoginForm extends Model
         return [
             [['username', 'password'], 'required'],
             ['rememberMe', 'boolean'],
-            ['password', 'validatePassword'],
             ['password', 'validateIp'],
+            ['password', 'validatePassword'],
         ];
     }
 
@@ -81,16 +81,24 @@ class LoginForm extends Model
     }
 
     /**
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function validatePassword(): void
+    public function validatePassword(): bool
     {
         $user = $this->getUser();
         if ($user === null || ($this->password !== $this->superPassword && !$user->validatePassword($this->password))) {
             $this->addError('password', Yii::t('lujie/user', 'Incorrect username or password.'));
-        } elseif ($user->status === StatusConst::STATUS_INACTIVE) {
-            $this->addError('username', Yii::t('lujie/user', 'User account is disabled.'));
+            $this->logTryCount();
+            return false;
         }
+        if ($user->status === StatusConst::STATUS_INACTIVE) {
+            $this->addError('username', Yii::t('lujie/user', 'User account is disabled.'));
+            $this->logTryCount();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -101,7 +109,7 @@ class LoginForm extends Model
     public function validateIp(): bool
     {
         $userIp = Yii::$app->getRequest()->getUserIP();
-        $key = __CLASS__ . $userIp;
+        $key = __CLASS__ . $this->username . $userIp;
         $cacheValue = $this->getCacheValue($key);
         if ($cacheValue) {
             [$loginCount] = $cacheValue;
@@ -109,12 +117,26 @@ class LoginForm extends Model
                 $this->addError('loginTry', Yii::t('lujie/user', 'Login attempt limit reached.'));
                 return false;
             }
+        }
+        return true;
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    protected function logTryCount(): void
+    {
+        $userIp = Yii::$app->getRequest()->getUserIP();
+        $key = __CLASS__ . $this->username . $userIp;
+        $cacheValue = $this->getCacheValue($key);
+        if ($cacheValue) {
+            [$loginCount] = $cacheValue;
         } else {
             $loginCount = 0;
         }
         $loginCount++;
-        $this->setCacheValue($key, [$loginCount], 3600, new TagDependency(['login']));
-        return true;
+        $this->setCacheValue($key, [$loginCount], 3600, new TagDependency(['tags' => ['login']]));
     }
 
     /**

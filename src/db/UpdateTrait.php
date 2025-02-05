@@ -5,6 +5,8 @@
 
 namespace lujie\extend\db;
 
+use Illuminate\Support\Str;
+use phpseclib3\Net\SFTP\Stream;
 use yii\db\ActiveQuery;
 
 /**
@@ -15,13 +17,26 @@ use yii\db\ActiveQuery;
 trait UpdateTrait
 {
     /**
-     * @param $attributes
-     * @param $condition
-     * @param $params
+     * @param array $attributes
+     * @param array|string $condition
+     * @param array $params
      * @return int
      * @inheritdoc
      */
     public static function updateAll($attributes, $condition = '', $params = []): int
+    {
+        return static::updateAllByPk($attributes, $condition, $params);
+    }
+
+    /**
+     * @param array $attributes
+     * @param array|string $condition
+     * @param array $params
+     * @param int $batchSize
+     * @return int
+     * @inheritdoc
+     */
+    public static function updateAllByPk(array $attributes, array|string $condition = '', array $params = [], int $batchSize = 200): int
     {
         $primaryKey = static::primaryKey();
         if (count($primaryKey) > 1) {
@@ -35,7 +50,7 @@ trait UpdateTrait
             return 0;
         }
         $rows = [];
-        $idChunks = array_chunk($ids, 200);
+        $idChunks = array_chunk($ids, $batchSize);
         foreach ($idChunks as $chunkIds) {
             $rows[] = parent::updateAll($attributes, [$pk => $chunkIds], $params);
         }

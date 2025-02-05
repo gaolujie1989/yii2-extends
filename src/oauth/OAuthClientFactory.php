@@ -54,7 +54,6 @@ class OAuthClientFactory extends BaseObject
             if ($authToken->refresh_token_expires_at && $authToken->refresh_token_expires_at - time() < 86400 * 10) {
                 $day = round(($authToken->refresh_token_expires_at - time()) / 86400);
                 Yii::error("Refresh token of account {$account->name} is expires in {$day} days.", __METHOD__);
-                return null;
             }
             $client->setAccessTokenIfTokenIsValid([
                 'params' => $authToken->additional['token'],

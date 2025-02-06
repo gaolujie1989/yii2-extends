@@ -12,7 +12,7 @@ use lujie\upload\models\UploadModelFileQuery;
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
 use yii\db\ActiveQuery;
-use yii\db\BaseActiveRecord;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -117,7 +117,7 @@ class ModelFileBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function hasMethod($name)
+    public function hasMethod($name): bool
     {
         if ($this->isRelationMethod($name)) {
             return true;
@@ -131,7 +131,7 @@ class ModelFileBehavior extends Behavior
      * @return bool
      * @inheritdoc
      */
-    public function canGetProperty($name, $checkVars = true)
+    public function canGetProperty($name, $checkVars = true): bool
     {
         if ($this->isRelationName($name)) {
             return true;
@@ -149,7 +149,7 @@ class ModelFileBehavior extends Behavior
         if (empty($this->modelFileTypes[$name])) {
             throw new InvalidArgumentException("Invalid model file {$name}");
         }
-        /** @var BaseActiveRecord $owner */
+        /** @var ActiveRecord $owner */
         $owner = $this->owner;
         $primaryKey = $owner::primaryKey();
         return $owner->hasMany(UploadModelFile::class, ['model_id' => $primaryKey[0]])
@@ -166,7 +166,7 @@ class ModelFileBehavior extends Behavior
      */
     public function getModelFiles(): ActiveQuery
     {
-        /** @var BaseActiveRecord $owner */
+        /** @var ActiveRecord $owner */
         $owner = $this->owner;
         $primaryKey = $owner::primaryKey();
         return $owner->hasMany(UploadModelFile::class, ['model_id' => $primaryKey[0]])

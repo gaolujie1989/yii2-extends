@@ -20,7 +20,7 @@ use Yii;
 class UploadModelFileController extends ActiveController
 {
     /**
-     * @var string|UploadModelFile
+     * @var string
      */
     public $modelClass = UploadModelFile::class;
 

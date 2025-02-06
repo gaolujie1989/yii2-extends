@@ -1,0 +1,7 @@
+parameters:
+    tmpDir: tmp
+    bootstrapFiles:
+        - bootstrap.php
+    excludePaths:
+        - */gii/*
+        - */migrations/*

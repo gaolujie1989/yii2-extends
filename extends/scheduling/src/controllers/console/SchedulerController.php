@@ -88,7 +88,7 @@ class SchedulerController extends Controller
     public function options($actionID): array
     {
         $options = [];
-        if ($actionID === 'execute' || $actionID === 'handle') {
+        if ($actionID === 'execute' || $actionID === 'handle' || $actionID === 'e' || $actionID === 'h') {
             $options = ['usage'];
         }
         return array_merge(parent::options($actionID), $options);
@@ -145,6 +145,42 @@ class SchedulerController extends Controller
      * @inheritdoc
      */
     public function actionExecute(string $taskCode): void
+    {
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
+        $this->scheduler->execute($task);
+    }
+
+    /**
+     * @param string $taskCode
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionH(string $taskCode): void
+    {
+        $args = func_get_args();
+        array_shift($args);
+        $task = $this->scheduler->getTask($taskCode, $args);
+        if ($this->usage) {
+            $this->stdout(VarDumper::dumpAsString($task->getParams()));
+            return;
+        }
+        $this->scheduler->handle($task);
+    }
+
+    /**
+     * @param string $taskCode
+     * @param ...$params
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function actionE(string $taskCode): void
     {
         $args = func_get_args();
         array_shift($args);

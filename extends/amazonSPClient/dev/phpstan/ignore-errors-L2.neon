@@ -1,0 +1,5 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#PHPDoc#"
+            path: ../../src/AmazonSPClient.php

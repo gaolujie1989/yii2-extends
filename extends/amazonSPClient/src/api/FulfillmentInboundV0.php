@@ -14,34 +14,6 @@ class FulfillmentInboundV0 extends \lujie\amazon\sp\BaseAmazonSPClient
 
                 
     /**
-     * @description Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon's fulfillment network. Sellers may still ship items that are not recommended, at their discretion.
-
-**Usage Plan:**
-
-| Rate (requests per second) | Burst |
-| ---- | ---- |
-| 2 | 30 |
-
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag fbaInbound
-     * @param array $query
-     *      - *MarketplaceId* - string - required
-     *          - A marketplace identifier. Specifies the marketplace where the product would be stored.
-     *      - *SellerSKUList* - array - optional
-     *          - A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon's fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
-     *      - *ASINList* - array - optional
-     *          - A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon's fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
-     * @return array
-     *      - *payload* - 
-     *          - The payload for the getInboundGuidance operation.
-     *      - *errors* - 
-     */
-    public function getInboundGuidance(array $query): array
-    {
-        return $this->api(array_merge(["/fba/inbound/v0/itemsGuidance"], $query));
-    }
-                    
-    /**
      * @description Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon's fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.
 
 **Usage Plan:**
@@ -337,7 +309,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *      - *PackageLabelsToPrint* - array - optional
      *          - A list of identifiers that specify packages for which you want package labels printed.
 
-Must match CartonId values previously passed using the FBA Inbound Shipment Carton Information Feed. If not, the operation returns the IncorrectPackageIdentifier error code.
+If you provide box content information with the [FBA Inbound Shipment Carton Information Feed](https://developer-docs.amazon.com/sp-api/docs/fulfillment-by-amazon-feed-type-values#fba-inbound-shipment-carton-information-feed), then `PackageLabelsToPrint` must match the `CartonId` values you provide through that feed. If you provide box content information with the Fulfillment Inbound API v2024-03-20, then `PackageLabelsToPrint` must match the `boxID` values from the [`listShipmentBoxes`](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-reference#listshipmentboxes) response. If these values do not match as required, the operation returns the `IncorrectPackageIdentifier` error code.
      *      - *NumberOfPallets* - integer - optional
      *          - The number of pallets in the shipment. This returns four identical labels for each pallet.
      *      - *PageSize* - integer - optional

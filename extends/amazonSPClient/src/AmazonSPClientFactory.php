@@ -2,20 +2,27 @@
 
 namespace lujie\amazon\sp;
 
+use lujie\amazon\sp\api\InvoicesApiModel20240619;
 use lujie\amazon\sp\api\AplusContent20201101;
-use lujie\amazon\sp\api\Authorization;
+use lujie\amazon\sp\api\AppIntegrations20240401;
+use lujie\amazon\sp\api\Application20231130;
+use lujie\amazon\sp\api\Awd20240509;
 use lujie\amazon\sp\api\CatalogItemsV0;
 use lujie\amazon\sp\api\CatalogItems20201201;
 use lujie\amazon\sp\api\CatalogItems20220401;
+use lujie\amazon\sp\api\DataKiosk20231115;
 use lujie\amazon\sp\api\DefinitionsProductTypes20200901;
 use lujie\amazon\sp\api\EasyShip20220323;
+use lujie\amazon\sp\api\ExternalFulfillmentInventory20210106;
+use lujie\amazon\sp\api\ExternalFulfillmentShipment20210106;
 use lujie\amazon\sp\api\FbaInbound;
 use lujie\amazon\sp\api\FbaInventory;
-use lujie\amazon\sp\api\FbaSmallandLight;
 use lujie\amazon\sp\api\Feeds20200904;
 use lujie\amazon\sp\api\Feeds20210630;
 use lujie\amazon\sp\api\FinancesV0;
+use lujie\amazon\sp\api\Finances20240619;
 use lujie\amazon\sp\api\FulfillmentInboundV0;
+use lujie\amazon\sp\api\FulfillmentInbound20240320;
 use lujie\amazon\sp\api\FulfillmentOutbound20200701;
 use lujie\amazon\sp\api\ListingsItems20200901;
 use lujie\amazon\sp\api\ListingsItems20210801;
@@ -35,7 +42,9 @@ use lujie\amazon\sp\api\Sellers;
 use lujie\amazon\sp\api\Services;
 use lujie\amazon\sp\api\ShipmentInvoicingV0;
 use lujie\amazon\sp\api\Shipping;
+use lujie\amazon\sp\api\ShippingV2;
 use lujie\amazon\sp\api\Solicitations;
+use lujie\amazon\sp\api\SupplySources20200701;
 use lujie\amazon\sp\api\Tokens20210301;
 use lujie\amazon\sp\api\Uploads20201101;
 use lujie\amazon\sp\api\VendorDirectFulfillmentInventoryV1;
@@ -62,6 +71,16 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
+     * @return InvoicesApiModel20240619|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getInvoicesApiModel20240619(Account $account): InvoicesApiModel20240619|BaseAmazonSPClient|null
+    {
+        return $this->createClient(InvoicesApiModel20240619::class, $account);
+    }
+
+    /**
+     * @param Account $account
      * @return AplusContent20201101|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
@@ -72,12 +91,32 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
-     * @return Authorization|BaseAmazonSPClient|null
+     * @return AppIntegrations20240401|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
-    public function getAuthorization(Account $account): Authorization|BaseAmazonSPClient|null
+    public function getAppIntegrations20240401(Account $account): AppIntegrations20240401|BaseAmazonSPClient|null
     {
-        return $this->createClient(Authorization::class, $account);
+        return $this->createClient(AppIntegrations20240401::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return Application20231130|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getApplication20231130(Account $account): Application20231130|BaseAmazonSPClient|null
+    {
+        return $this->createClient(Application20231130::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return Awd20240509|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getAwd20240509(Account $account): Awd20240509|BaseAmazonSPClient|null
+    {
+        return $this->createClient(Awd20240509::class, $account);
     }
 
     /**
@@ -112,6 +151,16 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
+     * @return DataKiosk20231115|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getDataKiosk20231115(Account $account): DataKiosk20231115|BaseAmazonSPClient|null
+    {
+        return $this->createClient(DataKiosk20231115::class, $account);
+    }
+
+    /**
+     * @param Account $account
      * @return DefinitionsProductTypes20200901|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
@@ -132,6 +181,26 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
+     * @return ExternalFulfillmentInventory20210106|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getExternalFulfillmentInventory20210106(Account $account): ExternalFulfillmentInventory20210106|BaseAmazonSPClient|null
+    {
+        return $this->createClient(ExternalFulfillmentInventory20210106::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return ExternalFulfillmentShipment20210106|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getExternalFulfillmentShipment20210106(Account $account): ExternalFulfillmentShipment20210106|BaseAmazonSPClient|null
+    {
+        return $this->createClient(ExternalFulfillmentShipment20210106::class, $account);
+    }
+
+    /**
+     * @param Account $account
      * @return FbaInbound|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
@@ -148,16 +217,6 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
     public function getFbaInventory(Account $account): FbaInventory|BaseAmazonSPClient|null
     {
         return $this->createClient(FbaInventory::class, $account);
-    }
-
-    /**
-     * @param Account $account
-     * @return FbaSmallandLight|BaseAmazonSPClient|null
-     * @throws InvalidConfigException
-     */
-    public function getFbaSmallandLight(Account $account): FbaSmallandLight|BaseAmazonSPClient|null
-    {
-        return $this->createClient(FbaSmallandLight::class, $account);
     }
 
     /**
@@ -192,12 +251,32 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
+     * @return Finances20240619|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getFinances20240619(Account $account): Finances20240619|BaseAmazonSPClient|null
+    {
+        return $this->createClient(Finances20240619::class, $account);
+    }
+
+    /**
+     * @param Account $account
      * @return FulfillmentInboundV0|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
     public function getFulfillmentInboundV0(Account $account): FulfillmentInboundV0|BaseAmazonSPClient|null
     {
         return $this->createClient(FulfillmentInboundV0::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return FulfillmentInbound20240320|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getFulfillmentInbound20240320(Account $account): FulfillmentInbound20240320|BaseAmazonSPClient|null
+    {
+        return $this->createClient(FulfillmentInbound20240320::class, $account);
     }
 
     /**
@@ -392,12 +471,32 @@ class AmazonSPClientFactory extends BaseAmazonSPClientFactory
 
     /**
      * @param Account $account
+     * @return ShippingV2|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getShippingV2(Account $account): ShippingV2|BaseAmazonSPClient|null
+    {
+        return $this->createClient(ShippingV2::class, $account);
+    }
+
+    /**
+     * @param Account $account
      * @return Solicitations|BaseAmazonSPClient|null
      * @throws InvalidConfigException
      */
     public function getSolicitations(Account $account): Solicitations|BaseAmazonSPClient|null
     {
         return $this->createClient(Solicitations::class, $account);
+    }
+
+    /**
+     * @param Account $account
+     * @return SupplySources20200701|BaseAmazonSPClient|null
+     * @throws InvalidConfigException
+     */
+    public function getSupplySources20200701(Account $account): SupplySources20200701|BaseAmazonSPClient|null
+    {
+        return $this->createClient(SupplySources20200701::class, $account);
     }
 
     /**

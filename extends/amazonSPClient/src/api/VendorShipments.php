@@ -23,7 +23,7 @@ class VendorShipments extends \lujie\amazon\sp\BaseAmazonSPClient
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $data 
      * @return array
      *      - *payload* - 
@@ -34,7 +34,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     {
         return $this->api("/vendor/shipping/v1/shipmentConfirmations", 'POST', $data);
     }
-                        
+                    
     /**
      * @description Submits one or more shipment request for vendor Orders.
 
@@ -45,7 +45,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $data 
      * @return array
      *      - *payload* - 
@@ -67,7 +67,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -76,37 +76,37 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *      - *nextToken* - string - optional
      *          - Used for pagination when there are more shipments than the specified result size limit.
      *      - *createdAfter* - string - optional
-     *          - Get Shipment Details that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details that became available after this timestamp will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *createdBefore* - string - optional
-     *          - Get Shipment Details that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details that became available before this timestamp will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentConfirmedBefore* - string - optional
-     *          - Get Shipment Details by passing Shipment confirmed create Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment confirmed create Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentConfirmedAfter* - string - optional
-     *          - Get Shipment Details by passing Shipment confirmed create Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment confirmed create Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *packageLabelCreatedBefore* - string - optional
-     *          - Get Shipment Details by passing Package label create Date by buyer. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Package label create Date by buyer. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *packageLabelCreatedAfter* - string - optional
-     *          - Get Shipment Details by passing Package label create Date After by buyer. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Package label create Date After by buyer. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shippedBefore* - string - optional
-     *          - Get Shipment Details by passing Shipped Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipped Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shippedAfter* - string - optional
-     *          - Get Shipment Details by passing Shipped Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipped Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *estimatedDeliveryBefore* - string - optional
-     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *estimatedDeliveryAfter* - string - optional
-     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentDeliveryBefore* - string - optional
-     *          - Get Shipment Details by passing Shipment Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentDeliveryAfter* - string - optional
-     *          - Get Shipment Details by passing Shipment Delivery Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment Delivery Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *requestedPickUpBefore* - string - optional
-     *          - Get Shipment Details by passing Before Requested pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Before Requested pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *requestedPickUpAfter* - string - optional
-     *          - Get Shipment Details by passing After Requested pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing After Requested pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *scheduledPickUpBefore* - string - optional
-     *          - Get Shipment Details by passing Before scheduled pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Before scheduled pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *scheduledPickUpAfter* - string - optional
-     *          - Get Shipment Details by passing After Scheduled pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing After Scheduled pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *currentShipmentStatus* - string - optional
      *          - Get Shipment Details by passing Current shipment status.
      *      - *vendorShipmentIdentifier* - string - optional
@@ -136,7 +136,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -145,37 +145,37 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *      - *nextToken* - string - optional
      *          - Used for pagination when there are more shipments than the specified result size limit.
      *      - *createdAfter* - string - optional
-     *          - Get Shipment Details that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details that became available after this timestamp will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *createdBefore* - string - optional
-     *          - Get Shipment Details that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details that became available before this timestamp will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentConfirmedBefore* - string - optional
-     *          - Get Shipment Details by passing Shipment confirmed create Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment confirmed create Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentConfirmedAfter* - string - optional
-     *          - Get Shipment Details by passing Shipment confirmed create Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment confirmed create Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *packageLabelCreatedBefore* - string - optional
-     *          - Get Shipment Details by passing Package label create Date by buyer. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Package label create Date by buyer. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *packageLabelCreatedAfter* - string - optional
-     *          - Get Shipment Details by passing Package label create Date After by buyer. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Package label create Date After by buyer. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shippedBefore* - string - optional
-     *          - Get Shipment Details by passing Shipped Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipped Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shippedAfter* - string - optional
-     *          - Get Shipment Details by passing Shipped Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipped Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *estimatedDeliveryBefore* - string - optional
-     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *estimatedDeliveryAfter* - string - optional
-     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentDeliveryBefore* - string - optional
-     *          - Get Shipment Details by passing Shipment Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentDeliveryAfter* - string - optional
-     *          - Get Shipment Details by passing Shipment Delivery Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment Delivery Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *requestedPickUpBefore* - string - optional
-     *          - Get Shipment Details by passing Before Requested pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Before Requested pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *requestedPickUpAfter* - string - optional
-     *          - Get Shipment Details by passing After Requested pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing After Requested pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *scheduledPickUpBefore* - string - optional
-     *          - Get Shipment Details by passing Before scheduled pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Before scheduled pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *scheduledPickUpAfter* - string - optional
-     *          - Get Shipment Details by passing After Scheduled pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing After Scheduled pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *currentShipmentStatus* - string - optional
      *          - Get Shipment Details by passing Current shipment status.
      *      - *vendorShipmentIdentifier* - string - optional
@@ -205,7 +205,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -214,37 +214,37 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      *      - *nextToken* - string - optional
      *          - Used for pagination when there are more shipments than the specified result size limit.
      *      - *createdAfter* - string - optional
-     *          - Get Shipment Details that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details that became available after this timestamp will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *createdBefore* - string - optional
-     *          - Get Shipment Details that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details that became available before this timestamp will be included in the result. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentConfirmedBefore* - string - optional
-     *          - Get Shipment Details by passing Shipment confirmed create Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment confirmed create Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentConfirmedAfter* - string - optional
-     *          - Get Shipment Details by passing Shipment confirmed create Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment confirmed create Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *packageLabelCreatedBefore* - string - optional
-     *          - Get Shipment Details by passing Package label create Date by buyer. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Package label create Date by buyer. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *packageLabelCreatedAfter* - string - optional
-     *          - Get Shipment Details by passing Package label create Date After by buyer. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Package label create Date After by buyer. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shippedBefore* - string - optional
-     *          - Get Shipment Details by passing Shipped Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipped Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shippedAfter* - string - optional
-     *          - Get Shipment Details by passing Shipped Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipped Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *estimatedDeliveryBefore* - string - optional
-     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *estimatedDeliveryAfter* - string - optional
-     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Estimated Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentDeliveryBefore* - string - optional
-     *          - Get Shipment Details by passing Shipment Delivery Date Before. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment Delivery Date Before. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *shipmentDeliveryAfter* - string - optional
-     *          - Get Shipment Details by passing Shipment Delivery Date After. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Shipment Delivery Date After. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *requestedPickUpBefore* - string - optional
-     *          - Get Shipment Details by passing Before Requested pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Before Requested pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *requestedPickUpAfter* - string - optional
-     *          - Get Shipment Details by passing After Requested pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing After Requested pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *scheduledPickUpBefore* - string - optional
-     *          - Get Shipment Details by passing Before scheduled pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing Before scheduled pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *scheduledPickUpAfter* - string - optional
-     *          - Get Shipment Details by passing After Scheduled pickup date. Must be in ISO-8601 date/time format.
+     *          - Get Shipment Details by passing After Scheduled pickup date. Must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format.
      *      - *currentShipmentStatus* - string - optional
      *          - Get Shipment Details by passing Current shipment status.
      *      - *vendorShipmentIdentifier* - string - optional
@@ -274,7 +274,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -311,7 +311,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.
@@ -348,7 +348,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
 | 10 | 10 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag vendorShipping
+     * @tag Vendor Shipments
      * @param array $query
      *      - *limit* - integer - optional
      *          - The limit to the number of records returned. Default value is 50 records.

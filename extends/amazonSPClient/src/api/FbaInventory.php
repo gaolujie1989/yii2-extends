@@ -12,24 +12,24 @@ use Iterator;
 class FbaInventory extends \lujie\amazon\sp\BaseAmazonSPClient
 {
 
-            
+                
     /**
-     * @description Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the `startDateTime`, `sellerSkus` and `sellerSku` parameters:
+     * @description Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime, sellerSkus and sellerSku parameters:
 
-- All inventory summaries with available details are returned when the `startDateTime`, `sellerSkus` and `sellerSku` parameters are omitted.
-- When `startDateTime` is provided, the operation returns inventory summaries that have had changes after the date and time specified. The `sellerSkus` and `sellerSku` parameters are ignored. **Important:** To avoid errors, use both `startDateTime` and `nextToken` to get the next page of inventory summaries that have changed after the date and time specified.
-- When the `sellerSkus` parameter is provided, the operation returns inventory summaries for only the specified `sellerSkus`. The `sellerSku` parameter is ignored.
-- When the `sellerSku` parameter is provided, the operation returns inventory summaries for only the specified `sellerSku`.
+- All inventory summaries with available details are returned when the startDateTime, sellerSkus and sellerSku parameters are omitted.
+- When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus and sellerSku parameters are ignored. Important: To avoid errors, use both startDateTime and nextToken to get the next page of inventory summaries that have changed after the date and time specified.
+- When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus. The sellerSku parameter is ignored.
+- When the sellerSku parameter is provided, the operation returns inventory summaries for only the specified sellerSku.
 
-**Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).
+Note: The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).
 
-**Usage Plan:**
+Usage Plan:
 
 | Rate (requests per second) | Burst |
 | ---- | ---- |
 | 2 | 2 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @tag fbaInventory
      * @param array $query
      *      - *details* - boolean - optional
@@ -61,22 +61,22 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
         
     /**
-     * @description Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the `startDateTime`, `sellerSkus` and `sellerSku` parameters:
+     * @description Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime, sellerSkus and sellerSku parameters:
 
-- All inventory summaries with available details are returned when the `startDateTime`, `sellerSkus` and `sellerSku` parameters are omitted.
-- When `startDateTime` is provided, the operation returns inventory summaries that have had changes after the date and time specified. The `sellerSkus` and `sellerSku` parameters are ignored. **Important:** To avoid errors, use both `startDateTime` and `nextToken` to get the next page of inventory summaries that have changed after the date and time specified.
-- When the `sellerSkus` parameter is provided, the operation returns inventory summaries for only the specified `sellerSkus`. The `sellerSku` parameter is ignored.
-- When the `sellerSku` parameter is provided, the operation returns inventory summaries for only the specified `sellerSku`.
+- All inventory summaries with available details are returned when the startDateTime, sellerSkus and sellerSku parameters are omitted.
+- When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus and sellerSku parameters are ignored. Important: To avoid errors, use both startDateTime and nextToken to get the next page of inventory summaries that have changed after the date and time specified.
+- When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus. The sellerSku parameter is ignored.
+- When the sellerSku parameter is provided, the operation returns inventory summaries for only the specified sellerSku.
 
-**Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).
+Note: The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).
 
-**Usage Plan:**
+Usage Plan:
 
 | Rate (requests per second) | Burst |
 | ---- | ---- |
 | 2 | 2 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @tag fbaInventory
      * @param array $query
      *      - *details* - boolean - optional
@@ -108,22 +108,22 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     }
     
     /**
-     * @description Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the `startDateTime`, `sellerSkus` and `sellerSku` parameters:
+     * @description Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime, sellerSkus and sellerSku parameters:
 
-- All inventory summaries with available details are returned when the `startDateTime`, `sellerSkus` and `sellerSku` parameters are omitted.
-- When `startDateTime` is provided, the operation returns inventory summaries that have had changes after the date and time specified. The `sellerSkus` and `sellerSku` parameters are ignored. **Important:** To avoid errors, use both `startDateTime` and `nextToken` to get the next page of inventory summaries that have changed after the date and time specified.
-- When the `sellerSkus` parameter is provided, the operation returns inventory summaries for only the specified `sellerSkus`. The `sellerSku` parameter is ignored.
-- When the `sellerSku` parameter is provided, the operation returns inventory summaries for only the specified `sellerSku`.
+- All inventory summaries with available details are returned when the startDateTime, sellerSkus and sellerSku parameters are omitted.
+- When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus and sellerSku parameters are ignored. Important: To avoid errors, use both startDateTime and nextToken to get the next page of inventory summaries that have changed after the date and time specified.
+- When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus. The sellerSku parameter is ignored.
+- When the sellerSku parameter is provided, the operation returns inventory summaries for only the specified sellerSku.
 
-**Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).
+Note: The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).
 
-**Usage Plan:**
+Usage Plan:
 
 | Rate (requests per second) | Burst |
 | ---- | ---- |
 | 2 | 2 |
 
-The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @tag fbaInventory
      * @param array $query
      *      - *details* - boolean - optional
@@ -152,6 +152,48 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
     public function getInventorySummaries(array $query): array
     {
         return $this->api(array_merge(["/fba/inventory/v1/summaries"], $query));
+    }
+                            
+    /**
+     * @description Requests that Amazon create product-details in the Sandbox Inventory in the sandbox environment. This is a sandbox-only operation and must be directed to a sandbox endpoint. Refer to [Selling Partner API sandbox](https://developer-docs.amazon.com/sp-api/docs/the-selling-partner-api-sandbox) for more information.
+     * @tag fbaInventory
+     * @param array $data 
+     * @return array
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the CreateInventoryItem operation.
+     */
+    public function createInventoryItem(array $data): array
+    {
+        return $this->api("/fba/inventory/v1/items", 'POST', $data);
+    }
+                            
+    /**
+     * @description Requests that Amazon Deletes an item from the Sandbox Inventory in the sandbox environment. This is a sandbox-only operation and must be directed to a sandbox endpoint. Refer to [Selling Partner API sandbox](https://developer-docs.amazon.com/sp-api/docs/the-selling-partner-api-sandbox) for more information.
+     * @tag fbaInventory
+     * @param string $sellerSku A single seller SKU used for querying the specified seller SKU inventory summaries.
+     * @param array $query
+     *      - *marketplaceId* - string - required
+     *          - The marketplace ID for the marketplace for which the sellerSku is to be deleted.
+     * @return array
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the DeleteInventoryItem operation.
+     */
+    public function deleteInventoryItem(string $sellerSku, array $query): array
+    {
+        return $this->api(array_merge(["/fba/inventory/v1/items/{$sellerSku}"], $query), 'DELETE');
+    }
+                            
+    /**
+     * @description Requests that Amazon add items to the Sandbox Inventory with desired amount of quantity in the sandbox environment. This is a sandbox-only operation and must be directed to a sandbox endpoint. Refer to [Selling Partner API sandbox](https://developer-docs.amazon.com/sp-api/docs/the-selling-partner-api-sandbox) for more information.
+     * @tag fbaInventory
+     * @param array $data 
+     * @return array
+     *      - *errors* - 
+     *          - One or more unexpected errors occurred during the AddInventory operation.
+     */
+    public function addInventory(array $data): array
+    {
+        return $this->api("/fba/inventory/v1/items/inventory", 'POST', $data);
     }
     
 }

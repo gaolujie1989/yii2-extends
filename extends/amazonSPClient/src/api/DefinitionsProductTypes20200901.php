@@ -29,11 +29,19 @@ The x-amzn-RateLimit-Limit response header returns the usage plan rate limits th
      * @tag definitions
      * @param array $query
      *      - *keywords* - array - optional
-     *          - A comma-delimited list of keywords to search product types by.
+     *          - A comma-delimited list of keywords to search product types. **Note:** Cannot be used with `itemName`.
      *      - *marketplaceIds* - array - required
      *          - A comma-delimited list of Amazon marketplace identifiers for the request.
+     *      - *itemName* - string - optional
+     *          - The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with `keywords`.
+     *      - *locale* - string - optional
+     *          - The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+     *      - *searchLocale* - string - optional
+     *          - The locale used for the `keywords` and `itemName` parameters. Defaults to the primary locale of the marketplace.
      * @return array
      *      - *productTypes* - array
+     *      - *productTypeVersion* - string
+     *          - Amazon product type version identifier.
      */
     public function searchDefinitionsProductTypes(array $query): array
     {
@@ -84,6 +92,8 @@ Note: This parameter is limited to one marketplaceId at this time.
      *          - Amazon marketplace identifiers for which the product type definition is applicable.
      *      - *productType* - string
      *          - The name of the Amazon product type that this product type definition applies to.
+     *      - *displayName* - string
+     *          - Human-readable and localized description of the Amazon product type.
      *      - *productTypeVersion* - 
      *          - The version details for the Amazon product type.
      */

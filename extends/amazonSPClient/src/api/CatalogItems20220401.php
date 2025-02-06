@@ -25,7 +25,7 @@ class CatalogItems20220401 extends \lujie\amazon\sp\BaseAmazonSPClient
 | 2 | 2 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag catalog
+     * @tag Catalog Items
      * @param array $query
      *      - *identifiers* - array - optional
      *          - A comma-delimited list of product identifiers to search the Amazon catalog for. **Note:** Cannot be used with `keywords`.
@@ -78,7 +78,7 @@ Note: The maximum number of items (ASINs) that can be returned and paged through
 | 2 | 2 |
 
 The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-     * @tag catalog
+     * @tag Catalog Items
      * @param string $asin The Amazon Standard Identification Number (ASIN) of the item.
      * @param array $query
      *      - *marketplaceIds* - array - required
@@ -90,6 +90,7 @@ The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits 
      * @return array
      *      - *asin* - 
      *      - *attributes* - 
+     *      - *classifications* - 
      *      - *dimensions* - 
      *      - *identifiers* - 
      *      - *images* - 

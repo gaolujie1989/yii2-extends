@@ -19,6 +19,7 @@ class VendorDirectFulfillmentSandboxData20211028 extends \lujie\amazon\sp\BaseAm
      * @param array $data 
      * @return array
      *      - *transactionId* - string
+     *          - A GUID (Globally Unique Identifier) assigned by Amazon to uniquely identify the transaction.
      */
     public function generateOrderScenarios(array $data): array
     {

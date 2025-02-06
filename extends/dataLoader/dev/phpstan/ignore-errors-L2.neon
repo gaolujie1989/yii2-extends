@@ -1,0 +1,3 @@
+parameters:
+    ignoreErrors:
+        - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required#'

@@ -12,6 +12,8 @@ use lujie\executing\QueuedEvent;
 use lujie\extend\helpers\ExceptionHelper;
 use Yii;
 use yii\base\Behavior;
+use yii\base\UserException;
+use yii\httpclient\Exception;
 
 /**
  * Class LogBehavior
@@ -27,6 +29,11 @@ class LogBehavior extends Behavior
      * @var bool
      */
     public $autoFlush = true;
+
+    /**
+     * @var bool
+     */
+    public $profiling = false;
 
     /**
      * @inheritdoc
@@ -58,7 +65,9 @@ class LogBehavior extends Behavior
     {
         $title = $this->getExecutableTitle($event->executable);
         Yii::info("$title is started.", Executor::class);
-        Yii::beginProfile($title, Executor::class);
+        if ($this->profiling) {
+            Yii::beginProfile($title, Executor::class);
+        }
     }
 
     /**
@@ -68,10 +77,21 @@ class LogBehavior extends Behavior
     public function afterExec(ExecuteEvent $event): void
     {
         $title = $this->getExecutableTitle($event->executable);
-        Yii::endProfile($title, Executor::class);
-        if ($event->error) {
-            $error = ExceptionHelper::getMessage($event->error);
-            Yii::error("$title is finished with error: $error.", Executor::class);
+        if ($this->profiling) {
+            Yii::endProfile($title, Executor::class);
+        }
+        $exception = $event->error;
+        if ($exception) {
+            if ($exception instanceof UserException) {
+                Yii::warning("$title is finished by {$exception->getMessage()}", Executor::class);
+            } else {
+                $error = $exception->getMessage();
+                if ($exception instanceof Exception && str_contains($error, 'Curl error')) {
+                    Yii::warning(["$title is finished with $error.", $exception], $event->executable::class);
+                } else {
+                    Yii::error(["$title is finished with error: $error.", $exception], $event->executable::class);
+                }
+            }
         } else {
             Yii::info("$title is finished.", Executor::class);
         }

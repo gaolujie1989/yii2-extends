@@ -13,9 +13,9 @@ use lujie\extend\constants\ExecStatusConst;
 use lujie\extend\helpers\ComponentHelper;
 use lujie\extend\helpers\ExceptionHelper;
 use yii\base\Behavior;
+use yii\base\UserException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use function PHPUnit\Framework\containsIdentical;
 
 /**
  * Class BaseMonitorBehavior
@@ -167,7 +167,11 @@ abstract class BaseMonitorBehavior extends Behavior
             'additional' => $this->getExecutableAdditional($event->executable),
         ];
         if ($event->error) {
-            $data['error'] = ExceptionHelper::getMessage($event->error);
+            if ($event->error instanceof UserException) {
+                $data['error'] = $event->error->getMessage();
+            } else {
+                $data['error'] = ExceptionHelper::getMessage($event->error);
+            }
         }
         if ($event->progress) {
             $data['additional']['progress'] = ArrayHelper::toArray($event->progress);

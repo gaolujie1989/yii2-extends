@@ -24,7 +24,7 @@ class ConfigurableExecutable extends BaseObject implements ExecutableInterface
     public $callerClass = BaseObject::class;
 
     /**
-     * @var string|array
+     * @var string|array|object
      */
     public $caller = 'unknown';
 

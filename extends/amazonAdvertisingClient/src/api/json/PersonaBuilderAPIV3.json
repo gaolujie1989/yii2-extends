@@ -1,0 +1,1930 @@
+{
+  "info": {
+    "description": "DSP Persona Builder API.",
+    "title": "Persona Builder API",
+    "version": "3.0"
+  },
+  "paths": {
+    "/insights/topCategoriesPurchased": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.topcategoriespurchasedinputexpression.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputExpression"
+              },
+              "examples": {
+                "TopCategoriesPurchased_example1": {
+                  "summary": "Audience Targeting Expression as an input",
+                  "description": "An example of TopCategoriesPurchased using Audience Targeting Expression as an input.",
+                  "value": {
+                    "audienceTargetingExpression": {
+                      "audiences": [
+                        {
+                          "negative": "true",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "12345"
+                        },
+                        {
+                          "negative": "true",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "23456"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get insights on top retail categories purchased by customers in the input expression.\n\n**Requires one of these permissions**:\n[]",
+        "operationId": "TopCategoriesPurchased",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/vnd.topcategoriespurchasedinsights.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopCategoriesPurchasedResponseContent"
+                },
+                "examples": {
+                  "TopCategoriesPurchased_example1": {
+                    "description": "An example of TopCategoriesPurchased response.",
+                    "value": {
+                      "retailCategories": [
+                        {
+                          "path": [
+                            {
+                              "browseNodeName": "Clothing, Shoes & Jewelry"
+                            },
+                            {
+                              "browseNodeName": "Self Service"
+                            },
+                            {
+                              "browseNodeName": "Special Features Stores"
+                            }
+                          ],
+                          "name": "Retail Category 1",
+                          "insightMetrics": {
+                            "overlapPercentage": "10",
+                            "affinity": "1.5"
+                          },
+                          "id": "retailCategoryId1"
+                        },
+                        {
+                          "path": [
+                            {
+                              "browseNodeName": "Clothing, Shoes & Jewelry"
+                            },
+                            {
+                              "browseNodeName": "Self Service"
+                            }
+                          ],
+                          "name": "Retail Category 2",
+                          "insightMetrics": {
+                            "overlapPercentage": "12",
+                            "affinity": "2.3"
+                          },
+                          "id": "retailCategoryId2"
+                        }
+                      ],
+                      "lastUpdatedAt": "2023-04-03T19:35:20.567Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or request body is not matching with input model.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspBadRequestExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnauthorizedExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspInternalServerExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Request failed because user is not authorized to access a resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspForbiddenExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspNotFoundExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Version not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnsupportedMediaTypeExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspTooManyRequestsExceptionV1ResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "Sets the maximum number of objects in the returned array. Use in conjunction with the nextToken parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.<br/>Default: 30; <br/>Minimum: 1; <br/>Maximum:250.",
+              "maximum": 250,
+              "type": "number",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the maximum number of objects in the returned array. Use in conjunction with the nextToken parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.<br/>Default: 30; <br/>Minimum: 1; <br/>Maximum:250."
+          },
+          {
+            "schema": {
+              "description": "Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the nextToken field is empty, there are no further results.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the nextToken field is empty, there are no further results."
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Persona Builder API"
+        ]
+      }
+    },
+    "/insights/bandedSize": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.bandedsizeinputexpression.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputExpression"
+              },
+              "examples": {
+                "BandedSize_example1": {
+                  "summary": "Audience Targeting Expression as an input",
+                  "description": "An example of BandedSize with Audience Targeting Expression as an input.",
+                  "value": {
+                    "audienceTargetingExpression": {
+                      "audiences": [
+                        {
+                          "negative": "false",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "12345"
+                        },
+                        {
+                          "negative": "false",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "23456"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get banded size of number of unique customers that are in the input expression.\n\n**Requires one of these permissions**:\n[]",
+        "operationId": "BandedSize",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/vnd.bandedsizeinsights.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BandedSizeResponseContent"
+                },
+                "examples": {
+                  "BandedSize_example1": {
+                    "summary": "An example of BandedSize response",
+                    "value": {
+                      "estimatedSize": {
+                        "min": 100000,
+                        "max": 500000
+                      },
+                      "lastUpdatedAt": "2023-04-03T19:35:20.567Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or request body is not matching with input model.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspBadRequestExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnauthorizedExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspInternalServerExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Request failed because user is not authorized to access a resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspForbiddenExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspNotFoundExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Version not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnsupportedMediaTypeExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspTooManyRequestsExceptionV1ResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Persona Builder API"
+        ]
+      }
+    },
+    "/insights/demographics": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.demographicinputexpressions.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputExpression"
+              },
+              "examples": {
+                "Demographics_example1": {
+                  "summary": "Audience Targeting Expression as an input",
+                  "description": "An example of Demographics API input expression using Audience Targeting Expression as an input.",
+                  "value": {
+                    "audienceTargetingExpression": {
+                      "audiences": [
+                        {
+                          "negative": "false",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "12345"
+                        },
+                        {
+                          "negative": "false",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "23456"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get demographic insights for the input expression.\n\n**Requires one of these permissions**:\n[]",
+        "operationId": "Demographics",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/vnd.demographicinsights.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DemographicsResponseContent"
+                },
+                "examples": {
+                  "Demographics_example1": {
+                    "summary": "An example of Demographics response",
+                    "value": {
+                      "lastUpdatedAt": "2023-04-03T19:35:20.567Z",
+                      "demographics": {
+                        "gender": [
+                          {
+                            "segmentId": "12345",
+                            "insightMetrics": {
+                              "overlapPercentage": "55",
+                              "affinity": "2.1"
+                            },
+                            "attribute": "MALE"
+                          },
+                          {
+                            "segmentId": "23456",
+                            "insightMetrics": {
+                              "overlapPercentage": "45",
+                              "affinity": "1.9"
+                            },
+                            "attribute": "FEMALE"
+                          }
+                        ],
+                        "propertyOwnership": [
+                          {
+                            "segmentId": "34567",
+                            "insightMetrics": {
+                              "overlapPercentage": "55",
+                              "affinity": "2.1"
+                            },
+                            "attribute": "OWNING"
+                          },
+                          {
+                            "segmentId": "45678",
+                            "insightMetrics": {
+                              "overlapPercentage": "45",
+                              "affinity": "1.9"
+                            },
+                            "attribute": "RENTING"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or request body is not matching with input model.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspBadRequestExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnauthorizedExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspInternalServerExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Request failed because user is not authorized to access a resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspForbiddenExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspNotFoundExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Version not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnsupportedMediaTypeExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspTooManyRequestsExceptionV1ResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Persona Builder API"
+        ]
+      }
+    },
+    "/insights/primeVideo": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.primevideoinputexpressions.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimeVideoInputExpression"
+              },
+              "examples": {
+                "PrimeVideo_example1": {
+                  "summary": "Audience Targeting Expression as an input",
+                  "description": "An example of PrimeVideo input expression using Audience Targeting Expression as an input.",
+                  "value": {
+                    "audienceTargetingExpression": {
+                      "audiences": [
+                        {
+                          "negative": "true",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "12345"
+                        },
+                        {
+                          "negative": "true",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "23456"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get Prime Video insights for the input expression.\n\n**Requires one of these permissions**:\n[]",
+        "operationId": "PrimeVideo",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/vnd.primevideoinsights.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimeVideoResponseContent"
+                },
+                "examples": {
+                  "PrimeVideo_example1": {
+                    "summary": "An example of PrimeVideo response",
+                    "value": {
+                      "lastUpdatedAt": "2023-04-03T19:35:20.567Z",
+                      "primeVideoInsights": {
+                        "dateRange": {
+                          "endDate": "2023-04-04T00:00:00.000Z",
+                          "startDate": "2023-04-01T00:00:00.000Z"
+                        },
+                        "genres": [
+                          {
+                            "insight": {
+                              "overlapPercentage": "12",
+                              "affinity": "1.9"
+                            },
+                            "genre": "Horror"
+                          },
+                          {
+                            "insight": {
+                              "overlapPercentage": "10",
+                              "affinity": "1.5"
+                            },
+                            "genre": "Comedy"
+                          }
+                        ],
+                        "series": [
+                          {
+                            "insight": {
+                              "overlapPercentage": "12",
+                              "affinity": "1.9"
+                            },
+                            "series": "Series TV 1"
+                          },
+                          {
+                            "insight": {
+                              "overlapPercentage": "10",
+                              "affinity": "1.5"
+                            },
+                            "series": "Series TV 2"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or request body is not matching with input model.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspBadRequestExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnauthorizedExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspInternalServerExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Request failed because user is not authorized to access a resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspForbiddenExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspNotFoundExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Version not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnsupportedMediaTypeExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspTooManyRequestsExceptionV1ResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Persona Builder API"
+        ]
+      }
+    },
+    "/insights/topOverlappingAudiences": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.topoverlappingaudiencesinputexpression.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TopOverlappingAudiencesInputExpression"
+              },
+              "examples": {
+                "TopOverlappingAudiences_example1": {
+                  "summary": "Audience Targeting Expression as an input",
+                  "description": "An example of TopOverlappingAudiences API input expression using Audience Targeting Expression as an input.",
+                  "value": {
+                    "categoryFilter": [
+                      "THIRD_PARTY"
+                    ],
+                    "audienceTargetingExpression": {
+                      "audiences": [
+                        {
+                          "negative": "false",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "12345"
+                        },
+                        {
+                          "negative": "false",
+                          "groupId": "customerProvidedString1",
+                          "audienceId": "23456"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get top audiences overlapping with the input expression.",
+        "operationId": "TopOverlappingAudiences",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/vnd.topoverlappingaudiencesinsights.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopOverlappingAudiencesResponseContent"
+                },
+                "examples": {
+                  "TopOverlappingAudiences_example1": {
+                    "summary": "An example of TopOverlappingAudiences response",
+                    "value": {
+                      "lastUpdatedAt": "2023-04-03T19:35:20.567Z",
+                      "nextToken": "string",
+                      "audiences": [
+                        {
+                          "name": "Name of audience 1",
+                          "insightMetrics": {
+                            "overlapPercentage": "10",
+                            "affinity": "1.5"
+                          },
+                          "forecast": {
+                            "dailyReach": {
+                              "upperBound": "50000",
+                              "lowerBound": "10000"
+                            },
+                            "dailyImpressions": {
+                              "upperBound": "50000",
+                              "lowerBound": "10000"
+                            }
+                          },
+                          "id": "audienceId1",
+                          "category": "Demographics"
+                        },
+                        {
+                          "name": "Name of audience 2",
+                          "insightMetrics": {
+                            "overlapPercentage": "20",
+                            "affinity": "3"
+                          },
+                          "forecast": {
+                            "dailyReach": {
+                              "upperBound": "100000",
+                              "lowerBound": "50000"
+                            },
+                            "dailyImpressions": {
+                              "upperBound": "100000",
+                              "lowerBound": "50000"
+                            }
+                          },
+                          "id": "audienceId2",
+                          "category": "Demographics"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or request body is not matching with input model.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspBadRequestExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnauthorizedExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspInternalServerExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Request failed because user is not authorized to access a resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspForbiddenExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Requested resource does not exist or is not visible for the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspNotFoundExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Version not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspUnsupportedMediaTypeExceptionV1ResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspTooManyRequestsExceptionV1ResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The identifier of the advertiser, retrieved from /dsp/advertisers, that you'd like to retrieve insights for.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "Sets the maximum number of objects in the returned array. Use in conjunction with the nextToken parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.<br/>Default: 30; <br/>Minimum: 1; <br/>Maximum:250.",
+              "maximum": 250,
+              "type": "number",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the maximum number of objects in the returned array. Use in conjunction with the nextToken parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.<br/>Default: 30; <br/>Minimum: 1; <br/>Maximum:250."
+          },
+          {
+            "schema": {
+              "description": "Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the nextToken field is empty, there are no further results.",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Operations that return paginated results include a pagination token in this field. To retrieve the next page of results, call the same operation and specify this token in the request. If the nextToken field is empty, there are no further results."
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Persona Builder API"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "PropertyOwnershipInsight": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "description": "Canonical ID of the segment the demographic insight attribute maps to.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "attribute": {
+            "$ref": "#/components/schemas/PropertyOwnership"
+          }
+        },
+        "required": [
+          "attribute",
+          "insightMetrics",
+          "segmentId"
+        ]
+      },
+      "AudienceInsight": {
+        "type": "object",
+        "properties": {
+          "audienceDetailPageUrl": {
+            "description": "Link to the audience details page within the Amazon Advertising Console for the given audience.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the target audience.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "forecast": {
+            "$ref": "#/components/schemas/Forecast"
+          },
+          "id": {
+            "description": "Identifier for the target audience.",
+            "type": "string"
+          },
+          "category": {
+            "description": "Category of the audience segment. Example: interests",
+            "type": "string"
+          }
+        },
+        "required": [
+          "category",
+          "forecast",
+          "id",
+          "insightMetrics",
+          "name"
+        ]
+      },
+      "PrimeVideoInsight": {
+        "type": "object",
+        "properties": {
+          "movies": {
+            "minItems": 0,
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MovieInsight"
+            }
+          },
+          "actors": {
+            "minItems": 0,
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorInsight"
+            }
+          },
+          "dateRange": {
+            "$ref": "#/components/schemas/DateRangeInsight"
+          },
+          "genres": {
+            "minItems": 0,
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GenreInsight"
+            }
+          },
+          "series": {
+            "minItems": 0,
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeriesInsight"
+            }
+          },
+          "directors": {
+            "minItems": 0,
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DirectorInsight"
+            }
+          }
+        }
+      },
+      "InsightMetric": {
+        "type": "object",
+        "properties": {
+          "overlapPercentage": {
+            "format": "double",
+            "description": "Percentage of customers in the input audience who are part of this segment. For example, a value of 5\n                    means 5% of customers in this segment share the input audience.",
+            "maximum": 100,
+            "type": "number",
+            "minimum": 0
+          },
+          "affinity": {
+            "format": "double",
+            "description": "Affinity is a measure of how likely customers in the input audience are to belong to this segment. An\n                    affinity of 5 indicates that customers in the input audience are 5 times as likely to belong to this\n                    segment than the average of customers on Amazon.",
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "affinity",
+          "overlapPercentage"
+        ]
+      },
+      "TopOverlappingAudiencesResponseContent": {
+        "type": "object",
+        "properties": {
+          "lastUpdatedAt": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating when insight was last generated for the input audience set.",
+            "type": "string"
+          },
+          "nextToken": {
+            "description": "Optional: If present, there are more insights than initially returned. Use this token to call the operation again and have the additional insights returned. The token is valid for 8 hours from the initial request.",
+            "type": "string"
+          },
+          "audiences": {
+            "minItems": 1,
+            "maxItems": 30,
+            "description": "Top audiences associated with customers in the input expression, ordered by the affinity score.\n                    \n Affinity is a measure of how likely customers in the input expression are to belong to a specific\n                    audience. An affinity of 5 for some audience indicates that customers in the input expression set\n                    are 5 times as likely to belong to this audience than the average of customers on Amazon.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceInsight"
+            }
+          }
+        },
+        "required": [
+          "audiences",
+          "lastUpdatedAt"
+        ]
+      },
+      "DspSubErrorV1": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "errorType": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorType",
+          "message"
+        ]
+      },
+      "DspUnsupportedMediaTypeExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "GenreInsight": {
+        "type": "object",
+        "properties": {
+          "insight": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "genre": {
+            "description": "A human readable genre name.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "genre",
+          "insight"
+        ]
+      },
+      "Gender": {
+        "type": "string",
+        "enum": [
+          "MALE",
+          "FEMALE",
+          "BOTH",
+          "UNKNOWN"
+        ]
+      },
+      "PrimeVideoCategory": {
+        "description": "Prime video's supported categories.",
+        "type": "string",
+        "enum": [
+          "GENRES",
+          "ACTORS",
+          "MOVIES",
+          "SERIES",
+          "DIRECTORS"
+        ]
+      },
+      "BrowseNode": {
+        "type": "object",
+        "properties": {
+          "browseNodeName": {
+            "description": "Name of the browse node in native language of the marketplace.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "browseNodeName"
+        ]
+      },
+      "AudienceTargetingExpression": {
+        "type": "object",
+        "properties": {
+          "audiences": {
+            "minItems": 1,
+            "maxItems": 5500,
+            "description": "Specify groups of audiences to include or exclude when targeting.<ul><li>Included groups are joined by an intersection. Users must be in all of the groups specified to be included.<\/li><li>Audiences within a group are joined by a union. Users can be in any of the audiences specified to be included/excluded.<\/li><li>Users within the same group must either be included or excluded.<\/li><li>You can specify up to 10 groups to be included, but only 1 group to be excluded.<\/li><li>Up to 500 audienceIds can be specified per group.<\/li><ul>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceV1"
+            }
+          }
+        },
+        "required": [
+          "audiences"
+        ]
+      },
+      "SeriesInsight": {
+        "type": "object",
+        "properties": {
+          "insight": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "series": {
+            "description": "A human readable TV Series name.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "insight",
+          "series"
+        ]
+      },
+      "AudienceCategory": {
+        "description": "Categories of audiences that are supported.",
+        "type": "string",
+        "enum": [
+          "THIRD_PARTY",
+          "LIFESTYLE",
+          "LIFE_EVENT",
+          "CUSTOM_BUILT",
+          "DEMOGRAPHIC",
+          "IN_MARKET",
+          "LOOKALIKE",
+          "INTEREST",
+          "ADVERTISER_AUDIENCES",
+          "COMBINED_AUDIENCES"
+        ]
+      },
+      "MovieInsight": {
+        "type": "object",
+        "properties": {
+          "insight": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "movie": {
+            "description": "A human readable movie name.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "insight",
+          "movie"
+        ]
+      },
+      "Education": {
+        "type": "string",
+        "enum": [
+          "HIGH_SCHOOL",
+          "BACHELORS_DEGREE",
+          "GRADUATE_DEGREE",
+          "SOME_COLLEGE",
+          "BACHELOR_DEGREE_OR_MORE"
+        ]
+      },
+      "TopOverlappingAudiencesInputExpression": {
+        "description": "The input expression should consist of audience targeting expression.",
+        "type": "object",
+        "properties": {
+          "categoryFilter": {
+            "minItems": 1,
+            "maxItems": 8,
+            "uniqueItems": true,
+            "description": "Optional: A list of audience categories to filter insights on. By default it will return all audience category types in response, ordered by affinity score.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceCategory"
+            }
+          },
+          "audienceTargetingExpression": {
+            "$ref": "#/components/schemas/AudienceTargetingExpression"
+          }
+        },
+        "required": [
+          "audienceTargetingExpression"
+        ]
+      },
+      "DspBadRequestExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "Currency": {
+        "description": "Currency which represents the income figures. This will be native to the input marketplace.",
+        "type": "string",
+        "enum": [
+          "USD",
+          "GBP",
+          "EUR",
+          "JPY",
+          "CAD",
+          "MXN",
+          "BRL",
+          "AUD",
+          "TRY",
+          "INR",
+          "AED",
+          "SAR",
+          "SEK"
+        ]
+      },
+      "AudienceV1": {
+        "type": "object",
+        "properties": {
+          "negative": {
+            "description": "Whether to include (false) or exclude (true) audiences when targeting. Only one state may be used per groupId",
+            "type": "boolean"
+          },
+          "groupId": {
+            "description": "A customer-provided string used to create a group of audiences. This string is only used for this single request. Amazon does not store it.",
+            "type": "string"
+          },
+          "audienceId": {
+            "description": "An audience identifier retrieved from the audiences/list resource.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "audienceId",
+          "groupId",
+          "negative"
+        ]
+      },
+      "BandedSizeInsights": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "description": "The lower bound of estimated unique customers who are in the input audience set.",
+            "type": "number",
+            "minimum": 0
+          },
+          "max": {
+            "description": "Optional: The upper bound of estimated unique customers who are in the input audience set.\n                    If it is not present, this means there is no upper bound. For example, a value of\n                    {\"min\" : 100000000} alone means the estimated unique customers who are in the input\n                    audience set is 100M or more.",
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "min"
+        ]
+      },
+      "DspForbiddenExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "DspUnauthorizedExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "PropertyOwnership": {
+        "type": "string",
+        "enum": [
+          "OWNING",
+          "RENTING"
+        ]
+      },
+      "TopRetailCategoryInsight": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "minItems": 0,
+            "maxItems": 5,
+            "description": "The hierarchical path that leads to a category node, starting with the root node.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BrowseNode"
+            }
+          },
+          "name": {
+            "description": "Name of retail category.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "id": {
+            "description": "Identifier of retail category.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "insightMetrics",
+          "name",
+          "path"
+        ]
+      },
+      "EducationInsight": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "description": "Canonical ID of the segment the demographic insight attribute maps to.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "attribute": {
+            "$ref": "#/components/schemas/Education"
+          }
+        },
+        "required": [
+          "attribute",
+          "insightMetrics",
+          "segmentId"
+        ]
+      },
+      "DspNotFoundExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "ForecastBands": {
+        "type": "object",
+        "properties": {
+          "upperBound": {
+            "description": "Optional: maximum number of devices reached/ maximum number of available impressions.\n\t               If it is not present, this means there is no upper bound. For example, a value of\n\t               {\"lowerbound\" : 100000000} alone means the estimated reach/impression forecast is over 100M.",
+            "type": "number"
+          },
+          "lowerBound": {
+            "description": "minimum number of devices reached/ minimum number of available impressions.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lowerBound"
+        ]
+      },
+      "DemographicInsights": {
+        "type": "object",
+        "properties": {
+          "income": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncomeDemographicInsight"
+            }
+          },
+          "childrenAge": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RangedDemographicInsight"
+            }
+          },
+          "education": {
+            "minItems": 2,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EducationInsight"
+            }
+          },
+          "gender": {
+            "minItems": 2,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GenderInsight"
+            }
+          },
+          "propertyOwnership": {
+            "minItems": 2,
+            "maxItems": 2,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyOwnershipInsight"
+            }
+          },
+          "age": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RangedDemographicInsight"
+            }
+          },
+          "childrenCount": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RangedDemographicInsight"
+            }
+          }
+        }
+      },
+      "IncomeDemographicInsight": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "description": "Canonical ID of the segment the demographic insight attribute maps to.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "range": {
+            "$ref": "#/components/schemas/Range"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        },
+        "required": [
+          "currency",
+          "insightMetrics",
+          "range",
+          "segmentId"
+        ]
+      },
+      "ActorInsight": {
+        "type": "object",
+        "properties": {
+          "actor": {
+            "description": "The actor's name.",
+            "type": "string"
+          },
+          "insight": {
+            "$ref": "#/components/schemas/InsightMetric"
+          }
+        },
+        "required": [
+          "actor",
+          "insight"
+        ]
+      },
+      "DemographicsResponseContent": {
+        "type": "object",
+        "properties": {
+          "lastUpdatedAt": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating when insight was last generated for the input audience set.",
+            "type": "string"
+          },
+          "demographics": {
+            "$ref": "#/components/schemas/DemographicInsights"
+          }
+        },
+        "required": [
+          "demographics",
+          "lastUpdatedAt"
+        ]
+      },
+      "Range": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "description": "Lower bound of the range (inclusive). Optional - if min does not exist then the range has no lower\n                    bound and is bound by the max range alone. Either one of max or min will always exist.",
+            "type": "number",
+            "minimum": 0
+          },
+          "max": {
+            "description": "Upper bound of the range (inclusive). Optional - if max does not exist then the range has no upper\n                    bound and is bound by the min range alone. Either one of max or min will always exist.",
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
+      "InputExpression": {
+        "description": "The input expression should consist of audience targeting expression.",
+        "type": "object",
+        "properties": {
+          "audienceTargetingExpression": {
+            "$ref": "#/components/schemas/AudienceTargetingExpression"
+          }
+        },
+        "required": [
+          "audienceTargetingExpression"
+        ]
+      },
+      "BandedSizeResponseContent": {
+        "type": "object",
+        "properties": {
+          "estimatedSize": {
+            "$ref": "#/components/schemas/BandedSizeInsights"
+          },
+          "lastUpdatedAt": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating when insight was last generated for the audience targeting expression.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "estimatedSize",
+          "lastUpdatedAt"
+        ]
+      },
+      "DspInternalServerExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "DspTooManyRequestsExceptionV1ResponseContent": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspSubErrorV1"
+            }
+          }
+        }
+      },
+      "DirectorInsight": {
+        "type": "object",
+        "properties": {
+          "insight": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "director": {
+            "description": "The director's name.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "director",
+          "insight"
+        ]
+      },
+      "Forecast": {
+        "type": "object",
+        "properties": {
+          "dailyReach": {
+            "$ref": "#/components/schemas/ForecastBands"
+          },
+          "dailyImpressions": {
+            "$ref": "#/components/schemas/ForecastBands"
+          }
+        },
+        "required": [
+          "dailyImpressions",
+          "dailyReach"
+        ]
+      },
+      "DateRangeInsight": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating the end date of the insight.",
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating the start date of the insight.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "endDate",
+          "startDate"
+        ]
+      },
+      "PrimeVideoResponseContent": {
+        "type": "object",
+        "properties": {
+          "lastUpdatedAt": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating when insight was last generated for the input expression.",
+            "type": "string"
+          },
+          "primeVideoInsights": {
+            "$ref": "#/components/schemas/PrimeVideoInsight"
+          }
+        },
+        "required": [
+          "lastUpdatedAt",
+          "primeVideoInsights"
+        ]
+      },
+      "TopCategoriesPurchasedResponseContent": {
+        "type": "object",
+        "properties": {
+          "retailCategories": {
+            "minItems": 1,
+            "maxItems": 30,
+            "description": "Top retail categories purchased by customers in the input expression., ordered by the affinity score.\n                    \n \n Affinity represents a measure of how likely customers in the input expression are to make a purchase\n                    from the category. An affinity of 5 indicates that customers in the input expression are 5 times as likely to\n                    buy from this category than the average of customers on Amazon.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopRetailCategoryInsight"
+            }
+          },
+          "lastUpdatedAt": {
+            "format": "date-time",
+            "description": "UTC timestamp in ISO 8601 format indicating when insight was last generated for the input audience set.",
+            "type": "string"
+          },
+          "nextToken": {
+            "description": "Optional: If present, there are more insights than initially returned. Use this token to call the operation again\n                    and have the additional insights returned. The token is valid for 8 hours from the initial request.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "lastUpdatedAt",
+          "retailCategories"
+        ]
+      },
+      "PrimeVideoInputExpression": {
+        "description": "The input expression should consist of audience targeting expression.",
+        "type": "object",
+        "properties": {
+          "categoryFilter": {
+            "minItems": 1,
+            "maxItems": 4,
+            "uniqueItems": true,
+            "description": "Optional: A list of prime video categories to filter insights on. By default it will return all\n                   prime video category types in response.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrimeVideoCategory"
+            }
+          },
+          "audienceTargetingExpression": {
+            "$ref": "#/components/schemas/AudienceTargetingExpression"
+          }
+        },
+        "required": [
+          "audienceTargetingExpression"
+        ]
+      },
+      "RangedDemographicInsight": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "description": "Canonical ID of the segment the demographic insight attribute maps to.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "range": {
+            "$ref": "#/components/schemas/Range"
+          }
+        },
+        "required": [
+          "insightMetrics",
+          "range",
+          "segmentId"
+        ]
+      },
+      "GenderInsight": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "description": "Canonical ID of the segment the demographic insight attribute maps to.",
+            "type": "string"
+          },
+          "insightMetrics": {
+            "$ref": "#/components/schemas/InsightMetric"
+          },
+          "attribute": {
+            "$ref": "#/components/schemas/Gender"
+          }
+        },
+        "required": [
+          "attribute",
+          "insightMetrics"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

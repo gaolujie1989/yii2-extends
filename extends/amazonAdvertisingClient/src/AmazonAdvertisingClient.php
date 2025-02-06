@@ -224,11 +224,10 @@ use yii\httpclient\Request;
  * @package lujie\amazon\advertising
  * @author Lujie Zhou <gao_lujie@live.cn>
  * @document https://advertising.amazon.com/API/docs/en-us/index
+ * @deprecated
  */
 class AmazonAdvertisingClient extends RestOAuth2
 {
-    use AmazonAdvertisingExtendTrait;
-
     /**
      * @var string
      */
@@ -515,7 +514,10 @@ class AmazonAdvertisingClient extends RestOAuth2
         if (empty($headers['Accept'])) {
             $headers['Accept'] = 'application/json';
         }
-        $request->addHeaders($headers);
+        $headerCollection = $request->getHeaders();
+        foreach ($headers as $key => $header) {
+            $headerCollection->set($key, $header);
+        }
     }
 
     #endregion
@@ -529,7 +531,7 @@ class AmazonAdvertisingClient extends RestOAuth2
      */
     protected function sendRequest($request)
     {
-        $response = HttpClientHelper::sendRequest($request, ['307']);
+        $response = HttpClientHelper::sendRequest($request, ['403']);
         if ($response->getStatusCode() === '307') {
             $location = $response->getHeaders()->get('Location');
             $newRequest = $this->createRequest()->setUrl($location);

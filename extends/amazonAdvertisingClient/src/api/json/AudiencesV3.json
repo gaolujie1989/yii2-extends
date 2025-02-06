@@ -1,0 +1,1775 @@
+{
+  "info": {
+    "description": "Audience Discovery API",
+    "title": "Audiences",
+    "version": "3.0"
+  },
+  "paths": {
+    "/dsp/audiences/edit": {
+      "put": {
+        "requestBody": {
+          "content": {
+            "application/vnd.dspaudiences.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DspAudienceEditRequestContent"
+              },
+              "examples": {
+                "DspAudienceEdit_example1": {
+                  "summary": "Audience Edit example.",
+                  "value": {
+                    "dspAudienceEditRequestItems": [
+                      {
+                        "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        "name": "AudienceName",
+                        "lookback": "10",
+                        "description": "Description for Audience Name.",
+                        "rules": [
+                          {
+                            "clause": "INCLUDE",
+                            "attributeType": "ASIN",
+                            "attributeValues": [
+                              "B08V4T57R2"
+                            ],
+                            "operator": "ONE_OF"
+                          }
+                        ],
+                        "audienceId": "4ga88r63",
+                        "audienceType": "PRODUCT_PURCHASES"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Updates an existing targeting audience based on an audience definition and audience ID.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\"]",
+        "operationId": "DspAudienceEdit",
+        "responses": {
+          "200": {
+            "description": "DspAudienceEdit 200 response",
+            "content": {
+              "application/vnd.dspaudiences.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspAudienceEditResponseContent"
+                },
+                "examples": {
+                  "DspAudienceEdit_example1": {
+                    "summary": "Audience Edit example.",
+                    "value": {
+                      "success": [
+                        {
+                          "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                          "index": "0",
+                          "audienceId": "4ga88r63"
+                        }
+                      ],
+                      "failed": [
+                        {
+                          "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                          "index": "0",
+                          "audienceId": "4ga88r63",
+                          "message": "Edit request failed.",
+                          "errors": [
+                            {
+                              "fieldName": "audienceType",
+                              "errorType": "VALUE_INVALID",
+                              "message": "Invalid Audience type selected"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "AdMutationException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdMutationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UnauthorizedException 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "BadGatewayException 502 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadGatewayExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ResourceNotFoundException 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "ThrottlingException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThrottlingExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "ID that describe DSP advertiser level accounts that exists under a manager account (previously under a DSP entity). The owner of the audience.",
+              "type": "string"
+            },
+            "examples": {
+              "DspAudienceEdit_example1": {
+                "summary": "Audience Edit example.",
+                "value": "myAdvertiserId"
+              }
+            },
+            "in": "header",
+            "name": "AdvertiserId",
+            "description": "ID that describe DSP advertiser level accounts that exists under a manager account (previously under a DSP entity). The owner of the audience.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "examples": {
+              "DspAudienceEdit_example1": {
+                "summary": "Audience Edit example.",
+                "value": "myClientId"
+              }
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "examples": {
+              "DspAudienceEdit_example1": {
+                "summary": "Audience Edit example.",
+                "value": "myAPIScope"
+              }
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Ads"
+        ]
+      }
+    },
+    "/dsp/audiences/delete": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/vnd.dspaudiences.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DspAudienceDeleteRequestContent"
+              },
+              "examples": {
+                "DspAudienceDelete_example1": {
+                  "summary": "Audience Delete Success example.",
+                  "value": {
+                    "dspAudienceDeleteRequestItems": [
+                      {
+                        "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        "audienceId": "4ga88r63"
+                      }
+                    ]
+                  }
+                },
+                "DspAudienceDelete_example2": {
+                  "summary": "Audience Delete Failure Example.",
+                  "value": {
+                    "dspAudienceDeleteRequestItems": [
+                      {
+                        "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66aba5",
+                        "audienceId": "4ga88r45"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Deletes an existing targeting audience based on audience ID. Only available for the audiences of the type: *PRODUCT_PURCHASES*, *PRODUCT_VIEWS*, *PRODUCT_SIMS*, *PRODUCT_SEARCH* and *COMBINED_AUDIENCE*\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\"]",
+        "operationId": "DspAudienceDelete",
+        "responses": {
+          "400": {
+            "description": "AudienceDeleteAdMutationException 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceDeleteAdMutationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AudienceDeleteUnauthorizedException 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceDeleteUnauthorizedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "AudienceDeleteInternalServerException 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceDeleteInternalServerExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "AudienceDeleteAccessDeniedException 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceDeleteAccessDeniedExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "AudienceDeleteBadGatewayException 502 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceDeleteBadGatewayExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "DspAudienceDelete 207 response",
+            "content": {
+              "application/vnd.dspaudiences.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DspAudienceDeleteResponseContent"
+                },
+                "examples": {
+                  "DspAudienceDelete_example1": {
+                    "summary": "Audience Delete Success example.",
+                    "value": {
+                      "success": [
+                        {
+                          "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                          "index": "0",
+                          "audienceId": "4ga88r63"
+                        }
+                      ],
+                      "failed": []
+                    }
+                  },
+                  "DspAudienceDelete_example2": {
+                    "summary": "Audience Delete Failure Example.",
+                    "value": {
+                      "success": [],
+                      "failed": [
+                        {
+                          "requestId": "3fa85f64-5717-4562-b3fc-2c8563214cd3",
+                          "idempotencyKey": "3fa85f64-5717-4562-b3fc-2c963f66aba5",
+                          "index": "0",
+                          "audienceId": "4ga88r45",
+                          "message": "Delete request failed.",
+                          "errors": [
+                            {
+                              "errorMessage": "Invalid Audience type selected.",
+                              "errorCode": "VALUE_INVALID",
+                              "errorId": "10001"
+                            }
+                          ],
+                          "httpStatusCode": "400"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "AudienceDeleteThrottlingException 429 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceDeleteThrottlingExceptionResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "ID that describe DSP advertiser level accounts that exists under a manager account (previously under a DSP entity). The owner of the audience.",
+              "type": "string"
+            },
+            "examples": {
+              "DspAudienceDelete_example1": {
+                "summary": "Audience Delete Success example.",
+                "value": "592059203698558089"
+              },
+              "DspAudienceDelete_example2": {
+                "summary": "Audience Delete Failure Example.",
+                "value": "592059203698558000"
+              }
+            },
+            "in": "header",
+            "name": "AdvertiserId",
+            "description": "ID that describe DSP advertiser level accounts that exists under a manager account (previously under a DSP entity). The owner of the audience.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+              "type": "string"
+            },
+            "examples": {
+              "DspAudienceDelete_example1": {
+                "summary": "Audience Delete Success example.",
+                "value": "amzn1.application-oa2-client.d23523d24fad2a0a2d16241f57183a7"
+              },
+              "DspAudienceDelete_example2": {
+                "summary": "Audience Delete Failure Example.",
+                "value": "amzn1.application-oa2-client.d23523d24fad2a0a2d16241f57183a7"
+              }
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+              "type": "string"
+            },
+            "examples": {
+              "DspAudienceDelete_example1": {
+                "summary": "Audience Delete Success example.",
+                "value": "3900820857650036"
+              },
+              "DspAudienceDelete_example2": {
+                "summary": "Audience Delete Failure Example.",
+                "value": "3900820857650000"
+              }
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header and choose profile id `profileId` from the response to pass it as input.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Ads"
+        ]
+      }
+    },
+    "/audiences/list": {
+      "post": {
+        "summary": "Gets audience segments based on filters",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListAudiencesRequestBodyV1"
+              }
+            }
+          },
+          "required": false
+        },
+        "description": "Returns a list of audience segments for an advertiser. The result set can be filtered by providing an array of Filter objects. Each item in the resulting set will match all specified filters.",
+        "operationId": "listAudiences",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAudiencesResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. The request could not be processed or handled. Please correct the issues specified and try again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user is unauthenticated or does not have access to the specified resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The advertiser to retrieve segments for. This parameter is required for the DSP adType, but optional for the SD adType.",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "false",
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "canTarget",
+            "description": "When set to true, only targetable audience segments will be returned.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "10",
+              "maximum": 250,
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the maximum number of audiences in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "required": false
+          }
+        ],
+        "tags": [
+          "Discovery"
+        ]
+      }
+    },
+    "/audiences/taxonomy/list": {
+      "post": {
+        "summary": "Browse the taxonomy of audience categories",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FetchTaxonomyRequestBodyV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Returns a list of audience categories for a given category path",
+        "operationId": "fetchTaxonomy",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchTaxonomyResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. The request could not be processed or handled. Please correct the issues specified and try again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The request failed because the user is unauthenticated or does not have access to the specified resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests. The request was rate-limited. Retry later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudienceErrorV1"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "advertiserId",
+            "description": "The advertiser associated with the advertising account. This parameter is required for the DSP adType, but optional for the SD adType.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "250",
+              "maximum": 250,
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the maximum number of categories in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned.",
+            "required": false
+          }
+        ],
+        "tags": [
+          "Discovery"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "DspAudienceErrorItemError": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "errorType": {
+            "$ref": "#/components/schemas/ErrorType"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorType",
+          "message"
+        ]
+      },
+      "DSPInventoryForecastV1": {
+        "type": "object",
+        "required": [
+          "dailyReach",
+          "dailyImpressions"
+        ],
+        "properties": {
+          "dailyReach": {
+            "description": "The forecasted unique devices reachable daily for the inventory type.",
+            "$ref": "#/components/schemas/ForecastBucketV1"
+          },
+          "dailyImpressions": {
+            "description": "The forecasted available daily impressions for the inventory type.",
+            "$ref": "#/components/schemas/ForecastBucketV1"
+          }
+        }
+      },
+      "AudienceFilterV1": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "description": "Field to filter by. Supported enums are 'audienceName', 'category', 'categoryPath', 'audienceId' and 'status'. The 'audienceName' is a broad match filter but not an exact match. The 'category' enum returns all audiences under a high-level category, whereas the 'categoryPath' enum expects a path of nodes in the taxonomy tree and returns audiences attached directly to the node at the specified path.",
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "operator": {
+            "default": "EQ",
+            "description": "Operator to apply to the specified filter.",
+            "type": "string",
+            "enum": [
+              "EQ",
+              "NOT_EQ"
+            ]
+          }
+        }
+      },
+      "AccessDeniedErrorCode": {
+        "type": "string",
+        "enum": [
+          "ACCESS_DENIED"
+        ]
+      },
+      "DSPAudienceRule": {
+        "description": "Rule to define an audience.\n\n**Rule Constraints Table**: Provides available valid combinations of parameters allowed in DspAudienceRule\n| audienceType | attributeType | attributeValues | max attribute values  |  max rules |\n|------------------------------|------------------|-----------------------------------------------------------------------------------------------------|------|---|\n| PRODUCT_PURCHASES            |        ASIN      | product IDs (ASINs) e.g. B08V4T57R2                                                                 | 1000 | 1\n| PRODUCT_VIEWS                |        ASIN      | product IDs (ASINs) e.g. B08V4T57R2                                                                 | 1000 | 1\n| PRODUCT_SEARCH               |        ASIN      | product IDs (ASINs) e.g. B08V4T57R2                                                                 | 1000 | 1\n| PRODUCT_SIMS                 |        ASIN      | product IDs (ASINs) e.g. B08V4T57R2                                                                 | 1000 | 1",
+        "type": "object",
+        "properties": {
+          "clause": {
+            "$ref": "#/components/schemas/Clause"
+          },
+          "attributeType": {
+            "$ref": "#/components/schemas/AttributeType"
+          },
+          "attributeValues": {
+            "minItems": 1,
+            "maxItems": 1000,
+            "description": "For a given audienceType and attributeType combination, the attribute values being supplied.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator"
+          }
+        },
+        "required": [
+          "attributeType",
+          "attributeValues",
+          "clause",
+          "operator"
+        ]
+      },
+      "AttributeType": {
+        "description": "For a given audienceType, the type of the attributes being supplied.",
+        "type": "string",
+        "enum": [
+          "ASIN"
+        ]
+      },
+      "InternalServerExceptionResponseContent": {
+        "description": "Unexpected error during processing of request.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/InternalErrorErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "SDInventoryForecastV1": {
+        "type": "object",
+        "required": [
+          "dailyReach"
+        ],
+        "properties": {
+          "dailyReach": {
+            "description": "The forecasted unique devices reachable daily for the inventory type.",
+            "$ref": "#/components/schemas/ForecastBucketV1"
+          }
+        }
+      },
+      "AudienceErrorV1": {
+        "description": "The error response object.",
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "description": "A value created by Amazon API Gateway that uniquely identifies your request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable description of the response.",
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceSubErrorV1"
+            }
+          }
+        }
+      },
+      "ThrottledErrorCode": {
+        "type": "string",
+        "enum": [
+          "THROTTLED"
+        ]
+      },
+      "AccessDeniedExceptionResponseContent": {
+        "description": "User does not have sufficient access to perform this action.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/AccessDeniedErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "FetchTaxonomyResponseV1": {
+        "type": "object",
+        "properties": {
+          "categoryPath": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextToken": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FetchTaxonomyNodeV1"
+            }
+          }
+        }
+      },
+      "AudienceDeleteThrottlingExceptionResponseContent": {
+        "description": "Request was denied due to request throttling.",
+        "type": "object",
+        "properties": {
+          "errorResponse": {
+            "$ref": "#/components/schemas/DspAudienceDeleteResponse"
+          }
+        },
+        "required": [
+          "errorResponse"
+        ]
+      },
+      "DspAudienceDeleteErrorItem": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "index": {
+            "description": "Index of the DspAudienceDeleteRequestItem from the request. e.g. 1st item in the request will correspond to index 0 in the response.",
+            "type": "integer"
+          },
+          "audienceId": {
+            "minLength": 1,
+            "description": "Identifier of audience for which delete was attempted.",
+            "type": "string",
+            "maxLength": 128
+          },
+          "message": {
+            "description": "A human-readable description of the response.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 7,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceDeleteErrorItemError"
+            }
+          },
+          "httpStatusCode": {
+            "description": "HTTP Response Code for the request",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "audienceId",
+          "errors",
+          "httpStatusCode",
+          "index",
+          "message",
+          "requestId"
+        ]
+      },
+      "DspAudienceErrorItem": {
+        "type": "object",
+        "properties": {
+          "idempotencyKey": {
+            "description": "unique request token for this request.",
+            "type": "string"
+          },
+          "index": {
+            "description": "Index of the DspAudienceEditRequestItem from the request. e.g. 1st item in the request will correspond to index 0 in the response.",
+            "type": "integer"
+          },
+          "audienceId": {
+            "minLength": 1,
+            "description": "Identifier of audience for which edit was attempted.",
+            "type": "string",
+            "maxLength": 128
+          },
+          "message": {
+            "description": "A human-readable description of the response.",
+            "type": "string"
+          },
+          "errors": {
+            "minItems": 0,
+            "maxItems": 7,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceErrorItemError"
+            }
+          }
+        },
+        "required": [
+          "audienceId",
+          "errors",
+          "idempotencyKey",
+          "index",
+          "message"
+        ]
+      },
+      "DspAudienceSuccessItem": {
+        "description": "The success response object.",
+        "type": "object",
+        "properties": {
+          "idempotencyKey": {
+            "description": "unique request token for this request.",
+            "type": "string"
+          },
+          "index": {
+            "description": "index of the DspAudienceEditRequestItem from the request. e.g. 1st item in the request will correspond to index 0 in the response.",
+            "type": "integer"
+          },
+          "audienceId": {
+            "minLength": 1,
+            "description": "The audience identifier of the audience to be actioned.",
+            "type": "string",
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "audienceId",
+          "idempotencyKey",
+          "index"
+        ]
+      },
+      "BadGatewayExceptionResponseContent": {
+        "description": "Unexpected error during processing of request.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/BadGatewayErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "FetchTaxonomyRequestBodyV1": {
+        "description": "The response data will have the categories that are under the given path, and main categories will be returned if no path is specified. The response data also depends on the adType specified here since ad programs may support targeting audiences in certain categories.",
+        "type": "object",
+        "properties": {
+          "adType": {
+            "type": "string",
+            "enum": [
+              "DSP",
+              "SD",
+              "ST"
+            ]
+          },
+          "categoryPath": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "countries": {
+            "minItems": 1,
+            "maxItems": 1,
+            "description": "The ISO Alpha-2 country codes to search audiences from. This field must be specified if the advertiser does not have an associated country. Currently, it is only supported to specify a single country per request.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DspAudienceDeleteRequestContent": {
+        "type": "object",
+        "properties": {
+          "dspAudienceDeleteRequestItems": {
+            "minItems": 1,
+            "maxItems": 1,
+            "description": "A list of audiences to be deleted",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceDeleteRequestItem"
+            }
+          }
+        },
+        "required": [
+          "dspAudienceDeleteRequestItems"
+        ]
+      },
+      "AudienceType": {
+        "description": "Type of the audience which is being edited.\nThis type must match the current audience type associated with the audienceId.",
+        "type": "string",
+        "enum": [
+          "PRODUCT_PURCHASES",
+          "PRODUCT_VIEWS",
+          "PRODUCT_SEARCH",
+          "PRODUCT_SIMS"
+        ]
+      },
+      "AudienceSubErrorV1": {
+        "description": "The sub error object.",
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "errorType": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorType",
+          "message"
+        ]
+      },
+      "AudienceDeleteUnauthorizedExceptionResponseContent": {
+        "description": "Caller does not have permissions to edit specified audience.",
+        "type": "object",
+        "properties": {
+          "errorResponse": {
+            "$ref": "#/components/schemas/DspAudienceDeleteResponse"
+          }
+        },
+        "required": [
+          "errorResponse"
+        ]
+      },
+      "Operator": {
+        "description": "For a given attributeType, operator used for attributeValues.",
+        "type": "string",
+        "enum": [
+          "ONE_OF"
+        ]
+      },
+      "UnauthorizedExceptionResponseContent": {
+        "description": "Caller does not have permissions to edit specified audience.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/UnauthorizedErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "STInventoryForecastV1": {
+        "type": "object",
+        "required": [
+          "dailyReach"
+        ],
+        "properties": {
+          "dailyReach": {
+            "description": "The forecasted unique devices reachable daily for the inventory type.",
+            "$ref": "#/components/schemas/ForecastBucketV1"
+          }
+        }
+      },
+      "AudienceDeleteInternalServerExceptionResponseContent": {
+        "description": "Unexpected error during processing of request.",
+        "type": "object",
+        "properties": {
+          "errorResponse": {
+            "$ref": "#/components/schemas/DspAudienceDeleteResponse"
+          }
+        },
+        "required": [
+          "errorResponse"
+        ]
+      },
+      "DspAudienceDeleteResponseContent": {
+        "description": "Holds an array of successful items and an array of error items from the request.",
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceDeleteSuccessItem"
+            }
+          },
+          "failed": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceDeleteErrorItem"
+            }
+          }
+        },
+        "required": [
+          "failed",
+          "success"
+        ]
+      },
+      "DspAudienceDeleteSuccessItem": {
+        "description": "The success response object.",
+        "type": "object",
+        "properties": {
+          "idempotencyKey": {
+            "description": "unique request token for this request.",
+            "type": "string"
+          },
+          "index": {
+            "description": "index of the DspAudienceEditRequestItem from the request. e.g. 1st item in the request will correspond to index 0 in the response.",
+            "type": "integer"
+          },
+          "audienceId": {
+            "minLength": 1,
+            "description": "The audience identifier of the audience to be actioned.",
+            "type": "string",
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "audienceId",
+          "idempotencyKey",
+          "index"
+        ]
+      },
+      "STAudienceFieldsV1": {
+        "type": "object"
+      },
+      "ListAudiencesRequestBodyV1": {
+        "description": "Resulting segments will match all specified filters",
+        "type": "object",
+        "properties": {
+          "adType": {
+            "type": "string",
+            "enum": [
+              "DSP",
+              "SD",
+              "ST"
+            ]
+          },
+          "countries": {
+            "minItems": 1,
+            "maxItems": 1,
+            "description": "The ISO Alpha-2 country codes to search audiences from. This field must be specified if the advertiser does not have an associated country. Currently, it is only supported to specify a single country per request.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceFilterV1"
+            }
+          }
+        }
+      },
+      "NotFoundErrorCode": {
+        "type": "string",
+        "enum": [
+          "NOT_FOUND"
+        ]
+      },
+      "ErrorType": {
+        "type": "string",
+        "enum": [
+          "VALUE_INVALID",
+          "VALUE_OUT_OF_RANGE",
+          "VALUE_NOT_FOUND",
+          "OTHER"
+        ]
+      },
+      "ResourceNotFoundExceptionResponseContent": {
+        "description": "Request references a resource which does not exist.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/NotFoundErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "DspAudienceEditRequestItem": {
+        "description": "Partial audience model to be used for edit of the audience.",
+        "type": "object",
+        "properties": {
+          "idempotencyKey": {
+            "pattern": "[A-Za-z1-9\\-]{1,36}",
+            "description": "unique request token for this request.",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "description": "The audience name.",
+            "type": "string",
+            "maxLength": 128
+          },
+          "lookback": {
+            "description": "The specified time period (in days) to include those who performed the action in the audience.\nLookback Constraints Table: Provides available valid values of lookback allowed for given audienceType\n| audienceType | lookback range |\n|------------------------------|-------|\n| PRODUCT_PURCHASES            | 1-365 |\n| PRODUCT_VIEWS                |  1-90 |\n| PRODUCT_SEARCH               |  1-90 |\n| PRODUCT_SIMS                 |  1-90 |",
+            "maximum": 365,
+            "type": "integer",
+            "minimum": 1
+          },
+          "description": {
+            "minLength": 1,
+            "description": "The audience description.",
+            "type": "string",
+            "maxLength": 1000
+          },
+          "rules": {
+            "minItems": 1,
+            "maxItems": 1,
+            "description": "Set of rules to define an audience, these rules will be ORed.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DSPAudienceRule"
+            }
+          },
+          "audienceId": {
+            "minLength": 1,
+            "description": "The audience identifier of the audience to be actioned.",
+            "type": "string",
+            "maxLength": 128
+          },
+          "audienceType": {
+            "$ref": "#/components/schemas/AudienceType"
+          }
+        },
+        "required": [
+          "audienceId",
+          "audienceType",
+          "idempotencyKey"
+        ]
+      },
+      "AudienceV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AudienceCommonFieldsV1"
+          },
+          {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DSPAudienceFieldsV1"
+              },
+              {
+                "$ref": "#/components/schemas/SDAudienceFieldsV1"
+              },
+              {
+                "$ref": "#/components/schemas/STAudienceFieldsV1"
+              }
+            ]
+          }
+        ]
+      },
+      "FetchTaxonomyNodeV1": {
+        "type": "object",
+        "properties": {
+          "audienceCount": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "category": {
+            "type": "string"
+          }
+        }
+      },
+      "ForecastBucketV1": {
+        "type": "object",
+        "properties": {
+          "lowerBoundInclusive": {
+            "format": "int64",
+            "description": "The inclusive lower bound for the bucket.  If not specified, the bucket captures all values below the upper bound.",
+            "type": "integer"
+          },
+          "upperBoundExclusive": {
+            "format": "int64",
+            "description": "The exclusive upper bound for the bucket.  If not specified, the bucket captures all values above the lower bound.",
+            "type": "integer"
+          }
+        }
+      },
+      "AdMutationExceptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/InvalidArgumentErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "AudienceDeleteAdMutationExceptionResponseContent": {
+        "type": "object",
+        "properties": {
+          "errorResponse": {
+            "$ref": "#/components/schemas/DspAudienceDeleteResponse"
+          }
+        },
+        "required": [
+          "errorResponse"
+        ]
+      },
+      "ListAudiencesResponseV1": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string"
+          },
+          "audiences": {
+            "description": "Array of segments matching given filters sorted by create time, earliest first.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceV1"
+            }
+          },
+          "matchCount": {
+            "format": "int64",
+            "type": "integer"
+          }
+        }
+      },
+      "DspAudienceDeleteRequestItem": {
+        "type": "object",
+        "properties": {
+          "idempotencyKey": {
+            "pattern": "[A-Za-z1-9\\-]{1,36}",
+            "description": "unique request token for this request.",
+            "type": "string"
+          },
+          "audienceId": {
+            "minLength": 1,
+            "description": "The audience identifier of the audience to be actioned.",
+            "type": "string",
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "audienceId",
+          "idempotencyKey"
+        ]
+      },
+      "DspAudienceEditResponseContent": {
+        "description": "Holds an array of successful items and an array of error items from the request.",
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceSuccessItem"
+            }
+          },
+          "failed": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceErrorItem"
+            }
+          }
+        },
+        "required": [
+          "failed",
+          "success"
+        ]
+      },
+      "DspAudienceDeleteResponse": {
+        "description": "Holds an array of successful items and an array of error items from the request.",
+        "type": "object",
+        "properties": {
+          "success": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceDeleteSuccessItem"
+            }
+          },
+          "failed": {
+            "minItems": 0,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceDeleteErrorItem"
+            }
+          }
+        },
+        "required": [
+          "failed",
+          "success"
+        ]
+      },
+      "DspAudienceEditRequestContent": {
+        "type": "object",
+        "properties": {
+          "dspAudienceEditRequestItems": {
+            "minItems": 1,
+            "maxItems": 1,
+            "description": "A list of audience edit objects containing fields to be overwritten. For each object, specify fields and their values to be modified.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspAudienceEditRequestItem"
+            }
+          }
+        },
+        "required": [
+          "dspAudienceEditRequestItems"
+        ]
+      },
+      "DSPAudienceFieldsV1": {
+        "type": "object",
+        "properties": {
+          "fees": {
+            "description": "Fees that will apply to this segment. Not all segments have fees. Fees may differ depending on the supply type the segment is attached to. In this case, multiple fee objects will be present.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "description": "Fee amount in base currency units, multiplied by scaling factor ('scale').",
+                  "type": "integer"
+                },
+                "scale": {
+                  "description": "Scale of the amount relative to the base currency unit. For instance, if the scale is 1000, the currency is USD, and the amount is 500, the human-readable fee is $0.50.",
+                  "type": "integer"
+                },
+                "currency": {
+                  "description": "Base currency, such as US Dollar.",
+                  "type": "string",
+                  "enum": [
+                    "USD",
+                    "CAD",
+                    "GBP",
+                    "EUR",
+                    "JPY",
+                    "INR",
+                    "MXN",
+                    "AUD",
+                    "AED",
+                    "KSA",
+                    "BRL",
+                    "SEK",
+                    "TRY"
+                  ]
+                },
+                "feeCalculationType": {
+                  "description": "How the fee is applied.",
+                  "type": "string"
+                },
+                "impressionSupplyType": {
+                  "description": "To which supply types this fee applies to. The fee may be different for different supply types.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "providerId": {
+            "description": "The Data Management Platform provider identifier. Only applicable to Third party audience segments.",
+            "type": "string"
+          }
+        }
+      },
+      "AudienceDeleteBadGatewayExceptionResponseContent": {
+        "description": "Unexpected error during processing of request.",
+        "type": "object",
+        "properties": {
+          "errorResponse": {
+            "$ref": "#/components/schemas/DspAudienceDeleteResponse"
+          }
+        },
+        "required": [
+          "errorResponse"
+        ]
+      },
+      "DspAudienceDeleteErrorItemError": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorCode": {
+            "$ref": "#/components/schemas/ErrorType"
+          },
+          "errorId": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "errorCode",
+          "errorId",
+          "errorMessage"
+        ]
+      },
+      "BadGatewayErrorCode": {
+        "type": "string",
+        "enum": [
+          "BAD_GATEWAY"
+        ]
+      },
+      "SDAudienceFieldsV1": {
+        "type": "object"
+      },
+      "InternalErrorErrorCode": {
+        "type": "string",
+        "enum": [
+          "INTERNAL_ERROR"
+        ]
+      },
+      "UnauthorizedErrorCode": {
+        "type": "string",
+        "enum": [
+          "UNAUTHORIZED"
+        ]
+      },
+      "InventoryForecastV1": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/DSPInventoryForecastV1"
+          },
+          {
+            "$ref": "#/components/schemas/SDInventoryForecastV1"
+          },
+          {
+            "$ref": "#/components/schemas/STInventoryForecastV1"
+          }
+        ]
+      },
+      "AudienceDeleteAccessDeniedExceptionResponseContent": {
+        "description": "User does not have sufficient access to perform this action.",
+        "type": "object",
+        "properties": {
+          "errorResponse": {
+            "$ref": "#/components/schemas/DspAudienceDeleteResponse"
+          }
+        },
+        "required": [
+          "errorResponse"
+        ]
+      },
+      "InvalidArgumentErrorCode": {
+        "type": "string",
+        "enum": [
+          "INVALID_ARGUMENT"
+        ]
+      },
+      "AudienceCommonFieldsV1": {
+        "type": "object",
+        "required": [
+          "audienceId",
+          "audienceName",
+          "description",
+          "category",
+          "status",
+          "forecasts"
+        ],
+        "properties": {
+          "audienceName": {
+            "description": "Audience name",
+            "type": "string"
+          },
+          "subCategory": {
+            "description": "Audience segment sub-category",
+            "type": "string"
+          },
+          "updateDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "description": "Audience description",
+            "type": "string"
+          },
+          "audienceId": {
+            "description": "Audience segment identifier",
+            "type": "string"
+          },
+          "category": {
+            "description": "Audience segment category",
+            "type": "string"
+          },
+          "createDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Processing",
+              "Active",
+              "Failed",
+              "Deprecated",
+              "Deactivated"
+            ]
+          },
+          "forecasts": {
+            "type": "object",
+            "required": [
+              "inventoryForecasts"
+            ],
+            "properties": {
+              "inventoryForecasts": {
+                "type": "object",
+                "properties": {
+                  "all": {
+                    "$ref": "#/components/schemas/InventoryForecastV1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Clause": {
+        "description": "parameter used to include or exclude this particular rule. Currently only include is supported.",
+        "type": "string",
+        "enum": [
+          "INCLUDE"
+        ]
+      },
+      "ThrottlingExceptionResponseContent": {
+        "description": "Request was denied due to request throttling.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ThrottledErrorCode"
+          },
+          "requestId": {
+            "description": "RequestId of the failed request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human readable error message.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

@@ -26,6 +26,15 @@ class AmazonAdvertisingConst
 
     #endregion
 
+    #region EXPORT constants
+
+    public const EXPORT_TYPE_CAMPAIGN = 'CAMPAIGN';
+    public const EXPORT_TYPE_AD_GROUP = 'AD_GROUP';
+    public const EXPORT_TYPE_TARGET = 'TARGET';
+    public const EXPORT_TYPE_AD = 'AD';
+
+    #endregion
+
     #region REPORT constants
 
     public const V2REPORT_STATUS_IN_PROGRESS = 'IN_PROGRESS';

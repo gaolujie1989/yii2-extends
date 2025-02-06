@@ -1,0 +1,520 @@
+{
+  "info": {
+    "description": "Amazon Ads API to request and download exports across ad products.",
+    "title": "Amazon Ads API Exports",
+    "version": "3.0"
+  },
+  "paths": {
+    "/ads/export": {
+      "post": {
+        "summary": "Creates a file-based export of Ads.",
+        "requestBody": {
+          "content": {
+            "application/vnd.adsexport.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseUniversalApiExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "AdExport",
+        "description": "Creates a file-based export of Ads in the account satisfying the filtering criteria.\n\nTo understand the call flow for asynchronous exports, see [Getting started with sponsored ads exports](/API/docs/en-us/guides/exports/get-started).\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_view\"]",
+        "responses": {
+          "202": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.adsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UniversalApiBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UniversalApiUnauthorized"
+          },
+          "406": {
+            "$ref": "#/components/responses/UniversalApiNotAcceptable"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsApiClientId"
+          },
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsScopeId"
+          }
+        ],
+        "tags": [
+          "Exports"
+        ]
+      }
+    },
+    "/campaigns/export": {
+      "post": {
+        "summary": "Creates a file-based export of Campaigns.",
+        "requestBody": {
+          "content": {
+            "application/vnd.campaignsexport.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseUniversalApiExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "CampaignExport",
+        "description": "Creates a file-based export of Campaigns in the account satisfying the filtering criteria.\n\nTo understand the call flow for asynchronous exports, see [Getting started with sponsored ads exports](/API/docs/en-us/guides/exports/get-started).\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_view\"]",
+        "responses": {
+          "202": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.campaignsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UniversalApiBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UniversalApiUnauthorized"
+          },
+          "406": {
+            "$ref": "#/components/responses/UniversalApiNotAcceptable"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsApiClientId"
+          },
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsScopeId"
+          }
+        ],
+        "tags": [
+          "Exports"
+        ]
+      }
+    },
+    "/adGroups/export": {
+      "post": {
+        "summary": "Creates a file-based export of Ad Groups.",
+        "requestBody": {
+          "content": {
+            "application/vnd.adgroupsexport.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseUniversalApiExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "AdGroupExport",
+        "description": "Creates a file-based export of Ad Groups in the account satisfying the filtering criteria.\n\nTo understand the call flow for asynchronous exports, see [Getting started with sponsored ads exports](/API/docs/en-us/guides/exports/get-started).\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_view\"]",
+        "responses": {
+          "202": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.adgroupsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UniversalApiBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UniversalApiUnauthorized"
+          },
+          "406": {
+            "$ref": "#/components/responses/UniversalApiNotAcceptable"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsApiClientId"
+          },
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsScopeId"
+          }
+        ],
+        "tags": [
+          "Exports"
+        ]
+      }
+    },
+    "/targets/export": {
+      "post": {
+        "summary": "Creates a file-based export of Targets.",
+        "requestBody": {
+          "content": {
+            "application/vnd.targetsexport.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetsUniversalApiExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "operationId": "TargetExport",
+        "description": "Creates a file-based export of Targets in the account satisfying the filtering criteria.\n\nTo understand the call flow for asynchronous exports, see [Getting started with sponsored ads exports](/API/docs/en-us/guides/exports/get-started).\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_view\"]",
+        "responses": {
+          "202": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.targetsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UniversalApiBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UniversalApiUnauthorized"
+          },
+          "406": {
+            "$ref": "#/components/responses/UniversalApiNotAcceptable"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsApiClientId"
+          },
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsScopeId"
+          }
+        ],
+        "tags": [
+          "Exports"
+        ]
+      }
+    },
+    "/exports/{exportId}": {
+      "get": {
+        "summary": "Gets the status of a requested export and a link to download the export.",
+        "operationId": "GetExport",
+        "description": "This API will return a status of the specified export.\n\nTo understand the call flow for asynchronous exports, see [Getting started with sponsored ads exports](/API/docs/en-us/guides/exports/get-started).\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_view\"]",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/vnd.campaignsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              },
+              "application/vnd.adsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              },
+              "application/vnd.adgroupsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              },
+              "application/vnd.targetsexport.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniversalApiExportResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UniversalApiUnauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/UniversalApiNotFound"
+          },
+          "406": {
+            "$ref": "#/components/responses/UniversalApiNotAcceptable"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsApiClientId"
+          },
+          {
+            "$ref": "#/components/parameters/UniversalApiAmazonAdsScopeId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "exportId",
+            "description": "The export identifier.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Exports"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "UniversalApiExportResponse": {
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "description": "Date of when the export request was created.",
+            "type": "string"
+          },
+          "fileSize": {
+            "description": "Byte size of the generated file.",
+            "type": "number"
+          },
+          "urlExpiresAt": {
+            "format": "date-time",
+            "description": "Date at which the download URL for the generated export expires.",
+            "type": "string"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "description": "Date of when the export was finished generating.",
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/UniversalApiError"
+          },
+          "exportId": {
+            "description": "The export identifier.",
+            "type": "string"
+          },
+          "url": {
+            "description": "A URL for the export. It\u2019s only available if status is COMPLETED.",
+            "type": "string"
+          },
+          "status": {
+            "description": "The generation status of the export.\n- PROCESSING: Export is currently in progress.\n- COMPLETED: Export has completed successfully.\n- FAILED: Export has failed. See the error message for more details.\n",
+            "type": "string",
+            "enum": [
+              "PROCESSING",
+              "COMPLETED",
+              "FAILED"
+            ]
+          }
+        },
+        "required": [
+          "exportId",
+          "status"
+        ]
+      },
+      "BaseUniversalApiExportRequest": {
+        "type": "object",
+        "properties": {
+          "stateFilter": {
+            "minItems": 1,
+            "maxItems": 3,
+            "default": [
+              "ENABLED",
+              "PAUSED"
+            ],
+            "description": "Filters the entities returned in export only to selected states. In case the filter is not provided, it returns only `ENABLED` or `PAUSED` entities.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ENABLED",
+                "PAUSED",
+                "ARCHIVED"
+              ]
+            }
+          },
+          "adProductFilter": {
+            "minItems": 1,
+            "maxItems": 3,
+            "default": [
+              "SPONSORED_PRODUCTS",
+              "SPONSORED_BRANDS",
+              "SPONSORED_DISPLAY"
+            ],
+            "description": "Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "SPONSORED_PRODUCTS",
+                "SPONSORED_BRANDS",
+                "SPONSORED_DISPLAY"
+              ]
+            }
+          }
+        }
+      },
+      "UniversalApiError": {
+        "properties": {
+          "errorCode": {
+            "description": "- INTERNAL_ERROR: The export has failed with an internal error. If the issue persists, please contact customer support.\n- TIMED_OUT: The export request has timed out. For exports with millions of entities, try using filters to reduce the size of the export. If the issue persists, please contact customer support.\n",
+            "type": "string",
+            "enum": [
+              "INTERNAL_ERROR",
+              "TIMED_OUT"
+            ]
+          },
+          "message": {
+            "description": "A human-readable description of the error.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "TargetsUniversalApiExportRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseUniversalApiExportRequest"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "targetTypeFilter": {
+                "minItems": 1,
+                "maxItems": 8,
+                "default": [
+                  "AUTO",
+                  "KEYWORD",
+                  "PRODUCT_CATEGORY",
+                  "PRODUCT",
+                  "PRODUCT_CATEGORY_AUDIENCE",
+                  "PRODUCT_AUDIENCE",
+                  "AUDIENCE",
+                  "THEME"
+                ],
+                "description": "Filters the targets returned in exports only to selected types. In case the filter is not provided, it returns targets with all target types.",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "AUTO",
+                    "KEYWORD",
+                    "PRODUCT_CATEGORY",
+                    "PRODUCT",
+                    "PRODUCT_CATEGORY_AUDIENCE",
+                    "PRODUCT_AUDIENCE",
+                    "AUDIENCE",
+                    "THEME"
+                  ]
+                }
+              },
+              "targetLevelFilter": {
+                "minItems": 1,
+                "maxItems": 2,
+                "default": [
+                  "CAMPAIGN",
+                  "AD_GROUP"
+                ],
+                "description": "Filters the targets returned in export only to selected levels. In case the filter is not provided, it returns both `CAMPAIGN` and `AD_GROUP` level targets.",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "CAMPAIGN",
+                    "AD_GROUP"
+                  ]
+                }
+              },
+              "negativeFilter": {
+                "minItems": 1,
+                "maxItems": 2,
+                "default": [
+                  "true",
+                  "false"
+                ],
+                "description": "Filters the targets returned in export to negative or positive targets. In case the filter is not provided, it returns both negative and positive targets.",
+                "type": "array",
+                "items": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {
+      "UniversalApiUnauthorized": {
+        "description": "UniversalApiUnauthorized.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UniversalApiError"
+            }
+          }
+        }
+      },
+      "UniversalApiBadRequest": {
+        "description": "Bad request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UniversalApiError"
+            }
+          }
+        }
+      },
+      "UniversalApiNotAcceptable": {
+        "description": "Not Acceptable. Either client has provided unsupported accept header value, or in case of getting a export the Accept header differs from the one used to create the particular export.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UniversalApiError"
+            }
+          }
+        }
+      },
+      "UniversalApiNotFound": {
+        "description": "The requested resource was not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UniversalApiError"
+            }
+          }
+        }
+      }
+    },
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {
+      "UniversalApiAmazonAdsApiClientId": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "header",
+        "name": "Amazon-Advertising-API-ClientId",
+        "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+        "required": true
+      },
+      "UniversalApiAmazonAdsScopeId": {
+        "schema": {
+          "type": "string"
+        },
+        "in": "header",
+        "name": "Amazon-Advertising-API-Scope",
+        "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+        "required": true
+      }
+    }
+  },
+  "openapi": "3.0.1"
+}

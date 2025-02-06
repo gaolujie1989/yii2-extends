@@ -1,0 +1,408 @@
+{
+  "info": {
+    "description": "",
+    "title": "Locations",
+    "version": "3.0"
+  },
+  "paths": {
+    "/locations/list": {
+      "post": {
+        "summary": "Gets location objects based on one or more filters.",
+        "description": "Note: This endpoint is currently limited to US only. Gets a list of location objects after filtering on at least one of **locationId**, **name**, **category**. Each item in the resulting set will match all specified filters.\n\n\n**Requires one of these permissions**:\n[]",
+        "tags": [
+          "Locations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListLocationsRequestBodyV1"
+              }
+            }
+          }
+        },
+        "operationId": "listLocations",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "List of locations.",
+                  "type": "object",
+                  "properties": {
+                    "nextToken": {
+                      "description": "Token used in following requests for pagination.",
+                      "type": "string"
+                    },
+                    "locations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LocationV1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/HexgateBadRequestV1"
+          },
+          "401": {
+            "$ref": "#/components/responses/HexgateUnauthorizedV1"
+          },
+          "500": {
+            "$ref": "#/components/responses/HexgateInternalServerErrorV1"
+          },
+          "403": {
+            "$ref": "#/components/responses/HexgateForbiddenV1"
+          },
+          "404": {
+            "$ref": "#/components/responses/HexgateNotFoundV1"
+          },
+          "429": {
+            "$ref": "#/components/responses/HexgateTooManyRequestsV1"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-ClientId",
+            "description": "The identifier of a client associated with a \"Login with Amazon\" account.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Amazon-Advertising-API-Scope",
+            "description": "The identifier of a profile associated with the advertiser account. Use `GET` method on Profiles resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "nextToken",
+            "description": "Token from a previous request. Use in conjunction with the `maxResults` parameter to control pagination of the returned array.",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "10",
+              "maximum": 2000,
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "maxResults",
+            "description": "Sets the number of locations in the returned array. Use in conjunction with the `nextToken` parameter to control pagination. The range for maxResults is [1,2000] with default as 10. For example, supplying maxResults=20 with a previously returned token will fetch the next 20 items.",
+            "required": false
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {},
+    "examples": {},
+    "schemas": {
+      "DspGeoLocationCategoryV1": {
+        "description": "The geographic location category.",
+        "type": "string",
+        "enum": [
+          "COUNTRY",
+          "STATE",
+          "CITY",
+          "POSTAL_CODE",
+          "DMA",
+          "COUNTY",
+          "DEPARTMENT",
+          "PROVINCE",
+          "PREFECTURE",
+          "REGION",
+          "DISTRICT",
+          "ARRONDISSEMENT",
+          "BEZIRK",
+          "KREIS"
+        ]
+      },
+      "DspGeoLocationV1": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The geographic location name.",
+            "type": "string"
+          },
+          "id": {
+            "description": "The geographic location identifier.",
+            "type": "string"
+          },
+          "category": {
+            "description": "The geographic location category.",
+            "type": "string",
+            "enum": [
+              "COUNTRY",
+              "STATE",
+              "CITY",
+              "POSTAL_CODE",
+              "DMA",
+              "COUNTY",
+              "DEPARTMENT",
+              "PROVINCE",
+              "PREFECTURE"
+            ]
+          }
+        }
+      },
+      "LocationIdV1": {
+        "description": "The identifier of the location.",
+        "type": "string"
+      },
+      "DspGeoLocationsExtendedV1": {
+        "description": "List of the geoLocations.",
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "Token used in following requests for pagination.",
+            "type": "string"
+          },
+          "geoLocations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspGeoLocationExtendedV1"
+            }
+          }
+        }
+      },
+      "LocationV1": {
+        "type": "object",
+        "properties": {
+          "locationId": {
+            "$ref": "#/components/schemas/LocationIdV1"
+          },
+          "name": {
+            "description": "The location name.",
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/LocationCategoryV1"
+          }
+        }
+      },
+      "Error": {
+        "description": "The error response object.",
+        "properties": {
+          "requestId": {
+            "description": "Request Id that uniquely identifies your request.",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable description of the response.",
+            "type": "string"
+          },
+          "errors": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubError"
+            }
+          }
+        }
+      },
+      "LocationCategoryV1": {
+        "description": "The location category.",
+        "type": "string",
+        "enum": [
+          "COUNTRY",
+          "STATE",
+          "CITY",
+          "DMA",
+          "POSTAL_CODE"
+        ]
+      },
+      "DspGeoLocationsV1": {
+        "description": "List of the geoLocations.",
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "description": "Token used in following requests for pagination.",
+            "type": "string"
+          },
+          "geoLocations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DspGeoLocationV1"
+            }
+          }
+        }
+      },
+      "ListLocationsRequestBodyV1": {
+        "description": "Resulting locations will match all specified filters",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocationFilterV1"
+            }
+          }
+        }
+      },
+      "LocationFilterV1": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "description": "Field to filter by. Supported enums are 'locationId', 'name', and 'category'. The 'name' filter is a fuzzy search. If 'category' is specified, the values must match either 'CITY', 'STATE', 'DMA', 'COUNTRY', or 'POSTAL_CODE'.",
+            "type": "string",
+            "enum": [
+              "locationId",
+              "name",
+              "category"
+            ]
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DspGeoLocationExtendedV1": {
+        "type": "object",
+        "properties": {
+          "rodeoRegionCode": {
+            "description": "Rodeo region code.",
+            "type": "string"
+          },
+          "countryCode": {
+            "description": "The geographic location country code.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The geographic location name.",
+            "type": "string"
+          },
+          "targetCodeGroup": {
+            "type": "array",
+            "items": {
+              "minItems": 1,
+              "maxItems": 200,
+              "description": "A list of the target code groups such as 'US-101' that should be targeted to target the location.",
+              "type": "string"
+            }
+          },
+          "id": {
+            "description": "The geographic location identifier.",
+            "type": "string"
+          },
+          "state": {
+            "description": "The geographic location state.",
+            "type": "string"
+          },
+          "label": {
+            "description": "The geographic location label.",
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/DspGeoLocationCategoryV1"
+          }
+        }
+      },
+      "SubError": {
+        "description": "The sub error object.",
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "errorType": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorType",
+          "message"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {
+      "HexgateBadRequestV1": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "HexgateTooManyRequestsV1": {
+        "description": "Too Many Requests. The request was rate-limited. Retry later.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "HexgateInternalServerErrorV1": {
+        "description": "Internal Server Error. Something went wrong on the server. Retry later and report an error if unresolved.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "HexgateForbiddenV1": {
+        "description": "Forbidden. The request failed because the user does not have access to the specified resource.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "HexgateUnauthorizedV1": {
+        "description": "Unauthorized. The request failed because the user is not authenticated or is not allowed to invoke the operation.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "HexgateNotFoundV1": {
+        "description": "Not Found. The requested resource does not exist or is not visible for the user.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "callbacks": {},
+    "links": {},
+    "securitySchemes": {},
+    "parameters": {}
+  },
+  "openapi": "3.0.1"
+}

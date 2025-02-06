@@ -72,7 +72,7 @@ class OptionManager extends BaseObject
     /**
      * @param $optionProvider
      * @param string $providerKey
-     * @return mixed
+     * @return OptionProviderInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */

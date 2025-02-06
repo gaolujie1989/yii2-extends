@@ -12,7 +12,7 @@ class AddressPostalCodeChecker
 {
     /**
      * @param string $type
-     * @param string|array $country
+     * @param string $country
      * @param string $postalCode
      * @return bool
      * @inheritdoc

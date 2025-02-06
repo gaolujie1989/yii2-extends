@@ -3,6 +3,7 @@
 namespace lujie\common\address\models;
 
 use lujie\alias\behaviors\AliasPropertyBehavior;
+use lujie\extend\helpers\ValueHelper;
 use lujie\extend\models\AddressInterface;
 use Yii;
 use yii\helpers\Json;
@@ -10,7 +11,7 @@ use yii\helpers\Json;
 /**
  * This is the model class for table "{{%address}}".
  *
- * @property string $address_id
+ * @property int $address_id
  * @property string $country
  * @property string $state
  * @property string $city
@@ -162,10 +163,11 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
      * @return string
      * @inheritdoc
      */
-    protected function generateSignature(): string
+    public function generateSignature(): string
     {
         $except = ['address_id', 'signature', 'created_at', 'created_by', 'updated_at', 'updated_by'];
         $addressData = $this->getAttributes(null, $except);
+        $addressData = array_filter($addressData, [ValueHelper::class, 'notEmpty']);
         return md5(Json::encode($addressData));
     }
 
@@ -192,6 +194,20 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
     }
 
     /**
+     * @return bool|int
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @inheritdoc
+     */
+    public function delete(): bool|int
+    {
+        if ($this->identifyBySignature) {
+            return true;
+        }
+        return parent::delete();
+    }
+
+    /**
      * @param bool $insert
      * @return bool
      * @inheritdoc
@@ -200,18 +216,6 @@ class Address extends \lujie\extend\db\ActiveRecord implements AddressInterface
     {
         $this->signature = $this->generateSignature();
         return parent::beforeSave($insert);
-    }
-
-    /**
-     * @return bool
-     * @inheritdoc
-     */
-    public function beforeDelete(): bool
-    {
-        if ($this->identifyBySignature) {
-            return false;
-        }
-        return parent::beforeDelete();
     }
 
     /**

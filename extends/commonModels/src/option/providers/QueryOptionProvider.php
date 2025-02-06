@@ -75,9 +75,9 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     public $keyMap = [];
 
     /**
-     * @var bool
+     * @var bool|string
      */
-    public $like = true;
+    public $like = 'A';
 
     /**
      * @inheritdoc
@@ -109,7 +109,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $values
+     * @param array|null $values
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
@@ -137,7 +137,7 @@ class QueryOptionProvider extends BaseObject implements OptionProviderInterface
     /**
      * @param string $type
      * @param string|null $key
-     * @param string|null $values
+     * @param array|null $values
      * @return QueryInterface
      * @throws \yii\base\InvalidConfigException
      * @inheritdoc
